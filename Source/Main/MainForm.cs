@@ -22,6 +22,8 @@ namespace Main
 	{
 		private List<ToolStripItem> m_listToggleBtn = new List<ToolStripItem>();
 		private SFBTpValidator sfbTpValidator = new SFBTpValidator();
+		
+		
 		public MainForm()
 		{
 			//
@@ -33,14 +35,15 @@ namespace Main
 			this.tscMain.ContentPanel.Controls.Add(this.sfbTpValidator);
 			this.sfbTpValidator.Dock = System.Windows.Forms.DockStyle.Fill;
 		}
-	}
-	
-	private MakeToolBarGroupButtonList() {
-		for( int i=0; i!= tsMain.Items.Count; ++i ) {
-			if( tsMain.Items[i].Tag=="group" ) {
-				m_listToggleBtn.Add( tsMain.Items[i] );
+		
+		private void MakeToolBarGroupButtonList() {
+			for( int i=0; i!= tsMain.Items.Count; ++i ) {
+				if( tsMain.Items[i].Tag=="group" ) {
+					m_listToggleBtn.Add( tsMain.Items[i] );
+				}
 			}
 		}
+		
 	}
 	
 }
