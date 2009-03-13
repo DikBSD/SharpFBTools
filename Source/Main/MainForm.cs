@@ -20,17 +20,27 @@ namespace Main
 	/// </summary>
 	public partial class MainForm : Form
 	{
-		private SFBTpValidator sfbTpValidator1 = new SFBTpValidator();
+		private List<ToolStripItem> m_listToggleBtn = new List<ToolStripItem>();
+		private SFBTpValidator sfbTpValidator = new SFBTpValidator();
 		public MainForm()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			
 			// имплантируемые контролы
-			this.tscMain.ContentPanel.Controls.Add(this.sfbTpValidator1);
-			this.sfbTpValidator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			// валидатор //
+			this.tscMain.ContentPanel.Controls.Add(this.sfbTpValidator);
+			this.sfbTpValidator.Dock = System.Windows.Forms.DockStyle.Fill;
 		}
 	}
+	
+	private MakeToolBarGroupButtonList() {
+		for( int i=0; i!= tsMain.Items.Count; ++i ) {
+			if( tsMain.Items[i].Tag=="group" ) {
+				m_listToggleBtn.Add( tsMain.Items[i] );
+			}
+		}
+	}
+	
 }

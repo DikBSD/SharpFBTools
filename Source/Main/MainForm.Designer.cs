@@ -104,7 +104,7 @@ namespace Main
 									this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(526, 52);
+			this.tsMain.Size = new System.Drawing.Size(557, 52);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnValidator
@@ -115,7 +115,7 @@ namespace Main
 			this.tsbtnValidator.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnValidator.Name = "tsbtnValidator";
 			this.tsbtnValidator.Size = new System.Drawing.Size(66, 49);
-			this.tsbtnValidator.Tag = "validator";
+			this.tsbtnValidator.Tag = "group";
 			this.tsbtnValidator.Text = "Валидатор";
 			this.tsbtnValidator.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnValidator.ToolTipText = "Валидатор";
@@ -131,6 +131,7 @@ namespace Main
 			this.tsbtnFileManager.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnFileManager.Name = "tsbtnFileManager";
 			this.tsbtnFileManager.Size = new System.Drawing.Size(105, 49);
+			this.tsbtnFileManager.Tag = "group";
 			this.tsbtnFileManager.Text = "Менеджер файлов";
 			this.tsbtnFileManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
@@ -145,6 +146,7 @@ namespace Main
 			this.tsbtnArchiveManager.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnArchiveManager.Name = "tsbtnArchiveManager";
 			this.tsbtnArchiveManager.Size = new System.Drawing.Size(109, 49);
+			this.tsbtnArchiveManager.Tag = "group";
 			this.tsbtnArchiveManager.Text = "Менеджер архивов";
 			this.tsbtnArchiveManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
@@ -159,6 +161,7 @@ namespace Main
 			this.tsbtnFB2Corrector.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnFB2Corrector.Name = "tsbtnFB2Corrector";
 			this.tsbtnFB2Corrector.Size = new System.Drawing.Size(87, 49);
+			this.tsbtnFB2Corrector.Tag = "group";
 			this.tsbtnFB2Corrector.Text = "FB2 Корректор";
 			this.tsbtnFB2Corrector.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnFB2Corrector.ToolTipText = "FB2 Корректор";
@@ -174,6 +177,7 @@ namespace Main
 			this.tsbtnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnAbout.Name = "tsbtnAbout";
 			this.tsbtnAbout.Size = new System.Drawing.Size(75, 49);
+			this.tsbtnAbout.Tag = "about";
 			this.tsbtnAbout.Text = "О программе";
 			this.tsbtnAbout.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnAbout.ToolTipText = "О программе...";
