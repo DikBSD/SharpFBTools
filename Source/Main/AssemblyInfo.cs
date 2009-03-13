@@ -9,12 +9,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Main")]
+[assembly: AssemblyTitle("SharpFBTools")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Main")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCompany("DikBSD")]
+[assembly: AssemblyProduct("SharpFBTools")]
+[assembly: AssemblyCopyright("Вадим Кузнецов (DikBSD)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

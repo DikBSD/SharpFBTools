@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 # SharpDevelop 2.2.1.2648
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", "{6C84B4EA-9903-494D-BB93-91E192B9FB22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpFBTools", "Main\SharpFBTools.csproj", "{6C84B4EA-9903-494D-BB93-91E192B9FB22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpFBTools.Controls", "SharpFBTools.Controls\SharpFBTools.Controls.csproj", "{98BB3D5A-42B2-45FF-B00D-DA1AA8D0C5B4}"
 EndProject

@@ -12,9 +12,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SharpFBTools.Controls")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("DikBSD")]
 [assembly: AssemblyProduct("SharpFBTools.Controls")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Вадим Кузнецов (DikBSD)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
