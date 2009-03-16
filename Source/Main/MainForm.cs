@@ -39,59 +39,21 @@ namespace Main
 			//
 			InitializeComponent();
 			//
-			// список кнопок-переключателей панели инструментов
-			MakeGroupToggleButtonsList();
-			// список список имплантируемых панелей-режимов работы
-			MakeImplPanelsList();
+			// список кнопок-переключателей панели инструментов и список список имплантируемых панелей-режимов работы
+			MainImpl.MakeGroupToggleLists( m_listToggleBtns,
+		    							tsbtnFB2Validator, tsbtnFileManager,
+										tsbtnArchiveManager, tsbtnFB2Corrector,
+										tsbtnFB2Dublicator, tsbtnAbout,
+										m_listImplPanels,
+		    							sfbTpFB2Validator, sfbTpFileManager,
+										sfbTpArchiveManager, sfbTpFB2Corrector,
+										sfbTpFB2Dublicator, sfbTpAbout );
 			// первоначальное задание режима работы - панель Валидатора
 			tsbtnFB2Validator.Checked = true;
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Validator );
 			this.sfbTpFB2Validator.Dock = System.Windows.Forms.DockStyle.Fill;
 		}
-		
-		private void MakeGroupToggleButtonsList() {
-			// список кнопок-переключателей панели инструментов
-			m_listToggleBtns.Add( tsbtnFB2Validator );
-			m_listToggleBtns.Add( tsbtnFileManager );
-			m_listToggleBtns.Add( tsbtnArchiveManager );
-			m_listToggleBtns.Add( tsbtnFB2Corrector );
-			m_listToggleBtns.Add( tsbtnFB2Dublicator );
-			m_listToggleBtns.Add( tsbtnAbout );
-		}		
-		
-		private void MakeImplPanelsList() {
-			// список список имплантируемых панелей-режимов работы
-			m_listImplPanels.Add( sfbTpFB2Validator );
-			m_listImplPanels.Add( sfbTpFileManager );
-			m_listImplPanels.Add( sfbTpArchiveManager );
-			m_listImplPanels.Add( sfbTpFB2Corrector );
-			m_listImplPanels.Add( sfbTpFB2Dublicator );
-			m_listImplPanels.Add( sfbTpAbout );
-		}	
-		
-		void ToggleMode( ToolStripButton Btn, UserControl Uc )
-		{
-			// переключение состояния кнопки btn
-			if( Btn.Checked!=true ) {
-				Btn.Checked = true;
-				// отключаем все кнопки, кроме btn
-				foreach( ToolStripButton btn in m_listToggleBtns ) {
-					if( btn!=Btn ) {
-						btn.Checked = false;
-					}
-				}
-				// отключаем видимость всех имплантированных панелей, кроме uc
-				foreach( UserControl uc in m_listImplPanels ) {
-					if( uc!=Uc ) {
-						uc.Visible = false;
-					}
-				}
-				// панель Uc делаем видимой
-				this.tscMain.ContentPanel.Controls.Add( Uc );
-				Uc.Dock = System.Windows.Forms.DockStyle.Fill;
-				Uc.Visible = true;
-			}
-		}
+
 		#region Обработчики событий
 		void TsbtnExitClick(object sender, EventArgs e)
 		{
@@ -102,38 +64,50 @@ namespace Main
 		void TsbtnFB2ValidatorClick(object sender, EventArgs e)
 		{
 			// переключение состояния кнопки Валидатора
-			ToggleMode( tsbtnFB2Validator, this.sfbTpFB2Validator );
+			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
+			                    tsbtnFB2Validator, this.sfbTpFB2Validator,
+			                    tscMain );
 		}
 		
 		void TsbtnFileManagerClick(object sender, EventArgs e)
 		{
 			// переключение состояния кнопки Менеджера файлов
-			ToggleMode( tsbtnFileManager, this.sfbTpFileManager );
+			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
+			                    tsbtnFileManager, this.sfbTpFileManager,
+			                    tscMain );
 		}
-		#endregion
 		
 		void TsbtnArchiveManagerClick(object sender, EventArgs e)
 		{
 			// переключение состояния кнопки Менеджера архивов
-			ToggleMode( tsbtnArchiveManager, this.sfbTpArchiveManager );
+			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
+			                    tsbtnArchiveManager, this.sfbTpArchiveManager,
+			                    tscMain );
 		}
 		
 		void TsbtnFB2CorrectorClick(object sender, EventArgs e)
 		{
 			// переключение состояния кнопки FB2 Корректора
-			ToggleMode( tsbtnFB2Corrector, this.sfbTpFB2Corrector );
+			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
+			                    tsbtnFB2Corrector, this.sfbTpFB2Corrector,
+			                    tscMain );
 		}
 		
 		void TsbtnFB2DublicatorClick(object sender, EventArgs e)
 		{
 			// переключение состояния кнопки Дубликатора файлов
-			ToggleMode( tsbtnFB2Dublicator, this.sfbTpFB2Dublicator );
-		}
+			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
+			                    tsbtnFB2Dublicator, this.sfbTpFB2Dublicator,
+			                    tscMain );
+			}
 		
 		void TsbtnAboutClick(object sender, EventArgs e)
 		{
 			// переключение состояния кнопки О программе
-			ToggleMode( tsbtnAbout, this.sfbTpAbout );
+			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
+			                    tsbtnAbout, this.sfbTpAbout,
+			                    tscMain );
 		}
+		#endregion
 	}	
 }
