@@ -8,9 +8,11 @@
  */
 
 using System;
-using System.ComponentModel;
+using System.IO;
 using System.Drawing;
+using System.ComponentModel;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -94,6 +96,135 @@ namespace SharpFBTools.Controls.Panels
 			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
 		}
 		
+		#region Парсеры файлов и архивов
+		private void ParseFB2File( string sFile, FB2Parser.FB2Validator fv2Validator ) {
+			// парсер несжатого fb2-файла
+			string msg = fv2Validator.ValidatingFB2File( sFile );
+			if ( msg == "" ) {
+           		// файл валидный
+           		++this.m_lFB2Valid;
+				//listViewValid.Items.Add( sFile );
+				ListViewItem item = new ListViewItem( sFile, 0 );
+   				item.ForeColor = m_FB2ValidFontColor;
+				FileInfo fi = new FileInfo( sFile );
+   				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+				listViewValid.Items.AddRange( new ListViewItem[]{ item } );
+				tpValid.Text = m_sValid + "( " + m_lFB2Valid.ToString() + " ) " ;
+           	} else {
+           		// файл не валидный
+           		++this.m_lFB2NotValid;
+				ListViewItem item = new ListViewItem( sFile, 0 );
+   				item.ForeColor = m_FB2NotValidFontColor;
+				item.SubItems.Add( msg );
+   				FileInfo fi = new FileInfo( sFile );
+   				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+				listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
+				tpNonValid.Text = m_sNotValid + "( " + m_lFB2NotValid.ToString() + " ) " ;
+           	}
+			++tsProgressBar.Value;
+		}
+		
+		private void ParseArchiveFile( string sArchiveFile, FB2Parser.FB2Validator fv2Validator, string sTempDir ) {
+			// парсер архива
+			string sExt = Path.GetExtension( sArchiveFile );
+			if( sExt.ToLower() == ".zip" ) {
+				Archiver.Archiver.unzip( sArchiveFile, sTempDir );
+			} else if( sExt.ToLower() == ".rar" ) {
+				Archiver.Archiver.unrar( sArchiveFile, sTempDir );
+			}
+			string [] files = Directory.GetFiles( sTempDir );
+			if( files.Length <= 0 ) return;
+				
+			string msg = fv2Validator.ValidatingFB2File( files[0] );
+			string sFileName = Path.GetFileName( files[0] );
+
+			if ( msg == "" ) {
+           		// файл валидный - это fb2
+           		++this.m_lFB2Valid;
+				//listViewValid.Items.Add( sArchiveFile + "/" + sFileName );
+				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName , 0 );
+				if( sExt.ToLower() == ".zip" ) {
+					item.ForeColor = m_ZipFB2ValidFontColor;
+					++this.m_lFB2ZipFiles;
+				} else if( sExt.ToLower() == ".rar" ) {
+					item.ForeColor = m_RarFB2ValidFontColor;
+					++this.m_lFB2RarFiles;
+				}
+				FileInfo fi = new FileInfo( sArchiveFile );
+   				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   				fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   				item.SubItems.Add( s );
+				listViewValid.Items.AddRange( new ListViewItem[]{ item } );
+				tpValid.Text = m_sValid + "( " + this.m_lFB2Valid.ToString() + " ) " ;
+           	} else {
+           		// архив не валидный - посмотрим, что это
+        		if( sExt.ToLower() == ".zip" ) {
+					// определяем тип разархивированного файла
+           			sExt = Path.GetExtension( sFileName );
+					if( sExt.ToLower() != ".fb2" ) {
+           				msg = "Тип файла: " + sExt;
+           				++this.m_lNonFB2Files;
+           				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
+   						item.ForeColor = m_ZipFontColor;
+           				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
+   						FileInfo fi = new FileInfo( sArchiveFile );
+   						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						item.SubItems.Add( s );
+   						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
+						tpNotFB2Files.Text = this.m_sNotFB2Files + "( " + this.m_lNonFB2Files.ToString() + " ) ";
+					} else {
+						++this.m_lFB2ZipFiles;
+						++this.m_lFB2NotValid;
+						ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
+   						item.ForeColor = m_ZipFB2NotValidFontColor;
+						item.SubItems.Add( msg );
+   						FileInfo fi = new FileInfo( sArchiveFile );
+   						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						item.SubItems.Add( s );
+						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
+						tpNonValid.Text = this.m_sNotValid + "( " + this.m_lFB2NotValid.ToString() + " ) ";
+					}
+				} else if( sExt.ToLower() == ".rar" ) {
+					// определяем тип разархивированного файла
+           			sExt = Path.GetExtension( sFileName );
+					if( sExt.ToLower() != ".fb2" ) {
+        				msg = "Тип файла: " + sExt;
+          				++this.m_lNonFB2Files;
+          				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
+   						item.ForeColor = m_RarFontColor;
+          				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
+   						FileInfo fi = new FileInfo( sArchiveFile );
+   						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						item.SubItems.Add( s );
+   						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
+						tpNotFB2Files.Text = this.m_sNotFB2Files + "( " + this.m_lNonFB2Files.ToString() + " ) ";
+					} else {
+						++this.m_lFB2RarFiles;
+						++this.m_lFB2NotValid;
+						ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
+   						item.ForeColor = m_RarFB2NotValidFontColor;
+						item.SubItems.Add( msg );
+   						FileInfo fi = new FileInfo( sArchiveFile );
+   						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						item.SubItems.Add( s );
+						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
+						tpNonValid.Text = this.m_sNotValid + "( " + this.m_lFB2NotValid.ToString() + " ) ";
+					}
+				}
+            }
+			++tsProgressBar.Value;
+		}
+		#endregion
+		
 		#region Обработчики событий
 		void ListViewNotValidSelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -121,7 +252,6 @@ namespace SharpFBTools.Controls.Panels
 			// открытие папки с указанным файлом
 			FilesWorker.FilesWorker.ShowDir( listViewNotFB2 );
 		}
-		#endregion
 		
 		void BtnFB2NotValidCopyToClick(object sender, EventArgs e)
 		{
@@ -181,6 +311,95 @@ namespace SharpFBTools.Controls.Panels
                 string openFolderName = fbdNotFB2.SelectedPath;
                 tboxNotFB2DirMoveTo.Text = openFolderName;
             }
+		}
+		
+		void TsbtnOpenDirClick(object sender, EventArgs e)
+		{
+			// задание папки с fb2-файлами для сканирования
+			DialogResult result = fbdSource.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbdSource.SelectedPath;
+                tboxSourceDir.Text = openFolderName;
+                // инициализация контролов
+				Init();
+            }
+		}
+		#endregion
+		
+		void TSBValidateClick(object sender, EventArgs e)
+		{
+			// Ввлидация fb2-файлов в выбранной папке
+			tlCentral.Refresh(); // обновление контролов на форме
+			if( tboxSourceDir.Text == "" ) {
+				MessageBox.Show( "Выберите папку для сканирования!", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			DirectoryInfo diFolder = new DirectoryInfo(tboxSourceDir.Text);
+			if( !diFolder.Exists ) {
+				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			
+			DateTime dtStart = DateTime.Now;
+			// инициализация контролов
+			Init();
+			tsProgressBar.Visible = true;
+			// сортированный список всех вложенных папок
+			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, tlCentral, lblDirsCount );
+			lDirList.Sort();
+			// сортированный список всех fb2,zip и rar файлов
+			tsslblProgress.Text = "Создание списка файлов:";
+			tlCentral.Refresh(); // обновление контролов на форме
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, tlCentral, lblFilesCount, tsProgressBar );
+			lFilesList.Sort();
+			
+			if( lFilesList.Count == 0 ) {
+				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				Init();
+				return;
+			}
+			
+			// проверка файлов
+			tsslblProgress.Text = "Проверка найденных файлов на соответствие схеме (валидация):";
+			tsProgressBar.Maximum = lFilesList.Count+1;
+			tsProgressBar.Value = 1;
+			tlCentral.Refresh(); // обновление контролов на форме
+			FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
+			foreach( string sFile in lFilesList ) {
+				string sExt = Path.GetExtension( sFile );
+				if( sExt.ToLower() == ".fb2" ) {
+					++this.m_lFB2Files;
+					ParseFB2File( sFile, fv2V );
+				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
+					// очистка временной папки
+					FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+					Directory.CreateDirectory( FilesWorker.FilesWorker.GetTempDir() );
+					ParseArchiveFile( sFile, fv2V, FilesWorker.FilesWorker.GetTempDir() );
+				} else {
+					// разные файлы
+					++this.m_lNonFB2Files;
+					ListViewItem item = new ListViewItem( sFile, 0 );
+   					item.ForeColor = m_NotFB2FontColor;
+					item.SubItems.Add( Path.GetExtension( sFile ) );
+   					FileInfo fi = new FileInfo( sFile );
+   					item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+					listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
+					tpNotFB2Files.Text = m_sNotFB2Files + "( " + m_lNonFB2Files.ToString() + " ) " ;
+					++tsProgressBar.Value;
+				}
+			}
+			lblFB2FilesCount.Text		= m_lFB2Files.ToString();
+			lblFB2ZipFilesCount.Text	= m_lFB2ZipFiles.ToString();
+			lblFB2RarFilesCount.Text 	= m_lFB2RarFiles.ToString();
+			lblNotFB2FilesCount.Text 	= m_lNonFB2Files.ToString();
+			
+			DateTime dtEnd = DateTime.Now;
+			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час. : мин. : сек.)";
+			MessageBox.Show( "Проверка файлов на соответствие FictionBook.xsd схеме завершена!\nЗатрачено времени: "+sTime, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			tsslblProgress.Text = m_sReady;
+			tsProgressBar.Visible = false;
+			// очистка временной папки
+			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
 		}
 	}
 }

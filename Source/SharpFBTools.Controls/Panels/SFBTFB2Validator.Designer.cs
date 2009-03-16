@@ -38,7 +38,9 @@ namespace SharpFBTools.Controls.Panels
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
-			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
+			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tSBValidate = new System.Windows.Forms.ToolStripButton();
 			this.pScanDir = new System.Windows.Forms.Panel();
 			this.tboxSourceDir = new System.Windows.Forms.TextBox();
 			this.lblDir = new System.Windows.Forms.Label();
@@ -103,6 +105,7 @@ namespace SharpFBTools.Controls.Panels
 			this.fbdNotValidFB2 = new System.Windows.Forms.FolderBrowserDialog();
 			this.fbdValidFB2 = new System.Windows.Forms.FolderBrowserDialog();
 			this.fbdNotFB2 = new System.Windows.Forms.FolderBrowserDialog();
+			this.fbdSource = new System.Windows.Forms.FolderBrowserDialog();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.tlpCount.SuspendLayout();
@@ -123,22 +126,42 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tsValidator
 			// 
+			this.tsValidator.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.tsValidator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.toolStripButton1});
+									this.tsbtnOpenDir,
+									this.tsSep1,
+									this.tSBValidate});
 			this.tsValidator.Location = new System.Drawing.Point(0, 0);
 			this.tsValidator.Name = "tsValidator";
-			this.tsValidator.Size = new System.Drawing.Size(726, 25);
+			this.tsValidator.Size = new System.Drawing.Size(726, 44);
 			this.tsValidator.TabIndex = 0;
-			this.tsValidator.Text = "toolStrip1";
 			// 
-			// toolStripButton1
+			// tsbtnOpenDir
 			// 
-			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButton1.Text = "toolStripButton1";
+			this.tsbtnOpenDir.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnOpenDir.Image")));
+			this.tsbtnOpenDir.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnOpenDir.Name = "tsbtnOpenDir";
+			this.tsbtnOpenDir.Size = new System.Drawing.Size(90, 41);
+			this.tsbtnOpenDir.Text = "Открыть папку";
+			this.tsbtnOpenDir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbtnOpenDir.ToolTipText = "Открыть папку с fb2, fb2.zip, fb2.rar, zip или rar файлами...";
+			this.tsbtnOpenDir.Click += new System.EventHandler(this.TsbtnOpenDirClick);
+			// 
+			// tsSep1
+			// 
+			this.tsSep1.Name = "tsSep1";
+			this.tsSep1.Size = new System.Drawing.Size(6, 44);
+			// 
+			// tSBValidate
+			// 
+			this.tSBValidate.Image = ((System.Drawing.Image)(resources.GetObject("tSBValidate.Image")));
+			this.tSBValidate.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tSBValidate.Name = "tSBValidate";
+			this.tSBValidate.Size = new System.Drawing.Size(66, 41);
+			this.tSBValidate.Text = "Валидация";
+			this.tSBValidate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tSBValidate.ToolTipText = "Проверить fb2-файлы на соответствие схеме (валидация)";
+			this.tSBValidate.Click += new System.EventHandler(this.TSBValidateClick);
 			// 
 			// pScanDir
 			// 
@@ -329,7 +352,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tcResult.Margin = new System.Windows.Forms.Padding(0);
 			this.tcResult.Name = "tcResult";
 			this.tcResult.SelectedIndex = 0;
-			this.tcResult.Size = new System.Drawing.Size(720, 403);
+			this.tcResult.Size = new System.Drawing.Size(720, 387);
 			this.tcResult.TabIndex = 16;
 			// 
 			// tpNonValid
@@ -340,7 +363,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpNonValid.Location = new System.Drawing.Point(4, 22);
 			this.tpNonValid.Name = "tpNonValid";
 			this.tpNonValid.Padding = new System.Windows.Forms.Padding(3);
-			this.tpNonValid.Size = new System.Drawing.Size(712, 377);
+			this.tpNonValid.Size = new System.Drawing.Size(712, 361);
 			this.tpNonValid.TabIndex = 0;
 			this.tpNonValid.Text = " Не валидные fb2-файлы ";
 			this.tpNonValid.UseVisualStyleBackColor = true;
@@ -432,7 +455,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.pErrors.Controls.Add(this.rеboxNotValid);
 			this.pErrors.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pErrors.Location = new System.Drawing.Point(3, 315);
+			this.pErrors.Location = new System.Drawing.Point(3, 299);
 			this.pErrors.Name = "pErrors";
 			this.pErrors.Size = new System.Drawing.Size(706, 59);
 			this.pErrors.TabIndex = 1;
@@ -463,7 +486,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewNotValid.MultiSelect = false;
 			this.listViewNotValid.Name = "listViewNotValid";
 			this.listViewNotValid.ShowItemToolTips = true;
-			this.listViewNotValid.Size = new System.Drawing.Size(706, 225);
+			this.listViewNotValid.Size = new System.Drawing.Size(706, 209);
 			this.listViewNotValid.TabIndex = 0;
 			this.listViewNotValid.UseCompatibleStateImageBehavior = false;
 			this.listViewNotValid.View = System.Windows.Forms.View.Details;
@@ -492,7 +515,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpValid.Location = new System.Drawing.Point(4, 22);
 			this.tpValid.Name = "tpValid";
 			this.tpValid.Padding = new System.Windows.Forms.Padding(3);
-			this.tpValid.Size = new System.Drawing.Size(712, 377);
+			this.tpValid.Size = new System.Drawing.Size(712, 361);
 			this.tpValid.TabIndex = 1;
 			this.tpValid.Text = " Валидные fb2-файлы ";
 			this.tpValid.UseVisualStyleBackColor = true;
@@ -503,7 +526,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pValidLV.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pValidLV.Location = new System.Drawing.Point(3, 78);
 			this.pValidLV.Name = "pValidLV";
-			this.pValidLV.Size = new System.Drawing.Size(706, 296);
+			this.pValidLV.Size = new System.Drawing.Size(706, 280);
 			this.pValidLV.TabIndex = 9;
 			// 
 			// listViewValid
@@ -519,7 +542,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewValid.MultiSelect = false;
 			this.listViewValid.Name = "listViewValid";
 			this.listViewValid.ShowItemToolTips = true;
-			this.listViewValid.Size = new System.Drawing.Size(706, 296);
+			this.listViewValid.Size = new System.Drawing.Size(706, 280);
 			this.listViewValid.TabIndex = 1;
 			this.listViewValid.UseCompatibleStateImageBehavior = false;
 			this.listViewValid.View = System.Windows.Forms.View.Details;
@@ -625,7 +648,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpNotFB2Files.Location = new System.Drawing.Point(4, 22);
 			this.tpNotFB2Files.Name = "tpNotFB2Files";
 			this.tpNotFB2Files.Padding = new System.Windows.Forms.Padding(3);
-			this.tpNotFB2Files.Size = new System.Drawing.Size(712, 377);
+			this.tpNotFB2Files.Size = new System.Drawing.Size(712, 361);
 			this.tpNotFB2Files.TabIndex = 2;
 			this.tpNotFB2Files.Text = " Не fb2-файлы ";
 			this.tpNotFB2Files.UseVisualStyleBackColor = true;
@@ -636,7 +659,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pNotValidLV.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pNotValidLV.Location = new System.Drawing.Point(3, 78);
 			this.pNotValidLV.Name = "pNotValidLV";
-			this.pNotValidLV.Size = new System.Drawing.Size(706, 296);
+			this.pNotValidLV.Size = new System.Drawing.Size(706, 280);
 			this.pNotValidLV.TabIndex = 10;
 			// 
 			// listViewNotFB2
@@ -653,7 +676,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewNotFB2.MultiSelect = false;
 			this.listViewNotFB2.Name = "listViewNotFB2";
 			this.listViewNotFB2.ShowItemToolTips = true;
-			this.listViewNotFB2.Size = new System.Drawing.Size(706, 296);
+			this.listViewNotFB2.Size = new System.Drawing.Size(706, 280);
 			this.listViewNotFB2.TabIndex = 2;
 			this.listViewNotFB2.UseCompatibleStateImageBehavior = false;
 			this.listViewNotFB2.View = System.Windows.Forms.View.Details;
@@ -789,14 +812,14 @@ namespace SharpFBTools.Controls.Panels
 			this.tlCentral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tlCentral.Controls.Add(this.pScanDir, 0, 0);
 			this.tlCentral.Controls.Add(this.tcResult, 0, 1);
-			this.tlCentral.Location = new System.Drawing.Point(3, 28);
+			this.tlCentral.Location = new System.Drawing.Point(3, 44);
 			this.tlCentral.Margin = new System.Windows.Forms.Padding(0);
 			this.tlCentral.Name = "tlCentral";
 			this.tlCentral.RowCount = 2;
 			this.tlCentral.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlCentral.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlCentral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlCentral.Size = new System.Drawing.Size(720, 431);
+			this.tlCentral.Size = new System.Drawing.Size(720, 415);
 			this.tlCentral.TabIndex = 19;
 			// 
 			// pCount
@@ -821,6 +844,10 @@ namespace SharpFBTools.Controls.Panels
 			// fbdNotFB2
 			// 
 			this.fbdNotFB2.Description = "Укажите папку для не fb2-файлов";
+			// 
+			// fbdSource
+			// 
+			this.fbdSource.Description = "Укажите папку для проверки fb2-файлов";
 			// 
 			// SFBTpFB2Validator
 			// 
@@ -861,6 +888,10 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripButton tSBValidate;
+		private System.Windows.Forms.FolderBrowserDialog fbdSource;
+		private System.Windows.Forms.ToolStripSeparator tsSep1;
+		private System.Windows.Forms.ToolStripButton tsbtnOpenDir;
 		private System.Windows.Forms.FolderBrowserDialog fbdNotFB2;
 		private System.Windows.Forms.FolderBrowserDialog fbdValidFB2;
 		private System.Windows.Forms.FolderBrowserDialog fbdNotValidFB2;
@@ -926,6 +957,5 @@ namespace SharpFBTools.Controls.Panels
 		private System.Windows.Forms.Label lblDir;
 		private System.Windows.Forms.TextBox tboxSourceDir;
 		private System.Windows.Forms.ToolStrip tsValidator;
-		private System.Windows.Forms.ToolStripButton toolStripButton1;
 	}
 }

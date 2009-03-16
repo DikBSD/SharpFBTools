@@ -78,6 +78,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Panels" />
+    <ProjectReference Include="..\Archiver\Archiver.csproj">
+      <Project>{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}</Project>
+      <Name>Archiver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FB2Parser\FB2Parser.csproj">
+      <Project>{CEBA7BB8-396C-473F-880A-184EC08A033B}</Project>
+      <Name>FB2Parser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FilesWorker\FilesWorker.csproj">
       <Project>{77D9288A-599B-4474-8CBE-15F58DAEF8B4}</Project>
       <Name>FilesWorker</Name>
