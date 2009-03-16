@@ -49,7 +49,6 @@ namespace SharpFBTools.Controls.Panels
 		private long	m_lNonFB2Files	= 0; // число других (не fb2) файлов
 		//
 		private	string	m_sReady		= "Готово.";
-		private string	m_sTempDir		= "Temp"; // временный каталог для распаковки архивов
 		private string	m_sNotValid		= " Не валидные fb2-файлы ";
 		private	string	m_sValid		= " Валидные fb2-файлы ";
 		private string	m_sNotFB2Files	= " Не fb2-файлы ";
@@ -69,10 +68,10 @@ namespace SharpFBTools.Controls.Panels
 		
 		private void Init() {
 			// инициализация контролов и переменных
-			listViewNonValid.Items.Clear();
+			listViewNotValid.Items.Clear();
 			listViewValid.Items.Clear();
 			listViewNotFB2.Items.Clear();
-			rеboxNonValid.Clear();
+			rеboxNotValid.Clear();
 			tpNonValid.Text		= m_sNotValid;
 			tpValid.Text		= m_sValid;
 			tpNotFB2Files.Text	= m_sNotFB2Files;
@@ -92,7 +91,96 @@ namespace SharpFBTools.Controls.Panels
 			m_lFB2RarFiles 	= 0;
 			m_lNonFB2Files 	= 0;
 			// очистка временной папки
-			FilesWorker.FilesWorker.RemoveDir( m_sTempDir );
+			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+		}
+		
+		#region Обработчики событий
+		void ListViewNotValidSelectedIndexChanged(object sender, EventArgs e)
+		{
+			// занесение ошибки валидации в бокс
+			ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
+			foreach ( ListViewItem item in si ) {
+				rеboxNotValid.Text = item.SubItems[1].Text;
+			}
+		}
+		
+		void ListViewNonValidDoubleClick(object sender, EventArgs e)
+		{
+			// открытие папки с указанным файлом
+			FilesWorker.FilesWorker.ShowDir( listViewNotValid );
+		}
+		
+		void ListViewValidColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			// открытие папки с указанным файлом
+			FilesWorker.FilesWorker.ShowDir( listViewValid );
+		}
+		
+		void ListViewNotFB2DoubleClick(object sender, EventArgs e)
+		{
+			// открытие папки с указанным файлом
+			FilesWorker.FilesWorker.ShowDir( listViewNotFB2 );
+		}
+		#endregion
+		
+		void BtnFB2NotValidCopyToClick(object sender, EventArgs e)
+		{
+			// задание папки для копирования невалидных fb2-файлов
+			DialogResult result = fbdNotValidFB2.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbdNotValidFB2.SelectedPath;
+                tboxFB2NotValidDirCopyTo.Text = openFolderName;
+            }
+		}
+		
+		void BtnFB2NotValidMoveToClick(object sender, EventArgs e)
+		{
+			// задание папки для перемещения невалидных fb2-файлов
+			DialogResult result = fbdNotValidFB2.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbdNotValidFB2.SelectedPath;
+                tboxFB2NotValidDirMoveTo.Text = openFolderName;
+            }
+		}
+		
+		void BtnFB2ValidCopyToClick(object sender, EventArgs e)
+		{
+			// задание папки для валидных fb2-файлов
+			DialogResult result = fbdValidFB2.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbdValidFB2.SelectedPath;
+                tboxFB2ValidDirCopyTo.Text = openFolderName;
+            }
+		}
+		
+		void BtnFB2ValidMoveToClick(object sender, EventArgs e)
+		{
+			// задание папки для перемещения валидных fb2-файлов
+			DialogResult result = fbdValidFB2.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbdValidFB2.SelectedPath;
+                tboxFB2ValidDirMoveTo.Text = openFolderName;
+            }
+		}
+		
+		void BtnNotFB2CopyToClick(object sender, EventArgs e)
+		{
+			// задание папки для не fb2-файлов
+			DialogResult result = fbdNotFB2.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbdNotFB2.SelectedPath;
+                tboxNotFB2DirCopyTo.Text = openFolderName;
+            }
+		}
+		
+		void BtnNotFB2MoveToClick(object sender, EventArgs e)
+		{
+			// задание папки для перемещения не fb2-файлов
+			DialogResult result = fbdNotFB2.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbdNotFB2.SelectedPath;
+                tboxNotFB2DirMoveTo.Text = openFolderName;
+            }
 		}
 	}
 }

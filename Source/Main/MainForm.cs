@@ -58,6 +58,8 @@ namespace Main
 		void TsbtnExitClick(object sender, EventArgs e)
 		{
 			// выход из программы
+			// очистка временной папки
+			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
 			this.Close();
 		}
 		
