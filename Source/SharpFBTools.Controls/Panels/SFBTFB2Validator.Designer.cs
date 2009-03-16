@@ -8,7 +8,7 @@
  */
 namespace SharpFBTools.Controls.Panels
 {
-	partial class SFBTpValidator
+	partial class SFBTpFB2Validator
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
@@ -36,7 +36,7 @@ namespace SharpFBTools.Controls.Panels
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpValidator));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.panelMode = new System.Windows.Forms.Panel();

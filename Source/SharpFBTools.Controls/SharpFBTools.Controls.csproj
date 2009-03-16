@@ -33,12 +33,47 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Panels\SFBTValidatorPanel.cs" />
-    <Compile Include="Panels\SFBTValidatorPanel.Designer.cs">
-      <DependentUpon>SFBTValidatorPanel.cs</DependentUpon>
+    <Compile Include="Panels\SFBTFB2Validator.cs" />
+    <Compile Include="Panels\SFBTFB2Validator.Designer.cs">
+      <DependentUpon>SFBTFB2Validator.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Panels\SFBTValidatorPanel.resx">
-      <DependentUpon>SFBTValidatorPanel.cs</DependentUpon>
+    <Compile Include="Panels\SFBTpAbout.cs" />
+    <Compile Include="Panels\SFBTpAbout.Designer.cs">
+      <DependentUpon>SFBTpAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\SFBTpArchiveManager.cs" />
+    <Compile Include="Panels\SFBTpArchiveManager.Designer.cs">
+      <DependentUpon>SFBTpArchiveManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\SFBTpFB2Corrector.cs" />
+    <Compile Include="Panels\SFBTpFB2Corrector.Designer.cs">
+      <DependentUpon>SFBTpFB2Corrector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\SFBTpFB2Dublicator.cs" />
+    <Compile Include="Panels\SFBTpFB2Dublicator.Designer.cs">
+      <DependentUpon>SFBTpFB2Dublicator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\SFBTpFileManager.cs" />
+    <Compile Include="Panels\SFBTpFileManager.Designer.cs">
+      <DependentUpon>SFBTpFileManager.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Panels\SFBTFB2Validator.resx">
+      <DependentUpon>SFBTFB2Validator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SFBTpAbout.resx">
+      <DependentUpon>SFBTpAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SFBTpArchiveManager.resx">
+      <DependentUpon>SFBTpArchiveManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SFBTpFB2Corrector.resx">
+      <DependentUpon>SFBTpFB2Corrector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SFBTpFB2Dublicator.resx">
+      <DependentUpon>SFBTpFB2Dublicator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SFBTpFileManager.resx">
+      <DependentUpon>SFBTpFileManager.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

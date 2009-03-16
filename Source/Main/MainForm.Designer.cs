@@ -40,7 +40,7 @@ namespace Main
 			this.tscMain = new System.Windows.Forms.ToolStripContainer();
 			this.stMainStatus = new System.Windows.Forms.StatusStrip();
 			this.tsMain = new System.Windows.Forms.ToolStrip();
-			this.tsbtnValidator = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnFB2Validator = new System.Windows.Forms.ToolStripButton();
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnFileManager = new System.Windows.Forms.ToolStripButton();
 			this.tsSep2 = new System.Windows.Forms.ToolStripSeparator();
@@ -48,8 +48,10 @@ namespace Main
 			this.tsSep3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnFB2Corrector = new System.Windows.Forms.ToolStripButton();
 			this.tsSep5 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbtnAbout = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnFB2Dublicator = new System.Windows.Forms.ToolStripButton();
 			this.tsSep4 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbtnAbout = new System.Windows.Forms.ToolStripButton();
+			this.tsSep6 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnExit = new System.Windows.Forms.ToolStripButton();
 			this.tscMain.BottomToolStripPanel.SuspendLayout();
 			this.tscMain.TopToolStripPanel.SuspendLayout();
@@ -91,7 +93,7 @@ namespace Main
 			this.tsMain.Dock = System.Windows.Forms.DockStyle.None;
 			this.tsMain.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsbtnValidator,
+									this.tsbtnFB2Validator,
 									this.tsSep1,
 									this.tsbtnFileManager,
 									this.tsSep2,
@@ -99,26 +101,27 @@ namespace Main
 									this.tsSep3,
 									this.tsbtnFB2Corrector,
 									this.tsSep5,
-									this.tsbtnAbout,
+									this.tsbtnFB2Dublicator,
 									this.tsSep4,
+									this.tsbtnAbout,
+									this.tsSep6,
 									this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(557, 52);
+			this.tsMain.Size = new System.Drawing.Size(698, 52);
 			this.tsMain.TabIndex = 0;
 			// 
-			// tsbtnValidator
+			// tsbtnFB2Validator
 			// 
-			this.tsbtnValidator.Checked = true;
-			this.tsbtnValidator.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.tsbtnValidator.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnValidator.Image")));
-			this.tsbtnValidator.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnValidator.Name = "tsbtnValidator";
-			this.tsbtnValidator.Size = new System.Drawing.Size(66, 49);
-			this.tsbtnValidator.Tag = "group";
-			this.tsbtnValidator.Text = "Валидатор";
-			this.tsbtnValidator.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.tsbtnValidator.ToolTipText = "Валидатор";
+			this.tsbtnFB2Validator.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFB2Validator.Image")));
+			this.tsbtnFB2Validator.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnFB2Validator.Name = "tsbtnFB2Validator";
+			this.tsbtnFB2Validator.Size = new System.Drawing.Size(87, 49);
+			this.tsbtnFB2Validator.Tag = "tsbtnFB2Validator";
+			this.tsbtnFB2Validator.Text = "FB2 Валидатор";
+			this.tsbtnFB2Validator.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbtnFB2Validator.ToolTipText = "FB2 Валидатор";
+			this.tsbtnFB2Validator.Click += new System.EventHandler(this.TsbtnFB2ValidatorClick);
 			// 
 			// tsSep1
 			// 
@@ -131,9 +134,10 @@ namespace Main
 			this.tsbtnFileManager.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnFileManager.Name = "tsbtnFileManager";
 			this.tsbtnFileManager.Size = new System.Drawing.Size(105, 49);
-			this.tsbtnFileManager.Tag = "group";
+			this.tsbtnFileManager.Tag = "tsbtnFileManager";
 			this.tsbtnFileManager.Text = "Менеджер файлов";
 			this.tsbtnFileManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbtnFileManager.Click += new System.EventHandler(this.TsbtnFileManagerClick);
 			// 
 			// tsSep2
 			// 
@@ -146,9 +150,10 @@ namespace Main
 			this.tsbtnArchiveManager.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnArchiveManager.Name = "tsbtnArchiveManager";
 			this.tsbtnArchiveManager.Size = new System.Drawing.Size(109, 49);
-			this.tsbtnArchiveManager.Tag = "group";
+			this.tsbtnArchiveManager.Tag = "tsbtnArchiveManager";
 			this.tsbtnArchiveManager.Text = "Менеджер архивов";
 			this.tsbtnArchiveManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbtnArchiveManager.Click += new System.EventHandler(this.TsbtnArchiveManagerClick);
 			// 
 			// tsSep3
 			// 
@@ -161,15 +166,33 @@ namespace Main
 			this.tsbtnFB2Corrector.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnFB2Corrector.Name = "tsbtnFB2Corrector";
 			this.tsbtnFB2Corrector.Size = new System.Drawing.Size(87, 49);
-			this.tsbtnFB2Corrector.Tag = "group";
+			this.tsbtnFB2Corrector.Tag = "tsbtnFB2Corrector";
 			this.tsbtnFB2Corrector.Text = "FB2 Корректор";
 			this.tsbtnFB2Corrector.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnFB2Corrector.ToolTipText = "FB2 Корректор";
+			this.tsbtnFB2Corrector.Click += new System.EventHandler(this.TsbtnFB2CorrectorClick);
 			// 
 			// tsSep5
 			// 
 			this.tsSep5.Name = "tsSep5";
 			this.tsSep5.Size = new System.Drawing.Size(6, 52);
+			// 
+			// tsbtnFB2Dublicator
+			// 
+			this.tsbtnFB2Dublicator.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFB2Dublicator.Image")));
+			this.tsbtnFB2Dublicator.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnFB2Dublicator.Name = "tsbtnFB2Dublicator";
+			this.tsbtnFB2Dublicator.Size = new System.Drawing.Size(114, 49);
+			this.tsbtnFB2Dublicator.Tag = "tsbtnFB2Dublicator";
+			this.tsbtnFB2Dublicator.Text = "Дубликатор файлов";
+			this.tsbtnFB2Dublicator.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbtnFB2Dublicator.ToolTipText = "Поиск одинаковых книг";
+			this.tsbtnFB2Dublicator.Click += new System.EventHandler(this.TsbtnFB2DublicatorClick);
+			// 
+			// tsSep4
+			// 
+			this.tsSep4.Name = "tsSep4";
+			this.tsSep4.Size = new System.Drawing.Size(6, 52);
 			// 
 			// tsbtnAbout
 			// 
@@ -177,15 +200,16 @@ namespace Main
 			this.tsbtnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnAbout.Name = "tsbtnAbout";
 			this.tsbtnAbout.Size = new System.Drawing.Size(75, 49);
-			this.tsbtnAbout.Tag = "about";
+			this.tsbtnAbout.Tag = "tsbtnAbout";
 			this.tsbtnAbout.Text = "О программе";
 			this.tsbtnAbout.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnAbout.ToolTipText = "О программе...";
+			this.tsbtnAbout.Click += new System.EventHandler(this.TsbtnAboutClick);
 			// 
-			// tsSep4
+			// tsSep6
 			// 
-			this.tsSep4.Name = "tsSep4";
-			this.tsSep4.Size = new System.Drawing.Size(6, 52);
+			this.tsSep6.Name = "tsSep6";
+			this.tsSep6.Size = new System.Drawing.Size(6, 52);
 			// 
 			// tsbtnExit
 			// 
@@ -196,6 +220,7 @@ namespace Main
 			this.tsbtnExit.Text = "Выход";
 			this.tsbtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnExit.ToolTipText = "Выход из программы";
+			this.tsbtnExit.Click += new System.EventHandler(this.TsbtnExitClick);
 			// 
 			// MainForm
 			// 
@@ -217,6 +242,9 @@ namespace Main
 			this.tsMain.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ToolStripButton tsbtnFB2Validator;
+		private System.Windows.Forms.ToolStripSeparator tsSep6;
+		private System.Windows.Forms.ToolStripButton tsbtnFB2Dublicator;
 		private System.Windows.Forms.StatusStrip stMainStatus;
 		private System.Windows.Forms.ToolStripSeparator tsSep5;
 		private System.Windows.Forms.ToolStripButton tsbtnFB2Corrector;
@@ -228,7 +256,6 @@ namespace Main
 		private System.Windows.Forms.ToolStripSeparator tsSep3;
 		private System.Windows.Forms.ToolStripSeparator tsSep2;
 		private System.Windows.Forms.ToolStripSeparator tsSep1;
-		private System.Windows.Forms.ToolStripButton tsbtnValidator;
 		private System.Windows.Forms.ToolStrip tsMain;
 		private System.Windows.Forms.ToolStripContainer tscMain;
 	}
