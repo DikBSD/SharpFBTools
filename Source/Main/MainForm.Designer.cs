@@ -38,8 +38,6 @@ namespace Main
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.tscMain = new System.Windows.Forms.ToolStripContainer();
-			this.stMainStatus = new System.Windows.Forms.StatusStrip();
-			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsMain = new System.Windows.Forms.ToolStrip();
 			this.tsbtnFB2Validator = new System.Windows.Forms.ToolStripButton();
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
@@ -54,51 +52,27 @@ namespace Main
 			this.tsbtnAbout = new System.Windows.Forms.ToolStripButton();
 			this.tsSep6 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnExit = new System.Windows.Forms.ToolStripButton();
-			this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-			this.tscMain.BottomToolStripPanel.SuspendLayout();
 			this.tscMain.TopToolStripPanel.SuspendLayout();
 			this.tscMain.SuspendLayout();
-			this.stMainStatus.SuspendLayout();
 			this.tsMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tscMain
 			// 
 			// 
-			// tscMain.BottomToolStripPanel
-			// 
-			this.tscMain.BottomToolStripPanel.Controls.Add(this.stMainStatus);
-			// 
 			// tscMain.ContentPanel
 			// 
-			this.tscMain.ContentPanel.Size = new System.Drawing.Size(764, 702);
+			this.tscMain.ContentPanel.Size = new System.Drawing.Size(764, 557);
 			this.tscMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tscMain.Location = new System.Drawing.Point(0, 0);
 			this.tscMain.Name = "tscMain";
-			this.tscMain.Size = new System.Drawing.Size(764, 776);
+			this.tscMain.Size = new System.Drawing.Size(764, 609);
 			this.tscMain.TabIndex = 0;
 			this.tscMain.Text = "toolStripContainer1";
 			// 
 			// tscMain.TopToolStripPanel
 			// 
 			this.tscMain.TopToolStripPanel.Controls.Add(this.tsMain);
-			// 
-			// stMainStatus
-			// 
-			this.stMainStatus.Dock = System.Windows.Forms.DockStyle.None;
-			this.stMainStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsslblProgress,
-									this.tsProgressBar});
-			this.stMainStatus.Location = new System.Drawing.Point(0, 0);
-			this.stMainStatus.Name = "stMainStatus";
-			this.stMainStatus.Size = new System.Drawing.Size(764, 22);
-			this.stMainStatus.TabIndex = 0;
-			// 
-			// tsslblProgress
-			// 
-			this.tsslblProgress.Name = "tsslblProgress";
-			this.tsslblProgress.Size = new System.Drawing.Size(47, 17);
-			this.tsslblProgress.Text = "Готово.";
 			// 
 			// tsMain
 			// 
@@ -234,39 +208,28 @@ namespace Main
 			this.tsbtnExit.ToolTipText = "Выход из программы";
 			this.tsbtnExit.Click += new System.EventHandler(this.TsbtnExitClick);
 			// 
-			// tsProgressBar
-			// 
-			this.tsProgressBar.Name = "tsProgressBar";
-			this.tsProgressBar.Size = new System.Drawing.Size(400, 16);
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(764, 776);
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(764, 609);
 			this.Controls.Add(this.tscMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SharpFBTools";
-			this.tscMain.BottomToolStripPanel.ResumeLayout(false);
-			this.tscMain.BottomToolStripPanel.PerformLayout();
 			this.tscMain.TopToolStripPanel.ResumeLayout(false);
 			this.tscMain.TopToolStripPanel.PerformLayout();
 			this.tscMain.ResumeLayout(false);
 			this.tscMain.PerformLayout();
-			this.stMainStatus.ResumeLayout(false);
-			this.stMainStatus.PerformLayout();
 			this.tsMain.ResumeLayout(false);
 			this.tsMain.PerformLayout();
 			this.ResumeLayout(false);
 		}
-		private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
-		private System.Windows.Forms.ToolStripStatusLabel tsslblProgress;
 		private System.Windows.Forms.ToolStripButton tsbtnFB2Validator;
 		private System.Windows.Forms.ToolStripSeparator tsSep6;
 		private System.Windows.Forms.ToolStripButton tsbtnFB2Dublicator;
-		private System.Windows.Forms.StatusStrip stMainStatus;
 		private System.Windows.Forms.ToolStripSeparator tsSep5;
 		private System.Windows.Forms.ToolStripButton tsbtnFB2Corrector;
 		private System.Windows.Forms.ToolStripButton tsbtnFileManager;

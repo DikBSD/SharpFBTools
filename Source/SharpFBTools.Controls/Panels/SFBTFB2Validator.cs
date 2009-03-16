@@ -82,9 +82,9 @@ namespace SharpFBTools.Controls.Panels
 			lblFB2ZipFilesCount.Text 	= "0";
 			lblFB2RarFilesCount.Text 	= "0";
 			lblNotFB2FilesCount.Text 	= "0";
-//			tsProgressBar.Value	= 1;
-//			tsslblProgress.Text		= m_sReady;
-//			tsProgressBar.Visible	= false;
+			tsProgressBar.Value	= 1;
+			tsslblProgress.Text		= m_sReady;
+			tsProgressBar.Visible	= false;
 			m_lFB2Valid		= 0;
 			m_lFB2NotValid 	= 0;
 			m_lFB2Files		= 0;
