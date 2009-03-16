@@ -51,7 +51,7 @@ namespace Main
 		}	
 		#endregion
 		
-		#region Jnrhsnst члены-методы класса
+		#region Открытые члены-методы класса
 		public static void MakeGroupToggleLists( List<ToolStripButton> tsbl,
 		    ToolStripButton tsbtnFB2Validator, ToolStripButton tsbtnFileManager,
 			ToolStripButton tsbtnArchiveManager, ToolStripButton tsbtnFB2Corrector,

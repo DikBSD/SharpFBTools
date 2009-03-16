@@ -78,5 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Panels" />
+    <ProjectReference Include="..\FilesWorker\FilesWorker.csproj">
+      <Project>{77D9288A-599B-4474-8CBE-15F58DAEF8B4}</Project>
+      <Name>FilesWorker</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

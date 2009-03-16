@@ -53,7 +53,7 @@ namespace Main
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Validator );
 			this.sfbTpFB2Validator.Dock = System.Windows.Forms.DockStyle.Fill;
 		}
-
+		
 		#region Обработчики событий
 		void TsbtnExitClick(object sender, EventArgs e)
 		{

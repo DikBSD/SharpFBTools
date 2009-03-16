@@ -39,6 +39,7 @@ namespace Main
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.tscMain = new System.Windows.Forms.ToolStripContainer();
 			this.stMainStatus = new System.Windows.Forms.StatusStrip();
+			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsMain = new System.Windows.Forms.ToolStrip();
 			this.tsbtnFB2Validator = new System.Windows.Forms.ToolStripButton();
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
@@ -53,9 +54,11 @@ namespace Main
 			this.tsbtnAbout = new System.Windows.Forms.ToolStripButton();
 			this.tsSep6 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnExit = new System.Windows.Forms.ToolStripButton();
+			this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.tscMain.BottomToolStripPanel.SuspendLayout();
 			this.tscMain.TopToolStripPanel.SuspendLayout();
 			this.tscMain.SuspendLayout();
+			this.stMainStatus.SuspendLayout();
 			this.tsMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -83,10 +86,19 @@ namespace Main
 			// stMainStatus
 			// 
 			this.stMainStatus.Dock = System.Windows.Forms.DockStyle.None;
+			this.stMainStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+									this.tsslblProgress,
+									this.tsProgressBar});
 			this.stMainStatus.Location = new System.Drawing.Point(0, 0);
 			this.stMainStatus.Name = "stMainStatus";
 			this.stMainStatus.Size = new System.Drawing.Size(764, 22);
 			this.stMainStatus.TabIndex = 0;
+			// 
+			// tsslblProgress
+			// 
+			this.tsslblProgress.Name = "tsslblProgress";
+			this.tsslblProgress.Size = new System.Drawing.Size(47, 17);
+			this.tsslblProgress.Text = "Готово.";
 			// 
 			// tsMain
 			// 
@@ -108,7 +120,7 @@ namespace Main
 									this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(698, 52);
+			this.tsMain.Size = new System.Drawing.Size(667, 52);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnFB2Validator
@@ -222,6 +234,11 @@ namespace Main
 			this.tsbtnExit.ToolTipText = "Выход из программы";
 			this.tsbtnExit.Click += new System.EventHandler(this.TsbtnExitClick);
 			// 
+			// tsProgressBar
+			// 
+			this.tsProgressBar.Name = "tsProgressBar";
+			this.tsProgressBar.Size = new System.Drawing.Size(400, 16);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,10 +255,14 @@ namespace Main
 			this.tscMain.TopToolStripPanel.PerformLayout();
 			this.tscMain.ResumeLayout(false);
 			this.tscMain.PerformLayout();
+			this.stMainStatus.ResumeLayout(false);
+			this.stMainStatus.PerformLayout();
 			this.tsMain.ResumeLayout(false);
 			this.tsMain.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
+		private System.Windows.Forms.ToolStripStatusLabel tsslblProgress;
 		private System.Windows.Forms.ToolStripButton tsbtnFB2Validator;
 		private System.Windows.Forms.ToolStripSeparator tsSep6;
 		private System.Windows.Forms.ToolStripButton tsbtnFB2Dublicator;
