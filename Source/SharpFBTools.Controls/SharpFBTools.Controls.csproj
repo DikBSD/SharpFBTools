@@ -90,5 +90,9 @@
       <Project>{77D9288A-599B-4474-8CBE-15F58DAEF8B4}</Project>
       <Name>FilesWorker</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReportGenerator\ReportGenerator.csproj">
+      <Project>{480B5655-261D-4807-83BB-94CC12FB56A5}</Project>
+      <Name>ReportGenerator</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

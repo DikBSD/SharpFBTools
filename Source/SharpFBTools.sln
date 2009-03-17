@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FB2Parser", "FB2Parser\FB2P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archiver", "Archiver\Archiver.csproj", "{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportGenerator", "ReportGenerator\ReportGenerator.csproj", "{480B5655-261D-4807-83BB-94CC12FB56A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,5 +52,9 @@ Global
 		{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{480B5655-261D-4807-83BB-94CC12FB56A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{480B5655-261D-4807-83BB-94CC12FB56A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{480B5655-261D-4807-83BB-94CC12FB56A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{480B5655-261D-4807-83BB-94CC12FB56A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal

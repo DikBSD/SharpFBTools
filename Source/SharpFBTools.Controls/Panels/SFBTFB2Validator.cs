@@ -65,7 +65,6 @@ namespace SharpFBTools.Controls.Panels
 		private string	m_HTMLFilter 	= "HTML файлы (*.hml)|*.html|Все файлы (*.*)|*.*";
 		private string	m_FB2Filter 	= "fb2 файлы (*.fb2)|*.fb2|Все файлы (*.*)|*.*";
 		private string	m_CSV_csv_Filter = "CVS файлы (*.csv)|*.csv|Все файлы (*.*)|*.*";
-		private string	m_CSV_txt_Filter = "Txt файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
 		#endregion
 		
 		private void Init() {
@@ -225,6 +224,184 @@ namespace SharpFBTools.Controls.Panels
 		}
 		#endregion
 		
+		#region Копирование, перемещение или удаление файлов
+		void CopyOrMoveFilesTo( bool bCopy, string sSource, string sTarget,
+		                       ListView lw, TabPage tp, string sFileType1, string sFileType,
+		                       string sProgressText, string sTabPageDefText ) {
+			// копировать или переместить файлы в...
+			#region Код
+			int nCount = lw.Items.Count;
+			if( nCount == 0) {
+				MessageBox.Show( "Список "+sFileType1+" пуст!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			if( sTarget == "") {
+				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			if( sSource == sTarget ) {
+				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			string sMess = "";
+			if( bCopy ) {
+				sMess = "Вы действительно хотите скопировать "+sFileType+" в указанную папку?";
+			} else {
+				sMess = "Вы действительно хотите переместить "+sFileType+" в указанную папку?";
+			}
+			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+			DialogResult result;
+			result = MessageBox.Show( sMess, "FB2SharpValidator", buttons, MessageBoxIcon.Question );
+	        if(result == DialogResult.No) {
+	            return;
+			}
+			tsslblProgress.Text = sProgressText;
+			tsProgressBar.Visible = true;
+			tsProgressBar.Maximum = nCount+1;
+			tsProgressBar.Value = 1;
+			for( int i=0; i!=nCount; ++i ) {
+				string sItemText = lw.Items[i].SubItems[0].Text;
+				string sFilePath = sItemText.Split('/')[0];
+				string sNewPath = sTarget + sFilePath.Remove( 0, sSource.Length );
+				FileInfo fi = new FileInfo( sNewPath );
+				if( !fi.Directory.Exists ) {
+					Directory.CreateDirectory( fi.Directory.ToString() );
+				}
+				if( File.Exists( sNewPath) ) {
+					File.Delete( sNewPath );
+				}
+				if( bCopy ) {
+					File.Copy( sFilePath, sNewPath );
+				} else {
+					File.Move( sFilePath, sNewPath );
+				}
+				++tsProgressBar.Value;
+			}
+			if( !bCopy ) {
+				// только для перемещения файлов
+				lw.Items.Clear();
+				tp.Text	= sTabPageDefText;
+				sMess = "Перемещение файлов в указанную папку завершено!";
+			} else {
+				sMess = "Копирование файлов в указанную папку завершено!";
+			}
+			MessageBox.Show( sMess, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			tsslblProgress.Text = m_sReady;
+			tsProgressBar.Visible = false;
+			#endregion
+		}
+		
+		void DeleteFiles( ListView lw, TabPage tp, string sFileType, string sFileType1,
+		                  string sProgressText, string sTabPageDefText ) {
+			// удалить файлы...
+			#region Код
+			int nCount = lw.Items.Count;
+			if( nCount == 0) {
+				MessageBox.Show( "Список "+sFileType+" пуст!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			string sMess = "Вы действительно хотите удалить "+sFileType1+"?";
+			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+			DialogResult result;
+			result = MessageBox.Show( sMess, "FB2SharpValidator", buttons, MessageBoxIcon.Question );
+	        if(result == DialogResult.No) {
+	            return;
+			}
+			tsslblProgress.Text = sProgressText;
+			tsProgressBar.Visible = true;
+			tsProgressBar.Maximum = nCount+1;
+			tsProgressBar.Value = 1;
+			for( int i=0; i!=nCount; ++i ) {
+				string sFilePath = lw.Items[i].SubItems[0].Text.Split('/')[0];
+				if( File.Exists( sFilePath) ) {
+					File.Delete( sFilePath );
+				}
+				++tsProgressBar.Value;
+			}
+			lw.Items.Clear();
+			tp.Text	= sTabPageDefText;
+			sMess = "Удаление файлов завершено!";
+			MessageBox.Show( sMess, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			tsslblProgress.Text = m_sReady;
+			tsProgressBar.Visible = false;
+			#endregion
+		}
+		#endregion
+		
+		#region Генерация отчетов
+		void MakeReport( int nModeReport ) {
+			// создание отчета заданного через nModeReport вида для разных вкладок (видов найденных файлов)
+			// 0 - html; 1 - fb2; 3 - csv(csv); 4 - csv(txt)
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					MakeReport( listViewNotValid, m_FB2NotValidReportEmpty, m_FB2NotValidFilesListReport, nModeReport );
+					break;
+				case 1:
+					// валидные fb2-файлы
+					MakeReport( listViewValid, m_FB2ValidReportEmpty, m_FB2ValidFilesListReport, nModeReport );
+					break;
+				case 2:
+					// не fb2-файлы
+					MakeReport( listViewNotFB2, m_NotFB2FileReportEmpty, m_NotFB2FilesListReport, nModeReport );
+					break;
+			}
+		}
+		
+		private bool MakeReport( ListView lw, string sReportListEmpty, string sReportTitle, int nModeReport ) {
+			// создание отчета
+			string sDelem = ";";
+			switch( nModeReport ) {
+				case 0: // Как html-файл
+					// сохранение списка не валидных файлов как html-файла
+					if( lw.Items.Count < 1 ) {
+						MessageBox.Show( sReportListEmpty, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return false;
+					} else {
+						sfdReport.Filter = m_HTMLFilter;
+						sfdReport.FileName = "";
+						DialogResult result = sfdReport.ShowDialog();
+						if (result == DialogResult.OK) {
+    	          			ReportGenerator.ReportGenerator.MakeHTMLReport( lw, sfdReport.FileName, sReportTitle );
+							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+	          			}
+					}
+					break;
+				case 1: // Как fb2-файл
+					// сохранение списка не валидных файлов как fb2-файла
+					if( lw.Items.Count < 1 ) {
+						MessageBox.Show( sReportListEmpty, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return false;
+					} else {
+						sfdReport.Filter = m_FB2Filter;
+						sfdReport.FileName = "";
+						DialogResult result = sfdReport.ShowDialog();
+						if (result == DialogResult.OK) {
+    	          			ReportGenerator.ReportGenerator.MakeFB2Report( lw, sfdReport.FileName, sReportTitle );
+							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+	          			}
+					}
+					break;
+				case 2: // Как csv-файл (.csv)
+					// сохранение списка не валидных файлов как csv-файла
+					if( lw.Items.Count < 1 ) {
+						MessageBox.Show( sReportListEmpty, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return false;
+					} else {
+						sfdReport.Filter = m_CSV_csv_Filter;
+						sfdReport.FileName = "";
+						DialogResult result = sfdReport.ShowDialog();
+						if (result == DialogResult.OK) {
+    	       				ReportGenerator.ReportGenerator.MakeCSVReport( lw, sfdReport.FileName, sDelem );
+							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+	        			}
+					}
+					break;
+			}
+			return true;
+		}
+		#endregion
+		
 		#region Обработчики событий
 		void ListViewNotValidSelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -324,7 +501,6 @@ namespace SharpFBTools.Controls.Panels
 				Init();
             }
 		}
-		#endregion
 		
 		void TSBValidateClick(object sender, EventArgs e)
 		{
@@ -401,5 +577,97 @@ namespace SharpFBTools.Controls.Panels
 			// очистка временной папки
 			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
 		}
+		
+		void TsbtnCopyFilesToClick(object sender, EventArgs e)
+		{
+			// копирование файлов в зависимости от выбранной вкладки
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					CopyOrMoveFilesTo( true, tboxSourceDir.Text, tboxFB2NotValidDirCopyTo.Text,
+		                       listViewNotValid, tpNonValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
+		                       "Копирование не валидных fb2-файлов:", m_sNotValid );
+					break;
+				case 1:
+					// валидные fb2-файлы
+					CopyOrMoveFilesTo( true, tboxSourceDir.Text, tboxFB2ValidDirCopyTo.Text,
+		                       listViewValid, tpValid, "валидных fb2-файлов", "валидные fb2-файлы",
+		                       "Копирование валидных fb2-файлов:", m_sValid );
+					break;
+				case 2:
+					// не fb2-файлы
+					CopyOrMoveFilesTo( true, tboxSourceDir.Text, tboxNotFB2DirCopyTo.Text,
+		                       listViewNotFB2, tpNotFB2Files, "не fb2-файлов", "не fb2-файлы",
+		                       "Копирование не fb2-файлов:", m_sNotFB2Files );
+					break;
+			}
+		}
+		
+		void TsbtnMoveFilesToClick(object sender, EventArgs e)
+		{
+			// перемещение файлов в зависимости от выбранной вкладки
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxFB2NotValidDirCopyTo.Text,
+		                       listViewNotValid, tpNonValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
+		                       "Перемещение не валидных fb2-файлов:", m_sNotValid );
+					break;
+				case 1:
+					// валидные fb2-файлы
+					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxFB2ValidDirCopyTo.Text,
+		                       listViewValid, tpValid, "валидных fb2-файлов", "валидные fb2-файлы",
+		                       "Перемещение валидных fb2-файлов:", m_sValid );
+					break;
+				case 2:
+					// не fb2-файлы
+					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxNotFB2DirCopyTo.Text,
+		                       listViewNotFB2, tpNotFB2Files, "не fb2-файлов", "не fb2-файлы",
+		                       "Перемещение не fb2-файлов:", m_sNotFB2Files );
+					break;
+			}
+		}
+		
+		void TsbtnDeleteFilesClick(object sender, EventArgs e)
+		{
+			// удаление файлов в зависимости от выбранной вкладки
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					DeleteFiles( listViewNotValid, tpNonValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
+		                       "Удаление не валидных fb2-файлов:", m_sNotValid );
+					break;
+				case 1:
+					// валидные fb2-файлы
+					DeleteFiles( listViewValid, tpValid, "валидных fb2-файлов", "валидные fb2-файлы",
+		                       "Удаление валидных fb2-файлов:", m_sValid );
+					break;
+				case 2:
+					// не fb2-файлы
+					DeleteFiles( listViewNotFB2, tpNotFB2Files, "не fb2-файлов", "не fb2-файлы",
+		                       "Удаление не fb2-файлов:", m_sNotFB2Files );
+					break;
+			}
+		}
+		
+		void TsmiReportAsHTMLClick(object sender, EventArgs e)
+		{
+			// отчет в виде html-файла
+			MakeReport( 0 );
+		}
+		
+		void TsmiReportAsFB2Click(object sender, EventArgs e)
+		{
+			// отчет в виде fb2-файла
+			MakeReport( 1 );
+		}
+		
+		void TsmiReportAsCSV_CSVClick(object sender, EventArgs e)
+		{
+			// отчет в виде cvs-файла
+			MakeReport( 2 );
+		}
+		#endregion
+		
 	}
 }
