@@ -345,7 +345,7 @@ namespace SharpFBTools.Controls.Panels
 			Init();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
-			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, ssProgress, lblDirsCount );
+			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lblDirsCount );
 			lDirList.Sort();
 			// сортированный список всех fb2,zip и rar файлов
 			tsslblProgress.Text = "Создание списка файлов:";

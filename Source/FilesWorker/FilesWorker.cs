@@ -34,8 +34,7 @@ namespace FilesWorker
 			return m_sTempDir;
 		}
 		
-		public static List<string> DirsParser( string sStartDir,
-		                 StatusStrip ssProgress, Label lblDirCount ) {
+		public static List<string> DirsParser( string sStartDir, Label lblDirCount ) {
 			// список всех вложенных папок для стартового, включая и стартовый - замена рекурсии
 			List<string> lAllDirsList = new List<string>();
 			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
@@ -45,7 +44,6 @@ namespace FilesWorker
 			lAllDirsList.Add( sStartDir );
 			lAllDirsList.AddRange( lWorkDirList );
 			lblDirCount.Text = lAllDirsList.Count.ToString();
-//			ssProgress.Refresh(); // обновление контролов на форме
 			while( lWorkDirList.Count != 0 ) {
 				// перебор папок в указанной папке s
 				int nWorkCount = lWorkDirList.Count;
@@ -56,7 +54,6 @@ namespace FilesWorker
 					lWorkDirList.AddRange( l );
 					lAllDirsList.AddRange( l );
 					lblDirCount.Text = lAllDirsList.Count.ToString();
-//					ssProgress.Refresh(); // обновление контролов на форме
 				}
 				// удаляем из рабочего списка обработанные папки
 				lWorkDirList.RemoveRange( 0, nWorkCount );
