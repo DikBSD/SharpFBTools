@@ -345,12 +345,12 @@ namespace SharpFBTools.Controls.Panels
 			Init();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
-			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, tlCentral, lblDirsCount );
+			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, ssProgress, lblDirsCount );
 			lDirList.Sort();
 			// сортированный список всех fb2,zip и rar файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			tlCentral.Refresh(); // обновление контролов на форме
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, tlCentral, lblFilesCount, tsProgressBar );
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, pCount, lblFilesCount, tsProgressBar );
 			lFilesList.Sort();
 			
 			if( lFilesList.Count == 0 ) {
