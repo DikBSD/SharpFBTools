@@ -39,6 +39,7 @@ namespace SharpFBTools.Controls.Panels
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpAbout));
 			this.tcAbout = new System.Windows.Forms.TabControl();
 			this.tpAbout = new System.Windows.Forms.TabPage();
+			this.lblDonateText = new System.Windows.Forms.Label();
 			this.lblDonate = new System.Windows.Forms.Label();
 			this.lblIDE = new System.Windows.Forms.Label();
 			this.lblCopyright = new System.Windows.Forms.Label();
@@ -54,7 +55,6 @@ namespace SharpFBTools.Controls.Panels
 			this.pMode = new System.Windows.Forms.Panel();
 			this.lblType = new System.Windows.Forms.Label();
 			this.cboxInstrument = new System.Windows.Forms.ComboBox();
-			this.lblDonateText = new System.Windows.Forms.Label();
 			this.tcAbout.SuspendLayout();
 			this.tpAbout.SuspendLayout();
 			this.tpLicense.SuspendLayout();
@@ -92,6 +92,16 @@ namespace SharpFBTools.Controls.Panels
 			this.tpAbout.TabIndex = 0;
 			this.tpAbout.Text = "О программе";
 			this.tpAbout.UseVisualStyleBackColor = true;
+			// 
+			// lblDonateText
+			// 
+			this.lblDonateText.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblDonateText.Location = new System.Drawing.Point(3, 174);
+			this.lblDonateText.Name = "lblDonateText";
+			this.lblDonateText.Size = new System.Drawing.Size(697, 63);
+			this.lblDonateText.TabIndex = 7;
+			this.lblDonateText.Text = resources.GetString("lblDonateText.Text");
+			this.lblDonateText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lblDonate
 			// 
@@ -260,16 +270,7 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxInstrument.Name = "cboxInstrument";
 			this.cboxInstrument.Size = new System.Drawing.Size(608, 21);
 			this.cboxInstrument.TabIndex = 1;
-			// 
-			// lblDonateText
-			// 
-			this.lblDonateText.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblDonateText.Location = new System.Drawing.Point(3, 174);
-			this.lblDonateText.Name = "lblDonateText";
-			this.lblDonateText.Size = new System.Drawing.Size(697, 63);
-			this.lblDonateText.TabIndex = 7;
-			this.lblDonateText.Text = resources.GetString("lblDonateText.Text");
-			this.lblDonateText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.cboxInstrument.SelectedIndexChanged += new System.EventHandler(this.CboxInstrumentSelectedIndexChanged);
 			// 
 			// SFBTpAbout
 			// 

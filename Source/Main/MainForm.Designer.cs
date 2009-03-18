@@ -94,7 +94,7 @@ namespace Main
 									this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(667, 52);
+			this.tsMain.Size = new System.Drawing.Size(686, 52);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnFB2Validator
@@ -185,11 +185,11 @@ namespace Main
 			this.tsbtnAbout.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnAbout.Image")));
 			this.tsbtnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnAbout.Name = "tsbtnAbout";
-			this.tsbtnAbout.Size = new System.Drawing.Size(75, 49);
+			this.tsbtnAbout.Size = new System.Drawing.Size(57, 49);
 			this.tsbtnAbout.Tag = "tsbtnAbout";
-			this.tsbtnAbout.Text = "О программе";
+			this.tsbtnAbout.Text = " Помощь ";
 			this.tsbtnAbout.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.tsbtnAbout.ToolTipText = "О программе...";
+			this.tsbtnAbout.ToolTipText = "Помощь...";
 			this.tsbtnAbout.Click += new System.EventHandler(this.TsbtnAboutClick);
 			// 
 			// tsSep6
@@ -202,8 +202,8 @@ namespace Main
 			this.tsbtnExit.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnExit.Image")));
 			this.tsbtnExit.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnExit.Name = "tsbtnExit";
-			this.tsbtnExit.Size = new System.Drawing.Size(44, 49);
-			this.tsbtnExit.Text = "Выход";
+			this.tsbtnExit.Size = new System.Drawing.Size(50, 49);
+			this.tsbtnExit.Text = " Выход ";
 			this.tsbtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnExit.ToolTipText = "Выход из программы";
 			this.tsbtnExit.Click += new System.EventHandler(this.TsbtnExitClick);
@@ -227,6 +227,7 @@ namespace Main
 			this.tsMain.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ToolStripButton tsbtnAbout;
 		private System.Windows.Forms.ToolStripButton tsbtnFB2Validator;
 		private System.Windows.Forms.ToolStripSeparator tsSep6;
 		private System.Windows.Forms.ToolStripButton tsbtnFB2Dublicator;
@@ -236,7 +237,6 @@ namespace Main
 		private System.Windows.Forms.ToolStripButton tsbtnArchiveManager;
 		private System.Windows.Forms.ToolStripButton tsbtnExit;
 		private System.Windows.Forms.ToolStripSeparator tsSep4;
-		private System.Windows.Forms.ToolStripButton tsbtnAbout;
 		private System.Windows.Forms.ToolStripSeparator tsSep3;
 		private System.Windows.Forms.ToolStripSeparator tsSep2;
 		private System.Windows.Forms.ToolStripSeparator tsSep1;
