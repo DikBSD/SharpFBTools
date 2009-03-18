@@ -41,10 +41,16 @@ namespace SharpFBTools.Controls.Panels
 			this.tpLicense = new System.Windows.Forms.TabPage();
 			this.rtboxLicense = new System.Windows.Forms.RichTextBox();
 			this.tpHelp = new System.Windows.Forms.TabPage();
+			this.pHelp = new System.Windows.Forms.Panel();
 			this.rtboxHelp = new System.Windows.Forms.RichTextBox();
+			this.pMode = new System.Windows.Forms.Panel();
+			this.lblType = new System.Windows.Forms.Label();
+			this.cboxInstrument = new System.Windows.Forms.ComboBox();
 			this.tcAbout.SuspendLayout();
 			this.tpLicense.SuspendLayout();
 			this.tpHelp.SuspendLayout();
+			this.pHelp.SuspendLayout();
+			this.pMode.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tcAbout
@@ -92,7 +98,8 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tpHelp
 			// 
-			this.tpHelp.Controls.Add(this.rtboxHelp);
+			this.tpHelp.Controls.Add(this.pHelp);
+			this.tpHelp.Controls.Add(this.pMode);
 			this.tpHelp.Location = new System.Drawing.Point(4, 22);
 			this.tpHelp.Name = "tpHelp";
 			this.tpHelp.Padding = new System.Windows.Forms.Padding(3);
@@ -101,14 +108,61 @@ namespace SharpFBTools.Controls.Panels
 			this.tpHelp.Text = "Справка";
 			this.tpHelp.UseVisualStyleBackColor = true;
 			// 
+			// pHelp
+			// 
+			this.pHelp.Controls.Add(this.rtboxHelp);
+			this.pHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pHelp.Location = new System.Drawing.Point(3, 32);
+			this.pHelp.Name = "pHelp";
+			this.pHelp.Size = new System.Drawing.Size(697, 494);
+			this.pHelp.TabIndex = 3;
+			// 
 			// rtboxHelp
 			// 
+			this.rtboxHelp.BackColor = System.Drawing.SystemColors.Window;
 			this.rtboxHelp.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rtboxHelp.Location = new System.Drawing.Point(3, 3);
+			this.rtboxHelp.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.rtboxHelp.Location = new System.Drawing.Point(0, 0);
 			this.rtboxHelp.Name = "rtboxHelp";
-			this.rtboxHelp.Size = new System.Drawing.Size(697, 523);
+			this.rtboxHelp.ReadOnly = true;
+			this.rtboxHelp.Size = new System.Drawing.Size(697, 494);
 			this.rtboxHelp.TabIndex = 0;
 			this.rtboxHelp.Text = "";
+			// 
+			// pMode
+			// 
+			this.pMode.Controls.Add(this.lblType);
+			this.pMode.Controls.Add(this.cboxInstrument);
+			this.pMode.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pMode.Location = new System.Drawing.Point(3, 3);
+			this.pMode.Name = "pMode";
+			this.pMode.Size = new System.Drawing.Size(697, 29);
+			this.pMode.TabIndex = 2;
+			// 
+			// lblType
+			// 
+			this.lblType.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblType.ForeColor = System.Drawing.Color.Navy;
+			this.lblType.Location = new System.Drawing.Point(3, 5);
+			this.lblType.Name = "lblType";
+			this.lblType.Size = new System.Drawing.Size(86, 18);
+			this.lblType.TabIndex = 2;
+			this.lblType.Text = "Инструмент:";
+			// 
+			// cboxInstrument
+			// 
+			this.cboxInstrument.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxInstrument.FormattingEnabled = true;
+			this.cboxInstrument.Items.AddRange(new object[] {
+									"Валидатор fb2-файлов",
+									"Менеджер файлов",
+									"Менеджер архивов",
+									"FB2 Корректор",
+									"Дубликатор файлов"});
+			this.cboxInstrument.Location = new System.Drawing.Point(89, 3);
+			this.cboxInstrument.Name = "cboxInstrument";
+			this.cboxInstrument.Size = new System.Drawing.Size(608, 21);
+			this.cboxInstrument.TabIndex = 1;
 			// 
 			// SFBTpAbout
 			// 
@@ -120,8 +174,14 @@ namespace SharpFBTools.Controls.Panels
 			this.tcAbout.ResumeLayout(false);
 			this.tpLicense.ResumeLayout(false);
 			this.tpHelp.ResumeLayout(false);
+			this.pHelp.ResumeLayout(false);
+			this.pMode.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Panel pMode;
+		private System.Windows.Forms.Panel pHelp;
+		private System.Windows.Forms.ComboBox cboxInstrument;
+		private System.Windows.Forms.Label lblType;
 		private System.Windows.Forms.RichTextBox rtboxHelp;
 		private System.Windows.Forms.RichTextBox rtboxLicense;
 		private System.Windows.Forms.TabPage tpLicense;
