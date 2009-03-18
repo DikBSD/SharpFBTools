@@ -8,6 +8,7 @@
  */
 
 using System;
+using System.IO;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -26,9 +27,12 @@ namespace SharpFBTools.Controls.Panels
 			//
 			InitializeComponent();
 			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
+			// загрузка файла Лицензии
+			if( File.Exists( "License GPL 2.1.rtf" ) ) {
+				rtboxLicense.LoadFile( "License GPL 2.1.rtf" );
+			} else {
+				rtboxLicense.Text = "Не найден файл лицензии: \"License GPL 2.1.rtf\"";
+			}
 		}
 	}
 }
