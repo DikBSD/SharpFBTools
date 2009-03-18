@@ -117,4 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="lblDonate.Text" xml:space="preserve">
+    <value>Не смотря на то, что набор инструментов SharpFBTools является бесплатным, с открытым исходным кодом, вы все-таки можете выразить свою признательность разработчику, пожертвовать определенную сумму денег, которая зависит только от вашей щедрости, на развитие SharpFBTools.
+Web-кошельки:</value>
+  </data>
 </root>

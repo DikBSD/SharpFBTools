@@ -36,8 +36,14 @@ namespace SharpFBTools.Controls.Panels
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpAbout));
 			this.tcAbout = new System.Windows.Forms.TabControl();
 			this.tpAbout = new System.Windows.Forms.TabPage();
+			this.lblCopyright = new System.Windows.Forms.Label();
+			this.lblDeveloper = new System.Windows.Forms.Label();
+			this.lblLicense = new System.Windows.Forms.Label();
+			this.lblAbout = new System.Windows.Forms.Label();
+			this.lblSharpFBTools = new System.Windows.Forms.Label();
 			this.tpLicense = new System.Windows.Forms.TabPage();
 			this.rtboxLicense = new System.Windows.Forms.RichTextBox();
 			this.tpHelp = new System.Windows.Forms.TabPage();
@@ -46,7 +52,10 @@ namespace SharpFBTools.Controls.Panels
 			this.pMode = new System.Windows.Forms.Panel();
 			this.lblType = new System.Windows.Forms.Label();
 			this.cboxInstrument = new System.Windows.Forms.ComboBox();
+			this.lblIDE = new System.Windows.Forms.Label();
+			this.lblDonate = new System.Windows.Forms.Label();
 			this.tcAbout.SuspendLayout();
+			this.tpAbout.SuspendLayout();
 			this.tpLicense.SuspendLayout();
 			this.tpHelp.SuspendLayout();
 			this.pHelp.SuspendLayout();
@@ -63,10 +72,17 @@ namespace SharpFBTools.Controls.Panels
 			this.tcAbout.Name = "tcAbout";
 			this.tcAbout.SelectedIndex = 0;
 			this.tcAbout.Size = new System.Drawing.Size(711, 555);
-			this.tcAbout.TabIndex = 4;
+			this.tcAbout.TabIndex = 0;
 			// 
 			// tpAbout
 			// 
+			this.tpAbout.Controls.Add(this.lblDonate);
+			this.tpAbout.Controls.Add(this.lblIDE);
+			this.tpAbout.Controls.Add(this.lblCopyright);
+			this.tpAbout.Controls.Add(this.lblDeveloper);
+			this.tpAbout.Controls.Add(this.lblLicense);
+			this.tpAbout.Controls.Add(this.lblAbout);
+			this.tpAbout.Controls.Add(this.lblSharpFBTools);
 			this.tpAbout.Location = new System.Drawing.Point(4, 22);
 			this.tpAbout.Name = "tpAbout";
 			this.tpAbout.Padding = new System.Windows.Forms.Padding(3);
@@ -74,6 +90,63 @@ namespace SharpFBTools.Controls.Panels
 			this.tpAbout.TabIndex = 0;
 			this.tpAbout.Text = "О программе";
 			this.tpAbout.UseVisualStyleBackColor = true;
+			// 
+			// lblCopyright
+			// 
+			this.lblCopyright.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblCopyright.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblCopyright.Location = new System.Drawing.Point(3, 105);
+			this.lblCopyright.Name = "lblCopyright";
+			this.lblCopyright.Size = new System.Drawing.Size(697, 19);
+			this.lblCopyright.TabIndex = 2;
+			this.lblCopyright.Text = "Copyright (c) 2009";
+			this.lblCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblDeveloper
+			// 
+			this.lblDeveloper.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblDeveloper.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblDeveloper.Location = new System.Drawing.Point(3, 82);
+			this.lblDeveloper.Name = "lblDeveloper";
+			this.lblDeveloper.Size = new System.Drawing.Size(697, 23);
+			this.lblDeveloper.TabIndex = 3;
+			this.lblDeveloper.Text = "Разработчик: Вадим Кузнецов (DikBSD)";
+			this.lblDeveloper.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblLicense
+			// 
+			this.lblLicense.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblLicense.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblLicense.Location = new System.Drawing.Point(3, 59);
+			this.lblLicense.Name = "lblLicense";
+			this.lblLicense.Size = new System.Drawing.Size(697, 23);
+			this.lblLicense.TabIndex = 4;
+			this.lblLicense.Text = "Лицензия: LGPL 2.1";
+			this.lblLicense.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblAbout
+			// 
+			this.lblAbout.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblAbout.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblAbout.ForeColor = System.Drawing.Color.Navy;
+			this.lblAbout.Location = new System.Drawing.Point(3, 36);
+			this.lblAbout.Name = "lblAbout";
+			this.lblAbout.Size = new System.Drawing.Size(697, 23);
+			this.lblAbout.TabIndex = 1;
+			this.lblAbout.Text = "Open Source набор инструментов по работе с fb2-файлами в пакетном режиме";
+			this.lblAbout.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblSharpFBTools
+			// 
+			this.lblSharpFBTools.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblSharpFBTools.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+			this.lblSharpFBTools.ForeColor = System.Drawing.Color.Red;
+			this.lblSharpFBTools.Location = new System.Drawing.Point(3, 3);
+			this.lblSharpFBTools.Name = "lblSharpFBTools";
+			this.lblSharpFBTools.Size = new System.Drawing.Size(697, 33);
+			this.lblSharpFBTools.TabIndex = 0;
+			this.lblSharpFBTools.Text = "SharpFBTools";
+			this.lblSharpFBTools.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// tpLicense
 			// 
@@ -164,6 +237,25 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxInstrument.Size = new System.Drawing.Size(608, 21);
 			this.cboxInstrument.TabIndex = 1;
 			// 
+			// lblIDE
+			// 
+			this.lblIDE.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblIDE.Location = new System.Drawing.Point(3, 124);
+			this.lblIDE.Name = "lblIDE";
+			this.lblIDE.Size = new System.Drawing.Size(697, 23);
+			this.lblIDE.TabIndex = 5;
+			this.lblIDE.Text = "Среда разработки: Open Source IDE SharpDevelop";
+			this.lblIDE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblDonate
+			// 
+			this.lblDonate.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblDonate.Location = new System.Drawing.Point(3, 147);
+			this.lblDonate.Name = "lblDonate";
+			this.lblDonate.Size = new System.Drawing.Size(697, 379);
+			this.lblDonate.TabIndex = 6;
+			this.lblDonate.Text = resources.GetString("lblDonate.Text");
+			// 
 			// SFBTpAbout
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -172,12 +264,20 @@ namespace SharpFBTools.Controls.Panels
 			this.Name = "SFBTpAbout";
 			this.Size = new System.Drawing.Size(711, 555);
 			this.tcAbout.ResumeLayout(false);
+			this.tpAbout.ResumeLayout(false);
 			this.tpLicense.ResumeLayout(false);
 			this.tpHelp.ResumeLayout(false);
 			this.pHelp.ResumeLayout(false);
 			this.pMode.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Label lblDonate;
+		private System.Windows.Forms.Label lblIDE;
+		private System.Windows.Forms.Label lblLicense;
+		private System.Windows.Forms.Label lblCopyright;
+		private System.Windows.Forms.Label lblDeveloper;
+		private System.Windows.Forms.Label lblSharpFBTools;
+		private System.Windows.Forms.Label lblAbout;
 		private System.Windows.Forms.Panel pMode;
 		private System.Windows.Forms.Panel pHelp;
 		private System.Windows.Forms.ComboBox cboxInstrument;
