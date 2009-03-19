@@ -232,15 +232,15 @@ namespace SharpFBTools.Controls.Panels
 			#region Код
 			int nCount = lw.Items.Count;
 			if( nCount == 0) {
-				MessageBox.Show( "Список "+sFileType1+" пуст!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Список "+sFileType1+" пуст!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			if( sTarget == "") {
-				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			if( sSource == sTarget ) {
-				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			string sMess = "";
@@ -251,7 +251,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
-			result = MessageBox.Show( sMess, "FB2SharpValidator", buttons, MessageBoxIcon.Question );
+			result = MessageBox.Show( sMess, "SharpFBTools", buttons, MessageBoxIcon.Question );
 	        if(result == DialogResult.No) {
 	            return;
 			}
@@ -287,7 +287,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			lblFilesCount.Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
 			                     listViewNotFB2.Items.Count ).ToString();
-			MessageBox.Show( sMess, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
 			#endregion
@@ -299,13 +299,13 @@ namespace SharpFBTools.Controls.Panels
 			#region Код
 			int nCount = lw.Items.Count;
 			if( nCount == 0) {
-				MessageBox.Show( "Список "+sFileType+" пуст!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Список "+sFileType+" пуст!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			string sMess = "Вы действительно хотите удалить "+sFileType1+"?";
 			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
-			result = MessageBox.Show( sMess, "FB2SharpValidator", buttons, MessageBoxIcon.Question );
+			result = MessageBox.Show( sMess, "SharpFBTools", buttons, MessageBoxIcon.Question );
 	        if(result == DialogResult.No) {
 	            return;
 			}
@@ -325,7 +325,7 @@ namespace SharpFBTools.Controls.Panels
 			lblFilesCount.Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
 			                     listViewNotFB2.Items.Count ).ToString();
 			sMess = "Удаление файлов завершено!";
-			MessageBox.Show( sMess, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
 			#endregion
@@ -359,7 +359,7 @@ namespace SharpFBTools.Controls.Panels
 				case 0: // Как html-файл
 					// сохранение списка не валидных файлов как html-файла
 					if( lw.Items.Count < 1 ) {
-						MessageBox.Show( sReportListEmpty, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						MessageBox.Show( sReportListEmpty, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return false;
 					} else {
 						sfdReport.Filter = m_HTMLFilter;
@@ -367,14 +367,14 @@ namespace SharpFBTools.Controls.Panels
 						DialogResult result = sfdReport.ShowDialog();
 						if (result == DialogResult.OK) {
     	          			ReportGenerator.ReportGenerator.MakeHTMLReport( lw, sfdReport.FileName, sReportTitle );
-							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 	          			}
 					}
 					break;
 				case 1: // Как fb2-файл
 					// сохранение списка не валидных файлов как fb2-файла
 					if( lw.Items.Count < 1 ) {
-						MessageBox.Show( sReportListEmpty, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						MessageBox.Show( sReportListEmpty, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return false;
 					} else {
 						sfdReport.Filter = m_FB2Filter;
@@ -382,14 +382,14 @@ namespace SharpFBTools.Controls.Panels
 						DialogResult result = sfdReport.ShowDialog();
 						if (result == DialogResult.OK) {
     	          			ReportGenerator.ReportGenerator.MakeFB2Report( lw, sfdReport.FileName, sReportTitle );
-							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 	          			}
 					}
 					break;
 				case 2: // Как csv-файл (.csv)
 					// сохранение списка не валидных файлов как csv-файла
 					if( lw.Items.Count < 1 ) {
-						MessageBox.Show( sReportListEmpty, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						MessageBox.Show( sReportListEmpty, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return false;
 					} else {
 						sfdReport.Filter = m_CSV_csv_Filter;
@@ -397,7 +397,7 @@ namespace SharpFBTools.Controls.Panels
 						DialogResult result = sfdReport.ShowDialog();
 						if (result == DialogResult.OK) {
     	       				ReportGenerator.ReportGenerator.MakeCSVReport( lw, sfdReport.FileName, sDelem );
-							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 	        			}
 					}
 					break;
@@ -511,12 +511,12 @@ namespace SharpFBTools.Controls.Panels
 			// Ввлидация fb2-файлов в выбранной папке
 			tlCentral.Refresh(); // обновление контролов на форме
 			if( tboxSourceDir.Text == "" ) {
-				MessageBox.Show( "Выберите папку для сканирования!", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			DirectoryInfo diFolder = new DirectoryInfo(tboxSourceDir.Text);
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			
@@ -534,7 +534,7 @@ namespace SharpFBTools.Controls.Panels
 			lFilesList.Sort();
 			
 			if( lFilesList.Count == 0 ) {
-				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				Init();
 				return;
 			}
@@ -574,8 +574,8 @@ namespace SharpFBTools.Controls.Panels
 			lblNotFB2FilesCount.Text 	= m_lNonFB2Files.ToString();
 			
 			DateTime dtEnd = DateTime.Now;
-			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час. : мин. : сек.)";
-			MessageBox.Show( "Проверка файлов на соответствие FictionBook.xsd схеме завершена!\nЗатрачено времени: "+sTime, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
+			MessageBox.Show( "Проверка файлов на соответствие FictionBook.xsd схеме завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
 			// очистка временной папки
