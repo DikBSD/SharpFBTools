@@ -285,6 +285,8 @@ namespace SharpFBTools.Controls.Panels
 			} else {
 				sMess = "Копирование файлов в указанную папку завершено!";
 			}
+			lblFilesCount.Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
+			                     listViewNotFB2.Items.Count ).ToString();
 			MessageBox.Show( sMess, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
@@ -320,6 +322,8 @@ namespace SharpFBTools.Controls.Panels
 			}
 			lw.Items.Clear();
 			tp.Text	= sTabPageDefText;
+			lblFilesCount.Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
+			                     listViewNotFB2.Items.Count ).ToString();
 			sMess = "Удаление файлов завершено!";
 			MessageBox.Show( sMess, "FB2SharpValidator", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = m_sReady;

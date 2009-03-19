@@ -122,7 +122,7 @@ namespace SharpFBTools.Controls.Panels
 			this.lblIDE.Name = "lblIDE";
 			this.lblIDE.Size = new System.Drawing.Size(697, 23);
 			this.lblIDE.TabIndex = 5;
-			this.lblIDE.Text = "Среда разработки: Open Source IDE SharpDevelop";
+			this.lblIDE.Text = "Среда разработки: Open Source IDE for .Net SharpDevelop";
 			this.lblIDE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lblCopyright
