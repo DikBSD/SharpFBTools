@@ -49,14 +49,6 @@ namespace SharpFBTools.Controls.Panels
 			this.pCentral = new System.Windows.Forms.Panel();
 			this.tcArchiver = new System.Windows.Forms.TabControl();
 			this.tpArchive = new System.Windows.Forms.TabPage();
-			this.tpUnArchive = new System.Windows.Forms.TabPage();
-			this.tpTest = new System.Windows.Forms.TabPage();
-			this.pType = new System.Windows.Forms.Panel();
-			this.gboxType = new System.Windows.Forms.GroupBox();
-			this.tlpType = new System.Windows.Forms.TableLayoutPanel();
-			this.rbtnZip = new System.Windows.Forms.RadioButton();
-			this.rbtnRar = new System.Windows.Forms.RadioButton();
-			this.gboxOptions = new System.Windows.Forms.GroupBox();
 			this.pCount = new System.Windows.Forms.Panel();
 			this.tlpCount = new System.Windows.Forms.TableLayoutPanel();
 			this.lblDirs = new System.Windows.Forms.Label();
@@ -71,28 +63,37 @@ namespace SharpFBTools.Controls.Panels
 			this.lblFB2RarFilesCount = new System.Windows.Forms.Label();
 			this.lblNotFB2Files = new System.Windows.Forms.Label();
 			this.lblNotFB2FilesCount = new System.Windows.Forms.Label();
+			this.tpUnArchive = new System.Windows.Forms.TabPage();
+			this.tpTest = new System.Windows.Forms.TabPage();
 			this.pOptions = new System.Windows.Forms.Panel();
-			this.rbtnToSomeDir = new System.Windows.Forms.RadioButton();
-			this.rbtnToAnotherDir = new System.Windows.Forms.RadioButton();
+			this.gboxOptions = new System.Windows.Forms.GroupBox();
+			this.cboxAddRestoreInfo = new System.Windows.Forms.CheckBox();
+			this.cboxDelFB2Files = new System.Windows.Forms.CheckBox();
 			this.pToAnotherDir = new System.Windows.Forms.Panel();
 			this.btnToAnotherDir = new System.Windows.Forms.Button();
 			this.tboxToAnotherDir = new System.Windows.Forms.TextBox();
-			this.cboxDelFB2Files = new System.Windows.Forms.CheckBox();
-			this.cboxAddRestoreInfo = new System.Windows.Forms.CheckBox();
+			this.rbtnToAnotherDir = new System.Windows.Forms.RadioButton();
+			this.rbtnToSomeDir = new System.Windows.Forms.RadioButton();
+			this.pType = new System.Windows.Forms.Panel();
+			this.gboxType = new System.Windows.Forms.GroupBox();
+			this.tlpType = new System.Windows.Forms.TableLayoutPanel();
+			this.rbtnZip = new System.Windows.Forms.RadioButton();
+			this.rbtnRar = new System.Windows.Forms.RadioButton();
+			this.tsbtnArchive = new System.Windows.Forms.ToolStripButton();
 			this.tsValidator.SuspendLayout();
 			this.ssProgress.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.pCentral.SuspendLayout();
 			this.tcArchiver.SuspendLayout();
 			this.tpArchive.SuspendLayout();
-			this.pType.SuspendLayout();
-			this.gboxType.SuspendLayout();
-			this.tlpType.SuspendLayout();
-			this.gboxOptions.SuspendLayout();
 			this.pCount.SuspendLayout();
 			this.tlpCount.SuspendLayout();
 			this.pOptions.SuspendLayout();
+			this.gboxOptions.SuspendLayout();
 			this.pToAnotherDir.SuspendLayout();
+			this.pType.SuspendLayout();
+			this.gboxType.SuspendLayout();
+			this.tlpType.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tsValidator
@@ -100,10 +101,11 @@ namespace SharpFBTools.Controls.Panels
 			this.tsValidator.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.tsValidator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.tsbtnOpenDir,
-									this.tsSep1});
-			this.tsValidator.Location = new System.Drawing.Point(0, 0);
+									this.tsSep1,
+									this.tsbtnArchive});
+			this.tsValidator.Location = new System.Drawing.Point(3, 3);
 			this.tsValidator.Name = "tsValidator";
-			this.tsValidator.Size = new System.Drawing.Size(727, 31);
+			this.tsValidator.Size = new System.Drawing.Size(713, 31);
 			this.tsValidator.TabIndex = 2;
 			// 
 			// tsbtnOpenDir
@@ -148,10 +150,10 @@ namespace SharpFBTools.Controls.Panels
 			this.pScanDir.Controls.Add(this.tboxSourceDir);
 			this.pScanDir.Controls.Add(this.lblDir);
 			this.pScanDir.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pScanDir.Location = new System.Drawing.Point(0, 31);
+			this.pScanDir.Location = new System.Drawing.Point(3, 34);
 			this.pScanDir.Margin = new System.Windows.Forms.Padding(0);
 			this.pScanDir.Name = "pScanDir";
-			this.pScanDir.Size = new System.Drawing.Size(727, 28);
+			this.pScanDir.Size = new System.Drawing.Size(713, 28);
 			this.pScanDir.TabIndex = 22;
 			// 
 			// tboxSourceDir
@@ -162,7 +164,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.ReadOnly = true;
-			this.tboxSourceDir.Size = new System.Drawing.Size(562, 20);
+			this.tboxSourceDir.Size = new System.Drawing.Size(548, 20);
 			this.tboxSourceDir.TabIndex = 4;
 			// 
 			// lblDir
@@ -178,9 +180,9 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.pCentral.Controls.Add(this.tcArchiver);
 			this.pCentral.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pCentral.Location = new System.Drawing.Point(0, 59);
+			this.pCentral.Location = new System.Drawing.Point(0, 0);
 			this.pCentral.Name = "pCentral";
-			this.pCentral.Size = new System.Drawing.Size(727, 468);
+			this.pCentral.Size = new System.Drawing.Size(727, 527);
 			this.pCentral.TabIndex = 23;
 			// 
 			// tcArchiver
@@ -193,119 +195,29 @@ namespace SharpFBTools.Controls.Panels
 			this.tcArchiver.Location = new System.Drawing.Point(0, 0);
 			this.tcArchiver.Name = "tcArchiver";
 			this.tcArchiver.SelectedIndex = 0;
-			this.tcArchiver.Size = new System.Drawing.Size(727, 468);
+			this.tcArchiver.Size = new System.Drawing.Size(727, 527);
 			this.tcArchiver.TabIndex = 0;
 			// 
 			// tpArchive
 			// 
 			this.tpArchive.Controls.Add(this.pOptions);
-			this.tpArchive.Controls.Add(this.pCount);
 			this.tpArchive.Controls.Add(this.pType);
+			this.tpArchive.Controls.Add(this.pCount);
+			this.tpArchive.Controls.Add(this.pScanDir);
+			this.tpArchive.Controls.Add(this.tsValidator);
 			this.tpArchive.Location = new System.Drawing.Point(4, 22);
 			this.tpArchive.Name = "tpArchive";
 			this.tpArchive.Padding = new System.Windows.Forms.Padding(3);
-			this.tpArchive.Size = new System.Drawing.Size(719, 442);
+			this.tpArchive.Size = new System.Drawing.Size(719, 501);
 			this.tpArchive.TabIndex = 0;
 			this.tpArchive.Text = " Запаковать ";
 			this.tpArchive.UseVisualStyleBackColor = true;
-			// 
-			// tpUnArchive
-			// 
-			this.tpUnArchive.Location = new System.Drawing.Point(4, 22);
-			this.tpUnArchive.Name = "tpUnArchive";
-			this.tpUnArchive.Padding = new System.Windows.Forms.Padding(3);
-			this.tpUnArchive.Size = new System.Drawing.Size(719, 442);
-			this.tpUnArchive.TabIndex = 1;
-			this.tpUnArchive.Text = " Распаковать ";
-			this.tpUnArchive.UseVisualStyleBackColor = true;
-			// 
-			// tpTest
-			// 
-			this.tpTest.Location = new System.Drawing.Point(4, 22);
-			this.tpTest.Name = "tpTest";
-			this.tpTest.Size = new System.Drawing.Size(719, 442);
-			this.tpTest.TabIndex = 2;
-			this.tpTest.Text = " Тестировать архивы ";
-			this.tpTest.UseVisualStyleBackColor = true;
-			// 
-			// pType
-			// 
-			this.pType.Controls.Add(this.gboxType);
-			this.pType.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pType.Location = new System.Drawing.Point(3, 3);
-			this.pType.Name = "pType";
-			this.pType.Size = new System.Drawing.Size(713, 45);
-			this.pType.TabIndex = 0;
-			// 
-			// gboxType
-			// 
-			this.gboxType.Controls.Add(this.tlpType);
-			this.gboxType.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gboxType.Location = new System.Drawing.Point(0, 0);
-			this.gboxType.Name = "gboxType";
-			this.gboxType.Size = new System.Drawing.Size(713, 45);
-			this.gboxType.TabIndex = 0;
-			this.gboxType.TabStop = false;
-			this.gboxType.Text = " Вид Архивации";
-			// 
-			// tlpType
-			// 
-			this.tlpType.ColumnCount = 2;
-			this.tlpType.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tlpType.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tlpType.Controls.Add(this.rbtnZip, 0, 0);
-			this.tlpType.Controls.Add(this.rbtnRar, 1, 0);
-			this.tlpType.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlpType.Location = new System.Drawing.Point(3, 16);
-			this.tlpType.Name = "tlpType";
-			this.tlpType.RowCount = 1;
-			this.tlpType.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlpType.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlpType.Size = new System.Drawing.Size(707, 26);
-			this.tlpType.TabIndex = 0;
-			// 
-			// rbtnZip
-			// 
-			this.rbtnZip.Checked = true;
-			this.rbtnZip.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rbtnZip.Location = new System.Drawing.Point(3, 3);
-			this.rbtnZip.Name = "rbtnZip";
-			this.rbtnZip.Size = new System.Drawing.Size(347, 20);
-			this.rbtnZip.TabIndex = 0;
-			this.rbtnZip.TabStop = true;
-			this.rbtnZip.Text = " Zip";
-			this.rbtnZip.UseVisualStyleBackColor = true;
-			// 
-			// rbtnRar
-			// 
-			this.rbtnRar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rbtnRar.Location = new System.Drawing.Point(356, 3);
-			this.rbtnRar.Name = "rbtnRar";
-			this.rbtnRar.Size = new System.Drawing.Size(348, 20);
-			this.rbtnRar.TabIndex = 1;
-			this.rbtnRar.Text = "Rar";
-			this.rbtnRar.UseVisualStyleBackColor = true;
-			// 
-			// gboxOptions
-			// 
-			this.gboxOptions.Controls.Add(this.cboxAddRestoreInfo);
-			this.gboxOptions.Controls.Add(this.cboxDelFB2Files);
-			this.gboxOptions.Controls.Add(this.pToAnotherDir);
-			this.gboxOptions.Controls.Add(this.rbtnToAnotherDir);
-			this.gboxOptions.Controls.Add(this.rbtnToSomeDir);
-			this.gboxOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gboxOptions.Location = new System.Drawing.Point(0, 0);
-			this.gboxOptions.Name = "gboxOptions";
-			this.gboxOptions.Size = new System.Drawing.Size(713, 373);
-			this.gboxOptions.TabIndex = 1;
-			this.gboxOptions.TabStop = false;
-			this.gboxOptions.Text = " Опции ";
 			// 
 			// pCount
 			// 
 			this.pCount.Controls.Add(this.tlpCount);
 			this.pCount.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pCount.Location = new System.Drawing.Point(3, 421);
+			this.pCount.Location = new System.Drawing.Point(3, 480);
 			this.pCount.Margin = new System.Windows.Forms.Padding(0);
 			this.pCount.Name = "pCount";
 			this.pCount.Size = new System.Drawing.Size(713, 18);
@@ -457,37 +369,69 @@ namespace SharpFBTools.Controls.Panels
 			this.lblNotFB2FilesCount.TabIndex = 11;
 			this.lblNotFB2FilesCount.Text = "0";
 			// 
+			// tpUnArchive
+			// 
+			this.tpUnArchive.Location = new System.Drawing.Point(4, 22);
+			this.tpUnArchive.Name = "tpUnArchive";
+			this.tpUnArchive.Padding = new System.Windows.Forms.Padding(3);
+			this.tpUnArchive.Size = new System.Drawing.Size(719, 442);
+			this.tpUnArchive.TabIndex = 1;
+			this.tpUnArchive.Text = " Распаковать ";
+			this.tpUnArchive.UseVisualStyleBackColor = true;
+			// 
+			// tpTest
+			// 
+			this.tpTest.Location = new System.Drawing.Point(4, 22);
+			this.tpTest.Name = "tpTest";
+			this.tpTest.Size = new System.Drawing.Size(719, 442);
+			this.tpTest.TabIndex = 2;
+			this.tpTest.Text = " Тестировать архивы ";
+			this.tpTest.UseVisualStyleBackColor = true;
+			// 
 			// pOptions
 			// 
 			this.pOptions.Controls.Add(this.gboxOptions);
 			this.pOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pOptions.Location = new System.Drawing.Point(3, 48);
+			this.pOptions.Location = new System.Drawing.Point(3, 107);
 			this.pOptions.Name = "pOptions";
 			this.pOptions.Size = new System.Drawing.Size(713, 373);
-			this.pOptions.TabIndex = 22;
+			this.pOptions.TabIndex = 26;
 			// 
-			// rbtnToSomeDir
+			// gboxOptions
 			// 
-			this.rbtnToSomeDir.Checked = true;
-			this.rbtnToSomeDir.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbtnToSomeDir.Location = new System.Drawing.Point(3, 16);
-			this.rbtnToSomeDir.Name = "rbtnToSomeDir";
-			this.rbtnToSomeDir.Size = new System.Drawing.Size(707, 24);
-			this.rbtnToSomeDir.TabIndex = 0;
-			this.rbtnToSomeDir.TabStop = true;
-			this.rbtnToSomeDir.Text = " Поместить архив в ту же папку, где находится исходный fb2-файл";
-			this.rbtnToSomeDir.UseVisualStyleBackColor = true;
+			this.gboxOptions.Controls.Add(this.cboxAddRestoreInfo);
+			this.gboxOptions.Controls.Add(this.cboxDelFB2Files);
+			this.gboxOptions.Controls.Add(this.pToAnotherDir);
+			this.gboxOptions.Controls.Add(this.rbtnToAnotherDir);
+			this.gboxOptions.Controls.Add(this.rbtnToSomeDir);
+			this.gboxOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gboxOptions.Location = new System.Drawing.Point(0, 0);
+			this.gboxOptions.Name = "gboxOptions";
+			this.gboxOptions.Size = new System.Drawing.Size(713, 373);
+			this.gboxOptions.TabIndex = 1;
+			this.gboxOptions.TabStop = false;
+			this.gboxOptions.Text = " Опции ";
 			// 
-			// rbtnToAnotherDir
+			// cboxAddRestoreInfo
 			// 
-			this.rbtnToAnotherDir.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbtnToAnotherDir.Location = new System.Drawing.Point(3, 40);
-			this.rbtnToAnotherDir.Name = "rbtnToAnotherDir";
-			this.rbtnToAnotherDir.Size = new System.Drawing.Size(707, 24);
-			this.rbtnToAnotherDir.TabIndex = 1;
-			this.rbtnToAnotherDir.TabStop = true;
-			this.rbtnToAnotherDir.Text = " Поместить архив в другую папку:";
-			this.rbtnToAnotherDir.UseVisualStyleBackColor = true;
+			this.cboxAddRestoreInfo.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cboxAddRestoreInfo.Enabled = false;
+			this.cboxAddRestoreInfo.Location = new System.Drawing.Point(3, 117);
+			this.cboxAddRestoreInfo.Name = "cboxAddRestoreInfo";
+			this.cboxAddRestoreInfo.Size = new System.Drawing.Size(707, 24);
+			this.cboxAddRestoreInfo.TabIndex = 4;
+			this.cboxAddRestoreInfo.Text = " Добавить в архив информацию для его восстановления";
+			this.cboxAddRestoreInfo.UseVisualStyleBackColor = true;
+			// 
+			// cboxDelFB2Files
+			// 
+			this.cboxDelFB2Files.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cboxDelFB2Files.Location = new System.Drawing.Point(3, 93);
+			this.cboxDelFB2Files.Name = "cboxDelFB2Files";
+			this.cboxDelFB2Files.Size = new System.Drawing.Size(707, 24);
+			this.cboxDelFB2Files.TabIndex = 3;
+			this.cboxDelFB2Files.Text = " Удалить fb2-файлы после их упаковки";
+			this.cboxDelFB2Files.UseVisualStyleBackColor = true;
 			// 
 			// pToAnotherDir
 			// 
@@ -521,35 +465,102 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxToAnotherDir.Size = new System.Drawing.Size(633, 20);
 			this.tboxToAnotherDir.TabIndex = 6;
 			// 
-			// cboxDelFB2Files
+			// rbtnToAnotherDir
 			// 
-			this.cboxDelFB2Files.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cboxDelFB2Files.Location = new System.Drawing.Point(3, 93);
-			this.cboxDelFB2Files.Name = "cboxDelFB2Files";
-			this.cboxDelFB2Files.Size = new System.Drawing.Size(707, 24);
-			this.cboxDelFB2Files.TabIndex = 3;
-			this.cboxDelFB2Files.Text = " Удалить fb2-файлы после их упаковки";
-			this.cboxDelFB2Files.UseVisualStyleBackColor = true;
+			this.rbtnToAnotherDir.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnToAnotherDir.Location = new System.Drawing.Point(3, 40);
+			this.rbtnToAnotherDir.Name = "rbtnToAnotherDir";
+			this.rbtnToAnotherDir.Size = new System.Drawing.Size(707, 24);
+			this.rbtnToAnotherDir.TabIndex = 1;
+			this.rbtnToAnotherDir.TabStop = true;
+			this.rbtnToAnotherDir.Text = " Поместить архив в другую папку:";
+			this.rbtnToAnotherDir.UseVisualStyleBackColor = true;
 			// 
-			// cboxAddRestoreInfo
+			// rbtnToSomeDir
 			// 
-			this.cboxAddRestoreInfo.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cboxAddRestoreInfo.Enabled = false;
-			this.cboxAddRestoreInfo.Location = new System.Drawing.Point(3, 117);
-			this.cboxAddRestoreInfo.Name = "cboxAddRestoreInfo";
-			this.cboxAddRestoreInfo.Size = new System.Drawing.Size(707, 24);
-			this.cboxAddRestoreInfo.TabIndex = 4;
-			this.cboxAddRestoreInfo.Text = " Добавить в архив информацию для его восстановления";
-			this.cboxAddRestoreInfo.UseVisualStyleBackColor = true;
+			this.rbtnToSomeDir.Checked = true;
+			this.rbtnToSomeDir.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnToSomeDir.Location = new System.Drawing.Point(3, 16);
+			this.rbtnToSomeDir.Name = "rbtnToSomeDir";
+			this.rbtnToSomeDir.Size = new System.Drawing.Size(707, 24);
+			this.rbtnToSomeDir.TabIndex = 0;
+			this.rbtnToSomeDir.TabStop = true;
+			this.rbtnToSomeDir.Text = " Поместить архив в ту же папку, где находится исходный fb2-файл";
+			this.rbtnToSomeDir.UseVisualStyleBackColor = true;
+			// 
+			// pType
+			// 
+			this.pType.Controls.Add(this.gboxType);
+			this.pType.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pType.Location = new System.Drawing.Point(3, 62);
+			this.pType.Name = "pType";
+			this.pType.Size = new System.Drawing.Size(713, 45);
+			this.pType.TabIndex = 25;
+			// 
+			// gboxType
+			// 
+			this.gboxType.Controls.Add(this.tlpType);
+			this.gboxType.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gboxType.Location = new System.Drawing.Point(0, 0);
+			this.gboxType.Name = "gboxType";
+			this.gboxType.Size = new System.Drawing.Size(713, 45);
+			this.gboxType.TabIndex = 0;
+			this.gboxType.TabStop = false;
+			this.gboxType.Text = " Вид Архивации";
+			// 
+			// tlpType
+			// 
+			this.tlpType.ColumnCount = 2;
+			this.tlpType.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tlpType.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tlpType.Controls.Add(this.rbtnZip, 0, 0);
+			this.tlpType.Controls.Add(this.rbtnRar, 1, 0);
+			this.tlpType.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tlpType.Location = new System.Drawing.Point(3, 16);
+			this.tlpType.Name = "tlpType";
+			this.tlpType.RowCount = 1;
+			this.tlpType.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tlpType.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+			this.tlpType.Size = new System.Drawing.Size(707, 26);
+			this.tlpType.TabIndex = 0;
+			// 
+			// rbtnZip
+			// 
+			this.rbtnZip.Checked = true;
+			this.rbtnZip.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rbtnZip.Location = new System.Drawing.Point(3, 3);
+			this.rbtnZip.Name = "rbtnZip";
+			this.rbtnZip.Size = new System.Drawing.Size(347, 20);
+			this.rbtnZip.TabIndex = 0;
+			this.rbtnZip.TabStop = true;
+			this.rbtnZip.Text = " Zip";
+			this.rbtnZip.UseVisualStyleBackColor = true;
+			// 
+			// rbtnRar
+			// 
+			this.rbtnRar.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rbtnRar.Location = new System.Drawing.Point(356, 3);
+			this.rbtnRar.Name = "rbtnRar";
+			this.rbtnRar.Size = new System.Drawing.Size(348, 20);
+			this.rbtnRar.TabIndex = 1;
+			this.rbtnRar.Text = "Rar";
+			this.rbtnRar.UseVisualStyleBackColor = true;
+			// 
+			// tsbtnArchive
+			// 
+			this.tsbtnArchive.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnArchive.Image")));
+			this.tsbtnArchive.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnArchive.Name = "tsbtnArchive";
+			this.tsbtnArchive.Size = new System.Drawing.Size(95, 28);
+			this.tsbtnArchive.Text = "Запаковать";
+			this.tsbtnArchive.ToolTipText = "Запаковать fb2-файлы";
 			// 
 			// SFBTpArchiveManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.pCentral);
-			this.Controls.Add(this.pScanDir);
 			this.Controls.Add(this.ssProgress);
-			this.Controls.Add(this.tsValidator);
 			this.Name = "SFBTpArchiveManager";
 			this.Size = new System.Drawing.Size(727, 549);
 			this.tsValidator.ResumeLayout(false);
@@ -561,20 +572,22 @@ namespace SharpFBTools.Controls.Panels
 			this.pCentral.ResumeLayout(false);
 			this.tcArchiver.ResumeLayout(false);
 			this.tpArchive.ResumeLayout(false);
-			this.pType.ResumeLayout(false);
-			this.gboxType.ResumeLayout(false);
-			this.tlpType.ResumeLayout(false);
-			this.gboxOptions.ResumeLayout(false);
+			this.tpArchive.PerformLayout();
 			this.pCount.ResumeLayout(false);
 			this.pCount.PerformLayout();
 			this.tlpCount.ResumeLayout(false);
 			this.tlpCount.PerformLayout();
 			this.pOptions.ResumeLayout(false);
+			this.gboxOptions.ResumeLayout(false);
 			this.pToAnotherDir.ResumeLayout(false);
 			this.pToAnotherDir.PerformLayout();
+			this.pType.ResumeLayout(false);
+			this.gboxType.ResumeLayout(false);
+			this.tlpType.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripButton tsbtnArchive;
 		private System.Windows.Forms.CheckBox cboxAddRestoreInfo;
 		private System.Windows.Forms.CheckBox cboxDelFB2Files;
 		private System.Windows.Forms.TextBox tboxToAnotherDir;
