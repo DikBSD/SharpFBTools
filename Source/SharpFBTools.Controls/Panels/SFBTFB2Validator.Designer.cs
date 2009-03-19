@@ -318,7 +318,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tlpCount.Name = "tlpCount";
 			this.tlpCount.RowCount = 1;
 			this.tlpCount.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpCount.Size = new System.Drawing.Size(726, 13);
+			this.tlpCount.Size = new System.Drawing.Size(726, 18);
 			this.tlpCount.TabIndex = 15;
 			// 
 			// lblDirs
@@ -912,13 +912,12 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// pCount
 			// 
-			this.pCount.AutoSize = true;
 			this.pCount.Controls.Add(this.tlpCount);
 			this.pCount.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pCount.Location = new System.Drawing.Point(0, 465);
+			this.pCount.Location = new System.Drawing.Point(0, 460);
 			this.pCount.Margin = new System.Windows.Forms.Padding(0);
 			this.pCount.Name = "pCount";
-			this.pCount.Size = new System.Drawing.Size(726, 13);
+			this.pCount.Size = new System.Drawing.Size(726, 18);
 			this.pCount.TabIndex = 20;
 			// 
 			// fbdNotValidFB2
