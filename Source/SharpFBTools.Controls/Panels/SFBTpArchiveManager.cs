@@ -35,6 +35,7 @@ namespace SharpFBTools.Controls.Panels
 			Init();
 			// путь к папке с Rar`м
 			tboxRarDir.Text = m_sRarDir;
+			cboxArchiveType.SelectedIndex = 1; // Zip
 		}
 		
 		private void Init() {
@@ -57,12 +58,6 @@ namespace SharpFBTools.Controls.Panels
 				string openFolderName = fbdDir.SelectedPath;
                 tboxSourceDir.Text = openFolderName;
             }
-		}
-		
-		void RbtnRarCheckedChanged(object sender, EventArgs e)
-		{
-			cboxAddRestoreInfo.Enabled = rbtnRar.Checked;
-			gboxRar.Visible = rbtnRar.Checked;
 		}
 		
 		void RbtnToAnotherDirCheckedChanged(object sender, EventArgs e)
@@ -92,6 +87,11 @@ namespace SharpFBTools.Controls.Panels
             }
 		}
 		
+		void CboxArchiveTypeSelectedIndexChanged(object sender, EventArgs e)
+		{
+			gboxRar.Visible = cboxArchiveType.SelectedIndex == 0;
+		}
+		
 		void TsbtnArchiveClick(object sender, EventArgs e)
 		{
 			// Запаковка fb2-файлов
@@ -109,25 +109,25 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Не задана папка-приемник архивов!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			if( rbtnRar.Checked && tboxRarDir.Text == "" ) {
+			if( cboxArchiveType.SelectedIndex == 0 && tboxRarDir.Text == "" ) {
 				MessageBox.Show( "Не указана папка с установленным Rar-архиватором!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на наличие архиваторов
-			if( rbtnZip.Checked ) {
-				if( !File.Exists( "7za.exe" ) ) {
-					MessageBox.Show( "Не найден файл Zip-архиватора 7za.exe в корневой папке программы!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-					return;
-				} else {
-					tsslblProgress.Text = "Упаковка найденных файлов в zip:";
-				}
-			} else {
+			if( cboxArchiveType.SelectedIndex == 0 ) {
 				string sRarPath = m_sRarDir + "\\Rar.exe";
 				if( !File.Exists( sRarPath ) ) {
 					MessageBox.Show( "Не найден файл Rar-архиватора "+sRarPath+"!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				} else {
 					tsslblProgress.Text = "Упаковка найденных файлов в rar:";
+				}
+			} else {
+				if( !File.Exists( "7za.exe" ) ) {
+					MessageBox.Show( "Не найден файл Zip-архиватора 7za.exe в корневой папке программы!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				} else {
+					tsslblProgress.Text = "Упаковка найденных файлов в zip:";
 				}
 			}
 			// Упаковываем fb2-файлы
@@ -151,10 +151,10 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Maximum = lFilesList.Count+1;
 			tsProgressBar.Value = 1;
 			pCount.Refresh();
-			if( rbtnZip.Checked ) {
-				FileToZip( lFilesList );
-			} else {
+			if( cboxArchiveType.SelectedIndex == 0 ) {
 				FileToRar( lFilesList );
+			} else {
+				FileToZip( lFilesList );
 			}
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
@@ -164,6 +164,31 @@ namespace SharpFBTools.Controls.Panels
 		}
 		
 		#region Архивация
+		string GetArchiveExt( string sType ) {
+			string sExt = "";
+			switch( sType ) {
+				case "Rar":
+					sExt = "rar";
+					break;
+				case "Zip":
+					sExt = "zip";
+					break;
+				case "7z":
+					sExt = "7z";
+					break;
+				case "BZip2":
+					sExt = "bz2";
+					break;
+				case "GZip":
+					sExt = "gz";
+					break;
+				case "Tar":
+					sExt = "tar";
+					break;
+			}
+			return sExt;
+		}
+		
 		void FileToZip( List<string> lFilesList ) {
 			// упаковка fb2-файлов в .fb2.zip
 			foreach( string sFile in lFilesList ) {
@@ -172,8 +197,9 @@ namespace SharpFBTools.Controls.Panels
 					++this.m_lFB2Files;
 					// упаковываем
 					string sArchiveFile = "";
+					string sDotExt = "."+GetArchiveExt( cboxArchiveType.Text );
 					if( rbtnToSomeDir.Checked ) {
-						sArchiveFile = sFile + ".zip";
+						sArchiveFile = sFile + sDotExt;
 						// замена - удаляем, если такой есть
 						if( File.Exists( sArchiveFile ) ) {
 							File.Delete( sArchiveFile );
@@ -181,7 +207,7 @@ namespace SharpFBTools.Controls.Panels
 					} else {
 						string sSource = tboxSourceDir.Text;
 						string sTarget = tboxToAnotherDir.Text;
-						sArchiveFile = sTarget + sFile.Remove( 0, sSource.Length ) + ".zip";
+						sArchiveFile = sTarget + sFile.Remove( 0, sSource.Length ) + sDotExt;
 						// замена - удаляем, если такой есть
 						FileInfo fi = new FileInfo( sArchiveFile );
 						if( !fi.Directory.Exists ) {
@@ -191,7 +217,7 @@ namespace SharpFBTools.Controls.Panels
 							File.Delete( sArchiveFile );
 						}
 					}
-					Archiver.Archiver.zip( "7za.exe", sFile, sArchiveFile );
+					Archiver.Archiver.zip( "7za.exe", cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
 					if( cboxDelFB2Files.Checked ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFile ) ) {
