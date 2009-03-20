@@ -388,8 +388,8 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxExistArchive.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxExistArchive.FormattingEnabled = true;
 			this.cboxExistArchive.Items.AddRange(new object[] {
-									"Заменить существующий fb2-архив новым",
-									"Добавить к новому _год-месяц-день-час-минута-секунда"});
+									"Заменить существующий fb2-архив создаваемым",
+									"Добавить к создаваемому fb2-архиву дату и время"});
 			this.cboxExistArchive.Location = new System.Drawing.Point(353, 3);
 			this.cboxExistArchive.Name = "cboxExistArchive";
 			this.cboxExistArchive.Size = new System.Drawing.Size(387, 21);
@@ -398,11 +398,11 @@ namespace SharpFBTools.Controls.Panels
 			// lblExistArchive
 			// 
 			this.lblExistArchive.AutoSize = true;
-			this.lblExistArchive.Location = new System.Drawing.Point(192, 7);
+			this.lblExistArchive.Location = new System.Drawing.Point(195, 7);
 			this.lblExistArchive.Name = "lblExistArchive";
-			this.lblExistArchive.Size = new System.Drawing.Size(161, 13);
+			this.lblExistArchive.Size = new System.Drawing.Size(155, 13);
 			this.lblExistArchive.TabIndex = 15;
-			this.lblExistArchive.Text = "Существующий fb2-архив:";
+			this.lblExistArchive.Text = "Одинаковые fb2-архивы:";
 			// 
 			// lbArchivelType
 			// 
