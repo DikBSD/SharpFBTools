@@ -20,14 +20,31 @@ namespace SharpFBTools.Controls.Panels
 	/// </summary>
 	public partial class SFBTpArchiveManager : UserControl
 	{
+		#region Закрытые члены-данные класса
+		private string m_sRarDir = "c:\\Program Files\\WinRAR";
+		private string m_sReady = "Готово.";
+		#endregion
+		
 		public SFBTpArchiveManager()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			// инициализация контролов
+			Init();
 			// путь к папке с Rar`м
-			tboxRarDir.Text = "c:\\Program Files\\WinRAR";
+			tboxRarDir.Text = m_sRarDir;
+		}
+		
+		private void Init() {
+			// инициализация контролов и переменных
+			lblDirsCount.Text	= "0";
+			lblFilesCount.Text	= "0";
+			lblFB2FilesCount.Text = "0";
+			tsProgressBar.Value	= 1;
+			tsslblProgress.Text		= m_sReady;
+			tsProgressBar.Visible	= false;
 		}
 		
 		void TsbtnOpenDirClick(object sender, EventArgs e)
@@ -86,6 +103,28 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
+			if( rbtnZip.Checked ) {
+				FileToZip();
+			} else {
+				FileToRar();
+			}
 		}
+		
+		#region Архивация
+		void FileToZip() {
+			if( !File.Exists( "7za.exe" ) ) {
+				MessageBox.Show( "Не найден файл Zip-архиватора 7za.exe в корневой папке программы!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+		}
+		
+		void FileToRar() {
+			string sRarPath = m_sRarDir + "\\Rar.exe";
+			if( !File.Exists( sRarPath ) ) {
+				MessageBox.Show( "Не найден файл Rar-архиватора "+sRarPath+"!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+		}
+		#endregion
 	}
 }

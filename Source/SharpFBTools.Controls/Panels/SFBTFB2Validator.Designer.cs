@@ -67,7 +67,7 @@ namespace SharpFBTools.Controls.Panels
 			this.lblNotFB2Files = new System.Windows.Forms.Label();
 			this.lblNotFB2FilesCount = new System.Windows.Forms.Label();
 			this.tcResult = new System.Windows.Forms.TabControl();
-			this.tpNonValid = new System.Windows.Forms.TabPage();
+			this.tpNotValid = new System.Windows.Forms.TabPage();
 			this.gbFB2NotValidFiles = new System.Windows.Forms.GroupBox();
 			this.lblFB2NotValidFilesMoveDir = new System.Windows.Forms.Label();
 			this.btnFB2NotValidMoveTo = new System.Windows.Forms.Button();
@@ -120,7 +120,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pScanDir.SuspendLayout();
 			this.tlpCount.SuspendLayout();
 			this.tcResult.SuspendLayout();
-			this.tpNonValid.SuspendLayout();
+			this.tpNotValid.SuspendLayout();
 			this.gbFB2NotValidFiles.SuspendLayout();
 			this.pErrors.SuspendLayout();
 			this.tpValid.SuspendLayout();
@@ -431,7 +431,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tcResult
 			// 
-			this.tcResult.Controls.Add(this.tpNonValid);
+			this.tcResult.Controls.Add(this.tpNotValid);
 			this.tcResult.Controls.Add(this.tpValid);
 			this.tcResult.Controls.Add(this.tpNotFB2Files);
 			this.tcResult.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -443,18 +443,18 @@ namespace SharpFBTools.Controls.Panels
 			this.tcResult.Size = new System.Drawing.Size(720, 400);
 			this.tcResult.TabIndex = 16;
 			// 
-			// tpNonValid
+			// tpNotValid
 			// 
-			this.tpNonValid.Controls.Add(this.gbFB2NotValidFiles);
-			this.tpNonValid.Controls.Add(this.pErrors);
-			this.tpNonValid.Controls.Add(this.listViewNotValid);
-			this.tpNonValid.Location = new System.Drawing.Point(4, 22);
-			this.tpNonValid.Name = "tpNonValid";
-			this.tpNonValid.Padding = new System.Windows.Forms.Padding(3);
-			this.tpNonValid.Size = new System.Drawing.Size(712, 374);
-			this.tpNonValid.TabIndex = 0;
-			this.tpNonValid.Text = " Не валидные fb2-файлы ";
-			this.tpNonValid.UseVisualStyleBackColor = true;
+			this.tpNotValid.Controls.Add(this.gbFB2NotValidFiles);
+			this.tpNotValid.Controls.Add(this.pErrors);
+			this.tpNotValid.Controls.Add(this.listViewNotValid);
+			this.tpNotValid.Location = new System.Drawing.Point(4, 22);
+			this.tpNotValid.Name = "tpNotValid";
+			this.tpNotValid.Padding = new System.Windows.Forms.Padding(3);
+			this.tpNotValid.Size = new System.Drawing.Size(712, 374);
+			this.tpNotValid.TabIndex = 0;
+			this.tpNotValid.Text = " Не валидные fb2-файлы ";
+			this.tpNotValid.UseVisualStyleBackColor = true;
 			// 
 			// gbFB2NotValidFiles
 			// 
@@ -958,7 +958,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tlpCount.ResumeLayout(false);
 			this.tlpCount.PerformLayout();
 			this.tcResult.ResumeLayout(false);
-			this.tpNonValid.ResumeLayout(false);
+			this.tpNotValid.ResumeLayout(false);
 			this.gbFB2NotValidFiles.ResumeLayout(false);
 			this.gbFB2NotValidFiles.PerformLayout();
 			this.pErrors.ResumeLayout(false);
@@ -979,6 +979,7 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.TabPage tpNotValid;
 		private System.Windows.Forms.SaveFileDialog sfdReport;
 		private System.Windows.Forms.ToolStripMenuItem tsmiReportAsCSV_CSV;
 		private System.Windows.Forms.ToolStripMenuItem tsmiReportAsFB2;
@@ -1053,7 +1054,6 @@ namespace SharpFBTools.Controls.Panels
 		private System.Windows.Forms.ColumnHeader chNonValidError;
 		private System.Windows.Forms.ColumnHeader chNonValidFile;
 		private System.Windows.Forms.Panel pErrors;
-		private System.Windows.Forms.TabPage tpNonValid;
 		private System.Windows.Forms.TabControl tcResult;
 		private System.Windows.Forms.Label lblDir;
 		private System.Windows.Forms.TextBox tboxSourceDir;

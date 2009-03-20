@@ -48,7 +48,7 @@ namespace SharpFBTools.Controls.Panels
 		private long	m_lFB2Files		= 0; // число fb2 файлов (не сжатых)
 		private long	m_lFB2ZipFiles	= 0; // число fb2.zip файлов
 		private long	m_lFB2RarFiles	= 0; // число fb2.rar файлов
-		private long	m_lNonFB2Files	= 0; // число других (не fb2) файлов
+		private long	m_lNotFB2Files	= 0; // число других (не fb2) файлов
 		//
 		private	string	m_sReady		= "Готово.";
 		private string	m_sNotValid		= " Не валидные fb2-файлы ";
@@ -73,7 +73,7 @@ namespace SharpFBTools.Controls.Panels
 			listViewValid.Items.Clear();
 			listViewNotFB2.Items.Clear();
 			rеboxNotValid.Clear();
-			tpNonValid.Text		= m_sNotValid;
+			tpNotValid.Text		= m_sNotValid;
 			tpValid.Text		= m_sValid;
 			tpNotFB2Files.Text	= m_sNotFB2Files;
 			lblDirsCount.Text	= "0";
@@ -90,7 +90,7 @@ namespace SharpFBTools.Controls.Panels
 			m_lFB2Files		= 0;
 			m_lFB2ZipFiles 	= 0;
 			m_lFB2RarFiles 	= 0;
-			m_lNonFB2Files 	= 0;
+			m_lNotFB2Files 	= 0;
 			// очистка временной папки
 			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
 		}
@@ -118,7 +118,7 @@ namespace SharpFBTools.Controls.Panels
    				FileInfo fi = new FileInfo( sFile );
    				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
 				listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
-				tpNonValid.Text = m_sNotValid + "( " + m_lFB2NotValid.ToString() + " ) " ;
+				tpNotValid.Text = m_sNotValid + "( " + m_lFB2NotValid.ToString() + " ) " ;
            	}
 			++tsProgressBar.Value;
 		}
@@ -163,7 +163,7 @@ namespace SharpFBTools.Controls.Panels
            			sExt = Path.GetExtension( sFileName );
 					if( sExt.ToLower() != ".fb2" ) {
            				msg = "Тип файла: " + sExt;
-           				++this.m_lNonFB2Files;
+           				++this.m_lNotFB2Files;
            				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_ZipFontColor;
            				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
@@ -173,7 +173,7 @@ namespace SharpFBTools.Controls.Panels
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
-						tpNotFB2Files.Text = this.m_sNotFB2Files + "( " + this.m_lNonFB2Files.ToString() + " ) ";
+						tpNotFB2Files.Text = this.m_sNotFB2Files + "( " + this.m_lNotFB2Files.ToString() + " ) ";
 					} else {
 						++this.m_lFB2ZipFiles;
 						++this.m_lFB2NotValid;
@@ -186,14 +186,14 @@ namespace SharpFBTools.Controls.Panels
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
-						tpNonValid.Text = this.m_sNotValid + "( " + this.m_lFB2NotValid.ToString() + " ) ";
+						tpNotValid.Text = this.m_sNotValid + "( " + this.m_lFB2NotValid.ToString() + " ) ";
 					}
 				} else if( sExt.ToLower() == ".rar" ) {
 					// определяем тип разархивированного файла
            			sExt = Path.GetExtension( sFileName );
 					if( sExt.ToLower() != ".fb2" ) {
         				msg = "Тип файла: " + sExt;
-          				++this.m_lNonFB2Files;
+          				++this.m_lNotFB2Files;
           				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_RarFontColor;
           				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
@@ -203,7 +203,7 @@ namespace SharpFBTools.Controls.Panels
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
-						tpNotFB2Files.Text = this.m_sNotFB2Files + "( " + this.m_lNonFB2Files.ToString() + " ) ";
+						tpNotFB2Files.Text = this.m_sNotFB2Files + "( " + this.m_lNotFB2Files.ToString() + " ) ";
 					} else {
 						++this.m_lFB2RarFiles;
 						++this.m_lFB2NotValid;
@@ -216,7 +216,7 @@ namespace SharpFBTools.Controls.Panels
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
-						tpNonValid.Text = this.m_sNotValid + "( " + this.m_lFB2NotValid.ToString() + " ) ";
+						tpNotValid.Text = this.m_sNotValid + "( " + this.m_lFB2NotValid.ToString() + " ) ";
 					}
 				}
             }
@@ -557,21 +557,21 @@ namespace SharpFBTools.Controls.Panels
 					ParseArchiveFile( sFile, fv2V, FilesWorker.FilesWorker.GetTempDir() );
 				} else {
 					// разные файлы
-					++this.m_lNonFB2Files;
+					++this.m_lNotFB2Files;
 					ListViewItem item = new ListViewItem( sFile, 0 );
    					item.ForeColor = m_NotFB2FontColor;
 					item.SubItems.Add( Path.GetExtension( sFile ) );
    					FileInfo fi = new FileInfo( sFile );
    					item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
 					listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
-					tpNotFB2Files.Text = m_sNotFB2Files + "( " + m_lNonFB2Files.ToString() + " ) " ;
+					tpNotFB2Files.Text = m_sNotFB2Files + "( " + m_lNotFB2Files.ToString() + " ) " ;
 					++tsProgressBar.Value;
 				}
 			}
 			lblFB2FilesCount.Text		= m_lFB2Files.ToString();
 			lblFB2ZipFilesCount.Text	= m_lFB2ZipFiles.ToString();
 			lblFB2RarFilesCount.Text 	= m_lFB2RarFiles.ToString();
-			lblNotFB2FilesCount.Text 	= m_lNonFB2Files.ToString();
+			lblNotFB2FilesCount.Text 	= m_lNotFB2Files.ToString();
 			
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
@@ -589,7 +589,7 @@ namespace SharpFBTools.Controls.Panels
 				case 0:
 					// не валидные fb2-файлы
 					CopyOrMoveFilesTo( true, tboxSourceDir.Text, tboxFB2NotValidDirCopyTo.Text,
-		                       listViewNotValid, tpNonValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
+		                       listViewNotValid, tpNotValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
 		                       "Копирование не валидных fb2-файлов:", m_sNotValid );
 					break;
 				case 1:
@@ -614,7 +614,7 @@ namespace SharpFBTools.Controls.Panels
 				case 0:
 					// не валидные fb2-файлы
 					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxFB2NotValidDirCopyTo.Text,
-		                       listViewNotValid, tpNonValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
+		                       listViewNotValid, tpNotValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
 		                       "Перемещение не валидных fb2-файлов:", m_sNotValid );
 					break;
 				case 1:
@@ -638,7 +638,7 @@ namespace SharpFBTools.Controls.Panels
 			switch( tcResult.SelectedIndex ) {
 				case 0:
 					// не валидные fb2-файлы
-					DeleteFiles( listViewNotValid, tpNonValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
+					DeleteFiles( listViewNotValid, tpNotValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
 		                       "Удаление не валидных fb2-файлов:", m_sNotValid );
 					break;
 				case 1:
