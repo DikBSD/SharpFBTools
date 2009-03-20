@@ -329,6 +329,7 @@ namespace SharpFBTools.Controls.Panels
 			// btnToAnotherDir
 			// 
 			this.btnToAnotherDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnToAnotherDir.Enabled = false;
 			this.btnToAnotherDir.Image = ((System.Drawing.Image)(resources.GetObject("btnToAnotherDir.Image")));
 			this.btnToAnotherDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.btnToAnotherDir.Location = new System.Drawing.Point(659, 3);
@@ -445,13 +446,7 @@ namespace SharpFBTools.Controls.Panels
 			// tlpCount
 			// 
 			this.tlpCount.AutoSize = true;
-			this.tlpCount.ColumnCount = 12;
-			this.tlpCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpCount.ColumnCount = 6;
 			this.tlpCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -515,16 +510,15 @@ namespace SharpFBTools.Controls.Panels
 			this.lblFB2Files.AutoSize = true;
 			this.lblFB2Files.Location = new System.Drawing.Point(225, 0);
 			this.lblFB2Files.Name = "lblFB2Files";
-			this.lblFB2Files.Size = new System.Drawing.Size(79, 13);
+			this.lblFB2Files.Size = new System.Drawing.Size(76, 13);
 			this.lblFB2Files.TabIndex = 4;
-			this.lblFB2Files.Text = ".fb2-файлов:";
+			this.lblFB2Files.Text = "fb2-файлов:";
 			// 
 			// lblFB2FilesCount
 			// 
-			this.lblFB2FilesCount.AutoSize = true;
-			this.lblFB2FilesCount.Location = new System.Drawing.Point(310, 0);
+			this.lblFB2FilesCount.Location = new System.Drawing.Point(307, 0);
 			this.lblFB2FilesCount.Name = "lblFB2FilesCount";
-			this.lblFB2FilesCount.Size = new System.Drawing.Size(14, 13);
+			this.lblFB2FilesCount.Size = new System.Drawing.Size(100, 23);
 			this.lblFB2FilesCount.TabIndex = 5;
 			this.lblFB2FilesCount.Text = "0";
 			// 
@@ -581,6 +575,8 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Label lblFB2FilesCount;
+		private System.Windows.Forms.Label lblFB2Files;
 		private System.Windows.Forms.Label lblRarDir;
 		private System.Windows.Forms.GroupBox gboxRar;
 		private System.Windows.Forms.FolderBrowserDialog fbdDir;
@@ -594,8 +590,6 @@ namespace SharpFBTools.Controls.Panels
 		private System.Windows.Forms.Panel pToAnotherDir;
 		private System.Windows.Forms.RadioButton rbtnToSomeDir;
 		private System.Windows.Forms.RadioButton rbtnToAnotherDir;
-		private System.Windows.Forms.Label lblFB2FilesCount;
-		private System.Windows.Forms.Label lblFB2Files;
 		private System.Windows.Forms.Label lblFilesCount;
 		private System.Windows.Forms.Label lblFiles;
 		private System.Windows.Forms.Label lblDirsCount;

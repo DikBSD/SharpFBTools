@@ -127,9 +127,9 @@ namespace SharpFBTools.Controls.Panels
 			// парсер архива
 			string sExt = Path.GetExtension( sArchiveFile );
 			if( sExt.ToLower() == ".zip" ) {
-				Archiver.Archiver.unzip( sArchiveFile, sTempDir );
+				Archiver.Archiver.unzip( "7za.exe", sArchiveFile, sTempDir );
 			} else if( sExt.ToLower() == ".rar" ) {
-				Archiver.Archiver.unrar( sArchiveFile, sTempDir );
+				Archiver.Archiver.unrar( "unrar.exe", sArchiveFile, sTempDir );
 			}
 			string [] files = Directory.GetFiles( sTempDir );
 			if( files.Length <= 0 ) return;
@@ -267,7 +267,7 @@ namespace SharpFBTools.Controls.Panels
 				if( !fi.Directory.Exists ) {
 					Directory.CreateDirectory( fi.Directory.ToString() );
 				}
-				if( File.Exists( sNewPath) ) {
+				if( File.Exists( sNewPath ) ) {
 					File.Delete( sNewPath );
 				}
 				if( bCopy ) {
@@ -527,7 +527,7 @@ namespace SharpFBTools.Controls.Panels
 			// сортированный список всех вложенных папок
 			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lblDirsCount );
 			lDirList.Sort();
-			// сортированный список всех fb2,zip и rar файлов
+			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			tlCentral.Refresh(); // обновление контролов на форме
 			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, pCount, lblFilesCount, tsProgressBar );
