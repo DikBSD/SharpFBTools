@@ -52,7 +52,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tpArchive = new System.Windows.Forms.TabPage();
 			this.pOptions = new System.Windows.Forms.Panel();
 			this.gboxOptions = new System.Windows.Forms.GroupBox();
-			this.cboxArchiveType = new System.Windows.Forms.ComboBox();
 			this.gboxRar = new System.Windows.Forms.GroupBox();
 			this.lblRarDir = new System.Windows.Forms.Label();
 			this.tboxRarDir = new System.Windows.Forms.TextBox();
@@ -65,6 +64,10 @@ namespace SharpFBTools.Controls.Panels
 			this.rbtnToAnotherDir = new System.Windows.Forms.RadioButton();
 			this.rbtnToSomeDir = new System.Windows.Forms.RadioButton();
 			this.pType = new System.Windows.Forms.Panel();
+			this.cboxExistArchive = new System.Windows.Forms.ComboBox();
+			this.lblExistArchive = new System.Windows.Forms.Label();
+			this.lbArchivelType = new System.Windows.Forms.Label();
+			this.cboxArchiveType = new System.Windows.Forms.ComboBox();
 			this.pCount = new System.Windows.Forms.Panel();
 			this.tlpCount = new System.Windows.Forms.TableLayoutPanel();
 			this.lblDirs = new System.Windows.Forms.Label();
@@ -76,7 +79,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tpUnArchive = new System.Windows.Forms.TabPage();
 			this.tpTest = new System.Windows.Forms.TabPage();
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
-			this.lbArchivelType = new System.Windows.Forms.Label();
 			this.tsValidator.SuspendLayout();
 			this.ssProgress.SuspendLayout();
 			this.pScanDir.SuspendLayout();
@@ -101,7 +103,7 @@ namespace SharpFBTools.Controls.Panels
 									this.tsbtnArchive});
 			this.tsValidator.Location = new System.Drawing.Point(3, 3);
 			this.tsValidator.Name = "tsValidator";
-			this.tsValidator.Size = new System.Drawing.Size(713, 31);
+			this.tsValidator.Size = new System.Drawing.Size(754, 31);
 			this.tsValidator.TabIndex = 2;
 			// 
 			// tsbtnOpenDir
@@ -136,7 +138,7 @@ namespace SharpFBTools.Controls.Panels
 									this.tsProgressBar});
 			this.ssProgress.Location = new System.Drawing.Point(0, 527);
 			this.ssProgress.Name = "ssProgress";
-			this.ssProgress.Size = new System.Drawing.Size(727, 22);
+			this.ssProgress.Size = new System.Drawing.Size(768, 22);
 			this.ssProgress.TabIndex = 18;
 			this.ssProgress.Text = "statusStrip1";
 			// 
@@ -160,7 +162,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pScanDir.Location = new System.Drawing.Point(3, 34);
 			this.pScanDir.Margin = new System.Windows.Forms.Padding(0);
 			this.pScanDir.Name = "pScanDir";
-			this.pScanDir.Size = new System.Drawing.Size(713, 28);
+			this.pScanDir.Size = new System.Drawing.Size(754, 28);
 			this.pScanDir.TabIndex = 22;
 			// 
 			// tboxSourceDir
@@ -171,7 +173,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.ReadOnly = true;
-			this.tboxSourceDir.Size = new System.Drawing.Size(548, 20);
+			this.tboxSourceDir.Size = new System.Drawing.Size(589, 20);
 			this.tboxSourceDir.TabIndex = 4;
 			// 
 			// lblDir
@@ -189,7 +191,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pCentral.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pCentral.Location = new System.Drawing.Point(0, 0);
 			this.pCentral.Name = "pCentral";
-			this.pCentral.Size = new System.Drawing.Size(727, 527);
+			this.pCentral.Size = new System.Drawing.Size(768, 527);
 			this.pCentral.TabIndex = 23;
 			// 
 			// tcArchiver
@@ -202,7 +204,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tcArchiver.Location = new System.Drawing.Point(0, 0);
 			this.tcArchiver.Name = "tcArchiver";
 			this.tcArchiver.SelectedIndex = 0;
-			this.tcArchiver.Size = new System.Drawing.Size(727, 527);
+			this.tcArchiver.Size = new System.Drawing.Size(768, 527);
 			this.tcArchiver.TabIndex = 0;
 			// 
 			// tpArchive
@@ -215,7 +217,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpArchive.Location = new System.Drawing.Point(4, 22);
 			this.tpArchive.Name = "tpArchive";
 			this.tpArchive.Padding = new System.Windows.Forms.Padding(3);
-			this.tpArchive.Size = new System.Drawing.Size(719, 501);
+			this.tpArchive.Size = new System.Drawing.Size(760, 501);
 			this.tpArchive.TabIndex = 0;
 			this.tpArchive.Text = " Запаковать ";
 			this.tpArchive.UseVisualStyleBackColor = true;
@@ -226,7 +228,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pOptions.Location = new System.Drawing.Point(3, 92);
 			this.pOptions.Name = "pOptions";
-			this.pOptions.Size = new System.Drawing.Size(713, 388);
+			this.pOptions.Size = new System.Drawing.Size(754, 388);
 			this.pOptions.TabIndex = 26;
 			// 
 			// gboxOptions
@@ -236,30 +238,13 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxOptions.Controls.Add(this.pToAnotherDir);
 			this.gboxOptions.Controls.Add(this.rbtnToAnotherDir);
 			this.gboxOptions.Controls.Add(this.rbtnToSomeDir);
-			this.gboxOptions.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gboxOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxOptions.Location = new System.Drawing.Point(0, 0);
 			this.gboxOptions.Name = "gboxOptions";
-			this.gboxOptions.Size = new System.Drawing.Size(713, 373);
+			this.gboxOptions.Size = new System.Drawing.Size(754, 388);
 			this.gboxOptions.TabIndex = 1;
 			this.gboxOptions.TabStop = false;
 			this.gboxOptions.Text = " Опции ";
-			// 
-			// cboxArchiveType
-			// 
-			this.cboxArchiveType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboxArchiveType.FormattingEnabled = true;
-			this.cboxArchiveType.Items.AddRange(new object[] {
-									"Rar",
-									"Zip",
-									"7z",
-									"BZip2",
-									"GZip",
-									"Tar"});
-			this.cboxArchiveType.Location = new System.Drawing.Point(99, 3);
-			this.cboxArchiveType.Name = "cboxArchiveType";
-			this.cboxArchiveType.Size = new System.Drawing.Size(117, 21);
-			this.cboxArchiveType.TabIndex = 13;
-			this.cboxArchiveType.SelectedIndexChanged += new System.EventHandler(this.CboxArchiveTypeSelectedIndexChanged);
 			// 
 			// gboxRar
 			// 
@@ -270,7 +255,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxRar.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxRar.Location = new System.Drawing.Point(3, 121);
 			this.gboxRar.Name = "gboxRar";
-			this.gboxRar.Size = new System.Drawing.Size(707, 72);
+			this.gboxRar.Size = new System.Drawing.Size(748, 72);
 			this.gboxRar.TabIndex = 12;
 			this.gboxRar.TabStop = false;
 			this.gboxRar.Text = " Опции для Rar-архиватора ";
@@ -292,7 +277,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxRarDir.Location = new System.Drawing.Point(185, 21);
 			this.tboxRarDir.Name = "tboxRarDir";
 			this.tboxRarDir.ReadOnly = true;
-			this.tboxRarDir.Size = new System.Drawing.Size(468, 20);
+			this.tboxRarDir.Size = new System.Drawing.Size(509, 20);
 			this.tboxRarDir.TabIndex = 8;
 			// 
 			// cboxAddRestoreInfo
@@ -300,7 +285,7 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxAddRestoreInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.cboxAddRestoreInfo.Location = new System.Drawing.Point(3, 45);
 			this.cboxAddRestoreInfo.Name = "cboxAddRestoreInfo";
-			this.cboxAddRestoreInfo.Size = new System.Drawing.Size(701, 24);
+			this.cboxAddRestoreInfo.Size = new System.Drawing.Size(742, 24);
 			this.cboxAddRestoreInfo.TabIndex = 4;
 			this.cboxAddRestoreInfo.Text = " Добавить в архив информацию для его восстановления";
 			this.cboxAddRestoreInfo.UseVisualStyleBackColor = true;
@@ -310,7 +295,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnRarDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnRarDir.Image = ((System.Drawing.Image)(resources.GetObject("btnRarDir.Image")));
 			this.btnRarDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnRarDir.Location = new System.Drawing.Point(659, 19);
+			this.btnRarDir.Location = new System.Drawing.Point(700, 19);
 			this.btnRarDir.Name = "btnRarDir";
 			this.btnRarDir.Size = new System.Drawing.Size(37, 24);
 			this.btnRarDir.TabIndex = 9;
@@ -323,7 +308,7 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxDelFB2Files.Dock = System.Windows.Forms.DockStyle.Top;
 			this.cboxDelFB2Files.Location = new System.Drawing.Point(3, 97);
 			this.cboxDelFB2Files.Name = "cboxDelFB2Files";
-			this.cboxDelFB2Files.Size = new System.Drawing.Size(707, 24);
+			this.cboxDelFB2Files.Size = new System.Drawing.Size(748, 24);
 			this.cboxDelFB2Files.TabIndex = 3;
 			this.cboxDelFB2Files.Text = " Удалить fb2-файлы после упаковки";
 			this.cboxDelFB2Files.UseVisualStyleBackColor = true;
@@ -335,7 +320,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pToAnotherDir.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pToAnotherDir.Location = new System.Drawing.Point(3, 64);
 			this.pToAnotherDir.Name = "pToAnotherDir";
-			this.pToAnotherDir.Size = new System.Drawing.Size(707, 33);
+			this.pToAnotherDir.Size = new System.Drawing.Size(748, 33);
 			this.pToAnotherDir.TabIndex = 2;
 			// 
 			// btnToAnotherDir
@@ -344,7 +329,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnToAnotherDir.Enabled = false;
 			this.btnToAnotherDir.Image = ((System.Drawing.Image)(resources.GetObject("btnToAnotherDir.Image")));
 			this.btnToAnotherDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnToAnotherDir.Location = new System.Drawing.Point(659, 3);
+			this.btnToAnotherDir.Location = new System.Drawing.Point(700, 3);
 			this.btnToAnotherDir.Name = "btnToAnotherDir";
 			this.btnToAnotherDir.Size = new System.Drawing.Size(37, 24);
 			this.btnToAnotherDir.TabIndex = 7;
@@ -359,7 +344,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxToAnotherDir.Location = new System.Drawing.Point(20, 5);
 			this.tboxToAnotherDir.Name = "tboxToAnotherDir";
 			this.tboxToAnotherDir.ReadOnly = true;
-			this.tboxToAnotherDir.Size = new System.Drawing.Size(633, 20);
+			this.tboxToAnotherDir.Size = new System.Drawing.Size(674, 20);
 			this.tboxToAnotherDir.TabIndex = 6;
 			// 
 			// rbtnToAnotherDir
@@ -367,7 +352,7 @@ namespace SharpFBTools.Controls.Panels
 			this.rbtnToAnotherDir.Dock = System.Windows.Forms.DockStyle.Top;
 			this.rbtnToAnotherDir.Location = new System.Drawing.Point(3, 40);
 			this.rbtnToAnotherDir.Name = "rbtnToAnotherDir";
-			this.rbtnToAnotherDir.Size = new System.Drawing.Size(707, 24);
+			this.rbtnToAnotherDir.Size = new System.Drawing.Size(748, 24);
 			this.rbtnToAnotherDir.TabIndex = 1;
 			this.rbtnToAnotherDir.TabStop = true;
 			this.rbtnToAnotherDir.Text = " Поместить архив в другую папку:";
@@ -380,7 +365,7 @@ namespace SharpFBTools.Controls.Panels
 			this.rbtnToSomeDir.Dock = System.Windows.Forms.DockStyle.Top;
 			this.rbtnToSomeDir.Location = new System.Drawing.Point(3, 16);
 			this.rbtnToSomeDir.Name = "rbtnToSomeDir";
-			this.rbtnToSomeDir.Size = new System.Drawing.Size(707, 24);
+			this.rbtnToSomeDir.Size = new System.Drawing.Size(748, 24);
 			this.rbtnToSomeDir.TabIndex = 0;
 			this.rbtnToSomeDir.TabStop = true;
 			this.rbtnToSomeDir.Text = " Поместить архив в ту же папку, где находится исходный fb2-файл";
@@ -388,13 +373,62 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// pType
 			// 
+			this.pType.Controls.Add(this.cboxExistArchive);
+			this.pType.Controls.Add(this.lblExistArchive);
 			this.pType.Controls.Add(this.lbArchivelType);
 			this.pType.Controls.Add(this.cboxArchiveType);
 			this.pType.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pType.Location = new System.Drawing.Point(3, 62);
 			this.pType.Name = "pType";
-			this.pType.Size = new System.Drawing.Size(713, 30);
+			this.pType.Size = new System.Drawing.Size(754, 30);
 			this.pType.TabIndex = 25;
+			// 
+			// cboxExistArchive
+			// 
+			this.cboxExistArchive.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxExistArchive.FormattingEnabled = true;
+			this.cboxExistArchive.Items.AddRange(new object[] {
+									"Заменить существующий fb2-архив новым",
+									"Добавить к новому _год-месяц-день-час-минута-секунда"});
+			this.cboxExistArchive.Location = new System.Drawing.Point(353, 3);
+			this.cboxExistArchive.Name = "cboxExistArchive";
+			this.cboxExistArchive.Size = new System.Drawing.Size(387, 21);
+			this.cboxExistArchive.TabIndex = 16;
+			// 
+			// lblExistArchive
+			// 
+			this.lblExistArchive.AutoSize = true;
+			this.lblExistArchive.Location = new System.Drawing.Point(192, 7);
+			this.lblExistArchive.Name = "lblExistArchive";
+			this.lblExistArchive.Size = new System.Drawing.Size(161, 13);
+			this.lblExistArchive.TabIndex = 15;
+			this.lblExistArchive.Text = "Существующий fb2-архив:";
+			// 
+			// lbArchivelType
+			// 
+			this.lbArchivelType.AutoSize = true;
+			this.lbArchivelType.Location = new System.Drawing.Point(3, 6);
+			this.lbArchivelType.Name = "lbArchivelType";
+			this.lbArchivelType.Size = new System.Drawing.Size(90, 13);
+			this.lbArchivelType.TabIndex = 14;
+			this.lbArchivelType.Text = "Вид упаковки:";
+			// 
+			// cboxArchiveType
+			// 
+			this.cboxArchiveType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxArchiveType.FormattingEnabled = true;
+			this.cboxArchiveType.Items.AddRange(new object[] {
+									"Rar",
+									"Zip",
+									"7z",
+									"BZip2",
+									"GZip",
+									"Tar"});
+			this.cboxArchiveType.Location = new System.Drawing.Point(99, 3);
+			this.cboxArchiveType.Name = "cboxArchiveType";
+			this.cboxArchiveType.Size = new System.Drawing.Size(83, 21);
+			this.cboxArchiveType.TabIndex = 13;
+			this.cboxArchiveType.SelectedIndexChanged += new System.EventHandler(this.CboxArchiveTypeSelectedIndexChanged);
 			// 
 			// pCount
 			// 
@@ -403,7 +437,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pCount.Location = new System.Drawing.Point(3, 480);
 			this.pCount.Margin = new System.Windows.Forms.Padding(0);
 			this.pCount.Name = "pCount";
-			this.pCount.Size = new System.Drawing.Size(713, 18);
+			this.pCount.Size = new System.Drawing.Size(754, 18);
 			this.pCount.TabIndex = 21;
 			// 
 			// tlpCount
@@ -429,7 +463,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tlpCount.Name = "tlpCount";
 			this.tlpCount.RowCount = 1;
 			this.tlpCount.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpCount.Size = new System.Drawing.Size(713, 18);
+			this.tlpCount.Size = new System.Drawing.Size(754, 18);
 			this.tlpCount.TabIndex = 15;
 			// 
 			// lblDirs
@@ -479,9 +513,10 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// lblFB2FilesCount
 			// 
+			this.lblFB2FilesCount.AutoSize = true;
 			this.lblFB2FilesCount.Location = new System.Drawing.Point(307, 0);
 			this.lblFB2FilesCount.Name = "lblFB2FilesCount";
-			this.lblFB2FilesCount.Size = new System.Drawing.Size(100, 23);
+			this.lblFB2FilesCount.Size = new System.Drawing.Size(14, 13);
 			this.lblFB2FilesCount.TabIndex = 5;
 			this.lblFB2FilesCount.Text = "0";
 			// 
@@ -490,7 +525,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpUnArchive.Location = new System.Drawing.Point(4, 22);
 			this.tpUnArchive.Name = "tpUnArchive";
 			this.tpUnArchive.Padding = new System.Windows.Forms.Padding(3);
-			this.tpUnArchive.Size = new System.Drawing.Size(719, 501);
+			this.tpUnArchive.Size = new System.Drawing.Size(760, 501);
 			this.tpUnArchive.TabIndex = 1;
 			this.tpUnArchive.Text = " Распаковать ";
 			this.tpUnArchive.UseVisualStyleBackColor = true;
@@ -499,19 +534,10 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.tpTest.Location = new System.Drawing.Point(4, 22);
 			this.tpTest.Name = "tpTest";
-			this.tpTest.Size = new System.Drawing.Size(719, 501);
+			this.tpTest.Size = new System.Drawing.Size(760, 501);
 			this.tpTest.TabIndex = 2;
 			this.tpTest.Text = " Тестировать архивы ";
 			this.tpTest.UseVisualStyleBackColor = true;
-			// 
-			// lbArchivelType
-			// 
-			this.lbArchivelType.AutoSize = true;
-			this.lbArchivelType.Location = new System.Drawing.Point(3, 6);
-			this.lbArchivelType.Name = "lbArchivelType";
-			this.lbArchivelType.Size = new System.Drawing.Size(90, 13);
-			this.lbArchivelType.TabIndex = 14;
-			this.lbArchivelType.Text = "Вид упаковки:";
 			// 
 			// SFBTpArchiveManager
 			// 
@@ -520,7 +546,7 @@ namespace SharpFBTools.Controls.Panels
 			this.Controls.Add(this.pCentral);
 			this.Controls.Add(this.ssProgress);
 			this.Name = "SFBTpArchiveManager";
-			this.Size = new System.Drawing.Size(727, 549);
+			this.Size = new System.Drawing.Size(768, 549);
 			this.tsValidator.ResumeLayout(false);
 			this.tsValidator.PerformLayout();
 			this.ssProgress.ResumeLayout(false);
@@ -546,6 +572,8 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ComboBox cboxExistArchive;
+		private System.Windows.Forms.Label lblExistArchive;
 		private System.Windows.Forms.Label lbArchivelType;
 		private System.Windows.Forms.ComboBox cboxArchiveType;
 		private System.Windows.Forms.Label lblFB2FilesCount;

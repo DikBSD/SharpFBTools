@@ -33,9 +33,9 @@ namespace SharpFBTools.Controls.Panels
 			InitializeComponent();
 			// инициализация контролов
 			Init();
-			// путь к папке с Rar`м
-			tboxRarDir.Text = m_sRarDir;
-			cboxArchiveType.SelectedIndex = 1; // Zip
+			tboxRarDir.Text = m_sRarDir;		// путь к папке с Rar`м
+			cboxExistArchive.SelectedIndex = 1; // добавление к сущ. архиву _год-месяц...
+			cboxArchiveType.SelectedIndex = 1;	// Zip
 		}
 		
 		private void Init() {
@@ -44,10 +44,100 @@ namespace SharpFBTools.Controls.Panels
 			lblFilesCount.Text		= "0";
 			lblFB2FilesCount.Text	= "0";
 			tsProgressBar.Value		= 1;
+			m_lFB2Files				= 0;
 			tsslblProgress.Text		= m_sReady;
 			tsProgressBar.Visible	= false;
 		}
 		
+		#region Архивация
+		string GetArchiveExt( string sType ) {
+			string sExt = "";
+			switch( sType ) {
+				case "Rar":
+					sExt = "rar";
+					break;
+				case "Zip":
+					sExt = "zip";
+					break;
+				case "7z":
+					sExt = "7z";
+					break;
+				case "BZip2":
+					sExt = "bz2";
+					break;
+				case "GZip":
+					sExt = "gz";
+					break;
+				case "Tar":
+					sExt = "tar";
+					break;
+			}
+			return sExt;
+		}
+		
+		void FileToArchive( List<string> lFilesList, bool bZip ) {
+			// упаковка fb2-файлов в .fb2.zip
+			foreach( string sFile in lFilesList ) {
+				string sExt = Path.GetExtension( sFile );
+				if( sExt.ToLower() == ".fb2" ) {
+					++this.m_lFB2Files;
+					// упаковываем
+					string sArchiveFile = "";
+					string sDotExt = "."+GetArchiveExt( cboxArchiveType.Text );
+					string sSufix = ""; // для добавления к имени нового архива суфикса
+					if( rbtnToSomeDir.Checked ) {
+						// создаем архив в той же папке, где и исходный fb2-файл
+						sArchiveFile = sFile + sDotExt;
+						if( File.Exists( sArchiveFile ) ) {
+							if( cboxExistArchive.SelectedIndex==0 ) {
+								File.Delete( sArchiveFile );
+							} else {
+								DateTime dt = DateTime.Now;
+								sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+										dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString();
+								sArchiveFile = sFile.Remove( sFile.Length-4 ) + sSufix + ".fb2" + sDotExt;
+							}
+						}
+					} else {
+						// создаем архив в другой папке
+						string sSource = tboxSourceDir.Text;
+						string sTarget = tboxToAnotherDir.Text;
+						string sNewFilePath = sFile.Remove( 0, sSource.Length );
+						sArchiveFile = sTarget + sNewFilePath + sDotExt;
+						FileInfo fi = new FileInfo( sArchiveFile );
+						if( !fi.Directory.Exists ) {
+							Directory.CreateDirectory( fi.Directory.ToString() );
+						}
+						if( File.Exists( sArchiveFile ) ) {
+							if( cboxExistArchive.SelectedIndex==0 ) {
+								File.Delete( sArchiveFile );
+							} else {
+								DateTime dt = DateTime.Now;
+								sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+											dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString();
+								sArchiveFile = sTarget + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + ".fb2" + sDotExt;
+							}
+						}
+					}
+					if( bZip ) {
+						Archiver.Archiver.zip( "7za.exe", cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
+					} else {
+						Archiver.Archiver.rar( m_sRarDir + "\\Rar.exe", sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
+					}
+					
+					if( cboxDelFB2Files.Checked ) {
+						// удаляем исходный fb2-файл
+						if( File.Exists( sFile ) ) {
+							File.Delete( sFile );
+						}
+					}
+				}
+				++tsProgressBar.Value;
+			}
+		}
+		#endregion
+		
+		#region Обработчики событий
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами для сканирования
@@ -152,123 +242,16 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Value = 1;
 			pCount.Refresh();
 			if( cboxArchiveType.SelectedIndex == 0 ) {
-				FileToRar( lFilesList );
+				FileToArchive( lFilesList, false ); // rar
 			} else {
-				FileToZip( lFilesList );
+				FileToArchive( lFilesList, true ); // zip, 7z...
 			}
+			lblFB2FilesCount.Text = m_lFB2Files.ToString();
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 			MessageBox.Show( "Упаковка fb2-файлов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
-		}
-		
-		#region Архивация
-		string GetArchiveExt( string sType ) {
-			string sExt = "";
-			switch( sType ) {
-				case "Rar":
-					sExt = "rar";
-					break;
-				case "Zip":
-					sExt = "zip";
-					break;
-				case "7z":
-					sExt = "7z";
-					break;
-				case "BZip2":
-					sExt = "bz2";
-					break;
-				case "GZip":
-					sExt = "gz";
-					break;
-				case "Tar":
-					sExt = "tar";
-					break;
-			}
-			return sExt;
-		}
-		
-		void FileToZip( List<string> lFilesList ) {
-			// упаковка fb2-файлов в .fb2.zip
-			foreach( string sFile in lFilesList ) {
-				string sExt = Path.GetExtension( sFile );
-				if( sExt.ToLower() == ".fb2" ) {
-					++this.m_lFB2Files;
-					// упаковываем
-					string sArchiveFile = "";
-					string sDotExt = "."+GetArchiveExt( cboxArchiveType.Text );
-					if( rbtnToSomeDir.Checked ) {
-						sArchiveFile = sFile + sDotExt;
-						// замена - удаляем, если такой есть
-						if( File.Exists( sArchiveFile ) ) {
-							File.Delete( sArchiveFile );
-						}
-					} else {
-						string sSource = tboxSourceDir.Text;
-						string sTarget = tboxToAnotherDir.Text;
-						sArchiveFile = sTarget + sFile.Remove( 0, sSource.Length ) + sDotExt;
-						// замена - удаляем, если такой есть
-						FileInfo fi = new FileInfo( sArchiveFile );
-						if( !fi.Directory.Exists ) {
-							Directory.CreateDirectory( fi.Directory.ToString() );
-						}
-						if( File.Exists( sArchiveFile ) ) {
-							File.Delete( sArchiveFile );
-						}
-					}
-					Archiver.Archiver.zip( "7za.exe", cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
-					if( cboxDelFB2Files.Checked ) {
-						// удаляем исходный fb2-файл
-						if( File.Exists( sFile ) ) {
-							File.Delete( sFile );
-						}
-					}
-				}
-				++tsProgressBar.Value;
-			}
-			lblFB2FilesCount.Text = m_lFB2Files.ToString();
-		}
-		
-		void FileToRar( List<string> lFilesList ) {
-			// упаковка fb2-файлов в .fb2.rar
-			string sRarPath = m_sRarDir + "\\Rar.exe";
-			foreach( string sFile in lFilesList ) {
-				string sExt = Path.GetExtension( sFile );
-				if( sExt.ToLower() == ".fb2" ) {
-					++this.m_lFB2Files;
-					// упаковываем
-					string sArchiveFile = "";
-					if( rbtnToSomeDir.Checked ) {
-						sArchiveFile = sFile + ".rar";
-						// замена - удаляем, если такой есть
-						if( File.Exists( sArchiveFile ) ) {
-							File.Delete( sArchiveFile );
-						}
-					} else {
-						string sSource = tboxSourceDir.Text;
-						string sTarget = tboxToAnotherDir.Text;
-						sArchiveFile = sTarget + sFile.Remove( 0, sSource.Length ) + ".rar";
-						// замена - удаляем, если такой есть
-						FileInfo fi = new FileInfo( sArchiveFile );
-						if( !fi.Directory.Exists ) {
-							Directory.CreateDirectory( fi.Directory.ToString() );
-						}
-						if( File.Exists( sArchiveFile ) ) {
-							File.Delete( sArchiveFile );
-						}
-					}
-					Archiver.Archiver.rar( sRarPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
-					if( cboxDelFB2Files.Checked ) {
-						// удаляем исходный fb2-файл
-						if( File.Exists( sFile ) ) {
-							File.Delete( sFile );
-						}
-					}
-				}
-				++tsProgressBar.Value;
-			}
-			lblFB2FilesCount.Text = m_lFB2Files.ToString();
 		}
 		#endregion
 	}
