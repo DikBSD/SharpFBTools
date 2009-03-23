@@ -31,20 +31,35 @@ namespace SharpFBTools.Controls.Panels
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
-			// инициализация контролов
-			Init();
+			InitA();	// инициализация контролов (Упаковка)
+			InitUA();	// инициализация контролов (Распаковка
 			tboxRarDir.Text = m_sRarDir;		// путь к папке с Rar`м
-			cboxExistArchive.SelectedIndex = 1; // добавление к сущ. архиву _год-месяц...
+			cboxExistArchive.SelectedIndex = 1; // добавление к создаваемому fb2-архиву _год-месяц...
 			cboxArchiveType.SelectedIndex = 1;	// Zip
+			cboxUAExistArchive.SelectedIndex = 1;	// добавление к создаваемому fb2-файлу _год-месяц...
+			cboxUAType.SelectedIndex = 6;	// Все архивы
 		}
 		
-		private void Init() {
-			// инициализация контролов и переменных
+		private void InitA() {
+			// инициализация контролов и переменных  (Упаковка)
 			lblDirsCount.Text		= "0";
 			lblFilesCount.Text		= "0";
 			lblFB2FilesCount.Text	= "0";
 			tsProgressBar.Value		= 1;
 			m_lFB2Files				= 0;
+			tsslblProgress.Text		= m_sReady;
+			tsProgressBar.Visible	= false;
+		}
+		
+		private void InitUA() {
+			// инициализация контролов и переменных  (Распаковка)
+			lvUAGeneralCount.Items[0].SubItems[1].Text = "0";
+			lvUAGeneralCount.Items[1].SubItems[1].Text = "0";
+			
+			for( int i=0; i!=lvUACount.Items.Count; ++i ) {
+				lvUACount.Items[i].SubItems[1].Text = "0";
+			}
+			tsProgressBar.Value		= 1;
 			tsslblProgress.Text		= m_sReady;
 			tsProgressBar.Visible	= false;
 		}
@@ -140,11 +155,11 @@ namespace SharpFBTools.Controls.Panels
 		#region Обработчики событий
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
-			// задание папки с fb2-файлами для сканирования
-			fbdDir.Description = "Укажите папку для архивирования fb2-файлов";
+			// задание папки с fb2-файлами для сканирования (Архивация)
+			fbdDir.Description = "Укажите папку с fb2-файлами для Упаковки";
 			DialogResult result = fbdDir.ShowDialog();
 			if (result == DialogResult.OK) {
-                Init();
+                InitA();
 				string openFolderName = fbdDir.SelectedPath;
                 tboxSourceDir.Text = openFolderName;
             }
@@ -179,7 +194,7 @@ namespace SharpFBTools.Controls.Panels
 		
 		void CboxArchiveTypeSelectedIndexChanged(object sender, EventArgs e)
 		{
-			gboxRar.Visible = cboxArchiveType.SelectedIndex == 0;
+			cboxAddRestoreInfo.Visible = cboxArchiveType.SelectedIndex == 0;
 		}
 		
 		void TsbtnArchiveClick(object sender, EventArgs e)
@@ -222,7 +237,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			// Упаковываем fb2-файлы
 			DateTime dtStart = DateTime.Now;
-			Init();
+			InitA();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
 			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lblDirsCount );
@@ -235,7 +250,7 @@ namespace SharpFBTools.Controls.Panels
 			
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				Init();
+				InitA();
 				return;
 			}
 			tsProgressBar.Maximum = lFilesList.Count+1;
@@ -254,5 +269,62 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible = false;
 		}
 		#endregion
+		
+		void TsbtnUAOpenDirClick(object sender, EventArgs e)
+		{
+			// задание папки с fb2-архивами для сканирования (Распаковка)
+			fbdDir.Description = "Укажите папку с fb2-архивами для Распаковки";
+			DialogResult result = fbdDir.ShowDialog();
+			if (result == DialogResult.OK) {
+                InitA();
+				string openFolderName = fbdDir.SelectedPath;
+                tboxUASourceDir.Text = openFolderName;
+            }
+		}
+		
+		void RbtnUAToAnotherDirCheckedChanged(object sender, EventArgs e)
+		{
+			btnUAToAnotherDir.Enabled = rbtnUAToAnotherDir.Checked;
+		}
+		
+		void TsbtnUAAnalyzeClick(object sender, EventArgs e)
+		{
+			// анализ файлов - какие архивы есть в папке сканирования
+			if( tboxUASourceDir.Text == "" ) {
+				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			DirectoryInfo diFolder = new DirectoryInfo(tboxUASourceDir.Text);
+			if( !diFolder.Exists ) {
+				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			DateTime dtStart = DateTime.Now;
+			InitUA();
+			tsProgressBar.Visible = true;
+			// сортированный список всех вложенных папок
+			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lblDirsCount );
+			lDirList.Sort();
+			lvUAGeneralCount.Items[1].SubItems[1].Text = (lDirList.Count+1).ToString();
+			// сортированный список всех файлов
+			tsslblProgress.Text = "Создание списка файлов:";
+			gboxUACount.Refresh();
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, pCount, lblFilesCount, tsProgressBar );
+			lFilesList.Sort();
+			
+			if( lFilesList.Count == 0 ) {
+				MessageBox.Show( "В указанной папке не найдено ни одного файла!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			tsProgressBar.Maximum = lFilesList.Count+1;
+			tsProgressBar.Value = 1;
+			gboxUACount.Refresh();
+
+			lvUAGeneralCount.Items[1].SubItems[1].Text = lFilesList.Count.ToString();
+			DateTime dtEnd = DateTime.Now;
+			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
+			MessageBox.Show( "Анализ имеющихся файлов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			tsslblProgress.Text = m_sReady;
+			tsProgressBar.Visible = false;
+		}
 	}
 }
