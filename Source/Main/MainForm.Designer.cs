@@ -94,7 +94,7 @@ namespace Main
 									this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(686, 52);
+			this.tsMain.Size = new System.Drawing.Size(655, 52);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnFB2Validator
