@@ -61,6 +61,33 @@ namespace FilesWorker
 			return lAllDirsList; 
 		}
 		
+		public static List<string> DirsParser( string sStartDir, ListView lv ) {
+			// список всех вложенных папок для стартового, включая и стартовый - замена рекурсии
+			List<string> lAllDirsList = new List<string>();
+			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
+			List<string> lWorkDirList = new List<string>();
+			// начальное заполнение списков
+			lWorkDirList = DirListMaker( sStartDir );
+			lAllDirsList.Add( sStartDir );
+			lAllDirsList.AddRange( lWorkDirList );
+			lv.Items[1].SubItems[1].Text = lAllDirsList.Count.ToString();
+			while( lWorkDirList.Count != 0 ) {
+				// перебор папок в указанной папке s
+				int nWorkCount = lWorkDirList.Count;
+				for( int i=0; i!=nWorkCount; ++i  ) {
+					// l - список найденных папок в указанной папке sWD
+					List<string> l = DirListMaker( lWorkDirList[i] );
+					// заносим найденные папки в рабочий и полный список папок
+					lWorkDirList.AddRange( l );
+					lAllDirsList.AddRange( l );
+					lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
+				}
+				// удаляем из рабочего списка обработанные папки
+				lWorkDirList.RemoveRange( 0, nWorkCount );
+			}
+			return lAllDirsList; 
+		}
+		
 		public static List<string> AllFilesParser( List<string> lsDirs, StatusStrip ssProgress, Panel pCount,
 		                                          Label lblFilesCount, System.Windows.Forms.ToolStripProgressBar pBar ) {
 			// список всех файлов - по cписку папок - замена рекурсии
@@ -79,6 +106,26 @@ namespace FilesWorker
 				++pBar.Value;
 				ssProgress.Refresh();
 				pCount.Refresh();
+			}
+			return lFilesList;
+		}
+		
+				public static List<string> AllFilesParser( List<string> lsDirs, StatusStrip ssProgress, ListView lv,
+		                                          System.Windows.Forms.ToolStripProgressBar pBar ) {
+			// список всех файлов - по cписку папок - замена рекурсии
+			pBar.Maximum = lsDirs.Count+1;
+			List<string> lFilesList = new List<string>();
+			foreach( string s in lsDirs ) {
+				DirectoryInfo diFolder = new DirectoryInfo( s );
+				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+						lFilesList.Add( s + "\\" + fiNextFile.Name );
+						lv.Items[1].SubItems[1].Text = lFilesList.Count.ToString();
+//						ssProgress.Refresh();
+//						lv.Refresh();
+				}
+				++pBar.Value;
+				ssProgress.Refresh();
+				lv.Refresh();
 			}
 			return lFilesList;
 		}

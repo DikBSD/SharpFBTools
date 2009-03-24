@@ -303,13 +303,12 @@ namespace SharpFBTools.Controls.Panels
 			InitUA();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
-			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lblDirsCount );
+			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
 			lDirList.Sort();
-			lvUAGeneralCount.Items[1].SubItems[1].Text = (lDirList.Count+1).ToString();
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			gboxUACount.Refresh();
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, pCount, lblFilesCount, tsProgressBar );
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvUAGeneralCount, tsProgressBar );
 			lFilesList.Sort();
 			
 			if( lFilesList.Count == 0 ) {
@@ -319,7 +318,6 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Value = 1;
 			gboxUACount.Refresh();
 
-			lvUAGeneralCount.Items[1].SubItems[1].Text = lFilesList.Count.ToString();
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 			MessageBox.Show( "Анализ имеющихся файлов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
