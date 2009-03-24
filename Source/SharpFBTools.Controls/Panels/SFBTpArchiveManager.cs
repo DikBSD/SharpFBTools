@@ -318,6 +318,29 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Value = 1;
 			gboxUACount.Refresh();
 
+			long lRar, lZip, l7Z, lBZip2, lGZip, lTar, lFB2, lAnother;
+			lRar = lZip = l7Z = lBZip2 = lGZip = lTar = lFB2 = lAnother = 0;
+			foreach( string sFile in lFilesList ) {
+				string sExt = Path.GetExtension( sFile );
+				if( sExt.ToLower() == ".rar" )
+					lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
+				else if( sExt.ToLower() == ".zip" )
+					lvUACount.Items[1].SubItems[1].Text = (++lZip).ToString();
+				else if( sExt.ToLower() == ".7z" )	
+					lvUACount.Items[2].SubItems[1].Text = (++l7Z).ToString();
+				else if( sExt.ToLower() == ".bz2" )	
+					lvUACount.Items[3].SubItems[1].Text = (++lBZip2).ToString();
+				else if( sExt.ToLower() == ".gz" )	
+					lvUACount.Items[4].SubItems[1].Text = (++lGZip).ToString();
+				else if( sExt.ToLower() == ".tar" )
+					lvUACount.Items[5].SubItems[1].Text = (++lTar).ToString();
+				else if( sExt.ToLower() == ".fb2" )
+					lvUACount.Items[6].SubItems[1].Text = (++lFB2).ToString();
+				else
+					lvUACount.Items[7].SubItems[1].Text = (++lAnother).ToString();
+				++tsProgressBar.Value;
+			}
+			
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 			MessageBox.Show( "Анализ имеющихся файлов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );

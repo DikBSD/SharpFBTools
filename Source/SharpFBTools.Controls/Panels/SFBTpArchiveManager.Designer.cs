@@ -68,7 +68,7 @@ namespace SharpFBTools.Controls.Panels
 									"fb2",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Разные",
+									"Другие",
 									"0"}, -1);
 			this.tsArchiver = new System.Windows.Forms.ToolStrip();
 			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
