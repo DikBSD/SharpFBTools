@@ -109,7 +109,7 @@ namespace SharpFBTools.Controls.Panels
 							} else {
 								DateTime dt = DateTime.Now;
 								sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-										dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString();
+										dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
 								sArchiveFile = sFile.Remove( sFile.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
 						}
@@ -129,7 +129,7 @@ namespace SharpFBTools.Controls.Panels
 							} else {
 								DateTime dt = DateTime.Now;
 								sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-											dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString();
+											dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
 								sArchiveFile = sTarget + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
 						}
