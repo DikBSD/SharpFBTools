@@ -318,8 +318,8 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Value = 1;
 			gboxUACount.Refresh();
 
-			long lRar, lZip, l7Z, lBZip2, lGZip, lTar, lFB2, lAnother;
-			lRar = lZip = l7Z = lBZip2 = lGZip = lTar = lFB2 = lAnother = 0;
+			long lRar, lZip, l7Z, lBZip2, lGZip, lTar;
+			lRar = lZip = l7Z = lBZip2 = lGZip = lTar = 0;
 			foreach( string sFile in lFilesList ) {
 				string sExt = Path.GetExtension( sFile );
 				if( sExt.ToLower() == ".rar" )
@@ -334,10 +334,6 @@ namespace SharpFBTools.Controls.Panels
 					lvUACount.Items[4].SubItems[1].Text = (++lGZip).ToString();
 				else if( sExt.ToLower() == ".tar" )
 					lvUACount.Items[5].SubItems[1].Text = (++lTar).ToString();
-				else if( sExt.ToLower() == ".fb2" )
-					lvUACount.Items[6].SubItems[1].Text = (++lFB2).ToString();
-				else
-					lvUACount.Items[7].SubItems[1].Text = (++lAnother).ToString();
 				++tsProgressBar.Value;
 			}
 			
@@ -346,6 +342,159 @@ namespace SharpFBTools.Controls.Panels
 			MessageBox.Show( "Анализ имеющихся файлов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
+		}
+		
+		void TsbtnUnArchiveClick(object sender, EventArgs e)
+		{
+			// Распаковка архивов
+			if( tboxUASourceDir.Text == "" ) {
+				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			DirectoryInfo diFolder = new DirectoryInfo(tboxUASourceDir.Text);
+			if( !diFolder.Exists ) {
+				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			if( rbtnUAToAnotherDir.Checked ) {
+				if( tboxUAToAnotherDir.Text == "") {
+					MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+				if( tboxUAToAnotherDir.Text == tboxUASourceDir.Text ) {
+					MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+			}
+			
+			DateTime dtStart = DateTime.Now;
+			InitUA();
+			tsProgressBar.Visible = true;
+			// сортированный список всех вложенных папок
+			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
+			lDirList.Sort();
+			// сортированный список всех файлов
+			tsslblProgress.Text = "Создание списка файлов:";
+			gboxUACount.Refresh();
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvUAGeneralCount, tsProgressBar );
+			lFilesList.Sort();
+			
+			if( lFilesList.Count == 0 ) {
+				MessageBox.Show( "В указанной папке не найдено ни одного файла!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			tsProgressBar.Maximum = lFilesList.Count+1;
+			tsProgressBar.Value = 1;
+			gboxUACount.Refresh();
+			
+			ArchivesToFile( lFilesList );
+			
+			DateTime dtEnd = DateTime.Now;
+			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
+			MessageBox.Show( "Распаковка архивов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			tsslblProgress.Text = m_sReady;
+			tsProgressBar.Visible = false;
+		}
+		
+		void ArchivesToFile( List<string> lFilesList ) {
+			// Распаковать ахривы
+			long lRar, lZip, l7Z, lBZip2, lGZip, lTar;
+			lRar = lZip = l7Z = lBZip2 = lGZip = lTar = 0;
+			foreach( string sFile in lFilesList ) {
+				string sExt = Path.GetExtension( sFile );
+				if( sExt.ToLower() != "" ) {
+					FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+					switch( sExt.ToLower() ) {
+						case ".rar":
+							if( !Directory.Exists( FilesWorker.FilesWorker.GetTempDir() ) ) {
+								Directory.CreateDirectory( FilesWorker.FilesWorker.GetTempDir() );
+							}
+							Archiver.Archiver.unrar( "unrar.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
+							break;
+						case ".zip":
+							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							lvUACount.Items[1].SubItems[1].Text = (++lZip).ToString();
+							break;
+						case ".7z":
+							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							lvUACount.Items[2].SubItems[1].Text = (++l7Z).ToString();
+							break;
+						case ".bz2":
+							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							lvUACount.Items[3].SubItems[1].Text = (++lBZip2).ToString();
+							break;
+						case ".gz":
+							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							lvUACount.Items[4].SubItems[1].Text = (++lGZip).ToString();
+							break;
+						case ".tar":
+							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							lvUACount.Items[5].SubItems[1].Text = (++lTar).ToString();
+							break;
+					}
+					if( Directory.Exists( FilesWorker.FilesWorker.GetTempDir() ) ) {
+						string [] files = Directory.GetFiles( FilesWorker.FilesWorker.GetTempDir() );
+						if( files.Length > 0 ) {
+							string sFileName = Path.GetFileName( files[0] );
+							FileToDir( sFileName, sFile, tboxUAToAnotherDir.Text );
+						}
+					}				
+				}
+				++tsProgressBar.Value;
+			}
+		}
+		
+		void FileToDir( string sFile, string sArchiveFile, string sTargetDir ) {
+			// Переместить в папку
+			if( Path.GetExtension( sFile ).ToLower() != ".fb2" ) return;
+			string sFileSourceDir = tboxUASourceDir.Text;
+			string sNewDir = Path.GetDirectoryName( sTargetDir + sArchiveFile.Remove( 0, sFileSourceDir.Length ) );
+			string sNewFile = "";
+			string sSufix = ""; // для добавления к имени нового файла суфикса
+			if( rbtnUAToSomeDir.Checked ) {
+				// файл - в ту же папку, где и исходный архив
+				sNewFile = Path.GetDirectoryName( sArchiveFile )+"\\"+sFile;
+				if( File.Exists( sNewFile ) ) {
+					if( cboxUAExistArchive.SelectedIndex==0 ) {
+						File.Delete( sNewFile );
+					} else {
+						DateTime dt = DateTime.Now;
+						sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+								dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+						sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
+					}
+				}
+			} else {
+				// файл - в другую папку
+				sNewFile = sNewDir + "\\" + sFile;
+				FileInfo fi = new FileInfo( sNewFile );
+				if( !fi.Directory.Exists ) {
+					Directory.CreateDirectory( fi.Directory.ToString() );
+				}
+				if( File.Exists( sNewFile ) ) {
+					if( cboxUAExistArchive.SelectedIndex==0 ) {
+						File.Delete( sNewFile );
+					} else {
+						DateTime dt = DateTime.Now;
+						sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+									dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+						sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
+					}
+				}
+			}
+			File.Move( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFile, sNewFile );
+		}
+		
+		
+		void BtnUAToAnotherDirClick(object sender, EventArgs e)
+		{
+			// задание папки для копирования распакованных файлов
+			fbdDir.Description = "Укажите папку для размещения распакованных файлов";
+			DialogResult result = fbdDir.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbdDir.SelectedPath;
+                tboxUAToAnotherDir.Text = openFolderName;
+            }
 		}
 	}
 }

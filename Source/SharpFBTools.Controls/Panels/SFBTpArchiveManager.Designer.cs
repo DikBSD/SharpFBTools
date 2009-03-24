@@ -44,8 +44,6 @@ namespace SharpFBTools.Controls.Panels
 									"Всего файлов",
 									"0"}, -1);
 			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("fb2-файлы", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Другие файлы", System.Windows.Forms.HorizontalAlignment.Left);
 			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Rar",
 									"0"}, -1);
@@ -63,12 +61,6 @@ namespace SharpFBTools.Controls.Panels
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Tar",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
-									"fb2",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Другие",
 									"0"}, -1);
 			this.tsArchiver = new System.Windows.Forms.ToolStrip();
 			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
@@ -638,14 +630,8 @@ namespace SharpFBTools.Controls.Panels
 			this.lvUACount.GridLines = true;
 			listViewGroup1.Header = "Архивы";
 			listViewGroup1.Name = "lvgArchive";
-			listViewGroup2.Header = "fb2-файлы";
-			listViewGroup2.Name = "lvgFB2";
-			listViewGroup3.Header = "Другие файлы";
-			listViewGroup3.Name = "lvgAnother";
 			this.lvUACount.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-									listViewGroup1,
-									listViewGroup2,
-									listViewGroup3});
+									listViewGroup1});
 			listViewItem3.Group = listViewGroup1;
 			listViewItem3.StateImageIndex = 0;
 			listViewItem4.Group = listViewGroup1;
@@ -653,17 +639,13 @@ namespace SharpFBTools.Controls.Panels
 			listViewItem6.Group = listViewGroup1;
 			listViewItem7.Group = listViewGroup1;
 			listViewItem8.Group = listViewGroup1;
-			listViewItem9.Group = listViewGroup2;
-			listViewItem10.Group = listViewGroup3;
 			this.lvUACount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem3,
 									listViewItem4,
 									listViewItem5,
 									listViewItem6,
 									listViewItem7,
-									listViewItem8,
-									listViewItem9,
-									listViewItem10});
+									listViewItem8});
 			this.lvUACount.Location = new System.Drawing.Point(398, 16);
 			this.lvUACount.Name = "lvUACount";
 			this.lvUACount.Size = new System.Drawing.Size(347, 202);
@@ -673,7 +655,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// cHeaderArchive
 			// 
-			this.cHeaderArchive.Text = "Тип файла";
+			this.cHeaderArchive.Text = "Тип архива";
 			this.cHeaderArchive.Width = 200;
 			// 
 			// cHeaderArchiveCount
@@ -713,6 +695,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnUAToAnotherDir.TabIndex = 7;
 			this.btnUAToAnotherDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnUAToAnotherDir.UseVisualStyleBackColor = true;
+			this.btnUAToAnotherDir.Click += new System.EventHandler(this.BtnUAToAnotherDirClick);
 			// 
 			// tboxUAToAnotherDir
 			// 
@@ -890,6 +873,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tsbtnUnArchive.Size = new System.Drawing.Size(100, 28);
 			this.tsbtnUnArchive.Text = "Распаковать";
 			this.tsbtnUnArchive.ToolTipText = "Рапаковать архивы";
+			this.tsbtnUnArchive.Click += new System.EventHandler(this.TsbtnUnArchiveClick);
 			// 
 			// tpTest
 			// 

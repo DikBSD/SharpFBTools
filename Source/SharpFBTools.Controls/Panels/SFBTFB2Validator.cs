@@ -224,7 +224,7 @@ namespace SharpFBTools.Controls.Panels
 		}
 		#endregion
 		
-		#region Копирование, перемещение или удаление файлов
+		#region Копирование, перемещение файлов
 		void CopyOrMoveFilesTo( bool bCopy, string sSource, string sTarget,
 		                       ListView lw, TabPage tp, string sFileType1, string sFileType,
 		                       string sProgressText, string sTabPageDefText ) {
