@@ -161,13 +161,13 @@ namespace FilesWorker
 		
 		public static void ShowDir( System.Windows.Forms.ListView lw ) {
 			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
-			FileInfo fi = new FileInfo( lw.Items[0].SubItems[0].Text.Split('/')[0] );
+			FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
 			Microsoft.VisualBasic.Interaction.Shell( "c:\\WINDOWS\\explorer.exe " + fi.Directory.ToString(), Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, -1 );
 		}
 		
 		public static void StartFile( System.Windows.Forms.ListView lw ) {
 			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
-			FileInfo fi = new FileInfo( lw.Items[0].SubItems[0].Text.Split('/')[0] );
+			FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
 			Microsoft.VisualBasic.Interaction.Shell( "c:\\WINDOWS\\explorer.exe " + fi.FullName.ToString(), Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, -1 );
 		}
 		
