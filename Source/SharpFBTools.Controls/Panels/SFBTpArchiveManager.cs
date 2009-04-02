@@ -24,7 +24,6 @@ namespace SharpFBTools.Controls.Panels
 		#region Закрытые члены-данные класса
 		private string m_sRarDir = "c:\\Program Files\\WinRAR";
 		private string m_sReady = "Готово.";
-		private long m_lFB2Files = 0;
 		#endregion
 		
 		public SFBTpArchiveManager()
@@ -42,11 +41,10 @@ namespace SharpFBTools.Controls.Panels
 		
 		private void InitA() {
 			// инициализация контролов и переменных  (Упаковка)
-			lblDirsCount.Text		= "0";
-			lblFilesCount.Text		= "0";
-			lblFB2FilesCount.Text	= "0";
+			lvGeneralCount.Items[0].SubItems[1].Text = "0";
+			lvGeneralCount.Items[1].SubItems[1].Text = "0";
+			lvGeneralCount.Items[2].SubItems[1].Text = "0";
 			tsProgressBar.Value		= 1;
-			m_lFB2Files				= 0;
 			tsslblProgress.Text		= m_sReady;
 			tsProgressBar.Visible	= false;
 		}
@@ -92,10 +90,12 @@ namespace SharpFBTools.Controls.Panels
 		
 		void FileToArchive( List<string> lFilesList, bool bZip ) {
 			// упаковка fb2-файлов в .fb2.zip
+			long lFB2 = 0;
 			foreach( string sFile in lFilesList ) {
 				string sExt = Path.GetExtension( sFile );
 				if( sExt.ToLower() == ".fb2" ) {
-					++this.m_lFB2Files;
+					lvGeneralCount.Items[2].SubItems[1].Text = (++lFB2).ToString();
+					lvGeneralCount.Refresh();
 					// упаковываем
 					string sArchiveFile = "";
 					string sDotExt = "."+GetArchiveExt( cboxArchiveType.Text );
@@ -240,12 +240,11 @@ namespace SharpFBTools.Controls.Panels
 			InitA();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
-			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lblDirsCount );
+			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvGeneralCount );
 			lDirList.Sort();
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
-			pCount.Refresh();
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, pCount, lblFilesCount, tsProgressBar );
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvGeneralCount, tsProgressBar );
 			lFilesList.Sort();
 			
 			if( lFilesList.Count == 0 ) {
@@ -255,13 +254,11 @@ namespace SharpFBTools.Controls.Panels
 			}
 			tsProgressBar.Maximum = lFilesList.Count+1;
 			tsProgressBar.Value = 1;
-			pCount.Refresh();
 			if( cboxArchiveType.SelectedIndex == 0 ) {
 				FileToArchive( lFilesList, false ); // rar
 			} else {
 				FileToArchive( lFilesList, true ); // zip, 7z...
 			}
-			lblFB2FilesCount.Text = m_lFB2Files.ToString();
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 			MessageBox.Show( "Упаковка fb2-файлов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -304,6 +301,7 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
 			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
+			ssProgress.Update();
 			lDirList.Sort();
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
@@ -372,6 +370,7 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
 			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
+			ssProgress.Update();
 			lDirList.Sort();
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
