@@ -53,6 +53,7 @@ namespace SharpFBTools.Controls.Panels
 			// инициализация контролов и переменных  (Распаковка)
 			lvUAGeneralCount.Items[0].SubItems[1].Text = "0";
 			lvUAGeneralCount.Items[1].SubItems[1].Text = "0";
+			lvUAGeneralCount.Items[2].SubItems[1].Text = "0";
 			
 			for( int i=0; i!=lvUACount.Items.Count; ++i ) {
 				lvUACount.Items[i].SubItems[1].Text = "0";
@@ -88,7 +89,7 @@ namespace SharpFBTools.Controls.Panels
 			return sExt;
 		}
 		
-		void FileToArchive( List<string> lFilesList, bool bZip ) {
+		void FileToArchive( List<string> lFilesList, bool bZip, ToolStripProgressBar pBar ) {
 			// упаковка fb2-файлов в .fb2.zip
 			long lFB2 = 0;
 			foreach( string sFile in lFilesList ) {
@@ -147,7 +148,7 @@ namespace SharpFBTools.Controls.Panels
 						}
 					}
 				}
-				++tsProgressBar.Value;
+				++pBar.Value;
 			}
 		}
 		#endregion
@@ -254,10 +255,11 @@ namespace SharpFBTools.Controls.Panels
 			}
 			tsProgressBar.Maximum = lFilesList.Count+1;
 			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			if( cboxArchiveType.SelectedIndex == 0 ) {
-				FileToArchive( lFilesList, false ); // rar
+				FileToArchive( lFilesList, false, tsProgressBar ); // rar
 			} else {
-				FileToArchive( lFilesList, true ); // zip, 7z...
+				FileToArchive( lFilesList, true, tsProgressBar ); // zip, 7z...
 			}
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
@@ -314,6 +316,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			tsProgressBar.Maximum = lFilesList.Count+1;
 			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			gboxUACount.Refresh();
 
 			long lRar, lZip, l7Z, lBZip2, lGZip, lTar;
@@ -383,9 +386,10 @@ namespace SharpFBTools.Controls.Panels
 			}
 			tsProgressBar.Maximum = lFilesList.Count+1;
 			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			gboxUACount.Refresh();
 			
-			ArchivesToFile( lFilesList );
+			ArchivesToFile( lFilesList, tsProgressBar );
 			
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
@@ -394,8 +398,9 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible = false;
 		}
 		
-		void ArchivesToFile( List<string> lFilesList ) {
+		void ArchivesToFile( List<string> lFilesList, ToolStripProgressBar pBar ) {
 			// Распаковать ахривы
+			long lAllArchive = 0;
 			long lRar, lZip, l7Z, lBZip2, lGZip, lTar;
 			lRar = lZip = l7Z = lBZip2 = lGZip = lTar = 0;
 			foreach( string sFile in lFilesList ) {
@@ -431,15 +436,18 @@ namespace SharpFBTools.Controls.Panels
 							lvUACount.Items[5].SubItems[1].Text = (++lTar).ToString();
 							break;
 					}
+					lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
 					if( Directory.Exists( FilesWorker.FilesWorker.GetTempDir() ) ) {
 						string [] files = Directory.GetFiles( FilesWorker.FilesWorker.GetTempDir() );
 						if( files.Length > 0 ) {
 							string sFileName = Path.GetFileName( files[0] );
 							FileToDir( sFileName, sFile, tboxUAToAnotherDir.Text );
 						}
-					}				
+					}
+					lvUAGeneralCount.Refresh();
+					lvUACount.Refresh();
 				}
-				++tsProgressBar.Value;
+				++pBar.Value;
 			}
 		}
 		

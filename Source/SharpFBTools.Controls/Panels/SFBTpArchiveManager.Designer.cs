@@ -52,23 +52,26 @@ namespace SharpFBTools.Controls.Panels
 			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
 			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Распаковано архивов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Rar",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Zip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
 									"7z",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
 									"BZip2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
 									"GZip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Tar",
 									"0"}, -1);
 			this.tsArchiver = new System.Windows.Forms.ToolStrip();
@@ -85,6 +88,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tcArchiver = new System.Windows.Forms.TabControl();
 			this.tpArchive = new System.Windows.Forms.TabPage();
 			this.pOptions = new System.Windows.Forms.Panel();
+			this.gboxCount = new System.Windows.Forms.GroupBox();
 			this.lvGeneralCount = new System.Windows.Forms.ListView();
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
@@ -145,6 +149,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tcArchiver.SuspendLayout();
 			this.tpArchive.SuspendLayout();
 			this.pOptions.SuspendLayout();
+			this.gboxCount.SuspendLayout();
 			this.gboxOptions.SuspendLayout();
 			this.pToAnotherDir.SuspendLayout();
 			this.pType.SuspendLayout();
@@ -291,13 +296,24 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// pOptions
 			// 
-			this.pOptions.Controls.Add(this.lvGeneralCount);
+			this.pOptions.Controls.Add(this.gboxCount);
 			this.pOptions.Controls.Add(this.gboxOptions);
 			this.pOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pOptions.Location = new System.Drawing.Point(3, 92);
 			this.pOptions.Name = "pOptions";
 			this.pOptions.Size = new System.Drawing.Size(754, 345);
 			this.pOptions.TabIndex = 26;
+			// 
+			// gboxCount
+			// 
+			this.gboxCount.Controls.Add(this.lvGeneralCount);
+			this.gboxCount.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gboxCount.Location = new System.Drawing.Point(0, 157);
+			this.gboxCount.Name = "gboxCount";
+			this.gboxCount.Size = new System.Drawing.Size(754, 188);
+			this.gboxCount.TabIndex = 3;
+			this.gboxCount.TabStop = false;
+			this.gboxCount.Text = " Ход работы ";
 			// 
 			// lvGeneralCount
 			// 
@@ -310,9 +326,9 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem1,
 									listViewItem2,
 									listViewItem3});
-			this.lvGeneralCount.Location = new System.Drawing.Point(0, 157);
+			this.lvGeneralCount.Location = new System.Drawing.Point(3, 16);
 			this.lvGeneralCount.Name = "lvGeneralCount";
-			this.lvGeneralCount.Size = new System.Drawing.Size(754, 188);
+			this.lvGeneralCount.Size = new System.Drawing.Size(748, 169);
 			this.lvGeneralCount.TabIndex = 2;
 			this.lvGeneralCount.UseCompatibleStateImageBehavior = false;
 			this.lvGeneralCount.View = System.Windows.Forms.View.Details;
@@ -540,7 +556,8 @@ namespace SharpFBTools.Controls.Panels
 			this.lvUAGeneralCount.GridLines = true;
 			this.lvUAGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem4,
-									listViewItem5});
+									listViewItem5,
+									listViewItem6});
 			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 16);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
 			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 202);
@@ -571,20 +588,20 @@ namespace SharpFBTools.Controls.Panels
 			listViewGroup1.Name = "lvgArchive";
 			this.lvUACount.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
 									listViewGroup1});
-			listViewItem6.Group = listViewGroup1;
-			listViewItem6.StateImageIndex = 0;
 			listViewItem7.Group = listViewGroup1;
+			listViewItem7.StateImageIndex = 0;
 			listViewItem8.Group = listViewGroup1;
 			listViewItem9.Group = listViewGroup1;
 			listViewItem10.Group = listViewGroup1;
 			listViewItem11.Group = listViewGroup1;
+			listViewItem12.Group = listViewGroup1;
 			this.lvUACount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem6,
 									listViewItem7,
 									listViewItem8,
 									listViewItem9,
 									listViewItem10,
-									listViewItem11});
+									listViewItem11,
+									listViewItem12});
 			this.lvUACount.Location = new System.Drawing.Point(398, 16);
 			this.lvUACount.Name = "lvUACount";
 			this.lvUACount.Size = new System.Drawing.Size(347, 202);
@@ -898,6 +915,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpArchive.ResumeLayout(false);
 			this.tpArchive.PerformLayout();
 			this.pOptions.ResumeLayout(false);
+			this.gboxCount.ResumeLayout(false);
 			this.gboxOptions.ResumeLayout(false);
 			this.pToAnotherDir.ResumeLayout(false);
 			this.pToAnotherDir.PerformLayout();
@@ -922,6 +940,7 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.GroupBox gboxCount;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.ListView lvGeneralCount;
