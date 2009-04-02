@@ -55,23 +55,26 @@ namespace SharpFBTools.Controls.Panels
 			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Распаковано архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
 			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2-файлы из этих архивов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Rar",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Zip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
 									"7z",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
 									"BZip2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
 									"GZip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Tar",
 									"0"}, -1);
 			this.tsArchiver = new System.Windows.Forms.ToolStrip();
@@ -557,7 +560,8 @@ namespace SharpFBTools.Controls.Panels
 			this.lvUAGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem4,
 									listViewItem5,
-									listViewItem6});
+									listViewItem6,
+									listViewItem7});
 			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 16);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
 			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 202);
@@ -588,20 +592,20 @@ namespace SharpFBTools.Controls.Panels
 			listViewGroup1.Name = "lvgArchive";
 			this.lvUACount.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
 									listViewGroup1});
-			listViewItem7.Group = listViewGroup1;
-			listViewItem7.StateImageIndex = 0;
 			listViewItem8.Group = listViewGroup1;
+			listViewItem8.StateImageIndex = 0;
 			listViewItem9.Group = listViewGroup1;
 			listViewItem10.Group = listViewGroup1;
 			listViewItem11.Group = listViewGroup1;
 			listViewItem12.Group = listViewGroup1;
+			listViewItem13.Group = listViewGroup1;
 			this.lvUACount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem7,
 									listViewItem8,
 									listViewItem9,
 									listViewItem10,
 									listViewItem11,
-									listViewItem12});
+									listViewItem12,
+									listViewItem13});
 			this.lvUACount.Location = new System.Drawing.Point(398, 16);
 			this.lvUACount.Name = "lvUACount";
 			this.lvUACount.Size = new System.Drawing.Size(347, 202);
