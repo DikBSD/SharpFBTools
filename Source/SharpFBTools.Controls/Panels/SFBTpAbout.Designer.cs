@@ -39,6 +39,9 @@ namespace SharpFBTools.Controls.Panels
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpAbout));
 			this.tcAbout = new System.Windows.Forms.TabControl();
 			this.tpAbout = new System.Windows.Forms.TabPage();
+			this.lblDonate3Text = new System.Windows.Forms.Label();
+			this.lblDonate2Text = new System.Windows.Forms.Label();
+			this.lblDonate1Text = new System.Windows.Forms.Label();
 			this.lblDonateText = new System.Windows.Forms.Label();
 			this.lblDonate = new System.Windows.Forms.Label();
 			this.lblIDE = new System.Windows.Forms.Label();
@@ -55,6 +58,8 @@ namespace SharpFBTools.Controls.Panels
 			this.pMode = new System.Windows.Forms.Panel();
 			this.lblType = new System.Windows.Forms.Label();
 			this.cboxInstrument = new System.Windows.Forms.ComboBox();
+			this.lblDonate4Text = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.tcAbout.SuspendLayout();
 			this.tpAbout.SuspendLayout();
 			this.tpLicense.SuspendLayout();
@@ -77,6 +82,11 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tpAbout
 			// 
+			this.tpAbout.Controls.Add(this.label1);
+			this.tpAbout.Controls.Add(this.lblDonate4Text);
+			this.tpAbout.Controls.Add(this.lblDonate3Text);
+			this.tpAbout.Controls.Add(this.lblDonate2Text);
+			this.tpAbout.Controls.Add(this.lblDonate1Text);
 			this.tpAbout.Controls.Add(this.lblDonateText);
 			this.tpAbout.Controls.Add(this.lblDonate);
 			this.tpAbout.Controls.Add(this.lblIDE);
@@ -90,15 +100,52 @@ namespace SharpFBTools.Controls.Panels
 			this.tpAbout.Padding = new System.Windows.Forms.Padding(3);
 			this.tpAbout.Size = new System.Drawing.Size(703, 529);
 			this.tpAbout.TabIndex = 0;
-			this.tpAbout.Text = "О программе";
+			this.tpAbout.Text = " О программе ";
 			this.tpAbout.UseVisualStyleBackColor = true;
+			// 
+			// lblDonate3Text
+			// 
+			this.lblDonate3Text.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblDonate3Text.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblDonate3Text.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.lblDonate3Text.Location = new System.Drawing.Point(3, 309);
+			this.lblDonate3Text.Name = "lblDonate3Text";
+			this.lblDonate3Text.Size = new System.Drawing.Size(697, 18);
+			this.lblDonate3Text.TabIndex = 10;
+			this.lblDonate3Text.Text = "Кошельки Yandex:";
+			this.lblDonate3Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblDonate2Text
+			// 
+			this.lblDonate2Text.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblDonate2Text.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblDonate2Text.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblDonate2Text.Location = new System.Drawing.Point(3, 248);
+			this.lblDonate2Text.Name = "lblDonate2Text";
+			this.lblDonate2Text.Size = new System.Drawing.Size(697, 61);
+			this.lblDonate2Text.TabIndex = 9;
+			this.lblDonate2Text.Text = "Рубли       R495978785236\r\nЕвро         E243705649077\r\nДоллары  Z264821990230\r\nГр" +
+			"ивны     U412522600992";
+			this.lblDonate2Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblDonate1Text
+			// 
+			this.lblDonate1Text.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblDonate1Text.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblDonate1Text.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.lblDonate1Text.Location = new System.Drawing.Point(3, 227);
+			this.lblDonate1Text.Name = "lblDonate1Text";
+			this.lblDonate1Text.Size = new System.Drawing.Size(697, 21);
+			this.lblDonate1Text.TabIndex = 8;
+			this.lblDonate1Text.Text = "Кошельки WebMoney:";
+			this.lblDonate1Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lblDonateText
 			// 
 			this.lblDonateText.Dock = System.Windows.Forms.DockStyle.Top;
 			this.lblDonateText.Location = new System.Drawing.Point(3, 174);
 			this.lblDonateText.Name = "lblDonateText";
-			this.lblDonateText.Size = new System.Drawing.Size(697, 63);
+			this.lblDonateText.Size = new System.Drawing.Size(697, 53);
 			this.lblDonateText.TabIndex = 7;
 			this.lblDonateText.Text = resources.GetString("lblDonateText.Text");
 			this.lblDonateText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -107,7 +154,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.lblDonate.Dock = System.Windows.Forms.DockStyle.Top;
 			this.lblDonate.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-			this.lblDonate.ForeColor = System.Drawing.Color.Blue;
+			this.lblDonate.ForeColor = System.Drawing.Color.MediumBlue;
 			this.lblDonate.Location = new System.Drawing.Point(3, 147);
 			this.lblDonate.Name = "lblDonate";
 			this.lblDonate.Size = new System.Drawing.Size(697, 27);
@@ -272,6 +319,28 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxInstrument.TabIndex = 1;
 			this.cboxInstrument.SelectedIndexChanged += new System.EventHandler(this.CboxInstrumentSelectedIndexChanged);
 			// 
+			// lblDonate4Text
+			// 
+			this.lblDonate4Text.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblDonate4Text.Location = new System.Drawing.Point(3, 327);
+			this.lblDonate4Text.Name = "lblDonate4Text";
+			this.lblDonate4Text.Size = new System.Drawing.Size(697, 17);
+			this.lblDonate4Text.TabIndex = 11;
+			this.lblDonate4Text.Text = "41001359712131";
+			this.lblDonate4Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label1
+			// 
+			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.label1.Font = new System.Drawing.Font("Tahoma", 11F);
+			this.label1.ForeColor = System.Drawing.Color.Sienna;
+			this.label1.Location = new System.Drawing.Point(3, 344);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(697, 23);
+			this.label1.TabIndex = 12;
+			this.label1.Text = "Пожелания и предложения по изменению приветствуются и принимаются!";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// SFBTpAbout
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -287,6 +356,11 @@ namespace SharpFBTools.Controls.Panels
 			this.pMode.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Label lblDonate4Text;
+		private System.Windows.Forms.Label lblDonate1Text;
+		private System.Windows.Forms.Label lblDonate3Text;
+		private System.Windows.Forms.Label lblDonate2Text;
+		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label lblDonateText;
 		private System.Windows.Forms.Label lblDonate;
 		private System.Windows.Forms.Label lblIDE;
