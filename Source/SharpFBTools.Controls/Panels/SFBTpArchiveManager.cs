@@ -62,6 +62,21 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible	= false;
 		}
 		
+		string ExistsFB2FileFileToDirWorker( string sNewFile, string sSufix ) {
+			// Обработка существующих в папке-приемнике файлов при копировании
+			if( File.Exists( sNewFile ) ) {
+				if( cboxUAExistArchive.SelectedIndex==0 ) {
+					File.Delete( sNewFile );
+				} else {
+					DateTime dt = DateTime.Now;
+					sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+							dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+					sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
+				}
+			}
+			return sNewFile;
+		}
+		
 		bool FileToDir( string sFile, string sArchiveFile, string sTargetDir, bool bFB2 ) {
 			// Переместить в папку
 			// bFB2=true - копировать только fb2-файлы. false - любые
@@ -73,16 +88,8 @@ namespace SharpFBTools.Controls.Panels
 			if( rbtnUAToSomeDir.Checked ) {
 				// файл - в ту же папку, где и исходный архив
 				sNewFile = Path.GetDirectoryName( sArchiveFile )+"\\"+sFile;
-				if( File.Exists( sNewFile ) ) {
-					if( cboxUAExistArchive.SelectedIndex==0 ) {
-						File.Delete( sNewFile );
-					} else {
-						DateTime dt = DateTime.Now;
-						sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-								dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
-						sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
-					}
-				}
+				// Обработка существующих в папке-приемнике файлов при копировании
+				sNewFile = ExistsFB2FileFileToDirWorker( sNewFile, sSufix );
 			} else {
 				// файл - в другую папку
 				sNewFile = sNewDir + "\\" + sFile;
@@ -90,16 +97,8 @@ namespace SharpFBTools.Controls.Panels
 				if( !fi.Directory.Exists ) {
 					Directory.CreateDirectory( fi.Directory.ToString() );
 				}
-				if( File.Exists( sNewFile ) ) {
-					if( cboxUAExistArchive.SelectedIndex==0 ) {
-						File.Delete( sNewFile );
-					} else {
-						DateTime dt = DateTime.Now;
-						sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-									dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
-						sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
-					}
-				}
+				// Обработка существующих в папке-приемнике файлов при копировании
+				sNewFile = ExistsFB2FileFileToDirWorker( sNewFile, sSufix );
 			}
 			File.Move( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFile, sNewFile );
 			return true;

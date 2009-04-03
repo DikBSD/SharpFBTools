@@ -27,6 +27,7 @@ namespace SharpFBTools.Controls.Panels
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			cboxExistFile.SelectedIndex = 1;
 			// инициализация контролов
 			Init();
 		}
@@ -264,8 +265,17 @@ namespace SharpFBTools.Controls.Panels
 				if( !fi.Directory.Exists ) {
 					Directory.CreateDirectory( fi.Directory.ToString() );
 				}
+				string sSufix = "";
 				if( File.Exists( sNewPath ) ) {
-					File.Delete( sNewPath );
+					if( cboxExistFile.SelectedIndex==0 ) {
+						File.Delete( sNewPath );
+					} else {
+						string sExt = Path.GetExtension( sNewPath );
+						DateTime dt = DateTime.Now;
+						sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+									dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+						sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
+					}
 				}
 				if( bCopy ) {
 					File.Copy( sFilePath, sNewPath );

@@ -37,22 +37,22 @@ namespace SharpFBTools.Controls.Panels
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .zip-файлах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .rar-файлах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
@@ -124,6 +124,9 @@ namespace SharpFBTools.Controls.Panels
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.pInfo = new System.Windows.Forms.Panel();
+			this.gboxCopyMoveOptions = new System.Windows.Forms.GroupBox();
+			this.cboxExistFile = new System.Windows.Forms.ComboBox();
+			this.lblExistFile = new System.Windows.Forms.Label();
 			this.pCentral = new System.Windows.Forms.Panel();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
@@ -140,6 +143,7 @@ namespace SharpFBTools.Controls.Panels
 			this.ssProgress.SuspendLayout();
 			this.tlCentral.SuspendLayout();
 			this.pInfo.SuspendLayout();
+			this.gboxCopyMoveOptions.SuspendLayout();
 			this.pCentral.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -433,11 +437,11 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewNotValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewNotValid.FullRowSelect = true;
 			this.listViewNotValid.GridLines = true;
-			this.listViewNotValid.Location = new System.Drawing.Point(3, 85);
+			this.listViewNotValid.Location = new System.Drawing.Point(3, 83);
 			this.listViewNotValid.MultiSelect = false;
 			this.listViewNotValid.Name = "listViewNotValid";
 			this.listViewNotValid.ShowItemToolTips = true;
-			this.listViewNotValid.Size = new System.Drawing.Size(712, 101);
+			this.listViewNotValid.Size = new System.Drawing.Size(712, 103);
 			this.listViewNotValid.TabIndex = 0;
 			this.listViewNotValid.UseCompatibleStateImageBehavior = false;
 			this.listViewNotValid.View = System.Windows.Forms.View.Details;
@@ -791,21 +795,22 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// lvFilesCount
 			// 
+			this.lvFilesCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+									| System.Windows.Forms.AnchorStyles.Left)));
 			this.lvFilesCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.columnHeader6,
 									this.columnHeader7});
-			this.lvFilesCount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4,
-									listViewItem5,
-									listViewItem6});
+									listViewItem13,
+									listViewItem14,
+									listViewItem15,
+									listViewItem16,
+									listViewItem17,
+									listViewItem18});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
 			this.lvFilesCount.Name = "lvFilesCount";
-			this.lvFilesCount.Size = new System.Drawing.Size(726, 105);
+			this.lvFilesCount.Size = new System.Drawing.Size(223, 105);
 			this.lvFilesCount.TabIndex = 20;
 			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
 			this.lvFilesCount.View = System.Windows.Forms.View.Details;
@@ -823,12 +828,48 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// pInfo
 			// 
+			this.pInfo.Controls.Add(this.gboxCopyMoveOptions);
 			this.pInfo.Controls.Add(this.lvFilesCount);
 			this.pInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.pInfo.Location = new System.Drawing.Point(0, 373);
 			this.pInfo.Name = "pInfo";
 			this.pInfo.Size = new System.Drawing.Size(726, 105);
 			this.pInfo.TabIndex = 21;
+			// 
+			// gboxCopyMoveOptions
+			// 
+			this.gboxCopyMoveOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+									| System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.gboxCopyMoveOptions.Controls.Add(this.cboxExistFile);
+			this.gboxCopyMoveOptions.Controls.Add(this.lblExistFile);
+			this.gboxCopyMoveOptions.Location = new System.Drawing.Point(229, 3);
+			this.gboxCopyMoveOptions.Name = "gboxCopyMoveOptions";
+			this.gboxCopyMoveOptions.Size = new System.Drawing.Size(492, 101);
+			this.gboxCopyMoveOptions.TabIndex = 21;
+			this.gboxCopyMoveOptions.TabStop = false;
+			this.gboxCopyMoveOptions.Text = " Настройки для Копирования / Перемещения файлов ";
+			// 
+			// cboxExistFile
+			// 
+			this.cboxExistFile.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxExistFile.FormattingEnabled = true;
+			this.cboxExistFile.Items.AddRange(new object[] {
+									"Заменить существующий файл новым",
+									"Добавить к новому файлу дату и время"});
+			this.cboxExistFile.Location = new System.Drawing.Point(228, 21);
+			this.cboxExistFile.Name = "cboxExistFile";
+			this.cboxExistFile.Size = new System.Drawing.Size(246, 21);
+			this.cboxExistFile.TabIndex = 18;
+			// 
+			// lblExistFile
+			// 
+			this.lblExistFile.AutoSize = true;
+			this.lblExistFile.Location = new System.Drawing.Point(15, 24);
+			this.lblExistFile.Name = "lblExistFile";
+			this.lblExistFile.Size = new System.Drawing.Size(213, 13);
+			this.lblExistFile.TabIndex = 17;
+			this.lblExistFile.Text = "Одинаковые файлы в пвпке-приемнике:";
 			// 
 			// pCentral
 			// 
@@ -873,10 +914,15 @@ namespace SharpFBTools.Controls.Panels
 			this.tlCentral.ResumeLayout(false);
 			this.tlCentral.PerformLayout();
 			this.pInfo.ResumeLayout(false);
+			this.gboxCopyMoveOptions.ResumeLayout(false);
+			this.gboxCopyMoveOptions.PerformLayout();
 			this.pCentral.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Label lblExistFile;
+		private System.Windows.Forms.ComboBox cboxExistFile;
+		private System.Windows.Forms.GroupBox gboxCopyMoveOptions;
 		private System.Windows.Forms.Panel pCentral;
 		private System.Windows.Forms.Panel pInfo;
 		private System.Windows.Forms.ListView lvFilesCount;
