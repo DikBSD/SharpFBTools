@@ -37,6 +37,60 @@ namespace SharpFBTools.Controls.Panels
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
+			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего папок",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2-файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2 в .zip-файлах",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2 в .rar-файлах",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Другие файлы",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего папок",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2-файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2 в .zip-файлах",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2 в .rar-файлах",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Другие файлы",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего папок",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2-файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2 в .zip-файлах",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2 в .rar-файлах",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Другие файлы",
+									"0"}, -1);
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
 			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
@@ -116,6 +170,15 @@ namespace SharpFBTools.Controls.Panels
 			this.fbdNotFB2 = new System.Windows.Forms.FolderBrowserDialog();
 			this.fbdSource = new System.Windows.Forms.FolderBrowserDialog();
 			this.sfdReport = new System.Windows.Forms.SaveFileDialog();
+			this.lvUAGeneralCount = new System.Windows.Forms.ListView();
+			this.cHeaderDirsFiles = new System.Windows.Forms.ColumnHeader();
+			this.cHeaderCount = new System.Windows.Forms.ColumnHeader();
+			this.listView1 = new System.Windows.Forms.ListView();
+			this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+			this.listView2 = new System.Windows.Forms.ListView();
+			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.tlpCount.SuspendLayout();
@@ -458,6 +521,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// gbFB2NotValidFiles
 			// 
+			this.gbFB2NotValidFiles.Controls.Add(this.listView2);
 			this.gbFB2NotValidFiles.Controls.Add(this.lblFB2NotValidFilesMoveDir);
 			this.gbFB2NotValidFiles.Controls.Add(this.btnFB2NotValidMoveTo);
 			this.gbFB2NotValidFiles.Controls.Add(this.tboxFB2NotValidDirMoveTo);
@@ -468,7 +532,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gbFB2NotValidFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.gbFB2NotValidFiles.Location = new System.Drawing.Point(3, 3);
 			this.gbFB2NotValidFiles.Name = "gbFB2NotValidFiles";
-			this.gbFB2NotValidFiles.Size = new System.Drawing.Size(706, 75);
+			this.gbFB2NotValidFiles.Size = new System.Drawing.Size(706, 123);
 			this.gbFB2NotValidFiles.TabIndex = 6;
 			this.gbFB2NotValidFiles.TabStop = false;
 			this.gbFB2NotValidFiles.Text = " Обработка не валидных fb2-файлов: ";
@@ -488,7 +552,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnFB2NotValidMoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnFB2NotValidMoveTo.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2NotValidMoveTo.Image")));
 			this.btnFB2NotValidMoveTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2NotValidMoveTo.Location = new System.Drawing.Point(654, 44);
+			this.btnFB2NotValidMoveTo.Location = new System.Drawing.Point(464, 44);
 			this.btnFB2NotValidMoveTo.Name = "btnFB2NotValidMoveTo";
 			this.btnFB2NotValidMoveTo.Size = new System.Drawing.Size(37, 24);
 			this.btnFB2NotValidMoveTo.TabIndex = 8;
@@ -503,7 +567,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxFB2NotValidDirMoveTo.Location = new System.Drawing.Point(109, 46);
 			this.tboxFB2NotValidDirMoveTo.Name = "tboxFB2NotValidDirMoveTo";
 			this.tboxFB2NotValidDirMoveTo.ReadOnly = true;
-			this.tboxFB2NotValidDirMoveTo.Size = new System.Drawing.Size(539, 20);
+			this.tboxFB2NotValidDirMoveTo.Size = new System.Drawing.Size(350, 20);
 			this.tboxFB2NotValidDirMoveTo.TabIndex = 7;
 			// 
 			// lblFB2NotValidFilesCopyDir
@@ -521,7 +585,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnFB2NotValidCopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnFB2NotValidCopyTo.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2NotValidCopyTo.Image")));
 			this.btnFB2NotValidCopyTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2NotValidCopyTo.Location = new System.Drawing.Point(654, 18);
+			this.btnFB2NotValidCopyTo.Location = new System.Drawing.Point(464, 18);
 			this.btnFB2NotValidCopyTo.Name = "btnFB2NotValidCopyTo";
 			this.btnFB2NotValidCopyTo.Size = new System.Drawing.Size(37, 24);
 			this.btnFB2NotValidCopyTo.TabIndex = 5;
@@ -536,16 +600,16 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxFB2NotValidDirCopyTo.Location = new System.Drawing.Point(109, 20);
 			this.tboxFB2NotValidDirCopyTo.Name = "tboxFB2NotValidDirCopyTo";
 			this.tboxFB2NotValidDirCopyTo.ReadOnly = true;
-			this.tboxFB2NotValidDirCopyTo.Size = new System.Drawing.Size(539, 20);
+			this.tboxFB2NotValidDirCopyTo.Size = new System.Drawing.Size(350, 20);
 			this.tboxFB2NotValidDirCopyTo.TabIndex = 0;
 			// 
 			// pErrors
 			// 
 			this.pErrors.Controls.Add(this.rеboxNotValid);
 			this.pErrors.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pErrors.Location = new System.Drawing.Point(3, 312);
+			this.pErrors.Location = new System.Drawing.Point(3, 282);
 			this.pErrors.Name = "pErrors";
-			this.pErrors.Size = new System.Drawing.Size(706, 59);
+			this.pErrors.Size = new System.Drawing.Size(706, 89);
 			this.pErrors.TabIndex = 1;
 			// 
 			// rеboxNotValid
@@ -554,7 +618,7 @@ namespace SharpFBTools.Controls.Panels
 			this.rеboxNotValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.rеboxNotValid.Location = new System.Drawing.Point(0, 0);
 			this.rеboxNotValid.Name = "rеboxNotValid";
-			this.rеboxNotValid.Size = new System.Drawing.Size(706, 59);
+			this.rеboxNotValid.Size = new System.Drawing.Size(706, 89);
 			this.rеboxNotValid.TabIndex = 2;
 			this.rеboxNotValid.Text = "";
 			// 
@@ -570,11 +634,11 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewNotValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewNotValid.FullRowSelect = true;
 			this.listViewNotValid.GridLines = true;
-			this.listViewNotValid.Location = new System.Drawing.Point(3, 81);
+			this.listViewNotValid.Location = new System.Drawing.Point(3, 130);
 			this.listViewNotValid.MultiSelect = false;
 			this.listViewNotValid.Name = "listViewNotValid";
 			this.listViewNotValid.ShowItemToolTips = true;
-			this.listViewNotValid.Size = new System.Drawing.Size(706, 227);
+			this.listViewNotValid.Size = new System.Drawing.Size(706, 146);
 			this.listViewNotValid.TabIndex = 0;
 			this.listViewNotValid.UseCompatibleStateImageBehavior = false;
 			this.listViewNotValid.View = System.Windows.Forms.View.Details;
@@ -612,9 +676,9 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.pValidLV.Controls.Add(this.listViewValid);
 			this.pValidLV.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pValidLV.Location = new System.Drawing.Point(3, 78);
+			this.pValidLV.Location = new System.Drawing.Point(3, 126);
 			this.pValidLV.Name = "pValidLV";
-			this.pValidLV.Size = new System.Drawing.Size(706, 293);
+			this.pValidLV.Size = new System.Drawing.Size(706, 245);
 			this.pValidLV.TabIndex = 9;
 			// 
 			// listViewValid
@@ -630,7 +694,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewValid.MultiSelect = false;
 			this.listViewValid.Name = "listViewValid";
 			this.listViewValid.ShowItemToolTips = true;
-			this.listViewValid.Size = new System.Drawing.Size(706, 293);
+			this.listViewValid.Size = new System.Drawing.Size(706, 245);
 			this.listViewValid.TabIndex = 1;
 			this.listViewValid.UseCompatibleStateImageBehavior = false;
 			this.listViewValid.View = System.Windows.Forms.View.Details;
@@ -648,6 +712,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// gbFB2Valid
 			// 
+			this.gbFB2Valid.Controls.Add(this.lvUAGeneralCount);
 			this.gbFB2Valid.Controls.Add(this.lblFB2ValidFilesMoveDir);
 			this.gbFB2Valid.Controls.Add(this.btnFB2ValidMoveTo);
 			this.gbFB2Valid.Controls.Add(this.tboxFB2ValidDirMoveTo);
@@ -658,7 +723,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gbFB2Valid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.gbFB2Valid.Location = new System.Drawing.Point(3, 3);
 			this.gbFB2Valid.Name = "gbFB2Valid";
-			this.gbFB2Valid.Size = new System.Drawing.Size(706, 75);
+			this.gbFB2Valid.Size = new System.Drawing.Size(706, 123);
 			this.gbFB2Valid.TabIndex = 8;
 			this.gbFB2Valid.TabStop = false;
 			this.gbFB2Valid.Text = " Обработка валидных fb2-файлов: ";
@@ -678,7 +743,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnFB2ValidMoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnFB2ValidMoveTo.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2ValidMoveTo.Image")));
 			this.btnFB2ValidMoveTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2ValidMoveTo.Location = new System.Drawing.Point(654, 44);
+			this.btnFB2ValidMoveTo.Location = new System.Drawing.Point(464, 44);
 			this.btnFB2ValidMoveTo.Name = "btnFB2ValidMoveTo";
 			this.btnFB2ValidMoveTo.Size = new System.Drawing.Size(37, 24);
 			this.btnFB2ValidMoveTo.TabIndex = 8;
@@ -693,7 +758,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxFB2ValidDirMoveTo.Location = new System.Drawing.Point(109, 46);
 			this.tboxFB2ValidDirMoveTo.Name = "tboxFB2ValidDirMoveTo";
 			this.tboxFB2ValidDirMoveTo.ReadOnly = true;
-			this.tboxFB2ValidDirMoveTo.Size = new System.Drawing.Size(539, 20);
+			this.tboxFB2ValidDirMoveTo.Size = new System.Drawing.Size(350, 20);
 			this.tboxFB2ValidDirMoveTo.TabIndex = 7;
 			// 
 			// lblFB2ValidFilesCopyDir
@@ -711,7 +776,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnFB2ValidCopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnFB2ValidCopyTo.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2ValidCopyTo.Image")));
 			this.btnFB2ValidCopyTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2ValidCopyTo.Location = new System.Drawing.Point(654, 18);
+			this.btnFB2ValidCopyTo.Location = new System.Drawing.Point(464, 18);
 			this.btnFB2ValidCopyTo.Name = "btnFB2ValidCopyTo";
 			this.btnFB2ValidCopyTo.Size = new System.Drawing.Size(37, 24);
 			this.btnFB2ValidCopyTo.TabIndex = 5;
@@ -726,7 +791,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxFB2ValidDirCopyTo.Location = new System.Drawing.Point(109, 20);
 			this.tboxFB2ValidDirCopyTo.Name = "tboxFB2ValidDirCopyTo";
 			this.tboxFB2ValidDirCopyTo.ReadOnly = true;
-			this.tboxFB2ValidDirCopyTo.Size = new System.Drawing.Size(539, 20);
+			this.tboxFB2ValidDirCopyTo.Size = new System.Drawing.Size(350, 20);
 			this.tboxFB2ValidDirCopyTo.TabIndex = 0;
 			// 
 			// tpNotFB2Files
@@ -745,9 +810,9 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.pNotValidLV.Controls.Add(this.listViewNotFB2);
 			this.pNotValidLV.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pNotValidLV.Location = new System.Drawing.Point(3, 78);
+			this.pNotValidLV.Location = new System.Drawing.Point(3, 126);
 			this.pNotValidLV.Name = "pNotValidLV";
-			this.pNotValidLV.Size = new System.Drawing.Size(706, 293);
+			this.pNotValidLV.Size = new System.Drawing.Size(706, 245);
 			this.pNotValidLV.TabIndex = 10;
 			// 
 			// listViewNotFB2
@@ -764,7 +829,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewNotFB2.MultiSelect = false;
 			this.listViewNotFB2.Name = "listViewNotFB2";
 			this.listViewNotFB2.ShowItemToolTips = true;
-			this.listViewNotFB2.Size = new System.Drawing.Size(706, 293);
+			this.listViewNotFB2.Size = new System.Drawing.Size(706, 245);
 			this.listViewNotFB2.TabIndex = 2;
 			this.listViewNotFB2.UseCompatibleStateImageBehavior = false;
 			this.listViewNotFB2.View = System.Windows.Forms.View.Details;
@@ -788,6 +853,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// gbNotFB2
 			// 
+			this.gbNotFB2.Controls.Add(this.listView1);
 			this.gbNotFB2.Controls.Add(this.lblNotFB2FilesMoveDir);
 			this.gbNotFB2.Controls.Add(this.btnNotFB2MoveTo);
 			this.gbNotFB2.Controls.Add(this.tboxNotFB2DirMoveTo);
@@ -798,7 +864,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gbNotFB2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.gbNotFB2.Location = new System.Drawing.Point(3, 3);
 			this.gbNotFB2.Name = "gbNotFB2";
-			this.gbNotFB2.Size = new System.Drawing.Size(706, 75);
+			this.gbNotFB2.Size = new System.Drawing.Size(706, 123);
 			this.gbNotFB2.TabIndex = 9;
 			this.gbNotFB2.TabStop = false;
 			this.gbNotFB2.Text = " Обработка не валидных fb2-файлов: ";
@@ -818,7 +884,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnNotFB2MoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnNotFB2MoveTo.Image = ((System.Drawing.Image)(resources.GetObject("btnNotFB2MoveTo.Image")));
 			this.btnNotFB2MoveTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnNotFB2MoveTo.Location = new System.Drawing.Point(654, 44);
+			this.btnNotFB2MoveTo.Location = new System.Drawing.Point(464, 44);
 			this.btnNotFB2MoveTo.Name = "btnNotFB2MoveTo";
 			this.btnNotFB2MoveTo.Size = new System.Drawing.Size(37, 24);
 			this.btnNotFB2MoveTo.TabIndex = 8;
@@ -833,7 +899,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxNotFB2DirMoveTo.Location = new System.Drawing.Point(109, 46);
 			this.tboxNotFB2DirMoveTo.Name = "tboxNotFB2DirMoveTo";
 			this.tboxNotFB2DirMoveTo.ReadOnly = true;
-			this.tboxNotFB2DirMoveTo.Size = new System.Drawing.Size(539, 20);
+			this.tboxNotFB2DirMoveTo.Size = new System.Drawing.Size(350, 20);
 			this.tboxNotFB2DirMoveTo.TabIndex = 7;
 			// 
 			// lblNotFB2FilesCopyDir
@@ -851,7 +917,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnNotFB2CopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnNotFB2CopyTo.Image = ((System.Drawing.Image)(resources.GetObject("btnNotFB2CopyTo.Image")));
 			this.btnNotFB2CopyTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnNotFB2CopyTo.Location = new System.Drawing.Point(654, 18);
+			this.btnNotFB2CopyTo.Location = new System.Drawing.Point(464, 18);
 			this.btnNotFB2CopyTo.Name = "btnNotFB2CopyTo";
 			this.btnNotFB2CopyTo.Size = new System.Drawing.Size(37, 24);
 			this.btnNotFB2CopyTo.TabIndex = 5;
@@ -866,7 +932,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxNotFB2DirCopyTo.Location = new System.Drawing.Point(109, 20);
 			this.tboxNotFB2DirCopyTo.Name = "tboxNotFB2DirCopyTo";
 			this.tboxNotFB2DirCopyTo.ReadOnly = true;
-			this.tboxNotFB2DirCopyTo.Size = new System.Drawing.Size(539, 20);
+			this.tboxNotFB2DirCopyTo.Size = new System.Drawing.Size(350, 20);
 			this.tboxNotFB2DirCopyTo.TabIndex = 0;
 			// 
 			// ssProgress
@@ -940,6 +1006,99 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.sfdReport.Title = "Укажите название файла отчета";
 			// 
+			// lvUAGeneralCount
+			// 
+			this.lvUAGeneralCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.lvUAGeneralCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.cHeaderDirsFiles,
+									this.cHeaderCount});
+			this.lvUAGeneralCount.GridLines = true;
+			this.lvUAGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem7,
+									listViewItem8,
+									listViewItem9,
+									listViewItem10,
+									listViewItem11,
+									listViewItem12});
+			this.lvUAGeneralCount.Location = new System.Drawing.Point(510, 11);
+			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
+			this.lvUAGeneralCount.Size = new System.Drawing.Size(188, 106);
+			this.lvUAGeneralCount.TabIndex = 2;
+			this.lvUAGeneralCount.UseCompatibleStateImageBehavior = false;
+			this.lvUAGeneralCount.View = System.Windows.Forms.View.Details;
+			// 
+			// cHeaderDirsFiles
+			// 
+			this.cHeaderDirsFiles.Text = "Папки и файлы";
+			this.cHeaderDirsFiles.Width = 120;
+			// 
+			// cHeaderCount
+			// 
+			this.cHeaderCount.Text = "Кол-во";
+			this.cHeaderCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// listView1
+			// 
+			this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader4,
+									this.columnHeader5});
+			this.listView1.GridLines = true;
+			this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem13,
+									listViewItem14,
+									listViewItem15,
+									listViewItem16,
+									listViewItem17,
+									listViewItem18});
+			this.listView1.Location = new System.Drawing.Point(510, 11);
+			this.listView1.Name = "listView1";
+			this.listView1.Size = new System.Drawing.Size(187, 106);
+			this.listView1.TabIndex = 3;
+			this.listView1.UseCompatibleStateImageBehavior = false;
+			this.listView1.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader4
+			// 
+			this.columnHeader4.Text = "Папки и файлы";
+			this.columnHeader4.Width = 120;
+			// 
+			// columnHeader5
+			// 
+			this.columnHeader5.Text = "Кол-во";
+			this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// listView2
+			// 
+			this.listView2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader6,
+									this.columnHeader7});
+			this.listView2.GridLines = true;
+			this.listView2.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem1,
+									listViewItem2,
+									listViewItem3,
+									listViewItem4,
+									listViewItem5,
+									listViewItem6});
+			this.listView2.Location = new System.Drawing.Point(510, 11);
+			this.listView2.Name = "listView2";
+			this.listView2.Size = new System.Drawing.Size(188, 106);
+			this.listView2.TabIndex = 10;
+			this.listView2.UseCompatibleStateImageBehavior = false;
+			this.listView2.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader6
+			// 
+			this.columnHeader6.Text = "Папки и файлы";
+			this.columnHeader6.Width = 120;
+			// 
+			// columnHeader7
+			// 
+			this.columnHeader7.Text = "Кол-во";
+			this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
 			// SFBTpFB2Validator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -979,6 +1138,15 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ColumnHeader columnHeader7;
+		private System.Windows.Forms.ColumnHeader columnHeader6;
+		private System.Windows.Forms.ListView listView2;
+		private System.Windows.Forms.ColumnHeader columnHeader5;
+		private System.Windows.Forms.ColumnHeader columnHeader4;
+		private System.Windows.Forms.ListView listView1;
+		private System.Windows.Forms.ColumnHeader cHeaderCount;
+		private System.Windows.Forms.ColumnHeader cHeaderDirsFiles;
+		private System.Windows.Forms.ListView lvUAGeneralCount;
 		private System.Windows.Forms.TabPage tpNotValid;
 		private System.Windows.Forms.SaveFileDialog sfdReport;
 		private System.Windows.Forms.ToolStripMenuItem tsmiReportAsCSV_CSV;
