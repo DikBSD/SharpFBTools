@@ -39,6 +39,8 @@ namespace SharpFBTools.Controls.Panels
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpAbout));
 			this.tcAbout = new System.Windows.Forms.TabControl();
 			this.tpAbout = new System.Windows.Forms.TabPage();
+			this.label1 = new System.Windows.Forms.Label();
+			this.lblDonate4Text = new System.Windows.Forms.Label();
 			this.lblDonate3Text = new System.Windows.Forms.Label();
 			this.lblDonate2Text = new System.Windows.Forms.Label();
 			this.lblDonate1Text = new System.Windows.Forms.Label();
@@ -50,6 +52,8 @@ namespace SharpFBTools.Controls.Panels
 			this.lblLicense = new System.Windows.Forms.Label();
 			this.lblAbout = new System.Windows.Forms.Label();
 			this.lblSharpFBTools = new System.Windows.Forms.Label();
+			this.tpLog = new System.Windows.Forms.TabPage();
+			this.rtboxLog = new System.Windows.Forms.RichTextBox();
 			this.tpLicense = new System.Windows.Forms.TabPage();
 			this.rtboxLicense = new System.Windows.Forms.RichTextBox();
 			this.tpHelp = new System.Windows.Forms.TabPage();
@@ -58,10 +62,9 @@ namespace SharpFBTools.Controls.Panels
 			this.pMode = new System.Windows.Forms.Panel();
 			this.lblType = new System.Windows.Forms.Label();
 			this.cboxInstrument = new System.Windows.Forms.ComboBox();
-			this.lblDonate4Text = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
 			this.tcAbout.SuspendLayout();
 			this.tpAbout.SuspendLayout();
+			this.tpLog.SuspendLayout();
 			this.tpLicense.SuspendLayout();
 			this.tpHelp.SuspendLayout();
 			this.pHelp.SuspendLayout();
@@ -71,6 +74,7 @@ namespace SharpFBTools.Controls.Panels
 			// tcAbout
 			// 
 			this.tcAbout.Controls.Add(this.tpAbout);
+			this.tcAbout.Controls.Add(this.tpLog);
 			this.tcAbout.Controls.Add(this.tpLicense);
 			this.tcAbout.Controls.Add(this.tpHelp);
 			this.tcAbout.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -102,6 +106,28 @@ namespace SharpFBTools.Controls.Panels
 			this.tpAbout.TabIndex = 0;
 			this.tpAbout.Text = " О программе ";
 			this.tpAbout.UseVisualStyleBackColor = true;
+			// 
+			// label1
+			// 
+			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.label1.Font = new System.Drawing.Font("Tahoma", 11F);
+			this.label1.ForeColor = System.Drawing.Color.Sienna;
+			this.label1.Location = new System.Drawing.Point(3, 344);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(697, 23);
+			this.label1.TabIndex = 12;
+			this.label1.Text = "Пожелания и предложения по изменению приветствуются и принимаются!";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblDonate4Text
+			// 
+			this.lblDonate4Text.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblDonate4Text.Location = new System.Drawing.Point(3, 327);
+			this.lblDonate4Text.Name = "lblDonate4Text";
+			this.lblDonate4Text.Size = new System.Drawing.Size(697, 17);
+			this.lblDonate4Text.TabIndex = 11;
+			this.lblDonate4Text.Text = "41001359712131";
+			this.lblDonate4Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lblDonate3Text
 			// 
@@ -229,6 +255,28 @@ namespace SharpFBTools.Controls.Panels
 			this.lblSharpFBTools.Text = "SharpFBTools";
 			this.lblSharpFBTools.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// tpLog
+			// 
+			this.tpLog.Controls.Add(this.rtboxLog);
+			this.tpLog.Location = new System.Drawing.Point(4, 22);
+			this.tpLog.Name = "tpLog";
+			this.tpLog.Size = new System.Drawing.Size(703, 529);
+			this.tpLog.TabIndex = 3;
+			this.tpLog.Text = " История развития ";
+			this.tpLog.UseVisualStyleBackColor = true;
+			// 
+			// rtboxLog
+			// 
+			this.rtboxLog.BackColor = System.Drawing.SystemColors.Window;
+			this.rtboxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rtboxLog.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.rtboxLog.Location = new System.Drawing.Point(0, 0);
+			this.rtboxLog.Name = "rtboxLog";
+			this.rtboxLog.ReadOnly = true;
+			this.rtboxLog.Size = new System.Drawing.Size(703, 529);
+			this.rtboxLog.TabIndex = 0;
+			this.rtboxLog.Text = "";
+			// 
 			// tpLicense
 			// 
 			this.tpLicense.Controls.Add(this.rtboxLicense);
@@ -236,7 +284,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpLicense.Name = "tpLicense";
 			this.tpLicense.Size = new System.Drawing.Size(703, 529);
 			this.tpLicense.TabIndex = 2;
-			this.tpLicense.Text = "Лицензия";
+			this.tpLicense.Text = " Лицензия ";
 			this.tpLicense.UseVisualStyleBackColor = true;
 			// 
 			// rtboxLicense
@@ -259,7 +307,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpHelp.Padding = new System.Windows.Forms.Padding(3);
 			this.tpHelp.Size = new System.Drawing.Size(703, 529);
 			this.tpHelp.TabIndex = 1;
-			this.tpHelp.Text = "Справка";
+			this.tpHelp.Text = " Справка ";
 			this.tpHelp.UseVisualStyleBackColor = true;
 			// 
 			// pHelp
@@ -319,28 +367,6 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxInstrument.TabIndex = 1;
 			this.cboxInstrument.SelectedIndexChanged += new System.EventHandler(this.CboxInstrumentSelectedIndexChanged);
 			// 
-			// lblDonate4Text
-			// 
-			this.lblDonate4Text.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblDonate4Text.Location = new System.Drawing.Point(3, 327);
-			this.lblDonate4Text.Name = "lblDonate4Text";
-			this.lblDonate4Text.Size = new System.Drawing.Size(697, 17);
-			this.lblDonate4Text.TabIndex = 11;
-			this.lblDonate4Text.Text = "41001359712131";
-			this.lblDonate4Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label1
-			// 
-			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.label1.Font = new System.Drawing.Font("Tahoma", 11F);
-			this.label1.ForeColor = System.Drawing.Color.Sienna;
-			this.label1.Location = new System.Drawing.Point(3, 344);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(697, 23);
-			this.label1.TabIndex = 12;
-			this.label1.Text = "Пожелания и предложения по изменению приветствуются и принимаются!";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
 			// SFBTpAbout
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -350,12 +376,15 @@ namespace SharpFBTools.Controls.Panels
 			this.Size = new System.Drawing.Size(711, 555);
 			this.tcAbout.ResumeLayout(false);
 			this.tpAbout.ResumeLayout(false);
+			this.tpLog.ResumeLayout(false);
 			this.tpLicense.ResumeLayout(false);
 			this.tpHelp.ResumeLayout(false);
 			this.pHelp.ResumeLayout(false);
 			this.pMode.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.RichTextBox rtboxLog;
+		private System.Windows.Forms.TabPage tpLog;
 		private System.Windows.Forms.Label lblDonate4Text;
 		private System.Windows.Forms.Label lblDonate1Text;
 		private System.Windows.Forms.Label lblDonate3Text;

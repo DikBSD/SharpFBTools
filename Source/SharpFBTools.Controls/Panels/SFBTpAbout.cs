@@ -33,6 +33,11 @@ namespace SharpFBTools.Controls.Panels
 			} else {
 				rtboxLicense.Text = "Не найден файл лицензии: \"License GPL 2.1.rtf\"";
 			}
+			if( File.Exists( "Ghange.txt" ) ) {
+				rtboxLog.LoadFile( "Ghange.txt" );
+			} else {
+				rtboxLog.Text = "Не найден файл истории изменения программы: \"Ghange.txt\"";
+			}
 			// справка
 			cboxInstrument.SelectedIndex = 0;
 		}
