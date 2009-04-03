@@ -79,12 +79,6 @@ namespace SharpFBTools.Controls.Panels
 			tpNotValid.Text		= m_sNotValid;
 			tpValid.Text		= m_sValid;
 			tpNotFB2Files.Text	= m_sNotFB2Files;
-			lblDirsCount.Text	= "0";
-			lblFilesCount.Text	= "0";
-			lblFB2FilesCount.Text 		= "0";
-			lblFB2ZipFilesCount.Text 	= "0";
-			lblFB2RarFilesCount.Text 	= "0";
-			lblNotFB2FilesCount.Text 	= "0";
 			tsProgressBar.Value	= 1;
 			tsslblProgress.Text		= m_sReady;
 			tsProgressBar.Visible	= false;
@@ -279,6 +273,7 @@ namespace SharpFBTools.Controls.Panels
 					File.Move( sFilePath, sNewPath );
 				}
 				++tsProgressBar.Value;
+				ssProgress.Refresh();
 			}
 			if( !bCopy ) {
 				// только для перемещения файлов
@@ -288,8 +283,8 @@ namespace SharpFBTools.Controls.Panels
 			} else {
 				sMess = "Копирование файлов в указанную папку завершено!";
 			}
-			lblFilesCount.Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
-			                     listViewNotFB2.Items.Count ).ToString();
+			lvFilesCount.Items[1].SubItems[1].Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
+														listViewNotFB2.Items.Count ).ToString();
 			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
@@ -322,11 +317,12 @@ namespace SharpFBTools.Controls.Panels
 					File.Delete( sFilePath );
 				}
 				++tsProgressBar.Value;
+				ssProgress.Refresh();
 			}
 			lw.Items.Clear();
 			tp.Text	= sTabPageDefText;
-			lblFilesCount.Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
-			                     listViewNotFB2.Items.Count ).ToString();
+			lvFilesCount.Items[1].SubItems[1].Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
+			        			       				   listViewNotFB2.Items.Count ).ToString();
 			sMess = "Удаление файлов завершено!";
 			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = m_sReady;
@@ -528,12 +524,12 @@ namespace SharpFBTools.Controls.Panels
 			Init();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
-			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lblDirsCount );
+			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvFilesCount );
 			lDirList.Sort();
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			tlCentral.Refresh(); // обновление контролов на форме
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, pCount, lblFilesCount, tsProgressBar );
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount, tsProgressBar );
 			lFilesList.Sort();
 			
 			if( lFilesList.Count == 0 ) {
@@ -572,10 +568,10 @@ namespace SharpFBTools.Controls.Panels
 					++tsProgressBar.Value;
 				}
 			}
-			lblFB2FilesCount.Text		= m_lFB2Files.ToString();
-			lblFB2ZipFilesCount.Text	= m_lFB2ZipFiles.ToString();
-			lblFB2RarFilesCount.Text 	= m_lFB2RarFiles.ToString();
-			lblNotFB2FilesCount.Text 	= m_lNotFB2Files.ToString();
+			lvFilesCount.Items[2].SubItems[1].Text = m_lFB2Files.ToString();
+			lvFilesCount.Items[3].SubItems[1].Text = m_lFB2ZipFiles.ToString();
+			lvFilesCount.Items[4].SubItems[1].Text = m_lFB2RarFiles.ToString();
+			lvFilesCount.Items[5].SubItems[1].Text = m_lNotFB2Files.ToString();
 			
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
