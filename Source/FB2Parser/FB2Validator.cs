@@ -48,9 +48,12 @@ namespace FB2Parser
                 	while (reader.Read());
                 	reader.Close();
                 	return "";
-                } catch (System.Exception e) {
+                } catch (System.Xml.Schema.XmlSchemaException e) {
             		reader.Close();
-            		return e.Message;
+            		return e.Message + "\r\nСтрока: " + e.LineNumber + "; Позиция: " + e.LinePosition;
+                } catch (System.Exception e) {
+                	reader.Close();
+                	return e.Message;
                 }
             }
         }
