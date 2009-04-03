@@ -69,6 +69,9 @@ namespace SharpFBTools.Controls.Panels
 		
 		private void Init() {
 			// инициализация контролов и переменных
+			for( int i=0; i!=lvFilesCount.Items.Count; ++i ) {
+				lvFilesCount.Items[i].SubItems[1].Text	= "0";
+			}
 			listViewNotValid.Items.Clear();
 			listViewValid.Items.Clear();
 			listViewNotFB2.Items.Clear();
@@ -543,6 +546,7 @@ namespace SharpFBTools.Controls.Panels
 			tsslblProgress.Text = "Проверка найденных файлов на соответствие схеме (валидация):";
 			tsProgressBar.Maximum = lFilesList.Count+1;
 			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			tlCentral.Refresh(); // обновление контролов на форме
 			FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
 			foreach( string sFile in lFilesList ) {
