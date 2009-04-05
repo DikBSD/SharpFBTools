@@ -425,13 +425,13 @@ namespace SharpFBTools.Controls.Panels
 			}
 		}
 		
-		void ListViewNonValidDoubleClick(object sender, EventArgs e)
+		void ListViewNotValidDoubleClick(object sender, EventArgs e)
 		{
 			// открытие папки с указанным файлом
 			FilesWorker.FilesWorker.ShowDir( listViewNotValid );
 		}
 		
-		void ListViewValidColumnClick(object sender, ColumnClickEventArgs e)
+		void ListViewValidDoubleClick(object sender, System.EventArgs e)
 		{
 			// открытие папки с указанным файлом
 			FilesWorker.FilesWorker.ShowDir( listViewValid );
@@ -682,6 +682,5 @@ namespace SharpFBTools.Controls.Panels
 			MakeReport( 2 );
 		}
 		#endregion
-		
 	}
 }
