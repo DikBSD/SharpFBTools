@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -22,7 +23,6 @@ namespace SharpFBTools.Controls.Panels
 	public partial class SFBTpArchiveManager : UserControl
 	{
 		#region Закрытые члены-данные класса
-		private string m_sRarDir = "c:\\Program Files\\WinRAR";
 		private string m_sReady = "Готово.";
 		#endregion
 		
@@ -32,7 +32,6 @@ namespace SharpFBTools.Controls.Panels
 			InitializeComponent();
 			InitA();	// инициализация контролов (Упаковка)
 			InitUA();	// инициализация контролов (Распаковка
-			tboxRarDir.Text = m_sRarDir;		// путь к папке с Rar`м
 			cboxExistArchive.SelectedIndex = 1; // добавление к создаваемому fb2-архиву _год-месяц...
 			cboxArchiveType.SelectedIndex = 1;	// Zip
 			cboxUAExistArchive.SelectedIndex = 1;	// добавление к создаваемому fb2-файлу _год-месяц...
@@ -130,7 +129,7 @@ namespace SharpFBTools.Controls.Panels
 			return sExt;
 		}
 		
-		void FileToArchive( List<string> lFilesList, bool bZip, ToolStripProgressBar pBar ) {
+		void FileToArchive( string sArchPath, List<string> lFilesList, bool bZip, ToolStripProgressBar pBar ) {
 			// упаковка fb2-файлов в .fb2.zip
 			long lFB2 = 0;
 			foreach( string sFile in lFilesList ) {
@@ -177,9 +176,9 @@ namespace SharpFBTools.Controls.Panels
 						}
 					}
 					if( bZip ) {
-						Archiver.Archiver.zip( "7za.exe", cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
+						Archiver.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
 					} else {
-						Archiver.Archiver.rar( m_sRarDir + "\\Rar.exe", sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
+						Archiver.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
 					}
 					
 					if( cboxDelFB2Files.Checked ) {
@@ -377,17 +376,6 @@ namespace SharpFBTools.Controls.Panels
             }
 		}
 		
-		void BtnRarDirClick(object sender, EventArgs e)
-		{
-			// задание папки для установленного в системе WinRar`a
-			fbdDir.Description = "Укажите папку, где установлен Rar-архиватор";
-			DialogResult result = fbdDir.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbdDir.SelectedPath;
-                tboxRarDir.Text = openFolderName;
-            }
-		}
-		
 		void CboxArchiveTypeSelectedIndexChanged(object sender, EventArgs e)
 		{
 			cboxAddRestoreInfo.Visible = cboxArchiveType.SelectedIndex == 0;
@@ -410,15 +398,25 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Не задана папка-приемник архивов!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			if( cboxArchiveType.SelectedIndex == 0 && tboxRarDir.Text == "" ) {
-				MessageBox.Show( "Не указана папка с установленным Rar-архиватором!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			// читаем путь к WinRar из настроек
+			string sRarPath = Options.OptionsForm.GetDefRarPath();
+			if( File.Exists( Options.OptionsForm.GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using (XmlReader reader = XmlReader.Create(Options.OptionsForm.GetSettingsPath(), settings)) {
+					reader.ReadToFollowing("WinRar");
+					sRarPath = reader.GetAttribute("RarPath");
+					reader.Close();
+				}
+			}
+			if( cboxArchiveType.SelectedIndex == 0 && sRarPath == "" ) {
+				MessageBox.Show( "Не указана папка с установленным консольным Rar-архиватором!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на наличие архиваторов
 			if( cboxArchiveType.SelectedIndex == 0 ) {
-				string sRarPath = m_sRarDir + "\\Rar.exe";
 				if( !File.Exists( sRarPath ) ) {
-					MessageBox.Show( "Не найден файл Rar-архиватора "+sRarPath+"!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show( "Не найден файл консольного Rar-архиватора "+sRarPath+"!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				} else {
 					tsslblProgress.Text = "Упаковка найденных файлов в rar:";
@@ -452,9 +450,9 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Value = 1;
 			ssProgress.Refresh();
 			if( cboxArchiveType.SelectedIndex == 0 ) {
-				FileToArchive( lFilesList, false, tsProgressBar ); // rar
+				FileToArchive( sRarPath, lFilesList, false, tsProgressBar ); // rar
 			} else {
-				FileToArchive( lFilesList, true, tsProgressBar ); // zip, 7z...
+				FileToArchive( "7za.exe", lFilesList, true, tsProgressBar ); // zip, 7z...
 			}
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";

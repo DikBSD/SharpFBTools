@@ -54,6 +54,9 @@ namespace Options
 			this.lblRarPath = new System.Windows.Forms.Label();
 			this.tboxRarPath = new System.Windows.Forms.TextBox();
 			this.btnRarPath = new System.Windows.Forms.Button();
+			this.lblWinRarPath = new System.Windows.Forms.Label();
+			this.tboxWinRarPath = new System.Windows.Forms.TextBox();
+			this.btnWinRarPath = new System.Windows.Forms.Button();
 			this.tpValidator = new System.Windows.Forms.TabPage();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
@@ -129,9 +132,9 @@ namespace Options
 			this.gboxEditors.Controls.Add(this.btnFBEPath);
 			this.gboxEditors.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxEditors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.gboxEditors.Location = new System.Drawing.Point(3, 59);
+			this.gboxEditors.Location = new System.Drawing.Point(3, 78);
 			this.gboxEditors.Name = "gboxEditors";
-			this.gboxEditors.Size = new System.Drawing.Size(603, 78);
+			this.gboxEditors.Size = new System.Drawing.Size(603, 74);
 			this.gboxEditors.TabIndex = 14;
 			this.gboxEditors.TabStop = false;
 			this.gboxEditors.Text = " Fb2-Редакторы ";
@@ -205,11 +208,14 @@ namespace Options
 			this.gboxRar.Controls.Add(this.lblRarPath);
 			this.gboxRar.Controls.Add(this.tboxRarPath);
 			this.gboxRar.Controls.Add(this.btnRarPath);
+			this.gboxRar.Controls.Add(this.lblWinRarPath);
+			this.gboxRar.Controls.Add(this.tboxWinRarPath);
+			this.gboxRar.Controls.Add(this.btnWinRarPath);
 			this.gboxRar.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxRar.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxRar.Location = new System.Drawing.Point(3, 3);
 			this.gboxRar.Name = "gboxRar";
-			this.gboxRar.Size = new System.Drawing.Size(603, 56);
+			this.gboxRar.Size = new System.Drawing.Size(603, 75);
 			this.gboxRar.TabIndex = 13;
 			this.gboxRar.TabStop = false;
 			this.gboxRar.Text = " Настройки для Rar-архиватора ";
@@ -217,34 +223,66 @@ namespace Options
 			// lblRarPath
 			// 
 			this.lblRarPath.AutoSize = true;
-			this.lblRarPath.Location = new System.Drawing.Point(7, 25);
+			this.lblRarPath.Location = new System.Drawing.Point(7, 51);
 			this.lblRarPath.Name = "lblRarPath";
-			this.lblRarPath.Size = new System.Drawing.Size(93, 13);
-			this.lblRarPath.TabIndex = 10;
-			this.lblRarPath.Text = "Путь к WinRar:";
+			this.lblRarPath.Size = new System.Drawing.Size(156, 13);
+			this.lblRarPath.TabIndex = 13;
+			this.lblRarPath.Text = "Путь к Rar (консольный):";
 			// 
 			// tboxRarPath
 			// 
 			this.tboxRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxRarPath.Location = new System.Drawing.Point(171, 21);
+			this.tboxRarPath.Location = new System.Drawing.Point(171, 47);
 			this.tboxRarPath.Name = "tboxRarPath";
 			this.tboxRarPath.ReadOnly = true;
 			this.tboxRarPath.Size = new System.Drawing.Size(378, 20);
-			this.tboxRarPath.TabIndex = 8;
+			this.tboxRarPath.TabIndex = 11;
 			// 
 			// btnRarPath
 			// 
 			this.btnRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnRarPath.Image = ((System.Drawing.Image)(resources.GetObject("btnRarPath.Image")));
 			this.btnRarPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnRarPath.Location = new System.Drawing.Point(555, 19);
+			this.btnRarPath.Location = new System.Drawing.Point(555, 45);
 			this.btnRarPath.Name = "btnRarPath";
 			this.btnRarPath.Size = new System.Drawing.Size(37, 24);
-			this.btnRarPath.TabIndex = 9;
+			this.btnRarPath.TabIndex = 12;
 			this.btnRarPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnRarPath.UseVisualStyleBackColor = true;
 			this.btnRarPath.Click += new System.EventHandler(this.BtnRarPathClick);
+			// 
+			// lblWinRarPath
+			// 
+			this.lblWinRarPath.AutoSize = true;
+			this.lblWinRarPath.Location = new System.Drawing.Point(7, 25);
+			this.lblWinRarPath.Name = "lblWinRarPath";
+			this.lblWinRarPath.Size = new System.Drawing.Size(93, 13);
+			this.lblWinRarPath.TabIndex = 10;
+			this.lblWinRarPath.Text = "Путь к WinRar:";
+			// 
+			// tboxWinRarPath
+			// 
+			this.tboxWinRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxWinRarPath.Location = new System.Drawing.Point(171, 21);
+			this.tboxWinRarPath.Name = "tboxWinRarPath";
+			this.tboxWinRarPath.ReadOnly = true;
+			this.tboxWinRarPath.Size = new System.Drawing.Size(378, 20);
+			this.tboxWinRarPath.TabIndex = 8;
+			// 
+			// btnWinRarPath
+			// 
+			this.btnWinRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnWinRarPath.Image = ((System.Drawing.Image)(resources.GetObject("btnWinRarPath.Image")));
+			this.btnWinRarPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnWinRarPath.Location = new System.Drawing.Point(555, 19);
+			this.btnWinRarPath.Name = "btnWinRarPath";
+			this.btnWinRarPath.Size = new System.Drawing.Size(37, 24);
+			this.btnWinRarPath.TabIndex = 9;
+			this.btnWinRarPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnWinRarPath.UseVisualStyleBackColor = true;
+			this.btnWinRarPath.Click += new System.EventHandler(this.BtnWinRarPathClick);
 			// 
 			// tpValidator
 			// 
@@ -264,6 +302,7 @@ namespace Options
 			this.ClientSize = new System.Drawing.Size(617, 472);
 			this.Controls.Add(this.tcOptions);
 			this.Controls.Add(this.pBtn);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
@@ -280,6 +319,11 @@ namespace Options
 			this.gboxRar.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.TextBox tboxRarPath;
+		private System.Windows.Forms.Button btnRarPath;
+		private System.Windows.Forms.Label lblWinRarPath;
+		private System.Windows.Forms.Button btnWinRarPath;
+		private System.Windows.Forms.TextBox tboxWinRarPath;
 		private System.Windows.Forms.Button btnTextEPath;
 		private System.Windows.Forms.TextBox tboxTextEPath;
 		private System.Windows.Forms.Label lblTextEPath;
@@ -287,8 +331,6 @@ namespace Options
 		private System.Windows.Forms.TextBox tboxFBEPath;
 		private System.Windows.Forms.Label lblFBEPath;
 		private System.Windows.Forms.GroupBox gboxEditors;
-		private System.Windows.Forms.TextBox tboxRarPath;
-		private System.Windows.Forms.Button btnRarPath;
 		private System.Windows.Forms.Label lblRarPath;
 		private System.Windows.Forms.GroupBox gboxRar;
 		private System.Windows.Forms.TabPage tpValidator;
