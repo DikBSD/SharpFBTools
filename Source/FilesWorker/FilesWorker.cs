@@ -119,7 +119,12 @@ namespace FilesWorker
 		
 		public static void StartFile( System.Windows.Forms.ListView lw ) {
 			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
-			Microsoft.VisualBasic.Interaction.Shell( "c:\\WINDOWS\\explorer.exe " + si[0].SubItems[0].Text.Split('/')[0], Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, -1 );
+			Microsoft.VisualBasic.Interaction.Shell( si[0].SubItems[0].Text.Split('/')[0], Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, -1 );
+		}
+		
+		public static void StartFileWith( System.Windows.Forms.ListView lw, string sSoftPath ) {
+			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
+			Microsoft.VisualBasic.Interaction.Shell( sSoftPath + si[0].SubItems[0].Text.Split('/')[0], Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, -1 );
 		}
 		
 		public static string FormatFileLenght( long lLenght ) {
