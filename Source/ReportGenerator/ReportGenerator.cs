@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using System.Text;
 
 namespace ReportGenerator
@@ -24,10 +25,14 @@ namespace ReportGenerator
 		}
 			
 		#region Открытые методы класса
-		public static void MakeFB2Report( System.Windows.Forms.ListView lw, string sFilePath, string sTitle ) {
+		public static void MakeFB2Report( System.Windows.Forms.ListView lw, string sFilePath, string sTitle, 
+		                                 ToolStripProgressBar tsProgressBar, StatusStrip ssProgress ) {
 			#region Код
 			if( lw.Items.Count < 1 ) return;
 			// генерация отчета
+			tsProgressBar.Maximum = lw.Items.Count+2;
+			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			List<string> lFB2Text = new List<string>();
 			lFB2Text.Add( "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" );
 			lFB2Text.Add( "<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:l=\"http://www.w3.org/1999/xlink\">" );
@@ -48,6 +53,8 @@ namespace ReportGenerator
 			lFB2Text.Add( "</description>" );
 			lFB2Text.Add( "<body>" );
 			lFB2Text.Add( "<title><p>" + sTitle + "</p></title>" );
+			++tsProgressBar.Value;
+			ssProgress.Refresh();
 			int n=0;
 			for( int i=0; i!=lw.Items.Count; ++i ) {
 				++n;
@@ -57,23 +64,34 @@ namespace ReportGenerator
 					lFB2Text.Add( "<p>"+lw.Items[i].SubItems[j].Text+"</p>" );
 				}
 				lFB2Text.Add( "</section>" );
+				++tsProgressBar.Value;
+				ssProgress.Refresh();
 			}
 			lFB2Text.Add( "</body>" );
 			lFB2Text.Add( "</FictionBook>" );
 			
 			// сохранение отчета в файл
 			StreamWriter sw = new StreamWriter( @sFilePath, false, Encoding.UTF8 );
+			tsProgressBar.Maximum = lFB2Text.Count+1;
+			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			foreach( string sLine in lFB2Text ) {
 				sw.WriteLine( sLine );
+				++tsProgressBar.Value;
+				ssProgress.Refresh();
 			}
 			sw.Close();
 			#endregion
 		}
 		
-		public static void MakeHTMLReport( System.Windows.Forms.ListView lw, string sFilePath, string sTitle ) {
+		public static void MakeHTMLReport( System.Windows.Forms.ListView lw, string sFilePath, string sTitle,
+		                                 ToolStripProgressBar tsProgressBar, StatusStrip ssProgress) {
 			#region Код
 			if( lw.Items.Count < 1 ) return;
 			// генерация отчета
+			tsProgressBar.Maximum = lw.Items.Count+2;
+			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			List<string> lHTMLText = new List<string>();
 			lHTMLText.Add( "<html>" );
 			lHTMLText.Add( "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">" );
@@ -86,6 +104,8 @@ namespace ReportGenerator
 			for( int j=0; j!=lw.Columns.Count; ++j ) {
 				lHTMLText.Add( "<th><b>"+lw.Columns[j].Text+"</b></th>" );
 			}
+			++tsProgressBar.Value;
+			ssProgress.Refresh();
 			// формируем строки данных
 			int n=0;
 			for( int i=0; i!=lw.Items.Count; ++i ) {
@@ -96,23 +116,34 @@ namespace ReportGenerator
 					lHTMLText.Add( "<td>"+lw.Items[i].SubItems[j].Text+"</td>" );
 				}
 				lHTMLText.Add( "</tr>" );
+				++tsProgressBar.Value;
+				ssProgress.Refresh();
 			}
 			lHTMLText.Add( "</table>" );
 			lHTMLText.Add( "</html>" );
 			
 			// сохранение отчета в файл
 			StreamWriter sw = new StreamWriter( @sFilePath, false, Encoding.UTF8 );
+			tsProgressBar.Maximum = lHTMLText.Count+1;
+			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			foreach( string sLine in lHTMLText ) {
 				sw.WriteLine( sLine );
+				++tsProgressBar.Value;
+				ssProgress.Refresh();
 			}
 			sw.Close();
 			#endregion
 		}
 		
-		public static void MakeCSVReport( System.Windows.Forms.ListView lw, string sFilePath, string cDelem ) {
+		public static void MakeCSVReport( System.Windows.Forms.ListView lw, string sFilePath, string cDelem,
+		                                ToolStripProgressBar tsProgressBar, StatusStrip ssProgress) {
 			#region Код
 			if( lw.Items.Count < 1 ) return;
 			// генерация отчета
+			tsProgressBar.Maximum = lw.Items.Count+2;
+			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			List<string> lCSVText = new List<string>();
 			// формируем заголовок
 			string s = "N";
@@ -120,6 +151,8 @@ namespace ReportGenerator
 				s += cDelem+lw.Columns[j].Text;
 			}
 			lCSVText.Add( s );
+			++tsProgressBar.Value;
+			ssProgress.Refresh();
 			// формируем строки данных
 			int n=0;
 			for( int i=0; i!=lw.Items.Count; ++i ) {
@@ -129,12 +162,19 @@ namespace ReportGenerator
 					s += cDelem+lw.Items[i].SubItems[j].Text;
 				}
 				lCSVText.Add( s );
+				++tsProgressBar.Value;
+				ssProgress.Refresh();
 			}
 			
 			// сохранение отчета в файл
 			StreamWriter sw = new StreamWriter( @sFilePath, false, Encoding.UTF8 );
+			tsProgressBar.Maximum = lCSVText.Count+1;
+			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
 			foreach( string sLine in lCSVText ) {
 				sw.WriteLine( sLine );
+				++tsProgressBar.Value;
+				ssProgress.Refresh();
 			}
 			sw.Close();
 			#endregion

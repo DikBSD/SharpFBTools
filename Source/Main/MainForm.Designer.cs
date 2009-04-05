@@ -49,11 +49,11 @@ namespace Main
 			this.tsSep5 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnFB2Dublicator = new System.Windows.Forms.ToolStripButton();
 			this.tsSep4 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbtnAbout = new System.Windows.Forms.ToolStripButton();
-			this.tsSep6 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbtnExit = new System.Windows.Forms.ToolStripButton();
 			this.tsbtnOptions = new System.Windows.Forms.ToolStripButton();
+			this.tsSep6 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbtnAbout = new System.Windows.Forms.ToolStripButton();
 			this.tsSep7 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbtnExit = new System.Windows.Forms.ToolStripButton();
 			this.tscMain.TopToolStripPanel.SuspendLayout();
 			this.tscMain.SuspendLayout();
 			this.tsMain.SuspendLayout();
@@ -184,6 +184,22 @@ namespace Main
 			this.tsSep4.Name = "tsSep4";
 			this.tsSep4.Size = new System.Drawing.Size(6, 52);
 			// 
+			// tsbtnOptions
+			// 
+			this.tsbtnOptions.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnOptions.Image")));
+			this.tsbtnOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnOptions.Name = "tsbtnOptions";
+			this.tsbtnOptions.Size = new System.Drawing.Size(77, 49);
+			this.tsbtnOptions.Text = "Настройки...";
+			this.tsbtnOptions.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbtnOptions.ToolTipText = "Настройки...";
+			this.tsbtnOptions.Click += new System.EventHandler(this.TsbtnOptionsClick);
+			// 
+			// tsSep6
+			// 
+			this.tsSep6.Name = "tsSep6";
+			this.tsSep6.Size = new System.Drawing.Size(6, 52);
+			// 
 			// tsbtnAbout
 			// 
 			this.tsbtnAbout.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnAbout.Image")));
@@ -196,10 +212,10 @@ namespace Main
 			this.tsbtnAbout.ToolTipText = "Помощь...";
 			this.tsbtnAbout.Click += new System.EventHandler(this.TsbtnAboutClick);
 			// 
-			// tsSep6
+			// tsSep7
 			// 
-			this.tsSep6.Name = "tsSep6";
-			this.tsSep6.Size = new System.Drawing.Size(6, 52);
+			this.tsSep7.Name = "tsSep7";
+			this.tsSep7.Size = new System.Drawing.Size(6, 52);
 			// 
 			// tsbtnExit
 			// 
@@ -211,21 +227,6 @@ namespace Main
 			this.tsbtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnExit.ToolTipText = "Выход из программы";
 			this.tsbtnExit.Click += new System.EventHandler(this.TsbtnExitClick);
-			// 
-			// tsbtnOptions
-			// 
-			this.tsbtnOptions.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnOptions.Image")));
-			this.tsbtnOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnOptions.Name = "tsbtnOptions";
-			this.tsbtnOptions.Size = new System.Drawing.Size(77, 49);
-			this.tsbtnOptions.Text = "Настройки...";
-			this.tsbtnOptions.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.tsbtnOptions.ToolTipText = "Настройки...";
-			// 
-			// tsSep7
-			// 
-			this.tsSep7.Name = "tsSep7";
-			this.tsSep7.Size = new System.Drawing.Size(6, 52);
 			// 
 			// MainForm
 			// 

@@ -62,6 +62,7 @@ namespace SharpFBTools.Controls.Panels
 		private string	m_FB2NotValidFilesListReport = "Список не валидных fb2-файлов";
 		private string	m_FB2ValidFilesListReport 	= "Список валидных fb2-файлов";
 		private string	m_NotFB2FilesListReport 	= "Список не fb2-файлов";
+		private string	m_GeneratingReport			= "Генерация отчета";
 		private string	m_ReportSaveOk = "Отчет сохранен в файл:\n";
 		private string	m_HTMLFilter 	= "HTML файлы (*.hml)|*.html|Все файлы (*.*)|*.*";
 		private string	m_FB2Filter 	= "fb2 файлы (*.fb2)|*.fb2|Все файлы (*.*)|*.*";
@@ -375,8 +376,12 @@ namespace SharpFBTools.Controls.Panels
 						sfdReport.FileName = "";
 						DialogResult result = sfdReport.ShowDialog();
 						if (result == DialogResult.OK) {
-    	          			ReportGenerator.ReportGenerator.MakeHTMLReport( lw, sfdReport.FileName, sReportTitle );
+    	          			tsslblProgress.Text = m_GeneratingReport;
+    	          			tsProgressBar.Visible = true;
+							ReportGenerator.ReportGenerator.MakeHTMLReport( lw, sfdReport.FileName, sReportTitle, tsProgressBar, ssProgress  );
 							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+							tsProgressBar.Visible = false;
+							tsslblProgress.Text = m_sReady;
 	          			}
 					}
 					break;
@@ -390,8 +395,12 @@ namespace SharpFBTools.Controls.Panels
 						sfdReport.FileName = "";
 						DialogResult result = sfdReport.ShowDialog();
 						if (result == DialogResult.OK) {
-    	          			ReportGenerator.ReportGenerator.MakeFB2Report( lw, sfdReport.FileName, sReportTitle );
+    	          			tsslblProgress.Text = m_GeneratingReport;
+    	          			tsProgressBar.Visible = true;
+							ReportGenerator.ReportGenerator.MakeFB2Report( lw, sfdReport.FileName, sReportTitle, tsProgressBar, ssProgress );
 							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+							tsProgressBar.Visible = false;
+							tsslblProgress.Text = m_sReady;
 	          			}
 					}
 					break;
@@ -405,8 +414,12 @@ namespace SharpFBTools.Controls.Panels
 						sfdReport.FileName = "";
 						DialogResult result = sfdReport.ShowDialog();
 						if (result == DialogResult.OK) {
-    	       				ReportGenerator.ReportGenerator.MakeCSVReport( lw, sfdReport.FileName, sDelem );
+							tsslblProgress.Text = m_GeneratingReport;
+    	          			tsProgressBar.Visible = true;
+    	       				ReportGenerator.ReportGenerator.MakeCSVReport( lw, sfdReport.FileName, sDelem, tsProgressBar, ssProgress );
 							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+							tsProgressBar.Visible = false;
+							tsslblProgress.Text = m_sReady;
 	        			}
 					}
 					break;

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SharpFBTools.Controls.Panels;
+using Options;
 
 namespace Main
 {
@@ -111,5 +112,12 @@ namespace Main
 			                    tscMain );
 		}
 		#endregion
+		
+		void TsbtnOptionsClick(object sender, EventArgs e)
+		{
+			// запуск диалога Настроек
+			OptionsForm ofrm = new OptionsForm();
+			ofrm.ShowDialog();
+		}
 	}	
 }
