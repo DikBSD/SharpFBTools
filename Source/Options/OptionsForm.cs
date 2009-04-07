@@ -19,16 +19,6 @@ namespace Options
 	/// </summary>
 	public partial class OptionsForm : Form
 	{
-		#region Закрытые члены-данные класса
-		private static string m_prog_path = Environment.CurrentDirectory;
-		private static string m_settings = "settings.xml";
-		private static string m_sWinRarPath = "c:\\Program Files\\WinRAR\\WinRAR.exe";
-		private static string m_sRarPath = "c:\\Program Files\\WinRAR\\Rar.exe";
-		private static string m_sFBEPath = "c:\\Program Files\\FictionBook Editor\\FBE.exe";
-		private static string m_sTFB2Path = "c:\\WINDOWS\\NOTEPAD.EXE";
-		private static string m_sFBReaderPath = "c:\\Program Files\\AlReader 2\\AlReader2.exe";
-		#endregion
-		
 		public OptionsForm()
 		{
 			//
@@ -36,42 +26,18 @@ namespace Options
 			//
 			InitializeComponent();
 			// по-умолчанию
-			tboxWinRarPath.Text	= m_sWinRarPath;
-			tboxRarPath.Text	= m_sRarPath;
-			tboxFBEPath.Text	= m_sFBEPath;
-			tboxTextEPath.Text	= m_sTFB2Path;
-			tboxReaderPath.Text = m_sFBReaderPath;
+			tboxWinRarPath.Text	= Settings.Settings.GetDefWinRARPath();
+			tboxRarPath.Text	= Settings.Settings.GetDefRarPath();
+			tboxFBEPath.Text	= Settings.Settings.GetDefFBEPath();
+			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
+			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
 			// читаес сохраненные настройки, если они есть
 			ReadSettings();
 		}
 		
-		public static string GetProgDir() {
-			return m_prog_path;
-		}
-		
-		public static string GetSettingsPath() {
-			return m_settings;
-		}
-		
-		public static string GetDefRarPath() {
-			return m_sRarPath;
-		}
-		
-		public static string GetDefFBEPath() {
-			return m_sFBEPath;
-		}
-		
-		public static string GetDefTFB2Path() {
-			return m_sTFB2Path;
-		}
-		
-		public static string GetDefFBReaderPath() {
-			return m_sFBReaderPath;
-		}
-		
 		void ReadSettings() {
 			// чтение настроек из xml-файла
-			string sSettings = GetProgDir()+"\\"+m_settings;
+			string sSettings = Settings.Settings.GetSettingsPath();
 			if( !File.Exists( sSettings ) ) return;
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
@@ -147,7 +113,7 @@ namespace Options
 				settings.IndentChars = ("\t");
 				settings.OmitXmlDeclaration = true;
 				
-				writer = XmlWriter.Create( GetProgDir()+"\\"+m_settings, settings );
+				writer = XmlWriter.Create( Settings.Settings.GetSettingsPath(), settings );
 				writer.WriteStartElement( "General" );
 					writer.WriteStartElement( "WinRar" );
 						writer.WriteAttributeString( "WinRarPath", tboxWinRarPath.Text );

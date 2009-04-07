@@ -721,16 +721,7 @@ namespace SharpFBTools.Controls.Panels
 		{
 			// редактировать выделенный файл в текстовом редакторе
 			// читаем путь к текстовому редактору из настроек
-			string sTFB2Path = Options.OptionsForm.GetDefTFB2Path();
-			if( File.Exists( Options.OptionsForm.GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using (XmlReader reader = XmlReader.Create(Options.OptionsForm.GetSettingsPath(), settings)) {
-					reader.ReadToFollowing("Editors");
-					sTFB2Path = reader.GetAttribute("TextFB2EPath");
-					reader.Close();
-				}
-			}
+			string sTFB2Path = Settings.Settings.ReadTextFB2EPath();
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
@@ -742,16 +733,7 @@ namespace SharpFBTools.Controls.Panels
 		{
 			// редактировать выделенный файл в fb2-редакторе
 			// читаем путь к FBE из настроек
-			string sFBEPath = Options.OptionsForm.GetDefFBEPath();
-			if( File.Exists( Options.OptionsForm.GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using (XmlReader reader = XmlReader.Create(Options.OptionsForm.GetSettingsPath(), settings)) {
-					reader.ReadToFollowing("Editors");
-					sFBEPath = reader.GetAttribute("FBEPath");
-					reader.Close();
-				}
-			}
+			string sFBEPath = Settings.Settings.ReadFBEPath();
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
@@ -763,16 +745,7 @@ namespace SharpFBTools.Controls.Panels
 		{
 			// запустить файл в fb2-читалке (Просмотр)
 			// читаем путь к читалке из настроек
-			string sFBReaderPath = Options.OptionsForm.GetDefFBReaderPath();
-			if( File.Exists( Options.OptionsForm.GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using (XmlReader reader = XmlReader.Create(Options.OptionsForm.GetSettingsPath(), settings)) {
-					reader.ReadToFollowing("Reader");
-					sFBReaderPath = reader.GetAttribute("FBReaderPath");
-					reader.Close();
-				}
-			}
+			string sFBReaderPath = Settings.Settings.ReadFBReaderPath();
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;

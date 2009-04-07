@@ -399,16 +399,7 @@ namespace SharpFBTools.Controls.Panels
 				return;
 			}
 			// читаем путь к WinRar из настроек
-			string sRarPath = Options.OptionsForm.GetDefRarPath();
-			if( File.Exists( Options.OptionsForm.GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using (XmlReader reader = XmlReader.Create(Options.OptionsForm.GetSettingsPath(), settings)) {
-					reader.ReadToFollowing("WinRar");
-					sRarPath = reader.GetAttribute("RarPath");
-					reader.Close();
-				}
-			}
+			string sRarPath = Settings.Settings.ReadRarPath();
 			if( cboxArchiveType.SelectedIndex == 0 && sRarPath == "" ) {
 				MessageBox.Show( "Не указана папка с установленным консольным Rar-архиватором!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;

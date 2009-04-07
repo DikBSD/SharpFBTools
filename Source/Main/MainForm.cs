@@ -53,6 +53,9 @@ namespace Main
 			tsbtnFB2Validator.Checked = true;
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Validator );
 			this.sfbTpFB2Validator.Dock = System.Windows.Forms.DockStyle.Fill;
+			
+			// Запоминаем папку программы
+			Settings.Settings.SetProgDir( Environment.CurrentDirectory );
 		}
 		
 		#region Обработчики событий
