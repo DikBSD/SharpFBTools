@@ -114,11 +114,11 @@ namespace FilesWorker
 		public static void ShowDir( System.Windows.Forms.ListView lw ) {
 			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
 			FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
-			Microsoft.VisualBasic.Interaction.Shell( "c:\\WINDOWS\\explorer.exe " + fi.Directory.ToString(), Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
+			Microsoft.VisualBasic.Interaction.Shell( "c:\\WINDOWS\\explorer.exe " + "\""+fi.Directory.ToString()+"\"", Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
 		}
 		
 		public static void ShowDir( string sDir ) {
-			Microsoft.VisualBasic.Interaction.Shell( "c:\\WINDOWS\\explorer.exe " + sDir, Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
+			Microsoft.VisualBasic.Interaction.Shell( "c:\\WINDOWS\\explorer.exe " + "\""+sDir+"\"", Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
 		}
 		
 		public static void StartFile( System.Windows.Forms.ListView lw ) {
@@ -127,7 +127,7 @@ namespace FilesWorker
 		}
 		
 		public static void StartFile( string sStartFilePath ) {
-			Microsoft.VisualBasic.Interaction.Shell( @sStartFilePath, Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
+			Microsoft.VisualBasic.Interaction.Shell( sStartFilePath, Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
 		}
 		
 		public static string FormatFileLenght( long lLenght ) {

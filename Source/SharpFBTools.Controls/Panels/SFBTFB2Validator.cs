@@ -429,6 +429,27 @@ namespace SharpFBTools.Controls.Panels
 		}
 		#endregion
 		
+		ListView GetCurrentListWiew()
+		{
+			// возвращает текущий ListView в зависимости от выбранной вкладки
+			ListView l = null;
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					l = listViewNotValid;
+					break;
+				case 1:
+					// валидные fb2-файлы
+					l = listViewValid;
+					break;
+				case 2:
+					// не fb2-файлы
+					l = listViewNotFB2;
+					break;
+			}
+			return l;
+		}
+		
 		#region Обработчики событий
 		void ListViewNotValidSelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -710,28 +731,10 @@ namespace SharpFBTools.Controls.Panels
 					reader.Close();
 				}
 			}
-			switch( tcResult.SelectedIndex ) {
-				case 0:
-					// не валидные fb2-файлы
-					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( sTFB2Path + " " + si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
-				case 1:
-					// валидные fb2-файлы
-					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewValid.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( sTFB2Path + " " + si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
-				case 2:
-					// не fb2-файлы
-					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewNotFB2.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( sTFB2Path + " " + si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
+			ListView l = GetCurrentListWiew();
+			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
+				ListView.SelectedListViewItemCollection si = l.SelectedItems;
+				FilesWorker.FilesWorker.StartFile( "\""+sTFB2Path+"\"" + " " + "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"" );
 			}
 		}
 		
@@ -749,28 +752,10 @@ namespace SharpFBTools.Controls.Panels
 					reader.Close();
 				}
 			}
-			switch( tcResult.SelectedIndex ) {
-				case 0:
-					// не валидные fb2-файлы
-					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( sFBEPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
-				case 1:
-					// валидные fb2-файлы
-					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewValid.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( sFBEPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
-				case 2:
-					// не fb2-файлы
-					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewNotFB2.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( sFBEPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
+			ListView l = GetCurrentListWiew();
+			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
+				ListView.SelectedListViewItemCollection si = l.SelectedItems;
+				FilesWorker.FilesWorker.StartFile( "\""+sFBEPath+"\"" + " " + "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"" );
 			}
 		}
 		
@@ -788,81 +773,52 @@ namespace SharpFBTools.Controls.Panels
 					reader.Close();
 				}
 			}
-			switch( tcResult.SelectedIndex ) {
-				case 0:
-					// не валидные fb2-файлы
-					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( sFBReaderPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
-				case 1:
-					// валидные fb2-файлы
-					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewValid.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( sFBReaderPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
-				case 2:
-					// не fb2-файлы
-					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewNotFB2.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( sFBReaderPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
+			ListView l = GetCurrentListWiew();
+			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
+				ListView.SelectedListViewItemCollection si = l.SelectedItems;
+				FilesWorker.FilesWorker.StartFile( "\""+sFBReaderPath+"\"" + " " + "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"" );
 			}
 		}
 		
 		void TsmiOpenFileDirClick(object sender, EventArgs e)
 		{
 			// Открыть папку для выделенного файла
-			switch( tcResult.SelectedIndex ) {
-				case 0:
-					// не валидные fb2-файлы
-					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
-						FilesWorker.FilesWorker.ShowDir( listViewNotValid );
-					}
-					break;
-				case 1:
-					// валидные fb2-файлы
-					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
-						FilesWorker.FilesWorker.ShowDir( listViewValid );
-					}
-					break;
-				case 2:
-					// не fb2-файлы
-					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
-						FilesWorker.FilesWorker.ShowDir( listViewNotFB2 );
-					}
-					break;
+			ListView l = GetCurrentListWiew();
+			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
+				ListView.SelectedListViewItemCollection si = l.SelectedItems;
+				FilesWorker.FilesWorker.ShowDir( l );
 			}
 		}
 		
 		void TsmiFileStartClick(object sender, EventArgs e)
 		{
 			// Запустить выделенный файл
-			switch( tcResult.SelectedIndex ) {
-				case 0:
-					// не валидные fb2-файлы
-					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] );
-					}
-					break;
-				case 1:
-					// валидные fb2-файлы
-					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewValid.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] ); 
-					}
-					break;
-				case 2:
-					// не fb2-файлы
-					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
-						ListView.SelectedListViewItemCollection si = listViewNotFB2.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] ); 
-					}
-					break;
+			ListView l = GetCurrentListWiew();
+			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
+				ListView.SelectedListViewItemCollection si = l.SelectedItems;
+				FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] );
+			}
+		}
+		
+		void CmsValidatorVisibleChanged(object sender, EventArgs e)
+		{
+			// показать или скрыть некоторые итемы контекстного меню, в зависимости от того. на каком файле нажата правая клавиша мышки
+			if( cmsValidator.Visible ) {
+				ListView l = null;
+				switch( tcResult.SelectedIndex ) {
+					case 0:
+						// не валидные fb2-файлы
+						l = listViewNotValid;
+						break;
+					case 1:
+						// валидные fb2-файлы
+						l = listViewValid;
+						break;
+					case 2:
+						// не fb2-файлы
+						l = listViewNotFB2;
+						break;
+				}
 			}
 		}
 		#endregion

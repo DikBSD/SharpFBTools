@@ -427,10 +427,12 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// rеboxNotValid
 			// 
+			this.rеboxNotValid.BackColor = System.Drawing.SystemColors.Window;
 			this.rеboxNotValid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.rеboxNotValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.rеboxNotValid.Location = new System.Drawing.Point(0, 0);
 			this.rеboxNotValid.Name = "rеboxNotValid";
+			this.rеboxNotValid.ReadOnly = true;
 			this.rеboxNotValid.Size = new System.Drawing.Size(712, 89);
 			this.rеboxNotValid.TabIndex = 2;
 			this.rеboxNotValid.Text = "";
@@ -485,7 +487,8 @@ namespace SharpFBTools.Controls.Panels
 									this.tsmiOpenFileDir,
 									this.tsmiFileStart});
 			this.cmsValidator.Name = "cmsValidator";
-			this.cmsValidator.Size = new System.Drawing.Size(308, 126);
+			this.cmsValidator.Size = new System.Drawing.Size(308, 148);
+			this.cmsValidator.VisibleChanged += new System.EventHandler(this.CmsValidatorVisibleChanged);
 			// 
 			// tsmiEditInTextEditor
 			// 
