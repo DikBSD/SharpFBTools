@@ -13,6 +13,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -698,23 +699,37 @@ namespace SharpFBTools.Controls.Panels
 		void TsmiEditInTextEditorClick(object sender, EventArgs e)
 		{
 			// редактировать выделенный файл в текстовом редакторе
+			// читаем путь к текстовому редактору из настроек
+			string sTFB2Path = Options.OptionsForm.GetDefTFB2Path();
+			if( File.Exists( Options.OptionsForm.GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using (XmlReader reader = XmlReader.Create(Options.OptionsForm.GetSettingsPath(), settings)) {
+					reader.ReadToFollowing("Editors");
+					sTFB2Path = reader.GetAttribute("TextFB2EPath");
+					reader.Close();
+				}
+			}
 			switch( tcResult.SelectedIndex ) {
 				case 0:
 					// не валидные fb2-файлы
 					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
-
+						ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( sTFB2Path + " " + si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 				case 1:
 					// валидные fb2-файлы
 					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
-
+						ListView.SelectedListViewItemCollection si = listViewValid.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( sTFB2Path + " " + si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 				case 2:
 					// не fb2-файлы
 					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
-
+						ListView.SelectedListViewItemCollection si = listViewNotFB2.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( sTFB2Path + " " + si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 			}
@@ -723,23 +738,37 @@ namespace SharpFBTools.Controls.Panels
 		void TsmiEditInFB2EditorClick(object sender, EventArgs e)
 		{
 			// редактировать выделенный файл в fb2-редакторе
+			// читаем путь к FBE из настроек
+			string sFBEPath = Options.OptionsForm.GetDefFBEPath();
+			if( File.Exists( Options.OptionsForm.GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using (XmlReader reader = XmlReader.Create(Options.OptionsForm.GetSettingsPath(), settings)) {
+					reader.ReadToFollowing("Editors");
+					sFBEPath = reader.GetAttribute("FBEPath");
+					reader.Close();
+				}
+			}
 			switch( tcResult.SelectedIndex ) {
 				case 0:
 					// не валидные fb2-файлы
 					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
-
+						ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( sFBEPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 				case 1:
 					// валидные fb2-файлы
 					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
-
+						ListView.SelectedListViewItemCollection si = listViewValid.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( sFBEPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 				case 2:
 					// не fb2-файлы
 					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
-
+						ListView.SelectedListViewItemCollection si = listViewNotFB2.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( sFBEPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 			}
@@ -748,23 +777,37 @@ namespace SharpFBTools.Controls.Panels
 		void TsmiVienInReaderClick(object sender, EventArgs e)
 		{
 			// запустить файл в fb2-читалке (Просмотр)
+			// читаем путь к читалке из настроек
+			string sFBReaderPath = Options.OptionsForm.GetDefFBReaderPath();
+			if( File.Exists( Options.OptionsForm.GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using (XmlReader reader = XmlReader.Create(Options.OptionsForm.GetSettingsPath(), settings)) {
+					reader.ReadToFollowing("Reader");
+					sFBReaderPath = reader.GetAttribute("FBReaderPath");
+					reader.Close();
+				}
+			}
 			switch( tcResult.SelectedIndex ) {
 				case 0:
 					// не валидные fb2-файлы
 					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
-
+						ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( sFBReaderPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 				case 1:
 					// валидные fb2-файлы
 					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
-
+						ListView.SelectedListViewItemCollection si = listViewValid.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( sFBReaderPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 				case 2:
 					// не fb2-файлы
 					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
-
+						ListView.SelectedListViewItemCollection si = listViewNotFB2.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( sFBReaderPath + " " + si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 			}
@@ -803,7 +846,7 @@ namespace SharpFBTools.Controls.Panels
 					// не валидные fb2-файлы
 					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
 						ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
-						FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] ); 
+						FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] );
 					}
 					break;
 				case 1:

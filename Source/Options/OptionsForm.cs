@@ -57,6 +57,18 @@ namespace Options
 			return m_sRarPath;
 		}
 		
+		public static string GetDefFBEPath() {
+			return m_sFBEPath;
+		}
+		
+		public static string GetDefTFB2Path() {
+			return m_sTFB2Path;
+		}
+		
+		public static string GetDefFBReaderPath() {
+			return m_sFBReaderPath;
+		}
+		
 		void ReadSettings() {
 			// чтение настроек из xml-файла
 			string sSettings = GetProgDir()+"\\"+m_settings;
