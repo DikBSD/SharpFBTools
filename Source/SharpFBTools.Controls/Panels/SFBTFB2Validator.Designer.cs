@@ -36,6 +36,7 @@ namespace SharpFBTools.Controls.Panels
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
 			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
@@ -86,6 +87,14 @@ namespace SharpFBTools.Controls.Panels
 			this.chNonValidFile = new System.Windows.Forms.ColumnHeader();
 			this.chNonValidError = new System.Windows.Forms.ColumnHeader();
 			this.chNonValidLenght = new System.Windows.Forms.ColumnHeader();
+			this.cmsValidator = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.tsmiEditInTextEditor = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiEditInFB2Editor = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiVienInReader = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiOpenFileDir = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiFileStart = new System.Windows.Forms.ToolStripMenuItem();
 			this.tpValid = new System.Windows.Forms.TabPage();
 			this.pValidLV = new System.Windows.Forms.Panel();
 			this.listViewValid = new System.Windows.Forms.ListView();
@@ -134,6 +143,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpNotValid.SuspendLayout();
 			this.gbFB2NotValidFiles.SuspendLayout();
 			this.pErrors.SuspendLayout();
+			this.cmsValidator.SuspendLayout();
 			this.tpValid.SuspendLayout();
 			this.pValidLV.SuspendLayout();
 			this.gbFB2Valid.SuspendLayout();
@@ -434,6 +444,7 @@ namespace SharpFBTools.Controls.Panels
 									this.chNonValidFile,
 									this.chNonValidError,
 									this.chNonValidLenght});
+			this.listViewNotValid.ContextMenuStrip = this.cmsValidator;
 			this.listViewNotValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewNotValid.FullRowSelect = true;
 			this.listViewNotValid.GridLines = true;
@@ -445,8 +456,8 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewNotValid.TabIndex = 0;
 			this.listViewNotValid.UseCompatibleStateImageBehavior = false;
 			this.listViewNotValid.View = System.Windows.Forms.View.Details;
-			this.listViewNotValid.DoubleClick += new System.EventHandler(this.ListViewNotValidDoubleClick);
 			this.listViewNotValid.SelectedIndexChanged += new System.EventHandler(this.ListViewNotValidSelectedIndexChanged);
+			this.listViewNotValid.DoubleClick += new System.EventHandler(this.ListViewNotValidDoubleClick);
 			// 
 			// chNonValidFile
 			// 
@@ -462,6 +473,64 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.chNonValidLenght.Text = "Размер";
 			this.chNonValidLenght.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// cmsValidator
+			// 
+			this.cmsValidator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+									this.tsmiEditInTextEditor,
+									this.tsmiEditInFB2Editor,
+									this.tsmi1,
+									this.tsmiVienInReader,
+									this.tsmi2,
+									this.tsmiOpenFileDir,
+									this.tsmiFileStart});
+			this.cmsValidator.Name = "cmsValidator";
+			this.cmsValidator.Size = new System.Drawing.Size(308, 126);
+			// 
+			// tsmiEditInTextEditor
+			// 
+			this.tsmiEditInTextEditor.Name = "tsmiEditInTextEditor";
+			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(307, 22);
+			this.tsmiEditInTextEditor.Text = "Редактировать в текстовом fb2-редакторе";
+			this.tsmiEditInTextEditor.Click += new System.EventHandler(this.TsmiEditInTextEditorClick);
+			// 
+			// tsmiEditInFB2Editor
+			// 
+			this.tsmiEditInFB2Editor.Name = "tsmiEditInFB2Editor";
+			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(307, 22);
+			this.tsmiEditInFB2Editor.Text = "Редактировать в fb2-редакторе";
+			this.tsmiEditInFB2Editor.Click += new System.EventHandler(this.TsmiEditInFB2EditorClick);
+			// 
+			// tsmi1
+			// 
+			this.tsmi1.Name = "tsmi1";
+			this.tsmi1.Size = new System.Drawing.Size(304, 6);
+			// 
+			// tsmiVienInReader
+			// 
+			this.tsmiVienInReader.Name = "tsmiVienInReader";
+			this.tsmiVienInReader.Size = new System.Drawing.Size(307, 22);
+			this.tsmiVienInReader.Text = "Запустить в fb2-читалке (Просмотр)";
+			this.tsmiVienInReader.Click += new System.EventHandler(this.TsmiVienInReaderClick);
+			// 
+			// tsmi2
+			// 
+			this.tsmi2.Name = "tsmi2";
+			this.tsmi2.Size = new System.Drawing.Size(304, 6);
+			// 
+			// tsmiOpenFileDir
+			// 
+			this.tsmiOpenFileDir.Name = "tsmiOpenFileDir";
+			this.tsmiOpenFileDir.Size = new System.Drawing.Size(307, 22);
+			this.tsmiOpenFileDir.Text = "Открыть папку для выделенного файла";
+			this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
+			// 
+			// tsmiFileStart
+			// 
+			this.tsmiFileStart.Name = "tsmiFileStart";
+			this.tsmiFileStart.Size = new System.Drawing.Size(307, 22);
+			this.tsmiFileStart.Text = "Запустить выделенный файл";
+			this.tsmiFileStart.Click += new System.EventHandler(this.TsmiFileStartClick);
 			// 
 			// tpValid
 			// 
@@ -489,6 +558,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewValid.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.chValidFile,
 									this.chValidLenght});
+			this.listViewValid.ContextMenuStrip = this.cmsValidator;
 			this.listViewValid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewValid.FullRowSelect = true;
@@ -623,6 +693,7 @@ namespace SharpFBTools.Controls.Panels
 									this.columnHeader1,
 									this.columnHeader2,
 									this.columnHeader3});
+			this.listViewNotFB2.ContextMenuStrip = this.cmsValidator;
 			this.listViewNotFB2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewNotFB2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewNotFB2.FullRowSelect = true;
@@ -901,6 +972,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gbFB2NotValidFiles.ResumeLayout(false);
 			this.gbFB2NotValidFiles.PerformLayout();
 			this.pErrors.ResumeLayout(false);
+			this.cmsValidator.ResumeLayout(false);
 			this.tpValid.ResumeLayout(false);
 			this.pValidLV.ResumeLayout(false);
 			this.gbFB2Valid.ResumeLayout(false);
@@ -920,6 +992,14 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripMenuItem tsmiFileStart;
+		private System.Windows.Forms.ToolStripMenuItem tsmiOpenFileDir;
+		private System.Windows.Forms.ToolStripMenuItem tsmiVienInReader;
+		private System.Windows.Forms.ToolStripMenuItem tsmiEditInTextEditor;
+		private System.Windows.Forms.ToolStripMenuItem tsmiEditInFB2Editor;
+		private System.Windows.Forms.ContextMenuStrip cmsValidator;
+		private System.Windows.Forms.ToolStripSeparator tsmi2;
+		private System.Windows.Forms.ToolStripSeparator tsmi1;
 		private System.Windows.Forms.Label lblExistFile;
 		private System.Windows.Forms.ComboBox cboxExistFile;
 		private System.Windows.Forms.GroupBox gboxCopyMoveOptions;

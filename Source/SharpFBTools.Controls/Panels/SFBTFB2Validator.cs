@@ -694,6 +694,135 @@ namespace SharpFBTools.Controls.Panels
 			// отчет в виде cvs-файла
 			MakeReport( 2 );
 		}
+
+		void TsmiEditInTextEditorClick(object sender, EventArgs e)
+		{
+			// редактировать выделенный файл в текстовом редакторе
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
+
+					}
+					break;
+				case 1:
+					// валидные fb2-файлы
+					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
+
+					}
+					break;
+				case 2:
+					// не fb2-файлы
+					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
+
+					}
+					break;
+			}
+		}
+		
+		void TsmiEditInFB2EditorClick(object sender, EventArgs e)
+		{
+			// редактировать выделенный файл в fb2-редакторе
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
+
+					}
+					break;
+				case 1:
+					// валидные fb2-файлы
+					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
+
+					}
+					break;
+				case 2:
+					// не fb2-файлы
+					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
+
+					}
+					break;
+			}
+		}
+		
+		void TsmiVienInReaderClick(object sender, EventArgs e)
+		{
+			// запустить файл в fb2-читалке (Просмотр)
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
+
+					}
+					break;
+				case 1:
+					// валидные fb2-файлы
+					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
+
+					}
+					break;
+				case 2:
+					// не fb2-файлы
+					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
+
+					}
+					break;
+			}
+		}
+		
+		void TsmiOpenFileDirClick(object sender, EventArgs e)
+		{
+			// Открыть папку для выделенного файла
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
+						FilesWorker.FilesWorker.ShowDir( listViewNotValid );
+					}
+					break;
+				case 1:
+					// валидные fb2-файлы
+					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
+						FilesWorker.FilesWorker.ShowDir( listViewValid );
+					}
+					break;
+				case 2:
+					// не fb2-файлы
+					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
+						FilesWorker.FilesWorker.ShowDir( listViewNotFB2 );
+					}
+					break;
+			}
+		}
+		
+		void TsmiFileStartClick(object sender, EventArgs e)
+		{
+			// Запустить выделенный файл
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
+						ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] ); 
+					}
+					break;
+				case 1:
+					// валидные fb2-файлы
+					if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
+						ListView.SelectedListViewItemCollection si = listViewValid.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] ); 
+					}
+					break;
+				case 2:
+					// не fb2-файлы
+					if( listViewNotFB2.Items.Count > 0 && listViewNotFB2.SelectedItems.Count != 0 ) {
+						ListView.SelectedListViewItemCollection si = listViewNotFB2.SelectedItems;
+						FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] ); 
+					}
+					break;
+			}
+		}
 		#endregion
+
 	}
 }
