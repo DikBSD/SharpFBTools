@@ -804,20 +804,33 @@ namespace SharpFBTools.Controls.Panels
 		{
 			// показать или скрыть некоторые итемы контекстного меню, в зависимости от того. на каком файле нажата правая клавиша мышки
 			if( cmsValidator.Visible ) {
-				ListView l = null;
-				switch( tcResult.SelectedIndex ) {
-					case 0:
-						// не валидные fb2-файлы
-						l = listViewNotValid;
-						break;
-					case 1:
-						// валидные fb2-файлы
-						l = listViewValid;
-						break;
-					case 2:
-						// не fb2-файлы
-						l = listViewNotFB2;
-						break;
+				ListView l = GetCurrentListWiew();
+				if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
+					// путь к выделенному файлу
+					ListView.SelectedListViewItemCollection si = l.SelectedItems;
+					string s = si[0].SubItems[0].Text.Split('/')[0];
+					// отределяем его расширение
+					string sExt = Path.GetExtension( s );
+					switch( sExt.ToLower() ) {
+						case ".fb2":
+							tsmiEditInTextEditor.Visible = true;
+							tsmiEditInFB2Editor.Visible = true;
+							tsmi1.Visible = true;
+							tsmiVienInReader.Visible = true;
+							tsmi2.Visible = true;
+							tsmiOpenFileDir.Visible = true;
+							tsmiFileStart.Visible = false;
+							break;
+						default:
+							tsmiEditInTextEditor.Visible = false;
+							tsmiEditInFB2Editor.Visible = false;
+							tsmi1.Visible = false;
+							tsmiVienInReader.Visible = false;
+							tsmi2.Visible = false;
+							tsmiOpenFileDir.Visible = true;
+							tsmiFileStart.Visible = false;
+							break;
+					}
 				}
 			}
 		}
