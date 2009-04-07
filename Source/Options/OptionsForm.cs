@@ -26,6 +26,7 @@ namespace Options
 		private static string m_sRarPath = "c:\\Program Files\\WinRAR\\Rar.exe";
 		private static string m_sFBEPath = "c:\\Program Files\\FictionBook Editor\\FBE.exe";
 		private static string m_sTFB2Path = "c:\\WINDOWS\\NOTEPAD.EXE";
+		private static string m_sFBReaderPath = "c:\\Program Files\\AlReader 2\\AlReader2.exe";
 		#endregion
 		
 		public OptionsForm()
@@ -39,6 +40,7 @@ namespace Options
 			tboxRarPath.Text	= m_sRarPath;
 			tboxFBEPath.Text	= m_sFBEPath;
 			tboxTextEPath.Text	= m_sTFB2Path;
+			tboxReaderPath.Text = m_sFBReaderPath;
 			// читаес сохраненные настройки, если они есть
 			ReadSettings();
 		}
@@ -68,6 +70,8 @@ namespace Options
 				reader.ReadToFollowing("Editors");
 				tboxFBEPath.Text = reader.GetAttribute("FBEPath");
 				tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
+				reader.ReadToFollowing("Reader");
+				tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
 				reader.Close();
 			}
 		}
@@ -141,6 +145,9 @@ namespace Options
 						writer.WriteAttributeString( "FBEPath", tboxFBEPath.Text );
 						writer.WriteAttributeString( "TextFB2EPath", tboxTextEPath.Text );
 					writer.WriteFullEndElement();
+					writer.WriteStartElement( "Reader" );
+						writer.WriteAttributeString( "FBReaderPath", tboxReaderPath.Text );
+					writer.WriteFullEndElement();
 				writer.WriteEndElement();
 				writer.Flush();
 				this.Close();
@@ -149,7 +156,18 @@ namespace Options
 				writer.Close();
 			}
 		}
-		#endregion
-
+		
+		void BtnReaderPathClick(object sender, EventArgs e)
+		{
+			// указание пути к Читалке fb2-файлов
+			ofDlg.Title = "Укажите путь к Читалке fb2-файлов:";
+			ofDlg.FileName = "";
+			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
+			DialogResult result = ofDlg.ShowDialog();
+			if (result == DialogResult.OK) {
+                tboxReaderPath.Text = ofDlg.FileName;
+            }
+		}
+		#endregion		
 	}
 }
