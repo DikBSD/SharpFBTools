@@ -114,7 +114,6 @@ namespace Main
 			                    tsbtnAbout, this.sfbTpAbout,
 			                    tscMain );
 		}
-		#endregion
 		
 		void TsbtnOptionsClick(object sender, EventArgs e)
 		{
@@ -122,5 +121,7 @@ namespace Main
 			OptionsForm ofrm = new OptionsForm();
 			ofrm.ShowDialog();
 		}
+		#endregion
+		
 	}	
 }
