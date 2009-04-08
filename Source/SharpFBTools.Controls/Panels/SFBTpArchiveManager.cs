@@ -99,7 +99,7 @@ namespace SharpFBTools.Controls.Panels
 				// Обработка существующих в папке-приемнике файлов при копировании
 				sNewFile = ExistsFB2FileFileToDirWorker( sNewFile, sSufix );
 			}
-			File.Move( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFile, sNewFile );
+			File.Move( Settings.Settings.GetTempDir()+"\\"+sFile, sNewFile );
 			return true;
 		}
 		
@@ -198,47 +198,48 @@ namespace SharpFBTools.Controls.Panels
 			// Распаковать ахривы
 			long lCount, lFB2, lRar, lZip, l7Z, lBZip2, lGZip, lTar;
 			lCount = lFB2 = lRar = lZip = l7Z = lBZip2 = lGZip = lTar = 0;
+			string sTempDir = Settings.Settings.GetTempDir();
 			foreach( string sFile in lFilesList ) {
 				string sExt = Path.GetExtension( sFile );
 				if( sExt.ToLower() != "" ) {
-					FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+					FilesWorker.FilesWorker.RemoveDir( sTempDir );
 					switch( sExt.ToLower() ) {
 						case ".rar":
-							if( !Directory.Exists( FilesWorker.FilesWorker.GetTempDir() ) ) {
-								Directory.CreateDirectory( FilesWorker.FilesWorker.GetTempDir() );
+							if( !Directory.Exists( sTempDir ) ) {
+								Directory.CreateDirectory( sTempDir );
 							}
-							Archiver.Archiver.unrar( "unrar.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							Archiver.Archiver.unrar( "unrar.exe", sFile, sTempDir );
 							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
 							++lCount;
 							break;
 						case ".zip":
-							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
 							lvUACount.Items[1].SubItems[1].Text = (++lZip).ToString();
 							++lCount;
 							break;
 						case ".7z":
-							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
 							lvUACount.Items[2].SubItems[1].Text = (++l7Z).ToString();
 							++lCount;
 							break;
 						case ".bz2":
-							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
 							lvUACount.Items[3].SubItems[1].Text = (++lBZip2).ToString();
 							++lCount;
 							break;
 						case ".gz":
-							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
 							lvUACount.Items[4].SubItems[1].Text = (++lGZip).ToString();
 							++lCount;
 							break;
 						case ".tar":
-							Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
 							lvUACount.Items[5].SubItems[1].Text = (++lTar).ToString();
 							++lCount;
 							break;
 					}
-					if( Directory.Exists( FilesWorker.FilesWorker.GetTempDir() ) ) {
-						string [] files = Directory.GetFiles( FilesWorker.FilesWorker.GetTempDir() );
+					if( Directory.Exists( sTempDir ) ) {
+						string [] files = Directory.GetFiles( sTempDir );
 						if( files.Length > 0 ) {
 							string sFileName = Path.GetFileName( files[0] );
 							if( Path.GetExtension( sFileName )==".fb2" ) {
@@ -263,12 +264,13 @@ namespace SharpFBTools.Controls.Panels
 			long lCount = 0;
 			long lAllArchive = 0;
 			long lFB2 = 0;
+			string sTempDir = Settings.Settings.GetTempDir();
 			foreach( string sFile in lFilesList ) {
 				if( Path.GetExtension( sFile.ToLower() ) == sExt ) {
-					Archiver.Archiver.unzip( "7za.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+					Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
 					lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
-					if( Directory.Exists( FilesWorker.FilesWorker.GetTempDir() ) ) {
-						string [] files = Directory.GetFiles( FilesWorker.FilesWorker.GetTempDir() );
+					if( Directory.Exists( sTempDir ) ) {
+						string [] files = Directory.GetFiles( sTempDir);
 						if( files.Length > 0 ) {
 							string sFileName = Path.GetFileName( files[0] );
 							if( Path.GetExtension( sFileName )==".fb2" ) {
@@ -294,7 +296,8 @@ namespace SharpFBTools.Controls.Panels
 			long lAllArchive = 0;
 			long lRar = 0;
 			long lFB2 = 0;
-			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+			string sTempDir = Settings.Settings.GetTempDir();
+			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 			switch( sArchType.ToLower() ) {
 				case "":
 					AllArchivesToFile( lFilesList, pBar );
@@ -303,13 +306,13 @@ namespace SharpFBTools.Controls.Panels
 					foreach( string sFile in lFilesList ) {
 						string sExt = Path.GetExtension( sFile );
 						if( sExt.ToLower() == ".rar" ) {
-							if( !Directory.Exists( FilesWorker.FilesWorker.GetTempDir() ) ) {
-								Directory.CreateDirectory( FilesWorker.FilesWorker.GetTempDir() );
+							if( !Directory.Exists( sTempDir ) ) {
+								Directory.CreateDirectory( sTempDir );
 							}
-							Archiver.Archiver.unrar( "unrar.exe", sFile, FilesWorker.FilesWorker.GetTempDir() );
+							Archiver.Archiver.unrar( "unrar.exe", sFile, sTempDir );
 							lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
-							if( Directory.Exists( FilesWorker.FilesWorker.GetTempDir() ) ) {
-								string [] files = Directory.GetFiles( FilesWorker.FilesWorker.GetTempDir() );
+							if( Directory.Exists( sTempDir ) ) {
+								string [] files = Directory.GetFiles( sTempDir );
 								if( files.Length > 0 ) {
 									string sFileName = Path.GetFileName( files[0] );
 									if( Path.GetExtension( sFileName )==".fb2" ) {

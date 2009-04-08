@@ -43,6 +43,10 @@ namespace Options
 			this.pBtn = new System.Windows.Forms.Panel();
 			this.tcOptions = new System.Windows.Forms.TabControl();
 			this.tpGeneral = new System.Windows.Forms.TabPage();
+			this.gboxReader = new System.Windows.Forms.GroupBox();
+			this.lblFBReaderPath = new System.Windows.Forms.Label();
+			this.tboxReaderPath = new System.Windows.Forms.TextBox();
+			this.btnReaderPath = new System.Windows.Forms.Button();
 			this.gboxEditors = new System.Windows.Forms.GroupBox();
 			this.lblTextEPath = new System.Windows.Forms.Label();
 			this.tboxTextEPath = new System.Windows.Forms.TextBox();
@@ -58,16 +62,12 @@ namespace Options
 			this.tboxWinRarPath = new System.Windows.Forms.TextBox();
 			this.btnWinRarPath = new System.Windows.Forms.Button();
 			this.tpValidator = new System.Windows.Forms.TabPage();
-			this.gboxReader = new System.Windows.Forms.GroupBox();
-			this.lblFBReaderPath = new System.Windows.Forms.Label();
-			this.tboxReaderPath = new System.Windows.Forms.TextBox();
-			this.btnReaderPath = new System.Windows.Forms.Button();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
+			this.gboxReader.SuspendLayout();
 			this.gboxEditors.SuspendLayout();
 			this.gboxRar.SuspendLayout();
-			this.gboxReader.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -93,6 +93,10 @@ namespace Options
 			this.btnCancel.TabIndex = 1;
 			this.btnCancel.Text = "Отмена";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			// 
+			// ofDlg
+			// 
+			this.ofDlg.RestoreDirectory = true;
 			// 
 			// pBtn
 			// 
@@ -127,6 +131,52 @@ namespace Options
 			this.tpGeneral.TabIndex = 0;
 			this.tpGeneral.Text = " Основные ";
 			this.tpGeneral.UseVisualStyleBackColor = true;
+			// 
+			// gboxReader
+			// 
+			this.gboxReader.Controls.Add(this.lblFBReaderPath);
+			this.gboxReader.Controls.Add(this.tboxReaderPath);
+			this.gboxReader.Controls.Add(this.btnReaderPath);
+			this.gboxReader.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gboxReader.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gboxReader.Location = new System.Drawing.Point(3, 152);
+			this.gboxReader.Name = "gboxReader";
+			this.gboxReader.Size = new System.Drawing.Size(603, 45);
+			this.gboxReader.TabIndex = 15;
+			this.gboxReader.TabStop = false;
+			this.gboxReader.Text = " Читалка fb2-файлов ";
+			// 
+			// lblFBReaderPath
+			// 
+			this.lblFBReaderPath.AutoSize = true;
+			this.lblFBReaderPath.Location = new System.Drawing.Point(7, 16);
+			this.lblFBReaderPath.Name = "lblFBReaderPath";
+			this.lblFBReaderPath.Size = new System.Drawing.Size(123, 13);
+			this.lblFBReaderPath.TabIndex = 16;
+			this.lblFBReaderPath.Text = "Путь к fb2-читалке:";
+			// 
+			// tboxReaderPath
+			// 
+			this.tboxReaderPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxReaderPath.Location = new System.Drawing.Point(171, 12);
+			this.tboxReaderPath.Name = "tboxReaderPath";
+			this.tboxReaderPath.ReadOnly = true;
+			this.tboxReaderPath.Size = new System.Drawing.Size(381, 20);
+			this.tboxReaderPath.TabIndex = 14;
+			// 
+			// btnReaderPath
+			// 
+			this.btnReaderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnReaderPath.Image = ((System.Drawing.Image)(resources.GetObject("btnReaderPath.Image")));
+			this.btnReaderPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnReaderPath.Location = new System.Drawing.Point(558, 10);
+			this.btnReaderPath.Name = "btnReaderPath";
+			this.btnReaderPath.Size = new System.Drawing.Size(37, 24);
+			this.btnReaderPath.TabIndex = 15;
+			this.btnReaderPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnReaderPath.UseVisualStyleBackColor = true;
+			this.btnReaderPath.Click += new System.EventHandler(this.BtnReaderPathClick);
 			// 
 			// gboxEditors
 			// 
@@ -300,52 +350,6 @@ namespace Options
 			this.tpValidator.Text = " Валидатор ";
 			this.tpValidator.UseVisualStyleBackColor = true;
 			// 
-			// gboxReader
-			// 
-			this.gboxReader.Controls.Add(this.lblFBReaderPath);
-			this.gboxReader.Controls.Add(this.tboxReaderPath);
-			this.gboxReader.Controls.Add(this.btnReaderPath);
-			this.gboxReader.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gboxReader.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gboxReader.Location = new System.Drawing.Point(3, 152);
-			this.gboxReader.Name = "gboxReader";
-			this.gboxReader.Size = new System.Drawing.Size(603, 45);
-			this.gboxReader.TabIndex = 15;
-			this.gboxReader.TabStop = false;
-			this.gboxReader.Text = " Читалка fb2-файлов ";
-			// 
-			// lblFBReaderPath
-			// 
-			this.lblFBReaderPath.AutoSize = true;
-			this.lblFBReaderPath.Location = new System.Drawing.Point(7, 16);
-			this.lblFBReaderPath.Name = "lblFBReaderPath";
-			this.lblFBReaderPath.Size = new System.Drawing.Size(123, 13);
-			this.lblFBReaderPath.TabIndex = 16;
-			this.lblFBReaderPath.Text = "Путь к fb2-читалке:";
-			// 
-			// tboxReaderPath
-			// 
-			this.tboxReaderPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxReaderPath.Location = new System.Drawing.Point(171, 12);
-			this.tboxReaderPath.Name = "tboxReaderPath";
-			this.tboxReaderPath.ReadOnly = true;
-			this.tboxReaderPath.Size = new System.Drawing.Size(381, 20);
-			this.tboxReaderPath.TabIndex = 14;
-			// 
-			// btnReaderPath
-			// 
-			this.btnReaderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnReaderPath.Image = ((System.Drawing.Image)(resources.GetObject("btnReaderPath.Image")));
-			this.btnReaderPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnReaderPath.Location = new System.Drawing.Point(558, 10);
-			this.btnReaderPath.Name = "btnReaderPath";
-			this.btnReaderPath.Size = new System.Drawing.Size(37, 24);
-			this.btnReaderPath.TabIndex = 15;
-			this.btnReaderPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnReaderPath.UseVisualStyleBackColor = true;
-			this.btnReaderPath.Click += new System.EventHandler(this.BtnReaderPathClick);
-			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -365,12 +369,12 @@ namespace Options
 			this.pBtn.ResumeLayout(false);
 			this.tcOptions.ResumeLayout(false);
 			this.tpGeneral.ResumeLayout(false);
+			this.gboxReader.ResumeLayout(false);
+			this.gboxReader.PerformLayout();
 			this.gboxEditors.ResumeLayout(false);
 			this.gboxEditors.PerformLayout();
 			this.gboxRar.ResumeLayout(false);
 			this.gboxRar.PerformLayout();
-			this.gboxReader.ResumeLayout(false);
-			this.gboxReader.PerformLayout();
 			this.ResumeLayout(false);
 		}
 		private System.Windows.Forms.Button btnReaderPath;

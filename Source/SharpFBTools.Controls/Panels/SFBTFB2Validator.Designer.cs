@@ -884,6 +884,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// sfdReport
 			// 
+			this.sfdReport.RestoreDirectory = true;
 			this.sfdReport.Title = "Укажите название файла отчета";
 			// 
 			// lvFilesCount

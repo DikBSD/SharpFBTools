@@ -20,6 +20,8 @@ namespace Settings
 	{
 		#region Закрытые статические члены-данные класса
 		private static string m_sProgDir = Environment.CurrentDirectory;
+		private static string m_sTempDir = GetProgDir()+"\\Temp"; // временный каталог
+		private static string m_sFB21SchemePath = GetProgDir()+"\\FictionBook.xsd";
 		private static string m_settings = GetProgDir()+"\\settings.xml";
 		private static string m_sTFB2Path = "c:\\WINDOWS\\NOTEPAD.EXE";
 		private static string m_sWinRarPath = "c:\\Program Files\\WinRAR\\WinRAR.exe";
@@ -35,6 +37,16 @@ namespace Settings
 		
 		public static string GetProgDir() {
 			return m_sProgDir;
+		}
+		
+		public static string GetTempDir() {
+			// возвращает временную папку
+			return m_sTempDir;
+		}
+		
+		public static string GetFB21SchemePath() {
+			// возвращает путь к схеме fb2.1
+			return m_sFB21SchemePath;
 		}
 		
 		public static string GetSettingsPath() {

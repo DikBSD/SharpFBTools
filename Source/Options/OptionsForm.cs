@@ -103,9 +103,23 @@ namespace Options
             }
 		}
 		
+		void BtnReaderPathClick(object sender, EventArgs e)
+		{
+			// указание пути к Читалке fb2-файлов
+			ofDlg.Title = "Укажите путь к Читалке fb2-файлов:";
+			ofDlg.FileName = "";
+			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
+			DialogResult result = ofDlg.ShowDialog();
+			if (result == DialogResult.OK) {
+                tboxReaderPath.Text = ofDlg.FileName;
+            }
+		}
+		
 		void BtnOKClick(object sender, EventArgs e)
 		{
 			// сохранение настроек в ini
+			// устанавливаем текущую папку - папка программы
+			Environment.CurrentDirectory = Settings.Settings.GetProgDir();
 			XmlWriter writer = null;
 			try {
 				XmlWriterSettings settings = new XmlWriterSettings();
@@ -134,18 +148,6 @@ namespace Options
 				writer.Close();
 			}
 		}
-		
-		void BtnReaderPathClick(object sender, EventArgs e)
-		{
-			// указание пути к Читалке fb2-файлов
-			ofDlg.Title = "Укажите путь к Читалке fb2-файлов:";
-			ofDlg.FileName = "";
-			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
-			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
-                tboxReaderPath.Text = ofDlg.FileName;
-            }
-		}
-		#endregion		
+		#endregion
 	}
 }

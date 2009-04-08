@@ -63,7 +63,7 @@ namespace Main
 		{
 			// выход из программы
 			// очистка временной папки
-			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+			FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 			this.Close();
 		}
 		

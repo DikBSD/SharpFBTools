@@ -26,14 +26,14 @@ namespace FB2Parser
 
 		public string ValidatingFB2File( string path )
         {
-            using (Stream xmlSchemeFile = new FileStream("FictionBook.xsd", FileMode.Open))
+			using (Stream xmlSchemeFile = new FileStream( Settings.Settings.GetFB21SchemePath(), FileMode.Open ) )
             {
                 // Create the XmlSchemaSet class.
                 XmlSchemaSet sc = new XmlSchemaSet();
 
                 // Add the schema to the collection.
-                sc.Add("http://www.gribuser.ru/xml/fictionbook/2.0",
-                       XmlReader.Create(xmlSchemeFile));
+                sc.Add( "http://www.gribuser.ru/xml/fictionbook/2.0",
+                       XmlReader.Create( xmlSchemeFile ) );
 
                 // Set the validation settings.
                 XmlReaderSettings settings = new XmlReaderSettings();
@@ -45,13 +45,13 @@ namespace FB2Parser
 
                 try {
                 	// Parse the file.
-                	while (reader.Read());
+                	while ( reader.Read() );
                 	reader.Close();
                 	return "";
                 } catch (System.Xml.Schema.XmlSchemaException e) {
             		reader.Close();
             		return e.Message + "\r\nСтрока: " + e.LineNumber + "; Позиция: " + e.LinePosition;
-                } catch (System.Exception e) {
+                } catch ( System.Exception e ) {
                 	reader.Close();
                 	return e.Message;
                 }

@@ -92,7 +92,7 @@ namespace SharpFBTools.Controls.Panels
 			m_lFB2RarFiles 	= 0;
 			m_lNotFB2Files 	= 0;
 			// очистка временной папки
-			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+			FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 		}
 		
 		#region Парсеры файлов и архивов
@@ -151,7 +151,7 @@ namespace SharpFBTools.Controls.Panels
 				}
 				FileInfo fi = new FileInfo( sArchiveFile );
    				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   				fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   				fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
    				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    				item.SubItems.Add( s );
 				listViewValid.Items.AddRange( new ListViewItem[]{ item } );
@@ -169,7 +169,7 @@ namespace SharpFBTools.Controls.Panels
            				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
    						FileInfo fi = new FileInfo( sArchiveFile );
    						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   						fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   						fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
@@ -182,7 +182,7 @@ namespace SharpFBTools.Controls.Panels
 						item.SubItems.Add( msg );
    						FileInfo fi = new FileInfo( sArchiveFile );
    						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   						fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   						fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
@@ -199,7 +199,7 @@ namespace SharpFBTools.Controls.Panels
           				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
    						FileInfo fi = new FileInfo( sArchiveFile );
    						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   						fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   						fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
@@ -212,7 +212,7 @@ namespace SharpFBTools.Controls.Panels
 						item.SubItems.Add( msg );
    						FileInfo fi = new FileInfo( sArchiveFile );
    						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   						fi = new FileInfo( FilesWorker.FilesWorker.GetTempDir()+"\\"+sFileName );
+   						fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
@@ -583,6 +583,7 @@ namespace SharpFBTools.Controls.Panels
 			ssProgress.Refresh();
 			tlCentral.Refresh(); // обновление контролов на форме
 			FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
+			string sTempDir = Settings.Settings.GetTempDir();
 			foreach( string sFile in lFilesList ) {
 				string sExt = Path.GetExtension( sFile );
 				if( sExt.ToLower() == ".fb2" ) {
@@ -590,9 +591,9 @@ namespace SharpFBTools.Controls.Panels
 					ParseFB2File( sFile, fv2V );
 				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
 					// очистка временной папки
-					FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
-					Directory.CreateDirectory( FilesWorker.FilesWorker.GetTempDir() );
-					ParseArchiveFile( sFile, fv2V, FilesWorker.FilesWorker.GetTempDir() );
+					FilesWorker.FilesWorker.RemoveDir( sTempDir );
+					Directory.CreateDirectory( sTempDir );
+					ParseArchiveFile( sFile, fv2V, sTempDir );
 				} else {
 					// разные файлы
 					++this.m_lNotFB2Files;
@@ -617,7 +618,7 @@ namespace SharpFBTools.Controls.Panels
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
 			// очистка временной папки
-			FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 		}
 		
 		void TsbtnCopyFilesToClick(object sender, EventArgs e)
@@ -774,7 +775,7 @@ namespace SharpFBTools.Controls.Panels
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				DateTime dtStart = DateTime.Now;
-				string sTempDir = FilesWorker.FilesWorker.GetTempDir();
+				string sTempDir = Settings.Settings.GetTempDir();
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
 				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
 				string sExt = Path.GetExtension( sFilePath );
@@ -812,7 +813,7 @@ namespace SharpFBTools.Controls.Panels
 				DateTime dtEnd = DateTime.Now;
 				string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 				// очистка временной папки
-				FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+				FilesWorker.FilesWorker.RemoveDir( sTempDir );
 				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorTitle+"\n"+msg, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}

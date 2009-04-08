@@ -24,16 +24,7 @@ namespace FilesWorker
 		{
 		}
 		
-		#region Закрытые члены-данные
-		private static string m_sTempDir = "Temp"; // временный каталог
-		#endregion
-		
 		#region Открытые статические методы класса
-		public static string GetTempDir() {
-			// возвращает временную папку
-			return m_sTempDir;
-		}
-		
 		public static List<string> DirsParser( string sStartDir, ListView lv ) {
 			// список всех вложенных папок для стартового, включая и стартовый - замена рекурсии
 			List<string> lAllDirsList = new List<string>();
