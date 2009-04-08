@@ -122,6 +122,5 @@ namespace Main
 			ofrm.ShowDialog();
 		}
 		#endregion
-		
 	}	
 }

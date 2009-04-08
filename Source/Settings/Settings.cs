@@ -29,6 +29,8 @@ namespace Settings
 		private static string m_sFBEPath = "c:\\Program Files\\FictionBook Editor\\FBE.exe";
 		private static string m_sFBReaderPath = "c:\\Program Files\\AlReader 2\\AlReader2.exe";
 		private static string m_sLicensePath = GetProgDir()+"\\License GPL 2.1.rtf";
+		private static string m_s7zaPath = GetProgDir()+"\\7za.exe";
+		private static string m_sUnRARPath = GetProgDir()+"\\UnRAR.exe";
 		private static string m_sChangeFilePath = GetProgDir()+"\\Change.txt";
 		private static string m_sFB2ValidatorHelpPath = GetProgDir()+"\\Help\\FB2ValidatorHelp.rtf";
 		#endregion
@@ -78,6 +80,14 @@ namespace Settings
 		
 		public static string GetLicensePath() {
 			return m_sLicensePath;
+		}
+		
+		public static string Get7zaPath() {
+			return m_s7zaPath;
+		}
+		
+		public static string GetUnRARPath() {
+			return m_sUnRARPath;
 		}
 		
 		public static string GetChangeFilePath() {

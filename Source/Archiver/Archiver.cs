@@ -25,7 +25,7 @@ namespace Archiver
 			string s = "\"" + sZipPath + "\" e"; // Распаковать (для полных путей - x)
 			s += " -y"; // На все отвечать yes
 			s += " " + "\"" + sFilePath + "\""; // Файл который нужно распаковать
-			s += " -o" + sTempDir; // Временная папка распаковки
+			s += " -o" + "\"" + sTempDir + "\""; // Временная папка распаковки
 			return Microsoft.VisualBasic.Interaction.Shell(s, Microsoft.VisualBasic.AppWinStyle.Hide, true, -1);
 		}
 		
@@ -34,7 +34,7 @@ namespace Archiver
 			string s = "\"" + sUnRarPath + "\" e"; // Распаковать (для полных путей - x)
 			s += " -y"; // На все отвечать yes
 			s += " " + "\"" + sFilePath + "\""; // Файл который нужно распаковать
-			s += " " + sTempDir; // Временная папка распаковки
+			s += " " + "\"" + sTempDir + "\""; // Временная папка распаковки
 			return Microsoft.VisualBasic.Interaction.Shell(s, Microsoft.VisualBasic.AppWinStyle.Hide, true, -1);
 		}
 		

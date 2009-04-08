@@ -127,9 +127,9 @@ namespace SharpFBTools.Controls.Panels
 			// парсер архива
 			string sExt = Path.GetExtension( sArchiveFile );
 			if( sExt.ToLower() == ".zip" ) {
-				Archiver.Archiver.unzip( "7za.exe", sArchiveFile, sTempDir );
+				Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sArchiveFile, sTempDir );
 			} else if( sExt.ToLower() == ".rar" ) {
-				Archiver.Archiver.unrar( "unrar.exe", sArchiveFile, sTempDir );
+				Archiver.Archiver.unrar( Settings.Settings.GetUnRARPath(), sArchiveFile, sTempDir );
 			}
 			string [] files = Directory.GetFiles( sTempDir );
 			if( files.Length <= 0 ) return;
@@ -782,7 +782,6 @@ namespace SharpFBTools.Controls.Panels
 				string msg = "";
 				string sErrorTitle = "СООБЩЕНИЕ ОБ ОШИБКЕ:";
 				FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
-				
 				if( sExt.ToLower() == ".fb2" ) {
 					// для несжатого fb2-файла
 					msg = fv2V.ValidatingFB2File( sFilePath );
@@ -790,15 +789,30 @@ namespace SharpFBTools.Controls.Panels
            				// файл валидный
            				sErrorTitle = "ОШИБОК НЕТ";
            				msg = "Незапакованный fb2-файл не содержит ошибок (валидный)!";
-		           	}
+           				if( l.Name == "listViewNotValid" ) {
+							listViewNotValid.Items[ l.SelectedItems[0].Index ].Remove();
+//							tpNotValid.Text = 
+							ListViewItem item = new ListViewItem( si[0].SubItems[0].Text, 0 );
+	   						item.ForeColor = m_FB2ValidFontColor;
+							FileInfo fi = new FileInfo( si[0].SubItems[0].Text );
+   							item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+							listViewValid.Items.AddRange( new ListViewItem[]{ item } );
+//							tpValid.Text = m_sValid + "( " + m_lFB2Valid.ToString() + " ) " ;
+						}
+					} else {
+						if( l.Name == "listViewNotValid" ) {
+							l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = msg;
+							rеboxNotValid.Text = msg;
+						}
+					}
 				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
 					// очистка временной папки
 					FilesWorker.FilesWorker.RemoveDir( sTempDir );
 					Directory.CreateDirectory( sTempDir );
 					if( sExt.ToLower() == ".zip" ) {
-						Archiver.Archiver.unzip( "7za.exe", sFilePath, sTempDir );
+						Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFilePath, sTempDir );
 					} else if( sExt.ToLower() == ".rar" ) {
-						Archiver.Archiver.unrar( "unrar.exe", sFilePath, sTempDir );
+						Archiver.Archiver.unrar( Settings.Settings.GetUnRARPath(), sFilePath, sTempDir );
 					}
 					string [] files = Directory.GetFiles( sTempDir );
 					if( files.Length > 0 ) {
@@ -807,7 +821,32 @@ namespace SharpFBTools.Controls.Panels
         			   		// файл валидный - это запакованный fb2
 							sErrorTitle = "ОШИБОК НЕТ";
         			   		msg = "Запакованный fb2-файл не содержит ошибок (валидный)!";
-           				}
+        			   		if( l.Name == "listViewNotValid" ) {
+								listViewNotValid.Items[ l.SelectedItems[0].Index ].Remove();
+//								tpNotValid.Text = 
+								string sArchiveFile = sFilePath;
+							//	string sFileName = 
+								ListViewItem item = new ListViewItem( si[0].SubItems[0].Text , 0 );
+								if( sExt.ToLower() == ".zip" ) {
+									item.ForeColor = m_ZipFB2ValidFontColor;
+								} else if( sExt.ToLower() == ".rar" ) {
+									item.ForeColor = m_RarFB2ValidFontColor;
+								}
+								FileInfo fi = new FileInfo( sArchiveFile );
+				   				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+			//	   				fi = new FileInfo( sTempDir+"\\"+sFileName );
+				   				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+				   				item.SubItems.Add( s );
+								listViewValid.Items.AddRange( new ListViewItem[]{ item } );
+//								tpValid.Text = m_sValid + "( " + this.m_lFB2Valid.ToString() + " ) " 
+							}
+           				} else {
+							// невалиден
+							if( l.Name == "listViewNotValid" ) {
+								l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = msg;
+								rеboxNotValid.Text = msg;
+							}
+						}
 					}
 				}
 				DateTime dtEnd = DateTime.Now;

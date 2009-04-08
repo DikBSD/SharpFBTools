@@ -208,32 +208,32 @@ namespace SharpFBTools.Controls.Panels
 							if( !Directory.Exists( sTempDir ) ) {
 								Directory.CreateDirectory( sTempDir );
 							}
-							Archiver.Archiver.unrar( "unrar.exe", sFile, sTempDir );
+							Archiver.Archiver.unrar( Settings.Settings.GetUnRARPath(), sFile, sTempDir );
 							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
 							++lCount;
 							break;
 						case ".zip":
-							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
+							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[1].SubItems[1].Text = (++lZip).ToString();
 							++lCount;
 							break;
 						case ".7z":
-							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
+							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[2].SubItems[1].Text = (++l7Z).ToString();
 							++lCount;
 							break;
 						case ".bz2":
-							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
+							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[3].SubItems[1].Text = (++lBZip2).ToString();
 							++lCount;
 							break;
 						case ".gz":
-							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
+							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[4].SubItems[1].Text = (++lGZip).ToString();
 							++lCount;
 							break;
 						case ".tar":
-							Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
+							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[5].SubItems[1].Text = (++lTar).ToString();
 							++lCount;
 							break;
@@ -267,7 +267,7 @@ namespace SharpFBTools.Controls.Panels
 			string sTempDir = Settings.Settings.GetTempDir();
 			foreach( string sFile in lFilesList ) {
 				if( Path.GetExtension( sFile.ToLower() ) == sExt ) {
-					Archiver.Archiver.unzip( "7za.exe", sFile, sTempDir );
+					Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 					lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
 					if( Directory.Exists( sTempDir ) ) {
 						string [] files = Directory.GetFiles( sTempDir);
@@ -309,7 +309,7 @@ namespace SharpFBTools.Controls.Panels
 							if( !Directory.Exists( sTempDir ) ) {
 								Directory.CreateDirectory( sTempDir );
 							}
-							Archiver.Archiver.unrar( "unrar.exe", sFile, sTempDir );
+							Archiver.Archiver.unrar( Settings.Settings.GetUnRARPath(), sFile, sTempDir );
 							lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
 							if( Directory.Exists( sTempDir ) ) {
 								string [] files = Directory.GetFiles( sTempDir );
@@ -416,8 +416,8 @@ namespace SharpFBTools.Controls.Panels
 					tsslblProgress.Text = "Упаковка найденных файлов в rar:";
 				}
 			} else {
-				if( !File.Exists( "7za.exe" ) ) {
-					MessageBox.Show( "Не найден файл Zip-архиватора 7za.exe в корневой папке программы!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				if( !File.Exists( Settings.Settings.Get7zaPath() ) ) {
+					MessageBox.Show( "Не найден файл Zip-архиватора \""+Settings.Settings.Get7zaPath()+"\"!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				} else {
 					tsslblProgress.Text = "Упаковка найденных файлов в zip:";
@@ -446,7 +446,7 @@ namespace SharpFBTools.Controls.Panels
 			if( cboxArchiveType.SelectedIndex == 0 ) {
 				FileToArchive( sRarPath, lFilesList, false, tsProgressBar ); // rar
 			} else {
-				FileToArchive( "7za.exe", lFilesList, true, tsProgressBar ); // zip, 7z...
+				FileToArchive( Settings.Settings.Get7zaPath(), lFilesList, true, tsProgressBar ); // zip, 7z...
 			}
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
