@@ -468,6 +468,8 @@ namespace SharpFBTools.Controls.Panels
 				} else {
 					listViewNotValid.ContextMenuStrip = cmsArchive;
 				}
+			} else {
+				rеboxNotValid.Text = "";
 			}
 		}
 		
@@ -777,7 +779,8 @@ namespace SharpFBTools.Controls.Panels
 				DateTime dtStart = DateTime.Now;
 				string sTempDir = Settings.Settings.GetTempDir();
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
-				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
+				string sSelectedItemText = si[0].SubItems[0].Text;
+				string sFilePath = sSelectedItemText.Split('/')[0];
 				string sExt = Path.GetExtension( sFilePath );
 				string msg = "";
 				string sErrorTitle = "СООБЩЕНИЕ ОБ ОШИБКЕ:";
@@ -791,13 +794,14 @@ namespace SharpFBTools.Controls.Panels
            				msg = "Незапакованный fb2-файл не содержит ошибок (валидный)!";
            				if( l.Name == "listViewNotValid" ) {
 							listViewNotValid.Items[ l.SelectedItems[0].Index ].Remove();
-//							tpNotValid.Text = 
-							ListViewItem item = new ListViewItem( si[0].SubItems[0].Text, 0 );
+							rеboxNotValid.Text = "";
+							tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) " ;
+							ListViewItem item = new ListViewItem( sSelectedItemText, 0 );
 	   						item.ForeColor = m_FB2ValidFontColor;
-							FileInfo fi = new FileInfo( si[0].SubItems[0].Text );
+							FileInfo fi = new FileInfo( sSelectedItemText );
    							item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
 							listViewValid.Items.AddRange( new ListViewItem[]{ item } );
-//							tpValid.Text = m_sValid + "( " + m_lFB2Valid.ToString() + " ) " ;
+							tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) " ;
 						}
 					} else {
 						if( l.Name == "listViewNotValid" ) {
@@ -823,10 +827,11 @@ namespace SharpFBTools.Controls.Panels
         			   		msg = "Запакованный fb2-файл не содержит ошибок (валидный)!";
         			   		if( l.Name == "listViewNotValid" ) {
 								listViewNotValid.Items[ l.SelectedItems[0].Index ].Remove();
-//								tpNotValid.Text = 
+								rеboxNotValid.Text = "";
+								tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) " ;
 								string sArchiveFile = sFilePath;
 							//	string sFileName = 
-								ListViewItem item = new ListViewItem( si[0].SubItems[0].Text , 0 );
+								ListViewItem item = new ListViewItem( sSelectedItemText , 0 );
 								if( sExt.ToLower() == ".zip" ) {
 									item.ForeColor = m_ZipFB2ValidFontColor;
 								} else if( sExt.ToLower() == ".rar" ) {
@@ -838,7 +843,7 @@ namespace SharpFBTools.Controls.Panels
 				   				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
 				   				item.SubItems.Add( s );
 								listViewValid.Items.AddRange( new ListViewItem[]{ item } );
-//								tpValid.Text = m_sValid + "( " + this.m_lFB2Valid.ToString() + " ) " 
+								tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) " ;
 							}
            				} else {
 							// невалиден
