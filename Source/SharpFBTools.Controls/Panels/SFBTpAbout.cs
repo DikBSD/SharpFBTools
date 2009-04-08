@@ -28,15 +28,17 @@ namespace SharpFBTools.Controls.Panels
 			InitializeComponent();
 			
 			// загрузка файла Лицензии
-			if( File.Exists( "License GPL 2.1.rtf" ) ) {
-				rtboxLicense.LoadFile( "License GPL 2.1.rtf" );
+			string sLicensePath = Settings.Settings.GetLicensePath();
+			if( File.Exists( sLicensePath ) ) {
+				rtboxLicense.LoadFile( sLicensePath );
 			} else {
-				rtboxLicense.Text = "Не найден файл лицензии: \"License GPL 2.1.rtf\"";
+				rtboxLicense.Text = "Не найден файл лицензии: \""+sLicensePath+"\"";
 			}
-			if( File.Exists( "Ghange.txt" ) ) {
-				rtboxLog.LoadFile( "Ghange.txt" );
+			string sChangeFilePath = Settings.Settings.GetChangeFilePath();
+			if( File.Exists( sChangeFilePath ) ) {
+				rtboxLog.LoadFile( sChangeFilePath );
 			} else {
-				rtboxLog.Text = "Не найден файл истории изменения программы: \"Ghange.txt\"";
+				rtboxLog.Text = "Не найден файл истории развития программы: \""+sChangeFilePath+"\"";
 			}
 			// справка
 			cboxInstrument.SelectedIndex = 0;
@@ -45,12 +47,13 @@ namespace SharpFBTools.Controls.Panels
 		void CboxInstrumentSelectedIndexChanged(object sender, EventArgs e)
 		{
 			rtboxHelp.Clear();
+			string sFB2ValidatorHelpPath = Settings.Settings.GetFB2ValidatorHelpPath();
 			switch( cboxInstrument.SelectedIndex ) {
 				case 0:
-					if( File.Exists( "Help\\FB2ValidatorHelp.rtf" ) ) {
-						rtboxHelp.LoadFile( "Help\\FB2ValidatorHelp.rtf" );
+					if( File.Exists( sFB2ValidatorHelpPath ) ) {
+						rtboxHelp.LoadFile( sFB2ValidatorHelpPath );
 					} else {
-						rtboxHelp.Text = "Не найден файл Справки Валидатор: \"Help\\FB2ValidatorHelp.rtf\"";
+						rtboxHelp.Text = "Не найден файл Справки Валидатор: \""+sFB2ValidatorHelpPath+"\"";
 					}
 					break;
 			}

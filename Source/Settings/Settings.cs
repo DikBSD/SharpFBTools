@@ -28,6 +28,9 @@ namespace Settings
 		private static string m_sRarPath = "c:\\Program Files\\WinRAR\\Rar.exe";
 		private static string m_sFBEPath = "c:\\Program Files\\FictionBook Editor\\FBE.exe";
 		private static string m_sFBReaderPath = "c:\\Program Files\\AlReader 2\\AlReader2.exe";
+		private static string m_sLicensePath = GetProgDir()+"\\License GPL 2.1.rtf";
+		private static string m_sChangeFilePath = GetProgDir()+"\\Change.txt";
+		private static string m_sFB2ValidatorHelpPath = GetProgDir()+"\\Help\\FB2ValidatorHelp.rtf";
 		#endregion
 		
 		#region Открытые статические члены-данные класса
@@ -71,6 +74,18 @@ namespace Settings
 		
 		public static string GetDefFBReaderPath() {
 			return m_sFBReaderPath;
+		}
+		
+		public static string GetLicensePath() {
+			return m_sLicensePath;
+		}
+		
+		public static string GetChangeFilePath() {
+			return m_sChangeFilePath;
+		}
+		
+		public static string GetFB2ValidatorHelpPath() {
+			return m_sFB2ValidatorHelpPath;
 		}
 		
 		public static string ReadTextFB2EPath() {
