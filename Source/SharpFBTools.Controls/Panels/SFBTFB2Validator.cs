@@ -458,24 +458,17 @@ namespace SharpFBTools.Controls.Panels
 			foreach ( ListViewItem item in si ) {
 				rеboxNotValid.Text = item.SubItems[1].Text;
 			}
-		}
-		
-		void ListViewNotValidDoubleClick(object sender, EventArgs e)
-		{
-			// открытие папки с указанным файлом
-			FilesWorker.FilesWorker.ShowDir( listViewNotValid );
-		}
-		
-		void ListViewValidDoubleClick(object sender, System.EventArgs e)
-		{
-			// открытие папки с указанным файлом
-			FilesWorker.FilesWorker.ShowDir( listViewValid );
-		}
-		
-		void ListViewNotFB2DoubleClick(object sender, EventArgs e)
-		{
-			// открытие папки с указанным файлом
-			FilesWorker.FilesWorker.ShowDir( listViewNotFB2 );
+			if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
+				// путь к выделенному файлу
+				string s = si[0].SubItems[0].Text.Split('/')[0];
+				// отределяем его расширение
+				string sExt = Path.GetExtension( s );
+				if( sExt.ToLower() == ".fb2" ) {
+					listViewNotValid.ContextMenuStrip = cmsFB2;
+				} else {
+					listViewNotValid.ContextMenuStrip = cmsArchive;
+				}
+			}
 		}
 		
 		void BtnFB2NotValidCopyToClick(object sender, EventArgs e)
@@ -763,48 +756,64 @@ namespace SharpFBTools.Controls.Panels
 			}
 		}
 		
-		void TsmiFileStartClick(object sender, EventArgs e)
+		void TsmiOpenFileInArchivatorClick(object sender, EventArgs e)
 		{
-			// Запустить выделенный файл
+			// Запустить выделенный файл в архиваторе
+			// читаем путь к архиватору из настроек
+			string sWinRarPath = Settings.Settings.ReadWinRARPath();
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
-				FilesWorker.FilesWorker.StartFile( si[0].SubItems[0].Text.Split('/')[0] );
+				FilesWorker.FilesWorker.StartFile( "\""+sWinRarPath+"\"" + " " + "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"" );
 			}
 		}
 		
-		void CmsValidatorVisibleChanged(object sender, EventArgs e)
+		void TsmiFileReValidateClick(object sender, EventArgs e)
 		{
-			// показать или скрыть некоторые итемы контекстного меню, в зависимости от того. на каком файле нажата правая клавиша мышки
-			if( cmsValidator.Visible ) {
-				ListView l = GetCurrentListWiew();
-				if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
-					// путь к выделенному файлу
-					ListView.SelectedListViewItemCollection si = l.SelectedItems;
-					string s = si[0].SubItems[0].Text.Split('/')[0];
-					// отределяем его расширение
-					string sExt = Path.GetExtension( s );
-					switch( sExt.ToLower() ) {
-						case ".fb2":
-							tsmiEditInTextEditor.Visible = true;
-							tsmiEditInFB2Editor.Visible = true;
-							tsmi1.Visible = true;
-							tsmiVienInReader.Visible = true;
-							tsmi2.Visible = true;
-							tsmiOpenFileDir.Visible = true;
-							tsmiFileStart.Visible = false;
-							break;
-						default:
-							tsmiEditInTextEditor.Visible = false;
-							tsmiEditInFB2Editor.Visible = false;
-							tsmi1.Visible = false;
-							tsmiVienInReader.Visible = false;
-							tsmi2.Visible = false;
-							tsmiOpenFileDir.Visible = true;
-							tsmiFileStart.Visible = false;
-							break;
+			// Проверка выбранного fb2-файла или архива заново (Валидация)
+			ListView l = GetCurrentListWiew();
+			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
+				DateTime dtStart = DateTime.Now;
+				string sTempDir = FilesWorker.FilesWorker.GetTempDir();
+				ListView.SelectedListViewItemCollection si = l.SelectedItems;
+				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
+				string sExt = Path.GetExtension( sFilePath );
+				string msg = "";
+				string sErrorTitle = "СООБЩЕНИЕ ОБ ОШИБКЕ:";
+				FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
+				
+				if( sExt.ToLower() == ".fb2" ) {
+					// для несжатого fb2-файла
+					msg = fv2V.ValidatingFB2File( sFilePath );
+					if ( msg == "" ) {
+           				// файл валидный
+           				sErrorTitle = "ОШИБОК НЕТ";
+           				msg = "Незапакованный fb2-файл не содержит ошибок (валидный)!";
+		           	}
+				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
+					// очистка временной папки
+					FilesWorker.FilesWorker.RemoveDir( sTempDir );
+					Directory.CreateDirectory( sTempDir );
+					if( sExt.ToLower() == ".zip" ) {
+						Archiver.Archiver.unzip( "7za.exe", sFilePath, sTempDir );
+					} else if( sExt.ToLower() == ".rar" ) {
+						Archiver.Archiver.unrar( "unrar.exe", sFilePath, sTempDir );
+					}
+					string [] files = Directory.GetFiles( sTempDir );
+					if( files.Length > 0 ) {
+						msg = fv2V.ValidatingFB2File( files[0] );
+						if ( msg == "" ) {
+        			   		// файл валидный - это запакованный fb2
+							sErrorTitle = "ОШИБОК НЕТ";
+        			   		msg = "Запакованный fb2-файл не содержит ошибок (валидный)!";
+           				}
 					}
 				}
+				DateTime dtEnd = DateTime.Now;
+				string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
+				// очистка временной папки
+				FilesWorker.FilesWorker.RemoveDir( FilesWorker.FilesWorker.GetTempDir() );
+				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorTitle+"\n"+msg, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
 		#endregion

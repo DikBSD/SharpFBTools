@@ -87,14 +87,16 @@ namespace SharpFBTools.Controls.Panels
 			this.chNonValidFile = new System.Windows.Forms.ColumnHeader();
 			this.chNonValidError = new System.Windows.Forms.ColumnHeader();
 			this.chNonValidLenght = new System.Windows.Forms.ColumnHeader();
-			this.cmsValidator = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.cmsFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tsmiEditInTextEditor = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiEditInFB2Editor = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmi1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiVienInReader = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmi2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiOpenFileInArchivator = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiOpenFileDir = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmiFileStart = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi3 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiFileReValidate = new System.Windows.Forms.ToolStripMenuItem();
 			this.tpValid = new System.Windows.Forms.TabPage();
 			this.pValidLV = new System.Windows.Forms.Panel();
 			this.listViewValid = new System.Windows.Forms.ListView();
@@ -137,13 +139,19 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxExistFile = new System.Windows.Forms.ComboBox();
 			this.lblExistFile = new System.Windows.Forms.Label();
 			this.pCentral = new System.Windows.Forms.Panel();
+			this.cmsArchive = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.tsmiOpenInArchivator = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi4 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiOpenArchiveDir = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi5 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiFileAndArchiveReValidate = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.tcResult.SuspendLayout();
 			this.tpNotValid.SuspendLayout();
 			this.gbFB2NotValidFiles.SuspendLayout();
 			this.pErrors.SuspendLayout();
-			this.cmsValidator.SuspendLayout();
+			this.cmsFB2.SuspendLayout();
 			this.tpValid.SuspendLayout();
 			this.pValidLV.SuspendLayout();
 			this.gbFB2Valid.SuspendLayout();
@@ -155,6 +163,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pInfo.SuspendLayout();
 			this.gboxCopyMoveOptions.SuspendLayout();
 			this.pCentral.SuspendLayout();
+			this.cmsArchive.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tsValidator
@@ -446,7 +455,7 @@ namespace SharpFBTools.Controls.Panels
 									this.chNonValidFile,
 									this.chNonValidError,
 									this.chNonValidLenght});
-			this.listViewNotValid.ContextMenuStrip = this.cmsValidator;
+			this.listViewNotValid.ContextMenuStrip = this.cmsFB2;
 			this.listViewNotValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewNotValid.FullRowSelect = true;
 			this.listViewNotValid.GridLines = true;
@@ -459,7 +468,6 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewNotValid.UseCompatibleStateImageBehavior = false;
 			this.listViewNotValid.View = System.Windows.Forms.View.Details;
 			this.listViewNotValid.SelectedIndexChanged += new System.EventHandler(this.ListViewNotValidSelectedIndexChanged);
-			this.listViewNotValid.DoubleClick += new System.EventHandler(this.ListViewNotValidDoubleClick);
 			// 
 			// chNonValidFile
 			// 
@@ -476,19 +484,20 @@ namespace SharpFBTools.Controls.Panels
 			this.chNonValidLenght.Text = "Размер";
 			this.chNonValidLenght.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// cmsValidator
+			// cmsFB2
 			// 
-			this.cmsValidator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.cmsFB2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.tsmiEditInTextEditor,
 									this.tsmiEditInFB2Editor,
 									this.tsmi1,
 									this.tsmiVienInReader,
 									this.tsmi2,
+									this.tsmiOpenFileInArchivator,
 									this.tsmiOpenFileDir,
-									this.tsmiFileStart});
-			this.cmsValidator.Name = "cmsValidator";
-			this.cmsValidator.Size = new System.Drawing.Size(308, 148);
-			this.cmsValidator.VisibleChanged += new System.EventHandler(this.CmsValidatorVisibleChanged);
+									this.tsmi3,
+									this.tsmiFileReValidate});
+			this.cmsFB2.Name = "cmsValidator";
+			this.cmsFB2.Size = new System.Drawing.Size(308, 154);
 			// 
 			// tsmiEditInTextEditor
 			// 
@@ -521,6 +530,13 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmi2.Name = "tsmi2";
 			this.tsmi2.Size = new System.Drawing.Size(304, 6);
 			// 
+			// tsmiOpenFileInArchivator
+			// 
+			this.tsmiOpenFileInArchivator.Name = "tsmiOpenFileInArchivator";
+			this.tsmiOpenFileInArchivator.Size = new System.Drawing.Size(307, 22);
+			this.tsmiOpenFileInArchivator.Text = "Открыть файл в архиваторе";
+			this.tsmiOpenFileInArchivator.Click += new System.EventHandler(this.TsmiOpenFileInArchivatorClick);
+			// 
 			// tsmiOpenFileDir
 			// 
 			this.tsmiOpenFileDir.Name = "tsmiOpenFileDir";
@@ -528,12 +544,17 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiOpenFileDir.Text = "Открыть папку для выделенного файла";
 			this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
 			// 
-			// tsmiFileStart
+			// tsmi3
 			// 
-			this.tsmiFileStart.Name = "tsmiFileStart";
-			this.tsmiFileStart.Size = new System.Drawing.Size(307, 22);
-			this.tsmiFileStart.Text = "Запустить выделенный файл";
-			this.tsmiFileStart.Click += new System.EventHandler(this.TsmiFileStartClick);
+			this.tsmi3.Name = "tsmi3";
+			this.tsmi3.Size = new System.Drawing.Size(304, 6);
+			// 
+			// tsmiFileReValidate
+			// 
+			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
+			this.tsmiFileReValidate.Size = new System.Drawing.Size(307, 22);
+			this.tsmiFileReValidate.Text = "Проверить файл заново (валидация)";
+			this.tsmiFileReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
 			// 
 			// tpValid
 			// 
@@ -561,7 +582,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewValid.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.chValidFile,
 									this.chValidLenght});
-			this.listViewValid.ContextMenuStrip = this.cmsValidator;
+			this.listViewValid.ContextMenuStrip = this.cmsFB2;
 			this.listViewValid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewValid.FullRowSelect = true;
@@ -574,7 +595,6 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewValid.TabIndex = 1;
 			this.listViewValid.UseCompatibleStateImageBehavior = false;
 			this.listViewValid.View = System.Windows.Forms.View.Details;
-			this.listViewValid.DoubleClick += new System.EventHandler(this.ListViewValidDoubleClick);
 			// 
 			// chValidFile
 			// 
@@ -696,7 +716,6 @@ namespace SharpFBTools.Controls.Panels
 									this.columnHeader1,
 									this.columnHeader2,
 									this.columnHeader3});
-			this.listViewNotFB2.ContextMenuStrip = this.cmsValidator;
 			this.listViewNotFB2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewNotFB2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewNotFB2.FullRowSelect = true;
@@ -709,7 +728,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewNotFB2.TabIndex = 2;
 			this.listViewNotFB2.UseCompatibleStateImageBehavior = false;
 			this.listViewNotFB2.View = System.Windows.Forms.View.Details;
-			this.listViewNotFB2.DoubleClick += new System.EventHandler(this.ListViewNotFB2DoubleClick);
+			this.listViewNotFB2.DoubleClick += new System.EventHandler(this.TsmiOpenFileDirClick);
 			// 
 			// columnHeader1
 			// 
@@ -954,6 +973,48 @@ namespace SharpFBTools.Controls.Panels
 			this.pCentral.Size = new System.Drawing.Size(726, 299);
 			this.pCentral.TabIndex = 22;
 			// 
+			// cmsArchive
+			// 
+			this.cmsArchive.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+									this.tsmiOpenInArchivator,
+									this.tsmi4,
+									this.tsmiOpenArchiveDir,
+									this.tsmi5,
+									this.tsmiFileAndArchiveReValidate});
+			this.cmsArchive.Name = "cmsValidator";
+			this.cmsArchive.Size = new System.Drawing.Size(293, 82);
+			// 
+			// tsmiOpenInArchivator
+			// 
+			this.tsmiOpenInArchivator.Name = "tsmiOpenInArchivator";
+			this.tsmiOpenInArchivator.Size = new System.Drawing.Size(292, 22);
+			this.tsmiOpenInArchivator.Text = "Открыть файл в архиваторе";
+			this.tsmiOpenInArchivator.Click += new System.EventHandler(this.TsmiOpenFileInArchivatorClick);
+			// 
+			// tsmi4
+			// 
+			this.tsmi4.Name = "tsmi4";
+			this.tsmi4.Size = new System.Drawing.Size(289, 6);
+			// 
+			// tsmiOpenArchiveDir
+			// 
+			this.tsmiOpenArchiveDir.Name = "tsmiOpenArchiveDir";
+			this.tsmiOpenArchiveDir.Size = new System.Drawing.Size(292, 22);
+			this.tsmiOpenArchiveDir.Text = "Открыть папку для выделенного файла";
+			this.tsmiOpenArchiveDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
+			// 
+			// tsmi5
+			// 
+			this.tsmi5.Name = "tsmi5";
+			this.tsmi5.Size = new System.Drawing.Size(289, 6);
+			// 
+			// tsmiFileAndArchiveReValidate
+			// 
+			this.tsmiFileAndArchiveReValidate.Name = "tsmiFileAndArchiveReValidate";
+			this.tsmiFileAndArchiveReValidate.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFileAndArchiveReValidate.Text = "Проверить файл заново (валидация)";
+			this.tsmiFileAndArchiveReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
+			// 
 			// SFBTpFB2Validator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -975,7 +1036,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gbFB2NotValidFiles.ResumeLayout(false);
 			this.gbFB2NotValidFiles.PerformLayout();
 			this.pErrors.ResumeLayout(false);
-			this.cmsValidator.ResumeLayout(false);
+			this.cmsFB2.ResumeLayout(false);
 			this.tpValid.ResumeLayout(false);
 			this.pValidLV.ResumeLayout(false);
 			this.gbFB2Valid.ResumeLayout(false);
@@ -992,15 +1053,24 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxCopyMoveOptions.ResumeLayout(false);
 			this.gboxCopyMoveOptions.PerformLayout();
 			this.pCentral.ResumeLayout(false);
+			this.cmsArchive.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
-		private System.Windows.Forms.ToolStripMenuItem tsmiFileStart;
+		private System.Windows.Forms.ToolStripSeparator tsmi4;
+		private System.Windows.Forms.ToolStripMenuItem tsmiFileAndArchiveReValidate;
+		private System.Windows.Forms.ToolStripSeparator tsmi5;
+		private System.Windows.Forms.ToolStripMenuItem tsmiFileReValidate;
+		private System.Windows.Forms.ToolStripSeparator tsmi3;
+		private System.Windows.Forms.ToolStripMenuItem tsmiOpenFileInArchivator;
+		private System.Windows.Forms.ContextMenuStrip cmsFB2;
+		private System.Windows.Forms.ToolStripMenuItem tsmiOpenArchiveDir;
+		private System.Windows.Forms.ToolStripMenuItem tsmiOpenInArchivator;
+		private System.Windows.Forms.ContextMenuStrip cmsArchive;
 		private System.Windows.Forms.ToolStripMenuItem tsmiOpenFileDir;
 		private System.Windows.Forms.ToolStripMenuItem tsmiVienInReader;
 		private System.Windows.Forms.ToolStripMenuItem tsmiEditInTextEditor;
 		private System.Windows.Forms.ToolStripMenuItem tsmiEditInFB2Editor;
-		private System.Windows.Forms.ContextMenuStrip cmsValidator;
 		private System.Windows.Forms.ToolStripSeparator tsmi2;
 		private System.Windows.Forms.ToolStripSeparator tsmi1;
 		private System.Windows.Forms.Label lblExistFile;
