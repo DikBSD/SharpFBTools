@@ -91,7 +91,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiEditInTextEditor = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiEditInFB2Editor = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmi1 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsmiVienInReader = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiViewInReader = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmi2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenFileInArchivator = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiOpenFileDir = new System.Windows.Forms.ToolStripMenuItem();
@@ -490,17 +490,18 @@ namespace SharpFBTools.Controls.Panels
 									this.tsmiEditInTextEditor,
 									this.tsmiEditInFB2Editor,
 									this.tsmi1,
-									this.tsmiVienInReader,
+									this.tsmiViewInReader,
 									this.tsmi2,
 									this.tsmiOpenFileInArchivator,
 									this.tsmiOpenFileDir,
 									this.tsmi3,
 									this.tsmiFileReValidate});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(308, 154);
+			this.cmsFB2.Size = new System.Drawing.Size(308, 176);
 			// 
 			// tsmiEditInTextEditor
 			// 
+			this.tsmiEditInTextEditor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInTextEditor.Image")));
 			this.tsmiEditInTextEditor.Name = "tsmiEditInTextEditor";
 			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(307, 22);
 			this.tsmiEditInTextEditor.Text = "Редактировать в текстовом fb2-редакторе";
@@ -508,6 +509,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tsmiEditInFB2Editor
 			// 
+			this.tsmiEditInFB2Editor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInFB2Editor.Image")));
 			this.tsmiEditInFB2Editor.Name = "tsmiEditInFB2Editor";
 			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(307, 22);
 			this.tsmiEditInFB2Editor.Text = "Редактировать в fb2-редакторе";
@@ -518,12 +520,13 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmi1.Name = "tsmi1";
 			this.tsmi1.Size = new System.Drawing.Size(304, 6);
 			// 
-			// tsmiVienInReader
+			// tsmiViewInReader
 			// 
-			this.tsmiVienInReader.Name = "tsmiVienInReader";
-			this.tsmiVienInReader.Size = new System.Drawing.Size(307, 22);
-			this.tsmiVienInReader.Text = "Запустить в fb2-читалке (Просмотр)";
-			this.tsmiVienInReader.Click += new System.EventHandler(this.TsmiVienInReaderClick);
+			this.tsmiViewInReader.Image = ((System.Drawing.Image)(resources.GetObject("tsmiViewInReader.Image")));
+			this.tsmiViewInReader.Name = "tsmiViewInReader";
+			this.tsmiViewInReader.Size = new System.Drawing.Size(307, 22);
+			this.tsmiViewInReader.Text = "Запустить в fb2-читалке (Просмотр)";
+			this.tsmiViewInReader.Click += new System.EventHandler(this.TsmiVienInReaderClick);
 			// 
 			// tsmi2
 			// 
@@ -532,6 +535,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tsmiOpenFileInArchivator
 			// 
+			this.tsmiOpenFileInArchivator.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenFileInArchivator.Image")));
 			this.tsmiOpenFileInArchivator.Name = "tsmiOpenFileInArchivator";
 			this.tsmiOpenFileInArchivator.Size = new System.Drawing.Size(307, 22);
 			this.tsmiOpenFileInArchivator.Text = "Открыть файл в архиваторе";
@@ -539,6 +543,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tsmiOpenFileDir
 			// 
+			this.tsmiOpenFileDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenFileDir.Image")));
 			this.tsmiOpenFileDir.Name = "tsmiOpenFileDir";
 			this.tsmiOpenFileDir.Size = new System.Drawing.Size(307, 22);
 			this.tsmiOpenFileDir.Text = "Открыть папку для выделенного файла";
@@ -551,6 +556,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tsmiFileReValidate
 			// 
+			this.tsmiFileReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileReValidate.Image")));
 			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
 			this.tsmiFileReValidate.Size = new System.Drawing.Size(307, 22);
 			this.tsmiFileReValidate.Text = "Проверить файл заново (валидация)";
@@ -987,6 +993,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tsmiOpenInArchivator
 			// 
+			this.tsmiOpenInArchivator.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenInArchivator.Image")));
 			this.tsmiOpenInArchivator.Name = "tsmiOpenInArchivator";
 			this.tsmiOpenInArchivator.Size = new System.Drawing.Size(292, 22);
 			this.tsmiOpenInArchivator.Text = "Открыть файл в архиваторе";
@@ -999,6 +1006,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tsmiOpenArchiveDir
 			// 
+			this.tsmiOpenArchiveDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenArchiveDir.Image")));
 			this.tsmiOpenArchiveDir.Name = "tsmiOpenArchiveDir";
 			this.tsmiOpenArchiveDir.Size = new System.Drawing.Size(292, 22);
 			this.tsmiOpenArchiveDir.Text = "Открыть папку для выделенного файла";
@@ -1011,6 +1019,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tsmiFileAndArchiveReValidate
 			// 
+			this.tsmiFileAndArchiveReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileAndArchiveReValidate.Image")));
 			this.tsmiFileAndArchiveReValidate.Name = "tsmiFileAndArchiveReValidate";
 			this.tsmiFileAndArchiveReValidate.Size = new System.Drawing.Size(292, 22);
 			this.tsmiFileAndArchiveReValidate.Text = "Проверить файл заново (валидация)";
@@ -1058,6 +1067,7 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripMenuItem tsmiViewInReader;
 		private System.Windows.Forms.ToolStripSeparator tsmi4;
 		private System.Windows.Forms.ToolStripMenuItem tsmiFileAndArchiveReValidate;
 		private System.Windows.Forms.ToolStripSeparator tsmi5;
@@ -1069,7 +1079,6 @@ namespace SharpFBTools.Controls.Panels
 		private System.Windows.Forms.ToolStripMenuItem tsmiOpenInArchivator;
 		private System.Windows.Forms.ContextMenuStrip cmsArchive;
 		private System.Windows.Forms.ToolStripMenuItem tsmiOpenFileDir;
-		private System.Windows.Forms.ToolStripMenuItem tsmiVienInReader;
 		private System.Windows.Forms.ToolStripMenuItem tsmiEditInTextEditor;
 		private System.Windows.Forms.ToolStripMenuItem tsmiEditInFB2Editor;
 		private System.Windows.Forms.ToolStripSeparator tsmi2;
