@@ -98,8 +98,8 @@ namespace SharpFBTools.Controls.Panels
 		#region Парсеры файлов и архивов
 		private void ParseFB2File( string sFile, FB2Parser.FB2Validator fv2Validator ) {
 			// парсер несжатого fb2-файла
-			string msg = fv2Validator.ValidatingFB2File( sFile );
-			if ( msg == "" ) {
+			string sMsg = fv2Validator.ValidatingFB2File( sFile );
+			if ( sMsg == "" ) {
            		// файл валидный
            		++this.m_lFB2Valid;
 				//listViewValid.Items.Add( sFile );
@@ -114,7 +114,7 @@ namespace SharpFBTools.Controls.Panels
            		++this.m_lFB2NotValid;
 				ListViewItem item = new ListViewItem( sFile, 0 );
    				item.ForeColor = m_FB2NotValidFontColor;
-				item.SubItems.Add( msg );
+				item.SubItems.Add( sMsg );
    				FileInfo fi = new FileInfo( sFile );
    				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
 				listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
@@ -134,10 +134,10 @@ namespace SharpFBTools.Controls.Panels
 			string [] files = Directory.GetFiles( sTempDir );
 			if( files.Length <= 0 ) return;
 				
-			string msg = fv2Validator.ValidatingFB2File( files[0] );
+			string sMsg = fv2Validator.ValidatingFB2File( files[0] );
 			string sFileName = Path.GetFileName( files[0] );
 
-			if ( msg == "" ) {
+			if ( sMsg == "" ) {
            		// файл валидный - это fb2
            		++this.m_lFB2Valid;
 				//listViewValid.Items.Add( sArchiveFile + "/" + sFileName );
@@ -151,7 +151,7 @@ namespace SharpFBTools.Controls.Panels
 				}
 				FileInfo fi = new FileInfo( sArchiveFile );
    				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   				fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
+   				fi = new FileInfo( sTempDir+"\\"+sFileName );
    				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    				item.SubItems.Add( s );
 				listViewValid.Items.AddRange( new ListViewItem[]{ item } );
@@ -162,14 +162,14 @@ namespace SharpFBTools.Controls.Panels
 					// определяем тип разархивированного файла
            			sExt = Path.GetExtension( sFileName );
 					if( sExt.ToLower() != ".fb2" ) {
-           				msg = "Тип файла: " + sExt;
+           				sMsg = "Тип файла: " + sExt;
            				++this.m_lNotFB2Files;
            				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_ZipFontColor;
            				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
    						FileInfo fi = new FileInfo( sArchiveFile );
    						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   						fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
+   						fi = new FileInfo( sTempDir+"\\"+sFileName );
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
@@ -179,10 +179,10 @@ namespace SharpFBTools.Controls.Panels
 						++this.m_lFB2NotValid;
 						ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_ZipFB2NotValidFontColor;
-						item.SubItems.Add( msg );
+						item.SubItems.Add( sMsg );
    						FileInfo fi = new FileInfo( sArchiveFile );
    						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   						fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
+   						fi = new FileInfo( sTempDir+"\\"+sFileName );
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
@@ -192,14 +192,14 @@ namespace SharpFBTools.Controls.Panels
 					// определяем тип разархивированного файла
            			sExt = Path.GetExtension( sFileName );
 					if( sExt.ToLower() != ".fb2" ) {
-        				msg = "Тип файла: " + sExt;
+        				sMsg = "Тип файла: " + sExt;
           				++this.m_lNotFB2Files;
           				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_RarFontColor;
           				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
    						FileInfo fi = new FileInfo( sArchiveFile );
    						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   						fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
+   						fi = new FileInfo( sTempDir+"\\"+sFileName );
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
@@ -209,10 +209,10 @@ namespace SharpFBTools.Controls.Panels
 						++this.m_lFB2NotValid;
 						ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_RarFB2NotValidFontColor;
-						item.SubItems.Add( msg );
+						item.SubItems.Add( sMsg );
    						FileInfo fi = new FileInfo( sArchiveFile );
    						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-   						fi = new FileInfo( Settings.Settings.GetTempDir()+"\\"+sFileName );
+   						fi = new FileInfo( sTempDir+"\\"+sFileName );
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
@@ -773,7 +773,7 @@ namespace SharpFBTools.Controls.Panels
 		
 		void TsmiFileReValidateClick(object sender, EventArgs e)
 		{
-			// Проверка выбранного fb2-файла или архива заново (Валидация)
+			// Повторная Проверка выбранного fb2-файла или архива (Валидация)
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				DateTime dtStart = DateTime.Now;
@@ -782,17 +782,19 @@ namespace SharpFBTools.Controls.Panels
 				string sSelectedItemText = si[0].SubItems[0].Text;
 				string sFilePath = sSelectedItemText.Split('/')[0];
 				string sExt = Path.GetExtension( sFilePath );
-				string msg = "";
-				string sErrorTitle = "СООБЩЕНИЕ ОБ ОШИБКЕ:";
+				string sMsg = "";
+				string sErrorMsg = "СООБЩЕНИЕ ОБ ОШИБКЕ:";
+				string sOkMsg = "ОШИБОК НЕТ - Файл Валиден";
+				string sMove = "Путь к этому файлу перенесен из Списка не валидных fb2-файлов в Список валидных.";
 				FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
 				if( sExt.ToLower() == ".fb2" ) {
 					// для несжатого fb2-файла
-					msg = fv2V.ValidatingFB2File( sFilePath );
-					if ( msg == "" ) {
+					sMsg = fv2V.ValidatingFB2File( sFilePath );
+					if ( sMsg == "" ) {
            				// файл валидный
-           				sErrorTitle = "ОШИБОК НЕТ";
-           				msg = "Незапакованный fb2-файл не содержит ошибок (валидный)!";
            				if( l.Name == "listViewNotValid" ) {
+           					sErrorMsg = sOkMsg + ":";
+           					sMsg = sMove;
 							listViewNotValid.Items[ l.SelectedItems[0].Index ].Remove();
 							rеboxNotValid.Text = "";
 							tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) " ;
@@ -802,11 +804,14 @@ namespace SharpFBTools.Controls.Panels
    							item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
 							listViewValid.Items.AddRange( new ListViewItem[]{ item } );
 							tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) " ;
-						}
+           				} else {
+           					sErrorMsg = sOkMsg;
+           				}
 					} else {
+						// файл не валидный
 						if( l.Name == "listViewNotValid" ) {
-							l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = msg;
-							rеboxNotValid.Text = msg;
+							l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = sMsg;
+							rеboxNotValid.Text = sMsg;
 						}
 					}
 				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
@@ -820,36 +825,37 @@ namespace SharpFBTools.Controls.Panels
 					}
 					string [] files = Directory.GetFiles( sTempDir );
 					if( files.Length > 0 ) {
-						msg = fv2V.ValidatingFB2File( files[0] );
-						if ( msg == "" ) {
-        			   		// файл валидный - это запакованный fb2
-							sErrorTitle = "ОШИБОК НЕТ";
-        			   		msg = "Запакованный fb2-файл не содержит ошибок (валидный)!";
+						sMsg = fv2V.ValidatingFB2File( files[0] );
+						if ( sMsg == "" ) {
+        			   		//  Запакованный fb2-файл валидный
         			   		if( l.Name == "listViewNotValid" ) {
+        			   			sErrorMsg = sOkMsg + ":";
+           						sMsg = sMove;
 								listViewNotValid.Items[ l.SelectedItems[0].Index ].Remove();
 								rеboxNotValid.Text = "";
 								tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) " ;
-								string sArchiveFile = sFilePath;
-							//	string sFileName = 
+								string sFB2FileName = sSelectedItemText.Split('/')[1];
 								ListViewItem item = new ListViewItem( sSelectedItemText , 0 );
 								if( sExt.ToLower() == ".zip" ) {
 									item.ForeColor = m_ZipFB2ValidFontColor;
 								} else if( sExt.ToLower() == ".rar" ) {
 									item.ForeColor = m_RarFB2ValidFontColor;
 								}
-								FileInfo fi = new FileInfo( sArchiveFile );
+								FileInfo fi = new FileInfo( sFilePath );
 				   				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
-			//	   				fi = new FileInfo( sTempDir+"\\"+sFileName );
+				   				fi = new FileInfo( sTempDir+"\\"+sFB2FileName );
 				   				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
 				   				item.SubItems.Add( s );
 								listViewValid.Items.AddRange( new ListViewItem[]{ item } );
 								tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) " ;
-							}
+							} else {
+           						sErrorMsg = sOkMsg;
+           					}
            				} else {
-							// невалиден
+							// Запакованный fb2-файл невалиден
 							if( l.Name == "listViewNotValid" ) {
-								l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = msg;
-								rеboxNotValid.Text = msg;
+								l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = sMsg;
+								rеboxNotValid.Text = sMsg;
 							}
 						}
 					}
@@ -858,7 +864,7 @@ namespace SharpFBTools.Controls.Panels
 				string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 				// очистка временной папки
 				FilesWorker.FilesWorker.RemoveDir( sTempDir );
-				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorTitle+"\n"+msg, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorMsg+"\n"+sMsg, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
 		#endregion
