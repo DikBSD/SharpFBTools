@@ -1,7 +1,7 @@
 ﻿#region Using directives
 
-using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 #endregion
@@ -9,11 +9,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Settings")]
+[assembly: AssemblyTitle("ReportGenerator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Вадим Кузнецов (DikBSD)")]
-[assembly: AssemblyProduct("Settings")]
+[assembly: AssemblyProduct("ReportGenerator")]
 [assembly: AssemblyCopyright("Copyright © 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

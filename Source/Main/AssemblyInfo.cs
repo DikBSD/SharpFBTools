@@ -10,11 +10,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SharpFBTools")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Open Source набор инструментов по работе с fb2-файлами в пакетном режиме")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DikBSD")]
+[assembly: AssemblyCompany("Вадим Кузнецов (DikBSD)")]
 [assembly: AssemblyProduct("SharpFBTools")]
-[assembly: AssemblyCopyright("Вадим Кузнецов (DikBSD) © 2009")]
+[assembly: AssemblyCopyright("Copyright © 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

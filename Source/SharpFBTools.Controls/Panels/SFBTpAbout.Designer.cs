@@ -374,6 +374,7 @@ namespace SharpFBTools.Controls.Panels
 			this.Controls.Add(this.tcAbout);
 			this.Name = "SFBTpAbout";
 			this.Size = new System.Drawing.Size(711, 555);
+			this.Layout += new System.Windows.Forms.LayoutEventHandler(this.SFBTpAboutLayout);
 			this.tcAbout.ResumeLayout(false);
 			this.tpAbout.ResumeLayout(false);
 			this.tpLog.ResumeLayout(false);

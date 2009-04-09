@@ -1,6 +1,6 @@
 ﻿/*
  * Created by SharpDevelop.
- * User: DikBSD
+ * User: Вадим Кузнецов (DikBSD)
  * Date: 13.03.2009
  * Time: 13:41
  * 
@@ -13,6 +13,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using SharpFBTools.Controls.Panels;
 using Options;
+using SharpFBTools;
+using SharpFBTools.AssemblyInfo;
 
 namespace Main
 {
@@ -40,6 +42,15 @@ namespace Main
 			//
 			InitializeComponent();
 			//
+			// Запоминаем папку программы
+			Settings.Settings.SetProgDir( Environment.CurrentDirectory );
+			// задаем данные о программе Assembly
+			SharpFBTools_AssemblyInfo.SetAssemblyTitle( AppAssembly.AssemblyTitle );
+			SharpFBTools_AssemblyInfo.SetAssemblyProduct( AppAssembly.AssemblyProduct );
+			SharpFBTools_AssemblyInfo.SetAssemblyVersion( AppAssembly.AssemblyVersion );
+			SharpFBTools_AssemblyInfo.SetAssemblyCopyright( AppAssembly.AssemblyCopyright );
+			SharpFBTools_AssemblyInfo.SetAssemblyCompany( AppAssembly.AssemblyCompany );
+			SharpFBTools_AssemblyInfo.SetAssemblyDescription( AppAssembly.AssemblyDescription );
 			// список кнопок-переключателей панели инструментов и список список имплантируемых панелей-режимов работы
 			MainImpl.MakeGroupToggleLists( m_listToggleBtns,
 		    							tsbtnFB2Validator, tsbtnFileManager,
@@ -53,9 +64,6 @@ namespace Main
 			tsbtnFB2Validator.Checked = true;
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Validator );
 			this.sfbTpFB2Validator.Dock = System.Windows.Forms.DockStyle.Fill;
-			
-			// Запоминаем папку программы
-			Settings.Settings.SetProgDir( Environment.CurrentDirectory );
 		}
 		
 		#region Обработчики событий

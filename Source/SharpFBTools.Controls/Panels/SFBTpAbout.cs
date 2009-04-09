@@ -12,6 +12,7 @@ using System.IO;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using SharpFBTools.AssemblyInfo;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -56,6 +57,16 @@ namespace SharpFBTools.Controls.Panels
 					}
 					break;
 			}
+		}
+		
+		void SFBTpAboutLayout(object sender, LayoutEventArgs e)
+		{
+			// Данные о программе
+			lblSharpFBTools.Text = SharpFBTools_AssemblyInfo.GetAssemblyTitle()+"-"+
+										SharpFBTools_AssemblyInfo.GetAssemblyVersion();
+			lblAbout.Text = SharpFBTools_AssemblyInfo.GetAssemblyDescription();
+			lblDeveloper.Text = "Разработчик: "+SharpFBTools_AssemblyInfo.GetAssemblyCompany();
+			lblCopyright.Text = SharpFBTools_AssemblyInfo.GetAssemblyCopyright();
 		}
 	}
 }
