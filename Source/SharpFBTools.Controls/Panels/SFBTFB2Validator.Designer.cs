@@ -38,22 +38,22 @@ namespace SharpFBTools.Controls.Panels
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .zip-файлах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .rar-файлах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
@@ -88,6 +88,8 @@ namespace SharpFBTools.Controls.Panels
 			this.chNonValidError = new System.Windows.Forms.ColumnHeader();
 			this.chNonValidLenght = new System.Windows.Forms.ColumnHeader();
 			this.cmsFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.tsmiFileReValidate = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiEditInTextEditor = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiEditInFB2Editor = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmi1 = new System.Windows.Forms.ToolStripSeparator();
@@ -95,8 +97,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmi2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenFileInArchivator = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiOpenFileDir = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmi3 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsmiFileReValidate = new System.Windows.Forms.ToolStripMenuItem();
 			this.tpValid = new System.Windows.Forms.TabPage();
 			this.pValidLV = new System.Windows.Forms.Panel();
 			this.listViewValid = new System.Windows.Forms.ListView();
@@ -499,6 +499,19 @@ namespace SharpFBTools.Controls.Panels
 			this.cmsFB2.Name = "cmsValidator";
 			this.cmsFB2.Size = new System.Drawing.Size(308, 154);
 			// 
+			// tsmiFileReValidate
+			// 
+			this.tsmiFileReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileReValidate.Image")));
+			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
+			this.tsmiFileReValidate.Size = new System.Drawing.Size(307, 22);
+			this.tsmiFileReValidate.Text = "Проверить файл заново (валидация)";
+			this.tsmiFileReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
+			// 
+			// tsmi3
+			// 
+			this.tsmi3.Name = "tsmi3";
+			this.tsmi3.Size = new System.Drawing.Size(304, 6);
+			// 
 			// tsmiEditInTextEditor
 			// 
 			this.tsmiEditInTextEditor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInTextEditor.Image")));
@@ -548,19 +561,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiOpenFileDir.Size = new System.Drawing.Size(307, 22);
 			this.tsmiOpenFileDir.Text = "Открыть папку для выделенного файла";
 			this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
-			// 
-			// tsmi3
-			// 
-			this.tsmi3.Name = "tsmi3";
-			this.tsmi3.Size = new System.Drawing.Size(304, 6);
-			// 
-			// tsmiFileReValidate
-			// 
-			this.tsmiFileReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileReValidate.Image")));
-			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
-			this.tsmiFileReValidate.Size = new System.Drawing.Size(307, 22);
-			this.tsmiFileReValidate.Text = "Проверить файл заново (валидация)";
-			this.tsmiFileReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
 			// 
 			// tpValid
 			// 
@@ -902,12 +902,12 @@ namespace SharpFBTools.Controls.Panels
 									this.columnHeader7});
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem7,
-									listViewItem8,
-									listViewItem9,
-									listViewItem10,
-									listViewItem11,
-									listViewItem12});
+									listViewItem1,
+									listViewItem2,
+									listViewItem3,
+									listViewItem4,
+									listViewItem5,
+									listViewItem6});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(223, 116);
@@ -983,11 +983,11 @@ namespace SharpFBTools.Controls.Panels
 			// cmsArchive
 			// 
 			this.cmsArchive.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+									this.tsmiFileAndArchiveReValidate,
+									this.tsmi5,
 									this.tsmiOpenInArchivator,
 									this.tsmi4,
-									this.tsmiOpenArchiveDir,
-									this.tsmi5,
-									this.tsmiFileAndArchiveReValidate});
+									this.tsmiOpenArchiveDir});
 			this.cmsArchive.Name = "cmsValidator";
 			this.cmsArchive.Size = new System.Drawing.Size(293, 82);
 			// 
