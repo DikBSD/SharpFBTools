@@ -33,6 +33,7 @@ namespace Settings
 		private static string m_sUnRARPath = GetProgDir()+"\\UnRAR.exe";
 		private static string m_sChangeFilePath = GetProgDir()+"\\Change.txt";
 		private static string m_sFB2ValidatorHelpPath = GetProgDir()+"\\Help\\FB2ValidatorHelp.rtf";
+		private static string m_sArchiveManagerHelpPath = GetProgDir()+"\\Help\\ArchiveManagerHelp.rtf";
 		private static Int16 m_nValidatorForFB2SelectedIndex = 1;
 		private static Int16 m_nValidatorForFB2ArchiveSelectedIndex = 1;
 		#endregion
@@ -98,6 +99,9 @@ namespace Settings
 		
 		public static string GetFB2ValidatorHelpPath() {
 			return m_sFB2ValidatorHelpPath;
+		}
+		public static string GetArchiveManagerHelpPath() {
+			return m_sArchiveManagerHelpPath;
 		}
 		
 		public static Int16 GetDefValidatorFB2SelectedIndex() {

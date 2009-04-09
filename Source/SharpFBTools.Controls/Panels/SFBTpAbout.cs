@@ -48,12 +48,20 @@ namespace SharpFBTools.Controls.Panels
 		{
 			rtboxHelp.Clear();
 			string sFB2ValidatorHelpPath = Settings.Settings.GetFB2ValidatorHelpPath();
+			string sArchiveManagerHelpPath = Settings.Settings.GetArchiveManagerHelpPath();
 			switch( cboxInstrument.SelectedIndex ) {
 				case 0:
 					if( File.Exists( sFB2ValidatorHelpPath ) ) {
 						rtboxHelp.LoadFile( sFB2ValidatorHelpPath );
 					} else {
 						rtboxHelp.Text = "Не найден файл Справки Валидатор: \""+sFB2ValidatorHelpPath+"\"";
+					}
+					break;
+				case 2:
+					if( File.Exists( sArchiveManagerHelpPath ) ) {
+						rtboxHelp.LoadFile( sArchiveManagerHelpPath );
+					} else {
+						rtboxHelp.Text = "Не найден файл Справки Менеджера Архивов: \""+sArchiveManagerHelpPath+"\"";
 					}
 					break;
 			}
