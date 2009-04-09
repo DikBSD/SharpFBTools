@@ -31,7 +31,7 @@ namespace Settings
 		private static string m_sLicensePath = GetProgDir()+"\\License GPL 2.1.rtf";
 		private static string m_s7zaPath = GetProgDir()+"\\7za.exe";
 		private static string m_sUnRARPath = GetProgDir()+"\\UnRAR.exe";
-		private static string m_sChangeFilePath = GetProgDir()+"\\Change.txt";
+		private static string m_sChangeFilePath = GetProgDir()+"\\Change.rtf";
 		private static string m_sFB2ValidatorHelpPath = GetProgDir()+"\\Help\\FB2ValidatorHelp.rtf";
 		private static string m_sArchiveManagerHelpPath = GetProgDir()+"\\Help\\ArchiveManagerHelp.rtf";
 		private static Int16 m_nValidatorForFB2SelectedIndex = 1;

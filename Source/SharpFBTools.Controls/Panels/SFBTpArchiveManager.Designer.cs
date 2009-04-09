@@ -138,7 +138,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tsbtnUAAnalyze = new System.Windows.Forms.ToolStripButton();
 			this.tsSep3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnUnArchive = new System.Windows.Forms.ToolStripButton();
-			this.tpTest = new System.Windows.Forms.TabPage();
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.tsArchiver.SuspendLayout();
 			this.ssProgress.SuspendLayout();
@@ -265,7 +264,6 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.tcArchiver.Controls.Add(this.tpArchive);
 			this.tcArchiver.Controls.Add(this.tpUnArchive);
-			this.tcArchiver.Controls.Add(this.tpTest);
 			this.tcArchiver.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tcArchiver.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.tcArchiver.Location = new System.Drawing.Point(0, 0);
@@ -499,7 +497,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpUnArchive.Location = new System.Drawing.Point(4, 22);
 			this.tpUnArchive.Name = "tpUnArchive";
 			this.tpUnArchive.Padding = new System.Windows.Forms.Padding(3);
-			this.tpUnArchive.Size = new System.Drawing.Size(760, 440);
+			this.tpUnArchive.Size = new System.Drawing.Size(760, 501);
 			this.tpUnArchive.TabIndex = 1;
 			this.tpUnArchive.Text = " Распаковать ";
 			this.tpUnArchive.UseVisualStyleBackColor = true;
@@ -510,7 +508,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pUAOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pUAOptions.Location = new System.Drawing.Point(3, 92);
 			this.pUAOptions.Name = "pUAOptions";
-			this.pUAOptions.Size = new System.Drawing.Size(754, 345);
+			this.pUAOptions.Size = new System.Drawing.Size(754, 406);
 			this.pUAOptions.TabIndex = 28;
 			// 
 			// gboxUAOptions
@@ -523,7 +521,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxUAOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxUAOptions.Location = new System.Drawing.Point(0, 0);
 			this.gboxUAOptions.Name = "gboxUAOptions";
-			this.gboxUAOptions.Size = new System.Drawing.Size(754, 345);
+			this.gboxUAOptions.Size = new System.Drawing.Size(754, 406);
 			this.gboxUAOptions.TabIndex = 1;
 			this.gboxUAOptions.TabStop = false;
 			this.gboxUAOptions.Text = " Настройки ";
@@ -535,7 +533,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxUACount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxUACount.Location = new System.Drawing.Point(3, 121);
 			this.gboxUACount.Name = "gboxUACount";
-			this.gboxUACount.Size = new System.Drawing.Size(748, 221);
+			this.gboxUACount.Size = new System.Drawing.Size(748, 282);
 			this.gboxUACount.TabIndex = 4;
 			this.gboxUACount.TabStop = false;
 			this.gboxUACount.Text = " Ход работы ";
@@ -555,7 +553,7 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem7});
 			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 16);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
-			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 202);
+			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 263);
 			this.lvUAGeneralCount.TabIndex = 1;
 			this.lvUAGeneralCount.UseCompatibleStateImageBehavior = false;
 			this.lvUAGeneralCount.View = System.Windows.Forms.View.Details;
@@ -599,7 +597,7 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem13});
 			this.lvUACount.Location = new System.Drawing.Point(398, 16);
 			this.lvUACount.Name = "lvUACount";
-			this.lvUACount.Size = new System.Drawing.Size(347, 202);
+			this.lvUACount.Size = new System.Drawing.Size(347, 263);
 			this.lvUACount.TabIndex = 0;
 			this.lvUACount.UseCompatibleStateImageBehavior = false;
 			this.lvUACount.View = System.Windows.Forms.View.Details;
@@ -826,15 +824,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tsbtnUnArchive.ToolTipText = "Рапаковать архивы";
 			this.tsbtnUnArchive.Click += new System.EventHandler(this.TsbtnUnArchiveClick);
 			// 
-			// tpTest
-			// 
-			this.tpTest.Location = new System.Drawing.Point(4, 22);
-			this.tpTest.Name = "tpTest";
-			this.tpTest.Size = new System.Drawing.Size(760, 440);
-			this.tpTest.TabIndex = 2;
-			this.tpTest.Text = " Тестировать архивы ";
-			this.tpTest.UseVisualStyleBackColor = true;
-			// 
 			// SFBTpArchiveManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -926,7 +915,6 @@ namespace SharpFBTools.Controls.Panels
 		private System.Windows.Forms.Panel pOptions;
 		private System.Windows.Forms.GroupBox gboxOptions;
 		private System.Windows.Forms.Panel pType;
-		private System.Windows.Forms.TabPage tpTest;
 		private System.Windows.Forms.TabPage tpUnArchive;
 		private System.Windows.Forms.TabPage tpArchive;
 		private System.Windows.Forms.TabControl tcArchiver;

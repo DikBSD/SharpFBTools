@@ -41,11 +41,13 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(127, 255);
+			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.label1.Location = new System.Drawing.Point(0, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(259, 23);
+			this.label1.Size = new System.Drawing.Size(513, 23);
 			this.label1.TabIndex = 2;
-			this.label1.Text = "Дубликатор файлов";
+			this.label1.Text = "Находится в разработке";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// SFBTpFB2Dublicator
 			// 
