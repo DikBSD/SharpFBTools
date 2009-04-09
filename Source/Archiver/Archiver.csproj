@@ -31,5 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Archiver.cs" />
+    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
 </Project>
