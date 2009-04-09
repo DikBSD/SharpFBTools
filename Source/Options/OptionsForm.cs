@@ -31,7 +31,9 @@ namespace Options
 			tboxFBEPath.Text	= Settings.Settings.GetDefFBEPath();
 			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
 			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
-			// читаес сохраненные настройки, если они есть
+			cboxValidatorForFB2.SelectedIndex = Settings.Settings.GetDefValidatorFB2SelectedIndex();
+			cboxValidatorForFB2Archive.SelectedIndex = Settings.Settings.GetDefValidatorFB2ArchiveSelectedIndex();
+			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 		}
 		
@@ -50,6 +52,9 @@ namespace Options
 				tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
 				reader.ReadToFollowing("Reader");
 				tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
+				reader.ReadToFollowing("ValidatorDoubleClick");
+				cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") );
+				cboxValidatorForFB2Archive.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") );
 				reader.Close();
 			}
 		}
@@ -128,18 +133,26 @@ namespace Options
 				settings.OmitXmlDeclaration = true;
 				
 				writer = XmlWriter.Create( Settings.Settings.GetSettingsPath(), settings );
-				writer.WriteStartElement( "General" );
-					writer.WriteStartElement( "WinRar" );
-						writer.WriteAttributeString( "WinRarPath", tboxWinRarPath.Text );
-						writer.WriteAttributeString( "RarPath", tboxRarPath.Text );
+				writer.WriteStartElement( "SharpFBTools" );
+					writer.WriteStartElement( "General" );
+						writer.WriteStartElement( "WinRar" );
+							writer.WriteAttributeString( "WinRarPath", tboxWinRarPath.Text );
+							writer.WriteAttributeString( "RarPath", tboxRarPath.Text );
 						writer.WriteFullEndElement();
-					writer.WriteStartElement( "Editors" );
-						writer.WriteAttributeString( "FBEPath", tboxFBEPath.Text );
-						writer.WriteAttributeString( "TextFB2EPath", tboxTextEPath.Text );
-					writer.WriteFullEndElement();
-					writer.WriteStartElement( "Reader" );
-						writer.WriteAttributeString( "FBReaderPath", tboxReaderPath.Text );
-					writer.WriteFullEndElement();
+						writer.WriteStartElement( "Editors" );
+							writer.WriteAttributeString( "FBEPath", tboxFBEPath.Text );
+							writer.WriteAttributeString( "TextFB2EPath", tboxTextEPath.Text );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "Reader" );
+							writer.WriteAttributeString( "FBReaderPath", tboxReaderPath.Text );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+					writer.WriteStartElement( "FB2Validator" );
+						writer.WriteStartElement( "ValidatorDoubleClick" );
+							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndex", cboxValidatorForFB2.SelectedIndex.ToString() );
+							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndex", cboxValidatorForFB2Archive.SelectedIndex.ToString() );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
 				writer.WriteEndElement();
 				writer.Flush();
 				this.Close();

@@ -95,7 +95,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmi1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiViewInReader = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmi2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsmiOpenFileInArchivator = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiOpenFileDir = new System.Windows.Forms.ToolStripMenuItem();
 			this.tpValid = new System.Windows.Forms.TabPage();
 			this.pValidLV = new System.Windows.Forms.Panel();
@@ -140,11 +139,11 @@ namespace SharpFBTools.Controls.Panels
 			this.lblExistFile = new System.Windows.Forms.Label();
 			this.pCentral = new System.Windows.Forms.Panel();
 			this.cmsArchive = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.tsmiFileAndArchiveReValidate = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi5 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenInArchivator = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmi4 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenArchiveDir = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmi5 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsmiFileAndArchiveReValidate = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.tcResult.SuspendLayout();
@@ -494,7 +493,6 @@ namespace SharpFBTools.Controls.Panels
 									this.tsmi1,
 									this.tsmiViewInReader,
 									this.tsmi2,
-									this.tsmiOpenFileInArchivator,
 									this.tsmiOpenFileDir});
 			this.cmsFB2.Name = "cmsValidator";
 			this.cmsFB2.Size = new System.Drawing.Size(308, 154);
@@ -545,14 +543,6 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.tsmi2.Name = "tsmi2";
 			this.tsmi2.Size = new System.Drawing.Size(304, 6);
-			// 
-			// tsmiOpenFileInArchivator
-			// 
-			this.tsmiOpenFileInArchivator.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenFileInArchivator.Image")));
-			this.tsmiOpenFileInArchivator.Name = "tsmiOpenFileInArchivator";
-			this.tsmiOpenFileInArchivator.Size = new System.Drawing.Size(307, 22);
-			this.tsmiOpenFileInArchivator.Text = "Открыть файл в архиваторе";
-			this.tsmiOpenFileInArchivator.Click += new System.EventHandler(this.TsmiOpenFileInArchivatorClick);
 			// 
 			// tsmiOpenFileDir
 			// 
@@ -991,6 +981,19 @@ namespace SharpFBTools.Controls.Panels
 			this.cmsArchive.Name = "cmsValidator";
 			this.cmsArchive.Size = new System.Drawing.Size(293, 82);
 			// 
+			// tsmiFileAndArchiveReValidate
+			// 
+			this.tsmiFileAndArchiveReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileAndArchiveReValidate.Image")));
+			this.tsmiFileAndArchiveReValidate.Name = "tsmiFileAndArchiveReValidate";
+			this.tsmiFileAndArchiveReValidate.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFileAndArchiveReValidate.Text = "Проверить файл заново (валидация)";
+			this.tsmiFileAndArchiveReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
+			// 
+			// tsmi5
+			// 
+			this.tsmi5.Name = "tsmi5";
+			this.tsmi5.Size = new System.Drawing.Size(289, 6);
+			// 
 			// tsmiOpenInArchivator
 			// 
 			this.tsmiOpenInArchivator.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenInArchivator.Image")));
@@ -1011,19 +1014,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiOpenArchiveDir.Size = new System.Drawing.Size(292, 22);
 			this.tsmiOpenArchiveDir.Text = "Открыть папку для выделенного файла";
 			this.tsmiOpenArchiveDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
-			// 
-			// tsmi5
-			// 
-			this.tsmi5.Name = "tsmi5";
-			this.tsmi5.Size = new System.Drawing.Size(289, 6);
-			// 
-			// tsmiFileAndArchiveReValidate
-			// 
-			this.tsmiFileAndArchiveReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileAndArchiveReValidate.Image")));
-			this.tsmiFileAndArchiveReValidate.Name = "tsmiFileAndArchiveReValidate";
-			this.tsmiFileAndArchiveReValidate.Size = new System.Drawing.Size(292, 22);
-			this.tsmiFileAndArchiveReValidate.Text = "Проверить файл заново (валидация)";
-			this.tsmiFileAndArchiveReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
 			// 
 			// SFBTpFB2Validator
 			// 
@@ -1073,7 +1063,6 @@ namespace SharpFBTools.Controls.Panels
 		private System.Windows.Forms.ToolStripSeparator tsmi5;
 		private System.Windows.Forms.ToolStripMenuItem tsmiFileReValidate;
 		private System.Windows.Forms.ToolStripSeparator tsmi3;
-		private System.Windows.Forms.ToolStripMenuItem tsmiOpenFileInArchivator;
 		private System.Windows.Forms.ContextMenuStrip cmsFB2;
 		private System.Windows.Forms.ToolStripMenuItem tsmiOpenArchiveDir;
 		private System.Windows.Forms.ToolStripMenuItem tsmiOpenInArchivator;

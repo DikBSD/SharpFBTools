@@ -33,6 +33,8 @@ namespace Settings
 		private static string m_sUnRARPath = GetProgDir()+"\\UnRAR.exe";
 		private static string m_sChangeFilePath = GetProgDir()+"\\Change.txt";
 		private static string m_sFB2ValidatorHelpPath = GetProgDir()+"\\Help\\FB2ValidatorHelp.rtf";
+		private static Int16 m_nValidatorForFB2SelectedIndex = 1;
+		private static Int16 m_nValidatorForFB2ArchiveSelectedIndex = 1;
 		#endregion
 		
 		#region Открытые статические члены-данные класса
@@ -98,6 +100,15 @@ namespace Settings
 			return m_sFB2ValidatorHelpPath;
 		}
 		
+		public static Int16 GetDefValidatorFB2SelectedIndex() {
+			return m_nValidatorForFB2SelectedIndex;
+		}
+		
+		public static Int16 GetDefValidatorFB2ArchiveSelectedIndex() {
+			return m_nValidatorForFB2ArchiveSelectedIndex;
+		}
+		
+		////// Чтение из файла настроек данных по конкретному параметру
 		public static string ReadTextFB2EPath() {
 			// читаем путь к текстовому редактору из настроек
 			string sTFB2Path = GetDefTFB2Path();
@@ -171,6 +182,36 @@ namespace Settings
 				}
 			}
 			return sRarPath;
+		}
+		
+		public static Int16 ReadValidatorFB2SelectedIndex() {
+			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2 из настроек
+			string sSelectedIndex = GetDefValidatorFB2SelectedIndex().ToString();
+			if( File.Exists( GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
+					reader.ReadToFollowing("ValidatorDoubleClick");
+					sSelectedIndex = reader.GetAttribute("cboxValidatorForFB2SelectedIndex");
+					reader.Close();
+				}
+			}
+			return Convert.ToInt16( sSelectedIndex );
+		}
+		
+		public static Int16 ReadValidatorFB2ArchiveSelectedIndex() {
+			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2Archive из настроек
+			string sSelectedIndex = GetDefValidatorFB2ArchiveSelectedIndex().ToString();
+			if( File.Exists( GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
+					reader.ReadToFollowing("ValidatorDoubleClick");
+					sSelectedIndex = reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex");
+					reader.Close();
+				}
+			}
+			return Convert.ToInt16( sSelectedIndex );
 		}
 		#endregion
 	}

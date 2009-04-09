@@ -718,6 +718,10 @@ namespace SharpFBTools.Controls.Panels
 			// редактировать выделенный файл в текстовом редакторе
 			// читаем путь к текстовому редактору из настроек
 			string sTFB2Path = Settings.Settings.ReadTextFB2EPath();
+			if( !File.Exists( sTFB2Path ) ) {
+				MessageBox.Show( "Не могу найти текстовый редактор \""+sTFB2Path+"\"!\nПроверьте, правильно ли задан путь в Настройках.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
@@ -730,6 +734,10 @@ namespace SharpFBTools.Controls.Panels
 			// редактировать выделенный файл в fb2-редакторе
 			// читаем путь к FBE из настроек
 			string sFBEPath = Settings.Settings.ReadFBEPath();
+			if( !File.Exists( sFBEPath ) ) {
+				MessageBox.Show( "Не могу найти fb2-редактор \""+sFBEPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
@@ -742,6 +750,10 @@ namespace SharpFBTools.Controls.Panels
 			// запустить файл в fb2-читалке (Просмотр)
 			// читаем путь к читалке из настроек
 			string sFBReaderPath = Settings.Settings.ReadFBReaderPath();
+			if( !File.Exists( sFBReaderPath ) ) {
+				MessageBox.Show( "Не могу найти Читалку \""+sFBReaderPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
@@ -764,6 +776,10 @@ namespace SharpFBTools.Controls.Panels
 			// Запустить выделенный файл в архиваторе
 			// читаем путь к архиватору из настроек
 			string sWinRarPath = Settings.Settings.ReadWinRARPath();
+			if( !File.Exists( sWinRarPath ) ) {
+				MessageBox.Show( "Не могу найти WinRAR \""+sWinRarPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
