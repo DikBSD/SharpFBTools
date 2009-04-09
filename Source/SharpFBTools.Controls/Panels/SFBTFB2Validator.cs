@@ -767,7 +767,8 @@ namespace SharpFBTools.Controls.Panels
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
-				FilesWorker.FilesWorker.ShowDir( l );
+				FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
+				FilesWorker.FilesWorker.ShowDir( fi.Directory.ToString() );
 			}
 		}
 		
@@ -883,7 +884,49 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorMsg+"\n"+sMsg, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
+		
+		void ListViewNotValidDoubleClick(object sender, EventArgs e)
+		{
+			// выбор варианта работы по двойному щелчку на списках
+			ListView l = GetCurrentListWiew();
+			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
+				ListView.SelectedListViewItemCollection si = l.SelectedItems;
+				string sSelectedItemText = si[0].SubItems[0].Text;
+				string sFilePath = sSelectedItemText.Split('/')[0];
+				string sExt = Path.GetExtension( sFilePath );
+				if( sExt.ToLower() == ".fb2" ) {
+					switch ( Settings.Settings.ReadValidatorFB2SelectedIndex() ) {
+						case 0: // Повторная Валидация
+							TsmiFileReValidateClick( sender, e );
+							break;
+						case 1: // Править в текстовом редакторе
+							TsmiEditInTextEditorClick( sender, e );
+							break;
+						case 2: // Править в fb2-редакторе
+							TsmiEditInFB2EditorClick( sender, e );
+							break;
+						case 3: // Просмотр в Читалке
+							TsmiVienInReaderClick( sender, e );
+							break;
+						case 4: // Открыть папку файла
+							TsmiOpenFileDirClick( sender, e );
+							break;
+					}
+				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
+					switch ( Settings.Settings.ReadValidatorFB2ArchiveSelectedIndex() ) {
+						case 0: // Повторная Валидация
+							TsmiFileReValidateClick( sender, e );
+							break;
+						case 1: // Запустить в Архиваторе
+							TsmiOpenFileInArchivatorClick( sender, e );
+							break;
+						case 2: // Открыть папку файла
+							TsmiOpenFileDirClick( sender, e );
+							break;
+					}
+				}
+			}
+		}
 		#endregion
-
 	}
 }

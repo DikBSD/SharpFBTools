@@ -467,6 +467,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewNotValid.UseCompatibleStateImageBehavior = false;
 			this.listViewNotValid.View = System.Windows.Forms.View.Details;
 			this.listViewNotValid.SelectedIndexChanged += new System.EventHandler(this.ListViewNotValidSelectedIndexChanged);
+			this.listViewNotValid.DoubleClick += new System.EventHandler(this.ListViewNotValidDoubleClick);
 			// 
 			// chNonValidFile
 			// 
@@ -495,60 +496,60 @@ namespace SharpFBTools.Controls.Panels
 									this.tsmi2,
 									this.tsmiOpenFileDir});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(308, 154);
+			this.cmsFB2.Size = new System.Drawing.Size(293, 154);
 			// 
 			// tsmiFileReValidate
 			// 
 			this.tsmiFileReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileReValidate.Image")));
 			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
-			this.tsmiFileReValidate.Size = new System.Drawing.Size(307, 22);
+			this.tsmiFileReValidate.Size = new System.Drawing.Size(292, 22);
 			this.tsmiFileReValidate.Text = "Проверить файл заново (валидация)";
 			this.tsmiFileReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
 			// 
 			// tsmi3
 			// 
 			this.tsmi3.Name = "tsmi3";
-			this.tsmi3.Size = new System.Drawing.Size(304, 6);
+			this.tsmi3.Size = new System.Drawing.Size(289, 6);
 			// 
 			// tsmiEditInTextEditor
 			// 
 			this.tsmiEditInTextEditor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInTextEditor.Image")));
 			this.tsmiEditInTextEditor.Name = "tsmiEditInTextEditor";
-			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(307, 22);
-			this.tsmiEditInTextEditor.Text = "Редактировать в текстовом fb2-редакторе";
+			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(292, 22);
+			this.tsmiEditInTextEditor.Text = "Редактировать в текстовом редакторе";
 			this.tsmiEditInTextEditor.Click += new System.EventHandler(this.TsmiEditInTextEditorClick);
 			// 
 			// tsmiEditInFB2Editor
 			// 
 			this.tsmiEditInFB2Editor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInFB2Editor.Image")));
 			this.tsmiEditInFB2Editor.Name = "tsmiEditInFB2Editor";
-			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(307, 22);
+			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(292, 22);
 			this.tsmiEditInFB2Editor.Text = "Редактировать в fb2-редакторе";
 			this.tsmiEditInFB2Editor.Click += new System.EventHandler(this.TsmiEditInFB2EditorClick);
 			// 
 			// tsmi1
 			// 
 			this.tsmi1.Name = "tsmi1";
-			this.tsmi1.Size = new System.Drawing.Size(304, 6);
+			this.tsmi1.Size = new System.Drawing.Size(289, 6);
 			// 
 			// tsmiViewInReader
 			// 
 			this.tsmiViewInReader.Image = ((System.Drawing.Image)(resources.GetObject("tsmiViewInReader.Image")));
 			this.tsmiViewInReader.Name = "tsmiViewInReader";
-			this.tsmiViewInReader.Size = new System.Drawing.Size(307, 22);
+			this.tsmiViewInReader.Size = new System.Drawing.Size(292, 22);
 			this.tsmiViewInReader.Text = "Запустить в fb2-читалке (Просмотр)";
 			this.tsmiViewInReader.Click += new System.EventHandler(this.TsmiVienInReaderClick);
 			// 
 			// tsmi2
 			// 
 			this.tsmi2.Name = "tsmi2";
-			this.tsmi2.Size = new System.Drawing.Size(304, 6);
+			this.tsmi2.Size = new System.Drawing.Size(289, 6);
 			// 
 			// tsmiOpenFileDir
 			// 
 			this.tsmiOpenFileDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenFileDir.Image")));
 			this.tsmiOpenFileDir.Name = "tsmiOpenFileDir";
-			this.tsmiOpenFileDir.Size = new System.Drawing.Size(307, 22);
+			this.tsmiOpenFileDir.Size = new System.Drawing.Size(292, 22);
 			this.tsmiOpenFileDir.Text = "Открыть папку для выделенного файла";
 			this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
 			// 
@@ -591,6 +592,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewValid.TabIndex = 1;
 			this.listViewValid.UseCompatibleStateImageBehavior = false;
 			this.listViewValid.View = System.Windows.Forms.View.Details;
+			this.listViewValid.DoubleClick += new System.EventHandler(this.ListViewNotValidDoubleClick);
 			// 
 			// chValidFile
 			// 

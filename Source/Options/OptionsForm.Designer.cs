@@ -392,10 +392,9 @@ namespace Options
 			this.cboxValidatorForFB2.FormattingEnabled = true;
 			this.cboxValidatorForFB2.Items.AddRange(new object[] {
 									"Проверить файл заново (валидация)",
-									"Редактировать в текстовом fb2-редакторе",
+									"Редактировать в текстовом редакторе",
 									"Редактировать в fb2-редакторе",
 									"Запустить в fb2-читалке (Просмотр)",
-									"Открыть файл в архиваторе",
 									"Открыть папку для выделенного файла"});
 			this.cboxValidatorForFB2.Location = new System.Drawing.Point(173, 20);
 			this.cboxValidatorForFB2.Name = "cboxValidatorForFB2";
