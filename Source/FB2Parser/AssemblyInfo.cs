@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DikBSD")]
 [assembly: AssemblyProduct("FB2Parser")]
-[assembly: AssemblyCopyright("Вадим Кузнецов (DikBSD)")]
+[assembly: AssemblyCopyright("Вадим Кузнецов (DikBSD) © 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

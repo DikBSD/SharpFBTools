@@ -26,7 +26,6 @@ namespace SharpFBTools.Controls.Panels
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			
 			// загрузка файла Лицензии
 			string sLicensePath = Settings.Settings.GetLicensePath();
 			if( File.Exists( sLicensePath ) ) {
