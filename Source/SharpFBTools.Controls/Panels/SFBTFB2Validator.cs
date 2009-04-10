@@ -802,7 +802,8 @@ namespace SharpFBTools.Controls.Panels
 				string sMsg = "";
 				string sErrorMsg = "СООБЩЕНИЕ ОБ ОШИБКЕ:";
 				string sOkMsg = "ОШИБОК НЕТ - Файл Валиден";
-				string sMove = "Путь к этому файлу перенесен из Списка не валидных fb2-файлов в Список валидных.";
+				string sMoveNotValToVal = "Путь к этому файлу перенесен из Списка не валидных fb2-файлов в Список валидных.";
+				string sMoveValToNotVal = "Путь к этому файлу перенесен из Списка валидных fb2-файлов в Список не валидных.";
 				FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
 				if( sExt.ToLower() == ".fb2" ) {
 					// для несжатого fb2-файла
@@ -811,16 +812,16 @@ namespace SharpFBTools.Controls.Panels
            				// файл валидный
            				if( l.Name == "listViewNotValid" ) {
            					sErrorMsg = sOkMsg + ":";
-           					sMsg = sMove;
+           					sMsg = sMoveNotValToVal;
 							listViewNotValid.Items[ l.SelectedItems[0].Index ].Remove();
 							rеboxNotValid.Text = "";
-							tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) " ;
+							tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) ";
 							ListViewItem item = new ListViewItem( sSelectedItemText, 0 );
 	   						item.ForeColor = m_FB2ValidFontColor;
 							FileInfo fi = new FileInfo( sSelectedItemText );
    							item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
 							listViewValid.Items.AddRange( new ListViewItem[]{ item } );
-							tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) " ;
+							tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) ";
            				} else {
            					sErrorMsg = sOkMsg;
            				}
@@ -829,6 +830,18 @@ namespace SharpFBTools.Controls.Panels
 						if( l.Name == "listViewNotValid" ) {
 							l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = sMsg;
 							rеboxNotValid.Text = sMsg;
+						} else if( l.Name == "listViewValid" ) {
+							// валидный файл был как-то "испорчен"
+							listViewValid.Items[ l.SelectedItems[0].Index ].Remove();
+							tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) ";
+							ListViewItem item = new ListViewItem( sSelectedItemText, 0 );
+   							item.ForeColor = m_FB2NotValidFontColor;
+   							item.SubItems.Add( sMsg );
+							FileInfo fi = new FileInfo( sSelectedItemText );
+			   				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+							listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
+							tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) ";
+							sMsg += "\n\n" + sMoveValToNotVal;
 						}
 					}
 				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
@@ -847,10 +860,10 @@ namespace SharpFBTools.Controls.Panels
         			   		//  Запакованный fb2-файл валидный
         			   		if( l.Name == "listViewNotValid" ) {
         			   			sErrorMsg = sOkMsg + ":";
-           						sMsg = sMove;
+           						sMsg = sMoveNotValToVal;
 								listViewNotValid.Items[ l.SelectedItems[0].Index ].Remove();
 								rеboxNotValid.Text = "";
-								tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) " ;
+								tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) ";
 								string sFB2FileName = sSelectedItemText.Split('/')[1];
 								ListViewItem item = new ListViewItem( sSelectedItemText , 0 );
 								if( sExt.ToLower() == ".zip" ) {
@@ -864,7 +877,7 @@ namespace SharpFBTools.Controls.Panels
 				   				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
 				   				item.SubItems.Add( s );
 								listViewValid.Items.AddRange( new ListViewItem[]{ item } );
-								tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) " ;
+								tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) ";
 							} else {
            						sErrorMsg = sOkMsg;
            					}
@@ -873,6 +886,26 @@ namespace SharpFBTools.Controls.Panels
 							if( l.Name == "listViewNotValid" ) {
 								l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = sMsg;
 								rеboxNotValid.Text = sMsg;
+							} else if( l.Name == "listViewValid" ) {
+								// валидный файл в архиве был как-то "испорчен"
+								listViewValid.Items[ l.SelectedItems[0].Index ].Remove();
+								tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) ";
+								string sFB2FileName = sSelectedItemText.Split('/')[1];
+								ListViewItem item = new ListViewItem( sSelectedItemText , 0 );
+								if( sExt.ToLower() == ".zip" ) {
+									item.ForeColor = m_ZipFB2NotValidFontColor;
+								} else if( sExt.ToLower() == ".rar" ) {
+									item.ForeColor = m_RarFB2NotValidFontColor;
+								}
+								item.SubItems.Add( sMsg );
+								FileInfo fi = new FileInfo( sFilePath );
+				   				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+				   				fi = new FileInfo( sTempDir+"\\"+sFB2FileName );
+				   				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+				   				item.SubItems.Add( s );
+								listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
+								tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) ";
+								sMsg += "\n\n" + sMoveValToNotVal;
 							}
 						}
 					}
