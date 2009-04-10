@@ -279,10 +279,12 @@ namespace SharpFBTools.Controls.Panels
 						sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
 					}
 				}
-				if( bCopy ) {
-					File.Copy( sFilePath, sNewPath );
-				} else {
-					File.Move( sFilePath, sNewPath );
+				if( File.Exists( sFilePath ) ) {
+					if( bCopy ) {
+						File.Copy( sFilePath, sNewPath );
+					} else {
+						File.Move( sFilePath, sNewPath );
+					}
 				}
 				++tsProgressBar.Value;
 				ssProgress.Refresh();
@@ -725,7 +727,12 @@ namespace SharpFBTools.Controls.Panels
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
-				FilesWorker.FilesWorker.StartFile( "\""+sTFB2Path+"\"" + " " + "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"" );
+				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
+				if( !File.Exists( sFilePath ) ) {
+					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				FilesWorker.FilesWorker.StartFile( "\""+sTFB2Path+"\"" + " " + "\""+sFilePath+"\"" );
 			}
 		}
 		
@@ -741,7 +748,12 @@ namespace SharpFBTools.Controls.Panels
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
-				FilesWorker.FilesWorker.StartFile( "\""+sFBEPath+"\"" + " " + "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"" );
+				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
+				if( !File.Exists( sFilePath ) ) {
+					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				FilesWorker.FilesWorker.StartFile( "\""+sFBEPath+"\"" + " " + "\""+sFilePath+"\"" );
 			}
 		}
 		
@@ -757,7 +769,12 @@ namespace SharpFBTools.Controls.Panels
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
-				FilesWorker.FilesWorker.StartFile( "\""+sFBReaderPath+"\"" + " " + "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"" );
+				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
+				if( !File.Exists( sFilePath ) ) {
+					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				FilesWorker.FilesWorker.StartFile( "\""+sFBReaderPath+"\"" + " " + "\""+sFilePath+"\"" );
 			}
 		}
 		
@@ -768,7 +785,12 @@ namespace SharpFBTools.Controls.Panels
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
 				FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
-				FilesWorker.FilesWorker.ShowDir( fi.Directory.ToString() );
+				string sDir = fi.Directory.ToString();
+				if( !Directory.Exists( sDir ) ) {
+					MessageBox.Show( "Папка: "+sDir+"\" не найдена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				FilesWorker.FilesWorker.ShowDir( sDir );
 			}
 		}
 		
@@ -784,7 +806,12 @@ namespace SharpFBTools.Controls.Panels
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
-				FilesWorker.FilesWorker.StartFile( "\""+sWinRarPath+"\"" + " " + "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"" );
+				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
+				if( !File.Exists( sFilePath ) ) {
+					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				FilesWorker.FilesWorker.StartFile( "\""+sWinRarPath+"\"" + " " + "\""+sFilePath+"\"" );
 			}
 		}
 		
@@ -798,6 +825,10 @@ namespace SharpFBTools.Controls.Panels
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
 				string sSelectedItemText = si[0].SubItems[0].Text;
 				string sFilePath = sSelectedItemText.Split('/')[0];
+				if( !File.Exists( sFilePath ) ) {
+					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
 				string sExt = Path.GetExtension( sFilePath );
 				string sMsg = "";
 				string sErrorMsg = "СООБЩЕНИЕ ОБ ОШИБКЕ:";
