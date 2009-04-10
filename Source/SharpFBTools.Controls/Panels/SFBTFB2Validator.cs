@@ -881,7 +881,7 @@ namespace SharpFBTools.Controls.Panels
 				string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 				// очистка временной папки
 				FilesWorker.FilesWorker.RemoveDir( sTempDir );
-				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorMsg+"\n"+sMsg, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorMsg+"\n"+sMsg, "SharpFBTools - "+sErrorMsg, MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
 		
