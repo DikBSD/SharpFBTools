@@ -194,7 +194,7 @@ namespace SharpFBTools.Controls.Panels
 		#endregion
 				
 		#region Распаковка
-		void AllArchivesToFile( List<string> lFilesList, ToolStripProgressBar pBar ) {
+		long AllArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
 			// Распаковать ахривы
 			long lCount, lFB2, lRar, lZip, l7Z, lBZip2, lGZip, lTar;
 			lCount = lFB2 = lRar = lZip = l7Z = lBZip2 = lGZip = lTar = 0;
@@ -239,14 +239,15 @@ namespace SharpFBTools.Controls.Panels
 							break;
 					}
 					if( Directory.Exists( sTempDir ) ) {
+						lvUAGeneralCount.Items[2].SubItems[1].Text = (lCount).ToString();
 						string [] files = Directory.GetFiles( sTempDir );
-						if( files.Length > 0 ) {
-							string sFileName = Path.GetFileName( files[0] );
+						foreach( string sFB2File in files ) {
+							string sFileName = Path.GetFileName( sFB2File );
 							if( Path.GetExtension( sFileName )==".fb2" ) {
 								lvUAGeneralCount.Items[3].SubItems[1].Text = (++lFB2).ToString();
 							}
-							if( FileToDir( sFileName, sFile, tboxUAToAnotherDir.Text, false ) ) {
-								lvUAGeneralCount.Items[2].SubItems[1].Text = (lCount).ToString();
+							if( FileToDir( sFileName, sFile, sMoveToDir, false ) ) {
+								
 							} else {
 								File.Delete( sFileName );
 							}
@@ -257,9 +258,10 @@ namespace SharpFBTools.Controls.Panels
 				}
 				++pBar.Value;
 			}
+			return lCount;
 		}
 		
-		void TypeArchToFile( List<string> lFilesList, ToolStripProgressBar pBar,
+		long TypeArchToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar,
 		                   string sExt, int nArchCountItem, int nFB2CountItem ) {
 			long lCount = 0;
 			long lAllArchive = 0;
@@ -269,15 +271,16 @@ namespace SharpFBTools.Controls.Panels
 				if( Path.GetExtension( sFile.ToLower() ) == sExt ) {
 					Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 					lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
+					lvUACount.Items[nArchCountItem].SubItems[1].Text = (++lCount).ToString();
 					if( Directory.Exists( sTempDir ) ) {
-						string [] files = Directory.GetFiles( sTempDir);
-						if( files.Length > 0 ) {
-							string sFileName = Path.GetFileName( files[0] );
+						string [] files = Directory.GetFiles( sTempDir );
+						foreach( string sFB2File in files ) {
+							string sFileName = Path.GetFileName( sFB2File );
 							if( Path.GetExtension( sFileName )==".fb2" ) {
 								lvUAGeneralCount.Items[nFB2CountItem].SubItems[1].Text = (++lFB2).ToString();
 							}
-							if( FileToDir( sFileName, sFile, tboxUAToAnotherDir.Text, false ) ) {
-								lvUACount.Items[nArchCountItem].SubItems[1].Text = (++lCount).ToString();
+							if( FileToDir( sFileName, sFile, sMoveToDir, false ) ) {
+								
 							} else {
 								File.Delete( sFileName );
 							}
@@ -288,19 +291,21 @@ namespace SharpFBTools.Controls.Panels
 				lvUACount.Refresh();
 				++pBar.Value;
 			}
+			return lCount;
 		}
 		
-		void ArchivesToFile( List<string> lFilesList, ToolStripProgressBar pBar ) {
+		long ArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
 			// Распаковать ахривы
 			string sArchType = GetArchiveExt( cboxUAType.Text );
 			long lAllArchive = 0;
 			long lRar = 0;
 			long lFB2 = 0;
+			long lCount = 0;
 			string sTempDir = Settings.Settings.GetTempDir();
 			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 			switch( sArchType.ToLower() ) {
 				case "":
-					AllArchivesToFile( lFilesList, pBar );
+					lCount = AllArchivesToFile( lFilesList, sMoveToDir, pBar );
 					break;
 				case "rar":
 					foreach( string sFile in lFilesList ) {
@@ -311,15 +316,16 @@ namespace SharpFBTools.Controls.Panels
 							}
 							Archiver.Archiver.unrar( Settings.Settings.GetUnRARPath(), sFile, sTempDir );
 							lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
+							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
 							if( Directory.Exists( sTempDir ) ) {
 								string [] files = Directory.GetFiles( sTempDir );
-								if( files.Length > 0 ) {
-									string sFileName = Path.GetFileName( files[0] );
+								foreach( string sFB2File in files ) {
+									string sFileName = Path.GetFileName( sFB2File );
 									if( Path.GetExtension( sFileName )==".fb2" ) {
 										lvUAGeneralCount.Items[3].SubItems[1].Text = (++lFB2).ToString();
 									}
-									if( FileToDir( sFileName, sFile, tboxUAToAnotherDir.Text, false ) ) {
-										lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
+									if( FileToDir( sFileName, sFile, sMoveToDir, false ) ) {
+										
 									}  else {
 										File.Delete( sFileName );
 									}
@@ -329,24 +335,26 @@ namespace SharpFBTools.Controls.Panels
 						lvUAGeneralCount.Refresh();
 						lvUACount.Refresh();
 						++pBar.Value;
+						lCount = lRar;
 					}
 					break;
 				case "zip":
-					TypeArchToFile( lFilesList, pBar, ".zip", 1, 3 );
+					lCount = TypeArchToFile( lFilesList, sMoveToDir, pBar, ".zip", 1, 3 );
 					break;
 				case "7z":
-					TypeArchToFile( lFilesList, pBar, ".7z", 2, 3 );
+					lCount = TypeArchToFile( lFilesList, sMoveToDir, pBar, ".7z", 2, 3 );
 					break;
 				case "bz2":
-					TypeArchToFile( lFilesList, pBar, ".bz2", 3, 3 );
+					lCount = TypeArchToFile( lFilesList, sMoveToDir, pBar, ".bz2", 3, 3 );
 					break;
 				case "gz":
-					TypeArchToFile( lFilesList, pBar, ".gz", 4, 3 );
+					lCount = TypeArchToFile( lFilesList, sMoveToDir, pBar, ".gz", 4, 3 );
 					break;
 				case "tar":
-					TypeArchToFile( lFilesList, pBar, ".tar", 5, 3 );
+					lCount = TypeArchToFile( lFilesList, sMoveToDir, pBar, ".tar", 5, 3 );
 					break;
 			}
+			return lCount;
 		}
 		#endregion
 		
@@ -489,7 +497,7 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
 			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
-			ssProgress.Update();
+			ssProgress.Refresh();
 			lDirList.Sort();
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
@@ -559,7 +567,7 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
 			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
-			ssProgress.Update();
+			ssProgress.Refresh();
 			lDirList.Sort();
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
@@ -575,11 +583,15 @@ namespace SharpFBTools.Controls.Panels
 			ssProgress.Refresh();
 			gboxUACount.Refresh();
 			
-			ArchivesToFile( lFilesList, tsProgressBar );
+			long lCount = ArchivesToFile( lFilesList, tboxUAToAnotherDir.Text, tsProgressBar );
 			
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
-			MessageBox.Show( "Распаковка архивов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			if( lCount > 0 ) {
+				MessageBox.Show( "Распаковка архивов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			} else {
+				MessageBox.Show( "В папке для сканирования не найдено ни одного архива указанного типа!\nРаспаковка не произведена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
 		}
