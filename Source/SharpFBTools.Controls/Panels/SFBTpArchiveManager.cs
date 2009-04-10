@@ -448,6 +448,7 @@ namespace SharpFBTools.Controls.Panels
 				InitA();
 				return;
 			}
+			tsslblProgress.Text = "Упаковка файлов:";
 			tsProgressBar.Maximum = lFilesList.Count+1;
 			tsProgressBar.Value = 1;
 			ssProgress.Refresh();
@@ -508,6 +509,7 @@ namespace SharpFBTools.Controls.Panels
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "В указанной папке не найдено ни одного файла!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 			}
+			tsslblProgress.Text = "Анализ файлов на наличие архивов:";
 			tsProgressBar.Maximum = lFilesList.Count+1;
 			tsProgressBar.Value = 1;
 			ssProgress.Refresh();
@@ -578,11 +580,12 @@ namespace SharpFBTools.Controls.Panels
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "В указанной папке не найдено ни одного файла!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 			}
+			tsslblProgress.Text = "Распаковка архивов:";
 			tsProgressBar.Maximum = lFilesList.Count+1;
 			tsProgressBar.Value = 1;
 			ssProgress.Refresh();
 			gboxUACount.Refresh();
-			
+
 			long lCount = ArchivesToFile( lFilesList, tboxUAToAnotherDir.Text, tsProgressBar );
 			
 			DateTime dtEnd = DateTime.Now;
