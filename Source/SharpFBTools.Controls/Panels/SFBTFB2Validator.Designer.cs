@@ -96,6 +96,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiViewInReader = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmi2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenFileDir = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiDeleteFileFromDisk = new System.Windows.Forms.ToolStripMenuItem();
 			this.tpValid = new System.Windows.Forms.TabPage();
 			this.pValidLV = new System.Windows.Forms.Panel();
 			this.listViewValid = new System.Windows.Forms.ListView();
@@ -144,6 +145,10 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiOpenInArchivator = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmi4 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenArchiveDir = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiFileDeleteFromDisk = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmsNotFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.tsmiOpenNotFB2FileDir = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiDeleteNotFB2FromDisk = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.tcResult.SuspendLayout();
@@ -163,6 +168,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxCopyMoveOptions.SuspendLayout();
 			this.pCentral.SuspendLayout();
 			this.cmsArchive.SuspendLayout();
+			this.cmsNotFB2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tsValidator
@@ -494,7 +500,8 @@ namespace SharpFBTools.Controls.Panels
 									this.tsmi1,
 									this.tsmiViewInReader,
 									this.tsmi2,
-									this.tsmiOpenFileDir});
+									this.tsmiOpenFileDir,
+									this.tsmiDeleteFileFromDisk});
 			this.cmsFB2.Name = "cmsValidator";
 			this.cmsFB2.Size = new System.Drawing.Size(293, 154);
 			// 
@@ -552,6 +559,14 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiOpenFileDir.Size = new System.Drawing.Size(292, 22);
 			this.tsmiOpenFileDir.Text = "Открыть папку для выделенного файла";
 			this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
+			// 
+			// tsmiDeleteFileFromDisk
+			// 
+			this.tsmiDeleteFileFromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteFileFromDisk.Image")));
+			this.tsmiDeleteFileFromDisk.Name = "tsmiDeleteFileFromDisk";
+			this.tsmiDeleteFileFromDisk.Size = new System.Drawing.Size(292, 22);
+			this.tsmiDeleteFileFromDisk.Text = "Удалить файл с диска";
+			this.tsmiDeleteFileFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
 			// tpValid
 			// 
@@ -714,6 +729,7 @@ namespace SharpFBTools.Controls.Panels
 									this.columnHeader1,
 									this.columnHeader2,
 									this.columnHeader3});
+			this.listViewNotFB2.ContextMenuStrip = this.cmsNotFB2;
 			this.listViewNotFB2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewNotFB2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewNotFB2.FullRowSelect = true;
@@ -979,9 +995,10 @@ namespace SharpFBTools.Controls.Panels
 									this.tsmi5,
 									this.tsmiOpenInArchivator,
 									this.tsmi4,
-									this.tsmiOpenArchiveDir});
+									this.tsmiOpenArchiveDir,
+									this.tsmiFileDeleteFromDisk});
 			this.cmsArchive.Name = "cmsValidator";
-			this.cmsArchive.Size = new System.Drawing.Size(293, 82);
+			this.cmsArchive.Size = new System.Drawing.Size(293, 104);
 			// 
 			// tsmiFileAndArchiveReValidate
 			// 
@@ -1016,6 +1033,38 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiOpenArchiveDir.Size = new System.Drawing.Size(292, 22);
 			this.tsmiOpenArchiveDir.Text = "Открыть папку для выделенного файла";
 			this.tsmiOpenArchiveDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
+			// 
+			// tsmiFileDeleteFromDisk
+			// 
+			this.tsmiFileDeleteFromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileDeleteFromDisk.Image")));
+			this.tsmiFileDeleteFromDisk.Name = "tsmiFileDeleteFromDisk";
+			this.tsmiFileDeleteFromDisk.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFileDeleteFromDisk.Text = "Удалить файл с диска";
+			this.tsmiFileDeleteFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
+			// 
+			// cmsNotFB2
+			// 
+			this.cmsNotFB2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+									this.tsmiOpenNotFB2FileDir,
+									this.tsmiDeleteNotFB2FromDisk});
+			this.cmsNotFB2.Name = "cmsValidator";
+			this.cmsNotFB2.Size = new System.Drawing.Size(293, 48);
+			// 
+			// tsmiOpenNotFB2FileDir
+			// 
+			this.tsmiOpenNotFB2FileDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenNotFB2FileDir.Image")));
+			this.tsmiOpenNotFB2FileDir.Name = "tsmiOpenNotFB2FileDir";
+			this.tsmiOpenNotFB2FileDir.Size = new System.Drawing.Size(292, 22);
+			this.tsmiOpenNotFB2FileDir.Text = "Открыть папку для выделенного файла";
+			this.tsmiOpenNotFB2FileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
+			// 
+			// tsmiDeleteNotFB2FromDisk
+			// 
+			this.tsmiDeleteNotFB2FromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteNotFB2FromDisk.Image")));
+			this.tsmiDeleteNotFB2FromDisk.Name = "tsmiDeleteNotFB2FromDisk";
+			this.tsmiDeleteNotFB2FromDisk.Size = new System.Drawing.Size(292, 22);
+			this.tsmiDeleteNotFB2FromDisk.Text = "Удалить файл с диска";
+			this.tsmiDeleteNotFB2FromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
 			// SFBTpFB2Validator
 			// 
@@ -1056,9 +1105,15 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxCopyMoveOptions.PerformLayout();
 			this.pCentral.ResumeLayout(false);
 			this.cmsArchive.ResumeLayout(false);
+			this.cmsNotFB2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripMenuItem tsmiDeleteNotFB2FromDisk;
+		private System.Windows.Forms.ToolStripMenuItem tsmiOpenNotFB2FileDir;
+		private System.Windows.Forms.ContextMenuStrip cmsNotFB2;
+		private System.Windows.Forms.ToolStripMenuItem tsmiFileDeleteFromDisk;
+		private System.Windows.Forms.ToolStripMenuItem tsmiDeleteFileFromDisk;
 		private System.Windows.Forms.ToolStripMenuItem tsmiViewInReader;
 		private System.Windows.Forms.ToolStripSeparator tsmi4;
 		private System.Windows.Forms.ToolStripMenuItem tsmiFileAndArchiveReValidate;

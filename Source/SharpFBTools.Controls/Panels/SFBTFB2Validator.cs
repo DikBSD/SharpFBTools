@@ -729,7 +729,7 @@ namespace SharpFBTools.Controls.Panels
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
 				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
 				if( !File.Exists( sFilePath ) ) {
-					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools - Открытие файла в текстовом редакторе", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				FilesWorker.FilesWorker.StartFile( "\""+sTFB2Path+"\"" + " " + "\""+sFilePath+"\"" );
@@ -750,7 +750,7 @@ namespace SharpFBTools.Controls.Panels
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
 				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
 				if( !File.Exists( sFilePath ) ) {
-					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools - Открытие файла в fb2-редакторе", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				FilesWorker.FilesWorker.StartFile( "\""+sFBEPath+"\"" + " " + "\""+sFilePath+"\"" );
@@ -771,7 +771,7 @@ namespace SharpFBTools.Controls.Panels
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
 				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
 				if( !File.Exists( sFilePath ) ) {
-					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools - Открытие папки для файла", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				FilesWorker.FilesWorker.StartFile( "\""+sFBReaderPath+"\"" + " " + "\""+sFilePath+"\"" );
@@ -808,7 +808,7 @@ namespace SharpFBTools.Controls.Panels
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
 				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
 				if( !File.Exists( sFilePath ) ) {
-					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools - Запуск файла в Архиваторе", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				FilesWorker.FilesWorker.StartFile( "\""+sWinRarPath+"\"" + " " + "\""+sFilePath+"\"" );
@@ -946,6 +946,41 @@ namespace SharpFBTools.Controls.Panels
 				// очистка временной папки
 				FilesWorker.FilesWorker.RemoveDir( sTempDir );
 				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorMsg+"\n"+sMsg, "SharpFBTools - "+sErrorMsg, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
+		}
+		
+		void TsmiDeleteFileFromDiskClick(object sender, EventArgs e)
+		{
+			// удаление выделенного файла с диска
+			ListView l = GetCurrentListWiew();
+			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
+				ListView.SelectedListViewItemCollection si = l.SelectedItems;
+				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
+				if( !File.Exists( sFilePath ) ) {
+					if( MessageBox.Show( "Файл: "+sFilePath+"\" не найден!\nУдалить путь к этому файлу из списка?",
+					                    "SharpFBTools - Удаление файла с диска", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes ) {
+						l.Items[ l.SelectedItems[0].Index ].Remove();
+					}
+				} else {
+					if( MessageBox.Show( "Вы действительно хотите удалить файл: "+sFilePath+"\" с диска?", "SharpFBTools - Удаление файла с диска", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes ) {
+						File.Delete( sFilePath );
+						l.Items[ l.SelectedItems[0].Index ].Remove();
+					}
+				}
+				switch( tcResult.SelectedIndex ) {
+					case 0:
+						// не валидные fb2-файлы
+						tpNotValid.Text = m_sNotValid + "( " + l.Items.Count.ToString() + " ) ";
+						break;
+					case 1:
+						// валидные fb2-файлы
+						tpValid.Text = m_sValid + "( " + l.Items.Count.ToString() + " ) ";
+						break;
+					case 2:
+						// не fb2-файлы
+						tpNotFB2Files.Text = m_sNotFB2Files + "( " + l.Items.Count.ToString() + " ) ";
+						break;
+				}
 			}
 		}
 		
