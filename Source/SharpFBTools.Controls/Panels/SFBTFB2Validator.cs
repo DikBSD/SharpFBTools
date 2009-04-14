@@ -471,7 +471,22 @@ namespace SharpFBTools.Controls.Panels
 					listViewNotValid.ContextMenuStrip = cmsArchive;
 				}
 			} else {
-				rеboxNotValid.Text = "";
+				rеboxNotValid.Clear();
+			}
+		}
+		void ListViewValidSelectedIndexChanged(object sender, EventArgs e)
+		{
+			ListView.SelectedListViewItemCollection si = listViewValid.SelectedItems;
+			if( listViewValid.Items.Count > 0 && listViewValid.SelectedItems.Count != 0 ) {
+				// путь к выделенному файлу
+				string s = si[0].SubItems[0].Text.Split('/')[0];
+				// отределяем его расширение
+				string sExt = Path.GetExtension( s );
+				if( sExt.ToLower() == ".fb2" ) {
+					listViewValid.ContextMenuStrip = cmsFB2;
+				} else {
+					listViewValid.ContextMenuStrip = cmsArchive;
+				}
 			}
 		}
 		

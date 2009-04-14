@@ -115,6 +115,9 @@ namespace SharpFBTools.Controls.Panels
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
+			this.cmsNotFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.tsmiOpenNotFB2FileDir = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiDeleteNotFB2FromDisk = new System.Windows.Forms.ToolStripMenuItem();
 			this.gbNotFB2 = new System.Windows.Forms.GroupBox();
 			this.lblNotFB2FilesMoveDir = new System.Windows.Forms.Label();
 			this.btnNotFB2MoveTo = new System.Windows.Forms.Button();
@@ -146,9 +149,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmi4 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenArchiveDir = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiFileDeleteFromDisk = new System.Windows.Forms.ToolStripMenuItem();
-			this.cmsNotFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.tsmiOpenNotFB2FileDir = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmiDeleteNotFB2FromDisk = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.tcResult.SuspendLayout();
@@ -161,6 +161,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gbFB2Valid.SuspendLayout();
 			this.tpNotFB2Files.SuspendLayout();
 			this.pNotValidLV.SuspendLayout();
+			this.cmsNotFB2.SuspendLayout();
 			this.gbNotFB2.SuspendLayout();
 			this.ssProgress.SuspendLayout();
 			this.tlCentral.SuspendLayout();
@@ -168,7 +169,6 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxCopyMoveOptions.SuspendLayout();
 			this.pCentral.SuspendLayout();
 			this.cmsArchive.SuspendLayout();
-			this.cmsNotFB2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tsValidator
@@ -224,8 +224,8 @@ namespace SharpFBTools.Controls.Panels
 			this.tsbtnCopyFilesTo.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnCopyFilesTo.Image")));
 			this.tsbtnCopyFilesTo.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnCopyFilesTo.Name = "tsbtnCopyFilesTo";
-			this.tsbtnCopyFilesTo.Size = new System.Drawing.Size(96, 28);
-			this.tsbtnCopyFilesTo.Text = "Копировать";
+			this.tsbtnCopyFilesTo.Size = new System.Drawing.Size(116, 28);
+			this.tsbtnCopyFilesTo.Text = "Копировать Все";
 			this.tsbtnCopyFilesTo.ToolTipText = "Копировать файлы (для выбранной вкладки)";
 			this.tsbtnCopyFilesTo.Click += new System.EventHandler(this.TsbtnCopyFilesToClick);
 			// 
@@ -234,8 +234,8 @@ namespace SharpFBTools.Controls.Panels
 			this.tsbtnMoveFilesTo.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnMoveFilesTo.Image")));
 			this.tsbtnMoveFilesTo.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnMoveFilesTo.Name = "tsbtnMoveFilesTo";
-			this.tsbtnMoveFilesTo.Size = new System.Drawing.Size(101, 28);
-			this.tsbtnMoveFilesTo.Text = "Переместить";
+			this.tsbtnMoveFilesTo.Size = new System.Drawing.Size(121, 28);
+			this.tsbtnMoveFilesTo.Text = "Переместить Все";
 			this.tsbtnMoveFilesTo.ToolTipText = "Переместить файлы (для  выбранной вкладки)";
 			this.tsbtnMoveFilesTo.Click += new System.EventHandler(this.TsbtnMoveFilesToClick);
 			// 
@@ -244,8 +244,8 @@ namespace SharpFBTools.Controls.Panels
 			this.tsbtnDeleteFiles.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDeleteFiles.Image")));
 			this.tsbtnDeleteFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnDeleteFiles.Name = "tsbtnDeleteFiles";
-			this.tsbtnDeleteFiles.Size = new System.Drawing.Size(79, 28);
-			this.tsbtnDeleteFiles.Text = "Удалить";
+			this.tsbtnDeleteFiles.Size = new System.Drawing.Size(99, 28);
+			this.tsbtnDeleteFiles.Text = "Удалить Все";
 			this.tsbtnDeleteFiles.ToolTipText = "Удалить файлы (для  выбранной вкладки)";
 			this.tsbtnDeleteFiles.Click += new System.EventHandler(this.TsbtnDeleteFilesClick);
 			// 
@@ -607,6 +607,7 @@ namespace SharpFBTools.Controls.Panels
 			this.listViewValid.TabIndex = 1;
 			this.listViewValid.UseCompatibleStateImageBehavior = false;
 			this.listViewValid.View = System.Windows.Forms.View.Details;
+			this.listViewValid.SelectedIndexChanged += new System.EventHandler(this.ListViewValidSelectedIndexChanged);
 			this.listViewValid.DoubleClick += new System.EventHandler(this.ListViewNotValidDoubleClick);
 			// 
 			// chValidFile
@@ -759,6 +760,30 @@ namespace SharpFBTools.Controls.Panels
 			this.columnHeader3.Text = "Размер";
 			this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader3.Width = 80;
+			// 
+			// cmsNotFB2
+			// 
+			this.cmsNotFB2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+									this.tsmiOpenNotFB2FileDir,
+									this.tsmiDeleteNotFB2FromDisk});
+			this.cmsNotFB2.Name = "cmsValidator";
+			this.cmsNotFB2.Size = new System.Drawing.Size(293, 48);
+			// 
+			// tsmiOpenNotFB2FileDir
+			// 
+			this.tsmiOpenNotFB2FileDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenNotFB2FileDir.Image")));
+			this.tsmiOpenNotFB2FileDir.Name = "tsmiOpenNotFB2FileDir";
+			this.tsmiOpenNotFB2FileDir.Size = new System.Drawing.Size(292, 22);
+			this.tsmiOpenNotFB2FileDir.Text = "Открыть папку для выделенного файла";
+			this.tsmiOpenNotFB2FileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
+			// 
+			// tsmiDeleteNotFB2FromDisk
+			// 
+			this.tsmiDeleteNotFB2FromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteNotFB2FromDisk.Image")));
+			this.tsmiDeleteNotFB2FromDisk.Name = "tsmiDeleteNotFB2FromDisk";
+			this.tsmiDeleteNotFB2FromDisk.Size = new System.Drawing.Size(292, 22);
+			this.tsmiDeleteNotFB2FromDisk.Text = "Удалить файл с диска";
+			this.tsmiDeleteNotFB2FromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
 			// gbNotFB2
 			// 
@@ -998,73 +1023,49 @@ namespace SharpFBTools.Controls.Panels
 									this.tsmiOpenArchiveDir,
 									this.tsmiFileDeleteFromDisk});
 			this.cmsArchive.Name = "cmsValidator";
-			this.cmsArchive.Size = new System.Drawing.Size(293, 104);
+			this.cmsArchive.Size = new System.Drawing.Size(297, 126);
 			// 
 			// tsmiFileAndArchiveReValidate
 			// 
 			this.tsmiFileAndArchiveReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileAndArchiveReValidate.Image")));
 			this.tsmiFileAndArchiveReValidate.Name = "tsmiFileAndArchiveReValidate";
-			this.tsmiFileAndArchiveReValidate.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFileAndArchiveReValidate.Size = new System.Drawing.Size(296, 22);
 			this.tsmiFileAndArchiveReValidate.Text = "Проверить файл заново (валидация)";
 			this.tsmiFileAndArchiveReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
 			// 
 			// tsmi5
 			// 
 			this.tsmi5.Name = "tsmi5";
-			this.tsmi5.Size = new System.Drawing.Size(289, 6);
+			this.tsmi5.Size = new System.Drawing.Size(293, 6);
 			// 
 			// tsmiOpenInArchivator
 			// 
 			this.tsmiOpenInArchivator.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenInArchivator.Image")));
 			this.tsmiOpenInArchivator.Name = "tsmiOpenInArchivator";
-			this.tsmiOpenInArchivator.Size = new System.Drawing.Size(292, 22);
+			this.tsmiOpenInArchivator.Size = new System.Drawing.Size(296, 22);
 			this.tsmiOpenInArchivator.Text = "Открыть файл в архиваторе";
 			this.tsmiOpenInArchivator.Click += new System.EventHandler(this.TsmiOpenFileInArchivatorClick);
 			// 
 			// tsmi4
 			// 
 			this.tsmi4.Name = "tsmi4";
-			this.tsmi4.Size = new System.Drawing.Size(289, 6);
+			this.tsmi4.Size = new System.Drawing.Size(293, 6);
 			// 
 			// tsmiOpenArchiveDir
 			// 
 			this.tsmiOpenArchiveDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenArchiveDir.Image")));
 			this.tsmiOpenArchiveDir.Name = "tsmiOpenArchiveDir";
-			this.tsmiOpenArchiveDir.Size = new System.Drawing.Size(292, 22);
-			this.tsmiOpenArchiveDir.Text = "Открыть папку для выделенного файла";
+			this.tsmiOpenArchiveDir.Size = new System.Drawing.Size(296, 22);
+			this.tsmiOpenArchiveDir.Text = "Открыть папку для выделенного архива";
 			this.tsmiOpenArchiveDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
 			// 
 			// tsmiFileDeleteFromDisk
 			// 
 			this.tsmiFileDeleteFromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileDeleteFromDisk.Image")));
 			this.tsmiFileDeleteFromDisk.Name = "tsmiFileDeleteFromDisk";
-			this.tsmiFileDeleteFromDisk.Size = new System.Drawing.Size(292, 22);
-			this.tsmiFileDeleteFromDisk.Text = "Удалить файл с диска";
+			this.tsmiFileDeleteFromDisk.Size = new System.Drawing.Size(296, 22);
+			this.tsmiFileDeleteFromDisk.Text = "Удалить упакованный файл с диска";
 			this.tsmiFileDeleteFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
-			// 
-			// cmsNotFB2
-			// 
-			this.cmsNotFB2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsmiOpenNotFB2FileDir,
-									this.tsmiDeleteNotFB2FromDisk});
-			this.cmsNotFB2.Name = "cmsValidator";
-			this.cmsNotFB2.Size = new System.Drawing.Size(293, 48);
-			// 
-			// tsmiOpenNotFB2FileDir
-			// 
-			this.tsmiOpenNotFB2FileDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenNotFB2FileDir.Image")));
-			this.tsmiOpenNotFB2FileDir.Name = "tsmiOpenNotFB2FileDir";
-			this.tsmiOpenNotFB2FileDir.Size = new System.Drawing.Size(292, 22);
-			this.tsmiOpenNotFB2FileDir.Text = "Открыть папку для выделенного файла";
-			this.tsmiOpenNotFB2FileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
-			// 
-			// tsmiDeleteNotFB2FromDisk
-			// 
-			this.tsmiDeleteNotFB2FromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteNotFB2FromDisk.Image")));
-			this.tsmiDeleteNotFB2FromDisk.Name = "tsmiDeleteNotFB2FromDisk";
-			this.tsmiDeleteNotFB2FromDisk.Size = new System.Drawing.Size(292, 22);
-			this.tsmiDeleteNotFB2FromDisk.Text = "Удалить файл с диска";
-			this.tsmiDeleteNotFB2FromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
 			// SFBTpFB2Validator
 			// 
@@ -1094,6 +1095,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gbFB2Valid.PerformLayout();
 			this.tpNotFB2Files.ResumeLayout(false);
 			this.pNotValidLV.ResumeLayout(false);
+			this.cmsNotFB2.ResumeLayout(false);
 			this.gbNotFB2.ResumeLayout(false);
 			this.gbNotFB2.PerformLayout();
 			this.ssProgress.ResumeLayout(false);
@@ -1105,7 +1107,6 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxCopyMoveOptions.PerformLayout();
 			this.pCentral.ResumeLayout(false);
 			this.cmsArchive.ResumeLayout(false);
-			this.cmsNotFB2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
