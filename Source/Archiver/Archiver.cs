@@ -1,6 +1,6 @@
 ﻿/*
  * Created by SharpDevelop.
- * User: DikBSD
+ * User: Вадим Кузнецов (DikBSD)
  * Date: 09.03.2009
  * Time: 9:41
  * 

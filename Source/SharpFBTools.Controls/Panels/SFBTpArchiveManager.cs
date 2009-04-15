@@ -130,7 +130,7 @@ namespace SharpFBTools.Controls.Panels
 		}
 		
 		void FileToArchive( string sArchPath, List<string> lFilesList, bool bZip, ToolStripProgressBar pBar ) {
-			// упаковка fb2-файлов в .fb2.zip
+			// упаковка fb2-файлов в .fb2.??? - где ??? - тип архива (задается в cboxArchiveType)
 			long lFB2 = 0;
 			foreach( string sFile in lFilesList ) {
 				string sExt = Path.GetExtension( sFile );
@@ -194,8 +194,19 @@ namespace SharpFBTools.Controls.Panels
 		#endregion
 				
 		#region Распаковка
+		bool DeleteSourceFileIsNeeds( string sFile ) {
+			if( cboxUADelFB2Files.Checked ) {
+				// удаляем исходный архив
+				if( File.Exists( sFile ) ) {
+					File.Delete( sFile );
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		long AllArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
-			// Распаковать ахривы
+			// Распаковать все ахривы
 			long lCount, lFB2, lRar, lZip, l7Z, lBZip2, lGZip, lTar;
 			lCount = lFB2 = lRar = lZip = l7Z = lBZip2 = lGZip = lTar = 0;
 			string sTempDir = Settings.Settings.GetTempDir();
@@ -211,31 +222,43 @@ namespace SharpFBTools.Controls.Panels
 							Archiver.Archiver.unrar( Settings.Settings.GetUnRARPath(), sFile, sTempDir );
 							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
 							++lCount;
+							// удаление исходного архива, если включена опция
+							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".zip":
 							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[1].SubItems[1].Text = (++lZip).ToString();
 							++lCount;
+							// удаление исходного архива, если включена опция
+							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".7z":
 							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[2].SubItems[1].Text = (++l7Z).ToString();
 							++lCount;
+							// удаление исходного архива, если включена опция
+							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".bz2":
 							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[3].SubItems[1].Text = (++lBZip2).ToString();
 							++lCount;
+							// удаление исходного архива, если включена опция
+							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".gz":
 							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[4].SubItems[1].Text = (++lGZip).ToString();
 							++lCount;
+							// удаление исходного архива, если включена опция
+							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".tar":
 							Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFile, sTempDir );
 							lvUACount.Items[5].SubItems[1].Text = (++lTar).ToString();
 							++lCount;
+							// удаление исходного архива, если включена опция
+							DeleteSourceFileIsNeeds( sFile );
 							break;
 					}
 					if( Directory.Exists( sTempDir ) ) {
@@ -263,6 +286,7 @@ namespace SharpFBTools.Controls.Panels
 		
 		long TypeArchToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar,
 		                   string sExt, int nArchCountItem, int nFB2CountItem ) {
+			// Распаковать выбранный тип ахрива
 			long lCount = 0;
 			long lAllArchive = 0;
 			long lFB2 = 0;
@@ -286,6 +310,8 @@ namespace SharpFBTools.Controls.Panels
 							}
 						}
 					}
+					// удаление исходного архива, если включена опция
+					DeleteSourceFileIsNeeds( sFile );
 				}
 				lvUAGeneralCount.Refresh();
 				lvUACount.Refresh();
@@ -331,6 +357,8 @@ namespace SharpFBTools.Controls.Panels
 									}
 								}
 							}
+							// удаление исходного архива, если включена опция
+							DeleteSourceFileIsNeeds( sFile );
 						}
 						lvUAGeneralCount.Refresh();
 						lvUACount.Refresh();
