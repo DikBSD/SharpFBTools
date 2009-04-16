@@ -36,6 +36,7 @@ namespace SharpFBTools.Controls.Panels
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpArchiveManager));
 			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
@@ -138,6 +139,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tsbtnUAAnalyze = new System.Windows.Forms.ToolStripButton();
 			this.tsSep3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnUnArchive = new System.Windows.Forms.ToolStripButton();
+			this.imgl16 = new System.Windows.Forms.ImageList(this.components);
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.tsArchiver.SuspendLayout();
 			this.ssProgress.SuspendLayout();
@@ -266,6 +268,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tcArchiver.Controls.Add(this.tpUnArchive);
 			this.tcArchiver.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tcArchiver.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.tcArchiver.ImageList = this.imgl16;
 			this.tcArchiver.Location = new System.Drawing.Point(0, 0);
 			this.tcArchiver.Name = "tcArchiver";
 			this.tcArchiver.SelectedIndex = 0;
@@ -278,10 +281,11 @@ namespace SharpFBTools.Controls.Panels
 			this.tpArchive.Controls.Add(this.pType);
 			this.tpArchive.Controls.Add(this.pScanDir);
 			this.tpArchive.Controls.Add(this.tsArchiver);
-			this.tpArchive.Location = new System.Drawing.Point(4, 22);
+			this.tpArchive.ImageIndex = 0;
+			this.tpArchive.Location = new System.Drawing.Point(4, 23);
 			this.tpArchive.Name = "tpArchive";
 			this.tpArchive.Padding = new System.Windows.Forms.Padding(3);
-			this.tpArchive.Size = new System.Drawing.Size(760, 501);
+			this.tpArchive.Size = new System.Drawing.Size(760, 500);
 			this.tpArchive.TabIndex = 0;
 			this.tpArchive.Text = " Запаковать ";
 			this.tpArchive.UseVisualStyleBackColor = true;
@@ -293,7 +297,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pOptions.Location = new System.Drawing.Point(3, 92);
 			this.pOptions.Name = "pOptions";
-			this.pOptions.Size = new System.Drawing.Size(754, 406);
+			this.pOptions.Size = new System.Drawing.Size(754, 405);
 			this.pOptions.TabIndex = 26;
 			// 
 			// gboxCount
@@ -302,7 +306,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxCount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxCount.Location = new System.Drawing.Point(0, 157);
 			this.gboxCount.Name = "gboxCount";
-			this.gboxCount.Size = new System.Drawing.Size(754, 249);
+			this.gboxCount.Size = new System.Drawing.Size(754, 248);
 			this.gboxCount.TabIndex = 3;
 			this.gboxCount.TabStop = false;
 			this.gboxCount.Text = " Ход работы ";
@@ -320,7 +324,7 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem3});
 			this.lvGeneralCount.Location = new System.Drawing.Point(3, 16);
 			this.lvGeneralCount.Name = "lvGeneralCount";
-			this.lvGeneralCount.Size = new System.Drawing.Size(748, 230);
+			this.lvGeneralCount.Size = new System.Drawing.Size(748, 229);
 			this.lvGeneralCount.TabIndex = 2;
 			this.lvGeneralCount.UseCompatibleStateImageBehavior = false;
 			this.lvGeneralCount.View = System.Windows.Forms.View.Details;
@@ -494,10 +498,11 @@ namespace SharpFBTools.Controls.Panels
 			this.tpUnArchive.Controls.Add(this.pUAType);
 			this.tpUnArchive.Controls.Add(this.pUAScanDir);
 			this.tpUnArchive.Controls.Add(this.tsUnArchiver);
-			this.tpUnArchive.Location = new System.Drawing.Point(4, 22);
+			this.tpUnArchive.ImageIndex = 1;
+			this.tpUnArchive.Location = new System.Drawing.Point(4, 23);
 			this.tpUnArchive.Name = "tpUnArchive";
 			this.tpUnArchive.Padding = new System.Windows.Forms.Padding(3);
-			this.tpUnArchive.Size = new System.Drawing.Size(760, 501);
+			this.tpUnArchive.Size = new System.Drawing.Size(760, 500);
 			this.tpUnArchive.TabIndex = 1;
 			this.tpUnArchive.Text = " Распаковать ";
 			this.tpUnArchive.UseVisualStyleBackColor = true;
@@ -508,7 +513,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pUAOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pUAOptions.Location = new System.Drawing.Point(3, 92);
 			this.pUAOptions.Name = "pUAOptions";
-			this.pUAOptions.Size = new System.Drawing.Size(754, 406);
+			this.pUAOptions.Size = new System.Drawing.Size(754, 405);
 			this.pUAOptions.TabIndex = 28;
 			// 
 			// gboxUAOptions
@@ -521,7 +526,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxUAOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxUAOptions.Location = new System.Drawing.Point(0, 0);
 			this.gboxUAOptions.Name = "gboxUAOptions";
-			this.gboxUAOptions.Size = new System.Drawing.Size(754, 406);
+			this.gboxUAOptions.Size = new System.Drawing.Size(754, 405);
 			this.gboxUAOptions.TabIndex = 1;
 			this.gboxUAOptions.TabStop = false;
 			this.gboxUAOptions.Text = " Настройки ";
@@ -533,7 +538,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxUACount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxUACount.Location = new System.Drawing.Point(3, 121);
 			this.gboxUACount.Name = "gboxUACount";
-			this.gboxUACount.Size = new System.Drawing.Size(748, 282);
+			this.gboxUACount.Size = new System.Drawing.Size(748, 281);
 			this.gboxUACount.TabIndex = 4;
 			this.gboxUACount.TabStop = false;
 			this.gboxUACount.Text = " Ход работы ";
@@ -553,7 +558,7 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem7});
 			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 16);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
-			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 263);
+			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 262);
 			this.lvUAGeneralCount.TabIndex = 1;
 			this.lvUAGeneralCount.UseCompatibleStateImageBehavior = false;
 			this.lvUAGeneralCount.View = System.Windows.Forms.View.Details;
@@ -597,7 +602,7 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem13});
 			this.lvUACount.Location = new System.Drawing.Point(398, 16);
 			this.lvUACount.Name = "lvUACount";
-			this.lvUACount.Size = new System.Drawing.Size(347, 263);
+			this.lvUACount.Size = new System.Drawing.Size(347, 262);
 			this.lvUACount.TabIndex = 0;
 			this.lvUACount.UseCompatibleStateImageBehavior = false;
 			this.lvUACount.View = System.Windows.Forms.View.Details;
@@ -824,6 +829,13 @@ namespace SharpFBTools.Controls.Panels
 			this.tsbtnUnArchive.ToolTipText = "Рапаковать архивы";
 			this.tsbtnUnArchive.Click += new System.EventHandler(this.TsbtnUnArchiveClick);
 			// 
+			// imgl16
+			// 
+			this.imgl16.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgl16.ImageStream")));
+			this.imgl16.TransparentColor = System.Drawing.Color.Transparent;
+			this.imgl16.Images.SetKeyName(0, "Archive1.png");
+			this.imgl16.Images.SetKeyName(1, "UnArchive1.png");
+			// 
 			// SFBTpArchiveManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -865,6 +877,7 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ImageList imgl16;
 		private System.Windows.Forms.GroupBox gboxCount;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.ColumnHeader columnHeader1;

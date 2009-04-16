@@ -64,11 +64,11 @@ namespace Main
 			// 
 			// tscMain.ContentPanel
 			// 
-			this.tscMain.ContentPanel.Size = new System.Drawing.Size(764, 557);
+			this.tscMain.ContentPanel.Size = new System.Drawing.Size(828, 557);
 			this.tscMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tscMain.Location = new System.Drawing.Point(0, 0);
 			this.tscMain.Name = "tscMain";
-			this.tscMain.Size = new System.Drawing.Size(764, 609);
+			this.tscMain.Size = new System.Drawing.Size(828, 609);
 			this.tscMain.TabIndex = 0;
 			this.tscMain.Text = "toolStripContainer1";
 			// 
@@ -98,7 +98,7 @@ namespace Main
 									this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(740, 52);
+			this.tsMain.Size = new System.Drawing.Size(738, 52);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnFB2Validator
@@ -233,7 +233,7 @@ namespace Main
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(764, 609);
+			this.ClientSize = new System.Drawing.Size(828, 609);
 			this.Controls.Add(this.tscMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainForm";

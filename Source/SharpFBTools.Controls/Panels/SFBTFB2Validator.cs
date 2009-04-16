@@ -65,9 +65,10 @@ namespace SharpFBTools.Controls.Panels
 		private string	m_NotFB2FilesListReport 	= "Список не fb2-файлов";
 		private string	m_GeneratingReport			= "Генерация отчета";
 		private string	m_ReportSaveOk = "Отчет сохранен в файл:\n";
-		private string	m_HTMLFilter 	= "HTML файлы (*.hml)|*.html|Все файлы (*.*)|*.*";
+		private string	m_HTMLFilter 	= "HTML файлы (*.html)|*.html|Все файлы (*.*)|*.*";
 		private string	m_FB2Filter 	= "fb2 файлы (*.fb2)|*.fb2|Все файлы (*.*)|*.*";
 		private string	m_CSV_csv_Filter = "CVS файлы (*.csv)|*.csv|Все файлы (*.*)|*.*";
+		private string	m_TXTFilter 	= "TXT файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
 		#endregion
 		
 		private void Init() {
@@ -1045,6 +1046,22 @@ namespace SharpFBTools.Controls.Panels
 					}
 				}
 			}
+		}
+		
+		void TsmiMakeNotValidFileListClick(object sender, EventArgs e)
+		{
+			// сохранение списка Не валидных файлов
+			ReportGenerator.ReportGenerator.SaveFilesList( listViewNotValid, sfdReport, m_TXTFilter,
+			              ssProgress,  tsslblProgress, tsProgressBar, m_FB2NotValidFilesListReport,
+			              "Нет ни одного Не валидного файла!", "Создание списка Не валидных файлов завершено.", m_sReady );
+		}
+		
+		void TsmiMakeValidFileListClick(object sender, EventArgs e)
+		{
+			// сохранение списка Валидных файлов
+			ReportGenerator.ReportGenerator.SaveFilesList( listViewValid, sfdReport, m_TXTFilter, ssProgress,
+			              tsslblProgress, tsProgressBar, m_FB2ValidFilesListReport,
+			              "Нет ни одного Валидного файла!", "Создание списка Валидных файлов завершено.", m_sReady );
 		}
 		#endregion
 	}

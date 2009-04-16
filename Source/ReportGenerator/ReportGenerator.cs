@@ -179,6 +179,46 @@ namespace ReportGenerator
 			sw.Close();
 			#endregion
 		}
+		
+		// 
+		public static bool SaveFilesList( ListView lw, SaveFileDialog sfd, string sTXTFilter,
+		                  	 StatusStrip ssProgress, ToolStripLabel tsslblProgress, ToolStripProgressBar tsProgressBar, 
+		                  	 string tsslblProgressText, string sNoFilesMess, string sEndMess, string sReady ) {
+			// сохранение списка файлов из ListView
+			#region
+			if( lw.Items.Count < 1 ) {
+				MessageBox.Show( sNoFilesMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return false;
+			} else {
+				sfd.Filter = sTXTFilter;
+				sfd.FileName = "";
+				DialogResult result = sfd.ShowDialog();
+				if (result == DialogResult.OK) {
+    	       		tsslblProgress.Text = tsslblProgressText;
+    	    		tsProgressBar.Visible = true;
+					tsProgressBar.Maximum = lw.Items.Count+1;
+					tsProgressBar.Value = 1;
+					ssProgress.Refresh();
+					// сохранение списка в файл
+					string sFilePath = sfd.FileName;
+					StreamWriter sw = new StreamWriter( @sFilePath, false, Encoding.UTF8 );
+					for( int i=0; i!=lw.Items.Count; ++i ) {
+						string s = lw.Items[i].SubItems[0].Text.Split('/')[0];
+						if( File.Exists( s ) ) {
+							sw.WriteLine( s );
+						}
+						++tsProgressBar.Value;
+						ssProgress.Refresh();
+					}
+					sw.Close();
+					MessageBox.Show( sEndMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					tsProgressBar.Visible = false;
+					tsslblProgress.Text = sReady;
+	          	}
+			}
+			return true;
+			#endregion
+		}
 		#endregion
 	}
 }
