@@ -36,6 +36,8 @@ namespace Settings
 		private static string m_sArchiveManagerHelpPath = GetProgDir()+"\\Help\\ArchiveManagerHelp.rtf";
 		private static Int16 m_nValidatorForFB2SelectedIndex = 1;
 		private static Int16 m_nValidatorForFB2ArchiveSelectedIndex = 1;
+		private static Int16 m_nValidatorForFB2SelectedIndexPE = 0;
+		private static Int16 m_nValidatorForFB2ArchiveSelectedIndexPE = 0;
 		#endregion
 		
 		#region Открытые статические члены-данные класса
@@ -110,6 +112,14 @@ namespace Settings
 		
 		public static Int16 GetDefValidatorFB2ArchiveSelectedIndex() {
 			return m_nValidatorForFB2ArchiveSelectedIndex;
+		}
+		
+		public static Int16 GetDefValidatorFB2SelectedIndexPE() {
+			return m_nValidatorForFB2SelectedIndexPE;
+		}
+		
+		public static Int16 GetDefValidatorFB2ArchiveSelectedIndexPE() {
+			return m_nValidatorForFB2ArchiveSelectedIndexPE;
 		}
 		
 		////// Чтение из файла настроек данных по конкретному параметру
@@ -212,6 +222,36 @@ namespace Settings
 				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
 					reader.ReadToFollowing("ValidatorDoubleClick");
 					sSelectedIndex = reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex");
+					reader.Close();
+				}
+			}
+			return Convert.ToInt16( sSelectedIndex );
+		}
+		
+		public static Int16 ReadValidatorFB2SelectedIndexPE() {
+			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2 из настроек для нажатия Enter
+			string sSelectedIndex = GetDefValidatorFB2SelectedIndexPE().ToString();
+			if( File.Exists( GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
+					reader.ReadToFollowing("ValidatorPressEnter");
+					sSelectedIndex = reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE");
+					reader.Close();
+				}
+			}
+			return Convert.ToInt16( sSelectedIndex );
+		}
+		
+		public static Int16 ReadValidatorFB2ArchiveSelectedIndexPE() {
+			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2Archive из настроек для нажатия Enter
+			string sSelectedIndex = GetDefValidatorFB2ArchiveSelectedIndexPE().ToString();
+			if( File.Exists( GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
+					reader.ReadToFollowing("ValidatorPressEnter");
+					sSelectedIndex = reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE");
 					reader.Close();
 				}
 			}

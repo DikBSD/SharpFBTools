@@ -33,6 +33,8 @@ namespace Options
 			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
 			cboxValidatorForFB2.SelectedIndex = Settings.Settings.GetDefValidatorFB2SelectedIndex();
 			cboxValidatorForFB2Archive.SelectedIndex = Settings.Settings.GetDefValidatorFB2ArchiveSelectedIndex();
+			cboxValidatorForFB2PE.SelectedIndex = Settings.Settings.GetDefValidatorFB2SelectedIndexPE();
+			cboxValidatorForFB2ArchivePE.SelectedIndex = Settings.Settings.GetDefValidatorFB2ArchiveSelectedIndexPE();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 		}
@@ -43,18 +45,31 @@ namespace Options
 			if( !File.Exists( sSettings ) ) return;
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
-			using (XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
+			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
 				reader.ReadToFollowing("WinRar");
-				tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
-				tboxRarPath.Text = reader.GetAttribute("RarPath");
+				if (reader.HasAttributes ) {
+					tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
+					tboxRarPath.Text = reader.GetAttribute("RarPath");
+				}
 				reader.ReadToFollowing("Editors");
-				tboxFBEPath.Text = reader.GetAttribute("FBEPath");
-				tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
+				if (reader.HasAttributes ) {
+					tboxFBEPath.Text = reader.GetAttribute("FBEPath");
+					tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
+				}
 				reader.ReadToFollowing("Reader");
-				tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
+				if (reader.HasAttributes ) {
+					tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
+				}
 				reader.ReadToFollowing("ValidatorDoubleClick");
-				cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") );
-				cboxValidatorForFB2Archive.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") );
+				if (reader.HasAttributes ) {
+					cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") );
+					cboxValidatorForFB2Archive.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") );
+				}
+				reader.ReadToFollowing("ValidatorPressEnter");
+				if (reader.HasAttributes ) {
+					cboxValidatorForFB2PE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE") );
+					cboxValidatorForFB2ArchivePE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE") );
+				}
 				reader.Close();
 			}
 		}
@@ -151,6 +166,10 @@ namespace Options
 						writer.WriteStartElement( "ValidatorDoubleClick" );
 							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndex", cboxValidatorForFB2.SelectedIndex.ToString() );
 							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndex", cboxValidatorForFB2Archive.SelectedIndex.ToString() );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "ValidatorPressEnter" );
+							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndexPE", cboxValidatorForFB2PE.SelectedIndex.ToString() );
+							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndexPE", cboxValidatorForFB2ArchivePE.SelectedIndex.ToString() );
 						writer.WriteFullEndElement();
 					writer.WriteEndElement();
 				writer.WriteEndElement();

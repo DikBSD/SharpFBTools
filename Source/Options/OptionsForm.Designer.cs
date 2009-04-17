@@ -67,6 +67,11 @@ namespace Options
 			this.cboxValidatorForFB2 = new System.Windows.Forms.ComboBox();
 			this.lblValidatorForFB2Archive = new System.Windows.Forms.Label();
 			this.lblValidatorForFB2 = new System.Windows.Forms.Label();
+			this.gboxValidatorPE = new System.Windows.Forms.GroupBox();
+			this.cboxValidatorForFB2ArchivePE = new System.Windows.Forms.ComboBox();
+			this.cboxValidatorForFB2PE = new System.Windows.Forms.ComboBox();
+			this.lblValidatorForFB2ArchivePE = new System.Windows.Forms.Label();
+			this.lblValidatorForFB2PE = new System.Windows.Forms.Label();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -75,6 +80,7 @@ namespace Options
 			this.gboxRar.SuspendLayout();
 			this.tpValidator.SuspendLayout();
 			this.gboxValidatorDoubleClick.SuspendLayout();
+			this.gboxValidatorPE.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -349,6 +355,7 @@ namespace Options
 			// 
 			// tpValidator
 			// 
+			this.tpValidator.Controls.Add(this.gboxValidatorPE);
 			this.tpValidator.Controls.Add(this.gboxValidatorDoubleClick);
 			this.tpValidator.Location = new System.Drawing.Point(4, 22);
 			this.tpValidator.Name = "tpValidator";
@@ -417,6 +424,65 @@ namespace Options
 			this.lblValidatorForFB2.TabIndex = 0;
 			this.lblValidatorForFB2.Text = "Для незапакованных fb2:";
 			// 
+			// gboxValidatorPE
+			// 
+			this.gboxValidatorPE.Controls.Add(this.cboxValidatorForFB2ArchivePE);
+			this.gboxValidatorPE.Controls.Add(this.cboxValidatorForFB2PE);
+			this.gboxValidatorPE.Controls.Add(this.lblValidatorForFB2ArchivePE);
+			this.gboxValidatorPE.Controls.Add(this.lblValidatorForFB2PE);
+			this.gboxValidatorPE.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gboxValidatorPE.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gboxValidatorPE.Location = new System.Drawing.Point(3, 78);
+			this.gboxValidatorPE.Name = "gboxValidatorPE";
+			this.gboxValidatorPE.Size = new System.Drawing.Size(603, 75);
+			this.gboxValidatorPE.TabIndex = 1;
+			this.gboxValidatorPE.TabStop = false;
+			this.gboxValidatorPE.Text = " Действие по нажатию клавиши Enter на Списках ";
+			// 
+			// cboxValidatorForFB2ArchivePE
+			// 
+			this.cboxValidatorForFB2ArchivePE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxValidatorForFB2ArchivePE.FormattingEnabled = true;
+			this.cboxValidatorForFB2ArchivePE.Items.AddRange(new object[] {
+									"Проверить файл заново (валидация)",
+									"Открыть файл в архиваторе",
+									"Открыть папку для выделенного файла"});
+			this.cboxValidatorForFB2ArchivePE.Location = new System.Drawing.Point(173, 43);
+			this.cboxValidatorForFB2ArchivePE.Name = "cboxValidatorForFB2ArchivePE";
+			this.cboxValidatorForFB2ArchivePE.Size = new System.Drawing.Size(337, 21);
+			this.cboxValidatorForFB2ArchivePE.TabIndex = 3;
+			// 
+			// cboxValidatorForFB2PE
+			// 
+			this.cboxValidatorForFB2PE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxValidatorForFB2PE.FormattingEnabled = true;
+			this.cboxValidatorForFB2PE.Items.AddRange(new object[] {
+									"Проверить файл заново (валидация)",
+									"Редактировать в текстовом редакторе",
+									"Редактировать в fb2-редакторе",
+									"Запустить в fb2-читалке (Просмотр)",
+									"Открыть папку для выделенного файла"});
+			this.cboxValidatorForFB2PE.Location = new System.Drawing.Point(173, 20);
+			this.cboxValidatorForFB2PE.Name = "cboxValidatorForFB2PE";
+			this.cboxValidatorForFB2PE.Size = new System.Drawing.Size(337, 21);
+			this.cboxValidatorForFB2PE.TabIndex = 2;
+			// 
+			// lblValidatorForFB2ArchivePE
+			// 
+			this.lblValidatorForFB2ArchivePE.Location = new System.Drawing.Point(10, 46);
+			this.lblValidatorForFB2ArchivePE.Name = "lblValidatorForFB2ArchivePE";
+			this.lblValidatorForFB2ArchivePE.Size = new System.Drawing.Size(157, 18);
+			this.lblValidatorForFB2ArchivePE.TabIndex = 1;
+			this.lblValidatorForFB2ArchivePE.Text = "Для запакованных fb2:";
+			// 
+			// lblValidatorForFB2PE
+			// 
+			this.lblValidatorForFB2PE.Location = new System.Drawing.Point(10, 24);
+			this.lblValidatorForFB2PE.Name = "lblValidatorForFB2PE";
+			this.lblValidatorForFB2PE.Size = new System.Drawing.Size(162, 18);
+			this.lblValidatorForFB2PE.TabIndex = 0;
+			this.lblValidatorForFB2PE.Text = "Для незапакованных fb2:";
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -444,8 +510,14 @@ namespace Options
 			this.gboxRar.PerformLayout();
 			this.tpValidator.ResumeLayout(false);
 			this.gboxValidatorDoubleClick.ResumeLayout(false);
+			this.gboxValidatorPE.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Label lblValidatorForFB2PE;
+		private System.Windows.Forms.Label lblValidatorForFB2ArchivePE;
+		private System.Windows.Forms.ComboBox cboxValidatorForFB2PE;
+		private System.Windows.Forms.ComboBox cboxValidatorForFB2ArchivePE;
+		private System.Windows.Forms.GroupBox gboxValidatorPE;
 		private System.Windows.Forms.ComboBox cboxValidatorForFB2;
 		private System.Windows.Forms.ComboBox cboxValidatorForFB2Archive;
 		private System.Windows.Forms.Label lblValidatorForFB2;
