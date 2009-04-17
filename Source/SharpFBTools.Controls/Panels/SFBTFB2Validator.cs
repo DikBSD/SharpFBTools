@@ -849,6 +849,7 @@ namespace SharpFBTools.Controls.Panels
 					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
+				MessageBoxIcon mbi = MessageBoxIcon.Information;
 				string sExt = Path.GetExtension( sFilePath );
 				string sMsg = "";
 				string sErrorMsg = "СООБЩЕНИЕ ОБ ОШИБКЕ:";
@@ -861,6 +862,7 @@ namespace SharpFBTools.Controls.Panels
 					sMsg = fv2V.ValidatingFB2File( sFilePath );
 					if ( sMsg == "" ) {
            				// файл валидный
+           				mbi = MessageBoxIcon.Information;
            				if( l.Name == "listViewNotValid" ) {
            					sErrorMsg = sOkMsg + ":";
            					sMsg = sMoveNotValToVal;
@@ -878,6 +880,7 @@ namespace SharpFBTools.Controls.Panels
            				}
 					} else {
 						// файл не валидный
+						mbi = MessageBoxIcon.Error;
 						if( l.Name == "listViewNotValid" ) {
 							l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = sMsg;
 							rеboxNotValid.Text = sMsg;
@@ -908,6 +911,7 @@ namespace SharpFBTools.Controls.Panels
 					if( files.Length > 0 ) {
 						sMsg = fv2V.ValidatingFB2File( files[0] );
 						if ( sMsg == "" ) {
+							mbi = MessageBoxIcon.Information;
         			   		//  Запакованный fb2-файл валидный
         			   		if( l.Name == "listViewNotValid" ) {
         			   			sErrorMsg = sOkMsg + ":";
@@ -933,6 +937,7 @@ namespace SharpFBTools.Controls.Panels
            						sErrorMsg = sOkMsg;
            					}
            				} else {
+							mbi = MessageBoxIcon.Error;
 							// Запакованный fb2-файл невалиден
 							if( l.Name == "listViewNotValid" ) {
 								l.Items[ l.SelectedItems[0].Index ].SubItems[1].Text = sMsg;
@@ -965,7 +970,7 @@ namespace SharpFBTools.Controls.Panels
 				string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 				// очистка временной папки
 				FilesWorker.FilesWorker.RemoveDir( sTempDir );
-				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorMsg+"\n"+sMsg, "SharpFBTools - "+sErrorMsg, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorMsg+"\n"+sMsg, "SharpFBTools - "+sErrorMsg, MessageBoxButtons.OK, mbi );
 			}
 		}
 		
