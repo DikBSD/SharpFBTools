@@ -74,6 +74,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiReportAsFB2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiReportAsCSV_CSV = new System.Windows.Forms.ToolStripMenuItem();
 			this.pScanDir = new System.Windows.Forms.Panel();
+			this.cboxScanSubDir = new System.Windows.Forms.CheckBox();
 			this.tboxSourceDir = new System.Windows.Forms.TextBox();
 			this.lblDir = new System.Windows.Forms.Label();
 			this.tcResult = new System.Windows.Forms.TabControl();
@@ -330,14 +331,29 @@ namespace SharpFBTools.Controls.Panels
 			// pScanDir
 			// 
 			this.pScanDir.AutoSize = true;
+			this.pScanDir.Controls.Add(this.cboxScanSubDir);
 			this.pScanDir.Controls.Add(this.tboxSourceDir);
 			this.pScanDir.Controls.Add(this.lblDir);
 			this.pScanDir.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pScanDir.Location = new System.Drawing.Point(0, 0);
 			this.pScanDir.Margin = new System.Windows.Forms.Padding(0);
 			this.pScanDir.Name = "pScanDir";
-			this.pScanDir.Size = new System.Drawing.Size(831, 28);
+			this.pScanDir.Size = new System.Drawing.Size(831, 32);
 			this.pScanDir.TabIndex = 9;
+			// 
+			// cboxScanSubDir
+			// 
+			this.cboxScanSubDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboxScanSubDir.Checked = true;
+			this.cboxScanSubDir.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cboxScanSubDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.cboxScanSubDir.ForeColor = System.Drawing.Color.Navy;
+			this.cboxScanSubDir.Location = new System.Drawing.Point(652, 5);
+			this.cboxScanSubDir.Name = "cboxScanSubDir";
+			this.cboxScanSubDir.Size = new System.Drawing.Size(172, 24);
+			this.cboxScanSubDir.TabIndex = 5;
+			this.cboxScanSubDir.Text = "Сканировать и подпапки";
+			this.cboxScanSubDir.UseVisualStyleBackColor = true;
 			// 
 			// tboxSourceDir
 			// 
@@ -347,7 +363,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.ReadOnly = true;
-			this.tboxSourceDir.Size = new System.Drawing.Size(666, 20);
+			this.tboxSourceDir.Size = new System.Drawing.Size(484, 20);
 			this.tboxSourceDir.TabIndex = 4;
 			// 
 			// lblDir
@@ -1161,6 +1177,7 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox cboxScanSubDir;
 		private System.Windows.Forms.ImageList imgl16;
 		private System.Windows.Forms.ToolStripMenuItem tsmiMakeNotValidFileList;
 		private System.Windows.Forms.ToolStripMenuItem tsmiMakeValidFileList;

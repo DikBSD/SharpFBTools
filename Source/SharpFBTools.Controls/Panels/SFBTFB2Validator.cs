@@ -648,8 +648,17 @@ namespace SharpFBTools.Controls.Panels
 			Init();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
-			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvFilesCount );
-			lDirList.Sort();
+			List<string> lDirList = new List<string>();
+			if( !cboxScanSubDir.Checked ) {
+				// сканировать только указанную папку
+				lDirList.Add( diFolder.FullName );
+				lvFilesCount.Items[0].SubItems[1].Text = "1";
+				lvFilesCount.Refresh();
+			} else {
+				// сканировать и все подпапки
+				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvFilesCount );
+				lDirList.Sort();
+			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			tlCentral.Refresh(); // обновление контролов на форме
