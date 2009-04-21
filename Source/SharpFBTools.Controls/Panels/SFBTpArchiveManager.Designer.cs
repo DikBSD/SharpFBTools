@@ -86,6 +86,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.pScanDir = new System.Windows.Forms.Panel();
+			this.cboxScanSubDirToArchive = new System.Windows.Forms.CheckBox();
 			this.tboxSourceDir = new System.Windows.Forms.TextBox();
 			this.lblDir = new System.Windows.Forms.Label();
 			this.pCentral = new System.Windows.Forms.Panel();
@@ -131,6 +132,7 @@ namespace SharpFBTools.Controls.Panels
 			this.lblUAType = new System.Windows.Forms.Label();
 			this.cboxUAType = new System.Windows.Forms.ComboBox();
 			this.pUAScanDir = new System.Windows.Forms.Panel();
+			this.cboxScanSubDirToUnArchive = new System.Windows.Forms.CheckBox();
 			this.tboxUASourceDir = new System.Windows.Forms.TextBox();
 			this.lblUAScanDir = new System.Windows.Forms.Label();
 			this.tsUnArchiver = new System.Windows.Forms.ToolStrip();
@@ -224,14 +226,29 @@ namespace SharpFBTools.Controls.Panels
 			// pScanDir
 			// 
 			this.pScanDir.AutoSize = true;
+			this.pScanDir.Controls.Add(this.cboxScanSubDirToArchive);
 			this.pScanDir.Controls.Add(this.tboxSourceDir);
 			this.pScanDir.Controls.Add(this.lblDir);
 			this.pScanDir.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pScanDir.Location = new System.Drawing.Point(3, 34);
 			this.pScanDir.Margin = new System.Windows.Forms.Padding(0);
 			this.pScanDir.Name = "pScanDir";
-			this.pScanDir.Size = new System.Drawing.Size(754, 28);
+			this.pScanDir.Size = new System.Drawing.Size(754, 31);
 			this.pScanDir.TabIndex = 22;
+			// 
+			// cboxScanSubDirToArchive
+			// 
+			this.cboxScanSubDirToArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboxScanSubDirToArchive.Checked = true;
+			this.cboxScanSubDirToArchive.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cboxScanSubDirToArchive.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.cboxScanSubDirToArchive.ForeColor = System.Drawing.Color.Navy;
+			this.cboxScanSubDirToArchive.Location = new System.Drawing.Point(579, 4);
+			this.cboxScanSubDirToArchive.Name = "cboxScanSubDirToArchive";
+			this.cboxScanSubDirToArchive.Size = new System.Drawing.Size(172, 24);
+			this.cboxScanSubDirToArchive.TabIndex = 6;
+			this.cboxScanSubDirToArchive.Text = "Сканировать и подпапки";
+			this.cboxScanSubDirToArchive.UseVisualStyleBackColor = true;
 			// 
 			// tboxSourceDir
 			// 
@@ -241,7 +258,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.ReadOnly = true;
-			this.tboxSourceDir.Size = new System.Drawing.Size(589, 20);
+			this.tboxSourceDir.Size = new System.Drawing.Size(411, 20);
 			this.tboxSourceDir.TabIndex = 4;
 			// 
 			// lblDir
@@ -295,9 +312,9 @@ namespace SharpFBTools.Controls.Panels
 			this.pOptions.Controls.Add(this.gboxCount);
 			this.pOptions.Controls.Add(this.gboxOptions);
 			this.pOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pOptions.Location = new System.Drawing.Point(3, 92);
+			this.pOptions.Location = new System.Drawing.Point(3, 95);
 			this.pOptions.Name = "pOptions";
-			this.pOptions.Size = new System.Drawing.Size(754, 405);
+			this.pOptions.Size = new System.Drawing.Size(754, 402);
 			this.pOptions.TabIndex = 26;
 			// 
 			// gboxCount
@@ -306,7 +323,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxCount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxCount.Location = new System.Drawing.Point(0, 157);
 			this.gboxCount.Name = "gboxCount";
-			this.gboxCount.Size = new System.Drawing.Size(754, 248);
+			this.gboxCount.Size = new System.Drawing.Size(754, 245);
 			this.gboxCount.TabIndex = 3;
 			this.gboxCount.TabStop = false;
 			this.gboxCount.Text = " Ход работы ";
@@ -324,7 +341,7 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem3});
 			this.lvGeneralCount.Location = new System.Drawing.Point(3, 16);
 			this.lvGeneralCount.Name = "lvGeneralCount";
-			this.lvGeneralCount.Size = new System.Drawing.Size(748, 229);
+			this.lvGeneralCount.Size = new System.Drawing.Size(748, 226);
 			this.lvGeneralCount.TabIndex = 2;
 			this.lvGeneralCount.UseCompatibleStateImageBehavior = false;
 			this.lvGeneralCount.View = System.Windows.Forms.View.Details;
@@ -440,7 +457,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pType.Controls.Add(this.lblArchiveType);
 			this.pType.Controls.Add(this.cboxArchiveType);
 			this.pType.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pType.Location = new System.Drawing.Point(3, 62);
+			this.pType.Location = new System.Drawing.Point(3, 65);
 			this.pType.Name = "pType";
 			this.pType.Size = new System.Drawing.Size(754, 30);
 			this.pType.TabIndex = 25;
@@ -511,9 +528,9 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.pUAOptions.Controls.Add(this.gboxUAOptions);
 			this.pUAOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pUAOptions.Location = new System.Drawing.Point(3, 92);
+			this.pUAOptions.Location = new System.Drawing.Point(3, 95);
 			this.pUAOptions.Name = "pUAOptions";
-			this.pUAOptions.Size = new System.Drawing.Size(754, 405);
+			this.pUAOptions.Size = new System.Drawing.Size(754, 402);
 			this.pUAOptions.TabIndex = 28;
 			// 
 			// gboxUAOptions
@@ -526,7 +543,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxUAOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxUAOptions.Location = new System.Drawing.Point(0, 0);
 			this.gboxUAOptions.Name = "gboxUAOptions";
-			this.gboxUAOptions.Size = new System.Drawing.Size(754, 405);
+			this.gboxUAOptions.Size = new System.Drawing.Size(754, 402);
 			this.gboxUAOptions.TabIndex = 1;
 			this.gboxUAOptions.TabStop = false;
 			this.gboxUAOptions.Text = " Настройки ";
@@ -538,7 +555,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxUACount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxUACount.Location = new System.Drawing.Point(3, 121);
 			this.gboxUACount.Name = "gboxUACount";
-			this.gboxUACount.Size = new System.Drawing.Size(748, 281);
+			this.gboxUACount.Size = new System.Drawing.Size(748, 278);
 			this.gboxUACount.TabIndex = 4;
 			this.gboxUACount.TabStop = false;
 			this.gboxUACount.Text = " Ход работы ";
@@ -558,7 +575,7 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem7});
 			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 16);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
-			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 262);
+			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 259);
 			this.lvUAGeneralCount.TabIndex = 1;
 			this.lvUAGeneralCount.UseCompatibleStateImageBehavior = false;
 			this.lvUAGeneralCount.View = System.Windows.Forms.View.Details;
@@ -602,7 +619,7 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem13});
 			this.lvUACount.Location = new System.Drawing.Point(398, 16);
 			this.lvUACount.Name = "lvUACount";
-			this.lvUACount.Size = new System.Drawing.Size(347, 262);
+			this.lvUACount.Size = new System.Drawing.Size(347, 259);
 			this.lvUACount.TabIndex = 0;
 			this.lvUACount.UseCompatibleStateImageBehavior = false;
 			this.lvUACount.View = System.Windows.Forms.View.Details;
@@ -692,7 +709,7 @@ namespace SharpFBTools.Controls.Panels
 			this.pUAType.Controls.Add(this.lblUAType);
 			this.pUAType.Controls.Add(this.cboxUAType);
 			this.pUAType.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pUAType.Location = new System.Drawing.Point(3, 62);
+			this.pUAType.Location = new System.Drawing.Point(3, 65);
 			this.pUAType.Name = "pUAType";
 			this.pUAType.Size = new System.Drawing.Size(754, 30);
 			this.pUAType.TabIndex = 26;
@@ -747,14 +764,29 @@ namespace SharpFBTools.Controls.Panels
 			// pUAScanDir
 			// 
 			this.pUAScanDir.AutoSize = true;
+			this.pUAScanDir.Controls.Add(this.cboxScanSubDirToUnArchive);
 			this.pUAScanDir.Controls.Add(this.tboxUASourceDir);
 			this.pUAScanDir.Controls.Add(this.lblUAScanDir);
 			this.pUAScanDir.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pUAScanDir.Location = new System.Drawing.Point(3, 34);
 			this.pUAScanDir.Margin = new System.Windows.Forms.Padding(0);
 			this.pUAScanDir.Name = "pUAScanDir";
-			this.pUAScanDir.Size = new System.Drawing.Size(754, 28);
+			this.pUAScanDir.Size = new System.Drawing.Size(754, 31);
 			this.pUAScanDir.TabIndex = 23;
+			// 
+			// cboxScanSubDirToUnArchive
+			// 
+			this.cboxScanSubDirToUnArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboxScanSubDirToUnArchive.Checked = true;
+			this.cboxScanSubDirToUnArchive.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cboxScanSubDirToUnArchive.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.cboxScanSubDirToUnArchive.ForeColor = System.Drawing.Color.Navy;
+			this.cboxScanSubDirToUnArchive.Location = new System.Drawing.Point(579, 4);
+			this.cboxScanSubDirToUnArchive.Name = "cboxScanSubDirToUnArchive";
+			this.cboxScanSubDirToUnArchive.Size = new System.Drawing.Size(172, 24);
+			this.cboxScanSubDirToUnArchive.TabIndex = 7;
+			this.cboxScanSubDirToUnArchive.Text = "Сканировать и подпапки";
+			this.cboxScanSubDirToUnArchive.UseVisualStyleBackColor = true;
 			// 
 			// tboxUASourceDir
 			// 
@@ -764,7 +796,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxUASourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxUASourceDir.Name = "tboxUASourceDir";
 			this.tboxUASourceDir.ReadOnly = true;
-			this.tboxUASourceDir.Size = new System.Drawing.Size(589, 20);
+			this.tboxUASourceDir.Size = new System.Drawing.Size(411, 20);
 			this.tboxUASourceDir.TabIndex = 4;
 			// 
 			// lblUAScanDir
@@ -877,6 +909,8 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox cboxScanSubDirToUnArchive;
+		private System.Windows.Forms.CheckBox cboxScanSubDirToArchive;
 		private System.Windows.Forms.ImageList imgl16;
 		private System.Windows.Forms.GroupBox gboxCount;
 		private System.Windows.Forms.ColumnHeader columnHeader2;

@@ -464,8 +464,17 @@ namespace SharpFBTools.Controls.Panels
 			InitA();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
-			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvGeneralCount );
-			lDirList.Sort();
+			List<string> lDirList = new List<string>();
+			if( !cboxScanSubDirToArchive.Checked ) {
+				// сканировать только указанную папку
+				lDirList.Add( diFolder.FullName );
+				lvGeneralCount.Items[0].SubItems[1].Text = "1";
+				lvGeneralCount.Refresh();
+			} else {
+				// сканировать и все подпапки
+				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvGeneralCount );
+				lDirList.Sort();
+			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvGeneralCount, tsProgressBar );
@@ -525,9 +534,18 @@ namespace SharpFBTools.Controls.Panels
 			InitUA();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
-			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
+			List<string> lDirList = new List<string>();
+			if( !cboxScanSubDirToUnArchive.Checked ) {
+				// сканировать только указанную папку
+				lDirList.Add( diFolder.FullName );
+				lvUAGeneralCount.Items[0].SubItems[1].Text = "1";
+				lvUAGeneralCount.Refresh();
+			} else {
+				// сканировать и все подпапки
+				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
+				lDirList.Sort();
+			}
 			ssProgress.Refresh();
-			lDirList.Sort();
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			gboxUACount.Refresh();
@@ -596,9 +614,17 @@ namespace SharpFBTools.Controls.Panels
 			InitUA();
 			tsProgressBar.Visible = true;
 			// сортированный список всех вложенных папок
-			List<string> lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
-			ssProgress.Refresh();
-			lDirList.Sort();
+			List<string> lDirList = new List<string>();
+			if( !cboxScanSubDirToUnArchive.Checked ) {
+				// сканировать только указанную папку
+				lDirList.Add( diFolder.FullName );
+				lvUAGeneralCount.Items[0].SubItems[1].Text = "1";
+				lvUAGeneralCount.Refresh();
+			} else {
+				// сканировать и все подпапки
+				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount );
+				lDirList.Sort();
+			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			gboxUACount.Refresh();
