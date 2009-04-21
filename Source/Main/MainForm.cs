@@ -11,10 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using SharpFBTools.Controls.Panels;
+using System.Xml;
+using System.IO;
 using Options;
+using Settings;
 using SharpFBTools;
 using SharpFBTools.AssemblyInfo;
+using SharpFBTools.Controls.Panels;
 
 namespace Main
 {
@@ -65,7 +68,7 @@ namespace Main
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Validator );
 			this.sfbTpFB2Validator.Dock = System.Windows.Forms.DockStyle.Fill;
 		}
-		
+					
 		#region Обработчики событий
 		void TsbtnExitClick(object sender, EventArgs e)
 		{
@@ -128,6 +131,45 @@ namespace Main
 			// запуск диалога Настроек
 			OptionsForm ofrm = new OptionsForm();
 			ofrm.ShowDialog();
+		}
+		
+		void MainFormFormClosed(object sender, FormClosedEventArgs e)
+		{
+			// сохраняем пути к папкам Валидатора
+			#region Код
+			XmlWriter writer = null;
+			try {
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Indent = true;
+				settings.IndentChars = ("\t");
+				settings.OmitXmlDeclaration = true;
+				
+				writer = XmlWriter.Create( Settings.Settings.GetValidatorDirsSettingsPath(), settings );
+				writer.WriteStartElement( "SharpFBTools" );
+					writer.WriteStartElement( "FB2Validator" );
+						writer.WriteStartElement( "ScanDir" );
+							writer.WriteAttributeString( "tboxSourceDir", Settings.Settings.GetScanDir() );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "NotValidFB2Files" );
+							writer.WriteAttributeString( "tboxFB2NotValidDirCopyTo", Settings.Settings.GetFB2NotValidDirCopyTo() );
+							writer.WriteAttributeString( "tboxFB2NotValidDirMoveTo", Settings.Settings.GetFB2NotValidDirMoveTo());
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "ValidFB2Files" );
+							writer.WriteAttributeString( "tboxFB2ValidDirCopyTo", Settings.Settings.GetFB2ValidDirCopyTo() );
+							writer.WriteAttributeString( "tboxFB2ValidDirMoveTo", Settings.Settings.GetFB2ValidDirMoveTo() );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "NotFB2Files" );
+							writer.WriteAttributeString( "tboxNotFB2DirCopyTo", Settings.Settings.GetNotFB2DirCopyTo() );
+							writer.WriteAttributeString( "tboxNotFB2DirMoveTo", Settings.Settings.GetNotFB2DirMoveTo() );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+				writer.WriteEndElement();
+				writer.Flush();
+			}  finally  {
+				if (writer != null)
+				writer.Close();
+			}
+			#endregion
 		}
 		#endregion
 	}	

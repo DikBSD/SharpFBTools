@@ -44,7 +44,7 @@ namespace Settings
 		public static void SetProgDir( string sProgDir ) {
 			m_sProgDir = sProgDir;
 		}
-		
+
 		public static string GetProgDir() {
 			return m_sProgDir;
 		}
@@ -256,6 +256,80 @@ namespace Settings
 				}
 			}
 			return Convert.ToInt16( sSelectedIndex );
+		}
+		#endregion
+		
+		#region Закрытые статические члены-данные класса для Папок Валидатор
+		private static string m_sValidatorDirsSettingsPath = GetProgDir()+"\\ValidatorDirs.xml";
+		private static string m_sScanDir = "";
+		private static string m_sFB2NotValidDirCopyTo = "";
+		private static string m_sFB2NotValidDirMoveTo = "";
+		private static string m_sFB2ValidDirCopyTo = "";
+		private static string m_sFB2ValidDirMoveTo = "";
+		private static string m_sNotFB2DirCopyTo = "";
+		private static string m_sNotFB2DirMoveTo = "";
+		#endregion
+		
+		#region Открытые статические члены-данные класса для Папок Валидатор
+		public static string GetValidatorDirsSettingsPath() {
+			return m_sValidatorDirsSettingsPath;
+		}
+		
+		public static string GetScanDir() {
+			// папка для сканирования
+			return m_sScanDir;
+		}
+		
+		public static string GetFB2NotValidDirCopyTo() {
+			// папка для копирования не валидных fb2-файлов
+			return m_sFB2NotValidDirCopyTo;
+		}
+		
+		public static string GetFB2NotValidDirMoveTo() {
+			// папка для перемещения не валидных fb2-файлов
+			return m_sFB2NotValidDirMoveTo;
+		}
+		
+		public static string GetFB2ValidDirCopyTo() {
+			// папка для копирования валидных fb2-файлов
+			return m_sFB2ValidDirCopyTo;
+		}
+		
+		public static string GetFB2ValidDirMoveTo() {
+			// папка для перемещения валидных fb2-файлов
+			return m_sFB2ValidDirMoveTo;
+		}
+		
+		public static string GetNotFB2DirCopyTo() {
+			// папка для копирования не fb2-файлов
+			return m_sNotFB2DirCopyTo;
+		}
+		
+		public static string GetNotFB2DirMoveTo() {
+			// папка для перемещения не fb2-файлов
+			return m_sNotFB2DirMoveTo;
+		}
+		
+		public static void SetScanDir( string sScanDir ) {
+			m_sScanDir = sScanDir;
+		}
+		public static void SetFB2NotValidDirCopyTo( string sFB2NotValidDirCopyTo ) {
+			m_sFB2NotValidDirCopyTo = sFB2NotValidDirCopyTo;
+		}
+		public static void SetFB2NotValidDirMoveTo( string sFB2NotValidDirMoveTo ) {
+			m_sFB2NotValidDirMoveTo = sFB2NotValidDirMoveTo;
+		}
+		public static void SetFB2ValidDirCopyTo( string sFB2ValidDirCopyTo ) {
+			m_sFB2ValidDirCopyTo = sFB2ValidDirCopyTo;
+		}
+		public static void SetFB2ValidDirMoveTo( string sFB2ValidDirMoveTo ) {
+			m_sFB2ValidDirMoveTo = sFB2ValidDirMoveTo;
+		}
+		public static void SetNotFB2DirCopyTo( string sNotFB2DirCopyTo ) {
+			m_sNotFB2DirCopyTo = sNotFB2DirCopyTo;
+		}
+		public static void SetNotFB2DirMoveTo( string sNotFB2DirMoveTo ) {
+			m_sNotFB2DirMoveTo = sNotFB2DirMoveTo;
 		}
 		#endregion
 	}

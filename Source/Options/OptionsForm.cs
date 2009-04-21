@@ -174,10 +174,10 @@ namespace Options
 					writer.WriteEndElement();
 				writer.WriteEndElement();
 				writer.Flush();
-				this.Close();
 			}  finally  {
 				if (writer != null)
 				writer.Close();
+				this.Close();
 			}
 		}
 		#endregion
