@@ -19,10 +19,11 @@ namespace Settings
 	public class Settings
 	{
 		#region Закрытые статические члены-данные класса
+		#region Общее
 		private static string m_sProgDir = Environment.CurrentDirectory;
 		private static string m_sTempDir = GetProgDir()+"\\Temp"; // временный каталог
-		private static string m_sFB21SchemePath = GetProgDir()+"\\FictionBook.xsd";
 		private static string m_settings = GetProgDir()+"\\settings.xml";
+		private static string m_sFB21SchemePath = GetProgDir()+"\\FictionBook.xsd";
 		private static string m_sTFB2Path = "c:\\WINDOWS\\NOTEPAD.EXE";
 		private static string m_sWinRarPath = "c:\\Program Files\\WinRAR\\WinRAR.exe";
 		private static string m_sRarPath = "c:\\Program Files\\WinRAR\\Rar.exe";
@@ -32,15 +33,41 @@ namespace Settings
 		private static string m_s7zaPath = GetProgDir()+"\\7za.exe";
 		private static string m_sUnRARPath = GetProgDir()+"\\UnRAR.exe";
 		private static string m_sChangeFilePath = GetProgDir()+"\\Change.rtf";
+		#endregion
+		
+		#region Валидатор
 		private static string m_sFB2ValidatorHelpPath = GetProgDir()+"\\Help\\FB2ValidatorHelp.rtf";
-		private static string m_sArchiveManagerHelpPath = GetProgDir()+"\\Help\\ArchiveManagerHelp.rtf";
 		private static Int16 m_nValidatorForFB2SelectedIndex = 1;
 		private static Int16 m_nValidatorForFB2ArchiveSelectedIndex = 1;
 		private static Int16 m_nValidatorForFB2SelectedIndexPE = 0;
 		private static Int16 m_nValidatorForFB2ArchiveSelectedIndexPE = 0;
 		#endregion
 		
+		#region Менеджер Архивов
+		private static string m_sArchiveManagerHelpPath = GetProgDir()+"\\Help\\ArchiveManagerHelp.rtf";
+		#endregion
+		
+		#region Менеджер Файлов
+		private static bool m_bchBoxTranslitCheked = true;
+		private static bool m_bchBoxStrictCheked = true;
+		private static Int16 m_ncboxSpaceSelectedIndex = 0;
+		private static bool m_bchBoxToArchiveCheked = true;
+		private static Int16 m_ncboxArchiveTypeSelectedIndex = 1;
+		private static Int16 m_ncboxFileExistSelectedIndex = 1;
+		private static bool m_bchBoxFileNameLenghtCheked = false;
+		private static Int16 m_nnudMaxFileNameLenghtValue = 8;
+		private static bool m_bchBoxDelFB2FilesCheked = false;
+		private static bool m_brbtnAsIsCheked = true;
+		private static bool m_brbtnLowerCheked = false;
+		private static bool m_brbtnUpperCheked = false;
+		private static bool m_brbtnGenreOneCheked = true;
+		private static bool m_brbtnAuthorOneCheked = true;
+		#endregion
+		
+		#endregion
+		
 		#region Открытые статические члены-данные класса
+		#region Общее
 		public static void SetProgDir( string sProgDir ) {
 			m_sProgDir = sProgDir;
 		}
@@ -97,29 +124,6 @@ namespace Settings
 		
 		public static string GetChangeFilePath() {
 			return m_sChangeFilePath;
-		}
-		
-		public static string GetFB2ValidatorHelpPath() {
-			return m_sFB2ValidatorHelpPath;
-		}
-		public static string GetArchiveManagerHelpPath() {
-			return m_sArchiveManagerHelpPath;
-		}
-		
-		public static Int16 GetDefValidatorFB2SelectedIndex() {
-			return m_nValidatorForFB2SelectedIndex;
-		}
-		
-		public static Int16 GetDefValidatorFB2ArchiveSelectedIndex() {
-			return m_nValidatorForFB2ArchiveSelectedIndex;
-		}
-		
-		public static Int16 GetDefValidatorFB2SelectedIndexPE() {
-			return m_nValidatorForFB2SelectedIndexPE;
-		}
-		
-		public static Int16 GetDefValidatorFB2ArchiveSelectedIndexPE() {
-			return m_nValidatorForFB2ArchiveSelectedIndexPE;
 		}
 		
 		////// Чтение из файла настроек данных по конкретному параметру
@@ -197,6 +201,28 @@ namespace Settings
 			}
 			return sRarPath;
 		}
+		#endregion
+				
+		#region Валидатор
+		public static Int16 GetDefValidatorFB2SelectedIndex() {
+			return m_nValidatorForFB2SelectedIndex;
+		}
+		
+		public static Int16 GetDefValidatorFB2ArchiveSelectedIndex() {
+			return m_nValidatorForFB2ArchiveSelectedIndex;
+		}
+		
+		public static Int16 GetDefValidatorFB2SelectedIndexPE() {
+			return m_nValidatorForFB2SelectedIndexPE;
+		}
+		
+		public static Int16 GetDefValidatorFB2ArchiveSelectedIndexPE() {
+			return m_nValidatorForFB2ArchiveSelectedIndexPE;
+		}
+		
+		public static string GetFB2ValidatorHelpPath() {
+			return m_sFB2ValidatorHelpPath;
+		}
 		
 		public static Int16 ReadValidatorFB2SelectedIndex() {
 			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2 из настроек
@@ -258,7 +284,70 @@ namespace Settings
 			return Convert.ToInt16( sSelectedIndex );
 		}
 		#endregion
+
+		#region Менеджер Архивов
+		public static string GetArchiveManagerHelpPath() {
+			return m_sArchiveManagerHelpPath;
+		}
+		#endregion
 		
+		#region Менеджер Файлов
+		public static bool GetDefFMchBoxTranslitCheked() {
+			return m_bchBoxTranslitCheked;
+		}
+		
+		public static bool GetDefFMchBoxStrictCheked() {
+			return m_bchBoxStrictCheked;
+		}
+		
+		public static Int16 GetDefFMcboxSpaceSelectedIndex() {
+			return m_ncboxSpaceSelectedIndex;
+		}
+		
+		public static bool GetDefFMchBoxToArchiveCheked() {
+			return m_bchBoxToArchiveCheked;
+		}
+		
+		public static Int16 GetDefFMcboxArchiveTypeSelectedIndex() {
+			return m_ncboxArchiveTypeSelectedIndex;
+		}
+		
+		public static Int16 GetDefFMcboxFileExistSelectedIndex() {
+			return m_ncboxFileExistSelectedIndex;
+		}
+		
+		public static bool GetDefFMchBoxFileNameLenghtCheked() {
+			return m_bchBoxFileNameLenghtCheked;
+		}
+		public static Int16 GetDefFMnudMaxFileNameLenghtValue() {
+			return m_nnudMaxFileNameLenghtValue;
+		}
+		
+		public static bool GetDefFMchBoxDelFB2FilesCheked() {
+			return m_bchBoxDelFB2FilesCheked;
+		}
+		
+		public static bool GetDefFMrbtnAsIsCheked() {
+			return m_brbtnAsIsCheked;
+		}
+		public static bool GetDefFMrbtnLowerCheked() {
+			return m_brbtnLowerCheked;
+		}
+		public static bool GetDefFMrbtnUpperCheked() {
+			return m_brbtnUpperCheked;
+		}
+		
+		public static bool GetDefFMrbtnGenreOneCheked() {
+			return m_brbtnGenreOneCheked;
+		}
+		public static bool GetDefFMrbtnAuthorOneCheked() {
+			return m_brbtnAuthorOneCheked;
+		}
+		#endregion
+		
+		#endregion
+		
+		#region Настройки для папок Валидатора
 		#region Закрытые статические члены-данные класса для Папок Валидатор
 		private static string m_sValidatorDirsSettingsPath = GetProgDir()+"\\ValidatorDirs.xml";
 		private static string m_sScanDir = "";
@@ -331,6 +420,7 @@ namespace Settings
 		public static void SetNotFB2DirMoveTo( string sNotFB2DirMoveTo ) {
 			m_sNotFB2DirMoveTo = sNotFB2DirMoveTo;
 		}
+		#endregion
 		#endregion
 	}
 }

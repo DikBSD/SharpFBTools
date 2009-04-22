@@ -26,15 +26,32 @@ namespace Options
 			//
 			InitializeComponent();
 			// по-умолчанию
+			// общие
 			tboxWinRarPath.Text	= Settings.Settings.GetDefWinRARPath();
 			tboxRarPath.Text	= Settings.Settings.GetDefRarPath();
 			tboxFBEPath.Text	= Settings.Settings.GetDefFBEPath();
 			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
 			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
+			// Валидатор
 			cboxValidatorForFB2.SelectedIndex = Settings.Settings.GetDefValidatorFB2SelectedIndex();
 			cboxValidatorForFB2Archive.SelectedIndex = Settings.Settings.GetDefValidatorFB2ArchiveSelectedIndex();
 			cboxValidatorForFB2PE.SelectedIndex = Settings.Settings.GetDefValidatorFB2SelectedIndexPE();
 			cboxValidatorForFB2ArchivePE.SelectedIndex = Settings.Settings.GetDefValidatorFB2ArchiveSelectedIndexPE();
+			// Менеджер Файлов
+			chBoxTranslit.Checked = Settings.Settings.GetDefFMchBoxTranslitCheked();
+			chBoxStrict.Checked = Settings.Settings.GetDefFMchBoxStrictCheked();
+			cboxSpace.SelectedIndex = Settings.Settings.GetDefFMcboxSpaceSelectedIndex();
+			chBoxFileNameLenght.Checked = Settings.Settings.GetDefFMchBoxFileNameLenghtCheked();
+			nudMaxFileNameLenght.Value = Settings.Settings.GetDefFMnudMaxFileNameLenghtValue();
+			chBoxToArchive.Checked = Settings.Settings.GetDefFMchBoxToArchiveCheked();
+			cboxArchiveType.SelectedIndex = Settings.Settings.GetDefFMcboxArchiveTypeSelectedIndex();
+			cboxFileExist.SelectedIndex = Settings.Settings.GetDefFMcboxFileExistSelectedIndex();
+			chBoxDelFB2Files.Checked = Settings.Settings.GetDefFMchBoxDelFB2FilesCheked();
+			rbtnAsIs.Checked = Settings.Settings.GetDefFMrbtnAsIsCheked();
+			rbtnLower.Checked = Settings.Settings.GetDefFMrbtnLowerCheked();
+			rbtnUpper.Checked = Settings.Settings.GetDefFMrbtnUpperCheked();
+			rbtnGenreOne.Checked = Settings.Settings.GetDefFMrbtnGenreOneCheked();
+			rbtnAuthorOne.Checked = Settings.Settings.GetDefFMrbtnAuthorOneCheked();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 		}
