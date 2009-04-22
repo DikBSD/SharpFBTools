@@ -1067,9 +1067,9 @@ namespace SharpFBTools.Controls.Panels
 			this.lblExistFile.AutoSize = true;
 			this.lblExistFile.Location = new System.Drawing.Point(15, 24);
 			this.lblExistFile.Name = "lblExistFile";
-			this.lblExistFile.Size = new System.Drawing.Size(213, 13);
+			this.lblExistFile.Size = new System.Drawing.Size(212, 13);
 			this.lblExistFile.TabIndex = 17;
-			this.lblExistFile.Text = "Одинаковые файлы в пвпке-приемнике:";
+			this.lblExistFile.Text = "Одинаковые файлы в папке-приемнике:";
 			// 
 			// pCentral
 			// 

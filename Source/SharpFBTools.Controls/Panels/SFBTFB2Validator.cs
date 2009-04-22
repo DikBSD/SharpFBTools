@@ -747,19 +747,19 @@ namespace SharpFBTools.Controls.Panels
 			switch( tcResult.SelectedIndex ) {
 				case 0:
 					// не валидные fb2-файлы
-					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxFB2NotValidDirCopyTo.Text,
+					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxFB2NotValidDirMoveTo.Text,
 		                       listViewNotValid, tpNotValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
 		                       "Перемещение не валидных fb2-файлов:", m_sNotValid );
 					break;
 				case 1:
 					// валидные fb2-файлы
-					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxFB2ValidDirCopyTo.Text,
+					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxFB2ValidDirMoveTo.Text,
 		                       listViewValid, tpValid, "валидных fb2-файлов", "валидные fb2-файлы",
 		                       "Перемещение валидных fb2-файлов:", m_sValid );
 					break;
 				case 2:
 					// не fb2-файлы
-					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxNotFB2DirCopyTo.Text,
+					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxNotFB2DirMoveTo.Text,
 		                       listViewNotFB2, tpNotFB2Files, "не fb2-файлов", "не fb2-файлы",
 		                       "Перемещение не fb2-файлов:", m_sNotFB2Files );
 					break;
