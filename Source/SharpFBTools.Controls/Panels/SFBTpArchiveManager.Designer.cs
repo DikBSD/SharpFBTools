@@ -257,7 +257,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSourceDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxSourceDir.Name = "tboxSourceDir";
-			this.tboxSourceDir.ReadOnly = true;
 			this.tboxSourceDir.Size = new System.Drawing.Size(411, 20);
 			this.tboxSourceDir.TabIndex = 4;
 			// 
@@ -795,7 +794,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxUASourceDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tboxUASourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxUASourceDir.Name = "tboxUASourceDir";
-			this.tboxUASourceDir.ReadOnly = true;
 			this.tboxUASourceDir.Size = new System.Drawing.Size(411, 20);
 			this.tboxUASourceDir.TabIndex = 4;
 			// 

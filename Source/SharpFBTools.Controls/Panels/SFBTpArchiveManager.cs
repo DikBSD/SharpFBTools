@@ -402,6 +402,7 @@ namespace SharpFBTools.Controls.Panels
 		void RbtnToAnotherDirCheckedChanged(object sender, EventArgs e)
 		{
 			btnToAnotherDir.Enabled = rbtnToAnotherDir.Checked;
+			tboxToAnotherDir.ReadOnly = !rbtnToAnotherDir.Checked;
 		}
 		
 		void BtnToAnotherDirClick(object sender, EventArgs e)
@@ -428,14 +429,22 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo(tboxSourceDir.Text);
+			DirectoryInfo diFolder = new DirectoryInfo( tboxSourceDir.Text );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка для сканирования не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			if( rbtnToAnotherDir.Checked && tboxToAnotherDir.Text == "" ) {
-				MessageBox.Show( "Не задана папка-приемник архивов!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
+			if( rbtnToAnotherDir.Checked ) {
+				if( tboxToAnotherDir.Text == "" ) {
+					MessageBox.Show( "Не задана папка-приемник архивов!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				} else {
+					DirectoryInfo df = new DirectoryInfo( tboxToAnotherDir.Text );
+					if( !df.Exists ) {
+						MessageBox.Show( "Папка-приемник не найдена:" + tboxToAnotherDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return;
+					}
+				}
 			}
 			// читаем путь к WinRar из настроек
 			string sRarPath = Settings.Settings.ReadRarPath();
@@ -516,6 +525,7 @@ namespace SharpFBTools.Controls.Panels
 		void RbtnUAToAnotherDirCheckedChanged(object sender, EventArgs e)
 		{
 			btnUAToAnotherDir.Enabled = rbtnUAToAnotherDir.Checked;
+			tboxUAToAnotherDir.ReadOnly = !rbtnUAToAnotherDir.Checked;
 		}
 		
 		void TsbtnUAAnalyzeClick(object sender, EventArgs e)
@@ -527,7 +537,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			DirectoryInfo diFolder = new DirectoryInfo(tboxUASourceDir.Text);
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка для сканирования не найдена:" + tboxUASourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			DateTime dtStart = DateTime.Now;
@@ -594,15 +604,21 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo(tboxUASourceDir.Text);
+			DirectoryInfo diFolder = new DirectoryInfo( tboxUASourceDir.Text );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка для сканирования не найдена:" + tboxUASourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			if( rbtnUAToAnotherDir.Checked ) {
 				if( tboxUAToAnotherDir.Text == "") {
 					MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
+				} else {
+					DirectoryInfo df = new DirectoryInfo( tboxUAToAnotherDir.Text );
+					if( !df.Exists ) {
+						MessageBox.Show( "Папка-приемник не найдена:" + tboxUAToAnotherDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return;
+					}
 				}
 				if( tboxUAToAnotherDir.Text == tboxUASourceDir.Text ) {
 					MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
