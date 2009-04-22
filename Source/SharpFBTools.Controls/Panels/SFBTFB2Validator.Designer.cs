@@ -362,7 +362,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSourceDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxSourceDir.Name = "tboxSourceDir";
-			this.tboxSourceDir.ReadOnly = true;
 			this.tboxSourceDir.Size = new System.Drawing.Size(484, 20);
 			this.tboxSourceDir.TabIndex = 4;
 			// 
@@ -450,7 +449,6 @@ namespace SharpFBTools.Controls.Panels
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxFB2NotValidDirMoveTo.Location = new System.Drawing.Point(109, 46);
 			this.tboxFB2NotValidDirMoveTo.Name = "tboxFB2NotValidDirMoveTo";
-			this.tboxFB2NotValidDirMoveTo.ReadOnly = true;
 			this.tboxFB2NotValidDirMoveTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxFB2NotValidDirMoveTo.TabIndex = 7;
 			// 
@@ -483,7 +481,6 @@ namespace SharpFBTools.Controls.Panels
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxFB2NotValidDirCopyTo.Location = new System.Drawing.Point(109, 20);
 			this.tboxFB2NotValidDirCopyTo.Name = "tboxFB2NotValidDirCopyTo";
-			this.tboxFB2NotValidDirCopyTo.ReadOnly = true;
 			this.tboxFB2NotValidDirCopyTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxFB2NotValidDirCopyTo.TabIndex = 0;
 			// 
@@ -726,7 +723,6 @@ namespace SharpFBTools.Controls.Panels
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxFB2ValidDirMoveTo.Location = new System.Drawing.Point(109, 46);
 			this.tboxFB2ValidDirMoveTo.Name = "tboxFB2ValidDirMoveTo";
-			this.tboxFB2ValidDirMoveTo.ReadOnly = true;
 			this.tboxFB2ValidDirMoveTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxFB2ValidDirMoveTo.TabIndex = 7;
 			// 
@@ -759,7 +755,6 @@ namespace SharpFBTools.Controls.Panels
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxFB2ValidDirCopyTo.Location = new System.Drawing.Point(109, 20);
 			this.tboxFB2ValidDirCopyTo.Name = "tboxFB2ValidDirCopyTo";
-			this.tboxFB2ValidDirCopyTo.ReadOnly = true;
 			this.tboxFB2ValidDirCopyTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxFB2ValidDirCopyTo.TabIndex = 0;
 			// 
@@ -891,7 +886,6 @@ namespace SharpFBTools.Controls.Panels
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxNotFB2DirMoveTo.Location = new System.Drawing.Point(109, 46);
 			this.tboxNotFB2DirMoveTo.Name = "tboxNotFB2DirMoveTo";
-			this.tboxNotFB2DirMoveTo.ReadOnly = true;
 			this.tboxNotFB2DirMoveTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxNotFB2DirMoveTo.TabIndex = 7;
 			// 
@@ -924,7 +918,6 @@ namespace SharpFBTools.Controls.Panels
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxNotFB2DirCopyTo.Location = new System.Drawing.Point(109, 20);
 			this.tboxNotFB2DirCopyTo.Name = "tboxNotFB2DirCopyTo";
-			this.tboxNotFB2DirCopyTo.ReadOnly = true;
 			this.tboxNotFB2DirCopyTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxNotFB2DirCopyTo.TabIndex = 0;
 			// 

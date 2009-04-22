@@ -282,6 +282,11 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
+			DirectoryInfo diFolder = new DirectoryInfo( sTarget );
+			if( !diFolder.Exists ) {
+				MessageBox.Show( "Папка не найдена:" + sTarget + "\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
 			string sMess = "";
 			if( bCopy ) {
 				sMess = "Вы действительно хотите скопировать "+sFileType+" в указанную папку?";
