@@ -25,10 +25,22 @@ namespace SharpFBTools.Controls.Panels
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
+
 		}
+		
+		#region Обработчики событий
+		void TsbtnOpenDirClick(object sender, EventArgs e)
+		{
+			// задание папки с fb2-файлами и архивами для сканирования
+			if( tboxSourceDir.Text !="" ) {
+				fbdScanDir.SelectedPath = tboxSourceDir.Text;
+			}
+			DialogResult result = fbdScanDir.ShowDialog();
+			if (result == DialogResult.OK) {
+				string openFolderName = fbdScanDir.SelectedPath;
+                tboxSourceDir.Text = openFolderName;
+            }
+		}
+		#endregion
 	}
 }
