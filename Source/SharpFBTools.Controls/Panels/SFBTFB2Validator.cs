@@ -166,9 +166,9 @@ namespace SharpFBTools.Controls.Panels
 			// парсер архива
 			string sExt = Path.GetExtension( sArchiveFile );
 			if( sExt.ToLower() == ".zip" ) {
-				Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sArchiveFile, sTempDir );
+				Archiver.Archiver.unzip( Settings.Settings.Read7zaPath(), sArchiveFile, sTempDir );
 			} else if( sExt.ToLower() == ".rar" ) {
-				Archiver.Archiver.unrar( Settings.Settings.GetUnRARPath(), sArchiveFile, sTempDir );
+				Archiver.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sArchiveFile, sTempDir );
 			}
 			string [] files = Directory.GetFiles( sTempDir );
 			if( files.Length <= 0 ) return;
@@ -983,9 +983,9 @@ namespace SharpFBTools.Controls.Panels
 					FilesWorker.FilesWorker.RemoveDir( sTempDir );
 					Directory.CreateDirectory( sTempDir );
 					if( sExt.ToLower() == ".zip" ) {
-						Archiver.Archiver.unzip( Settings.Settings.Get7zaPath(), sFilePath, sTempDir );
+						Archiver.Archiver.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir );
 					} else if( sExt.ToLower() == ".rar" ) {
-						Archiver.Archiver.unrar( Settings.Settings.GetUnRARPath(), sFilePath, sTempDir );
+						Archiver.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir );
 					}
 					string [] files = Directory.GetFiles( sTempDir );
 					if( files.Length > 0 ) {

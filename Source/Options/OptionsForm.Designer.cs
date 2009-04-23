@@ -55,6 +55,12 @@ namespace Options
 			this.tboxFBEPath = new System.Windows.Forms.TextBox();
 			this.btnFBEPath = new System.Windows.Forms.Button();
 			this.gboxRar = new System.Windows.Forms.GroupBox();
+			this.lbl7zaPath = new System.Windows.Forms.Label();
+			this.tbox7zaPath = new System.Windows.Forms.TextBox();
+			this.btn7zaPath = new System.Windows.Forms.Button();
+			this.lblUnRarPath = new System.Windows.Forms.Label();
+			this.tboxUnRarPath = new System.Windows.Forms.TextBox();
+			this.btnUnRarPath = new System.Windows.Forms.Button();
 			this.lblRarPath = new System.Windows.Forms.Label();
 			this.tboxRarPath = new System.Windows.Forms.TextBox();
 			this.btnRarPath = new System.Windows.Forms.Button();
@@ -82,16 +88,14 @@ namespace Options
 			this.rbtnAuthorOne = new System.Windows.Forms.RadioButton();
 			this.gboxFMGeneral = new System.Windows.Forms.GroupBox();
 			this.chBoxDelFB2Files = new System.Windows.Forms.CheckBox();
-			this.panel3 = new System.Windows.Forms.Panel();
+			this.chBoxAddToFileNameBookID = new System.Windows.Forms.CheckBox();
+			this.panel2 = new System.Windows.Forms.Panel();
 			this.cboxFileExist = new System.Windows.Forms.ComboBox();
 			this.lbFilelExist = new System.Windows.Forms.Label();
-			this.panel2 = new System.Windows.Forms.Panel();
-			this.cboxArchiveType = new System.Windows.Forms.ComboBox();
-			this.chBoxToArchive = new System.Windows.Forms.CheckBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.nudMaxFileNameLenght = new System.Windows.Forms.NumericUpDown();
+			this.cboxArchiveType = new System.Windows.Forms.ComboBox();
 			this.cboxSpace = new System.Windows.Forms.ComboBox();
-			this.chBoxFileNameLenght = new System.Windows.Forms.CheckBox();
+			this.chBoxToArchive = new System.Windows.Forms.CheckBox();
 			this.lblSpace = new System.Windows.Forms.Label();
 			this.chBoxStrict = new System.Windows.Forms.CheckBox();
 			this.chBoxTranslit = new System.Windows.Forms.CheckBox();
@@ -113,10 +117,8 @@ namespace Options
 			this.gBoxGenres.SuspendLayout();
 			this.gBoxAuthors.SuspendLayout();
 			this.gboxFMGeneral.SuspendLayout();
-			this.panel3.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudMaxFileNameLenght)).BeginInit();
 			this.gboxRegistr.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -191,7 +193,7 @@ namespace Options
 			this.gboxReader.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxReader.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxReader.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxReader.Location = new System.Drawing.Point(3, 152);
+			this.gboxReader.Location = new System.Drawing.Point(3, 204);
 			this.gboxReader.Name = "gboxReader";
 			this.gboxReader.Size = new System.Drawing.Size(603, 45);
 			this.gboxReader.TabIndex = 15;
@@ -212,10 +214,10 @@ namespace Options
 			// 
 			this.tboxReaderPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxReaderPath.Location = new System.Drawing.Point(171, 12);
+			this.tboxReaderPath.Location = new System.Drawing.Point(184, 12);
 			this.tboxReaderPath.Name = "tboxReaderPath";
 			this.tboxReaderPath.ReadOnly = true;
-			this.tboxReaderPath.Size = new System.Drawing.Size(381, 20);
+			this.tboxReaderPath.Size = new System.Drawing.Size(368, 20);
 			this.tboxReaderPath.TabIndex = 14;
 			// 
 			// btnReaderPath
@@ -242,7 +244,7 @@ namespace Options
 			this.gboxEditors.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxEditors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.gboxEditors.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxEditors.Location = new System.Drawing.Point(3, 78);
+			this.gboxEditors.Location = new System.Drawing.Point(3, 130);
 			this.gboxEditors.Name = "gboxEditors";
 			this.gboxEditors.Size = new System.Drawing.Size(603, 74);
 			this.gboxEditors.TabIndex = 14;
@@ -263,10 +265,10 @@ namespace Options
 			// 
 			this.tboxTextEPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxTextEPath.Location = new System.Drawing.Point(171, 42);
+			this.tboxTextEPath.Location = new System.Drawing.Point(184, 42);
 			this.tboxTextEPath.Name = "tboxTextEPath";
 			this.tboxTextEPath.ReadOnly = true;
-			this.tboxTextEPath.Size = new System.Drawing.Size(381, 20);
+			this.tboxTextEPath.Size = new System.Drawing.Size(368, 20);
 			this.tboxTextEPath.TabIndex = 14;
 			// 
 			// btnTextEPath
@@ -296,10 +298,10 @@ namespace Options
 			// 
 			this.tboxFBEPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxFBEPath.Location = new System.Drawing.Point(171, 16);
+			this.tboxFBEPath.Location = new System.Drawing.Point(184, 16);
 			this.tboxFBEPath.Name = "tboxFBEPath";
 			this.tboxFBEPath.ReadOnly = true;
-			this.tboxFBEPath.Size = new System.Drawing.Size(381, 20);
+			this.tboxFBEPath.Size = new System.Drawing.Size(368, 20);
 			this.tboxFBEPath.TabIndex = 11;
 			// 
 			// btnFBEPath
@@ -317,6 +319,12 @@ namespace Options
 			// 
 			// gboxRar
 			// 
+			this.gboxRar.Controls.Add(this.lbl7zaPath);
+			this.gboxRar.Controls.Add(this.tbox7zaPath);
+			this.gboxRar.Controls.Add(this.btn7zaPath);
+			this.gboxRar.Controls.Add(this.lblUnRarPath);
+			this.gboxRar.Controls.Add(this.tboxUnRarPath);
+			this.gboxRar.Controls.Add(this.btnUnRarPath);
 			this.gboxRar.Controls.Add(this.lblRarPath);
 			this.gboxRar.Controls.Add(this.tboxRarPath);
 			this.gboxRar.Controls.Add(this.btnRarPath);
@@ -328,10 +336,76 @@ namespace Options
 			this.gboxRar.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxRar.Location = new System.Drawing.Point(3, 3);
 			this.gboxRar.Name = "gboxRar";
-			this.gboxRar.Size = new System.Drawing.Size(603, 75);
+			this.gboxRar.Size = new System.Drawing.Size(603, 127);
 			this.gboxRar.TabIndex = 13;
 			this.gboxRar.TabStop = false;
-			this.gboxRar.Text = " Настройки для Rar-архиватора ";
+			this.gboxRar.Text = " Настройки для архиваторов ";
+			// 
+			// lbl7zaPath
+			// 
+			this.lbl7zaPath.AutoSize = true;
+			this.lbl7zaPath.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lbl7zaPath.Location = new System.Drawing.Point(7, 103);
+			this.lbl7zaPath.Name = "lbl7zaPath";
+			this.lbl7zaPath.Size = new System.Drawing.Size(156, 13);
+			this.lbl7zaPath.TabIndex = 19;
+			this.lbl7zaPath.Text = "Путь к 7za (консольный):";
+			// 
+			// tbox7zaPath
+			// 
+			this.tbox7zaPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.tbox7zaPath.Location = new System.Drawing.Point(184, 99);
+			this.tbox7zaPath.Name = "tbox7zaPath";
+			this.tbox7zaPath.ReadOnly = true;
+			this.tbox7zaPath.Size = new System.Drawing.Size(365, 20);
+			this.tbox7zaPath.TabIndex = 17;
+			// 
+			// btn7zaPath
+			// 
+			this.btn7zaPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btn7zaPath.Image = ((System.Drawing.Image)(resources.GetObject("btn7zaPath.Image")));
+			this.btn7zaPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btn7zaPath.Location = new System.Drawing.Point(555, 97);
+			this.btn7zaPath.Name = "btn7zaPath";
+			this.btn7zaPath.Size = new System.Drawing.Size(37, 24);
+			this.btn7zaPath.TabIndex = 18;
+			this.btn7zaPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btn7zaPath.UseVisualStyleBackColor = true;
+			this.btn7zaPath.Click += new System.EventHandler(this.Btn7zaPathClick);
+			// 
+			// lblUnRarPath
+			// 
+			this.lblUnRarPath.AutoSize = true;
+			this.lblUnRarPath.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblUnRarPath.Location = new System.Drawing.Point(7, 77);
+			this.lblUnRarPath.Name = "lblUnRarPath";
+			this.lblUnRarPath.Size = new System.Drawing.Size(171, 13);
+			this.lblUnRarPath.TabIndex = 16;
+			this.lblUnRarPath.Text = "Путь к UnRar (консольный):";
+			// 
+			// tboxUnRarPath
+			// 
+			this.tboxUnRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxUnRarPath.Location = new System.Drawing.Point(184, 73);
+			this.tboxUnRarPath.Name = "tboxUnRarPath";
+			this.tboxUnRarPath.ReadOnly = true;
+			this.tboxUnRarPath.Size = new System.Drawing.Size(365, 20);
+			this.tboxUnRarPath.TabIndex = 14;
+			// 
+			// btnUnRarPath
+			// 
+			this.btnUnRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnUnRarPath.Image = ((System.Drawing.Image)(resources.GetObject("btnUnRarPath.Image")));
+			this.btnUnRarPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnUnRarPath.Location = new System.Drawing.Point(555, 71);
+			this.btnUnRarPath.Name = "btnUnRarPath";
+			this.btnUnRarPath.Size = new System.Drawing.Size(37, 24);
+			this.btnUnRarPath.TabIndex = 15;
+			this.btnUnRarPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnUnRarPath.UseVisualStyleBackColor = true;
+			this.btnUnRarPath.Click += new System.EventHandler(this.BtnUnRarPathClick);
 			// 
 			// lblRarPath
 			// 
@@ -347,10 +421,10 @@ namespace Options
 			// 
 			this.tboxRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxRarPath.Location = new System.Drawing.Point(171, 47);
+			this.tboxRarPath.Location = new System.Drawing.Point(184, 47);
 			this.tboxRarPath.Name = "tboxRarPath";
 			this.tboxRarPath.ReadOnly = true;
-			this.tboxRarPath.Size = new System.Drawing.Size(378, 20);
+			this.tboxRarPath.Size = new System.Drawing.Size(365, 20);
 			this.tboxRarPath.TabIndex = 11;
 			// 
 			// btnRarPath
@@ -380,10 +454,10 @@ namespace Options
 			// 
 			this.tboxWinRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxWinRarPath.Location = new System.Drawing.Point(171, 21);
+			this.tboxWinRarPath.Location = new System.Drawing.Point(184, 21);
 			this.tboxWinRarPath.Name = "tboxWinRarPath";
 			this.tboxWinRarPath.ReadOnly = true;
-			this.tboxWinRarPath.Size = new System.Drawing.Size(378, 20);
+			this.tboxWinRarPath.Size = new System.Drawing.Size(365, 20);
 			this.tboxWinRarPath.TabIndex = 8;
 			// 
 			// btnWinRarPath
@@ -554,7 +628,7 @@ namespace Options
 			this.gboxApportionment.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxApportionment.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxApportionment.Location = new System.Drawing.Point(3, 251);
+			this.gboxApportionment.Location = new System.Drawing.Point(3, 228);
 			this.gboxApportionment.Name = "gboxApportionment";
 			this.gboxApportionment.Size = new System.Drawing.Size(603, 87);
 			this.gboxApportionment.TabIndex = 29;
@@ -639,7 +713,7 @@ namespace Options
 			// gboxFMGeneral
 			// 
 			this.gboxFMGeneral.Controls.Add(this.chBoxDelFB2Files);
-			this.gboxFMGeneral.Controls.Add(this.panel3);
+			this.gboxFMGeneral.Controls.Add(this.chBoxAddToFileNameBookID);
 			this.gboxFMGeneral.Controls.Add(this.panel2);
 			this.gboxFMGeneral.Controls.Add(this.panel1);
 			this.gboxFMGeneral.Controls.Add(this.chBoxStrict);
@@ -650,7 +724,7 @@ namespace Options
 			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxFMGeneral.Location = new System.Drawing.Point(3, 3);
 			this.gboxFMGeneral.Name = "gboxFMGeneral";
-			this.gboxFMGeneral.Size = new System.Drawing.Size(603, 248);
+			this.gboxFMGeneral.Size = new System.Drawing.Size(603, 225);
 			this.gboxFMGeneral.TabIndex = 28;
 			this.gboxFMGeneral.TabStop = false;
 			this.gboxFMGeneral.Text = " Основные настройки ";
@@ -660,22 +734,34 @@ namespace Options
 			this.chBoxDelFB2Files.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxDelFB2Files.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxDelFB2Files.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxDelFB2Files.Location = new System.Drawing.Point(3, 138);
+			this.chBoxDelFB2Files.Location = new System.Drawing.Point(3, 201);
 			this.chBoxDelFB2Files.Name = "chBoxDelFB2Files";
 			this.chBoxDelFB2Files.Size = new System.Drawing.Size(597, 18);
-			this.chBoxDelFB2Files.TabIndex = 24;
+			this.chBoxDelFB2Files.TabIndex = 25;
 			this.chBoxDelFB2Files.Text = " Удалить исходные файлы после сортировки";
 			this.chBoxDelFB2Files.UseVisualStyleBackColor = true;
 			// 
-			// panel3
+			// chBoxAddToFileNameBookID
 			// 
-			this.panel3.Controls.Add(this.cboxFileExist);
-			this.panel3.Controls.Add(this.lbFilelExist);
-			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel3.Location = new System.Drawing.Point(3, 113);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(597, 25);
-			this.panel3.TabIndex = 16;
+			this.chBoxAddToFileNameBookID.Dock = System.Windows.Forms.DockStyle.Top;
+			this.chBoxAddToFileNameBookID.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxAddToFileNameBookID.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.chBoxAddToFileNameBookID.Location = new System.Drawing.Point(3, 183);
+			this.chBoxAddToFileNameBookID.Name = "chBoxAddToFileNameBookID";
+			this.chBoxAddToFileNameBookID.Size = new System.Drawing.Size(597, 18);
+			this.chBoxAddToFileNameBookID.TabIndex = 24;
+			this.chBoxAddToFileNameBookID.Text = " Добавить к имени файла ID книги";
+			this.chBoxAddToFileNameBookID.UseVisualStyleBackColor = true;
+			// 
+			// panel2
+			// 
+			this.panel2.Controls.Add(this.cboxFileExist);
+			this.panel2.Controls.Add(this.lbFilelExist);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel2.Location = new System.Drawing.Point(3, 158);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(597, 25);
+			this.panel2.TabIndex = 16;
 			// 
 			// cboxFileExist
 			// 
@@ -688,6 +774,7 @@ namespace Options
 			this.cboxFileExist.Name = "cboxFileExist";
 			this.cboxFileExist.Size = new System.Drawing.Size(433, 21);
 			this.cboxFileExist.TabIndex = 20;
+			this.cboxFileExist.SelectedIndexChanged += new System.EventHandler(this.CboxFileExistSelectedIndexChanged);
 			// 
 			// lbFilelExist
 			// 
@@ -700,15 +787,17 @@ namespace Options
 			this.lbFilelExist.TabIndex = 19;
 			this.lbFilelExist.Text = "Одинаковые файлы:";
 			// 
-			// panel2
+			// panel1
 			// 
-			this.panel2.Controls.Add(this.cboxArchiveType);
-			this.panel2.Controls.Add(this.chBoxToArchive);
-			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel2.Location = new System.Drawing.Point(3, 81);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(597, 32);
-			this.panel2.TabIndex = 15;
+			this.panel1.Controls.Add(this.cboxArchiveType);
+			this.panel1.Controls.Add(this.cboxSpace);
+			this.panel1.Controls.Add(this.chBoxToArchive);
+			this.panel1.Controls.Add(this.lblSpace);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel1.Location = new System.Drawing.Point(3, 129);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(597, 29);
+			this.panel1.TabIndex = 14;
 			// 
 			// cboxArchiveType
 			// 
@@ -721,58 +810,10 @@ namespace Options
 									"BZip2",
 									"GZip",
 									"Tar"});
-			this.cboxArchiveType.Location = new System.Drawing.Point(151, 5);
+			this.cboxArchiveType.Location = new System.Drawing.Point(461, 4);
 			this.cboxArchiveType.Name = "cboxArchiveType";
 			this.cboxArchiveType.Size = new System.Drawing.Size(123, 21);
 			this.cboxArchiveType.TabIndex = 17;
-			// 
-			// chBoxToArchive
-			// 
-			this.chBoxToArchive.Checked = true;
-			this.chBoxToArchive.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chBoxToArchive.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxToArchive.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxToArchive.Location = new System.Drawing.Point(0, 6);
-			this.chBoxToArchive.Name = "chBoxToArchive";
-			this.chBoxToArchive.Size = new System.Drawing.Size(153, 18);
-			this.chBoxToArchive.TabIndex = 16;
-			this.chBoxToArchive.Text = "Упаковывать файлы:";
-			this.chBoxToArchive.UseVisualStyleBackColor = true;
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.nudMaxFileNameLenght);
-			this.panel1.Controls.Add(this.cboxSpace);
-			this.panel1.Controls.Add(this.chBoxFileNameLenght);
-			this.panel1.Controls.Add(this.lblSpace);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel1.Location = new System.Drawing.Point(3, 52);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(597, 29);
-			this.panel1.TabIndex = 14;
-			// 
-			// nudMaxFileNameLenght
-			// 
-			this.nudMaxFileNameLenght.Enabled = false;
-			this.nudMaxFileNameLenght.Location = new System.Drawing.Point(536, 4);
-			this.nudMaxFileNameLenght.Maximum = new decimal(new int[] {
-									8,
-									0,
-									0,
-									0});
-			this.nudMaxFileNameLenght.Minimum = new decimal(new int[] {
-									1,
-									0,
-									0,
-									0});
-			this.nudMaxFileNameLenght.Name = "nudMaxFileNameLenght";
-			this.nudMaxFileNameLenght.Size = new System.Drawing.Size(48, 20);
-			this.nudMaxFileNameLenght.TabIndex = 22;
-			this.nudMaxFileNameLenght.Value = new decimal(new int[] {
-									8,
-									0,
-									0,
-									0});
 			// 
 			// cboxSpace
 			// 
@@ -791,16 +832,19 @@ namespace Options
 			this.cboxSpace.Size = new System.Drawing.Size(123, 21);
 			this.cboxSpace.TabIndex = 24;
 			// 
-			// chBoxFileNameLenght
+			// chBoxToArchive
 			// 
-			this.chBoxFileNameLenght.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxFileNameLenght.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxFileNameLenght.Location = new System.Drawing.Point(302, 6);
-			this.chBoxFileNameLenght.Name = "chBoxFileNameLenght";
-			this.chBoxFileNameLenght.Size = new System.Drawing.Size(240, 18);
-			this.chBoxFileNameLenght.TabIndex = 21;
-			this.chBoxFileNameLenght.Text = "Ограничить длину имени файла до:";
-			this.chBoxFileNameLenght.UseVisualStyleBackColor = true;
+			this.chBoxToArchive.Checked = true;
+			this.chBoxToArchive.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxToArchive.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxToArchive.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.chBoxToArchive.Location = new System.Drawing.Point(307, 6);
+			this.chBoxToArchive.Name = "chBoxToArchive";
+			this.chBoxToArchive.Size = new System.Drawing.Size(153, 18);
+			this.chBoxToArchive.TabIndex = 16;
+			this.chBoxToArchive.Text = "Упаковывать файлы:";
+			this.chBoxToArchive.UseVisualStyleBackColor = true;
+			this.chBoxToArchive.CheckedChanged += new System.EventHandler(this.ChBoxToArchiveCheckedChanged);
 			// 
 			// lblSpace
 			// 
@@ -820,7 +864,7 @@ namespace Options
 			this.chBoxStrict.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxStrict.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxStrict.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxStrict.Location = new System.Drawing.Point(3, 34);
+			this.chBoxStrict.Location = new System.Drawing.Point(3, 111);
 			this.chBoxStrict.Name = "chBoxStrict";
 			this.chBoxStrict.Size = new System.Drawing.Size(597, 18);
 			this.chBoxStrict.TabIndex = 13;
@@ -834,7 +878,7 @@ namespace Options
 			this.chBoxTranslit.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxTranslit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxTranslit.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxTranslit.Location = new System.Drawing.Point(3, 16);
+			this.chBoxTranslit.Location = new System.Drawing.Point(3, 93);
 			this.chBoxTranslit.Name = "chBoxTranslit";
 			this.chBoxTranslit.Size = new System.Drawing.Size(597, 18);
 			this.chBoxTranslit.TabIndex = 12;
@@ -846,11 +890,12 @@ namespace Options
 			this.gboxRegistr.Controls.Add(this.rbtnUpper);
 			this.gboxRegistr.Controls.Add(this.rbtnLower);
 			this.gboxRegistr.Controls.Add(this.rbtnAsIs);
+			this.gboxRegistr.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxRegistr.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxRegistr.ForeColor = System.Drawing.Color.Navy;
-			this.gboxRegistr.Location = new System.Drawing.Point(3, 162);
+			this.gboxRegistr.Location = new System.Drawing.Point(3, 16);
 			this.gboxRegistr.Name = "gboxRegistr";
-			this.gboxRegistr.Size = new System.Drawing.Size(160, 77);
+			this.gboxRegistr.Size = new System.Drawing.Size(597, 77);
 			this.gboxRegistr.TabIndex = 10;
 			this.gboxRegistr.TabStop = false;
 			this.gboxRegistr.Text = " Регистр имени файла ";
@@ -861,7 +906,7 @@ namespace Options
 			this.rbtnUpper.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.rbtnUpper.Location = new System.Drawing.Point(3, 52);
 			this.rbtnUpper.Name = "rbtnUpper";
-			this.rbtnUpper.Size = new System.Drawing.Size(154, 18);
+			this.rbtnUpper.Size = new System.Drawing.Size(591, 18);
 			this.rbtnUpper.TabIndex = 2;
 			this.rbtnUpper.Text = "Верхний регистр";
 			this.rbtnUpper.UseVisualStyleBackColor = true;
@@ -872,7 +917,7 @@ namespace Options
 			this.rbtnLower.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.rbtnLower.Location = new System.Drawing.Point(3, 34);
 			this.rbtnLower.Name = "rbtnLower";
-			this.rbtnLower.Size = new System.Drawing.Size(154, 18);
+			this.rbtnLower.Size = new System.Drawing.Size(591, 18);
 			this.rbtnLower.TabIndex = 1;
 			this.rbtnLower.Text = "Нижний регистр";
 			this.rbtnLower.UseVisualStyleBackColor = true;
@@ -884,7 +929,7 @@ namespace Options
 			this.rbtnAsIs.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.rbtnAsIs.Location = new System.Drawing.Point(3, 16);
 			this.rbtnAsIs.Name = "rbtnAsIs";
-			this.rbtnAsIs.Size = new System.Drawing.Size(154, 18);
+			this.rbtnAsIs.Size = new System.Drawing.Size(591, 18);
 			this.rbtnAsIs.TabIndex = 0;
 			this.rbtnAsIs.TabStop = true;
 			this.rbtnAsIs.Text = "Как есть";
@@ -923,26 +968,28 @@ namespace Options
 			this.gBoxGenres.ResumeLayout(false);
 			this.gBoxAuthors.ResumeLayout(false);
 			this.gboxFMGeneral.ResumeLayout(false);
-			this.panel3.ResumeLayout(false);
-			this.panel3.PerformLayout();
 			this.panel2.ResumeLayout(false);
+			this.panel2.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudMaxFileNameLenght)).EndInit();
 			this.gboxRegistr.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Button btn7zaPath;
+		private System.Windows.Forms.TextBox tbox7zaPath;
+		private System.Windows.Forms.Label lbl7zaPath;
+		private System.Windows.Forms.Button btnUnRarPath;
+		private System.Windows.Forms.TextBox tboxUnRarPath;
+		private System.Windows.Forms.Label lblUnRarPath;
+		private System.Windows.Forms.CheckBox chBoxAddToFileNameBookID;
 		private System.Windows.Forms.CheckBox chBoxDelFB2Files;
 		private System.Windows.Forms.CheckBox chBoxToArchive;
 		private System.Windows.Forms.ComboBox cboxSpace;
 		private System.Windows.Forms.ComboBox cboxFileExist;
 		private System.Windows.Forms.Label lbFilelExist;
 		private System.Windows.Forms.ComboBox cboxArchiveType;
-		private System.Windows.Forms.CheckBox chBoxFileNameLenght;
-		private System.Windows.Forms.NumericUpDown nudMaxFileNameLenght;
 		private System.Windows.Forms.Label lblSpace;
 		private System.Windows.Forms.Panel panel2;
-		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.CheckBox chBoxTranslit;
 		private System.Windows.Forms.CheckBox chBoxStrict;

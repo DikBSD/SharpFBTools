@@ -29,6 +29,8 @@ namespace Options
 			// общие
 			tboxWinRarPath.Text	= Settings.Settings.GetDefWinRARPath();
 			tboxRarPath.Text	= Settings.Settings.GetDefRarPath();
+			tboxUnRarPath.Text	= Settings.Settings.GetDefUnRARPath();
+			tbox7zaPath.Text	= Settings.Settings.GetDef7zaPath();
 			tboxFBEPath.Text	= Settings.Settings.GetDefFBEPath();
 			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
 			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
@@ -41,8 +43,6 @@ namespace Options
 			chBoxTranslit.Checked = Settings.Settings.GetDefFMchBoxTranslitCheked();
 			chBoxStrict.Checked = Settings.Settings.GetDefFMchBoxStrictCheked();
 			cboxSpace.SelectedIndex = Settings.Settings.GetDefFMcboxSpaceSelectedIndex();
-			chBoxFileNameLenght.Checked = Settings.Settings.GetDefFMchBoxFileNameLenghtCheked();
-			nudMaxFileNameLenght.Value = Settings.Settings.GetDefFMnudMaxFileNameLenghtValue();
 			chBoxToArchive.Checked = Settings.Settings.GetDefFMchBoxToArchiveCheked();
 			cboxArchiveType.SelectedIndex = Settings.Settings.GetDefFMcboxArchiveTypeSelectedIndex();
 			cboxFileExist.SelectedIndex = Settings.Settings.GetDefFMcboxFileExistSelectedIndex();
@@ -58,6 +58,7 @@ namespace Options
 		
 		void ReadSettings() {
 			// чтение настроек из xml-файла
+			#region Код
 			string sSettings = Settings.Settings.GetSettingsPath();
 			if( !File.Exists( sSettings ) ) return;
 			XmlReaderSettings settings = new XmlReaderSettings();
@@ -67,6 +68,10 @@ namespace Options
 				if (reader.HasAttributes ) {
 					tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
 					tboxRarPath.Text = reader.GetAttribute("RarPath");
+				}
+				reader.ReadToFollowing("7za");
+				if (reader.HasAttributes ) {
+					tbox7zaPath.Text = reader.GetAttribute("7zaPath");
 				}
 				reader.ReadToFollowing("Editors");
 				if (reader.HasAttributes ) {
@@ -89,9 +94,60 @@ namespace Options
 				}
 				reader.Close();
 			}
+			#endregion
 		}
 		
 		#region Обработчики
+				
+		void BtnOKClick(object sender, EventArgs e)
+		{
+			// сохранение настроек в ini
+			// устанавливаем текущую папку - папка программы
+			Environment.CurrentDirectory = Settings.Settings.GetProgDir();
+			XmlWriter writer = null;
+			try {
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Indent = true;
+				settings.IndentChars = ("\t");
+				settings.OmitXmlDeclaration = true;
+				
+				writer = XmlWriter.Create( Settings.Settings.GetSettingsPath(), settings );
+				writer.WriteStartElement( "SharpFBTools" );
+					writer.WriteStartElement( "General" );
+						writer.WriteStartElement( "WinRar" );
+							writer.WriteAttributeString( "WinRarPath", tboxWinRarPath.Text );
+							writer.WriteAttributeString( "RarPath", tboxRarPath.Text );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "7za" );
+							writer.WriteAttributeString( "7zaPath", tbox7zaPath.Text );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "Editors" );
+							writer.WriteAttributeString( "FBEPath", tboxFBEPath.Text );
+							writer.WriteAttributeString( "TextFB2EPath", tboxTextEPath.Text );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "Reader" );
+							writer.WriteAttributeString( "FBReaderPath", tboxReaderPath.Text );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+					writer.WriteStartElement( "FB2Validator" );
+						writer.WriteStartElement( "ValidatorDoubleClick" );
+							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndex", cboxValidatorForFB2.SelectedIndex.ToString() );
+							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndex", cboxValidatorForFB2Archive.SelectedIndex.ToString() );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "ValidatorPressEnter" );
+							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndexPE", cboxValidatorForFB2PE.SelectedIndex.ToString() );
+							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndexPE", cboxValidatorForFB2ArchivePE.SelectedIndex.ToString() );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+				writer.WriteEndElement();
+				writer.Flush();
+			}  finally  {
+				if (writer != null)
+				writer.Close();
+				this.Close();
+			}
+		}
+		#region Общее
 		void BtnWinRarPathClick(object sender, EventArgs e)
 		{
 			// указание пути к WinRar
@@ -113,6 +169,30 @@ namespace Options
 			DialogResult result = ofDlg.ShowDialog();
 			if (result == DialogResult.OK) {
                 tboxRarPath.Text = ofDlg.FileName;
+            }
+		}
+		
+		void BtnUnRarPathClick(object sender, EventArgs e)
+		{
+			// указание пути к UnRar (консольному)
+			ofDlg.Title = "Укажите путь к UnRar (консольному):";
+			ofDlg.FileName = "";
+			ofDlg.Filter = "UnRar.exe|*.exe|Все файлы (*.*)|*.*";
+			DialogResult result = ofDlg.ShowDialog();
+			if (result == DialogResult.OK) {
+                tboxUnRarPath.Text = ofDlg.FileName;
+            }
+		}
+		
+		void Btn7zaPathClick(object sender, EventArgs e)
+		{
+			// указание пути к 7za (консольному)
+			ofDlg.Title = "Укажите путь к 7za (консольному):";
+			ofDlg.FileName = "";
+			ofDlg.Filter = "7za.exe|*.exe|Все файлы (*.*)|*.*";
+			DialogResult result = ofDlg.ShowDialog();
+			if (result == DialogResult.OK) {
+                tbox7zaPath.Text = ofDlg.FileName;
             }
 		}
 		
@@ -151,52 +231,20 @@ namespace Options
                 tboxReaderPath.Text = ofDlg.FileName;
             }
 		}
-		
-		void BtnOKClick(object sender, EventArgs e)
+		#endregion
+
+		#region Менеджер Файлов
+		void CboxFileExistSelectedIndexChanged(object sender, EventArgs e)
 		{
-			// сохранение настроек в ini
-			// устанавливаем текущую папку - папка программы
-			Environment.CurrentDirectory = Settings.Settings.GetProgDir();
-			XmlWriter writer = null;
-			try {
-				XmlWriterSettings settings = new XmlWriterSettings();
-				settings.Indent = true;
-				settings.IndentChars = ("\t");
-				settings.OmitXmlDeclaration = true;
-				
-				writer = XmlWriter.Create( Settings.Settings.GetSettingsPath(), settings );
-				writer.WriteStartElement( "SharpFBTools" );
-					writer.WriteStartElement( "General" );
-						writer.WriteStartElement( "WinRar" );
-							writer.WriteAttributeString( "WinRarPath", tboxWinRarPath.Text );
-							writer.WriteAttributeString( "RarPath", tboxRarPath.Text );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "Editors" );
-							writer.WriteAttributeString( "FBEPath", tboxFBEPath.Text );
-							writer.WriteAttributeString( "TextFB2EPath", tboxTextEPath.Text );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "Reader" );
-							writer.WriteAttributeString( "FBReaderPath", tboxReaderPath.Text );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-					writer.WriteStartElement( "FB2Validator" );
-						writer.WriteStartElement( "ValidatorDoubleClick" );
-							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndex", cboxValidatorForFB2.SelectedIndex.ToString() );
-							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndex", cboxValidatorForFB2Archive.SelectedIndex.ToString() );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "ValidatorPressEnter" );
-							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndexPE", cboxValidatorForFB2PE.SelectedIndex.ToString() );
-							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndexPE", cboxValidatorForFB2ArchivePE.SelectedIndex.ToString() );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-				writer.WriteEndElement();
-				writer.Flush();
-			}  finally  {
-				if (writer != null)
-				writer.Close();
-				this.Close();
-			}
+			chBoxAddToFileNameBookID.Visible = cboxFileExist.SelectedIndex == 1;
 		}
+		
+		void ChBoxToArchiveCheckedChanged(object sender, EventArgs e)
+		{
+			cboxArchiveType.Enabled = chBoxToArchive.Checked;
+		}		
+		#endregion
+		
 		#endregion
 	}
 }

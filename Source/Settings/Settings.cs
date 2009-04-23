@@ -27,11 +27,11 @@ namespace Settings
 		private static string m_sTFB2Path = "c:\\WINDOWS\\NOTEPAD.EXE";
 		private static string m_sWinRarPath = "c:\\Program Files\\WinRAR\\WinRAR.exe";
 		private static string m_sRarPath = "c:\\Program Files\\WinRAR\\Rar.exe";
+		private static string m_sUnRARPath = GetProgDir()+"\\UnRAR.exe";
+		private static string m_s7zaPath = GetProgDir()+"\\7za.exe";		
 		private static string m_sFBEPath = "c:\\Program Files\\FictionBook Editor\\FBE.exe";
 		private static string m_sFBReaderPath = "c:\\Program Files\\AlReader 2\\AlReader2.exe";
 		private static string m_sLicensePath = GetProgDir()+"\\License GPL 2.1.rtf";
-		private static string m_s7zaPath = GetProgDir()+"\\7za.exe";
-		private static string m_sUnRARPath = GetProgDir()+"\\UnRAR.exe";
 		private static string m_sChangeFilePath = GetProgDir()+"\\Change.rtf";
 		#endregion
 		
@@ -54,8 +54,6 @@ namespace Settings
 		private static bool m_bchBoxToArchiveCheked = true;
 		private static Int16 m_ncboxArchiveTypeSelectedIndex = 1;
 		private static Int16 m_ncboxFileExistSelectedIndex = 1;
-		private static bool m_bchBoxFileNameLenghtCheked = false;
-		private static Int16 m_nnudMaxFileNameLenghtValue = 8;
 		private static bool m_bchBoxDelFB2FilesCheked = false;
 		private static bool m_brbtnAsIsCheked = true;
 		private static bool m_brbtnLowerCheked = false;
@@ -64,6 +62,25 @@ namespace Settings
 		private static bool m_brbtnAuthorOneCheked = true;
 		#endregion
 		
+		#endregion
+		
+		#region Закрытые методы класса
+		private static string ReadAttribute( string sTag, string sAttr, string sAttrDefValue ) {
+			// читаем атрибут тега из настроек
+			string sAttrValue = sAttrDefValue;
+			if( File.Exists( GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
+					reader.ReadToFollowing(sTag);
+					if (reader.HasAttributes ) {
+						sAttrValue = reader.GetAttribute(sAttr);
+					}
+					reader.Close();
+				}
+			}
+			return sAttrValue;
+		}
 		#endregion
 		
 		#region Открытые статические члены-данные класса
@@ -102,6 +119,14 @@ namespace Settings
 			return m_sRarPath;
 		}
 		
+		public static string GetDefUnRARPath() {
+			return m_sUnRARPath;
+		}		
+		
+		public static string GetDef7zaPath() {
+			return m_s7zaPath;
+		}
+		
 		public static string GetDefFBEPath() {
 			return m_sFBEPath;
 		}
@@ -113,94 +138,45 @@ namespace Settings
 		public static string GetLicensePath() {
 			return m_sLicensePath;
 		}
-		
-		public static string Get7zaPath() {
-			return m_s7zaPath;
-		}
-		
-		public static string GetUnRARPath() {
-			return m_sUnRARPath;
-		}
-		
+
 		public static string GetChangeFilePath() {
 			return m_sChangeFilePath;
 		}
 		
 		////// Чтение из файла настроек данных по конкретному параметру
+		
+		public static string ReadWinRARPath() {
+			// читаем путь к WinRar из настроек
+			return ReadAttribute( "WinRar", "WinRarPath", GetDefWinRARPath() );
+		}
+		public static string ReadRarPath() {
+			// читаем путь к консольному Rar из настроек
+			return ReadAttribute( "WinRar", "RarPath", GetDefRarPath() );
+		}
+		public static string ReadUnRarPath() {
+			// читаем путь к консольному UnRar из настроек
+			return ReadAttribute( "WinRar", "UnRarPath", ReadUnRarPath() );
+		}
+		public static string Read7zaPath() {
+			// читаем путь к консольному 7za из настроек
+			return ReadAttribute( "7za", "7zaPath", GetDef7zaPath() );
+		}
+		
 		public static string ReadTextFB2EPath() {
 			// читаем путь к текстовому редактору из настроек
-			string sTFB2Path = GetDefTFB2Path();
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing("Editors");
-					sTFB2Path = reader.GetAttribute("TextFB2EPath");
-					reader.Close();
-				}
-			}
-			return sTFB2Path;
+			return ReadAttribute( "Editors", "TextFB2EPath", GetDefTFB2Path() );
 		}
 		
 		public static string ReadFBEPath() {
 			// читаем путь к FBE из настроек
-			string sFBEPath = GetDefFBEPath();
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing("Editors");
-					sFBEPath = reader.GetAttribute("FBEPath");
-					reader.Close();
-				}
-			}
-			return sFBEPath;
+			return ReadAttribute( "Editors", "FBEPath", GetDefFBEPath() );
 		}
 		
 		public static string ReadFBReaderPath() {
 			// читаем путь к читалке из настроек
-			string sFBReaderPath = GetDefFBReaderPath();
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing("Reader");
-					sFBReaderPath = reader.GetAttribute("FBReaderPath");
-					reader.Close();
-				}
-			}
-			return sFBReaderPath;
+			return ReadAttribute( "Reader", "FBReaderPath", GetDefFBReaderPath() );
 		}
 		
-		public static string ReadWinRARPath() {
-			// читаем путь к WinRar из настроек
-			string sWinRarPath = GetDefWinRARPath();
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing("WinRar");
-					sWinRarPath = reader.GetAttribute("WinRarPath");
-					reader.Close();
-				}
-			}
-			return sWinRarPath;
-		}
-		
-		public static string ReadRarPath() {
-			// читаем путь к консольному Rar из настроек
-			string sRarPath = GetDefRarPath();
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing("WinRar");
-					sRarPath = reader.GetAttribute("RarPath");
-					reader.Close();
-				}
-			}
-			return sRarPath;
-		}
 		#endregion
 				
 		#region Валидатор
@@ -315,14 +291,7 @@ namespace Settings
 		public static Int16 GetDefFMcboxFileExistSelectedIndex() {
 			return m_ncboxFileExistSelectedIndex;
 		}
-		
-		public static bool GetDefFMchBoxFileNameLenghtCheked() {
-			return m_bchBoxFileNameLenghtCheked;
-		}
-		public static Int16 GetDefFMnudMaxFileNameLenghtValue() {
-			return m_nnudMaxFileNameLenghtValue;
-		}
-		
+				
 		public static bool GetDefFMchBoxDelFB2FilesCheked() {
 			return m_bchBoxDelFB2FilesCheked;
 		}
