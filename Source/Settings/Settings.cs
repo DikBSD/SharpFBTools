@@ -73,8 +73,11 @@ namespace Settings
 				settings.IgnoreWhitespace = true;
 				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
 					reader.ReadToFollowing(sTag);
-					if (reader.HasAttributes ) {
-						sAttrValue = reader.GetAttribute(sAttr);
+					if ( reader.HasAttributes ) {
+						string s = reader.GetAttribute( sAttr );
+						if( s != null ) {
+							sAttrValue = s;
+						}
 					}
 					reader.Close();
 				}
@@ -155,7 +158,7 @@ namespace Settings
 		}
 		public static string ReadUnRarPath() {
 			// читаем путь к консольному UnRar из настроек
-			return ReadAttribute( "WinRar", "UnRarPath", ReadUnRarPath() );
+			return ReadAttribute( "WinRar", "UnRarPath", GetDefUnRARPath() );
 		}
 		public static string Read7zaPath() {
 			// читаем путь к консольному 7za из настроек

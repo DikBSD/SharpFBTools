@@ -102,6 +102,7 @@ namespace Options
 		void BtnOKClick(object sender, EventArgs e)
 		{
 			// сохранение настроек в ini
+			#region Код
 			// устанавливаем текущую папку - папка программы
 			Environment.CurrentDirectory = Settings.Settings.GetProgDir();
 			XmlWriter writer = null;
@@ -117,9 +118,10 @@ namespace Options
 						writer.WriteStartElement( "WinRar" );
 							writer.WriteAttributeString( "WinRarPath", tboxWinRarPath.Text );
 							writer.WriteAttributeString( "RarPath", tboxRarPath.Text );
+							writer.WriteAttributeString( "UnRarPath", tboxUnRarPath.Text );
 						writer.WriteFullEndElement();
-						writer.WriteStartElement( "7za" );
-							writer.WriteAttributeString( "7zaPath", tbox7zaPath.Text );
+						writer.WriteStartElement( "A7za" );
+							writer.WriteAttributeString( "A7zaPath", tbox7zaPath.Text );
 						writer.WriteFullEndElement();
 						writer.WriteStartElement( "Editors" );
 							writer.WriteAttributeString( "FBEPath", tboxFBEPath.Text );
@@ -146,6 +148,7 @@ namespace Options
 				writer.Close();
 				this.Close();
 			}
+			#endregion
 		}
 		#region Общее
 		void BtnWinRarPathClick(object sender, EventArgs e)

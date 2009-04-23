@@ -95,7 +95,20 @@ namespace SharpFBTools.Controls.Panels
 			FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 		}
 		
-		void ReadValidatorDirs() {
+		private void OpenDirDlg( TextBox tb, FolderBrowserDialog fbd )
+		{
+			// задание папки черед диалог открытия папки
+			if( tb.Text.Trim() !="" ) {
+				fbd.SelectedPath = tb.Text.Trim();
+			}
+			DialogResult result = fbd.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbd.SelectedPath;
+                tb.Text = openFolderName;
+            }
+		}
+		
+		private void ReadValidatorDirs() {
 			// чтение путей к папкам Валидатора из xml-файла
 			string sSettings = Settings.Settings.GetValidatorDirsSettingsPath();
 			if( !File.Exists( sSettings ) ) return;
@@ -537,100 +550,49 @@ namespace SharpFBTools.Controls.Panels
 		void BtnFB2NotValidCopyToClick(object sender, EventArgs e)
 		{
 			// задание папки для копирования невалидных fb2-файлов
-			if( tboxFB2NotValidDirCopyTo.Text !="" ) {
-				fbdNotValidFB2.SelectedPath = tboxFB2NotValidDirCopyTo.Text;
-			}
-			DialogResult result = fbdNotValidFB2.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbdNotValidFB2.SelectedPath;
-                tboxFB2NotValidDirCopyTo.Text = openFolderName;
-            }
+			OpenDirDlg( tboxFB2NotValidDirCopyTo, fbdNotValidFB2 );
 			Settings.Settings.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
 		}
 		
 		void BtnFB2NotValidMoveToClick(object sender, EventArgs e)
 		{
 			// задание папки для перемещения невалидных fb2-файлов
-			if( tboxFB2NotValidDirMoveTo.Text !="" ) {
-				fbdNotValidFB2.SelectedPath = tboxFB2NotValidDirMoveTo.Text;
-			}
-			DialogResult result = fbdNotValidFB2.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbdNotValidFB2.SelectedPath;
-                tboxFB2NotValidDirMoveTo.Text = openFolderName;
-            }
+			OpenDirDlg( tboxFB2NotValidDirMoveTo, fbdNotValidFB2 );
 			Settings.Settings.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
 		}
 		
 		void BtnFB2ValidCopyToClick(object sender, EventArgs e)
 		{
 			// задание папки для валидных fb2-файлов
-			if( tboxFB2ValidDirCopyTo.Text !="" ) {
-				fbdValidFB2.SelectedPath = tboxFB2ValidDirCopyTo.Text;
-			}
-			DialogResult result = fbdValidFB2.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbdValidFB2.SelectedPath;
-                tboxFB2ValidDirCopyTo.Text = openFolderName;
-            }
+			OpenDirDlg( tboxFB2ValidDirCopyTo, fbdValidFB2 );
 			Settings.Settings.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
 		}
 		
 		void BtnFB2ValidMoveToClick(object sender, EventArgs e)
 		{
 			// задание папки для перемещения валидных fb2-файлов
-			if( tboxFB2ValidDirMoveTo.Text !="" ) {
-				fbdValidFB2.SelectedPath = tboxFB2ValidDirMoveTo.Text;
-			}
-			DialogResult result = fbdValidFB2.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbdValidFB2.SelectedPath;
-                tboxFB2ValidDirMoveTo.Text = openFolderName;
-            }
+			OpenDirDlg( tboxFB2ValidDirMoveTo, fbdValidFB2 );
 			Settings.Settings.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
 		}
 		
 		void BtnNotFB2CopyToClick(object sender, EventArgs e)
 		{
 			// задание папки для не fb2-файлов
-			if( tboxNotFB2DirCopyTo.Text !="" ) {
-				fbdNotFB2.SelectedPath = tboxNotFB2DirCopyTo.Text;
-			}
-			DialogResult result = fbdNotFB2.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbdNotFB2.SelectedPath;
-                tboxNotFB2DirCopyTo.Text = openFolderName;
-            }
+			OpenDirDlg( tboxNotFB2DirCopyTo, fbdNotFB2 );
 			Settings.Settings.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
 		}
 		
 		void BtnNotFB2MoveToClick(object sender, EventArgs e)
 		{
 			// задание папки для перемещения не fb2-файлов
-			if( tboxNotFB2DirMoveTo.Text !="" ) {
-				fbdNotFB2.SelectedPath = tboxNotFB2DirMoveTo.Text;
-			}
-			DialogResult result = fbdNotFB2.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbdNotFB2.SelectedPath;
-                tboxNotFB2DirMoveTo.Text = openFolderName;
-            }
+			OpenDirDlg( tboxNotFB2DirMoveTo, fbdNotFB2 );
 			Settings.Settings.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
 		}
 		
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами для сканирования
-			if( tboxSourceDir.Text !="" ) {
-				fbdSource.SelectedPath = tboxSourceDir.Text;
-			}
-			DialogResult result = fbdSource.ShowDialog();
-			if (result == DialogResult.OK) {
-                // инициализация контролов
-				Init();
-				string openFolderName = fbdSource.SelectedPath;
-                tboxSourceDir.Text = openFolderName;
-            }
+			OpenDirDlg( tboxSourceDir, fbdSource );
 			Settings.Settings.SetScanDir( tboxSourceDir.Text );
 		}
 		
@@ -642,9 +604,9 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo(tboxSourceDir.Text);
+			DirectoryInfo diFolder = new DirectoryInfo( tboxSourceDir.Text.Trim() );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text.Trim(), "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			

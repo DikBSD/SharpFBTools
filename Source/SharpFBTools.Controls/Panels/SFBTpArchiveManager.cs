@@ -38,6 +38,7 @@ namespace SharpFBTools.Controls.Panels
 			cboxUAType.SelectedIndex = 6;	// Все архивы
 		}
 		
+		#region Закрытые Общие Вспомогательны методы класса
 		private void InitA() {
 			// инициализация контролов и переменных  (Упаковка)
 			for( int i=0; i!=lvGeneralCount.Items.Count; ++i ) {
@@ -61,7 +62,7 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible	= false;
 		}
 		
-		string ExistsFB2FileFileToDirWorker( string sNewFile, string sSufix ) {
+		private string ExistsFB2FileFileToDirWorker( string sNewFile, string sSufix ) {
 			// Обработка существующих в папке-приемнике файлов при копировании
 			if( File.Exists( sNewFile ) ) {
 				if( cboxUAExistArchive.SelectedIndex==0 ) {
@@ -76,12 +77,12 @@ namespace SharpFBTools.Controls.Panels
 			return sNewFile;
 		}
 		
-		bool FileToDir( string sFile, string sArchiveFile, string sTargetDir, bool bFB2 ) {
+		private bool FileToDir( string sFile, string sArchiveFile, string sTargetDir, bool bFB2 ) {
 			// Переместить в папку
 			// bFB2=true - копировать только fb2-файлы. false - любые
 			if( bFB2 && Path.GetExtension( sFile ).ToLower() != ".fb2" ) return false;
-			string sFileSourceDir = tboxUASourceDir.Text;
-			string sNewDir = Path.GetDirectoryName( sTargetDir + sArchiveFile.Remove( 0, sFileSourceDir.Length ) );
+			string sFileSourceDir = tboxUASourceDir.Text.Trim();
+			string sNewDir = Path.GetDirectoryName( sTargetDir+"\\"+sArchiveFile.Remove( 0, sFileSourceDir.Length ) );
 			string sNewFile = "";
 			string sSufix = ""; // для добавления к имени нового файла суфикса
 			if( rbtnUAToSomeDir.Checked ) {
@@ -103,8 +104,10 @@ namespace SharpFBTools.Controls.Panels
 			return true;
 		}
 		
+		#endregion
+		
 		#region Архивация
-		string GetArchiveExt( string sType ) {
+		private string GetArchiveExt( string sType ) {
 			string sExt = "";
 			switch( sType ) {
 				case "Rar":
@@ -129,7 +132,7 @@ namespace SharpFBTools.Controls.Panels
 			return sExt;
 		}
 		
-		void FileToArchive( string sArchPath, List<string> lFilesList, bool bZip, ToolStripProgressBar pBar ) {
+		private void FileToArchive( string sArchPath, List<string> lFilesList, bool bZip, ToolStripProgressBar pBar ) {
 			// упаковка fb2-файлов в .fb2.??? - где ??? - тип архива (задается в cboxArchiveType)
 			long lFB2 = 0;
 			foreach( string sFile in lFilesList ) {
@@ -156,8 +159,8 @@ namespace SharpFBTools.Controls.Panels
 						}
 					} else {
 						// создаем архив в другой папке
-						string sSource = tboxSourceDir.Text;
-						string sTarget = tboxToAnotherDir.Text;
+						string sSource = tboxSourceDir.Text.Trim();
+						string sTarget = tboxToAnotherDir.Text.Trim();
 						string sNewFilePath = sFile.Remove( 0, sSource.Length );
 						sArchiveFile = sTarget + sNewFilePath + sDotExt;
 						FileInfo fi = new FileInfo( sArchiveFile );
@@ -194,7 +197,7 @@ namespace SharpFBTools.Controls.Panels
 		#endregion
 				
 		#region Распаковка
-		bool DeleteSourceFileIsNeeds( string sFile ) {
+		private bool DeleteSourceFileIsNeeds( string sFile ) {
 			if( cboxUADelFB2Files.Checked ) {
 				// удаляем исходный архив
 				if( File.Exists( sFile ) ) {
@@ -205,7 +208,7 @@ namespace SharpFBTools.Controls.Panels
 			return false;
 		}
 		
-		long AllArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
+		private long AllArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
 			// Распаковать все ахривы
 			long lCount, lFB2, lRar, lZip, l7Z, lBZip2, lGZip, lTar;
 			lCount = lFB2 = lRar = lZip = l7Z = lBZip2 = lGZip = lTar = 0;
@@ -286,7 +289,7 @@ namespace SharpFBTools.Controls.Panels
 			return lCount;
 		}
 		
-		long TypeArchToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar,
+		private long TypeArchToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar,
 		                   string sExt, int nArchCountItem, int nFB2CountItem ) {
 			// Распаковать выбранный тип ахрива
 			long lCount = 0;
@@ -322,7 +325,7 @@ namespace SharpFBTools.Controls.Panels
 			return lCount;
 		}
 		
-		long ArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
+		private long ArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
 			// Распаковать ахривы
 			string sArchType = GetArchiveExt( cboxUAType.Text );
 			long lAllArchive = 0;
@@ -392,6 +395,9 @@ namespace SharpFBTools.Controls.Panels
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами для сканирования (Архивация)
+			if( tboxSourceDir.Text.Trim() !="" ) {
+				fbdDir.SelectedPath = tboxSourceDir.Text.Trim();
+			}
 			fbdDir.Description = "Укажите папку с fb2-файлами для Упаковки";
 			DialogResult result = fbdDir.ShowDialog();
 			if (result == DialogResult.OK) {
@@ -410,6 +416,9 @@ namespace SharpFBTools.Controls.Panels
 		void BtnToAnotherDirClick(object sender, EventArgs e)
 		{
 			// задание папки для копирования запакованных fb2-файлов
+			if( tboxToAnotherDir.Text.Trim() !="" ) {
+				fbdDir.SelectedPath = tboxToAnotherDir.Text.Trim();
+			}
 			fbdDir.Description = "Укажите папку для размещения упакованных fb2-файлов";
 			DialogResult result = fbdDir.ShowDialog();
 			if (result == DialogResult.OK) {
@@ -426,24 +435,26 @@ namespace SharpFBTools.Controls.Panels
 		void TsbtnArchiveClick(object sender, EventArgs e)
 		{
 			// Запаковка fb2-файлов
+			string sSource = tboxSourceDir.Text.Trim();
+			string sTarget = tboxToAnotherDir.Text.Trim();
 			// проверки перед запуском архивации
-			if( tboxSourceDir.Text.Trim() == "" ) {
+			if( sSource == "" ) {
 				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( tboxSourceDir.Text );
+			DirectoryInfo diFolder = new DirectoryInfo( sSource );
 			if( !diFolder.Exists ) {
 				MessageBox.Show( "Папка для сканирования не найдена:" + tboxSourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			if( rbtnToAnotherDir.Checked ) {
-				if( tboxToAnotherDir.Text.Trim() == "" ) {
+				if( sTarget == "" ) {
 					MessageBox.Show( "Не задана папка-приемник архивов!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				} else {
-					DirectoryInfo df = new DirectoryInfo( tboxToAnotherDir.Text );
+					DirectoryInfo df = new DirectoryInfo( sTarget );
 					if( !df.Exists ) {
-						MessageBox.Show( "Папка-приемник не найдена:" + tboxToAnotherDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						MessageBox.Show( "Папка-приемник не найдена:" + sTarget, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
 					}
 				}
@@ -516,6 +527,9 @@ namespace SharpFBTools.Controls.Panels
 		void TsbtnUAOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-архивами для сканирования (Распаковка)
+			if( tboxUASourceDir.Text.Trim() !="" ) {
+				fbdDir.SelectedPath = tboxUASourceDir.Text.Trim();
+			}
 			fbdDir.Description = "Укажите папку с fb2-архивами для Распаковки";
 			DialogResult result = fbdDir.ShowDialog();
 			if (result == DialogResult.OK) {
@@ -534,13 +548,14 @@ namespace SharpFBTools.Controls.Panels
 		void TsbtnUAAnalyzeClick(object sender, EventArgs e)
 		{
 			// анализ файлов - какие архивы есть в папке сканирования
-			if( tboxUASourceDir.Text.Trim() == "" ) {
+			string sSource = tboxUASourceDir.Text.Trim();
+			if( sSource == "" ) {
 				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo(tboxUASourceDir.Text);
+			DirectoryInfo diFolder = new DirectoryInfo( sSource );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка для сканирования не найдена:" + tboxUASourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка для сканирования не найдена:" + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			DateTime dtStart = DateTime.Now;
@@ -603,27 +618,29 @@ namespace SharpFBTools.Controls.Panels
 		void TsbtnUnArchiveClick(object sender, EventArgs e)
 		{
 			// Распаковка архивов
-			if( tboxUASourceDir.Text == "" ) {
+			string sSource = tboxUASourceDir.Text.Trim();
+			string sTarget = tboxUAToAnotherDir.Text.Trim();
+			if( sSource == "" ) {
 				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( tboxUASourceDir.Text );
+			DirectoryInfo diFolder = new DirectoryInfo( sSource );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка для сканирования не найдена:" + tboxUASourceDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка для сканирования не найдена:" + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			if( rbtnUAToAnotherDir.Checked ) {
-				if( tboxUAToAnotherDir.Text == "") {
+				if( sTarget == "") {
 					MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				} else {
-					DirectoryInfo df = new DirectoryInfo( tboxUAToAnotherDir.Text );
+					DirectoryInfo df = new DirectoryInfo( sTarget );
 					if( !df.Exists ) {
-						MessageBox.Show( "Папка-приемник не найдена:" + tboxUAToAnotherDir.Text, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						MessageBox.Show( "Папка-приемник не найдена:" + sTarget, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
 					}
 				}
-				if( tboxUAToAnotherDir.Text == tboxUASourceDir.Text ) {
+				if( sTarget == sSource ) {
 					MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				}
@@ -665,7 +682,7 @@ namespace SharpFBTools.Controls.Panels
 			ssProgress.Refresh();
 			gboxUACount.Refresh();
 
-			long lCount = ArchivesToFile( lFilesList, tboxUAToAnotherDir.Text, tsProgressBar );
+			long lCount = ArchivesToFile( lFilesList, sTarget, tsProgressBar );
 			
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
@@ -681,6 +698,9 @@ namespace SharpFBTools.Controls.Panels
 		void BtnUAToAnotherDirClick(object sender, EventArgs e)
 		{
 			// задание папки для копирования распакованных файлов
+			if( tboxUAToAnotherDir.Text.Trim() !="" ) {
+				fbdDir.SelectedPath = tboxUAToAnotherDir.Text.Trim();
+			}
 			fbdDir.Description = "Укажите папку для размещения распакованных файлов";
 			DialogResult result = fbdDir.ShowDialog();
 			if (result == DialogResult.OK) {
