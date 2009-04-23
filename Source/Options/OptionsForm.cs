@@ -69,9 +69,9 @@ namespace Options
 					tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
 					tboxRarPath.Text = reader.GetAttribute("RarPath");
 				}
-				reader.ReadToFollowing("7za");
+				reader.ReadToFollowing("A7za");
 				if (reader.HasAttributes ) {
-					tbox7zaPath.Text = reader.GetAttribute("7zaPath");
+					tbox7zaPath.Text = reader.GetAttribute("A7zaPath");
 				}
 				reader.ReadToFollowing("Editors");
 				if (reader.HasAttributes ) {

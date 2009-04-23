@@ -159,7 +159,7 @@ namespace Settings
 		}
 		public static string Read7zaPath() {
 			// читаем путь к консольному 7za из настроек
-			return ReadAttribute( "7za", "7zaPath", GetDef7zaPath() );
+			return ReadAttribute( "A7za", "A7zaPath", GetDef7zaPath() );
 		}
 		
 		public static string ReadTextFB2EPath() {
@@ -202,62 +202,22 @@ namespace Settings
 		
 		public static Int16 ReadValidatorFB2SelectedIndex() {
 			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2 из настроек
-			string sSelectedIndex = GetDefValidatorFB2SelectedIndex().ToString();
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing("ValidatorDoubleClick");
-					sSelectedIndex = reader.GetAttribute("cboxValidatorForFB2SelectedIndex");
-					reader.Close();
-				}
-			}
-			return Convert.ToInt16( sSelectedIndex );
+			return Convert.ToInt16( ReadAttribute( "ValidatorDoubleClick", "cboxValidatorForFB2SelectedIndex", GetDefValidatorFB2SelectedIndex().ToString() ) );
 		}
 		
 		public static Int16 ReadValidatorFB2ArchiveSelectedIndex() {
 			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2Archive из настроек
-			string sSelectedIndex = GetDefValidatorFB2ArchiveSelectedIndex().ToString();
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing("ValidatorDoubleClick");
-					sSelectedIndex = reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex");
-					reader.Close();
-				}
-			}
-			return Convert.ToInt16( sSelectedIndex );
+			return Convert.ToInt16( ReadAttribute( "ValidatorDoubleClick", "cboxValidatorForFB2ArchiveSelectedIndex", GetDefValidatorFB2ArchiveSelectedIndex().ToString() ) );
 		}
 		
 		public static Int16 ReadValidatorFB2SelectedIndexPE() {
 			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2 из настроек для нажатия Enter
-			string sSelectedIndex = GetDefValidatorFB2SelectedIndexPE().ToString();
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing("ValidatorPressEnter");
-					sSelectedIndex = reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE");
-					reader.Close();
-				}
-			}
-			return Convert.ToInt16( sSelectedIndex );
+			return Convert.ToInt16( ReadAttribute( "ValidatorPressEnter", "cboxValidatorForFB2SelectedIndexPE", GetDefValidatorFB2SelectedIndexPE().ToString() ) );
 		}
 		
 		public static Int16 ReadValidatorFB2ArchiveSelectedIndexPE() {
 			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2Archive из настроек для нажатия Enter
-			string sSelectedIndex = GetDefValidatorFB2ArchiveSelectedIndexPE().ToString();
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing("ValidatorPressEnter");
-					sSelectedIndex = reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE");
-					reader.Close();
-				}
-			}
-			return Convert.ToInt16( sSelectedIndex );
+			return Convert.ToInt16( ReadAttribute( "ValidatorPressEnter", "cboxValidatorForFB2ArchiveSelectedIndexPE", GetDefValidatorFB2ArchiveSelectedIndexPE().ToString() ) );
 		}
 		#endregion
 
