@@ -32,10 +32,10 @@ namespace SharpFBTools.Controls.Panels
 			InitializeComponent();
 			InitA();	// инициализация контролов (Упаковка)
 			InitUA();	// инициализация контролов (Распаковка
-			cboxExistArchive.SelectedIndex = 1; // добавление к создаваемому fb2-архиву _год-месяц...
-			cboxArchiveType.SelectedIndex = 1;	// Zip
-			cboxUAExistArchive.SelectedIndex = 1;	// добавление к создаваемому fb2-файлу _год-месяц...
-			cboxUAType.SelectedIndex = 6;	// Все архивы
+			cboxExistArchive.SelectedIndex		= 1; // добавление к создаваемому fb2-архиву _год-месяц...
+			cboxArchiveType.SelectedIndex		= 1; // Zip
+			cboxUAExistArchive.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу _год-месяц...
+			cboxUAType.SelectedIndex			= 6; // Все архивы
 		}
 		
 		#region Закрытые Общие Вспомогательны методы класса
@@ -395,36 +395,32 @@ namespace SharpFBTools.Controls.Panels
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами для сканирования (Архивация)
-			if( tboxSourceDir.Text.Trim() !="" ) {
-				fbdDir.SelectedPath = tboxSourceDir.Text.Trim();
+			if( FilesWorker.FilesWorker.OpenDirDlg( tboxSourceDir, fbdDir, "Укажите папку с fb2-файлами для Упаковки" ) ) {
+				InitA();
 			}
-			fbdDir.Description = "Укажите папку с fb2-файлами для Упаковки";
-			DialogResult result = fbdDir.ShowDialog();
-			if (result == DialogResult.OK) {
-                InitA();
-				string openFolderName = fbdDir.SelectedPath;
-                tboxSourceDir.Text = openFolderName;
-            }
+		}
+		void BtnToAnotherDirClick(object sender, EventArgs e)
+		{
+			// задание папки для копирования запакованных fb2-файлов
+			FilesWorker.FilesWorker.OpenDirDlg( tboxToAnotherDir, fbdDir, "Укажите папку для размещения упакованных fb2-файлов" );
+		}
+		void TsbtnUAOpenDirClick(object sender, EventArgs e)
+		{
+			// задание папки с fb2-архивами для сканирования (Распаковка)
+			if( FilesWorker.FilesWorker.OpenDirDlg( tboxUASourceDir, fbdDir, "Укажите папку с fb2-архивами для Распаковки" ) ) {
+				InitA();
+			}
+		}
+		void BtnUAToAnotherDirClick(object sender, EventArgs e)
+		{
+			// задание папки для копирования распакованных файлов
+			FilesWorker.FilesWorker.OpenDirDlg( tboxUAToAnotherDir, fbdDir, "Укажите папку для размещения распакованных файлов" );
 		}
 		
 		void RbtnToAnotherDirCheckedChanged(object sender, EventArgs e)
 		{
 			btnToAnotherDir.Enabled = rbtnToAnotherDir.Checked;
 			tboxToAnotherDir.ReadOnly = !rbtnToAnotherDir.Checked;
-		}
-		
-		void BtnToAnotherDirClick(object sender, EventArgs e)
-		{
-			// задание папки для копирования запакованных fb2-файлов
-			if( tboxToAnotherDir.Text.Trim() !="" ) {
-				fbdDir.SelectedPath = tboxToAnotherDir.Text.Trim();
-			}
-			fbdDir.Description = "Укажите папку для размещения упакованных fb2-файлов";
-			DialogResult result = fbdDir.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbdDir.SelectedPath;
-                tboxToAnotherDir.Text = openFolderName;
-            }
 		}
 		
 		void CboxArchiveTypeSelectedIndexChanged(object sender, EventArgs e)
@@ -523,22 +519,7 @@ namespace SharpFBTools.Controls.Panels
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
 		}
-		
-		void TsbtnUAOpenDirClick(object sender, EventArgs e)
-		{
-			// задание папки с fb2-архивами для сканирования (Распаковка)
-			if( tboxUASourceDir.Text.Trim() !="" ) {
-				fbdDir.SelectedPath = tboxUASourceDir.Text.Trim();
-			}
-			fbdDir.Description = "Укажите папку с fb2-архивами для Распаковки";
-			DialogResult result = fbdDir.ShowDialog();
-			if (result == DialogResult.OK) {
-                InitA();
-				string openFolderName = fbdDir.SelectedPath;
-                tboxUASourceDir.Text = openFolderName;
-            }
-		}
-		
+
 		void RbtnUAToAnotherDirCheckedChanged(object sender, EventArgs e)
 		{
 			btnUAToAnotherDir.Enabled = rbtnUAToAnotherDir.Checked;
@@ -693,20 +674,6 @@ namespace SharpFBTools.Controls.Panels
 			}
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
-		}
-		
-		void BtnUAToAnotherDirClick(object sender, EventArgs e)
-		{
-			// задание папки для копирования распакованных файлов
-			if( tboxUAToAnotherDir.Text.Trim() !="" ) {
-				fbdDir.SelectedPath = tboxUAToAnotherDir.Text.Trim();
-			}
-			fbdDir.Description = "Укажите папку для размещения распакованных файлов";
-			DialogResult result = fbdDir.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbdDir.SelectedPath;
-                tboxUAToAnotherDir.Text = openFolderName;
-            }
 		}
 		#endregion
 	}

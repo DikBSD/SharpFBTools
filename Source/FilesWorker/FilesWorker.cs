@@ -131,6 +131,22 @@ namespace FilesWorker
 				return (f/(1024*1024)).ToString()+" Мб";
 			}
 		}
+		
+		public static bool OpenDirDlg( TextBox tb, FolderBrowserDialog fbd, string sTitle )
+		{
+			// задание папки черед диалог открытия папки
+			if( tb.Text.Trim() !="" ) {
+				fbd.SelectedPath = tb.Text.Trim();
+			}
+			fbd.Description = sTitle;
+			DialogResult result = fbd.ShowDialog();
+			if (result == DialogResult.OK) {
+                string openFolderName = fbd.SelectedPath;
+                tb.Text = openFolderName;
+                return true;
+            }
+			return false;
+		}
 		#endregion
 	}
 }

@@ -135,10 +135,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.tlCentral = new System.Windows.Forms.TableLayoutPanel();
-			this.fbdNotValidFB2 = new System.Windows.Forms.FolderBrowserDialog();
-			this.fbdValidFB2 = new System.Windows.Forms.FolderBrowserDialog();
-			this.fbdNotFB2 = new System.Windows.Forms.FolderBrowserDialog();
-			this.fbdSource = new System.Windows.Forms.FolderBrowserDialog();
+			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.sfdReport = new System.Windows.Forms.SaveFileDialog();
 			this.lvFilesCount = new System.Windows.Forms.ListView();
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
@@ -965,21 +962,9 @@ namespace SharpFBTools.Controls.Panels
 			this.tlCentral.Size = new System.Drawing.Size(831, 32);
 			this.tlCentral.TabIndex = 19;
 			// 
-			// fbdNotValidFB2
+			// fbdDir
 			// 
-			this.fbdNotValidFB2.Description = "Укажите папку для не валидных fb2-файлов";
-			// 
-			// fbdValidFB2
-			// 
-			this.fbdValidFB2.Description = "Укажите папку для валидных fb2-файлов";
-			// 
-			// fbdNotFB2
-			// 
-			this.fbdNotFB2.Description = "Укажите папку для не fb2-файлов";
-			// 
-			// fbdSource
-			// 
-			this.fbdSource.Description = "Укажите папку для проверки fb2-файлов";
+			this.fbdDir.Description = "Укажите папку для проверки fb2-файлов";
 			// 
 			// sfdReport
 			// 
@@ -1170,6 +1155,7 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.FolderBrowserDialog fbdDir;
 		private System.Windows.Forms.CheckBox cboxScanSubDir;
 		private System.Windows.Forms.ImageList imgl16;
 		private System.Windows.Forms.ToolStripMenuItem tsmiMakeNotValidFileList;
@@ -1216,12 +1202,8 @@ namespace SharpFBTools.Controls.Panels
 		private System.Windows.Forms.ToolStripButton tsbtnCopyFilesTo;
 		private System.Windows.Forms.ToolStripSeparator tsSep2;
 		private System.Windows.Forms.ToolStripButton tSBValidate;
-		private System.Windows.Forms.FolderBrowserDialog fbdSource;
 		private System.Windows.Forms.ToolStripSeparator tsSep1;
 		private System.Windows.Forms.ToolStripButton tsbtnOpenDir;
-		private System.Windows.Forms.FolderBrowserDialog fbdNotFB2;
-		private System.Windows.Forms.FolderBrowserDialog fbdValidFB2;
-		private System.Windows.Forms.FolderBrowserDialog fbdNotValidFB2;
 		private System.Windows.Forms.GroupBox gbFB2NotValidFiles;
 		private System.Windows.Forms.Label lblFB2NotValidFilesMoveDir;
 		private System.Windows.Forms.Button btnFB2NotValidMoveTo;

@@ -95,17 +95,25 @@ namespace SharpFBTools.Controls.Panels
 			FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 		}
 		
-		private void OpenDirDlg( TextBox tb, FolderBrowserDialog fbd )
+		private ListView GetCurrentListWiew()
 		{
-			// задание папки черед диалог открытия папки
-			if( tb.Text.Trim() !="" ) {
-				fbd.SelectedPath = tb.Text.Trim();
+			// возвращает текущий ListView в зависимости от выбранной вкладки
+			ListView l = null;
+			switch( tcResult.SelectedIndex ) {
+				case 0:
+					// не валидные fb2-файлы
+					l = listViewNotValid;
+					break;
+				case 1:
+					// валидные fb2-файлы
+					l = listViewValid;
+					break;
+				case 2:
+					// не fb2-файлы
+					l = listViewNotFB2;
+					break;
 			}
-			DialogResult result = fbd.ShowDialog();
-			if (result == DialogResult.OK) {
-                string openFolderName = fbd.SelectedPath;
-                tb.Text = openFolderName;
-            }
+			return l;
 		}
 		
 		private void ReadValidatorDirs() {
@@ -488,27 +496,6 @@ namespace SharpFBTools.Controls.Panels
 		}
 		#endregion
 		
-		ListView GetCurrentListWiew()
-		{
-			// возвращает текущий ListView в зависимости от выбранной вкладки
-			ListView l = null;
-			switch( tcResult.SelectedIndex ) {
-				case 0:
-					// не валидные fb2-файлы
-					l = listViewNotValid;
-					break;
-				case 1:
-					// валидные fb2-файлы
-					l = listViewValid;
-					break;
-				case 2:
-					// не fb2-файлы
-					l = listViewNotFB2;
-					break;
-			}
-			return l;
-		}
-		
 		#region Обработчики событий
 		void ListViewNotValidSelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -550,49 +537,49 @@ namespace SharpFBTools.Controls.Panels
 		void BtnFB2NotValidCopyToClick(object sender, EventArgs e)
 		{
 			// задание папки для копирования невалидных fb2-файлов
-			OpenDirDlg( tboxFB2NotValidDirCopyTo, fbdNotValidFB2 );
+			FilesWorker.FilesWorker.OpenDirDlg( tboxFB2NotValidDirCopyTo, fbdDir, "Укажите папку для не валидных fb2-файлов" );
 			Settings.Settings.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
 		}
 		
 		void BtnFB2NotValidMoveToClick(object sender, EventArgs e)
 		{
 			// задание папки для перемещения невалидных fb2-файлов
-			OpenDirDlg( tboxFB2NotValidDirMoveTo, fbdNotValidFB2 );
+			FilesWorker.FilesWorker.OpenDirDlg( tboxFB2NotValidDirMoveTo, fbdDir, "Укажите папку для не валидных fb2-файлов" );
 			Settings.Settings.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
 		}
 		
 		void BtnFB2ValidCopyToClick(object sender, EventArgs e)
 		{
 			// задание папки для валидных fb2-файлов
-			OpenDirDlg( tboxFB2ValidDirCopyTo, fbdValidFB2 );
+			FilesWorker.FilesWorker.OpenDirDlg( tboxFB2ValidDirCopyTo, fbdDir, "Укажите папку для валидных fb2-файлов" );
 			Settings.Settings.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
 		}
 		
 		void BtnFB2ValidMoveToClick(object sender, EventArgs e)
 		{
 			// задание папки для перемещения валидных fb2-файлов
-			OpenDirDlg( tboxFB2ValidDirMoveTo, fbdValidFB2 );
+			FilesWorker.FilesWorker.OpenDirDlg( tboxFB2ValidDirMoveTo, fbdDir, "Укажите папку для валидных fb2-файлов" );
 			Settings.Settings.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
 		}
 		
 		void BtnNotFB2CopyToClick(object sender, EventArgs e)
 		{
 			// задание папки для не fb2-файлов
-			OpenDirDlg( tboxNotFB2DirCopyTo, fbdNotFB2 );
+			FilesWorker.FilesWorker.OpenDirDlg( tboxNotFB2DirCopyTo, fbdDir, "Укажите папку для не fb2-файлов" );
 			Settings.Settings.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
 		}
 		
 		void BtnNotFB2MoveToClick(object sender, EventArgs e)
 		{
 			// задание папки для перемещения не fb2-файлов
-			OpenDirDlg( tboxNotFB2DirMoveTo, fbdNotFB2 );
+			FilesWorker.FilesWorker.OpenDirDlg( tboxNotFB2DirMoveTo, fbdDir, "Укажите папку для не fb2-файлов" );
 			Settings.Settings.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
 		}
 		
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами для сканирования
-			OpenDirDlg( tboxSourceDir, fbdSource );
+			FilesWorker.FilesWorker.OpenDirDlg( tboxSourceDir, fbdDir, "Укажите папку для проверки fb2-файлов" );
 			Settings.Settings.SetScanDir( tboxSourceDir.Text );
 		}
 		
