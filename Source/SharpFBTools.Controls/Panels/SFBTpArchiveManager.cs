@@ -408,7 +408,7 @@ namespace SharpFBTools.Controls.Panels
 		{
 			// задание папки с fb2-архивами для сканирования (Распаковка)
 			if( FilesWorker.FilesWorker.OpenDirDlg( tboxUASourceDir, fbdDir, "Укажите папку с fb2-архивами для Распаковки" ) ) {
-				InitA();
+				InitUA();
 			}
 		}
 		void BtnUAToAnotherDirClick(object sender, EventArgs e)
