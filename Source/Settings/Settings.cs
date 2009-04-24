@@ -59,11 +59,11 @@ namespace Settings
 		private static bool m_brbtnLowerCheked = false;
 		private static bool m_brbtnUpperCheked = false;
 		private static bool m_brbtnGenreOneCheked = true;
-		private static bool m_brbtnGenreAllCheked = true;
+		private static bool m_brbtnGenreAllCheked = false;
 		private static bool m_brbtnAuthorOneCheked = true;
-		private static bool m_brbtnAuthorAllCheked = true;
+		private static bool m_brbtnAuthorAllCheked = false;
 		private static bool m_brbtnGenreSchemaCheked = true;
-		private static bool m_brbtnGenreTextCheked = true;
+		private static bool m_brbtnGenreTextCheked = false;
 		
 		#endregion
 		

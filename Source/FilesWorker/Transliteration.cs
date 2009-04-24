@@ -16,7 +16,7 @@ namespace FilesWorker
 	public class Transliteration
 	{
 		#region Çàêğûòûå äàííûå êëàññà
-		private const string m_sTemplate = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#¹$%^[](){}-+=_;.,\\";
+		private const string m_sTemplate = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#¹$%^[](){}-+=_;.,\\/:";
 		private static string[] m_saTranslitLetters = MakeTranslitLettersArray();
 		#endregion
 		
@@ -24,7 +24,7 @@ namespace FilesWorker
 		private static string[] MakeTranslitLettersArray() {
 			// ìàññèâ çàìåíû ğóññêèõ ñèìâîëîâ ëàòèíñêèìè
 			#region Êîä
-			string[] m_saTranslitLetters = new string[153];
+			string[] m_saTranslitLetters = new string[155];
 			m_saTranslitLetters[0]="a";		// à
 			m_saTranslitLetters[1]="b";		// á
 			m_saTranslitLetters[2]="v";		// â
@@ -181,6 +181,8 @@ namespace FilesWorker
 			m_saTranslitLetters[151]="]";
 			
 			m_saTranslitLetters[152]="\\";
+			m_saTranslitLetters[153]="/";
+			m_saTranslitLetters[154]=":";
 			
 			return m_saTranslitLetters;
 			#endregion
