@@ -924,7 +924,7 @@ namespace Options
 			this.chBoxStrict.Name = "chBoxStrict";
 			this.chBoxStrict.Size = new System.Drawing.Size(597, 18);
 			this.chBoxStrict.TabIndex = 13;
-			this.chBoxStrict.Text = "\"Строгие\" имена файлов: алфавитно-цифровые символы и []()<>-+=_*\\";
+			this.chBoxStrict.Text = "\"Строгие\" имена файлов: алфавитно-цифровые символы, а так же [](){}-_";
 			this.chBoxStrict.UseVisualStyleBackColor = true;
 			// 
 			// chBoxTranslit
