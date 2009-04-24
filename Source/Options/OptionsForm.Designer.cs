@@ -81,6 +81,10 @@ namespace Options
 			this.tpFileManager = new System.Windows.Forms.TabPage();
 			this.gboxApportionment = new System.Windows.Forms.GroupBox();
 			this.gBoxGenres = new System.Windows.Forms.GroupBox();
+			this.gBoxGenresType = new System.Windows.Forms.GroupBox();
+			this.rbtnGenreText = new System.Windows.Forms.RadioButton();
+			this.rbtnGenreSchema = new System.Windows.Forms.RadioButton();
+			this.gBoxGenresCount = new System.Windows.Forms.GroupBox();
 			this.rbtnGenreAll = new System.Windows.Forms.RadioButton();
 			this.rbtnGenreOne = new System.Windows.Forms.RadioButton();
 			this.gBoxAuthors = new System.Windows.Forms.GroupBox();
@@ -99,7 +103,7 @@ namespace Options
 			this.lblSpace = new System.Windows.Forms.Label();
 			this.chBoxStrict = new System.Windows.Forms.CheckBox();
 			this.chBoxTranslit = new System.Windows.Forms.CheckBox();
-			this.gboxRegistr = new System.Windows.Forms.GroupBox();
+			this.gboxRegister = new System.Windows.Forms.GroupBox();
 			this.rbtnUpper = new System.Windows.Forms.RadioButton();
 			this.rbtnLower = new System.Windows.Forms.RadioButton();
 			this.rbtnAsIs = new System.Windows.Forms.RadioButton();
@@ -115,11 +119,13 @@ namespace Options
 			this.tpFileManager.SuspendLayout();
 			this.gboxApportionment.SuspendLayout();
 			this.gBoxGenres.SuspendLayout();
+			this.gBoxGenresType.SuspendLayout();
+			this.gBoxGenresCount.SuspendLayout();
 			this.gBoxAuthors.SuspendLayout();
 			this.gboxFMGeneral.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.panel1.SuspendLayout();
-			this.gboxRegistr.SuspendLayout();
+			this.gboxRegister.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -630,23 +636,73 @@ namespace Options
 			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxApportionment.Location = new System.Drawing.Point(3, 228);
 			this.gboxApportionment.Name = "gboxApportionment";
-			this.gboxApportionment.Size = new System.Drawing.Size(603, 87);
+			this.gboxApportionment.Size = new System.Drawing.Size(603, 170);
 			this.gboxApportionment.TabIndex = 29;
 			this.gboxApportionment.TabStop = false;
 			this.gboxApportionment.Text = " Раскладка файлов по папкам ";
 			// 
 			// gBoxGenres
 			// 
-			this.gBoxGenres.Controls.Add(this.rbtnGenreAll);
-			this.gBoxGenres.Controls.Add(this.rbtnGenreOne);
-			this.gBoxGenres.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gBoxGenres.Controls.Add(this.gBoxGenresType);
+			this.gBoxGenres.Controls.Add(this.gBoxGenresCount);
+			this.gBoxGenres.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gBoxGenres.ForeColor = System.Drawing.Color.Navy;
-			this.gBoxGenres.Location = new System.Drawing.Point(6, 19);
+			this.gBoxGenres.Location = new System.Drawing.Point(3, 73);
 			this.gBoxGenres.Name = "gBoxGenres";
-			this.gBoxGenres.Size = new System.Drawing.Size(295, 57);
-			this.gBoxGenres.TabIndex = 26;
+			this.gBoxGenres.Size = new System.Drawing.Size(597, 82);
+			this.gBoxGenres.TabIndex = 28;
 			this.gBoxGenres.TabStop = false;
-			this.gBoxGenres.Text = " Раскладка файлов по жанрам ";
+			this.gBoxGenres.Text = " Жанры ";
+			// 
+			// gBoxGenresType
+			// 
+			this.gBoxGenresType.Controls.Add(this.rbtnGenreText);
+			this.gBoxGenresType.Controls.Add(this.rbtnGenreSchema);
+			this.gBoxGenresType.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gBoxGenresType.ForeColor = System.Drawing.Color.Purple;
+			this.gBoxGenresType.Location = new System.Drawing.Point(260, 19);
+			this.gBoxGenresType.Name = "gBoxGenresType";
+			this.gBoxGenresType.Size = new System.Drawing.Size(331, 57);
+			this.gBoxGenresType.TabIndex = 27;
+			this.gBoxGenresType.TabStop = false;
+			this.gBoxGenresType.Text = " Тип папки с жанром ";
+			// 
+			// rbtnGenreText
+			// 
+			this.rbtnGenreText.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnGenreText.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnGenreText.Location = new System.Drawing.Point(3, 34);
+			this.rbtnGenreText.Name = "rbtnGenreText";
+			this.rbtnGenreText.Size = new System.Drawing.Size(325, 18);
+			this.rbtnGenreText.TabIndex = 1;
+			this.rbtnGenreText.Text = "Расшифровано (например: Русская классика)";
+			this.rbtnGenreText.UseVisualStyleBackColor = true;
+			// 
+			// rbtnGenreSchema
+			// 
+			this.rbtnGenreSchema.Checked = true;
+			this.rbtnGenreSchema.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnGenreSchema.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnGenreSchema.Location = new System.Drawing.Point(3, 16);
+			this.rbtnGenreSchema.Name = "rbtnGenreSchema";
+			this.rbtnGenreSchema.Size = new System.Drawing.Size(325, 18);
+			this.rbtnGenreSchema.TabIndex = 0;
+			this.rbtnGenreSchema.TabStop = true;
+			this.rbtnGenreSchema.Text = "Как в схеме (например: prose_rus_classic)";
+			this.rbtnGenreSchema.UseVisualStyleBackColor = true;
+			// 
+			// gBoxGenresCount
+			// 
+			this.gBoxGenresCount.Controls.Add(this.rbtnGenreAll);
+			this.gBoxGenresCount.Controls.Add(this.rbtnGenreOne);
+			this.gBoxGenresCount.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gBoxGenresCount.ForeColor = System.Drawing.Color.Purple;
+			this.gBoxGenresCount.Location = new System.Drawing.Point(6, 19);
+			this.gBoxGenresCount.Name = "gBoxGenresCount";
+			this.gBoxGenresCount.Size = new System.Drawing.Size(248, 57);
+			this.gBoxGenresCount.TabIndex = 26;
+			this.gBoxGenresCount.TabStop = false;
+			this.gBoxGenresCount.Text = " Раскладка файлов по жанрам ";
 			// 
 			// rbtnGenreAll
 			// 
@@ -654,7 +710,7 @@ namespace Options
 			this.rbtnGenreAll.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.rbtnGenreAll.Location = new System.Drawing.Point(3, 34);
 			this.rbtnGenreAll.Name = "rbtnGenreAll";
-			this.rbtnGenreAll.Size = new System.Drawing.Size(289, 18);
+			this.rbtnGenreAll.Size = new System.Drawing.Size(242, 18);
 			this.rbtnGenreAll.TabIndex = 1;
 			this.rbtnGenreAll.Text = "По всем жанрам";
 			this.rbtnGenreAll.UseVisualStyleBackColor = true;
@@ -666,7 +722,7 @@ namespace Options
 			this.rbtnGenreOne.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.rbtnGenreOne.Location = new System.Drawing.Point(3, 16);
 			this.rbtnGenreOne.Name = "rbtnGenreOne";
-			this.rbtnGenreOne.Size = new System.Drawing.Size(289, 18);
+			this.rbtnGenreOne.Size = new System.Drawing.Size(242, 18);
 			this.rbtnGenreOne.TabIndex = 0;
 			this.rbtnGenreOne.TabStop = true;
 			this.rbtnGenreOne.Text = "По первому жанру";
@@ -674,17 +730,17 @@ namespace Options
 			// 
 			// gBoxAuthors
 			// 
-			this.gBoxAuthors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.gBoxAuthors.Controls.Add(this.rbtnAuthorAll);
 			this.gBoxAuthors.Controls.Add(this.rbtnAuthorOne);
+			this.gBoxAuthors.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gBoxAuthors.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gBoxAuthors.ForeColor = System.Drawing.Color.Navy;
-			this.gBoxAuthors.Location = new System.Drawing.Point(307, 19);
+			this.gBoxAuthors.Location = new System.Drawing.Point(3, 16);
 			this.gBoxAuthors.Name = "gBoxAuthors";
-			this.gBoxAuthors.Size = new System.Drawing.Size(291, 57);
+			this.gBoxAuthors.Size = new System.Drawing.Size(597, 57);
 			this.gBoxAuthors.TabIndex = 27;
 			this.gBoxAuthors.TabStop = false;
-			this.gBoxAuthors.Text = " Раскладка файлов по авторам ";
+			this.gBoxAuthors.Text = " Авторы ";
 			// 
 			// rbtnAuthorAll
 			// 
@@ -692,7 +748,7 @@ namespace Options
 			this.rbtnAuthorAll.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.rbtnAuthorAll.Location = new System.Drawing.Point(3, 34);
 			this.rbtnAuthorAll.Name = "rbtnAuthorAll";
-			this.rbtnAuthorAll.Size = new System.Drawing.Size(285, 18);
+			this.rbtnAuthorAll.Size = new System.Drawing.Size(591, 18);
 			this.rbtnAuthorAll.TabIndex = 1;
 			this.rbtnAuthorAll.Text = "По всем авторам";
 			this.rbtnAuthorAll.UseVisualStyleBackColor = true;
@@ -704,7 +760,7 @@ namespace Options
 			this.rbtnAuthorOne.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.rbtnAuthorOne.Location = new System.Drawing.Point(3, 16);
 			this.rbtnAuthorOne.Name = "rbtnAuthorOne";
-			this.rbtnAuthorOne.Size = new System.Drawing.Size(285, 18);
+			this.rbtnAuthorOne.Size = new System.Drawing.Size(591, 18);
 			this.rbtnAuthorOne.TabIndex = 0;
 			this.rbtnAuthorOne.TabStop = true;
 			this.rbtnAuthorOne.Text = "По первому автору";
@@ -718,7 +774,7 @@ namespace Options
 			this.gboxFMGeneral.Controls.Add(this.panel1);
 			this.gboxFMGeneral.Controls.Add(this.chBoxStrict);
 			this.gboxFMGeneral.Controls.Add(this.chBoxTranslit);
-			this.gboxFMGeneral.Controls.Add(this.gboxRegistr);
+			this.gboxFMGeneral.Controls.Add(this.gboxRegister);
 			this.gboxFMGeneral.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxFMGeneral.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
@@ -868,7 +924,7 @@ namespace Options
 			this.chBoxStrict.Name = "chBoxStrict";
 			this.chBoxStrict.Size = new System.Drawing.Size(597, 18);
 			this.chBoxStrict.TabIndex = 13;
-			this.chBoxStrict.Text = "\"Строгие\" имена файлов: алфавитно-цифровые символы и []()<>-+=_*";
+			this.chBoxStrict.Text = "\"Строгие\" имена файлов: алфавитно-цифровые символы и []()<>-+=_*\\";
 			this.chBoxStrict.UseVisualStyleBackColor = true;
 			// 
 			// chBoxTranslit
@@ -885,20 +941,20 @@ namespace Options
 			this.chBoxTranslit.Text = "Транслитерация имен файлов";
 			this.chBoxTranslit.UseVisualStyleBackColor = true;
 			// 
-			// gboxRegistr
+			// gboxRegister
 			// 
-			this.gboxRegistr.Controls.Add(this.rbtnUpper);
-			this.gboxRegistr.Controls.Add(this.rbtnLower);
-			this.gboxRegistr.Controls.Add(this.rbtnAsIs);
-			this.gboxRegistr.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gboxRegistr.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gboxRegistr.ForeColor = System.Drawing.Color.Navy;
-			this.gboxRegistr.Location = new System.Drawing.Point(3, 16);
-			this.gboxRegistr.Name = "gboxRegistr";
-			this.gboxRegistr.Size = new System.Drawing.Size(597, 77);
-			this.gboxRegistr.TabIndex = 10;
-			this.gboxRegistr.TabStop = false;
-			this.gboxRegistr.Text = " Регистр имени файла ";
+			this.gboxRegister.Controls.Add(this.rbtnUpper);
+			this.gboxRegister.Controls.Add(this.rbtnLower);
+			this.gboxRegister.Controls.Add(this.rbtnAsIs);
+			this.gboxRegister.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gboxRegister.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gboxRegister.ForeColor = System.Drawing.Color.Navy;
+			this.gboxRegister.Location = new System.Drawing.Point(3, 16);
+			this.gboxRegister.Name = "gboxRegister";
+			this.gboxRegister.Size = new System.Drawing.Size(597, 77);
+			this.gboxRegister.TabIndex = 10;
+			this.gboxRegister.TabStop = false;
+			this.gboxRegister.Text = " Регистр имени файла ";
 			// 
 			// rbtnUpper
 			// 
@@ -966,15 +1022,22 @@ namespace Options
 			this.tpFileManager.ResumeLayout(false);
 			this.gboxApportionment.ResumeLayout(false);
 			this.gBoxGenres.ResumeLayout(false);
+			this.gBoxGenresType.ResumeLayout(false);
+			this.gBoxGenresCount.ResumeLayout(false);
 			this.gBoxAuthors.ResumeLayout(false);
 			this.gboxFMGeneral.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			this.gboxRegistr.ResumeLayout(false);
+			this.gboxRegister.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.GroupBox gboxRegister;
+		private System.Windows.Forms.RadioButton rbtnGenreSchema;
+		private System.Windows.Forms.RadioButton rbtnGenreText;
+		private System.Windows.Forms.GroupBox gBoxGenresType;
+		private System.Windows.Forms.GroupBox gBoxGenresCount;
 		private System.Windows.Forms.Button btn7zaPath;
 		private System.Windows.Forms.TextBox tbox7zaPath;
 		private System.Windows.Forms.Label lbl7zaPath;
@@ -1004,7 +1067,6 @@ namespace Options
 		private System.Windows.Forms.RadioButton rbtnAsIs;
 		private System.Windows.Forms.RadioButton rbtnLower;
 		private System.Windows.Forms.RadioButton rbtnUpper;
-		private System.Windows.Forms.GroupBox gboxRegistr;
 		private System.Windows.Forms.TabPage tpFileManager;
 		private System.Windows.Forms.Label lblValidatorForFB2PE;
 		private System.Windows.Forms.Label lblValidatorForFB2ArchivePE;

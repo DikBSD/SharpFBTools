@@ -51,11 +51,16 @@ namespace Options
 			rbtnLower.Checked = Settings.Settings.GetDefFMrbtnLowerCheked();
 			rbtnUpper.Checked = Settings.Settings.GetDefFMrbtnUpperCheked();
 			rbtnGenreOne.Checked = Settings.Settings.GetDefFMrbtnGenreOneCheked();
+			rbtnGenreAll.Checked = Settings.Settings.GetDefFMrbtnGenreAllCheked();
 			rbtnAuthorOne.Checked = Settings.Settings.GetDefFMrbtnAuthorOneCheked();
+			rbtnAuthorAll.Checked = Settings.Settings.GetDefFMrbtnAuthorAllCheked();
+			rbtnGenreSchema.Checked = Settings.Settings.GetDefFMrbtnGenreSchemaCheked();
+			rbtnGenreText.Checked = Settings.Settings.GetDefFMrbtnGenreTextCheked();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 		}
 		
+		#region Вспомогательные методы
 		void ReadSettings() {
 			// чтение настроек из xml-файла
 			#region Код
@@ -64,10 +69,12 @@ namespace Options
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
 			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
+				// Общее 
 				reader.ReadToFollowing("WinRar");
 				if (reader.HasAttributes ) {
 					tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
 					tboxRarPath.Text = reader.GetAttribute("RarPath");
+					tboxUnRarPath.Text = reader.GetAttribute("UnRarPath");
 				}
 				reader.ReadToFollowing("A7za");
 				if (reader.HasAttributes ) {
@@ -82,6 +89,7 @@ namespace Options
 				if (reader.HasAttributes ) {
 					tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
 				}
+				// Валидатор
 				reader.ReadToFollowing("ValidatorDoubleClick");
 				if (reader.HasAttributes ) {
 					cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") );
@@ -92,10 +100,64 @@ namespace Options
 					cboxValidatorForFB2PE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE") );
 					cboxValidatorForFB2ArchivePE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE") );
 				}
+				// Менеджер Файлов
+				reader.ReadToFollowing("Register");
+				if (reader.HasAttributes ) {
+					rbtnAsIs.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAsIsChecked") );
+					rbtnLower.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnLowerChecked") );
+					rbtnUpper.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnUpperChecked") );
+				}
+				reader.ReadToFollowing("Translit");
+				if (reader.HasAttributes ) {
+					chBoxTranslit.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxTranslitChecked") );
+				}
+				reader.ReadToFollowing("Strict");
+				if (reader.HasAttributes ) {
+					chBoxStrict.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxStrictChecked") );
+				}
+				reader.ReadToFollowing("Space");
+				if (reader.HasAttributes ) {
+					cboxSpace.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxSpaceSelectedIndex") );
+				}
+				reader.ReadToFollowing("Archive");
+				if (reader.HasAttributes ) {
+					chBoxToArchive.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxToArchiveChecked") );
+					cboxArchiveType.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxArchiveTypeSelectedIndex") );
+				}
+				reader.ReadToFollowing("IsFileExist");
+				if (reader.HasAttributes ) {
+					cboxFileExist.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxFileExistSelectedIndex") );
+				}
+				reader.ReadToFollowing("AddToFileNameBookID");
+				if (reader.HasAttributes ) {
+					chBoxAddToFileNameBookID.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxAddToFileNameBookIDChecked") );
+				}
+				reader.ReadToFollowing("FileDelete");
+				if (reader.HasAttributes ) {
+					chBoxDelFB2Files.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxDelFB2FilesChecked") );
+				}
+				reader.ReadToFollowing("AuthorsToDirs");
+				if (reader.HasAttributes ) {
+					rbtnAuthorOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorOneChecked") );
+					rbtnAuthorAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorAllChecked") );
+				}
+				reader.ReadToFollowing("GenresToDirs");
+				if (reader.HasAttributes ) {
+					rbtnGenreOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreOneChecked") );
+					rbtnGenreAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreAllChecked") );
+				}
+				reader.ReadToFollowing("GenresType");
+				if (reader.HasAttributes ) {
+					rbtnGenreSchema.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreSchemaChecked") );
+					rbtnGenreText.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreTextChecked") );
+				}
+				
 				reader.Close();
 			}
 			#endregion
 		}
+		
+		#endregion
 		
 		#region Обработчики
 				
@@ -114,33 +176,94 @@ namespace Options
 				
 				writer = XmlWriter.Create( Settings.Settings.GetSettingsPath(), settings );
 				writer.WriteStartElement( "SharpFBTools" );
+					// Общие
 					writer.WriteStartElement( "General" );
 						writer.WriteStartElement( "WinRar" );
 							writer.WriteAttributeString( "WinRarPath", tboxWinRarPath.Text );
 							writer.WriteAttributeString( "RarPath", tboxRarPath.Text );
 							writer.WriteAttributeString( "UnRarPath", tboxUnRarPath.Text );
 						writer.WriteFullEndElement();
+						
 						writer.WriteStartElement( "A7za" );
 							writer.WriteAttributeString( "A7zaPath", tbox7zaPath.Text );
 						writer.WriteFullEndElement();
+						
 						writer.WriteStartElement( "Editors" );
 							writer.WriteAttributeString( "FBEPath", tboxFBEPath.Text );
 							writer.WriteAttributeString( "TextFB2EPath", tboxTextEPath.Text );
 						writer.WriteFullEndElement();
+						
 						writer.WriteStartElement( "Reader" );
 							writer.WriteAttributeString( "FBReaderPath", tboxReaderPath.Text );
 						writer.WriteFullEndElement();
 					writer.WriteEndElement();
+					
+					// Валидатор
 					writer.WriteStartElement( "FB2Validator" );
 						writer.WriteStartElement( "ValidatorDoubleClick" );
 							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndex", cboxValidatorForFB2.SelectedIndex.ToString() );
 							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndex", cboxValidatorForFB2Archive.SelectedIndex.ToString() );
 						writer.WriteFullEndElement();
+						
 						writer.WriteStartElement( "ValidatorPressEnter" );
 							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndexPE", cboxValidatorForFB2PE.SelectedIndex.ToString() );
 							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndexPE", cboxValidatorForFB2ArchivePE.SelectedIndex.ToString() );
 						writer.WriteFullEndElement();
 					writer.WriteEndElement();
+					
+					// Менеджер Файлов
+					writer.WriteStartElement( "FileManager" );
+						writer.WriteStartElement( "Register" );
+							writer.WriteAttributeString( "rbtnAsIsChecked", rbtnAsIs.Checked.ToString() );
+							writer.WriteAttributeString( "rbtnLowerChecked", rbtnLower.Checked.ToString() );
+							writer.WriteAttributeString( "rbtnUpperChecked", rbtnUpper.Checked.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "Translit" );
+							writer.WriteAttributeString( "chBoxTranslitChecked", chBoxTranslit.Checked.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "Strict" );
+							writer.WriteAttributeString( "chBoxStrictChecked", chBoxStrict.Checked.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "Space" );
+							writer.WriteAttributeString( "cboxSpaceSelectedIndex", cboxSpace.SelectedIndex.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "Archive" );
+							writer.WriteAttributeString( "chBoxToArchiveChecked", chBoxToArchive.Checked.ToString() );
+							writer.WriteAttributeString( "cboxArchiveTypeSelectedIndex", cboxArchiveType.SelectedIndex.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "IsFileExist" );
+							writer.WriteAttributeString( "cboxFileExistSelectedIndex", cboxFileExist.SelectedIndex.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "AddToFileNameBookID" );
+							writer.WriteAttributeString( "chBoxAddToFileNameBookIDChecked", chBoxAddToFileNameBookID.Checked.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "FileDelete" );
+							writer.WriteAttributeString( "chBoxDelFB2FilesChecked", chBoxDelFB2Files.Checked.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "AuthorsToDirs" );
+							writer.WriteAttributeString( "rbtnAuthorOneChecked", rbtnAuthorOne.Checked.ToString() );
+							writer.WriteAttributeString( "rbtnAuthorAllChecked", rbtnAuthorAll.Checked.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "GenresToDirs" );
+							writer.WriteAttributeString( "rbtnGenreOneChecked", rbtnGenreOne.Checked.ToString() );
+							writer.WriteAttributeString( "rbtnGenreAllChecked", rbtnGenreAll.Checked.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "GenresType" );
+							writer.WriteAttributeString( "rbtnGenreSchemaChecked", rbtnGenreSchema.Checked.ToString() );
+							writer.WriteAttributeString( "rbtnGenreTextChecked", rbtnGenreText.Checked.ToString() );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+					
 				writer.WriteEndElement();
 				writer.Flush();
 			}  finally  {
@@ -150,6 +273,7 @@ namespace Options
 			}
 			#endregion
 		}
+		
 		#region Общее
 		void BtnWinRarPathClick(object sender, EventArgs e)
 		{

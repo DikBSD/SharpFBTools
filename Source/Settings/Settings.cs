@@ -59,7 +59,12 @@ namespace Settings
 		private static bool m_brbtnLowerCheked = false;
 		private static bool m_brbtnUpperCheked = false;
 		private static bool m_brbtnGenreOneCheked = true;
+		private static bool m_brbtnGenreAllCheked = true;
 		private static bool m_brbtnAuthorOneCheked = true;
+		private static bool m_brbtnAuthorAllCheked = true;
+		private static bool m_brbtnGenreSchemaCheked = true;
+		private static bool m_brbtnGenreTextCheked = true;
+		
 		#endregion
 		
 		#endregion
@@ -272,9 +277,24 @@ namespace Settings
 		public static bool GetDefFMrbtnGenreOneCheked() {
 			return m_brbtnGenreOneCheked;
 		}
+		public static bool GetDefFMrbtnGenreAllCheked() {
+			return m_brbtnGenreAllCheked;
+		}
+		
 		public static bool GetDefFMrbtnAuthorOneCheked() {
 			return m_brbtnAuthorOneCheked;
 		}
+		public static bool GetDefFMrbtnAuthorAllCheked() {
+			return m_brbtnAuthorAllCheked;
+		}
+		
+		public static bool GetDefFMrbtnGenreSchemaCheked() {
+			return m_brbtnGenreSchemaCheked;
+		}
+		public static bool GetDefFMrbtnGenreTextCheked() {
+			return m_brbtnGenreTextCheked;
+		}
+
 		#endregion
 		
 		#endregion
