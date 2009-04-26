@@ -333,11 +333,37 @@ namespace Settings
 			return m_brbtnGenreTextCheked;
 		}
 		
+		public static int ReadRegisterMode() {
+			// читаем режим для регистра из настроек
+			// возврат 0 - как есть; 1 - нижний; 2 - верхний
+			bool bAsIs = ReadAttribute( "Register", "rbtnAsIsChecked", GetDefFMrbtnAsIsCheked() );
+			bool bLower = ReadAttribute( "Register", "rbtnLowerChecked", GetDefFMrbtnLowerCheked() );
+			bool bUpper = ReadAttribute( "Register", "rbtnUpperChecked", GetDefFMrbtnUpperCheked() );
+			if( bAsIs ) {
+				return 0;
+			} else if ( bLower ) {
+				return 1;
+			} else if ( bUpper ) {
+				return 2;
+			} else {
+				return 0;
+			}
+		}
+		
 		public static Int16 ReadSpaceProcessMode() {
 			// читаем режим обработки пробелов в строке из настроек
 			return ReadAttribute( "Space", "cboxSpaceSelectedIndex", GetDefFMcboxSpaceSelectedIndex() );
 		}
-
+		
+		public static bool ReadToArchiveMode() {
+			// читаем режим упаковки в архив из настроек
+			return ReadAttribute( "Archive", "chBoxToArchiveChecked", GetDefFMchBoxToArchiveCheked() );
+		}
+		
+		public static Int16 ReadArchiveTypeMode() {
+			// читаем режим типа архивации из настроек
+			return ReadAttribute( "Archive", "cboxArchiveTypeSelectedIndex", GetDefFMcboxArchiveTypeSelectedIndex() );
+		}
 		#endregion
 		
 		#endregion
