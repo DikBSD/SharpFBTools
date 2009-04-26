@@ -42,7 +42,6 @@ namespace SharpFBTools.Controls.Panels
 			}
 			// справка
 			cboxInstrument.SelectedIndex = 0;
-			string s = FilesWorker.Transliteration.TransliterationString( " _00_;:\"'?/\\<>,.`~!@#№$%^&*-_=+-|_11111_«2»{1}[2](0)" );
 		}
 		
 		void CboxInstrumentSelectedIndexChanged(object sender, EventArgs e)

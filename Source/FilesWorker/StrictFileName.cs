@@ -15,10 +15,6 @@ namespace FilesWorker
 	/// </summary>
 	public class StrictFileName
 	{
-		#region Закрытые данные класса
-		private static string m_sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
-		#endregion
-		
 		public StrictFileName()
 		{
 		}
@@ -30,15 +26,12 @@ namespace FilesWorker
 			if( sString.Trim()=="" ) {
 				return sString;
 			}
+			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
 			string sStrict = "";
 			for( int i=0; i!=s.Length; ++i ) {
-				char ci = s[i];
-				for( int j=0; j!=m_sStrictLetters.Length; ++j ) {
-					char cj = m_sStrictLetters[j];
-					if( ci==cj ) {
-						sStrict += ci;
-						break;
-					}
+				int nInd = sStrictLetters.IndexOf( s[i] );
+				if( nInd!=-1 ) {
+					sStrict += s[i];
 				}
 			}
 			return sStrict;
