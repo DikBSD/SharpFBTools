@@ -21,9 +21,7 @@ namespace Options
 	{
 		public OptionsForm()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
+			#region Код Конструктора
 			InitializeComponent();
 			// по-умолчанию
 			// общие
@@ -58,6 +56,7 @@ namespace Options
 			rbtnGenreText.Checked = Settings.Settings.GetDefFMrbtnGenreTextCheked();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
+			#endregion
 		}
 		
 		#region Вспомогательные методы

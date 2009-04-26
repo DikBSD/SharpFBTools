@@ -11,9 +11,9 @@ using System;
 namespace FilesWorker
 {
 	/// <summary>
-	/// Description of Transliteration.
+	/// Description of StringProcessing.
 	/// </summary>
-	public class Transliteration
+	public class StringProcessing
 	{
 		#region «акрытые вспомогательные методы класса
 		private static string[] MakeTranslitLettersArray() {
@@ -180,9 +180,8 @@ namespace FilesWorker
 		}
 		#endregion
 		
-		public Transliteration()
+		public StringProcessing()
 		{
-			MakeTranslitLettersArray();
 		}
 		
 		#region ќткрытые методы класса
@@ -204,6 +203,58 @@ namespace FilesWorker
 				}
 			}
 			return sTranslit;
+		}
+		
+		public static string StrictString( string sString ) {
+			// "строгое" значение строки
+			string s = sString;
+			if( sString.Trim()=="" ) {
+				return sString;
+			}
+			const string sStrictLetters = "абвгдеЄжзийклмнопрстуфхцчшщъыьэю€јЅ¬√ƒ≈®∆«»… ЋћЌќѕ–—“”‘’÷„ЎўЏџ№ЁёяabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
+			string sStrict = "";
+			for( int i=0; i!=s.Length; ++i ) {
+				int nInd = sStrictLetters.IndexOf( s[i] );
+				if( nInd!=-1 ) {
+					sStrict += s[i];
+				}
+			}
+			return sStrict;
+		}
+		
+		public static string SpaceString( string sString, int nMode ) {
+			// обработка пробелов в строке
+			if( sString.Trim()=="" ) {
+				return "";
+			}
+			string s = "";
+			for( int i=0; i!=sString.Length; ++i ) {
+				if( sString[i]==' ' ) {
+					switch( nMode ) {
+						case 0: // оставить пробел
+							s += sString[i];
+							break;
+						case 1: // удалить пробел
+							break;
+						case 2: // заменить пробел на '_'
+							s += '_';
+							break;
+						case 3: // заменить пробел на '-'
+							s += '-';
+							break;
+						case 4: // заменить пробел на '+'
+							s += '+';
+							break;
+						case 5: // заменить пробел на '='
+							s += '=';
+							break;
+					}
+				} else {
+					s += sString[i];
+				}
+				
+			}
+			return s;
 		}
 		#endregion
 	}

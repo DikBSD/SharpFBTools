@@ -89,6 +89,44 @@ namespace Settings
 			}
 			return sAttrValue;
 		}
+		private static Int16 ReadAttribute( string sTag, string sAttr, Int16 nAttrDefValue ) {
+			// читаем атрибут тега из настроек
+			Int16 nAttrValue = nAttrDefValue;
+			if( File.Exists( GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
+					reader.ReadToFollowing(sTag);
+					if ( reader.HasAttributes ) {
+						string s = reader.GetAttribute( sAttr );
+						if( s != null ) {
+							nAttrValue = Convert.ToInt16( s );
+						}
+					}
+					reader.Close();
+				}
+			}
+			return nAttrValue;
+		}
+		private static bool ReadAttribute( string sTag, string sAttr, bool bAttrDefValue ) {
+			// читаем атрибут тега из настроек
+			bool bAttrValue = bAttrDefValue;
+			if( File.Exists( GetSettingsPath() ) ) {
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
+					reader.ReadToFollowing(sTag);
+					if ( reader.HasAttributes ) {
+						string s = reader.GetAttribute( sAttr );
+						if( s != null ) {
+							bAttrValue = Convert.ToBoolean( s );
+						}
+					}
+					reader.Close();
+				}
+			}
+			return bAttrValue;
+		}
 		#endregion
 		
 		#region Открытые статические члены-данные класса
@@ -293,6 +331,11 @@ namespace Settings
 		}
 		public static bool GetDefFMrbtnGenreTextCheked() {
 			return m_brbtnGenreTextCheked;
+		}
+		
+		public static Int16 ReadSpaceProcessMode() {
+			// читаем режим обработки пробелов в строке из настроек
+			return ReadAttribute( "Space", "cboxSpaceSelectedIndex", GetDefFMcboxSpaceSelectedIndex() );
 		}
 
 		#endregion

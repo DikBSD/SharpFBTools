@@ -25,6 +25,7 @@ namespace SharpFBTools.Controls.Panels
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+//			string s = FilesWorker.StringProcessing.SpaceString( " 1 2 3 4 5 6 7 ", Settings.Settings.ReadSpaceProcessMode() );
 
 		}
 		
