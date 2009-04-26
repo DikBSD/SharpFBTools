@@ -392,6 +392,15 @@ namespace Settings
 				return false;
 			}
 		}
+		
+		public static bool ReadGenreOneMode() {
+			// читаем режим раскладки файлов по первому жанру из настроек
+			if( ReadAttribute( "GenresToDirs", "rbtnGenreOneChecked", GetDefFMrbtnGenreOneCheked() ) ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		#endregion
 		
 		#endregion
