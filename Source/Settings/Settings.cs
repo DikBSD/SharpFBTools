@@ -384,6 +384,14 @@ namespace Settings
 			return ReadAttribute( "FileDelete", "chBoxDelFB2FilesChecked", GetDefFMchBoxDelFB2FilesCheked() );
 		}
 		
+		public static bool ReadAuthorOneMode() {
+			// читаем режим раскладки файлов по первому автору из настроек
+			if( ReadAttribute( "AuthorsToDirs", "rbtnAuthorOneChecked", GetDefFMrbtnAuthorOneCheked() ) ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		#endregion
 		
 		#endregion
