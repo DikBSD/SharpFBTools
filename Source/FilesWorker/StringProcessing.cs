@@ -256,6 +256,24 @@ namespace FilesWorker
 			}
 			return s;
 		}
+		
+		public static string RegisterString( string sString, int nMode ) {
+			// задание регистра строке
+			if( sString.Trim()=="" ) {
+				return "";
+			}
+			switch( nMode ) {
+				case 0: // Как есть
+					return sString;
+				case 1: // нижний регистр
+					return sString.ToLower();
+				case 2: // верхний регистр
+					return sString.ToUpper();
+				default:
+					return sString;
+			}
+		}
+		
 		#endregion
 	}
 }
