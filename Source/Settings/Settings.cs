@@ -375,9 +375,15 @@ namespace Settings
 		}
 		
 		public static bool ReadAddToFileNameBookIDMode() {
-			// читаем режим обработки файлов с одинаковыми именами из настроек
+			// читаем режим добавления ID книги к имени файла из настроек
 			return ReadAttribute( "AddToFileNameBookID", "chBoxAddToFileNameBookIDChecked", GetDefFMchBoxAddToFileNameBookIDChecked() );
 		}
+		
+		public static bool ReadDelFB2FilesMode() {
+			// читаем режим удаления файла после сортировки из настроек
+			return ReadAttribute( "FileDelete", "chBoxDelFB2FilesChecked", GetDefFMchBoxDelFB2FilesCheked() );
+		}
+		
 		#endregion
 		
 		#endregion
