@@ -54,6 +54,7 @@ namespace Options
 			rbtnAuthorAll.Checked = Settings.Settings.GetDefFMrbtnAuthorAllCheked();
 			rbtnGenreSchema.Checked = Settings.Settings.GetDefFMrbtnGenreSchemaCheked();
 			rbtnGenreText.Checked = Settings.Settings.GetDefFMrbtnGenreTextCheked();
+			chBoxAddToFileNameBookID.Checked = Settings.Settings.GetDefFMchBoxAddToFileNameBookIDChecked();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 			#endregion

@@ -64,6 +64,7 @@ namespace Settings
 		private static bool m_brbtnAuthorAllCheked = false;
 		private static bool m_brbtnGenreSchemaCheked = true;
 		private static bool m_brbtnGenreTextCheked = false;
+		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
 		
 		#endregion
 		
@@ -332,6 +333,9 @@ namespace Settings
 		public static bool GetDefFMrbtnGenreTextCheked() {
 			return m_brbtnGenreTextCheked;
 		}
+		public static bool GetDefFMchBoxAddToFileNameBookIDChecked() {
+			return m_bchBoxAddToFileNameBookIDChecked;
+		}
 		
 		public static int ReadRegisterMode() {
 			// читаем режим для регистра из настроек
@@ -363,6 +367,16 @@ namespace Settings
 		public static Int16 ReadArchiveTypeMode() {
 			// читаем режим типа архивации из настроек
 			return ReadAttribute( "Archive", "cboxArchiveTypeSelectedIndex", GetDefFMcboxArchiveTypeSelectedIndex() );
+		}
+		
+		public static Int16 ReadFileExistMode() {
+			// читаем режим обработки файлов с одинаковыми именами из настроек
+			return ReadAttribute( "IsFileExist", "cboxFileExistSelectedIndex", GetDefFMcboxFileExistSelectedIndex() );
+		}
+		
+		public static bool ReadAddToFileNameBookIDMode() {
+			// читаем режим обработки файлов с одинаковыми именами из настроек
+			return ReadAttribute( "AddToFileNameBookID", "chBoxAddToFileNameBookIDChecked", GetDefFMchBoxAddToFileNameBookIDChecked() );
 		}
 		#endregion
 		
