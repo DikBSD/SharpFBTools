@@ -333,6 +333,7 @@ namespace Settings
 		public static bool GetDefFMrbtnGenreTextCheked() {
 			return m_brbtnGenreTextCheked;
 		}
+		
 		public static bool GetDefFMchBoxAddToFileNameBookIDChecked() {
 			return m_bchBoxAddToFileNameBookIDChecked;
 		}
@@ -396,6 +397,15 @@ namespace Settings
 		public static bool ReadGenreOneMode() {
 			// читаем режим раскладки файлов по первому жанру из настроек
 			if( ReadAttribute( "GenresToDirs", "rbtnGenreOneChecked", GetDefFMrbtnGenreOneCheked() ) ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		public static bool ReadGenreTypeMode() {
+			// читаем вид папки с жанром из настроек
+			if( ReadAttribute( "GenresType", "rbtnGenreSchemaChecked", GetDefFMrbtnGenreSchemaCheked() ) ) {
 				return true;
 			} else {
 				return false;

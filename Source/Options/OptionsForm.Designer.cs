@@ -665,7 +665,7 @@ namespace Options
 			this.gBoxGenresType.Size = new System.Drawing.Size(331, 57);
 			this.gBoxGenresType.TabIndex = 27;
 			this.gBoxGenresType.TabStop = false;
-			this.gBoxGenresType.Text = " Тип папки с жанром ";
+			this.gBoxGenresType.Text = " Вид папки с жанром ";
 			// 
 			// rbtnGenreText
 			// 
