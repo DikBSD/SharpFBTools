@@ -49,16 +49,17 @@ namespace SharpFBTools.Controls.Panels
                 tboxSourceDir.Text = openFolderName;
             }
 		}
+
+		void RBtnTemplatesPreparedCheckedChanged(object sender, EventArgs e)
+		{
+			cboxTemplatesPrepared.Enabled = rBtnTemplatesPrepared.Checked;
+		}
 		
 		void RBtnTemplatesFromLineCheckedChanged(object sender, EventArgs e)
 		{
 			txtBoxTemplatesFromLine.Enabled = rBtnTemplatesFromLine.Checked;
 		}
 		
-		void RBtnTemplatesPreparedCheckedChanged(object sender, EventArgs e)
-		{
-			cboxTemplatesPrepared.Enabled = rBtnTemplatesPrepared.Checked;
-		}
 		#endregion
 	}
 }

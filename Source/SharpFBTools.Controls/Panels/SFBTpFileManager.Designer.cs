@@ -48,10 +48,11 @@ namespace SharpFBTools.Controls.Panels
 			this.tsddbtnMakeReport = new System.Windows.Forms.ToolStripDropDownButton();
 			this.tsmiReportAsHTML = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiReportAsFB2 = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmiReportAsCSV_CSV = new System.Windows.Forms.ToolStripMenuItem();
-			this.pOptions = new System.Windows.Forms.Panel();
-			this.gBoxTemplatesDescription = new System.Windows.Forms.GroupBox();
-			this.richTxtBoxDescTemplates = new System.Windows.Forms.RichTextBox();
+			this.pSource = new System.Windows.Forms.Panel();
+			this.cboxScanSubDir = new System.Windows.Forms.CheckBox();
+			this.tboxSourceDir = new System.Windows.Forms.TextBox();
+			this.lblDir = new System.Windows.Forms.Label();
+			this.fbdScanDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.gBoxViewResult = new System.Windows.Forms.GroupBox();
 			this.gBoxRenameTemplates = new System.Windows.Forms.GroupBox();
 			this.txtBoxTemplatesFromLine = new System.Windows.Forms.TextBox();
@@ -69,21 +70,19 @@ namespace SharpFBTools.Controls.Panels
 			this.lblSortSelectedTargetDir = new System.Windows.Forms.Label();
 			this.btnSortSelectedToDir = new System.Windows.Forms.Button();
 			this.tboxSortSelectedToDir = new System.Windows.Forms.TextBox();
-			this.cboxScanSubDir = new System.Windows.Forms.CheckBox();
-			this.tboxSourceDir = new System.Windows.Forms.TextBox();
-			this.lblDir = new System.Windows.Forms.Label();
-			this.fbdScanDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.pProgress = new System.Windows.Forms.Panel();
+			this.gBoxTemplatesDescription = new System.Windows.Forms.GroupBox();
+			this.richTxtBoxDescTemplates = new System.Windows.Forms.RichTextBox();
 			this.ssProgress.SuspendLayout();
 			this.tsFileManager.SuspendLayout();
-			this.pOptions.SuspendLayout();
-			this.gBoxTemplatesDescription.SuspendLayout();
+			this.pSource.SuspendLayout();
 			this.gBoxRenameTemplates.SuspendLayout();
 			this.tcFileManager.SuspendLayout();
 			this.tpSortAll.SuspendLayout();
 			this.pSortAllToDir.SuspendLayout();
 			this.tsSortSelected.SuspendLayout();
 			this.pSortSelectedToDir.SuspendLayout();
+			this.gBoxTemplatesDescription.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ssProgress
@@ -155,8 +154,7 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.tsddbtnMakeReport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.tsmiReportAsHTML,
-									this.tsmiReportAsFB2,
-									this.tsmiReportAsCSV_CSV});
+									this.tsmiReportAsFB2});
 			this.tsddbtnMakeReport.Image = ((System.Drawing.Image)(resources.GetObject("tsddbtnMakeReport.Image")));
 			this.tsddbtnMakeReport.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsddbtnMakeReport.Name = "tsddbtnMakeReport";
@@ -176,62 +174,64 @@ namespace SharpFBTools.Controls.Panels
 			this.tsmiReportAsFB2.Size = new System.Drawing.Size(196, 22);
 			this.tsmiReportAsFB2.Text = "Как fb2-файл...";
 			// 
-			// tsmiReportAsCSV_CSV
+			// pSource
 			// 
-			this.tsmiReportAsCSV_CSV.Name = "tsmiReportAsCSV_CSV";
-			this.tsmiReportAsCSV_CSV.Size = new System.Drawing.Size(196, 22);
-			this.tsmiReportAsCSV_CSV.Text = "Как csv-файл (.csv)...";
+			this.pSource.Controls.Add(this.cboxScanSubDir);
+			this.pSource.Controls.Add(this.tboxSourceDir);
+			this.pSource.Controls.Add(this.lblDir);
+			this.pSource.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pSource.Location = new System.Drawing.Point(0, 31);
+			this.pSource.Name = "pSource";
+			this.pSource.Size = new System.Drawing.Size(828, 34);
+			this.pSource.TabIndex = 20;
 			// 
-			// pOptions
+			// cboxScanSubDir
 			// 
-			this.pOptions.Controls.Add(this.pProgress);
-			this.pOptions.Controls.Add(this.gBoxTemplatesDescription);
-			this.pOptions.Controls.Add(this.gBoxViewResult);
-			this.pOptions.Controls.Add(this.gBoxRenameTemplates);
-			this.pOptions.Controls.Add(this.tcFileManager);
-			this.pOptions.Controls.Add(this.cboxScanSubDir);
-			this.pOptions.Controls.Add(this.tboxSourceDir);
-			this.pOptions.Controls.Add(this.lblDir);
-			this.pOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pOptions.Location = new System.Drawing.Point(0, 31);
-			this.pOptions.Name = "pOptions";
-			this.pOptions.Size = new System.Drawing.Size(828, 507);
-			this.pOptions.TabIndex = 20;
+			this.cboxScanSubDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboxScanSubDir.Checked = true;
+			this.cboxScanSubDir.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cboxScanSubDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.cboxScanSubDir.ForeColor = System.Drawing.Color.Navy;
+			this.cboxScanSubDir.Location = new System.Drawing.Point(652, 5);
+			this.cboxScanSubDir.Name = "cboxScanSubDir";
+			this.cboxScanSubDir.Size = new System.Drawing.Size(172, 24);
+			this.cboxScanSubDir.TabIndex = 8;
+			this.cboxScanSubDir.Text = "Сканировать и подпапки";
+			this.cboxScanSubDir.UseVisualStyleBackColor = true;
 			// 
-			// gBoxTemplatesDescription
+			// tboxSourceDir
 			// 
-			this.gBoxTemplatesDescription.Controls.Add(this.richTxtBoxDescTemplates);
-			this.gBoxTemplatesDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gBoxTemplatesDescription.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxTemplatesDescription.ForeColor = System.Drawing.Color.Maroon;
-			this.gBoxTemplatesDescription.Location = new System.Drawing.Point(0, 215);
-			this.gBoxTemplatesDescription.Name = "gBoxTemplatesDescription";
-			this.gBoxTemplatesDescription.Size = new System.Drawing.Size(828, 292);
-			this.gBoxTemplatesDescription.TabIndex = 24;
-			this.gBoxTemplatesDescription.TabStop = false;
-			this.gBoxTemplatesDescription.Text = " Описание шаблонов ";
+			this.tboxSourceDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxSourceDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
+			this.tboxSourceDir.Name = "tboxSourceDir";
+			this.tboxSourceDir.ReadOnly = true;
+			this.tboxSourceDir.Size = new System.Drawing.Size(484, 20);
+			this.tboxSourceDir.TabIndex = 7;
 			// 
-			// richTxtBoxDescTemplates
+			// lblDir
 			// 
-			this.richTxtBoxDescTemplates.BackColor = System.Drawing.SystemColors.Window;
-			this.richTxtBoxDescTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.richTxtBoxDescTemplates.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.richTxtBoxDescTemplates.Location = new System.Drawing.Point(3, 16);
-			this.richTxtBoxDescTemplates.Name = "richTxtBoxDescTemplates";
-			this.richTxtBoxDescTemplates.ReadOnly = true;
-			this.richTxtBoxDescTemplates.Size = new System.Drawing.Size(822, 273);
-			this.richTxtBoxDescTemplates.TabIndex = 0;
-			this.richTxtBoxDescTemplates.Text = "";
+			this.lblDir.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
+			this.lblDir.Location = new System.Drawing.Point(2, 8);
+			this.lblDir.Name = "lblDir";
+			this.lblDir.Size = new System.Drawing.Size(162, 19);
+			this.lblDir.TabIndex = 6;
+			this.lblDir.Text = "Папка для сканирования:";
+			// 
+			// fbdScanDir
+			// 
+			this.fbdScanDir.Description = "Укажите папку для сканирования с fb2-файлами и архивами";
 			// 
 			// gBoxViewResult
 			// 
 			this.gBoxViewResult.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gBoxViewResult.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gBoxViewResult.ForeColor = System.Drawing.Color.Maroon;
-			this.gBoxViewResult.Location = new System.Drawing.Point(0, 165);
+			this.gBoxViewResult.Location = new System.Drawing.Point(0, 195);
 			this.gBoxViewResult.Name = "gBoxViewResult";
 			this.gBoxViewResult.Size = new System.Drawing.Size(828, 50);
-			this.gBoxViewResult.TabIndex = 23;
+			this.gBoxViewResult.TabIndex = 27;
 			this.gBoxViewResult.TabStop = false;
 			this.gBoxViewResult.Text = " Вид результата ";
 			// 
@@ -244,10 +244,10 @@ namespace SharpFBTools.Controls.Panels
 			this.gBoxRenameTemplates.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gBoxRenameTemplates.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gBoxRenameTemplates.ForeColor = System.Drawing.Color.Indigo;
-			this.gBoxRenameTemplates.Location = new System.Drawing.Point(0, 96);
+			this.gBoxRenameTemplates.Location = new System.Drawing.Point(0, 126);
 			this.gBoxRenameTemplates.Name = "gBoxRenameTemplates";
 			this.gBoxRenameTemplates.Size = new System.Drawing.Size(828, 69);
-			this.gBoxRenameTemplates.TabIndex = 22;
+			this.gBoxRenameTemplates.TabIndex = 26;
 			this.gBoxRenameTemplates.TabStop = false;
 			this.gBoxRenameTemplates.Text = " Шаблоны переименовывания ";
 			// 
@@ -268,7 +268,14 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxTemplatesPrepared.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxTemplatesPrepared.FormattingEnabled = true;
 			this.cboxTemplatesPrepared.Items.AddRange(new object[] {
-									"*GN*\\*NL*_*NF*[_*NM*][_*NN*]\\[*SN*]\\*NL*[_(*SN*-*SI*)]_*BN*"});
+									"*L*\\*G*\\[*BAL*_*BAF*_*BAM*_][*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
+									"[*L*]\\*G*\\[*BAL*_*BAF*_*BAM*_][*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
+									"*L*\\*G*\\*BAL*_*BAF*[_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
+									"[*L*]\\*G*\\*BAL*_*BAF*[_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
+									"*G*\\[*BAL*_*BAF*_*BAM*_][*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
+									"[*G*]\\[*BAL*_*BAF*_*BAM*_][*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
+									"*G*\\*BAL*_*BAF*[_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
+									"[*G*]\\*BAL*_*BAF*[_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*"});
 			this.cboxTemplatesPrepared.Location = new System.Drawing.Point(143, 18);
 			this.cboxTemplatesPrepared.Name = "cboxTemplatesPrepared";
 			this.cboxTemplatesPrepared.Size = new System.Drawing.Size(667, 21);
@@ -304,11 +311,11 @@ namespace SharpFBTools.Controls.Panels
 			this.tcFileManager.Controls.Add(this.tsSortSelected);
 			this.tcFileManager.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tcFileManager.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.tcFileManager.Location = new System.Drawing.Point(0, 0);
+			this.tcFileManager.Location = new System.Drawing.Point(0, 65);
 			this.tcFileManager.Name = "tcFileManager";
 			this.tcFileManager.SelectedIndex = 0;
-			this.tcFileManager.Size = new System.Drawing.Size(828, 96);
-			this.tcFileManager.TabIndex = 21;
+			this.tcFileManager.Size = new System.Drawing.Size(828, 61);
+			this.tcFileManager.TabIndex = 25;
 			// 
 			// tpSortAll
 			// 
@@ -316,7 +323,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tpSortAll.Location = new System.Drawing.Point(4, 22);
 			this.tpSortAll.Name = "tpSortAll";
 			this.tpSortAll.Padding = new System.Windows.Forms.Padding(3);
-			this.tpSortAll.Size = new System.Drawing.Size(820, 70);
+			this.tpSortAll.Size = new System.Drawing.Size(820, 35);
 			this.tpSortAll.TabIndex = 0;
 			this.tpSortAll.Text = " Полная Сортировка ";
 			this.tpSortAll.UseVisualStyleBackColor = true;
@@ -418,57 +425,49 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSortSelectedToDir.Size = new System.Drawing.Size(605, 20);
 			this.tboxSortSelectedToDir.TabIndex = 6;
 			// 
-			// cboxScanSubDir
-			// 
-			this.cboxScanSubDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cboxScanSubDir.Checked = true;
-			this.cboxScanSubDir.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cboxScanSubDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.cboxScanSubDir.ForeColor = System.Drawing.Color.Navy;
-			this.cboxScanSubDir.Location = new System.Drawing.Point(652, 5);
-			this.cboxScanSubDir.Name = "cboxScanSubDir";
-			this.cboxScanSubDir.Size = new System.Drawing.Size(172, 24);
-			this.cboxScanSubDir.TabIndex = 8;
-			this.cboxScanSubDir.Text = "Сканировать и подпапки";
-			this.cboxScanSubDir.UseVisualStyleBackColor = true;
-			// 
-			// tboxSourceDir
-			// 
-			this.tboxSourceDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxSourceDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
-			this.tboxSourceDir.Name = "tboxSourceDir";
-			this.tboxSourceDir.ReadOnly = true;
-			this.tboxSourceDir.Size = new System.Drawing.Size(484, 20);
-			this.tboxSourceDir.TabIndex = 7;
-			// 
-			// lblDir
-			// 
-			this.lblDir.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
-			this.lblDir.Location = new System.Drawing.Point(2, 8);
-			this.lblDir.Name = "lblDir";
-			this.lblDir.Size = new System.Drawing.Size(162, 19);
-			this.lblDir.TabIndex = 6;
-			this.lblDir.Text = "Папка для сканирования:";
-			// 
-			// fbdScanDir
-			// 
-			this.fbdScanDir.Description = "Укажите папку для сканирования с fb2-файлами и архивами";
-			// 
 			// pProgress
 			// 
 			this.pProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pProgress.Location = new System.Drawing.Point(0, 462);
+			this.pProgress.Location = new System.Drawing.Point(0, 475);
 			this.pProgress.Name = "pProgress";
-			this.pProgress.Size = new System.Drawing.Size(828, 45);
-			this.pProgress.TabIndex = 25;
+			this.pProgress.Size = new System.Drawing.Size(828, 63);
+			this.pProgress.TabIndex = 29;
+			// 
+			// gBoxTemplatesDescription
+			// 
+			this.gBoxTemplatesDescription.Controls.Add(this.richTxtBoxDescTemplates);
+			this.gBoxTemplatesDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gBoxTemplatesDescription.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gBoxTemplatesDescription.ForeColor = System.Drawing.Color.Maroon;
+			this.gBoxTemplatesDescription.Location = new System.Drawing.Point(0, 245);
+			this.gBoxTemplatesDescription.Name = "gBoxTemplatesDescription";
+			this.gBoxTemplatesDescription.Size = new System.Drawing.Size(828, 230);
+			this.gBoxTemplatesDescription.TabIndex = 30;
+			this.gBoxTemplatesDescription.TabStop = false;
+			this.gBoxTemplatesDescription.Text = " Описание шаблонов ";
+			// 
+			// richTxtBoxDescTemplates
+			// 
+			this.richTxtBoxDescTemplates.BackColor = System.Drawing.SystemColors.Window;
+			this.richTxtBoxDescTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.richTxtBoxDescTemplates.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.richTxtBoxDescTemplates.Location = new System.Drawing.Point(3, 16);
+			this.richTxtBoxDescTemplates.Name = "richTxtBoxDescTemplates";
+			this.richTxtBoxDescTemplates.ReadOnly = true;
+			this.richTxtBoxDescTemplates.Size = new System.Drawing.Size(822, 211);
+			this.richTxtBoxDescTemplates.TabIndex = 0;
+			this.richTxtBoxDescTemplates.Text = "";
 			// 
 			// SFBTpFileManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.pOptions);
+			this.Controls.Add(this.gBoxTemplatesDescription);
+			this.Controls.Add(this.pProgress);
+			this.Controls.Add(this.gBoxViewResult);
+			this.Controls.Add(this.gBoxRenameTemplates);
+			this.Controls.Add(this.tcFileManager);
+			this.Controls.Add(this.pSource);
 			this.Controls.Add(this.tsFileManager);
 			this.Controls.Add(this.ssProgress);
 			this.Name = "SFBTpFileManager";
@@ -477,9 +476,8 @@ namespace SharpFBTools.Controls.Panels
 			this.ssProgress.PerformLayout();
 			this.tsFileManager.ResumeLayout(false);
 			this.tsFileManager.PerformLayout();
-			this.pOptions.ResumeLayout(false);
-			this.pOptions.PerformLayout();
-			this.gBoxTemplatesDescription.ResumeLayout(false);
+			this.pSource.ResumeLayout(false);
+			this.pSource.PerformLayout();
 			this.gBoxRenameTemplates.ResumeLayout(false);
 			this.gBoxRenameTemplates.PerformLayout();
 			this.tcFileManager.ResumeLayout(false);
@@ -489,10 +487,12 @@ namespace SharpFBTools.Controls.Panels
 			this.tsSortSelected.ResumeLayout(false);
 			this.pSortSelectedToDir.ResumeLayout(false);
 			this.pSortSelectedToDir.PerformLayout();
+			this.gBoxTemplatesDescription.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
 		private System.Windows.Forms.Panel pProgress;
+		private System.Windows.Forms.Panel pSource;
 		private System.Windows.Forms.RichTextBox richTxtBoxDescTemplates;
 		private System.Windows.Forms.GroupBox gBoxTemplatesDescription;
 		private System.Windows.Forms.GroupBox gBoxViewResult;
@@ -517,9 +517,7 @@ namespace SharpFBTools.Controls.Panels
 		private System.Windows.Forms.TabPage tsSortSelected;
 		private System.Windows.Forms.TabPage tpSortAll;
 		private System.Windows.Forms.ToolStrip tsFileManager;
-		private System.Windows.Forms.Panel pOptions;
 		private System.Windows.Forms.ToolStripButton tsbtnSortFilesTo;
-		private System.Windows.Forms.ToolStripMenuItem tsmiReportAsCSV_CSV;
 		private System.Windows.Forms.ToolStripMenuItem tsmiReportAsFB2;
 		private System.Windows.Forms.ToolStripMenuItem tsmiReportAsHTML;
 		private System.Windows.Forms.ToolStripDropDownButton tsddbtnMakeReport;
