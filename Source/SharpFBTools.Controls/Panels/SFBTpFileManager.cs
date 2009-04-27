@@ -11,6 +11,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -25,8 +26,14 @@ namespace SharpFBTools.Controls.Panels
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-//			string s = FilesWorker.StringProcessing.SpaceString( " 1 2 3 4 5 6 7 ", Settings.Settings.ReadSpaceProcessMode() );
-
+			cboxTemplatesPrepared.SelectedIndex = 0;
+			
+			string sTDPath = Settings.Settings.GetDefFMDescTemplatePath();
+			if( File.Exists( sTDPath ) ) {
+				richTxtBoxDescTemplates.LoadFile( sTDPath );
+			} else {
+				richTxtBoxDescTemplates.Text = "Не найден файл описания Шаблонов переименования: \""+sTDPath+"\"";
+			}
 		}
 		
 		#region Обработчики событий
@@ -41,6 +48,16 @@ namespace SharpFBTools.Controls.Panels
 				string openFolderName = fbdScanDir.SelectedPath;
                 tboxSourceDir.Text = openFolderName;
             }
+		}
+		
+		void RBtnTemplatesFromLineCheckedChanged(object sender, EventArgs e)
+		{
+			txtBoxTemplatesFromLine.Enabled = rBtnTemplatesFromLine.Checked;
+		}
+		
+		void RBtnTemplatesPreparedCheckedChanged(object sender, EventArgs e)
+		{
+			cboxTemplatesPrepared.Enabled = rBtnTemplatesPrepared.Checked;
 		}
 		#endregion
 	}

@@ -65,6 +65,7 @@ namespace Settings
 		private static bool m_brbtnGenreSchemaCheked = true;
 		private static bool m_brbtnGenreTextCheked = false;
 		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
+		private static string m_sDescTemplatePath = GetProgDir()+"\\Help\\TemplatesDescription.rtf";
 		
 		#endregion
 		
@@ -275,6 +276,10 @@ namespace Settings
 		#endregion
 		
 		#region Менеджер Файлов
+		public static string GetDefFMDescTemplatePath() {
+			return m_sDescTemplatePath;
+		}
+		
 		public static bool GetDefFMchBoxTranslitCheked() {
 			return m_bchBoxTranslitCheked;
 		}
