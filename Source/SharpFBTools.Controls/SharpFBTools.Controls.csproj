@@ -86,6 +86,10 @@
       <Project>{CEBA7BB8-396C-473F-880A-184EC08A033B}</Project>
       <Name>FB2Parser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FB2\FB2.csproj">
+      <Project>{0A550644-91AC-464D-98E2-6E79AB56BB62}</Project>
+      <Name>FB2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FilesWorker\FilesWorker.csproj">
       <Project>{77D9288A-599B-4474-8CBE-15F58DAEF8B4}</Project>
       <Name>FilesWorker</Name>

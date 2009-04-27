@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "Settings\Settin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpFBTools.AssemblyInfo", "SharpFBTools.AssemblyInfo\SharpFBTools.AssemblyInfo.csproj", "{3892CDF3-5A15-4515-A7A8-BE1F716DD456}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FB2", "FB2\FB2.csproj", "{0A550644-91AC-464D-98E2-6E79AB56BB62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,5 +64,9 @@ Global
 		{3892CDF3-5A15-4515-A7A8-BE1F716DD456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3892CDF3-5A15-4515-A7A8-BE1F716DD456}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3892CDF3-5A15-4515-A7A8-BE1F716DD456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A550644-91AC-464D-98E2-6E79AB56BB62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A550644-91AC-464D-98E2-6E79AB56BB62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A550644-91AC-464D-98E2-6E79AB56BB62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A550644-91AC-464D-98E2-6E79AB56BB62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal
