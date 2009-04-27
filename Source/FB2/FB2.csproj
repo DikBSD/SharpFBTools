@@ -30,4 +30,11 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Description" />
+    <Folder Include="Description\Common" />
+    <Folder Include="Description\DocumentInfo" />
+    <Folder Include="Description\TitleInfo" />
+    <Compile Include="Description\Common\Author.cs" />
+  </ItemGroup>
 </Project>
