@@ -25,7 +25,8 @@ namespace FB2.Description.TitleInfo
 		#region Конструкторы класса
         public BookTitle()
         {
-            m_ciLang = null;
+            m_sText		= "";
+        	m_ciLang	= null;
         }
         public BookTitle( string sText, CultureInfo ciLang )
         {

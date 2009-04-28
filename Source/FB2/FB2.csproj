@@ -46,6 +46,8 @@
     <Compile Include="Description\Common\Date.cs" />
     <Compile Include="Description\Common\Sequence.cs" />
     <Compile Include="Description\DocumentInfo\History.cs" />
+    <Compile Include="Description\DocumentInfo\ProgramUsed.cs" />
+    <Compile Include="Description\DocumentInfo\SrcOCR.cs" />
     <Compile Include="Description\PublishInfo\BookName.cs" />
     <Compile Include="Description\PublishInfo\City.cs" />
     <Compile Include="Description\PublishInfo\ISBN.cs" />
