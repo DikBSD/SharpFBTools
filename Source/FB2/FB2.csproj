@@ -36,5 +36,6 @@
     <Folder Include="Description\DocumentInfo" />
     <Folder Include="Description\TitleInfo" />
     <Compile Include="Description\Common\Author.cs" />
+    <Compile Include="Description\Common\Sequence.cs" />
   </ItemGroup>
 </Project>

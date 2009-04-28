@@ -28,28 +28,6 @@ namespace FB2.Description.Common
         private string	m_sID;
 		#endregion
 		
-		#region Закрытые Вспомогательные методы класса
-		private string CalculateMD5Hash( string sString ) {
-            MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] hash = md5.ComputeHash( Encoding.UTF8.GetBytes( sString ) );
-            StringBuilder sb = new StringBuilder();
-            for( int i=0; i!=hash.Length; ++i) {
-                sb.Append( hash[i].ToString( "x2" ) );
-            }
-            return sb.ToString();
-        }
-		#endregion
-		
-		#region Открытые Вспомогательные методы класса
-		public int CompareTo( object o ) {
-            if( o.GetType() != typeof( Author ) ) {
-                throw new ArgumentException("the object type is not Author");
-            }
-            return ( ID == ( (Author)o ).ID ) ? 0 : -1;
-        }
-
-		#endregion
-		
 		#region Конструкторы класса
 		public Author()
 		{
@@ -94,6 +72,27 @@ namespace FB2.Description.Common
         {
             // только Ник Автора
 			m_sNickName = sNickName;
+        }
+		#endregion
+		
+		#region Закрытые Вспомогательные методы класса
+		private string CalculateMD5Hash( string sString ) {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] hash = md5.ComputeHash( Encoding.UTF8.GetBytes( sString ) );
+            StringBuilder sb = new StringBuilder();
+            for( int i=0; i!=hash.Length; ++i) {
+                sb.Append( hash[i].ToString( "x2" ) );
+            }
+            return sb.ToString();
+        }
+		#endregion
+		
+		#region Открытые Вспомогательные методы класса
+		public int CompareTo( object o ) {
+            if( o.GetType() != typeof( Author ) ) {
+                throw new ArgumentException("the object type is not Author.");
+            }
+            return ( ID == ( (Author)o ).ID ) ? 0 : -1;
         }
 		#endregion
 		
