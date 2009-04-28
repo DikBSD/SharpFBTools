@@ -8,7 +8,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using FB2.Description.Common;
 
 namespace FB2.Description.DocumentInfo
@@ -19,14 +18,14 @@ namespace FB2.Description.DocumentInfo
 	public class DocumentInfo
 	{
 		#region Закрытые данные класса
-        private IList<Author>	m_Authors;
-        private ProgramUsed		m_ProgramUsed;
+        private IList<Author>	m_Authors		= null;
+        private ProgramUsed		m_ProgramUsed	= null;
         private Date			m_Date;
-        private IList<string>	m_SrcUrls;
-        private SrcOCR			m_sSrcOCR;
-        private string			m_sID;
-        private string			m_sVersion;
-        private History 		m_History;
+        private IList<string>	m_SrcUrls		= null;
+        private SrcOCR			m_sSrcOCR		= null;
+        private string			m_sID			= Guid.NewGuid().ToString();
+        private string			m_sVersion		= null;
+        private History 		m_History		= null;
         #endregion
         
 		#region Конструкторы класса
