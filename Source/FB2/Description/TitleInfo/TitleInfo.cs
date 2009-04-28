@@ -25,6 +25,7 @@ namespace FB2.Description.TitleInfo
 		private Annotation		m_Annotation;
         private Keywords		m_Keywords;
 		private Date			m_Date;
+		private Coverpage		m_Coverpage;
         private CultureInfo		m_Lang;
         private CultureInfo		m_ScrLang;
         private IList<Author>	m_Translators;
@@ -36,7 +37,7 @@ namespace FB2.Description.TitleInfo
 		{
 		}
 		public TitleInfo( IList<Genre> genres, IList<Author> authors, BookTitle bookTitle, Annotation annotation,
-                         Keywords keywords, Date date, CultureInfo lang, CultureInfo scrLang,
+                         Keywords keywords, Date date, Coverpage coverpage, CultureInfo lang, CultureInfo scrLang,
                          IList<Author> translators, IList<Sequence> sequences )
         {
             m_Genres = genres;
@@ -45,6 +46,7 @@ namespace FB2.Description.TitleInfo
             m_Annotation = annotation;
             m_Keywords = keywords;
             m_Date = date;
+            m_Coverpage	= coverpage;
             m_Lang = lang;
             m_ScrLang = scrLang;
             m_Translators = translators;
@@ -89,6 +91,12 @@ namespace FB2.Description.TitleInfo
             set { m_Date = value; }
         }
 
+        public virtual Coverpage Coverpage
+        {
+            get { return m_Coverpage; }
+            set { m_Coverpage = value; }
+        }
+         
         public virtual CultureInfo Lang
         {
             get { return m_Lang; }
