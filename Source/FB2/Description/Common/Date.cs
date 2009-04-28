@@ -38,6 +38,10 @@ namespace FB2.Description.Common
             m_sText		= sText;
             m_sValue	= sValue;
         }
+		public Date( string sText )
+        {
+            m_sText	= sText;
+        }
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов

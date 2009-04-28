@@ -136,8 +136,8 @@ namespace FB2.FB2Parsers
                 tranlators = new List<Author>();
                 foreach (XmlNode node in xmlNodes)
                 {
-                    Author tranlator = Author(node);
-                    tranlators.Add(tranlator);
+                    Author translator = Author(node);
+                    tranlators.Add(translator);
                 }
             }
 
@@ -221,7 +221,7 @@ namespace FB2.FB2Parsers
             string version = elem.SelectSingleNode("./fb:version", m_NsManager).InnerText;
 
             // loading data
-            ProgramUsed programUsed = null;
+            ProgramUsed programUsed = new ProgramUsed();
             XmlNode xmlNode = elem.SelectSingleNode("./fb:program-used", m_NsManager);
             if (xmlNode != null)
             {
@@ -240,7 +240,7 @@ namespace FB2.FB2Parsers
                 }
             }
 
-            SrcOCR srcOcr = null;
+            SrcOCR srcOcr = new SrcOCR();
             xmlNode = elem.SelectSingleNode("./fb:src-ocr", m_NsManager);
             if (xmlNode != null)
             {
@@ -308,7 +308,7 @@ namespace FB2.FB2Parsers
             XmlNode nickName = elem.SelectSingleNode("./fb:nickname", m_NsManager);
             XmlNodeList rawHomePages = elem.SelectNodes("./fb:home-page", m_NsManager);
             XmlNodeList rawEmails = elem.SelectNodes("./fb:email", m_NsManager);
-//            XmlNode id = elem.SelectSingleNode("./fb:id", m_NsManager);
+            XmlNode id = elem.SelectSingleNode("./fb:id", m_NsManager);
 
             if (firstName != null && lastName != null)
             {
@@ -329,10 +329,10 @@ namespace FB2.FB2Parsers
                 Author = new Author(nickName.InnerText);
             }
 
-//            if (id != null)
-//            {
-//                Author.Id = id.InnerText;
-//            }
+            if (id != null)
+            {
+                Author.ID = id.InnerText;
+            }
 
             if (rawHomePages.Count > 0)
             {
@@ -371,7 +371,7 @@ namespace FB2.FB2Parsers
             {
                 Author.NickName = re.Replace(Author.NickName, "");
             }
-            string id = Author.ID; // get Id for count
+//            string sid = Author.ID; // get Id for count
 
             return Author;
         }

@@ -12,6 +12,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using FB2.FB2Parsers;
+using FB2.Description;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -34,6 +36,9 @@ namespace SharpFBTools.Controls.Panels
 			} else {
 				richTxtBoxDescTemplates.Text = "Не найден файл описания Шаблонов переименования: \""+sTDPath+"\"";
 			}
+			
+			FB2DescriptionParser fb2Parser = new FB2DescriptionParser();
+			Description fbDoc = (Description) fb2Parser.Parse( "c:\\1.fb2" );
 		}
 		
 		#region Обработчики событий

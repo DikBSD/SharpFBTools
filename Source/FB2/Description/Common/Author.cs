@@ -19,13 +19,13 @@ namespace FB2.Description.Common
 	public class Author : IComparable
 	{
 		#region Закрытые данные класса
-        private string	m_sFirstName;
-        private string	m_sMiddleName;
-        private string	m_sLastName;
-        private string	m_sNickName;
-        private IList<string> m_lisHomePages;
-        private IList<string> m_lisEmails;
-        private string	m_sID;
+        private string	m_sFirstName	= "";
+        private string	m_sMiddleName	= "";
+        private string	m_sLastName		= "";
+        private string	m_sNickName		= "";
+        private IList<string> m_lisHomePages = null;
+        private IList<string> m_lisEmails	 = null;
+        private string	m_sID			 = "";
 		#endregion
 		
 		#region Конструкторы класса
