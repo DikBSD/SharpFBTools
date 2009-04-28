@@ -59,6 +59,7 @@
     <Compile Include="Description\PublishInfo\PublishInfo.cs" />
     <Compile Include="Description\TitleInfo\Annotation.cs" />
     <Compile Include="Description\TitleInfo\BookTitle.cs" />
+    <Compile Include="Description\TitleInfo\Coverpage.cs" />
     <Compile Include="Description\TitleInfo\Genre.cs" />
     <Compile Include="Description\TitleInfo\Genres.cs" />
     <Compile Include="Description\TitleInfo\Keywords.cs" />
