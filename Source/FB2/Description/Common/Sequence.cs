@@ -46,7 +46,7 @@ namespace FB2.Description.Common
         }
 		#endregion
 		
-		#region Открытые свойства-fb2-элементы класса
+		#region Открытые свойства класса - fb2-элементы
 		public virtual string Name {
             // Название Серии
 			get { return m_sName; }

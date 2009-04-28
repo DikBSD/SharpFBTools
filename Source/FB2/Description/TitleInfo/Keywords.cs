@@ -32,7 +32,7 @@ namespace FB2.Description.TitleInfo
         }
 		#endregion
 		
-		#region Открытые свойства класса -атрибуты fb2-элементов
+		#region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual CultureInfo AttrLang {
             get { return m_ciLang; }
             set { m_ciLang = value; }

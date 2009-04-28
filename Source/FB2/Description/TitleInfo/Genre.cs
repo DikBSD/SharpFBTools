@@ -51,7 +51,7 @@ namespace FB2.Description.TitleInfo
         }
         #endregion
         
-        #region Открытые свойства-fb2-элементы класса
+        #region Открытые свойства класса - fb2-элементы
         public virtual Genres Name {
             get { return m_eName; }
             set { m_eName = value; }

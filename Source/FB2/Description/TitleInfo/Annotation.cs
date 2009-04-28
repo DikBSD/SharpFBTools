@@ -33,7 +33,7 @@ namespace FB2.Description.TitleInfo
         }
         #endregion
 		
-        #region Открытые свойства класса -атрибуты fb2-элементов
+        #region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string AttrID {
             get { return m_sId; }
             set { m_sId = value; }
