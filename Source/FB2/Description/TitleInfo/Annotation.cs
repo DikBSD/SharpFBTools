@@ -43,11 +43,6 @@ namespace FB2.Description.TitleInfo
             m_sText		= sText;
             m_ciLang	= ciLang;
         }
-		public Annotation( CultureInfo ciLang, string sId )
-        {
-            m_sId		= sId;
-            m_ciLang	= ciLang;
-        }
         #endregion
 		
         #region Открытые свойства класса - атрибуты fb2-элементов

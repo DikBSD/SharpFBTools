@@ -18,17 +18,25 @@ namespace FB2.Description.TitleInfo
 	public class Keywords : IAttrLang
 	{
 		#region Закрытые данные класса
+		private string m_sText;
 		private CultureInfo m_ciLang;
 		#endregion
 		
 		#region Конструкторы класса
 		public Keywords()
         {
-            m_ciLang = null;
+            m_sText		= "";
+        	m_ciLang	= null;
         }
-        public Keywords( CultureInfo ciLang )
+        public Keywords( string sText, CultureInfo ciLang )
         {
-            m_ciLang = ciLang;
+            m_sText		= sText;
+        	m_ciLang	= ciLang;
+        }
+        public Keywords( string sText )
+        {
+            m_sText		= sText;
+        	m_ciLang	= null;
         }
 		#endregion
 		
@@ -38,5 +46,12 @@ namespace FB2.Description.TitleInfo
             set { m_ciLang = value; }
         }
 		#endregion
+		
+		#region Открытые свойства класса - элементы fb2-элементов
+        public virtual string Text {
+            get { return m_sText; }
+            set { m_sText = value; }
+        }
+        #endregion
 	}
 }
