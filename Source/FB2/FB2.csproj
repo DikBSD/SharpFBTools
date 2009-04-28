@@ -39,11 +39,14 @@
     <Folder Include="Description\Output" />
     <Folder Include="Description\PublishInfo" />
     <Folder Include="Description\TitleInfo" />
+    <Compile Include="Common\IAttrID.cs" />
     <Compile Include="Common\IAttrLang.cs" />
     <Compile Include="Common\IAttrValue.cs" />
     <Compile Include="Description\Common\Author.cs" />
     <Compile Include="Description\Common\Sequence.cs" />
+    <Compile Include="Description\TitleInfo\Annotation.cs" />
     <Compile Include="Description\TitleInfo\Genre.cs" />
     <Compile Include="Description\TitleInfo\Genres.cs" />
+    <Compile Include="Description\TitleInfo\Keywords.cs" />
   </ItemGroup>
 </Project>
