@@ -33,9 +33,14 @@
   <ItemGroup>
     <Folder Include="Description" />
     <Folder Include="Description\Common" />
+    <Folder Include="Description\CustomInfo" />
     <Folder Include="Description\DocumentInfo" />
+    <Folder Include="Description\Output" />
+    <Folder Include="Description\PublishInfo" />
     <Folder Include="Description\TitleInfo" />
     <Compile Include="Description\Common\Author.cs" />
     <Compile Include="Description\Common\Sequence.cs" />
+    <Compile Include="Description\TitleInfo\Genre.cs" />
+    <Compile Include="Description\TitleInfo\Genres.cs" />
   </ItemGroup>
 </Project>
