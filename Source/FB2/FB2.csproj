@@ -66,6 +66,5 @@
     <Compile Include="Description\TitleInfo\Keywords.cs" />
     <Compile Include="Description\TitleInfo\TitleInfo.cs" />
     <Compile Include="FB2Parsers\FB2DescriptionParser.cs" />
-    <Compile Include="FB2Parsers\IFB2Parser.cs" />
   </ItemGroup>
 </Project>
