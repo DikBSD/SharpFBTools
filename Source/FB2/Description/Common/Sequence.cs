@@ -7,27 +7,31 @@
  * License: GPL 2.1
  */
 using System;
+using System.Globalization;
+using FB2.Common;
 
 namespace FB2.Description.Common
 {
 	/// <summary>
 	/// Description of Sequence.
 	/// </summary>
-	public class Sequence : IComparable
+	public class Sequence : IAttrLang, IComparable
 	{
 		#region Закрытые данные класса
         private string m_sName;
         private uint m_unNumber;
+        private CultureInfo m_ciLang = null;
 		#endregion
 		
 		#region Конструкторы класса
 		public Sequence()
 		{
 		}
-		public Sequence( string sName, uint unNumber )
+		public Sequence( string sName, uint unNumber, CultureInfo ciLang )
         {
 			m_sName		= sName;
 			m_unNumber	= unNumber;
+			m_ciLang	= ciLang;
         }
         public Sequence( string sName )
         {
@@ -43,6 +47,13 @@ namespace FB2.Description.Common
             return
                 ( Name == ( ( Sequence )o ).Name ) &&
                 ( Number == ( ( Sequence )o ).Number ) ? 0 : -1;
+        }
+		#endregion
+		
+		#region Открытые свойства класса - атрибуты fb2-элементов
+		public virtual CultureInfo AttrLang {
+            get { return m_ciLang; }
+            set { m_ciLang = value; }
         }
 		#endregion
 		

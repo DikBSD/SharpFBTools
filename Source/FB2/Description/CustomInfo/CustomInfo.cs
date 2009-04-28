@@ -18,6 +18,7 @@ namespace FB2.Description.CustomInfo
 	public class CustomInfo : IAttrLang
 	{
 		#region Закрытые данные класса
+		private string m_sValue;
 		private string m_sInfoType;
 		private CultureInfo m_ciLang;
 		#endregion
@@ -25,15 +26,22 @@ namespace FB2.Description.CustomInfo
 		#region Конструкторы класса
 		public CustomInfo()
 		{
+			m_sValue	= "";
 			m_sInfoType	= "";
         	m_ciLang	= null;
 		}
-		public CustomInfo( string sInfoType, CultureInfo ciLang )
+		public CustomInfo( string sValue, string sInfoType, CultureInfo ciLang )
         {
-            m_sInfoType	= sInfoType;
+            m_sValue	= sValue;
+			m_sInfoType	= sInfoType;
         	m_ciLang	= ciLang;
         }
-        public CustomInfo( string sInfoType )
+        public CustomInfo(string sValue, string sInfoType)
+        {
+            m_sValue	= sValue;
+            m_sInfoType = sInfoType;
+        }
+		public CustomInfo( string sInfoType )
         {
             m_sInfoType	= sInfoType;
         	m_ciLang	= null;

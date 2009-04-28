@@ -52,6 +52,22 @@ namespace FB2.Description.TitleInfo
             m_Translators = translators;
             m_Sequences = sequences;
         }
+        
+        public TitleInfo( IList<Genre> genres, IList<Author> authors, BookTitle bookTitle, Annotation annotation,
+                         Keywords keywords, Date date, CultureInfo lang, CultureInfo scrLang,
+                         IList<Author> translators, IList<Sequence> sequences )
+        {
+            m_Genres = genres;
+            m_Authors = authors;
+            m_BookTitle = bookTitle;
+            m_Annotation = annotation;
+            m_Keywords = keywords;
+            m_Date = date;
+            m_Lang = lang;
+            m_ScrLang = scrLang;
+            m_Translators = translators;
+            m_Sequences = sequences;
+        }
         #endregion
         
         #region Открытые свойства класса - fb2-элементы

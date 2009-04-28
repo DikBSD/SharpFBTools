@@ -15,7 +15,7 @@ namespace FB2.Description.TitleInfo
 	/// <summary>
 	/// Description of Annotation.
 	/// </summary>
-	public class Annotation : IAttrID, IAttrLang
+	public class Annotation : IAnnotation
 	{
 		#region Закрытые данные класса
         private string m_sText;
@@ -46,19 +46,19 @@ namespace FB2.Description.TitleInfo
         #endregion
 		
         #region Открытые свойства класса - атрибуты fb2-элементов
-		public virtual string AttrID {
+		public virtual string Id {
             get { return m_sId; }
             set { m_sId = value; }
         }
 
-        public virtual CultureInfo AttrLang {
+        public virtual CultureInfo Lang {
             get { return m_ciLang; }
             set { m_ciLang = value; }
         }
         #endregion
         
         #region Открытые свойства класса - элементы fb2-элементов
-        public virtual string Text {
+        public virtual string Value {
             get { return m_sText; }
             set { m_sText = value; }
         }

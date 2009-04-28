@@ -44,6 +44,7 @@
     <Compile Include="Common\IAttrLang.cs" />
     <Compile Include="Common\IAttrValue.cs" />
     <Compile Include="Common\Image.cs" />
+    <Compile Include="Common\ITextField.cs" />
     <Compile Include="Description\Common\Author.cs" />
     <Compile Include="Description\Common\Date.cs" />
     <Compile Include="Description\Common\Sequence.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Description\TitleInfo\Coverpage.cs" />
     <Compile Include="Description\TitleInfo\Genre.cs" />
     <Compile Include="Description\TitleInfo\Genres.cs" />
+    <Compile Include="Description\TitleInfo\IAnnotation.cs" />
     <Compile Include="Description\TitleInfo\Keywords.cs" />
     <Compile Include="Description\TitleInfo\TitleInfo.cs" />
     <Compile Include="FB2Parsers\FB2DescriptionParser.cs" />
