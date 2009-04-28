@@ -18,6 +18,7 @@ namespace FB2.Description.TitleInfo
 	public class Annotation : IAttrID, IAttrLang
 	{
 		#region Закрытые данные класса
+        private string m_sText;
 		private string m_sId;
         private CultureInfo m_ciLang = null;
         #endregion
@@ -26,7 +27,23 @@ namespace FB2.Description.TitleInfo
         public Annotation()
 		{
 		}
-		public Annotation( string sId, CultureInfo ciLang )
+		public Annotation( string sText, string sId, CultureInfo ciLang )
+        {
+            m_sText		= sText;
+			m_sId		= sId;
+            m_ciLang	= ciLang;
+        }
+		public Annotation( string sText, string sId )
+        {
+            m_sText		= sText;
+			m_sId		= sId;
+        }
+		public Annotation( string sText, CultureInfo ciLang )
+        {
+            m_sText		= sText;
+            m_ciLang	= ciLang;
+        }
+		public Annotation( CultureInfo ciLang, string sId )
         {
             m_sId		= sId;
             m_ciLang	= ciLang;
@@ -42,6 +59,13 @@ namespace FB2.Description.TitleInfo
         public virtual CultureInfo AttrLang {
             get { return m_ciLang; }
             set { m_ciLang = value; }
+        }
+        #endregion
+        
+        #region Открытые свойства класса - элементы fb2-элементов
+        public virtual string Text {
+            get { return m_sText; }
+            set { m_sText = value; }
         }
         #endregion
 	}

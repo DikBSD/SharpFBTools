@@ -46,11 +46,6 @@ namespace FB2.Description.Common
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
-		public virtual string Text {
-            get { return m_sText; }
-            set { m_sText = value; }
-        }
-		
 		public virtual string AttrValue {
             get { return m_sValue; }
             set { m_sValue = value; }
@@ -61,5 +56,12 @@ namespace FB2.Description.Common
             set { m_ciLang = value; }
         }
         #endregion
+        
+		#region Открытые свойства класса - элементы fb2-элементов
+        public virtual string Text {
+            get { return m_sText; }
+            set { m_sText = value; }
+        }
+		#endregion
 	}
 }

@@ -18,7 +18,8 @@ namespace FB2.Description.TitleInfo
 	public class BookTitle : IAttrLang
 	{
 		#region Закрытые данные класса
-        private CultureInfo m_ciLang = null;
+        private string m_sText;
+		private CultureInfo m_ciLang = null;
         #endregion
         
 		#region Конструкторы класса
@@ -26,16 +27,28 @@ namespace FB2.Description.TitleInfo
         {
             m_ciLang = null;
         }
+        public BookTitle( string sText, CultureInfo ciLang )
+        {
+            m_sText		= sText;
+        	m_ciLang	= ciLang;
+        }
         public BookTitle( CultureInfo ciLang )
         {
-            m_ciLang = ciLang;
+        	m_ciLang	= ciLang;
         }
         #endregion
         
-        #region Открытые свойства класса -атрибуты fb2-элементов
+        #region Открытые свойства класса - атрибуты fb2-элементов
         public virtual CultureInfo AttrLang {
             get { return m_ciLang; }
             set { m_ciLang = value; }
+        }
+        #endregion
+        
+        #region Открытые свойства класса - элементы fb2-элементов
+        public virtual string Text {
+            get { return m_sText; }
+            set { m_sText = value; }
         }
         #endregion
 	}
