@@ -39,6 +39,7 @@
     <Folder Include="Description\Output" />
     <Folder Include="Description\PublishInfo" />
     <Folder Include="Description\TitleInfo" />
+    <Folder Include="FB2Parsers" />
     <Compile Include="Common\IAttrID.cs" />
     <Compile Include="Common\IAttrLang.cs" />
     <Compile Include="Common\IAttrValue.cs" />
@@ -64,5 +65,7 @@
     <Compile Include="Description\TitleInfo\Genres.cs" />
     <Compile Include="Description\TitleInfo\Keywords.cs" />
     <Compile Include="Description\TitleInfo\TitleInfo.cs" />
+    <Compile Include="FB2Parsers\FB2DescriptionParser.cs" />
+    <Compile Include="FB2Parsers\IFB2Parser.cs" />
   </ItemGroup>
 </Project>
