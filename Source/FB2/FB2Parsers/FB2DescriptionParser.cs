@@ -17,7 +17,6 @@ using FB2.Description.PublishInfo;
 using FB2.Description.CustomInfo;
 using FB2.Description.Common;
 
-using System.Windows.Forms;
 namespace FB2.FB2Parsers
 {
 	/// <summary>
