@@ -10,6 +10,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using FB2.Common;
 
 namespace FB2.Description.Common
 {
@@ -19,10 +20,10 @@ namespace FB2.Description.Common
 	public class Author : IAuthorType, IComparable
 	{
 		#region Закрытые данные класса
-        private string	m_sFirstName	= "";
-        private string	m_sMiddleName	= "";
-        private string	m_sLastName		= "";
-        private string	m_sNickName		= "";
+        private AuthorNameElement	m_sFirstName	= null;
+        private AuthorNameElement	m_sMiddleName	= null;
+        private AuthorNameElement	m_sLastName		= null;
+        private AuthorNameElement	m_sNickName		= null;
         private IList<string> m_lisHomePages = null;
         private IList<string> m_lisEmails	 = null;
         private string	m_sID			 = "";
@@ -32,7 +33,7 @@ namespace FB2.Description.Common
 		public Author()
 		{
 		}
-		public Author( string sFirstName, string sMiddleName, string sLastName, string sNickName,
+		public Author( AuthorNameElement sFirstName, AuthorNameElement sMiddleName, AuthorNameElement sLastName, AuthorNameElement sNickName,
 		              IList<string> lisHomePages, IList<string> lisEmails, string sID )
         {
             // все данные об Авторе
@@ -44,7 +45,7 @@ namespace FB2.Description.Common
             m_lisEmails		= lisEmails;
             m_sID			= sID;
         }
-		public Author( string sFirstName, string sMiddleName, string sLastName, string sNickName,
+		public Author( AuthorNameElement sFirstName, AuthorNameElement sMiddleName, AuthorNameElement sLastName, AuthorNameElement sNickName,
 		              IList<string> lisHomePages, IList<string> lisEmails )
         {
             // все данные об Авторе без его id
@@ -55,20 +56,20 @@ namespace FB2.Description.Common
             m_lisHomePages	= lisHomePages;
             m_lisEmails		= lisEmails;
         }
-		public Author( string sFirstName, string sMiddleName, string sLastName, string sID )
+		public Author( AuthorNameElement sFirstName, AuthorNameElement sMiddleName, AuthorNameElement sLastName, string sID )
         {
             // только ФИО Автора
 			m_sFirstName	= sFirstName;
             m_sMiddleName	= sMiddleName;
             m_sLastName		= sLastName;
         }
-		public Author( string sFirstName, string sLastName )
+		public Author( AuthorNameElement sFirstName, AuthorNameElement sLastName )
         {
             // только Имя и Фамилия Автора
 			m_sFirstName	= sFirstName;
             m_sLastName		= sLastName;
         }
-		public Author( string sNickName )
+		public Author( AuthorNameElement sNickName )
         {
             // только Ник Автора
 			m_sNickName = sNickName;
@@ -121,22 +122,22 @@ namespace FB2.Description.Common
 		#endregion
 		
 		#region Открытые свойства-fb2-элементы класса
-		public virtual string FirstName {
+		public virtual AuthorNameElement FirstName {
             get { return m_sFirstName; }
             set { m_sFirstName = value; }
         }
 
-        public virtual string MiddleName {
+        public virtual AuthorNameElement MiddleName {
             get { return m_sMiddleName; }
             set { m_sMiddleName = value; }
         }
 
-        public virtual string LastName {
+        public virtual AuthorNameElement LastName {
             get { return m_sLastName; }
             set { m_sLastName = value; }
         }
 
-        public virtual string NickName {
+        public virtual AuthorNameElement NickName {
             get { return m_sNickName; }
             set { m_sNickName = value; }
         }

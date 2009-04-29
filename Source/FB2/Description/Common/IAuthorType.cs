@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using FB2.Common;
 
 namespace FB2.Description.Common
 {
@@ -16,10 +17,10 @@ namespace FB2.Description.Common
 	/// </summary>
 	public interface IAuthorType
 	{
-		string FirstName { get; set; }
-        string MiddleName { set; get; }
-        string LastName { get; set; }
-        string NickName { set; get; }
+		AuthorNameElement FirstName { get; set; }
+        AuthorNameElement MiddleName { set; get; }
+        AuthorNameElement LastName { get; set; }
+        AuthorNameElement NickName { set; get; }
         IList<string> HomePages { set; get; }
         IList<string> Emails { set; get; }
         string ID { set; get; }

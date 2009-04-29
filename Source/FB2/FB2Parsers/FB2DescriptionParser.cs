@@ -311,10 +311,18 @@ namespace FB2.FB2Parsers
             return genre;
         }
 
+        private AuthorNameElement TextFieldTypeData( XmlNode node )
+        {
+        	AuthorNameElement e = new AuthorNameElement( node.InnerText );
+            if (node.Attributes["lang"] != null) {
+            	e.Lang = node.Attributes["lang"].Value;
+  	       	}	
+            return e;
+        }
+        
         private Author Author(XmlNode elem)
         {
-            if (elem == null)
-            {
+            if (elem == null) {
                 return null;
             }
 
@@ -329,42 +337,32 @@ namespace FB2.FB2Parsers
             XmlNodeList rawEmails = elem.SelectNodes("./fb:email", m_NsManager);
             XmlNode id = elem.SelectSingleNode("./fb:id", m_NsManager);
 
-            if (firstName != null && lastName != null)
-            {
-                Author = new Author(firstName.InnerText, lastName.InnerText);
-
-                if (nickName != null)
-                {
-                    Author.NickName = nickName.InnerText;
+            if (firstName != null && lastName != null) {
+            	Author = new Author( TextFieldTypeData( firstName ), TextFieldTypeData( lastName ) );
+                if (nickName != null) {
+                	Author.NickName = TextFieldTypeData( nickName );
                 }
-
-                if (middleName != null)
-                {
-                    Author.MiddleName = middleName.InnerText;
+                if (middleName != null) {
+                	Author.MiddleName = TextFieldTypeData( middleName );
                 }
             }
-            else
-            {
-                Author = new Author(nickName.InnerText);
+            else {
+            	Author = new Author( TextFieldTypeData( nickName ) );
             }
 
-            if (id != null)
-            {
+            if (id != null) {
                 Author.ID = id.InnerText;
             }
 
-            if (rawHomePages.Count > 0)
-            {
+            if (rawHomePages.Count > 0) {
                 IList<string> homePages = new List<string>();
-                foreach (XmlNode node in rawHomePages)
-                {
+                foreach (XmlNode node in rawHomePages) {
                     homePages.Add(node.InnerText);
                 }
                 Author.HomePages = homePages;
             }
 
-            if (rawEmails.Count > 0)
-            {
+            if (rawEmails.Count > 0) {
                 IList<string> emails = new List<string>();
                 foreach (XmlNode node in rawEmails)
                 {
@@ -376,19 +374,19 @@ namespace FB2.FB2Parsers
 
             if (Author.FirstName != null)
             {
-                Author.FirstName = re.Replace(Author.FirstName, "");
+                Author.FirstName.Value = re.Replace(Author.FirstName.Value, "");
             }
             if (Author.MiddleName != null)
             {
-                Author.MiddleName = re.Replace(Author.MiddleName, "");
+                Author.MiddleName.Value = re.Replace(Author.MiddleName.Value, "");
             }
             if (Author.LastName != null)
             {
-                Author.LastName = re.Replace(Author.LastName, "");
+                Author.LastName.Value = re.Replace(Author.LastName.Value, "");
             }
             if (Author.NickName != null)
             {
-                Author.NickName = re.Replace(Author.NickName, "");
+                Author.NickName.Value = re.Replace(Author.NickName.Value, "");
             }
 //            string sid = Author.ID; // get Id for count
 

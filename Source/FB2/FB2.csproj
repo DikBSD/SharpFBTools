@@ -44,6 +44,7 @@
     <Compile Include="Common\IInlineImageType.cs" />
     <Compile Include="Common\InlineImage.cs" />
     <Compile Include="Description\Common\Author.cs" />
+    <Compile Include="Description\Common\AuthorNameElement.cs" />
     <Compile Include="Description\Common\Date.cs" />
     <Compile Include="Description\Common\IAnnotationType.cs" />
     <Compile Include="Description\Common\IAuthorType.cs" />
