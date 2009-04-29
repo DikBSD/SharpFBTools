@@ -16,13 +16,14 @@ using FB2.Description.DocumentInfo;
 using FB2.Description.PublishInfo;
 using FB2.Description.CustomInfo;
 using FB2.Description.Common;
+using FB2.FB2Parsers;
 
 namespace FB2.FB2Parsers
 {
 	/// <summary>
 	/// Description of FB2DescriptionParser.
 	/// </summary>
-	public class FB2DescriptionParser
+	public class FB2DescriptionParser : TextFieldTypeData
 	{
 		#region Закрытые данные класса
 		private XmlNamespaceManager m_NsManager;
@@ -96,7 +97,8 @@ namespace FB2.FB2Parsers
             BookTitle bookTitle = TextFieldType<BookTitle>( xn.SelectSingleNode("./fb:book-title", m_NsManager) );
             
             // Аннотация
-            Annotation annotation = AnnotationType<Annotation>( xn.SelectSingleNode("./fb:annotation", m_NsManager) );
+			AnnotationTypeData atd = new AnnotationTypeData();
+            Annotation annotation = atd.AnnotationType<Annotation>( xn.SelectSingleNode("./fb:annotation", m_NsManager) );
 
             // Ключевые слова
             Keywords keywords = TextFieldType<Keywords>( xn.SelectSingleNode("./fb:keywords", m_NsManager) );
@@ -210,7 +212,8 @@ namespace FB2.FB2Parsers
             }
 
             // История развития fb2-документа
-            History history = AnnotationType<History>( xn.SelectSingleNode("./fb:history", m_NsManager) );
+            AnnotationTypeData atd = new AnnotationTypeData();
+            History history = atd.AnnotationType<History>( xn.SelectSingleNode("./fb:history", m_NsManager) );
             return new DocumentInfo( ilAuthors, programUsed, date, srcUrls, srcOcr, id, version, history );
             #endregion
         }
@@ -242,7 +245,7 @@ namespace FB2.FB2Parsers
                 return null;
             }
 
-            // Название Бумажной Книги
+        	// Название Бумажной Книги
         	BookName bookName = TextFieldType<BookName>(xn.SelectSingleNode("./fb:book-name", m_NsManager));
          
         	// Издатель Бумажной Книги
@@ -289,23 +292,6 @@ namespace FB2.FB2Parsers
             return customInfo;
             #endregion
         }
-
-
-        private TextFieldType TextFieldTypeData( XmlNode node )
-        {
-        	// извлечение информации по TextFieldType
-        	#region Код
-        	if( node == null ) {
-                return null;
-            }
-        	TextFieldType e = new TextFieldType( node.InnerText );
-            if ( node.Attributes["lang"] != null ) {
-            	e.Lang = node.Attributes["lang"].Value;
-  	       	}	
-            return e;
-            #endregion
-        }
-        
         
         private Genre GetGenre( XmlNode xn )
         {
@@ -342,19 +328,15 @@ namespace FB2.FB2Parsers
             XmlNode id = xn.SelectSingleNode("./fb:id", m_NsManager);
 
             if( fn != null && ln != null ) {
-            	//Author = new Author( TextFieldTypeData( fn ), TextFieldTypeData( ln ) );
             	Author = new Author( TextFieldType<TextFieldType>( fn ), TextFieldType<TextFieldType>( ln ) );
             	if( mn != null ) {
-                	//Author.MiddleName = TextFieldTypeData( mn );
                 	Author.MiddleName = TextFieldType<TextFieldType>( mn );
                 }
             	if( nn != null ) {
-                	//Author.NickName = TextFieldTypeData( nn );
                 	Author.NickName = TextFieldType<TextFieldType>( nn );
                 }
             }
             else {
-            	//Author = new Author( TextFieldTypeData( nn ) );
             	Author = new Author( TextFieldType<TextFieldType>( nn ) );
             }
 
@@ -409,37 +391,6 @@ namespace FB2.FB2Parsers
             return sequence;
             #endregion
         }
-                
-        private T TextFieldType<T>( XmlNode xmlNode ) where T : ITextFieldType, new()
-        {
-            if( xmlNode == null ) {
-                return default(T);
-            }
-
-            T textField = new T();
-            textField.Value = xmlNode.InnerText;
-            if( xmlNode.Attributes["lang"] != null ) {
-                textField.Lang = xmlNode.Attributes["lang"].Value;
-            }
-            return textField;
-        }
-
-        private T AnnotationType<T>( XmlNode xmlNode ) where T : IAnnotationType, new()
-        {
-            T annotation = default(T);
-            if( xmlNode != null ) {
-                annotation = new T();
-                annotation.Value = xmlNode.InnerXml;
-                if( xmlNode.Attributes["id"] != null ) {
-                    annotation.Id = xmlNode.Attributes["id"].Value;
-                }
-                if( xmlNode.Attributes["lang"] != null ) {
-                    annotation.Lang = xmlNode.Attributes["lang"].Value;
-                }
-            }
-            return annotation;
-        }
-
         #endregion
 	}
 }
