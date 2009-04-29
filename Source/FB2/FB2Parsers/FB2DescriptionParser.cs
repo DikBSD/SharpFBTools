@@ -104,7 +104,7 @@ namespace FB2.FB2Parsers
 
             // loading annotation
             Annotation annotation =
-                Annotation<Annotation>(elem.SelectSingleNode("./fb:annotation", m_NsManager));
+                AnnotationType<Annotation>(elem.SelectSingleNode("./fb:annotation", m_NsManager));
 
             // loading keywords
             Keywords keywords = IAttrLang<Keywords>(elem.SelectSingleNode("./fb:keywords", m_NsManager));
@@ -245,7 +245,7 @@ namespace FB2.FB2Parsers
                 srcOcr.Text = xmlNode.InnerText;
             }
 
-            History history = Annotation<History>(elem.SelectSingleNode("./fb:history", m_NsManager));
+            History history = AnnotationType<History>(elem.SelectSingleNode("./fb:history", m_NsManager));
             return new DocumentInfo(authors, programUsed, date, srcUrls, srcOcr, id, version, history );
         }
 
@@ -406,7 +406,7 @@ namespace FB2.FB2Parsers
             return textField;
         }
 
-        private T Annotation<T>(XmlNode xmlNode) where T : IAnnotation, new()
+        private T AnnotationType<T>(XmlNode xmlNode) where T : IAnnotationType, new()
         {
             T annotation = default(T);
             if (xmlNode != null)

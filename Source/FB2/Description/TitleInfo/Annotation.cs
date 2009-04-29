@@ -8,13 +8,14 @@
  */
 using System;
 using FB2.Common;
+using FB2.Description.Common;
 
 namespace FB2.Description.TitleInfo
 {
 	/// <summary>
 	/// Description of Annotation.
 	/// </summary>
-	public class Annotation : IAnnotation
+	public class Annotation : IAnnotationType
 	{
 		#region Закрытые данные класса
         private string m_sText	= "";

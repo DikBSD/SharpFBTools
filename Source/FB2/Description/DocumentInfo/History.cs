@@ -19,5 +19,13 @@ namespace FB2.Description.DocumentInfo
 		public History()
 		{
 		}
+		public History( string sText, string sId, string sLang ) :
+			base( sText, sId, sLang )
+        {
+        }
+		public History( string sText, string sId ) :
+			base( sText, sId )
+        {
+        }
 	}
 }
