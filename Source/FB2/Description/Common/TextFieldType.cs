@@ -12,9 +12,9 @@ using FB2.Common;
 namespace FB2.Description.Common
 {
 	/// <summary>
-	/// Description of AuthorNameElement.
+	/// Description of TextFieldType.
 	/// </summary>
-	public class AuthorNameElement : ITextFieldType
+	public class TextFieldType : ITextFieldType
 	{
 		#region Закрытые данные класса
 		private string m_sValue	= "";
@@ -22,17 +22,17 @@ namespace FB2.Description.Common
 		#endregion
 		
 		#region Конструкторы класса
-		public AuthorNameElement()
+		public TextFieldType()
 		{
 			m_sValue	= "";
         	m_sLang		= "";
 		}
-		public AuthorNameElement( string sValue, string sLang )
+		public TextFieldType( string sValue, string sLang )
         {
             m_sValue	= sValue;
         	m_sLang		= sLang;
         }
-        public AuthorNameElement( string sValue )
+        public TextFieldType( string sValue )
         {
             m_sValue	= sValue;
         	m_sLang		= "";

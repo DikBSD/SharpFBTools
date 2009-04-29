@@ -44,7 +44,6 @@
     <Compile Include="Common\IInlineImageType.cs" />
     <Compile Include="Common\InlineImage.cs" />
     <Compile Include="Description\Common\Author.cs" />
-    <Compile Include="Description\Common\AuthorNameElement.cs" />
     <Compile Include="Description\Common\Date.cs" />
     <Compile Include="Description\Common\IAnnotationType.cs" />
     <Compile Include="Description\Common\IAuthorType.cs" />
@@ -52,6 +51,7 @@
     <Compile Include="Description\Common\ISequenceType.cs" />
     <Compile Include="Description\Common\ITextFieldType.cs" />
     <Compile Include="Description\Common\Sequence.cs" />
+    <Compile Include="Description\Common\TextFieldType.cs" />
     <Compile Include="Description\CustomInfo\CustomInfo.cs" />
     <Compile Include="Description\Description.cs" />
     <Compile Include="Description\DocumentInfo\DocumentInfo.cs" />

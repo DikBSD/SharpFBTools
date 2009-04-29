@@ -17,10 +17,10 @@ namespace FB2.Description.Common
 	/// </summary>
 	public interface IAuthorType
 	{
-		AuthorNameElement FirstName { get; set; }
-        AuthorNameElement MiddleName { set; get; }
-        AuthorNameElement LastName { get; set; }
-        AuthorNameElement NickName { set; get; }
+		TextFieldType FirstName { get; set; }
+        TextFieldType MiddleName { set; get; }
+        TextFieldType LastName { get; set; }
+        TextFieldType NickName { set; get; }
         IList<string> HomePages { set; get; }
         IList<string> Emails { set; get; }
         string ID { set; get; }

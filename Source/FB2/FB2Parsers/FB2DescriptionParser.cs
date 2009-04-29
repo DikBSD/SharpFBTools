@@ -311,9 +311,9 @@ namespace FB2.FB2Parsers
             return genre;
         }
 
-        private AuthorNameElement TextFieldTypeData( XmlNode node )
+        private TextFieldType TextFieldTypeData( XmlNode node )
         {
-        	AuthorNameElement e = new AuthorNameElement( node.InnerText );
+        	TextFieldType e = new TextFieldType( node.InnerText );
             if (node.Attributes["lang"] != null) {
             	e.Lang = node.Attributes["lang"].Value;
   	       	}	
