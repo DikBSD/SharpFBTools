@@ -16,5 +16,18 @@ namespace FB2.Description.TitleInfo
 	/// </summary>
 	public class Keywords : TextFieldType
 	{
+		#region Конструкторы класса
+		public Keywords()
+		{
+		}
+		public Keywords( string sValue, string sLang ) :
+			base( sValue, sLang )
+        {
+        }
+		public Keywords( string sValue ) :
+			base( sValue )
+        {
+        }
+		#endregion
 	}
 }

@@ -16,5 +16,18 @@ namespace FB2.Description.TitleInfo
 	/// </summary>
 	public class BookTitle : TextFieldType
 	{
+		#region Конструкторы класса
+		public BookTitle()
+		{
+		}
+		public BookTitle( string sValue, string sLang ) :
+			base( sValue, sLang )
+        {
+        }
+		public BookTitle( string sValue ) :
+			base( sValue )
+        {
+        }
+		#endregion
 	}
 }

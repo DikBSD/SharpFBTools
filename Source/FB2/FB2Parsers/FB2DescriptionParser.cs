@@ -94,7 +94,7 @@ namespace FB2.FB2Parsers
 
             // Название Книги
             BookTitle bookTitle = TextFieldType<BookTitle>( xn.SelectSingleNode("./fb:book-title", m_NsManager) );
-
+            
             // Аннотация
             Annotation annotation = AnnotationType<Annotation>( xn.SelectSingleNode("./fb:annotation", m_NsManager) );
 
@@ -342,16 +342,20 @@ namespace FB2.FB2Parsers
             XmlNode id = xn.SelectSingleNode("./fb:id", m_NsManager);
 
             if( fn != null && ln != null ) {
-            	Author = new Author( TextFieldTypeData( fn ), TextFieldTypeData( ln ) );
-                if( mn != null ) {
-                	Author.MiddleName = TextFieldTypeData( mn );
+            	//Author = new Author( TextFieldTypeData( fn ), TextFieldTypeData( ln ) );
+            	Author = new Author( TextFieldType<TextFieldType>( fn ), TextFieldType<TextFieldType>( ln ) );
+            	if( mn != null ) {
+                	//Author.MiddleName = TextFieldTypeData( mn );
+                	Author.MiddleName = TextFieldType<TextFieldType>( mn );
                 }
             	if( nn != null ) {
-                	Author.NickName = TextFieldTypeData( nn );
+                	//Author.NickName = TextFieldTypeData( nn );
+                	Author.NickName = TextFieldType<TextFieldType>( nn );
                 }
             }
             else {
-            	Author = new Author( TextFieldTypeData( nn ) );
+            	//Author = new Author( TextFieldTypeData( nn ) );
+            	Author = new Author( TextFieldType<TextFieldType>( nn ) );
             }
 
             if( id != null ) {
