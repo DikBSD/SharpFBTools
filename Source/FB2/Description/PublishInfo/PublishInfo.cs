@@ -19,7 +19,7 @@ namespace FB2.Description.PublishInfo
 	public class PublishInfo
 	{
 		#region Закрытые данные класса
-        private BookTitle m_BookName	= null;
+        private BookName m_BookName		= null;
         private Publisher m_Publisher	= null;
         private City m_City		= null;
         private string m_sYear	= null;
@@ -31,7 +31,7 @@ namespace FB2.Description.PublishInfo
         public PublishInfo()
 		{
 		}
-        public PublishInfo( BookTitle bookName, Publisher publisher, City city, string sYear, ISBN isbn,
+        public PublishInfo( BookName bookName, Publisher publisher, City city, string sYear, ISBN isbn,
                            IList<Sequence> sequences )
         {
             m_BookName	= bookName;
@@ -44,7 +44,7 @@ namespace FB2.Description.PublishInfo
         #endregion
         
         #region Открытые свойства класса - fb2-элементы
-        public virtual BookTitle BookName
+        public virtual BookName BookName
         {
             get { return m_BookName; }
             set { m_BookName = value; }

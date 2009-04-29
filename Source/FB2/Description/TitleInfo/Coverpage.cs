@@ -20,9 +20,16 @@ namespace FB2.Description.TitleInfo
         private string m_sValue	= "";
         #endregion
         
-		public Coverpage()
+		#region Конструкторы класса
+        public Coverpage()
 		{
+        	m_sValue = "";
 		}
+        public Coverpage( string sValue )
+		{
+        	m_sValue = sValue;
+		}
+        #endregion
 		
 		#region Открытые свойства класса - элементы fb2-элементов
         public virtual string Value {

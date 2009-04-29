@@ -14,28 +14,28 @@ namespace FB2.Description.PublishInfo
 	/// <summary>
 	/// Description of BookName.
 	/// </summary>
-	public class BookName : IAttrLang
+	public class BookName : ITextFieldType
 	{
 		#region Закрытые данные класса
-		private string m_sText	= "";
+		private string m_sValue	= "";
 		private string m_sLang	= "";
 		#endregion
 		
 		#region Конструкторы класса
 		public BookName()
 		{
-			m_sText	= "";
-        	m_sLang	= "";
+			m_sValue	= "";
+        	m_sLang		= "";
 		}
-		public BookName( string sText, string sLang )
+		public BookName( string sValue, string sLang )
         {
-            m_sText	= sText;
-        	m_sLang	= sLang;
+            m_sValue	= sValue;
+        	m_sLang		= sLang;
         }
-        public BookName( string sText )
+        public BookName( string sValue )
         {
-            m_sText	= sText;
-        	m_sLang	= "";
+            m_sValue	= sValue;
+        	m_sLang		= "";
         }
 		#endregion
 		
@@ -47,9 +47,9 @@ namespace FB2.Description.PublishInfo
 		#endregion
 		
 		#region Открытые свойства класса - элементы fb2-элементов
-        public virtual string Text {
-            get { return m_sText; }
-            set { m_sText = value; }
+        public virtual string Value {
+            get { return m_sValue; }
+            set { m_sValue = value; }
         }
         #endregion
 	}

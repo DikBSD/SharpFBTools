@@ -100,14 +100,14 @@ namespace FB2.FB2Parsers
             }
 
             // loading book title
-            BookTitle bookTitle = IAttrLang<BookTitle>(elem.SelectSingleNode("./fb:book-title", m_NsManager));
+            BookTitle bookTitle = TextFieldType<BookTitle>(elem.SelectSingleNode("./fb:book-title", m_NsManager));
 
             // loading annotation
             Annotation annotation =
                 AnnotationType<Annotation>(elem.SelectSingleNode("./fb:annotation", m_NsManager));
 
             // loading keywords
-            Keywords keywords = IAttrLang<Keywords>(elem.SelectSingleNode("./fb:keywords", m_NsManager));
+            Keywords keywords = TextFieldType<Keywords>(elem.SelectSingleNode("./fb:keywords", m_NsManager));
 
             // loading data
             XmlNode xmlNode = elem.SelectSingleNode("./fb:date", m_NsManager);
@@ -177,9 +177,9 @@ namespace FB2.FB2Parsers
                 return null;
             }
 
-            BookTitle bookName = IAttrLang<BookTitle>(elem.SelectSingleNode("./fb:book-name", m_NsManager));
-            Publisher publisher = IAttrLang<Publisher>(elem.SelectSingleNode("./fb:publisher", m_NsManager));
-            City city = IAttrLang<City>(elem.SelectSingleNode("./fb:city", m_NsManager));
+            BookName bookName = TextFieldType<BookName>(elem.SelectSingleNode("./fb:book-name", m_NsManager));
+            Publisher publisher = TextFieldType<Publisher>(elem.SelectSingleNode("./fb:publisher", m_NsManager));
+            City city = TextFieldType<City>(elem.SelectSingleNode("./fb:city", m_NsManager));
 
             string year = null;
             XmlNode xmlNode = elem.SelectSingleNode("./fb:year", m_NsManager);
@@ -187,7 +187,7 @@ namespace FB2.FB2Parsers
             {
                 year = xmlNode.InnerText;
             }
-            ISBN isbn = IAttrLang<ISBN>(elem.SelectSingleNode("./fb:isbn", m_NsManager));
+            ISBN isbn = TextFieldType<ISBN>(elem.SelectSingleNode("./fb:isbn", m_NsManager));
 
             // loading sequences
             IList<Sequence> sequences = null;
@@ -244,7 +244,7 @@ namespace FB2.FB2Parsers
             xmlNode = elem.SelectSingleNode("./fb:program-used", m_NsManager);
             if (xmlNode != null)
             {
-                programUsed.Text = xmlNode.InnerText;
+                programUsed.Value = xmlNode.InnerText;
             }
 
             // loading source urls
@@ -263,7 +263,7 @@ namespace FB2.FB2Parsers
             xmlNode = elem.SelectSingleNode("./fb:src-ocr", m_NsManager);
             if (xmlNode != null)
             {
-                srcOcr.Text = xmlNode.InnerText;
+                srcOcr.Value = xmlNode.InnerText;
             }
 
             History history = AnnotationType<History>(elem.SelectSingleNode("./fb:history", m_NsManager));

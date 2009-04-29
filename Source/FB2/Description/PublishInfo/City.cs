@@ -14,28 +14,28 @@ namespace FB2.Description.PublishInfo
 	/// <summary>
 	/// Description of City.
 	/// </summary>
-	public class City : IAttrLang
+	public class City : ITextFieldType
 	{
 		#region Закрытые данные класса
-		private string m_sText	= "";
+		private string m_sValue	= "";
 		private string m_sLang	= "";
 		#endregion
 		
 		#region Конструкторы класса
 		public City()
 		{
-			m_sText	= "";
-        	m_sLang	= "";
+			m_sValue	= "";
+        	m_sLang		= "";
 		}
-		public City( string sText, string sLang )
+		public City( string sValue, string sLang )
         {
-            m_sText	= sText;
-        	m_sLang	= sLang;
+            m_sValue	= sValue;
+        	m_sLang		= sLang;
         }
-        public City( string sText )
+        public City( string sValue )
         {
-            m_sText	= sText;
-        	m_sLang	= "";
+            m_sValue	= sValue;
+        	m_sLang		= "";
         }
 		#endregion
 		
@@ -47,9 +47,9 @@ namespace FB2.Description.PublishInfo
 		#endregion
 		
 		#region Открытые свойства класса - элементы fb2-элементов
-        public virtual string Text {
-            get { return m_sText; }
-            set { m_sText = value; }
+        public virtual string Value {
+            get { return m_sValue; }
+            set { m_sValue = value; }
         }
         #endregion
 	}
