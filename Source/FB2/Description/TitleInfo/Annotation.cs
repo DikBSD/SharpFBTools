@@ -18,7 +18,7 @@ namespace FB2.Description.TitleInfo
 	public class Annotation : IAnnotationType
 	{
 		#region Закрытые данные класса
-        private string m_sText	= "";
+        private string m_sValue	= "";
 		private string m_sId	= "";
         private string m_sLang	= "";
         #endregion
@@ -27,20 +27,36 @@ namespace FB2.Description.TitleInfo
         public Annotation()
 		{
 		}
-		public Annotation( string sText, string sId, string sLang )
+		public Annotation( string sValue, string sId, string sLang )
         {
-            m_sText	= sText;
-			m_sId	= sId;
-            m_sLang	= sLang;
+            m_sValue	= sValue;
+			m_sId		= sId;
+            m_sLang		= sLang;
         }
-		public Annotation( string sText, string sId )
+		public Annotation( string sValue, string sId )
         {
-            m_sText	= sText;
-			m_sId	= sId;
-			m_sLang	= "";
+            m_sValue	= sValue;
+			m_sId		= sId;
+			m_sLang		= "";
         }
         #endregion
 		
+        #region Открытые методы класса
+		public int CompareTo( object a ) {
+			if ( a.GetType() == typeof( Annotation ) ) {
+				if( ( Value == ( ( Annotation )a ).Value ) &&
+        		   	( Id == ( ( Annotation )a ).Id ) &&
+        		  	( Lang == ( ( Annotation )a ).Lang ) ) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else {
+				throw new ArgumentException("Объект сравнения не явялется Аннотацией.");
+			}
+        }
+		#endregion
+        
         #region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Id {
             get { return m_sId; }
@@ -55,8 +71,8 @@ namespace FB2.Description.TitleInfo
         
         #region Открытые свойства класса - элементы fb2-элементов
         public virtual string Value {
-            get { return m_sText; }
-            set { m_sText = value; }
+            get { return m_sValue; }
+            set { m_sValue = value; }
         }
         #endregion
 	}

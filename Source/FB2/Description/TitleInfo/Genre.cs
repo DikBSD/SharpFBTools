@@ -29,8 +29,8 @@ namespace FB2.Description.TitleInfo
 		public Genre( Genres eName, uint unMath )
         {
             m_eName = eName;
-            if( unMath > 100 || unMath < 0 ) {
-                throw new ArgumentOutOfRangeException("math", "Value of Math must be 0 - 100");
+            if( unMath < 0 || unMath > 100 ) {
+                throw new ArgumentOutOfRangeException("math", "Атрибут Math должен иметь значение от 0 до 100");
             }
             m_unMath = unMath;
         }
@@ -42,12 +42,17 @@ namespace FB2.Description.TitleInfo
         #endregion
         
         #region Открытые Вспомогательные методы класса
-        public int CompareTo( object o )
+        public int CompareTo( object g )
         {
-            if( o.GetType() != typeof( Genre) ) {
-                throw new ArgumentException("the object type is not Genre.");
-            }
-            return ( Name == ( ( Genre ) o).Name ) && ( Math == ( ( Genre ) o).Math ) ? 0 : -1;
+            if( g.GetType() == typeof( Genre) ) {
+                if( ( Name == ( ( Genre )g ).Name ) && ( Math == ( ( Genre )g ).Math ) ) {
+					return 0;
+				} else {
+					return -1;
+				}
+        	} else {
+        		throw new ArgumentException("Объект сравнения не является Жанром.");
+        	}
         }
         #endregion
         

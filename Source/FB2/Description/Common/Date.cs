@@ -14,23 +14,23 @@ namespace FB2.Description.Common
 	/// <summary>
 	/// Description of Date.
 	/// </summary>
-	public class Date : IAttrValue, IAttrLang
+	public class Date : IDateType, IComparable
 	{
 		#region Закрытые данные класса
 		private string m_sText;
 		private string m_sValue;
-        private string m_sLang;
+        private string m_sLang	= "";
         #endregion
         
         #region Конструкторы класса
 		public Date()
 		{
 		}
-		public Date( string sValue, string sText, string sLang )
+		public Date( string sText, string sValue, string sLang )
         {
-            m_sValue	= sValue;
             m_sText		= sText;
-            m_sLang	= sLang;
+			m_sValue	= sValue;
+            m_sLang		= sLang;
         }
 		public Date( string sText, string sValue )
         {
@@ -40,6 +40,20 @@ namespace FB2.Description.Common
 		public Date( string sText )
         {
             m_sText	= sText;
+        }
+		#endregion
+		
+		#region Открытые методы класса
+		public int CompareTo( object d ) {
+			if ( d.GetType() == typeof( Date ) ) {
+				if( ( Text == ( ( Date )d ).Text ) && ( Value == ( ( Date )d ).Value ) && ( Lang == ( ( Date )d ).Lang ) ) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else {
+				throw new ArgumentException("Объект сравнения не явялется Датой.");
+			}
         }
 		#endregion
 		

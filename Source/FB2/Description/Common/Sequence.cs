@@ -14,7 +14,7 @@ namespace FB2.Description.Common
 	/// <summary>
 	/// Description of Sequence.
 	/// </summary>
-	public class Sequence : IAttrLang, IComparable
+	public class Sequence : ISequenceType
 	{
 		#region Закрытые данные класса
         private string m_sName	= "";
@@ -41,14 +41,17 @@ namespace FB2.Description.Common
         }
 		#endregion
 		
-		#region Открытые Вспомогательные методы класса
-		public int CompareTo( object o ) {
-            if ( o.GetType() != typeof( Sequence ) ) {
-                throw new ArgumentException("the object type is not Sequence.");
-            }
-            return
-                ( Name == ( ( Sequence )o ).Name ) &&
-                ( Number == ( ( Sequence )o ).Number ) ? 0 : -1;
+		#region Открытые методы класса
+		public int CompareTo( object s ) {
+			if ( s.GetType() == typeof( Sequence ) ) {
+				if( ( Name == ( ( Sequence )s ).Name ) && ( Number == ( ( Sequence )s ).Number ) ) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else {
+				throw new ArgumentException("Объект сравнения не явялется Серией.");
+			}
         }
 		#endregion
 		

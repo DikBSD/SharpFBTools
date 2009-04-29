@@ -87,13 +87,37 @@ namespace FB2.Description.Common
         }
 		#endregion
 		
-		#region Открытые Вспомогательные методы класса
-		public int CompareTo( object o ) {
-            if( o.GetType() != typeof( Author ) ) {
-                throw new ArgumentException("the object type is not Author.");
-            }
-            return ( ID == ( (Author)o ).ID ) ? 0 : -1;
+		#region Открытые методы класса
+		public int CompareTo( object a ) {
+            if( a.GetType() == typeof( Author ) ) {
+                if( ID == ( (Author)a ).ID ) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else {
+				throw new ArgumentException("Объект сравнения не явялется Автором.");
+			}
         }
+		
+		public int CompareFull( object a ) {
+            if( a.GetType() == typeof( Author ) ) {
+                if( FirstName == ( (Author)a ).FirstName &&
+                	MiddleName == ( (Author)a ).MiddleName &&
+                	LastName == ( (Author)a ).LastName &&
+                	NickName == ( (Author)a ).NickName &&
+                	HomePages == ( (Author)a ).HomePages &&
+                	Emails == ( (Author)a ).Emails &&
+                	ID == ( (Author)a ).ID ) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else {
+				throw new ArgumentException("Объект сравнения не явялется Автором.");
+			}
+        }
+		
 		#endregion
 		
 		#region Открытые свойства-fb2-элементы класса
@@ -122,7 +146,7 @@ namespace FB2.Description.Common
             set { m_lisHomePages = value; }
         }
 
-        public virtual IList<string> EMails {
+        public virtual IList<string> Emails {
             get { return m_lisEmails; }
             set { m_lisEmails = value; }
         }

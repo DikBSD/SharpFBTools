@@ -110,11 +110,16 @@ namespace FB2.FB2Parsers
             Keywords keywords = IAttrLang<Keywords>(elem.SelectSingleNode("./fb:keywords", m_NsManager));
 
             // loading data
-            // TODO: добавить поддержку аттрибута value (скорее всего придется организовать отдельный класс)
             XmlNode xmlNode = elem.SelectSingleNode("./fb:date", m_NsManager);
             Date date = new Date();
             if (xmlNode != null) {
                 date.Text = xmlNode.InnerText;
+                if (xmlNode.Attributes["value"] != null) {
+            	    date.Value = xmlNode.Attributes["value"].Value;
+  	        	}
+                if (xmlNode.Attributes["lang"] != null) {
+            	    date.Lang = xmlNode.Attributes["lang"].Value;
+  	        	}
             }
 
             string lang = elem.SelectSingleNode("./fb:lang", m_NsManager).InnerText;
@@ -175,7 +180,7 @@ namespace FB2.FB2Parsers
             {
                 year = xmlNode.InnerText;
             }
-            ISBN ISBN = IAttrLang<ISBN>(elem.SelectSingleNode("./fb:isbn", m_NsManager));
+            ISBN isbn = IAttrLang<ISBN>(elem.SelectSingleNode("./fb:isbn", m_NsManager));
 
             // loading sequences
             IList<Sequence> sequences = null;
@@ -189,7 +194,7 @@ namespace FB2.FB2Parsers
                 }
             }
 
-            return new PublishInfo(bookName, publisher, city, year, ISBN, sequences);
+            return new PublishInfo(bookName, publisher, city, year, isbn, sequences);
         }
 
         private DocumentInfo DocumentInfo(XmlNode elem)
@@ -209,8 +214,17 @@ namespace FB2.FB2Parsers
             }
 
             // loading data
+            XmlNode xmlNode = elem.SelectSingleNode("./fb:date", m_NsManager);
             Date date = new Date();
-            date.Text = elem.SelectSingleNode("./fb:date", m_NsManager).InnerText;
+            if (xmlNode != null) {
+                date.Text = xmlNode.InnerText;
+                if (xmlNode.Attributes["value"] != null) {
+            	    date.Value = xmlNode.Attributes["value"].Value;
+  	        	}
+                if (xmlNode.Attributes["lang"] != null) {
+            	    date.Lang = xmlNode.Attributes["lang"].Value;
+  	        	}
+            }
 
             // loading data
             string id = elem.SelectSingleNode("./fb:id", m_NsManager).InnerText;
@@ -220,7 +234,7 @@ namespace FB2.FB2Parsers
 
             // loading data
             ProgramUsed programUsed = new ProgramUsed();
-            XmlNode xmlNode = elem.SelectSingleNode("./fb:program-used", m_NsManager);
+            xmlNode = elem.SelectSingleNode("./fb:program-used", m_NsManager);
             if (xmlNode != null)
             {
                 programUsed.Text = xmlNode.InnerText;
@@ -349,7 +363,7 @@ namespace FB2.FB2Parsers
                 {
                     emails.Add(node.InnerText);
                 }
-                Author.EMails = emails;
+                Author.Emails = emails;
             }
 
 
