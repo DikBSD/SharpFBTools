@@ -122,6 +122,13 @@ namespace FB2.FB2Parsers
   	        	}
             }
 
+            // loading coverpage
+            xmlNode = elem.SelectSingleNode("./fb:coverpage", m_NsManager);
+            Coverpage coverpage = new Coverpage();
+            if (xmlNode != null) {
+				coverpage.Value = xmlNode.InnerXml;
+            }
+            
             string lang = elem.SelectSingleNode("./fb:lang", m_NsManager).InnerText;
 
             string srcLang = "";
@@ -159,7 +166,7 @@ namespace FB2.FB2Parsers
             // TODO: реализовать поддержку coverpage
 
             return
-                new TitleInfo(genres, authors, bookTitle, annotation, keywords, date, lang, srcLang, tranlators,
+                new TitleInfo(genres, authors, bookTitle, annotation, keywords, date, coverpage, lang, srcLang, tranlators,
                               sequences);
         }
 
@@ -426,7 +433,7 @@ namespace FB2.FB2Parsers
             if (xmlNode != null)
             {
                 annotation = new T();
-                annotation.Value = xmlNode.InnerText;
+                annotation.Value = xmlNode.InnerXml;
                 if (xmlNode.Attributes["id"] != null)
                 {
                     annotation.Id = xmlNode.Attributes["id"].Value;

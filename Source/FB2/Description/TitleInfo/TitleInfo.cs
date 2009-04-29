@@ -15,7 +15,7 @@ namespace FB2.Description.TitleInfo
 	/// <summary>
 	/// Description of TitleInfo.
 	/// </summary>
-	public class TitleInfo
+	public class TitleInfo : ITitleInfoType
 	{
 		#region Закрытые данные класса
         private IList<Genre>	m_Genres;
@@ -46,22 +46,6 @@ namespace FB2.Description.TitleInfo
             m_Keywords = keywords;
             m_Date = date;
             m_Coverpage	= coverpage;
-            m_Lang = lang;
-            m_ScrLang = scrLang;
-            m_Translators = translators;
-            m_Sequences = sequences;
-        }
-        
-        public TitleInfo( IList<Genre> genres, IList<Author> authors, BookTitle bookTitle, Annotation annotation,
-                         Keywords keywords, Date date, string lang, string scrLang,
-                         IList<Author> translators, IList<Sequence> sequences )
-        {
-            m_Genres = genres;
-            m_Authors = authors;
-            m_BookTitle = bookTitle;
-            m_Annotation = annotation;
-            m_Keywords = keywords;
-            m_Date = date;
             m_Lang = lang;
             m_ScrLang = scrLang;
             m_Translators = translators;

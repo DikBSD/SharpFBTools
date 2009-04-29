@@ -68,6 +68,7 @@
     <Compile Include="Description\TitleInfo\Coverpage.cs" />
     <Compile Include="Description\TitleInfo\Genre.cs" />
     <Compile Include="Description\TitleInfo\Genres.cs" />
+    <Compile Include="Description\TitleInfo\ITitleInfoType.cs" />
     <Compile Include="Description\TitleInfo\Keywords.cs" />
     <Compile Include="Description\TitleInfo\TitleInfo.cs" />
     <Compile Include="FB2Parsers\FB2DescriptionParser.cs" />
