@@ -16,5 +16,18 @@ namespace FB2.Description.DocumentInfo
 	/// </summary>
 	public class ProgramUsed : TextFieldType
 	{
+		#region Конструкторы класса
+		public ProgramUsed()
+		{
+		}
+		public ProgramUsed( string sValue, string sLang ) :
+			base( sValue, sLang )
+        {
+        }
+		public ProgramUsed( string sValue ) :
+			base( sValue )
+        {
+        }
+		#endregion
 	}
 }

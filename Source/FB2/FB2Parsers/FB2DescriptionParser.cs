@@ -9,7 +9,6 @@
 using System;
 using System.Xml;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using FB2.Common;
 using FB2.Description;
 using FB2.Description.TitleInfo;
@@ -18,6 +17,7 @@ using FB2.Description.PublishInfo;
 using FB2.Description.CustomInfo;
 using FB2.Description.Common;
 
+using System.Windows.Forms;
 namespace FB2.FB2Parsers
 {
 	/// <summary>
@@ -48,7 +48,8 @@ namespace FB2.FB2Parsers
         public Description.Description Parse( string sFB2Path )
         {
             // парсер description
-        	m_xmlDoc.Load( sFB2Path );
+        	#region Код
+            m_xmlDoc.Load( sFB2Path );
 
             m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
             m_NsManager.AddNamespace("fb", "http://www.gribuser.ru/xml/fictionbook/2.0");
@@ -60,6 +61,7 @@ namespace FB2.FB2Parsers
             CustomInfo customInfo = GetCustomInfo( m_xmlDoc.SelectSingleNode("/fb:FictionBook/fb:description/fb:custom-info", m_NsManager) );
 
             return new Description.Description( titleInfo, srcTitleInfo, documentInfo, publishInfo, customInfo );
+            #endregion
         }
         #endregion
         
@@ -72,91 +74,81 @@ namespace FB2.FB2Parsers
                 return null;
             }
 
-            // loading genres
+            // Жанры
             XmlNodeList xmlNodes = xn.SelectNodes("./fb:genre", m_NsManager);
-            IList<Genre> genres = new List<Genre>();
+            IList<Genre> ilGenres = new List<Genre>();
             foreach( XmlNode node in xmlNodes ) {
-                genres.Add( GetGenre( node ) );
+                ilGenres.Add( GetGenre( node ) );
             }
 
-            // loading authors
+            // Авторы
+            IList<Author> ilAuthors = null;
             xmlNodes = xn.SelectNodes("./fb:author", m_NsManager);
-            IList<Author> authors = new List<Author>();
-            foreach (XmlNode node in xmlNodes)
-            {
-                Author author = GetAuthor(node);
-                authors.Add(author);
-            }
-
-            // loading book title
-            BookTitle bookTitle = TextFieldType<BookTitle>(xn.SelectSingleNode("./fb:book-title", m_NsManager));
-
-            // loading annotation
-            Annotation annotation =
-                AnnotationType<Annotation>(xn.SelectSingleNode("./fb:annotation", m_NsManager));
-
-            // loading keywords
-            Keywords keywords = TextFieldType<Keywords>(xn.SelectSingleNode("./fb:keywords", m_NsManager));
-
-            // loading data
-            XmlNode xmlNode = xn.SelectSingleNode("./fb:date", m_NsManager);
-            Date date = new Date();
-            if (xmlNode != null) {
-                date.Text = xmlNode.InnerText;
-                if (xmlNode.Attributes["value"] != null) {
-            	    date.Value = xmlNode.Attributes["value"].Value;
-  	        	}
-                if (xmlNode.Attributes["lang"] != null) {
-            	    date.Lang = xmlNode.Attributes["lang"].Value;
-  	        	}
-            }
-
-            // loading coverpage
-            xmlNode = xn.SelectSingleNode("./fb:coverpage", m_NsManager);
-            Coverpage coverpage = new Coverpage();
-            if (xmlNode != null) {
-				coverpage.Value = xmlNode.InnerXml;
+            if( xmlNodes.Count > 0  ) {
+            	ilAuthors = new List<Author>();
+            	foreach( XmlNode node in xmlNodes ) {
+                	Author author = GetAuthor( node );
+                	ilAuthors.Add( author );
+           		}
             }
             
-            string lang = xn.SelectSingleNode("./fb:lang", m_NsManager).InnerText;
 
-            string srcLang = "";
+            // Название Книги
+            BookTitle bookTitle = TextFieldType<BookTitle>( xn.SelectSingleNode("./fb:book-title", m_NsManager) );
+
+            // Аннотация
+            Annotation annotation = AnnotationType<Annotation>( xn.SelectSingleNode("./fb:annotation", m_NsManager) );
+
+            // Ключевые слова
+            Keywords keywords = TextFieldType<Keywords>( xn.SelectSingleNode("./fb:keywords", m_NsManager) );
+
+            // Дата написания Книги
+            Date date = null;
+
+            // Обложка
+            Coverpage coverpage = null;
+            XmlNode xmlNode = xn.SelectSingleNode("./fb:coverpage", m_NsManager);
+            if( xmlNode != null ) {
+            	coverpage = new Coverpage( xmlNode.InnerXml );
+            }
+            
+            // Язык Книги
+            string sLang = null;
+            xmlNode = xn.SelectSingleNode("./fb:lang", m_NsManager);
+            if( xmlNode != null ) {
+                sLang = xmlNode.InnerText;
+            }
+            
+			// Язык Оригинала Книги
+            string sSrcLang = null;
             xmlNode = xn.SelectSingleNode("./fb:src-lang", m_NsManager);
-            if (xmlNode != null)
-            {
-                srcLang = xmlNode.InnerText;
+            if( xmlNode != null ) {
+                sSrcLang = xmlNode.InnerText;
             }
 
-            // loading translators
+            // переводчики
             IList<Author> tranlators = null;
             xmlNodes = xn.SelectNodes("./fb:translator", m_NsManager);
-            if (xmlNodes.Count > 0)
-            {
+            if( xmlNodes.Count > 0 ) {
                 tranlators = new List<Author>();
-                foreach (XmlNode node in xmlNodes)
-                {
-                    Author translator = GetAuthor(node);
-                    tranlators.Add(translator);
+                foreach( XmlNode node in xmlNodes ) {
+                    Author translator = GetAuthor( node );
+                    tranlators.Add( translator );
                 }
             }
 
-            // loading sequences
+            // Серии
             IList<Sequence> sequences = null;
             xmlNodes = xn.SelectNodes("./fb:sequence", m_NsManager);
-            if (xmlNodes.Count > 0)
-            {
+            if(xmlNodes.Count > 0) {
                 sequences = new List<Sequence>();
-                foreach (XmlNode node in xmlNodes)
-                {
-                    sequences.Add( GetSequence(node) );
+                foreach( XmlNode node in xmlNodes ) {
+                   sequences.Add( GetSequence(node) );
                 }
             }
 
-            // TODO: реализовать поддержку coverpage
-
-            return
-                new TitleInfo(genres, authors, bookTitle, annotation, keywords, date, coverpage, lang, srcLang, tranlators,
-                              sequences);
+            return new TitleInfo( ilGenres, ilAuthors, bookTitle, annotation, keywords, date,
+                                 coverpage, sLang, sSrcLang, tranlators, sequences);
             #endregion
         }
         
@@ -168,63 +160,78 @@ namespace FB2.FB2Parsers
                 return null;
             }
 
-            // loading authors
+            // Авторы fb2-документа
+            IList<Author> ilAuthors = null;
             XmlNodeList xmlNodes = xn.SelectNodes("./fb:author", m_NsManager);
-            IList<Author> authors = new List<Author>();
-            foreach (XmlNode node in xmlNodes)
-            {
-                Author author = GetAuthor(node);
-                authors.Add(author);
+            if( xmlNodes.Count > 0  ) {
+            	ilAuthors = new List<Author>();
+            	foreach( XmlNode node in xmlNodes ) {
+                	Author author = GetAuthor( node );
+                	ilAuthors.Add( author );
+           		}
             }
 
-            // loading data
+            // Дата создания fb2-документа
+            Date date = GetDate( xn );
+            
+            // ID fb2-документа
+            string id = null;
+            XmlNode xmlNode = xn.SelectSingleNode("./fb:id", m_NsManager);
+            if( xmlNode != null ) {
+            	id = xmlNode.InnerText;
+            }
+
+            // Версия fb2-документа
+            string version = null;
+            xmlNode = xn.SelectSingleNode("./fb:version", m_NsManager);
+            if( xmlNode != null ) {
+            	version = xmlNode.InnerText;
+            }
+
+            // Программа создания fb2-документа
+            ProgramUsed programUsed = null;
+            xmlNode = xn.SelectSingleNode("./fb:program-used", m_NsManager);
+            if( xmlNode != null ) {
+                programUsed = new ProgramUsed( xmlNode.InnerText );
+            }
+
+            // Источник текста
+            IList<string> srcUrls = null;
+            xmlNodes = xn.SelectNodes("./fb:src-url", m_NsManager);
+            if( xmlNodes.Count > 0 ) {
+                srcUrls = new List<string>();
+                foreach( XmlNode node in xmlNodes ) {
+                    srcUrls.Add( node.InnerText );
+                }
+            }
+            SrcOCR srcOcr = null;
+            xmlNode = xn.SelectSingleNode("./fb:src-ocr", m_NsManager);
+            if( xmlNode != null ) {
+                srcOcr = new SrcOCR( xmlNode.InnerText );
+            }
+
+            // История развития fb2-документа
+            History history = AnnotationType<History>( xn.SelectSingleNode("./fb:history", m_NsManager) );
+            return new DocumentInfo( ilAuthors, programUsed, date, srcUrls, srcOcr, id, version, history );
+            #endregion
+        }
+        
+        private Date GetDate( XmlNode xn ) 
+        {
+			// Дата создания fb2-документа
+            #region Код
+        	Date date = null;
             XmlNode xmlNode = xn.SelectSingleNode("./fb:date", m_NsManager);
-            Date date = new Date();
-            if (xmlNode != null) {
-                date.Text = xmlNode.InnerText;
-                if (xmlNode.Attributes["value"] != null) {
+            if( xmlNode != null ) {
+                date = new Date( xmlNode.InnerText );
+                if( xmlNode.Attributes["value"] != null ) {
             	    date.Value = xmlNode.Attributes["value"].Value;
   	        	}
-                if (xmlNode.Attributes["lang"] != null) {
+                if( xmlNode.Attributes["lang"] != null ) {
             	    date.Lang = xmlNode.Attributes["lang"].Value;
   	        	}
             }
-
-            // loading data
-            string id = xn.SelectSingleNode("./fb:id", m_NsManager).InnerText;
-
-            // loading version
-            string version = xn.SelectSingleNode("./fb:version", m_NsManager).InnerText;
-
-            // loading data
-            ProgramUsed programUsed = new ProgramUsed();
-            xmlNode = xn.SelectSingleNode("./fb:program-used", m_NsManager);
-            if (xmlNode != null)
-            {
-                programUsed.Value = xmlNode.InnerText;
-            }
-
-            // loading source urls
-            IList<string> srcUrls = null;
-            xmlNodes = xn.SelectNodes("./fb:src-url", m_NsManager);
-            if (xmlNodes.Count > 0)
-            {
-                srcUrls = new List<string>();
-                foreach (XmlNode node in xmlNodes)
-                {
-                    srcUrls.Add(node.InnerText);
-                }
-            }
-
-            SrcOCR srcOcr = new SrcOCR();
-            xmlNode = xn.SelectSingleNode("./fb:src-ocr", m_NsManager);
-            if (xmlNode != null)
-            {
-                srcOcr.Value = xmlNode.InnerText;
-            }
-
-            History history = AnnotationType<History>(xn.SelectSingleNode("./fb:history", m_NsManager));
-            return new DocumentInfo(authors, programUsed, date, srcUrls, srcOcr, id, version, history );
+            return date;
             #endregion
         }
         
@@ -236,31 +243,36 @@ namespace FB2.FB2Parsers
                 return null;
             }
 
-            BookName bookName = TextFieldType<BookName>(xn.SelectSingleNode("./fb:book-name", m_NsManager));
-            Publisher publisher = TextFieldType<Publisher>(xn.SelectSingleNode("./fb:publisher", m_NsManager));
-            City city = TextFieldType<City>(xn.SelectSingleNode("./fb:city", m_NsManager));
-
-            string year = null;
+            // Название Бумажной Книги
+        	BookName bookName = TextFieldType<BookName>(xn.SelectSingleNode("./fb:book-name", m_NsManager));
+         
+        	// Издатель Бумажной Книги
+        	Publisher publisher = TextFieldType<Publisher>(xn.SelectSingleNode("./fb:publisher", m_NsManager));
+            
+        	// Город издания
+        	City city = TextFieldType<City>(xn.SelectSingleNode("./fb:city", m_NsManager));
+			
+        	// Год издания
+            string sYear = null;
             XmlNode xmlNode = xn.SelectSingleNode("./fb:year", m_NsManager);
-            if (xmlNode != null)
-            {
-                year = xmlNode.InnerText;
+            if( xmlNode != null ) {
+                sYear = xmlNode.InnerText;
             }
-            ISBN isbn = TextFieldType<ISBN>(xn.SelectSingleNode("./fb:isbn", m_NsManager));
-
-            // loading sequences
+            
+            // ISBN Бумажной Книги
+            ISBN isbn = TextFieldType<ISBN>( xn.SelectSingleNode("./fb:isbn", m_NsManager) );
+            
+            // Серии Бумажной Книги
             IList<Sequence> sequences = null;
             XmlNodeList xmlNodes = xn.SelectNodes("./fb:sequence", m_NsManager);
-            if (xmlNodes.Count > 0)
-            {
+            if( xmlNodes.Count > 0 ) {
                 sequences = new List<Sequence>();
-                foreach (XmlNode node in xmlNodes)
-                {
-                    sequences.Add( GetSequence(node) );
+                foreach( XmlNode node in xmlNodes ) {
+                    sequences.Add( GetSequence( node ) );
                 }
             }
 
-            return new PublishInfo(bookName, publisher, city, year, isbn, sequences);
+            return new PublishInfo( bookName, publisher, city, sYear, isbn, sequences );
             #endregion
         }
 
@@ -272,8 +284,7 @@ namespace FB2.FB2Parsers
                 return null;
             }
             CustomInfo customInfo = new CustomInfo(node.InnerText, node.Attributes["info-type"].Value);
-            if (node.Attributes["lang"] != null)
-            {
+            if( node.Attributes["lang"] != null ) {
                 customInfo.Lang = node.Attributes["lang"].Value;
             }
             return customInfo;
@@ -285,6 +296,9 @@ namespace FB2.FB2Parsers
         {
         	// извлечение информации по TextFieldType
         	#region Код
+        	if( node == null ) {
+                return null;
+            }
         	TextFieldType e = new TextFieldType( node.InnerText );
             if ( node.Attributes["lang"] != null ) {
             	e.Lang = node.Attributes["lang"].Value;
@@ -298,20 +312,11 @@ namespace FB2.FB2Parsers
         {
             // извлечение информации по custom-info
         	#region
-            Genre genre = null;
-            try {
-                genre = new Genre( (Genres) Enum.Parse(typeof (Genres), xn.InnerText) );
-            } catch ( ArgumentException e ) {
- //               throw new FB2ParserException("Unknown genre.", e);
-            }
-            if (xn.Attributes["match"] != null)
-            {
-                try
-                {
-                    genre.Math = Convert.ToUInt32(xn.Attributes["match"].Value);
-                }
-                catch (Exception)
-                {
+            Genre genre = new Genre( xn.InnerText );
+            if( xn.Attributes["match"] != null ) {
+                try {
+                    genre.Math = Convert.ToUInt32( xn.Attributes["match"].Value );
+                } catch( Exception ) {
                     genre.Math = 100;
                 }
             }
@@ -320,7 +325,7 @@ namespace FB2.FB2Parsers
             #endregion
         }
 
-        private Author GetAuthor(XmlNode xn)
+        private Author GetAuthor( XmlNode xn )
         {
             // извлечение информации по author
         	#region Код
@@ -328,107 +333,81 @@ namespace FB2.FB2Parsers
                 return null;
             }
 
-            Author Author;
-            Regex re = new Regex("(^ )|( $)");
-
-            XmlNode firstName = xn.SelectSingleNode("./fb:first-name", m_NsManager);
-            XmlNode middleName = xn.SelectSingleNode("./fb:middle-name", m_NsManager);
-            XmlNode lastName = xn.SelectSingleNode("./fb:last-name", m_NsManager);
-            XmlNode nickName = xn.SelectSingleNode("./fb:nickname", m_NsManager);
-            XmlNodeList rawHomePages = xn.SelectNodes("./fb:home-page", m_NsManager);
-            XmlNodeList rawEmails = xn.SelectNodes("./fb:email", m_NsManager);
+            Author Author = null;
+            XmlNode fn = xn.SelectSingleNode("./fb:first-name", m_NsManager);
+            XmlNode mn = xn.SelectSingleNode("./fb:middle-name", m_NsManager);
+            XmlNode ln = xn.SelectSingleNode("./fb:last-name", m_NsManager);
+            XmlNode nn = xn.SelectSingleNode("./fb:nickname", m_NsManager);
+            XmlNodeList hp = xn.SelectNodes("./fb:home-page", m_NsManager);
+            XmlNodeList em = xn.SelectNodes("./fb:email", m_NsManager);
             XmlNode id = xn.SelectSingleNode("./fb:id", m_NsManager);
 
-            if (firstName != null && lastName != null) {
-            	Author = new Author( TextFieldTypeData( firstName ), TextFieldTypeData( lastName ) );
-                if (nickName != null) {
-                	Author.NickName = TextFieldTypeData( nickName );
+            if( fn != null && ln != null ) {
+            	Author = new Author( TextFieldTypeData( fn ), TextFieldTypeData( ln ) );
+                if( mn != null ) {
+                	Author.MiddleName = TextFieldTypeData( mn );
                 }
-                if (middleName != null) {
-                	Author.MiddleName = TextFieldTypeData( middleName );
+            	if( nn != null ) {
+                	Author.NickName = TextFieldTypeData( nn );
                 }
             }
             else {
-            	Author = new Author( TextFieldTypeData( nickName ) );
+            	Author = new Author( TextFieldTypeData( nn ) );
             }
 
-            if (id != null) {
+            if( id != null ) {
                 Author.ID = id.InnerText;
             }
 
-            if (rawHomePages.Count > 0) {
+            if( hp.Count > 0 ) {
                 IList<string> homePages = new List<string>();
-                foreach (XmlNode node in rawHomePages) {
-                    homePages.Add(node.InnerText);
+                foreach( XmlNode node in hp ) {
+                    homePages.Add( node.InnerText );
                 }
                 Author.HomePages = homePages;
             }
 
-            if (rawEmails.Count > 0) {
+            if( em.Count > 0 ) {
                 IList<string> emails = new List<string>();
-                foreach (XmlNode node in rawEmails)
-                {
-                    emails.Add(node.InnerText);
+                foreach( XmlNode node in em ) {
+                    emails.Add( node.InnerText );
                 }
                 Author.Emails = emails;
             }
-
-
-            if (Author.FirstName != null)
-            {
-                Author.FirstName.Value = re.Replace(Author.FirstName.Value, "");
-            }
-            if (Author.MiddleName != null)
-            {
-                Author.MiddleName.Value = re.Replace(Author.MiddleName.Value, "");
-            }
-            if (Author.LastName != null)
-            {
-                Author.LastName.Value = re.Replace(Author.LastName.Value, "");
-            }
-            if (Author.NickName != null)
-            {
-                Author.NickName.Value = re.Replace(Author.NickName.Value, "");
-            }
-//            string sid = Author.ID; // get Id for count
 
             return Author;
             #endregion
         }
         
-        private Sequence GetSequence(XmlNode node)
+        private Sequence GetSequence( XmlNode node )
         {
             // извлечение информации по author
             #region Код
         	Sequence sequence = null;
-            try
-            {
-                sequence = new Sequence(node.Attributes["name"].Value);
-            }
-            catch (NullReferenceException e)
-            {
-//                throw new FB2ParserException("Attribute NAME in tag SEQUENCE not found.", e);
-            }
-            if (node.Attributes["number"] != null)
-            {
-                try
-                {
-                    sequence.Number = Convert.ToUInt32(node.Attributes["number"].Value);
-                }
-                catch (FormatException e)
-                {
- //                   throw new FB2ParserException("Attribute NUMBER in tag SEQUENCE was not in a correct format.", e);
+        	
+        	if( node.Attributes["name"] != null )  {
+        		sequence = new Sequence( node.Attributes["name"].Value );
+        	}
+            if( node.Attributes["number"] != null ) {
+                if( sequence == null ) {
+        			sequence = new Sequence();
+        		}
+        		try {
+                    sequence.Number = Convert.ToUInt32( node.Attributes["number"].Value) ;
+                } catch( FormatException ) {
                 }
             }
-            if (node.Attributes["lang"] != null)
-            {
-                sequence.Lang = node.Attributes["lang"].Value;
+            if( node.Attributes["lang"] != null ) {
+        		if( sequence == null ) {
+        			sequence = new Sequence();
+        		}
+        		sequence.Lang = node.Attributes["lang"].Value;
             }
             return sequence;
             #endregion
         }
                 
-        private T TextFieldType<T>(XmlNode xmlNode) where T : ITextFieldType, new()
+        private T TextFieldType<T>( XmlNode xmlNode ) where T : ITextFieldType, new()
         {
             if( xmlNode == null ) {
                 return default(T);
@@ -442,24 +421,22 @@ namespace FB2.FB2Parsers
             return textField;
         }
 
-        private T AnnotationType<T>(XmlNode xmlNode) where T : IAnnotationType, new()
+        private T AnnotationType<T>( XmlNode xmlNode ) where T : IAnnotationType, new()
         {
             T annotation = default(T);
-            if (xmlNode != null)
-            {
+            if( xmlNode != null ) {
                 annotation = new T();
                 annotation.Value = xmlNode.InnerXml;
-                if (xmlNode.Attributes["id"] != null)
-                {
+                if( xmlNode.Attributes["id"] != null ) {
                     annotation.Id = xmlNode.Attributes["id"].Value;
                 }
-                if (xmlNode.Attributes["lang"] != null)
-                {
+                if( xmlNode.Attributes["lang"] != null ) {
                     annotation.Lang = xmlNode.Attributes["lang"].Value;
                 }
             }
             return annotation;
         }
+
         #endregion
 	}
 }

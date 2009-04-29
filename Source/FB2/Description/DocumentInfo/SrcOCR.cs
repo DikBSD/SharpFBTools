@@ -16,5 +16,18 @@ namespace FB2.Description.DocumentInfo
 	/// </summary>
 	public class SrcOCR : TextFieldType
 	{
+		#region Конструкторы класса
+		public SrcOCR()
+		{
+		}
+		public SrcOCR( string sValue, string sLang ) :
+			base( sValue, sLang )
+        {
+        }
+		public SrcOCR( string sValue ) :
+			base( sValue )
+        {
+        }
+		#endregion
 	}
 }

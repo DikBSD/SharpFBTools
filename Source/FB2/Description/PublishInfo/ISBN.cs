@@ -16,5 +16,18 @@ namespace FB2.Description.PublishInfo
 	/// </summary>
 	public class ISBN : TextFieldType
 	{
+		#region Конструкторы класса
+		public ISBN()
+		{
+		}
+		public ISBN( string sValue, string sLang ) :
+			base( sValue, sLang )
+        {
+        }
+		public ISBN( string sValue ) :
+			base( sValue )
+        {
+        }
+		#endregion
 	}
 }

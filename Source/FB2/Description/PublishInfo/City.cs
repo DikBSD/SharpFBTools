@@ -16,5 +16,18 @@ namespace FB2.Description.PublishInfo
 	/// </summary>
 	public class City : TextFieldType
 	{
+		#region Конструкторы класса
+		public City()
+		{
+		}
+		public City( string sValue, string sLang ) :
+			base( sValue, sLang )
+        {
+        }
+		public City( string sValue ) :
+			base( sValue )
+        {
+        }
+		#endregion
 	}
 }

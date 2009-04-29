@@ -16,5 +16,18 @@ namespace FB2.Description.PublishInfo
 	/// </summary>
 	public class BookName : TextFieldType
 	{
+		#region Конструкторы класса
+		public BookName()
+		{
+		}
+		public BookName( string sValue, string sLang ) :
+			base( sValue, sLang )
+        {
+        }
+		public BookName( string sValue ) :
+			base( sValue )
+        {
+        }
+		#endregion
 	}
 }

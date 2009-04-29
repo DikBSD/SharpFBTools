@@ -16,5 +16,18 @@ namespace FB2.Description.PublishInfo
 	/// </summary>
 	public class Publisher : TextFieldType
 	{
+		#region Конструкторы класса
+		public Publisher()
+		{
+		}
+		public Publisher( string sValue, string sLang ) :
+			base( sValue, sLang )
+        {
+        }
+		public Publisher( string sValue ) :
+			base( sValue )
+        {
+        }
+		#endregion
 	}
 }

@@ -28,6 +28,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +66,7 @@
     <Compile Include="Description\TitleInfo\Annotation.cs" />
     <Compile Include="Description\TitleInfo\BookTitle.cs" />
     <Compile Include="Description\TitleInfo\Coverpage.cs" />
+    <Compile Include="Description\TitleInfo\Coverpages.cs" />
     <Compile Include="Description\TitleInfo\Genre.cs" />
     <Compile Include="Description\TitleInfo\Genres.cs" />
     <Compile Include="Description\TitleInfo\ITitleInfoType.cs" />

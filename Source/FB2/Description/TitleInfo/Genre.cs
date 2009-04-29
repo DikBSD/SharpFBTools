@@ -16,28 +16,31 @@ namespace FB2.Description.TitleInfo
 	public class Genre : IComparable
 	{
 		#region Закрытые данные класса
-		private uint m_unMath;
-        private Genres m_eName;
+		private uint 	m_unMath;
+        private string 	m_sName;
         #endregion
         
 		#region Конструкторы класса
 		public Genre()
         {
-            m_eName = Genres.prose_classic;
-			m_unMath = 100;
+            m_sName 	= "";
+			m_unMath 	= 100;
         }
-		public Genre( Genres eName, uint unMath )
+		public Genre( string sName, uint unMath )
         {
-            m_eName = eName;
-            if( unMath < 0 || unMath > 100 ) {
-                throw new ArgumentOutOfRangeException("math", "Атрибут Math должен иметь значение от 0 до 100");
+            m_sName = sName;
+            if( unMath < 0 ) {
+                m_unMath = 0;
+            } else if( unMath > 100 ) {
+            	m_unMath = 100;
+            } else {
+            	m_unMath = unMath;
             }
-            m_unMath = unMath;
         }
-		public Genre( Genres eName )
+		public Genre( string sName )
         {
-            m_eName = eName;
-            m_unMath = 100;
+            m_sName 	= sName;
+            m_unMath 	= 100;
         }
         #endregion
         
@@ -57,9 +60,9 @@ namespace FB2.Description.TitleInfo
         #endregion
         
         #region Открытые свойства класса - fb2-элементы
-        public virtual Genres Name {
-            get { return m_eName; }
-            set { m_eName = value; }
+        public virtual string Name {
+            get { return m_sName; }
+            set { m_sName = value; }
         }
 
         public virtual uint Math {
