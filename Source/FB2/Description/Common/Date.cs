@@ -7,7 +7,6 @@
  * License: GPL 2.1
  */
 using System;
-using System.Globalization;
 using FB2.Common;
 
 namespace FB2.Description.Common
@@ -20,18 +19,18 @@ namespace FB2.Description.Common
 		#region Закрытые данные класса
 		private string m_sText;
 		private string m_sValue;
-        private CultureInfo m_ciLang = null;
+        private string m_sLang;
         #endregion
         
         #region Конструкторы класса
 		public Date()
 		{
 		}
-		public Date( string sValue, string sText, CultureInfo ciLang )
+		public Date( string sValue, string sText, string sLang )
         {
             m_sValue	= sValue;
             m_sText		= sText;
-            m_ciLang	= ciLang;
+            m_sLang	= sLang;
         }
 		public Date( string sText, string sValue )
         {
@@ -45,14 +44,14 @@ namespace FB2.Description.Common
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
-		public virtual string AttrValue {
+		public virtual string Value {
             get { return m_sValue; }
             set { m_sValue = value; }
         }
 
-        public virtual CultureInfo AttrLang {
-            get { return m_ciLang; }
-            set { m_ciLang = value; }
+        public virtual string Lang {
+            get { return m_sLang; }
+            set { m_sLang = value; }
         }
         #endregion
         

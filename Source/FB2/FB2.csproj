@@ -44,7 +44,7 @@
     <Compile Include="Common\IAttrLang.cs" />
     <Compile Include="Common\IAttrValue.cs" />
     <Compile Include="Common\Image.cs" />
-    <Compile Include="Common\ITextField.cs" />
+    <Compile Include="Common\ITextFieldType.cs" />
     <Compile Include="Description\Common\Author.cs" />
     <Compile Include="Description\Common\Date.cs" />
     <Compile Include="Description\Common\Sequence.cs" />

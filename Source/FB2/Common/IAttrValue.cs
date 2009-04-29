@@ -18,6 +18,6 @@ namespace FB2.Common
 		/// <summary>
         /// Value of element.
         /// </summary>
-        string AttrValue { get; set; }
+        string Value { get; set; }
 	}
 }

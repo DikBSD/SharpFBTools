@@ -7,7 +7,6 @@
  * License: GPL 2.1
  */
 using System;
-using System.Globalization;
 using FB2.Common;
 
 namespace FB2.Description.CustomInfo
@@ -18,9 +17,9 @@ namespace FB2.Description.CustomInfo
 	public class CustomInfo : IAttrLang
 	{
 		#region Закрытые данные класса
-		private string m_sValue;
-		private string m_sInfoType;
-		private CultureInfo m_ciLang;
+		private string m_sValue		= "";
+		private string m_sInfoType	= "";
+		private string m_sLang		= "";
 		#endregion
 		
 		#region Конструкторы класса
@@ -28,30 +27,32 @@ namespace FB2.Description.CustomInfo
 		{
 			m_sValue	= "";
 			m_sInfoType	= "";
-        	m_ciLang	= null;
+        	m_sLang		= "";
 		}
-		public CustomInfo( string sValue, string sInfoType, CultureInfo ciLang )
+		public CustomInfo( string sValue, string sInfoType, string sLang )
         {
             m_sValue	= sValue;
 			m_sInfoType	= sInfoType;
-        	m_ciLang	= ciLang;
+        	m_sLang		= sLang;
         }
         public CustomInfo(string sValue, string sInfoType)
         {
             m_sValue	= sValue;
             m_sInfoType = sInfoType;
+            m_sLang		= "";
         }
 		public CustomInfo( string sInfoType )
         {
-            m_sInfoType	= sInfoType;
-        	m_ciLang	= null;
+            m_sValue	= "";
+			m_sInfoType	= sInfoType;
+            m_sLang		= "";
         }
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
-		public virtual CultureInfo AttrLang {
-            get { return m_ciLang; }
-            set { m_ciLang = value; }
+		public virtual string Lang {
+            get { return m_sLang; }
+            set { m_sLang = value; }
         }
 		#endregion
 		

@@ -7,7 +7,6 @@
  * License: GPL 2.1
  */
 using System;
-using System.Globalization;
 using FB2.Common;
 
 namespace FB2.Description.PublishInfo
@@ -18,32 +17,32 @@ namespace FB2.Description.PublishInfo
 	public class ISBN : IAttrLang
 	{
 		#region Закрытые данные класса
-		private string m_sText;
-		private CultureInfo m_ciLang;
+		private string m_sText	= "";
+		private string m_sLang	= "";
 		#endregion
 		
 		#region Конструкторы класса
 		public ISBN()
 		{
-			m_sText		= "";
-        	m_ciLang	= null;
+			m_sText	= "";
+        	m_sLang	= "";
 		}
-		public ISBN( string sText, CultureInfo ciLang )
+		public ISBN( string sText, string sLang )
         {
-            m_sText		= sText;
-        	m_ciLang	= ciLang;
+            m_sText	= sText;
+        	m_sLang	= sLang;
         }
         public ISBN( string sText )
         {
-            m_sText		= sText;
-        	m_ciLang	= null;
+            m_sText	= sText;
+        	m_sLang	= "";
         }
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
-		public virtual CultureInfo AttrLang {
-            get { return m_ciLang; }
-            set { m_ciLang = value; }
+		public virtual string Lang {
+            get { return m_sLang; }
+            set { m_sLang = value; }
         }
 		#endregion
 		

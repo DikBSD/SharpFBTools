@@ -7,16 +7,15 @@
  * License: GPL 2.1
  */
 using System;
-using System.Globalization;
 
 namespace FB2.Common
 {
 	/// <summary>
-	/// Description of ITextField.
+	/// Description of ITextFieldType.
 	/// </summary>
-	public interface ITextField
+	public interface ITextFieldType
     {
-        string Value { get; set; }
-        CultureInfo Lang { set; get; }
+        string Value { get; set; }	// значение типа
+        string Lang { set; get; } 	// атрибут типа
     }
 }

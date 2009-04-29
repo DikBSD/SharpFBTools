@@ -8,7 +8,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using FB2.Description.Common;
 
 namespace FB2.Description.TitleInfo
@@ -26,8 +25,8 @@ namespace FB2.Description.TitleInfo
         private Keywords		m_Keywords;
 		private Date			m_Date;
 		private Coverpage		m_Coverpage;
-        private CultureInfo		m_Lang;
-        private CultureInfo		m_ScrLang;
+        private string			m_Lang;
+        private string			m_ScrLang;
         private IList<Author>	m_Translators;
         private IList<Sequence>	m_Sequences;
         #endregion
@@ -37,7 +36,7 @@ namespace FB2.Description.TitleInfo
 		{
 		}
 		public TitleInfo( IList<Genre> genres, IList<Author> authors, BookTitle bookTitle, Annotation annotation,
-                         Keywords keywords, Date date, Coverpage coverpage, CultureInfo lang, CultureInfo scrLang,
+                         Keywords keywords, Date date, Coverpage coverpage, string lang, string scrLang,
                          IList<Author> translators, IList<Sequence> sequences )
         {
             m_Genres = genres;
@@ -54,7 +53,7 @@ namespace FB2.Description.TitleInfo
         }
         
         public TitleInfo( IList<Genre> genres, IList<Author> authors, BookTitle bookTitle, Annotation annotation,
-                         Keywords keywords, Date date, CultureInfo lang, CultureInfo scrLang,
+                         Keywords keywords, Date date, string lang, string scrLang,
                          IList<Author> translators, IList<Sequence> sequences )
         {
             m_Genres = genres;
@@ -113,13 +112,13 @@ namespace FB2.Description.TitleInfo
             set { m_Coverpage = value; }
         }
          
-        public virtual CultureInfo Lang
+        public virtual string Lang
         {
             get { return m_Lang; }
             set { m_Lang = value; }
         }
 
-        public virtual CultureInfo ScrLang
+        public virtual string ScrLang
         {
             get { return m_ScrLang; }
             set { m_ScrLang = value; }

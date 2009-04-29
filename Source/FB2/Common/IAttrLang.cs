@@ -7,7 +7,6 @@
  * License: GPL 2.1
  */
 using System;
-using System.Globalization;
 
 namespace FB2.Common
 {
@@ -19,6 +18,6 @@ namespace FB2.Common
 		/// <summary>
         /// Language.
         /// </summary>
-        CultureInfo AttrLang { set; get; }
+        string Lang { set; get; } // атрибут типа
 	}
 }

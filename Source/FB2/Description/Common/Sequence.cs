@@ -7,7 +7,6 @@
  * License: GPL 2.1
  */
 using System;
-using System.Globalization;
 using FB2.Common;
 
 namespace FB2.Description.Common
@@ -18,24 +17,27 @@ namespace FB2.Description.Common
 	public class Sequence : IAttrLang, IComparable
 	{
 		#region Закрытые данные класса
-        private string m_sName;
+        private string m_sName	= "";
         private uint m_unNumber;
-        private CultureInfo m_ciLang = null;
+        private string m_sLang	= "";
 		#endregion
 		
 		#region Конструкторы класса
 		public Sequence()
 		{
+			m_sName		= "";
+			m_sLang		= "";
 		}
-		public Sequence( string sName, uint unNumber, CultureInfo ciLang )
+		public Sequence( string sName, uint unNumber, string sLang )
         {
 			m_sName		= sName;
 			m_unNumber	= unNumber;
-			m_ciLang	= ciLang;
+			m_sLang		= sLang;
         }
         public Sequence( string sName )
         {
-            m_sName = sName;
+            m_sName 	= sName;
+			m_sLang		= "";
         }
 		#endregion
 		
@@ -51,9 +53,9 @@ namespace FB2.Description.Common
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
-		public virtual CultureInfo AttrLang {
-            get { return m_ciLang; }
-            set { m_ciLang = value; }
+		public virtual string Lang {
+            get { return m_sLang; }
+            set { m_sLang = value; }
         }
 		#endregion
 		

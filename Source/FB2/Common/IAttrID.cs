@@ -18,6 +18,6 @@ namespace FB2.Common
 		/// <summary>
         /// Id of element.
         /// </summary>
-        string AttrID { get; set; }
+        string Id { get; set; }
 	}
 }

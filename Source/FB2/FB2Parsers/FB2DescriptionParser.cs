@@ -9,7 +9,6 @@
 using System;
 using System.Xml;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text.RegularExpressions;
 using FB2.Common;
 using FB2.Description;
@@ -118,13 +117,13 @@ namespace FB2.FB2Parsers
                 date.Text = xmlNode.InnerText;
             }
 
-            CultureInfo lang = new CultureInfo(elem.SelectSingleNode("./fb:lang", m_NsManager).InnerText);
+            string lang = elem.SelectSingleNode("./fb:lang", m_NsManager).InnerText;
 
-            CultureInfo srcLang = null;
+            string srcLang = "";
             xmlNode = elem.SelectSingleNode("./fb:src-lang", m_NsManager);
             if (xmlNode != null)
             {
-                srcLang = new CultureInfo(xmlNode.InnerText);
+                srcLang = xmlNode.InnerText;
             }
 
             // loading translators
@@ -259,7 +258,7 @@ namespace FB2.FB2Parsers
             CustomInfo customInfo = new CustomInfo(node.InnerText, node.Attributes["info-type"].Value);
             if (node.Attributes["lang"] != null)
             {
-                customInfo.AttrLang = new CultureInfo(node.Attributes["lang"].Value);
+                customInfo.Lang = node.Attributes["lang"].Value;
             }
             return customInfo;
         }
@@ -386,12 +385,12 @@ namespace FB2.FB2Parsers
             //textField.Value = xmlNode.InnerText;
             if (xmlNode.Attributes["lang"] != null)
             {
-                textField.AttrLang = new CultureInfo(xmlNode.Attributes["lang"].Value);
+                textField.Lang = xmlNode.Attributes["lang"].Value;
             }
             return textField;
         }
         
-        private T TextField<T>(XmlNode xmlNode) where T : ITextField, new()
+        private T TextFieldType<T>(XmlNode xmlNode) where T : ITextFieldType, new()
         {
             if (xmlNode == null)
             {
@@ -402,7 +401,7 @@ namespace FB2.FB2Parsers
             textField.Value = xmlNode.InnerText;
             if (xmlNode.Attributes["lang"] != null)
             {
-                textField.Lang = new CultureInfo(xmlNode.Attributes["lang"].Value);
+                textField.Lang = xmlNode.Attributes["lang"].Value;
             }
             return textField;
         }
@@ -420,7 +419,7 @@ namespace FB2.FB2Parsers
                 }
                 if (xmlNode.Attributes["lang"] != null)
                 {
-                    annotation.Lang = new CultureInfo(xmlNode.Attributes["lang"].Value);
+                    annotation.Lang = xmlNode.Attributes["lang"].Value;
                 }
             }
             return annotation;
@@ -450,7 +449,7 @@ namespace FB2.FB2Parsers
             }
             if (node.Attributes["lang"] != null)
             {
-                sequence.AttrLang = new CultureInfo(node.Attributes["lang"].Value);
+                sequence.Lang = node.Attributes["lang"].Value;
             }
             return sequence;
         }

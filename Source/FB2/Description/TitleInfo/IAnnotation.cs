@@ -14,8 +14,10 @@ namespace FB2.Description.TitleInfo
 	/// <summary>
 	/// Description of IAnnotation.
 	/// </summary>
-	public interface IAnnotation : ITextField
+	public interface IAnnotation
     {
-        string Id { set; get; }
+		string Value { get; set; }	// значение типа
+		string Id { set; get; } 	// атрибут типа
+        string Lang { set; get; }	// атрибут типа
     }
 }
