@@ -14,7 +14,7 @@ namespace FB2.Description.CustomInfo
 	/// <summary>
 	/// Description of CustomInfo.
 	/// </summary>
-	public class CustomInfo : IAttrLang
+	public class CustomInfo : ITextFieldType
 	{
 		#region Закрытые данные класса
 		private string m_sValue		= "";
@@ -50,6 +50,11 @@ namespace FB2.Description.CustomInfo
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
+		public virtual string InfoType {
+            get { return m_sInfoType; }
+            set { m_sInfoType = value; }
+        }
+		
 		public virtual string Lang {
             get { return m_sLang; }
             set { m_sLang = value; }
@@ -57,9 +62,9 @@ namespace FB2.Description.CustomInfo
 		#endregion
 		
 		#region Открытые свойства класса - элементы fb2-элементов
-        public virtual string sInfoType {
-            get { return m_sInfoType; }
-            set { m_sInfoType = value; }
+        public virtual string Value {
+            get { return m_sValue; }
+            set { m_sValue = value; }
         }
         #endregion
 	}

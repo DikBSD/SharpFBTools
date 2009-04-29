@@ -394,22 +394,6 @@ namespace FB2.FB2Parsers
 
             return Author;
         }
-
-        private T IAttrLang<T>(XmlNode xmlNode) where T : IAttrLang, new()
-        {
-            if (xmlNode == null)
-            {
-                return default(T);
-            }
-
-            T textField = new T();
-            //textField.Value = xmlNode.InnerText;
-            if (xmlNode.Attributes["lang"] != null)
-            {
-                textField.Lang = xmlNode.Attributes["lang"].Value;
-            }
-            return textField;
-        }
         
         private T TextFieldType<T>(XmlNode xmlNode) where T : ITextFieldType, new()
         {
