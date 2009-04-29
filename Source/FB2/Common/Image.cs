@@ -16,6 +16,7 @@ namespace FB2.Common
 	public class Image
 	{
 		#region Закрытые данные класса
+		private string m_sValue;
 		private string m_sType;
 		private string m_sHref;
 		private string m_sAlt;
@@ -25,16 +26,18 @@ namespace FB2.Common
 		public Image()
 		{
 		}
-		public Image( string sType, string sHref, string sAlt )
+		public Image( string sValue, string sType, string sHref, string sAlt )
         {
-            m_sType	= sType;
-        	m_sHref	= sHref;
-        	m_sAlt	= sAlt;
+            m_sValue	= sValue;
+            m_sType		= sType;
+        	m_sHref		= sHref;
+        	m_sAlt		= sAlt;
         }
-		public Image( string sType, string sHref )
+		public Image( string sValue, string sType, string sHref )
         {
-            m_sType	= sType;
-        	m_sHref	= sHref;
+            m_sValue	= sValue;
+            m_sType		= sType;
+        	m_sHref		= sHref;
         }
 		#endregion
 		
@@ -50,6 +53,13 @@ namespace FB2.Common
 		public virtual string AttrAlt {
             get { return m_sAlt; }
             set { m_sAlt = value; }
+        }
+		#endregion
+		
+		#region Открытые свойства класса - fb2-элементы
+		public virtual string Value {
+            get { return m_sValue; }
+            set { m_sValue = value; }
         }
 		#endregion
 	}

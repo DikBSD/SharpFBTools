@@ -38,7 +38,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			
 			FB2DescriptionParser fb2Parser = new FB2DescriptionParser();
-			Description fbDoc = (Description) fb2Parser.Parse( "c:\\1.fb2" );
+			Description fbDoc = (Description) fb2Parser.Parse( "d:\\1.fb2" );
 		}
 		
 		#region Обработчики событий

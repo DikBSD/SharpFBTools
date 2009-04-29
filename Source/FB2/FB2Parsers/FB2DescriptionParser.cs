@@ -113,9 +113,8 @@ namespace FB2.FB2Parsers
             // loading data
             // TODO: добавить поддержку аттрибута value (скорее всего придется организовать отдельный класс)
             XmlNode xmlNode = elem.SelectSingleNode("./fb:date", m_NsManager);
-            Date date = null;
-            if (xmlNode != null)
-            {
+            Date date = new Date();
+            if (xmlNode != null) {
                 date.Text = xmlNode.InnerText;
             }
 
