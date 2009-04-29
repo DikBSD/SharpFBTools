@@ -46,6 +46,7 @@
     <Compile Include="Description\Common\Author.cs" />
     <Compile Include="Description\Common\Date.cs" />
     <Compile Include="Description\Common\IAnnotationType.cs" />
+    <Compile Include="Description\Common\IAuthorType.cs" />
     <Compile Include="Description\Common\IDateType.cs" />
     <Compile Include="Description\Common\ISequenceType.cs" />
     <Compile Include="Description\Common\ITextFieldType.cs" />

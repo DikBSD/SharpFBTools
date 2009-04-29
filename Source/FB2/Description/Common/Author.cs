@@ -16,7 +16,7 @@ namespace FB2.Description.Common
 	/// <summary>
 	/// Description of Author.
 	/// </summary>
-	public class Author : IComparable
+	public class Author : IAuthorType, IComparable
 	{
 		#region Закрытые данные класса
         private string	m_sFirstName	= "";
