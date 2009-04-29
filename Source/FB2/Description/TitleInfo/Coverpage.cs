@@ -14,7 +14,7 @@ namespace FB2.Description.TitleInfo
 	/// <summary>
 	/// Description of Coverpage.
 	/// </summary>
-	public class Coverpage : Image
+	public class Coverpage : InlineImage
 	{
 		public Coverpage()
 		{

@@ -13,53 +13,47 @@ namespace FB2.Common
 	/// <summary>
 	/// Description of Image.
 	/// </summary>
-	public class Image
+	public class InlineImage : IInlineImageType
 	{
 		#region Закрытые данные класса
-		private string m_sValue;
 		private string m_sType;
 		private string m_sHref;
 		private string m_sAlt;
 		#endregion
 		
 		#region Конструкторы класса
-		public Image()
+		public InlineImage()
 		{
 		}
-		public Image( string sValue, string sType, string sHref, string sAlt )
+		public InlineImage( string sType, string sHref, string sAlt )
         {
-            m_sValue	= sValue;
             m_sType		= sType;
         	m_sHref		= sHref;
         	m_sAlt		= sAlt;
         }
-		public Image( string sValue, string sType, string sHref )
+		public InlineImage( string sType, string sHref )
         {
-            m_sValue	= sValue;
             m_sType		= sType;
+        	m_sHref		= sHref;
+        }
+		public InlineImage( string sHref )
+        {
         	m_sHref		= sHref;
         }
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
-		public virtual string AttrType {
+		public virtual string Type {
             get { return m_sType; }
             set { m_sType = value; }
         }
-		public virtual string AttrHref {
+		public virtual string Href {
             get { return m_sHref; }
             set { m_sHref = value; }
         }
-		public virtual string AttrAlt {
+		public virtual string Alt {
             get { return m_sAlt; }
             set { m_sAlt = value; }
-        }
-		#endregion
-		
-		#region Открытые свойства класса - fb2-элементы
-		public virtual string Value {
-            get { return m_sValue; }
-            set { m_sValue = value; }
         }
 		#endregion
 	}
