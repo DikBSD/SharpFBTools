@@ -7,45 +7,37 @@
  * License: GPL 2.1
  */
 using System;
-using FB2.Common;
+using FB2.Description.Common;
 
 namespace FB2.Description.CustomInfo
 {
 	/// <summary>
 	/// Description of CustomInfo.
 	/// </summary>
-	public class CustomInfo : ITextFieldType
+	public class CustomInfo : TextFieldType
 	{
 		#region Закрытые данные класса
-		private string m_sValue		= "";
 		private string m_sInfoType	= "";
-		private string m_sLang		= "";
 		#endregion
 		
 		#region Конструкторы класса
 		public CustomInfo()
 		{
-			m_sValue	= "";
-			m_sInfoType	= "";
-        	m_sLang		= "";
 		}
-		public CustomInfo( string sValue, string sInfoType, string sLang )
+		public CustomInfo( string sValue, string sInfoType, string sLang ) :
+			base( sValue, sLang )
         {
-            m_sValue	= sValue;
 			m_sInfoType	= sInfoType;
-        	m_sLang		= sLang;
         }
-        public CustomInfo(string sValue, string sInfoType)
+		public CustomInfo(string sValue, string sInfoType) :
+			base( sValue )
         {
-            m_sValue	= sValue;
             m_sInfoType = sInfoType;
-            m_sLang		= "";
         }
-		public CustomInfo( string sInfoType )
+		public CustomInfo( string sInfoType ) :
+			base( "", "" )
         {
-            m_sValue	= "";
 			m_sInfoType	= sInfoType;
-            m_sLang		= "";
         }
 		#endregion
 		
@@ -54,18 +46,6 @@ namespace FB2.Description.CustomInfo
             get { return m_sInfoType; }
             set { m_sInfoType = value; }
         }
-		
-		public virtual string Lang {
-            get { return m_sLang; }
-            set { m_sLang = value; }
-        }
 		#endregion
-		
-		#region Открытые свойства класса - элементы fb2-элементов
-        public virtual string Value {
-            get { return m_sValue; }
-            set { m_sValue = value; }
-        }
-        #endregion
 	}
 }
