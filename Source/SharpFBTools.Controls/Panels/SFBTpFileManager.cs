@@ -45,8 +45,7 @@ namespace SharpFBTools.Controls.Panels
 
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser();
 			DocumentInfo di = fb2p.GetDocumentInfo( "d:\\1.fb2" );
-			DocumentInfo di2 = fb2p.GetDocumentInfo( "d:\\1.fb2" );
-			bool b1 = di.Equals(di2);
+			string sID = di.ID;
 		}
 		
 		#region Обработчики событий

@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Xml;
 using Settings;
+using FB2.FB2Parsers;
 
 namespace SharpFBTools.Controls.Panels
 {
