@@ -40,21 +40,6 @@ namespace FB2.Description.CustomInfo
 			m_sInfoType	= sInfoType;
         }
 		#endregion
-	
-		#region Открытые Вспомогательные методы класса
-		public virtual bool Equals( CustomInfo c )
-        {
-			if ( c.GetType() == typeof( CustomInfo ) ) {
-				if( InfoType == ( ( CustomInfo )c ).InfoType ) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-        }
-		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string InfoType {

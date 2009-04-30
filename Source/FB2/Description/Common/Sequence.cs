@@ -41,22 +41,6 @@ namespace FB2.Description.Common
         }
 		#endregion
 		
-		#region Открытые методы класса
-		public virtual bool Equals( Sequence s )
-        {
-			if ( s.GetType() == typeof( Sequence ) ) {
-				if( ( Name == ( ( Sequence )s ).Name ) &&
-				   	( Number == ( ( Sequence )s ).Number ) ) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-        }
-		#endregion
-		
 		#region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Lang {
             get { return m_sLang; }

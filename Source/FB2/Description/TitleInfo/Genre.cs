@@ -44,22 +44,6 @@ namespace FB2.Description.TitleInfo
         }
         #endregion
         
-        #region Открытые Вспомогательные методы класса
-        public virtual bool Equals( Genre g )
-        {
-			if( g.GetType() == typeof( Genre) ) {
-                if( ( Name == ( ( Genre )g ).Name ) &&
-        		   	( Math == ( ( Genre )g ).Math ) ) {
-					return true;
-				} else {
-					return false;
-				}
-        	} else {
-        		return false;
-        	}
-        }
-        #endregion
-        
         #region Открытые свойства класса - fb2-элементы
         public virtual string Name {
             get { return m_sName; }

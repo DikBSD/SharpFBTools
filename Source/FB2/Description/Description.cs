@@ -43,24 +43,6 @@ namespace FB2.Description
         }
 		#endregion
 		
-		#region Открытые Вспомогательные методы класса
-		public virtual bool Equals( Description d )
-        {
-			if( d.GetType() == typeof( Description) ) {
-                if( ( TitleInfo == ( ( Description )d ).TitleInfo ) && 
-				   	( ScrTitleInfo == ( ( Description )d ).ScrTitleInfo ) &&
-				   	( PublishInfo == ( ( Description )d ).PublishInfo ) &&
-				   	( CustomInfo == ( ( Description )d ).CustomInfo ) ) {
-					return true;
-				} else {
-					return false;
-				}
-        	} else {
-        		return false;
-        	}
-        }
-		#endregion
-		
 		#region Открытые свойства класса - fb2-элементы
 		 public virtual TitleInfo.TitleInfo TitleInfo {
             get { return m_TitleInfo; }

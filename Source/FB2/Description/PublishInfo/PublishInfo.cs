@@ -42,26 +42,6 @@ namespace FB2.Description.PublishInfo
             m_Sequences	= sequences;
         }
         #endregion
-      
-        #region Открытые Вспомогательные методы класса
-		public virtual bool Equals( PublishInfo p  )
-        {
-			if( p.GetType() == typeof( PublishInfo) ) {
-                if( ( BookName == ( ( PublishInfo )p ).BookName ) && 
-				   	( Publisher == ( ( PublishInfo )p ).Publisher ) &&
-				   	( City == ( ( PublishInfo )p ).City ) &&
-				   	( Year == ( ( PublishInfo )p ).Year ) &&
-				   	( ISBN == ( ( PublishInfo )p ).ISBN ) &&
-				   	( Sequences == ( ( PublishInfo )p ).Sequences ) ) {
-					return true;
-				} else {
-					return false;
-				}
-        	} else {
-        		return false;
-        	}
-        }
-		#endregion
         
         #region Открытые свойства класса - fb2-элементы
         public virtual BookName BookName

@@ -30,21 +30,6 @@ namespace FB2.Description.TitleInfo
         	m_sValue = sValue;
 		}
         #endregion
-		
-        #region Открытые методы класса
-		public virtual bool Equals( Coverpage c )
-        {
-			if ( c.GetType() == typeof( Coverpage ) ) {
-				if( Value == ( ( Coverpage )c ).Value ) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-        }
-		#endregion
         
 		#region Открытые свойства класса - элементы fb2-элементов
         public virtual string Value {

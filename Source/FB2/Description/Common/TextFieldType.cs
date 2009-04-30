@@ -37,22 +37,6 @@ namespace FB2.Description.Common
             m_sValue	= sValue;
         }
 		#endregion
-
-		#region Открытые методы класса
-		public virtual bool Equals( TextFieldType t )
-        {
-			if ( t.GetType() == typeof( TextFieldType ) ) {
-				if( ( Value == ( ( TextFieldType )t ).Value ) &&
-				   	( Lang == ( ( TextFieldType )t ).Lang ) ) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-        }
-		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Lang {

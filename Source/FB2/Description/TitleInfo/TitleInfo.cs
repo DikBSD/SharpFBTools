@@ -52,31 +52,6 @@ namespace FB2.Description.TitleInfo
             m_Sequences 	= sequences;
         }
         #endregion
-      
-        #region Открытые Вспомогательные методы класса
-		public virtual bool Equals( TitleInfo t )
-        {
-			if( t.GetType() == typeof( TitleInfo) ) {
-                if( ( Genres == ( ( TitleInfo )t ).Genres ) && 
-				   	( Authors == ( ( TitleInfo )t ).Authors ) &&
-				   	( BookTitle == ( ( TitleInfo )t ).BookTitle ) &&
-				   	( Annotation == ( ( TitleInfo )t ).Annotation ) &&
-				   	( Keywords == ( ( TitleInfo )t ).Keywords ) &&
-				   	( Date == ( ( TitleInfo )t ).Date ) &&
-				   	( Coverpage == ( ( TitleInfo )t ).Coverpage ) &&
-				   	( Lang == ( ( TitleInfo )t ).Lang ) &&
-				   	( ScrLang == ( ( TitleInfo )t ).ScrLang ) &&
-				   	( Translators == ( ( TitleInfo )t ).Translators ) &&
-				   	( Sequences == ( ( TitleInfo )t ).Sequences ) ) {
-					return true;
-				} else {
-					return false;
-				}
-        	} else {
-        		return false;
-        	}
-        }
-		#endregion
         
         #region Открытые свойства класса - fb2-элементы
          public virtual IList<Genre> Genres

@@ -40,22 +40,6 @@ namespace FB2.Description.TitleInfo
 			m_sLang		= null;
         }
         #endregion
-		
-        #region Открытые Вспомогательные методы класса
-		public virtual bool Equals( Annotation a ) {
-			if ( a.GetType() == typeof( Annotation ) ) {
-				if( ( Value == ( ( Annotation )a ).Value ) &&
-        		   	( Id == ( ( Annotation )a ).Id ) &&
-        		  	( Lang == ( ( Annotation )a ).Lang ) ) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-        }
-		#endregion
         
         #region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Id {

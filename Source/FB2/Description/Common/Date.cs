@@ -43,23 +43,6 @@ namespace FB2.Description.Common
         }
 		#endregion
 		
-		#region Открытые Вспомогательные методы класса
-		public virtual bool Equals( Date d )
-        {
-			if ( d.GetType() == typeof( Date ) ) {
-				if( ( Text == ( ( Date )d ).Text ) &&
-				   	( Value == ( ( Date )d ).Value ) &&
-				   	( Lang == ( ( Date )d ).Lang ) ) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-        }
-		#endregion
-		
 		#region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Value {
             get { return m_sValue; }

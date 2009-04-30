@@ -75,69 +75,7 @@ namespace FB2.Description.Common
 			m_tNickName = tNickName;
         }
 		#endregion
-				
-		#region Открытые методы класса
-		public virtual bool Equals( Author a )
-        {
-			if ( a.GetType() == typeof( Author ) ) {
-				bool bRet = ( FirstName.Equals( a.FirstName ) ) &&
-							( MiddleName.Equals( a.MiddleName ) ) &&
-							( LastName.Equals( a.LastName ) ) &&
-							( NickName.Equals( a.NickName ) ) &&
-							( ID.Equals( a.ID ) );
-				if( HomePages.Count != a.HomePages.Count ) {
-                	bRet = false;
-                } else {
-                	for( int i=0; i!=HomePages.Count; ++i  ) {
-						bRet &= ( HomePages[i] == a.HomePages[i] );
-               		}
-                }
-				if( Emails.Count != a.Emails.Count ) {
-                	bRet = false;
-                } else {
-                	for( int i=0; i!=Emails.Count; ++i  ) {
-						bRet &= ( Emails[i] == a.Emails[i] );
-               		}
-                }
-				return bRet;
-			} else {
-				return false;
-			}
-        }
-		
-		/*public virtual bool Equals( Author a )
-        {
-			if ( a.GetType() == typeof( Author ) ) {
-				if( ( FirstName == ( ( Author )a ).FirstName ) &&
-				   	( MiddleName == ( ( Author )a ).MiddleName ) &&
-				   	( LastName == ( ( Author )a ).LastName ) &&
-				   	( NickName == ( ( Author )a ).NickName ) &&
-				   	( HomePages == ( ( Author )a ).HomePages ) &&
-				   	( Emails == ( ( Author )a ).Emails ) &&
-				   	( ID == ( ( Author )a ).ID ) ) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-        }*/
-		
-		public virtual bool EqualsFromID( Author a )
-        {
-			if ( a.GetType() == typeof( Author ) ) {
-				if( ID == ( ( Author )a ).ID ) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-        }
-		#endregion
-		
+	
 		#region Открытые свойства - fb2-элементы класса
 		public virtual TextFieldType FirstName {
             get { return m_tFirstName; }
