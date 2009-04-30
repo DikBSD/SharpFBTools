@@ -42,29 +42,18 @@ namespace FB2.Description.Common
 		#endregion
 		
 		#region Открытые методы класса
-		public int CompareTo( object s ) {
-			if ( s.GetType() == typeof( Sequence ) ) {
-				if( ( Name == ( ( Sequence )s ).Name ) && ( Number == ( ( Sequence )s ).Number ) ) {
-					return 0;
-				} else {
-					return -1;
-				}
-			} else {
-				throw new ArgumentException("Объект сравнения не явялется Серией.");
-			}
-        }
-		
 		public virtual bool Equals( Sequence s )
         {
-			bool bThisIsNull = ( m_sName == null && m_sLang == null );
-			if( bThisIsNull || s == null ) {
-				return true;
-			} else if( !bThisIsNull && s != null ) {
-				return Name.Equals( s.Name ) &&
-            			Number.Equals( s.Number ) &&
-            			Lang.Equals( s.Lang );
+			if ( s.GetType() == typeof( Sequence ) ) {
+				if( ( Name == ( ( Sequence )s ).Name ) &&
+				   	( Number == ( ( Sequence )s ).Number ) ) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
 			}
-			return false;
         }
 		#endregion
 		

@@ -46,10 +46,18 @@ namespace FB2.Description
 		#region Открытые Вспомогательные методы класса
 		public virtual bool Equals( Description d )
         {
-            return TitleInfo.Equals( d.TitleInfo ) &&
-            		ScrTitleInfo.Equals( d.ScrTitleInfo ) &&
-            		PublishInfo.Equals( d.PublishInfo ) &&
-            		CustomInfo.Equals( d.CustomInfo );
+			if( d.GetType() == typeof( Description) ) {
+                if( ( TitleInfo == ( ( Description )d ).TitleInfo ) && 
+				   	( ScrTitleInfo == ( ( Description )d ).ScrTitleInfo ) &&
+				   	( PublishInfo == ( ( Description )d ).PublishInfo ) &&
+				   	( CustomInfo == ( ( Description )d ).CustomInfo ) ) {
+					return true;
+				} else {
+					return false;
+				}
+        	} else {
+        		return false;
+        	}
         }
 		#endregion
 		

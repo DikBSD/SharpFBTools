@@ -13,17 +13,17 @@ namespace FB2.Description.TitleInfo
 	/// <summary>
 	/// Description of Genre.
 	/// </summary>
-	public class Genre : IComparable
+	public class Genre
 	{
 		#region Закрытые данные класса
 		private uint 	m_unMath	= 100;
-        private string 	m_sName		= "";
+        private string 	m_sName		= null;
         #endregion
         
 		#region Конструкторы класса
 		public Genre()
         {
-            m_sName 	= "";
+            m_sName 	= null;
 			m_unMath 	= 100;
         }
 		public Genre( string sName, uint unMath )
@@ -45,23 +45,18 @@ namespace FB2.Description.TitleInfo
         #endregion
         
         #region Открытые Вспомогательные методы класса
-        public int CompareTo( object g )
-        {
-            if( g.GetType() == typeof( Genre) ) {
-                if( ( Name == ( ( Genre )g ).Name ) && ( Math == ( ( Genre )g ).Math ) ) {
-					return 0;
-				} else {
-					return -1;
-				}
-        	} else {
-        		throw new ArgumentException("Объект сравнения не является Жанром.");
-        	}
-        }
-        
         public virtual bool Equals( Genre g )
         {
-			return Name.Equals( g.Name ) &&
-            		Math.Equals( g.Math );
+			if( g.GetType() == typeof( Genre) ) {
+                if( ( Name == ( ( Genre )g ).Name ) &&
+        		   	( Math == ( ( Genre )g ).Math ) ) {
+					return true;
+				} else {
+					return false;
+				}
+        	} else {
+        		return false;
+        	}
         }
         #endregion
         

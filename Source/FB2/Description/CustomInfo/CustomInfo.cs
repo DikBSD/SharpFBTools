@@ -44,7 +44,15 @@ namespace FB2.Description.CustomInfo
 		#region Открытые Вспомогательные методы класса
 		public virtual bool Equals( CustomInfo c )
         {
-            return InfoType.Equals( c.InfoType );
+			if ( c.GetType() == typeof( CustomInfo ) ) {
+				if( InfoType == ( ( CustomInfo )c ).InfoType ) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
         }
 		#endregion
 		

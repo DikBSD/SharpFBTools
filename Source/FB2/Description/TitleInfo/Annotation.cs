@@ -18,9 +18,9 @@ namespace FB2.Description.TitleInfo
 	public class Annotation : IAnnotationType
 	{
 		#region Закрытые данные класса
-        private string m_sValue	= "";
-		private string m_sId	= "";
-        private string m_sLang	= "";
+        private string m_sValue	= null;
+		private string m_sId	= null;
+        private string m_sLang	= null;
         #endregion
 		
 		#region Конструкторы класса
@@ -37,30 +37,23 @@ namespace FB2.Description.TitleInfo
         {
             m_sValue	= sValue;
 			m_sId		= sId;
-			m_sLang		= "";
+			m_sLang		= null;
         }
         #endregion
 		
         #region Открытые Вспомогательные методы класса
-		public int CompareTo( object a ) {
+		public virtual bool Equals( Annotation a ) {
 			if ( a.GetType() == typeof( Annotation ) ) {
 				if( ( Value == ( ( Annotation )a ).Value ) &&
         		   	( Id == ( ( Annotation )a ).Id ) &&
         		  	( Lang == ( ( Annotation )a ).Lang ) ) {
-					return 0;
+					return true;
 				} else {
-					return -1;
+					return false;
 				}
 			} else {
-				throw new ArgumentException("Объект сравнения не явялется Аннотацией.");
+				return false;
 			}
-        }
-        
-        public virtual bool Equals( Annotation a )
-        {
-			return Value.Equals( a.Value ) &&
-            		Id.Equals( a.Id ) &&
-            		Lang.Equals( a.Lang );
         }
 		#endregion
         

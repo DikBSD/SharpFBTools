@@ -13,7 +13,7 @@ namespace FB2.Description.TitleInfo
 	/// <summary>
 	/// Description of IAnnotationType.
 	/// </summary>
-	public interface IAnnotationType : IComparable
+	public interface IAnnotationType
     {
 		string Value { get; set; }	// значение типа
 		string Id { set; get; } 	// атрибут типа

@@ -77,65 +77,68 @@ namespace FB2.Description.Common
 		#endregion
 				
 		#region Открытые методы класса
-		public int CompareTo( object a ) {
-            if( a.GetType() == typeof( Author ) ) {
-                if( ID == ( (Author)a ).ID ) {
-					return 0;
-				} else {
-					return -1;
-				}
-			} else {
-				throw new ArgumentException("Объект сравнения не явялется Автором.");
-			}
-        }
-		
-		public int CompareFull( object a ) {
-            if( a.GetType() == typeof( Author ) ) {
-                if( FirstName == ( (Author)a ).FirstName &&
-                	MiddleName == ( (Author)a ).MiddleName &&
-                	LastName == ( (Author)a ).LastName &&
-                	NickName == ( (Author)a ).NickName &&
-                	HomePages == ( (Author)a ).HomePages &&
-                	Emails == ( (Author)a ).Emails &&
-                	ID == ( (Author)a ).ID ) {
-					return 0;
-				} else {
-					return -1;
-				}
-			} else {
-				throw new ArgumentException("Объект сравнения не явялется Автором.");
-			}
-        }
-		
 		public virtual bool Equals( Author a )
         {
-			bool bThisIsNull = ( m_tFirstName == null && m_tMiddleName == null && m_tLastName == null && 
-			                  	m_tNickName == null && m_ilsHomePages == null && m_ilsEmails == null &&
-			                 	m_sID == null );
-			if( bThisIsNull || a == null ) {
-				return true;
-			} else if( !bThisIsNull && a != null ) {
-				return FirstName.Equals( a.FirstName ) &&
-            			MiddleName.Equals( a.MiddleName ) &&
-            			LastName.Equals( a.LastName ) &&
-						NickName.Equals( a.NickName ) &&
-          		  		HomePages.Equals( a.HomePages ) &&
-           		 		Emails.Equals( a.Emails ) &&
-						ID.Equals( a.ID );
+			if ( a.GetType() == typeof( Author ) ) {
+				bool bRet = ( FirstName.Equals( a.FirstName ) ) &&
+							( MiddleName.Equals( a.MiddleName ) ) &&
+							( LastName.Equals( a.LastName ) ) &&
+							( NickName.Equals( a.NickName ) ) &&
+							( ID.Equals( a.ID ) );
+				if( HomePages.Count != a.HomePages.Count ) {
+                	bRet = false;
+                } else {
+                	for( int i=0; i!=HomePages.Count; ++i  ) {
+						bRet &= ( HomePages[i] == a.HomePages[i] );
+               		}
+                }
+				if( Emails.Count != a.Emails.Count ) {
+                	bRet = false;
+                } else {
+                	for( int i=0; i!=Emails.Count; ++i  ) {
+						bRet &= ( Emails[i] == a.Emails[i] );
+               		}
+                }
+				return bRet;
+			} else {
+				return false;
 			}
-			return false;
         }
+		
+		/*public virtual bool Equals( Author a )
+        {
+			if ( a.GetType() == typeof( Author ) ) {
+				if( ( FirstName == ( ( Author )a ).FirstName ) &&
+				   	( MiddleName == ( ( Author )a ).MiddleName ) &&
+				   	( LastName == ( ( Author )a ).LastName ) &&
+				   	( NickName == ( ( Author )a ).NickName ) &&
+				   	( HomePages == ( ( Author )a ).HomePages ) &&
+				   	( Emails == ( ( Author )a ).Emails ) &&
+				   	( ID == ( ( Author )a ).ID ) ) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+        }*/
 		
 		public virtual bool EqualsFromID( Author a )
         {
-			if( m_sID != null && a != null) {
-				return ID.Equals( a.ID );
+			if ( a.GetType() == typeof( Author ) ) {
+				if( ID == ( ( Author )a ).ID ) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
 			}
-			return false;
         }
 		#endregion
 		
-		#region Открытые свойства-fb2-элементы класса
+		#region Открытые свойства - fb2-элементы класса
 		public virtual TextFieldType FirstName {
             get { return m_tFirstName; }
             set { m_tFirstName = value; }

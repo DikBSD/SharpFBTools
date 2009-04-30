@@ -44,29 +44,19 @@ namespace FB2.Description.Common
 		#endregion
 		
 		#region Открытые Вспомогательные методы класса
-		public int CompareTo( object d ) {
-			if ( d.GetType() == typeof( Date ) ) {
-				if( ( Text == ( ( Date )d ).Text ) && ( Value == ( ( Date )d ).Value ) && ( Lang == ( ( Date )d ).Lang ) ) {
-					return 0;
-				} else {
-					return -1;
-				}
-			} else {
-				throw new ArgumentException("Объект сравнения не явялется Датой.");
-			}
-        }
-		
 		public virtual bool Equals( Date d )
         {
-			bool bThisIsNull = ( m_sText == null && m_sValue == null && m_sLang == null );
-			if( bThisIsNull || d == null ) {
-				return true;
-			} else if( !bThisIsNull && d != null ) {
-				return Text.Equals( d.Text ) &&
-            		Value.Equals( d.Value ) &&
-            		Lang.Equals( d.Lang );
+			if ( d.GetType() == typeof( Date ) ) {
+				if( ( Text == ( ( Date )d ).Text ) &&
+				   	( Value == ( ( Date )d ).Value ) &&
+				   	( Lang == ( ( Date )d ).Lang ) ) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
 			}
-			return false;
         }
 		#endregion
 		

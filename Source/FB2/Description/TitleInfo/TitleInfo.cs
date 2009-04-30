@@ -56,17 +56,25 @@ namespace FB2.Description.TitleInfo
         #region Открытые Вспомогательные методы класса
 		public virtual bool Equals( TitleInfo t )
         {
-            return Genres.Equals( t.Genres ) &&
-            		Authors.Equals( t.Authors ) &&
-            		BookTitle.Equals( t.BookTitle ) &&
-            		Annotation.Equals( t.Annotation ) &&
-            		Keywords.Equals( t.Keywords ) &&
-            		Date.Equals( t.Date ) &&
-            		Coverpage.Equals( t.Coverpage ) &&
-            		Lang.Equals( t.Lang ) &&
-            		ScrLang.Equals( t.ScrLang ) &&
-            		Translators.Equals( t.Translators ) &&
-            		Sequences.Equals( t.Sequences );
+			if( t.GetType() == typeof( TitleInfo) ) {
+                if( ( Genres == ( ( TitleInfo )t ).Genres ) && 
+				   	( Authors == ( ( TitleInfo )t ).Authors ) &&
+				   	( BookTitle == ( ( TitleInfo )t ).BookTitle ) &&
+				   	( Annotation == ( ( TitleInfo )t ).Annotation ) &&
+				   	( Keywords == ( ( TitleInfo )t ).Keywords ) &&
+				   	( Date == ( ( TitleInfo )t ).Date ) &&
+				   	( Coverpage == ( ( TitleInfo )t ).Coverpage ) &&
+				   	( Lang == ( ( TitleInfo )t ).Lang ) &&
+				   	( ScrLang == ( ( TitleInfo )t ).ScrLang ) &&
+				   	( Translators == ( ( TitleInfo )t ).Translators ) &&
+				   	( Sequences == ( ( TitleInfo )t ).Sequences ) ) {
+					return true;
+				} else {
+					return false;
+				}
+        	} else {
+        		return false;
+        	}
         }
 		#endregion
         

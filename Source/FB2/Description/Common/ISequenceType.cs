@@ -13,7 +13,7 @@ namespace FB2.Description.Common
 	/// <summary>
 	/// Description of ISequenceType.
 	/// </summary>
-	public interface ISequenceType : IComparable
+	public interface ISequenceType
 	{
 		string Name { get; set; } // атрибут типа
         uint Number { set; get; } // атрибут типа

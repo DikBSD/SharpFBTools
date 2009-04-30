@@ -17,13 +17,13 @@ namespace FB2.Description.TitleInfo
 	public class Coverpage
 	{
 		#region Закрытые данные класса
-        private string m_sValue	= "";
+        private string m_sValue	= null;
         #endregion
         
 		#region Конструкторы класса
         public Coverpage()
 		{
-        	m_sValue = "";
+        	m_sValue = null;
 		}
         public Coverpage( string sValue )
 		{
@@ -34,7 +34,15 @@ namespace FB2.Description.TitleInfo
         #region Открытые методы класса
 		public virtual bool Equals( Coverpage c )
         {
-			return Value.Equals( c.Value );
+			if ( c.GetType() == typeof( Coverpage ) ) {
+				if( Value == ( ( Coverpage )c ).Value ) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
         }
 		#endregion
         

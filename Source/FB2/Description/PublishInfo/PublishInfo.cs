@@ -22,7 +22,7 @@ namespace FB2.Description.PublishInfo
         private	BookName		m_BookName	= null;
         private Publisher		m_Publisher	= null;
         private City			m_City		= null;
-        private string			m_sYear		= "";
+        private string			m_sYear		= null;
         private ISBN			m_ISBN		= null;
         private IList<Sequence> m_Sequences	= null;
         #endregion
@@ -44,14 +44,22 @@ namespace FB2.Description.PublishInfo
         #endregion
       
         #region Открытые Вспомогательные методы класса
-		public virtual bool Equals( PublishInfo p )
+		public virtual bool Equals( PublishInfo p  )
         {
-            return BookName.Equals( p.BookName ) &&
-            		Publisher.Equals( p.Publisher ) &&
-            		City.Equals( p.City ) &&
-            		Year.Equals( p.Year ) &&
-            		ISBN.Equals( p.ISBN ) &&
-            		Sequences.Equals( p.Sequences );
+			if( p.GetType() == typeof( PublishInfo) ) {
+                if( ( BookName == ( ( PublishInfo )p ).BookName ) && 
+				   	( Publisher == ( ( PublishInfo )p ).Publisher ) &&
+				   	( City == ( ( PublishInfo )p ).City ) &&
+				   	( Year == ( ( PublishInfo )p ).Year ) &&
+				   	( ISBN == ( ( PublishInfo )p ).ISBN ) &&
+				   	( Sequences == ( ( PublishInfo )p ).Sequences ) ) {
+					return true;
+				} else {
+					return false;
+				}
+        	} else {
+        		return false;
+        	}
         }
 		#endregion
         

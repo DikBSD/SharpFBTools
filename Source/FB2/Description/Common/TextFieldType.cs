@@ -41,19 +41,16 @@ namespace FB2.Description.Common
 		#region Открытые методы класса
 		public virtual bool Equals( TextFieldType t )
         {
-			bool bThisIsNull = ( m_sValue == null && m_sLang == null );
-			bool bTIsNull = ( t.Value == null && t.Lang == null );
-			if( bThisIsNull == bTIsNull ) {
-				return true;
-			} else {
-				// TODO Доделать проверку по каждому члену класса
-				if( !bThisIsNull && !bTIsNull ) {
-				
+			if ( t.GetType() == typeof( TextFieldType ) ) {
+				if( ( Value == ( ( TextFieldType )t ).Value ) &&
+				   	( Lang == ( ( TextFieldType )t ).Lang ) ) {
+					return true;
+				} else {
+					return false;
 				}
-				return Value.Equals( t.Value ) &&
-            			Lang.Equals( t.Lang );
+			} else {
+				return false;
 			}
-			return false;
         }
 		#endregion
 		

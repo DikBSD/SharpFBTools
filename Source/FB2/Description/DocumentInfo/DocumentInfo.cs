@@ -55,24 +55,59 @@ namespace FB2.Description.DocumentInfo
   
         #region Открытые Вспомогательные методы класса
 		public virtual bool Equals( DocumentInfo d )
-        {
-            bool b1 = Authors.Equals( d.Authors );
-            bool b2 = ProgramUsed.Equals( d.ProgramUsed );
-           	bool b3 = Date.Equals( d.Date );
-            bool b4 = SrcUrls.Equals( d.SrcUrls );
-            bool b5 = SrcOcr.Equals( d.SrcOcr );
-            bool b6 = ID.Equals( d.ID );
-            bool b7 = Version.Equals( d.Version );
-            bool b8 = History.Equals( d.History );
-            
-			return Authors.Equals( d.Authors ) &&
-            		ProgramUsed.Equals( d.ProgramUsed ) &&
-            		Date.Equals( d.Date ) &&
-            		SrcUrls.Equals( d.SrcUrls ) &&
-            		SrcOcr.Equals( d.SrcOcr ) &&
-            		ID.Equals( d.ID ) &&
-            		Version.Equals( d.Version ) &&
-            		History.Equals( d.History );
+        {				
+			if( d.GetType() == typeof( DocumentInfo) ) {
+				bool b = Authors.Equals( d.Authors ) ;
+             /*   bool bRet =
+                	( ProgramUsed.Value == ( ( DocumentInfo )d ).ProgramUsed.Value ) &&
+                	( ProgramUsed.Lang == ( ( DocumentInfo )d ).ProgramUsed.Lang ) &&
+				   	( Date.Text == ( ( DocumentInfo )d ).Date.Text ) &&
+                	( Date.Value == ( ( DocumentInfo )d ).Date.Value ) &&
+                	( Date.Lang == ( ( DocumentInfo )d ).Date.Lang ) &&
+				   	( SrcOcr.Value == ( ( DocumentInfo )d ).SrcOcr.Value ) &&
+                	( SrcOcr.Lang == ( ( DocumentInfo )d ).SrcOcr.Lang ) &&
+				   	( ID == ( ( DocumentInfo )d ).ID ) &&
+				   	( Version == ( ( DocumentInfo )d ).Version ) &&
+				   	( History.Value == ( ( DocumentInfo )d ).History.Value ) &&
+                	( History.Id == ( ( DocumentInfo )d ).History.Id ) &&
+                	( History.Lang == ( ( DocumentInfo )d ).History.Lang );
+                if( Authors.Count != d.Authors.Count ) {
+                	bRet = false;
+                } else {
+                	for( int i=0; i!=Authors.Count; ++i  ) {
+                		bRet &= Authors[i].FirstName.Value == d.Authors[i].FirstName.Value;
+                		bRet &= Authors[i].FirstName.Lang == d.Authors[i].FirstName.Lang;
+                		
+                		bRet &= Authors[i].MiddleName.Value == d.Authors[i].MiddleName.Value;
+                		bRet &= Authors[i].MiddleName.Lang == d.Authors[i].MiddleName.Lang;
+                		
+                		bRet &= Authors[i].LastName.Value == d.Authors[i].LastName.Value;
+                		bRet &= Authors[i].LastName.Lang == d.Authors[i].LastName.Lang;
+               		}
+                }
+                if( SrcUrls.Count != d.SrcUrls.Count ) {
+                	bRet = false;
+                } else {
+                	for( int i=0; i!=SrcUrls.Count; ++i  ) {
+                		bRet &= SrcUrls[i] == d.SrcUrls[i];
+               		}
+                }
+                	*/
+				if( ( Authors == ( ( DocumentInfo )d ).Authors ) &&
+				   	( ProgramUsed == ( ( DocumentInfo )d ).ProgramUsed ) &&
+				   	( Date == ( ( DocumentInfo )d ).Date ) &&
+				   	( SrcUrls == ( ( DocumentInfo )d ).SrcUrls ) &&
+				   	( SrcOcr == ( ( DocumentInfo )d ).SrcOcr ) &&
+				   	( ID == ( ( DocumentInfo )d ).ID ) &&
+				   	( Version == ( ( DocumentInfo )d ).Version ) &&
+				   	( History == ( ( DocumentInfo )d ).History ) ) {
+					return true;
+				} else {
+					return false;
+				}
+        	} else {
+        		return false;
+        	}
         }
 		#endregion
         
