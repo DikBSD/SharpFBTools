@@ -42,9 +42,14 @@ namespace FB2.Description.Common
 		public virtual bool Equals( TextFieldType t )
         {
 			bool bThisIsNull = ( m_sValue == null && m_sLang == null );
-			if( bThisIsNull || t == null ) {
+			bool bTIsNull = ( t.Value == null && t.Lang == null );
+			if( bThisIsNull == bTIsNull ) {
 				return true;
-			} else if( !bThisIsNull && t != null ) {
+			} else {
+				// TODO Доделать проверку по каждому члену класса
+				if( !bThisIsNull && !bTIsNull ) {
+				
+				}
 				return Value.Equals( t.Value ) &&
             			Lang.Equals( t.Lang );
 			}
