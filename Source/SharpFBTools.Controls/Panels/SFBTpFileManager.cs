@@ -13,7 +13,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using FB2.FB2Parsers;
+using FB2.Common;
 using FB2.Description;
+using FB2.Description.TitleInfo;
+using FB2.Description.DocumentInfo;
+using FB2.Description.PublishInfo;
+using FB2.Description.CustomInfo;
+using FB2.Description.Common;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -40,6 +46,8 @@ namespace SharpFBTools.Controls.Panels
 			FB2DescriptionParser fb2Parser = new FB2DescriptionParser();
 			Description fbDoc = (Description) fb2Parser.Parse( "d:\\1.fb2" );
 //			string s = fbDoc.TitleInfo.Lang;
+			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser();
+			DocumentInfo di = fb2p.GetDocumentInfo( "d:\\1.fb2" );
 		}
 		
 		#region Обработчики событий

@@ -71,6 +71,7 @@
     <Compile Include="Description\TitleInfo\TitleInfo.cs" />
     <Compile Include="FB2Parsers\AnnotationTypeData.cs" />
     <Compile Include="FB2Parsers\FB2DescriptionParser.cs" />
+    <Compile Include="FB2Parsers\FB2Parser.cs" />
     <Compile Include="FB2Parsers\TextFieldTypeData.cs" />
   </ItemGroup>
 </Project>
