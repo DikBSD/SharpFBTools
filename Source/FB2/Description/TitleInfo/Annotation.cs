@@ -41,7 +41,7 @@ namespace FB2.Description.TitleInfo
         }
         #endregion
 		
-        #region Открытые методы класса
+        #region Открытые Вспомогательные методы класса
 		public int CompareTo( object a ) {
 			if ( a.GetType() == typeof( Annotation ) ) {
 				if( ( Value == ( ( Annotation )a ).Value ) &&
@@ -54,6 +54,13 @@ namespace FB2.Description.TitleInfo
 			} else {
 				throw new ArgumentException("Объект сравнения не явялется Аннотацией.");
 			}
+        }
+        
+        public virtual bool Equals( Annotation a )
+        {
+			return Value.Equals( a.Value ) &&
+            		Id.Equals( a.Id ) &&
+            		Lang.Equals( a.Lang );
         }
 		#endregion
         

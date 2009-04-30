@@ -16,8 +16,8 @@ namespace FB2.Description.TitleInfo
 	public class Genre : IComparable
 	{
 		#region Закрытые данные класса
-		private uint 	m_unMath;
-        private string 	m_sName;
+		private uint 	m_unMath	= 100;
+        private string 	m_sName		= "";
         #endregion
         
 		#region Конструкторы класса
@@ -56,6 +56,12 @@ namespace FB2.Description.TitleInfo
         	} else {
         		throw new ArgumentException("Объект сравнения не является Жанром.");
         	}
+        }
+        
+        public virtual bool Equals( Genre g )
+        {
+			return Name.Equals( g.Name ) &&
+            		Math.Equals( g.Math );
         }
         #endregion
         

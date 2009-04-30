@@ -31,6 +31,13 @@ namespace FB2.Description.TitleInfo
 		}
         #endregion
 		
+        #region Открытые методы класса
+		public virtual bool Equals( Coverpage c )
+        {
+			return Value.Equals( c.Value );
+        }
+		#endregion
+        
 		#region Открытые свойства класса - элементы fb2-элементов
         public virtual string Value {
             get { return m_sValue; }

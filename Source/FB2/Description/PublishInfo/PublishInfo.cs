@@ -19,11 +19,11 @@ namespace FB2.Description.PublishInfo
 	public class PublishInfo
 	{
 		#region Закрытые данные класса
-        private BookName m_BookName		= null;
-        private Publisher m_Publisher	= null;
-        private City m_City		= null;
-        private string m_sYear	= null;
-        private ISBN m_ISBN		= null;
+        private	BookName		m_BookName	= null;
+        private Publisher		m_Publisher	= null;
+        private City			m_City		= null;
+        private string			m_sYear		= "";
+        private ISBN			m_ISBN		= null;
         private IList<Sequence> m_Sequences	= null;
         #endregion
         
@@ -36,12 +36,24 @@ namespace FB2.Description.PublishInfo
         {
             m_BookName	= bookName;
             m_Publisher = publisher;
-            m_City	= city;
-            m_sYear	= sYear;
-            m_ISBN	= isbn;
+            m_City		= city;
+            m_sYear		= sYear;
+            m_ISBN		= isbn;
             m_Sequences	= sequences;
         }
         #endregion
+      
+        #region Открытые Вспомогательные методы класса
+		public virtual bool Equals( PublishInfo p )
+        {
+            return BookName.Equals( p.BookName ) &&
+            		Publisher.Equals( p.Publisher ) &&
+            		City.Equals( p.City ) &&
+            		Year.Equals( p.Year ) &&
+            		ISBN.Equals( p.ISBN ) &&
+            		Sequences.Equals( p.Sequences );
+        }
+		#endregion
         
         #region Открытые свойства класса - fb2-элементы
         public virtual BookName BookName

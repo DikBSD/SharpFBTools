@@ -20,11 +20,11 @@ namespace FB2.Description
 	public class Description
 	{
 		#region Закрытые данные класса
-        private TitleInfo.TitleInfo			m_TitleInfo;
-        private TitleInfo.TitleInfo			m_ScrTitleInfo;
-        private DocumentInfo.DocumentInfo	m_DocumentInfo;
-        private PublishInfo.PublishInfo		m_PublishInfo;
-        private CustomInfo.CustomInfo		m_CustomInfo;
+        private TitleInfo.TitleInfo			m_TitleInfo		= null;
+        private TitleInfo.TitleInfo			m_ScrTitleInfo	= null;
+        private DocumentInfo.DocumentInfo	m_DocumentInfo	= null;
+        private PublishInfo.PublishInfo		m_PublishInfo	= null;
+        private CustomInfo.CustomInfo		m_CustomInfo	= null;
         #endregion
         
 		#region Конструкторы класса
@@ -46,9 +46,9 @@ namespace FB2.Description
 		#region Открытые Вспомогательные методы класса
 		public virtual bool Equals( Description d )
         {
-            return PublishInfo.Equals( d.PublishInfo ) &&
+            return TitleInfo.Equals( d.TitleInfo ) &&
             		ScrTitleInfo.Equals( d.ScrTitleInfo ) &&
-                	TitleInfo.Equals( d.TitleInfo ) &&
+            		PublishInfo.Equals( d.PublishInfo ) &&
             		CustomInfo.Equals( d.CustomInfo );
         }
 		#endregion

@@ -13,7 +13,7 @@ namespace FB2.Description.Common
 	/// <summary>
 	/// Description of IDateType.
 	/// </summary>
-	public interface IDateType
+	public interface IDateType : IComparable
 	{
 		string Text { set; get; } 	// значение типа
 		string Value { get; set; }	// атрибут типа

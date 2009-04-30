@@ -16,6 +16,7 @@ namespace FB2.Description.DocumentInfo
 	/// </summary>
 	public class History : Annotation
 	{
+		#region Конструкторы класса
 		public History()
 		{
 		}
@@ -27,5 +28,6 @@ namespace FB2.Description.DocumentInfo
 			base( sText, sId )
         {
         }
+		#endregion
 	}
 }

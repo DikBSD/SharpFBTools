@@ -17,16 +17,16 @@ namespace FB2.Description.Common
 	public class Sequence : ISequenceType
 	{
 		#region Закрытые данные класса
-        private string m_sName	= "";
-        private uint m_unNumber;
-        private string m_sLang	= "";
+        private string	m_sName		= null;
+        private uint	m_unNumber	= 0;
+        private string	m_sLang		= null;
 		#endregion
 		
 		#region Конструкторы класса
 		public Sequence()
 		{
-			m_sName		= "";
-			m_sLang		= "";
+			m_sName		= null;
+			m_sLang		= null;
 		}
 		public Sequence( string sName, uint unNumber, string sLang )
         {
@@ -37,7 +37,7 @@ namespace FB2.Description.Common
         public Sequence( string sName )
         {
             m_sName 	= sName;
-			m_sLang		= "";
+			m_sLang		= null;
         }
 		#endregion
 		
@@ -52,6 +52,19 @@ namespace FB2.Description.Common
 			} else {
 				throw new ArgumentException("Объект сравнения не явялется Серией.");
 			}
+        }
+		
+		public virtual bool Equals( Sequence s )
+        {
+			bool bThisIsNull = ( m_sName == null && m_sLang == null );
+			if( bThisIsNull || s == null ) {
+				return true;
+			} else if( !bThisIsNull && s != null ) {
+				return Name.Equals( s.Name ) &&
+            			Number.Equals( s.Number ) &&
+            			Lang.Equals( s.Lang );
+			}
+			return false;
         }
 		#endregion
 		

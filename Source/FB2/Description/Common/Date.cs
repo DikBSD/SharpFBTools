@@ -14,12 +14,12 @@ namespace FB2.Description.Common
 	/// <summary>
 	/// Description of Date.
 	/// </summary>
-	public class Date : IDateType, IComparable
+	public class Date : IDateType
 	{
 		#region Закрытые данные класса
-		private string m_sText;
-		private string m_sValue;
-        private string m_sLang	= "";
+		private string m_sText	= null;
+		private string m_sValue	= null;
+        private string m_sLang	= null;
         #endregion
         
         #region Конструкторы класса
@@ -43,7 +43,7 @@ namespace FB2.Description.Common
         }
 		#endregion
 		
-		#region Открытые методы класса
+		#region Открытые Вспомогательные методы класса
 		public int CompareTo( object d ) {
 			if ( d.GetType() == typeof( Date ) ) {
 				if( ( Text == ( ( Date )d ).Text ) && ( Value == ( ( Date )d ).Value ) && ( Lang == ( ( Date )d ).Lang ) ) {
@@ -54,6 +54,19 @@ namespace FB2.Description.Common
 			} else {
 				throw new ArgumentException("Объект сравнения не явялется Датой.");
 			}
+        }
+		
+		public virtual bool Equals( Date d )
+        {
+			bool bThisIsNull = ( m_sText == null && m_sValue == null && m_sLang == null );
+			if( bThisIsNull || d == null ) {
+				return true;
+			} else if( !bThisIsNull && d != null ) {
+				return Text.Equals( d.Text ) &&
+            		Value.Equals( d.Value ) &&
+            		Lang.Equals( d.Lang );
+			}
+			return false;
         }
 		#endregion
 		

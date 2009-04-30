@@ -18,17 +18,17 @@ namespace FB2.Description.TitleInfo
 	public class TitleInfo : ITitleInfoType
 	{
 		#region Закрытые данные класса
-        private IList<Genre>	m_Genres;
-		private IList<Author>	m_Authors;
-        private BookTitle		m_BookTitle;
-		private Annotation		m_Annotation;
-        private Keywords		m_Keywords;
-		private Date			m_Date;
-		private Coverpage		m_Coverpage;
-        private string			m_Lang;
-        private string			m_ScrLang;
-        private IList<Author>	m_Translators;
-        private IList<Sequence>	m_Sequences;
+        private IList<Genre>	m_Genres		= null;
+		private IList<Author>	m_Authors		= null;
+        private BookTitle		m_BookTitle		= null;
+		private Annotation		m_Annotation	= null;
+        private Keywords		m_Keywords		= null;
+		private Date			m_Date			= null;
+		private Coverpage		m_Coverpage		= null;
+        private string			m_Lang			= null;
+        private string			m_ScrLang		= null;
+        private IList<Author>	m_Translators	= null;
+        private IList<Sequence>	m_Sequences		= null;
         #endregion
         
 		#region Конструкторы класса
@@ -39,19 +39,36 @@ namespace FB2.Description.TitleInfo
                          Keywords keywords, Date date, Coverpage coverpage, string lang, string scrLang,
                          IList<Author> translators, IList<Sequence> sequences )
         {
-            m_Genres = genres;
-            m_Authors = authors;
-            m_BookTitle = bookTitle;
-            m_Annotation = annotation;
-            m_Keywords = keywords;
-            m_Date = date;
-            m_Coverpage	= coverpage;
-            m_Lang = lang;
-            m_ScrLang = scrLang;
-            m_Translators = translators;
-            m_Sequences = sequences;
+            m_Genres 		= genres;
+            m_Authors 		= authors;
+            m_BookTitle 	= bookTitle;
+            m_Annotation 	= annotation;
+            m_Keywords 		= keywords;
+            m_Date 			= date;
+            m_Coverpage		= coverpage;
+            m_Lang 			= lang;
+            m_ScrLang 		= scrLang;
+            m_Translators 	= translators;
+            m_Sequences 	= sequences;
         }
         #endregion
+      
+        #region Открытые Вспомогательные методы класса
+		public virtual bool Equals( TitleInfo t )
+        {
+            return Genres.Equals( t.Genres ) &&
+            		Authors.Equals( t.Authors ) &&
+            		BookTitle.Equals( t.BookTitle ) &&
+            		Annotation.Equals( t.Annotation ) &&
+            		Keywords.Equals( t.Keywords ) &&
+            		Date.Equals( t.Date ) &&
+            		Coverpage.Equals( t.Coverpage ) &&
+            		Lang.Equals( t.Lang ) &&
+            		ScrLang.Equals( t.ScrLang ) &&
+            		Translators.Equals( t.Translators ) &&
+            		Sequences.Equals( t.Sequences );
+        }
+		#endregion
         
         #region Открытые свойства класса - fb2-элементы
          public virtual IList<Genre> Genres

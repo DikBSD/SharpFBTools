@@ -42,12 +42,11 @@ namespace SharpFBTools.Controls.Panels
 			} else {
 				richTxtBoxDescTemplates.Text = "Не найден файл описания Шаблонов переименования: \""+sTDPath+"\"";
 			}
-			
-			FB2DescriptionParser fb2Parser = new FB2DescriptionParser();
-			Description fbDoc = (Description) fb2Parser.Parse( "d:\\1.fb2" );
-//			string s = fbDoc.TitleInfo.Lang;
+
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser();
 			DocumentInfo di = fb2p.GetDocumentInfo( "d:\\1.fb2" );
+			DocumentInfo di2 = fb2p.GetDocumentInfo( "d:\\1.fb2" );
+			bool b1 = di.Equals(di2);
 		}
 		
 		#region Обработчики событий

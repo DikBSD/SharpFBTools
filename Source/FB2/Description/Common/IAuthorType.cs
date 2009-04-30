@@ -15,7 +15,7 @@ namespace FB2.Description.Common
 	/// <summary>
 	/// Description of IAuthorType.
 	/// </summary>
-	public interface IAuthorType
+	public interface IAuthorType : IComparable
 	{
 		TextFieldType FirstName { get; set; }
         TextFieldType MiddleName { set; get; }

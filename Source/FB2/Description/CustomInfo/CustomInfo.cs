@@ -17,7 +17,7 @@ namespace FB2.Description.CustomInfo
 	public class CustomInfo : TextFieldType
 	{
 		#region Закрытые данные класса
-		private string m_sInfoType	= "";
+		private string m_sInfoType	= null;
 		#endregion
 		
 		#region Конструкторы класса
@@ -38,6 +38,13 @@ namespace FB2.Description.CustomInfo
 			base( "", "" )
         {
 			m_sInfoType	= sInfoType;
+        }
+		#endregion
+	
+		#region Открытые Вспомогательные методы класса
+		public virtual bool Equals( CustomInfo c )
+        {
+            return InfoType.Equals( c.InfoType );
         }
 		#endregion
 		

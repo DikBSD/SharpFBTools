@@ -17,15 +17,15 @@ namespace FB2.Description.Common
 	public class TextFieldType : ITextFieldType
 	{
 		#region Закрытые данные класса
-		private string m_sValue	= "";
-		private string m_sLang	= "";
+		private string m_sValue	= null;
+		private string m_sLang	= null;
 		#endregion
 		
 		#region Конструкторы класса
 		public TextFieldType()
 		{
-			m_sValue	= "";
-        	m_sLang		= "";
+			m_sValue	= null;
+        	m_sLang		= null;
 		}
 		public TextFieldType( string sValue, string sLang )
         {
@@ -35,7 +35,20 @@ namespace FB2.Description.Common
         public TextFieldType( string sValue )
         {
             m_sValue	= sValue;
-        	m_sLang		= "";
+        }
+		#endregion
+
+		#region Открытые методы класса
+		public virtual bool Equals( TextFieldType t )
+        {
+			bool bThisIsNull = ( m_sValue == null && m_sLang == null );
+			if( bThisIsNull || t == null ) {
+				return true;
+			} else if( !bThisIsNull && t != null ) {
+				return Value.Equals( t.Value ) &&
+            			Lang.Equals( t.Lang );
+			}
+			return false;
         }
 		#endregion
 		

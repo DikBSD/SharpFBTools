@@ -17,77 +17,65 @@ namespace FB2.Description.Common
 	/// <summary>
 	/// Description of Author.
 	/// </summary>
-	public class Author : IAuthorType, IComparable
+	public class Author : IAuthorType
 	{
 		#region Закрытые данные класса
-        private TextFieldType	m_sFirstName	= null;
-        private TextFieldType	m_sMiddleName	= null;
-        private TextFieldType	m_sLastName		= null;
-        private TextFieldType	m_sNickName		= null;
-        private IList<string> m_lisHomePages = null;
-        private IList<string> m_lisEmails	 = null;
-        private string	m_sID			 = "";
+        private TextFieldType	m_tFirstName	= null;
+        private TextFieldType	m_tMiddleName	= null;
+        private TextFieldType	m_tLastName		= null;
+        private TextFieldType	m_tNickName		= null;
+        private IList<string>	m_ilsHomePages	= null;
+        private IList<string>	m_ilsEmails		= null;
+        private string			m_sID			= null;
 		#endregion
 		
 		#region Конструкторы класса
 		public Author()
 		{
 		}
-		public Author( TextFieldType sFirstName, TextFieldType sMiddleName, TextFieldType sLastName, TextFieldType sNickName,
-		              IList<string> lisHomePages, IList<string> lisEmails, string sID )
+		public Author( TextFieldType tFirstName, TextFieldType tMiddleName, TextFieldType tLastName, TextFieldType tNickName,
+		              IList<string> ilsHomePages, IList<string> ilsEmails, string sID )
         {
             // все данные об Авторе
-			m_sFirstName	= sFirstName;
-            m_sMiddleName	= sMiddleName;
-            m_sLastName		= sLastName;
-            m_sNickName		= sNickName;
-            m_lisHomePages	= lisHomePages;
-            m_lisEmails		= lisEmails;
+			m_tFirstName	= tFirstName;
+            m_tMiddleName	= tMiddleName;
+            m_tLastName		= tLastName;
+            m_tNickName		= tNickName;
+            m_ilsHomePages	= ilsHomePages;
+            m_ilsEmails		= ilsEmails;
             m_sID			= sID;
         }
-		public Author( TextFieldType sFirstName, TextFieldType sMiddleName, TextFieldType sLastName, TextFieldType sNickName,
-		              IList<string> lisHomePages, IList<string> lisEmails )
+		public Author( TextFieldType tFirstName, TextFieldType tMiddleName, TextFieldType tLastName, TextFieldType tNickName,
+		              IList<string> ilsHomePages, IList<string> ilsEmails )
         {
             // все данные об Авторе без его id
-			m_sFirstName	= sFirstName;
-            m_sMiddleName	= sMiddleName;
-            m_sLastName		= sLastName;
-            m_sNickName		= sNickName;
-            m_lisHomePages	= lisHomePages;
-            m_lisEmails		= lisEmails;
+			m_tFirstName	= tFirstName;
+            m_tMiddleName	= tMiddleName;
+            m_tLastName		= tLastName;
+            m_tNickName		= tNickName;
+            m_ilsHomePages	= ilsHomePages;
+            m_ilsEmails		= ilsEmails;
         }
-		public Author( TextFieldType sFirstName, TextFieldType sMiddleName, TextFieldType sLastName, string sID )
+		public Author( TextFieldType tFirstName, TextFieldType tMiddleName, TextFieldType tLastName, string sID )
         {
             // только ФИО Автора
-			m_sFirstName	= sFirstName;
-            m_sMiddleName	= sMiddleName;
-            m_sLastName		= sLastName;
+			m_tFirstName	= tFirstName;
+            m_tMiddleName	= tMiddleName;
+            m_tLastName		= tLastName;
         }
-		public Author( TextFieldType sFirstName, TextFieldType sLastName )
+		public Author( TextFieldType tFirstName, TextFieldType tLastName )
         {
             // только Имя и Фамилия Автора
-			m_sFirstName	= sFirstName;
-            m_sLastName		= sLastName;
+			m_tFirstName	= tFirstName;
+            m_tLastName		= tLastName;
         }
-		public Author( TextFieldType sNickName )
+		public Author( TextFieldType tNickName )
         {
             // только Ник Автора
-			m_sNickName = sNickName;
+			m_tNickName = tNickName;
         }
 		#endregion
-		
-		#region Закрытые Вспомогательные методы класса
-		private string CalculateMD5Hash( string sString ) {
-            MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] hash = md5.ComputeHash( Encoding.UTF8.GetBytes( sString ) );
-            StringBuilder sb = new StringBuilder();
-            for( int i=0; i!=hash.Length; ++i) {
-                sb.Append( hash[i].ToString( "x2" ) );
-            }
-            return sb.ToString();
-        }
-		#endregion
-		
+				
 		#region Открытые методы класса
 		public int CompareTo( object a ) {
             if( a.GetType() == typeof( Author ) ) {
@@ -119,46 +107,68 @@ namespace FB2.Description.Common
 			}
         }
 		
+		public virtual bool Equals( Author a )
+        {
+			bool bThisIsNull = ( m_tFirstName == null && m_tMiddleName == null && m_tLastName == null && 
+			                  	m_tNickName == null && m_ilsHomePages == null && m_ilsEmails == null &&
+			                 	m_sID == null );
+			if( bThisIsNull || a == null ) {
+				return true;
+			} else if( !bThisIsNull && a != null ) {
+				return FirstName.Equals( a.FirstName ) &&
+            			MiddleName.Equals( a.MiddleName ) &&
+            			LastName.Equals( a.LastName ) &&
+						NickName.Equals( a.NickName ) &&
+          		  		HomePages.Equals( a.HomePages ) &&
+           		 		Emails.Equals( a.Emails ) &&
+						ID.Equals( a.ID );
+			}
+			return false;
+        }
+		
+		public virtual bool EqualsFromID( Author a )
+        {
+			if( m_sID != null && a != null) {
+				return ID.Equals( a.ID );
+			}
+			return false;
+        }
 		#endregion
 		
 		#region Открытые свойства-fb2-элементы класса
 		public virtual TextFieldType FirstName {
-            get { return m_sFirstName; }
-            set { m_sFirstName = value; }
+            get { return m_tFirstName; }
+            set { m_tFirstName = value; }
         }
 
         public virtual TextFieldType MiddleName {
-            get { return m_sMiddleName; }
-            set { m_sMiddleName = value; }
+            get { return m_tMiddleName; }
+            set { m_tMiddleName = value; }
         }
 
         public virtual TextFieldType LastName {
-            get { return m_sLastName; }
-            set { m_sLastName = value; }
+            get { return m_tLastName; }
+            set { m_tLastName = value; }
         }
 
         public virtual TextFieldType NickName {
-            get { return m_sNickName; }
-            set { m_sNickName = value; }
+            get { return m_tNickName; }
+            set { m_tNickName = value; }
         }
 
         public virtual IList<string> HomePages {
-            get { return m_lisHomePages; }
-            set { m_lisHomePages = value; }
+            get { return m_ilsHomePages; }
+            set { m_ilsHomePages = value; }
         }
 
         public virtual IList<string> Emails {
-            get { return m_lisEmails; }
-            set { m_lisEmails = value; }
+            get { return m_ilsEmails; }
+            set { m_ilsEmails = value; }
         }
 
         public virtual string ID {
-            get {
-                if( m_sID == null ) {
-                    m_sID = CalculateMD5Hash( String.Format("{0} {1} {2} {3}", FirstName, MiddleName, LastName, NickName ).ToLower() );
-                }
-                return m_sID;
-            } set {
+            get { return m_sID; }
+            set {
                 if( m_sID == null ) {
                     m_sID = value;
                 }
