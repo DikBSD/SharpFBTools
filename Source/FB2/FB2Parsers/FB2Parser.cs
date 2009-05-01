@@ -31,21 +31,20 @@ namespace FB2.FB2Parsers
         #endregion
 
 		#region Конструкторы класса
-        public FB2Parser()
+        public FB2Parser( string sFB2Path )
         {
         	m_xmlDoc = new XmlDocument();
+        	m_xmlDoc.Load( sFB2Path );
+            m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
+            m_NsManager.AddNamespace( "fb", m_aFBNamespace );
         }
         #endregion
                
         #region Закрытые вспомогательные основные методы класса
-        private TitleInfo TitleInfo( string sFB2Path, bool bTitleInfo )
+        private TitleInfo TitleInfo( bool bTitleInfo )
         {
         	// извлечение информации по title-info
         	#region Код
-        	m_xmlDoc.Load( sFB2Path );
-            m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
-            m_NsManager.AddNamespace( "fb", m_aFBNamespace );
-            
         	XmlNode xn = null;
         	if( bTitleInfo ) {
         		m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:title-info", m_NsManager );
@@ -261,32 +260,20 @@ namespace FB2.FB2Parsers
         #endregion
         
         #region Открытые основные методы класса
-        public TitleInfo GetTitleInfo( string sFB2Path )
+        public TitleInfo GetTitleInfo()
         {
-        	m_xmlDoc.Load( sFB2Path );
-            m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
-            m_NsManager.AddNamespace( "fb", m_aFBNamespace );
-            
-            return TitleInfo( sFB2Path, true );
+            return TitleInfo( true );
         }
         
-        public TitleInfo GetSourceTitleInfo( string sFB2Path )
+        public TitleInfo GetSourceTitleInfo()
         {
-        	m_xmlDoc.Load( sFB2Path );
-            m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
-            m_NsManager.AddNamespace( "fb", m_aFBNamespace );
-            
-            return TitleInfo( sFB2Path, false );
+            return TitleInfo( false );
         }
         
-        public DocumentInfo GetDocumentInfo( string sFB2Path )
+        public DocumentInfo GetDocumentInfo()
         {
             // извлечение информации по document-info
         	#region Код
-        	m_xmlDoc.Load( sFB2Path );
-            m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
-            m_NsManager.AddNamespace( "fb", m_aFBNamespace );
-            
         	XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:document-info", m_NsManager );
             if( xn == null ) {
                 return null;
@@ -349,14 +336,10 @@ namespace FB2.FB2Parsers
             #endregion
         }
         
-        public PublishInfo GetPublishInfo( string sFB2Path )
+        public PublishInfo GetPublishInfo()
         {
         	// извлечение информации по publish-info
         	#region Код
-        	m_xmlDoc.Load( sFB2Path );
-            m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
-            m_NsManager.AddNamespace( "fb", m_aFBNamespace );
-            
             XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:publish-info", m_NsManager );
             if( xn == null ) {
                 return null;
@@ -395,14 +378,10 @@ namespace FB2.FB2Parsers
             #endregion
         }
         
-        public CustomInfo GetCustomInfo( string sFB2Path )
+        public CustomInfo GetCustomInfo()
         {
             // извлечение информации по custom-info
         	#region Код
-        	m_xmlDoc.Load( sFB2Path );
-            m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
-            m_NsManager.AddNamespace( "fb", m_aFBNamespace );
-            
         	XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:custom-info", m_NsManager );
             if( xn == null ) {
                 return null;

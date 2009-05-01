@@ -43,8 +43,8 @@ namespace SharpFBTools.Controls.Panels
 				richTxtBoxDescTemplates.Text = "Не найден файл описания Шаблонов переименования: \""+sTDPath+"\"";
 			}
 
-			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser();
-			DocumentInfo di = fb2p.GetDocumentInfo( "d:\\1.fb2" );
+			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
+			DocumentInfo di = fb2p.GetDocumentInfo();
 			string sID = di.ID;
 		}
 		
