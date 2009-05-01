@@ -44,6 +44,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
+			TitleInfo ti = fb2p.GetTitleInfo();
 			DocumentInfo di = fb2p.GetDocumentInfo();
 			string sID = di.ID;
 		}

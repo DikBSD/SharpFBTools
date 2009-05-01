@@ -144,6 +144,7 @@ namespace FB2.FB2Parsers
                 sequences = new List<Sequence>();
                 foreach( XmlNode node in xmlNodes ) {
                    sequences.Add( GetSequence(node) );
+                   GetSequences( node, sequences );
                 }
             }
 
@@ -270,6 +271,7 @@ namespace FB2.FB2Parsers
                 sequences = new List<Sequence>();
                 foreach( XmlNode node in xmlNodes ) {
                     sequences.Add( GetSequence( node ) );
+                    GetSequences( node, sequences );
                 }
             }
 
@@ -365,7 +367,7 @@ namespace FB2.FB2Parsers
         
         private Sequence GetSequence( XmlNode node )
         {
-            // извлечение информации по author
+            // извлечение информации по sequence
             #region Код
         	Sequence sequence = null;
         	
@@ -389,6 +391,20 @@ namespace FB2.FB2Parsers
             }
             return sequence;
             #endregion
+        }
+        
+        private IList<Sequence> GetSequences( XmlNode xn, IList<Sequence> sequences ) {
+        	// извлечение информации по вложенным sequence в sequence
+        	#region Код
+        	XmlNodeList xmlNodes = xn.SelectNodes("./fb:sequence", m_NsManager);
+            if( xmlNodes.Count > 0 ) {
+                foreach( XmlNode node in xmlNodes ) {
+                    sequences.Add( GetSequence( node ) );
+                    GetSequences( node, sequences );
+                }
+            }
+        	return sequences;
+        	#endregion
         }
         #endregion
 	}
