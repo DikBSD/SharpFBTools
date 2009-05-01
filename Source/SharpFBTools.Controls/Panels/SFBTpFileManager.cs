@@ -30,9 +30,7 @@ namespace SharpFBTools.Controls.Panels
 	{
 		public SFBTpFileManager()
 		{
-			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
 			InitializeComponent();
 			cboxTemplatesPrepared.SelectedIndex = 0;
 			

@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Xml;
+using FB2.Description.DocumentInfo;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -68,8 +69,13 @@ namespace SharpFBTools.Controls.Panels
 				if( cboxUAExistArchive.SelectedIndex==0 ) {
 					File.Delete( sNewFile );
 				} else {
+					if( chBoxAddFileNameBookID.Checked ) {
+						FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
+						DocumentInfo di = fb2p.GetDocumentInfo();
+						sSufix = "_"+di.ID;
+					}
 					DateTime dt = DateTime.Now;
-					sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+					sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
 							dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
 					sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
 				}
@@ -151,8 +157,13 @@ namespace SharpFBTools.Controls.Panels
 							if( cboxExistArchive.SelectedIndex==0 ) {
 								File.Delete( sArchiveFile );
 							} else {
+								if( chBoxAddArchiveNameBookID.Checked ) {
+									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
+									DocumentInfo di = fb2p.GetDocumentInfo();
+									sSufix = "_"+di.ID;
+								}
 								DateTime dt = DateTime.Now;
-								sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+								sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
 										dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
 								sArchiveFile = sFile.Remove( sFile.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
@@ -171,8 +182,13 @@ namespace SharpFBTools.Controls.Panels
 							if( cboxExistArchive.SelectedIndex==0 ) {
 								File.Delete( sArchiveFile );
 							} else {
+								if( chBoxAddArchiveNameBookID.Checked ) {
+									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
+									DocumentInfo di = fb2p.GetDocumentInfo();
+									sSufix = "_"+di.ID;
+								}
 								DateTime dt = DateTime.Now;
-								sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+								sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
 											dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
 								sArchiveFile = sTarget + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
@@ -421,6 +437,9 @@ namespace SharpFBTools.Controls.Panels
 		{
 			btnToAnotherDir.Enabled = rbtnToAnotherDir.Checked;
 			tboxToAnotherDir.ReadOnly = !rbtnToAnotherDir.Checked;
+			if( rbtnToAnotherDir.Checked ) {
+				tboxToAnotherDir.Focus();
+			}
 		}
 		
 		void CboxArchiveTypeSelectedIndexChanged(object sender, EventArgs e)
@@ -524,6 +543,9 @@ namespace SharpFBTools.Controls.Panels
 		{
 			btnUAToAnotherDir.Enabled = rbtnUAToAnotherDir.Checked;
 			tboxUAToAnotherDir.ReadOnly = !rbtnUAToAnotherDir.Checked;
+			if( rbtnUAToAnotherDir.Checked ) {
+				tboxUAToAnotherDir.Focus();
+			}
 		}
 		
 		void TsbtnUAAnalyzeClick(object sender, EventArgs e)
@@ -674,6 +696,16 @@ namespace SharpFBTools.Controls.Panels
 			}
 			tsslblProgress.Text = m_sReady;
 			tsProgressBar.Visible = false;
+		}
+		
+		void CboxExistArchiveSelectedIndexChanged(object sender, EventArgs e)
+		{
+			chBoxAddArchiveNameBookID.Enabled = ( cboxExistArchive.SelectedIndex == 1 );
+		}
+		
+		void CboxUAExistArchiveSelectedIndexChanged(object sender, EventArgs e)
+		{
+			chBoxAddFileNameBookID.Enabled = ( cboxUAExistArchive.SelectedIndex == 1 );
 		}
 		#endregion
 	}

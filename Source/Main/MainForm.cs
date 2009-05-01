@@ -40,11 +40,8 @@ namespace Main
 		
 		public MainForm()
 		{
-			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
 			InitializeComponent();
-			//
 			// Запоминаем папку программы
 			Settings.Settings.SetProgDir( Environment.CurrentDirectory );
 			// задаем данные о программе Assembly

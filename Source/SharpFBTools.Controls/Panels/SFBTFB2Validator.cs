@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Xml;
 using Settings;
 using FB2.FB2Parsers;
+using FB2.Description.DocumentInfo;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -26,9 +27,7 @@ namespace SharpFBTools.Controls.Panels
 	{
 		public SFBTpFB2Validator()
 		{
-			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
 			InitializeComponent();
 			cboxExistFile.SelectedIndex = 1;
 			// инициализация контролов
@@ -154,8 +153,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 		}
 		#endregion
-		
-		
+				
 		#region Парсеры файлов и архивов
 		private void ParseFB2File( string sFile, FB2Parser.FB2Validator fv2Validator ) {
 			// парсер несжатого fb2-файла
@@ -338,9 +336,14 @@ namespace SharpFBTools.Controls.Panels
 					if( cboxExistFile.SelectedIndex==0 ) {
 						File.Delete( sNewPath );
 					} else {
+						if( chBoxAddBookID.Checked ) {
+							FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
+							DocumentInfo di = fb2p.GetDocumentInfo();
+							sSufix = "_"+di.ID;
+						}
 						string sExt = Path.GetExtension( sNewPath );
 						DateTime dt = DateTime.Now;
-						sSufix = "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+						sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
 									dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
 						sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
 					}
@@ -539,49 +542,42 @@ namespace SharpFBTools.Controls.Panels
 		{
 			// задание папки для копирования невалидных fb2-файлов
 			FilesWorker.FilesWorker.OpenDirDlg( tboxFB2NotValidDirCopyTo, fbdDir, "Укажите папку для не валидных fb2-файлов" );
-			Settings.Settings.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
 		}
 		
 		void BtnFB2NotValidMoveToClick(object sender, EventArgs e)
 		{
 			// задание папки для перемещения невалидных fb2-файлов
 			FilesWorker.FilesWorker.OpenDirDlg( tboxFB2NotValidDirMoveTo, fbdDir, "Укажите папку для не валидных fb2-файлов" );
-			Settings.Settings.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
 		}
 		
 		void BtnFB2ValidCopyToClick(object sender, EventArgs e)
 		{
 			// задание папки для валидных fb2-файлов
 			FilesWorker.FilesWorker.OpenDirDlg( tboxFB2ValidDirCopyTo, fbdDir, "Укажите папку для валидных fb2-файлов" );
-			Settings.Settings.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
 		}
 		
 		void BtnFB2ValidMoveToClick(object sender, EventArgs e)
 		{
 			// задание папки для перемещения валидных fb2-файлов
 			FilesWorker.FilesWorker.OpenDirDlg( tboxFB2ValidDirMoveTo, fbdDir, "Укажите папку для валидных fb2-файлов" );
-			Settings.Settings.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
 		}
 		
 		void BtnNotFB2CopyToClick(object sender, EventArgs e)
 		{
 			// задание папки для не fb2-файлов
 			FilesWorker.FilesWorker.OpenDirDlg( tboxNotFB2DirCopyTo, fbdDir, "Укажите папку для не fb2-файлов" );
-			Settings.Settings.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
 		}
 		
 		void BtnNotFB2MoveToClick(object sender, EventArgs e)
 		{
 			// задание папки для перемещения не fb2-файлов
 			FilesWorker.FilesWorker.OpenDirDlg( tboxNotFB2DirMoveTo, fbdDir, "Укажите папку для не fb2-файлов" );
-			Settings.Settings.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
 		}
 		
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами для сканирования
 			FilesWorker.FilesWorker.OpenDirDlg( tboxSourceDir, fbdDir, "Укажите папку для проверки fb2-файлов" );
-			Settings.Settings.SetScanDir( tboxSourceDir.Text );
 		}
 		
 		void TSBValidateClick(object sender, EventArgs e)
@@ -1145,6 +1141,45 @@ namespace SharpFBTools.Controls.Panels
 			              "Нет ни одного Валидного файла!", "Создание списка Валидных файлов завершено.", m_sReady );
 		}
 		
+		void CboxExistFileSelectedIndexChanged(object sender, EventArgs e)
+		{
+			chBoxAddBookID.Enabled = ( cboxExistFile.SelectedIndex == 1 );
+		}	
+		
+		void TboxSourceDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.Settings.SetScanDir( tboxSourceDir.Text );
+		}
+		
+		void TboxFB2NotValidDirCopyToTextChanged(object sender, EventArgs e)
+		{
+			Settings.Settings.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
+		}
+		
+		void TboxFB2NotValidDirMoveToTextChanged(object sender, EventArgs e)
+		{
+			Settings.Settings.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
+		}
+		
+		void TboxFB2ValidDirCopyToTextChanged(object sender, EventArgs e)
+		{
+			Settings.Settings.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
+		}
+		
+		void TboxFB2ValidDirMoveToTextChanged(object sender, EventArgs e)
+		{
+			Settings.Settings.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
+		}
+		
+		void TboxNotFB2DirCopyToTextChanged(object sender, EventArgs e)
+		{
+			Settings.Settings.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
+		}
+		
+		void TboxNotFB2DirMoveToTextChanged(object sender, EventArgs e)
+		{
+			Settings.Settings.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
+		}
 		#endregion
 	}
 }

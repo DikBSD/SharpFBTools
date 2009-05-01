@@ -423,13 +423,13 @@ namespace Settings
 		#region Настройки для папок Валидатора
 		#region Закрытые статические члены-данные класса для Папок Валидатор
 		private static string m_sValidatorDirsSettingsPath = GetProgDir()+"\\ValidatorDirs.xml";
-		private static string m_sScanDir = "";
-		private static string m_sFB2NotValidDirCopyTo = "";
-		private static string m_sFB2NotValidDirMoveTo = "";
-		private static string m_sFB2ValidDirCopyTo = "";
-		private static string m_sFB2ValidDirMoveTo = "";
-		private static string m_sNotFB2DirCopyTo = "";
-		private static string m_sNotFB2DirMoveTo = "";
+		private static string m_sScanDir 				= "";
+		private static string m_sFB2NotValidDirCopyTo	= "";
+		private static string m_sFB2NotValidDirMoveTo	= "";
+		private static string m_sFB2ValidDirCopyTo		= "";
+		private static string m_sFB2ValidDirMoveTo		= "";
+		private static string m_sNotFB2DirCopyTo		= "";
+		private static string m_sNotFB2DirMoveTo		= "";
 		#endregion
 		
 		#region Открытые статические члены-данные класса для Папок Валидатор

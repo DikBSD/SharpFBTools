@@ -142,6 +142,7 @@ namespace SharpFBTools.Controls.Panels
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.pInfo = new System.Windows.Forms.Panel();
 			this.gboxCopyMoveOptions = new System.Windows.Forms.GroupBox();
+			this.chBoxAddBookID = new System.Windows.Forms.CheckBox();
 			this.cboxExistFile = new System.Windows.Forms.ComboBox();
 			this.lblExistFile = new System.Windows.Forms.Label();
 			this.pCentral = new System.Windows.Forms.Panel();
@@ -361,6 +362,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.Size = new System.Drawing.Size(484, 20);
 			this.tboxSourceDir.TabIndex = 4;
+			this.tboxSourceDir.TextChanged += new System.EventHandler(this.TboxSourceDirTextChanged);
 			// 
 			// lblDir
 			// 
@@ -448,6 +450,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxFB2NotValidDirMoveTo.Name = "tboxFB2NotValidDirMoveTo";
 			this.tboxFB2NotValidDirMoveTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxFB2NotValidDirMoveTo.TabIndex = 7;
+			this.tboxFB2NotValidDirMoveTo.TextChanged += new System.EventHandler(this.TboxFB2NotValidDirMoveToTextChanged);
 			// 
 			// lblFB2NotValidFilesCopyDir
 			// 
@@ -480,6 +483,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxFB2NotValidDirCopyTo.Name = "tboxFB2NotValidDirCopyTo";
 			this.tboxFB2NotValidDirCopyTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxFB2NotValidDirCopyTo.TabIndex = 0;
+			this.tboxFB2NotValidDirCopyTo.TextChanged += new System.EventHandler(this.TboxFB2NotValidDirCopyToTextChanged);
 			// 
 			// pErrors
 			// 
@@ -722,6 +726,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxFB2ValidDirMoveTo.Name = "tboxFB2ValidDirMoveTo";
 			this.tboxFB2ValidDirMoveTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxFB2ValidDirMoveTo.TabIndex = 7;
+			this.tboxFB2ValidDirMoveTo.TextChanged += new System.EventHandler(this.TboxFB2ValidDirMoveToTextChanged);
 			// 
 			// lblFB2ValidFilesCopyDir
 			// 
@@ -754,6 +759,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxFB2ValidDirCopyTo.Name = "tboxFB2ValidDirCopyTo";
 			this.tboxFB2ValidDirCopyTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxFB2ValidDirCopyTo.TabIndex = 0;
+			this.tboxFB2ValidDirCopyTo.TextChanged += new System.EventHandler(this.TboxFB2ValidDirCopyToTextChanged);
 			// 
 			// tpNotFB2Files
 			// 
@@ -885,6 +891,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxNotFB2DirMoveTo.Name = "tboxNotFB2DirMoveTo";
 			this.tboxNotFB2DirMoveTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxNotFB2DirMoveTo.TabIndex = 7;
+			this.tboxNotFB2DirMoveTo.TextChanged += new System.EventHandler(this.TboxNotFB2DirMoveToTextChanged);
 			// 
 			// lblNotFB2FilesCopyDir
 			// 
@@ -917,6 +924,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxNotFB2DirCopyTo.Name = "tboxNotFB2DirCopyTo";
 			this.tboxNotFB2DirCopyTo.Size = new System.Drawing.Size(656, 20);
 			this.tboxNotFB2DirCopyTo.TabIndex = 0;
+			this.tboxNotFB2DirCopyTo.TextChanged += new System.EventHandler(this.TboxNotFB2DirCopyToTextChanged);
 			// 
 			// imgl16
 			// 
@@ -1019,6 +1027,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxCopyMoveOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.gboxCopyMoveOptions.Controls.Add(this.chBoxAddBookID);
 			this.gboxCopyMoveOptions.Controls.Add(this.cboxExistFile);
 			this.gboxCopyMoveOptions.Controls.Add(this.lblExistFile);
 			this.gboxCopyMoveOptions.Location = new System.Drawing.Point(229, 3);
@@ -1027,6 +1036,16 @@ namespace SharpFBTools.Controls.Panels
 			this.gboxCopyMoveOptions.TabIndex = 21;
 			this.gboxCopyMoveOptions.TabStop = false;
 			this.gboxCopyMoveOptions.Text = " Настройки для Копирования / Перемещения файлов ";
+			// 
+			// chBoxAddBookID
+			// 
+			this.chBoxAddBookID.Enabled = false;
+			this.chBoxAddBookID.Location = new System.Drawing.Point(228, 45);
+			this.chBoxAddBookID.Name = "chBoxAddBookID";
+			this.chBoxAddBookID.Size = new System.Drawing.Size(246, 18);
+			this.chBoxAddBookID.TabIndex = 19;
+			this.chBoxAddBookID.Text = " Добавить ID Книги к имени файла";
+			this.chBoxAddBookID.UseVisualStyleBackColor = true;
 			// 
 			// cboxExistFile
 			// 
@@ -1039,6 +1058,7 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxExistFile.Name = "cboxExistFile";
 			this.cboxExistFile.Size = new System.Drawing.Size(246, 21);
 			this.cboxExistFile.TabIndex = 18;
+			this.cboxExistFile.SelectedIndexChanged += new System.EventHandler(this.CboxExistFileSelectedIndexChanged);
 			// 
 			// lblExistFile
 			// 
@@ -1155,6 +1175,7 @@ namespace SharpFBTools.Controls.Panels
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chBoxAddBookID;
 		private System.Windows.Forms.FolderBrowserDialog fbdDir;
 		private System.Windows.Forms.CheckBox cboxScanSubDir;
 		private System.Windows.Forms.ImageList imgl16;
