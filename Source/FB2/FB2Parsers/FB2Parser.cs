@@ -22,7 +22,7 @@ namespace FB2.FB2Parsers
 	/// <summary>
 	/// Description of FB2Parser.
 	/// </summary>
-	public class FB2Parser : TextFieldTypeData
+	public class FB2Parser
 	{
 		#region Закрытые данные класса
 		private XmlNamespaceManager m_NsManager;
@@ -78,8 +78,7 @@ namespace FB2.FB2Parsers
             BookTitle bookTitle = TextFieldType<BookTitle>( xn.SelectSingleNode("./fb:book-title", m_NsManager) );
             
             // Аннотация
-			AnnotationTypeData atd = new AnnotationTypeData();
-            Annotation annotation = atd.AnnotationType<Annotation>( xn.SelectSingleNode("./fb:annotation", m_NsManager) );
+            Annotation annotation = AnnotationType<Annotation>( xn.SelectSingleNode("./fb:annotation", m_NsManager) );
 
             // Ключевые слова
             Keywords keywords = TextFieldType<Keywords>( xn.SelectSingleNode("./fb:keywords", m_NsManager) );
@@ -264,6 +263,37 @@ namespace FB2.FB2Parsers
         	return sequences;
         	#endregion
         }
+        
+        private T TextFieldType<T>( XmlNode xmlNode ) where T : ITextFieldType, new()
+        {
+            if( xmlNode == null ) {
+                return default(T);
+            }
+
+            T textField = new T();
+            textField.Value = xmlNode.InnerText;
+            if( xmlNode.Attributes["lang"] != null ) {
+                textField.Lang = xmlNode.Attributes["lang"].Value;
+            }
+            return textField;
+        }
+        
+        private T AnnotationType<T>( XmlNode xmlNode ) where T : IAnnotationType, new()
+        {
+            T annotation = default(T);
+            if( xmlNode != null ) {
+                annotation = new T();
+                annotation.Value = xmlNode.InnerXml;
+                if( xmlNode.Attributes["id"] != null ) {
+                    annotation.Id = xmlNode.Attributes["id"].Value;
+                }
+                if( xmlNode.Attributes["lang"] != null ) {
+                    annotation.Lang = xmlNode.Attributes["lang"].Value;
+                }
+            }
+            return annotation;
+        }
+        
         #endregion
         
         #region Открытые свойства класса
@@ -344,8 +374,7 @@ namespace FB2.FB2Parsers
             }
 
             // История развития fb2-документа
-            AnnotationTypeData atd = new AnnotationTypeData();
-            History history = atd.AnnotationType<History>( xn.SelectSingleNode("./fb:history", m_NsManager) );
+            History history = AnnotationType<History>( xn.SelectSingleNode("./fb:history", m_NsManager) );
             return new DocumentInfo( ilAuthors, programUsed, date, srcUrls, srcOcr, id, version, history );
             #endregion
         }
