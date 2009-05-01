@@ -48,10 +48,10 @@ namespace SharpFBTools.Controls.Panels
 									"fb2-файлов",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-									"fb2 в .zip-файлах",
+									"fb2 в .zip-архивах",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-									"fb2 в .rar-файлах",
+									"fb2 в .rar-архивах",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",

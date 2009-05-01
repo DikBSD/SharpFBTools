@@ -141,6 +141,7 @@ namespace SharpFBTools.Controls.Panels
 		
 		private void FileToArchive( string sArchPath, List<string> lFilesList, bool bZip, ToolStripProgressBar pBar ) {
 			// упаковка fb2-файлов в .fb2.??? - где ??? - тип архива (задается в cboxArchiveType)
+			#region Код
 			long lFB2 = 0;
 			foreach( string sFile in lFilesList ) {
 				string sExt = Path.GetExtension( sFile );
@@ -210,6 +211,7 @@ namespace SharpFBTools.Controls.Panels
 				}
 				++pBar.Value;
 			}
+			#endregion
 		}
 		#endregion
 				

@@ -55,7 +55,6 @@ namespace SharpFBTools.Controls.Panels
 		private long	m_lFB2RarFiles	= 0; // число fb2.rar файлов
 		private long	m_lNotFB2Files	= 0; // число других (не fb2) файлов
 		//
-		private	string	m_sReady		= "Готово.";
 		private string	m_sNotValid		= " Не валидные fb2-файлы ";
 		private	string	m_sValid		= " Валидные fb2-файлы ";
 		private string	m_sNotFB2Files	= " Не fb2-файлы ";
@@ -88,7 +87,7 @@ namespace SharpFBTools.Controls.Panels
 			tpValid.Text		= m_sValid;
 			tpNotFB2Files.Text	= m_sNotFB2Files;
 			tsProgressBar.Value	= 1;
-			tsslblProgress.Text		= m_sReady;
+			tsslblProgress.Text		= Settings.Settings.GetReady();
 			tsProgressBar.Visible	= false;
 			m_lFB2Valid	= m_lFB2NotValid = m_lFB2Files = m_lFB2ZipFiles = m_lFB2RarFiles = m_lNotFB2Files = 0;
 			// очистка временной папки
@@ -304,7 +303,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			DirectoryInfo diFolder = new DirectoryInfo( sTarget );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена:" + sTarget + "\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена: " + sTarget + "\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			string sMess = "";
@@ -369,7 +368,7 @@ namespace SharpFBTools.Controls.Panels
 			lvFilesCount.Items[1].SubItems[1].Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
 														listViewNotFB2.Items.Count ).ToString();
 			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
-			tsslblProgress.Text = m_sReady;
+			tsslblProgress.Text = Settings.Settings.GetReady();
 			tsProgressBar.Visible = false;
 			#endregion
 		}
@@ -408,7 +407,7 @@ namespace SharpFBTools.Controls.Panels
 			        			       				   listViewNotFB2.Items.Count ).ToString();
 			sMess = "Удаление файлов завершено!";
 			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
-			tsslblProgress.Text = m_sReady;
+			tsslblProgress.Text = Settings.Settings.GetReady();
 			tsProgressBar.Visible = false;
 			#endregion
 		}
@@ -453,7 +452,7 @@ namespace SharpFBTools.Controls.Panels
 							ReportGenerator.ReportGenerator.MakeHTMLReport( lw, sfdReport.FileName, sReportTitle, tsProgressBar, ssProgress  );
 							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 							tsProgressBar.Visible = false;
-							tsslblProgress.Text = m_sReady;
+							tsslblProgress.Text = Settings.Settings.GetReady();
 	          			}
 					}
 					break;
@@ -472,7 +471,7 @@ namespace SharpFBTools.Controls.Panels
 							ReportGenerator.ReportGenerator.MakeFB2Report( lw, sfdReport.FileName, sReportTitle, tsProgressBar, ssProgress );
 							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 							tsProgressBar.Visible = false;
-							tsslblProgress.Text = m_sReady;
+							tsslblProgress.Text = Settings.Settings.GetReady();
 	          			}
 					}
 					break;
@@ -491,7 +490,7 @@ namespace SharpFBTools.Controls.Panels
     	       				ReportGenerator.ReportGenerator.MakeCSVReport( lw, sfdReport.FileName, sDelem, tsProgressBar, ssProgress );
 							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 							tsProgressBar.Visible = false;
-							tsslblProgress.Text = m_sReady;
+							tsslblProgress.Text = Settings.Settings.GetReady();
 	        			}
 					}
 					break;
@@ -584,13 +583,14 @@ namespace SharpFBTools.Controls.Panels
 		{
 			// Ввлидация fb2-файлов в выбранной папке
 			tlCentral.Refresh(); // обновление контролов на форме
-			if( tboxSourceDir.Text == "" ) {
+			string sSource = tboxSourceDir.Text.Trim();
+			if( sSource == "" ) {
 				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( tboxSourceDir.Text.Trim() );
+			DirectoryInfo diFolder = new DirectoryInfo( sSource );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена:" + tboxSourceDir.Text.Trim(), "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена: " + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			
@@ -661,7 +661,7 @@ namespace SharpFBTools.Controls.Panels
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 			MessageBox.Show( "Проверка файлов на соответствие FictionBook.xsd схеме завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
-			tsslblProgress.Text = m_sReady;
+			tsslblProgress.Text = Settings.Settings.GetReady();
 			tsProgressBar.Visible = false;
 			// очистка временной папки
 			FilesWorker.FilesWorker.RemoveDir( sTempDir );
@@ -673,19 +673,19 @@ namespace SharpFBTools.Controls.Panels
 			switch( tcResult.SelectedIndex ) {
 				case 0:
 					// не валидные fb2-файлы
-					CopyOrMoveFilesTo( true, tboxSourceDir.Text, tboxFB2NotValidDirCopyTo.Text,
+					CopyOrMoveFilesTo( true, tboxSourceDir.Text.Trim(), tboxFB2NotValidDirCopyTo.Text.Trim(),
 		                       listViewNotValid, tpNotValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
 		                       "Копирование не валидных fb2-файлов:", m_sNotValid );
 					break;
 				case 1:
 					// валидные fb2-файлы
-					CopyOrMoveFilesTo( true, tboxSourceDir.Text, tboxFB2ValidDirCopyTo.Text,
+					CopyOrMoveFilesTo( true, tboxSourceDir.Text.Trim(), tboxFB2ValidDirCopyTo.Text.Trim(),
 		                       listViewValid, tpValid, "валидных fb2-файлов", "валидные fb2-файлы",
 		                       "Копирование валидных fb2-файлов:", m_sValid );
 					break;
 				case 2:
 					// не fb2-файлы
-					CopyOrMoveFilesTo( true, tboxSourceDir.Text, tboxNotFB2DirCopyTo.Text,
+					CopyOrMoveFilesTo( true, tboxSourceDir.Text.Trim(), tboxNotFB2DirCopyTo.Text.Trim(),
 		                       listViewNotFB2, tpNotFB2Files, "не fb2-файлов", "не fb2-файлы",
 		                       "Копирование не fb2-файлов:", m_sNotFB2Files );
 					break;
@@ -698,19 +698,19 @@ namespace SharpFBTools.Controls.Panels
 			switch( tcResult.SelectedIndex ) {
 				case 0:
 					// не валидные fb2-файлы
-					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxFB2NotValidDirMoveTo.Text,
+					CopyOrMoveFilesTo( false, tboxSourceDir.Text.Trim(), tboxFB2NotValidDirMoveTo.Text.Trim(),
 		                       listViewNotValid, tpNotValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
 		                       "Перемещение не валидных fb2-файлов:", m_sNotValid );
 					break;
 				case 1:
 					// валидные fb2-файлы
-					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxFB2ValidDirMoveTo.Text,
+					CopyOrMoveFilesTo( false, tboxSourceDir.Text.Trim(), tboxFB2ValidDirMoveTo.Text.Trim(),
 		                       listViewValid, tpValid, "валидных fb2-файлов", "валидные fb2-файлы",
 		                       "Перемещение валидных fb2-файлов:", m_sValid );
 					break;
 				case 2:
 					// не fb2-файлы
-					CopyOrMoveFilesTo( false, tboxSourceDir.Text, tboxNotFB2DirMoveTo.Text,
+					CopyOrMoveFilesTo( false, tboxSourceDir.Text.Trim(), tboxNotFB2DirMoveTo.Text.Trim(),
 		                       listViewNotFB2, tpNotFB2Files, "не fb2-файлов", "не fb2-файлы",
 		                       "Перемещение не fb2-файлов:", m_sNotFB2Files );
 					break;
@@ -1130,7 +1130,7 @@ namespace SharpFBTools.Controls.Panels
 			// сохранение списка Не валидных файлов
 			ReportGenerator.ReportGenerator.SaveFilesList( listViewNotValid, sfdReport, m_TXTFilter,
 			              ssProgress,  tsslblProgress, tsProgressBar, m_FB2NotValidFilesListReport,
-			              "Нет ни одного Не валидного файла!", "Создание списка Не валидных файлов завершено.", m_sReady );
+			              "Нет ни одного Не валидного файла!", "Создание списка Не валидных файлов завершено.", Settings.Settings.GetReady() );
 		}
 		
 		void TsmiMakeValidFileListClick(object sender, EventArgs e)
@@ -1138,7 +1138,7 @@ namespace SharpFBTools.Controls.Panels
 			// сохранение списка Валидных файлов
 			ReportGenerator.ReportGenerator.SaveFilesList( listViewValid, sfdReport, m_TXTFilter, ssProgress,
 			              tsslblProgress, tsProgressBar, m_FB2ValidFilesListReport,
-			              "Нет ни одного Валидного файла!", "Создание списка Валидных файлов завершено.", m_sReady );
+			              "Нет ни одного Валидного файла!", "Создание списка Валидных файлов завершено.", Settings.Settings.GetReady() );
 		}
 		
 		void CboxExistFileSelectedIndexChanged(object sender, EventArgs e)

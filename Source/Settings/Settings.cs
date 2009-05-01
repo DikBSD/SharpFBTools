@@ -36,7 +36,8 @@ namespace Settings
 		#endregion
 		
 		#region Общие Сообщения
-		private static string m_sNoID = "Id_Нет";
+		private static string m_sReady	= "Готово.";
+		private static string m_sNoID	= "Id_Нет";
 		#endregion
 		
 		#region Валидатор
@@ -232,6 +233,10 @@ namespace Settings
 		#endregion
 		
 		#region Общие Сообщения
+		public static string GetReady() {
+			return m_sReady;
+		}
+		
 		public static string GetNoID() {
 			return m_sNoID;
 		}
