@@ -1,10 +1,10 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: Кузнецов Вадим (DikBSD)
- * Date: 30.04.2009
- * Time: 8:41
+ * Date: 01.05.2009
+ * Time: 14:26
  * 
- * License: GPL 2.1
+ * * License: GPL 2.1
  */
 using System;
 using System.Xml;
@@ -20,26 +20,33 @@ using FB2.Description.Common;
 namespace FB2.FB2Parsers
 {
 	/// <summary>
-	/// Description of FB2Parser.
+	/// Description of FB2ParserBase.
 	/// </summary>
-	public class FB2Parser : TextFieldTypeData
+	public class FB2ParserBase : TextFieldTypeData
 	{
 		#region Закрытые данные класса
 		private XmlNamespaceManager m_NsManager;
         private XmlDocument			m_xmlDoc;
         private string				m_aFBNamespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
         #endregion
-
+		
 		#region Конструкторы класса
-        public FB2Parser( string sFB2Path )
-        {
-        	m_xmlDoc = new XmlDocument();
+        public FB2ParserBase( string sFB2Path )
+		{
+			m_xmlDoc = new XmlDocument();
         	m_xmlDoc.Load( sFB2Path );
             m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
             m_NsManager.AddNamespace( "fb", m_aFBNamespace );
+		}
+        #endregion
+        
+        #region Открытые свойства класса
+        public XmlDocument XmlDoc
+        {
+            get { return m_xmlDoc; }
         }
         #endregion
-               
+        
         #region Закрытые вспомогательные основные методы класса
         private TitleInfo TitleInfo( bool bTitleInfo )
         {
@@ -265,162 +272,7 @@ namespace FB2.FB2Parsers
         	#endregion
         }
         #endregion
+	
         
-        #region Открытые свойства класса
-        public XmlDocument XmlDoc
-        {
-            get { return m_xmlDoc; }
-        }
-        #endregion
-        
-        #region Открытые основные методы класса
-        public TitleInfo GetTitleInfo()
-        {
-            return TitleInfo( true );
-        }
-        
-        public TitleInfo GetSourceTitleInfo()
-        {
-            return TitleInfo( false );
-        }
-        
-        public DocumentInfo GetDocumentInfo()
-        {
-            // извлечение информации по document-info
-        	#region Код
-        	XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:document-info", m_NsManager );
-            if( xn == null ) {
-                return null;
-            }
-
-            // Авторы fb2-документа
-            IList<Author> ilAuthors = null;
-            XmlNodeList xmlNodes = xn.SelectNodes("./fb:author", m_NsManager);
-            if( xmlNodes.Count > 0  ) {
-            	ilAuthors = new List<Author>();
-            	foreach( XmlNode node in xmlNodes ) {
-                	Author author = GetAuthor( node );
-                	ilAuthors.Add( author );
-           		}
-            }
-
-            // Дата создания fb2-документа
-            Date date = GetDate( xn );
-            
-            // ID fb2-документа
-            string id = null;
-            XmlNode xmlNode = xn.SelectSingleNode("./fb:id", m_NsManager);
-            if( xmlNode != null ) {
-            	id = xmlNode.InnerText;
-            }
-
-            // Версия fb2-документа
-            string version = null;
-            xmlNode = xn.SelectSingleNode("./fb:version", m_NsManager);
-            if( xmlNode != null ) {
-            	version = xmlNode.InnerText;
-            }
-
-            // Программа создания fb2-документа
-            ProgramUsed programUsed = null;
-            xmlNode = xn.SelectSingleNode("./fb:program-used", m_NsManager);
-            if( xmlNode != null ) {
-                programUsed = new ProgramUsed( xmlNode.InnerText );
-            }
-
-            // Источник текста
-            IList<string> srcUrls = null;
-            xmlNodes = xn.SelectNodes("./fb:src-url", m_NsManager);
-            if( xmlNodes.Count > 0 ) {
-                srcUrls = new List<string>();
-                foreach( XmlNode node in xmlNodes ) {
-                    srcUrls.Add( node.InnerText );
-                }
-            }
-            SrcOCR srcOcr = null;
-            xmlNode = xn.SelectSingleNode("./fb:src-ocr", m_NsManager);
-            if( xmlNode != null ) {
-                srcOcr = new SrcOCR( xmlNode.InnerText );
-            }
-
-            // История развития fb2-документа
-            AnnotationTypeData atd = new AnnotationTypeData();
-            History history = atd.AnnotationType<History>( xn.SelectSingleNode("./fb:history", m_NsManager) );
-            return new DocumentInfo( ilAuthors, programUsed, date, srcUrls, srcOcr, id, version, history );
-            #endregion
-        }
-        
-        public PublishInfo GetPublishInfo()
-        {
-        	// извлечение информации по publish-info
-        	#region Код
-            XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:publish-info", m_NsManager );
-            if( xn == null ) {
-                return null;
-            }
-
-        	// Название Бумажной Книги
-        	BookName bookName = TextFieldType<BookName>(xn.SelectSingleNode("./fb:book-name", m_NsManager));
-         
-        	// Издатель Бумажной Книги
-        	Publisher publisher = TextFieldType<Publisher>(xn.SelectSingleNode("./fb:publisher", m_NsManager));
-            
-        	// Город издания
-        	City city = TextFieldType<City>(xn.SelectSingleNode("./fb:city", m_NsManager));
-			
-        	// Год издания
-            string sYear = null;
-            XmlNode xmlNode = xn.SelectSingleNode("./fb:year", m_NsManager);
-            if( xmlNode != null ) {
-                sYear = xmlNode.InnerText;
-            }
-            
-            // ISBN Бумажной Книги
-            ISBN isbn = TextFieldType<ISBN>( xn.SelectSingleNode("./fb:isbn", m_NsManager) );
-            
-            // Серии Бумажной Книги
-            IList<Sequence> sequences = null;
-            XmlNodeList xmlNodes = xn.SelectNodes("./fb:sequence", m_NsManager);
-            if( xmlNodes.Count > 0 ) {
-                sequences = new List<Sequence>();
-                foreach( XmlNode node in xmlNodes ) {
-                    sequences.Add( GetSequence( node ) );
-                    GetSequences( node, sequences );
-                }
-            }
-
-            return new PublishInfo( bookName, publisher, city, sYear, isbn, sequences );
-            #endregion
-        }
-        
-        public CustomInfo GetCustomInfo()
-        {
-            // извлечение информации по custom-info
-        	#region Код
-        	XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:custom-info", m_NsManager );
-            if( xn == null ) {
-                return null;
-            }
-            CustomInfo customInfo = new CustomInfo(xn.InnerText, xn.Attributes["info-type"].Value);
-            if( xn.Attributes["lang"] != null ) {
-                customInfo.Lang = xn.Attributes["lang"].Value;
-            }
-            return customInfo;
-            #endregion
-        }
-        public Description.Description GetDescription()
-        {
-            // парсер description
-        	#region Код
-            TitleInfo titleInfo			= GetTitleInfo();
-            TitleInfo srcTitleInfo		= GetSourceTitleInfo();
-            DocumentInfo documentInfo	= GetDocumentInfo();
-            PublishInfo publishInfo		= GetPublishInfo();
-            CustomInfo customInfo		= GetCustomInfo();
-
-            return new Description.Description( titleInfo, srcTitleInfo, documentInfo, publishInfo, customInfo );
-            #endregion
-        }
-		#endregion
 	}
 }
