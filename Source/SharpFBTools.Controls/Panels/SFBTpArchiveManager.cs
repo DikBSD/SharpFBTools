@@ -63,14 +63,14 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible	= false;
 		}
 		
-		private string ExistsFB2FileFileToDirWorker( string sNewFile, string sSufix ) {
+		private string ExistsFB2FileFileToDirWorker( string sFromFile, string sNewFile, string sSufix ) {
 			// Обработка существующих в папке-приемнике файлов при копировании
 			if( File.Exists( sNewFile ) ) {
 				if( cboxUAExistArchive.SelectedIndex==0 ) {
 					File.Delete( sNewFile );
 				} else {
 					if( chBoxAddFileNameBookID.Checked ) {
-						FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
+						FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFromFile );
 						DocumentInfo di = fb2p.GetDocumentInfo();
 						sSufix = "_"+di.ID;
 					}
@@ -91,11 +91,12 @@ namespace SharpFBTools.Controls.Panels
 			string sNewDir = Path.GetDirectoryName( sTargetDir+"\\"+sArchiveFile.Remove( 0, sFileSourceDir.Length ) );
 			string sNewFile = "";
 			string sSufix = ""; // для добавления к имени нового файла суфикса
+			string sFromFile = Settings.Settings.GetTempDir() + "\\" + sFile;
 			if( rbtnUAToSomeDir.Checked ) {
 				// файл - в ту же папку, где и исходный архив
 				sNewFile = Path.GetDirectoryName( sArchiveFile )+"\\"+sFile;
 				// Обработка существующих в папке-приемнике файлов при копировании
-				sNewFile = ExistsFB2FileFileToDirWorker( sNewFile, sSufix );
+				sNewFile = ExistsFB2FileFileToDirWorker( sFromFile, sNewFile, sSufix );
 			} else {
 				// файл - в другую папку
 				sNewFile = sNewDir + "\\" + sFile;
@@ -104,7 +105,7 @@ namespace SharpFBTools.Controls.Panels
 					Directory.CreateDirectory( fi.Directory.ToString() );
 				}
 				// Обработка существующих в папке-приемнике файлов при копировании
-				sNewFile = ExistsFB2FileFileToDirWorker( sNewFile, sSufix );
+				sNewFile = ExistsFB2FileFileToDirWorker( sFromFile, sNewFile, sSufix );
 			}
 			File.Move( Settings.Settings.GetTempDir()+"\\"+sFile, sNewFile );
 			return true;
@@ -158,7 +159,7 @@ namespace SharpFBTools.Controls.Panels
 								File.Delete( sArchiveFile );
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
-									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
+									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFile );
 									DocumentInfo di = fb2p.GetDocumentInfo();
 									sSufix = "_"+di.ID;
 								}
@@ -183,7 +184,7 @@ namespace SharpFBTools.Controls.Panels
 								File.Delete( sArchiveFile );
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
-									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
+									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFile );
 									DocumentInfo di = fb2p.GetDocumentInfo();
 									sSufix = "_"+di.ID;
 								}
