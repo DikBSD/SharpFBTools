@@ -339,7 +339,7 @@ namespace SharpFBTools.Controls.Panels
 						if( chBoxAddBookID.Checked ) {
 							FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFilePath );
 							DocumentInfo di = fb2p.GetDocumentInfo();
-							sSufix = "_"+di.ID;
+							sSufix = "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
 						}
 						string sExt = Path.GetExtension( sNewPath );
 						DateTime dt = DateTime.Now;

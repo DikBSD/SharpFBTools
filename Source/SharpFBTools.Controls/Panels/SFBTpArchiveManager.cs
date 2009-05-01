@@ -72,7 +72,7 @@ namespace SharpFBTools.Controls.Panels
 					if( chBoxAddFileNameBookID.Checked ) {
 						FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFromFile );
 						DocumentInfo di = fb2p.GetDocumentInfo();
-						sSufix = "_"+di.ID;
+						sSufix = "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
 					}
 					DateTime dt = DateTime.Now;
 					sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
@@ -161,7 +161,7 @@ namespace SharpFBTools.Controls.Panels
 								if( chBoxAddArchiveNameBookID.Checked ) {
 									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFile );
 									DocumentInfo di = fb2p.GetDocumentInfo();
-									sSufix = "_"+di.ID;
+									sSufix = "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
 								}
 								DateTime dt = DateTime.Now;
 								sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
@@ -186,7 +186,7 @@ namespace SharpFBTools.Controls.Panels
 								if( chBoxAddArchiveNameBookID.Checked ) {
 									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFile );
 									DocumentInfo di = fb2p.GetDocumentInfo();
-									sSufix = "_"+di.ID;
+									sSufix = "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
 								}
 								DateTime dt = DateTime.Now;
 								sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+

@@ -19,7 +19,7 @@ namespace Settings
 	public class Settings
 	{
 		#region Закрытые статические члены-данные класса
-		#region Общее
+		#region Общее Настройки
 		private static string m_sProgDir = Environment.CurrentDirectory;
 		private static string m_sTempDir = GetProgDir()+"\\Temp"; // временный каталог
 		private static string m_settings = GetProgDir()+"\\settings.xml";
@@ -33,6 +33,10 @@ namespace Settings
 		private static string m_sFBReaderPath = "c:\\Program Files\\AlReader 2\\AlReader2.exe";
 		private static string m_sLicensePath = GetProgDir()+"\\License GPL 2.1.rtf";
 		private static string m_sChangeFilePath = GetProgDir()+"\\Change.rtf";
+		#endregion
+		
+		#region Общие Сообщения
+		private static string m_sNoID = "Id_Нет";
 		#endregion
 		
 		#region Валидатор
@@ -132,7 +136,7 @@ namespace Settings
 		#endregion
 		
 		#region Открытые статические члены-данные класса
-		#region Общее
+		#region Общее Настройки
 		public static void SetProgDir( string sProgDir ) {
 			m_sProgDir = sProgDir;
 		}
@@ -226,7 +230,13 @@ namespace Settings
 		}
 		
 		#endregion
-				
+		
+		#region Общие Сообщения
+		public static string GetNoID() {
+			return m_sNoID;
+		}
+		#endregion
+		
 		#region Валидатор
 		public static Int16 GetDefValidatorFB2SelectedIndex() {
 			return m_nValidatorForFB2SelectedIndex;
