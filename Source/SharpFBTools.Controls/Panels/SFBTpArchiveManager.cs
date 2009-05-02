@@ -228,7 +228,7 @@ namespace SharpFBTools.Controls.Panels
 		}
 		
 		private long AllArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
-			// Распаковать все ахривы
+			// Распаковать все архивы
 			long lCount, lFB2, lRar, lZip, l7Z, lBZip2, lGZip, lTar;
 			lCount = lFB2 = lRar = lZip = l7Z = lBZip2 = lGZip = lTar = 0;
 			string sTempDir = Settings.Settings.GetTempDir();
