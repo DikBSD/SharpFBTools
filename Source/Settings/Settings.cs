@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Settings
 {
@@ -358,6 +359,19 @@ namespace Settings
 			return m_bchBoxAddToFileNameBookIDChecked;
 		}
 		
+		public static bool ReadRegisterAsIsChecked() {
+			// читаем режим для регистра Как есть
+			return ReadAttribute( "Register", "rbtnAsIsChecked", GetDefFMrbtnAsIsCheked() );
+		}
+		public static bool ReadRegisterLowerChecked() {
+			// читаем режим для Нижнего регистра
+			return ReadAttribute( "Register", "rbtnLowerChecked", GetDefFMrbtnLowerCheked() );
+		}
+		public static bool ReadRegisterUpperChecked() {
+			// читаем режим для Верхнего регистра
+			return ReadAttribute( "Register", "rbtnUpperChecked", GetDefFMrbtnUpperCheked() );
+		}
+		
 		public static int ReadRegisterMode() {
 			// читаем режим для регистра из настроек
 			// возврат 0 - как есть; 1 - нижний; 2 - верхний
@@ -379,20 +393,31 @@ namespace Settings
 			// читаем режим обработки пробелов в строке из настроек
 			return ReadAttribute( "Space", "cboxSpaceSelectedIndex", GetDefFMcboxSpaceSelectedIndex() );
 		}
+		public static string ReadSpaceProcessModeText() {
+			// читаем режим обработки пробелов в строке (тукст) из настроек
+			return ReadAttribute( "Space", "cboxSpaceText", "Оставить" );
+		}
 		
 		public static bool ReadToArchiveMode() {
 			// читаем режим упаковки в архив из настроек
 			return ReadAttribute( "Archive", "chBoxToArchiveChecked", GetDefFMchBoxToArchiveCheked() );
 		}
-		
 		public static Int16 ReadArchiveTypeMode() {
 			// читаем режим типа архивации из настроек
 			return ReadAttribute( "Archive", "cboxArchiveTypeSelectedIndex", GetDefFMcboxArchiveTypeSelectedIndex() );
+		}
+		public static string ReadArchiveTypeText() {
+			// читаем вид архивации из настроек
+			return ReadAttribute( "Archive", "cboxArchiveTypeText", "Zip" );
 		}
 		
 		public static Int16 ReadFileExistMode() {
 			// читаем режим обработки файлов с одинаковыми именами из настроек
 			return ReadAttribute( "IsFileExist", "cboxFileExistSelectedIndex", GetDefFMcboxFileExistSelectedIndex() );
+		}
+		public static string ReadFileExistText() {
+			// читаем режим обработки файлов с одинаковыми именами (текст) из настроек
+			return ReadAttribute( "IsFileExist", "cboxFileExistText", "Добавить к создаваемому файлу дату и время" );
 		}
 		
 		public static bool ReadAddToFileNameBookIDMode() {
@@ -407,33 +432,93 @@ namespace Settings
 		
 		public static bool ReadAuthorOneMode() {
 			// читаем режим раскладки файлов по первому автору из настроек
-			if( ReadAttribute( "AuthorsToDirs", "rbtnAuthorOneChecked", GetDefFMrbtnAuthorOneCheked() ) ) {
-				return true;
-			} else {
-				return false;
-			}
+			return ReadAttribute( "AuthorsToDirs", "rbtnAuthorOneChecked", GetDefFMrbtnAuthorOneCheked() );
 		}
 		
 		public static bool ReadGenreOneMode() {
 			// читаем режим раскладки файлов по первому жанру из настроек
-			if( ReadAttribute( "GenresToDirs", "rbtnGenreOneChecked", GetDefFMrbtnGenreOneCheked() ) ) {
-				return true;
-			} else {
-				return false;
-			}
+			return ReadAttribute( "GenresToDirs", "rbtnGenreOneChecked", GetDefFMrbtnGenreOneCheked() );
 		}
 		
 		public static bool ReadGenreTypeMode() {
 			// читаем вид папки с жанром из настроек
-			if( ReadAttribute( "GenresType", "rbtnGenreSchemaChecked", GetDefFMrbtnGenreSchemaCheked() ) ) {
-				return true;
+			return ReadAttribute( "GenresType", "rbtnGenreSchemaChecked", GetDefFMrbtnGenreSchemaCheked() );
+		}
+		
+		public static bool ReadTranslitMode()
+		{
+			// читаем режим транслитерации из настроек
+			return ReadAttribute( "Translit", "chBoxTranslitChecked", GetDefFMchBoxTranslitCheked() );
+		}
+		
+		public static bool ReadStrictMode()
+		{
+			// читаем режим "Строгих" имен из настроек
+			return ReadAttribute( "Strict", "chBoxStrictChecked", GetDefFMchBoxStrictCheked() );
+		}
+		
+		public static void SetInfoSettings( ListView lv )
+		{
+			// загружаем в ListView-индикатор настроек данные 
+			// регистр
+			if( ReadRegisterLowerChecked() ) {
+				lv.Items[0].SubItems[1].Text = "Нижний регистр";
+			} else if( ReadRegisterUpperChecked() ) {
+				lv.Items[0].SubItems[1].Text = "Верхний регистр";
 			} else {
-				return false;
+				lv.Items[0].SubItems[1].Text = "Как есть";
+			}
+			// раскладка файлов по авторам
+			if( ReadAuthorOneMode() ) {
+				lv.Items[1].SubItems[1].Text = "По первому Автору";
+			} else {
+				lv.Items[1].SubItems[1].Text = "По всем Авторам";
+			}
+			// раскладка файлов по жанрам
+			if( ReadGenreOneMode() ) {
+				lv.Items[2].SubItems[1].Text = "По первому Жанру";
+			} else {
+				lv.Items[2].SubItems[1].Text = "По всем Жанрам";
+			}
+			// вид папки с жанрам
+			if( ReadGenreTypeMode() ) {
+				lv.Items[3].SubItems[1].Text = "Как в схеме (например: prose_rus_classic)";
+			} else {
+				lv.Items[3].SubItems[1].Text = "Расшифровано (например: Русская классика)";
+			}
+			// транслитерация
+			if( ReadTranslitMode() ) {
+				lv.Items[4].SubItems[1].Text = "Да";
+			} else {
+				lv.Items[4].SubItems[1].Text = "Нет";
+			}
+			// "Строгие" имена папок и файлов
+			if( ReadStrictMode() ) {
+				lv.Items[5].SubItems[1].Text = "Да";
+			} else {
+				lv.Items[5].SubItems[1].Text = "Нет";
+			}
+			// Обработка пробелов
+			lv.Items[6].SubItems[1].Text = ReadSpaceProcessModeText();
+			// Упаковка файлов в архив
+			if( !ReadToArchiveMode() ) {
+				lv.Items[7].SubItems[1].Text = "Нет";
+			} else {
+				lv.Items[7].SubItems[1].Text = ReadArchiveTypeText();
+			}
+			// Одинаковые файлы
+			lv.Items[8].SubItems[1].Text = ReadFileExistText();
+			// добавление ID книги к имени файла
+			if( ReadAddToFileNameBookIDMode() ) {
+				lv.Items[9].SubItems[1].Text = "Да";
+			} else {
+				lv.Items[9].SubItems[1].Text = "Нет";
 			}
 		}
 		#endregion
-		
+
 		#endregion
+
 		
 		#region Настройки для папок Валидатора
 		#region Закрытые статические члены-данные класса для Папок Валидатор

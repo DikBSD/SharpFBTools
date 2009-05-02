@@ -229,15 +229,18 @@ namespace Options
 						
 						writer.WriteStartElement( "Space" );
 							writer.WriteAttributeString( "cboxSpaceSelectedIndex", cboxSpace.SelectedIndex.ToString() );
+							writer.WriteAttributeString( "cboxSpaceText", cboxSpace.Text.ToString() );
 						writer.WriteFullEndElement();
 						
 						writer.WriteStartElement( "Archive" );
 							writer.WriteAttributeString( "chBoxToArchiveChecked", chBoxToArchive.Checked.ToString() );
 							writer.WriteAttributeString( "cboxArchiveTypeSelectedIndex", cboxArchiveType.SelectedIndex.ToString() );
+							writer.WriteAttributeString( "cboxArchiveTypeText", cboxArchiveType.Text.ToString() );
 						writer.WriteFullEndElement();
 						
 						writer.WriteStartElement( "IsFileExist" );
 							writer.WriteAttributeString( "cboxFileExistSelectedIndex", cboxFileExist.SelectedIndex.ToString() );
+							writer.WriteAttributeString( "cboxFileExistText", cboxFileExist.Text.ToString() );
 						writer.WriteFullEndElement();
 						
 						writer.WriteStartElement( "AddToFileNameBookID" );
@@ -364,6 +367,9 @@ namespace Options
 		void CboxFileExistSelectedIndexChanged(object sender, EventArgs e)
 		{
 			chBoxAddToFileNameBookID.Visible = cboxFileExist.SelectedIndex == 1;
+			if( cboxFileExist.SelectedIndex == 0 ) {
+				chBoxAddToFileNameBookID.Checked = false;
+			}
 		}
 		
 		void ChBoxToArchiveCheckedChanged(object sender, EventArgs e)

@@ -29,6 +29,10 @@ namespace SharpFBTools.Controls.Panels
 	/// </summary>
 	public partial class SFBTpFileManager : UserControl
 	{
+		public ListView GetSettingsInfoListView()
+		{
+			return lvSettings;
+		}
 		public SFBTpFileManager()
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -43,10 +47,8 @@ namespace SharpFBTools.Controls.Panels
 				richTxtBoxDescTemplates.Text = "Не найден файл описания Шаблонов переименования: \""+sTDPath+"\"";
 			}
 
-			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( "d:\\1.fb2" );
-			TitleInfo ti = fb2p.GetTitleInfo();
-			DocumentInfo di = fb2p.GetDocumentInfo();
-			string sID = di.ID;
+			// загружаем в ListView-индикатор настроек данные 
+			Settings.Settings.SetInfoSettings( lvSettings );
 		}
 		
 		#region Закрытые вспомогательные методы класса

@@ -128,6 +128,8 @@ namespace Main
 			// запуск диалога Настроек
 			OptionsForm ofrm = new OptionsForm();
 			ofrm.ShowDialog();
+			// данные установок для Менеджера Файлов - в Info ListView
+			Settings.Settings.SetInfoSettings( sfbTpFileManager.GetSettingsInfoListView() );
 		}
 		
 		void MainFormFormClosed(object sender, FormClosedEventArgs e)
