@@ -117,11 +117,6 @@ namespace SharpFBTools.Controls.Panels
 			FilesWorker.FilesWorker.OpenDirDlg( tboxSortAllToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов:" );
 		}
 		#endregion
-		
-		private bool IsLineTemplatesCorrect( string sLine ) {
-			// проверка на корректность элементов строки шаблонов
-			return FilesWorker.TemplatesVerify.IsTemplateCorrect( FilesWorker.TemplatesVerify.GetLexems( @sLine ) );
-		}
 			
 		private void SortFull( string sSource )
 		{
@@ -148,7 +143,7 @@ namespace SharpFBTools.Controls.Panels
 				sLineTemplate = txtBoxTemplatesFromLine.Text;
 			}
 			// проверка на корректность строки с шаблонами
-			if( !IsLineTemplatesCorrect( sLineTemplate ) ) {
+			if( !FilesWorker.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Строка с шаблонами переименования содержит недопустимые элементы!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}

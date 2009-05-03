@@ -19,17 +19,8 @@ namespace FilesWorker
 		public TemplatesVerify()
 		{
 		}
-		public static bool IsTemplate( string s ) {
-			// проверка s на принадлежность к шаблонам переименовывания
-			try {
-                Templates.TIT t = (Templates.TIT) Enum.Parse( typeof(Templates.TIT), s );
-                return true;
-            } catch( ArgumentException ) {
-               return false;
-            }
-		}
-		
-		public static bool IsTemplateCorrect( string[] sLexems ) {
+
+		private static bool IsTemplateCorrect( string[] sLexems ) {
 			// проверка списка лексем на соответствие шаблонам
 			if( sLexems==null ) {
 				return false;
@@ -68,10 +59,25 @@ namespace FilesWorker
 			return bRet;
 		}
 		
-		public static string[] GetLexems( string sString ) {
+		private static string[] GetLexems( string sString ) {
 			// разбивка строки на длексемы. согласно шаблонам переименовывания
 			char[] charSeparators = new char[] {'[',']','*','-','_','(',')','\\'};
 			return sString.Split( charSeparators, StringSplitOptions.RemoveEmptyEntries );
+		}
+		
+		public static bool IsTemplate( string s ) {
+			// проверка s на принадлежность к шаблонам переименовывания
+			try {
+                Templates.TIT t = (Templates.TIT) Enum.Parse( typeof(Templates.TIT), s );
+                return true;
+            } catch( ArgumentException ) {
+               return false;
+            }
+		}
+		
+		public static bool IsLineTemplatesCorrect( string sLine ) {
+			// проверка на корректность элементов строки шаблонов
+			return IsTemplateCorrect( GetLexems( @sLine ) );
 		}
 		
 	}
