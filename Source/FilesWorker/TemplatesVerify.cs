@@ -20,20 +20,19 @@ namespace FilesWorker
 		{
 		}
 
-		private static bool IsTemplateCorrect( string[] sLexems ) {
+		private static bool IsTemplateCorrect( List<string> lsLexems ) {
 			// проверка списка лексем на соответствие шаблонам
-			if( sLexems==null ) {
+			if( lsLexems==null ) {
 				return false;
 			}
-			string[] sTemplates = new string[] {
+			string[] sAllTemplates = new string[] {
 					"*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*",
 					"*SI*","[","]","\\","(",")"," ","-","_"
 			};
-			
 			bool bRet = false;
-			foreach( string sLexem in sLexems ) {
+			foreach( string sLexem in lsLexems ) {
 				bRet = false;
-				foreach( string sTemplate in sTemplates ) {
+				foreach( string sTemplate in sAllTemplates ) {
 					if( sLexem == sTemplate ) {
 						bRet = true;
 						break;
@@ -44,10 +43,17 @@ namespace FilesWorker
 			return bRet;
 		}
 		
-		private static string[] GetLexemsToVerify( string sString ) {
+		private static List<string> GetLexemsToVerify( string sString ) {
 			// разбивка строки на лексемы, согласно шаблонам переименовывания
 			char[] charSeparators = new char[] {'[',']','-','_','(',')','\\'};
-			return sString.Split( charSeparators, StringSplitOptions.RemoveEmptyEntries );
+			string[] sTemp = sString.Split( charSeparators, StringSplitOptions.RemoveEmptyEntries );
+			char[] sTemplates = new char[] { ' ','-','_' };
+			List<string> lsLexems = new List<string>();
+			foreach( string s in sTemp ) {
+				lsLexems.AddRange( s.Split( sTemplates, StringSplitOptions.RemoveEmptyEntries ) );
+			}
+			
+			return lsLexems;
 		}
 		
 		public static bool IsLineTemplatesCorrect( string sLine ) {

@@ -138,9 +138,9 @@ namespace SharpFBTools.Controls.Panels
 			
 			string sLineTemplate = "";
 			if( rBtnTemplatesPrepared.Checked ) {
-				sLineTemplate = cboxTemplatesPrepared.Text;
+				sLineTemplate = cboxTemplatesPrepared.Text.Trim();
 			} else {
-				sLineTemplate = txtBoxTemplatesFromLine.Text;
+				sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
 			}
 			// проверка на корректность строки с шаблонами
 			if( !FilesWorker.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
@@ -160,6 +160,16 @@ namespace SharpFBTools.Controls.Panels
 			// проверка на соответствие ( ) в строке с шаблонами
 			if( !FilesWorker.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
 				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			// проверка на \ в начале строки с шаблонами
+			if( sLineTemplate[0]=='\\' ) {
+				MessageBox.Show( "Строка с шаблонами переименования не может начинаться с '\\'!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			// проверка на \ в конце строки с шаблонами
+			if( sLineTemplate[sLineTemplate.Length-1]=='\\' ) {
+				MessageBox.Show( "Строка с шаблонами переименования не может заканчиваться на '\\'!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			
