@@ -52,7 +52,6 @@ namespace FilesWorker
 			foreach( string s in sTemp ) {
 				lsLexems.AddRange( s.Split( sTemplates, StringSplitOptions.RemoveEmptyEntries ) );
 			}
-			
 			return lsLexems;
 		}
 		
@@ -88,6 +87,39 @@ namespace FilesWorker
 			}
 			return ( nLCount==nRCount ? true : false );
 		}
-			
+		
+		public static bool IsConditionalPatternCorrect( string sLine ) {
+			// проверка, корректен ли условный шаблон - не содержит ли вспомогат. символов без шаблона
+			// формируем строки условных шаблонов
+			string s = sLine;
+			if( s.IndexOf('[')==-1 ) return true;
+			List<string> ls = new List<string>();
+			for( int i=0; i!=s.Length; ++i ) {
+				int i1=s.IndexOf('[');
+				int i2=s.IndexOf(']');
+				if( i1==-1 ) break;
+				ls.Add( s.Substring( i1+1, i2-(i1+1) ) );
+				s = s.Remove( i1, i2-(i1-1) );
+				i = i2;
+			}
+			// проверяем, есть ли в условных шаблонах вспомогат. символы И *
+			char[] charAuxiliarySymbol = new char[] {' ','-','_','(',')','\\'};
+			foreach( string str in ls ) {
+				foreach( char sSym in charAuxiliarySymbol ) {
+					if( str.IndexOf( sSym )!=-1 ) {
+						if( str.IndexOf( '*' )!=-1 ) {
+							// все в порядке
+							break;
+						} else {
+							// вспомогат. символы в условном шабюлоне без самого шаблона
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		}
+		
+		
 	}
 }

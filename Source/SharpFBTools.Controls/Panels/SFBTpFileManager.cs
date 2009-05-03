@@ -88,6 +88,7 @@ namespace SharpFBTools.Controls.Panels
 		void RBtnTemplatesFromLineCheckedChanged(object sender, EventArgs e)
 		{
 			txtBoxTemplatesFromLine.Enabled = rBtnTemplatesFromLine.Checked;
+			txtBoxTemplatesFromLine.Focus();
 		}
 		
 		void TsbtnSortFilesToClick(object sender, EventArgs e)
@@ -172,7 +173,12 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Строка с шаблонами переименования не может заканчиваться на '\\'!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			
+			// проверка на \ в конце строки с шаблонами
+			if( !FilesWorker.TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
+				MessageBox.Show( "Условные шаблоны в строка с шаблонами переименования не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();
