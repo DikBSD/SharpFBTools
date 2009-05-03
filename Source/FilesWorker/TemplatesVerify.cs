@@ -118,6 +118,13 @@ namespace FilesWorker
 			// проверка, есть ли в строке искомый шаблон
 			return ( sLine.IndexOf( sTemplate )!=-1 ? true : false );
 		}
+		public static bool IsBookNameCorrect( string sLine) {
+			// проверка, есть ли в строке после искомого шаблона папка - \. Если да, то - некорректно.
+			int i = sLine.IndexOf("*BT*");
+			if( i==-1 ) return true;
+			string sb = sLine.Substring( i, sLine.Length-i );
+			return ( sb.IndexOf( '\\' )!=-1 ? false : true );
+		}
 		
 	}
 }

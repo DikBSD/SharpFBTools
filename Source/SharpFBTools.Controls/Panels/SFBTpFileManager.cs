@@ -170,7 +170,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			// проверка на \ в конце строки с шаблонами
 			if( sLineTemplate[sLineTemplate.Length-1]=='\\' ) {
-				MessageBox.Show( "Строка с шаблонами переименования не может заканчиваться на '\\'!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами переименования не может заканчиваться на '\\' !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка условных шаблонов на наличие в них вспом. символов без самих шаблонов
@@ -183,7 +183,12 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Строка с шаблонами переименования обязательно должна содержать шаблон *BT* (Название Книги)!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-	
+			// проверка, есть ли после обязательногошаблона *BT* папка \
+			if( !FilesWorker.TemplatesVerify.IsBookNameCorrect( sLineTemplate ) ) {
+				MessageBox.Show( "В строке с шаблонами переименования после обязательного шаблона *BT* (Название Книги) не может находиться символ папки '\\' !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();
