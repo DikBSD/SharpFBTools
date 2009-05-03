@@ -80,5 +80,33 @@ namespace FilesWorker
 			return IsTemplateCorrect( GetLexems( @sLine ) );
 		}
 		
+		public static bool IsEvenElements( string sLine, char cChar ) {
+			// проверка на четность элементов в строке
+			int nCount = 0;
+			for( int i=0; i!=sLine.Length; ++i ) {
+				if( sLine[i]== cChar ) {
+					++nCount;
+				}
+			}
+			return ( nCount % 2 == 0 ? true : false );
+		}
+		
+		public static bool IsBracketsCorrect( string sLine, char cLChar, char cRChar ) {
+			// проверка на соответствие [ ] или ( ) в строке
+			int nLCount = 0;
+			int nRCount = 0;
+			for( int i=0; i!=sLine.Length; ++i ) {
+				if( sLine[i]== cLChar ) {
+					++nLCount;
+				}
+			}
+			for( int i=0; i!=sLine.Length; ++i ) {
+				if( sLine[i]== cRChar ) {
+					++nRCount;
+				}
+			}
+			return ( nLCount==nRCount ? true : false );
+		}
+			
 	}
 }

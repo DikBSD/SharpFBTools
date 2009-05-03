@@ -147,7 +147,22 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Строка с шаблонами переименования содержит недопустимые элементы!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-
+			// проверка на четность * в строке с шаблонами
+			if( !FilesWorker.TemplatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
+				MessageBox.Show( "Строка с шаблонами переименования содержит нечетное число *!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			// проверка на соответствие [ ] в строке с шаблонами
+			if( !FilesWorker.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
+				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками [ ]!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			// проверка на соответствие ( ) в строке с шаблонами
+			if( !FilesWorker.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
+				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();
