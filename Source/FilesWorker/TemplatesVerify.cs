@@ -44,7 +44,7 @@ namespace FilesWorker
 			return bRet;
 		}
 		
-		private static string[] GetLexems( string sString ) {
+		private static string[] GetLexemsToVerify( string sString ) {
 			// разбивка строки на лексемы, согласно шаблонам переименовывания
 			char[] charSeparators = new char[] {'[',']','-','_','(',')','\\'};
 			return sString.Split( charSeparators, StringSplitOptions.RemoveEmptyEntries );
@@ -52,7 +52,7 @@ namespace FilesWorker
 		
 		public static bool IsLineTemplatesCorrect( string sLine ) {
 			// проверка на корректность элементов строки шаблонов
-			return IsTemplateCorrect( GetLexems( @sLine ) );
+			return IsTemplateCorrect( GetLexemsToVerify( @sLine ) );
 		}
 		
 		public static bool IsEvenElements( string sLine, char cChar ) {
