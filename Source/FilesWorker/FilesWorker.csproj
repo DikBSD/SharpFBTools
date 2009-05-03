@@ -34,6 +34,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FilesWorker.cs" />
     <Compile Include="StringProcessing.cs" />
+    <Compile Include="Templates.cs" />
+    <Compile Include="TemplatesVerify.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FB2\FB2.csproj">

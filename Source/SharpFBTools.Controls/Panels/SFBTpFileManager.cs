@@ -118,6 +118,11 @@ namespace SharpFBTools.Controls.Panels
 		}
 		#endregion
 		
+		private bool IsLineTemplatesCorrect( string sLine ) {
+			// проверка на корректность элементов строки шаблонов
+			return FilesWorker.TemplatesVerify.IsTemplateCorrect( FilesWorker.TemplatesVerify.GetLexems( @sLine ) );
+		}
+			
 		private void SortFull( string sSource )
 		{
 			// полная сортировка файлов
@@ -136,6 +141,18 @@ namespace SharpFBTools.Controls.Panels
 				return;
 			}
 			
+			string sLineTemplate = "";
+			if( rBtnTemplatesPrepared.Checked ) {
+				sLineTemplate = cboxTemplatesPrepared.Text;
+			} else {
+				sLineTemplate = txtBoxTemplatesFromLine.Text;
+			}
+			// проверка на корректность строки с шаблонами
+			if( !IsLineTemplatesCorrect( sLineTemplate ) ) {
+				MessageBox.Show( "Строка с шаблонами переименования содержит недопустимые элементы!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();
