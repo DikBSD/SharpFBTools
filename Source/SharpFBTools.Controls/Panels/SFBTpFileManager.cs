@@ -144,7 +144,7 @@ namespace SharpFBTools.Controls.Panels
 			List<string> lDirList = new List<string>();
 			if( !chBoxScanSubDir.Checked ) {
 				// сканировать только указанную папку
-				lDirList.Add( diFolder.FullName );
+				lDirList.Add( sSource );
 				lvFilesCount.Items[0].SubItems[1].Text = "1";
 				lvFilesCount.Refresh();
 			} else {
@@ -172,16 +172,23 @@ namespace SharpFBTools.Controls.Panels
 			int nFileExistMode = Settings.Settings.ReadFileExistMode();
 			bool bAddToFileNameBookIDMode = Settings.Settings.ReadAddToFileNameBookIDMode();
 			bool bDelFB2FilesMode = Settings.Settings.ReadDelFB2FilesMode();
+			string sTempDir = Settings.Settings.GetTempDir();
+			string sArchType = FilesWorker.StringProcessing.GetArchiveExt( Settings.Settings.ReadArchiveTypeText() );
 			foreach( string sFromFilePath in lFilesList ) {
 				// смотрим, что это за файл
-				string sExt = Path.GetExtension( sFromFilePath );
-				if( sExt.ToLower() == ".fb2" ) {
+				string sExt = Path.GetExtension( sFromFilePath ).ToLower();
+				if( sExt == ".fb2" ) {
 					// обработка fb2-файла
 					// TODO: Вместо sToFilePath - ф-я формирования пути файла из его данных Description
 					// TODO: пока просто копирует ВСЕ файлы. Надо сделать отлов только fb2 и всех архивов. Для Архивов - копирование распакованного
 					// TODO: Если опция запаковать включена - тогда и fb2 и из архивов - запаковать и скопировать
 					string sToFilePath = sTarget + sFromFilePath.Remove( 0, sSource.Length );
-					CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
+					if( !Settings.Settings.ReadToArchiveMode() ) {
+						CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
+					} else {
+						// упаковка в архив
+						CopyFileToArchive( sArchType, sFromFilePath, sToFilePath+"."+sArchType, nFileExistMode, bAddToFileNameBookIDMode );
+					}
 					if( bDelFB2FilesMode ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFromFilePath ) ) {
@@ -194,11 +201,15 @@ namespace SharpFBTools.Controls.Panels
 					// это архив?
 					if( IsArchive( sExt ) ) {
 						List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath );
-						
 						// TODO: Все вышеизложенное, тольео для каждого файла из списка lFilesListFromArchive
 						foreach( string sFromFB2Path in lFilesListFromArchive ) {
-							string sToFilePath = sTarget + sFromFB2Path.Remove( 0, sSource.Length );
-							CopyFileToTargetDir( sFromFB2Path, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
+							string sToFilePath = sTarget + sFromFB2Path.Remove( 0, sTempDir.Length );
+							if( !Settings.Settings.ReadToArchiveMode() ) {
+								CopyFileToTargetDir( sFromFB2Path, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
+							} else {
+								// упаковка в архив
+								CopyFileToArchive( sArchType, sFromFB2Path, sToFilePath+"."+sArchType, nFileExistMode, bAddToFileNameBookIDMode );
+							}
 						}
 						if( bDelFB2FilesMode ) {
 							// удаляем исходный fb2-файл
@@ -215,41 +226,61 @@ namespace SharpFBTools.Controls.Panels
 						continue;
 					}
 				}
-				
 			}
-			string sMess = "Сортировка файлов в указанную папку завершена!";
+			FilesWorker.FilesWorker.RemoveDir( sTempDir );
+			DateTime dtEnd = DateTime.Now;
+			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sMess = "Сортировка файлов в указанную папку завершена!\nЗатрачено времени: "+sTime;
 			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = Settings.Settings.GetReady();
 			tsProgressBar.Visible = false;
 		}
 		
-		private bool IsArchive( string sExt )
+		private void CopyFileToArchive( string sArchType, string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
 		{
-			return ( sExt==".zip" || sExt==".rar" || sExt==".7z" || sExt==".bz2" || sExt==".gz" || sExt==".tar" );
-		}
-		
-		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
-		{
-			// копирование файла с сформированным именем (путь)
+			// архивирование файла с сформированным именем (путь)
+			string s7zPath = Settings.Settings.Read7zaPath();
+			string sRarPath = Settings.Settings.ReadRarPath();
+			string sSufix = "";
 			FileInfo fi = new FileInfo( sToFilePath );
 			if( !fi.Directory.Exists ) {
 				Directory.CreateDirectory( fi.Directory.ToString() );
 			}
-			string sSufix = "";
 			if( File.Exists( sToFilePath ) ) {
 				if( nFileExistMode == 0 ) {
 					File.Delete( sToFilePath );
 				} else {
 					if( bAddToFileNameBookIDMode ) {
-						FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFromFilePath );
-						DocumentInfo di = fb2p.GetDocumentInfo();
-						sSufix = "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
+						sSufix = FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
 					}
-					string sExt = Path.GetExtension( sToFilePath );
-					DateTime dt = DateTime.Now;
-					sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-								dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
-					sToFilePath = sToFilePath.Remove( sToFilePath.Length - sExt.Length ) + sSufix + sExt;
+					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+					sToFilePath = sToFilePath.Remove( sToFilePath.Length - (sArchType.Length+5) ) + sSufix + ".fb2." + sArchType;
+				}
+			}
+			if( sArchType == "rar" ) {
+				Archiver.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true );
+			} else {
+				Archiver.Archiver.zip( s7zPath, sArchType, sFromFilePath, sToFilePath );
+			}
+		}
+		
+		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
+		{
+			// копирование файла с сформированным именем (путь)
+			string sSufix = "";
+			FileInfo fi = new FileInfo( sToFilePath );
+			if( !fi.Directory.Exists ) {
+				Directory.CreateDirectory( fi.Directory.ToString() );
+			}
+			if( File.Exists( sToFilePath ) ) {
+				if( nFileExistMode == 0 ) {
+					File.Delete( sToFilePath );
+				} else {
+					if( bAddToFileNameBookIDMode ) {
+						sSufix = FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
+					}
+					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+					sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + ".fb2";
 				}
 			}
 			if( File.Exists( sFromFilePath ) ) {
@@ -260,13 +291,13 @@ namespace SharpFBTools.Controls.Panels
 		private List<string> GetFileListFromArchive( string sFromFile ) {
 			// Распаковать архив во временную папку
 			List<string> lFilesList = new List<string>(); // список fb2-файлов из файла-архива sFromFile
-			string sTempDir = Settings.Settings.GetTempDir();
-			string sExt = Path.GetExtension( sFromFile );
-			if( sExt.ToLower() != "" ) {
+			string sTempDir 	= Settings.Settings.GetTempDir();
+			string sExt			= Path.GetExtension( sFromFile ).ToLower();
+			string s7zaPath		= Settings.Settings.Read7zaPath();
+			string sUnRarPath	= Settings.Settings.ReadUnRarPath();
+			if( sExt != "" ) {
 				FilesWorker.FilesWorker.RemoveDir( sTempDir );
-				string s7zaPath		= Settings.Settings.Read7zaPath();
-				string sUnRarPath	= Settings.Settings.ReadUnRarPath();
-				switch( sExt.ToLower() ) {
+				switch( sExt ) {
 					case ".rar":
 						if( !Directory.Exists( sTempDir ) ) {
 							Directory.CreateDirectory( sTempDir );
@@ -300,6 +331,11 @@ namespace SharpFBTools.Controls.Panels
 				}
 			}
 			return lFilesList;
+		}
+				
+		private bool IsArchive( string sExt )
+		{
+			return ( sExt==".zip" || sExt==".rar" || sExt==".7z" || sExt==".bz2" || sExt==".gz" || sExt==".tar" );
 		}
 		
 	}

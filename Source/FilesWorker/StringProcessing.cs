@@ -7,6 +7,8 @@
  * License: GPL 2.1
  */
 using System;
+using FB2.FB2Parsers;
+using FB2.Description.DocumentInfo;
 
 namespace FilesWorker
 {
@@ -185,10 +187,67 @@ namespace FilesWorker
 		}
 		
 		#region Открытые методы класса
+		public static string GetArchiveExt( string sArchiveType ) {
+			string sExt = "";
+			switch( sArchiveType ) {
+				case "Rar":
+					sExt = "rar";
+					break;
+				case "Zip":
+					sExt = "zip";
+					break;
+				case "7z":
+					sExt = "7z";
+					break;
+				case "BZip2":
+					sExt = "bz2";
+					break;
+				case "GZip":
+					sExt = "gz";
+					break;
+				case "Tar":
+					sExt = "tar";
+					break;
+			}
+			return sExt;
+		}
+		
+		public static string GetDateTimeExt()
+		{
+			DateTime dt = DateTime.Now;
+			return	"_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+						dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+		}
+		
+		public static string GetBookID( string sFB2FilePath )
+		{
+			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID
+			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
+			DocumentInfo di = fb2p.GetDocumentInfo();
+			return ( "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() ) );
+		}
+		
+		public static string GetFMBookID( string sFB2FilePath )
+		{
+			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID (транслитерация и регистр при включенных опциях) - для М\Менеджера Файлов
+			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
+			DocumentInfo di = fb2p.GetDocumentInfo();
+			string s = "";
+			if( di.ID == null ) {
+				s = RegisterString( Settings.Settings.GetNoID(), Settings.Settings.ReadRegisterMode() );
+				if( Settings.Settings.ReadTranslitMode() ) {
+					s = TransliterationString( s );
+				}
+			} else {
+				s = di.ID;
+			}
+			return ( "_" + s );
+		}
+
 		public static string TransliterationString( string sString ) {
 			// транслитерация строки
 			string sStr = sString;
-			if( sString.Trim()=="" ) {
+			if( sString==null || sString=="" ) {
 				return sString;
 			}
 			const string sTemplate = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#№$%^[](){}-+=_;.,";
@@ -208,7 +267,7 @@ namespace FilesWorker
 		public static string StrictString( string sString ) {
 			// "строгое" значение строки
 			string s = sString;
-			if( sString.Trim()=="" ) {
+			if( sString==null || sString=="" ) {
 				return sString;
 			}
 			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
@@ -224,8 +283,8 @@ namespace FilesWorker
 		
 		public static string SpaceString( string sString, int nMode ) {
 			// обработка пробелов в строке
-			if( sString.Trim()=="" ) {
-				return "";
+			if( sString==null || sString=="" ) {
+				return sString;
 			}
 			string s = "";
 			for( int i=0; i!=sString.Length; ++i ) {
@@ -259,7 +318,7 @@ namespace FilesWorker
 		
 		public static string RegisterString( string sString, int nMode ) {
 			// задание регистра строке
-			if( sString.Trim()=="" ) {
+			if( sString==null || sString=="" ) {
 				return "";
 			}
 			switch( nMode ) {

@@ -70,13 +70,9 @@ namespace SharpFBTools.Controls.Panels
 					File.Delete( sNewFile );
 				} else {
 					if( chBoxAddFileNameBookID.Checked ) {
-						FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFromFile );
-						DocumentInfo di = fb2p.GetDocumentInfo();
-						sSufix = "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
+						sSufix = FilesWorker.StringProcessing.GetBookID( sFromFile );
 					}
-					DateTime dt = DateTime.Now;
-					sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-							dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
 					sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
 				}
 			}
@@ -114,31 +110,6 @@ namespace SharpFBTools.Controls.Panels
 		#endregion
 		
 		#region Архивация
-		private string GetArchiveExt( string sType ) {
-			string sExt = "";
-			switch( sType ) {
-				case "Rar":
-					sExt = "rar";
-					break;
-				case "Zip":
-					sExt = "zip";
-					break;
-				case "7z":
-					sExt = "7z";
-					break;
-				case "BZip2":
-					sExt = "bz2";
-					break;
-				case "GZip":
-					sExt = "gz";
-					break;
-				case "Tar":
-					sExt = "tar";
-					break;
-			}
-			return sExt;
-		}
-		
 		private void FileToArchive( string sArchPath, List<string> lFilesList, bool bZip, ToolStripProgressBar pBar ) {
 			// упаковка fb2-файлов в .fb2.??? - где ??? - тип архива (задается в cboxArchiveType)
 			#region Код
@@ -150,7 +121,7 @@ namespace SharpFBTools.Controls.Panels
 					lvGeneralCount.Refresh();
 					// упаковываем
 					string sArchiveFile = "";
-					string sDotExt = "."+GetArchiveExt( cboxArchiveType.Text );
+					string sDotExt = "."+FilesWorker.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
 					string sSufix = ""; // для добавления к имени нового архива суфикса
 					if( rbtnToSomeDir.Checked ) {
 						// создаем архив в той же папке, где и исходный fb2-файл
@@ -160,13 +131,9 @@ namespace SharpFBTools.Controls.Panels
 								File.Delete( sArchiveFile );
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
-									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFile );
-									DocumentInfo di = fb2p.GetDocumentInfo();
-									sSufix = "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
+									sSufix = FilesWorker.StringProcessing.GetBookID( sFile );
 								}
-								DateTime dt = DateTime.Now;
-								sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-										dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+								sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
 								sArchiveFile = sFile.Remove( sFile.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
 						}
@@ -185,13 +152,9 @@ namespace SharpFBTools.Controls.Panels
 								File.Delete( sArchiveFile );
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
-									FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFile );
-									DocumentInfo di = fb2p.GetDocumentInfo();
-									sSufix = "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
+									sSufix = FilesWorker.StringProcessing.GetBookID( sFile );
 								}
-								DateTime dt = DateTime.Now;
-								sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-											dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+								sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
 								sArchiveFile = sTarget + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
 						}
@@ -346,11 +309,9 @@ namespace SharpFBTools.Controls.Panels
 		
 		private long ArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
 			// Распаковать ахривы
-			string sArchType = GetArchiveExt( cboxUAType.Text );
-			long lAllArchive = 0;
-			long lRar = 0;
-			long lFB2 = 0;
-			long lCount = 0;
+			string sArchType = FilesWorker.StringProcessing.GetArchiveExt( cboxUAType.Text );
+			long lAllArchive, lRar, lFB2, lCount;
+			lAllArchive = lRar = lFB2 = lCount = 0;
 			string sTempDir = Settings.Settings.GetTempDir();
 			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 			switch( sArchType.ToLower() ) {

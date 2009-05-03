@@ -196,7 +196,7 @@ namespace Settings
 		public static string GetChangeFilePath() {
 			return m_sChangeFilePath;
 		}
-		
+
 		////// Чтение из файла настроек данных по конкретному параметру
 		
 		public static string ReadWinRARPath() {
@@ -513,6 +513,12 @@ namespace Settings
 				lv.Items[9].SubItems[1].Text = "Да";
 			} else {
 				lv.Items[9].SubItems[1].Text = "Нет";
+			}
+			// удаление исходных файлов после сортировки
+			if( ReadDelFB2FilesMode() ) {
+				lv.Items[10].SubItems[1].Text = "Да";
+			} else {
+				lv.Items[10].SubItems[1].Text = "Нет";
 			}
 		}
 		#endregion

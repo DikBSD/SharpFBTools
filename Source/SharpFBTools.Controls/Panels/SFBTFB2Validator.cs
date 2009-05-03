@@ -336,14 +336,10 @@ namespace SharpFBTools.Controls.Panels
 						File.Delete( sNewPath );
 					} else {
 						if( chBoxAddBookID.Checked ) {
-							FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFilePath );
-							DocumentInfo di = fb2p.GetDocumentInfo();
-							sSufix = "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
+							sSufix = FilesWorker.StringProcessing.GetBookID( sFilePath );
 						}
 						string sExt = Path.GetExtension( sNewPath );
-						DateTime dt = DateTime.Now;
-						sSufix += "_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-									dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+						sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
 						sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
 					}
 				}
