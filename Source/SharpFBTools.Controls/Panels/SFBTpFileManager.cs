@@ -178,16 +178,6 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Условные шаблоны в строка с шаблонами переименования не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			// проверка на наличие обязательного шаблона *BT*
-			if( !FilesWorker.TemplatesVerify.IsTemplateExsist( sLineTemplate, "*BT*" ) ) {
-				MessageBox.Show( "Строка с шаблонами переименования обязательно должна содержать шаблон *BT* (Название Книги)!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			}
-			// проверка, есть ли после обязательногошаблона *BT* папка \
-			if( !FilesWorker.TemplatesVerify.IsBookNameCorrect( sLineTemplate ) ) {
-				MessageBox.Show( "В строке с шаблонами переименования после обязательного шаблона *BT* (Название Книги) не может находиться символ папки '\\' !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			}
 
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
