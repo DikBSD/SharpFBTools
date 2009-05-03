@@ -232,16 +232,7 @@ namespace FilesWorker
 			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID (транслитерация и регистр при включенных опциях) - для М\Менеджера Файлов
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
 			DocumentInfo di = fb2p.GetDocumentInfo();
-			string s = "";
-			if( di.ID == null ) {
-				s = RegisterString( Settings.Settings.GetNoID(), Settings.Settings.ReadRegisterMode() );
-				if( Settings.Settings.ReadTranslitMode() ) {
-					s = TransliterationString( s );
-				}
-			} else {
-				s = di.ID;
-			}
-			return ( "_" + s );
+			return "_" + ( di.ID != null ? di.ID : GetGeneralWorkedString( Settings.Settings.GetNoID() ) );
 		}
 
 		public static string TransliterationString( string sString ) {
@@ -333,6 +324,23 @@ namespace FilesWorker
 			}
 		}
 		
+		public static string GetGeneralWorkedString( string sFB2FilePath )
+		{
+			string s = "";
+			// регистр
+			s = RegisterString( sFB2FilePath, Settings.Settings.ReadRegisterMode() );
+			// пробелы
+			s = SpaceString( s, Settings.Settings.ReadSpaceProcessMode() );
+			// транслитерация
+			if( Settings.Settings.ReadTranslitMode() ) {
+				s = TransliterationString( s );
+			}
+			// "строгие" символы
+			if( Settings.Settings.ReadStrictMode() ) {
+				s = TransliterationString( s );
+			}
+			return s;
+		}
 		#endregion
 	}
 }
