@@ -173,12 +173,17 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Строка с шаблонами переименования не может заканчиваться на '\\'!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			// проверка на \ в конце строки с шаблонами
+			// проверка условных шаблонов на наличие в них вспом. символов без самих шаблонов
 			if( !FilesWorker.TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Условные шаблоны в строка с шаблонами переименования не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-
+			// проверка на наличие обязательного шаблона *BT*
+			if( !FilesWorker.TemplatesVerify.IsTemplateExsist( sLineTemplate, "*BT*" ) ) {
+				MessageBox.Show( "Строка с шаблонами переименования обязательно должна содержать шаблон *BT* (Название Книги)!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+	
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();

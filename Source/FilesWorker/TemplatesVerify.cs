@@ -20,9 +20,9 @@ namespace FilesWorker
 		{
 		}
 
-		private static bool IsTemplateCorrect( List<string> lsLexems ) {
+		private static bool IsTemplateCorrect( string[] sLexems ) {
 			// проверка списка лексем на соответствие шаблонам
-			if( lsLexems==null ) {
+			if( sLexems==null ) {
 				return false;
 			}
 			string[] sAllTemplates = new string[] {
@@ -30,7 +30,7 @@ namespace FilesWorker
 					"*SI*","[","]","\\","(",")"," ","-","_"
 			};
 			bool bRet = false;
-			foreach( string sLexem in lsLexems ) {
+			foreach( string sLexem in sLexems ) {
 				bRet = false;
 				foreach( string sTemplate in sAllTemplates ) {
 					if( sLexem == sTemplate ) {
@@ -43,16 +43,10 @@ namespace FilesWorker
 			return bRet;
 		}
 		
-		private static List<string> GetLexemsToVerify( string sString ) {
+		private static string[] GetLexemsToVerify( string sString ) {
 			// разбивка строки на лексемы, согласно шаблонам переименовывания
-			char[] charSeparators = new char[] {'[',']','-','_','(',')','\\'};
-			string[] sTemp = sString.Split( charSeparators, StringSplitOptions.RemoveEmptyEntries );
-			char[] sTemplates = new char[] { ' ','-','_' };
-			List<string> lsLexems = new List<string>();
-			foreach( string s in sTemp ) {
-				lsLexems.AddRange( s.Split( sTemplates, StringSplitOptions.RemoveEmptyEntries ) );
-			}
-			return lsLexems;
+			char[] charSeparators = new char[] { ' ','[',']','-','_','(',')','\\' };
+			return sString.Split( charSeparators, StringSplitOptions.RemoveEmptyEntries );
 		}
 		
 		public static bool IsLineTemplatesCorrect( string sLine ) {
@@ -120,6 +114,10 @@ namespace FilesWorker
 			return true;
 		}
 		
+		public static bool IsTemplateExsist( string sLine, string sTemplate ) {
+			// проверка, есть ли в строке искомый шаблон
+			return ( sLine.IndexOf( sTemplate )!=-1 ? true : false );
+		}
 		
 	}
 }
