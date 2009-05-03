@@ -25,25 +25,10 @@ namespace FilesWorker
 			if( sLexems==null ) {
 				return false;
 			}
-			string[] sTemplates = new string[18];
-					sTemplates[0]="L";
-					sTemplates[1]="G";
-					sTemplates[2]="BAF";
-					sTemplates[3]="BAM";
-					sTemplates[4]="BAL";
-					sTemplates[5]="BAN";
-					sTemplates[6]="BT";
-					sTemplates[7]="SN";
-					sTemplates[8]="SI";
-					sTemplates[9]="*";
-					sTemplates[10]="[";
-					sTemplates[11]="]";
-					sTemplates[12]="\\";
-					sTemplates[13]="(";
-					sTemplates[14]=")";
-					sTemplates[15]=" ";
-					sTemplates[16]="-";
-					sTemplates[17]="_";
+			string[] sTemplates = new string[] {
+					"*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*",
+					"*SI*","[","]","\\","(",")"," ","-","_"
+			};
 			
 			bool bRet = false;
 			foreach( string sLexem in sLexems ) {
@@ -60,19 +45,9 @@ namespace FilesWorker
 		}
 		
 		private static string[] GetLexems( string sString ) {
-			// разбивка строки на длексемы. согласно шаблонам переименовывания
-			char[] charSeparators = new char[] {'[',']','*','-','_','(',')','\\'};
+			// разбивка строки на лексемы, согласно шаблонам переименовывания
+			char[] charSeparators = new char[] {'[',']','-','_','(',')','\\'};
 			return sString.Split( charSeparators, StringSplitOptions.RemoveEmptyEntries );
-		}
-		
-		public static bool IsTemplate( string s ) {
-			// проверка s на принадлежность к шаблонам переименовывания
-			try {
-                Templates.TIT t = (Templates.TIT) Enum.Parse( typeof(Templates.TIT), s );
-                return true;
-            } catch( ArgumentException ) {
-               return false;
-            }
 		}
 		
 		public static bool IsLineTemplatesCorrect( string sLine ) {
