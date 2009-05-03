@@ -272,6 +272,25 @@ namespace FilesWorker
 			return sStrict;
 		}
 		
+		public static string OnlyCorrectSymbolsForFilename( string sString ) {
+			// только корректные символы для имен файлов
+			string s = sString;
+			if( sString==null || sString=="" ) {
+				return sString;
+			}
+			const string sBad = "*/|?<>\"&";
+			string sCorrect = "";
+			for( int i=0; i!=s.Length; ++i ) {
+				int nInd = sBad.IndexOf( s[i] );
+				if( nInd==-1 ) {
+					sCorrect += s[i];
+				} else {
+					sCorrect += "_";
+				}
+			}
+			return sCorrect;
+		}
+		
 		public static string SpaceString( string sString, int nMode ) {
 			// обработка пробелов в строке
 			if( sString==null || sString=="" ) {
@@ -331,12 +350,14 @@ namespace FilesWorker
 			s = RegisterString( sFB2FilePath, Settings.Settings.ReadRegisterMode() );
 			// пробелы
 			s = SpaceString( s, Settings.Settings.ReadSpaceProcessMode() );
-			// транслитерация
-			if( Settings.Settings.ReadTranslitMode() ) {
-				s = TransliterationString( s );
-			}
 			// "строгие" символы
 			if( Settings.Settings.ReadStrictMode() ) {
+				s = StrictString( s );
+			} else {
+				s = OnlyCorrectSymbolsForFilename( s );
+			}
+			// транслитерация
+			if( Settings.Settings.ReadTranslitMode() ) {
 				s = TransliterationString( s );
 			}
 			return s;
