@@ -11,6 +11,24 @@ using System.Collections.Generic;
 
 namespace FilesWorker
 {
+	public class TP {
+		private string m_sLexem			= "";
+		private bool m_bIsConditional	= false;
+		public TP()
+		{
+		}
+		public TP( string sLexem, bool bIsConditional )
+		{
+			m_sLexem			= sLexem;
+			m_bIsConditional	= bIsConditional;
+		}
+		public virtual string Lexem {
+            get { return m_sLexem; }
+        }
+		public virtual bool bIsConditional {
+            get { return bIsConditional; }
+        }
+	}
 	/// <summary>
 	/// Description of TemplatesParser.
 	/// </summary>
@@ -49,22 +67,27 @@ namespace FilesWorker
 			if( sLine==null || sLine=="" ) return null;
 			string sTemp = sLine;
 			List<string> ls = new List<string>();
+			List<TP> ltp = new List<TP>();
 			string s = "";
 			while( sTemp.Length!=0 ) {
 				if( sTemp[0]=='[' ) {
 					s =  GetTemplateLexem( sTemp, ']' );
+					ltp.Add( new TP( s, true ) );
 					sTemp = ( s.Length<sTemp.Length ? sTemp.Remove( 0, s.Length+2 )
 					         						: sTemp.Remove( 0, s.Length ) );
 				} else if( sTemp[0]=='(' ) {
 					s =  GetTemplateLexem( sTemp, ')' );
+					ltp.Add( new TP( s, false ) );
 					sTemp = ( s.Length<sTemp.Length ? sTemp.Remove( 0, s.Length+2 )
 					         						: sTemp.Remove( 0, s.Length ) );
 				} else if( sTemp[0]=='*' ) {
 					s =  GetTemplateLexem( sTemp, '*' );
+					ltp.Add( new TP( s, false ) );
 					sTemp = ( s.Length<sTemp.Length ? sTemp.Remove( 0, s.Length+2 )
 					         						: sTemp.Remove( 0, s.Length ) );
 				} else {
 					s =  GetSymbolsLexem( sTemp );
+					ltp.Add( new TP( s, false ) );
 					sTemp = sTemp.Remove( 0, s.Length );
 				}
 				ls.Add( s );
@@ -72,6 +95,32 @@ namespace FilesWorker
 			
 			return ls;
 		}
+		
+		public static List<TP> GetLexemsType( string sLine, bool bIsConditional ) {
+			// разбивка строки на лексемы для дальнейшего анализа
+			if( sLine==null || sLine=="" ) return null;
+			string sTemp = sLine;
+			List<TP> ltp = new List<TP>();
+			string s = "";
+			while( sTemp.Length!=0 ) {
+				if( sTemp[0]=='[' ) {
+					s =  GetTemplateLexem( sTemp, ']' );
+					ltp.Add( new TP( s, bIsConditional ) );
+				} else if( sTemp[0]=='(' ) {
+					s =  GetTemplateLexem( sTemp, ')' );
+					ltp.Add( new TP( s, bIsConditional ) );
+				} else if( sTemp[0]=='*' ) {
+					s =  GetTemplateLexem( sTemp, '*' );
+					ltp.Add( new TP( s, bIsConditional ) );
+				} else {
+					s =  GetSymbolsLexem( sTemp );
+					ltp.Add( new TP( s, bIsConditional ) );
+				}
+			}
+			return ltp;
+		}
+		
+		
 	}
 }
 

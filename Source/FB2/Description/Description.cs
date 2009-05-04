@@ -44,7 +44,7 @@ namespace FB2.Description
 		#endregion
 		
 		#region Открытые свойства класса - fb2-элементы
-		 public virtual TitleInfo.TitleInfo TitleInfo {
+		public virtual TitleInfo.TitleInfo TitleInfo {
             get { return m_TitleInfo; }
             set { m_TitleInfo = value; }
         }
