@@ -184,6 +184,7 @@ namespace SharpFBTools.Controls.Panels
 				return;
 			}
 			
+			List<string> s = FilesWorker.TemplatesParser.GetLexems( sLineTemplate );
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();

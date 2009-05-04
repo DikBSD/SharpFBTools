@@ -34,6 +34,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FilesWorker.cs" />
     <Compile Include="StringProcessing.cs" />
+    <Compile Include="TemplatesParser.cs" />
     <Compile Include="TemplatesVerify.cs" />
   </ItemGroup>
   <ItemGroup>
