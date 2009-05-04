@@ -145,7 +145,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			// проверка на корректность строки с шаблонами
 			if( !FilesWorker.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
-				MessageBox.Show( "Строка с шаблонами переименования содержит недопустимые элементы!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами переименования содержит или недопустимые шаблоны,\nили недопустимые символы для не шаблонов ( */|?<>\"&«» )!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на четность * в строке с шаблонами
@@ -175,7 +175,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			// проверка условных шаблонов на наличие в них вспом. символов без самих шаблонов
 			if( !FilesWorker.TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
-				MessageBox.Show( "Условные шаблоны в строка с шаблонами переименования не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Условные шаблоны [] в строке с шаблонами переименования не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на множественность символа папки \ в строке с шаблонами

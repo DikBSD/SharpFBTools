@@ -20,35 +20,37 @@ namespace FilesWorker
 		{
 		}
 
+		#region Закрытые Вспомогательные методы
 		private static bool IsTemplateCorrect( string[] sLexems ) {
 			// проверка списка лексем на соответствие шаблонам
-			if( sLexems==null ) {
-				return false;
-			}
-			string[] sAllTemplates = new string[] {
-					"*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*",
-					"*SI*","[","]","\\","(",")"," ","-","_"
-			};
-			bool bRet = false;
+			if( sLexems==null ) return false;
+
+			char[] sBad = new char[] { '*','/','|','?','<','>','\"','&','«','»' };
 			foreach( string sLexem in sLexems ) {
-				bRet = false;
-				foreach( string sTemplate in sAllTemplates ) {
-					if( sLexem == sTemplate ) {
-						bRet = true;
-						break;
+				foreach( string slex in sLexems ) {
+					foreach( char sSym in sBad ) {
+						if( slex.IndexOf( sSym )!=-1 ) {
+							// есть недопустимые символы в лексемах, не являющихся шаблонами
+							return false;
+						}
 					}
 				}
-				if(!bRet) return false;
 			}
-			return bRet;
+			return true;
 		}
 		
 		private static string[] GetLexemsToVerify( string sString ) {
 			// разбивка строки на лексемы, согласно шаблонам переименовывания
-			char[] charSeparators = new char[] { ' ','[',']','-','_','(',')','\\' };
-			return sString.Split( charSeparators, StringSplitOptions.RemoveEmptyEntries );
+			string[] sAllTemplates = new string[] {
+					"*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*",
+					"[","]","\\","(",")"," ","`","~","'","!","@","#","№","$","%","^",
+					"-","+","=","_",";",".",","
+			};
+			return sString.Split( sAllTemplates, StringSplitOptions.RemoveEmptyEntries );
 		}
-		
+		#endregion
+
+		#region Открытые методы
 		public static bool IsLineTemplatesCorrect( string sLine ) {
 			// проверка на корректность элементов строки шаблонов
 			return IsTemplateCorrect( GetLexemsToVerify( @sLine ) );
@@ -87,6 +89,7 @@ namespace FilesWorker
 			// формируем строки условных шаблонов
 			string s = sLine;
 			if( s.IndexOf('[')==-1 ) return true;
+			
 			List<string> ls = new List<string>();
 			for( int i=0; i!=s.Length; ++i ) {
 				int i1=s.IndexOf('[');
@@ -97,7 +100,10 @@ namespace FilesWorker
 				i = i2;
 			}
 			// проверяем, есть ли в условных шаблонах вспомогат. символы И *
-			char[] charAuxiliarySymbol = new char[] {' ','-','_','(',')','\\'};
+			char[] charAuxiliarySymbol = new char[] { 
+								' ','(',')','\\','`','~','\'','!','@','#',
+								'№','$','%','^','-','+','=','_',';','.',','
+			};
 			foreach( string str in ls ) {
 				foreach( char sSym in charAuxiliarySymbol ) {
 					if( str.IndexOf( sSym )!=-1 ) {
@@ -113,6 +119,7 @@ namespace FilesWorker
 			}
 			return true;
 		}
+		#endregion
 		
 	}
 }
