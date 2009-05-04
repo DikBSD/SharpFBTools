@@ -41,6 +41,57 @@ namespace FilesWorker
 		private static string GetTemplateLexem( string sLine, char cRChar ) {
 			// выделение лексемы для символа cRChar с начала строки sLine
 			int n = sLine.IndexOf( cRChar );
+			return ( n > 0 ? sLine.Substring( 0, n+1 )
+			        		: sLine.Substring( 0, sLine.Length ) );
+			
+		}
+		private static string GetSymbolsLexem( string sLine ) {
+			// выделение лексемы с начала строки sLine до (,[ или *. Порядок поиска важен!
+			int n = sLine.IndexOf( '(' );
+			if( n!=-1 ) {
+				return sLine.Substring( 0, n );
+			}
+			n = sLine.IndexOf( '[' );
+			if( n!=-1 ) {
+				return sLine.Substring( 0, n );
+			}
+			n = sLine.IndexOf( '*' );
+			if( n!=-1 ) {
+				return sLine.Substring( 0, n );
+			}
+			return sLine.Substring( 0, sLine.Length );
+		}
+		
+		public static List<string> GetLexems( string sLine ) {
+			// разбивка строки на лексемы для дальнейшего анализа
+			if( sLine==null || sLine=="" ) return null;
+			string sTemp = sLine;
+			List<string> ls = new List<string>();
+			string s = "";
+			while( sTemp.Length!=0 ) {
+				if( sTemp[0]=='[' ) {
+					s =  GetTemplateLexem( sTemp, ']' );
+					sTemp = sTemp.Remove( 0, s.Length );
+				} else if( sTemp[0]=='(' ) {
+					s =  GetTemplateLexem( sTemp, ')' );
+					sTemp = sTemp.Remove( 0, s.Length );
+				} else if( sTemp[0]=='*' ) {
+					s =  GetTemplateLexem( sTemp, '*' );
+					sTemp = sTemp.Remove( 0, s.Length );
+				} else {
+					s =  GetSymbolsLexem( sTemp );
+					sTemp = sTemp.Remove( 0, s.Length );
+				}
+				ls.Add( s );
+			}
+			
+			return ls;
+		}
+		
+		
+/*		private static string GetTemplateLexem( string sLine, char cRChar ) {
+			// выделение лексемы для символа cRChar с начала строки sLine
+			int n = sLine.IndexOf( cRChar );
 			return ( n > 0 ? sLine.Substring( 1, n-1 )
 			        		: sLine.Substring( 0, sLine.Length ) );
 			
@@ -128,6 +179,26 @@ namespace FilesWorker
 			return ltp;
 		}
 		
+		public static List<string> GetLexems1( string sLine ) {
+			if( sLine.IndexOf( '[' )==-1 ) return null;
+			List<string> ls = new List<string>();
+			for( int i=0; i!=sLine.Length; ++i ) {
+				string s = "";
+				if(sLine[i]!='[' ) {
+					s += sLine[i];
+				} else {
+					if( s!="" ) ls.Add( s );
+					for( int j=i; j!=sLine.Length; ++j ) {
+						s += sLine[j];
+						if( sLine[j]==']' ) {
+							ls.Add( s );
+							break;
+						}
+					}
+				}
+			}
+			return ls;
+		}*/
 		
 	}
 }
