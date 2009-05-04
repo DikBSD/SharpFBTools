@@ -153,6 +153,14 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Строка с шаблонами переименования содержит нечетное число *!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
+			// проверка, не стоит ли ] перед [
+			if( sLineTemplate.IndexOf('[')!=-1 && sLineTemplate.IndexOf(']')!=-1 ) {
+				if( sLineTemplate.IndexOf('[') > sLineTemplate.IndexOf(']') ) {
+					MessageBox.Show( "В строке с шаблонами переименования закрывающая скобка ] не может стоять перед открывающей [ !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+			}
+			
 			// проверка на соответствие [ ] в строке с шаблонами
 			if( !FilesWorker.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
 				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками [ ]!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );

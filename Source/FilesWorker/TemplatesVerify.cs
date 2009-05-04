@@ -25,7 +25,7 @@ namespace FilesWorker
 			// проверка списка лексем на соответствие шаблонам
 			if( sLexems==null ) return false;
 
-			char[] sBad = new char[] { '*','/','|','?','<','>','\"','&','«','»' };
+			char[] sBad = new char[] { ':','*','/','|','?','<','>','\"','&','«','»' };
 			foreach( string sLexem in sLexems ) {
 				foreach( string slex in sLexems ) {
 					foreach( char sSym in sBad ) {
@@ -43,7 +43,7 @@ namespace FilesWorker
 			// разбивка строки на лексемы, согласно шаблонам переименовывания
 			string[] sAllTemplates = new string[] {
 					"*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*",
-					"[","]","\\","(",")"," ","`","~","'","!","@","#","№","$","%","^",
+					"[","]","\\","(",")","{","}"," ","`","~","'","!","@","#","№","$","%","^",
 					"-","+","=","_",";",".",","
 			};
 			return sString.Split( sAllTemplates, StringSplitOptions.RemoveEmptyEntries );
@@ -88,7 +88,10 @@ namespace FilesWorker
 			// проверка, корректен ли условный шаблон - не содержит ли вспомогат. символов без шаблона
 			// формируем строки условных шаблонов
 			string s = sLine;
-			if( s.IndexOf('[')==-1 ) return true;
+			if( s.IndexOf('[')==-1 && s.IndexOf(']')==-1 ) return true;
+			if( s.IndexOf('[')!=-1 && s.IndexOf(']')!=-1 ) {
+				if( s.IndexOf('[') > s.IndexOf(']') ) return false;
+			}
 			
 			List<string> ls = new List<string>();
 			for( int i=0; i!=s.Length; ++i ) {
@@ -101,7 +104,7 @@ namespace FilesWorker
 			}
 			// проверяем, есть ли в условных шаблонах вспомогат. символы И *
 			char[] charAuxiliarySymbol = new char[] { 
-								' ','(',')','\\','`','~','\'','!','@','#',
+								' ','(',')','{','}','\\','`','~','\'','!','@','#',
 								'№','$','%','^','-','+','=','_',';','.',','
 			};
 			foreach( string str in ls ) {
@@ -111,7 +114,7 @@ namespace FilesWorker
 							// все в порядке
 							break;
 						} else {
-							// вспомогат. символы в условном шабюлоне без самого шаблона
+							// вспомогат. символы в условном шаблоне без самого шаблона
 							return false;
 						}
 					}
