@@ -178,7 +178,12 @@ namespace SharpFBTools.Controls.Panels
 				MessageBox.Show( "Условные шаблоны в строка с шаблонами переименования не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-
+			// проверка на множественность символа папки \ в строке с шаблонами
+			if( sLineTemplate.IndexOf( "\\\\" )!=-1 ) {
+				MessageBox.Show( "Строка с шаблонами переименования не может содержать несколько идущих подряд символов папки '\\' !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();
