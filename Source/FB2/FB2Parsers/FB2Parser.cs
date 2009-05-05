@@ -57,10 +57,13 @@ namespace FB2.FB2Parsers
             }
 
             // Жанры
+            IList<Genre> ilGenres = null;
             XmlNodeList xmlNodes = xn.SelectNodes("./fb:genre", m_NsManager);
-            IList<Genre> ilGenres = new List<Genre>();
-            foreach( XmlNode node in xmlNodes ) {
-                ilGenres.Add( GetGenre( node ) );
+            if( xmlNodes.Count > 0  ) {
+            	ilGenres = new List<Genre>();
+            	foreach( XmlNode node in xmlNodes ) {
+                	ilGenres.Add( GetGenre( node ) );
+            	}
             }
 
             // Авторы
@@ -84,7 +87,7 @@ namespace FB2.FB2Parsers
             Keywords keywords = TextFieldType<Keywords>( xn.SelectSingleNode("./fb:keywords", m_NsManager) );
 
             // Дата написания Книги
-            Date date = null;
+            Date date = GetDate( xn );
 
             // Обложка
             Coverpage coverpage = null;

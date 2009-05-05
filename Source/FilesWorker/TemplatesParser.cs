@@ -8,6 +8,16 @@
  */
 using System;
 using System.Collections.Generic;
+using FB2.FB2Parsers;
+using FB2.Common;
+using FB2.Description;
+using FB2.Description.TitleInfo;
+using FB2.Description.DocumentInfo;
+using FB2.Description.PublishInfo;
+using FB2.Description.CustomInfo;
+using FB2.Description.Common;
+
+using fB2Parser = FB2.FB2Parsers.FB2Parser;
 
 namespace Lexems
 {
@@ -189,14 +199,118 @@ namespace FilesWorker
 		#endregion
 		
 		#region Открытые методы
-		public static string Parse( string sLine ) {
+		public static string Parse( string sLine, string sFB2FilePath ) {
 			// формирование имени файла на основе данных Description и шаблонов подстановки
 			// формируем лексемы шаблонной строки
 			List<Lexems.TP> lexems = GemLexems( sLine );
 			
 			// формирование имени файла
-				
-			return "";
+			string sFileName = "";
+			fB2Parser fb2 = new fB2Parser( sFB2FilePath );
+			TitleInfo ti = fb2.GetTitleInfo();
+			string sLang = ti.Lang;
+			IList<Genre> lGenres = ti.Genres;
+			IList<Author> lAuthors = ti.Authors;
+			string sBookTitle = ti.BookTitle.Value;
+			IList<Sequence> lSequences = ti.Sequences;
+			
+			foreach( Lexems.TP lexem in lexems ) {
+				switch( lexem.Type ) {
+					case Lexems.Type.const_text:
+						// постоянные символы
+						sFileName += lexem.Lexem;
+						break;
+					case Lexems.Type.const_template:
+						// постоянный шаблон
+						switch( lexem.Lexem ) {
+							case "*L*":
+								sFileName += ( sLang==null ? "Языка Книги Нет" : sLang );
+								break;
+							case "*G*":
+								sFileName += ( lGenres==null ? "Жанра Нет" : lGenres[0].Name );
+								break;
+							case "*BAF*":
+								sFileName += ( lAuthors[0].FirstName==null ? "Имени Автора Нет" : lAuthors[0].FirstName.Value );
+								break;
+							case "*BAM*":
+								sFileName += ( lAuthors[0].MiddleName==null ? "Отчества Автора Нет" : lAuthors[0].MiddleName.Value );
+								break;
+							case "*BAL*":
+								sFileName += ( lAuthors[0].LastName==null ? "Фамилия Автора Нет" : lAuthors[0].LastName.Value );
+								break;
+							case "*BAN*":
+								sFileName += ( lAuthors[0].NickName==null ? "Ника Автора Нет" : lAuthors[0].NickName.Value );
+								break;
+							case "*BT*":
+								if( sBookTitle==null || sBookTitle=="" ) {
+									sFileName += "Названия Книги Нет";
+								} else {
+									sFileName += sBookTitle;
+								}
+								break;
+							case "*SN*":
+								sFileName += ( lSequences==null ? "Серии Нет" : lSequences[0].Name );
+								break;
+							case "*SI*":
+								sFileName += ( lSequences==null ? "Номера Серии Нет" : lSequences[0].Number.ToString() );
+								break;
+							default :
+								sFileName += "";
+								break;
+						}
+						break;
+					case Lexems.Type.conditional_template:
+						// условный шаблон
+						switch( lexem.Lexem ) {
+							case "*L*":
+								sFileName += ( sLang==null ? "" : sLang );
+								break;
+							case "*G*":
+								sFileName += ( lGenres==null ? "" : lGenres[0].Name );
+								break;
+							case "*BAF*":
+								sFileName += ( lAuthors[0].FirstName==null ? "" : lAuthors[0].FirstName.Value );
+								break;
+							case "*BAM*":
+								sFileName += ( lAuthors[0].MiddleName==null ? "" : lAuthors[0].MiddleName.Value );
+								break;
+							case "*BAL*":
+								sFileName += ( lAuthors[0].LastName==null ? "" : lAuthors[0].LastName.Value );
+								break;
+							case "*BAN*":
+								sFileName += ( lAuthors[0].NickName==null ? "" : lAuthors[0].NickName.Value );
+								break;
+							case "*BT*":
+								if( sBookTitle==null || sBookTitle=="" ) {
+									sFileName += "";
+								} else {
+									sFileName += sBookTitle;
+								}
+								break;
+							case "*SN*":
+								sFileName += ( lSequences==null ? "" : lSequences[0].Name );
+								break;
+							case "*SI*":
+								sFileName += ( lSequences==null ? "" : lSequences[0].Number.ToString() );
+								break;
+							default :
+								sFileName += "";
+								break;
+						}
+						break;
+					case Lexems.Type.conditional_simple_group:
+						// условная простая группа
+						break;
+					case Lexems.Type.conditional_complex_group:
+						// условная сложная группа
+						break;
+					default :
+						// постоянные символы
+						sFileName += lexem.Lexem;
+						break;
+				}
+			}
+			return sFileName;
 		}
 		#endregion
 	}

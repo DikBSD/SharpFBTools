@@ -192,7 +192,6 @@ namespace SharpFBTools.Controls.Panels
 				return;
 			}
 			
-			string s = FilesWorker.TemplatesParser.Parse( sLineTemplate );
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();
@@ -240,6 +239,7 @@ namespace SharpFBTools.Controls.Panels
 					// TODO: пока просто копирует ВСЕ файлы. Надо сделать отлов только fb2 и всех архивов. Для Архивов - копирование распакованного
 					// TODO: Если опция запаковать включена - тогда и fb2 и из архивов - запаковать и скопировать
 					string sToFilePath = sTarget + sFromFilePath.Remove( 0, sSource.Length );
+					string s = FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath );
 					if( !Settings.Settings.ReadToArchiveMode() ) {
 						CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
 					} else {
