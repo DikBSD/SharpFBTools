@@ -143,6 +143,11 @@ namespace SharpFBTools.Controls.Panels
 			} else {
 				sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
 			}
+			// проверка "пустоту" строки с шаблонами
+			if( sLineTemplate == "" ) {
+				MessageBox.Show( "Строка шаблонов не может быть пустой!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
 			// проверка на корректность строки с шаблонами
 			if( !FilesWorker.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&«» между шаблонами!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
