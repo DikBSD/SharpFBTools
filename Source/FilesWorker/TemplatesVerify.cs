@@ -27,12 +27,10 @@ namespace FilesWorker
 
 			char[] sBad = new char[] { ':','*','/','|','?','<','>','\"','&','«','»' };
 			foreach( string sLexem in sLexems ) {
-				foreach( string slex in sLexems ) {
-					foreach( char sSym in sBad ) {
-						if( slex.IndexOf( sSym )!=-1 ) {
-							// есть недопустимые символы в лексемах, не являющихся шаблонами
-							return false;
-						}
+				foreach( char sSym in sBad ) {
+					if( sLexem.IndexOf( sSym )!=-1 ) {
+						// есть недопустимые символы в лексемах, не являющихся шаблонами
+						return false;
 					}
 				}
 			}
@@ -103,12 +101,9 @@ namespace FilesWorker
 				i = i2;
 			}
 			// проверяем, есть ли в условных шаблонах вспомогат. символы И *
-			char[] charAuxiliarySymbol = new char[] { 
-								' ','(',')','{','}','\\','`','~','\'','!','@','#',
-								'№','$','%','^','-','+','=','_',';','.',','
-			};
+			const string sSymbols = "\\`~'!@#№$%^(){}-+=_;., абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 			foreach( string str in ls ) {
-				foreach( char sSym in charAuxiliarySymbol ) {
+				foreach( char sSym in sSymbols ) {
 					if( str.IndexOf( sSym )!=-1 ) {
 						if( str.IndexOf( '*' )!=-1 ) {
 							// все в порядке

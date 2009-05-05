@@ -145,18 +145,18 @@ namespace SharpFBTools.Controls.Panels
 			}
 			// проверка на корректность строки с шаблонами
 			if( !FilesWorker.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
-				MessageBox.Show( "Строка с шаблонами переименования содержит или недопустимые шаблоны,\nили недопустимые символы для не шаблонов ( */|?<>\"&«» )!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&«» между шаблонами!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на четность * в строке с шаблонами
 			if( !FilesWorker.TemplatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
-				MessageBox.Show( "Строка с шаблонами переименования содержит нечетное число *!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами подстановки содержит нечетное число *!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка, не стоит ли ] перед [
 			if( sLineTemplate.IndexOf('[')!=-1 && sLineTemplate.IndexOf(']')!=-1 ) {
 				if( sLineTemplate.IndexOf('[') > sLineTemplate.IndexOf(']') ) {
-					MessageBox.Show( "В строке с шаблонами переименования закрывающая скобка ] не может стоять перед открывающей [ !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show( "В строке с шаблонами закрывающая скобка ] не может стоять перед открывающей [ !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				}
 			}
@@ -168,27 +168,27 @@ namespace SharpFBTools.Controls.Panels
 			}
 			// проверка на соответствие ( ) в строке с шаблонами
 			if( !FilesWorker.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
-				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "В строке с шаблонами нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на \ в начале строки с шаблонами
 			if( sLineTemplate[0]=='\\' ) {
-				MessageBox.Show( "Строка с шаблонами переименования не может начинаться с '\\'!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами не может начинаться с '\\'!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на \ в конце строки с шаблонами
 			if( sLineTemplate[sLineTemplate.Length-1]=='\\' ) {
-				MessageBox.Show( "Строка с шаблонами переименования не может заканчиваться на '\\' !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами не может заканчиваться на '\\' !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка условных шаблонов на наличие в них вспом. символов без самих шаблонов
 			if( !FilesWorker.TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
-				MessageBox.Show( "Условные шаблоны [] в строке с шаблонами переименования не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Условные шаблоны [] в строке с шаблонами не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на множественность символа папки \ в строке с шаблонами
 			if( sLineTemplate.IndexOf( "\\\\" )!=-1 ) {
-				MessageBox.Show( "Строка с шаблонами переименования не может содержать несколько идущих подряд символов папки '\\' !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами не может содержать несколько идущих подряд символов папки '\\' !\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			
