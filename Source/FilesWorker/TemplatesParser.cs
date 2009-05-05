@@ -22,26 +22,30 @@ using fB2Parser = FB2.FB2Parsers.FB2Parser;
 namespace Lexems
 {
 	/// <summary>
-	/// Description of Type
+	/// Description of SimpleType
 	/// </summary>
-	public enum Type {
+	public enum SimpleType {
 		const_template,			// постоянный шаблон
 		const_text, 			// постоянные символы
 		conditional_template,	// условный шаблон
-		conditional_simple_group, 	// условная простая группа
-		conditional_complex_group	// условная сложная группа
+		conditional_group, 		// условная группа
 	}
 	
 	/// <summary>
-	/// Description of TP
+	/// Description of ComplexType
 	/// </summary>
-	public class TP {
-		private string	m_sLexem	= "";
-		private Type	m_Type		= Type.const_template;
-		public TP()
-		{
-		}
-		public TP( string sLexem, Type Type )
+	public enum ComplexType {
+		template,	// постоянный шаблон
+		text, 		// постоянные символы
+	}
+	
+	/// <summary>
+	/// Description of TPSimple
+	/// </summary>
+	public class TPSimple {
+		private string		m_sLexem	= "";
+		private SimpleType	m_Type		= SimpleType.const_template;
+		public TPSimple( string sLexem, SimpleType Type )
 		{
 			m_sLexem	= sLexem;
 			m_Type		= Type;
@@ -49,8 +53,34 @@ namespace Lexems
 		public virtual string Lexem {
             get { return m_sLexem; }
         }
-		public virtual Type Type {
+		public virtual SimpleType Type {
             get { return m_Type; }
+        }
+	}
+	
+	/// <summary>
+	/// Description of TPComplex
+	/// </summary>
+	public class TPComplex {
+		private string		m_sLexem	= "";
+		private ComplexType	m_bType		= ComplexType.template;
+		private bool 		m_bPrint;
+		public TPComplex( string sLexem, ComplexType Type, bool bPrint )
+		{
+			m_sLexem	= sLexem;
+			m_bType		= Type;
+			m_bPrint	= bPrint;
+		}
+		public virtual string Lexem {
+            get { return m_sLexem; }
+            set { m_sLexem = value; }
+        }
+		public virtual ComplexType Type {
+            get { return m_bType; }
+        }
+		public virtual bool Print {
+            get { return m_bPrint; }
+            set { m_bPrint = value; }
         }
 	}
 }
@@ -77,7 +107,6 @@ namespace FilesWorker
 		private static string InsertSeparatorToAsterik( string sLine ) {
 			// вставка разделителя слева от открывающей * и справа от закрывающей *
 			if( sLine==null || sLine=="" ) return sLine;
-			if( sLine.IndexOf( '[' )!=-1 ) return sLine;
 			if( sLine.IndexOf( '*' )==-1 ) return sLine;
 			string sTemp = "";
 			int nCount = 0; // счетчик * - для определения их четности
@@ -149,7 +178,8 @@ namespace FilesWorker
 			return "";
 		}
 		
-		private static List<Lexems.TP> GemLexems( string sLine ) {
+		private static List<Lexems.TPSimple> GemSimpleLexems( string sLine ) {
+			/* получение простых лексем из шаблонной строки */
 			// разбиваем строку относительно [ и ]
 			string [] sTemp = InsertSeparatorToSquareBracket( sLine ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries );
 			// разбиваем строки sLexems, где нет [] относительно *
@@ -162,47 +192,61 @@ namespace FilesWorker
 				}
 			}
 			// задаем лексемам их тип
-			List<Lexems.TP> lexems = new List<Lexems.TP>();
+			List<Lexems.TPSimple> lexems = new List<Lexems.TPSimple>();
 			foreach( string s in lsLexems ) {
 				if( !IsTemplateExsist( s ) ) {
 					// постоянные символы
-					lexems.Add( new Lexems.TP( s, Lexems.Type.const_text ) );
+					lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.const_text ) );
 				} else {
 					if( s.IndexOf( '[' )==-1 ) {
 						// постоянный шаблон
-						lexems.Add( new Lexems.TP( s, Lexems.Type.const_template ) );
+						lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.const_template ) );
 					} else {
-						// если * > 2
-						if( CountElement( s, '*' )>2 ) {
-							// условная сложная группа
-							lexems.Add( new Lexems.TP( s, Lexems.Type.conditional_complex_group ) );
+						// удаляем шаблон из строки и смотрим, есть ли там еще что, помимо него
+						string st = GetTemplate( s );
+						string sRem = s.Remove( s.IndexOf( st ), st.Length ).Remove( 0, 1 );
+						sRem = sRem.Remove( (sRem.Length-1), 1 );
+						if( sRem == "" ) {
+							// условный шаблон
+							lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.conditional_template ) );
 						} else {
-							// либо условный шаблон либо условная простая группа
-							// удаляем шаблон из строки и смотрим, есть ли там еще что, помимо него
-							string st = GetTemplate( s );
-							string sRem = s.Remove( s.IndexOf( st ), st.Length ).Remove( 0, 1 );
-							sRem = sRem.Remove( (sRem.Length-1), 1 );
-							if( sRem=="" ) {
-								// условный шаблон
-								lexems.Add( new Lexems.TP( s, Lexems.Type.conditional_template ) );
-							} else {
-								// условная простая группа
-								lexems.Add( new Lexems.TP( s, Lexems.Type.conditional_simple_group ) );
-							}
+							// условная группа
+							lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.conditional_group ) );
 						}
 					}
 				}
 			}
 			return lexems;
 		}
-			
+		
+		
+		private static List<Lexems.TPComplex> GemComplexLexems( string sLine ) {
+			/* получение лексем из сложной группы */
+			// разбиваем строку относительно *
+			string str = sLine.Remove( 0, 1 );
+			str = str.Remove( (str.Length-1), 1 );
+			string [] sLexems = InsertSeparatorToAsterik( str ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries );
+			// задаем лексемам их тип
+			List<Lexems.TPComplex> lexems = new List<Lexems.TPComplex>();
+			foreach( string s in sLexems ) {
+				if( !IsTemplateExsist( s ) ) {
+					// символы
+					lexems.Add( new Lexems.TPComplex( s, Lexems.ComplexType.text, true ) );
+				} else {
+					// шаблон
+					lexems.Add( new Lexems.TPComplex( s, Lexems.ComplexType.template, true ) );
+				}
+			}
+			return lexems;
+		}
+		
 		#endregion
 		
 		#region Открытые методы
 		public static string Parse( string sLine, string sFB2FilePath ) {
 			// формирование имени файла на основе данных Description и шаблонов подстановки
 			// формируем лексемы шаблонной строки
-			List<Lexems.TP> lexems = GemLexems( sLine );
+			List<Lexems.TPSimple> lSLexems = GemSimpleLexems( sLine );
 			
 			// формирование имени файла
 			string sFileName = "";
@@ -214,13 +258,13 @@ namespace FilesWorker
 			string sBookTitle = ti.BookTitle.Value;
 			IList<Sequence> lSequences = ti.Sequences;
 			
-			foreach( Lexems.TP lexem in lexems ) {
+			foreach( Lexems.TPSimple lexem in lSLexems ) {
 				switch( lexem.Type ) {
-					case Lexems.Type.const_text:
+					case Lexems.SimpleType.const_text:
 						// постоянные символы
 						sFileName += lexem.Lexem;
 						break;
-					case Lexems.Type.const_template:
+					case Lexems.SimpleType.const_template:
 						// постоянный шаблон
 						switch( lexem.Lexem ) {
 							case "*L*":
@@ -259,7 +303,7 @@ namespace FilesWorker
 								break;
 						}
 						break;
-					case Lexems.Type.conditional_template:
+					case Lexems.SimpleType.conditional_template:
 						// условный шаблон
 						switch( lexem.Lexem ) {
 							case "[*L*]":
@@ -298,11 +342,11 @@ namespace FilesWorker
 								break;
 						}
 						break;
-					case Lexems.Type.conditional_simple_group:
-						// условная простая группа
-						break;
-					case Lexems.Type.conditional_complex_group:
-						// условная сложная группа
+					case Lexems.SimpleType.conditional_group:
+						// условная группа
+						string sCopmplex = ParseComplexGpoup( lexem.Lexem, ti.Lang, ti.Genres, ti.Authors, ti.BookTitle.Value, ti.Sequences );
+						
+						
 						break;
 					default :
 						// постоянные символы
@@ -312,6 +356,79 @@ namespace FilesWorker
 			}
 			return sFileName;
 		}
+		
+		
+		private static string ParseComplexGpoup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
+		                                      string sBookTitle, IList<Sequence> lSequences ) {
+			string sFileName = "";
+			List<Lexems.TPComplex> lCLexems = GemComplexLexems( sLine );
+			foreach( Lexems.TPComplex lexem in lCLexems ) {
+				switch( lexem.Type ) {
+					case Lexems.ComplexType.text:
+						// символы
+						break;
+					case Lexems.ComplexType.template:
+						// шаблоны
+						switch( lexem.Lexem ) {
+							case "*L*":
+								lexem.Lexem = ( sLang==null ? "" : sLang );
+								break;
+							case "*G*":
+								lexem.Lexem = ( lGenres==null ? "" : lGenres[0].Name );
+								break;
+							case "*BAF*":
+								lexem.Lexem = ( lAuthors[0].FirstName==null ? "" : lAuthors[0].FirstName.Value );
+								break;
+							case "*BAM*":
+								lexem.Lexem = ( lAuthors[0].MiddleName==null ? "" : lAuthors[0].MiddleName.Value );
+								break;
+							case "*BAL*":
+								lexem.Lexem = ( lAuthors[0].LastName==null ? "" : lAuthors[0].LastName.Value );
+								break;
+							case "*BAN*":
+								lexem.Lexem = ( lAuthors[0].NickName==null ? "" : lAuthors[0].NickName.Value );
+								break;
+							case "*BT*":
+								if( sBookTitle==null || sBookTitle=="" ) {
+									lexem.Lexem = "";
+								} else {
+									lexem.Lexem = sBookTitle;
+								}
+								break;
+							case "*SN*":
+								lexem.Lexem = ( lSequences==null ? "" : lSequences[0].Name );
+								break;
+							case "*SI*":
+								lexem.Lexem = ( lSequences==null ? "" : lSequences[0].Number.ToString() );
+								break;
+							default :
+								lexem.Lexem = "";
+								break;
+						}
+						break;
+				}
+			}
+			
+			// определение, какой текст, если он есть в группе, будет отображаться вместе с данными "его" шаблона
+			for( int i=0; i!=lCLexems.Count; ++i ) {
+				// "пустой" шаблон "ликвидирует" текст справа от себя, а 1-й "пустой" шаблон - еще и слева.
+				if( lCLexems[i].Type == Lexems.ComplexType.template ) {
+					if( lCLexems[i].Lexem == "" ) {
+						lCLexems[i].Print = false;
+						// не 1-й ли это элемент списка
+						if( i < lCLexems.Count && lCLexems[i+1].Type == Lexems.ComplexType.text ) {
+							lCLexems[i+1].Print = false;
+						}
+						if( i == 2 && lCLexems[0].Type == Lexems.ComplexType.text ) {
+							lCLexems[0].Print = false;
+						}
+					}
+				}
+			}
+			
+			return sFileName;
+		}
+			
 		#endregion
 	}
 }
