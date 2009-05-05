@@ -262,35 +262,35 @@ namespace FilesWorker
 					case Lexems.Type.conditional_template:
 						// условный шаблон
 						switch( lexem.Lexem ) {
-							case "*L*":
+							case "[*L*]":
 								sFileName += ( sLang==null ? "" : sLang );
 								break;
-							case "*G*":
+							case "[*G*]":
 								sFileName += ( lGenres==null ? "" : lGenres[0].Name );
 								break;
-							case "*BAF*":
+							case "[*BAF*]":
 								sFileName += ( lAuthors[0].FirstName==null ? "" : lAuthors[0].FirstName.Value );
 								break;
-							case "*BAM*":
+							case "[*BAM*]":
 								sFileName += ( lAuthors[0].MiddleName==null ? "" : lAuthors[0].MiddleName.Value );
 								break;
-							case "*BAL*":
+							case "[*BAL*]":
 								sFileName += ( lAuthors[0].LastName==null ? "" : lAuthors[0].LastName.Value );
 								break;
-							case "*BAN*":
+							case "[*BAN*]":
 								sFileName += ( lAuthors[0].NickName==null ? "" : lAuthors[0].NickName.Value );
 								break;
-							case "*BT*":
+							case "[*BT*]":
 								if( sBookTitle==null || sBookTitle=="" ) {
 									sFileName += "";
 								} else {
 									sFileName += sBookTitle;
 								}
 								break;
-							case "*SN*":
+							case "[*SN*]":
 								sFileName += ( lSequences==null ? "" : lSequences[0].Name );
 								break;
-							case "*SI*":
+							case "[*SI*]":
 								sFileName += ( lSequences==null ? "" : lSequences[0].Number.ToString() );
 								break;
 							default :
