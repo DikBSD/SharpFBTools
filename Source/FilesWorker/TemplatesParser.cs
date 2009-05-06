@@ -504,9 +504,10 @@ namespace FilesWorker
 			sFileName = rx.Replace( sFileName, "" );
 			rx = new Regex( @"\\+$" );
 			sFileName = rx.Replace( sFileName, "" );
-			// если в строке есть перевод строки - то убираем их
-			rx = new Regex( "\x0A" );
+/*			rx = new Regex( "\x0A" );
 			sFileName = rx.Replace( sFileName, "" );
+			rx = new Regex( "\x0D" );
+			sFileName = rx.Replace( sFileName, "" );*/
 			return StringProcessing.OnlyCorrectSymbolsForFilename( sFileName );
 		}
 		

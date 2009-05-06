@@ -280,7 +280,7 @@ namespace FilesWorker
 			if( sString==null || sString=="" ) {
 				return sString;
 			}
-			const string sBad = "*/|?<>\"&:";
+			const string sBad = "*/|?<>\"&:\t\r\n";
 			string sCorrect = "";
 			for( int i=0; i!=s.Length; ++i ) {
 				int nInd = sBad.IndexOf( s[i] );
