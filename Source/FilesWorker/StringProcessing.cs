@@ -17,6 +17,7 @@ namespace FilesWorker
 	/// </summary>
 	public class StringProcessing
 	{
+		private static ulong m_ulDateCount = 0;
 		#region «акрытые вспомогательные методы класса
 		private static string[] MakeTranslitLettersArray() {
 			// массив замены русских символов латинскими
@@ -214,9 +215,10 @@ namespace FilesWorker
 		
 		public static string GetDateTimeExt()
 		{
+			++m_ulDateCount;
 			DateTime dt = DateTime.Now;
 			return	"_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-						dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+dt.Millisecond.ToString();
+				dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+Convert.ToString( m_ulDateCount );
 		}
 		
 		public static string GetBookID( string sFB2FilePath )
