@@ -269,16 +269,48 @@ namespace FilesWorker
 								sFileName += ( lGenres==null ? "Жанра Нет" : lGenres[0].Name );
 								break;
 							case "*BAF*":
-								sFileName += ( lAuthors[0].FirstName==null ? "Имени Автора Нет" : lAuthors[0].FirstName.Value );
+								if( lAuthors[0].FirstName==null ) {
+									sFileName += "Имени Автора Нет";
+								} else {
+									if( lAuthors[0].FirstName.Value=="" ) {
+										sFileName += "Имени Автора Нет";
+									} else {
+										sFileName += lAuthors[0].FirstName.Value;
+									}
+								}
 								break;
 							case "*BAM*":
-								sFileName += ( lAuthors[0].MiddleName==null ? "Отчества Автора Нет" : lAuthors[0].MiddleName.Value );
+								if( lAuthors[0].MiddleName==null ) {
+									sFileName += "Отчества Автора Нет";
+								} else {
+									if( lAuthors[0].MiddleName.Value=="" ) {
+										sFileName += "Отчества Автора Нет";
+									} else {
+										sFileName += lAuthors[0].MiddleName.Value;
+									}
+								}
 								break;
 							case "*BAL*":
-								sFileName += ( lAuthors[0].LastName==null ? "Фамилия Автора Нет" : lAuthors[0].LastName.Value );
+								if( lAuthors[0].LastName==null ) {
+									sFileName += "Фамилия Автора Нет";
+								} else {
+									if( lAuthors[0].LastName.Value=="" ) {
+										sFileName += "Фамилия Автора Нет";
+									} else {
+										sFileName += lAuthors[0].LastName.Value;
+									}
+								}
 								break;
 							case "*BAN*":
-								sFileName += ( lAuthors[0].NickName==null ? "Ника Автора Нет" : lAuthors[0].NickName.Value );
+								if( lAuthors[0].NickName==null ) {
+									sFileName += "Ника Автора Нет";
+								} else {
+									if( lAuthors[0].NickName.Value=="" ) {
+										sFileName += "Ника Автора Нет";
+									} else {
+										sFileName += lAuthors[0].NickName.Value;
+									}
+								}
 								break;
 							case "*BT*":
 								if( sBookTitle==null || sBookTitle=="" ) {
@@ -308,16 +340,48 @@ namespace FilesWorker
 								sFileName += ( lGenres==null ? "" : lGenres[0].Name );
 								break;
 							case "[*BAF*]":
-								sFileName += ( lAuthors[0].FirstName==null ? "" : lAuthors[0].FirstName.Value );
+								if( lAuthors[0].FirstName==null ) {
+									sFileName += "";
+								} else {
+									if( lAuthors[0].FirstName.Value=="" ) {
+										sFileName += "";
+									} else {
+										sFileName += lAuthors[0].FirstName.Value;
+									}
+								}
 								break;
 							case "[*BAM*]":
-								sFileName += ( lAuthors[0].MiddleName==null ? "" : lAuthors[0].MiddleName.Value );
+								if( lAuthors[0].MiddleName==null ) {
+									sFileName += "";
+								} else {
+									if( lAuthors[0].MiddleName.Value=="" ) {
+										sFileName += "";
+									} else {
+										sFileName += lAuthors[0].MiddleName.Value;
+									}
+								}
 								break;
 							case "[*BAL*]":
-								sFileName += ( lAuthors[0].LastName==null ? "" : lAuthors[0].LastName.Value );
+								if( lAuthors[0].LastName==null ) {
+									sFileName += "";
+								} else {
+									if( lAuthors[0].LastName.Value=="" ) {
+										sFileName += "";
+									} else {
+										sFileName += lAuthors[0].LastName.Value;
+									}
+								}
 								break;
 							case "[*BAN*]":
-								sFileName += ( lAuthors[0].NickName==null ? "" : lAuthors[0].NickName.Value );
+								if( lAuthors[0].NickName==null ) {
+									sFileName += "";
+								} else {
+									if( lAuthors[0].NickName.Value=="" ) {
+										sFileName += "";
+									} else {
+										sFileName += lAuthors[0].NickName.Value;
+									}
+								}
 								break;
 							case "[*BT*]":
 								if( sBookTitle==null || sBookTitle=="" ) {
@@ -377,16 +441,48 @@ namespace FilesWorker
 								lexem.Lexem = ( lGenres==null ? "" : lGenres[0].Name );
 								break;
 							case "*BAF*":
-								lexem.Lexem = ( lAuthors[0].FirstName==null ? "" : lAuthors[0].FirstName.Value );
+								if( lAuthors[0].FirstName==null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lAuthors[0].FirstName.Value=="" ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = lAuthors[0].FirstName.Value;
+									}
+								}
 								break;
 							case "*BAM*":
-								lexem.Lexem = ( lAuthors[0].MiddleName==null ? "" : lAuthors[0].MiddleName.Value );
+								if( lAuthors[0].MiddleName==null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lAuthors[0].MiddleName.Value=="" ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = lAuthors[0].MiddleName.Value;
+									}
+								}
 								break;
 							case "*BAL*":
-								lexem.Lexem = ( lAuthors[0].LastName==null ? "" : lAuthors[0].LastName.Value );
+								if( lAuthors[0].LastName==null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lAuthors[0].LastName.Value=="" ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = lAuthors[0].LastName.Value;
+									}
+								}
 								break;
 							case "*BAN*":
-								lexem.Lexem = ( lAuthors[0].NickName==null ? "" : lAuthors[0].NickName.Value );
+								if( lAuthors[0].NickName==null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lAuthors[0].NickName.Value=="" ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = lAuthors[0].NickName.Value;
+									}
+								}
 								break;
 							case "*BT*":
 								if( sBookTitle==null || sBookTitle=="" ) {

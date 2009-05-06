@@ -281,21 +281,21 @@ namespace SharpFBTools.Controls.Panels
 			bool bAddToFileNameBookIDMode = Settings.Settings.ReadAddToFileNameBookIDMode();
 			bool bDelFB2FilesMode = Settings.Settings.ReadDelFB2FilesMode();
 			string sTempDir = Settings.Settings.GetTempDir();
+			string sBadDir = Settings.Settings.ReadFMFB2NotReadDir();
 			foreach( string sFromFilePath in lFilesList ) {
 				// смотрим, что это за файл
 				string sExt = Path.GetExtension( sFromFilePath ).ToLower();
 				if( sExt == ".fb2" ) {
 					// обработка fb2-файла
-					// TODO: Вместо sToFilePath - ф-я формирования пути файла из его данных Description
-					// TODO: пока просто копирует ВСЕ файлы. Надо сделать отлов только fb2 и всех архивов. Для Архивов - копирование распакованного
-					// TODO: Если опция запаковать включена - тогда и fb2 и из архивов - запаковать и скопировать
-					string sToFilePath = sTarget + sFromFilePath.Remove( 0, sSource.Length );
 					try {
-						string s = FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath );
+						string sToFilePath = sTarget + "\\" + 
+								FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath ) + ".fb2";
 						CreateFileTo( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
 					} catch ( System.IO.FileLoadException ){
 						// нечитаемый fb2-файл - копируем его в папку Bad
-						MessageBox.Show( "Bad file!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+						Directory.CreateDirectory( sBadDir );
+						string sToFilePath = sBadDir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
+						CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, false );
 					}
 					
 					if( bDelFB2FilesMode ) {
@@ -310,15 +310,16 @@ namespace SharpFBTools.Controls.Panels
 					// это архив?
 					if( IsArchive( sExt ) ) {
 						List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath );
-						// TODO: Все вышеизложенное, тольео для каждого файла из списка lFilesListFromArchive
 						foreach( string sFromFB2Path in lFilesListFromArchive ) {
-							string sToFilePath = sTarget + sFromFB2Path.Remove( 0, sTempDir.Length );
 							try {
-								string s = FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath );
-								CreateFileTo( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
+								string sToFilePath = sTarget + "\\" + 
+										FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFB2Path ) + ".fb2";
+								CreateFileTo( sFromFB2Path, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode  );
 							} catch ( System.IO.FileLoadException ){
 								// нечитаемый fb2-архив - копируем его в папку Bad
-								MessageBox.Show( "Bad archive!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+								Directory.CreateDirectory( sBadDir );
+								string sToFilePath = sBadDir+"\\"+sFromFB2Path.Remove( 0, sTempDir.Length );
+								CopyFileToTargetDir( sFromFB2Path, sToFilePath, nFileExistMode, false );
 							}
 						}
 						if( bDelFB2FilesMode ) {

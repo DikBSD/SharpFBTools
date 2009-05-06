@@ -70,7 +70,10 @@ namespace SharpFBTools.Controls.Panels
 					File.Delete( sNewFile );
 				} else {
 					if( chBoxAddFileNameBookID.Checked ) {
-						sSufix = FilesWorker.StringProcessing.GetBookID( sFromFile );
+						try {
+							sSufix = FilesWorker.StringProcessing.GetBookID( sFromFile );
+						} catch {
+						}
 					}
 					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
 					sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
@@ -131,7 +134,10 @@ namespace SharpFBTools.Controls.Panels
 								File.Delete( sArchiveFile );
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
-									sSufix = FilesWorker.StringProcessing.GetBookID( sFile );
+									try {
+										sSufix = FilesWorker.StringProcessing.GetBookID( sFile );
+									} catch {
+									}
 								}
 								sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
 								sArchiveFile = sFile.Remove( sFile.Length-4 ) + sSufix + ".fb2" + sDotExt;
@@ -152,7 +158,10 @@ namespace SharpFBTools.Controls.Panels
 								File.Delete( sArchiveFile );
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
-									sSufix = FilesWorker.StringProcessing.GetBookID( sFile );
+									try {
+										sSufix = FilesWorker.StringProcessing.GetBookID( sFile );
+									} catch {
+									}
 								}
 								sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
 								sArchiveFile = sTarget + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + ".fb2" + sDotExt;

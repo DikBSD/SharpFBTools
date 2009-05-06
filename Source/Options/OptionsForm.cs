@@ -55,6 +55,7 @@ namespace Options
 			rbtnGenreSchema.Checked = Settings.Settings.GetDefFMrbtnGenreSchemaCheked();
 			rbtnGenreText.Checked = Settings.Settings.GetDefFMrbtnGenreTextCheked();
 			chBoxAddToFileNameBookID.Checked = Settings.Settings.GetDefFMchBoxAddToFileNameBookIDChecked();
+			txtBoxFB2NotReadDir.Text = Settings.Settings.GetDefFMFB2NotReadDir();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 			#endregion
@@ -150,6 +151,10 @@ namespace Options
 				if (reader.HasAttributes ) {
 					rbtnGenreSchema.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreSchemaChecked") );
 					rbtnGenreText.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreTextChecked") );
+				}
+				reader.ReadToFollowing("FB2NotReadDir");
+				if (reader.HasAttributes ) {
+					txtBoxFB2NotReadDir.Text = reader.GetAttribute("txtBoxFB2NotReadDir");
 				}
 				
 				reader.Close();
@@ -265,6 +270,11 @@ namespace Options
 							writer.WriteAttributeString( "rbtnGenreSchemaChecked", rbtnGenreSchema.Checked.ToString() );
 							writer.WriteAttributeString( "rbtnGenreTextChecked", rbtnGenreText.Checked.ToString() );
 						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "FB2NotReadDir" );
+							writer.WriteAttributeString( "txtBoxFB2NotReadDir", txtBoxFB2NotReadDir.Text );
+						writer.WriteFullEndElement();
+						
 					writer.WriteEndElement();
 					
 				writer.WriteEndElement();
@@ -375,9 +385,16 @@ namespace Options
 		void ChBoxToArchiveCheckedChanged(object sender, EventArgs e)
 		{
 			cboxArchiveType.Enabled = chBoxToArchive.Checked;
-		}		
+		}
+		
+		void BtnFB2NotReadDirClick(object sender, EventArgs e)
+		{
+			// указание пути к папке дл€ нечитаемых fb2-файлов
+			FilesWorker.FilesWorker.OpenDirDlg( txtBoxFB2NotReadDir, fbdDir, "”кажите папку дл€ нечитаемых fb2-файлов:" );
+		}
 		#endregion
 		
 		#endregion
+
 	}
 }

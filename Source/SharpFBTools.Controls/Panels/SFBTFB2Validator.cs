@@ -336,7 +336,10 @@ namespace SharpFBTools.Controls.Panels
 						File.Delete( sNewPath );
 					} else {
 						if( chBoxAddBookID.Checked ) {
-							sSufix = FilesWorker.StringProcessing.GetBookID( sFilePath );
+							try {
+								sSufix = FilesWorker.StringProcessing.GetBookID( sFilePath );
+							} catch {
+							}
 						}
 						string sExt = Path.GetExtension( sNewPath );
 						sSufix += FilesWorker.StringProcessing.GetDateTimeExt();

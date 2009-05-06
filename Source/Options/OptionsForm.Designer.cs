@@ -79,6 +79,9 @@ namespace Options
 			this.lblValidatorForFB2Archive = new System.Windows.Forms.Label();
 			this.lblValidatorForFB2 = new System.Windows.Forms.Label();
 			this.tpFileManager = new System.Windows.Forms.TabPage();
+			this.lblFB2NotReadDir = new System.Windows.Forms.Label();
+			this.txtBoxFB2NotReadDir = new System.Windows.Forms.TextBox();
+			this.btnFB2NotReadDir = new System.Windows.Forms.Button();
 			this.gboxApportionment = new System.Windows.Forms.GroupBox();
 			this.gBoxGenres = new System.Windows.Forms.GroupBox();
 			this.gBoxGenresType = new System.Windows.Forms.GroupBox();
@@ -107,6 +110,7 @@ namespace Options
 			this.rbtnUpper = new System.Windows.Forms.RadioButton();
 			this.rbtnLower = new System.Windows.Forms.RadioButton();
 			this.rbtnAsIs = new System.Windows.Forms.RadioButton();
+			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -617,6 +621,9 @@ namespace Options
 			// 
 			// tpFileManager
 			// 
+			this.tpFileManager.Controls.Add(this.lblFB2NotReadDir);
+			this.tpFileManager.Controls.Add(this.txtBoxFB2NotReadDir);
+			this.tpFileManager.Controls.Add(this.btnFB2NotReadDir);
 			this.tpFileManager.Controls.Add(this.gboxApportionment);
 			this.tpFileManager.Controls.Add(this.gboxFMGeneral);
 			this.tpFileManager.Location = new System.Drawing.Point(4, 22);
@@ -627,6 +634,40 @@ namespace Options
 			this.tpFileManager.Text = " Менеджер файлов ";
 			this.tpFileManager.UseVisualStyleBackColor = true;
 			// 
+			// lblFB2NotReadDir
+			// 
+			this.lblFB2NotReadDir.AutoSize = true;
+			this.lblFB2NotReadDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblFB2NotReadDir.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblFB2NotReadDir.Location = new System.Drawing.Point(6, 362);
+			this.lblFB2NotReadDir.Name = "lblFB2NotReadDir";
+			this.lblFB2NotReadDir.Size = new System.Drawing.Size(217, 13);
+			this.lblFB2NotReadDir.TabIndex = 32;
+			this.lblFB2NotReadDir.Text = "Папка для нечитаемых fb2-файлов:";
+			// 
+			// txtBoxFB2NotReadDir
+			// 
+			this.txtBoxFB2NotReadDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBoxFB2NotReadDir.Location = new System.Drawing.Point(229, 358);
+			this.txtBoxFB2NotReadDir.Name = "txtBoxFB2NotReadDir";
+			this.txtBoxFB2NotReadDir.ReadOnly = true;
+			this.txtBoxFB2NotReadDir.Size = new System.Drawing.Size(328, 20);
+			this.txtBoxFB2NotReadDir.TabIndex = 30;
+			// 
+			// btnFB2NotReadDir
+			// 
+			this.btnFB2NotReadDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnFB2NotReadDir.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2NotReadDir.Image")));
+			this.btnFB2NotReadDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnFB2NotReadDir.Location = new System.Drawing.Point(563, 356);
+			this.btnFB2NotReadDir.Name = "btnFB2NotReadDir";
+			this.btnFB2NotReadDir.Size = new System.Drawing.Size(37, 24);
+			this.btnFB2NotReadDir.TabIndex = 31;
+			this.btnFB2NotReadDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnFB2NotReadDir.UseVisualStyleBackColor = true;
+			this.btnFB2NotReadDir.Click += new System.EventHandler(this.BtnFB2NotReadDirClick);
+			// 
 			// gboxApportionment
 			// 
 			this.gboxApportionment.Controls.Add(this.gBoxGenres);
@@ -634,9 +675,9 @@ namespace Options
 			this.gboxApportionment.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxApportionment.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxApportionment.Location = new System.Drawing.Point(3, 228);
+			this.gboxApportionment.Location = new System.Drawing.Point(3, 188);
 			this.gboxApportionment.Name = "gboxApportionment";
-			this.gboxApportionment.Size = new System.Drawing.Size(603, 170);
+			this.gboxApportionment.Size = new System.Drawing.Size(603, 164);
 			this.gboxApportionment.TabIndex = 29;
 			this.gboxApportionment.TabStop = false;
 			this.gboxApportionment.Text = " Раскладка файлов по папкам ";
@@ -780,7 +821,7 @@ namespace Options
 			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxFMGeneral.Location = new System.Drawing.Point(3, 3);
 			this.gboxFMGeneral.Name = "gboxFMGeneral";
-			this.gboxFMGeneral.Size = new System.Drawing.Size(603, 225);
+			this.gboxFMGeneral.Size = new System.Drawing.Size(603, 185);
 			this.gboxFMGeneral.TabIndex = 28;
 			this.gboxFMGeneral.TabStop = false;
 			this.gboxFMGeneral.Text = " Основные настройки ";
@@ -790,7 +831,7 @@ namespace Options
 			this.chBoxDelFB2Files.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxDelFB2Files.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxDelFB2Files.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxDelFB2Files.Location = new System.Drawing.Point(3, 201);
+			this.chBoxDelFB2Files.Location = new System.Drawing.Point(3, 163);
 			this.chBoxDelFB2Files.Name = "chBoxDelFB2Files";
 			this.chBoxDelFB2Files.Size = new System.Drawing.Size(597, 18);
 			this.chBoxDelFB2Files.TabIndex = 25;
@@ -802,7 +843,7 @@ namespace Options
 			this.chBoxAddToFileNameBookID.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxAddToFileNameBookID.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxAddToFileNameBookID.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxAddToFileNameBookID.Location = new System.Drawing.Point(3, 183);
+			this.chBoxAddToFileNameBookID.Location = new System.Drawing.Point(3, 145);
 			this.chBoxAddToFileNameBookID.Name = "chBoxAddToFileNameBookID";
 			this.chBoxAddToFileNameBookID.Size = new System.Drawing.Size(597, 18);
 			this.chBoxAddToFileNameBookID.TabIndex = 24;
@@ -814,7 +855,7 @@ namespace Options
 			this.panel2.Controls.Add(this.cboxFileExist);
 			this.panel2.Controls.Add(this.lbFilelExist);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel2.Location = new System.Drawing.Point(3, 158);
+			this.panel2.Location = new System.Drawing.Point(3, 120);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(597, 25);
 			this.panel2.TabIndex = 16;
@@ -850,7 +891,7 @@ namespace Options
 			this.panel1.Controls.Add(this.chBoxToArchive);
 			this.panel1.Controls.Add(this.lblSpace);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel1.Location = new System.Drawing.Point(3, 129);
+			this.panel1.Location = new System.Drawing.Point(3, 91);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(597, 29);
 			this.panel1.TabIndex = 14;
@@ -919,7 +960,7 @@ namespace Options
 			this.chBoxStrict.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxStrict.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxStrict.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxStrict.Location = new System.Drawing.Point(3, 111);
+			this.chBoxStrict.Location = new System.Drawing.Point(3, 73);
 			this.chBoxStrict.Name = "chBoxStrict";
 			this.chBoxStrict.Size = new System.Drawing.Size(597, 18);
 			this.chBoxStrict.TabIndex = 13;
@@ -933,7 +974,7 @@ namespace Options
 			this.chBoxTranslit.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxTranslit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxTranslit.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxTranslit.Location = new System.Drawing.Point(3, 93);
+			this.chBoxTranslit.Location = new System.Drawing.Point(3, 55);
 			this.chBoxTranslit.Name = "chBoxTranslit";
 			this.chBoxTranslit.Size = new System.Drawing.Size(597, 18);
 			this.chBoxTranslit.TabIndex = 12;
@@ -950,29 +991,27 @@ namespace Options
 			this.gboxRegister.ForeColor = System.Drawing.Color.Navy;
 			this.gboxRegister.Location = new System.Drawing.Point(3, 16);
 			this.gboxRegister.Name = "gboxRegister";
-			this.gboxRegister.Size = new System.Drawing.Size(597, 77);
+			this.gboxRegister.Size = new System.Drawing.Size(597, 39);
 			this.gboxRegister.TabIndex = 10;
 			this.gboxRegister.TabStop = false;
 			this.gboxRegister.Text = " Регистр имени файла ";
 			// 
 			// rbtnUpper
 			// 
-			this.rbtnUpper.Dock = System.Windows.Forms.DockStyle.Top;
 			this.rbtnUpper.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnUpper.Location = new System.Drawing.Point(3, 52);
+			this.rbtnUpper.Location = new System.Drawing.Point(105, 16);
 			this.rbtnUpper.Name = "rbtnUpper";
-			this.rbtnUpper.Size = new System.Drawing.Size(591, 18);
+			this.rbtnUpper.Size = new System.Drawing.Size(132, 18);
 			this.rbtnUpper.TabIndex = 2;
 			this.rbtnUpper.Text = "Верхний регистр";
 			this.rbtnUpper.UseVisualStyleBackColor = true;
 			// 
 			// rbtnLower
 			// 
-			this.rbtnLower.Dock = System.Windows.Forms.DockStyle.Top;
 			this.rbtnLower.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnLower.Location = new System.Drawing.Point(3, 34);
+			this.rbtnLower.Location = new System.Drawing.Point(238, 16);
 			this.rbtnLower.Name = "rbtnLower";
-			this.rbtnLower.Size = new System.Drawing.Size(591, 18);
+			this.rbtnLower.Size = new System.Drawing.Size(132, 18);
 			this.rbtnLower.TabIndex = 1;
 			this.rbtnLower.Text = "Нижний регистр";
 			this.rbtnLower.UseVisualStyleBackColor = true;
@@ -980,11 +1019,10 @@ namespace Options
 			// rbtnAsIs
 			// 
 			this.rbtnAsIs.Checked = true;
-			this.rbtnAsIs.Dock = System.Windows.Forms.DockStyle.Top;
 			this.rbtnAsIs.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.rbtnAsIs.Location = new System.Drawing.Point(3, 16);
 			this.rbtnAsIs.Name = "rbtnAsIs";
-			this.rbtnAsIs.Size = new System.Drawing.Size(591, 18);
+			this.rbtnAsIs.Size = new System.Drawing.Size(96, 18);
 			this.rbtnAsIs.TabIndex = 0;
 			this.rbtnAsIs.TabStop = true;
 			this.rbtnAsIs.Text = "Как есть";
@@ -1019,6 +1057,7 @@ namespace Options
 			this.gboxValidatorPE.ResumeLayout(false);
 			this.gboxValidatorDoubleClick.ResumeLayout(false);
 			this.tpFileManager.ResumeLayout(false);
+			this.tpFileManager.PerformLayout();
 			this.gboxApportionment.ResumeLayout(false);
 			this.gBoxGenres.ResumeLayout(false);
 			this.gBoxGenresType.ResumeLayout(false);
@@ -1032,6 +1071,10 @@ namespace Options
 			this.gboxRegister.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.FolderBrowserDialog fbdDir;
+		private System.Windows.Forms.Button btnFB2NotReadDir;
+		private System.Windows.Forms.TextBox txtBoxFB2NotReadDir;
+		private System.Windows.Forms.Label lblFB2NotReadDir;
 		private System.Windows.Forms.GroupBox gboxRegister;
 		private System.Windows.Forms.RadioButton rbtnGenreSchema;
 		private System.Windows.Forms.RadioButton rbtnGenreText;

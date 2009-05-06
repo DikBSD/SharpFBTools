@@ -72,6 +72,7 @@ namespace Settings
 		private static bool m_brbtnGenreTextCheked = false;
 		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
 		private static string m_sDescTemplatePath = GetProgDir()+"\\Help\\TemplatesDescription.rtf";
+		private static string m_sFMFB2NotReadDir = GetProgDir()+"\\_NotReadFB2";
 		
 		#endregion
 		
@@ -292,6 +293,10 @@ namespace Settings
 		#endregion
 		
 		#region Менеджер Файлов
+		public static string GetDefFMFB2NotReadDir() {
+			return m_sFMFB2NotReadDir;
+		}
+		
 		public static string GetDefFMDescTemplatePath() {
 			return m_sDescTemplatePath;
 		}
@@ -357,6 +362,11 @@ namespace Settings
 		
 		public static bool GetDefFMchBoxAddToFileNameBookIDChecked() {
 			return m_bchBoxAddToFileNameBookIDChecked;
+		}
+		
+		public static string ReadFMFB2NotReadDir() {
+			// читаем режим для регистра Как есть
+			return ReadAttribute( "FB2NotReadDir", "txtBoxFB2NotReadDir", GetDefFMFB2NotReadDir() );
 		}
 		
 		public static bool ReadRegisterAsIsChecked() {

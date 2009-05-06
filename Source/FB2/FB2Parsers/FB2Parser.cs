@@ -187,13 +187,13 @@ namespace FB2.FB2Parsers
             }
 
             Author Author = null;
-            XmlNode fn = xn.SelectSingleNode("./fb:first-name", m_NsManager);
-            XmlNode mn = xn.SelectSingleNode("./fb:middle-name", m_NsManager);
-            XmlNode ln = xn.SelectSingleNode("./fb:last-name", m_NsManager);
-            XmlNode nn = xn.SelectSingleNode("./fb:nickname", m_NsManager);
-            XmlNodeList hp = xn.SelectNodes("./fb:home-page", m_NsManager);
-            XmlNodeList em = xn.SelectNodes("./fb:email", m_NsManager);
-            XmlNode id = xn.SelectSingleNode("./fb:id", m_NsManager);
+            XmlNode		fn = xn.SelectSingleNode("./fb:first-name", m_NsManager);
+            XmlNode		mn = xn.SelectSingleNode("./fb:middle-name", m_NsManager);
+            XmlNode		ln = xn.SelectSingleNode("./fb:last-name", m_NsManager);
+            XmlNode		nn = xn.SelectSingleNode("./fb:nickname", m_NsManager);
+            XmlNodeList	hp = xn.SelectNodes("./fb:home-page", m_NsManager);
+            XmlNodeList	em = xn.SelectNodes("./fb:email", m_NsManager);
+            XmlNode		id = xn.SelectSingleNode("./fb:id", m_NsManager);
 
             if( fn != null && ln != null ) {
             	Author = new Author( TextFieldType<TextFieldType>( fn ), TextFieldType<TextFieldType>( ln ) );
