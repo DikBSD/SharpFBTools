@@ -25,18 +25,24 @@ namespace FB2.FB2Parsers
 	public class FB2Parser
 	{
 		#region Закрытые данные класса
-		private XmlNamespaceManager m_NsManager;
-        private XmlDocument			m_xmlDoc;
+		private XmlNamespaceManager m_NsManager		= null;
+        private XmlDocument			m_xmlDoc		= null;
         private string				m_aFBNamespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
         #endregion
 
 		#region Конструкторы класса
         public FB2Parser( string sFB2Path )
         {
-        	m_xmlDoc = new XmlDocument();
-        	m_xmlDoc.Load( sFB2Path );
-            m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
-            m_NsManager.AddNamespace( "fb", m_aFBNamespace );
+        	m_xmlDoc = null;
+        	try {
+				m_xmlDoc = new XmlDocument();
+        		m_xmlDoc.Load( sFB2Path );
+				m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
+				m_NsManager.AddNamespace( "fb", m_aFBNamespace );
+        	} catch {
+        		throw new System.IO.FileLoadException( "Bad File!" );
+        	}
+        	
         }
         #endregion
                
