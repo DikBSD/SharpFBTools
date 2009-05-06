@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using FB2.FB2Parsers;
 using FB2.Common;
 using FB2.Description;
@@ -64,12 +65,10 @@ namespace Lexems
 	public class TPComplex {
 		private string		m_sLexem	= "";
 		private ComplexType	m_bType		= ComplexType.template;
-		private bool 		m_bPrint;
-		public TPComplex( string sLexem, ComplexType Type, bool bPrint )
+		public TPComplex( string sLexem, ComplexType Type )
 		{
 			m_sLexem	= sLexem;
 			m_bType		= Type;
-			m_bPrint	= bPrint;
 		}
 		public virtual string Lexem {
             get { return m_sLexem; }
@@ -77,10 +76,6 @@ namespace Lexems
         }
 		public virtual ComplexType Type {
             get { return m_bType; }
-        }
-		public virtual bool Print {
-            get { return m_bPrint; }
-            set { m_bPrint = value; }
         }
 	}
 }
@@ -231,10 +226,10 @@ namespace FilesWorker
 			foreach( string s in sLexems ) {
 				if( !IsTemplateExsist( s ) ) {
 					// символы
-					lexems.Add( new Lexems.TPComplex( s, Lexems.ComplexType.text, true ) );
+					lexems.Add( new Lexems.TPComplex( s, Lexems.ComplexType.text ) );
 				} else {
 					// шаблон
-					lexems.Add( new Lexems.TPComplex( s, Lexems.ComplexType.template, true ) );
+					lexems.Add( new Lexems.TPComplex( s, Lexems.ComplexType.template ) );
 				}
 			}
 			return lexems;
@@ -344,7 +339,7 @@ namespace FilesWorker
 						break;
 					case Lexems.SimpleType.conditional_group:
 						// условная группа
-						string sCopmplex = ParseComplexGpoup( lexem.Lexem, ti.Lang, ti.Genres, ti.Authors, ti.BookTitle.Value, ti.Sequences );
+						sFileName += ParseComplexGpoup( lexem.Lexem, ti.Lang, ti.Genres, ti.Authors, ti.BookTitle.Value, ti.Sequences );
 						
 						
 						break;
@@ -354,12 +349,17 @@ namespace FilesWorker
 						break;
 				}
 			}
+			// если с начала или в конце строки есть один или несколько \ - то убираем их
+			Regex rx = new Regex( @"^\\+" );
+			sFileName = rx.Replace( sFileName, "" );
+			rx = new Regex( @"\\+$" );
+			sFileName = rx.Replace( sFileName, "" );
 			return sFileName;
 		}
 		
 		
 		private static string ParseComplexGpoup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
-		                                      string sBookTitle, IList<Sequence> lSequences ) {
+												string sBookTitle, IList<Sequence> lSequences ) {
 			string sFileName = "";
 			List<Lexems.TPComplex> lCLexems = GemComplexLexems( sLine );
 			foreach( Lexems.TPComplex lexem in lCLexems ) {
@@ -414,18 +414,23 @@ namespace FilesWorker
 				// "пустой" шаблон "ликвидирует" текст справа от себя, а 1-й "пустой" шаблон - еще и слева.
 				if( lCLexems[i].Type == Lexems.ComplexType.template ) {
 					if( lCLexems[i].Lexem == "" ) {
-						lCLexems[i].Print = false;
 						// не 1-й ли это элемент списка
-						if( i < lCLexems.Count && lCLexems[i+1].Type == Lexems.ComplexType.text ) {
-							lCLexems[i+1].Print = false;
+						if( i < lCLexems.Count-1 && lCLexems[i+1].Type == Lexems.ComplexType.text ) {
+							lCLexems[i+1].Lexem = "";
 						}
-						if( i == 2 && lCLexems[0].Type == Lexems.ComplexType.text ) {
-							lCLexems[0].Print = false;
+						// если этот шаблон - самый первый из группы шаблонов, а до него есть текст, то еще и "ликвидируем" текст слева от него
+						if( i == 1 && lCLexems[0].Type == Lexems.ComplexType.text ) {
+							lCLexems[0].Lexem = "";
 						}
 					}
 				}
 			}
-			
+			// формирование строки
+			foreach( Lexems.TPComplex lex in lCLexems ) {
+				if( lex.Lexem != "" ) {
+					sFileName += lex.Lexem;
+				}
+			}
 			return sFileName;
 		}
 			

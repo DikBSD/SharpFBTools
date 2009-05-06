@@ -73,39 +73,42 @@ namespace SharpFBTools.Controls.Panels
 									"Удалить исходные файлы после сортировки",
 									""}, -1);
 			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Папка для нечитаемых fb2-файлов (архивов)",
+									""}, -1);
+			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2-файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в .zip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в .rar-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в .7z-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в .BZip2-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в .Gzip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в .Tar-пакетах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего отсортировано",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Нечитаемые fb2-файлы (архивы)",
 									"0"}, -1);
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
@@ -116,9 +119,6 @@ namespace SharpFBTools.Controls.Panels
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnSortFilesTo = new System.Windows.Forms.ToolStripButton();
 			this.tsSep2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsddbtnMakeReport = new System.Windows.Forms.ToolStripDropDownButton();
-			this.tsmiReportAsHTML = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmiReportAsFB2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.pSource = new System.Windows.Forms.Panel();
 			this.chBoxScanSubDir = new System.Windows.Forms.CheckBox();
 			this.tboxSourceDir = new System.Windows.Forms.TextBox();
@@ -191,8 +191,7 @@ namespace SharpFBTools.Controls.Panels
 									this.tsbtnOpenDir,
 									this.tsSep1,
 									this.tsbtnSortFilesTo,
-									this.tsSep2,
-									this.tsddbtnMakeReport});
+									this.tsSep2});
 			this.tsFileManager.Location = new System.Drawing.Point(0, 0);
 			this.tsFileManager.Name = "tsFileManager";
 			this.tsFileManager.Size = new System.Drawing.Size(828, 31);
@@ -227,30 +226,6 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			this.tsSep2.Name = "tsSep2";
 			this.tsSep2.Size = new System.Drawing.Size(6, 31);
-			// 
-			// tsddbtnMakeReport
-			// 
-			this.tsddbtnMakeReport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsmiReportAsHTML,
-									this.tsmiReportAsFB2});
-			this.tsddbtnMakeReport.Image = ((System.Drawing.Image)(resources.GetObject("tsddbtnMakeReport.Image")));
-			this.tsddbtnMakeReport.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsddbtnMakeReport.Name = "tsddbtnMakeReport";
-			this.tsddbtnMakeReport.Size = new System.Drawing.Size(120, 28);
-			this.tsddbtnMakeReport.Text = "Создать отчет";
-			this.tsddbtnMakeReport.ToolTipText = "Создать отчет";
-			// 
-			// tsmiReportAsHTML
-			// 
-			this.tsmiReportAsHTML.Name = "tsmiReportAsHTML";
-			this.tsmiReportAsHTML.Size = new System.Drawing.Size(169, 22);
-			this.tsmiReportAsHTML.Text = "Как html-файл...";
-			// 
-			// tsmiReportAsFB2
-			// 
-			this.tsmiReportAsFB2.Name = "tsmiReportAsFB2";
-			this.tsmiReportAsFB2.Size = new System.Drawing.Size(169, 22);
-			this.tsmiReportAsFB2.Text = "Как fb2-файл...";
 			// 
 			// pSource
 			// 
@@ -528,6 +503,7 @@ namespace SharpFBTools.Controls.Panels
 			listViewItem9.Group = listViewGroup2;
 			listViewItem10.Group = listViewGroup2;
 			listViewItem11.Group = listViewGroup1;
+			listViewItem12.Group = listViewGroup1;
 			this.lvSettings.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem1,
 									listViewItem2,
@@ -539,7 +515,8 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem8,
 									listViewItem9,
 									listViewItem10,
-									listViewItem11});
+									listViewItem11,
+									listViewItem12});
 			this.lvSettings.Location = new System.Drawing.Point(282, 0);
 			this.lvSettings.Name = "lvSettings";
 			this.lvSettings.Size = new System.Drawing.Size(546, 189);
@@ -550,7 +527,7 @@ namespace SharpFBTools.Controls.Panels
 			// cHeaderSettings
 			// 
 			this.cHeaderSettings.Text = "Настройки Сортировки";
-			this.cHeaderSettings.Width = 270;
+			this.cHeaderSettings.Width = 260;
 			// 
 			// cHeaderSettingsValue
 			// 
@@ -566,7 +543,6 @@ namespace SharpFBTools.Controls.Panels
 									this.columnHeader7});
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem12,
 									listViewItem13,
 									listViewItem14,
 									listViewItem15,
@@ -577,7 +553,8 @@ namespace SharpFBTools.Controls.Panels
 									listViewItem20,
 									listViewItem21,
 									listViewItem22,
-									listViewItem23});
+									listViewItem23,
+									listViewItem24});
 			this.lvFilesCount.Location = new System.Drawing.Point(4, 0);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(272, 189);
@@ -686,9 +663,6 @@ namespace SharpFBTools.Controls.Panels
 		private System.Windows.Forms.TabPage tpSortAll;
 		private System.Windows.Forms.ToolStrip tsFileManager;
 		private System.Windows.Forms.ToolStripButton tsbtnSortFilesTo;
-		private System.Windows.Forms.ToolStripMenuItem tsmiReportAsFB2;
-		private System.Windows.Forms.ToolStripMenuItem tsmiReportAsHTML;
-		private System.Windows.Forms.ToolStripDropDownButton tsddbtnMakeReport;
 		private System.Windows.Forms.ToolStripSeparator tsSep2;
 		private System.Windows.Forms.ToolStripSeparator tsSep1;
 		private System.Windows.Forms.ToolStripButton tsbtnOpenDir;
