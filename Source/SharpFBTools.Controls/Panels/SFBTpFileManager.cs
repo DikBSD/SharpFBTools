@@ -289,7 +289,11 @@ namespace SharpFBTools.Controls.Panels
 					// обработка fb2-файла
 					try {
 						string sToFilePath = sTarget + "\\" + 
-								FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath ) + ".fb2";
+								FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath );
+						/*if( sToFilePath.Length >=260 ) {
+							sToFilePath = sToFilePath.Substring( 0, 250 );
+						}*/
+						sToFilePath += ".fb2";
 						CreateFileTo( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
 					} catch ( System.IO.FileLoadException ){
 						// нечитаемый fb2-файл - копируем его в папку Bad
@@ -313,7 +317,11 @@ namespace SharpFBTools.Controls.Panels
 						foreach( string sFromFB2Path in lFilesListFromArchive ) {
 							try {
 								string sToFilePath = sTarget + "\\" + 
-										FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFB2Path ) + ".fb2";
+										FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFB2Path );
+							/*	if( sToFilePath.Length >=260 ) {
+									sToFilePath = sToFilePath.Substring( 0, 250 );
+								}*/
+								sToFilePath += ".fb2";
 								CreateFileTo( sFromFB2Path, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode  );
 							} catch ( System.IO.FileLoadException ){
 								// нечитаемый fb2-архив - копируем его в папку Bad

@@ -250,7 +250,7 @@ namespace FilesWorker
 			string sLang = ti.Lang;
 			IList<Genre> lGenres = ti.Genres;
 			IList<Author> lAuthors = ti.Authors;
-			string sBookTitle = ti.BookTitle.Value;
+			BookTitle btBookTitle = ti.BookTitle;
 			IList<Sequence> lSequences = ti.Sequences;
 			
 			foreach( Lexems.TPSimple lexem in lSLexems ) {
@@ -266,7 +266,15 @@ namespace FilesWorker
 								sFileName += ( sLang==null ? "Языка Книги Нет" : sLang );
 								break;
 							case "*G*":
-								sFileName += ( lGenres==null ? "Жанра Нет" : lGenres[0].Name );
+								if( lGenres == null ) {
+									sFileName += "Жанра Нет";
+								} else {
+									if( lGenres[0].Name==null || lGenres[0].Name=="" ) {
+										sFileName += "Жанра Нет";
+									} else {
+										sFileName += lGenres[0].Name;
+									}
+								}
 								break;
 							case "*BAF*":
 								if( lAuthors == null ) {
@@ -329,17 +337,37 @@ namespace FilesWorker
 								}
 								break;
 							case "*BT*":
-								if( sBookTitle==null || sBookTitle=="" ) {
+								if( btBookTitle == null ) {
 									sFileName += "Названия Книги Нет";
 								} else {
-									sFileName += sBookTitle;
+									if( btBookTitle.Value==null || btBookTitle.Value=="" ) {
+										sFileName += "Названия Книги Нет";
+									} else {
+										sFileName += btBookTitle.Value;
+									}
 								}
 								break;
 							case "*SN*":
-								sFileName += ( lSequences==null ? "Серии Нет" : lSequences[0].Name );
+								if( lSequences == null ) {
+									sFileName += "Серии Нет";
+								} else {
+									if( lSequences[0].Name==null || lSequences[0].Name=="" ) {
+										sFileName += "Серии Нет";
+									} else {
+										sFileName += lSequences[0].Name;
+									}
+								}
 								break;
 							case "*SI*":
-								sFileName += ( lSequences==null ? "Номера Серии Нет" : lSequences[0].Number.ToString() );
+								if( lSequences == null ) {
+									sFileName += "Номера Серии Нет";
+								} else {
+									if( lSequences[0].Name==null ) {
+										sFileName += "Номера Серии Нет";
+									} else {
+										sFileName += lSequences[0].Number.ToString();
+									}
+								}
 								break;
 							default :
 								sFileName += "";
@@ -353,7 +381,15 @@ namespace FilesWorker
 								sFileName += ( sLang==null ? "" : sLang );
 								break;
 							case "[*G*]":
-								sFileName += ( lGenres==null ? "" : lGenres[0].Name );
+								if( lGenres == null ) {
+									sFileName += "";
+								} else {
+									if( lGenres[0].Name==null || lGenres[0].Name=="" ) {
+										sFileName += "";
+									} else {
+										sFileName += lGenres[0].Name;
+									}
+								}
 								break;
 							case "[*BAF*]":
 								if( lAuthors == null ) {
@@ -416,17 +452,37 @@ namespace FilesWorker
 								}
 								break;
 							case "[*BT*]":
-								if( sBookTitle==null || sBookTitle=="" ) {
+								if( btBookTitle == null ) {
 									sFileName += "";
 								} else {
-									sFileName += sBookTitle;
+									if( btBookTitle.Value==null || btBookTitle.Value=="" ) {
+										sFileName += "";
+									} else {
+										sFileName += btBookTitle.Value;
+									}
 								}
 								break;
 							case "[*SN*]":
-								sFileName += ( lSequences==null ? "" : lSequences[0].Name );
+								if( lSequences == null ) {
+									sFileName += "";
+								} else {
+									if( lSequences[0].Name==null || lSequences[0].Name=="" ) {
+										sFileName += "";
+									} else {
+										sFileName += lSequences[0].Name;
+									}
+								}
 								break;
 							case "[*SI*]":
-								sFileName += ( lSequences==null ? "" : lSequences[0].Number.ToString() );
+								if( lSequences == null ) {
+									sFileName += "";
+								} else {
+									if( lSequences[0].Name==null ) {
+										sFileName += "";
+									} else {
+										sFileName += lSequences[0].Number.ToString();
+									}
+								}
 								break;
 							default :
 								sFileName += "";
@@ -435,9 +491,7 @@ namespace FilesWorker
 						break;
 					case Lexems.SimpleType.conditional_group:
 						// условная группа
-						sFileName += ParseComplexGpoup( lexem.Lexem, ti.Lang, ti.Genres, ti.Authors, ti.BookTitle.Value, ti.Sequences );
-						
-						
+						sFileName += ParseComplexGpoup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle, lSequences );
 						break;
 					default :
 						// постоянные символы
@@ -450,12 +504,15 @@ namespace FilesWorker
 			sFileName = rx.Replace( sFileName, "" );
 			rx = new Regex( @"\\+$" );
 			sFileName = rx.Replace( sFileName, "" );
-			return sFileName;
+			// если в строке есть перевод строки - то убираем их
+			rx = new Regex( "\x0A" );
+			sFileName = rx.Replace( sFileName, "" );
+			return StringProcessing.OnlyCorrectSymbolsForFilename( sFileName );
 		}
 		
 		
 		private static string ParseComplexGpoup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
-												string sBookTitle, IList<Sequence> lSequences ) {
+												BookTitle btBookTitle, IList<Sequence> lSequences ) {
 			string sFileName = "";
 			List<Lexems.TPComplex> lCLexems = GemComplexLexems( sLine );
 			foreach( Lexems.TPComplex lexem in lCLexems ) {
@@ -470,7 +527,15 @@ namespace FilesWorker
 								lexem.Lexem = ( sLang==null ? "" : sLang );
 								break;
 							case "*G*":
-								lexem.Lexem = ( lGenres==null ? "" : lGenres[0].Name );
+								if( lGenres == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lGenres[0].Name==null || lGenres[0].Name=="" ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = lGenres[0].Name;
+									}
+								}
 								break;
 							case "*BAF*":
 								if( lAuthors == null ) {
@@ -533,17 +598,37 @@ namespace FilesWorker
 								}
 								break;
 							case "*BT*":
-								if( sBookTitle==null || sBookTitle=="" ) {
+								if( btBookTitle == null ) {
 									lexem.Lexem = "";
 								} else {
-									lexem.Lexem = sBookTitle;
+									if( btBookTitle.Value==null || btBookTitle.Value=="" ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = btBookTitle.Value;
+									}
 								}
 								break;
 							case "*SN*":
-								lexem.Lexem = ( lSequences==null ? "" : lSequences[0].Name );
+								if( lSequences == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lSequences[0].Name==null || lSequences[0].Name=="" ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = lSequences[0].Name;
+									}
+								}
 								break;
 							case "*SI*":
-								lexem.Lexem = ( lSequences==null ? "" : lSequences[0].Number.ToString() );
+								if( lSequences == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lSequences[0].Name==null ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = lSequences[0].Number.ToString();
+									}
+								}
 								break;
 							default :
 								lexem.Lexem = "";

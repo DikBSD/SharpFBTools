@@ -649,6 +649,7 @@ namespace Options
 			// 
 			this.txtBoxFB2NotReadDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBoxFB2NotReadDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtBoxFB2NotReadDir.Location = new System.Drawing.Point(229, 358);
 			this.txtBoxFB2NotReadDir.Name = "txtBoxFB2NotReadDir";
 			this.txtBoxFB2NotReadDir.ReadOnly = true;
