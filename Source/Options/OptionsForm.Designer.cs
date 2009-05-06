@@ -111,6 +111,9 @@ namespace Options
 			this.rbtnLower = new System.Windows.Forms.RadioButton();
 			this.rbtnAsIs = new System.Windows.Forms.RadioButton();
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
+			this.lblLongPath = new System.Windows.Forms.Label();
+			this.txtBoxFB2LongPathDir = new System.Windows.Forms.TextBox();
+			this.btnFB2LongPathDir = new System.Windows.Forms.Button();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -621,6 +624,9 @@ namespace Options
 			// 
 			// tpFileManager
 			// 
+			this.tpFileManager.Controls.Add(this.lblLongPath);
+			this.tpFileManager.Controls.Add(this.txtBoxFB2LongPathDir);
+			this.tpFileManager.Controls.Add(this.btnFB2LongPathDir);
 			this.tpFileManager.Controls.Add(this.lblFB2NotReadDir);
 			this.tpFileManager.Controls.Add(this.txtBoxFB2NotReadDir);
 			this.tpFileManager.Controls.Add(this.btnFB2NotReadDir);
@@ -1029,6 +1035,41 @@ namespace Options
 			this.rbtnAsIs.Text = "Как есть";
 			this.rbtnAsIs.UseVisualStyleBackColor = true;
 			// 
+			// lblLongPath
+			// 
+			this.lblLongPath.AutoSize = true;
+			this.lblLongPath.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblLongPath.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblLongPath.Location = new System.Drawing.Point(6, 388);
+			this.lblLongPath.Name = "lblLongPath";
+			this.lblLongPath.Size = new System.Drawing.Size(217, 13);
+			this.lblLongPath.TabIndex = 35;
+			this.lblLongPath.Text = "Папка для fb2 с длинными именами:";
+			// 
+			// txtBoxFB2LongPathDir
+			// 
+			this.txtBoxFB2LongPathDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBoxFB2LongPathDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.txtBoxFB2LongPathDir.Location = new System.Drawing.Point(229, 384);
+			this.txtBoxFB2LongPathDir.Name = "txtBoxFB2LongPathDir";
+			this.txtBoxFB2LongPathDir.ReadOnly = true;
+			this.txtBoxFB2LongPathDir.Size = new System.Drawing.Size(328, 20);
+			this.txtBoxFB2LongPathDir.TabIndex = 33;
+			// 
+			// btnFB2LongPathDir
+			// 
+			this.btnFB2LongPathDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnFB2LongPathDir.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2LongPathDir.Image")));
+			this.btnFB2LongPathDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnFB2LongPathDir.Location = new System.Drawing.Point(563, 382);
+			this.btnFB2LongPathDir.Name = "btnFB2LongPathDir";
+			this.btnFB2LongPathDir.Size = new System.Drawing.Size(37, 24);
+			this.btnFB2LongPathDir.TabIndex = 34;
+			this.btnFB2LongPathDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnFB2LongPathDir.UseVisualStyleBackColor = true;
+			this.btnFB2LongPathDir.Click += new System.EventHandler(this.BtnFB2LongPathDirClick);
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1072,6 +1113,9 @@ namespace Options
 			this.gboxRegister.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Button btnFB2LongPathDir;
+		private System.Windows.Forms.TextBox txtBoxFB2LongPathDir;
+		private System.Windows.Forms.Label lblLongPath;
 		private System.Windows.Forms.FolderBrowserDialog fbdDir;
 		private System.Windows.Forms.Button btnFB2NotReadDir;
 		private System.Windows.Forms.TextBox txtBoxFB2NotReadDir;

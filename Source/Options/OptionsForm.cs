@@ -56,6 +56,7 @@ namespace Options
 			rbtnGenreText.Checked = Settings.Settings.GetDefFMrbtnGenreTextCheked();
 			chBoxAddToFileNameBookID.Checked = Settings.Settings.GetDefFMchBoxAddToFileNameBookIDChecked();
 			txtBoxFB2NotReadDir.Text = Settings.Settings.GetDefFMFB2NotReadDir();
+			txtBoxFB2LongPathDir.Text = Settings.Settings.GetDefFMFB2LongPathDir();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 			#endregion
@@ -155,6 +156,10 @@ namespace Options
 				reader.ReadToFollowing("FB2NotReadDir");
 				if (reader.HasAttributes ) {
 					txtBoxFB2NotReadDir.Text = reader.GetAttribute("txtBoxFB2NotReadDir");
+				}
+				reader.ReadToFollowing("FB2LongPathDir");
+				if (reader.HasAttributes ) {
+					txtBoxFB2LongPathDir.Text = reader.GetAttribute("txtBoxFB2LongPathDir");
 				}
 				
 				reader.Close();
@@ -275,6 +280,10 @@ namespace Options
 							writer.WriteAttributeString( "txtBoxFB2NotReadDir", txtBoxFB2NotReadDir.Text );
 						writer.WriteFullEndElement();
 						
+						writer.WriteStartElement( "FB2LongPathDir" );
+							writer.WriteAttributeString( "txtBoxFB2LongPathDir", txtBoxFB2LongPathDir.Text );
+						writer.WriteFullEndElement();
+						
 					writer.WriteEndElement();
 					
 				writer.WriteEndElement();
@@ -392,9 +401,15 @@ namespace Options
 			// указание пути к папке дл€ нечитаемых fb2-файлов
 			FilesWorker.FilesWorker.OpenDirDlg( txtBoxFB2NotReadDir, fbdDir, "”кажите папку дл€ нечитаемых fb2-файлов:" );
 		}
+		
+		void BtnFB2LongPathDirClick(object sender, EventArgs e)
+		{
+			// указание пути к папке дл€ fb2-файлов с сгенерированными длинными именами
+			FilesWorker.FilesWorker.OpenDirDlg( txtBoxFB2LongPathDir, fbdDir, "”кажите папку дл€ fb2-файлов, у которых после генерации имен путь получаетс€ слишком длинный:" );
+		}
 		#endregion
 		
 		#endregion
-
+		
 	}
 }

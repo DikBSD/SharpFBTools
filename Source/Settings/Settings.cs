@@ -73,6 +73,7 @@ namespace Settings
 		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
 		private static string m_sDescTemplatePath = GetProgDir()+"\\Help\\TemplatesDescription.rtf";
 		private static string m_sFMFB2NotReadDir = GetProgDir()+"\\_NotReadFB2";
+		private static string m_sFMFB2LongPathDir = GetProgDir()+"\\_FB2LongPathDir";
 		
 		#endregion
 		
@@ -297,6 +298,10 @@ namespace Settings
 			return m_sFMFB2NotReadDir;
 		}
 		
+		public static string GetDefFMFB2LongPathDir() {
+			return m_sFMFB2LongPathDir;
+		}
+		
 		public static string GetDefFMDescTemplatePath() {
 			return m_sDescTemplatePath;
 		}
@@ -367,6 +372,10 @@ namespace Settings
 		public static string ReadFMFB2NotReadDir() {
 			// читаем режим для регистра Как есть
 			return ReadAttribute( "FB2NotReadDir", "txtBoxFB2NotReadDir", GetDefFMFB2NotReadDir() );
+		}
+		public static string ReadFMFB2LongPathDir() {
+			// читаем режим для регистра Как есть
+			return ReadAttribute( "FB2LongPathDir", "txtBoxFB2LongPathDir", GetDefFMFB2LongPathDir() );
 		}
 		
 		public static bool ReadRegisterAsIsChecked() {
@@ -530,6 +539,9 @@ namespace Settings
 			} else {
 				lv.Items[10].SubItems[1].Text = "Нет";
 			}
+			// папки проблемных fb2-файлов
+			lv.Items[11].SubItems[1].Text = ReadFMFB2NotReadDir();
+			lv.Items[12].SubItems[1].Text = ReadFMFB2LongPathDir();
 		}
 		#endregion
 
