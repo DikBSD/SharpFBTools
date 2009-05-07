@@ -110,7 +110,7 @@ namespace SharpFBTools.Controls.Panels
 									"Другие файлы",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего отсортировано",
+									"Всего создано",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Нечитаемые fb2-файлы (архивы)",
@@ -250,7 +250,7 @@ namespace SharpFBTools.Controls.Panels
 			this.btnSortAllToDir.Location = new System.Drawing.Point(776, 28);
 			this.btnSortAllToDir.Name = "btnSortAllToDir";
 			this.btnSortAllToDir.Size = new System.Drawing.Size(37, 24);
-			this.btnSortAllToDir.TabIndex = 7;
+			this.btnSortAllToDir.TabIndex = 4;
 			this.btnSortAllToDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnSortAllToDir.UseVisualStyleBackColor = true;
 			this.btnSortAllToDir.Click += new System.EventHandler(this.BtnSortAllToDirClick);
@@ -265,7 +265,7 @@ namespace SharpFBTools.Controls.Panels
 			this.chBoxScanSubDir.Location = new System.Drawing.Point(652, 5);
 			this.chBoxScanSubDir.Name = "chBoxScanSubDir";
 			this.chBoxScanSubDir.Size = new System.Drawing.Size(172, 24);
-			this.chBoxScanSubDir.TabIndex = 8;
+			this.chBoxScanSubDir.TabIndex = 2;
 			this.chBoxScanSubDir.Text = "Сканировать и подпапки";
 			this.chBoxScanSubDir.UseVisualStyleBackColor = true;
 			// 
@@ -277,7 +277,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSortAllToDir.Location = new System.Drawing.Point(162, 30);
 			this.tboxSortAllToDir.Name = "tboxSortAllToDir";
 			this.tboxSortAllToDir.Size = new System.Drawing.Size(608, 20);
-			this.tboxSortAllToDir.TabIndex = 6;
+			this.tboxSortAllToDir.TabIndex = 3;
 			// 
 			// tboxSourceDir
 			// 
@@ -287,7 +287,7 @@ namespace SharpFBTools.Controls.Panels
 			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.Size = new System.Drawing.Size(484, 20);
-			this.tboxSourceDir.TabIndex = 7;
+			this.tboxSourceDir.TabIndex = 1;
 			// 
 			// lblDir
 			// 
@@ -316,7 +316,7 @@ namespace SharpFBTools.Controls.Panels
 			this.gBoxRenameTemplates.Size = new System.Drawing.Size(828, 69);
 			this.gBoxRenameTemplates.TabIndex = 26;
 			this.gBoxRenameTemplates.TabStop = false;
-			this.gBoxRenameTemplates.Text = " Шаблоны переименовывания ";
+			this.gBoxRenameTemplates.Text = " Шаблоны подстановки ";
 			// 
 			// txtBoxTemplatesFromLine
 			// 
@@ -326,7 +326,7 @@ namespace SharpFBTools.Controls.Panels
 			this.txtBoxTemplatesFromLine.Location = new System.Drawing.Point(143, 42);
 			this.txtBoxTemplatesFromLine.Name = "txtBoxTemplatesFromLine";
 			this.txtBoxTemplatesFromLine.Size = new System.Drawing.Size(667, 20);
-			this.txtBoxTemplatesFromLine.TabIndex = 3;
+			this.txtBoxTemplatesFromLine.TabIndex = 8;
 			// 
 			// cboxTemplatesPrepared
 			// 
@@ -335,18 +335,30 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxTemplatesPrepared.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxTemplatesPrepared.FormattingEnabled = true;
 			this.cboxTemplatesPrepared.Items.AddRange(new object[] {
-									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
-									"[*L*]\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
-									"*L*\\*G*\\*BAL*_*BAF*[_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
-									"[*L*]\\*G*\\*BAL*_*BAF*[_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
-									"*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
-									"[*G*]\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
-									"*G*\\*BAL*_*BAF*[_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
-									"[*G*]\\*BAL*_*BAF*[_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*"});
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[_*SI*_]*BT*",
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[-*SI*-]*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[_*SI*_]*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[-*SI*-]*BT*",
+									"",
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*",
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[-*SI*]-*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[-*SI*]-*BT*",
+									"",
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SN*_*SI*]_*BT*",
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SN*-*SI*]_*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SN*_*SI*]_*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SN*-*SI*]_*BT*",
+									"",
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*",
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*-*SI*)]_*BT*"});
 			this.cboxTemplatesPrepared.Location = new System.Drawing.Point(143, 18);
+			this.cboxTemplatesPrepared.MaxDropDownItems = 32;
 			this.cboxTemplatesPrepared.Name = "cboxTemplatesPrepared";
 			this.cboxTemplatesPrepared.Size = new System.Drawing.Size(667, 21);
-			this.cboxTemplatesPrepared.TabIndex = 2;
+			this.cboxTemplatesPrepared.TabIndex = 7;
 			// 
 			// rBtnTemplatesFromLine
 			// 
@@ -354,7 +366,7 @@ namespace SharpFBTools.Controls.Panels
 			this.rBtnTemplatesFromLine.Location = new System.Drawing.Point(17, 41);
 			this.rBtnTemplatesFromLine.Name = "rBtnTemplatesFromLine";
 			this.rBtnTemplatesFromLine.Size = new System.Drawing.Size(126, 18);
-			this.rBtnTemplatesFromLine.TabIndex = 1;
+			this.rBtnTemplatesFromLine.TabIndex = 6;
 			this.rBtnTemplatesFromLine.Text = "Ввести вручную:";
 			this.rBtnTemplatesFromLine.UseVisualStyleBackColor = true;
 			this.rBtnTemplatesFromLine.CheckedChanged += new System.EventHandler(this.RBtnTemplatesFromLineCheckedChanged);
@@ -366,7 +378,7 @@ namespace SharpFBTools.Controls.Panels
 			this.rBtnTemplatesPrepared.Location = new System.Drawing.Point(17, 19);
 			this.rBtnTemplatesPrepared.Name = "rBtnTemplatesPrepared";
 			this.rBtnTemplatesPrepared.Size = new System.Drawing.Size(126, 18);
-			this.rBtnTemplatesPrepared.TabIndex = 0;
+			this.rBtnTemplatesPrepared.TabIndex = 5;
 			this.rBtnTemplatesPrepared.TabStop = true;
 			this.rBtnTemplatesPrepared.Text = "Выбор готовых:";
 			this.rBtnTemplatesPrepared.UseVisualStyleBackColor = true;
@@ -432,7 +444,7 @@ namespace SharpFBTools.Controls.Panels
 			this.lvSettings.Location = new System.Drawing.Point(282, 0);
 			this.lvSettings.Name = "lvSettings";
 			this.lvSettings.Size = new System.Drawing.Size(546, 202);
-			this.lvSettings.TabIndex = 22;
+			this.lvSettings.TabIndex = 11;
 			this.lvSettings.UseCompatibleStateImageBehavior = false;
 			this.lvSettings.View = System.Windows.Forms.View.Details;
 			// 
@@ -470,7 +482,7 @@ namespace SharpFBTools.Controls.Panels
 			this.lvFilesCount.Location = new System.Drawing.Point(4, 3);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(272, 199);
-			this.lvFilesCount.TabIndex = 21;
+			this.lvFilesCount.TabIndex = 10;
 			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
 			this.lvFilesCount.View = System.Windows.Forms.View.Details;
 			// 
@@ -507,7 +519,7 @@ namespace SharpFBTools.Controls.Panels
 			this.richTxtBoxDescTemplates.Name = "richTxtBoxDescTemplates";
 			this.richTxtBoxDescTemplates.ReadOnly = true;
 			this.richTxtBoxDescTemplates.Size = new System.Drawing.Size(822, 159);
-			this.richTxtBoxDescTemplates.TabIndex = 0;
+			this.richTxtBoxDescTemplates.TabIndex = 9;
 			this.richTxtBoxDescTemplates.Text = "";
 			// 
 			// SFBTpFileManager

@@ -218,7 +218,7 @@ namespace SharpFBTools.Controls.Panels
 			}
 			// проверка на корректность строки с шаблонами
 			if( !FilesWorker.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
-				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&«» между шаблонами!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&\\t\\r\\n между шаблонами!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на четность * в строке с шаблонами

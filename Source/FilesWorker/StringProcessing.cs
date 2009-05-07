@@ -269,7 +269,6 @@ namespace FilesWorker
 				} else {
 					s += sString[i];
 				}
-				
 			}
 			return s;
 		}

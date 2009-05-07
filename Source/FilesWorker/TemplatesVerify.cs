@@ -25,7 +25,7 @@ namespace FilesWorker
 			// проверка списка лексем на соответствие шаблонам
 			if( sLexems==null ) return false;
 
-			char[] sBad = new char[] { ':','*','/','|','?','<','>','\"','&','«','»' };
+			char[] sBad = new char[] { ':','*','/','|','?','<','>','\"','&','\t','\r','\n' };
 			foreach( string sLexem in sLexems ) {
 				foreach( char sSym in sBad ) {
 					if( sLexem.IndexOf( sSym )!=-1 ) {
