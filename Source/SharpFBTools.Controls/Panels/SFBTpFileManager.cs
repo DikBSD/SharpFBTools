@@ -115,7 +115,7 @@ namespace SharpFBTools.Controls.Panels
 			return lFilesList;
 		}
 		
-				private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode ) {
+		private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode ) {
 			// создание нового файла или архива
 			try {
 				if( !Settings.Settings.ReadToArchiveMode() ) {
