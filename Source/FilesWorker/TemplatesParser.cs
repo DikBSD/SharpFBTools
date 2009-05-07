@@ -235,6 +235,167 @@ namespace FilesWorker
 			return lexems;
 		}
 		
+		private static string ParseComplexGpoup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
+												BookTitle btBookTitle, IList<Sequence> lSequences, FB21Genres fb21g ) {
+			// парсинг сложных условных групп
+			#region Код
+			string sFileName = "";
+			List<Lexems.TPComplex> lCLexems = GemComplexLexems( sLine );
+			foreach( Lexems.TPComplex lexem in lCLexems ) {
+				switch( lexem.Type ) {
+					case Lexems.ComplexType.text:
+						// символы
+						break;
+					case Lexems.ComplexType.template:
+						// шаблоны
+						switch( lexem.Lexem ) {
+							case "*L*":
+								lexem.Lexem = ( sLang==null ? "" : sLang.Trim() );
+								break;
+							case "*G*":
+								if( lGenres == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lGenres[0].Name==null || lGenres[0].Name.Trim()=="" ) {
+										lexem.Lexem = "";
+									} else {
+										if( Settings.Settings.ReadGenreTypeMode() ) {
+											lexem.Lexem = lGenres[0].Name.Trim(); // как в схеме
+										} else {
+											// расшифровано
+											string sg = fb21g.GetFB21GenreName( lGenres[0].Name.Trim() );
+											lexem.Lexem = ( sg=="" ? lGenres[0].Name.Trim() : sg );
+										}
+									}
+								}
+								break;
+							case "*BAF*":
+								if( lAuthors == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lAuthors[0].FirstName==null ) {
+										lexem.Lexem = "";
+									} else {
+										if( lAuthors[0].FirstName.Value.Trim()=="" ) {
+											lexem.Lexem = "";
+										} else {
+											lexem.Lexem = lAuthors[0].FirstName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*BAM*":
+								if( lAuthors == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lAuthors[0].MiddleName==null ) {
+										lexem.Lexem = "";
+									} else {
+										if( lAuthors[0].MiddleName.Value.Trim()=="" ) {
+											lexem.Lexem = "";
+										} else {
+											lexem.Lexem = lAuthors[0].MiddleName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*BAL*":
+								if( lAuthors == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lAuthors[0].LastName==null ) {
+										lexem.Lexem = "";
+									} else {
+										if( lAuthors[0].LastName.Value.Trim()=="" ) {
+											lexem.Lexem = "";
+										} else {
+											lexem.Lexem = lAuthors[0].LastName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*BAN*":
+								if( lAuthors == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lAuthors[0].NickName==null ) {
+										lexem.Lexem = "";
+									} else {
+										if( lAuthors[0].NickName.Value.Trim()=="" ) {
+											lexem.Lexem = "";
+										} else {
+											lexem.Lexem = lAuthors[0].NickName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*BT*":
+								if( btBookTitle == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( btBookTitle.Value==null || btBookTitle.Value.Trim()=="" ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = btBookTitle.Value.Trim();
+									}
+								}
+								break;
+							case "*SN*":
+								if( lSequences == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lSequences[0].Name==null || lSequences[0].Name.Trim()=="" ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = lSequences[0].Name.Trim();
+									}
+								}
+								break;
+							case "*SI*":
+								if( lSequences == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lSequences[0].Name==null ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = lSequences[0].Number.ToString();
+									}
+								}
+								break;
+							default :
+								lexem.Lexem = "";
+								break;
+						}
+						break;
+				}
+			}
+			
+			// определение, какой текст, если он есть в группе, будет отображаться вместе с данными "его" шаблона
+			for( int i=0; i!=lCLexems.Count; ++i ) {
+				// "пустой" шаблон "ликвидирует" текст справа от себя, а 1-й "пустой" шаблон - еще и слева.
+				if( lCLexems[i].Type == Lexems.ComplexType.template ) {
+					if( lCLexems[i].Lexem == "" ) {
+						// не 1-й ли это элемент списка
+						if( i < lCLexems.Count-1 && lCLexems[i+1].Type == Lexems.ComplexType.text ) {
+							lCLexems[i+1].Lexem = "";
+						}
+						// если этот шаблон - самый первый из группы шаблонов, а до него есть текст, то еще и "ликвидируем" текст слева от него
+						if( i == 1 && lCLexems[0].Type == Lexems.ComplexType.text ) {
+							lCLexems[0].Lexem = "";
+						}
+					}
+				}
+			}
+			// формирование строки
+			foreach( Lexems.TPComplex lex in lCLexems ) {
+				if( lex.Lexem != "" ) {
+					sFileName += lex.Lexem;
+				}
+			}
+			return sFileName;
+			#endregion
+		}
+		
 		#endregion
 		
 		#region Открытые методы
@@ -290,7 +451,7 @@ namespace FilesWorker
 									if( lAuthors[0].FirstName==null ) {
 										sFileName += Settings.Settings.GetFMNoFirstName();
 									} else {
-										if( lAuthors[0].FirstName.Value.Trim()=="" ) {
+										if( lAuthors[0].FirstName.Value.Trim() == "" ) {
 											sFileName += Settings.Settings.GetFMNoFirstName();
 										} else {
 											sFileName += lAuthors[0].FirstName.Value.Trim();
@@ -305,7 +466,7 @@ namespace FilesWorker
 									if( lAuthors[0].MiddleName==null ) {
 										sFileName += Settings.Settings.GetFMNoMiddleName();
 									} else {
-										if( lAuthors[0].MiddleName.Value.Trim()=="" ) {
+										if( lAuthors[0].MiddleName.Value.Trim() == "" ) {
 											sFileName += Settings.Settings.GetFMNoMiddleName();
 										} else {
 											sFileName += lAuthors[0].MiddleName.Value.Trim();
@@ -480,164 +641,6 @@ namespace FilesWorker
 			rx = new Regex( @"\\+" );
 			sFileName = rx.Replace( sFileName, "\\" );
 			return StringProcessing.GetGeneralWorkedPath( sFileName );
-		}
-		
-		private static string ParseComplexGpoup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
-												BookTitle btBookTitle, IList<Sequence> lSequences, FB21Genres fb21g ) {
-			string sFileName = "";
-			List<Lexems.TPComplex> lCLexems = GemComplexLexems( sLine );
-			foreach( Lexems.TPComplex lexem in lCLexems ) {
-				switch( lexem.Type ) {
-					case Lexems.ComplexType.text:
-						// символы
-						break;
-					case Lexems.ComplexType.template:
-						// шаблоны
-						switch( lexem.Lexem ) {
-							case "*L*":
-								lexem.Lexem = ( sLang==null ? "" : sLang.Trim() );
-								break;
-							case "*G*":
-								if( lGenres == null ) {
-									lexem.Lexem = "";
-								} else {
-									if( lGenres[0].Name==null || lGenres[0].Name.Trim()=="" ) {
-										lexem.Lexem = "";
-									} else {
-										if( Settings.Settings.ReadGenreTypeMode() ) {
-											lexem.Lexem = lGenres[0].Name.Trim(); // как в схеме
-										} else {
-											// расшифровано
-											string sg = fb21g.GetFB21GenreName( lGenres[0].Name.Trim() );
-											lexem.Lexem = ( sg=="" ? lGenres[0].Name.Trim() : sg );
-										}
-									}
-								}
-								break;
-							case "*BAF*":
-								if( lAuthors == null ) {
-									lexem.Lexem = "";
-								} else {
-									if( lAuthors[0].FirstName==null ) {
-										lexem.Lexem = "";
-									} else {
-										if( lAuthors[0].FirstName.Value.Trim()=="" ) {
-											lexem.Lexem = "";
-										} else {
-											lexem.Lexem = lAuthors[0].FirstName.Value.Trim();
-										}
-									}
-								}
-								break;
-							case "*BAM*":
-								if( lAuthors == null ) {
-									lexem.Lexem = "";
-								} else {
-									if( lAuthors[0].MiddleName==null ) {
-										lexem.Lexem = "";
-									} else {
-										if( lAuthors[0].MiddleName.Value.Trim()=="" ) {
-											lexem.Lexem = "";
-										} else {
-											lexem.Lexem = lAuthors[0].MiddleName.Value.Trim();
-										}
-									}
-								}
-								break;
-							case "*BAL*":
-								if( lAuthors == null ) {
-									lexem.Lexem = "";
-								} else {
-									if( lAuthors[0].LastName==null ) {
-										lexem.Lexem = "";
-									} else {
-										if( lAuthors[0].LastName.Value.Trim()=="" ) {
-											lexem.Lexem = "";
-										} else {
-											lexem.Lexem = lAuthors[0].LastName.Value.Trim();
-										}
-									}
-								}
-								break;
-							case "*BAN*":
-								if( lAuthors == null ) {
-									lexem.Lexem = "";
-								} else {
-									if( lAuthors[0].NickName==null ) {
-										lexem.Lexem = "";
-									} else {
-										if( lAuthors[0].NickName.Value.Trim()=="" ) {
-											lexem.Lexem = "";
-										} else {
-											lexem.Lexem = lAuthors[0].NickName.Value.Trim();
-										}
-									}
-								}
-								break;
-							case "*BT*":
-								if( btBookTitle == null ) {
-									lexem.Lexem = "";
-								} else {
-									if( btBookTitle.Value==null || btBookTitle.Value.Trim()=="" ) {
-										lexem.Lexem = "";
-									} else {
-										lexem.Lexem = btBookTitle.Value.Trim();
-									}
-								}
-								break;
-							case "*SN*":
-								if( lSequences == null ) {
-									lexem.Lexem = "";
-								} else {
-									if( lSequences[0].Name==null || lSequences[0].Name.Trim()=="" ) {
-										lexem.Lexem = "";
-									} else {
-										lexem.Lexem = lSequences[0].Name.Trim();
-									}
-								}
-								break;
-							case "*SI*":
-								if( lSequences == null ) {
-									lexem.Lexem = "";
-								} else {
-									if( lSequences[0].Name==null ) {
-										lexem.Lexem = "";
-									} else {
-										lexem.Lexem = lSequences[0].Number.ToString();
-									}
-								}
-								break;
-							default :
-								lexem.Lexem = "";
-								break;
-						}
-						break;
-				}
-			}
-			
-			// определение, какой текст, если он есть в группе, будет отображаться вместе с данными "его" шаблона
-			for( int i=0; i!=lCLexems.Count; ++i ) {
-				// "пустой" шаблон "ликвидирует" текст справа от себя, а 1-й "пустой" шаблон - еще и слева.
-				if( lCLexems[i].Type == Lexems.ComplexType.template ) {
-					if( lCLexems[i].Lexem == "" ) {
-						// не 1-й ли это элемент списка
-						if( i < lCLexems.Count-1 && lCLexems[i+1].Type == Lexems.ComplexType.text ) {
-							lCLexems[i+1].Lexem = "";
-						}
-						// если этот шаблон - самый первый из группы шаблонов, а до него есть текст, то еще и "ликвидируем" текст слева от него
-						if( i == 1 && lCLexems[0].Type == Lexems.ComplexType.text ) {
-							lCLexems[0].Lexem = "";
-						}
-					}
-				}
-			}
-			// формирование строки
-			foreach( Lexems.TPComplex lex in lCLexems ) {
-				if( lex.Lexem != "" ) {
-					sFileName += lex.Lexem;
-				}
-			}
-			return sFileName;
 		}
 			
 		#endregion
