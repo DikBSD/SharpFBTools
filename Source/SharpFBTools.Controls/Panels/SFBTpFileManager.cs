@@ -296,66 +296,12 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Visible = true;
 			tsProgressBar.Maximum = nFilesCount+1;
 			tsProgressBar.Value = 1;
-			int nFileExistMode = Settings.Settings.ReadFileExistMode();
-			bool bAddToFileNameBookIDMode = Settings.Settings.ReadAddToFileNameBookIDMode();
-			bool bDelFB2FilesMode = Settings.Settings.ReadDelFB2FilesMode();
 			string sTempDir = Settings.Settings.GetTempDir();
-			string sNotReadFB2Dir = Settings.Settings.ReadFMFB2NotReadDir();
+			// формируем лексемы шаблонной строки
+			List<Lexems.TPSimple> lSLexems = FilesWorker.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			foreach( string sFromFilePath in lFilesList ) {
-				// смотрим, что это за файл
-				string sExt = Path.GetExtension( sFromFilePath ).ToLower();
-				if( sExt == ".fb2" ) {
-					// обработка fb2-файла
-					try {
-						string sToFilePath = sTarget + "\\" +
-								FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath ) + ".fb2";
-						CreateFileTo( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
-					} catch ( System.IO.FileLoadException ){
-						// нечитаемый fb2-файл - копируем его в папку Bad
-						Directory.CreateDirectory( sNotReadFB2Dir );
-						string sToFilePath = sNotReadFB2Dir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
-						CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, false );
-					}
-					
-					if( bDelFB2FilesMode ) {
-						// удаляем исходный fb2-файл
-						if( File.Exists( sFromFilePath ) ) {
-							File.Delete( sFromFilePath );
-						}
-					}
-					++tsProgressBar.Value;
-					ssProgress.Refresh();
-				} else {
-					// это архив?
-					if( IsArchive( sExt ) ) {
-						List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath );
-						foreach( string sFromFB2Path in lFilesListFromArchive ) {
-							try {
-								string sToFilePath = sTarget + "\\" + 
-										FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFB2Path ) + ".fb2";
-								CreateFileTo( sFromFB2Path, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode  );
-							} catch ( System.IO.FileLoadException ){
-								// нечитаемый fb2-архив - копируем его в папку Bad
-								Directory.CreateDirectory( sNotReadFB2Dir );
-								string sToFilePath = sNotReadFB2Dir+"\\"+sFromFB2Path.Remove( 0, sTempDir.Length );
-								CopyFileToTargetDir( sFromFB2Path, sToFilePath, nFileExistMode, false );
-							}
-						}
-						if( bDelFB2FilesMode ) {
-							// удаляем исходный fb2-файл
-							if( File.Exists( sFromFilePath ) ) {
-								File.Delete( sFromFilePath );
-							}
-						}
-						++tsProgressBar.Value;
-						ssProgress.Refresh();
-					} else {
-						// пропускаем не fb2-файлы и архивы
-						++tsProgressBar.Value;
-						ssProgress.Refresh();
-						continue;
-					}
-				}
+				// создаем файл по новому пути
+				MakeFile( sFromFilePath, sSource, sTarget, lSLexems );
 			}
 			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 			DateTime dtEnd = DateTime.Now;
@@ -367,6 +313,68 @@ namespace SharpFBTools.Controls.Panels
 		}
 
 		#endregion
+		
+		private void MakeFile( string sFromFilePath, string sSource, string sTarget, List<Lexems.TPSimple> lSLexems ) {
+			// создаем файл по новому пути
+			int nFileExistMode = Settings.Settings.ReadFileExistMode();
+			bool bAddToFileNameBookIDMode = Settings.Settings.ReadAddToFileNameBookIDMode();
+			bool bDelFB2FilesMode = Settings.Settings.ReadDelFB2FilesMode();
+			string sTempDir = Settings.Settings.GetTempDir();
+			string sNotReadFB2Dir = Settings.Settings.ReadFMFB2NotReadDir();
+			// смотрим, что это за файл
+			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
+			if( sExt == ".fb2" ) {
+				// обработка fb2-файла
+				try {
+					string sToFilePath = sTarget + "\\" +
+							FilesWorker.TemplatesParser.Parse( sFromFilePath, lSLexems, 0, 0 ) + ".fb2";
+					CreateFileTo( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
+				} catch ( System.IO.FileLoadException ){
+					// нечитаемый fb2-файл - копируем его в папку Bad
+					Directory.CreateDirectory( sNotReadFB2Dir );
+					string sToFilePath = sNotReadFB2Dir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
+					CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, false );
+				}
+				
+				if( bDelFB2FilesMode ) {
+					// удаляем исходный fb2-файл
+					if( File.Exists( sFromFilePath ) ) {
+						File.Delete( sFromFilePath );
+					}
+				}
+				++tsProgressBar.Value;
+				ssProgress.Refresh();
+			} else {
+				// это архив?
+				if( IsArchive( sExt ) ) {
+					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath );
+					foreach( string sFromFB2Path in lFilesListFromArchive ) {
+						try {
+							string sToFilePath = sTarget + "\\" + 
+									FilesWorker.TemplatesParser.Parse( sFromFB2Path, lSLexems, 0, 0 ) + ".fb2";
+							CreateFileTo( sFromFB2Path, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode  );
+						} catch ( System.IO.FileLoadException ){
+							// нечитаемый fb2-архив - копируем его в папку Bad
+							Directory.CreateDirectory( sNotReadFB2Dir );
+							string sToFilePath = sNotReadFB2Dir+"\\"+sFromFB2Path.Remove( 0, sTempDir.Length );
+							CopyFileToTargetDir( sFromFB2Path, sToFilePath, nFileExistMode, false );
+						}
+					}
+					if( bDelFB2FilesMode ) {
+						// удаляем исходный fb2-файл
+						if( File.Exists( sFromFilePath ) ) {
+							File.Delete( sFromFilePath );
+						}
+					}
+					++tsProgressBar.Value;
+					ssProgress.Refresh();
+				} else {
+					// пропускаем не fb2-файлы и архивы
+					++tsProgressBar.Value;
+					ssProgress.Refresh();
+				}
+			}
+		}
 		
 		#region Обработчики событий
 		void TsbtnOpenDirClick(object sender, EventArgs e)

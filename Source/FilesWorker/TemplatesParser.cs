@@ -173,48 +173,6 @@ namespace FilesWorker
 			return "";
 		}
 		
-		private static List<Lexems.TPSimple> GemSimpleLexems( string sLine ) {
-			/* получение простых лексем из шаблонной строки */
-			// разбиваем строку относительно [ и ]
-			string [] sTemp = InsertSeparatorToSquareBracket( sLine ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries );
-			// разбиваем строки sLexems, где нет [] относительно *
-			List<string> lsLexems = new List<string>();
-			foreach( string sStr in sTemp ) {
-				if( sStr.IndexOf( '[' )!=-1 || sStr.IndexOf( '*' )==-1 ) {
-					lsLexems.Add( sStr );
-				} else {
-					lsLexems.AddRange( InsertSeparatorToAsterik( sStr ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries ) );
-				}
-			}
-			// задаем лексемам их тип
-			List<Lexems.TPSimple> lexems = new List<Lexems.TPSimple>();
-			foreach( string s in lsLexems ) {
-				if( !IsTemplateExsist( s ) ) {
-					// постоянные символы
-					lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.const_text ) );
-				} else {
-					if( s.IndexOf( '[' )==-1 ) {
-						// постоянный шаблон
-						lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.const_template ) );
-					} else {
-						// удаляем шаблон из строки и смотрим, есть ли там еще что, помимо него
-						string st = GetTemplate( s );
-						string sRem = s.Remove( s.IndexOf( st ), st.Length ).Remove( 0, 1 );
-						sRem = sRem.Remove( (sRem.Length-1), 1 );
-						if( sRem == "" ) {
-							// условный шаблон
-							lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.conditional_template ) );
-						} else {
-							// условная группа
-							lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.conditional_group ) );
-						}
-					}
-				}
-			}
-			return lexems;
-		}
-		
-		
 		private static List<Lexems.TPComplex> GemComplexLexems( string sLine ) {
 			/* получение лексем из сложной группы */
 			// разбиваем строку относительно *
@@ -235,8 +193,9 @@ namespace FilesWorker
 			return lexems;
 		}
 		
-		private static string ParseComplexGpoup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
-												BookTitle btBookTitle, IList<Sequence> lSequences, FB21Genres fb21g ) {
+		private static string ParseComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
+												BookTitle btBookTitle, IList<Sequence> lSequences, FB21Genres fb21g,
+												int nGenreIndex, int nAuthorIndex ) {
 			// парсинг сложных условных групп
 			#region Код
 			string sFileName = "";
@@ -256,15 +215,15 @@ namespace FilesWorker
 								if( lGenres == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lGenres[0].Name==null || lGenres[0].Name.Trim()=="" ) {
+									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim()=="" ) {
 										lexem.Lexem = "";
 									} else {
 										if( Settings.Settings.ReadGenreTypeMode() ) {
-											lexem.Lexem = lGenres[0].Name.Trim(); // как в схеме
+											lexem.Lexem = lGenres[nGenreIndex].Name.Trim(); // как в схеме
 										} else {
 											// расшифровано
-											string sg = fb21g.GetFB21GenreName( lGenres[0].Name.Trim() );
-											lexem.Lexem = ( sg=="" ? lGenres[0].Name.Trim() : sg );
+											string sg = fb21g.GetFB21GenreName( lGenres[nGenreIndex].Name.Trim() );
+											lexem.Lexem = ( sg=="" ? lGenres[nGenreIndex].Name.Trim() : sg );
 										}
 									}
 								}
@@ -273,13 +232,13 @@ namespace FilesWorker
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[0].FirstName==null ) {
+									if( lAuthors[nAuthorIndex].FirstName==null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[0].FirstName.Value.Trim()=="" ) {
+										if( lAuthors[nAuthorIndex].FirstName.Value.Trim()=="" ) {
 											lexem.Lexem = "";
 										} else {
-											lexem.Lexem = lAuthors[0].FirstName.Value.Trim();
+											lexem.Lexem = lAuthors[nAuthorIndex].FirstName.Value.Trim();
 										}
 									}
 								}
@@ -288,13 +247,13 @@ namespace FilesWorker
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[0].MiddleName==null ) {
+									if( lAuthors[nAuthorIndex].MiddleName==null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[0].MiddleName.Value.Trim()=="" ) {
+										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim()=="" ) {
 											lexem.Lexem = "";
 										} else {
-											lexem.Lexem = lAuthors[0].MiddleName.Value.Trim();
+											lexem.Lexem = lAuthors[nAuthorIndex].MiddleName.Value.Trim();
 										}
 									}
 								}
@@ -303,13 +262,13 @@ namespace FilesWorker
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[0].LastName==null ) {
+									if( lAuthors[nAuthorIndex].LastName==null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[0].LastName.Value.Trim()=="" ) {
+										if( lAuthors[nAuthorIndex].LastName.Value.Trim()=="" ) {
 											lexem.Lexem = "";
 										} else {
-											lexem.Lexem = lAuthors[0].LastName.Value.Trim();
+											lexem.Lexem = lAuthors[nAuthorIndex].LastName.Value.Trim();
 										}
 									}
 								}
@@ -318,13 +277,13 @@ namespace FilesWorker
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[0].NickName==null ) {
+									if( lAuthors[nAuthorIndex].NickName==null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[0].NickName.Value.Trim()=="" ) {
+										if( lAuthors[nAuthorIndex].NickName.Value.Trim()=="" ) {
 											lexem.Lexem = "";
 										} else {
-											lexem.Lexem = lAuthors[0].NickName.Value.Trim();
+											lexem.Lexem = lAuthors[nAuthorIndex].NickName.Value.Trim();
 										}
 									}
 								}
@@ -399,12 +358,49 @@ namespace FilesWorker
 		#endregion
 		
 		#region Открытые методы
-		public static string Parse( string sLine, string sFB2FilePath ) {
+		public static List<Lexems.TPSimple> GemSimpleLexems( string sLine ) {
+			/* получение простых лексем из шаблонной строки */
+			// разбиваем строку относительно [ и ]
+			string [] sTemp = InsertSeparatorToSquareBracket( sLine ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries );
+			// разбиваем строки sLexems, где нет [] относительно *
+			List<string> lsLexems = new List<string>();
+			foreach( string sStr in sTemp ) {
+				if( sStr.IndexOf( '[' )!=-1 || sStr.IndexOf( '*' )==-1 ) {
+					lsLexems.Add( sStr );
+				} else {
+					lsLexems.AddRange( InsertSeparatorToAsterik( sStr ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries ) );
+				}
+			}
+			// задаем лексемам их тип
+			List<Lexems.TPSimple> lexems = new List<Lexems.TPSimple>();
+			foreach( string s in lsLexems ) {
+				if( !IsTemplateExsist( s ) ) {
+					// постоянные символы
+					lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.const_text ) );
+				} else {
+					if( s.IndexOf( '[' )==-1 ) {
+						// постоянный шаблон
+						lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.const_template ) );
+					} else {
+						// удаляем шаблон из строки и смотрим, есть ли там еще что, помимо него
+						string st = GetTemplate( s );
+						string sRem = s.Remove( s.IndexOf( st ), st.Length ).Remove( 0, 1 );
+						sRem = sRem.Remove( (sRem.Length-1), 1 );
+						if( sRem == "" ) {
+							// условный шаблон
+							lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.conditional_template ) );
+						} else {
+							// условная группа
+							lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.conditional_group ) );
+						}
+					}
+				}
+			}
+			return lexems;
+		}
+		
+		public static string Parse( string sFB2FilePath, List<Lexems.TPSimple> lSLexems, int nGenreIndex, int nAuthorIndex ) {
 			// формирование имени файла на основе данных Description и шаблонов подстановки
-			// формируем лексемы шаблонной строки
-			List<Lexems.TPSimple> lSLexems = GemSimpleLexems( sLine );
-			
-			// формирование имени файла
 			string sFileName = "";
 			fB2Parser fb2 = new fB2Parser( sFB2FilePath );
 			TitleInfo ti = fb2.GetTitleInfo();
@@ -431,15 +427,15 @@ namespace FilesWorker
 								if( lGenres == null ) {
 									sFileName += Settings.Settings.GetFMNoGenre();
 								} else {
-									if( lGenres[0].Name==null || lGenres[0].Name.Trim()=="" ) {
+									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim()=="" ) {
 										sFileName += Settings.Settings.GetFMNoGenre();
 									} else {
 										if( Settings.Settings.ReadGenreTypeMode() ) {
-											sFileName += lGenres[0].Name.Trim(); // как в схеме
+											sFileName += lGenres[nGenreIndex].Name.Trim(); // как в схеме
 										} else {
 											// расшифровано
-											string sg = fb21g.GetFB21GenreName( lGenres[0].Name.Trim() );
-											sFileName += ( sg=="" ? lGenres[0].Name.Trim() : sg );
+											string sg = fb21g.GetFB21GenreName( lGenres[nGenreIndex].Name.Trim() );
+											sFileName += ( sg=="" ? lGenres[nGenreIndex].Name.Trim() : sg );
 										}
 									}
 								}
@@ -448,13 +444,13 @@ namespace FilesWorker
 								if( lAuthors == null ) {
 									sFileName += Settings.Settings.GetFMNoFirstName();
 								} else {
-									if( lAuthors[0].FirstName==null ) {
+									if( lAuthors[nAuthorIndex].FirstName==null ) {
 										sFileName += Settings.Settings.GetFMNoFirstName();
 									} else {
-										if( lAuthors[0].FirstName.Value.Trim() == "" ) {
+										if( lAuthors[nAuthorIndex].FirstName.Value.Trim() == "" ) {
 											sFileName += Settings.Settings.GetFMNoFirstName();
 										} else {
-											sFileName += lAuthors[0].FirstName.Value.Trim();
+											sFileName += lAuthors[nAuthorIndex].FirstName.Value.Trim();
 										}
 									}
 								}
@@ -463,13 +459,13 @@ namespace FilesWorker
 								if( lAuthors == null ) {
 									sFileName += Settings.Settings.GetFMNoMiddleName();
 								} else {
-									if( lAuthors[0].MiddleName==null ) {
+									if( lAuthors[nAuthorIndex].MiddleName==null ) {
 										sFileName += Settings.Settings.GetFMNoMiddleName();
 									} else {
-										if( lAuthors[0].MiddleName.Value.Trim() == "" ) {
+										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim() == "" ) {
 											sFileName += Settings.Settings.GetFMNoMiddleName();
 										} else {
-											sFileName += lAuthors[0].MiddleName.Value.Trim();
+											sFileName += lAuthors[nAuthorIndex].MiddleName.Value.Trim();
 										}
 									}
 								}
@@ -478,13 +474,13 @@ namespace FilesWorker
 								if( lAuthors == null ) {
 									sFileName += Settings.Settings.GetFMNoLastName();
 								} else {
-									if( lAuthors[0].LastName==null ) {
+									if( lAuthors[nAuthorIndex].LastName==null ) {
 										sFileName += Settings.Settings.GetFMNoLastName();
 									} else {
-										if( lAuthors[0].LastName.Value.Trim() == "" ) {
+										if( lAuthors[nAuthorIndex].LastName.Value.Trim() == "" ) {
 											sFileName += Settings.Settings.GetFMNoLastName();
 										} else {
-											sFileName += lAuthors[0].LastName.Value.Trim();
+											sFileName += lAuthors[nAuthorIndex].LastName.Value.Trim();
 										}
 									}
 								}
@@ -493,13 +489,13 @@ namespace FilesWorker
 								if( lAuthors == null ) {
 									sFileName += Settings.Settings.GetFMNoNickName();
 								} else {
-									if( lAuthors[0].NickName==null ) {
+									if( lAuthors[nAuthorIndex].NickName==null ) {
 										sFileName += Settings.Settings.GetFMNoNickName();
 									} else {
-										if( lAuthors[0].NickName.Value.Trim() == "" ) {
+										if( lAuthors[nAuthorIndex].NickName.Value.Trim() == "" ) {
 											sFileName += Settings.Settings.GetFMNoNickName();
 										} else {
-											sFileName += lAuthors[0].NickName.Value.Trim();
+											sFileName += lAuthors[nAuthorIndex].NickName.Value.Trim();
 										}
 									}
 								}
@@ -550,49 +546,49 @@ namespace FilesWorker
 								break;
 							case "[*G*]":
 								if( lGenres != null ) {
-									if( lGenres[0].Name!=null || lGenres[0].Name.Trim()!="" ) {
+									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim()!="" ) {
 										if( Settings.Settings.ReadGenreTypeMode() ) {
-											sFileName += lGenres[0].Name.Trim(); // как в схеме
+											sFileName += lGenres[nGenreIndex].Name.Trim(); // как в схеме
 										} else {
 											// расшифровано
-											string sg = fb21g.GetFB21GenreName( lGenres[0].Name.Trim() );
-											sFileName += ( sg=="" ? lGenres[0].Name.Trim() : sg );
+											string sg = fb21g.GetFB21GenreName( lGenres[nGenreIndex].Name.Trim() );
+											sFileName += ( sg=="" ? lGenres[nGenreIndex].Name.Trim() : sg );
 										}
 									}
 								}
 								break;
 							case "[*BAF*]":
 								if( lAuthors != null ) {
-									if( lAuthors[0].FirstName != null ) {
-										if( lAuthors[0].FirstName.Value.Trim() != "" ) {
-											sFileName += lAuthors[0].FirstName.Value.Trim();
+									if( lAuthors[nAuthorIndex].FirstName != null ) {
+										if( lAuthors[nAuthorIndex].FirstName.Value.Trim() != "" ) {
+											sFileName += lAuthors[nAuthorIndex].FirstName.Value.Trim();
 										}
 									}
 								}
 								break;
 							case "[*BAM*]":
 								if( lAuthors != null ) {
-									if( lAuthors[0].MiddleName != null ) {
-										if( lAuthors[0].MiddleName.Value.Trim() != "" ) {
-											sFileName += lAuthors[0].MiddleName.Value.Trim();
+									if( lAuthors[nAuthorIndex].MiddleName != null ) {
+										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim() != "" ) {
+											sFileName += lAuthors[nAuthorIndex].MiddleName.Value.Trim();
 										}
 									}
 								}
 								break;
 							case "[*BAL*]":
 								if( lAuthors != null ) {
-									if( lAuthors[0].LastName != null ) {
-										if( lAuthors[0].LastName.Value.Trim() != "" ) {
-											sFileName += lAuthors[0].LastName.Value.Trim();
+									if( lAuthors[nAuthorIndex].LastName != null ) {
+										if( lAuthors[nAuthorIndex].LastName.Value.Trim() != "" ) {
+											sFileName += lAuthors[nAuthorIndex].LastName.Value.Trim();
 										}
 									}
 								}
 								break;
 							case "[*BAN*]":
 								if( lAuthors != null ) {
-									if( lAuthors[0].NickName != null ) {
-										if( lAuthors[0].NickName.Value.Trim() != "" ) {
-											sFileName += lAuthors[0].NickName.Value.Trim();
+									if( lAuthors[nAuthorIndex].NickName != null ) {
+										if( lAuthors[nAuthorIndex].NickName.Value.Trim() != "" ) {
+											sFileName += lAuthors[nAuthorIndex].NickName.Value.Trim();
 										}
 									}
 								}
@@ -625,7 +621,7 @@ namespace FilesWorker
 						break;
 					case Lexems.SimpleType.conditional_group:
 						// условная группа
-						sFileName += ParseComplexGpoup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle, lSequences, fb21g );
+						sFileName += ParseComplexGroup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle, lSequences, fb21g, nGenreIndex, nAuthorIndex );
 						break;
 					default :
 						// постоянные символы
