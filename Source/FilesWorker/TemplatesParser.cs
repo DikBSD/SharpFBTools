@@ -519,7 +519,8 @@ namespace FilesWorker
 			sFileName = rx.Replace( sFileName, "" );
 			rx = new Regex( @"\\+" );
 			sFileName = rx.Replace( sFileName, "\\" );
-			return StringProcessing.OnlyCorrectSymbolsForFilename( sFileName );
+			return StringProcessing.GetGeneralWorkedPath( sFileName );
+			//return StringProcessing.OnlyCorrectSymbolsForString( sFileName );
 		}
 		
 		

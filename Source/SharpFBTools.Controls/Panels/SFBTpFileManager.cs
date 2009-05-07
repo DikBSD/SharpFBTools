@@ -288,7 +288,12 @@ namespace SharpFBTools.Controls.Panels
 				if( sExt == ".fb2" ) {
 					// обработка fb2-файла
 					try {
-						string sToFilePath = sTarget + "\\" + 
+						/*
+						 string sFileName = FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath );
+						// основная обработка сгенерированного имени файла книги (регистр, транслит и т.д.)
+						sFileName = FilesWorker.StringProcessing.GetGeneralWorkedString( sFileName );
+						 */
+						string sToFilePath = sTarget + "\\" +
 								FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath ) + ".fb2";
 						CreateFileTo( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
 					} catch ( System.IO.FileLoadException ){

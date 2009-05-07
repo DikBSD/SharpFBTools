@@ -22,7 +22,7 @@ namespace FilesWorker
 		private static string[] MakeTranslitLettersArray() {
 			// ìàññèâ çàìåíû ğóññêèõ ñèìâîëîâ ëàòèíñêèìè
 			#region Êîä
-			string[] saTranslitLetters = new string[152];
+			string[] saTranslitLetters = new string[153];
 			saTranslitLetters[0]="a";	// à
 			saTranslitLetters[1]="b";	// á
 			saTranslitLetters[2]="v";	// â
@@ -177,6 +177,7 @@ namespace FilesWorker
 			saTranslitLetters[149]=";";
 			saTranslitLetters[150]=".";
 			saTranslitLetters[151]=",";
+			saTranslitLetters[152]="\\";
 			
 			return saTranslitLetters;
 			#endregion
@@ -238,62 +239,6 @@ namespace FilesWorker
 			return "_" + ( di.ID != null ? di.ID : GetGeneralWorkedString( Settings.Settings.GetNoID() ) );
 		}
 
-		public static string TransliterationString( string sString ) {
-			// òğàíñëèòåğàöèÿ ñòğîêè
-			string sStr = sString;
-			if( sString==null || sString=="" ) {
-				return sString;
-			}
-			const string sTemplate = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#¹$%^[](){}-+=_;.,";
-			string[] saTranslitLetters = MakeTranslitLettersArray();
-			string sTranslit = "";
-			for( int i=0; i!=sStr.Length; ++i ) {
-				int nInd = sTemplate.IndexOf( sStr[i] );
-				if( nInd!=-1 ) {
-					sTranslit += saTranslitLetters[nInd];
-				} else {
-					sTranslit += "_";
-				}
-			}
-			return sTranslit;
-		}
-		
-		public static string StrictString( string sString ) {
-			// "ñòğîãîå" çíà÷åíèå ñòğîêè
-			string s = sString;
-			if( sString==null || sString=="" ) {
-				return sString;
-			}
-			const string sStrictLetters = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
-			string sStrict = "";
-			for( int i=0; i!=s.Length; ++i ) {
-				int nInd = sStrictLetters.IndexOf( s[i] );
-				if( nInd!=-1 ) {
-					sStrict += s[i];
-				}
-			}
-			return sStrict;
-		}
-		
-		public static string OnlyCorrectSymbolsForFilename( string sString ) {
-			// òîëüêî êîğğåêòíûå ñèìâîëû äëÿ èìåí ôàéëîâ
-			string s = sString;
-			if( sString==null || sString=="" ) {
-				return sString;
-			}
-			const string sBad = "*/|?<>\"&:\t\r\n";
-			string sCorrect = "";
-			for( int i=0; i!=s.Length; ++i ) {
-				int nInd = sBad.IndexOf( s[i] );
-				if( nInd==-1 ) {
-					sCorrect += s[i];
-				} else {
-					sCorrect += "_";
-				}
-			}
-			return sCorrect;
-		}
-		
 		public static string SpaceString( string sString, int nMode ) {
 			// îáğàáîòêà ïğîáåëîâ â ñòğîêå
 			if( sString==null || sString=="" ) {
@@ -346,22 +291,146 @@ namespace FilesWorker
 			}
 		}
 		
-		public static string GetGeneralWorkedString( string sFB2FilePath )
+		public static string TransliterationString( string sString ) {
+			// òğàíñëèòåğàöèÿ ñòğîêè
+			string sStr = sString;
+			if( sString==null || sString=="" ) {
+				return sString;
+			}
+			const string sTemplate = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#¹$%^[](){}-+=_;.,\\";
+			string[] saTranslitLetters = MakeTranslitLettersArray();
+			string sTranslit = "";
+			for( int i=0; i!=sStr.Length; ++i ) {
+				int nInd = sTemplate.IndexOf( sStr[i] );
+				if( nInd!=-1 ) {
+					sTranslit += saTranslitLetters[nInd];
+				} else {
+					sTranslit += "_";
+				}
+			}
+			return sTranslit;
+		}
+		
+		public static string StrictString( string sString ) {
+			// "ñòğîãîå" çíà÷åíèå ñòğîêè
+			string s = sString;
+			if( sString==null || sString=="" ) {
+				return sString;
+			}
+			const string sStrictLetters = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
+			string sStrict = "";
+			for( int i=0; i!=s.Length; ++i ) {
+				int nInd = sStrictLetters.IndexOf( s[i] );
+				if( nInd!=-1 ) {
+					sStrict += s[i];
+				}
+			}
+			return sStrict;
+		}
+		
+		public static string StrictPath( string sPath ) {
+			// "ñòğîãîå" çíà÷åíèå ñòğîêè
+			string s = sPath;
+			if( sPath==null || sPath=="" ) {
+				return sPath;
+			}
+			const string sStrictLetters = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}-_";
+			string sStrict = "";
+			for( int i=0; i!=s.Length; ++i ) {
+				int nInd = sStrictLetters.IndexOf( s[i] );
+				if( nInd!=-1 ) {
+					sStrict += s[i];
+				}
+			}
+			return sStrict;
+		}
+		
+		public static string OnlyCorrectSymbolsForString( string sString ) {
+			// òîëüêî êîğğåêòíûå ñèìâîëû äëÿ èìåí ôàéëîâ
+			string s = sString;
+			if( sString==null || sString=="" ) {
+				return sString;
+			}
+			const string sBad = "*/|?\\<>\"&:\t\r\n";
+			string sCorrect = "";
+			for( int i=0; i!=s.Length; ++i ) {
+				int nInd = sBad.IndexOf( s[i] );
+				if( nInd==-1 ) {
+					sCorrect += s[i];
+				} else {
+					if( s[i]=='\t' ) {
+						sCorrect += " ";
+					} else if( s[i]=='\r' || s[i]=='\r' ) {
+						
+					} else {
+						sCorrect += "_";
+					}
+				}
+			}
+			return sCorrect;
+		}
+		
+		public static string OnlyCorrectSymbolsForPath( string sString ) {
+			// òîëüêî êîğğåêòíûå ñèìâîëû äëÿ èìåí ôàéëîâ
+			string s = sString;
+			if( sString==null || sString=="" ) {
+				return sString;
+			}
+			const string sBad = "*/|?<>\"&:\t\r\n";
+			string sCorrect = "";
+			for( int i=0; i!=s.Length; ++i ) {
+				int nInd = sBad.IndexOf( s[i] );
+				if( nInd==-1 ) {
+					sCorrect += s[i];
+				} else {
+					if( s[i]=='\t' ) {
+						sCorrect += " ";
+					} else if( s[i]=='\r' || s[i]=='\r' ) {
+						
+					} else {
+						sCorrect += "_";
+					}
+				}
+			}
+			return sCorrect;
+		}
+		
+		public static string GetGeneralWorkedString( string sString )
 		{
 			string s = "";
 			// ğåãèñòğ
-			s = RegisterString( sFB2FilePath, Settings.Settings.ReadRegisterMode() );
+			s = RegisterString( sString, Settings.Settings.ReadRegisterMode() );
 			// ïğîáåëû
 			s = SpaceString( s, Settings.Settings.ReadSpaceProcessMode() );
 			// "ñòğîãèå" ñèìâîëû
 			if( Settings.Settings.ReadStrictMode() ) {
 				s = StrictString( s );
 			} else {
-				s = OnlyCorrectSymbolsForFilename( s );
+				s = OnlyCorrectSymbolsForString( s );
 			}
 			// òğàíñëèòåğàöèÿ
 			if( Settings.Settings.ReadTranslitMode() ) {
 				s = TransliterationString( s );
+			}
+			return s;
+		}
+		
+		public static string GetGeneralWorkedPath( string sFB2FilePath )
+		{
+			string s = "";
+			// ğåãèñòğ
+			s = RegisterString( sFB2FilePath, Settings.Settings.ReadRegisterMode() );
+			// ïğîáåëû
+			s = SpaceString( s, Settings.Settings.ReadSpaceProcessMode() );
+			// òğàíñëèòåğàöèÿ
+			if( Settings.Settings.ReadTranslitMode() ) {
+				s = TransliterationString( s );
+			}
+			// "ñòğîãèå" ñèìâîëû
+			if( Settings.Settings.ReadStrictMode() ) {
+				s = StrictPath( s );
+			} else {
+				s = OnlyCorrectSymbolsForPath( s );
 			}
 			return s;
 		}
