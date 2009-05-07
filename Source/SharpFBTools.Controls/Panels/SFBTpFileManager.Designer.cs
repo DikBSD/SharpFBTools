@@ -335,10 +335,10 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxTemplatesPrepared.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxTemplatesPrepared.FormattingEnabled = true;
 			this.cboxTemplatesPrepared.Items.AddRange(new object[] {
-									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[_*SI*_]*BT*",
-									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[-*SI*-]*BT*",
-									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[_*SI*_]*BT*",
-									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[-*SI*-]*BT*",
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI*_]*BT*",
+									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI*-]*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI*_]*BT*",
+									"*L*\\*G*\\[*BAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI*-]*BT*",
 									"",
 									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*",
 									"*L*\\*G*\\*BAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[-*SI*]-*BT*",
