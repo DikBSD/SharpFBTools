@@ -115,57 +115,76 @@ namespace SharpFBTools.Controls.Panels
 			return lFilesList;
 		}
 		
-		#endregion
-		
-		#region Обработчики событий
-		void TsbtnOpenDirClick(object sender, EventArgs e)
-		{
-			// задание папки с fb2-файлами и архивами для сканирования
-			if( tboxSourceDir.Text !="" ) {
-				fbdScanDir.SelectedPath = tboxSourceDir.Text;
+				private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode ) {
+			// создание нового файла или архива
+			try {
+				if( !Settings.Settings.ReadToArchiveMode() ) {
+					CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
+				} else {
+					// упаковка в архив
+					string sArchType = FilesWorker.StringProcessing.GetArchiveExt( Settings.Settings.ReadArchiveTypeText() );
+					CopyFileToArchive( sArchType, sFromFilePath, sToFilePath+"."+sArchType, nFileExistMode, bAddToFileNameBookIDMode );
+				}
+			} catch ( System.IO.PathTooLongException ) {
+				string sFileLongPathDir = Settings.Settings.ReadFMFB2LongPathDir();
+				Directory.CreateDirectory( sFileLongPathDir );
+				sToFilePath = sFileLongPathDir+"\\"+Path.GetFileName( sFromFilePath );
+				CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, false );	
 			}
-			DialogResult result = fbdScanDir.ShowDialog();
-			if (result == DialogResult.OK) {
-				string openFolderName = fbdScanDir.SelectedPath;
-                tboxSourceDir.Text = openFolderName;
-            }
-		}
-
-		void RBtnTemplatesPreparedCheckedChanged(object sender, EventArgs e)
-		{
-			cboxTemplatesPrepared.Enabled = rBtnTemplatesPrepared.Checked;
 		}
 		
-		void RBtnTemplatesFromLineCheckedChanged(object sender, EventArgs e)
+		private void CopyFileToArchive( string sArchType, string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
 		{
-			txtBoxTemplatesFromLine.Enabled = rBtnTemplatesFromLine.Checked;
-			txtBoxTemplatesFromLine.Focus();
-		}
-		
-		void TsbtnSortFilesToClick(object sender, EventArgs e)
-		{
-			// сортировка
-			string sSource = tboxSourceDir.Text.Trim();
-			if( sSource == "" ) {
-				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
+			// архивирование файла с сформированным именем (путь)
+			string s7zPath = Settings.Settings.Read7zaPath();
+			string sRarPath = Settings.Settings.ReadRarPath();
+			string sSufix = "";
+			FileInfo fi = new FileInfo( sToFilePath );
+			if( !fi.Directory.Exists ) {
+				Directory.CreateDirectory( fi.Directory.ToString() );
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( sSource );
-			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена: " + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
+			if( File.Exists( sToFilePath ) ) {
+				if( nFileExistMode == 0 ) {
+					File.Delete( sToFilePath );
+				} else {
+					if( bAddToFileNameBookIDMode ) {
+						sSufix = FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
+					}
+					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+					sToFilePath = sToFilePath.Remove( sToFilePath.Length - (sArchType.Length+5) ) + sSufix + ".fb2." + sArchType;
+				}
 			}
-			
-			SortFb2Files( sSource );
+			if( sArchType == "rar" ) {
+				Archiver.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true );
+			} else {
+				Archiver.Archiver.zip( s7zPath, sArchType, sFromFilePath, sToFilePath );
+			}
 		}
 		
-		void BtnSortAllToDirClick(object sender, EventArgs e)
+		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
 		{
-			// задание папки-приемника для размешения отсортированных файлов
-			FilesWorker.FilesWorker.OpenDirDlg( tboxSortAllToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов:" );
+			// копирование файла с сформированным именем (путь)
+			string sSufix = "";
+			FileInfo fi = new FileInfo( sToFilePath );
+			if( !fi.Directory.Exists ) {
+				Directory.CreateDirectory( fi.Directory.ToString() );
+			}
+			if( File.Exists( sToFilePath ) ) {
+				if( nFileExistMode == 0 ) {
+					File.Delete( sToFilePath );
+				} else {
+					if( bAddToFileNameBookIDMode ) {
+						sSufix = FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
+					}
+					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+					sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + ".fb2";
+				}
+			}
+			if( File.Exists( sFromFilePath ) ) {
+				File.Copy( sFromFilePath, sToFilePath );
+			}
 		}
-		#endregion
-			
+		
 		private void SortFb2Files( string sSource )
 		{
 			// полная сортировка файлов
@@ -288,11 +307,6 @@ namespace SharpFBTools.Controls.Panels
 				if( sExt == ".fb2" ) {
 					// обработка fb2-файла
 					try {
-						/*
-						 string sFileName = FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath );
-						// основная обработка сгенерированного имени файла книги (регистр, транслит и т.д.)
-						sFileName = FilesWorker.StringProcessing.GetGeneralWorkedString( sFileName );
-						 */
 						string sToFilePath = sTarget + "\\" +
 								FilesWorker.TemplatesParser.Parse( sLineTemplate, sFromFilePath ) + ".fb2";
 						CreateFileTo( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
@@ -351,77 +365,58 @@ namespace SharpFBTools.Controls.Panels
 			tsslblProgress.Text = Settings.Settings.GetReady();
 			tsProgressBar.Visible = false;
 		}
+
+		#endregion
 		
-		private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode ) {
-			// создание нового файла или архива
-			try {
-				if( !Settings.Settings.ReadToArchiveMode() ) {
-					CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
-				} else {
-					// упаковка в архив
-					string sArchType = FilesWorker.StringProcessing.GetArchiveExt( Settings.Settings.ReadArchiveTypeText() );
-					CopyFileToArchive( sArchType, sFromFilePath, sToFilePath+"."+sArchType, nFileExistMode, bAddToFileNameBookIDMode );
-				}
-			} catch ( System.IO.PathTooLongException ) {
-				string sFileLongPathDir = Settings.Settings.ReadFMFB2LongPathDir();
-				Directory.CreateDirectory( sFileLongPathDir );
-				sToFilePath = sFileLongPathDir+"\\"+Path.GetFileName( sFromFilePath );
-				CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, false );	
-			}
-		}
-		
-		private void CopyFileToArchive( string sArchType, string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
+		#region Обработчики событий
+		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
-			// архивирование файла с сформированным именем (путь)
-			string s7zPath = Settings.Settings.Read7zaPath();
-			string sRarPath = Settings.Settings.ReadRarPath();
-			string sSufix = "";
-			FileInfo fi = new FileInfo( sToFilePath );
-			if( !fi.Directory.Exists ) {
-				Directory.CreateDirectory( fi.Directory.ToString() );
+			// задание папки с fb2-файлами и архивами для сканирования
+			if( tboxSourceDir.Text !="" ) {
+				fbdScanDir.SelectedPath = tboxSourceDir.Text;
 			}
-			if( File.Exists( sToFilePath ) ) {
-				if( nFileExistMode == 0 ) {
-					File.Delete( sToFilePath );
-				} else {
-					if( bAddToFileNameBookIDMode ) {
-						sSufix = FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
-					}
-					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
-					sToFilePath = sToFilePath.Remove( sToFilePath.Length - (sArchType.Length+5) ) + sSufix + ".fb2." + sArchType;
-				}
-			}
-			if( sArchType == "rar" ) {
-				Archiver.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true );
-			} else {
-				Archiver.Archiver.zip( s7zPath, sArchType, sFromFilePath, sToFilePath );
-			}
-		}
-		
-		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
-		{
-			// копирование файла с сформированным именем (путь)
-			string sSufix = "";
-			FileInfo fi = new FileInfo( sToFilePath );
-			if( !fi.Directory.Exists ) {
-				Directory.CreateDirectory( fi.Directory.ToString() );
-			}
-			if( File.Exists( sToFilePath ) ) {
-				if( nFileExistMode == 0 ) {
-					File.Delete( sToFilePath );
-				} else {
-					if( bAddToFileNameBookIDMode ) {
-						sSufix = FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
-					}
-					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
-					sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + ".fb2";
-				}
-			}
-			if( File.Exists( sFromFilePath ) ) {
-				File.Copy( sFromFilePath, sToFilePath );
-			}
+			DialogResult result = fbdScanDir.ShowDialog();
+			if (result == DialogResult.OK) {
+				string openFolderName = fbdScanDir.SelectedPath;
+                tboxSourceDir.Text = openFolderName;
+            }
 		}
 
+		void RBtnTemplatesPreparedCheckedChanged(object sender, EventArgs e)
+		{
+			cboxTemplatesPrepared.Enabled = rBtnTemplatesPrepared.Checked;
+		}
+		
+		void RBtnTemplatesFromLineCheckedChanged(object sender, EventArgs e)
+		{
+			txtBoxTemplatesFromLine.Enabled = rBtnTemplatesFromLine.Checked;
+			txtBoxTemplatesFromLine.Focus();
+		}
+		
+		void TsbtnSortFilesToClick(object sender, EventArgs e)
+		{
+			// сортировка
+			string sSource = tboxSourceDir.Text.Trim();
+			if( sSource == "" ) {
+				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			DirectoryInfo diFolder = new DirectoryInfo( sSource );
+			if( !diFolder.Exists ) {
+				MessageBox.Show( "Папка не найдена: " + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			
+			SortFb2Files( sSource );
+		}
+		
+		void BtnSortAllToDirClick(object sender, EventArgs e)
+		{
+			// задание папки-приемника для размешения отсортированных файлов
+			FilesWorker.FilesWorker.OpenDirDlg( tboxSortAllToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов:" );
+		}
+		#endregion
+			
 		
 	}
 }
