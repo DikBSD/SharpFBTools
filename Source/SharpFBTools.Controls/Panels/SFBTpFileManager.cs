@@ -258,7 +258,7 @@ namespace SharpFBTools.Controls.Panels
 			} else {
 				// сканировать и все подпапки
 				lDirList = FilesWorker.FilesWorker.DirsParser( sSource, lvFilesCount );
-				lDirList.Sort();
+				//lDirList.Sort();
 			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";

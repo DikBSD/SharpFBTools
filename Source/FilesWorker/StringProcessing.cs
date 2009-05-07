@@ -218,7 +218,8 @@ namespace FilesWorker
 			++m_ulDateCount;
 			DateTime dt = DateTime.Now;
 			return	"_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-				dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+Convert.ToString( m_ulDateCount );
+				dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+
+				Convert.ToString( m_ulDateCount );
 		}
 		
 		public static string GetBookID( string sFB2FilePath )

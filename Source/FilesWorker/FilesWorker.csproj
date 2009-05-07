@@ -32,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="FB21Genres.cs" />
     <Compile Include="FilesWorker.cs" />
     <Compile Include="StringProcessing.cs" />
     <Compile Include="TemplatesParser.cs" />

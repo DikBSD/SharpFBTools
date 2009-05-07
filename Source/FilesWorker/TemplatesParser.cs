@@ -252,7 +252,8 @@ namespace FilesWorker
 			IList<Author> lAuthors = ti.Authors;
 			BookTitle btBookTitle = ti.BookTitle;
 			IList<Sequence> lSequences = ti.Sequences;
-			
+			FB21Genres fb21g = new FB21Genres();
+
 			foreach( Lexems.TPSimple lexem in lSLexems ) {
 				switch( lexem.Type ) {
 					case Lexems.SimpleType.const_text:
@@ -272,7 +273,13 @@ namespace FilesWorker
 									if( lGenres[0].Name==null || lGenres[0].Name=="" ) {
 										sFileName += "Жанра Нет";
 									} else {
-										sFileName += lGenres[0].Name;
+										if( Settings.Settings.ReadGenreTypeMode() ) {
+											sFileName += lGenres[0].Name; // как в схеме
+										} else {
+											// расшифровано
+											string sg = fb21g.GetFB21GenreName( lGenres[0].Name );
+											sFileName += ( sg=="" ? lGenres[0].Name : sg );
+										}
 									}
 								}
 								break;
@@ -387,7 +394,13 @@ namespace FilesWorker
 									if( lGenres[0].Name==null || lGenres[0].Name=="" ) {
 										sFileName += "";
 									} else {
-										sFileName += lGenres[0].Name;
+										if( Settings.Settings.ReadGenreTypeMode() ) {
+											sFileName += lGenres[0].Name; // как в схеме
+										} else {
+											// расшифровано
+											string sg = fb21g.GetFB21GenreName( lGenres[0].Name );
+											sFileName += ( sg=="" ? lGenres[0].Name : sg );
+										}
 									}
 								}
 								break;
@@ -485,13 +498,13 @@ namespace FilesWorker
 								}
 								break;
 							default :
-								sFileName += "";
+								//sFileName += "";
 								break;
 						}
 						break;
 					case Lexems.SimpleType.conditional_group:
 						// условная группа
-						sFileName += ParseComplexGpoup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle, lSequences );
+						sFileName += ParseComplexGpoup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle, lSequences, fb21g );
 						break;
 					default :
 						// постоянные символы
@@ -504,16 +517,12 @@ namespace FilesWorker
 			sFileName = rx.Replace( sFileName, "" );
 			rx = new Regex( @"\\+$" );
 			sFileName = rx.Replace( sFileName, "" );
-/*			rx = new Regex( "\x0A" );
-			sFileName = rx.Replace( sFileName, "" );
-			rx = new Regex( "\x0D" );
-			sFileName = rx.Replace( sFileName, "" );*/
 			return StringProcessing.OnlyCorrectSymbolsForFilename( sFileName );
 		}
 		
 		
 		private static string ParseComplexGpoup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
-												BookTitle btBookTitle, IList<Sequence> lSequences ) {
+												BookTitle btBookTitle, IList<Sequence> lSequences, FB21Genres fb21g ) {
 			string sFileName = "";
 			List<Lexems.TPComplex> lCLexems = GemComplexLexems( sLine );
 			foreach( Lexems.TPComplex lexem in lCLexems ) {
@@ -534,7 +543,13 @@ namespace FilesWorker
 									if( lGenres[0].Name==null || lGenres[0].Name=="" ) {
 										lexem.Lexem = "";
 									} else {
-										lexem.Lexem = lGenres[0].Name;
+										if( Settings.Settings.ReadGenreTypeMode() ) {
+											lexem.Lexem = lGenres[0].Name; // как в схеме
+										} else {
+											// расшифровано
+											string sg = fb21g.GetFB21GenreName( lGenres[0].Name );
+											lexem.Lexem = ( sg=="" ? lGenres[0].Name : sg );
+										}
 									}
 								}
 								break;
