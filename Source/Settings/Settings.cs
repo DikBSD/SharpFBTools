@@ -77,6 +77,18 @@ namespace Settings
 		
 		#endregion
 		
+		#region Сообщения Менеджера Файлов
+		private static string m_sFMNoGenre		= "Жанра Нет";
+		private static string m_sFMNoLang		= "Языка Книги Нет";
+		private static string m_sFMNoFirstName	= "Имени Автора Нет";
+		private static string m_sFMNoMiddleName	= "Отчества Автора Нет";
+		private static string m_sFMNoLastName	= "Фамилия Автора Нет";
+		private static string m_sFMNoNickName	= "Ника Автора Нет";
+		private static string m_sFMNoBookTitle	= "Названия Книги Нет";
+		private static string m_sFMNoSequence	= "Серии Нет";
+		private static string m_sFMNoNSequence	= "Номера Серии Нет";
+		#endregion
+		
 		#endregion
 		
 		#region Закрытые методы класса
@@ -543,6 +555,35 @@ namespace Settings
 			lv.Items[11].SubItems[1].Text = ReadFMFB2NotReadDir();
 			lv.Items[12].SubItems[1].Text = ReadFMFB2LongPathDir();
 		}
+		
+		public static string GetFMNoGenre() {
+			return m_sFMNoGenre;
+		}
+		public static string GetFMNoLang() {
+			return m_sFMNoLang;
+		}
+		public static string GetFMNoFirstName() {
+			return m_sFMNoFirstName;
+		}
+		public static string GetFMNoMiddleName() {
+			return m_sFMNoMiddleName;
+		}
+		public static string GetFMNoLastName() {
+			return m_sFMNoLastName;
+		}
+		public static string GetFMNoNickName() {
+			return m_sFMNoNickName;
+		}
+		public static string GetFMNoBookTitle() {
+			return m_sFMNoBookTitle;
+		}
+		public static string GetFMNoSequence() {
+			return m_sFMNoSequence;
+		}
+		public static string GetFMNoNSequence() {
+			return m_sFMNoNSequence;
+		}
+		
 		#endregion
 
 		#endregion

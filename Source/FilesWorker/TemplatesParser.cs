@@ -264,14 +264,14 @@ namespace FilesWorker
 						// постоянный шаблон
 						switch( lexem.Lexem ) {
 							case "*L*":
-								sFileName += ( sLang==null ? "Языка Книги Нет" : sLang.Trim() );
+								sFileName += ( sLang==null ? Settings.Settings.GetFMNoLang() : sLang.Trim() );
 								break;
 							case "*G*":
 								if( lGenres == null ) {
-									sFileName += "Жанра Нет";
+									sFileName += Settings.Settings.GetFMNoGenre();
 								} else {
 									if( lGenres[0].Name==null || lGenres[0].Name.Trim()=="" ) {
-										sFileName += "Жанра Нет";
+										sFileName += Settings.Settings.GetFMNoGenre();
 									} else {
 										if( Settings.Settings.ReadGenreTypeMode() ) {
 											sFileName += lGenres[0].Name.Trim(); // как в схеме
@@ -285,13 +285,13 @@ namespace FilesWorker
 								break;
 							case "*BAF*":
 								if( lAuthors == null ) {
-									sFileName += "Имени Автора Нет";
+									sFileName += Settings.Settings.GetFMNoFirstName();
 								} else {
 									if( lAuthors[0].FirstName==null ) {
-										sFileName += "Имени Автора Нет";
+										sFileName += Settings.Settings.GetFMNoFirstName();
 									} else {
 										if( lAuthors[0].FirstName.Value.Trim()=="" ) {
-											sFileName += "Имени Автора Нет";
+											sFileName += Settings.Settings.GetFMNoFirstName();
 										} else {
 											sFileName += lAuthors[0].FirstName.Value.Trim();
 										}
@@ -300,13 +300,13 @@ namespace FilesWorker
 								break;
 							case "*BAM*":
 								if( lAuthors == null ) {
-									sFileName += "Отчества Автора Нет";
+									sFileName += Settings.Settings.GetFMNoMiddleName();
 								} else {
 									if( lAuthors[0].MiddleName==null ) {
-										sFileName += "Отчества Автора Нет";
+										sFileName += Settings.Settings.GetFMNoMiddleName();
 									} else {
 										if( lAuthors[0].MiddleName.Value.Trim()=="" ) {
-											sFileName += "Отчества Автора Нет";
+											sFileName += Settings.Settings.GetFMNoMiddleName();
 										} else {
 											sFileName += lAuthors[0].MiddleName.Value.Trim();
 										}
@@ -315,13 +315,13 @@ namespace FilesWorker
 								break;
 							case "*BAL*":
 								if( lAuthors == null ) {
-									sFileName += "Фамилия Автора Нет";
+									sFileName += Settings.Settings.GetFMNoLastName();
 								} else {
 									if( lAuthors[0].LastName==null ) {
-										sFileName += "Фамилия Автора Нет";
+										sFileName += Settings.Settings.GetFMNoLastName();
 									} else {
-										if( lAuthors[0].LastName.Value.Trim()=="" ) {
-											sFileName += "Фамилия Автора Нет";
+										if( lAuthors[0].LastName.Value.Trim() == "" ) {
+											sFileName += Settings.Settings.GetFMNoLastName();
 										} else {
 											sFileName += lAuthors[0].LastName.Value.Trim();
 										}
@@ -330,13 +330,13 @@ namespace FilesWorker
 								break;
 							case "*BAN*":
 								if( lAuthors == null ) {
-									sFileName += "Ника Автора Нет";
+									sFileName += Settings.Settings.GetFMNoNickName();
 								} else {
 									if( lAuthors[0].NickName==null ) {
-										sFileName += "Ника Автора Нет";
+										sFileName += Settings.Settings.GetFMNoNickName();
 									} else {
-										if( lAuthors[0].NickName.Value.Trim()=="" ) {
-											sFileName += "Ника Автора Нет";
+										if( lAuthors[0].NickName.Value.Trim() == "" ) {
+											sFileName += Settings.Settings.GetFMNoNickName();
 										} else {
 											sFileName += lAuthors[0].NickName.Value.Trim();
 										}
@@ -345,10 +345,10 @@ namespace FilesWorker
 								break;
 							case "*BT*":
 								if( btBookTitle == null ) {
-									sFileName += "Названия Книги Нет";
+									sFileName += Settings.Settings.GetFMNoBookTitle();
 								} else {
 									if( btBookTitle.Value==null || btBookTitle.Value.Trim()=="" ) {
-										sFileName += "Названия Книги Нет";
+										sFileName += Settings.Settings.GetFMNoBookTitle();
 									} else {
 										sFileName += btBookTitle.Value.Trim();
 									}
@@ -356,10 +356,10 @@ namespace FilesWorker
 								break;
 							case "*SN*":
 								if( lSequences == null ) {
-									sFileName += "Серии Нет";
+									sFileName += Settings.Settings.GetFMNoSequence();
 								} else {
 									if( lSequences[0].Name==null || lSequences[0].Name.Trim()=="" ) {
-										sFileName += "Серии Нет";
+										sFileName += Settings.Settings.GetFMNoSequence();
 									} else {
 										sFileName += lSequences[0].Name.Trim();
 									}
@@ -367,10 +367,10 @@ namespace FilesWorker
 								break;
 							case "*SI*":
 								if( lSequences == null ) {
-									sFileName += "Номера Серии Нет";
+									sFileName += Settings.Settings.GetFMNoNSequence();
 								} else {
 									if( lSequences[0].Name==null ) {
-										sFileName += "Номера Серии Нет";
+										sFileName += Settings.Settings.GetFMNoNSequence();
 									} else {
 										sFileName += lSequences[0].Number.ToString();
 									}
