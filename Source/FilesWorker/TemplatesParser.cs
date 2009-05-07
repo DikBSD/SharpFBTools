@@ -388,12 +388,8 @@ namespace FilesWorker
 								sFileName += ( sLang==null ? "" : sLang.Trim() );
 								break;
 							case "[*G*]":
-								if( lGenres == null ) {
-									sFileName += "";
-								} else {
-									if( lGenres[0].Name==null || lGenres[0].Name.Trim()=="" ) {
-										sFileName += "";
-									} else {
+								if( lGenres != null ) {
+									if( lGenres[0].Name!=null || lGenres[0].Name.Trim()!="" ) {
 										if( Settings.Settings.ReadGenreTypeMode() ) {
 											sFileName += lGenres[0].Name.Trim(); // как в схеме
 										} else {
@@ -405,94 +401,58 @@ namespace FilesWorker
 								}
 								break;
 							case "[*BAF*]":
-								if( lAuthors == null ) {
-									sFileName += "";
-								} else {
-									if( lAuthors[0].FirstName==null ) {
-										sFileName += "";
-									} else {
-										if( lAuthors[0].FirstName.Value.Trim()=="" ) {
-											sFileName += "";
-										} else {
+								if( lAuthors != null ) {
+									if( lAuthors[0].FirstName != null ) {
+										if( lAuthors[0].FirstName.Value.Trim() != "" ) {
 											sFileName += lAuthors[0].FirstName.Value.Trim();
 										}
 									}
 								}
 								break;
 							case "[*BAM*]":
-								if( lAuthors == null ) {
-									sFileName += "";
-								} else {
-									if( lAuthors[0].MiddleName==null ) {
-										sFileName += "";
-									} else {
-										if( lAuthors[0].MiddleName.Value.Trim()=="" ) {
-											sFileName += "";
-										} else {
+								if( lAuthors != null ) {
+									if( lAuthors[0].MiddleName != null ) {
+										if( lAuthors[0].MiddleName.Value.Trim() != "" ) {
 											sFileName += lAuthors[0].MiddleName.Value.Trim();
 										}
 									}
 								}
 								break;
 							case "[*BAL*]":
-								if( lAuthors == null ) {
-									sFileName += "";
-								} else {
-									if( lAuthors[0].LastName==null ) {
-										sFileName += "";
-									} else {
-										if( lAuthors[0].LastName.Value.Trim()=="" ) {
-											sFileName += "";
-										} else {
+								if( lAuthors != null ) {
+									if( lAuthors[0].LastName != null ) {
+										if( lAuthors[0].LastName.Value.Trim() != "" ) {
 											sFileName += lAuthors[0].LastName.Value.Trim();
 										}
 									}
 								}
 								break;
 							case "[*BAN*]":
-								if( lAuthors == null ) {
-									sFileName += "";
-								} else {
-									if( lAuthors[0].NickName==null ) {
-										sFileName += "";
-									} else {
-										if( lAuthors[0].NickName.Value.Trim()=="" ) {
-											sFileName += "";
-										} else {
+								if( lAuthors != null ) {
+									if( lAuthors[0].NickName != null ) {
+										if( lAuthors[0].NickName.Value.Trim() != "" ) {
 											sFileName += lAuthors[0].NickName.Value.Trim();
 										}
 									}
 								}
 								break;
 							case "[*BT*]":
-								if( btBookTitle == null ) {
-									sFileName += "";
-								} else {
-									if( btBookTitle.Value==null || btBookTitle.Value.Trim()=="" ) {
-										sFileName += "";
-									} else {
+								if( btBookTitle != null ) {
+									if( btBookTitle.Value!=null || btBookTitle.Value.Trim()!="" ) {
 										sFileName += btBookTitle.Value.Trim();
 									}
 								}
 								break;
 							case "[*SN*]":
-								if( lSequences == null ) {
-									sFileName += "";
-								} else {
-									if( lSequences[0].Name==null || lSequences[0].Name.Trim()=="" ) {
-										sFileName += "";
-									} else {
+								if( lSequences != null ) {
+									if( lSequences[0].Name!=null || lSequences[0].Name.Trim()!="" ) {
 										sFileName += lSequences[0].Name.Trim();
 									}
 								}
 								break;
 							case "[*SI*]":
-								if( lSequences == null ) {
-									sFileName += "";
-								} else {
-									if( lSequences[0].Name==null ) {
-										sFileName += "";
-									} else {
+								if( lSequences != null ) {
+									if( lSequences[0].Name != null ) {
 										sFileName += lSequences[0].Number.ToString();
 									}
 								}
@@ -520,9 +480,7 @@ namespace FilesWorker
 			rx = new Regex( @"\\+" );
 			sFileName = rx.Replace( sFileName, "\\" );
 			return StringProcessing.GetGeneralWorkedPath( sFileName );
-			//return StringProcessing.OnlyCorrectSymbolsForString( sFileName );
 		}
-		
 		
 		private static string ParseComplexGpoup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
 												BookTitle btBookTitle, IList<Sequence> lSequences, FB21Genres fb21g ) {
