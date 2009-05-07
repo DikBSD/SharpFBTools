@@ -22,6 +22,8 @@ using FB2.Description.PublishInfo;
 using FB2.Description.CustomInfo;
 using FB2.Description.Common;
 
+using fB2Parser = FB2.FB2Parsers.FB2Parser;
+
 namespace SharpFBTools.Controls.Panels
 {
 	/// <summary>
@@ -297,11 +299,27 @@ namespace SharpFBTools.Controls.Panels
 			tsProgressBar.Maximum = nFilesCount+1;
 			tsProgressBar.Value = 1;
 			string sTempDir = Settings.Settings.GetTempDir();
+			bool b1Autor = Settings.Settings.ReadAuthorOneMode();
+			bool b1Genre = Settings.Settings.ReadGenreOneMode();
 			// формируем лексемы шаблонной строки
 			List<Lexems.TPSimple> lSLexems = FilesWorker.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			foreach( string sFromFilePath in lFilesList ) {
 				// создаем файл по новому пути
-				MakeFile( sFromFilePath, sSource, sTarget, lSLexems );
+				if( b1Genre && b1Autor ) {
+					// по первому Жанру и первому Автору Книги
+					MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems );
+				} else if( b1Genre && !b1Autor ) {
+					// по первому Жанру и всем Авторам Книги
+					MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems );
+				} else if( !b1Genre && b1Autor ) {
+					// по всем Жанрам и первому Автору Книги
+					MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems );
+				} else {
+					// по всем Жанрам и всем Авторам Книги
+					MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems );
+				}
+				++tsProgressBar.Value;
+				ssProgress.Refresh();
 			}
 			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 			DateTime dtEnd = DateTime.Now;
@@ -314,7 +332,52 @@ namespace SharpFBTools.Controls.Panels
 
 		#endregion
 		
-		private void MakeFile( string sFromFilePath, string sSource, string sTarget, List<Lexems.TPSimple> lSLexems ) {
+		private void MakeFileFor1Genre1Author( string sFromFilePath, string sSource, string sTarget,
+		                                      List<Lexems.TPSimple> lSLexems ) {
+			// создаем файл по новому пути для первого Жанра и для первого Автора Книги
+			MakeFile( sFromFilePath, sSource, sTarget, lSLexems, 0, 0 );
+		}
+		private void MakeFileForAllGenre1Author( string sFromFilePath, string sSource, string sTarget,
+		                                      List<Lexems.TPSimple> lSLexems ) {
+			// создаем файл по новому пути для всех Жанров и для первого Автора Книги
+			fB2Parser fb2 = new fB2Parser( sFromFilePath );
+			TitleInfo ti = fb2.GetTitleInfo();
+			IList<Genre> lGenres = ti.Genres;
+			IList<Author> lAuthors = ti.Authors;
+			for( int i=0; i!= lGenres.Count; ++i ) {
+				MakeFile( sFromFilePath, sSource, sTarget, lSLexems, i, 0 );
+			}
+			
+		}
+		private void MakeFileFor1GenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
+		                                      	List<Lexems.TPSimple> lSLexems ) {
+			// создаем файл по новому пути для первого Жанра и для всех Авторов Книги
+			fB2Parser fb2 = new fB2Parser( sFromFilePath );
+			TitleInfo ti = fb2.GetTitleInfo();
+			IList<Genre> lGenres = ti.Genres;
+			IList<Author> lAuthors = ti.Authors;
+			for( int i=0; i!= lAuthors.Count; ++i ) {
+				MakeFile( sFromFilePath, sSource, sTarget, lSLexems, 0, i );
+			}
+			
+		}
+		private void MakeFileForAllGenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
+		                                      		List<Lexems.TPSimple> lSLexems ) {
+			// создаем файл по новому пути для всех Жанров и для всех Авторов Книги
+			fB2Parser fb2 = new fB2Parser( sFromFilePath );
+			TitleInfo ti = fb2.GetTitleInfo();
+			IList<Genre> lGenres = ti.Genres;
+			IList<Author> lAuthors = ti.Authors;
+			for( int i=0; i!= lGenres.Count; ++i ) {
+				for( int j=0; j!= lAuthors.Count; ++j ) {
+					MakeFile( sFromFilePath, sSource, sTarget, lSLexems, i, j );
+				}
+			}
+			
+		}
+		
+		private void MakeFile( string sFromFilePath, string sSource, string sTarget,
+		                      List<Lexems.TPSimple> lSLexems, int nGenreIndex, int nAuthorIndex ) {
 			// создаем файл по новому пути
 			int nFileExistMode = Settings.Settings.ReadFileExistMode();
 			bool bAddToFileNameBookIDMode = Settings.Settings.ReadAddToFileNameBookIDMode();
@@ -327,7 +390,7 @@ namespace SharpFBTools.Controls.Panels
 				// обработка fb2-файла
 				try {
 					string sToFilePath = sTarget + "\\" +
-							FilesWorker.TemplatesParser.Parse( sFromFilePath, lSLexems, 0, 0 ) + ".fb2";
+							FilesWorker.TemplatesParser.Parse( sFromFilePath, lSLexems, nGenreIndex, nAuthorIndex ) + ".fb2";
 					CreateFileTo( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
 				} catch ( System.IO.FileLoadException ){
 					// нечитаемый fb2-файл - копируем его в папку Bad
@@ -342,8 +405,8 @@ namespace SharpFBTools.Controls.Panels
 						File.Delete( sFromFilePath );
 					}
 				}
-				++tsProgressBar.Value;
-				ssProgress.Refresh();
+//				++tsProgressBar.Value;
+//				ssProgress.Refresh();
 			} else {
 				// это архив?
 				if( IsArchive( sExt ) ) {
@@ -351,12 +414,12 @@ namespace SharpFBTools.Controls.Panels
 					foreach( string sFromFB2Path in lFilesListFromArchive ) {
 						try {
 							string sToFilePath = sTarget + "\\" + 
-									FilesWorker.TemplatesParser.Parse( sFromFB2Path, lSLexems, 0, 0 ) + ".fb2";
+									FilesWorker.TemplatesParser.Parse( sFromFB2Path, lSLexems, 0, nAuthorIndex ) + ".fb2";
 							CreateFileTo( sFromFB2Path, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode  );
 						} catch ( System.IO.FileLoadException ){
 							// нечитаемый fb2-архив - копируем его в папку Bad
 							Directory.CreateDirectory( sNotReadFB2Dir );
-							string sToFilePath = sNotReadFB2Dir+"\\"+sFromFB2Path.Remove( 0, sTempDir.Length );
+							string sToFilePath = sNotReadFB2Dir+"\\"+sFromFB2Path.Remove( nGenreIndex, sTempDir.Length );
 							CopyFileToTargetDir( sFromFB2Path, sToFilePath, nFileExistMode, false );
 						}
 					}
@@ -366,12 +429,12 @@ namespace SharpFBTools.Controls.Panels
 							File.Delete( sFromFilePath );
 						}
 					}
-					++tsProgressBar.Value;
-					ssProgress.Refresh();
+//					++tsProgressBar.Value;
+//					ssProgress.Refresh();
 				} else {
 					// пропускаем не fb2-файлы и архивы
-					++tsProgressBar.Value;
-					ssProgress.Refresh();
+//					++tsProgressBar.Value;
+//					ssProgress.Refresh();
 				}
 			}
 		}
