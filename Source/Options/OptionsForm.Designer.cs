@@ -908,6 +908,7 @@ namespace Options
 			this.cboxFileExist.FormattingEnabled = true;
 			this.cboxFileExist.Items.AddRange(new object[] {
 									"Заменить существующий файл новым",
+									"Добавить к создаваемому файлу очередной номер",
 									"Добавить к создаваемому файлу дату и время"});
 			this.cboxFileExist.Location = new System.Drawing.Point(151, 2);
 			this.cboxFileExist.Name = "cboxFileExist";

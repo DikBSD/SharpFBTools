@@ -33,9 +33,9 @@ namespace SharpFBTools.Controls.Panels
 			InitializeComponent();
 			InitA();	// инициализация контролов (Упаковка)
 			InitUA();	// инициализация контролов (Распаковка
-			cboxExistArchive.SelectedIndex		= 1; // добавление к создаваемому fb2-архиву _год-месяц...
+			cboxExistArchive.SelectedIndex		= 1; // добавление к создаваемому fb2-архиву очередного номера
 			cboxArchiveType.SelectedIndex		= 1; // Zip
-			cboxUAExistArchive.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу _год-месяц...
+			cboxUAExistArchive.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу очередного номера
 			cboxUAType.SelectedIndex			= 6; // Все архивы
 		}
 		
@@ -71,11 +71,16 @@ namespace SharpFBTools.Controls.Panels
 				} else {
 					if( chBoxAddFileNameBookID.Checked ) {
 						try {
-							sSufix = FilesWorker.StringProcessing.GetBookID( sFromFile );
-						} catch {
-						}
+							sSufix = FilesWorker.StringProcessing.GetBookID( sFromFile ) + "_";
+						} catch { }
 					}
-					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+					if( cboxUAExistArchive.SelectedIndex == 1 ) {
+						// Добавить к создаваемому файлу очередной номер
+						sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sNewFile ).ToString();
+					} else {
+						// Добавить к создаваемому файлу дату и время
+						sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+					}
 					sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
 				}
 			}
@@ -135,11 +140,16 @@ namespace SharpFBTools.Controls.Panels
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
 									try {
-										sSufix = FilesWorker.StringProcessing.GetBookID( sFile );
-									} catch {
-									}
+										sSufix = FilesWorker.StringProcessing.GetBookID( sFile ) + "_";
+									} catch { }
 								}
-								sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+								if( cboxExistArchive.SelectedIndex == 1 ) {
+									// Добавить к создаваемому файлу очередной номер
+									sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sFile ).ToString();
+								} else {
+									// Добавить к создаваемому файлу дату и время
+									sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+								}
 								sArchiveFile = sFile.Remove( sFile.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
 						}
@@ -159,11 +169,16 @@ namespace SharpFBTools.Controls.Panels
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
 									try {
-										sSufix = FilesWorker.StringProcessing.GetBookID( sFile );
-									} catch {
-									}
+										sSufix = FilesWorker.StringProcessing.GetBookID( sFile ) + "_";
+									} catch { }
 								}
-								sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+								if( cboxExistArchive.SelectedIndex == 1 ) {
+									// Добавить к создаваемому файлу очередной номер
+									sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sArchiveFile ).ToString();
+								} else {
+									// Добавить к создаваемому файлу дату и время
+									sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+								}
 								sArchiveFile = sTarget + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
 						}
@@ -673,12 +688,12 @@ namespace SharpFBTools.Controls.Panels
 		
 		void CboxExistArchiveSelectedIndexChanged(object sender, EventArgs e)
 		{
-			chBoxAddArchiveNameBookID.Enabled = ( cboxExistArchive.SelectedIndex == 1 );
+			chBoxAddArchiveNameBookID.Enabled = ( cboxExistArchive.SelectedIndex != 0 );
 		}
 		
 		void CboxUAExistArchiveSelectedIndexChanged(object sender, EventArgs e)
 		{
-			chBoxAddFileNameBookID.Enabled = ( cboxUAExistArchive.SelectedIndex == 1 );
+			chBoxAddFileNameBookID.Enabled = ( cboxUAExistArchive.SelectedIndex != 0 );
 		}
 		#endregion
 	}

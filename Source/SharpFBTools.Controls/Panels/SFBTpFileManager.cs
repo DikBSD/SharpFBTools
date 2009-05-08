@@ -145,22 +145,8 @@ namespace SharpFBTools.Controls.Panels
 			// архивирование файла с сформированным именем (путь)
 			string s7zPath = Settings.Settings.Read7zaPath();
 			string sRarPath = Settings.Settings.ReadRarPath();
-			string sSufix = "";
-			FileInfo fi = new FileInfo( sToFilePath );
-			if( !fi.Directory.Exists ) {
-				Directory.CreateDirectory( fi.Directory.ToString() );
-			}
-			if( File.Exists( sToFilePath ) ) {
-				if( nFileExistMode == 0 ) {
-					File.Delete( sToFilePath );
-				} else {
-					if( bAddToFileNameBookIDMode ) {
-						sSufix = FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
-					}
-					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
-					sToFilePath = sToFilePath.Remove( sToFilePath.Length - (sArchType.Length+5) ) + sSufix + ".fb2." + sArchType;
-				}
-			}
+			// обработка уже существующих файлов в папке
+			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, sArchType );
 			if( sArchType == "rar" ) {
 				Archiver.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true );
 			} else {
@@ -172,6 +158,17 @@ namespace SharpFBTools.Controls.Panels
 		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
 		{
 			// копирование файла с сформированным именем (путь)
+			// обработка уже существующих файлов в папке
+			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, "" );
+			if( File.Exists( sFromFilePath ) ) {
+				File.Copy( sFromFilePath, sToFilePath );
+			}
+			IncStatus( 10 ); // всего создано
+		}
+		private string FileExsistWorker( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode,
+		                                string sArchType )
+		{
+			// обработка уже существующих файлов в папке
 			string sSufix = "";
 			FileInfo fi = new FileInfo( sToFilePath );
 			if( !fi.Directory.Exists ) {
@@ -184,17 +181,24 @@ namespace SharpFBTools.Controls.Panels
 					if( bAddToFileNameBookIDMode ) {
 						sSufix = FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
 					}
-					sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
-					sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + ".fb2";
+					if( nFileExistMode == 1 ) {
+						// Добавить к создаваемому файлу очередной номер
+						sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sToFilePath ).ToString();
+					} else {
+						// Добавить к создаваемому файлу дату и время
+						sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+					}
+					if( sArchType.Length==0 ) {
+						sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + ".fb2";
+					} else {
+						sToFilePath = sToFilePath.Remove( sToFilePath.Length - (sArchType.Length+5) ) + sSufix + ".fb2." + sArchType;
+					}
 				}
 			}
-			if( File.Exists( sFromFilePath ) ) {
-				File.Copy( sFromFilePath, sToFilePath );
-			}
-			IncStatus( 10 ); // всего создано
+			return sToFilePath;
 		}
 		
-				private void MakeFileFor1Genre1Author( string sFromFilePath, string sSource, string sTarget,
+		private void MakeFileFor1Genre1Author( string sFromFilePath, string sSource, string sTarget,
 		                                      List<Lexems.TPSimple> lSLexems ) {
 			// создаем файл по новому пути для первого Жанра и для первого Автора Книги
 			MakeFile( sFromFilePath, sSource, sTarget, lSLexems, 0, 0 );
@@ -397,12 +401,13 @@ namespace SharpFBTools.Controls.Panels
 			} else {
 				// сканировать и все подпапки
 				lDirList = FilesWorker.FilesWorker.DirsParser( sSource, lvFilesCount );
-				//lDirList.Sort();
+				lDirList.Sort();
 			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount, tsProgressBar );
-			lFilesList.Sort();
+			//lFilesList.Sort();
+
 			int nFilesCount = lFilesList.Count;
 			if( nFilesCount == 0 ) {
 				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -498,7 +503,6 @@ namespace SharpFBTools.Controls.Panels
 			FilesWorker.FilesWorker.OpenDirDlg( tboxSortAllToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов:" );
 		}
 		#endregion
-			
 		
 	}
 }

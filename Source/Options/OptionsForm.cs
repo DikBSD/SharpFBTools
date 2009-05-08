@@ -385,7 +385,7 @@ namespace Options
 		#region Менеджер Файлов
 		void CboxFileExistSelectedIndexChanged(object sender, EventArgs e)
 		{
-			chBoxAddToFileNameBookID.Visible = cboxFileExist.SelectedIndex == 1;
+			chBoxAddToFileNameBookID.Visible = cboxFileExist.SelectedIndex != 0;
 			if( cboxFileExist.SelectedIndex == 0 ) {
 				chBoxAddToFileNameBookID.Checked = false;
 			}

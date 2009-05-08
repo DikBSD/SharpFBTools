@@ -336,14 +336,50 @@ namespace SharpFBTools.Controls.Panels
 						File.Delete( sNewPath );
 					} else {
 						if( chBoxAddBookID.Checked ) {
-							try {
-								sSufix = FilesWorker.StringProcessing.GetBookID( sFilePath );
-							} catch {
+							string sExtTemp = Path.GetExtension( sFilePath ).ToLower();
+							if( sExtTemp != ".fb2" ) {
+								string sTempDir = Settings.Settings.GetTempDir();
+								FilesWorker.FilesWorker.RemoveDir( sTempDir );
+								Directory.CreateDirectory( sTempDir );
+								if( sExtTemp == ".rar" ) {
+									Archiver.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir );
+								} else {
+									Archiver.Archiver.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir );
+								}
+								if( Directory.Exists( sTempDir ) ) {
+									string [] files = Directory.GetFiles( sTempDir );
+									try {
+										sSufix = FilesWorker.StringProcessing.GetBookID( files[0] );
+									} catch { }
+									FilesWorker.FilesWorker.RemoveDir( sTempDir );
+								}
+							} else {
+								try {
+									sSufix = FilesWorker.StringProcessing.GetBookID( sFilePath );
+								} catch { }
 							}
+							
 						}
-						string sExt = Path.GetExtension( sNewPath );
-						sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
-						sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
+						if( cboxExistFile.SelectedIndex == 1 ) {
+							// Добавить к создаваемому файлу очередной номер
+							sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sNewPath ).ToString();
+						} else {
+							// Добавить к создаваемому файлу дату и время
+							sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+						}
+						
+						string sFB2File = "";
+						if( sNewPath.IndexOf( ".fb2" )!=1 ) {
+							sFB2File = sNewPath.Substring( 0, sNewPath.IndexOf( ".fb2" )+4 );
+						}
+						string sExt = sNewPath.Remove( 0, sFB2File.Length );
+						if( sExt.Length == 0 ) {
+							sExt = Path.GetExtension( sNewPath );
+							sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
+						} else {
+							sExt = Path.GetExtension( sFB2File ) + Path.GetExtension( sNewPath );
+							sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
+						}
 					}
 				}
 				if( File.Exists( sFilePath ) ) {
@@ -1142,7 +1178,7 @@ namespace SharpFBTools.Controls.Panels
 		
 		void CboxExistFileSelectedIndexChanged(object sender, EventArgs e)
 		{
-			chBoxAddBookID.Enabled = ( cboxExistFile.SelectedIndex == 1 );
+			chBoxAddBookID.Enabled = ( cboxExistFile.SelectedIndex != 0 );
 		}	
 		
 		void TboxSourceDirTextChanged(object sender, EventArgs e)

@@ -20,6 +20,7 @@ namespace FilesWorker
 	/// </summary>
 	public class FilesWorker
 	{
+
 		public FilesWorker()
 		{
 		}

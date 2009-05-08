@@ -7,6 +7,9 @@
  * License: GPL 2.1
  */
 using System;
+using System.IO;
+using System.Collections.Generic;
+
 using FB2.FB2Parsers;
 using FB2.Description.DocumentInfo;
 
@@ -223,6 +226,22 @@ namespace FilesWorker
 				Convert.ToString( m_ulDateCount );
 		}
 		
+		public static long GetFileNewNumber( string sFileName ) {
+			// номер для нового файла, если уже есть несколько таких же
+			string [] files = Directory.GetFiles( Path.GetDirectoryName( sFileName ) );
+			string s = "";
+			if( sFileName.IndexOf( ".fb2" )!=1 ) {
+				s = sFileName.Substring( 0, sFileName.IndexOf( ".fb2" ) );
+			}
+			long lCount = 0;
+			foreach( string sFile in files ) {
+				if( sFile.IndexOf( s )!=-1) {
+					++lCount;
+				}
+			}
+			return lCount;
+		}
+			
 		public static string GetBookID( string sFB2FilePath )
 		{
 			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID
@@ -432,6 +451,23 @@ namespace FilesWorker
 				s = OnlyCorrectSymbolsForPath( s );
 			}
 			return s;
+		}
+		#endregion
+		
+		#region Поиск одинаковых строк в списке List
+		private static string m_sForFind = ""; // для предиката поска в списке
+		private static bool IsFileNameExsist( String s ) {
+			// предикат для поиска в List всех одинаковых фафлов m_sForFind
+			return ( s == m_sForFind ) ? false : true;
+        }
+		public static List<string> GetFilesWithNames( List<string> lFilesList, string sFileName ) {
+			// предикат для поиска в List lFilesList всех одинаковых фафлов sFileName
+			m_sForFind = sFileName;
+			return lFilesList.FindAll( IsFileNameExsist );
+		}
+		public static long GetFilesCount( List<string> lFilesList, string sFileName ) {
+			// число одинаковыъх файлов sFileName в списке lFilesList
+			return GetFilesWithNames( lFilesList, sFileName ).Count;
 		}
 		#endregion
 	}

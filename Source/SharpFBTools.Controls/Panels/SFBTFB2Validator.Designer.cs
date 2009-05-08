@@ -1053,10 +1053,11 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxExistFile.FormattingEnabled = true;
 			this.cboxExistFile.Items.AddRange(new object[] {
 									"Заменить существующий файл новым",
+									"Добавить к новому файлу очередной номер",
 									"Добавить к новому файлу дату и время"});
 			this.cboxExistFile.Location = new System.Drawing.Point(228, 21);
 			this.cboxExistFile.Name = "cboxExistFile";
-			this.cboxExistFile.Size = new System.Drawing.Size(246, 21);
+			this.cboxExistFile.Size = new System.Drawing.Size(260, 21);
 			this.cboxExistFile.TabIndex = 18;
 			this.cboxExistFile.SelectedIndexChanged += new System.EventHandler(this.CboxExistFileSelectedIndexChanged);
 			// 
