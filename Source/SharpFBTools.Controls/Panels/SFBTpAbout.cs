@@ -23,9 +23,6 @@ namespace SharpFBTools.Controls.Panels
 	{
 		public SFBTpAbout()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
 			InitializeComponent();
 			// загрузка файла Лицензии
 			string sLicensePath = Settings.Settings.GetLicensePath();
@@ -48,6 +45,7 @@ namespace SharpFBTools.Controls.Panels
 		{
 			rtboxHelp.Clear();
 			string sFB2ValidatorHelpPath = Settings.Settings.GetFB2ValidatorHelpPath();
+			string sFileManagerHelpPath = Settings.Settings.GetFileManagerHelpPath();
 			string sArchiveManagerHelpPath = Settings.Settings.GetArchiveManagerHelpPath();
 			switch( cboxInstrument.SelectedIndex ) {
 				case 0:
@@ -55,6 +53,13 @@ namespace SharpFBTools.Controls.Panels
 						rtboxHelp.LoadFile( sFB2ValidatorHelpPath );
 					} else {
 						rtboxHelp.Text = "Не найден файл Справки Валидатор: \""+sFB2ValidatorHelpPath+"\"";
+					}
+					break;
+				case 1:
+					if( File.Exists( sFileManagerHelpPath ) ) {
+						rtboxHelp.LoadFile( sFileManagerHelpPath );
+					} else {
+						rtboxHelp.Text = "Не найден файл Справки Менеджера Файлов: \""+sFileManagerHelpPath+"\"";
 					}
 					break;
 				case 2:

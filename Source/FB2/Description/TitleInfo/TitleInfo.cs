@@ -54,7 +54,7 @@ namespace FB2.Description.TitleInfo
         #endregion
         
         #region Открытые свойства класса - fb2-элементы
-         public virtual IList<Genre> Genres
+        public virtual IList<Genre> Genres
         {
             get { return m_Genres; }
             set { m_Genres = value; }

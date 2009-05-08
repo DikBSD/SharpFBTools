@@ -40,7 +40,7 @@ namespace FilesWorker
 		private static string[] GetLexemsToVerify( string sString ) {
 			// разбивка строки на лексемы, согласно шаблонам переименовывания
 			string[] sAllTemplates = new string[] {
-					"*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*",
+					"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*",
 					"[","]","\\","(",")","{","}"," ","`","~","'","!","@","#","№","$","%","^",
 					"-","+","=","_",";",".",","
 			};

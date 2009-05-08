@@ -39,6 +39,7 @@ namespace SharpFBTools.Controls.Panels
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpAbout));
 			this.tcAbout = new System.Windows.Forms.TabControl();
 			this.tpAbout = new System.Windows.Forms.TabPage();
+			this.lblWeb = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.lblDonate4Text = new System.Windows.Forms.Label();
 			this.lblDonate3Text = new System.Windows.Forms.Label();
@@ -62,7 +63,8 @@ namespace SharpFBTools.Controls.Panels
 			this.pMode = new System.Windows.Forms.Panel();
 			this.lblType = new System.Windows.Forms.Label();
 			this.cboxInstrument = new System.Windows.Forms.ComboBox();
-			this.lblWeb = new System.Windows.Forms.Label();
+			this.lblAsIs = new System.Windows.Forms.Label();
+			this.lblAsIs1 = new System.Windows.Forms.Label();
 			this.tcAbout.SuspendLayout();
 			this.tpAbout.SuspendLayout();
 			this.tpLog.SuspendLayout();
@@ -87,6 +89,8 @@ namespace SharpFBTools.Controls.Panels
 			// 
 			// tpAbout
 			// 
+			this.tpAbout.Controls.Add(this.lblAsIs1);
+			this.tpAbout.Controls.Add(this.lblAsIs);
 			this.tpAbout.Controls.Add(this.lblWeb);
 			this.tpAbout.Controls.Add(this.label1);
 			this.tpAbout.Controls.Add(this.lblDonate4Text);
@@ -108,6 +112,18 @@ namespace SharpFBTools.Controls.Panels
 			this.tpAbout.TabIndex = 0;
 			this.tpAbout.Text = " О программе ";
 			this.tpAbout.UseVisualStyleBackColor = true;
+			// 
+			// lblWeb
+			// 
+			this.lblWeb.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblWeb.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+			this.lblWeb.ForeColor = System.Drawing.Color.DarkMagenta;
+			this.lblWeb.Location = new System.Drawing.Point(3, 367);
+			this.lblWeb.Name = "lblWeb";
+			this.lblWeb.Size = new System.Drawing.Size(697, 23);
+			this.lblWeb.TabIndex = 13;
+			this.lblWeb.Text = "Сайт программы: http://code.google.com/p/sharp-fbtools/";
+			this.lblWeb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label1
 			// 
@@ -369,17 +385,28 @@ namespace SharpFBTools.Controls.Panels
 			this.cboxInstrument.TabIndex = 1;
 			this.cboxInstrument.SelectedIndexChanged += new System.EventHandler(this.CboxInstrumentSelectedIndexChanged);
 			// 
-			// lblWeb
+			// lblAsIs
 			// 
-			this.lblWeb.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblWeb.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
-			this.lblWeb.ForeColor = System.Drawing.Color.DarkMagenta;
-			this.lblWeb.Location = new System.Drawing.Point(3, 367);
-			this.lblWeb.Name = "lblWeb";
-			this.lblWeb.Size = new System.Drawing.Size(697, 23);
-			this.lblWeb.TabIndex = 13;
-			this.lblWeb.Text = "Сайт программы: http://code.google.com/p/sharp-fbtools/";
-			this.lblWeb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lblAsIs.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblAsIs.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblAsIs.Location = new System.Drawing.Point(3, 390);
+			this.lblAsIs.Name = "lblAsIs";
+			this.lblAsIs.Size = new System.Drawing.Size(697, 23);
+			this.lblAsIs.TabIndex = 14;
+			this.lblAsIs.Text = "Соглашение:";
+			this.lblAsIs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblAsIs1
+			// 
+			this.lblAsIs1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblAsIs1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblAsIs1.Location = new System.Drawing.Point(3, 413);
+			this.lblAsIs1.Name = "lblAsIs1";
+			this.lblAsIs1.Size = new System.Drawing.Size(697, 41);
+			this.lblAsIs1.TabIndex = 15;
+			this.lblAsIs1.Text = "Разработчик программы не несет никакой ответственности за возможные негативные ре" +
+			"зультаты работы программы. Делайте копии файлов.";
+			this.lblAsIs1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// SFBTpAbout
 			// 
@@ -398,6 +425,8 @@ namespace SharpFBTools.Controls.Panels
 			this.pMode.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Label lblAsIs1;
+		private System.Windows.Forms.Label lblAsIs;
 		private System.Windows.Forms.Label lblWeb;
 		private System.Windows.Forms.RichTextBox rtboxLog;
 		private System.Windows.Forms.TabPage tpLog;

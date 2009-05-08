@@ -20,8 +20,61 @@ using FB2.Description.Common;
 
 using fB2Parser = FB2.FB2Parsers.FB2Parser;
 
+#region Вспомогательные классы и пмеречисления
 namespace Lexems
 {
+	/// <summary>
+	/// Description of AllTemplates
+	/// </summary>
+	public class AllTemplates {
+		protected static readonly string[] m_sAllTemplates = new string[] {
+								"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*",
+								};
+		public AllTemplates() {
+			
+		}
+	}
+	
+	/// <summary>
+	/// Description of Templates
+	/// </summary>
+	public class Templates : AllTemplates {
+		public Templates() {
+			
+		}
+		// постоянные шаблоны
+		public string LBAL {
+            get { return m_sAllTemplates[0]; }
+        }
+		public string L {
+			get { return m_sAllTemplates[1]; }
+        }
+		public string G {
+            get { return m_sAllTemplates[2]; }
+        }
+		public string BAF {
+            get { return m_sAllTemplates[3]; }
+        }
+		public string BAM {
+            get { return m_sAllTemplates[4]; }
+        }
+		public string BAL {
+            get { return m_sAllTemplates[5]; }
+        }
+		public string BAN {
+            get { return m_sAllTemplates[6]; }
+        }
+		public string BT {
+            get { return m_sAllTemplates[7]; }
+        }
+		public string SN {
+            get { return m_sAllTemplates[8]; }
+        }
+		public string SI {
+            get { return m_sAllTemplates[9]; }
+        }
+	}
+	
 	/// <summary>
 	/// Description of SimpleType
 	/// </summary>
@@ -79,19 +132,17 @@ namespace Lexems
         }
 	}
 }
-	
+#endregion
+
 namespace FilesWorker
 {
 	/// <summary>
 	/// Description of TemplatesParser.
 	/// </summary>
-	public class TemplatesParser
+	public class TemplatesParser : Lexems.AllTemplates
 	{
 		#region Закрытые данные
 		private static char cSeparator = '↑';
-		private static string[] m_sAllTemplates = new string[] {
-								"*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*",
-								};
 		#endregion
 		
 		public TemplatesParser()
@@ -208,10 +259,10 @@ namespace FilesWorker
 					case Lexems.ComplexType.template:
 						// шаблоны
 						switch( lexem.Lexem ) {
-							case "*L*":
+							case "*L*": // Язык Книги
 								lexem.Lexem = ( sLang==null ? "" : sLang.Trim() );
 								break;
-							case "*G*":
+							case "*G*": // Жанр Книги
 								if( lGenres == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -228,7 +279,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BAF*":
+							case "*BAF*": // Имя Автора Книги
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -243,7 +294,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BAM*":
+							case "*BAM*": // Отчество Автора Книги
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -258,7 +309,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BAL*":
+							case "*BAL*": // Фамилия Автора Книги
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -273,7 +324,23 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BAN*":
+							case "*LBAL*": // 1-я Буква Фамилия Автора Книги \ Фамилия Автора Книги
+								if( lAuthors == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lAuthors[nAuthorIndex].LastName==null ) {
+										lexem.Lexem = "";
+									} else {
+										if( lAuthors[nAuthorIndex].LastName.Value.Trim()=="" ) {
+											lexem.Lexem = "";
+										} else {
+											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
+											lexem.Lexem = sExsist[0] + "\\" + sExsist;
+										}
+									}
+								}
+								break;
+							case "*BAN*": // Ник Автора Книги
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -288,7 +355,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BT*":
+							case "*BT*": // Название Книги
 								if( btBookTitle == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -299,7 +366,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*SN*":
+							case "*SN*": // Серия Книги
 								if( lSequences == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -310,7 +377,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*SI*":
+							case "*SI*": // Номер Серии Книги
 								if( lSequences == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -420,10 +487,10 @@ namespace FilesWorker
 					case Lexems.SimpleType.const_template:
 						// постоянный шаблон
 						switch( lexem.Lexem ) {
-							case "*L*":
+							case "*L*": // Язык Книги
 								sFileName += ( sLang==null ? Settings.Settings.GetFMNoLang() : sLang.Trim() );
 								break;
-							case "*G*":
+							case "*G*": // Жанр Книги
 								if( lGenres == null ) {
 									sFileName += Settings.Settings.GetFMNoGenre();
 								} else {
@@ -440,7 +507,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BAF*":
+							case "*BAF*": // Имя Автора Книги
 								if( lAuthors == null ) {
 									sFileName += Settings.Settings.GetFMNoFirstName();
 								} else {
@@ -455,7 +522,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BAM*":
+							case "*BAM*": // Отчество Автора Книги
 								if( lAuthors == null ) {
 									sFileName += Settings.Settings.GetFMNoMiddleName();
 								} else {
@@ -470,7 +537,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BAL*":
+							case "*BAL*": // Фамилия Автора Книги
 								if( lAuthors == null ) {
 									sFileName += Settings.Settings.GetFMNoLastName();
 								} else {
@@ -485,7 +552,25 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BAN*":
+							case "*LBAL*": // 1-я Буква Фамилия Автора Книги \ Фамилия Автора Книги
+								string sNo = Settings.Settings.GetFMNoLastName();
+								sNo = sNo[0] + "\\" + sNo;
+								if( lAuthors == null ) {
+									sFileName += sNo;
+								} else {
+									if( lAuthors[nAuthorIndex].LastName==null ) {
+										sFileName += sNo;
+									} else {
+										if( lAuthors[nAuthorIndex].LastName.Value.Trim() == "" ) {
+											sFileName += sNo;
+										} else {
+											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
+											sFileName += sExsist[0] + "\\" + sExsist;
+										}
+									}
+								}
+								break;
+							case "*BAN*": // Ник Автора Книги
 								if( lAuthors == null ) {
 									sFileName += Settings.Settings.GetFMNoNickName();
 								} else {
@@ -500,7 +585,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*BT*":
+							case "*BT*": // Название Книги
 								if( btBookTitle == null ) {
 									sFileName += Settings.Settings.GetFMNoBookTitle();
 								} else {
@@ -511,7 +596,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*SN*":
+							case "*SN*": // Серия Книги
 								if( lSequences == null ) {
 									sFileName += Settings.Settings.GetFMNoSequence();
 								} else {
@@ -522,7 +607,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "*SI*":
+							case "*SI*": // Номер Серии Книги
 								if( lSequences == null ) {
 									sFileName += Settings.Settings.GetFMNoNSequence();
 								} else {
@@ -541,10 +626,10 @@ namespace FilesWorker
 					case Lexems.SimpleType.conditional_template:
 						// условный шаблон
 						switch( lexem.Lexem ) {
-							case "[*L*]":
+							case "[*L*]": // Язык Книги
 								sFileName += ( sLang==null ? "" : sLang.Trim() );
 								break;
-							case "[*G*]":
+							case "[*G*]": // Жанр Книги
 								if( lGenres != null ) {
 									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim()!="" ) {
 										if( Settings.Settings.ReadGenreTypeMode() ) {
@@ -557,7 +642,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "[*BAF*]":
+							case "[*BAF*]": // Имя Автора Книги
 								if( lAuthors != null ) {
 									if( lAuthors[nAuthorIndex].FirstName != null ) {
 										if( lAuthors[nAuthorIndex].FirstName.Value.Trim() != "" ) {
@@ -566,7 +651,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "[*BAM*]":
+							case "[*BAM*]": // Отчество Автора Книги
 								if( lAuthors != null ) {
 									if( lAuthors[nAuthorIndex].MiddleName != null ) {
 										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim() != "" ) {
@@ -575,7 +660,7 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "[*BAL*]":
+							case "[*BAL*]": // Фамилия Автора Книги
 								if( lAuthors != null ) {
 									if( lAuthors[nAuthorIndex].LastName != null ) {
 										if( lAuthors[nAuthorIndex].LastName.Value.Trim() != "" ) {
@@ -584,7 +669,17 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "[*BAN*]":
+							case "[*LBAL*]": // 1-я Буква Фамилия Автора Книги \ Фамилия Автора Книги
+								if( lAuthors != null ) {
+									if( lAuthors[nAuthorIndex].LastName != null ) {
+										if( lAuthors[nAuthorIndex].LastName.Value.Trim() != "" ) {
+											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
+											sFileName += sExsist[0] + "\\" + sExsist;
+										}
+									}
+								}
+								break;	
+							case "[*BAN*]": // Ник Автора Книги
 								if( lAuthors != null ) {
 									if( lAuthors[nAuthorIndex].NickName != null ) {
 										if( lAuthors[nAuthorIndex].NickName.Value.Trim() != "" ) {
@@ -593,21 +688,21 @@ namespace FilesWorker
 									}
 								}
 								break;
-							case "[*BT*]":
+							case "[*BT*]": // Название Книги
 								if( btBookTitle != null ) {
 									if( btBookTitle.Value!=null || btBookTitle.Value.Trim()!="" ) {
 										sFileName += btBookTitle.Value.Trim();
 									}
 								}
 								break;
-							case "[*SN*]":
+							case "[*SN*]": // Серия Книги
 								if( lSequences != null ) {
 									if( lSequences[0].Name!=null || lSequences[0].Name.Trim()!="" ) {
 										sFileName += lSequences[0].Name.Trim();
 									}
 								}
 								break;
-							case "[*SI*]":
+							case "[*SI*]": // Номер Серии Книги
 								if( lSequences != null ) {
 									if( lSequences[0].Name != null ) {
 										sFileName += lSequences[0].Number.ToString();
@@ -621,7 +716,8 @@ namespace FilesWorker
 						break;
 					case Lexems.SimpleType.conditional_group:
 						// условная группа
-						sFileName += ParseComplexGroup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle, lSequences, fb21g, nGenreIndex, nAuthorIndex );
+						sFileName += ParseComplexGroup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle,
+						                               lSequences, fb21g, nGenreIndex, nAuthorIndex );
 						break;
 					default :
 						// постоянные символы

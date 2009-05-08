@@ -71,6 +71,7 @@ namespace Settings
 		private static bool m_brbtnGenreSchemaCheked = true;
 		private static bool m_brbtnGenreTextCheked = false;
 		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
+		private static string m_sFileManagerHelpPath = GetProgDir()+"\\Help\\FileManagerHelp.rtf";
 		private static string m_sDescTemplatePath = GetProgDir()+"\\Help\\TemplatesDescription.rtf";
 		private static string m_sFMFB2NotReadDir = GetProgDir()+"\\_NotReadFB2";
 		private static string m_sFMFB2LongPathDir = GetProgDir()+"\\_FB2LongPathDir";
@@ -306,6 +307,10 @@ namespace Settings
 		#endregion
 		
 		#region Менеджер Файлов
+		public static string GetFileManagerHelpPath() {
+			return m_sFileManagerHelpPath;
+		}
+		
 		public static string GetDefFMFB2NotReadDir() {
 			return m_sFMFB2NotReadDir;
 		}

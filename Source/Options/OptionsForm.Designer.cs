@@ -964,7 +964,7 @@ namespace Options
 									"Заменит на  _",
 									"Заменит на  -",
 									"Заменит на  +",
-									"Заменит на  ="});
+									"Заменит на  ~"});
 			this.cboxSpace.Location = new System.Drawing.Point(151, 5);
 			this.cboxSpace.Name = "cboxSpace";
 			this.cboxSpace.Size = new System.Drawing.Size(123, 21);

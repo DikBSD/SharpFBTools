@@ -262,8 +262,8 @@ namespace FilesWorker
 						case 4: // заменить пробел на '+'
 							s += '+';
 							break;
-						case 5: // заменить пробел на '='
-							s += '=';
+						case 5: // заменить пробел на '~'
+							s += '~';
 							break;
 					}
 				} else {
