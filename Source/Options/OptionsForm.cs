@@ -72,97 +72,101 @@ namespace Options
 			settings.IgnoreWhitespace = true;
 			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
 				// Общее 
-				reader.ReadToFollowing("WinRar");
-				if (reader.HasAttributes ) {
-					tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
-					tboxRarPath.Text = reader.GetAttribute("RarPath");
-					tboxUnRarPath.Text = reader.GetAttribute("UnRarPath");
+				try {
+					reader.ReadToFollowing("WinRar");
+					if (reader.HasAttributes ) {
+						tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
+						tboxRarPath.Text = reader.GetAttribute("RarPath");
+						tboxUnRarPath.Text = reader.GetAttribute("UnRarPath");
+					}
+					reader.ReadToFollowing("A7za");
+					if (reader.HasAttributes ) {
+						tbox7zaPath.Text = reader.GetAttribute("A7zaPath");
+					}
+					reader.ReadToFollowing("Editors");
+					if (reader.HasAttributes ) {
+						tboxFBEPath.Text = reader.GetAttribute("FBEPath");
+						tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
+					}
+					reader.ReadToFollowing("Reader");
+					if (reader.HasAttributes ) {
+						tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
+					}
+					// Валидатор
+					reader.ReadToFollowing("ValidatorDoubleClick");
+					if (reader.HasAttributes ) {
+						cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") );
+						cboxValidatorForFB2Archive.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") );
+					}
+					reader.ReadToFollowing("ValidatorPressEnter");
+					if (reader.HasAttributes ) {
+						cboxValidatorForFB2PE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE") );
+						cboxValidatorForFB2ArchivePE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE") );
+					}
+					// Менеджер Файлов
+					reader.ReadToFollowing("Register");
+					if (reader.HasAttributes ) {
+						rbtnAsIs.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAsIsChecked") );
+						rbtnLower.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnLowerChecked") );
+						rbtnUpper.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnUpperChecked") );
+					}
+					reader.ReadToFollowing("Translit");
+					if (reader.HasAttributes ) {
+						chBoxTranslit.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxTranslitChecked") );
+					}
+					reader.ReadToFollowing("Strict");
+					if (reader.HasAttributes ) {
+						chBoxStrict.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxStrictChecked") );
+					}
+					reader.ReadToFollowing("Space");
+					if (reader.HasAttributes ) {
+						cboxSpace.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxSpaceSelectedIndex") );
+					}
+					reader.ReadToFollowing("Archive");
+					if (reader.HasAttributes ) {
+						chBoxToArchive.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxToArchiveChecked") );
+						cboxArchiveType.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxArchiveTypeSelectedIndex") );
+					}
+					reader.ReadToFollowing("IsFileExist");
+					if (reader.HasAttributes ) {
+						cboxFileExist.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxFileExistSelectedIndex") );
+					}
+					reader.ReadToFollowing("AddToFileNameBookID");
+					if (reader.HasAttributes ) {
+						chBoxAddToFileNameBookID.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxAddToFileNameBookIDChecked") );
+					}
+					reader.ReadToFollowing("FileDelete");
+					if (reader.HasAttributes ) {
+						chBoxDelFB2Files.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxDelFB2FilesChecked") );
+					}
+					reader.ReadToFollowing("AuthorsToDirs");
+					if (reader.HasAttributes ) {
+						rbtnAuthorOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorOneChecked") );
+						rbtnAuthorAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorAllChecked") );
+					}
+					reader.ReadToFollowing("GenresToDirs");
+					if (reader.HasAttributes ) {
+						rbtnGenreOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreOneChecked") );
+						rbtnGenreAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreAllChecked") );
+					}
+					reader.ReadToFollowing("GenresType");
+					if (reader.HasAttributes ) {
+						rbtnGenreSchema.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreSchemaChecked") );
+						rbtnGenreText.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreTextChecked") );
+					}
+					reader.ReadToFollowing("FB2NotReadDir");
+					if (reader.HasAttributes ) {
+						txtBoxFB2NotReadDir.Text = reader.GetAttribute("txtBoxFB2NotReadDir");
+					}
+					reader.ReadToFollowing("FB2LongPathDir");
+					if (reader.HasAttributes ) {
+						txtBoxFB2LongPathDir.Text = reader.GetAttribute("txtBoxFB2LongPathDir");
+					}
+				} catch {
+					MessageBox.Show( "Поврежден файл настроек: \""+Settings.Settings.GetSettingsPath()+"\".\nУдалите его, он создастся автоматически при сохранении настроек", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				} finally {
+					reader.Close();
 				}
-				reader.ReadToFollowing("A7za");
-				if (reader.HasAttributes ) {
-					tbox7zaPath.Text = reader.GetAttribute("A7zaPath");
-				}
-				reader.ReadToFollowing("Editors");
-				if (reader.HasAttributes ) {
-					tboxFBEPath.Text = reader.GetAttribute("FBEPath");
-					tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
-				}
-				reader.ReadToFollowing("Reader");
-				if (reader.HasAttributes ) {
-					tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
-				}
-				// Валидатор
-				reader.ReadToFollowing("ValidatorDoubleClick");
-				if (reader.HasAttributes ) {
-					cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") );
-					cboxValidatorForFB2Archive.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") );
-				}
-				reader.ReadToFollowing("ValidatorPressEnter");
-				if (reader.HasAttributes ) {
-					cboxValidatorForFB2PE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE") );
-					cboxValidatorForFB2ArchivePE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE") );
-				}
-				// Менеджер Файлов
-				reader.ReadToFollowing("Register");
-				if (reader.HasAttributes ) {
-					rbtnAsIs.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAsIsChecked") );
-					rbtnLower.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnLowerChecked") );
-					rbtnUpper.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnUpperChecked") );
-				}
-				reader.ReadToFollowing("Translit");
-				if (reader.HasAttributes ) {
-					chBoxTranslit.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxTranslitChecked") );
-				}
-				reader.ReadToFollowing("Strict");
-				if (reader.HasAttributes ) {
-					chBoxStrict.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxStrictChecked") );
-				}
-				reader.ReadToFollowing("Space");
-				if (reader.HasAttributes ) {
-					cboxSpace.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxSpaceSelectedIndex") );
-				}
-				reader.ReadToFollowing("Archive");
-				if (reader.HasAttributes ) {
-					chBoxToArchive.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxToArchiveChecked") );
-					cboxArchiveType.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxArchiveTypeSelectedIndex") );
-				}
-				reader.ReadToFollowing("IsFileExist");
-				if (reader.HasAttributes ) {
-					cboxFileExist.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxFileExistSelectedIndex") );
-				}
-				reader.ReadToFollowing("AddToFileNameBookID");
-				if (reader.HasAttributes ) {
-					chBoxAddToFileNameBookID.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxAddToFileNameBookIDChecked") );
-				}
-				reader.ReadToFollowing("FileDelete");
-				if (reader.HasAttributes ) {
-					chBoxDelFB2Files.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxDelFB2FilesChecked") );
-				}
-				reader.ReadToFollowing("AuthorsToDirs");
-				if (reader.HasAttributes ) {
-					rbtnAuthorOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorOneChecked") );
-					rbtnAuthorAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorAllChecked") );
-				}
-				reader.ReadToFollowing("GenresToDirs");
-				if (reader.HasAttributes ) {
-					rbtnGenreOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreOneChecked") );
-					rbtnGenreAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreAllChecked") );
-				}
-				reader.ReadToFollowing("GenresType");
-				if (reader.HasAttributes ) {
-					rbtnGenreSchema.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreSchemaChecked") );
-					rbtnGenreText.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreTextChecked") );
-				}
-				reader.ReadToFollowing("FB2NotReadDir");
-				if (reader.HasAttributes ) {
-					txtBoxFB2NotReadDir.Text = reader.GetAttribute("txtBoxFB2NotReadDir");
-				}
-				reader.ReadToFollowing("FB2LongPathDir");
-				if (reader.HasAttributes ) {
-					txtBoxFB2LongPathDir.Text = reader.GetAttribute("txtBoxFB2LongPathDir");
-				}
-				
-				reader.Close();
 			}
 			#endregion
 		}

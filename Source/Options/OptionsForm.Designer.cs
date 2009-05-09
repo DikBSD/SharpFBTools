@@ -973,8 +973,6 @@ namespace Options
 			// 
 			// chBoxToArchive
 			// 
-			this.chBoxToArchive.Checked = true;
-			this.chBoxToArchive.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxToArchive.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxToArchive.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.chBoxToArchive.Location = new System.Drawing.Point(307, 6);
@@ -998,8 +996,6 @@ namespace Options
 			// 
 			// chBoxStrict
 			// 
-			this.chBoxStrict.Checked = true;
-			this.chBoxStrict.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxStrict.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxStrict.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxStrict.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -1012,8 +1008,6 @@ namespace Options
 			// 
 			// chBoxTranslit
 			// 
-			this.chBoxTranslit.Checked = true;
-			this.chBoxTranslit.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxTranslit.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxTranslit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxTranslit.ForeColor = System.Drawing.SystemColors.ControlText;

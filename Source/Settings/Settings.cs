@@ -54,8 +54,8 @@ namespace Settings
 		#endregion
 		
 		#region Менеджер Файлов
-		private static bool m_bchBoxTranslitCheked = true;
-		private static bool m_bchBoxStrictCheked = true;
+		private static bool m_bchBoxTranslitCheked = false;
+		private static bool m_bchBoxStrictCheked = false;
 		private static Int16 m_ncboxSpaceSelectedIndex = 0;
 		private static bool m_bchBoxToArchiveCheked = true;
 		private static Int16 m_ncboxArchiveTypeSelectedIndex = 1;
@@ -100,14 +100,19 @@ namespace Settings
 				XmlReaderSettings settings = new XmlReaderSettings();
 				settings.IgnoreWhitespace = true;
 				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing(sTag);
-					if ( reader.HasAttributes ) {
-						string s = reader.GetAttribute( sAttr );
-						if( s != null ) {
-							sAttrValue = s;
+					try {
+						reader.ReadToFollowing(sTag);
+						if ( reader.HasAttributes ) {
+							string s = reader.GetAttribute( sAttr );
+							if( s != null ) {
+								sAttrValue = s;
+							}
 						}
+					} catch {
+						
+					} finally {
+						reader.Close();
 					}
-					reader.Close();
 				}
 			}
 			return sAttrValue;
@@ -119,14 +124,19 @@ namespace Settings
 				XmlReaderSettings settings = new XmlReaderSettings();
 				settings.IgnoreWhitespace = true;
 				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing(sTag);
-					if ( reader.HasAttributes ) {
-						string s = reader.GetAttribute( sAttr );
-						if( s != null ) {
-							nAttrValue = Convert.ToInt16( s );
+					try {
+						reader.ReadToFollowing(sTag);
+						if ( reader.HasAttributes ) {
+							string s = reader.GetAttribute( sAttr );
+							if( s != null ) {
+								nAttrValue = Convert.ToInt16( s );
+							}
 						}
+					} catch {
+						
+					} finally {
+						reader.Close();
 					}
-					reader.Close();
 				}
 			}
 			return nAttrValue;
@@ -138,14 +148,19 @@ namespace Settings
 				XmlReaderSettings settings = new XmlReaderSettings();
 				settings.IgnoreWhitespace = true;
 				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					reader.ReadToFollowing(sTag);
-					if ( reader.HasAttributes ) {
-						string s = reader.GetAttribute( sAttr );
-						if( s != null ) {
-							bAttrValue = Convert.ToBoolean( s );
+					try {
+						reader.ReadToFollowing(sTag);
+						if ( reader.HasAttributes ) {
+							string s = reader.GetAttribute( sAttr );
+							if( s != null ) {
+								bAttrValue = Convert.ToBoolean( s );
+							}
 						}
+					} catch {
+						
+					} finally {
+						reader.Close();
 					}
-					reader.Close();
 				}
 			}
 			return bAttrValue;
