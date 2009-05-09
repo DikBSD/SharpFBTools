@@ -229,10 +229,11 @@ namespace FilesWorker
 		public static long GetFileNewNumber( string sFileName ) {
 			// номер для нового файла, если уже есть несколько таких же
 			string [] files = Directory.GetFiles( Path.GetDirectoryName( sFileName ) );
-			string s = "";
-			if( sFileName.IndexOf( ".fb2" )!=1 ) {
-				s = sFileName.Substring( 0, sFileName.IndexOf( ".fb2" ) );
+			string sTemp = sFileName.ToLower();
+			if( sTemp.IndexOf( ".fb2" )!=1 ) {
+				sTemp = sTemp.Substring( 0, sTemp.IndexOf( ".fb2" ) );
 			}
+			string s = sFileName.Substring( 0, sTemp.Length );
 			long lCount = 0;
 			foreach( string sFile in files ) {
 				if( sFile.IndexOf( s )!=-1) {

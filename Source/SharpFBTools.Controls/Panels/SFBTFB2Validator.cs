@@ -341,7 +341,7 @@ namespace SharpFBTools.Controls.Panels
 								string sTempDir = Settings.Settings.GetTempDir();
 								FilesWorker.FilesWorker.RemoveDir( sTempDir );
 								Directory.CreateDirectory( sTempDir );
-								if( sExtTemp == ".rar" ) {
+								if( sExtTemp.ToLower() == ".rar" ) {
 									Archiver.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir );
 								} else {
 									Archiver.Archiver.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir );
@@ -368,9 +368,9 @@ namespace SharpFBTools.Controls.Panels
 							sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
 						}
 						
-						string sFB2File = "";
-						if( sNewPath.IndexOf( ".fb2" )!=1 ) {
-							sFB2File = sNewPath.Substring( 0, sNewPath.IndexOf( ".fb2" )+4 );
+						string sFB2File = sNewPath.ToLower();
+						if( sFB2File.IndexOf( ".fb2" )!=1 ) {
+							sFB2File = sFB2File.Substring( 0, sFB2File.IndexOf( ".fb2" )+4 );
 						}
 						string sExt = sNewPath.Remove( 0, sFB2File.Length );
 						if( sExt.Length == 0 ) {
