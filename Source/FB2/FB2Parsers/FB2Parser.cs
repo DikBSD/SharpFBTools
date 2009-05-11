@@ -245,7 +245,7 @@ namespace FB2.FB2Parsers
         			sequence = new Sequence();
         		}
         		try {
-                    sequence.Number = Convert.ToUInt32( node.Attributes["number"].Value) ;
+                    sequence.Number = node.Attributes["number"].Value ;
                 } catch( FormatException ) {
                 }
             }

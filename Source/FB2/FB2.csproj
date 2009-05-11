@@ -40,6 +40,7 @@
     <Folder Include="Description\PublishInfo" />
     <Folder Include="Description\TitleInfo" />
     <Folder Include="FB2Parsers" />
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Common\IInlineImageType.cs" />
     <Compile Include="Common\InlineImage.cs" />
     <Compile Include="Description\Common\Author.cs" />

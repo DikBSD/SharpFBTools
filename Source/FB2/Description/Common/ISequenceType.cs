@@ -15,8 +15,8 @@ namespace FB2.Description.Common
 	/// </summary>
 	public interface ISequenceType
 	{
-		string Name { get; set; } // атрибут типа
-        uint Number { set; get; } // атрибут типа
-        string Lang { set; get; } // атрибут типа
+		string Name { get; set; }	// атрибут типа
+        string Number { set; get; } // атрибут типа
+        string Lang { set; get; }	// атрибут типа
 	}
 }

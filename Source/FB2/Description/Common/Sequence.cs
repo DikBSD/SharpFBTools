@@ -18,7 +18,7 @@ namespace FB2.Description.Common
 	{
 		#region Закрытые данные класса
         private string	m_sName		= null;
-        private uint	m_unNumber	= 0;
+        private string	m_sNumber	= null;
         private string	m_sLang		= null;
 		#endregion
 		
@@ -27,17 +27,19 @@ namespace FB2.Description.Common
 		{
 			m_sName		= null;
 			m_sLang		= null;
+			m_sNumber	= null;
 		}
-		public Sequence( string sName, uint unNumber, string sLang )
+		public Sequence( string sName, string sNumber, string sLang )
         {
 			m_sName		= sName;
-			m_unNumber	= unNumber;
+			m_sNumber	= sNumber;
 			m_sLang		= sLang;
         }
         public Sequence( string sName )
         {
             m_sName 	= sName;
 			m_sLang		= null;
+			m_sNumber	= null;
         }
 		#endregion
 		
@@ -55,10 +57,10 @@ namespace FB2.Description.Common
             set { m_sName = value; }
         }
 
-        public virtual uint Number {
+        public virtual string Number {
 			// Номер Серии
-            get { return m_unNumber; }
-            set { m_unNumber = value; }
+            get { return m_sNumber; }
+            set { m_sNumber = value; }
         }
 		#endregion
 	}
