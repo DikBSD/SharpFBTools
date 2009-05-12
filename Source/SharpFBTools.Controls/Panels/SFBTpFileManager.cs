@@ -188,14 +188,14 @@ namespace SharpFBTools.Controls.Panels
 					File.Delete( sToFilePath );
 				} else {
 					if( bAddToFileNameBookIDMode ) {
-						sSufix = FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
+						sSufix = "_" + FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
 					}
 					if( nFileExistMode == 1 ) {
 						// Добавить к создаваемому файлу очередной номер
 						sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sToFilePath ).ToString();
 					} else {
 						// Добавить к создаваемому файлу дату и время
-						sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+						sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
 					}
 					if( sArchType.Length==0 ) {
 						sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + ".fb2";

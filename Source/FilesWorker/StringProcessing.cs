@@ -222,7 +222,7 @@ namespace FilesWorker
 		{
 			++m_ulDateCount;
 			DateTime dt = DateTime.Now;
-			return	"_"+dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
+			return	dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
 				dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+
 				Convert.ToString( m_ulDateCount );
 		}
@@ -255,7 +255,7 @@ namespace FilesWorker
 			
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
 			DocumentInfo di = fb2p.GetDocumentInfo();
-			return ( "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() ) );
+			return ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
 		}
 		
 		public static string GetFMBookID( string sFB2FilePath )
@@ -266,7 +266,7 @@ namespace FilesWorker
 			
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
 			DocumentInfo di = fb2p.GetDocumentInfo();
-			return "_" + ( di.ID != null ? di.ID : GetGeneralWorkedString( Settings.Settings.GetNoID() ) );
+			return ( di.ID != null ? di.ID : GetGeneralWorkedString( Settings.Settings.GetNoID() ) );
 		}
 
 		public static string SpaceString( string sString, int nMode ) {

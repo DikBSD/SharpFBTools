@@ -73,7 +73,7 @@ namespace SharpFBTools.Controls.Panels
 				} else {
 					if( chBoxAddFileNameBookID.Checked ) {
 						try {
-							sSufix = FilesWorker.StringProcessing.GetBookID( sFromFile ) + "_";
+							sSufix = "_" + FilesWorker.StringProcessing.GetBookID( sFromFile );
 						} catch { }
 					}
 					if( cboxUAExistArchive.SelectedIndex == 1 ) {
@@ -81,7 +81,7 @@ namespace SharpFBTools.Controls.Panels
 						sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sNewFile ).ToString();
 					} else {
 						// Добавить к создаваемому файлу дату и время
-						sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+						sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
 					}
 					sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
 				}
@@ -147,7 +147,7 @@ namespace SharpFBTools.Controls.Panels
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
 									try {
-										sSufix = FilesWorker.StringProcessing.GetBookID( sFile ) + "_";
+										sSufix = "_" + FilesWorker.StringProcessing.GetBookID( sFile );
 									} catch { }
 								}
 								if( cboxExistArchive.SelectedIndex == 1 ) {
@@ -155,7 +155,7 @@ namespace SharpFBTools.Controls.Panels
 									sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sFile ).ToString();
 								} else {
 									// Добавить к создаваемому файлу дату и время
-									sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+									sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
 								}
 								sArchiveFile = sFile.Remove( sFile.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
@@ -176,7 +176,7 @@ namespace SharpFBTools.Controls.Panels
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
 									try {
-										sSufix = FilesWorker.StringProcessing.GetBookID( sFile ) + "_";
+										sSufix = "_" + FilesWorker.StringProcessing.GetBookID( sFile );
 									} catch { }
 								}
 								if( cboxExistArchive.SelectedIndex == 1 ) {
@@ -184,7 +184,7 @@ namespace SharpFBTools.Controls.Panels
 									sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sArchiveFile ).ToString();
 								} else {
 									// Добавить к создаваемому файлу дату и время
-									sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+									sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
 								}
 								sArchiveFile = sTarget + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}

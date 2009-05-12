@@ -351,13 +351,13 @@ namespace SharpFBTools.Controls.Panels
 								if( Directory.Exists( sTempDir ) ) {
 									string [] files = Directory.GetFiles( sTempDir );
 									try {
-										sSufix = FilesWorker.StringProcessing.GetBookID( files[0] );
+										sSufix = "_" + FilesWorker.StringProcessing.GetBookID( files[0] );
 									} catch { }
 									FilesWorker.FilesWorker.RemoveDir( sTempDir );
 								}
 							} else {
 								try {
-									sSufix = FilesWorker.StringProcessing.GetBookID( sFilePath );
+									sSufix = "_" + FilesWorker.StringProcessing.GetBookID( sFilePath );
 								} catch { }
 							}
 							
@@ -367,7 +367,7 @@ namespace SharpFBTools.Controls.Panels
 							sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sNewPath ).ToString();
 						} else {
 							// Добавить к создаваемому файлу дату и время
-							sSufix += FilesWorker.StringProcessing.GetDateTimeExt();
+							sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
 						}
 						
 						string sFB2File = sNewPath.ToLower();
