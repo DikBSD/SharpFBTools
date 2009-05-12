@@ -381,7 +381,7 @@ namespace FilesWorker
 								if( lSequences == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lSequences[0].Name==null ) {
+									if( lSequences[0].Number==null ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = lSequences[0].Number;
@@ -611,7 +611,7 @@ namespace FilesWorker
 								if( lSequences == null ) {
 									sFileName += Settings.Settings.GetFMNoNSequence();
 								} else {
-									if( lSequences[0].Name==null ) {
+									if( lSequences[0].Number==null ) {
 										sFileName += Settings.Settings.GetFMNoNSequence();
 									} else {
 										sFileName += lSequences[0].Number;
@@ -704,7 +704,7 @@ namespace FilesWorker
 								break;
 							case "[*SI*]": // Номер Серии Книги
 								if( lSequences != null ) {
-									if( lSequences[0].Name != null ) {
+									if( lSequences[0].Number != null ) {
 										sFileName += lSequences[0].Number;
 									}
 								}
