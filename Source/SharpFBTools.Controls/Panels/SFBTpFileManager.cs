@@ -13,6 +13,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
+
 using FB2.FB2Parsers;
 using FB2.Common;
 using FB2.Description;
@@ -146,6 +148,10 @@ namespace SharpFBTools.Controls.Panels
 			string s7zPath = Settings.Settings.Read7zaPath();
 			string sRarPath = Settings.Settings.ReadRarPath();
 			// обработка уже существующих файлов в папке
+			Regex rx = new Regex( @"\\+" );
+			sFromFilePath = rx.Replace( sFromFilePath, "\\" );
+			sToFilePath = rx.Replace( sToFilePath, "\\" );
+			
 			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, sArchType );
 			if( sArchType == "rar" ) {
 				Archiver.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true );
@@ -158,6 +164,9 @@ namespace SharpFBTools.Controls.Panels
 		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
 		{
 			// копирование файла с сформированным именем (путь)
+			Regex rx = new Regex( @"\\+" );
+			sFromFilePath = rx.Replace( sFromFilePath, "\\" );
+			sToFilePath = rx.Replace( sToFilePath, "\\" );
 			// обработка уже существующих файлов в папке
 			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, "" );
 			if( File.Exists( sFromFilePath ) ) {
@@ -313,6 +322,10 @@ namespace SharpFBTools.Controls.Panels
 		{
 			// полная сортировка файлов
 			string sTarget = tboxSortAllToDir.Text.Trim();
+			Regex rx = new Regex( @"\\+$" );
+			sTarget = rx.Replace( sTarget, "" );
+			tboxSortAllToDir.Text = sTarget;
+			
 			if( sTarget == "") {
 				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;

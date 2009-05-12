@@ -13,7 +13,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml;
+
 using FB2.Description.DocumentInfo;
 
 namespace SharpFBTools.Controls.Panels
@@ -91,6 +93,11 @@ namespace SharpFBTools.Controls.Panels
 			// Переместить в папку
 			// bFB2=true - копировать только fb2-файлы. false - любые
 			if( bFB2 && Path.GetExtension( sFile ).ToLower() != ".fb2" ) return false;
+			
+			Regex rx = new Regex( @"\\+" );
+			sFile = rx.Replace( sFile, "\\" );
+			sArchiveFile = rx.Replace( sArchiveFile, "\\" );
+			
 			string sFileSourceDir = tboxUASourceDir.Text.Trim();
 			string sNewDir = Path.GetDirectoryName( sTargetDir+"\\"+sArchiveFile.Remove( 0, sFileSourceDir.Length ) );
 			string sNewFile = "";

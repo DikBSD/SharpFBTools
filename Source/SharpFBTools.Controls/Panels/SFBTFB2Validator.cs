@@ -13,7 +13,9 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml;
+
 using Settings;
 using FB2.FB2Parsers;
 using FB2.Description.DocumentInfo;
@@ -382,6 +384,9 @@ namespace SharpFBTools.Controls.Panels
 						}
 					}
 				}
+				
+				Regex rx = new Regex( @"\\+" );
+				sFilePath = rx.Replace( sFilePath, "\\" );
 				if( File.Exists( sFilePath ) ) {
 					if( bCopy ) {
 						File.Copy( sFilePath, sNewPath );

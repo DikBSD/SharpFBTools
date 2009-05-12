@@ -8,6 +8,7 @@
  */
 
 using System;
+using System.Text.RegularExpressions;
 
 namespace Archiver
 {
@@ -22,6 +23,10 @@ namespace Archiver
 		
 		public static int unzip( string sZipPath, string sFilePath, string sTempDir ) {
 			// распаковка zip-фрхива
+			Regex rx = new Regex( @"\\+" );
+			sZipPath = rx.Replace( sZipPath, "\\" );
+			sFilePath = rx.Replace( sFilePath, "\\" );
+			
 			string s = "\"" + sZipPath + "\" e"; // Распаковать (для полных путей - x)
 			s += " -y"; // На все отвечать yes
 			s += " " + "\"" + sFilePath + "\""; // Файл который нужно распаковать
@@ -31,6 +36,10 @@ namespace Archiver
 		
 		public static int unrar( string sUnRarPath, string sFilePath, string sTempDir ) {
 			// распаковка rar-фрхива
+			Regex rx = new Regex( @"\\+" );
+			sUnRarPath = rx.Replace( sUnRarPath, "\\" );
+			sFilePath = rx.Replace( sFilePath, "\\" );
+			
 			string s = "\"" + sUnRarPath + "\" e"; // Распаковать (для полных путей - x)
 			s += " -y"; // На все отвечать yes
 			s += " " + "\"" + sFilePath + "\""; // Файл который нужно распаковать
@@ -41,8 +50,13 @@ namespace Archiver
 		public static int zip( string sZipPath, string sType, string sFilePath,
 		                      string sFB2ZipFilePath ) {
 			// упаковка в zip-фрхив
+			Regex rx = new Regex( @"\\+" );
+			sZipPath = rx.Replace( sZipPath, "\\" );
+			sFilePath = rx.Replace( sFilePath, "\\" );
+			sFB2ZipFilePath = rx.Replace( sFB2ZipFilePath, "\\" );
+			
 			string s = "\"" + sZipPath + "\" a"; // запаковать
-			s += " -t"+sType; // в sType - тип архивации
+			s += " -t"+sType.ToLower(); // в sType - тип архивации
 			s += " -y"; // На все отвечать yes
 			s += " \"" + sFB2ZipFilePath + "\""; // файл-архив .fb2.sType
 			s += " \"" + sFilePath + "\""; // Файл который нужно запаковать
@@ -52,6 +66,11 @@ namespace Archiver
 		public static int rar( string sRarPath, string sFilePath,
 		                      string sFB2RarFilePath, bool bRestoreInfo ) {
 			// упаковка в rar-фрхив
+			Regex rx = new Regex( @"\\+" );
+			sRarPath = rx.Replace( sRarPath, "\\" );
+			sFilePath = rx.Replace( sFilePath, "\\" );
+			sFB2RarFilePath = rx.Replace( sFB2RarFilePath, "\\" );
+			
 			string s = "\"" + sRarPath + "\" a -m5"; // запаковать с максимальным сжатием
 			if( bRestoreInfo ) {
 				s += " -rr"; // добавить информацию для восстановления

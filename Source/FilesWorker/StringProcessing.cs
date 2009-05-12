@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 using FB2.FB2Parsers;
 using FB2.Description.DocumentInfo;
@@ -228,6 +229,9 @@ namespace FilesWorker
 		
 		public static long GetFileNewNumber( string sFileName ) {
 			// номер для нового файла, если уже есть несколько таких же
+			Regex rx = new Regex( @"\\+" );
+			sFileName = rx.Replace( sFileName, "\\" );
+
 			string [] files = Directory.GetFiles( Path.GetDirectoryName( sFileName ) );
 			string sTemp = sFileName.ToLower();
 			if( sTemp.IndexOf( ".fb2" )!=1 ) {
@@ -246,6 +250,9 @@ namespace FilesWorker
 		public static string GetBookID( string sFB2FilePath )
 		{
 			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID
+			Regex rx = new Regex( @"\\+" );
+			sFB2FilePath = rx.Replace( sFB2FilePath, "\\" );
+			
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
 			DocumentInfo di = fb2p.GetDocumentInfo();
 			return ( "_"+ ( di.ID != null ? di.ID : Settings.Settings.GetNoID() ) );
@@ -254,6 +261,9 @@ namespace FilesWorker
 		public static string GetFMBookID( string sFB2FilePath )
 		{
 			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID (транслитерация и регистр при включенных опциях) - для М\Менеджера Файлов
+			Regex rx = new Regex( @"\\+" );
+			sFB2FilePath = rx.Replace( sFB2FilePath, "\\" );
+			
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
 			DocumentInfo di = fb2p.GetDocumentInfo();
 			return "_" + ( di.ID != null ? di.ID : GetGeneralWorkedString( Settings.Settings.GetNoID() ) );
