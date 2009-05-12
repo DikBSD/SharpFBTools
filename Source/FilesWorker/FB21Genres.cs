@@ -21,7 +21,7 @@ namespace FilesWorker
 		private string[] m_sFB21GenreCode = {
 			"sf_history","sf_action","sf_epic","sf_heroic","sf_detective","sf_cyberpunk","sf_space","sf_social","sf_horror","sf_humor","sf_fantasy","sf",
 			"det_classic","det_police","det_action","det_irony","det_history","det_espionage","det_crime","det_political","det_maniac","det_hard","thriller","detective",
-			"prose_classic","prose_history","prose_contemporary","prose_counter","prose_rus_classsic","prose_su_classics",
+			"prose_classic","prose_history","prose_contemporary","prose_counter","prose_rus_classic","prose_su_classics",
 			"love_contemporary","love_history","love_detective","love_short","love_erotica",
 			"adv_western","adv_history","adv_indian","adv_maritime","adv_geo","adv_animal","adventure",
 			"child_tale","child_verse","child_prose","child_sf","child_det","child_adv","child_education","children",
