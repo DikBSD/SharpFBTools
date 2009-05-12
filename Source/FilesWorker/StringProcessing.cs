@@ -255,18 +255,22 @@ namespace FilesWorker
 			
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
 			DocumentInfo di = fb2p.GetDocumentInfo();
-			return ( di.ID != null ? di.ID : Settings.Settings.GetNoID() );
+			
+			string sID = OnlyCorrectSymbolsForString( di.ID );
+			return ( sID != null ? sID : Settings.Settings.GetNoID() );
 		}
 		
 		public static string GetFMBookID( string sFB2FilePath )
 		{
-			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID (транслитерация и регистр при включенных опциях) - для М\Менеджера Файлов
+			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID (транслитерация и регистр при включенных опциях) - для Менеджера Файлов
 			Regex rx = new Regex( @"\\+" );
 			sFB2FilePath = rx.Replace( sFB2FilePath, "\\" );
 			
 			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
 			DocumentInfo di = fb2p.GetDocumentInfo();
-			return ( di.ID != null ? di.ID : GetGeneralWorkedString( Settings.Settings.GetNoID() ) );
+			
+			string sID = OnlyCorrectSymbolsForString( di.ID );
+			return ( sID != null ? sID : GetGeneralWorkedString( Settings.Settings.GetNoID() ) );
 		}
 
 		public static string SpaceString( string sString, int nMode ) {
