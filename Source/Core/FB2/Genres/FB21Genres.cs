@@ -27,7 +27,7 @@ namespace FB2.Genres
 			"child_tale","child_verse","child_prose","child_sf","child_det","child_adv","child_education","children",
 			"poetry","dramaturgy","humor_verse",
 			"antique_ant","antique_european","antique_russian","antique_east","antique_myths","antique",
-			"sci_history","sci_psychology","sci_culture","sci_religion","sci_philosophy","sci_politics","sci_juris","sci_linguistic","sci_medicine","sci_phys","sci_math","sci_chem","sci_biology","sci_tech","science",
+			"sci_history","sci_psychology","sci_culture","sci_religion","sci_philosophy","sci_politics","sci_business","sci_juris","sci_linguistic","sci_medicine","sci_phys","sci_math","sci_chem","sci_biology","sci_tech","science",
 			"comp_www","comp_programming","comp_hard","comp_soft","comp_db","comp_osnet","computers",
 			"ref_encyc","ref_dict","ref_ref","ref_guide","reference",
 			"nonf_biography","nonf_publicism","nonf_criticism","design","nonfiction",
@@ -54,7 +54,7 @@ namespace FB2.Genres
 				
 			"Античная Литература","Европейская Старинная Литература","Древнерусская Литература","Древневосточная Литература","Мифы. Легенды. Эпос","Старинная Литература - Прочее",
 				
-			"История","Психология","Культурология","Религиоведение","Философия","Политика","Юриспруденция","Языкознание","Медицина",
+			"История","Психология","Культурология","Религиоведение","Философия","Политика","Деловая литература","Юриспруденция","Языкознание","Медицина",
 			"Физика","Математика","Химия","Биология","Технические","Научно-образовательная - Прочее",
 				
 			"Интернет","Программирование","Компьютерное Железо","Программы","Базы данных","ОС и Сети","Компьютеры - Прочее",
