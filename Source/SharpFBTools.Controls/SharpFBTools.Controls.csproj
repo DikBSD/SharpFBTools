@@ -78,17 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Panels" />
-    <ProjectReference Include="..\Archiver\Archiver.csproj">
-      <Project>{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}</Project>
-      <Name>Archiver</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FB2\FB2.csproj">
-      <Project>{0A550644-91AC-464D-98E2-6E79AB56BB62}</Project>
-      <Name>FB2</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FilesWorker\FilesWorker.csproj">
-      <Project>{77D9288A-599B-4474-8CBE-15F58DAEF8B4}</Project>
-      <Name>FilesWorker</Name>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{FA3B42AA-118C-4B64-84BC-A548048614B8}</Project>
+      <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Options\Options.csproj">
       <Project>{D7293D25-BBFD-4EE2-BA90-644F44FB6816}</Project>

@@ -6,10 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpFBTools", "Main\SharpF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpFBTools.Controls", "SharpFBTools.Controls\SharpFBTools.Controls.csproj", "{98BB3D5A-42B2-45FF-B00D-DA1AA8D0C5B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesWorker", "FilesWorker\FilesWorker.csproj", "{77D9288A-599B-4474-8CBE-15F58DAEF8B4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archiver", "Archiver\Archiver.csproj", "{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportGenerator", "ReportGenerator\ReportGenerator.csproj", "{480B5655-261D-4807-83BB-94CC12FB56A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Options", "Options\Options.csproj", "{D7293D25-BBFD-4EE2-BA90-644F44FB6816}"
@@ -18,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "Settings\Settin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpFBTools.AssemblyInfo", "SharpFBTools.AssemblyInfo\SharpFBTools.AssemblyInfo.csproj", "{3892CDF3-5A15-4515-A7A8-BE1F716DD456}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FB2", "FB2\FB2.csproj", "{0A550644-91AC-464D-98E2-6E79AB56BB62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{FA3B42AA-118C-4B64-84BC-A548048614B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,14 +30,6 @@ Global
 		{98BB3D5A-42B2-45FF-B00D-DA1AA8D0C5B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98BB3D5A-42B2-45FF-B00D-DA1AA8D0C5B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98BB3D5A-42B2-45FF-B00D-DA1AA8D0C5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77D9288A-599B-4474-8CBE-15F58DAEF8B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77D9288A-599B-4474-8CBE-15F58DAEF8B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77D9288A-599B-4474-8CBE-15F58DAEF8B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77D9288A-599B-4474-8CBE-15F58DAEF8B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C089C8C-76F1-4EB9-9F22-329792D0F4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{480B5655-261D-4807-83BB-94CC12FB56A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{480B5655-261D-4807-83BB-94CC12FB56A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{480B5655-261D-4807-83BB-94CC12FB56A5}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -58,9 +46,9 @@ Global
 		{3892CDF3-5A15-4515-A7A8-BE1F716DD456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3892CDF3-5A15-4515-A7A8-BE1F716DD456}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3892CDF3-5A15-4515-A7A8-BE1F716DD456}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A550644-91AC-464D-98E2-6E79AB56BB62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A550644-91AC-464D-98E2-6E79AB56BB62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A550644-91AC-464D-98E2-6E79AB56BB62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A550644-91AC-464D-98E2-6E79AB56BB62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA3B42AA-118C-4B64-84BC-A548048614B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA3B42AA-118C-4B64-84BC-A548048614B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA3B42AA-118C-4B64-84BC-A548048614B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA3B42AA-118C-4B64-84BC-A548048614B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal

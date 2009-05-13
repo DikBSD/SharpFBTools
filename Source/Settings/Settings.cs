@@ -57,7 +57,7 @@ namespace Settings
 		private static bool m_bchBoxTranslitCheked = false;
 		private static bool m_bchBoxStrictCheked = false;
 		private static Int16 m_ncboxSpaceSelectedIndex = 0;
-		private static bool m_bchBoxToArchiveCheked = true;
+		private static bool m_bchBoxToArchiveCheked = false;
 		private static Int16 m_ncboxArchiveTypeSelectedIndex = 1;
 		private static Int16 m_ncboxFileExistSelectedIndex = 1;
 		private static bool m_bchBoxDelFB2FilesCheked = false;
