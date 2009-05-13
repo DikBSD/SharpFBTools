@@ -10,7 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using SharpFBTools.Controls.Panels;
+using SharpFBTools.Tools;
 
 namespace Main
 {

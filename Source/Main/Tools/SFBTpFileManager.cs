@@ -26,10 +26,11 @@ using FB2.Description.Common;
 using Templates.Lexems;
 using Templates;
 using StringProcessing;
+using FilesWorker;
 
 using fB2Parser = FB2.FB2Parsers.FB2Parser;
 
-namespace SharpFBTools.Controls.Panels
+namespace SharpFBTools.Tools
 {
 	/// <summary>
 	/// Description of SFBTpFileManager.
@@ -90,27 +91,27 @@ namespace SharpFBTools.Controls.Panels
 						if( !Directory.Exists( sTempDir ) ) {
 							Directory.CreateDirectory( sTempDir );
 						}
-						Archiver.Archiver.unrar( sUnRarPath, sFromFile, sTempDir );
+						FilesWorker.Archiver.unrar( sUnRarPath, sFromFile, sTempDir );
 						IncStatus( 4 );
 						break;
 					case ".zip":
-						Archiver.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
+						FilesWorker.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
 						IncStatus( 3 );
 						break;
 					case ".7z":
-						Archiver.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
+						FilesWorker.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
 						IncStatus( 5 );
 						break;
 					case ".bz2":
-						Archiver.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
+						FilesWorker.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
 						IncStatus( 6 );
 						break;
 					case ".gz":
-						Archiver.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
+						FilesWorker.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
 						IncStatus( 7 );
 						break;
 					case ".tar":
-						Archiver.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
+						FilesWorker.Archiver.unzip( s7zaPath, sFromFile, sTempDir );
 						IncStatus( 8 );
 						break;
 				}
@@ -157,9 +158,9 @@ namespace SharpFBTools.Controls.Panels
 			
 			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, sArchType );
 			if( sArchType == "rar" ) {
-				Archiver.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true );
+				FilesWorker.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true );
 			} else {
-				Archiver.Archiver.zip( s7zPath, sArchType, sFromFilePath, sToFilePath );
+				FilesWorker.Archiver.zip( s7zPath, sArchType, sFromFilePath, sToFilePath );
 			}
 			IncStatus( 10 ); // всего создано
 		}

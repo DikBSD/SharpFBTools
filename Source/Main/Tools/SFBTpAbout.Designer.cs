@@ -6,7 +6,7 @@
  * 
  * License: GPL 2.1
  */
-namespace SharpFBTools.Controls.Panels
+namespace SharpFBTools.Tools
 {
 	partial class SFBTpAbout
 	{

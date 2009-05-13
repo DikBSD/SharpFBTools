@@ -18,8 +18,9 @@ using System.Xml;
 
 using FB2.Description.DocumentInfo;
 using StringProcessing;
+using FilesWorker;
 
-namespace SharpFBTools.Controls.Panels
+namespace SharpFBTools.Tools
 {
 	/// <summary>
 	/// Description of SFBTpArchiveManager.
@@ -192,9 +193,9 @@ namespace SharpFBTools.Controls.Panels
 						}
 					}
 					if( bZip ) {
-						Archiver.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
+						FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
 					} else {
-						Archiver.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
+						FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
 					}
 					
 					if( cboxDelFB2Files.Checked ) {
@@ -238,42 +239,42 @@ namespace SharpFBTools.Controls.Panels
 							if( !Directory.Exists( sTempDir ) ) {
 								Directory.CreateDirectory( sTempDir );
 							}
-							Archiver.Archiver.unrar( sUnRarPath, sFile, sTempDir );
+							FilesWorker.Archiver.unrar( sUnRarPath, sFile, sTempDir );
 							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".zip":
-							Archiver.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
 							lvUACount.Items[1].SubItems[1].Text = (++lZip).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".7z":
-							Archiver.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
 							lvUACount.Items[2].SubItems[1].Text = (++l7Z).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".bz2":
-							Archiver.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
 							lvUACount.Items[3].SubItems[1].Text = (++lBZip2).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".gz":
-							Archiver.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
 							lvUACount.Items[4].SubItems[1].Text = (++lGZip).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".tar":
-							Archiver.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
 							lvUACount.Items[5].SubItems[1].Text = (++lTar).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
@@ -312,7 +313,7 @@ namespace SharpFBTools.Controls.Panels
 			string sTempDir = Settings.Settings.GetTempDir();
 			foreach( string sFile in lFilesList ) {
 				if( Path.GetExtension( sFile.ToLower() ) == sExt ) {
-					Archiver.Archiver.unzip( Settings.Settings.Read7zaPath(), sFile, sTempDir );
+					FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sFile, sTempDir );
 					lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
 					lvUACount.Items[nArchCountItem].SubItems[1].Text = (++lCount).ToString();
 					if( Directory.Exists( sTempDir ) ) {
@@ -357,7 +358,7 @@ namespace SharpFBTools.Controls.Panels
 							if( !Directory.Exists( sTempDir ) ) {
 								Directory.CreateDirectory( sTempDir );
 							}
-							Archiver.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFile, sTempDir );
+							FilesWorker.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFile, sTempDir );
 							lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
 							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
 							if( Directory.Exists( sTempDir ) ) {

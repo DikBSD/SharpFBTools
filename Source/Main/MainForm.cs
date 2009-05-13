@@ -17,7 +17,7 @@ using Options;
 using Settings;
 using SharpFBTools;
 using SharpFBTools.AssemblyInfo;
-using SharpFBTools.Controls.Panels;
+using SharpFBTools.Tools;
 
 namespace Main
 {

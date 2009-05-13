@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SharpFBTools.Controls.Panels
+namespace SharpFBTools.Tools
 {
 	/// <summary>
 	/// Description of SFBTpFB2Corrector.

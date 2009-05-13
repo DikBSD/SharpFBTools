@@ -23,10 +23,8 @@ using StringProcessing;
 
 using fB2Parser = FB2.FB2Parsers.FB2Parser;
 
-
-namespace Templates.Lexems
-{
-	#region Вспомогательные классы и перечисления
+#region Вспомогательные классы и перечисления
+namespace Templates.Lexems {
 	/// <summary>
 	/// Description of AllTemplates
 	/// </summary>
@@ -138,8 +136,7 @@ namespace Templates.Lexems
 }
 #endregion
 
-namespace Templates
-{
+namespace Templates {
 	/// <summary>
 	/// Description of TemplatesParser.
 	/// </summary>

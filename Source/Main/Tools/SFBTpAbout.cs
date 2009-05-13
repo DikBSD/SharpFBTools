@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 using SharpFBTools.AssemblyInfo;
 
-namespace SharpFBTools.Controls.Panels
+namespace SharpFBTools.Tools
 {
 	/// <summary>
 	/// Description of SFBTpAbout.
