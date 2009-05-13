@@ -344,7 +344,7 @@ namespace SharpFBTools.Tools
 							if( sExtTemp != ".fb2" ) {
 								string sTempDir = Settings.Settings.GetTempDir();
 								FilesWorker.FilesWorker.RemoveDir( sTempDir );
-								Directory.CreateDirectory( sTempDir );
+//								Directory.CreateDirectory( sTempDir );
 								if( sExtTemp.ToLower() == ".rar" ) {
 									FilesWorker.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir );
 								} else {
@@ -679,7 +679,7 @@ namespace SharpFBTools.Tools
 					ParseFB2File( sFile, fv2V );
 				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
 					// очистка временной папки
-					FilesWorker.FilesWorker.RemoveDir( sTempDir );
+//					FilesWorker.FilesWorker.RemoveDir( sTempDir );
 					Directory.CreateDirectory( sTempDir );
 					ParseArchiveFile( sFile, fv2V, sTempDir );
 				} else {
@@ -969,7 +969,7 @@ namespace SharpFBTools.Tools
 				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
 					// очистка временной папки
 					FilesWorker.FilesWorker.RemoveDir( sTempDir );
-					Directory.CreateDirectory( sTempDir );
+//					Directory.CreateDirectory( sTempDir );
 					if( sExt.ToLower() == ".zip" ) {
 						FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir );
 					} else if( sExt.ToLower() == ".rar" ) {

@@ -236,9 +236,6 @@ namespace SharpFBTools.Tools
 					string sUnRarPath	= Settings.Settings.ReadUnRarPath();
 					switch( sExt.ToLower() ) {
 						case ".rar":
-							if( !Directory.Exists( sTempDir ) ) {
-								Directory.CreateDirectory( sTempDir );
-							}
 							FilesWorker.Archiver.unrar( sUnRarPath, sFile, sTempDir );
 							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();
 							++lCount;
@@ -355,9 +352,6 @@ namespace SharpFBTools.Tools
 					foreach( string sFile in lFilesList ) {
 						string sExt = Path.GetExtension( sFile );
 						if( sExt.ToLower() == ".rar" ) {
-							if( !Directory.Exists( sTempDir ) ) {
-								Directory.CreateDirectory( sTempDir );
-							}
 							FilesWorker.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFile, sTempDir );
 							lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
 							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();

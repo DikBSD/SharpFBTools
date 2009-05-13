@@ -88,9 +88,6 @@ namespace SharpFBTools.Tools
 				FilesWorker.FilesWorker.RemoveDir( sTempDir );
 				switch( sExt ) {
 					case ".rar":
-						if( !Directory.Exists( sTempDir ) ) {
-							Directory.CreateDirectory( sTempDir );
-						}
 						FilesWorker.Archiver.unrar( sUnRarPath, sFromFile, sTempDir );
 						IncStatus( 4 );
 						break;

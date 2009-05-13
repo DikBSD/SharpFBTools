@@ -405,11 +405,10 @@ namespace SharpFBTools.Tools
 			// 
 			// btnToAnotherDir
 			// 
-			this.btnToAnotherDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnToAnotherDir.Enabled = false;
 			this.btnToAnotherDir.Image = ((System.Drawing.Image)(resources.GetObject("btnToAnotherDir.Image")));
 			this.btnToAnotherDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnToAnotherDir.Location = new System.Drawing.Point(700, 3);
+			this.btnToAnotherDir.Location = new System.Drawing.Point(22, 3);
 			this.btnToAnotherDir.Name = "btnToAnotherDir";
 			this.btnToAnotherDir.Size = new System.Drawing.Size(37, 24);
 			this.btnToAnotherDir.TabIndex = 7;
@@ -421,10 +420,10 @@ namespace SharpFBTools.Tools
 			// 
 			this.tboxToAnotherDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxToAnotherDir.Location = new System.Drawing.Point(20, 5);
+			this.tboxToAnotherDir.Location = new System.Drawing.Point(65, 5);
 			this.tboxToAnotherDir.Name = "tboxToAnotherDir";
 			this.tboxToAnotherDir.ReadOnly = true;
-			this.tboxToAnotherDir.Size = new System.Drawing.Size(674, 20);
+			this.tboxToAnotherDir.Size = new System.Drawing.Size(672, 20);
 			this.tboxToAnotherDir.TabIndex = 6;
 			// 
 			// rbtnToAnotherDir
@@ -670,11 +669,10 @@ namespace SharpFBTools.Tools
 			// 
 			// btnUAToAnotherDir
 			// 
-			this.btnUAToAnotherDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnUAToAnotherDir.Enabled = false;
 			this.btnUAToAnotherDir.Image = ((System.Drawing.Image)(resources.GetObject("btnUAToAnotherDir.Image")));
 			this.btnUAToAnotherDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnUAToAnotherDir.Location = new System.Drawing.Point(700, 3);
+			this.btnUAToAnotherDir.Location = new System.Drawing.Point(22, 3);
 			this.btnUAToAnotherDir.Name = "btnUAToAnotherDir";
 			this.btnUAToAnotherDir.Size = new System.Drawing.Size(37, 24);
 			this.btnUAToAnotherDir.TabIndex = 7;
@@ -686,10 +684,10 @@ namespace SharpFBTools.Tools
 			// 
 			this.tboxUAToAnotherDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxUAToAnotherDir.Location = new System.Drawing.Point(20, 5);
+			this.tboxUAToAnotherDir.Location = new System.Drawing.Point(65, 5);
 			this.tboxUAToAnotherDir.Name = "tboxUAToAnotherDir";
 			this.tboxUAToAnotherDir.ReadOnly = true;
-			this.tboxUAToAnotherDir.Size = new System.Drawing.Size(674, 20);
+			this.tboxUAToAnotherDir.Size = new System.Drawing.Size(672, 20);
 			this.tboxUAToAnotherDir.TabIndex = 6;
 			// 
 			// rbtnUAToAnotherDir

@@ -38,22 +38,22 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .zip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .rar-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
@@ -431,10 +431,9 @@ namespace SharpFBTools.Tools
 			// 
 			// btnFB2NotValidMoveTo
 			// 
-			this.btnFB2NotValidMoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnFB2NotValidMoveTo.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2NotValidMoveTo.Image")));
 			this.btnFB2NotValidMoveTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2NotValidMoveTo.Location = new System.Drawing.Point(771, 44);
+			this.btnFB2NotValidMoveTo.Location = new System.Drawing.Point(112, 44);
 			this.btnFB2NotValidMoveTo.Name = "btnFB2NotValidMoveTo";
 			this.btnFB2NotValidMoveTo.Size = new System.Drawing.Size(37, 24);
 			this.btnFB2NotValidMoveTo.TabIndex = 8;
@@ -446,9 +445,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.tboxFB2NotValidDirMoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxFB2NotValidDirMoveTo.Location = new System.Drawing.Point(109, 46);
+			this.tboxFB2NotValidDirMoveTo.Location = new System.Drawing.Point(155, 46);
 			this.tboxFB2NotValidDirMoveTo.Name = "tboxFB2NotValidDirMoveTo";
-			this.tboxFB2NotValidDirMoveTo.Size = new System.Drawing.Size(656, 20);
+			this.tboxFB2NotValidDirMoveTo.Size = new System.Drawing.Size(644, 20);
 			this.tboxFB2NotValidDirMoveTo.TabIndex = 7;
 			this.tboxFB2NotValidDirMoveTo.TextChanged += new System.EventHandler(this.TboxFB2NotValidDirMoveToTextChanged);
 			// 
@@ -464,10 +463,9 @@ namespace SharpFBTools.Tools
 			// 
 			// btnFB2NotValidCopyTo
 			// 
-			this.btnFB2NotValidCopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnFB2NotValidCopyTo.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2NotValidCopyTo.Image")));
 			this.btnFB2NotValidCopyTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2NotValidCopyTo.Location = new System.Drawing.Point(771, 18);
+			this.btnFB2NotValidCopyTo.Location = new System.Drawing.Point(112, 18);
 			this.btnFB2NotValidCopyTo.Name = "btnFB2NotValidCopyTo";
 			this.btnFB2NotValidCopyTo.Size = new System.Drawing.Size(37, 24);
 			this.btnFB2NotValidCopyTo.TabIndex = 5;
@@ -479,9 +477,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.tboxFB2NotValidDirCopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxFB2NotValidDirCopyTo.Location = new System.Drawing.Point(109, 20);
+			this.tboxFB2NotValidDirCopyTo.Location = new System.Drawing.Point(155, 20);
 			this.tboxFB2NotValidDirCopyTo.Name = "tboxFB2NotValidDirCopyTo";
-			this.tboxFB2NotValidDirCopyTo.Size = new System.Drawing.Size(656, 20);
+			this.tboxFB2NotValidDirCopyTo.Size = new System.Drawing.Size(644, 20);
 			this.tboxFB2NotValidDirCopyTo.TabIndex = 0;
 			this.tboxFB2NotValidDirCopyTo.TextChanged += new System.EventHandler(this.TboxFB2NotValidDirCopyToTextChanged);
 			// 
@@ -707,10 +705,9 @@ namespace SharpFBTools.Tools
 			// 
 			// btnFB2ValidMoveTo
 			// 
-			this.btnFB2ValidMoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnFB2ValidMoveTo.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2ValidMoveTo.Image")));
 			this.btnFB2ValidMoveTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2ValidMoveTo.Location = new System.Drawing.Point(771, 44);
+			this.btnFB2ValidMoveTo.Location = new System.Drawing.Point(112, 44);
 			this.btnFB2ValidMoveTo.Name = "btnFB2ValidMoveTo";
 			this.btnFB2ValidMoveTo.Size = new System.Drawing.Size(37, 24);
 			this.btnFB2ValidMoveTo.TabIndex = 8;
@@ -722,9 +719,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.tboxFB2ValidDirMoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxFB2ValidDirMoveTo.Location = new System.Drawing.Point(109, 46);
+			this.tboxFB2ValidDirMoveTo.Location = new System.Drawing.Point(155, 46);
 			this.tboxFB2ValidDirMoveTo.Name = "tboxFB2ValidDirMoveTo";
-			this.tboxFB2ValidDirMoveTo.Size = new System.Drawing.Size(656, 20);
+			this.tboxFB2ValidDirMoveTo.Size = new System.Drawing.Size(644, 20);
 			this.tboxFB2ValidDirMoveTo.TabIndex = 7;
 			this.tboxFB2ValidDirMoveTo.TextChanged += new System.EventHandler(this.TboxFB2ValidDirMoveToTextChanged);
 			// 
@@ -740,10 +737,9 @@ namespace SharpFBTools.Tools
 			// 
 			// btnFB2ValidCopyTo
 			// 
-			this.btnFB2ValidCopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnFB2ValidCopyTo.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2ValidCopyTo.Image")));
 			this.btnFB2ValidCopyTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2ValidCopyTo.Location = new System.Drawing.Point(771, 18);
+			this.btnFB2ValidCopyTo.Location = new System.Drawing.Point(112, 18);
 			this.btnFB2ValidCopyTo.Name = "btnFB2ValidCopyTo";
 			this.btnFB2ValidCopyTo.Size = new System.Drawing.Size(37, 24);
 			this.btnFB2ValidCopyTo.TabIndex = 5;
@@ -755,9 +751,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.tboxFB2ValidDirCopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxFB2ValidDirCopyTo.Location = new System.Drawing.Point(109, 20);
+			this.tboxFB2ValidDirCopyTo.Location = new System.Drawing.Point(155, 20);
 			this.tboxFB2ValidDirCopyTo.Name = "tboxFB2ValidDirCopyTo";
-			this.tboxFB2ValidDirCopyTo.Size = new System.Drawing.Size(656, 20);
+			this.tboxFB2ValidDirCopyTo.Size = new System.Drawing.Size(644, 20);
 			this.tboxFB2ValidDirCopyTo.TabIndex = 0;
 			this.tboxFB2ValidDirCopyTo.TextChanged += new System.EventHandler(this.TboxFB2ValidDirCopyToTextChanged);
 			// 
@@ -872,10 +868,9 @@ namespace SharpFBTools.Tools
 			// 
 			// btnNotFB2MoveTo
 			// 
-			this.btnNotFB2MoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnNotFB2MoveTo.Image = ((System.Drawing.Image)(resources.GetObject("btnNotFB2MoveTo.Image")));
 			this.btnNotFB2MoveTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnNotFB2MoveTo.Location = new System.Drawing.Point(771, 44);
+			this.btnNotFB2MoveTo.Location = new System.Drawing.Point(112, 44);
 			this.btnNotFB2MoveTo.Name = "btnNotFB2MoveTo";
 			this.btnNotFB2MoveTo.Size = new System.Drawing.Size(37, 24);
 			this.btnNotFB2MoveTo.TabIndex = 8;
@@ -887,9 +882,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.tboxNotFB2DirMoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxNotFB2DirMoveTo.Location = new System.Drawing.Point(109, 46);
+			this.tboxNotFB2DirMoveTo.Location = new System.Drawing.Point(155, 46);
 			this.tboxNotFB2DirMoveTo.Name = "tboxNotFB2DirMoveTo";
-			this.tboxNotFB2DirMoveTo.Size = new System.Drawing.Size(656, 20);
+			this.tboxNotFB2DirMoveTo.Size = new System.Drawing.Size(644, 20);
 			this.tboxNotFB2DirMoveTo.TabIndex = 7;
 			this.tboxNotFB2DirMoveTo.TextChanged += new System.EventHandler(this.TboxNotFB2DirMoveToTextChanged);
 			// 
@@ -905,10 +900,9 @@ namespace SharpFBTools.Tools
 			// 
 			// btnNotFB2CopyTo
 			// 
-			this.btnNotFB2CopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnNotFB2CopyTo.Image = ((System.Drawing.Image)(resources.GetObject("btnNotFB2CopyTo.Image")));
 			this.btnNotFB2CopyTo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnNotFB2CopyTo.Location = new System.Drawing.Point(771, 18);
+			this.btnNotFB2CopyTo.Location = new System.Drawing.Point(112, 18);
 			this.btnNotFB2CopyTo.Name = "btnNotFB2CopyTo";
 			this.btnNotFB2CopyTo.Size = new System.Drawing.Size(37, 24);
 			this.btnNotFB2CopyTo.TabIndex = 5;
@@ -920,9 +914,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.tboxNotFB2DirCopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxNotFB2DirCopyTo.Location = new System.Drawing.Point(109, 20);
+			this.tboxNotFB2DirCopyTo.Location = new System.Drawing.Point(155, 20);
 			this.tboxNotFB2DirCopyTo.Name = "tboxNotFB2DirCopyTo";
-			this.tboxNotFB2DirCopyTo.Size = new System.Drawing.Size(656, 20);
+			this.tboxNotFB2DirCopyTo.Size = new System.Drawing.Size(644, 20);
 			this.tboxNotFB2DirCopyTo.TabIndex = 0;
 			this.tboxNotFB2DirCopyTo.TextChanged += new System.EventHandler(this.TboxNotFB2DirCopyToTextChanged);
 			// 
@@ -988,12 +982,12 @@ namespace SharpFBTools.Tools
 									this.columnHeader7});
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4,
-									listViewItem5,
-									listViewItem6});
+									listViewItem31,
+									listViewItem32,
+									listViewItem33,
+									listViewItem34,
+									listViewItem35,
+									listViewItem36});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(223, 116);

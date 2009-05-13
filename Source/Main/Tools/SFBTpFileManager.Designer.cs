@@ -244,10 +244,9 @@ namespace SharpFBTools.Tools
 			// 
 			// btnSortAllToDir
 			// 
-			this.btnSortAllToDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSortAllToDir.Image = ((System.Drawing.Image)(resources.GetObject("btnSortAllToDir.Image")));
 			this.btnSortAllToDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnSortAllToDir.Location = new System.Drawing.Point(776, 28);
+			this.btnSortAllToDir.Location = new System.Drawing.Point(162, 28);
 			this.btnSortAllToDir.Name = "btnSortAllToDir";
 			this.btnSortAllToDir.Size = new System.Drawing.Size(37, 24);
 			this.btnSortAllToDir.TabIndex = 4;
@@ -274,19 +273,19 @@ namespace SharpFBTools.Tools
 			this.tboxSortAllToDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxSortAllToDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.tboxSortAllToDir.Location = new System.Drawing.Point(162, 30);
+			this.tboxSortAllToDir.Location = new System.Drawing.Point(205, 30);
 			this.tboxSortAllToDir.Name = "tboxSortAllToDir";
-			this.tboxSortAllToDir.Size = new System.Drawing.Size(608, 20);
+			this.tboxSortAllToDir.Size = new System.Drawing.Size(605, 20);
 			this.tboxSortAllToDir.TabIndex = 3;
 			// 
 			// tboxSourceDir
 			// 
 			this.tboxSourceDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxSourceDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.tboxSourceDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tboxSourceDir.Location = new System.Drawing.Point(162, 5);
 			this.tboxSourceDir.Name = "tboxSourceDir";
-			this.tboxSourceDir.Size = new System.Drawing.Size(484, 20);
+			this.tboxSourceDir.Size = new System.Drawing.Size(484, 21);
 			this.tboxSourceDir.TabIndex = 1;
 			// 
 			// lblDir

@@ -9,6 +9,7 @@
 
 using System;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace FilesWorker
 {
@@ -26,6 +27,11 @@ namespace FilesWorker
 			Regex rx = new Regex( @"\\+" );
 			sZipPath = rx.Replace( sZipPath, "\\" );
 			sFilePath = rx.Replace( sFilePath, "\\" );
+			sTempDir = rx.Replace( sTempDir, "\\" );
+			
+			if( !Directory.Exists( sTempDir ) ) {
+				Directory.CreateDirectory( sTempDir );
+			}
 			
 			string s = "\"" + sZipPath + "\" e"; // Распаковать (для полных путей - x)
 			s += " -y"; // На все отвечать yes
@@ -39,6 +45,11 @@ namespace FilesWorker
 			Regex rx = new Regex( @"\\+" );
 			sUnRarPath = rx.Replace( sUnRarPath, "\\" );
 			sFilePath = rx.Replace( sFilePath, "\\" );
+			sTempDir = rx.Replace( sTempDir, "\\" );
+			
+			if( !Directory.Exists( sTempDir ) ) {
+				Directory.CreateDirectory( sTempDir );
+			}
 			
 			string s = "\"" + sUnRarPath + "\" e"; // Распаковать (для полных путей - x)
 			s += " -y"; // На все отвечать yes

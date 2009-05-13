@@ -261,7 +261,11 @@ namespace Templates {
 						// шаблоны
 						switch( lexem.Lexem ) {
 							case "*L*": // Язык Книги
-								lexem.Lexem = ( sLang==null ? "" : sLang.Trim() );
+								if( sLang == null || sLang.Length==0 ) {
+									lexem.Lexem = "";
+								} else {
+									lexem.Lexem = sLang.Trim();
+								}
 								break;
 							case "*G*": // Жанр Книги
 								if( lGenres == null ) {
@@ -489,7 +493,11 @@ namespace Templates {
 						// постоянный шаблон
 						switch( lexem.Lexem ) {
 							case "*L*": // Язык Книги
-								sFileName += ( sLang==null ? Settings.Settings.GetFMNoLang() : sLang.Trim() );
+								if( sLang == null || sLang.Length==0 ) {
+									sFileName += Settings.Settings.GetFMNoLang();
+								} else {
+									sFileName += sLang.Trim();
+								}
 								break;
 							case "*G*": // Жанр Книги
 								if( lGenres == null ) {
@@ -628,7 +636,11 @@ namespace Templates {
 						// условный шаблон
 						switch( lexem.Lexem ) {
 							case "[*L*]": // Язык Книги
-								sFileName += ( sLang==null ? "" : sLang.Trim() );
+								if( sLang == null || sLang.Length==0 ) {
+									sFileName += "";
+								} else {
+									sFileName += sLang.Trim();
+								}
 								break;
 							case "[*G*]": // Жанр Книги
 								if( lGenres != null ) {
