@@ -82,7 +82,7 @@ namespace FB2.Genres
 		#region Открытые методы класса
 		public string GetFB21GenreName( string sGenreCode ) {
 			if( !m_dFB21Genres.ContainsKey( sGenreCode ) ) return "";
-			return m_dFB21Genres[sGenreCode];
+			return StringProcessing.StringProcessing.OnlyCorrectSymbolsForString( m_dFB21Genres[sGenreCode] );
 		}
 		#endregion
 	}
