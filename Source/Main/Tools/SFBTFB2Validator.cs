@@ -491,7 +491,7 @@ namespace SharpFBTools.Tools
 						if (result == DialogResult.OK) {
     	          			tsslblProgress.Text = m_GeneratingReport;
     	          			tsProgressBar.Visible = true;
-							ReportGenerator.ReportGenerator.MakeHTMLReport( lw, sfdReport.FileName, sReportTitle, tsProgressBar, ssProgress  );
+							Reports.ValidatorReports.MakeHTMLReport( lw, sfdReport.FileName, sReportTitle, tsProgressBar, ssProgress  );
 							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 							tsProgressBar.Visible = false;
 							tsslblProgress.Text = Settings.Settings.GetReady();
@@ -510,7 +510,7 @@ namespace SharpFBTools.Tools
 						if (result == DialogResult.OK) {
     	          			tsslblProgress.Text = m_GeneratingReport;
     	          			tsProgressBar.Visible = true;
-							ReportGenerator.ReportGenerator.MakeFB2Report( lw, sfdReport.FileName, sReportTitle, tsProgressBar, ssProgress );
+							Reports.ValidatorReports.MakeFB2Report( lw, sfdReport.FileName, sReportTitle, tsProgressBar, ssProgress );
 							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 							tsProgressBar.Visible = false;
 							tsslblProgress.Text = Settings.Settings.GetReady();
@@ -529,7 +529,7 @@ namespace SharpFBTools.Tools
 						if (result == DialogResult.OK) {
 							tsslblProgress.Text = m_GeneratingReport;
     	          			tsProgressBar.Visible = true;
-    	       				ReportGenerator.ReportGenerator.MakeCSVReport( lw, sfdReport.FileName, sDelem, tsProgressBar, ssProgress );
+    	       				Reports.ValidatorReports.MakeCSVReport( lw, sfdReport.FileName, sDelem, tsProgressBar, ssProgress );
 							MessageBox.Show( m_ReportSaveOk+sfdReport.FileName, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 							tsProgressBar.Visible = false;
 							tsslblProgress.Text = Settings.Settings.GetReady();
@@ -1170,7 +1170,7 @@ namespace SharpFBTools.Tools
 		void TsmiMakeNotValidFileListClick(object sender, EventArgs e)
 		{
 			// сохранение списка Не валидных файлов
-			ReportGenerator.ReportGenerator.SaveFilesList( listViewNotValid, sfdReport, m_TXTFilter,
+			Reports.ValidatorReports.SaveFilesList( listViewNotValid, sfdReport, m_TXTFilter,
 			              ssProgress,  tsslblProgress, tsProgressBar, m_FB2NotValidFilesListReport,
 			              "Нет ни одного Не валидного файла!", "Создание списка Не валидных файлов завершено.", Settings.Settings.GetReady() );
 		}
@@ -1178,7 +1178,7 @@ namespace SharpFBTools.Tools
 		void TsmiMakeValidFileListClick(object sender, EventArgs e)
 		{
 			// сохранение списка Валидных файлов
-			ReportGenerator.ReportGenerator.SaveFilesList( listViewValid, sfdReport, m_TXTFilter, ssProgress,
+			Reports.ValidatorReports.SaveFilesList( listViewValid, sfdReport, m_TXTFilter, ssProgress,
 			              tsslblProgress, tsProgressBar, m_FB2ValidFilesListReport,
 			              "Нет ни одного Валидного файла!", "Создание списка Валидных файлов завершено.", Settings.Settings.GetReady() );
 		}

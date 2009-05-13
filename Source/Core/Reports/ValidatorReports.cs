@@ -4,7 +4,7 @@
  * Date: 10.03.2009
  * Time: 9:18
  * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
+ * License: GPL 2.1
  */
 
 using System;
@@ -13,14 +13,14 @@ using System.IO;
 using System.Windows.Forms;
 using System.Text;
 
-namespace ReportGenerator
+namespace Reports
 {
 	/// <summary>
-	/// Description of ReportGenerator.
+	/// Description of ValidatorReports.
 	/// </summary>
-	public class ReportGenerator
+	public class ValidatorReports
 	{
-		public ReportGenerator()
+		public ValidatorReports()
 		{
 		}
 			

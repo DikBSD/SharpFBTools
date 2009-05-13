@@ -45,6 +45,7 @@
     <Folder Include="FB2\FB2Parsers" />
     <Folder Include="FB2\Genres" />
     <Folder Include="FilesWorker" />
+    <Folder Include="Reports" />
     <Folder Include="StringProcessing" />
     <Folder Include="Templates" />
     <Compile Include="FB2\Common\IInlineImageType.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="FB2\Genres\FB21Genres.cs" />
     <Compile Include="FilesWorker\Archiver.cs" />
     <Compile Include="FilesWorker\FilesWorker.cs" />
+    <Compile Include="Reports\ValidatorReports.cs" />
     <Compile Include="StringProcessing\StringProcessing.cs" />
     <Compile Include="Templates\TemplatesParser.cs" />
     <Compile Include="Templates\TemplatesVerify.cs" />
