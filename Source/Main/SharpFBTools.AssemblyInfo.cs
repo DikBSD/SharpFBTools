@@ -19,12 +19,12 @@ namespace SharpFBTools.AssemblyInfo
 		{
 		}
 		
-		private static string m_sAssemblyTitle = "";
-		private static string m_sAssemblyProduct = "";
-		private static string m_sAssemblyVersion = "";
-		private static string m_sAssemblyCopyright = "";
-		private static string m_sAssemblyCompany = "";
-		private static string m_sAssemblyDescription = "";
+		private static string m_sAssemblyTitle			= "";
+		private static string m_sAssemblyProduct		= "";
+		private static string m_sAssemblyVersion		= "";
+		private static string m_sAssemblyCopyright		= "";
+		private static string m_sAssemblyCompany		= "";
+		private static string m_sAssemblyDescription	= "";
 		
 		public static void SetAssemblyTitle( string sAssemblyTitle ) {
 			m_sAssemblyTitle = sAssemblyTitle;
