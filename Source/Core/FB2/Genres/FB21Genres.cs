@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FilesWorker
+namespace FB2.Genres
 {
 	/// <summary>
 	/// Description of FB21Genres.

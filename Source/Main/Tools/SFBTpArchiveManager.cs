@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 
 using FB2.Description.DocumentInfo;
+using StringProcessing;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -73,15 +74,15 @@ namespace SharpFBTools.Controls.Panels
 				} else {
 					if( chBoxAddFileNameBookID.Checked ) {
 						try {
-							sSufix = "_" + FilesWorker.StringProcessing.GetBookID( sFromFile );
+							sSufix = "_" + StringProcessing.StringProcessing.GetBookID( sFromFile );
 						} catch { }
 					}
 					if( cboxUAExistArchive.SelectedIndex == 1 ) {
 						// Добавить к создаваемому файлу очередной номер
-						sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sNewFile ).ToString();
+						sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sNewFile ).ToString();
 					} else {
 						// Добавить к создаваемому файлу дату и время
-						sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
+						sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
 					}
 					sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + ".fb2";
 				}
@@ -136,7 +137,7 @@ namespace SharpFBTools.Controls.Panels
 					lvGeneralCount.Refresh();
 					// упаковываем
 					string sArchiveFile = "";
-					string sDotExt = "."+FilesWorker.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
+					string sDotExt = "."+StringProcessing.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
 					string sSufix = ""; // для добавления к имени нового архива суфикса
 					if( rbtnToSomeDir.Checked ) {
 						// создаем архив в той же папке, где и исходный fb2-файл
@@ -147,15 +148,15 @@ namespace SharpFBTools.Controls.Panels
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
 									try {
-										sSufix = "_" + FilesWorker.StringProcessing.GetBookID( sFile );
+										sSufix = "_" + StringProcessing.StringProcessing.GetBookID( sFile );
 									} catch { }
 								}
 								if( cboxExistArchive.SelectedIndex == 1 ) {
 									// Добавить к создаваемому файлу очередной номер
-									sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sFile ).ToString();
+									sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sFile ).ToString();
 								} else {
 									// Добавить к создаваемому файлу дату и время
-									sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
+									sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
 								}
 								sArchiveFile = sFile.Remove( sFile.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
@@ -176,15 +177,15 @@ namespace SharpFBTools.Controls.Panels
 							} else {
 								if( chBoxAddArchiveNameBookID.Checked ) {
 									try {
-										sSufix = "_" + FilesWorker.StringProcessing.GetBookID( sFile );
+										sSufix = "_" + StringProcessing.StringProcessing.GetBookID( sFile );
 									} catch { }
 								}
 								if( cboxExistArchive.SelectedIndex == 1 ) {
 									// Добавить к создаваемому файлу очередной номер
-									sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sArchiveFile ).ToString();
+									sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sArchiveFile ).ToString();
 								} else {
 									// Добавить к создаваемому файлу дату и время
-									sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
+									sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
 								}
 								sArchiveFile = sTarget + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + ".fb2" + sDotExt;
 							}
@@ -340,7 +341,7 @@ namespace SharpFBTools.Controls.Panels
 		
 		private long ArchivesToFile( List<string> lFilesList, string sMoveToDir, ToolStripProgressBar pBar ) {
 			// Распаковать ахривы
-			string sArchType = FilesWorker.StringProcessing.GetArchiveExt( cboxUAType.Text );
+			string sArchType = StringProcessing.StringProcessing.GetArchiveExt( cboxUAType.Text );
 			long lAllArchive, lRar, lFB2, lCount;
 			lAllArchive = lRar = lFB2 = lCount = 0;
 			string sTempDir = Settings.Settings.GetTempDir();

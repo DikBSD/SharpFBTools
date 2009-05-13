@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FilesWorker
+namespace Templates
 {
 	/// <summary>
 	/// Description of TemplatesVerify.

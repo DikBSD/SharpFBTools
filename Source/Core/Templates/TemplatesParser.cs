@@ -18,12 +18,15 @@ using FB2.Description.DocumentInfo;
 using FB2.Description.PublishInfo;
 using FB2.Description.CustomInfo;
 using FB2.Description.Common;
+using FB2.Genres;
+using StringProcessing;
 
 using fB2Parser = FB2.FB2Parsers.FB2Parser;
 
-#region Вспомогательные классы и пмеречисления
-namespace Lexems
+
+namespace Templates.Lexems
 {
+	#region Вспомогательные классы и перечисления
 	/// <summary>
 	/// Description of AllTemplates
 	/// </summary>
@@ -135,7 +138,7 @@ namespace Lexems
 }
 #endregion
 
-namespace FilesWorker
+namespace Templates
 {
 	/// <summary>
 	/// Description of TemplatesParser.
@@ -733,7 +736,7 @@ namespace FilesWorker
 			sFileName = rx.Replace( sFileName, "" );
 			rx = new Regex( @"\\+" );
 			sFileName = rx.Replace( sFileName, "\\" );
-			return StringProcessing.GetGeneralWorkedPath( sFileName );
+			return StringProcessing.StringProcessing.GetGeneralWorkedPath( sFileName );
 		}
 			
 		#endregion

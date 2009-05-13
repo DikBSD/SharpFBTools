@@ -23,6 +23,9 @@ using FB2.Description.DocumentInfo;
 using FB2.Description.PublishInfo;
 using FB2.Description.CustomInfo;
 using FB2.Description.Common;
+using Templates.Lexems;
+using Templates;
+using StringProcessing;
 
 using fB2Parser = FB2.FB2Parsers.FB2Parser;
 
@@ -131,7 +134,7 @@ namespace SharpFBTools.Controls.Panels
 					CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
 				} else {
 					// упаковка в архив
-					string sArchType = FilesWorker.StringProcessing.GetArchiveExt( Settings.Settings.ReadArchiveTypeText() );
+					string sArchType = StringProcessing.StringProcessing.GetArchiveExt( Settings.Settings.ReadArchiveTypeText() );
 					CopyFileToArchive( sArchType, sFromFilePath, sToFilePath+"."+sArchType, nFileExistMode, bAddToFileNameBookIDMode );
 				}
 			} catch ( System.IO.PathTooLongException ) {
@@ -188,14 +191,14 @@ namespace SharpFBTools.Controls.Panels
 					File.Delete( sToFilePath );
 				} else {
 					if( bAddToFileNameBookIDMode ) {
-						sSufix = "_" + FilesWorker.StringProcessing.GetFMBookID( sFromFilePath );
+						sSufix = "_" + StringProcessing.StringProcessing.GetFMBookID( sFromFilePath );
 					}
 					if( nFileExistMode == 1 ) {
 						// Добавить к создаваемому файлу очередной номер
-						sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sToFilePath ).ToString();
+						sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sToFilePath ).ToString();
 					} else {
 						// Добавить к создаваемому файлу дату и время
-						sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
+						sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
 					}
 					if( sArchType.Length==0 ) {
 						sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + ".fb2";
@@ -208,12 +211,12 @@ namespace SharpFBTools.Controls.Panels
 		}
 		
 		private void MakeFileFor1Genre1Author( string sFromFilePath, string sSource, string sTarget,
-		                                      List<Lexems.TPSimple> lSLexems ) {
+		                                      List<Templates.Lexems.TPSimple> lSLexems ) {
 			// создаем файл по новому пути для первого Жанра и для первого Автора Книги
 			MakeFile( sFromFilePath, sSource, sTarget, lSLexems, 0, 0 );
 		}
 		private void MakeFileForAllGenre1Author( string sFromFilePath, string sSource, string sTarget,
-		                                      List<Lexems.TPSimple> lSLexems ) {
+		                                      List<Templates.Lexems.TPSimple> lSLexems ) {
 			// создаем файл по новому пути для всех Жанров и для первого Автора Книги
 			fB2Parser fb2 = new fB2Parser( sFromFilePath );
 			TitleInfo ti = fb2.GetTitleInfo();
@@ -225,7 +228,7 @@ namespace SharpFBTools.Controls.Panels
 			
 		}
 		private void MakeFileFor1GenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
-		                                      	List<Lexems.TPSimple> lSLexems ) {
+		                                      	List<Templates.Lexems.TPSimple> lSLexems ) {
 			// создаем файл по новому пути для первого Жанра и для всех Авторов Книги
 			fB2Parser fb2 = new fB2Parser( sFromFilePath );
 			TitleInfo ti = fb2.GetTitleInfo();
@@ -237,7 +240,7 @@ namespace SharpFBTools.Controls.Panels
 			
 		}
 		private void MakeFileForAllGenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
-		                                      		List<Lexems.TPSimple> lSLexems ) {
+		                                      		List<Templates.Lexems.TPSimple> lSLexems ) {
 			// создаем файл по новому пути для всех Жанров и для всех Авторов Книги
 			fB2Parser fb2 = new fB2Parser( sFromFilePath );
 			TitleInfo ti = fb2.GetTitleInfo();
@@ -252,7 +255,7 @@ namespace SharpFBTools.Controls.Panels
 		}
 		
 		private void MakeFile( string sFromFilePath, string sSource, string sTarget,
-		                      List<Lexems.TPSimple> lSLexems, int nGenreIndex, int nAuthorIndex ) {
+		                      List<Templates.Lexems.TPSimple> lSLexems, int nGenreIndex, int nAuthorIndex ) {
 			// создаем файл по новому пути
 			int nFileExistMode = Settings.Settings.ReadFileExistMode();
 			bool bAddToFileNameBookIDMode = Settings.Settings.ReadAddToFileNameBookIDMode();
@@ -265,7 +268,7 @@ namespace SharpFBTools.Controls.Panels
 				// обработка fb2-файла
 				try {
 					string sToFilePath = sTarget + "\\" +
-							FilesWorker.TemplatesParser.Parse( sFromFilePath, lSLexems, nGenreIndex, nAuthorIndex ) + ".fb2";
+							Templates.TemplatesParser.Parse( sFromFilePath, lSLexems, nGenreIndex, nAuthorIndex ) + ".fb2";
 					CreateFileTo( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
 					IncStatus( 2 ); // исходные fb2-файлы
 				} catch ( System.IO.FileLoadException ){
@@ -289,7 +292,7 @@ namespace SharpFBTools.Controls.Panels
 					foreach( string sFromFB2Path in lFilesListFromArchive ) {
 						try {
 							string sToFilePath = sTarget + "\\" + 
-									FilesWorker.TemplatesParser.Parse( sFromFB2Path, lSLexems, 0, nAuthorIndex ) + ".fb2";
+									Templates.TemplatesParser.Parse( sFromFB2Path, lSLexems, 0, nAuthorIndex ) + ".fb2";
 							CreateFileTo( sFromFB2Path, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode  );
 						} catch ( System.IO.FileLoadException ){
 							// нечитаемый fb2-архив - копируем его в папку Bad
@@ -352,12 +355,12 @@ namespace SharpFBTools.Controls.Panels
 				return;
 			}
 			// проверка на корректность строки с шаблонами
-			if( !FilesWorker.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
+			if( !Templates.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&\\t\\r\\n между шаблонами!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на четность * в строке с шаблонами
-			if( !FilesWorker.TemplatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
+			if( !Templates.TemplatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
 				MessageBox.Show( "Строка с шаблонами подстановки содержит нечетное число *!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
@@ -370,12 +373,12 @@ namespace SharpFBTools.Controls.Panels
 			}
 			
 			// проверка на соответствие [ ] в строке с шаблонами
-			if( !FilesWorker.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
+			if( !Templates.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
 				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками [ ]!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на соответствие ( ) в строке с шаблонами
-			if( !FilesWorker.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
+			if( !Templates.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
 				MessageBox.Show( "В строке с шаблонами нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
@@ -390,7 +393,7 @@ namespace SharpFBTools.Controls.Panels
 				return;
 			}
 			// проверка условных шаблонов на наличие в них вспом. символов без самих шаблонов
-			if( !FilesWorker.TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
+			if( !Templates.TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Условные шаблоны [] в строке с шаблонами не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
@@ -438,7 +441,7 @@ namespace SharpFBTools.Controls.Panels
 			bool b1Autor = Settings.Settings.ReadAuthorOneMode();
 			bool b1Genre = Settings.Settings.ReadGenreOneMode();
 			// формируем лексемы шаблонной строки
-			List<Lexems.TPSimple> lSLexems = FilesWorker.TemplatesParser.GemSimpleLexems( sLineTemplate );
+			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			foreach( string sFromFilePath in lFilesList ) {
 				// создаем файл по новому пути
 				if( b1Genre && b1Autor ) {

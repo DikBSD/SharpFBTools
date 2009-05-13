@@ -19,6 +19,7 @@ using System.Xml;
 using Settings;
 using FB2.FB2Parsers;
 using FB2.Description.DocumentInfo;
+using StringProcessing;
 
 namespace SharpFBTools.Controls.Panels
 {
@@ -351,23 +352,23 @@ namespace SharpFBTools.Controls.Panels
 								if( Directory.Exists( sTempDir ) ) {
 									string [] files = Directory.GetFiles( sTempDir );
 									try {
-										sSufix = "_" + FilesWorker.StringProcessing.GetBookID( files[0] );
+										sSufix = "_" + StringProcessing.StringProcessing.GetBookID( files[0] );
 									} catch { }
 									FilesWorker.FilesWorker.RemoveDir( sTempDir );
 								}
 							} else {
 								try {
-									sSufix = "_" + FilesWorker.StringProcessing.GetBookID( sFilePath );
+									sSufix = "_" + StringProcessing.StringProcessing.GetBookID( sFilePath );
 								} catch { }
 							}
 							
 						}
 						if( cboxExistFile.SelectedIndex == 1 ) {
 							// Добавить к создаваемому файлу очередной номер
-							sSufix += "_" + FilesWorker.StringProcessing.GetFileNewNumber( sNewPath ).ToString();
+							sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sNewPath ).ToString();
 						} else {
 							// Добавить к создаваемому файлу дату и время
-							sSufix += "_" + FilesWorker.StringProcessing.GetDateTimeExt();
+							sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
 						}
 						
 						string sFB2File = sNewPath.ToLower();

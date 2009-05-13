@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 using FB2.FB2Parsers;
 using FB2.Description.DocumentInfo;
 
-namespace FilesWorker
+namespace StringProcessing
 {
 	/// <summary>
 	/// Description of StringProcessing.
