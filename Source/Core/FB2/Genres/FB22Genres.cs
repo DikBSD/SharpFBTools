@@ -14,7 +14,7 @@ namespace FB2.Genres
 	/// <summary>
 	/// Description of FB22Genres.
 	/// </summary>
-	public class FB22Genres
+	public class FB22Genres : IFBGenres
 	{
 		#region Закрытые данные класса
 		private Dictionary<string, string> m_dFB22Genres = new Dictionary<string, string>();
@@ -162,13 +162,13 @@ namespace FB2.Genres
 		}
 		
 		#region Открытые методы класса
-		public string GetFB22GenreName( string sGenreCode ) {
+		public string GetFBGenreName( string sGenreCode ) {
 			// возвращает расшифрованное значение Жанра
 			if( !m_dFB22Genres.ContainsKey( sGenreCode ) ) return "";
 			return StringProcessing.StringProcessing.OnlyCorrectSymbolsForString( m_dFB22Genres[sGenreCode] );
 		}
 		
-		public string GetFB22GenreGroup( string sGenreCode ) {
+		public string GetFBGenreGroup( string sGenreCode ) {
 			// возвращает Группу для указанного Жанра
 			if( !m_dFB22GenresGroup.ContainsKey( sGenreCode ) ) return "";
 			return StringProcessing.StringProcessing.OnlyCorrectSymbolsForString( m_dFB22GenresGroup[sGenreCode] );
