@@ -38,6 +38,8 @@ namespace Options
 			cboxValidatorForFB2PE.SelectedIndex = Settings.Settings.GetDefValidatorFB2SelectedIndexPE();
 			cboxValidatorForFB2ArchivePE.SelectedIndex = Settings.Settings.GetDefValidatorFB2ArchiveSelectedIndexPE();
 			// Менеджер Файлов
+			rbtnFMFB21.Checked = Settings.Settings.GetDefFMrbtnGenreFB21Cheked();
+			rbtnFMFB22.Checked = Settings.Settings.GetDefFMrbtnGenreFB22Cheked();
 			chBoxTranslit.Checked = Settings.Settings.GetDefFMchBoxTranslitCheked();
 			chBoxStrict.Checked = Settings.Settings.GetDefFMchBoxStrictCheked();
 			cboxSpace.SelectedIndex = Settings.Settings.GetDefFMcboxSpaceSelectedIndex();
@@ -153,6 +155,11 @@ namespace Options
 					if (reader.HasAttributes ) {
 						rbtnGenreSchema.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreSchemaChecked") );
 						rbtnGenreText.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreTextChecked") );
+					}
+					reader.ReadToFollowing("FMGenresScheme");
+					if (reader.HasAttributes ) {
+						rbtnFMFB21.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnFMFB21Checked") );
+						rbtnFMFB22.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnFMFB22Checked") );
 					}
 					reader.ReadToFollowing("FB2NotReadDir");
 					if (reader.HasAttributes ) {
@@ -278,6 +285,11 @@ namespace Options
 						writer.WriteStartElement( "GenresType" );
 							writer.WriteAttributeString( "rbtnGenreSchemaChecked", rbtnGenreSchema.Checked.ToString() );
 							writer.WriteAttributeString( "rbtnGenreTextChecked", rbtnGenreText.Checked.ToString() );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "FMGenresScheme" );
+							writer.WriteAttributeString( "rbtnFMFB21Checked", rbtnFMFB21.Checked.ToString() );
+							writer.WriteAttributeString( "rbtnFMFB22Checked", rbtnFMFB22.Checked.ToString() );
 						writer.WriteFullEndElement();
 						
 						writer.WriteStartElement( "FB2NotReadDir" );

@@ -118,6 +118,10 @@ namespace Options
 			this.tpFMGeneral = new System.Windows.Forms.TabPage();
 			this.tpFMDirs = new System.Windows.Forms.TabPage();
 			this.tpFMSynonyms = new System.Windows.Forms.TabPage();
+			this.pFMGenres = new System.Windows.Forms.Panel();
+			this.lblFMGenres = new System.Windows.Forms.Label();
+			this.rbtnFMFB21 = new System.Windows.Forms.RadioButton();
+			this.rbtnFMFB22 = new System.Windows.Forms.RadioButton();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -140,6 +144,7 @@ namespace Options
 			this.tcFM.SuspendLayout();
 			this.tpFMGeneral.SuspendLayout();
 			this.tpFMDirs.SuspendLayout();
+			this.pFMGenres.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -717,9 +722,9 @@ namespace Options
 			this.gboxApportionment.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.gboxApportionment.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxApportionment.Location = new System.Drawing.Point(3, 195);
+			this.gboxApportionment.Location = new System.Drawing.Point(3, 218);
 			this.gboxApportionment.Name = "gboxApportionment";
-			this.gboxApportionment.Size = new System.Drawing.Size(589, 187);
+			this.gboxApportionment.Size = new System.Drawing.Size(589, 164);
 			this.gboxApportionment.TabIndex = 29;
 			this.gboxApportionment.TabStop = false;
 			this.gboxApportionment.Text = " Раскладка файлов по папкам ";
@@ -851,6 +856,7 @@ namespace Options
 			// 
 			// gboxFMGeneral
 			// 
+			this.gboxFMGeneral.Controls.Add(this.pFMGenres);
 			this.gboxFMGeneral.Controls.Add(this.chBoxDelFB2Files);
 			this.gboxFMGeneral.Controls.Add(this.chBoxAddToFileNameBookID);
 			this.gboxFMGeneral.Controls.Add(this.panel2);
@@ -863,7 +869,7 @@ namespace Options
 			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxFMGeneral.Location = new System.Drawing.Point(3, 3);
 			this.gboxFMGeneral.Name = "gboxFMGeneral";
-			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 192);
+			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 215);
 			this.gboxFMGeneral.TabIndex = 28;
 			this.gboxFMGeneral.TabStop = false;
 			this.gboxFMGeneral.Text = " Основные настройки ";
@@ -1115,6 +1121,48 @@ namespace Options
 			this.tpFMSynonyms.Text = " Синонимы ";
 			this.tpFMSynonyms.UseVisualStyleBackColor = true;
 			// 
+			// pFMGenres
+			// 
+			this.pFMGenres.Controls.Add(this.rbtnFMFB22);
+			this.pFMGenres.Controls.Add(this.rbtnFMFB21);
+			this.pFMGenres.Controls.Add(this.lblFMGenres);
+			this.pFMGenres.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pFMGenres.Location = new System.Drawing.Point(3, 181);
+			this.pFMGenres.Name = "pFMGenres";
+			this.pFMGenres.Size = new System.Drawing.Size(583, 28);
+			this.pFMGenres.TabIndex = 26;
+			// 
+			// lblFMGenres
+			// 
+			this.lblFMGenres.ForeColor = System.Drawing.Color.Navy;
+			this.lblFMGenres.Location = new System.Drawing.Point(5, 8);
+			this.lblFMGenres.Name = "lblFMGenres";
+			this.lblFMGenres.Size = new System.Drawing.Size(108, 16);
+			this.lblFMGenres.TabIndex = 0;
+			this.lblFMGenres.Text = "Схема Жанров:";
+			// 
+			// rbtnFMFB21
+			// 
+			this.rbtnFMFB21.Checked = true;
+			this.rbtnFMFB21.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMFB21.Location = new System.Drawing.Point(112, 5);
+			this.rbtnFMFB21.Name = "rbtnFMFB21";
+			this.rbtnFMFB21.Size = new System.Drawing.Size(62, 18);
+			this.rbtnFMFB21.TabIndex = 1;
+			this.rbtnFMFB21.TabStop = true;
+			this.rbtnFMFB21.Text = "fb2.1";
+			this.rbtnFMFB21.UseVisualStyleBackColor = true;
+			// 
+			// rbtnFMFB22
+			// 
+			this.rbtnFMFB22.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMFB22.Location = new System.Drawing.Point(191, 5);
+			this.rbtnFMFB22.Name = "rbtnFMFB22";
+			this.rbtnFMFB22.Size = new System.Drawing.Size(63, 18);
+			this.rbtnFMFB22.TabIndex = 2;
+			this.rbtnFMFB22.Text = "fb2.2";
+			this.rbtnFMFB22.UseVisualStyleBackColor = true;
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1159,8 +1207,13 @@ namespace Options
 			this.tpFMGeneral.ResumeLayout(false);
 			this.tpFMDirs.ResumeLayout(false);
 			this.tpFMDirs.PerformLayout();
+			this.pFMGenres.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.RadioButton rbtnFMFB21;
+		private System.Windows.Forms.RadioButton rbtnFMFB22;
+		private System.Windows.Forms.Label lblFMGenres;
+		private System.Windows.Forms.Panel pFMGenres;
 		private System.Windows.Forms.TabPage tpFMSynonyms;
 		private System.Windows.Forms.TabPage tpFMDirs;
 		private System.Windows.Forms.TabPage tpFMGeneral;

@@ -54,6 +54,8 @@ namespace Settings
 		#endregion
 		
 		#region Менеджер Файлов
+		private static bool m_rbtnGenreFB21Cheked = true;
+		private static bool m_rbtnGenreFB22Cheked = false;
 		private static bool m_bchBoxTranslitCheked = false;
 		private static bool m_bchBoxStrictCheked = false;
 		private static Int16 m_ncboxSpaceSelectedIndex = 0;
@@ -323,6 +325,13 @@ namespace Settings
 		#endregion
 		
 		#region Менеджер Файлов
+		public static bool GetDefFMrbtnGenreFB21Cheked() {
+			return m_rbtnGenreFB21Cheked;
+		}
+		public static bool GetDefFMrbtnGenreFB22Cheked() {
+			return m_rbtnGenreFB22Cheked;
+		}
+		
 		public static string GetFileManagerHelpPath() {
 			return m_sFileManagerHelpPath;
 		}
@@ -402,6 +411,11 @@ namespace Settings
 			return m_bchBoxAddToFileNameBookIDChecked;
 		}
 		
+		
+		public static bool ReadFMGenresScheme() {
+			// читаем режим для регистра Как есть 
+			return ReadAttribute( "FMGenresScheme", "rbtnFMFB21Checked", GetDefFMrbtnGenreFB21Cheked() );
+		}
 		public static string ReadFMFB2NotReadDir() {
 			// читаем режим для регистра Как есть
 			return ReadAttribute( "FB2NotReadDir", "txtBoxFB2NotReadDir", GetDefFMFB2NotReadDir() );
@@ -446,7 +460,7 @@ namespace Settings
 			return ReadAttribute( "Space", "cboxSpaceSelectedIndex", GetDefFMcboxSpaceSelectedIndex() );
 		}
 		public static string ReadSpaceProcessModeText() {
-			// читаем режим обработки пробелов в строке (тукст) из настроек
+			// читаем режим обработки пробелов в строке (текст) из настроек
 			return ReadAttribute( "Space", "cboxSpaceText", "Оставить" );
 		}
 		
@@ -575,6 +589,12 @@ namespace Settings
 			// папки проблемных fb2-файлов
 			lv.Items[11].SubItems[1].Text = ReadFMFB2NotReadDir();
 			lv.Items[12].SubItems[1].Text = ReadFMFB2LongPathDir();
+			// схема Жанров
+			if( ReadFMGenresScheme() ) {
+				lv.Items[13].SubItems[1].Text = "fb2.1";
+			} else {
+				lv.Items[13].SubItems[1].Text = "fb2.2";
+			}
 		}
 		
 		public static string GetFMNoGenreGroup() {
