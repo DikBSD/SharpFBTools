@@ -123,13 +123,44 @@ namespace FB2.Genres
 			for( int i=50; i!= 52; ++i ) {
 				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Поэзия, Драматургия" );
 			}
+			for( int i=52; i!= 58; ++i ) {
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Старинное" );
+			}
+			for( int i=58; i!= 73; ++i ) {
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Наука, Образование" );
+			}
+			for( int i=73; i!= 80; ++i ) {
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Компьютеры" );
+			}
+			for( int i=80; i!= 85; ++i ) {
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Справочники" );
+			}
+			for( int i=85; i!= 90; ++i ) {
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Документальное" );
+			}
+			for( int i=90; i!= 95; ++i ) {
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Религия" );
+			}
+			for( int i=95; i!= 99; ++i ) {
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Юмор" );
+			}
+			for( int i=99; i!= m_sFB21GenreCode.Length; ++i ) {
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Дом, Семья" );
+			}
 			#endregion
 		}
 		
 		#region Открытые методы класса
 		public string GetFB21GenreName( string sGenreCode ) {
+			// возвращает расшифрованное значение Жанра
 			if( !m_dFB21Genres.ContainsKey( sGenreCode ) ) return "";
 			return StringProcessing.StringProcessing.OnlyCorrectSymbolsForString( m_dFB21Genres[sGenreCode] );
+		}
+		
+		public string GetFB21GenreGroup( string sGenreCode ) {
+			// возвращает Группу для указанного Жанра
+			if( !m_dFB21GenresGroup.ContainsKey( sGenreCode ) ) return "";
+			return StringProcessing.StringProcessing.OnlyCorrectSymbolsForString( m_dFB21GenresGroup[sGenreCode] );
 		}
 		#endregion
 	}

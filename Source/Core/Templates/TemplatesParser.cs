@@ -30,7 +30,7 @@ namespace Templates.Lexems {
 	/// </summary>
 	public class AllTemplates {
 		protected static readonly string[] m_sAllTemplates = new string[] {
-								"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*",
+								"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*GG*",
 								};
 		public AllTemplates() {
 			
@@ -74,6 +74,9 @@ namespace Templates.Lexems {
         }
 		public string SI {
             get { return m_sAllTemplates[9]; }
+        }
+		public string GG {
+            get { return m_sAllTemplates[10]; }
         }
 	}
 	
@@ -267,6 +270,28 @@ namespace Templates {
 									lexem.Lexem = sLang.Trim();
 								}
 								break;
+							case "*GG*": // Группа Жанров\Жанр Книги
+								string sNoGG = Settings.Settings.GetFMNoGenreGroup();// такого жанра (группы) нет в схеме
+								if( lGenres == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
+										lexem.Lexem = "";
+									} else {
+										// жанр есть
+										string sGenre	= lGenres[nGenreIndex].Name.Trim();
+										string sgg		= fb21g.GetFB21GenreGroup( sGenre );// группа жанров
+										// sgg.Length==0 для жанра, не соответствующего схеме
+										if( Settings.Settings.ReadGenreTypeMode() ) {
+											// как в схеме
+											lexem.Lexem = ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
+										} else {
+											// жанр расшифровано
+											lexem.Lexem = ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+fb21g.GetFB21GenreName( sGenre ) );
+										}
+									}
+								}
+								break;	
 							case "*G*": // Жанр Книги
 								if( lGenres == null ) {
 									lexem.Lexem = "";
@@ -274,12 +299,14 @@ namespace Templates {
 									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
 										lexem.Lexem = "";
 									} else {
+										// жанр есть
 										if( Settings.Settings.ReadGenreTypeMode() ) {
-											lexem.Lexem = lGenres[nGenreIndex].Name.Trim(); // как в схеме
+											// как в схеме
+											lexem.Lexem = lGenres[nGenreIndex].Name.Trim();
 										} else {
-											// расшифровано
+											// жанр расшифровано
 											string sg = fb21g.GetFB21GenreName( lGenres[nGenreIndex].Name.Trim() );
-											lexem.Lexem = ( sg=="" ? lGenres[nGenreIndex].Name.Trim() : sg );
+											lexem.Lexem = ( sg.Length==0 ? lGenres[nGenreIndex].Name.Trim() : sg );
 										}
 									}
 								}
@@ -499,6 +526,29 @@ namespace Templates {
 									sFileName += sLang.Trim();
 								}
 								break;
+							case "*GG*": // Группа Жанров\Жанр Книги
+								string sNoGG = Settings.Settings.GetFMNoGenreGroup();
+								string sNo = sNoGG+"\\"+Settings.Settings.GetFMNoGenre();// такого жанра нет в схеме
+								if( lGenres == null ) {
+									sFileName += sNo;
+								} else {
+									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
+										sFileName += sNo;
+									} else {
+										// жанр есть
+										string sGenre	= lGenres[nGenreIndex].Name.Trim();
+										string sgg		= fb21g.GetFB21GenreGroup( sGenre );// группа жанров
+										// sgg.Length==0 для жанра, не соответствующего схеме
+										if( Settings.Settings.ReadGenreTypeMode() ) {
+											// как в схеме
+											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
+										} else {
+											// жанр расшифровано
+											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+fb21g.GetFB21GenreName( sGenre ) );
+										}
+									}
+								}
+								break;
 							case "*G*": // Жанр Книги
 								if( lGenres == null ) {
 									sFileName += Settings.Settings.GetFMNoGenre();
@@ -506,12 +556,15 @@ namespace Templates {
 									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
 										sFileName += Settings.Settings.GetFMNoGenre();
 									} else {
+										// жанр есть
 										if( Settings.Settings.ReadGenreTypeMode() ) {
-											sFileName += lGenres[nGenreIndex].Name.Trim(); // как в схеме
+											// как в схеме
+											sFileName += lGenres[nGenreIndex].Name.Trim();
 										} else {
-											// расшифровано
+											// жанр расшифровано
 											string sg = fb21g.GetFB21GenreName( lGenres[nGenreIndex].Name.Trim() );
-											sFileName += ( sg=="" ? lGenres[nGenreIndex].Name.Trim() : sg );
+											// sg.Length==0 для жанра, не соответствующего схеме
+											sFileName += ( sg.Length==0 ? lGenres[nGenreIndex].Name.Trim() : sg );
 										}
 									}
 								}
@@ -562,16 +615,16 @@ namespace Templates {
 								}
 								break;
 							case "*LBAL*": // 1-я Буква Фамилия Автора Книги \ Фамилия Автора Книги
-								string sNo = Settings.Settings.GetFMNoLastName();
-								sNo = sNo[0] + "\\" + sNo;
+								string sNoL = Settings.Settings.GetFMNoLastName();
+								sNo = sNoL[0] + "\\" + sNoL;
 								if( lAuthors == null ) {
-									sFileName += sNo;
+									sFileName += sNoL;
 								} else {
 									if( lAuthors[nAuthorIndex].LastName==null ) {
-										sFileName += sNo;
+										sFileName += sNoL;
 									} else {
 										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
-											sFileName += sNo;
+											sFileName += sNoL;
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
 											sFileName += sExsist[0] + "\\" + sExsist;
@@ -642,15 +695,35 @@ namespace Templates {
 									sFileName += sLang.Trim();
 								}
 								break;
+							case "[*GG*]": // Группа Жанров\Жанр Книги
+								string sNoGG = Settings.Settings.GetFMNoGenreGroup();// такого жанра (группы) нет в схеме
+								if( lGenres != null ) {
+									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim().Length!=0 ) {
+										// жанр есть
+										string sGenre	= lGenres[nGenreIndex].Name.Trim();
+										string sgg		= fb21g.GetFB21GenreGroup( sGenre );// группа жанров
+										// sgg.Length==0 для жанра, не соответствующего схеме
+										if( Settings.Settings.ReadGenreTypeMode() ) {
+											// как в схеме
+											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
+										} else {
+											// жанр расшифровано
+											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+fb21g.GetFB21GenreName( sGenre ) );
+										}
+									}
+								}
+								break;
 							case "[*G*]": // Жанр Книги
 								if( lGenres != null ) {
 									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim().Length!=0 ) {
 										if( Settings.Settings.ReadGenreTypeMode() ) {
-											sFileName += lGenres[nGenreIndex].Name.Trim(); // как в схеме
+											// как в схеме
+											sFileName += lGenres[nGenreIndex].Name.Trim();
 										} else {
-											// расшифровано
+											// жанр расшифровано
 											string sg = fb21g.GetFB21GenreName( lGenres[nGenreIndex].Name.Trim() );
-											sFileName += ( sg=="" ? lGenres[nGenreIndex].Name.Trim() : sg );
+											// sg.Length==0 для жанра, не соответствующего схеме
+											sFileName += ( sg.Length==0 ? lGenres[nGenreIndex].Name.Trim() : sg );
 										}
 									}
 								}

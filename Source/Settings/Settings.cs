@@ -79,6 +79,7 @@ namespace Settings
 		#endregion
 		
 		#region Сообщения Менеджера Файлов
+		private static string m_sFMNoGenreGroup	= "Неизвестная Группа Жанров";
 		private static string m_sFMNoGenre		= "Жанра Нет";
 		private static string m_sFMNoLang		= "Языка Книги Нет";
 		private static string m_sFMNoFirstName	= "Имени Автора Нет";
@@ -576,6 +577,9 @@ namespace Settings
 			lv.Items[12].SubItems[1].Text = ReadFMFB2LongPathDir();
 		}
 		
+		public static string GetFMNoGenreGroup() {
+			return m_sFMNoGenreGroup;
+		}
 		public static string GetFMNoGenre() {
 			return m_sFMNoGenre;
 		}
