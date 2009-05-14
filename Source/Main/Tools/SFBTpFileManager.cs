@@ -209,36 +209,36 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void MakeFileFor1Genre1Author( string sFromFilePath, string sSource, string sTarget,
-		                                      List<Templates.Lexems.TPSimple> lSLexems ) {
+		                                      List<Templates.Lexems.TPSimple> lSLexems, bool bFB21 ) {
 			// создаем файл по новому пути для первого Жанра и для первого Автора Книги
-			MakeFile( sFromFilePath, sSource, sTarget, lSLexems, 0, 0 );
+			MakeFile( sFromFilePath, sSource, sTarget, lSLexems, bFB21, 0, 0 );
 		}
 		private void MakeFileForAllGenre1Author( string sFromFilePath, string sSource, string sTarget,
-		                                      List<Templates.Lexems.TPSimple> lSLexems ) {
+		                                      List<Templates.Lexems.TPSimple> lSLexems, bool bFB21 ) {
 			// создаем файл по новому пути для всех Жанров и для первого Автора Книги
 			fB2Parser fb2 = new fB2Parser( sFromFilePath );
 			TitleInfo ti = fb2.GetTitleInfo();
 			IList<Genre> lGenres = ti.Genres;
 			IList<Author> lAuthors = ti.Authors;
 			for( int i=0; i!= lGenres.Count; ++i ) {
-				MakeFile( sFromFilePath, sSource, sTarget, lSLexems, i, 0 );
+				MakeFile( sFromFilePath, sSource, sTarget, lSLexems, bFB21, i, 0 );
 			}
 			
 		}
 		private void MakeFileFor1GenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
-		                                      	List<Templates.Lexems.TPSimple> lSLexems ) {
+		                                      	List<Templates.Lexems.TPSimple> lSLexems, bool bFB21 ) {
 			// создаем файл по новому пути для первого Жанра и для всех Авторов Книги
 			fB2Parser fb2 = new fB2Parser( sFromFilePath );
 			TitleInfo ti = fb2.GetTitleInfo();
 			IList<Genre> lGenres = ti.Genres;
 			IList<Author> lAuthors = ti.Authors;
 			for( int i=0; i!= lAuthors.Count; ++i ) {
-				MakeFile( sFromFilePath, sSource, sTarget, lSLexems, 0, i );
+				MakeFile( sFromFilePath, sSource, sTarget, lSLexems, bFB21, 0, i );
 			}
 			
 		}
 		private void MakeFileForAllGenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
-		                                      		List<Templates.Lexems.TPSimple> lSLexems ) {
+		                                      		List<Templates.Lexems.TPSimple> lSLexems, bool bFB21 ) {
 			// создаем файл по новому пути для всех Жанров и для всех Авторов Книги
 			fB2Parser fb2 = new fB2Parser( sFromFilePath );
 			TitleInfo ti = fb2.GetTitleInfo();
@@ -246,19 +246,18 @@ namespace SharpFBTools.Tools
 			IList<Author> lAuthors = ti.Authors;
 			for( int i=0; i!= lGenres.Count; ++i ) {
 				for( int j=0; j!= lAuthors.Count; ++j ) {
-					MakeFile( sFromFilePath, sSource, sTarget, lSLexems, i, j );
+					MakeFile( sFromFilePath, sSource, sTarget, lSLexems, bFB21, i, j );
 				}
 			}
 			
 		}
 		
 		private void MakeFile( string sFromFilePath, string sSource, string sTarget,
-		                      List<Templates.Lexems.TPSimple> lSLexems, int nGenreIndex, int nAuthorIndex ) {
+		                      List<Templates.Lexems.TPSimple> lSLexems, bool bFB21, int nGenreIndex, int nAuthorIndex ) {
 			// создаем файл по новому пути
 			int nFileExistMode = Settings.SettingsFM.ReadFileExistMode();
 			bool bAddToFileNameBookIDMode = Settings.SettingsFM.ReadAddToFileNameBookIDMode();
 			bool bDelFB2FilesMode = Settings.SettingsFM.ReadDelFB2FilesMode();
-			bool bFB21 = Settings.SettingsFM.ReadFMGenresScheme();
 			string sTempDir = Settings.Settings.GetTempDir();
 			string sNotReadFB2Dir = Settings.SettingsFM.ReadFMFB2NotReadDir();
 			// смотрим, что это за файл
@@ -439,22 +438,23 @@ namespace SharpFBTools.Tools
 			string sTempDir = Settings.Settings.GetTempDir();
 			bool b1Autor = Settings.SettingsFM.ReadAuthorOneMode();
 			bool b1Genre = Settings.SettingsFM.ReadGenreOneMode();
+			bool bFB21 = Settings.SettingsFM.ReadFMGenresScheme();
 			// формируем лексемы шаблонной строки
 			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			foreach( string sFromFilePath in lFilesList ) {
 				// создаем файл по новому пути
 				if( b1Genre && b1Autor ) {
 					// по первому Жанру и первому Автору Книги
-					MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems );
+					MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems, bFB21 );
 				} else if( b1Genre && !b1Autor ) {
 					// по первому Жанру и всем Авторам Книги
-					MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems );
+					MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, bFB21 );
 				} else if( !b1Genre && b1Autor ) {
 					// по всем Жанрам и первому Автору Книги
-					MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems );
+					MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems, bFB21 );
 				} else {
 					// по всем Жанрам и всем Авторам Книги
-					MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems );
+					MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, bFB21 );
 				}
 				++tsProgressBar.Value;
 				ssProgress.Refresh();
