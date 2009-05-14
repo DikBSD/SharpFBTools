@@ -129,7 +129,7 @@ namespace Main
 			OptionsForm ofrm = new OptionsForm();
 			ofrm.ShowDialog();
 			// данные установок для Менеджера Файлов - в Info ListView
-			Settings.Settings.SetInfoSettings( sfbTpFileManager.GetSettingsInfoListView() );
+			Settings.SettingsFM.SetInfoSettings( sfbTpFileManager.GetSettingsInfoListView() );
 		}
 		
 		void MainFormFormClosed(object sender, FormClosedEventArgs e)

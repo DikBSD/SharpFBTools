@@ -21,6 +21,15 @@ namespace Settings
 		private static Int16 m_nValidatorForFB2ArchiveSelectedIndex	= 1;
 		private static Int16 m_nValidatorForFB2SelectedIndexPE		= 0;
 		private static Int16 m_nValidatorForFB2ArchiveSelectedIndexPE	= 0;
+		//
+		private static string m_sValidatorDirsSettingsPath = Settings.GetProgDir()+"\\ValidatorDirs.xml";
+		private static string m_sScanDir 				= "";
+		private static string m_sFB2NotValidDirCopyTo	= "";
+		private static string m_sFB2NotValidDirMoveTo	= "";
+		private static string m_sFB2ValidDirCopyTo		= "";
+		private static string m_sFB2ValidDirMoveTo		= "";
+		private static string m_sNotFB2DirCopyTo		= "";
+		private static string m_sNotFB2DirMoveTo		= "";
 		#endregion
 		
 		public SettingsValidator()
@@ -69,19 +78,7 @@ namespace Settings
 		}
 		#endregion
 		
-		#region Настройки для папок Валидатора
-		#region Закрытые статические члены-данные класса для Папок Валидатор
-		private static string m_sValidatorDirsSettingsPath = Settings.GetProgDir()+"\\ValidatorDirs.xml";
-		private static string m_sScanDir 				= "";
-		private static string m_sFB2NotValidDirCopyTo	= "";
-		private static string m_sFB2NotValidDirMoveTo	= "";
-		private static string m_sFB2ValidDirCopyTo		= "";
-		private static string m_sFB2ValidDirMoveTo		= "";
-		private static string m_sNotFB2DirCopyTo		= "";
-		private static string m_sNotFB2DirMoveTo		= "";
-		#endregion
-		
-		#region Открытые статические члены-данные класса для Папок Валидатор
+		#region Открытые статические члены-данные класса для Папок Валидатора
 		public static string GetValidatorDirsSettingsPath() {
 			return m_sValidatorDirsSettingsPath;
 		}
@@ -143,6 +140,6 @@ namespace Settings
 			m_sNotFB2DirMoveTo = sNotFB2DirMoveTo;
 		}
 		#endregion
-		#endregion
+
 	}
 }

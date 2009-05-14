@@ -432,17 +432,17 @@ namespace StringProcessing
 		{
 			string s = "";
 			// регистр
-			s = RegisterString( sString, Settings.Settings.ReadRegisterMode() );
+			s = RegisterString( sString, Settings.SettingsFM.ReadRegisterMode() );
 			// пробелы
-			s = SpaceString( s, Settings.Settings.ReadSpaceProcessMode() );
+			s = SpaceString( s, Settings.SettingsFM.ReadSpaceProcessMode() );
 			// "строгие" символы
-			if( Settings.Settings.ReadStrictMode() ) {
+			if( Settings.SettingsFM.ReadStrictMode() ) {
 				s = StrictString( s );
 			} else {
 				s = OnlyCorrectSymbolsForString( s );
 			}
 			// транслитерация
-			if( Settings.Settings.ReadTranslitMode() ) {
+			if( Settings.SettingsFM.ReadTranslitMode() ) {
 				s = TransliterationString( s );
 			}
 			return s;
@@ -452,15 +452,15 @@ namespace StringProcessing
 		{
 			string s = "";
 			// регистр
-			s = RegisterString( sFB2FilePath, Settings.Settings.ReadRegisterMode() );
+			s = RegisterString( sFB2FilePath, Settings.SettingsFM.ReadRegisterMode() );
 			// пробелы
-			s = SpaceString( s, Settings.Settings.ReadSpaceProcessMode() );
+			s = SpaceString( s, Settings.SettingsFM.ReadSpaceProcessMode() );
 			// транслитерация
-			if( Settings.Settings.ReadTranslitMode() ) {
+			if( Settings.SettingsFM.ReadTranslitMode() ) {
 				s = TransliterationString( s );
 			}
 			// "строгие" символы
-			if( Settings.Settings.ReadStrictMode() ) {
+			if( Settings.SettingsFM.ReadStrictMode() ) {
 				s = StrictPath( s );
 			} else {
 				s = OnlyCorrectSymbolsForPath( s );

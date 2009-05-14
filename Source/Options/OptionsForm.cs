@@ -38,27 +38,27 @@ namespace Options
 			cboxValidatorForFB2PE.SelectedIndex			= Settings.SettingsValidator.GetDefValidatorFB2SelectedIndexPE();
 			cboxValidatorForFB2ArchivePE.SelectedIndex	= Settings.SettingsValidator.GetDefValidatorFB2ArchiveSelectedIndexPE();
 			// Менеджер Файлов
-			rbtnFMFB21.Checked = Settings.Settings.GetDefFMrbtnGenreFB21Cheked();
-			rbtnFMFB22.Checked = Settings.Settings.GetDefFMrbtnGenreFB22Cheked();
-			chBoxTranslit.Checked = Settings.Settings.GetDefFMchBoxTranslitCheked();
-			chBoxStrict.Checked = Settings.Settings.GetDefFMchBoxStrictCheked();
-			cboxSpace.SelectedIndex = Settings.Settings.GetDefFMcboxSpaceSelectedIndex();
-			chBoxToArchive.Checked = Settings.Settings.GetDefFMchBoxToArchiveCheked();
-			cboxArchiveType.SelectedIndex = Settings.Settings.GetDefFMcboxArchiveTypeSelectedIndex();
-			cboxFileExist.SelectedIndex = Settings.Settings.GetDefFMcboxFileExistSelectedIndex();
-			chBoxDelFB2Files.Checked = Settings.Settings.GetDefFMchBoxDelFB2FilesCheked();
-			rbtnAsIs.Checked = Settings.Settings.GetDefFMrbtnAsIsCheked();
-			rbtnLower.Checked = Settings.Settings.GetDefFMrbtnLowerCheked();
-			rbtnUpper.Checked = Settings.Settings.GetDefFMrbtnUpperCheked();
-			rbtnGenreOne.Checked = Settings.Settings.GetDefFMrbtnGenreOneCheked();
-			rbtnGenreAll.Checked = Settings.Settings.GetDefFMrbtnGenreAllCheked();
-			rbtnAuthorOne.Checked = Settings.Settings.GetDefFMrbtnAuthorOneCheked();
-			rbtnAuthorAll.Checked = Settings.Settings.GetDefFMrbtnAuthorAllCheked();
-			rbtnGenreSchema.Checked = Settings.Settings.GetDefFMrbtnGenreSchemaCheked();
-			rbtnGenreText.Checked = Settings.Settings.GetDefFMrbtnGenreTextCheked();
-			chBoxAddToFileNameBookID.Checked = Settings.Settings.GetDefFMchBoxAddToFileNameBookIDChecked();
-			txtBoxFB2NotReadDir.Text = Settings.Settings.GetDefFMFB2NotReadDir();
-			txtBoxFB2LongPathDir.Text = Settings.Settings.GetDefFMFB2LongPathDir();
+			rbtnFMFB21.Checked = Settings.SettingsFM.GetDefFMrbtnGenreFB21Cheked();
+			rbtnFMFB22.Checked = Settings.SettingsFM.GetDefFMrbtnGenreFB22Cheked();
+			chBoxTranslit.Checked = Settings.SettingsFM.GetDefFMchBoxTranslitCheked();
+			chBoxStrict.Checked = Settings.SettingsFM.GetDefFMchBoxStrictCheked();
+			cboxSpace.SelectedIndex = Settings.SettingsFM.GetDefFMcboxSpaceSelectedIndex();
+			chBoxToArchive.Checked = Settings.SettingsFM.GetDefFMchBoxToArchiveCheked();
+			cboxArchiveType.SelectedIndex = Settings.SettingsFM.GetDefFMcboxArchiveTypeSelectedIndex();
+			cboxFileExist.SelectedIndex = Settings.SettingsFM.GetDefFMcboxFileExistSelectedIndex();
+			chBoxDelFB2Files.Checked = Settings.SettingsFM.GetDefFMchBoxDelFB2FilesCheked();
+			rbtnAsIs.Checked = Settings.SettingsFM.GetDefFMrbtnAsIsCheked();
+			rbtnLower.Checked = Settings.SettingsFM.GetDefFMrbtnLowerCheked();
+			rbtnUpper.Checked = Settings.SettingsFM.GetDefFMrbtnUpperCheked();
+			rbtnGenreOne.Checked = Settings.SettingsFM.GetDefFMrbtnGenreOneCheked();
+			rbtnGenreAll.Checked = Settings.SettingsFM.GetDefFMrbtnGenreAllCheked();
+			rbtnAuthorOne.Checked = Settings.SettingsFM.GetDefFMrbtnAuthorOneCheked();
+			rbtnAuthorAll.Checked = Settings.SettingsFM.GetDefFMrbtnAuthorAllCheked();
+			rbtnGenreSchema.Checked = Settings.SettingsFM.GetDefFMrbtnGenreSchemaCheked();
+			rbtnGenreText.Checked = Settings.SettingsFM.GetDefFMrbtnGenreTextCheked();
+			chBoxAddToFileNameBookID.Checked = Settings.SettingsFM.GetDefFMchBoxAddToFileNameBookIDChecked();
+			txtBoxFB2NotReadDir.Text = Settings.SettingsFM.GetDefFMFB2NotReadDir();
+			txtBoxFB2LongPathDir.Text = Settings.SettingsFM.GetDefFMFB2LongPathDir();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 			#endregion

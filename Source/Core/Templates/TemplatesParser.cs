@@ -155,7 +155,7 @@ namespace Templates {
 								}
 								break;
 							case "*GG*": // Группа Жанров\Жанр Книги
-								string sNoGG = Settings.Settings.GetFMNoGenreGroup();// такого жанра (группы) нет в схеме
+								string sNoGG = Settings.SettingsFM.GetFMNoGenreGroup();// такого жанра (группы) нет в схеме
 								if( lGenres == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -166,7 +166,7 @@ namespace Templates {
 										string sGenre	= lGenres[nGenreIndex].Name.Trim();
 										string sgg		= fb2g.GetFBGenreGroup( sGenre );// группа жанров
 										// sgg.Length==0 для жанра, не соответствующего схеме
-										if( Settings.Settings.ReadGenreTypeMode() ) {
+										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
 											// как в схеме
 											lexem.Lexem = ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
 										} else {
@@ -184,7 +184,7 @@ namespace Templates {
 										lexem.Lexem = "";
 									} else {
 										// жанр есть
-										if( Settings.Settings.ReadGenreTypeMode() ) {
+										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
 											// как в схеме
 											lexem.Lexem = lGenres[nGenreIndex].Name.Trim();
 										} else {
@@ -410,14 +410,14 @@ namespace Templates {
 						switch( lexem.Lexem ) {
 							case "*L*": // Язык Книги
 								if( sLang == null || sLang.Length==0 ) {
-									sFileName += Settings.Settings.GetFMNoLang();
+									sFileName += Settings.SettingsFM.GetFMNoLang();
 								} else {
 								sFileName += sLang.Trim();
 								}
 								break;
 							case "*GG*": // Группа Жанров\Жанр Книги
-								string sNoGG = Settings.Settings.GetFMNoGenreGroup();
-								string sNo = sNoGG+"\\"+Settings.Settings.GetFMNoGenre();// такого жанра нет в схеме
+								string sNoGG = Settings.SettingsFM.GetFMNoGenreGroup();
+								string sNo = sNoGG+"\\"+Settings.SettingsFM.GetFMNoGenre();// такого жанра нет в схеме
 								if( lGenres == null ) {
 									sFileName += sNo;
 								} else {
@@ -428,7 +428,7 @@ namespace Templates {
 										string sGenre	= lGenres[nGenreIndex].Name.Trim();
 										string sgg		= fb2g.GetFBGenreGroup( sGenre );// группа жанров
 										// sgg.Length==0 для жанра, не соответствующего схеме
-										if( Settings.Settings.ReadGenreTypeMode() ) {
+										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
 											// как в схеме
 											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
 										} else {
@@ -440,13 +440,13 @@ namespace Templates {
 								break;
 							case "*G*": // Жанр Книги
 								if( lGenres == null ) {
-									sFileName += Settings.Settings.GetFMNoGenre();
+									sFileName += Settings.SettingsFM.GetFMNoGenre();
 								} else {
 									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
-										sFileName += Settings.Settings.GetFMNoGenre();
+										sFileName += Settings.SettingsFM.GetFMNoGenre();
 									} else {
 										// жанр есть
-										if( Settings.Settings.ReadGenreTypeMode() ) {
+										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
 											// как в схеме
 											sFileName += lGenres[nGenreIndex].Name.Trim();
 										} else {
@@ -460,13 +460,13 @@ namespace Templates {
 								break;
 							case "*BAF*": // Имя Автора Книги
 								if( lAuthors == null ) {
-									sFileName += Settings.Settings.GetFMNoFirstName();
+									sFileName += Settings.SettingsFM.GetFMNoFirstName();
 								} else {
 									if( lAuthors[nAuthorIndex].FirstName==null ) {
-										sFileName += Settings.Settings.GetFMNoFirstName();
+										sFileName += Settings.SettingsFM.GetFMNoFirstName();
 									} else {
 										if( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length==0 ) {
-											sFileName += Settings.Settings.GetFMNoFirstName();
+											sFileName += Settings.SettingsFM.GetFMNoFirstName();
 										} else {
 											sFileName += lAuthors[nAuthorIndex].FirstName.Value.Trim();
 										}
@@ -475,13 +475,13 @@ namespace Templates {
 								break;
 							case "*BAM*": // Отчество Автора Книги
 								if( lAuthors == null ) {
-									sFileName += Settings.Settings.GetFMNoMiddleName();
+									sFileName += Settings.SettingsFM.GetFMNoMiddleName();
 								} else {
 									if( lAuthors[nAuthorIndex].MiddleName==null ) {
-										sFileName += Settings.Settings.GetFMNoMiddleName();
+										sFileName += Settings.SettingsFM.GetFMNoMiddleName();
 									} else {
 										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
-											sFileName += Settings.Settings.GetFMNoMiddleName();
+											sFileName += Settings.SettingsFM.GetFMNoMiddleName();
 										} else {
 											sFileName += lAuthors[nAuthorIndex].MiddleName.Value.Trim();
 										}
@@ -490,13 +490,13 @@ namespace Templates {
 								break;
 							case "*BAL*": // Фамилия Автора Книги
 								if( lAuthors == null ) {
-									sFileName += Settings.Settings.GetFMNoLastName();
+									sFileName += Settings.SettingsFM.GetFMNoLastName();
 								} else {
 									if( lAuthors[nAuthorIndex].LastName==null ) {
-										sFileName += Settings.Settings.GetFMNoLastName();
+										sFileName += Settings.SettingsFM.GetFMNoLastName();
 									} else {
 										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
-											sFileName += Settings.Settings.GetFMNoLastName();
+											sFileName += Settings.SettingsFM.GetFMNoLastName();
 										} else {
 											sFileName += lAuthors[nAuthorIndex].LastName.Value.Trim();
 										}
@@ -504,7 +504,7 @@ namespace Templates {
 								}
 								break;
 							case "*LBAL*": // 1-я Буква Фамилия Автора Книги \ Фамилия Автора Книги
-								string sNoL = Settings.Settings.GetFMNoLastName();
+								string sNoL = Settings.SettingsFM.GetFMNoLastName();
 								sNo = sNoL[0] + "\\" + sNoL;
 								if( lAuthors == null ) {
 									sFileName += sNoL;
@@ -523,13 +523,13 @@ namespace Templates {
 								break;
 							case "*BAN*": // Ник Автора Книги
 								if( lAuthors == null ) {
-									sFileName += Settings.Settings.GetFMNoNickName();
+									sFileName += Settings.SettingsFM.GetFMNoNickName();
 								} else {
 									if( lAuthors[nAuthorIndex].NickName==null ) {
-										sFileName += Settings.Settings.GetFMNoNickName();
+										sFileName += Settings.SettingsFM.GetFMNoNickName();
 									} else {
 										if( lAuthors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
-											sFileName += Settings.Settings.GetFMNoNickName();
+											sFileName += Settings.SettingsFM.GetFMNoNickName();
 										} else {
 											sFileName += lAuthors[nAuthorIndex].NickName.Value.Trim();
 										}
@@ -538,10 +538,10 @@ namespace Templates {
 								break;
 							case "*BT*": // Название Книги
 								if( btBookTitle == null ) {
-									sFileName += Settings.Settings.GetFMNoBookTitle();
+									sFileName += Settings.SettingsFM.GetFMNoBookTitle();
 								} else {
 									if( btBookTitle.Value==null || btBookTitle.Value.Trim().Length==0 ) {
-										sFileName += Settings.Settings.GetFMNoBookTitle();
+										sFileName += Settings.SettingsFM.GetFMNoBookTitle();
 									} else {
 										sFileName += btBookTitle.Value.Trim();
 									}
@@ -549,10 +549,10 @@ namespace Templates {
 								break;
 							case "*SN*": // Серия Книги
 								if( lSequences == null ) {
-									sFileName += Settings.Settings.GetFMNoSequence();
+									sFileName += Settings.SettingsFM.GetFMNoSequence();
 								} else {
 									if( lSequences[0].Name==null || lSequences[0].Name.Trim().Length==0 ) {
-										sFileName += Settings.Settings.GetFMNoSequence();
+										sFileName += Settings.SettingsFM.GetFMNoSequence();
 									} else {
 										sFileName += lSequences[0].Name.Trim();
 									}
@@ -560,10 +560,10 @@ namespace Templates {
 								break;
 							case "*SI*": // Номер Серии Книги
 								if( lSequences == null ) {
-									sFileName += Settings.Settings.GetFMNoNSequence();
+									sFileName += Settings.SettingsFM.GetFMNoNSequence();
 								} else {
 									if( lSequences[0].Number==null ) {
-										sFileName += Settings.Settings.GetFMNoNSequence();
+										sFileName += Settings.SettingsFM.GetFMNoNSequence();
 									} else {
 										sFileName += lSequences[0].Number;
 									}
@@ -585,14 +585,14 @@ namespace Templates {
 								}
 								break;
 							case "[*GG*]": // Группа Жанров\Жанр Книги
-								string sNoGG = Settings.Settings.GetFMNoGenreGroup();// такого жанра (группы) нет в схеме
+								string sNoGG = Settings.SettingsFM.GetFMNoGenreGroup();// такого жанра (группы) нет в схеме
 								if( lGenres != null ) {
 									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim().Length!=0 ) {
 										// жанр есть
 										string sGenre	= lGenres[nGenreIndex].Name.Trim();
 										string sgg		= fb2g.GetFBGenreGroup( sGenre );// группа жанров
 										// sgg.Length==0 для жанра, не соответствующего схеме
-										if( Settings.Settings.ReadGenreTypeMode() ) {
+										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
 											// как в схеме
 											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
 										} else {
@@ -605,7 +605,7 @@ namespace Templates {
 							case "[*G*]": // Жанр Книги
 								if( lGenres != null ) {
 									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim().Length!=0 ) {
-										if( Settings.Settings.ReadGenreTypeMode() ) {
+										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
 											// как в схеме
 											sFileName += lGenres[nGenreIndex].Name.Trim();
 										} else {

@@ -46,7 +46,7 @@ namespace SharpFBTools.Tools
 		{
 			rtboxHelp.Clear();
 			string sFB2ValidatorHelpPath	= Settings.SettingsValidator.GetFB2ValidatorHelpPath();
-			string sFileManagerHelpPath		= Settings.Settings.GetFileManagerHelpPath();
+			string sFileManagerHelpPath		= Settings.SettingsFM.GetFileManagerHelpPath();
 			string sArchiveManagerHelpPath	= Settings.SettingsAM.GetArchiveManagerHelpPath();
 			switch( cboxInstrument.SelectedIndex ) {
 				case 0:

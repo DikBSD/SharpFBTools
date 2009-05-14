@@ -38,22 +38,22 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
-			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .zip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .rar-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
@@ -517,11 +517,11 @@ namespace SharpFBTools.Tools
 			this.listViewNotValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.listViewNotValid.FullRowSelect = true;
 			this.listViewNotValid.GridLines = true;
-			this.listViewNotValid.Location = new System.Drawing.Point(3, 83);
+			this.listViewNotValid.Location = new System.Drawing.Point(3, 79);
 			this.listViewNotValid.MultiSelect = false;
 			this.listViewNotValid.Name = "listViewNotValid";
 			this.listViewNotValid.ShowItemToolTips = true;
-			this.listViewNotValid.Size = new System.Drawing.Size(817, 91);
+			this.listViewNotValid.Size = new System.Drawing.Size(817, 97);
 			this.listViewNotValid.TabIndex = 0;
 			this.listViewNotValid.UseCompatibleStateImageBehavior = false;
 			this.listViewNotValid.View = System.Windows.Forms.View.Details;
@@ -982,12 +982,12 @@ namespace SharpFBTools.Tools
 									this.columnHeader7});
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem31,
-									listViewItem32,
-									listViewItem33,
-									listViewItem34,
-									listViewItem35,
-									listViewItem36});
+									listViewItem13,
+									listViewItem14,
+									listViewItem15,
+									listViewItem16,
+									listViewItem17,
+									listViewItem18});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(223, 116);
@@ -1060,7 +1060,7 @@ namespace SharpFBTools.Tools
 			this.lblExistFile.AutoSize = true;
 			this.lblExistFile.Location = new System.Drawing.Point(15, 24);
 			this.lblExistFile.Name = "lblExistFile";
-			this.lblExistFile.Size = new System.Drawing.Size(212, 13);
+			this.lblExistFile.Size = new System.Drawing.Size(213, 13);
 			this.lblExistFile.TabIndex = 17;
 			this.lblExistFile.Text = "Одинаковые файлы в папке-приемнике:";
 			// 

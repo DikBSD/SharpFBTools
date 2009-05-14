@@ -48,7 +48,7 @@ namespace SharpFBTools.Tools
 			cboxTemplatesPrepared.SelectedIndex = 3;
 			Init();
 			
-			string sTDPath = Settings.Settings.GetDefFMDescTemplatePath();
+			string sTDPath = Settings.SettingsFM.GetDefFMDescTemplatePath();
 			if( File.Exists( sTDPath ) ) {
 				richTxtBoxDescTemplates.LoadFile( sTDPath );
 			} else {
@@ -56,7 +56,7 @@ namespace SharpFBTools.Tools
 			}
 
 			// загружаем в ListView-индикатор настроек данные 
-			Settings.Settings.SetInfoSettings( lvSettings );
+			Settings.SettingsFM.SetInfoSettings( lvSettings );
 		}
 		
 		#region Закрытые вспомогательные методы класса
@@ -128,15 +128,15 @@ namespace SharpFBTools.Tools
 		private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode ) {
 			// создание нового файла или архива
 			try {
-				if( !Settings.Settings.ReadToArchiveMode() ) {
+				if( !Settings.SettingsFM.ReadToArchiveMode() ) {
 					CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
 				} else {
 					// упаковка в архив
-					string sArchType = StringProcessing.StringProcessing.GetArchiveExt( Settings.Settings.ReadArchiveTypeText() );
+					string sArchType = StringProcessing.StringProcessing.GetArchiveExt( Settings.SettingsFM.ReadArchiveTypeText() );
 					CopyFileToArchive( sArchType, sFromFilePath, sToFilePath+"."+sArchType, nFileExistMode, bAddToFileNameBookIDMode );
 				}
 			} catch ( System.IO.PathTooLongException ) {
-				string sFileLongPathDir = Settings.Settings.ReadFMFB2LongPathDir();
+				string sFileLongPathDir = Settings.SettingsFM.ReadFMFB2LongPathDir();
 				Directory.CreateDirectory( sFileLongPathDir );
 				sToFilePath = sFileLongPathDir+"\\"+Path.GetFileName( sFromFilePath );
 				CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, false );	
@@ -255,12 +255,12 @@ namespace SharpFBTools.Tools
 		private void MakeFile( string sFromFilePath, string sSource, string sTarget,
 		                      List<Templates.Lexems.TPSimple> lSLexems, int nGenreIndex, int nAuthorIndex ) {
 			// создаем файл по новому пути
-			int nFileExistMode = Settings.Settings.ReadFileExistMode();
-			bool bAddToFileNameBookIDMode = Settings.Settings.ReadAddToFileNameBookIDMode();
-			bool bDelFB2FilesMode = Settings.Settings.ReadDelFB2FilesMode();
-			bool bFB21 = Settings.Settings.ReadFMGenresScheme();
+			int nFileExistMode = Settings.SettingsFM.ReadFileExistMode();
+			bool bAddToFileNameBookIDMode = Settings.SettingsFM.ReadAddToFileNameBookIDMode();
+			bool bDelFB2FilesMode = Settings.SettingsFM.ReadDelFB2FilesMode();
+			bool bFB21 = Settings.SettingsFM.ReadFMGenresScheme();
 			string sTempDir = Settings.Settings.GetTempDir();
-			string sNotReadFB2Dir = Settings.Settings.ReadFMFB2NotReadDir();
+			string sNotReadFB2Dir = Settings.SettingsFM.ReadFMFB2NotReadDir();
 			// смотрим, что это за файл
 			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
 			if( sExt == ".fb2" ) {
@@ -437,8 +437,8 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Maximum = nFilesCount+1;
 			tsProgressBar.Value = 1;
 			string sTempDir = Settings.Settings.GetTempDir();
-			bool b1Autor = Settings.Settings.ReadAuthorOneMode();
-			bool b1Genre = Settings.Settings.ReadGenreOneMode();
+			bool b1Autor = Settings.SettingsFM.ReadAuthorOneMode();
+			bool b1Genre = Settings.SettingsFM.ReadGenreOneMode();
 			// формируем лексемы шаблонной строки
 			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			foreach( string sFromFilePath in lFilesList ) {
