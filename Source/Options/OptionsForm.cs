@@ -23,7 +23,7 @@ namespace Options
 		{
 			#region Код Конструктора
 			InitializeComponent();
-			// по-умолчанию
+			/* по-умолчанию */
 			// общие
 			tboxWinRarPath.Text	= Settings.Settings.GetDefWinRARPath();
 			tboxRarPath.Text	= Settings.Settings.GetDefRarPath();
@@ -59,6 +59,17 @@ namespace Options
 			chBoxAddToFileNameBookID.Checked = Settings.SettingsFM.GetDefFMchBoxAddToFileNameBookIDChecked();
 			txtBoxFB2NotReadDir.Text = Settings.SettingsFM.GetDefFMFB2NotReadDir();
 			txtBoxFB2LongPathDir.Text = Settings.SettingsFM.GetDefFMFB2LongPathDir();
+			//
+			txtBoxFMNoGenreGroup.Text	= Settings.SettingsFM.GetDefFMNoGenreGroup();
+			txtBoxFMNoGenre.Text		= Settings.SettingsFM.GetDefFMNoGenre();
+			txtBoxFMNoLang.Text			= Settings.SettingsFM.GetDefFMNoLang();
+			txtBoxFMNoFirstName.Text	= Settings.SettingsFM.GetDefFMNoFirstName();
+			txtBoxFMNoMiddleName.Text	= Settings.SettingsFM.GetDefFMNoMiddleName();
+			txtBoxFMNoLastName.Text		= Settings.SettingsFM.GetDefFMNoLastName();
+			txtBoxFMNoNickName.Text		= Settings.SettingsFM.GetDefFMNoNickName();
+			txtBoxFMNoBookTitle.Text	= Settings.SettingsFM.GetDefFMNoBookTitle();
+			txtBoxFMNoSequence.Text		= Settings.SettingsFM.GetDefFMNoSequence();
+			txtBoxFMNoNSequence.Text	= Settings.SettingsFM.GetDefFMNoNSequence();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 			#endregion
@@ -168,6 +179,19 @@ namespace Options
 					reader.ReadToFollowing("FB2LongPathDir");
 					if (reader.HasAttributes ) {
 						txtBoxFB2LongPathDir.Text = reader.GetAttribute("txtBoxFB2LongPathDir");
+					}
+					reader.ReadToFollowing("TagsNoText");
+					if (reader.HasAttributes ) {
+						txtBoxFMNoGenreGroup.Text = reader.GetAttribute("txtBoxFMNoGenreGroup");
+						txtBoxFMNoGenre.Text = reader.GetAttribute("txtBoxFMNoGenre");
+						txtBoxFMNoLang.Text = reader.GetAttribute("txtBoxFMNoLang");
+						txtBoxFMNoFirstName.Text = reader.GetAttribute("txtBoxFMNoFirstName");
+						txtBoxFMNoMiddleName.Text = reader.GetAttribute("txtBoxFMNoMiddleName");
+						txtBoxFMNoLastName.Text = reader.GetAttribute("txtBoxFMNoLastName");
+						txtBoxFMNoNickName.Text = reader.GetAttribute("txtBoxFMNoNickName");
+						txtBoxFMNoBookTitle.Text = reader.GetAttribute("txtBoxFMNoBookTitle");
+						txtBoxFMNoSequence.Text = reader.GetAttribute("txtBoxFMNoSequence");
+						txtBoxFMNoNSequence.Text = reader.GetAttribute("txtBoxFMNoNSequence");
 					}
 				} catch {
 					MessageBox.Show( "Поврежден файл настроек: \""+Settings.Settings.GetSettingsPath()+"\".\nУдалите его, он создастся автоматически при сохранении настроек", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -298,6 +322,19 @@ namespace Options
 						
 						writer.WriteStartElement( "FB2LongPathDir" );
 							writer.WriteAttributeString( "txtBoxFB2LongPathDir", txtBoxFB2LongPathDir.Text );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "TagsNoText" );
+							writer.WriteAttributeString( "txtBoxFMNoGenreGroup", txtBoxFMNoGenreGroup.Text );
+							writer.WriteAttributeString( "txtBoxFMNoGenre", txtBoxFMNoGenre.Text );
+							writer.WriteAttributeString( "txtBoxFMNoLang", txtBoxFMNoLang.Text );
+							writer.WriteAttributeString( "txtBoxFMNoFirstName", txtBoxFMNoFirstName.Text );
+							writer.WriteAttributeString( "txtBoxFMNoMiddleName", txtBoxFMNoMiddleName.Text );
+							writer.WriteAttributeString( "txtBoxFMNoLastName", txtBoxFMNoLastName.Text );
+							writer.WriteAttributeString( "txtBoxFMNoNickName", txtBoxFMNoNickName.Text );
+							writer.WriteAttributeString( "txtBoxFMNoBookTitle", txtBoxFMNoBookTitle.Text );
+							writer.WriteAttributeString( "txtBoxFMNoSequence", txtBoxFMNoSequence.Text );
+							writer.WriteAttributeString( "txtBoxFMNoNSequence", txtBoxFMNoNSequence.Text );
 						writer.WriteFullEndElement();
 						
 					writer.WriteEndElement();

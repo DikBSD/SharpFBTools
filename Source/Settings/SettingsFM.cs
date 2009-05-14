@@ -17,29 +17,29 @@ namespace Settings
 	public class SettingsFM
 	{
 		#region Закрытые статические данные класса
-		private static bool m_rbtnGenreFB21Cheked = true;
-		private static bool m_rbtnGenreFB22Cheked = false;
-		private static bool m_bchBoxTranslitCheked = false;
-		private static bool m_bchBoxStrictCheked = false;
-		private static Int16 m_ncboxSpaceSelectedIndex = 0;
-		private static bool m_bchBoxToArchiveCheked = false;
-		private static Int16 m_ncboxArchiveTypeSelectedIndex = 1;
-		private static Int16 m_ncboxFileExistSelectedIndex = 1;
-		private static bool m_bchBoxDelFB2FilesCheked = false;
-		private static bool m_brbtnAsIsCheked = true;
-		private static bool m_brbtnLowerCheked = false;
-		private static bool m_brbtnUpperCheked = false;
-		private static bool m_brbtnGenreOneCheked = true;
-		private static bool m_brbtnGenreAllCheked = false;
-		private static bool m_brbtnAuthorOneCheked = true;
-		private static bool m_brbtnAuthorAllCheked = false;
-		private static bool m_brbtnGenreSchemaCheked = true;
-		private static bool m_brbtnGenreTextCheked = false;
+		private static bool m_rbtnGenreFB21Cheked	= true;
+		private static bool m_rbtnGenreFB22Cheked	= false;
+		private static bool m_bchBoxTranslitCheked	= false;
+		private static bool m_bchBoxStrictCheked	= false;
+		private static Int16 m_ncboxSpaceSelectedIndex	= 0;
+		private static bool m_bchBoxToArchiveCheked		= false;
+		private static Int16 m_ncboxArchiveTypeSelectedIndex	= 1;
+		private static Int16 m_ncboxFileExistSelectedIndex		= 1;
+		private static bool m_bchBoxDelFB2FilesCheked	= false;
+		private static bool m_brbtnAsIsCheked	= true;
+		private static bool m_brbtnLowerCheked	= false;
+		private static bool m_brbtnUpperCheked	= false;
+		private static bool m_brbtnGenreOneCheked	= true;
+		private static bool m_brbtnGenreAllCheked	= false;
+		private static bool m_brbtnAuthorOneCheked	= true;
+		private static bool m_brbtnAuthorAllCheked	= false;
+		private static bool m_brbtnGenreSchemaCheked	= true;
+		private static bool m_brbtnGenreTextCheked		= false;
 		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
-		private static string m_sFileManagerHelpPath = Settings.GetProgDir()+"\\Help\\FileManagerHelp.rtf";
-		private static string m_sDescTemplatePath = Settings.GetProgDir()+"\\Help\\TemplatesDescription.rtf";
-		private static string m_sFMFB2NotReadDir = Settings.GetProgDir()+"\\_NotReadFB2";
-		private static string m_sFMFB2LongPathDir = Settings.GetProgDir()+"\\_FB2LongPathDir";
+		private static string m_sFileManagerHelpPath	= Settings.GetProgDir()+"\\Help\\FileManagerHelp.rtf";
+		private static string m_sDescTemplatePath	= Settings.GetProgDir()+"\\Help\\TemplatesDescription.rtf";
+		private static string m_sFMFB2NotReadDir	= Settings.GetProgDir()+"\\_NotReadFB2";
+		private static string m_sFMFB2LongPathDir	= Settings.GetProgDir()+"\\_FB2LongPathDir";
 		//
 		private static string m_sFMNoGenreGroup	= "Неизвестная Группа Жанров";
 		private static string m_sFMNoGenre		= "Жанра Нет";
@@ -244,20 +244,83 @@ namespace Settings
 			return Settings.ReadAttribute( "GenresType", "rbtnGenreSchemaChecked", GetDefFMrbtnGenreSchemaCheked() );
 		}
 		
-		public static bool ReadTranslitMode()
-		{
+		public static bool ReadTranslitMode() {
 			// читаем режим транслитерации из настроек
 			return Settings.ReadAttribute( "Translit", "chBoxTranslitChecked", GetDefFMchBoxTranslitCheked() );
 		}
 		
-		public static bool ReadStrictMode()
-		{
+		public static bool ReadStrictMode() {
 			// читаем режим "Строгих" имен из настроек
 			return Settings.ReadAttribute( "Strict", "chBoxStrictChecked", GetDefFMchBoxStrictCheked() );
 		}
 		
-		public static void SetInfoSettings( ListView lv )
-		{
+		
+		// для папок тэгов, данных для которых нет
+		public static string GetDefFMNoGenreGroup() {
+			return m_sFMNoGenreGroup;
+		}
+		public static string GetDefFMNoGenre() {
+			return m_sFMNoGenre;
+		}
+		public static string GetDefFMNoLang() {
+			return m_sFMNoLang;
+		}
+		public static string GetDefFMNoFirstName() {
+			return m_sFMNoFirstName;
+		}
+		public static string GetDefFMNoMiddleName() {
+			return m_sFMNoMiddleName;
+		}
+		public static string GetDefFMNoLastName() {
+			return m_sFMNoLastName;
+		}
+		public static string GetDefFMNoNickName() {
+			return m_sFMNoNickName;
+		}
+		public static string GetDefFMNoBookTitle() {
+			return m_sFMNoBookTitle;
+		}
+		public static string GetDefFMNoSequence() {
+			return m_sFMNoSequence;
+		}
+		public static string GetDefFMNoNSequence() {
+			return m_sFMNoNSequence;
+		}
+		
+		// чтение названий папок тэгов, данных у которых нет
+		public static string ReadFMNoGenreGroup() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoGenreGroup", GetDefFMNoGenreGroup() );
+		}
+		public static string ReadFMNoGenre() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoGenre", GetDefFMNoGenre() );
+		}
+		public static string ReadFMNoLang() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoLang", GetDefFMNoLang() );
+		}
+		public static string ReadFMNoFirstName() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoFirstName", GetDefFMNoFirstName() );
+		}
+		public static string ReadFMNoMiddleName() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoMiddleName", GetDefFMNoMiddleName() );
+		}
+		public static string ReadFMNoLastName() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoLastName", GetDefFMNoLastName() );
+		}
+		public static string ReadFMNoNickName() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoNickName", GetDefFMNoNickName() );
+		}
+		public static string ReadFMNoBookTitle() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoBookTitle", GetDefFMNoBookTitle() );
+		}
+		public static string ReadFMNoSequence() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoSequence", GetDefFMNoSequence() );
+		}
+		public static string ReadFMNoNSequence() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoNSequence", GetDefFMNoNSequence() );
+		}
+		
+		// заполнение индикатора настроек
+		public static void SetInfoSettings( ListView lv ) {
 			// загружаем в ListView-индикатор настроек данные 
 			// регистр
 			if( ReadRegisterLowerChecked() ) {
@@ -328,37 +391,17 @@ namespace Settings
 			} else {
 				lv.Items[13].SubItems[1].Text = "fb2.2";
 			}
-		}
-		
-		public static string GetFMNoGenreGroup() {
-			return m_sFMNoGenreGroup;
-		}
-		public static string GetFMNoGenre() {
-			return m_sFMNoGenre;
-		}
-		public static string GetFMNoLang() {
-			return m_sFMNoLang;
-		}
-		public static string GetFMNoFirstName() {
-			return m_sFMNoFirstName;
-		}
-		public static string GetFMNoMiddleName() {
-			return m_sFMNoMiddleName;
-		}
-		public static string GetFMNoLastName() {
-			return m_sFMNoLastName;
-		}
-		public static string GetFMNoNickName() {
-			return m_sFMNoNickName;
-		}
-		public static string GetFMNoBookTitle() {
-			return m_sFMNoBookTitle;
-		}
-		public static string GetFMNoSequence() {
-			return m_sFMNoSequence;
-		}
-		public static string GetFMNoNSequence() {
-			return m_sFMNoNSequence;
+			// названия папки для тэга. у которого нет данных
+			lv.Items[14].SubItems[1].Text = ReadFMNoGenreGroup();
+			lv.Items[15].SubItems[1].Text = ReadFMNoGenre();
+			lv.Items[16].SubItems[1].Text = ReadFMNoLang();
+			lv.Items[17].SubItems[1].Text = ReadFMNoFirstName();
+			lv.Items[18].SubItems[1].Text = ReadFMNoMiddleName();
+			lv.Items[19].SubItems[1].Text = ReadFMNoLastName();
+			lv.Items[20].SubItems[1].Text = ReadFMNoNickName();
+			lv.Items[21].SubItems[1].Text = ReadFMNoBookTitle();
+			lv.Items[22].SubItems[1].Text = ReadFMNoSequence();
+			lv.Items[23].SubItems[1].Text = ReadFMNoNSequence();
 		}
 		#endregion
 		

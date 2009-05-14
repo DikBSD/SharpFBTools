@@ -79,24 +79,13 @@ namespace Options
 			this.lblValidatorForFB2Archive = new System.Windows.Forms.Label();
 			this.lblValidatorForFB2 = new System.Windows.Forms.Label();
 			this.tpFileManager = new System.Windows.Forms.TabPage();
-			this.lblLongPath = new System.Windows.Forms.Label();
-			this.txtBoxFB2LongPathDir = new System.Windows.Forms.TextBox();
-			this.btnFB2LongPathDir = new System.Windows.Forms.Button();
-			this.lblFB2NotReadDir = new System.Windows.Forms.Label();
-			this.txtBoxFB2NotReadDir = new System.Windows.Forms.TextBox();
-			this.btnFB2NotReadDir = new System.Windows.Forms.Button();
-			this.gboxApportionment = new System.Windows.Forms.GroupBox();
-			this.gBoxGenres = new System.Windows.Forms.GroupBox();
-			this.gBoxGenresType = new System.Windows.Forms.GroupBox();
-			this.rbtnGenreText = new System.Windows.Forms.RadioButton();
-			this.rbtnGenreSchema = new System.Windows.Forms.RadioButton();
-			this.gBoxGenresCount = new System.Windows.Forms.GroupBox();
-			this.rbtnGenreAll = new System.Windows.Forms.RadioButton();
-			this.rbtnGenreOne = new System.Windows.Forms.RadioButton();
-			this.gBoxAuthors = new System.Windows.Forms.GroupBox();
-			this.rbtnAuthorAll = new System.Windows.Forms.RadioButton();
-			this.rbtnAuthorOne = new System.Windows.Forms.RadioButton();
+			this.tcFM = new System.Windows.Forms.TabControl();
+			this.tpFMGeneral = new System.Windows.Forms.TabPage();
 			this.gboxFMGeneral = new System.Windows.Forms.GroupBox();
+			this.pFMGenres = new System.Windows.Forms.Panel();
+			this.rbtnFMFB22 = new System.Windows.Forms.RadioButton();
+			this.rbtnFMFB21 = new System.Windows.Forms.RadioButton();
+			this.lblFMGenres = new System.Windows.Forms.Label();
 			this.chBoxDelFB2Files = new System.Windows.Forms.CheckBox();
 			this.chBoxAddToFileNameBookID = new System.Windows.Forms.CheckBox();
 			this.panel2 = new System.Windows.Forms.Panel();
@@ -113,15 +102,57 @@ namespace Options
 			this.rbtnUpper = new System.Windows.Forms.RadioButton();
 			this.rbtnLower = new System.Windows.Forms.RadioButton();
 			this.rbtnAsIs = new System.Windows.Forms.RadioButton();
-			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
-			this.tcFM = new System.Windows.Forms.TabControl();
-			this.tpFMGeneral = new System.Windows.Forms.TabPage();
+			this.gboxApportionment = new System.Windows.Forms.GroupBox();
+			this.gBoxGenres = new System.Windows.Forms.GroupBox();
+			this.gBoxGenresType = new System.Windows.Forms.GroupBox();
+			this.rbtnGenreText = new System.Windows.Forms.RadioButton();
+			this.rbtnGenreSchema = new System.Windows.Forms.RadioButton();
+			this.gBoxGenresCount = new System.Windows.Forms.GroupBox();
+			this.rbtnGenreAll = new System.Windows.Forms.RadioButton();
+			this.rbtnGenreOne = new System.Windows.Forms.RadioButton();
+			this.gBoxAuthors = new System.Windows.Forms.GroupBox();
+			this.rbtnAuthorAll = new System.Windows.Forms.RadioButton();
+			this.rbtnAuthorOne = new System.Windows.Forms.RadioButton();
 			this.tpFMDirs = new System.Windows.Forms.TabPage();
-			this.tpFMSynonyms = new System.Windows.Forms.TabPage();
-			this.pFMGenres = new System.Windows.Forms.Panel();
-			this.lblFMGenres = new System.Windows.Forms.Label();
-			this.rbtnFMFB21 = new System.Windows.Forms.RadioButton();
-			this.rbtnFMFB22 = new System.Windows.Forms.RadioButton();
+			this.lblFB2NotReadDir = new System.Windows.Forms.Label();
+			this.lblLongPath = new System.Windows.Forms.Label();
+			this.btnFB2NotReadDir = new System.Windows.Forms.Button();
+			this.txtBoxFB2LongPathDir = new System.Windows.Forms.TextBox();
+			this.txtBoxFB2NotReadDir = new System.Windows.Forms.TextBox();
+			this.btnFB2LongPathDir = new System.Windows.Forms.Button();
+			this.tpFMNoTagsText = new System.Windows.Forms.TabPage();
+			this.gBoxFMNoTags = new System.Windows.Forms.GroupBox();
+			this.panel12 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoNSequence = new System.Windows.Forms.TextBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.panel11 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoSequence = new System.Windows.Forms.TextBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.panel10 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoBookTitle = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.panel9 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoNickName = new System.Windows.Forms.TextBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.panel8 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoLastName = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.panel7 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoMiddleName = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.panel6 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoFirstName = new System.Windows.Forms.TextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.panel5 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoLang = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.panel4 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoGenre = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.panel3 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoGenreGroup = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -132,19 +163,31 @@ namespace Options
 			this.gboxValidatorPE.SuspendLayout();
 			this.gboxValidatorDoubleClick.SuspendLayout();
 			this.tpFileManager.SuspendLayout();
+			this.tcFM.SuspendLayout();
+			this.tpFMGeneral.SuspendLayout();
+			this.gboxFMGeneral.SuspendLayout();
+			this.pFMGenres.SuspendLayout();
+			this.panel2.SuspendLayout();
+			this.panel1.SuspendLayout();
+			this.gboxRegister.SuspendLayout();
 			this.gboxApportionment.SuspendLayout();
 			this.gBoxGenres.SuspendLayout();
 			this.gBoxGenresType.SuspendLayout();
 			this.gBoxGenresCount.SuspendLayout();
 			this.gBoxAuthors.SuspendLayout();
-			this.gboxFMGeneral.SuspendLayout();
-			this.panel2.SuspendLayout();
-			this.panel1.SuspendLayout();
-			this.gboxRegister.SuspendLayout();
-			this.tcFM.SuspendLayout();
-			this.tpFMGeneral.SuspendLayout();
 			this.tpFMDirs.SuspendLayout();
-			this.pFMGenres.SuspendLayout();
+			this.tpFMNoTagsText.SuspendLayout();
+			this.gBoxFMNoTags.SuspendLayout();
+			this.panel12.SuspendLayout();
+			this.panel11.SuspendLayout();
+			this.panel10.SuspendLayout();
+			this.panel9.SuspendLayout();
+			this.panel8.SuspendLayout();
+			this.panel7.SuspendLayout();
+			this.panel6.SuspendLayout();
+			this.panel5.SuspendLayout();
+			this.panel4.SuspendLayout();
+			this.panel3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -645,214 +688,29 @@ namespace Options
 			this.tpFileManager.Text = " Менеджер файлов ";
 			this.tpFileManager.UseVisualStyleBackColor = true;
 			// 
-			// lblLongPath
+			// tcFM
 			// 
-			this.lblLongPath.AutoSize = true;
-			this.lblLongPath.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.lblLongPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblLongPath.Location = new System.Drawing.Point(3, 40);
-			this.lblLongPath.Name = "lblLongPath";
-			this.lblLongPath.Size = new System.Drawing.Size(217, 13);
-			this.lblLongPath.TabIndex = 35;
-			this.lblLongPath.Text = "Папка для fb2 с длинными именами:";
+			this.tcFM.Controls.Add(this.tpFMGeneral);
+			this.tcFM.Controls.Add(this.tpFMDirs);
+			this.tcFM.Controls.Add(this.tpFMNoTagsText);
+			this.tcFM.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tcFM.Location = new System.Drawing.Point(3, 3);
+			this.tcFM.Name = "tcFM";
+			this.tcFM.SelectedIndex = 0;
+			this.tcFM.Size = new System.Drawing.Size(603, 411);
+			this.tcFM.TabIndex = 36;
 			// 
-			// txtBoxFB2LongPathDir
+			// tpFMGeneral
 			// 
-			this.txtBoxFB2LongPathDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtBoxFB2LongPathDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.txtBoxFB2LongPathDir.Location = new System.Drawing.Point(226, 36);
-			this.txtBoxFB2LongPathDir.Name = "txtBoxFB2LongPathDir";
-			this.txtBoxFB2LongPathDir.ReadOnly = true;
-			this.txtBoxFB2LongPathDir.Size = new System.Drawing.Size(309, 20);
-			this.txtBoxFB2LongPathDir.TabIndex = 33;
-			// 
-			// btnFB2LongPathDir
-			// 
-			this.btnFB2LongPathDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnFB2LongPathDir.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2LongPathDir.Image")));
-			this.btnFB2LongPathDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2LongPathDir.Location = new System.Drawing.Point(541, 34);
-			this.btnFB2LongPathDir.Name = "btnFB2LongPathDir";
-			this.btnFB2LongPathDir.Size = new System.Drawing.Size(37, 24);
-			this.btnFB2LongPathDir.TabIndex = 34;
-			this.btnFB2LongPathDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnFB2LongPathDir.UseVisualStyleBackColor = true;
-			this.btnFB2LongPathDir.Click += new System.EventHandler(this.BtnFB2LongPathDirClick);
-			// 
-			// lblFB2NotReadDir
-			// 
-			this.lblFB2NotReadDir.AutoSize = true;
-			this.lblFB2NotReadDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.lblFB2NotReadDir.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblFB2NotReadDir.Location = new System.Drawing.Point(3, 14);
-			this.lblFB2NotReadDir.Name = "lblFB2NotReadDir";
-			this.lblFB2NotReadDir.Size = new System.Drawing.Size(217, 13);
-			this.lblFB2NotReadDir.TabIndex = 32;
-			this.lblFB2NotReadDir.Text = "Папка для нечитаемых fb2-файлов:";
-			// 
-			// txtBoxFB2NotReadDir
-			// 
-			this.txtBoxFB2NotReadDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtBoxFB2NotReadDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.txtBoxFB2NotReadDir.Location = new System.Drawing.Point(226, 10);
-			this.txtBoxFB2NotReadDir.Name = "txtBoxFB2NotReadDir";
-			this.txtBoxFB2NotReadDir.ReadOnly = true;
-			this.txtBoxFB2NotReadDir.Size = new System.Drawing.Size(309, 20);
-			this.txtBoxFB2NotReadDir.TabIndex = 30;
-			// 
-			// btnFB2NotReadDir
-			// 
-			this.btnFB2NotReadDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnFB2NotReadDir.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2NotReadDir.Image")));
-			this.btnFB2NotReadDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2NotReadDir.Location = new System.Drawing.Point(541, 8);
-			this.btnFB2NotReadDir.Name = "btnFB2NotReadDir";
-			this.btnFB2NotReadDir.Size = new System.Drawing.Size(37, 24);
-			this.btnFB2NotReadDir.TabIndex = 31;
-			this.btnFB2NotReadDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnFB2NotReadDir.UseVisualStyleBackColor = true;
-			this.btnFB2NotReadDir.Click += new System.EventHandler(this.BtnFB2NotReadDirClick);
-			// 
-			// gboxApportionment
-			// 
-			this.gboxApportionment.Controls.Add(this.gBoxGenres);
-			this.gboxApportionment.Controls.Add(this.gBoxAuthors);
-			this.gboxApportionment.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.gboxApportionment.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxApportionment.Location = new System.Drawing.Point(3, 218);
-			this.gboxApportionment.Name = "gboxApportionment";
-			this.gboxApportionment.Size = new System.Drawing.Size(589, 164);
-			this.gboxApportionment.TabIndex = 29;
-			this.gboxApportionment.TabStop = false;
-			this.gboxApportionment.Text = " Раскладка файлов по папкам ";
-			// 
-			// gBoxGenres
-			// 
-			this.gBoxGenres.Controls.Add(this.gBoxGenresType);
-			this.gBoxGenres.Controls.Add(this.gBoxGenresCount);
-			this.gBoxGenres.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gBoxGenres.ForeColor = System.Drawing.Color.Navy;
-			this.gBoxGenres.Location = new System.Drawing.Point(3, 73);
-			this.gBoxGenres.Name = "gBoxGenres";
-			this.gBoxGenres.Size = new System.Drawing.Size(583, 82);
-			this.gBoxGenres.TabIndex = 28;
-			this.gBoxGenres.TabStop = false;
-			this.gBoxGenres.Text = " Жанры ";
-			// 
-			// gBoxGenresType
-			// 
-			this.gBoxGenresType.Controls.Add(this.rbtnGenreText);
-			this.gBoxGenresType.Controls.Add(this.rbtnGenreSchema);
-			this.gBoxGenresType.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxGenresType.ForeColor = System.Drawing.Color.Purple;
-			this.gBoxGenresType.Location = new System.Drawing.Point(260, 19);
-			this.gBoxGenresType.Name = "gBoxGenresType";
-			this.gBoxGenresType.Size = new System.Drawing.Size(331, 57);
-			this.gBoxGenresType.TabIndex = 27;
-			this.gBoxGenresType.TabStop = false;
-			this.gBoxGenresType.Text = " Вид папки - жанра ";
-			// 
-			// rbtnGenreText
-			// 
-			this.rbtnGenreText.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbtnGenreText.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnGenreText.Location = new System.Drawing.Point(3, 34);
-			this.rbtnGenreText.Name = "rbtnGenreText";
-			this.rbtnGenreText.Size = new System.Drawing.Size(325, 18);
-			this.rbtnGenreText.TabIndex = 1;
-			this.rbtnGenreText.Text = "Расшифровано (например: Русская классика)";
-			this.rbtnGenreText.UseVisualStyleBackColor = true;
-			// 
-			// rbtnGenreSchema
-			// 
-			this.rbtnGenreSchema.Checked = true;
-			this.rbtnGenreSchema.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbtnGenreSchema.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnGenreSchema.Location = new System.Drawing.Point(3, 16);
-			this.rbtnGenreSchema.Name = "rbtnGenreSchema";
-			this.rbtnGenreSchema.Size = new System.Drawing.Size(325, 18);
-			this.rbtnGenreSchema.TabIndex = 0;
-			this.rbtnGenreSchema.TabStop = true;
-			this.rbtnGenreSchema.Text = "Как в схеме (например: prose_rus_classic)";
-			this.rbtnGenreSchema.UseVisualStyleBackColor = true;
-			// 
-			// gBoxGenresCount
-			// 
-			this.gBoxGenresCount.Controls.Add(this.rbtnGenreAll);
-			this.gBoxGenresCount.Controls.Add(this.rbtnGenreOne);
-			this.gBoxGenresCount.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxGenresCount.ForeColor = System.Drawing.Color.Purple;
-			this.gBoxGenresCount.Location = new System.Drawing.Point(6, 19);
-			this.gBoxGenresCount.Name = "gBoxGenresCount";
-			this.gBoxGenresCount.Size = new System.Drawing.Size(248, 57);
-			this.gBoxGenresCount.TabIndex = 26;
-			this.gBoxGenresCount.TabStop = false;
-			this.gBoxGenresCount.Text = " Раскладка файлов по жанрам ";
-			// 
-			// rbtnGenreAll
-			// 
-			this.rbtnGenreAll.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbtnGenreAll.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnGenreAll.Location = new System.Drawing.Point(3, 34);
-			this.rbtnGenreAll.Name = "rbtnGenreAll";
-			this.rbtnGenreAll.Size = new System.Drawing.Size(242, 18);
-			this.rbtnGenreAll.TabIndex = 1;
-			this.rbtnGenreAll.Text = "По всем жанрам";
-			this.rbtnGenreAll.UseVisualStyleBackColor = true;
-			// 
-			// rbtnGenreOne
-			// 
-			this.rbtnGenreOne.Checked = true;
-			this.rbtnGenreOne.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbtnGenreOne.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnGenreOne.Location = new System.Drawing.Point(3, 16);
-			this.rbtnGenreOne.Name = "rbtnGenreOne";
-			this.rbtnGenreOne.Size = new System.Drawing.Size(242, 18);
-			this.rbtnGenreOne.TabIndex = 0;
-			this.rbtnGenreOne.TabStop = true;
-			this.rbtnGenreOne.Text = "По первому жанру";
-			this.rbtnGenreOne.UseVisualStyleBackColor = true;
-			// 
-			// gBoxAuthors
-			// 
-			this.gBoxAuthors.Controls.Add(this.rbtnAuthorAll);
-			this.gBoxAuthors.Controls.Add(this.rbtnAuthorOne);
-			this.gBoxAuthors.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gBoxAuthors.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxAuthors.ForeColor = System.Drawing.Color.Navy;
-			this.gBoxAuthors.Location = new System.Drawing.Point(3, 16);
-			this.gBoxAuthors.Name = "gBoxAuthors";
-			this.gBoxAuthors.Size = new System.Drawing.Size(583, 57);
-			this.gBoxAuthors.TabIndex = 27;
-			this.gBoxAuthors.TabStop = false;
-			this.gBoxAuthors.Text = " Авторы ";
-			// 
-			// rbtnAuthorAll
-			// 
-			this.rbtnAuthorAll.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbtnAuthorAll.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnAuthorAll.Location = new System.Drawing.Point(3, 34);
-			this.rbtnAuthorAll.Name = "rbtnAuthorAll";
-			this.rbtnAuthorAll.Size = new System.Drawing.Size(577, 18);
-			this.rbtnAuthorAll.TabIndex = 1;
-			this.rbtnAuthorAll.Text = "По всем авторам";
-			this.rbtnAuthorAll.UseVisualStyleBackColor = true;
-			// 
-			// rbtnAuthorOne
-			// 
-			this.rbtnAuthorOne.Checked = true;
-			this.rbtnAuthorOne.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbtnAuthorOne.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnAuthorOne.Location = new System.Drawing.Point(3, 16);
-			this.rbtnAuthorOne.Name = "rbtnAuthorOne";
-			this.rbtnAuthorOne.Size = new System.Drawing.Size(577, 18);
-			this.rbtnAuthorOne.TabIndex = 0;
-			this.rbtnAuthorOne.TabStop = true;
-			this.rbtnAuthorOne.Text = "По первому автору";
-			this.rbtnAuthorOne.UseVisualStyleBackColor = true;
+			this.tpFMGeneral.Controls.Add(this.gboxFMGeneral);
+			this.tpFMGeneral.Controls.Add(this.gboxApportionment);
+			this.tpFMGeneral.Location = new System.Drawing.Point(4, 22);
+			this.tpFMGeneral.Name = "tpFMGeneral";
+			this.tpFMGeneral.Padding = new System.Windows.Forms.Padding(3);
+			this.tpFMGeneral.Size = new System.Drawing.Size(595, 385);
+			this.tpFMGeneral.TabIndex = 0;
+			this.tpFMGeneral.Text = " Основные ";
+			this.tpFMGeneral.UseVisualStyleBackColor = true;
 			// 
 			// gboxFMGeneral
 			// 
@@ -873,6 +731,48 @@ namespace Options
 			this.gboxFMGeneral.TabIndex = 28;
 			this.gboxFMGeneral.TabStop = false;
 			this.gboxFMGeneral.Text = " Основные настройки ";
+			// 
+			// pFMGenres
+			// 
+			this.pFMGenres.Controls.Add(this.rbtnFMFB22);
+			this.pFMGenres.Controls.Add(this.rbtnFMFB21);
+			this.pFMGenres.Controls.Add(this.lblFMGenres);
+			this.pFMGenres.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pFMGenres.Location = new System.Drawing.Point(3, 181);
+			this.pFMGenres.Name = "pFMGenres";
+			this.pFMGenres.Size = new System.Drawing.Size(583, 28);
+			this.pFMGenres.TabIndex = 26;
+			// 
+			// rbtnFMFB22
+			// 
+			this.rbtnFMFB22.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMFB22.Location = new System.Drawing.Point(191, 5);
+			this.rbtnFMFB22.Name = "rbtnFMFB22";
+			this.rbtnFMFB22.Size = new System.Drawing.Size(63, 18);
+			this.rbtnFMFB22.TabIndex = 2;
+			this.rbtnFMFB22.Text = "fb2.2";
+			this.rbtnFMFB22.UseVisualStyleBackColor = true;
+			// 
+			// rbtnFMFB21
+			// 
+			this.rbtnFMFB21.Checked = true;
+			this.rbtnFMFB21.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMFB21.Location = new System.Drawing.Point(112, 5);
+			this.rbtnFMFB21.Name = "rbtnFMFB21";
+			this.rbtnFMFB21.Size = new System.Drawing.Size(62, 18);
+			this.rbtnFMFB21.TabIndex = 1;
+			this.rbtnFMFB21.TabStop = true;
+			this.rbtnFMFB21.Text = "fb2.1";
+			this.rbtnFMFB21.UseVisualStyleBackColor = true;
+			// 
+			// lblFMGenres
+			// 
+			this.lblFMGenres.ForeColor = System.Drawing.Color.Navy;
+			this.lblFMGenres.Location = new System.Drawing.Point(5, 8);
+			this.lblFMGenres.Name = "lblFMGenres";
+			this.lblFMGenres.Size = new System.Drawing.Size(108, 16);
+			this.lblFMGenres.TabIndex = 0;
+			this.lblFMGenres.Text = "Схема Жанров:";
 			// 
 			// chBoxDelFB2Files
 			// 
@@ -1072,29 +972,144 @@ namespace Options
 			this.rbtnAsIs.Text = "Как есть";
 			this.rbtnAsIs.UseVisualStyleBackColor = true;
 			// 
-			// tcFM
+			// gboxApportionment
 			// 
-			this.tcFM.Controls.Add(this.tpFMGeneral);
-			this.tcFM.Controls.Add(this.tpFMDirs);
-			this.tcFM.Controls.Add(this.tpFMSynonyms);
-			this.tcFM.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tcFM.Location = new System.Drawing.Point(3, 3);
-			this.tcFM.Name = "tcFM";
-			this.tcFM.SelectedIndex = 0;
-			this.tcFM.Size = new System.Drawing.Size(603, 411);
-			this.tcFM.TabIndex = 36;
+			this.gboxApportionment.Controls.Add(this.gBoxGenres);
+			this.gboxApportionment.Controls.Add(this.gBoxAuthors);
+			this.gboxApportionment.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.gboxApportionment.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
+			this.gboxApportionment.Location = new System.Drawing.Point(3, 218);
+			this.gboxApportionment.Name = "gboxApportionment";
+			this.gboxApportionment.Size = new System.Drawing.Size(589, 164);
+			this.gboxApportionment.TabIndex = 29;
+			this.gboxApportionment.TabStop = false;
+			this.gboxApportionment.Text = " Раскладка файлов по папкам ";
 			// 
-			// tpFMGeneral
+			// gBoxGenres
 			// 
-			this.tpFMGeneral.Controls.Add(this.gboxFMGeneral);
-			this.tpFMGeneral.Controls.Add(this.gboxApportionment);
-			this.tpFMGeneral.Location = new System.Drawing.Point(4, 22);
-			this.tpFMGeneral.Name = "tpFMGeneral";
-			this.tpFMGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMGeneral.Size = new System.Drawing.Size(595, 385);
-			this.tpFMGeneral.TabIndex = 0;
-			this.tpFMGeneral.Text = " Основные ";
-			this.tpFMGeneral.UseVisualStyleBackColor = true;
+			this.gBoxGenres.Controls.Add(this.gBoxGenresType);
+			this.gBoxGenres.Controls.Add(this.gBoxGenresCount);
+			this.gBoxGenres.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gBoxGenres.ForeColor = System.Drawing.Color.Navy;
+			this.gBoxGenres.Location = new System.Drawing.Point(3, 73);
+			this.gBoxGenres.Name = "gBoxGenres";
+			this.gBoxGenres.Size = new System.Drawing.Size(583, 82);
+			this.gBoxGenres.TabIndex = 28;
+			this.gBoxGenres.TabStop = false;
+			this.gBoxGenres.Text = " Жанры ";
+			// 
+			// gBoxGenresType
+			// 
+			this.gBoxGenresType.Controls.Add(this.rbtnGenreText);
+			this.gBoxGenresType.Controls.Add(this.rbtnGenreSchema);
+			this.gBoxGenresType.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gBoxGenresType.ForeColor = System.Drawing.Color.Purple;
+			this.gBoxGenresType.Location = new System.Drawing.Point(260, 19);
+			this.gBoxGenresType.Name = "gBoxGenresType";
+			this.gBoxGenresType.Size = new System.Drawing.Size(331, 57);
+			this.gBoxGenresType.TabIndex = 27;
+			this.gBoxGenresType.TabStop = false;
+			this.gBoxGenresType.Text = " Вид папки - жанра ";
+			// 
+			// rbtnGenreText
+			// 
+			this.rbtnGenreText.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnGenreText.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnGenreText.Location = new System.Drawing.Point(3, 34);
+			this.rbtnGenreText.Name = "rbtnGenreText";
+			this.rbtnGenreText.Size = new System.Drawing.Size(325, 18);
+			this.rbtnGenreText.TabIndex = 1;
+			this.rbtnGenreText.Text = "Расшифровано (например: Русская классика)";
+			this.rbtnGenreText.UseVisualStyleBackColor = true;
+			// 
+			// rbtnGenreSchema
+			// 
+			this.rbtnGenreSchema.Checked = true;
+			this.rbtnGenreSchema.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnGenreSchema.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnGenreSchema.Location = new System.Drawing.Point(3, 16);
+			this.rbtnGenreSchema.Name = "rbtnGenreSchema";
+			this.rbtnGenreSchema.Size = new System.Drawing.Size(325, 18);
+			this.rbtnGenreSchema.TabIndex = 0;
+			this.rbtnGenreSchema.TabStop = true;
+			this.rbtnGenreSchema.Text = "Как в схеме (например: prose_rus_classic)";
+			this.rbtnGenreSchema.UseVisualStyleBackColor = true;
+			// 
+			// gBoxGenresCount
+			// 
+			this.gBoxGenresCount.Controls.Add(this.rbtnGenreAll);
+			this.gBoxGenresCount.Controls.Add(this.rbtnGenreOne);
+			this.gBoxGenresCount.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gBoxGenresCount.ForeColor = System.Drawing.Color.Purple;
+			this.gBoxGenresCount.Location = new System.Drawing.Point(6, 19);
+			this.gBoxGenresCount.Name = "gBoxGenresCount";
+			this.gBoxGenresCount.Size = new System.Drawing.Size(248, 57);
+			this.gBoxGenresCount.TabIndex = 26;
+			this.gBoxGenresCount.TabStop = false;
+			this.gBoxGenresCount.Text = " Раскладка файлов по жанрам ";
+			// 
+			// rbtnGenreAll
+			// 
+			this.rbtnGenreAll.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnGenreAll.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnGenreAll.Location = new System.Drawing.Point(3, 34);
+			this.rbtnGenreAll.Name = "rbtnGenreAll";
+			this.rbtnGenreAll.Size = new System.Drawing.Size(242, 18);
+			this.rbtnGenreAll.TabIndex = 1;
+			this.rbtnGenreAll.Text = "По всем жанрам";
+			this.rbtnGenreAll.UseVisualStyleBackColor = true;
+			// 
+			// rbtnGenreOne
+			// 
+			this.rbtnGenreOne.Checked = true;
+			this.rbtnGenreOne.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnGenreOne.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnGenreOne.Location = new System.Drawing.Point(3, 16);
+			this.rbtnGenreOne.Name = "rbtnGenreOne";
+			this.rbtnGenreOne.Size = new System.Drawing.Size(242, 18);
+			this.rbtnGenreOne.TabIndex = 0;
+			this.rbtnGenreOne.TabStop = true;
+			this.rbtnGenreOne.Text = "По первому жанру";
+			this.rbtnGenreOne.UseVisualStyleBackColor = true;
+			// 
+			// gBoxAuthors
+			// 
+			this.gBoxAuthors.Controls.Add(this.rbtnAuthorAll);
+			this.gBoxAuthors.Controls.Add(this.rbtnAuthorOne);
+			this.gBoxAuthors.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gBoxAuthors.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gBoxAuthors.ForeColor = System.Drawing.Color.Navy;
+			this.gBoxAuthors.Location = new System.Drawing.Point(3, 16);
+			this.gBoxAuthors.Name = "gBoxAuthors";
+			this.gBoxAuthors.Size = new System.Drawing.Size(583, 57);
+			this.gBoxAuthors.TabIndex = 27;
+			this.gBoxAuthors.TabStop = false;
+			this.gBoxAuthors.Text = " Авторы ";
+			// 
+			// rbtnAuthorAll
+			// 
+			this.rbtnAuthorAll.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnAuthorAll.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnAuthorAll.Location = new System.Drawing.Point(3, 34);
+			this.rbtnAuthorAll.Name = "rbtnAuthorAll";
+			this.rbtnAuthorAll.Size = new System.Drawing.Size(577, 18);
+			this.rbtnAuthorAll.TabIndex = 1;
+			this.rbtnAuthorAll.Text = "По всем авторам";
+			this.rbtnAuthorAll.UseVisualStyleBackColor = true;
+			// 
+			// rbtnAuthorOne
+			// 
+			this.rbtnAuthorOne.Checked = true;
+			this.rbtnAuthorOne.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbtnAuthorOne.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnAuthorOne.Location = new System.Drawing.Point(3, 16);
+			this.rbtnAuthorOne.Name = "rbtnAuthorOne";
+			this.rbtnAuthorOne.Size = new System.Drawing.Size(577, 18);
+			this.rbtnAuthorOne.TabIndex = 0;
+			this.rbtnAuthorOne.TabStop = true;
+			this.rbtnAuthorOne.Text = "По первому автору";
+			this.rbtnAuthorOne.UseVisualStyleBackColor = true;
 			// 
 			// tpFMDirs
 			// 
@@ -1112,56 +1127,366 @@ namespace Options
 			this.tpFMDirs.Text = " Папки ";
 			this.tpFMDirs.UseVisualStyleBackColor = true;
 			// 
-			// tpFMSynonyms
+			// lblFB2NotReadDir
 			// 
-			this.tpFMSynonyms.Location = new System.Drawing.Point(4, 22);
-			this.tpFMSynonyms.Name = "tpFMSynonyms";
-			this.tpFMSynonyms.Size = new System.Drawing.Size(595, 385);
-			this.tpFMSynonyms.TabIndex = 2;
-			this.tpFMSynonyms.Text = " Синонимы ";
-			this.tpFMSynonyms.UseVisualStyleBackColor = true;
+			this.lblFB2NotReadDir.AutoSize = true;
+			this.lblFB2NotReadDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblFB2NotReadDir.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblFB2NotReadDir.Location = new System.Drawing.Point(3, 14);
+			this.lblFB2NotReadDir.Name = "lblFB2NotReadDir";
+			this.lblFB2NotReadDir.Size = new System.Drawing.Size(217, 13);
+			this.lblFB2NotReadDir.TabIndex = 32;
+			this.lblFB2NotReadDir.Text = "Папка для нечитаемых fb2-файлов:";
 			// 
-			// pFMGenres
+			// lblLongPath
 			// 
-			this.pFMGenres.Controls.Add(this.rbtnFMFB22);
-			this.pFMGenres.Controls.Add(this.rbtnFMFB21);
-			this.pFMGenres.Controls.Add(this.lblFMGenres);
-			this.pFMGenres.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pFMGenres.Location = new System.Drawing.Point(3, 181);
-			this.pFMGenres.Name = "pFMGenres";
-			this.pFMGenres.Size = new System.Drawing.Size(583, 28);
-			this.pFMGenres.TabIndex = 26;
+			this.lblLongPath.AutoSize = true;
+			this.lblLongPath.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblLongPath.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblLongPath.Location = new System.Drawing.Point(3, 40);
+			this.lblLongPath.Name = "lblLongPath";
+			this.lblLongPath.Size = new System.Drawing.Size(217, 13);
+			this.lblLongPath.TabIndex = 35;
+			this.lblLongPath.Text = "Папка для fb2 с длинными именами:";
 			// 
-			// lblFMGenres
+			// btnFB2NotReadDir
 			// 
-			this.lblFMGenres.ForeColor = System.Drawing.Color.Navy;
-			this.lblFMGenres.Location = new System.Drawing.Point(5, 8);
-			this.lblFMGenres.Name = "lblFMGenres";
-			this.lblFMGenres.Size = new System.Drawing.Size(108, 16);
-			this.lblFMGenres.TabIndex = 0;
-			this.lblFMGenres.Text = "Схема Жанров:";
+			this.btnFB2NotReadDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnFB2NotReadDir.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2NotReadDir.Image")));
+			this.btnFB2NotReadDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnFB2NotReadDir.Location = new System.Drawing.Point(541, 8);
+			this.btnFB2NotReadDir.Name = "btnFB2NotReadDir";
+			this.btnFB2NotReadDir.Size = new System.Drawing.Size(37, 24);
+			this.btnFB2NotReadDir.TabIndex = 31;
+			this.btnFB2NotReadDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnFB2NotReadDir.UseVisualStyleBackColor = true;
+			this.btnFB2NotReadDir.Click += new System.EventHandler(this.BtnFB2NotReadDirClick);
 			// 
-			// rbtnFMFB21
+			// txtBoxFB2LongPathDir
 			// 
-			this.rbtnFMFB21.Checked = true;
-			this.rbtnFMFB21.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFMFB21.Location = new System.Drawing.Point(112, 5);
-			this.rbtnFMFB21.Name = "rbtnFMFB21";
-			this.rbtnFMFB21.Size = new System.Drawing.Size(62, 18);
-			this.rbtnFMFB21.TabIndex = 1;
-			this.rbtnFMFB21.TabStop = true;
-			this.rbtnFMFB21.Text = "fb2.1";
-			this.rbtnFMFB21.UseVisualStyleBackColor = true;
+			this.txtBoxFB2LongPathDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBoxFB2LongPathDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.txtBoxFB2LongPathDir.Location = new System.Drawing.Point(226, 36);
+			this.txtBoxFB2LongPathDir.Name = "txtBoxFB2LongPathDir";
+			this.txtBoxFB2LongPathDir.ReadOnly = true;
+			this.txtBoxFB2LongPathDir.Size = new System.Drawing.Size(309, 20);
+			this.txtBoxFB2LongPathDir.TabIndex = 33;
 			// 
-			// rbtnFMFB22
+			// txtBoxFB2NotReadDir
 			// 
-			this.rbtnFMFB22.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFMFB22.Location = new System.Drawing.Point(191, 5);
-			this.rbtnFMFB22.Name = "rbtnFMFB22";
-			this.rbtnFMFB22.Size = new System.Drawing.Size(63, 18);
-			this.rbtnFMFB22.TabIndex = 2;
-			this.rbtnFMFB22.Text = "fb2.2";
-			this.rbtnFMFB22.UseVisualStyleBackColor = true;
+			this.txtBoxFB2NotReadDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBoxFB2NotReadDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.txtBoxFB2NotReadDir.Location = new System.Drawing.Point(226, 10);
+			this.txtBoxFB2NotReadDir.Name = "txtBoxFB2NotReadDir";
+			this.txtBoxFB2NotReadDir.ReadOnly = true;
+			this.txtBoxFB2NotReadDir.Size = new System.Drawing.Size(309, 20);
+			this.txtBoxFB2NotReadDir.TabIndex = 30;
+			// 
+			// btnFB2LongPathDir
+			// 
+			this.btnFB2LongPathDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnFB2LongPathDir.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2LongPathDir.Image")));
+			this.btnFB2LongPathDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnFB2LongPathDir.Location = new System.Drawing.Point(541, 34);
+			this.btnFB2LongPathDir.Name = "btnFB2LongPathDir";
+			this.btnFB2LongPathDir.Size = new System.Drawing.Size(37, 24);
+			this.btnFB2LongPathDir.TabIndex = 34;
+			this.btnFB2LongPathDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnFB2LongPathDir.UseVisualStyleBackColor = true;
+			this.btnFB2LongPathDir.Click += new System.EventHandler(this.BtnFB2LongPathDirClick);
+			// 
+			// tpFMNoTagsText
+			// 
+			this.tpFMNoTagsText.Controls.Add(this.gBoxFMNoTags);
+			this.tpFMNoTagsText.Location = new System.Drawing.Point(4, 22);
+			this.tpFMNoTagsText.Name = "tpFMNoTagsText";
+			this.tpFMNoTagsText.Size = new System.Drawing.Size(595, 385);
+			this.tpFMNoTagsText.TabIndex = 2;
+			this.tpFMNoTagsText.Text = " Название папки тэга без текста ";
+			this.tpFMNoTagsText.UseVisualStyleBackColor = true;
+			// 
+			// gBoxFMNoTags
+			// 
+			this.gBoxFMNoTags.Controls.Add(this.panel12);
+			this.gBoxFMNoTags.Controls.Add(this.panel11);
+			this.gBoxFMNoTags.Controls.Add(this.panel10);
+			this.gBoxFMNoTags.Controls.Add(this.panel9);
+			this.gBoxFMNoTags.Controls.Add(this.panel8);
+			this.gBoxFMNoTags.Controls.Add(this.panel7);
+			this.gBoxFMNoTags.Controls.Add(this.panel6);
+			this.gBoxFMNoTags.Controls.Add(this.panel5);
+			this.gBoxFMNoTags.Controls.Add(this.panel4);
+			this.gBoxFMNoTags.Controls.Add(this.panel3);
+			this.gBoxFMNoTags.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gBoxFMNoTags.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.gBoxFMNoTags.Location = new System.Drawing.Point(0, 0);
+			this.gBoxFMNoTags.Name = "gBoxFMNoTags";
+			this.gBoxFMNoTags.Size = new System.Drawing.Size(595, 385);
+			this.gBoxFMNoTags.TabIndex = 0;
+			this.gBoxFMNoTags.TabStop = false;
+			this.gBoxFMNoTags.Text = " Для отсутствующих данных тэгов ";
+			// 
+			// panel12
+			// 
+			this.panel12.Controls.Add(this.txtBoxFMNoNSequence);
+			this.panel12.Controls.Add(this.label10);
+			this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel12.Location = new System.Drawing.Point(3, 304);
+			this.panel12.Name = "panel12";
+			this.panel12.Size = new System.Drawing.Size(589, 32);
+			this.panel12.TabIndex = 9;
+			// 
+			// txtBoxFMNoNSequence
+			// 
+			this.txtBoxFMNoNSequence.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoNSequence.Name = "txtBoxFMNoNSequence";
+			this.txtBoxFMNoNSequence.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoNSequence.TabIndex = 1;
+			// 
+			// label10
+			// 
+			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label10.Location = new System.Drawing.Point(3, 8);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(186, 18);
+			this.label10.TabIndex = 0;
+			this.label10.Text = "Номера Серии Нет";
+			// 
+			// panel11
+			// 
+			this.panel11.Controls.Add(this.txtBoxFMNoSequence);
+			this.panel11.Controls.Add(this.label9);
+			this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel11.Location = new System.Drawing.Point(3, 272);
+			this.panel11.Name = "panel11";
+			this.panel11.Size = new System.Drawing.Size(589, 32);
+			this.panel11.TabIndex = 8;
+			// 
+			// txtBoxFMNoSequence
+			// 
+			this.txtBoxFMNoSequence.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoSequence.Name = "txtBoxFMNoSequence";
+			this.txtBoxFMNoSequence.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoSequence.TabIndex = 1;
+			// 
+			// label9
+			// 
+			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label9.Location = new System.Drawing.Point(3, 8);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(186, 18);
+			this.label9.TabIndex = 0;
+			this.label9.Text = "Серии Нет";
+			// 
+			// panel10
+			// 
+			this.panel10.Controls.Add(this.txtBoxFMNoBookTitle);
+			this.panel10.Controls.Add(this.label8);
+			this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel10.Location = new System.Drawing.Point(3, 240);
+			this.panel10.Name = "panel10";
+			this.panel10.Size = new System.Drawing.Size(589, 32);
+			this.panel10.TabIndex = 7;
+			// 
+			// txtBoxFMNoBookTitle
+			// 
+			this.txtBoxFMNoBookTitle.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoBookTitle.Name = "txtBoxFMNoBookTitle";
+			this.txtBoxFMNoBookTitle.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoBookTitle.TabIndex = 1;
+			// 
+			// label8
+			// 
+			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label8.Location = new System.Drawing.Point(3, 8);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(186, 18);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "Названия Книги Нет";
+			// 
+			// panel9
+			// 
+			this.panel9.Controls.Add(this.txtBoxFMNoNickName);
+			this.panel9.Controls.Add(this.label7);
+			this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel9.Location = new System.Drawing.Point(3, 208);
+			this.panel9.Name = "panel9";
+			this.panel9.Size = new System.Drawing.Size(589, 32);
+			this.panel9.TabIndex = 6;
+			// 
+			// txtBoxFMNoNickName
+			// 
+			this.txtBoxFMNoNickName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoNickName.Name = "txtBoxFMNoNickName";
+			this.txtBoxFMNoNickName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoNickName.TabIndex = 1;
+			// 
+			// label7
+			// 
+			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label7.Location = new System.Drawing.Point(3, 8);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(186, 18);
+			this.label7.TabIndex = 0;
+			this.label7.Text = "Ника Автора Нет";
+			// 
+			// panel8
+			// 
+			this.panel8.Controls.Add(this.txtBoxFMNoLastName);
+			this.panel8.Controls.Add(this.label6);
+			this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel8.Location = new System.Drawing.Point(3, 176);
+			this.panel8.Name = "panel8";
+			this.panel8.Size = new System.Drawing.Size(589, 32);
+			this.panel8.TabIndex = 5;
+			// 
+			// txtBoxFMNoLastName
+			// 
+			this.txtBoxFMNoLastName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoLastName.Name = "txtBoxFMNoLastName";
+			this.txtBoxFMNoLastName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoLastName.TabIndex = 1;
+			// 
+			// label6
+			// 
+			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label6.Location = new System.Drawing.Point(3, 8);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(186, 18);
+			this.label6.TabIndex = 0;
+			this.label6.Text = "Фамилия Автора Нет";
+			// 
+			// panel7
+			// 
+			this.panel7.Controls.Add(this.txtBoxFMNoMiddleName);
+			this.panel7.Controls.Add(this.label5);
+			this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel7.Location = new System.Drawing.Point(3, 144);
+			this.panel7.Name = "panel7";
+			this.panel7.Size = new System.Drawing.Size(589, 32);
+			this.panel7.TabIndex = 4;
+			// 
+			// txtBoxFMNoMiddleName
+			// 
+			this.txtBoxFMNoMiddleName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoMiddleName.Name = "txtBoxFMNoMiddleName";
+			this.txtBoxFMNoMiddleName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoMiddleName.TabIndex = 1;
+			// 
+			// label5
+			// 
+			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label5.Location = new System.Drawing.Point(3, 8);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(186, 18);
+			this.label5.TabIndex = 0;
+			this.label5.Text = "Отчества Автора Нет";
+			// 
+			// panel6
+			// 
+			this.panel6.Controls.Add(this.txtBoxFMNoFirstName);
+			this.panel6.Controls.Add(this.label4);
+			this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel6.Location = new System.Drawing.Point(3, 112);
+			this.panel6.Name = "panel6";
+			this.panel6.Size = new System.Drawing.Size(589, 32);
+			this.panel6.TabIndex = 3;
+			// 
+			// txtBoxFMNoFirstName
+			// 
+			this.txtBoxFMNoFirstName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoFirstName.Name = "txtBoxFMNoFirstName";
+			this.txtBoxFMNoFirstName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoFirstName.TabIndex = 1;
+			// 
+			// label4
+			// 
+			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label4.Location = new System.Drawing.Point(3, 8);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(186, 18);
+			this.label4.TabIndex = 0;
+			this.label4.Text = "Имени Автора Нет";
+			// 
+			// panel5
+			// 
+			this.panel5.Controls.Add(this.txtBoxFMNoLang);
+			this.panel5.Controls.Add(this.label3);
+			this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel5.Location = new System.Drawing.Point(3, 80);
+			this.panel5.Name = "panel5";
+			this.panel5.Size = new System.Drawing.Size(589, 32);
+			this.panel5.TabIndex = 2;
+			// 
+			// txtBoxFMNoLang
+			// 
+			this.txtBoxFMNoLang.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoLang.Name = "txtBoxFMNoLang";
+			this.txtBoxFMNoLang.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoLang.TabIndex = 1;
+			// 
+			// label3
+			// 
+			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label3.Location = new System.Drawing.Point(3, 8);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(186, 18);
+			this.label3.TabIndex = 0;
+			this.label3.Text = "Языка Книги Нет";
+			// 
+			// panel4
+			// 
+			this.panel4.Controls.Add(this.txtBoxFMNoGenre);
+			this.panel4.Controls.Add(this.label2);
+			this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel4.Location = new System.Drawing.Point(3, 48);
+			this.panel4.Name = "panel4";
+			this.panel4.Size = new System.Drawing.Size(589, 32);
+			this.panel4.TabIndex = 1;
+			// 
+			// txtBoxFMNoGenre
+			// 
+			this.txtBoxFMNoGenre.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoGenre.Name = "txtBoxFMNoGenre";
+			this.txtBoxFMNoGenre.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoGenre.TabIndex = 1;
+			// 
+			// label2
+			// 
+			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label2.Location = new System.Drawing.Point(3, 8);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(186, 18);
+			this.label2.TabIndex = 0;
+			this.label2.Text = "Жанра Книги Нет";
+			// 
+			// panel3
+			// 
+			this.panel3.Controls.Add(this.txtBoxFMNoGenreGroup);
+			this.panel3.Controls.Add(this.label1);
+			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel3.Location = new System.Drawing.Point(3, 16);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(589, 32);
+			this.panel3.TabIndex = 0;
+			// 
+			// txtBoxFMNoGenreGroup
+			// 
+			this.txtBoxFMNoGenreGroup.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoGenreGroup.Name = "txtBoxFMNoGenreGroup";
+			this.txtBoxFMNoGenreGroup.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoGenreGroup.TabIndex = 1;
+			// 
+			// label1
+			// 
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label1.Location = new System.Drawing.Point(3, 8);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(186, 18);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Неизвестная Группа Жанров:";
 			// 
 			// OptionsForm
 			// 
@@ -1192,29 +1517,82 @@ namespace Options
 			this.gboxValidatorPE.ResumeLayout(false);
 			this.gboxValidatorDoubleClick.ResumeLayout(false);
 			this.tpFileManager.ResumeLayout(false);
-			this.gboxApportionment.ResumeLayout(false);
-			this.gBoxGenres.ResumeLayout(false);
-			this.gBoxGenresType.ResumeLayout(false);
-			this.gBoxGenresCount.ResumeLayout(false);
-			this.gBoxAuthors.ResumeLayout(false);
+			this.tcFM.ResumeLayout(false);
+			this.tpFMGeneral.ResumeLayout(false);
 			this.gboxFMGeneral.ResumeLayout(false);
+			this.pFMGenres.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.gboxRegister.ResumeLayout(false);
-			this.tcFM.ResumeLayout(false);
-			this.tpFMGeneral.ResumeLayout(false);
+			this.gboxApportionment.ResumeLayout(false);
+			this.gBoxGenres.ResumeLayout(false);
+			this.gBoxGenresType.ResumeLayout(false);
+			this.gBoxGenresCount.ResumeLayout(false);
+			this.gBoxAuthors.ResumeLayout(false);
 			this.tpFMDirs.ResumeLayout(false);
 			this.tpFMDirs.PerformLayout();
-			this.pFMGenres.ResumeLayout(false);
+			this.tpFMNoTagsText.ResumeLayout(false);
+			this.gBoxFMNoTags.ResumeLayout(false);
+			this.panel12.ResumeLayout(false);
+			this.panel12.PerformLayout();
+			this.panel11.ResumeLayout(false);
+			this.panel11.PerformLayout();
+			this.panel10.ResumeLayout(false);
+			this.panel10.PerformLayout();
+			this.panel9.ResumeLayout(false);
+			this.panel9.PerformLayout();
+			this.panel8.ResumeLayout(false);
+			this.panel8.PerformLayout();
+			this.panel7.ResumeLayout(false);
+			this.panel7.PerformLayout();
+			this.panel6.ResumeLayout(false);
+			this.panel6.PerformLayout();
+			this.panel5.ResumeLayout(false);
+			this.panel5.PerformLayout();
+			this.panel4.ResumeLayout(false);
+			this.panel4.PerformLayout();
+			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.TabPage tpFMNoTagsText;
+		private System.Windows.Forms.TextBox txtBoxFMNoNSequence;
+		private System.Windows.Forms.TextBox txtBoxFMNoSequence;
+		private System.Windows.Forms.TextBox txtBoxFMNoBookTitle;
+		private System.Windows.Forms.TextBox txtBoxFMNoNickName;
+		private System.Windows.Forms.TextBox txtBoxFMNoLastName;
+		private System.Windows.Forms.TextBox txtBoxFMNoMiddleName;
+		private System.Windows.Forms.TextBox txtBoxFMNoFirstName;
+		private System.Windows.Forms.TextBox txtBoxFMNoLang;
+		private System.Windows.Forms.TextBox txtBoxFMNoGenre;
+		private System.Windows.Forms.TextBox txtBoxFMNoGenreGroup;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Panel panel5;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Panel panel6;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Panel panel7;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Panel panel8;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Panel panel9;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Panel panel10;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Panel panel11;
+		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.Panel panel12;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Panel panel4;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Panel panel3;
+		private System.Windows.Forms.GroupBox gBoxFMNoTags;
 		private System.Windows.Forms.RadioButton rbtnFMFB21;
 		private System.Windows.Forms.RadioButton rbtnFMFB22;
 		private System.Windows.Forms.Label lblFMGenres;
 		private System.Windows.Forms.Panel pFMGenres;
-		private System.Windows.Forms.TabPage tpFMSynonyms;
 		private System.Windows.Forms.TabPage tpFMDirs;
 		private System.Windows.Forms.TabPage tpFMGeneral;
 		private System.Windows.Forms.TabControl tcFM;
