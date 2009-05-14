@@ -45,10 +45,10 @@
     <Folder Include="FB2\FB2Parsers" />
     <Folder Include="FB2\Genres" />
     <Folder Include="FilesWorker" />
-    <Folder Include="Properties" />
     <Folder Include="Reports" />
     <Folder Include="StringProcessing" />
     <Folder Include="Templates" />
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FB2\Common\IInlineImageType.cs" />
     <Compile Include="FB2\Common\InlineImage.cs" />
     <Compile Include="FB2\Description\Common\Author.cs" />
@@ -85,7 +85,6 @@
     <Compile Include="FB2\Genres\IFBGenres.cs" />
     <Compile Include="FilesWorker\Archiver.cs" />
     <Compile Include="FilesWorker\FilesWorker.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\ValidatorReports.cs" />
     <Compile Include="StringProcessing\StringProcessing.cs" />
     <Compile Include="Templates\LexemType.cs" />
