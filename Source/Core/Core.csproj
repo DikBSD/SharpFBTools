@@ -86,6 +86,7 @@
     <Compile Include="FilesWorker\FilesWorker.cs" />
     <Compile Include="Reports\ValidatorReports.cs" />
     <Compile Include="StringProcessing\StringProcessing.cs" />
+    <Compile Include="Templates\LexemType.cs" />
     <Compile Include="Templates\TemplatesParser.cs" />
     <Compile Include="Templates\TemplatesVerify.cs" />
     <ProjectReference Include="..\Settings\Settings.csproj">
