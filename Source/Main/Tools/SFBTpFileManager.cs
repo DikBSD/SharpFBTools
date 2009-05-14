@@ -439,6 +439,9 @@ namespace SharpFBTools.Tools
 			bool b1Autor = Settings.SettingsFM.ReadAuthorOneMode();
 			bool b1Genre = Settings.SettingsFM.ReadGenreOneMode();
 			bool bFB21 = Settings.SettingsFM.ReadFMGenresScheme();
+			// данные настроек для сортировки по шаблонам
+			Settings.DataFM dfm = new Settings.DataFM();
+			
 			// формируем лексемы шаблонной строки
 			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			foreach( string sFromFilePath in lFilesList ) {
