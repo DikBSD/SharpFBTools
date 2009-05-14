@@ -121,7 +121,7 @@ namespace SharpFBTools.Tools
 		
 		private void ReadValidatorDirs() {
 			// чтение путей к папкам Валидатора из xml-файла
-			string sSettings = Settings.Settings.GetValidatorDirsSettingsPath();
+			string sSettings = Settings.SettingsValidator.GetValidatorDirsSettingsPath();
 			if( !File.Exists( sSettings ) ) return;
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
@@ -129,28 +129,28 @@ namespace SharpFBTools.Tools
 				reader.ReadToFollowing("ScanDir");
 				if (reader.HasAttributes ) {
 					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
-					Settings.Settings.SetScanDir( tboxSourceDir.Text );
+					Settings.SettingsValidator.SetScanDir( tboxSourceDir.Text );
 				}
 				reader.ReadToFollowing("NotValidFB2Files");
 				if (reader.HasAttributes ) {
 					tboxFB2NotValidDirCopyTo.Text = reader.GetAttribute("tboxFB2NotValidDirCopyTo");
-					Settings.Settings.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
+					Settings.SettingsValidator.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
 					tboxFB2NotValidDirMoveTo.Text = reader.GetAttribute("tboxFB2NotValidDirMoveTo");
-					Settings.Settings.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
+					Settings.SettingsValidator.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
 				}
 				reader.ReadToFollowing("ValidFB2Files");
 				if (reader.HasAttributes ) {
 					tboxFB2ValidDirCopyTo.Text = reader.GetAttribute("tboxFB2ValidDirCopyTo");
-					Settings.Settings.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
+					Settings.SettingsValidator.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
 					tboxFB2ValidDirMoveTo.Text = reader.GetAttribute("tboxFB2ValidDirMoveTo");
-					Settings.Settings.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
+					Settings.SettingsValidator.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
 				}
 				reader.ReadToFollowing("NotFB2Files");
 				if (reader.HasAttributes ) {
 					tboxNotFB2DirCopyTo.Text = reader.GetAttribute("tboxNotFB2DirCopyTo");
-					Settings.Settings.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
+					Settings.SettingsValidator.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
 					tboxNotFB2DirMoveTo.Text = reader.GetAttribute("tboxNotFB2DirMoveTo");
-					Settings.Settings.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
+					Settings.SettingsValidator.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
 				}
 				reader.Close();
 			}
@@ -1088,7 +1088,7 @@ namespace SharpFBTools.Tools
 				string sFilePath = sSelectedItemText.Split('/')[0];
 				string sExt = Path.GetExtension( sFilePath );
 				if( sExt.ToLower() == ".fb2" ) {
-					switch ( Settings.Settings.ReadValidatorFB2SelectedIndex() ) {
+					switch ( Settings.SettingsValidator.ReadValidatorFB2SelectedIndex() ) {
 						case 0: // Повторная Валидация
 							TsmiFileReValidateClick( sender, e );
 							break;
@@ -1106,7 +1106,7 @@ namespace SharpFBTools.Tools
 							break;
 					}
 				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
-					switch ( Settings.Settings.ReadValidatorFB2ArchiveSelectedIndex() ) {
+					switch ( Settings.SettingsValidator.ReadValidatorFB2ArchiveSelectedIndex() ) {
 						case 0: // Повторная Валидация
 							TsmiFileReValidateClick( sender, e );
 							break;
@@ -1133,7 +1133,7 @@ namespace SharpFBTools.Tools
 					string sFilePath = sSelectedItemText.Split('/')[0];
 					string sExt = Path.GetExtension( sFilePath );
 					if( sExt.ToLower() == ".fb2" ) {
-						switch ( Settings.Settings.ReadValidatorFB2SelectedIndexPE() ) {
+						switch ( Settings.SettingsValidator.ReadValidatorFB2SelectedIndexPE() ) {
 							case 0: // Повторная Валидация
 								TsmiFileReValidateClick( sender, e );
 								break;
@@ -1151,7 +1151,7 @@ namespace SharpFBTools.Tools
 								break;
 						}
 					} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
-						switch ( Settings.Settings.ReadValidatorFB2ArchiveSelectedIndexPE() ) {
+						switch ( Settings.SettingsValidator.ReadValidatorFB2ArchiveSelectedIndexPE() ) {
 							case 0: // Повторная Валидация
 								TsmiFileReValidateClick( sender, e );
 								break;
@@ -1190,37 +1190,37 @@ namespace SharpFBTools.Tools
 		
 		void TboxSourceDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.Settings.SetScanDir( tboxSourceDir.Text );
+			Settings.SettingsValidator.SetScanDir( tboxSourceDir.Text );
 		}
 		
 		void TboxFB2NotValidDirCopyToTextChanged(object sender, EventArgs e)
 		{
-			Settings.Settings.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
+			Settings.SettingsValidator.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
 		}
 		
 		void TboxFB2NotValidDirMoveToTextChanged(object sender, EventArgs e)
 		{
-			Settings.Settings.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
+			Settings.SettingsValidator.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
 		}
 		
 		void TboxFB2ValidDirCopyToTextChanged(object sender, EventArgs e)
 		{
-			Settings.Settings.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
+			Settings.SettingsValidator.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
 		}
 		
 		void TboxFB2ValidDirMoveToTextChanged(object sender, EventArgs e)
 		{
-			Settings.Settings.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
+			Settings.SettingsValidator.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
 		}
 		
 		void TboxNotFB2DirCopyToTextChanged(object sender, EventArgs e)
 		{
-			Settings.Settings.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
+			Settings.SettingsValidator.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
 		}
 		
 		void TboxNotFB2DirMoveToTextChanged(object sender, EventArgs e)
 		{
-			Settings.Settings.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
+			Settings.SettingsValidator.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
 		}
 		#endregion
 	}

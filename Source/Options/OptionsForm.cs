@@ -33,10 +33,10 @@ namespace Options
 			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
 			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
 			// Валидатор
-			cboxValidatorForFB2.SelectedIndex = Settings.Settings.GetDefValidatorFB2SelectedIndex();
-			cboxValidatorForFB2Archive.SelectedIndex = Settings.Settings.GetDefValidatorFB2ArchiveSelectedIndex();
-			cboxValidatorForFB2PE.SelectedIndex = Settings.Settings.GetDefValidatorFB2SelectedIndexPE();
-			cboxValidatorForFB2ArchivePE.SelectedIndex = Settings.Settings.GetDefValidatorFB2ArchiveSelectedIndexPE();
+			cboxValidatorForFB2.SelectedIndex			= Settings.SettingsValidator.GetDefValidatorFB2SelectedIndex();
+			cboxValidatorForFB2Archive.SelectedIndex	= Settings.SettingsValidator.GetDefValidatorFB2ArchiveSelectedIndex();
+			cboxValidatorForFB2PE.SelectedIndex			= Settings.SettingsValidator.GetDefValidatorFB2SelectedIndexPE();
+			cboxValidatorForFB2ArchivePE.SelectedIndex	= Settings.SettingsValidator.GetDefValidatorFB2ArchiveSelectedIndexPE();
 			// Менеджер Файлов
 			rbtnFMFB21.Checked = Settings.Settings.GetDefFMrbtnGenreFB21Cheked();
 			rbtnFMFB22.Checked = Settings.Settings.GetDefFMrbtnGenreFB22Cheked();

@@ -38,5 +38,7 @@
   <ItemGroup>
     <Compile Include="Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsAM.cs" />
+    <Compile Include="SettingsValidator.cs" />
   </ItemGroup>
 </Project>

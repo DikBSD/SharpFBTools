@@ -41,18 +41,6 @@ namespace Settings
 		private static string m_sNoID	= "Id_Нет";
 		#endregion
 		
-		#region Валидатор
-		private static string m_sFB2ValidatorHelpPath = GetProgDir()+"\\Help\\FB2ValidatorHelp.rtf";
-		private static Int16 m_nValidatorForFB2SelectedIndex = 1;
-		private static Int16 m_nValidatorForFB2ArchiveSelectedIndex = 1;
-		private static Int16 m_nValidatorForFB2SelectedIndexPE = 0;
-		private static Int16 m_nValidatorForFB2ArchiveSelectedIndexPE = 0;
-		#endregion
-		
-		#region Менеджер Архивов
-		private static string m_sArchiveManagerHelpPath = GetProgDir()+"\\Help\\ArchiveManagerHelp.rtf";
-		#endregion
-		
 		#region Менеджер Файлов
 		private static bool m_rbtnGenreFB21Cheked = true;
 		private static bool m_rbtnGenreFB22Cheked = false;
@@ -95,8 +83,8 @@ namespace Settings
 		
 		#endregion
 		
-		#region Закрытые методы класса
-		private static string ReadAttribute( string sTag, string sAttr, string sAttrDefValue ) {
+		#region Открытые методы класса
+		public static string ReadAttribute( string sTag, string sAttr, string sAttrDefValue ) {
 			// читаем атрибут тега из настроек
 			string sAttrValue = sAttrDefValue;
 			if( File.Exists( GetSettingsPath() ) ) {
@@ -120,7 +108,7 @@ namespace Settings
 			}
 			return sAttrValue;
 		}
-		private static Int16 ReadAttribute( string sTag, string sAttr, Int16 nAttrDefValue ) {
+		public static Int16 ReadAttribute( string sTag, string sAttr, Int16 nAttrDefValue ) {
 			// читаем атрибут тега из настроек
 			Int16 nAttrValue = nAttrDefValue;
 			if( File.Exists( GetSettingsPath() ) ) {
@@ -144,7 +132,7 @@ namespace Settings
 			}
 			return nAttrValue;
 		}
-		private static bool ReadAttribute( string sTag, string sAttr, bool bAttrDefValue ) {
+		public static bool ReadAttribute( string sTag, string sAttr, bool bAttrDefValue ) {
 			// читаем атрибут тега из настроек
 			bool bAttrValue = bAttrDefValue;
 			if( File.Exists( GetSettingsPath() ) ) {
@@ -273,54 +261,6 @@ namespace Settings
 		
 		public static string GetNoID() {
 			return m_sNoID;
-		}
-		#endregion
-		
-		#region Валидатор
-		public static Int16 GetDefValidatorFB2SelectedIndex() {
-			return m_nValidatorForFB2SelectedIndex;
-		}
-		
-		public static Int16 GetDefValidatorFB2ArchiveSelectedIndex() {
-			return m_nValidatorForFB2ArchiveSelectedIndex;
-		}
-		
-		public static Int16 GetDefValidatorFB2SelectedIndexPE() {
-			return m_nValidatorForFB2SelectedIndexPE;
-		}
-		
-		public static Int16 GetDefValidatorFB2ArchiveSelectedIndexPE() {
-			return m_nValidatorForFB2ArchiveSelectedIndexPE;
-		}
-		
-		public static string GetFB2ValidatorHelpPath() {
-			return m_sFB2ValidatorHelpPath;
-		}
-		
-		public static Int16 ReadValidatorFB2SelectedIndex() {
-			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2 из настроек
-			return Convert.ToInt16( ReadAttribute( "ValidatorDoubleClick", "cboxValidatorForFB2SelectedIndex", GetDefValidatorFB2SelectedIndex().ToString() ) );
-		}
-		
-		public static Int16 ReadValidatorFB2ArchiveSelectedIndex() {
-			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2Archive из настроек
-			return Convert.ToInt16( ReadAttribute( "ValidatorDoubleClick", "cboxValidatorForFB2ArchiveSelectedIndex", GetDefValidatorFB2ArchiveSelectedIndex().ToString() ) );
-		}
-		
-		public static Int16 ReadValidatorFB2SelectedIndexPE() {
-			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2 из настроек для нажатия Enter
-			return Convert.ToInt16( ReadAttribute( "ValidatorPressEnter", "cboxValidatorForFB2SelectedIndexPE", GetDefValidatorFB2SelectedIndexPE().ToString() ) );
-		}
-		
-		public static Int16 ReadValidatorFB2ArchiveSelectedIndexPE() {
-			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2Archive из настроек для нажатия Enter
-			return Convert.ToInt16( ReadAttribute( "ValidatorPressEnter", "cboxValidatorForFB2ArchiveSelectedIndexPE", GetDefValidatorFB2ArchiveSelectedIndexPE().ToString() ) );
-		}
-		#endregion
-
-		#region Менеджер Архивов
-		public static string GetArchiveManagerHelpPath() {
-			return m_sArchiveManagerHelpPath;
 		}
 		#endregion
 		
@@ -632,81 +572,5 @@ namespace Settings
 
 		#endregion
 
-		
-		#region Настройки для папок Валидатора
-		#region Закрытые статические члены-данные класса для Папок Валидатор
-		private static string m_sValidatorDirsSettingsPath = GetProgDir()+"\\ValidatorDirs.xml";
-		private static string m_sScanDir 				= "";
-		private static string m_sFB2NotValidDirCopyTo	= "";
-		private static string m_sFB2NotValidDirMoveTo	= "";
-		private static string m_sFB2ValidDirCopyTo		= "";
-		private static string m_sFB2ValidDirMoveTo		= "";
-		private static string m_sNotFB2DirCopyTo		= "";
-		private static string m_sNotFB2DirMoveTo		= "";
-		#endregion
-		
-		#region Открытые статические члены-данные класса для Папок Валидатор
-		public static string GetValidatorDirsSettingsPath() {
-			return m_sValidatorDirsSettingsPath;
-		}
-		
-		public static string GetScanDir() {
-			// папка для сканирования
-			return m_sScanDir;
-		}
-		
-		public static string GetFB2NotValidDirCopyTo() {
-			// папка для копирования не валидных fb2-файлов
-			return m_sFB2NotValidDirCopyTo;
-		}
-		
-		public static string GetFB2NotValidDirMoveTo() {
-			// папка для перемещения не валидных fb2-файлов
-			return m_sFB2NotValidDirMoveTo;
-		}
-		
-		public static string GetFB2ValidDirCopyTo() {
-			// папка для копирования валидных fb2-файлов
-			return m_sFB2ValidDirCopyTo;
-		}
-		
-		public static string GetFB2ValidDirMoveTo() {
-			// папка для перемещения валидных fb2-файлов
-			return m_sFB2ValidDirMoveTo;
-		}
-		
-		public static string GetNotFB2DirCopyTo() {
-			// папка для копирования не fb2-файлов
-			return m_sNotFB2DirCopyTo;
-		}
-		
-		public static string GetNotFB2DirMoveTo() {
-			// папка для перемещения не fb2-файлов
-			return m_sNotFB2DirMoveTo;
-		}
-		
-		public static void SetScanDir( string sScanDir ) {
-			m_sScanDir = sScanDir;
-		}
-		public static void SetFB2NotValidDirCopyTo( string sFB2NotValidDirCopyTo ) {
-			m_sFB2NotValidDirCopyTo = sFB2NotValidDirCopyTo;
-		}
-		public static void SetFB2NotValidDirMoveTo( string sFB2NotValidDirMoveTo ) {
-			m_sFB2NotValidDirMoveTo = sFB2NotValidDirMoveTo;
-		}
-		public static void SetFB2ValidDirCopyTo( string sFB2ValidDirCopyTo ) {
-			m_sFB2ValidDirCopyTo = sFB2ValidDirCopyTo;
-		}
-		public static void SetFB2ValidDirMoveTo( string sFB2ValidDirMoveTo ) {
-			m_sFB2ValidDirMoveTo = sFB2ValidDirMoveTo;
-		}
-		public static void SetNotFB2DirCopyTo( string sNotFB2DirCopyTo ) {
-			m_sNotFB2DirCopyTo = sNotFB2DirCopyTo;
-		}
-		public static void SetNotFB2DirMoveTo( string sNotFB2DirMoveTo ) {
-			m_sNotFB2DirMoveTo = sNotFB2DirMoveTo;
-		}
-		#endregion
-		#endregion
 	}
 }
