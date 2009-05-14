@@ -1204,7 +1204,7 @@ namespace Options
 			this.tpFMNoTagsText.Name = "tpFMNoTagsText";
 			this.tpFMNoTagsText.Size = new System.Drawing.Size(595, 385);
 			this.tpFMNoTagsText.TabIndex = 2;
-			this.tpFMNoTagsText.Text = " Название папки тэга без текста ";
+			this.tpFMNoTagsText.Text = " Название папки шаблонного тэга без данных ";
 			this.tpFMNoTagsText.UseVisualStyleBackColor = true;
 			// 
 			// gBoxFMNoTags
