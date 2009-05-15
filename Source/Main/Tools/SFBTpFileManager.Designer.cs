@@ -114,39 +114,45 @@ namespace SharpFBTools.Tools
 									"Когда Номера Серии Книги Нет",
 									""}, -1);
 			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Тип Сортировки",
+									""}, -1);
+			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Папка для не валидных fb2-файлов",
+									""}, -1);
+			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2-файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в Zip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в Rar-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в 7zip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в BZip2-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в Gzip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2 в Tar-пакетах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего создано",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Нечитаемые fb2-файлы (архивы)",
 									"0"}, -1);
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
@@ -549,6 +555,8 @@ namespace SharpFBTools.Tools
 			listViewItem22.Group = listViewGroup4;
 			listViewItem23.Group = listViewGroup4;
 			listViewItem24.Group = listViewGroup4;
+			listViewItem25.Group = listViewGroup1;
+			listViewItem26.Group = listViewGroup3;
 			this.lvSettings.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem1,
 									listViewItem2,
@@ -573,7 +581,9 @@ namespace SharpFBTools.Tools
 									listViewItem21,
 									listViewItem22,
 									listViewItem23,
-									listViewItem24});
+									listViewItem24,
+									listViewItem25,
+									listViewItem26});
 			this.lvSettings.Location = new System.Drawing.Point(282, 0);
 			this.lvSettings.Name = "lvSettings";
 			this.lvSettings.Size = new System.Drawing.Size(546, 202);
@@ -600,8 +610,6 @@ namespace SharpFBTools.Tools
 									this.columnHeader7});
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem25,
-									listViewItem26,
 									listViewItem27,
 									listViewItem28,
 									listViewItem29,
@@ -611,7 +619,9 @@ namespace SharpFBTools.Tools
 									listViewItem33,
 									listViewItem34,
 									listViewItem35,
-									listViewItem36});
+									listViewItem36,
+									listViewItem37,
+									listViewItem38});
 			this.lvFilesCount.Location = new System.Drawing.Point(4, 3);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(272, 199);

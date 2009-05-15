@@ -31,7 +31,9 @@ namespace Settings
 		private string m_sUnRarPath	= Settings.ReadUnRarPath();
 		private string m_sRarPath	= Settings.ReadRarPath();
 		
+		private string m_sNotReadFB2Dir		= SettingsFM.ReadFMFB2NotReadDir();
 		private string m_sFileLongPathDir	= SettingsFM.ReadFMFB2LongPathDir();
+		private string m_sNotValidFB2Dir	= SettingsFM.ReadFMFB2NotValidDir();
 		
 		private bool m_bGenreTypeMode		= SettingsFM.ReadGenreTypeMode();
 		private bool m_bGenresFB21Scheme	= SettingsFM.ReadFMGenresScheme();
@@ -39,10 +41,12 @@ namespace Settings
 		private bool m_bAuthorOneMode	= SettingsFM.ReadAuthorOneMode();
 		private bool m_bGenreOneMode	= SettingsFM.ReadGenreOneMode();
 		
+		private bool m_bAllFB2			= SettingsFM.ReadSortValidType();
+		
 		private bool m_bAddToFileNameBookIDMode	= SettingsFM.ReadAddToFileNameBookIDMode();
 		private int	 m_nFileExistMode	= SettingsFM.ReadFileExistMode();
 		private bool m_bDelFB2FilesMode	= SettingsFM.ReadDelFB2FilesMode();
-		private string m_sNotReadFB2Dir	= SettingsFM.ReadFMFB2NotReadDir();
+
 		private bool m_bToArchiveMode	= SettingsFM.ReadToArchiveMode();
 		private string m_sArchiveTypeText	= SettingsFM.ReadArchiveTypeText();
 		#endregion
@@ -107,11 +111,18 @@ namespace Settings
 			set { m_sRarPath = value; }
         }
 		//
+		public virtual string NotReadFB2Dir {
+			get { return m_sNotReadFB2Dir; }
+			set { m_sNotReadFB2Dir = value; }
+        }
 		public virtual string FileLongPathDir {
 			get { return m_sFileLongPathDir; }
 			set { m_sFileLongPathDir = value; }
         }
-		
+		public virtual string NotValidFB2Dir {
+			get { return m_sNotValidFB2Dir; }
+			set { m_sNotValidFB2Dir = value; }
+        }
 		//
 		public virtual bool GenreTypeMode {
 			get { return m_bGenreTypeMode; }
@@ -130,6 +141,11 @@ namespace Settings
 			set { m_bGenreOneMode = value; }
         }
 		//
+		public virtual bool SortValidType {
+			get { return m_bAllFB2; }
+			set { m_bAllFB2 = value; }
+        }
+		//
 		public virtual int FileExistMode {
 			get { return m_nFileExistMode; }
 			set { m_nFileExistMode = value; }
@@ -141,10 +157,6 @@ namespace Settings
 		public virtual bool DelFB2FilesMode {
 			get { return m_bDelFB2FilesMode; }
 			set { m_bDelFB2FilesMode = value; }
-        }
-		public virtual string NotReadFB2Dir {
-			get { return m_sNotReadFB2Dir; }
-			set { m_sNotReadFB2Dir = value; }
         }
 		public virtual bool ToArchiveMode {
 			get { return m_bToArchiveMode; }

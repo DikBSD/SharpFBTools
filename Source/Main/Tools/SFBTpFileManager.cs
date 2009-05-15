@@ -37,6 +37,8 @@ namespace SharpFBTools.Tools
 	/// </summary>
 	public partial class SFBTpFileManager : UserControl
 	{
+		private FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
+		
 		public ListView GetSettingsInfoListView()
 		{
 			return lvSettings;
@@ -444,6 +446,18 @@ namespace SharpFBTools.Tools
 			// формируем лексемы шаблонной строки
 			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			foreach( string sFromFilePath in lFilesList ) {
+				// тип сортировки
+				if( !dfm.SortValidType  ) {
+					// только Валидные fb2
+					string sResult = fv2V.ValidatingFB2File( sFromFilePath );
+					if ( sResult.Length != 0 ) {
+						// помещаем его в папку для невалидных файлов
+						Directory.CreateDirectory( dfm.NotValidFB2Dir );
+						string sToFilePath = dfm.NotValidFB2Dir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
+						CopyFileToTargetDir( sFromFilePath, sToFilePath, dfm.FileExistMode, false );
+						continue; // файл невалидный - пропускаем его, сортируем дальше
+					}
+				}
 				// создаем файл по новому пути
 				if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
 					// по первому Жанру и первому Автору Книги

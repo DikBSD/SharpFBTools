@@ -59,6 +59,9 @@ namespace Options
 			chBoxAddToFileNameBookID.Checked = Settings.SettingsFM.GetDefFMchBoxAddToFileNameBookIDChecked();
 			txtBoxFB2NotReadDir.Text = Settings.SettingsFM.GetDefFMFB2NotReadDir();
 			txtBoxFB2LongPathDir.Text = Settings.SettingsFM.GetDefFMFB2LongPathDir();
+			txtBoxFB2NotValidDir.Text = Settings.SettingsFM.GetDefFMFB2NotValidDir();
+			rbtnFMAllFB2.Checked		= Settings.SettingsFM.GetDefFMrbtnFMAllFB2Cheked();
+			rbtnFMOnleValidFB2.Checked	= Settings.SettingsFM.GetDefFMrbtnFMOnleValidFB2Cheked();
 			//
 			txtBoxFMNoGenreGroup.Text	= Settings.SettingsFM.GetDefFMNoGenreGroup();
 			txtBoxFMNoGenre.Text		= Settings.SettingsFM.GetDefFMNoGenre();
@@ -172,6 +175,11 @@ namespace Options
 						rbtnFMFB21.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnFMFB21Checked") );
 						rbtnFMFB22.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnFMFB22Checked") );
 					}
+					reader.ReadToFollowing("SortType");
+					if (reader.HasAttributes ) {
+						rbtnFMAllFB2.Checked		= Convert.ToBoolean( reader.GetAttribute("rbtnFMAllFB2Checked") );
+						rbtnFMOnleValidFB2.Checked	= Convert.ToBoolean( reader.GetAttribute("rbtnFMOnleValidFB2Checked") );
+					}
 					reader.ReadToFollowing("FB2NotReadDir");
 					if (reader.HasAttributes ) {
 						txtBoxFB2NotReadDir.Text = reader.GetAttribute("txtBoxFB2NotReadDir");
@@ -179,6 +187,10 @@ namespace Options
 					reader.ReadToFollowing("FB2LongPathDir");
 					if (reader.HasAttributes ) {
 						txtBoxFB2LongPathDir.Text = reader.GetAttribute("txtBoxFB2LongPathDir");
+					}
+					reader.ReadToFollowing("FB2NotValidDir");
+					if (reader.HasAttributes ) {
+						txtBoxFB2NotValidDir.Text = reader.GetAttribute("txtBoxFB2NotValidDir");
 					}
 					reader.ReadToFollowing("TagsNoText");
 					if (reader.HasAttributes ) {
@@ -316,12 +328,21 @@ namespace Options
 							writer.WriteAttributeString( "rbtnFMFB22Checked", rbtnFMFB22.Checked.ToString() );
 						writer.WriteFullEndElement();
 						
+						writer.WriteStartElement( "SortType" );
+							writer.WriteAttributeString( "rbtnFMAllFB2Checked", rbtnFMAllFB2.Checked.ToString() );
+							writer.WriteAttributeString( "rbtnFMOnleValidFB2Checked", rbtnFMOnleValidFB2.Checked.ToString() );
+						writer.WriteFullEndElement();
+						
 						writer.WriteStartElement( "FB2NotReadDir" );
 							writer.WriteAttributeString( "txtBoxFB2NotReadDir", txtBoxFB2NotReadDir.Text );
 						writer.WriteFullEndElement();
 						
 						writer.WriteStartElement( "FB2LongPathDir" );
 							writer.WriteAttributeString( "txtBoxFB2LongPathDir", txtBoxFB2LongPathDir.Text );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "FB2NotValidDir" );
+							writer.WriteAttributeString( "txtBoxFB2NotValidDir", txtBoxFB2NotValidDir.Text );
 						writer.WriteFullEndElement();
 						
 						writer.WriteStartElement( "TagsNoText" );
@@ -460,9 +481,15 @@ namespace Options
 			// указание пути к папке дл€ fb2-файлов с сгенерированными длинными именами
 			FilesWorker.FilesWorker.OpenDirDlg( txtBoxFB2LongPathDir, fbdDir, "”кажите папку дл€ fb2-файлов, у которых после генерации имен путь получаетс€ слишком длинный:" );
 		}
+		
+		void BtnFB2NotValidDirClick(object sender, EventArgs e)
+		{
+			// указание пути к папке дл€ невалидных fb2-файлов
+			FilesWorker.FilesWorker.OpenDirDlg( txtBoxFB2NotValidDir, fbdDir, "”кажите папку дл€ невалидных fb2-файлов:" );
+		}
 		#endregion
 		
 		#endregion
-		
+
 	}
 }

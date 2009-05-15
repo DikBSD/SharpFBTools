@@ -35,11 +35,16 @@ namespace Settings
 		private static bool m_brbtnAuthorAllCheked	= false;
 		private static bool m_brbtnGenreSchemaCheked	= true;
 		private static bool m_brbtnGenreTextCheked		= false;
+		
+		private static bool m_brbtnFMAllFB2Cheked		= true;
+		private static bool m_brbtnFMOnleValidFB2Cheked	= false;
+		
 		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
 		private static string m_sFileManagerHelpPath	= Settings.GetProgDir()+"\\Help\\FileManagerHelp.rtf";
 		private static string m_sDescTemplatePath	= Settings.GetProgDir()+"\\Help\\TemplatesDescription.rtf";
 		private static string m_sFMFB2NotReadDir	= Settings.GetProgDir()+"\\_NotReadFB2";
-		private static string m_sFMFB2LongPathDir	= Settings.GetProgDir()+"\\_FB2LongPathDir";
+		private static string m_sFMFB2LongPathDir	= Settings.GetProgDir()+"\\_FB2LongPath";
+		private static string m_sFMFB2NotValidDir	= Settings.GetProgDir()+"\\_NotValidFB2";
 		//
 		private static string m_sFMNoGenreGroup	= "Неизвестная Группа Жанров";
 		private static string m_sFMNoGenre		= "Жанра Нет";
@@ -58,6 +63,13 @@ namespace Settings
 		}
 		
 		#region Открытые статические члены-данные класса
+		public static bool GetDefFMrbtnFMAllFB2Cheked() {
+			return m_brbtnFMAllFB2Cheked;
+		}
+		public static bool GetDefFMrbtnFMOnleValidFB2Cheked() {
+			return m_brbtnFMOnleValidFB2Cheked;
+		}
+		
 		public static bool GetDefFMrbtnGenreFB21Cheked() {
 			return m_rbtnGenreFB21Cheked;
 		}
@@ -75,6 +87,10 @@ namespace Settings
 		
 		public static string GetDefFMFB2LongPathDir() {
 			return m_sFMFB2LongPathDir;
+		}
+		
+		public static string GetDefFMFB2NotValidDir() {
+			return m_sFMFB2NotValidDir;
 		}
 		
 		public static string GetDefFMDescTemplatePath() {
@@ -144,18 +160,21 @@ namespace Settings
 			return m_bchBoxAddToFileNameBookIDChecked;
 		}
 		
+		public static bool ReadSortValidType() {
+			return Settings.ReadAttribute( "SortType", "rbtnFMAllFB2Checked", GetDefFMrbtnFMAllFB2Cheked() );
+		}
 		
 		public static bool ReadFMGenresScheme() {
-			// читаем режим для регистра Как есть 
 			return Settings.ReadAttribute( "FMGenresScheme", "rbtnFMFB21Checked", GetDefFMrbtnGenreFB21Cheked() );
 		}
 		public static string ReadFMFB2NotReadDir() {
-			// читаем режим для регистра Как есть
 			return Settings.ReadAttribute( "FB2NotReadDir", "txtBoxFB2NotReadDir", GetDefFMFB2NotReadDir() );
 		}
 		public static string ReadFMFB2LongPathDir() {
-			// читаем режим для регистра Как есть
 			return Settings.ReadAttribute( "FB2LongPathDir", "txtBoxFB2LongPathDir", GetDefFMFB2LongPathDir() );
+		}
+		public static string ReadFMFB2NotValidDir() {
+			return Settings.ReadAttribute( "FB2NotValidDir", "txtBoxFB2NotValidDir", GetDefFMFB2NotValidDir() );
 		}
 		
 		public static bool ReadRegisterAsIsChecked() {
@@ -402,6 +421,15 @@ namespace Settings
 			lv.Items[21].SubItems[1].Text = ReadFMNoBookTitle();
 			lv.Items[22].SubItems[1].Text = ReadFMNoSequence();
 			lv.Items[23].SubItems[1].Text = ReadFMNoNSequence();
+			// тип сортировки - или Все файлы, или Только валидные
+			if( ReadSortValidType() ) {
+				lv.Items[24].SubItems[1].Text = "Любые fb2-файлы";
+			} else {
+				lv.Items[24].SubItems[1].Text = "Только Валидные файлы";
+			}
+			// папка для невалидных fb2
+			lv.Items[25].SubItems[1].Text = ReadFMFB2NotValidDir();
+			
 		}
 		#endregion
 		
