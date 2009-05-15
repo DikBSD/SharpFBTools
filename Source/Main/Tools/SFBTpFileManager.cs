@@ -539,6 +539,7 @@ namespace SharpFBTools.Tools
 				return;
 			}
 			
+			// TODO: Проверки на наличие всех инструментов, пути которых записаны в settings.xml (как в Менеджере Архивов)- сообщение, если чего нет
 			SortFb2Files( sSource );
 		}
 		

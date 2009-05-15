@@ -410,9 +410,9 @@ namespace Options
 		void Btn7zaPathClick(object sender, EventArgs e)
 		{
 			// указание пути к 7za (консольному)
-			ofDlg.Title = "Укажите путь к 7za (консольному):";
+			ofDlg.Title = "Укажите путь к 7z(a) (консольному):";
 			ofDlg.FileName = "";
-			ofDlg.Filter = "7za.exe|*.exe|Все файлы (*.*)|*.*";
+			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
 			if (result == DialogResult.OK) {
                 tbox7zaPath.Text = ofDlg.FileName;

@@ -118,6 +118,9 @@ namespace Options
 			this.rbtnAuthorAll = new System.Windows.Forms.RadioButton();
 			this.rbtnAuthorOne = new System.Windows.Forms.RadioButton();
 			this.tpFMDirs = new System.Windows.Forms.TabPage();
+			this.label12 = new System.Windows.Forms.Label();
+			this.txtBoxFB2NotValidDir = new System.Windows.Forms.TextBox();
+			this.btnFB2NotValidDir = new System.Windows.Forms.Button();
 			this.lblFB2NotReadDir = new System.Windows.Forms.Label();
 			this.lblLongPath = new System.Windows.Forms.Label();
 			this.btnFB2NotReadDir = new System.Windows.Forms.Button();
@@ -157,9 +160,6 @@ namespace Options
 			this.txtBoxFMNoGenreGroup = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
-			this.label12 = new System.Windows.Forms.Label();
-			this.txtBoxFB2NotValidDir = new System.Windows.Forms.TextBox();
-			this.btnFB2NotValidDir = new System.Windows.Forms.Button();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -423,9 +423,9 @@ namespace Options
 			this.lbl7zaPath.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.lbl7zaPath.Location = new System.Drawing.Point(7, 103);
 			this.lbl7zaPath.Name = "lbl7zaPath";
-			this.lbl7zaPath.Size = new System.Drawing.Size(156, 13);
+			this.lbl7zaPath.Size = new System.Drawing.Size(166, 13);
 			this.lbl7zaPath.TabIndex = 19;
-			this.lbl7zaPath.Text = "Путь к 7za (консольный):";
+			this.lbl7zaPath.Text = "Путь к 7z(a) (консольный):";
 			// 
 			// tbox7zaPath
 			// 
@@ -1182,6 +1182,41 @@ namespace Options
 			this.tpFMDirs.Text = " Папки ";
 			this.tpFMDirs.UseVisualStyleBackColor = true;
 			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.label12.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label12.Location = new System.Drawing.Point(3, 67);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(218, 13);
+			this.label12.TabIndex = 38;
+			this.label12.Text = "Папка для невалидных fb2-файлов:";
+			// 
+			// txtBoxFB2NotValidDir
+			// 
+			this.txtBoxFB2NotValidDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBoxFB2NotValidDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.txtBoxFB2NotValidDir.Location = new System.Drawing.Point(226, 63);
+			this.txtBoxFB2NotValidDir.Name = "txtBoxFB2NotValidDir";
+			this.txtBoxFB2NotValidDir.ReadOnly = true;
+			this.txtBoxFB2NotValidDir.Size = new System.Drawing.Size(309, 20);
+			this.txtBoxFB2NotValidDir.TabIndex = 36;
+			// 
+			// btnFB2NotValidDir
+			// 
+			this.btnFB2NotValidDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnFB2NotValidDir.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2NotValidDir.Image")));
+			this.btnFB2NotValidDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnFB2NotValidDir.Location = new System.Drawing.Point(541, 61);
+			this.btnFB2NotValidDir.Name = "btnFB2NotValidDir";
+			this.btnFB2NotValidDir.Size = new System.Drawing.Size(37, 24);
+			this.btnFB2NotValidDir.TabIndex = 37;
+			this.btnFB2NotValidDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnFB2NotValidDir.UseVisualStyleBackColor = true;
+			this.btnFB2NotValidDir.Click += new System.EventHandler(this.BtnFB2NotValidDirClick);
+			// 
 			// lblFB2NotReadDir
 			// 
 			this.lblFB2NotReadDir.AutoSize = true;
@@ -1542,41 +1577,6 @@ namespace Options
 			this.label1.Size = new System.Drawing.Size(186, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Неизвестная Группа Жанров:";
-			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.label12.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label12.Location = new System.Drawing.Point(3, 67);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(218, 13);
-			this.label12.TabIndex = 38;
-			this.label12.Text = "Папка для невалидных fb2-файлов:";
-			// 
-			// txtBoxFB2NotValidDir
-			// 
-			this.txtBoxFB2NotValidDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtBoxFB2NotValidDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.txtBoxFB2NotValidDir.Location = new System.Drawing.Point(226, 63);
-			this.txtBoxFB2NotValidDir.Name = "txtBoxFB2NotValidDir";
-			this.txtBoxFB2NotValidDir.ReadOnly = true;
-			this.txtBoxFB2NotValidDir.Size = new System.Drawing.Size(309, 20);
-			this.txtBoxFB2NotValidDir.TabIndex = 36;
-			// 
-			// btnFB2NotValidDir
-			// 
-			this.btnFB2NotValidDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnFB2NotValidDir.Image = ((System.Drawing.Image)(resources.GetObject("btnFB2NotValidDir.Image")));
-			this.btnFB2NotValidDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFB2NotValidDir.Location = new System.Drawing.Point(541, 61);
-			this.btnFB2NotValidDir.Name = "btnFB2NotValidDir";
-			this.btnFB2NotValidDir.Size = new System.Drawing.Size(37, 24);
-			this.btnFB2NotValidDir.TabIndex = 37;
-			this.btnFB2NotValidDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnFB2NotValidDir.UseVisualStyleBackColor = true;
-			this.btnFB2NotValidDir.Click += new System.EventHandler(this.BtnFB2NotValidDirClick);
 			// 
 			// OptionsForm
 			// 

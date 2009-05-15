@@ -635,7 +635,7 @@ namespace SharpFBTools.Tools
 				MessageBox.Show( "Папка не найдена: " + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			
+			// TODO: Проверки на наличие всех инструментов (как в Менеджере Архивов)- сообщение, если чего нет
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();
