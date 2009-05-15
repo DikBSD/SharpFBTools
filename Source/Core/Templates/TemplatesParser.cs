@@ -134,7 +134,7 @@ namespace Templates {
 		
 		private static string ParseComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
 												BookTitle btBookTitle, IList<Sequence> lSequences, IFBGenres fb2g,
-												int nGenreIndex, int nAuthorIndex ) {
+												Settings.DataFM dfm, int nGenreIndex, int nAuthorIndex ) {
 			// парсинг сложных условных групп
 			#region Код
 			string sFileName = "";
@@ -155,7 +155,7 @@ namespace Templates {
 								}
 								break;
 							case "*GG*": // Группа Жанров\Жанр Книги
-								string sNoGG = Settings.SettingsFM.ReadFMNoGenreGroup();// такого жанра (группы) нет в схеме
+								string sNoGG = dfm.NoGenreGroup;// такого жанра (группы) нет в схеме
 								if( lGenres == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -166,7 +166,7 @@ namespace Templates {
 										string sGenre	= lGenres[nGenreIndex].Name.Trim();
 										string sgg		= fb2g.GetFBGenreGroup( sGenre );// группа жанров
 										// sgg.Length==0 для жанра, не соответствующего схеме
-										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
+										if( dfm.GenreTypeMode ) {
 											// как в схеме
 											lexem.Lexem = ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
 										} else {
@@ -184,7 +184,7 @@ namespace Templates {
 										lexem.Lexem = "";
 									} else {
 										// жанр есть
-										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
+										if( dfm.GenreTypeMode ) {
 											// как в схеме
 											lexem.Lexem = lGenres[nGenreIndex].Name.Trim();
 										} else {
@@ -383,7 +383,8 @@ namespace Templates {
 			return lexems;
 		}
 		
-		public static string Parse( string sFB2FilePath, List<Lexems.TPSimple> lSLexems, bool bFB21, int nGenreIndex, int nAuthorIndex ) {
+		public static string Parse( string sFB2FilePath, List<Lexems.TPSimple> lSLexems, Settings.DataFM dfm,
+		                           int nGenreIndex, int nAuthorIndex ) {
 			// формирование имени файла на основе данных Description и шаблонов подстановки
 			string sFileName = "";
 			fB2Parser fb2 = new fB2Parser( sFB2FilePath );
@@ -394,7 +395,7 @@ namespace Templates {
 			BookTitle btBookTitle = ti.BookTitle;
 			IList<Sequence> lSequences = ti.Sequences;
 			IFBGenres fb2g = null;
-			if( bFB21 ) {
+			if( dfm.GenresFB21Scheme ) {
 				fb2g = new FB21Genres();
 			} else {
 				fb2g = new FB22Genres();
@@ -411,14 +412,14 @@ namespace Templates {
 						switch( lexem.Lexem ) {
 							case "*L*": // Язык Книги
 								if( sLang==null || sLang.Length==0 ) {
-									sFileName += Settings.SettingsFM.ReadFMNoLang();
+									sFileName += dfm.NoLang;
 								} else {
 									sFileName += sLang.Trim();
 								}
 								break;
 							case "*GG*": // Группа Жанров\Жанр Книги
-								string sNoGG = Settings.SettingsFM.ReadFMNoGenreGroup();
-								string sNo = sNoGG+"\\"+Settings.SettingsFM.ReadFMNoGenre();// такого жанра нет в схеме
+								string sNoGG = dfm.NoGenreGroup;
+								string sNo = sNoGG+"\\"+dfm.NoGenre;// такого жанра нет в схеме
 								if( lGenres == null ) {
 									sFileName += sNo;
 								} else {
@@ -429,7 +430,7 @@ namespace Templates {
 										string sGenre	= lGenres[nGenreIndex].Name.Trim();
 										string sgg		= fb2g.GetFBGenreGroup( sGenre );// группа жанров
 										// sgg.Length==0 для жанра, не соответствующего схеме
-										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
+										if( dfm.GenreTypeMode ) {
 											// как в схеме
 											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
 										} else {
@@ -441,13 +442,13 @@ namespace Templates {
 								break;
 							case "*G*": // Жанр Книги
 								if( lGenres == null ) {
-									sFileName += Settings.SettingsFM.ReadFMNoGenre();
+									sFileName += dfm.NoGenre;
 								} else {
 									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
-										sFileName += Settings.SettingsFM.ReadFMNoGenre();
+										sFileName += dfm.NoGenre;
 									} else {
 										// жанр есть
-										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
+										if( dfm.GenreTypeMode ) {
 											// как в схеме
 											sFileName += lGenres[nGenreIndex].Name.Trim();
 										} else {
@@ -461,13 +462,13 @@ namespace Templates {
 								break;
 							case "*BAF*": // Имя Автора Книги
 								if( lAuthors == null ) {
-									sFileName += Settings.SettingsFM.ReadFMNoFirstName();
+									sFileName += dfm.NoFirstName;
 								} else {
 									if( lAuthors[nAuthorIndex].FirstName==null ) {
-										sFileName += Settings.SettingsFM.ReadFMNoFirstName();
+										sFileName += dfm.NoFirstName;
 									} else {
 										if( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length==0 ) {
-											sFileName += Settings.SettingsFM.ReadFMNoFirstName();
+											sFileName += dfm.NoFirstName;
 										} else {
 											sFileName += lAuthors[nAuthorIndex].FirstName.Value.Trim();
 										}
@@ -476,13 +477,13 @@ namespace Templates {
 								break;
 							case "*BAM*": // Отчество Автора Книги
 								if( lAuthors == null ) {
-									sFileName += Settings.SettingsFM.ReadFMNoMiddleName();
+									sFileName += dfm.NoMiddleName;
 								} else {
 									if( lAuthors[nAuthorIndex].MiddleName==null ) {
-										sFileName += Settings.SettingsFM.ReadFMNoMiddleName();
+										sFileName += dfm.NoMiddleName;
 									} else {
 										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
-											sFileName += Settings.SettingsFM.ReadFMNoMiddleName();
+											sFileName += dfm.NoMiddleName;
 										} else {
 											sFileName += lAuthors[nAuthorIndex].MiddleName.Value.Trim();
 										}
@@ -491,13 +492,13 @@ namespace Templates {
 								break;
 							case "*BAL*": // Фамилия Автора Книги
 								if( lAuthors == null ) {
-									sFileName += Settings.SettingsFM.ReadFMNoLastName();
+									sFileName += dfm.NoLastName;
 								} else {
 									if( lAuthors[nAuthorIndex].LastName==null ) {
-										sFileName += Settings.SettingsFM.ReadFMNoLastName();
+										sFileName += dfm.NoLastName;
 									} else {
 										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
-											sFileName += Settings.SettingsFM.ReadFMNoLastName();
+											sFileName += dfm.NoLastName;
 										} else {
 											sFileName += lAuthors[nAuthorIndex].LastName.Value.Trim();
 										}
@@ -505,16 +506,16 @@ namespace Templates {
 								}
 								break;
 							case "*LBAL*": // 1-я Буква Фамилия Автора Книги \ Фамилия Автора Книги
-								string sNoL = Settings.SettingsFM.ReadFMNoLastName();
-								sNo = sNoL[0] + "\\" + sNoL;
+								string sNoLN = dfm.NoLastName;
+								sNo = sNoLN[0] + "\\" + sNoLN;
 								if( lAuthors == null ) {
-									sFileName += sNoL;
+									sFileName += sNoLN;
 								} else {
 									if( lAuthors[nAuthorIndex].LastName==null ) {
-										sFileName += sNoL;
+										sFileName += sNoLN;
 									} else {
 										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
-											sFileName += sNoL;
+											sFileName += sNoLN;
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
 											sFileName += sExsist[0] + "\\" + sExsist;
@@ -524,13 +525,13 @@ namespace Templates {
 								break;
 							case "*BAN*": // Ник Автора Книги
 								if( lAuthors == null ) {
-									sFileName += Settings.SettingsFM.ReadFMNoNickName();
+									sFileName += dfm.NoNickName;
 								} else {
 									if( lAuthors[nAuthorIndex].NickName==null ) {
-										sFileName += Settings.SettingsFM.ReadFMNoNickName();
+										sFileName += dfm.NoNickName;
 									} else {
 										if( lAuthors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
-											sFileName += Settings.SettingsFM.ReadFMNoNickName();
+											sFileName += dfm.NoNickName;
 										} else {
 											sFileName += lAuthors[nAuthorIndex].NickName.Value.Trim();
 										}
@@ -539,10 +540,10 @@ namespace Templates {
 								break;
 							case "*BT*": // Название Книги
 								if( btBookTitle == null ) {
-									sFileName += Settings.SettingsFM.ReadFMNoBookTitle();
+									sFileName += dfm.NoBookTitle;
 								} else {
 									if( btBookTitle.Value==null || btBookTitle.Value.Trim().Length==0 ) {
-										sFileName += Settings.SettingsFM.ReadFMNoBookTitle();
+										sFileName += dfm.NoBookTitle;
 									} else {
 										sFileName += btBookTitle.Value.Trim();
 									}
@@ -550,10 +551,10 @@ namespace Templates {
 								break;
 							case "*SN*": // Серия Книги
 								if( lSequences == null ) {
-									sFileName += Settings.SettingsFM.ReadFMNoSequence();
+									sFileName += dfm.NoSequence;
 								} else {
 									if( lSequences[0].Name==null || lSequences[0].Name.Trim().Length==0 ) {
-										sFileName += Settings.SettingsFM.ReadFMNoSequence();
+										sFileName += dfm.NoSequence;
 									} else {
 										sFileName += lSequences[0].Name.Trim();
 									}
@@ -561,10 +562,10 @@ namespace Templates {
 								break;
 							case "*SI*": // Номер Серии Книги
 								if( lSequences == null ) {
-									sFileName += Settings.SettingsFM.ReadFMNoNSequence();
+									sFileName += dfm.NoNSequence;
 								} else {
 									if( lSequences[0].Number==null ) {
-										sFileName += Settings.SettingsFM.ReadFMNoNSequence();
+										sFileName += dfm.NoNSequence;
 									} else {
 										sFileName += lSequences[0].Number;
 									}
@@ -584,14 +585,14 @@ namespace Templates {
 								}
 								break;
 							case "[*GG*]": // Группа Жанров\Жанр Книги
-								string sNoGG = Settings.SettingsFM.ReadFMNoGenreGroup();// такого жанра (группы) нет в схеме
+								string sNoGG = dfm.NoGenreGroup;// такого жанра (группы) нет в схеме
 								if( lGenres != null ) {
 									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim().Length!=0 ) {
 										// жанр есть
 										string sGenre	= lGenres[nGenreIndex].Name.Trim();
 										string sgg		= fb2g.GetFBGenreGroup( sGenre );// группа жанров
 										// sgg.Length==0 для жанра, не соответствующего схеме
-										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
+										if( dfm.GenreTypeMode ) {
 											// как в схеме
 											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
 										} else {
@@ -604,7 +605,7 @@ namespace Templates {
 							case "[*G*]": // Жанр Книги
 								if( lGenres != null ) {
 									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim().Length!=0 ) {
-										if( Settings.SettingsFM.ReadGenreTypeMode() ) {
+										if( dfm.GenreTypeMode ) {
 											// как в схеме
 											sFileName += lGenres[nGenreIndex].Name.Trim();
 										} else {
@@ -691,7 +692,7 @@ namespace Templates {
 					case Lexems.SimpleType.conditional_group:
 						// условная группа
 						sFileName += ParseComplexGroup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle,
-						                               lSequences, fb2g, nGenreIndex, nAuthorIndex );
+						                               lSequences, fb2g, dfm, nGenreIndex, nAuthorIndex );
 						break;
 					default :
 						// постоянные символы
