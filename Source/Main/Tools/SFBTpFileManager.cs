@@ -435,10 +435,11 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Visible = true;
 			tsProgressBar.Maximum = nFilesCount+1;
 			tsProgressBar.Value = 1;
-			string sTempDir = Settings.Settings.GetTempDir();
-			
+			ssProgress.Refresh();
+	
 			// данные настроек для сортировки по шаблонам
 			Settings.DataFM dfm = new Settings.DataFM();
+			string sTempDir = Settings.Settings.GetTempDir();
 			
 			// формируем лексемы шаблонной строки
 			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
