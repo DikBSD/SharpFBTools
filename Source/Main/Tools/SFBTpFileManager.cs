@@ -88,7 +88,7 @@ namespace SharpFBTools.Tools
 				FilesWorker.FilesWorker.RemoveDir( sTempDir );
 				switch( sExt ) {
 					case ".rar":
-						FilesWorker.Archiver.unrar( dfm.UnRarPath, sFromFile, sTempDir );
+						FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir );
 						IncStatus( 4 );
 						break;
 					case ".zip":

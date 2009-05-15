@@ -234,6 +234,7 @@ namespace SharpFBTools.Tools
 					FilesWorker.FilesWorker.RemoveDir( sTempDir );
 					string s7zaPath		= Settings.Settings.Read7zaPath();
 					string sUnRarPath	= Settings.Settings.ReadUnRarPath();
+					//TODO: заменить все unrar на unzip
 					switch( sExt.ToLower() ) {
 						case ".rar":
 							FilesWorker.Archiver.unrar( sUnRarPath, sFile, sTempDir );
@@ -352,6 +353,7 @@ namespace SharpFBTools.Tools
 					foreach( string sFile in lFilesList ) {
 						string sExt = Path.GetExtension( sFile );
 						if( sExt.ToLower() == ".rar" ) {
+							//TODO: заменить все unrar на unzip
 							FilesWorker.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFile, sTempDir );
 							lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
 							lvUACount.Items[0].SubItems[1].Text = (++lRar).ToString();

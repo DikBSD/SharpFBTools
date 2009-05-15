@@ -187,6 +187,7 @@ namespace SharpFBTools.Tools
 		
 		private void ParseArchiveFile( string sArchiveFile, FB2Parser.FB2Validator fv2Validator, string sTempDir ) {
 			// парсер архива
+			//TODO: заменить все unrar на unzip
 			string sExt = Path.GetExtension( sArchiveFile );
 			if( sExt.ToLower() == ".zip" ) {
 				FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sArchiveFile, sTempDir );
