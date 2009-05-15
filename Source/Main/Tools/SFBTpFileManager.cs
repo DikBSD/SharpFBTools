@@ -217,38 +217,49 @@ namespace SharpFBTools.Tools
 		private void MakeFileForAllGenre1Author( string sFromFilePath, string sSource, string sTarget,
 		                                      List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm ) {
 			// создаем файл по новому пути для всех Жанров и для первого Автора Книги
-			fB2Parser fb2 = new fB2Parser( sFromFilePath );
-			TitleInfo ti = fb2.GetTitleInfo();
-			IList<Genre> lGenres = ti.Genres;
-			IList<Author> lAuthors = ti.Authors;
-			for( int i=0; i!= lGenres.Count; ++i ) {
-				MakeFile( sFromFilePath, sSource, sTarget, lSLexems, dfm, i, 0 );
+			try {
+				fB2Parser fb2 = new fB2Parser( sFromFilePath );
+				TitleInfo ti = fb2.GetTitleInfo();
+				IList<Genre> lGenres = ti.Genres;
+				IList<Author> lAuthors = ti.Authors;
+				for( int i=0; i!= lGenres.Count; ++i ) {
+					MakeFile( sFromFilePath, sSource, sTarget, lSLexems, dfm, i, 0 );
+				}
+			} catch {
+				IncStatus( 11 ); // нечитаемые fb2-файлв или архивы
 			}
 			
 		}
 		private void MakeFileFor1GenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
 		                                      	List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm ) {
 			// создаем файл по новому пути для первого Жанра и для всех Авторов Книги
-			fB2Parser fb2 = new fB2Parser( sFromFilePath );
-			TitleInfo ti = fb2.GetTitleInfo();
-			IList<Genre> lGenres = ti.Genres;
-			IList<Author> lAuthors = ti.Authors;
-			for( int i=0; i!= lAuthors.Count; ++i ) {
-				MakeFile( sFromFilePath, sSource, sTarget, lSLexems, dfm, 0, i );
+			try {
+				fB2Parser fb2 = new fB2Parser( sFromFilePath );
+				TitleInfo ti = fb2.GetTitleInfo();
+				IList<Genre> lGenres = ti.Genres;
+				IList<Author> lAuthors = ti.Authors;
+				for( int i=0; i!= lAuthors.Count; ++i ) {
+					MakeFile( sFromFilePath, sSource, sTarget, lSLexems, dfm, 0, i );
+				}
+			} catch {
+				IncStatus( 11 ); // нечитаемые fb2-файлв или архивы
 			}
-			
 		}
 		private void MakeFileForAllGenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
 		                                      		List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm) {
 			// создаем файл по новому пути для всех Жанров и для всех Авторов Книги
-			fB2Parser fb2 = new fB2Parser( sFromFilePath );
-			TitleInfo ti = fb2.GetTitleInfo();
-			IList<Genre> lGenres = ti.Genres;
-			IList<Author> lAuthors = ti.Authors;
-			for( int i=0; i!= lGenres.Count; ++i ) {
-				for( int j=0; j!= lAuthors.Count; ++j ) {
-					MakeFile( sFromFilePath, sSource, sTarget, lSLexems, dfm, i, j );
+			try {
+				fB2Parser fb2 = new fB2Parser( sFromFilePath );
+				TitleInfo ti = fb2.GetTitleInfo();
+				IList<Genre> lGenres = ti.Genres;
+				IList<Author> lAuthors = ti.Authors;
+				for( int i=0; i!= lGenres.Count; ++i ) {
+					for( int j=0; j!= lAuthors.Count; ++j ) {
+						MakeFile( sFromFilePath, sSource, sTarget, lSLexems, dfm, i, j );
+					}
 				}
+			} catch {
+				IncStatus( 11 ); // нечитаемые fb2-файлв или архивы
 			}
 			
 		}
@@ -264,8 +275,21 @@ namespace SharpFBTools.Tools
 			string sTempDir = Settings.Settings.GetTempDir();
 			// смотрим, что это за файл
 			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
+			string sResult = "";
 			if( sExt == ".fb2" ) {
 				// обработка fb2-файла
+				// тип сортировки
+				//TODO: отлов лишних обработок файлов при комбинации авторов и жанров - чтобы не копировать один и тот же файл в папку NotValid
+				if( !dfm.SortValidType  ) {
+					sResult = fv2V.ValidatingFB2File( sFromFilePath );
+					if ( sResult.Length != 0 ) {
+						// помещаем его в папку для невалидных файлов
+						Directory.CreateDirectory( dfm.NotValidFB2Dir );
+						string sToFilePath = dfm.NotValidFB2Dir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
+						CopyFileToTargetDir( sFromFilePath, sToFilePath, dfm.FileExistMode, false );
+						return; // файл невалидный - пропускаем его, сортируем дальше
+					}
+				}
 				try {
 					string sToFilePath = sTarget + "\\" +
 							Templates.TemplatesParser.Parse( sFromFilePath, lSLexems, dfm, nGenreIndex, nAuthorIndex ) + ".fb2";
@@ -288,6 +312,8 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( IsArchive( sExt ) ) {
+					//TODO: if( !dfm.SortValidType  ) 
+					
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 					foreach( string sFromFB2Path in lFilesListFromArchive ) {
 						try {
@@ -446,18 +472,6 @@ namespace SharpFBTools.Tools
 			// формируем лексемы шаблонной строки
 			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			foreach( string sFromFilePath in lFilesList ) {
-				// тип сортировки
-				if( !dfm.SortValidType  ) {
-					// только Валидные fb2
-					string sResult = fv2V.ValidatingFB2File( sFromFilePath );
-					if ( sResult.Length != 0 ) {
-						// помещаем его в папку для невалидных файлов
-						Directory.CreateDirectory( dfm.NotValidFB2Dir );
-						string sToFilePath = dfm.NotValidFB2Dir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
-						CopyFileToTargetDir( sFromFilePath, sToFilePath, dfm.FileExistMode, false );
-						continue; // файл невалидный - пропускаем его, сортируем дальше
-					}
-				}
 				// создаем файл по новому пути
 				if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
 					// по первому Жанру и первому Автору Книги

@@ -679,7 +679,7 @@ namespace SharpFBTools.Tools
 					ParseFB2File( sFile, fv2V );
 				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
 					// очистка временной папки
-//					FilesWorker.FilesWorker.RemoveDir( sTempDir );
+					FilesWorker.FilesWorker.RemoveDir( sTempDir );
 					Directory.CreateDirectory( sTempDir );
 					ParseArchiveFile( sFile, fv2V, sTempDir );
 				} else {
