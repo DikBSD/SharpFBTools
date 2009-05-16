@@ -234,8 +234,10 @@ namespace StringProcessing
 
 			string [] files = Directory.GetFiles( Path.GetDirectoryName( sFileName ) );
 			string sTemp = sFileName.ToLower();
-			if( sTemp.IndexOf( ".fb2" )!=1 ) {
+			if( sTemp.IndexOf( ".fb2" )!=-1 ) {
 				sTemp = sTemp.Substring( 0, sTemp.IndexOf( ".fb2" ) );
+			} else {
+				sTemp = sTemp.Substring( 0, sTemp.IndexOf( Path.GetExtension( sFileName ) ) );
 			}
 			string s = sFileName.Substring( 0, sTemp.Length );
 			long lCount = 0;
