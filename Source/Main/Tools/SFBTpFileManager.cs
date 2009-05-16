@@ -444,6 +444,29 @@ namespace SharpFBTools.Tools
 			sTarget = rx.Replace( sTarget, "" );
 			tboxSortAllToDir.Text = sTarget;
 			
+			// проверка на наличие архиваторов
+			string s7zPath	= Settings.Settings.Read7zaPath();
+			string sRarPath	= Settings.Settings.ReadRarPath();
+			if( Settings.SettingsFM.ReadArchiveTypeText().ToLower()=="rar" && sRarPath.Trim().Length==0 ) {
+				MessageBox.Show( "В Настройках выбрана rar-архивация отсортированных файлов.\nПри этом не указана папка с установленным консольным Rar-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			} else {
+				// проверка на наличие архиваторов
+				if( !File.Exists( sRarPath ) ) {
+					MessageBox.Show( "В Настройках выбрана rar-архивация отсортированных файлов.\nПри этом не найден файл консольного Rar-архиватора "+sRarPath+"!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+			}
+			if( s7zPath.Trim().Length==0 ) {
+				MessageBox.Show( "В Настройках не указана папка с установленным консольным 7Zip-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			} else {
+				if( !File.Exists( s7zPath ) ) {
+					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+			}
+			// проверки на корректность папок источника и приемника
 			if( sTarget == "") {
 				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
@@ -457,7 +480,7 @@ namespace SharpFBTools.Tools
 				MessageBox.Show( "Папка не найдена: " + sTarget + "\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			
+			// проверки на корректность шаблонных строк
 			string sLineTemplate = "";
 			if( rBtnTemplatesPrepared.Checked ) {
 				sLineTemplate = cboxTemplatesPrepared.Text.Trim();
@@ -486,7 +509,6 @@ namespace SharpFBTools.Tools
 					return;
 				}
 			}
-			
 			// проверка на соответствие [ ] в строке с шаблонами
 			if( !Templates.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
 				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками [ ]!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );

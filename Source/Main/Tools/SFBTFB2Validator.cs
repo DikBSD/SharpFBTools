@@ -626,6 +626,29 @@ namespace SharpFBTools.Tools
 		{
 			// Ввлидация fb2-файлов в выбранной папке
 			tlCentral.Refresh(); // обновление контролов на форме
+			// проверка на наличие архиваторов
+			string s7zPath	= Settings.Settings.Read7zaPath();
+			string sRarPath	= Settings.Settings.ReadRarPath();
+			if( sRarPath.Trim().Length==0 ) {
+				MessageBox.Show( "В Настройках не указана папка с установленным консольным Rar-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			} else {
+				// проверка на наличие архиваторов
+				if( !File.Exists( sRarPath ) ) {
+					MessageBox.Show( "При этом не найден файл консольного Rar-архиватора "+sRarPath+"!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+			}
+			if( s7zPath.Trim().Length==0 ) {
+				MessageBox.Show( "В Настройках не указана папка с установленным консольным 7Zip-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			} else {
+				if( !File.Exists( s7zPath ) ) {
+					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+			}
+			// проверки задания папки сканирования
 			string sSource = tboxSourceDir.Text.Trim();
 			if( sSource == "" ) {
 				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -636,7 +659,7 @@ namespace SharpFBTools.Tools
 				MessageBox.Show( "Папка не найдена: " + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			// TODO: Проверки на наличие всех инструментов (как в Менеджере Архивов)- сообщение, если чего нет
+			
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
 			Init();

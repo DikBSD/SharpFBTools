@@ -468,23 +468,23 @@ namespace SharpFBTools.Tools
 				}
 			}
 			// читаем путь к архиваторам из настроек
-			string s7zPath = Settings.Settings.Read7zaPath();
-			string sRarPath = Settings.Settings.ReadRarPath();
-			if( cboxArchiveType.SelectedIndex == 0 && sRarPath.Trim() == "" ) {
-				MessageBox.Show( "Не указана папка с установленным консольным Rar-архиватором!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			string s7zPath	= Settings.Settings.Read7zaPath().Trim() ;
+			string sRarPath	= Settings.Settings.ReadRarPath().Trim();
+			if( cboxArchiveType.SelectedIndex==0 && sRarPath.Length==0 ) {
+				MessageBox.Show( "Не указана папка с установленным консольным Rar-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			// проверка на наличие архиваторов
 			if( cboxArchiveType.SelectedIndex == 0 ) {
 				if( !File.Exists( sRarPath ) ) {
-					MessageBox.Show( "Не найден файл консольного Rar-архиватора "+sRarPath+"!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show( "Не найден файл консольного Rar-архиватора "+sRarPath+"!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				} else {
 					tsslblProgress.Text = "Упаковка найденных файлов в rar:";
 				}
 			} else {
 				if( !File.Exists( s7zPath ) ) {
-					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				} else {
 					tsslblProgress.Text = "Упаковка найденных файлов в zip:";
