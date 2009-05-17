@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Xml;
 
 using FB2.FB2Parsers;
 using FB2.Common;
@@ -49,7 +50,9 @@ namespace SharpFBTools.Tools
 			InitializeComponent();
 			cboxTemplatesPrepared.SelectedIndex = 3;
 			Init();
-			
+			// читаем сохраненные пути к папкам и шаблон Менеджера Файлов, если они есть
+			ReadFMTempData();
+			//
 			string sTDPath = Settings.SettingsFM.GetDefFMDescTemplatePath();
 			if( File.Exists( sTDPath ) ) {
 				richTxtBoxDescTemplates.LoadFile( sTDPath );
@@ -67,13 +70,39 @@ namespace SharpFBTools.Tools
 			for( int i=0; i!=lvFilesCount.Items.Count; ++i ) {
 				lvFilesCount.Items[i].SubItems[1].Text	= "0";
 			}
-			tsProgressBar.Value	= 1;
+			tsProgressBar.Value		= 1;
 			tsslblProgress.Text		= Settings.Settings.GetReady();
 			tsProgressBar.Visible	= false;
 			// очистка временной папки
 			FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 		}
-			
+		
+		private void ReadFMTempData() {
+			// чтение путей к данным Менеджера Файлов из xml-файла
+			string sSettings = Settings.SettingsFM.FMDataSettingsPath;
+			if( !File.Exists( sSettings ) ) return;
+			XmlReaderSettings settings = new XmlReaderSettings();
+			settings.IgnoreWhitespace = true;
+			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
+				reader.ReadToFollowing("ScanDir");
+				if (reader.HasAttributes ) {
+					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
+					Settings.SettingsFM.FMDataScanDir = tboxSourceDir.Text.Trim();
+				}
+				reader.ReadToFollowing("TargetDir");
+				if (reader.HasAttributes ) {
+					tboxSortAllToDir.Text = reader.GetAttribute("tboxSortAllToDir");
+					Settings.SettingsFM.FMDataTargetDir = tboxSortAllToDir.Text.Trim();
+				}
+				reader.ReadToFollowing("Template");
+				if (reader.HasAttributes ) {
+					txtBoxTemplatesFromLine.Text = reader.GetAttribute("txtBoxTemplatesFromLine");
+					Settings.SettingsFM.FMDataTemplate =  txtBoxTemplatesFromLine.Text.Trim();
+				}
+				reader.Close();
+			}
+		}
+		
 		private bool IsArchive( string sExt )
 		{
 			return ( sExt==".zip" || sExt==".rar" || sExt==".7z" || sExt==".bz2" || sExt==".gz" || sExt==".tar" );
@@ -649,8 +678,7 @@ namespace SharpFBTools.Tools
 				MessageBox.Show( "Папка не найдена: " + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			
-			// TODO: Проверки на наличие всех инструментов, пути которых записаны в settings.xml (как в Менеджере Архивов)- сообщение, если чего нет
+
 			SortFb2Files( sSource );
 		}
 		
@@ -659,7 +687,22 @@ namespace SharpFBTools.Tools
 			// задание папки-приемника для размешения отсортированных файлов
 			FilesWorker.FilesWorker.OpenDirDlg( tboxSortAllToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов:" );
 		}
-		#endregion
 		
+		void TboxSourceDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsFM.FMDataScanDir = tboxSourceDir.Text;
+		}
+		
+		void TboxSortAllToDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsFM.FMDataTargetDir = tboxSortAllToDir.Text;
+		}
+		
+		void TxtBoxTemplatesFromLineTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsFM.FMDataTemplate = txtBoxTemplatesFromLine.Text;
+		}
+		#endregion
+
 	}
 }

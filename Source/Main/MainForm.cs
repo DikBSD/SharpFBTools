@@ -11,8 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Xml;
-using System.IO;
 using Options;
 using Settings;
 using SharpFBTools;
@@ -135,40 +133,9 @@ namespace Main
 		void MainFormFormClosed(object sender, FormClosedEventArgs e)
 		{
 			// сохраняем пути к папкам Валидатора
-			#region Код
-			XmlWriter writer = null;
-			try {
-				XmlWriterSettings settings = new XmlWriterSettings();
-				settings.Indent = true;
-				settings.IndentChars = ("\t");
-				settings.OmitXmlDeclaration = true;
-				
-				writer = XmlWriter.Create( Settings.SettingsValidator.GetValidatorDirsSettingsPath(), settings );
-				writer.WriteStartElement( "SharpFBTools" );
-					writer.WriteStartElement( "FB2Validator" );
-						writer.WriteStartElement( "ScanDir" );
-							writer.WriteAttributeString( "tboxSourceDir", Settings.SettingsValidator.GetScanDir() );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "NotValidFB2Files" );
-							writer.WriteAttributeString( "tboxFB2NotValidDirCopyTo", Settings.SettingsValidator.GetFB2NotValidDirCopyTo() );
-							writer.WriteAttributeString( "tboxFB2NotValidDirMoveTo", Settings.SettingsValidator.GetFB2NotValidDirMoveTo());
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "ValidFB2Files" );
-							writer.WriteAttributeString( "tboxFB2ValidDirCopyTo", Settings.SettingsValidator.GetFB2ValidDirCopyTo() );
-							writer.WriteAttributeString( "tboxFB2ValidDirMoveTo", Settings.SettingsValidator.GetFB2ValidDirMoveTo() );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "NotFB2Files" );
-							writer.WriteAttributeString( "tboxNotFB2DirCopyTo", Settings.SettingsValidator.GetNotFB2DirCopyTo() );
-							writer.WriteAttributeString( "tboxNotFB2DirMoveTo", Settings.SettingsValidator.GetNotFB2DirMoveTo() );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-				writer.WriteEndElement();
-				writer.Flush();
-			}  finally  {
-				if (writer != null)
-				writer.Close();
-			}
-			#endregion
+			SettingsValidator.WriteValidatorDirs();
+			// сохраняем пути к папкам и шаблон Менеджера Файлов
+			SettingsFM.WriteFMData();
 		}
 		#endregion
 	}	

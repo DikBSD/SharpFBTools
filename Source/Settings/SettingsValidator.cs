@@ -7,6 +7,7 @@
  * License: GPL 2.1
  */
 using System;
+using System.Xml;
 
 namespace Settings
 {
@@ -36,7 +37,7 @@ namespace Settings
 		{
 		}
 		
-		#region Открытые статические метода
+		#region Открытые статические методы
 		public static Int16 GetDefValidatorFB2SelectedIndex() {
 			return m_nValidatorForFB2SelectedIndex;
 		}
@@ -78,68 +79,90 @@ namespace Settings
 		}
 		#endregion
 		
-		#region Открытые статические члены-данные класса для Папок Валидатора
-		public static string GetValidatorDirsSettingsPath() {
-			return m_sValidatorDirsSettingsPath;
+		#region Открытые статические свойства класса для Папок Валидатора
+		public static string ValidatorDirsSettingsPath {
+			get { return m_sValidatorDirsSettingsPath; }
 		}
 		
-		public static string GetScanDir() {
+		public static string ScanDir {
 			// папка для сканирования
-			return m_sScanDir;
+			get { return m_sScanDir; }
+			set { m_sScanDir = value; }
 		}
-		
-		public static string GetFB2NotValidDirCopyTo() {
+
+		public static string FB2NotValidDirCopyTo {
 			// папка для копирования не валидных fb2-файлов
-			return m_sFB2NotValidDirCopyTo;
+			get { return m_sFB2NotValidDirCopyTo; }
+			set { m_sFB2NotValidDirCopyTo = value; }
 		}
 		
-		public static string GetFB2NotValidDirMoveTo() {
+		public static string FB2NotValidDirMoveTo {
 			// папка для перемещения не валидных fb2-файлов
-			return m_sFB2NotValidDirMoveTo;
+			get { return m_sFB2NotValidDirMoveTo; }
+			set { m_sFB2NotValidDirMoveTo = value; }
 		}
 		
-		public static string GetFB2ValidDirCopyTo() {
+		public static string FB2ValidDirCopyTo {
 			// папка для копирования валидных fb2-файлов
-			return m_sFB2ValidDirCopyTo;
+			get { return m_sFB2ValidDirCopyTo; }
+			set { m_sFB2ValidDirCopyTo = value; }
 		}
 		
-		public static string GetFB2ValidDirMoveTo() {
+		public static string FB2ValidDirMoveTo {
 			// папка для перемещения валидных fb2-файлов
-			return m_sFB2ValidDirMoveTo;
+			get { return m_sFB2ValidDirMoveTo; }
+			set { m_sFB2ValidDirMoveTo = value; }
 		}
 		
-		public static string GetNotFB2DirCopyTo() {
+		public static string NotFB2DirCopyTo {
 			// папка для копирования не fb2-файлов
-			return m_sNotFB2DirCopyTo;
+			get { return m_sNotFB2DirCopyTo; }
+			set { m_sNotFB2DirCopyTo = value; }
 		}
 		
-		public static string GetNotFB2DirMoveTo() {
+		public static string NotFB2DirMoveTo {
 			// папка для перемещения не fb2-файлов
-			return m_sNotFB2DirMoveTo;
-		}
-		
-		public static void SetScanDir( string sScanDir ) {
-			m_sScanDir = sScanDir;
-		}
-		public static void SetFB2NotValidDirCopyTo( string sFB2NotValidDirCopyTo ) {
-			m_sFB2NotValidDirCopyTo = sFB2NotValidDirCopyTo;
-		}
-		public static void SetFB2NotValidDirMoveTo( string sFB2NotValidDirMoveTo ) {
-			m_sFB2NotValidDirMoveTo = sFB2NotValidDirMoveTo;
-		}
-		public static void SetFB2ValidDirCopyTo( string sFB2ValidDirCopyTo ) {
-			m_sFB2ValidDirCopyTo = sFB2ValidDirCopyTo;
-		}
-		public static void SetFB2ValidDirMoveTo( string sFB2ValidDirMoveTo ) {
-			m_sFB2ValidDirMoveTo = sFB2ValidDirMoveTo;
-		}
-		public static void SetNotFB2DirCopyTo( string sNotFB2DirCopyTo ) {
-			m_sNotFB2DirCopyTo = sNotFB2DirCopyTo;
-		}
-		public static void SetNotFB2DirMoveTo( string sNotFB2DirMoveTo ) {
-			m_sNotFB2DirMoveTo = sNotFB2DirMoveTo;
+			get { return m_sNotFB2DirMoveTo; }
+			set { m_sNotFB2DirMoveTo = value; }
 		}
 		#endregion
 
+		#region Открытые статические методы класса
+		public static void WriteValidatorDirs() {
+			XmlWriter writer = null;
+			try {
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Indent = true;
+				settings.IndentChars = ("\t");
+				settings.OmitXmlDeclaration = true;
+				
+				writer = XmlWriter.Create( SettingsValidator.ValidatorDirsSettingsPath, settings );
+				writer.WriteStartElement( "SharpFBTools" );
+					writer.WriteStartElement( "FB2Validator" );
+						writer.WriteStartElement( "ScanDir" );
+							writer.WriteAttributeString( "tboxSourceDir", SettingsValidator.ScanDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "NotValidFB2Files" );
+							writer.WriteAttributeString( "tboxFB2NotValidDirCopyTo", SettingsValidator.FB2NotValidDirCopyTo );
+							writer.WriteAttributeString( "tboxFB2NotValidDirMoveTo", SettingsValidator.FB2NotValidDirMoveTo );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "ValidFB2Files" );
+							writer.WriteAttributeString( "tboxFB2ValidDirCopyTo", SettingsValidator.FB2ValidDirCopyTo );
+							writer.WriteAttributeString( "tboxFB2ValidDirMoveTo", SettingsValidator.FB2ValidDirMoveTo );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "NotFB2Files" );
+							writer.WriteAttributeString( "tboxNotFB2DirCopyTo", SettingsValidator.NotFB2DirCopyTo );
+							writer.WriteAttributeString( "tboxNotFB2DirMoveTo", SettingsValidator.NotFB2DirMoveTo );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+				writer.WriteEndElement();
+				writer.Flush();
+			}  finally  {
+				if (writer != null)
+				writer.Close();
+			}
+		}
+		
+		#endregion
 	}
 }

@@ -315,6 +315,7 @@ namespace SharpFBTools.Tools
 			this.tboxSortAllToDir.Name = "tboxSortAllToDir";
 			this.tboxSortAllToDir.Size = new System.Drawing.Size(648, 20);
 			this.tboxSortAllToDir.TabIndex = 3;
+			this.tboxSortAllToDir.TextChanged += new System.EventHandler(this.TboxSortAllToDirTextChanged);
 			// 
 			// tboxSourceDir
 			// 
@@ -325,6 +326,7 @@ namespace SharpFBTools.Tools
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.Size = new System.Drawing.Size(484, 21);
 			this.tboxSourceDir.TabIndex = 1;
+			this.tboxSourceDir.TextChanged += new System.EventHandler(this.TboxSourceDirTextChanged);
 			// 
 			// lblDir
 			// 
@@ -364,6 +366,7 @@ namespace SharpFBTools.Tools
 			this.txtBoxTemplatesFromLine.Name = "txtBoxTemplatesFromLine";
 			this.txtBoxTemplatesFromLine.Size = new System.Drawing.Size(667, 20);
 			this.txtBoxTemplatesFromLine.TabIndex = 8;
+			this.txtBoxTemplatesFromLine.TextChanged += new System.EventHandler(this.TxtBoxTemplatesFromLineTextChanged);
 			// 
 			// cboxTemplatesPrepared
 			// 

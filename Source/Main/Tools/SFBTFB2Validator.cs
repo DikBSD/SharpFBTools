@@ -121,7 +121,7 @@ namespace SharpFBTools.Tools
 		
 		private void ReadValidatorDirs() {
 			// чтение путей к папкам Валидатора из xml-файла
-			string sSettings = Settings.SettingsValidator.GetValidatorDirsSettingsPath();
+			string sSettings = Settings.SettingsValidator.ValidatorDirsSettingsPath;
 			if( !File.Exists( sSettings ) ) return;
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
@@ -129,28 +129,28 @@ namespace SharpFBTools.Tools
 				reader.ReadToFollowing("ScanDir");
 				if (reader.HasAttributes ) {
 					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
-					Settings.SettingsValidator.SetScanDir( tboxSourceDir.Text );
+					Settings.SettingsValidator.ScanDir =  tboxSourceDir.Text.Trim();
 				}
 				reader.ReadToFollowing("NotValidFB2Files");
 				if (reader.HasAttributes ) {
 					tboxFB2NotValidDirCopyTo.Text = reader.GetAttribute("tboxFB2NotValidDirCopyTo");
-					Settings.SettingsValidator.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
+					Settings.SettingsValidator.FB2NotValidDirCopyTo = tboxFB2NotValidDirCopyTo.Text.Trim();
 					tboxFB2NotValidDirMoveTo.Text = reader.GetAttribute("tboxFB2NotValidDirMoveTo");
-					Settings.SettingsValidator.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
+					Settings.SettingsValidator.FB2NotValidDirMoveTo = tboxFB2NotValidDirMoveTo.Text.Trim();
 				}
 				reader.ReadToFollowing("ValidFB2Files");
 				if (reader.HasAttributes ) {
 					tboxFB2ValidDirCopyTo.Text = reader.GetAttribute("tboxFB2ValidDirCopyTo");
-					Settings.SettingsValidator.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
+					Settings.SettingsValidator.FB2ValidDirCopyTo = tboxFB2ValidDirCopyTo.Text.Trim();
 					tboxFB2ValidDirMoveTo.Text = reader.GetAttribute("tboxFB2ValidDirMoveTo");
-					Settings.SettingsValidator.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
+					Settings.SettingsValidator.FB2ValidDirMoveTo = tboxFB2ValidDirMoveTo.Text.Trim();
 				}
 				reader.ReadToFollowing("NotFB2Files");
 				if (reader.HasAttributes ) {
 					tboxNotFB2DirCopyTo.Text = reader.GetAttribute("tboxNotFB2DirCopyTo");
-					Settings.SettingsValidator.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
+					Settings.SettingsValidator.NotFB2DirCopyTo = tboxNotFB2DirCopyTo.Text.Trim();
 					tboxNotFB2DirMoveTo.Text = reader.GetAttribute("tboxNotFB2DirMoveTo");
-					Settings.SettingsValidator.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
+					Settings.SettingsValidator.NotFB2DirMoveTo = tboxNotFB2DirMoveTo.Text.Trim();
 				}
 				reader.Close();
 			}
@@ -1214,37 +1214,37 @@ namespace SharpFBTools.Tools
 		
 		void TboxSourceDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsValidator.SetScanDir( tboxSourceDir.Text );
+			Settings.SettingsValidator.ScanDir = tboxSourceDir.Text;
 		}
 		
 		void TboxFB2NotValidDirCopyToTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsValidator.SetFB2NotValidDirCopyTo( tboxFB2NotValidDirCopyTo.Text );
+			Settings.SettingsValidator.FB2NotValidDirCopyTo = tboxFB2NotValidDirCopyTo.Text;
 		}
 		
 		void TboxFB2NotValidDirMoveToTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsValidator.SetFB2NotValidDirMoveTo( tboxFB2NotValidDirMoveTo.Text );
+			Settings.SettingsValidator.FB2NotValidDirMoveTo = tboxFB2NotValidDirMoveTo.Text;
 		}
 		
 		void TboxFB2ValidDirCopyToTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsValidator.SetFB2ValidDirCopyTo( tboxFB2ValidDirCopyTo.Text );
+			Settings.SettingsValidator.FB2ValidDirCopyTo = tboxFB2ValidDirCopyTo.Text;
 		}
 		
 		void TboxFB2ValidDirMoveToTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsValidator.SetFB2ValidDirMoveTo( tboxFB2ValidDirMoveTo.Text );
+			Settings.SettingsValidator.FB2ValidDirMoveTo = tboxFB2ValidDirMoveTo.Text;
 		}
 		
 		void TboxNotFB2DirCopyToTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsValidator.SetNotFB2DirCopyTo( tboxNotFB2DirCopyTo.Text );
+			Settings.SettingsValidator.NotFB2DirCopyTo = tboxNotFB2DirCopyTo.Text;
 		}
 		
 		void TboxNotFB2DirMoveToTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsValidator.SetNotFB2DirMoveTo( tboxNotFB2DirMoveTo.Text );
+			Settings.SettingsValidator.NotFB2DirMoveTo = tboxNotFB2DirMoveTo.Text;
 		}
 		#endregion
 	}
