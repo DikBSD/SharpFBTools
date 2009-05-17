@@ -25,6 +25,24 @@ namespace Options
 			InitializeComponent();
 			/* по-умолчанию */
 			// общие
+			DefGeneral();
+			// Валидатор
+			DefValidator();
+			// Менеджер Файлов
+			// основные для Менеджера Файлов
+			DefFMGeneral();
+			// Папки для "проблемных" файлов - для Менеджера Файлов
+			DefFMProblemFilesDir();
+			// название папки шаблонного тэга без данных
+			DefFMDirNameForTagNotData();
+			// читаем сохраненные настройки, если они есть
+			ReadSettings();
+			#endregion
+		}
+		
+		#region Закрытые Вспомогательные методы
+		private void DefGeneral() {
+			// общие настройки
 			tboxWinRarPath.Text	= Settings.Settings.GetDefWinRARPath();
 			tboxRarPath.Text	= Settings.Settings.GetDefRarPath();
 			tboxUnRarPath.Text	= Settings.Settings.GetDefUnRARPath();
@@ -32,12 +50,16 @@ namespace Options
 			tboxFBEPath.Text	= Settings.Settings.GetDefFBEPath();
 			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
 			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
+		}
+		private void DefValidator() {
 			// Валидатор
 			cboxValidatorForFB2.SelectedIndex			= Settings.SettingsValidator.GetDefValidatorFB2SelectedIndex();
 			cboxValidatorForFB2Archive.SelectedIndex	= Settings.SettingsValidator.GetDefValidatorFB2ArchiveSelectedIndex();
 			cboxValidatorForFB2PE.SelectedIndex			= Settings.SettingsValidator.GetDefValidatorFB2SelectedIndexPE();
 			cboxValidatorForFB2ArchivePE.SelectedIndex	= Settings.SettingsValidator.GetDefValidatorFB2ArchiveSelectedIndexPE();
-			// Менеджер Файлов
+		}
+		private void DefFMGeneral() {
+			// основные для Менеджера Файлов
 			rbtnFMFB21.Checked = Settings.SettingsFM.GetDefFMrbtnGenreFB21Cheked();
 			rbtnFMFB22.Checked = Settings.SettingsFM.GetDefFMrbtnGenreFB22Cheked();
 			chBoxTranslit.Checked = Settings.SettingsFM.GetDefFMchBoxTranslitCheked();
@@ -57,12 +79,17 @@ namespace Options
 			rbtnGenreSchema.Checked = Settings.SettingsFM.GetDefFMrbtnGenreSchemaCheked();
 			rbtnGenreText.Checked = Settings.SettingsFM.GetDefFMrbtnGenreTextCheked();
 			chBoxAddToFileNameBookID.Checked = Settings.SettingsFM.GetDefFMchBoxAddToFileNameBookIDChecked();
-			txtBoxFB2NotReadDir.Text = Settings.SettingsFM.GetDefFMFB2NotReadDir();
-			txtBoxFB2LongPathDir.Text = Settings.SettingsFM.GetDefFMFB2LongPathDir();
-			txtBoxFB2NotValidDir.Text = Settings.SettingsFM.GetDefFMFB2NotValidDir();
 			rbtnFMAllFB2.Checked		= Settings.SettingsFM.GetDefFMrbtnFMAllFB2Cheked();
 			rbtnFMOnleValidFB2.Checked	= Settings.SettingsFM.GetDefFMrbtnFMOnleValidFB2Cheked();
-			//
+		}
+		private void DefFMProblemFilesDir() {
+			// Папки для "проблемных" файлов - для Менеджера Файлов
+			txtBoxFB2NotReadDir.Text	= Settings.SettingsFM.GetDefFMFB2NotReadDir();
+			txtBoxFB2LongPathDir.Text	= Settings.SettingsFM.GetDefFMFB2LongPathDir();
+			txtBoxFB2NotValidDir.Text	= Settings.SettingsFM.GetDefFMFB2NotValidDir();
+		}
+		private void DefFMDirNameForTagNotData() {
+			// название папки шаблонного тэга без данных
 			txtBoxFMNoGenreGroup.Text	= Settings.SettingsFM.GetDefFMNoGenreGroup();
 			txtBoxFMNoGenre.Text		= Settings.SettingsFM.GetDefFMNoGenre();
 			txtBoxFMNoLang.Text			= Settings.SettingsFM.GetDefFMNoLang();
@@ -73,13 +100,9 @@ namespace Options
 			txtBoxFMNoBookTitle.Text	= Settings.SettingsFM.GetDefFMNoBookTitle();
 			txtBoxFMNoSequence.Text		= Settings.SettingsFM.GetDefFMNoSequence();
 			txtBoxFMNoNSequence.Text	= Settings.SettingsFM.GetDefFMNoNSequence();
-			// читаем сохраненные настройки, если они есть
-			ReadSettings();
-			#endregion
 		}
 		
-		#region Вспомогательные методы
-		void ReadSettings() {
+		private void ReadSettings() {
 			// чтение настроек из xml-файла
 			#region Код
 			string sSettings = Settings.Settings.GetSettingsPath();
@@ -489,7 +512,32 @@ namespace Options
 		}
 		#endregion
 		
+		#region Восстановление по-умолчанию
+		void BtnDefRestoreClick(object sender, EventArgs e) {
+			switch( tcOptions.SelectedIndex ) {
+				case 0: // общие
+					DefGeneral();
+					break;
+				case 1: // Валидатор
+					DefValidator();
+					break;
+				case 2: // Менеджер Файлов
+					switch( tcFM.SelectedIndex ) {
+						case 0: // основные - для Менеджера Файлов
+							DefFMGeneral();
+							break;
+						case 1: //Папки для "проблемных" файлов 
+							DefFMProblemFilesDir();
+							break;
+						case 2: // название папки шаблонного тэга без данных
+							DefFMDirNameForTagNotData();
+							break;
+					}
+					break;
+			}
+		}
 		#endregion
-
+		
+		#endregion
 	}
 }

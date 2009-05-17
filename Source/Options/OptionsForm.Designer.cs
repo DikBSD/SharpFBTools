@@ -41,6 +41,7 @@ namespace Options
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.ofDlg = new System.Windows.Forms.OpenFileDialog();
 			this.pBtn = new System.Windows.Forms.Panel();
+			this.btnDefRestore = new System.Windows.Forms.Button();
 			this.tcOptions = new System.Windows.Forms.TabControl();
 			this.tpGeneral = new System.Windows.Forms.TabPage();
 			this.gboxReader = new System.Windows.Forms.GroupBox();
@@ -228,6 +229,7 @@ namespace Options
 			// 
 			// pBtn
 			// 
+			this.pBtn.Controls.Add(this.btnDefRestore);
 			this.pBtn.Controls.Add(this.btnOK);
 			this.pBtn.Controls.Add(this.btnCancel);
 			this.pBtn.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -235,6 +237,16 @@ namespace Options
 			this.pBtn.Name = "pBtn";
 			this.pBtn.Size = new System.Drawing.Size(617, 29);
 			this.pBtn.TabIndex = 2;
+			// 
+			// btnDefRestore
+			// 
+			this.btnDefRestore.Location = new System.Drawing.Point(0, 3);
+			this.btnDefRestore.Name = "btnDefRestore";
+			this.btnDefRestore.Size = new System.Drawing.Size(336, 23);
+			this.btnDefRestore.TabIndex = 2;
+			this.btnDefRestore.Text = "Восстановить по-умолчанию (для каждой вкоадки отдельно)";
+			this.btnDefRestore.UseVisualStyleBackColor = true;
+			this.btnDefRestore.Click += new System.EventHandler(this.BtnDefRestoreClick);
 			// 
 			// tcOptions
 			// 
@@ -1179,7 +1191,7 @@ namespace Options
 			this.tpFMDirs.Padding = new System.Windows.Forms.Padding(3);
 			this.tpFMDirs.Size = new System.Drawing.Size(595, 385);
 			this.tpFMDirs.TabIndex = 1;
-			this.tpFMDirs.Text = " Папки ";
+			this.tpFMDirs.Text = " Папки для \"проблемных\" файлов ";
 			this.tpFMDirs.UseVisualStyleBackColor = true;
 			// 
 			// label12
@@ -1648,6 +1660,7 @@ namespace Options
 			this.panel3.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Button btnDefRestore;
 		private System.Windows.Forms.Button btnFB2NotValidDir;
 		private System.Windows.Forms.TextBox txtBoxFB2NotValidDir;
 		private System.Windows.Forms.Label label12;
