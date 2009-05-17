@@ -37,6 +37,8 @@ namespace SharpFBTools.Tools
 			InitializeComponent();
 			InitA();	// инициализация контролов (Упаковка)
 			InitUA();	// инициализация контролов (Распаковка
+			// читаем сохраненные пути к папкам Менеджера Архивов, если они есть
+			ReadMADirs();
 			cboxExistArchive.SelectedIndex		= 1; // добавление к создаваемому fb2-архиву очередного номера
 			cboxArchiveType.SelectedIndex		= 1; // Zip
 			cboxUAExistArchive.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу очередного номера
@@ -124,6 +126,36 @@ namespace SharpFBTools.Tools
 			return true;
 		}
 		
+		private void ReadMADirs() {
+			// чтение путей к папкам Менеджера Архивов из xml-файла
+			string sSettings = Settings.SettingsAM.AMDirsSettingsPath;
+			if( !File.Exists( sSettings ) ) return;
+			XmlReaderSettings settings = new XmlReaderSettings();
+			settings.IgnoreWhitespace = true;
+			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
+				reader.ReadToFollowing("ScanDirForArchive");
+				if (reader.HasAttributes ) {
+					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
+					Settings.SettingsAM.AMAScanDir =  tboxSourceDir.Text.Trim();
+				}
+				reader.ReadToFollowing("TargetDirForArchive");
+				if (reader.HasAttributes ) {
+					tboxToAnotherDir.Text = reader.GetAttribute("tboxToAnotherDir");
+					Settings.SettingsAM.AMATargetDir = tboxToAnotherDir.Text.Trim();
+				}
+				reader.ReadToFollowing("ScanDirForUnArchive");
+				if (reader.HasAttributes ) {
+					tboxUASourceDir.Text = reader.GetAttribute("tboxUASourceDir");
+					Settings.SettingsAM.AMUAScanDir = tboxUASourceDir.Text.Trim();
+				}
+				reader.ReadToFollowing("TargetDirForUnArchive");
+				if (reader.HasAttributes ) {
+					tboxUAToAnotherDir.Text = reader.GetAttribute("tboxUAToAnotherDir");
+					Settings.SettingsAM.AMAUATargetDir = tboxUAToAnotherDir.Text.Trim();
+				}
+				reader.Close();
+			}
+		}
 		#endregion
 		
 		#region Архивация
@@ -699,6 +731,26 @@ namespace SharpFBTools.Tools
 		void CboxUAExistArchiveSelectedIndexChanged(object sender, EventArgs e)
 		{
 			chBoxAddFileNameBookID.Enabled = ( cboxUAExistArchive.SelectedIndex != 0 );
+		}
+		
+		void TboxSourceDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsAM.AMAScanDir = tboxSourceDir.Text;
+		}
+		
+		void TboxToAnotherDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsAM.AMATargetDir = tboxToAnotherDir.Text;
+		}
+		
+		void TboxUASourceDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsAM.AMUAScanDir = tboxUASourceDir.Text;
+		}
+		
+		void TboxUAToAnotherDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsAM.AMAUATargetDir = tboxUAToAnotherDir.Text;
 		}
 		#endregion
 	}

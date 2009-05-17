@@ -77,6 +77,42 @@ namespace Settings
 			// читаем номер выделенного итема для комбобокса cboxValidatorForFB2Archive из настроек для нажатия Enter
 			return Convert.ToInt16( Settings.ReadAttribute( "ValidatorPressEnter", "cboxValidatorForFB2ArchiveSelectedIndexPE", GetDefValidatorFB2ArchiveSelectedIndexPE().ToString() ) );
 		}
+		
+		//
+		public static void WriteValidatorDirs() {
+			XmlWriter writer = null;
+			try {
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Indent = true;
+				settings.IndentChars = ("\t");
+				settings.OmitXmlDeclaration = true;
+				
+				writer = XmlWriter.Create( SettingsValidator.ValidatorDirsSettingsPath, settings );
+				writer.WriteStartElement( "SharpFBTools" );
+					writer.WriteStartElement( "FB2Validator" );
+						writer.WriteStartElement( "ScanDir" );
+							writer.WriteAttributeString( "tboxSourceDir", SettingsValidator.ScanDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "NotValidFB2Files" );
+							writer.WriteAttributeString( "tboxFB2NotValidDirCopyTo", SettingsValidator.FB2NotValidDirCopyTo );
+							writer.WriteAttributeString( "tboxFB2NotValidDirMoveTo", SettingsValidator.FB2NotValidDirMoveTo );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "ValidFB2Files" );
+							writer.WriteAttributeString( "tboxFB2ValidDirCopyTo", SettingsValidator.FB2ValidDirCopyTo );
+							writer.WriteAttributeString( "tboxFB2ValidDirMoveTo", SettingsValidator.FB2ValidDirMoveTo );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "NotFB2Files" );
+							writer.WriteAttributeString( "tboxNotFB2DirCopyTo", SettingsValidator.NotFB2DirCopyTo );
+							writer.WriteAttributeString( "tboxNotFB2DirMoveTo", SettingsValidator.NotFB2DirMoveTo );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+				writer.WriteEndElement();
+				writer.Flush();
+			}  finally  {
+				if (writer != null)
+				writer.Close();
+			}
+		}
 		#endregion
 		
 		#region Открытые статические свойства класса для Папок Валидатора
@@ -127,42 +163,5 @@ namespace Settings
 		}
 		#endregion
 
-		#region Открытые статические методы класса
-		public static void WriteValidatorDirs() {
-			XmlWriter writer = null;
-			try {
-				XmlWriterSettings settings = new XmlWriterSettings();
-				settings.Indent = true;
-				settings.IndentChars = ("\t");
-				settings.OmitXmlDeclaration = true;
-				
-				writer = XmlWriter.Create( SettingsValidator.ValidatorDirsSettingsPath, settings );
-				writer.WriteStartElement( "SharpFBTools" );
-					writer.WriteStartElement( "FB2Validator" );
-						writer.WriteStartElement( "ScanDir" );
-							writer.WriteAttributeString( "tboxSourceDir", SettingsValidator.ScanDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "NotValidFB2Files" );
-							writer.WriteAttributeString( "tboxFB2NotValidDirCopyTo", SettingsValidator.FB2NotValidDirCopyTo );
-							writer.WriteAttributeString( "tboxFB2NotValidDirMoveTo", SettingsValidator.FB2NotValidDirMoveTo );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "ValidFB2Files" );
-							writer.WriteAttributeString( "tboxFB2ValidDirCopyTo", SettingsValidator.FB2ValidDirCopyTo );
-							writer.WriteAttributeString( "tboxFB2ValidDirMoveTo", SettingsValidator.FB2ValidDirMoveTo );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "NotFB2Files" );
-							writer.WriteAttributeString( "tboxNotFB2DirCopyTo", SettingsValidator.NotFB2DirCopyTo );
-							writer.WriteAttributeString( "tboxNotFB2DirMoveTo", SettingsValidator.NotFB2DirMoveTo );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-				writer.WriteEndElement();
-				writer.Flush();
-			}  finally  {
-				if (writer != null)
-				writer.Close();
-			}
-		}
-		
-		#endregion
 	}
 }

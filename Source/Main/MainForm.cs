@@ -134,6 +134,8 @@ namespace Main
 		{
 			// сохраняем пути к папкам Валидатора
 			SettingsValidator.WriteValidatorDirs();
+			// сохраняем пути к папкам и шаблон Менеджера Архивов
+			SettingsAM.WriteAMDirs();
 			// сохраняем пути к папкам и шаблон Менеджера Файлов
 			SettingsFM.WriteFMData();
 		}

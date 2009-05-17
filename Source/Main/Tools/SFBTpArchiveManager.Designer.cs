@@ -261,6 +261,7 @@ namespace SharpFBTools.Tools
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.Size = new System.Drawing.Size(411, 20);
 			this.tboxSourceDir.TabIndex = 4;
+			this.tboxSourceDir.TextChanged += new System.EventHandler(this.TboxSourceDirTextChanged);
 			// 
 			// lblDir
 			// 
@@ -425,6 +426,7 @@ namespace SharpFBTools.Tools
 			this.tboxToAnotherDir.ReadOnly = true;
 			this.tboxToAnotherDir.Size = new System.Drawing.Size(672, 20);
 			this.tboxToAnotherDir.TabIndex = 6;
+			this.tboxToAnotherDir.TextChanged += new System.EventHandler(this.TboxToAnotherDirTextChanged);
 			// 
 			// rbtnToAnotherDir
 			// 
@@ -689,6 +691,7 @@ namespace SharpFBTools.Tools
 			this.tboxUAToAnotherDir.ReadOnly = true;
 			this.tboxUAToAnotherDir.Size = new System.Drawing.Size(672, 20);
 			this.tboxUAToAnotherDir.TabIndex = 6;
+			this.tboxUAToAnotherDir.TextChanged += new System.EventHandler(this.TboxUAToAnotherDirTextChanged);
 			// 
 			// rbtnUAToAnotherDir
 			// 
@@ -822,6 +825,7 @@ namespace SharpFBTools.Tools
 			this.tboxUASourceDir.Name = "tboxUASourceDir";
 			this.tboxUASourceDir.Size = new System.Drawing.Size(411, 20);
 			this.tboxUASourceDir.TabIndex = 4;
+			this.tboxUASourceDir.TextChanged += new System.EventHandler(this.TboxUASourceDirTextChanged);
 			// 
 			// lblUAScanDir
 			// 
