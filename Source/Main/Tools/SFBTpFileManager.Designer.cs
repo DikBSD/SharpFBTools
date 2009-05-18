@@ -375,6 +375,7 @@ namespace SharpFBTools.Tools
 			this.cboxTemplatesPrepared.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxTemplatesPrepared.FormattingEnabled = true;
 			this.cboxTemplatesPrepared.Items.AddRange(new object[] {
+									"*L*\\*GG*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[#*SI* - ]*BT*",
 									"<><><> Авторы: по Буквам; Название Книги: Номер Серии и Название <><><>",
 									"==== Пробелы; Номер Серии: с # ====",
 									"Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\#1 - Обитаемый остров.fb2",

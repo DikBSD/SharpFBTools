@@ -48,7 +48,7 @@ namespace SharpFBTools.Tools
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
-			cboxTemplatesPrepared.SelectedIndex = 3;
+			cboxTemplatesPrepared.SelectedIndex = 0;
 			Init();
 			// читаем сохраненные пути к папкам и шаблон Менеджера Файлов, если они есть
 			ReadFMTempData();
