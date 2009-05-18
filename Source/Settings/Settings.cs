@@ -35,6 +35,8 @@ namespace Settings
 		private static string m_sFBReaderPath = "c:\\Program Files\\AlReader 2\\AlReader2.exe";
 		private static string m_sLicensePath = GetProgDir()+"\\License GPL 2.1.rtf";
 		private static string m_sChangeFilePath = GetProgDir()+"\\Change.rtf";
+		//
+		private static string m_sWorksDataSettingsPath = Settings.GetProgDir()+"\\SharpFBToolsWorksData.xml";
 		#endregion
 		
 		#region Общие Сообщения
@@ -226,6 +228,78 @@ namespace Settings
 		}
 		#endregion
 
+		#region Открытые статические общие свойства класса
+		public static string WorksDataSettingsPath {
+			get { return m_sWorksDataSettingsPath; }
+		}
+		#endregion
+		
+		#region Сохранение рабочих настроек (папки...) всех инструментов в xml-файл
+		public static void WriteSharpFBToolsWorksData() {
+			XmlWriter writer = null;
+			try {
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Indent = true;
+				settings.IndentChars = ("\t");
+				settings.OmitXmlDeclaration = true;
+				
+				writer = XmlWriter.Create( WorksDataSettingsPath, settings );
+				writer.WriteStartElement( "SharpFBTools" );
+					writer.WriteStartElement( "FB2Validator" );
+						writer.WriteStartElement( "VScanDir" );
+							writer.WriteAttributeString( "tboxSourceDir", SettingsValidator.ScanDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "VNotValidFB2Files" );
+							writer.WriteAttributeString( "tboxFB2NotValidDirCopyTo", SettingsValidator.FB2NotValidDirCopyTo );
+							writer.WriteAttributeString( "tboxFB2NotValidDirMoveTo", SettingsValidator.FB2NotValidDirMoveTo );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "VValidFB2Files" );
+							writer.WriteAttributeString( "tboxFB2ValidDirCopyTo", SettingsValidator.FB2ValidDirCopyTo );
+							writer.WriteAttributeString( "tboxFB2ValidDirMoveTo", SettingsValidator.FB2ValidDirMoveTo );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "VNotFB2Files" );
+							writer.WriteAttributeString( "tboxNotFB2DirCopyTo", SettingsValidator.NotFB2DirCopyTo );
+							writer.WriteAttributeString( "tboxNotFB2DirMoveTo", SettingsValidator.NotFB2DirMoveTo );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+					
+					writer.WriteStartElement( "ArchiveManager" );
+						writer.WriteStartElement( "AMScanDirForArchive" );
+							writer.WriteAttributeString( "tboxSourceDir", SettingsAM.AMAScanDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "AMTargetDirForArchive" );
+							writer.WriteAttributeString( "tboxToAnotherDir", SettingsAM.AMATargetDir );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "AMScanDirForUnArchive" );
+							writer.WriteAttributeString( "tboxUASourceDir", SettingsAM.AMUAScanDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "AMTargetDirForUnArchive" );
+							writer.WriteAttributeString( "tboxUAToAnotherDir", SettingsAM.AMAUATargetDir );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+					
+					writer.WriteStartElement( "FileManager" );
+						writer.WriteStartElement( "FMScanDir" );
+							writer.WriteAttributeString( "tboxSourceDir", SettingsFM.FMDataScanDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "FMTargetDir" );
+							writer.WriteAttributeString( "tboxSortAllToDir", SettingsFM.FMDataTargetDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "FMTemplate" );
+							writer.WriteAttributeString( "txtBoxTemplatesFromLine", SettingsFM.FMDataTemplate );
+						writer.WriteFullEndElement();
+					writer.WriteEndElement();
+					
+				writer.WriteEndElement();
+				writer.Flush();
+			}  finally  {
+				if (writer != null)
+				writer.Close();
+			}
+		}
+		#endregion
+	
 		#endregion
 
 	}

@@ -128,27 +128,27 @@ namespace SharpFBTools.Tools
 		
 		private void ReadMADirs() {
 			// чтение путей к папкам Менеджера Архивов из xml-файла
-			string sSettings = Settings.SettingsAM.AMDirsSettingsPath;
+			string sSettings = Settings.Settings.WorksDataSettingsPath;
 			if( !File.Exists( sSettings ) ) return;
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
 			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
-				reader.ReadToFollowing("ScanDirForArchive");
+				reader.ReadToFollowing("AMScanDirForArchive");
 				if (reader.HasAttributes ) {
 					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
 					Settings.SettingsAM.AMAScanDir =  tboxSourceDir.Text.Trim();
 				}
-				reader.ReadToFollowing("TargetDirForArchive");
+				reader.ReadToFollowing("AMTargetDirForArchive");
 				if (reader.HasAttributes ) {
 					tboxToAnotherDir.Text = reader.GetAttribute("tboxToAnotherDir");
 					Settings.SettingsAM.AMATargetDir = tboxToAnotherDir.Text.Trim();
 				}
-				reader.ReadToFollowing("ScanDirForUnArchive");
+				reader.ReadToFollowing("AMScanDirForUnArchive");
 				if (reader.HasAttributes ) {
 					tboxUASourceDir.Text = reader.GetAttribute("tboxUASourceDir");
 					Settings.SettingsAM.AMUAScanDir = tboxUASourceDir.Text.Trim();
 				}
-				reader.ReadToFollowing("TargetDirForUnArchive");
+				reader.ReadToFollowing("AMTargetDirForUnArchive");
 				if (reader.HasAttributes ) {
 					tboxUAToAnotherDir.Text = reader.GetAttribute("tboxUAToAnotherDir");
 					Settings.SettingsAM.AMAUATargetDir = tboxUAToAnotherDir.Text.Trim();

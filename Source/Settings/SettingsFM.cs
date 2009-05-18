@@ -58,7 +58,6 @@ namespace Settings
 		private static string m_sFMNoSequence	= "Серии Нет";
 		private static string m_sFMNoNSequence	= "Номера Серии Нет";
 		
-		private static string m_sFMDataSettingsPath = Settings.GetProgDir()+"\\FMData.xml";
 		private static string m_sFMDataScanDir		= "";
 		private static string m_sFMDataTargetDir	= "";
 		private static string m_sFMDataTemplate		= "";
@@ -441,9 +440,6 @@ namespace Settings
 		#endregion
 		
 		#region Открытые статические свойства класса для данных Менеджера Файлов
-		public static string FMDataSettingsPath {
-			get { return m_sFMDataSettingsPath; }
-        }
 		public static string FMDataScanDir {
 			get { return m_sFMDataScanDir; }
 			set { m_sFMDataScanDir = value; }
@@ -458,36 +454,5 @@ namespace Settings
 		}
 		#endregion
 		
-		#region Открытые статические методы класса
-		public static void WriteFMData() {
-			XmlWriter writer = null;
-			try {
-				XmlWriterSettings settings = new XmlWriterSettings();
-				settings.Indent = true;
-				settings.IndentChars = ("\t");
-				settings.OmitXmlDeclaration = true;
-				
-				writer = XmlWriter.Create( SettingsFM.FMDataSettingsPath, settings );
-				writer.WriteStartElement( "SharpFBTools" );
-					writer.WriteStartElement( "FileManager" );
-						writer.WriteStartElement( "ScanDir" );
-							writer.WriteAttributeString( "tboxSourceDir", SettingsFM.FMDataScanDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "TargetDir" );
-							writer.WriteAttributeString( "tboxSortAllToDir", SettingsFM.FMDataTargetDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "Template" );
-							writer.WriteAttributeString( "txtBoxTemplatesFromLine", SettingsFM.FMDataTemplate );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-				writer.WriteEndElement();
-				writer.Flush();
-			}  finally  {
-				if (writer != null)
-				writer.Close();
-			}
-		}
-		
-		#endregion
 	}
 }

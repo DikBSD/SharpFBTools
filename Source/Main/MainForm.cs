@@ -132,12 +132,8 @@ namespace Main
 		
 		void MainFormFormClosed(object sender, FormClosedEventArgs e)
 		{
-			// сохраняем пути к папкам Валидатора
-			SettingsValidator.WriteValidatorDirs();
-			// сохраняем пути к папкам и шаблон Менеджера Архивов
-			SettingsAM.WriteAMDirs();
-			// сохраняем пути к папкам и шаблон Менеджера Файлов
-			SettingsFM.WriteFMData();
+			// сохраняем пути к папкам и рабочие изменяющиеся данные всех инструменнов
+			Settings.Settings.WriteSharpFBToolsWorksData();
 		}
 		#endregion
 	}	

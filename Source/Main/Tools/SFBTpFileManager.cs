@@ -79,22 +79,22 @@ namespace SharpFBTools.Tools
 		
 		private void ReadFMTempData() {
 			// чтение путей к данным Менеджера Файлов из xml-файла
-			string sSettings = Settings.SettingsFM.FMDataSettingsPath;
+			string sSettings = Settings.Settings.WorksDataSettingsPath;
 			if( !File.Exists( sSettings ) ) return;
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
 			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
-				reader.ReadToFollowing("ScanDir");
+				reader.ReadToFollowing("FMScanDir");
 				if (reader.HasAttributes ) {
 					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
 					Settings.SettingsFM.FMDataScanDir = tboxSourceDir.Text.Trim();
 				}
-				reader.ReadToFollowing("TargetDir");
+				reader.ReadToFollowing("FMTargetDir");
 				if (reader.HasAttributes ) {
 					tboxSortAllToDir.Text = reader.GetAttribute("tboxSortAllToDir");
 					Settings.SettingsFM.FMDataTargetDir = tboxSortAllToDir.Text.Trim();
 				}
-				reader.ReadToFollowing("Template");
+				reader.ReadToFollowing("FMTemplate");
 				if (reader.HasAttributes ) {
 					txtBoxTemplatesFromLine.Text = reader.GetAttribute("txtBoxTemplatesFromLine");
 					Settings.SettingsFM.FMDataTemplate =  txtBoxTemplatesFromLine.Text.Trim();

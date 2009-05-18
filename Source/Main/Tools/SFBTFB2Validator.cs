@@ -121,31 +121,31 @@ namespace SharpFBTools.Tools
 		
 		private void ReadValidatorDirs() {
 			// чтение путей к папкам Валидатора из xml-файла
-			string sSettings = Settings.SettingsValidator.ValidatorDirsSettingsPath;
+			string sSettings = Settings.Settings.WorksDataSettingsPath;
 			if( !File.Exists( sSettings ) ) return;
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
 			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
-				reader.ReadToFollowing("ScanDir");
+				reader.ReadToFollowing("VScanDir");
 				if (reader.HasAttributes ) {
 					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
 					Settings.SettingsValidator.ScanDir =  tboxSourceDir.Text.Trim();
 				}
-				reader.ReadToFollowing("NotValidFB2Files");
+				reader.ReadToFollowing("VNotValidFB2Files");
 				if (reader.HasAttributes ) {
 					tboxFB2NotValidDirCopyTo.Text = reader.GetAttribute("tboxFB2NotValidDirCopyTo");
 					Settings.SettingsValidator.FB2NotValidDirCopyTo = tboxFB2NotValidDirCopyTo.Text.Trim();
 					tboxFB2NotValidDirMoveTo.Text = reader.GetAttribute("tboxFB2NotValidDirMoveTo");
 					Settings.SettingsValidator.FB2NotValidDirMoveTo = tboxFB2NotValidDirMoveTo.Text.Trim();
 				}
-				reader.ReadToFollowing("ValidFB2Files");
+				reader.ReadToFollowing("VValidFB2Files");
 				if (reader.HasAttributes ) {
 					tboxFB2ValidDirCopyTo.Text = reader.GetAttribute("tboxFB2ValidDirCopyTo");
 					Settings.SettingsValidator.FB2ValidDirCopyTo = tboxFB2ValidDirCopyTo.Text.Trim();
 					tboxFB2ValidDirMoveTo.Text = reader.GetAttribute("tboxFB2ValidDirMoveTo");
 					Settings.SettingsValidator.FB2ValidDirMoveTo = tboxFB2ValidDirMoveTo.Text.Trim();
 				}
-				reader.ReadToFollowing("NotFB2Files");
+				reader.ReadToFollowing("VNotFB2Files");
 				if (reader.HasAttributes ) {
 					tboxNotFB2DirCopyTo.Text = reader.GetAttribute("tboxNotFB2DirCopyTo");
 					Settings.SettingsValidator.NotFB2DirCopyTo = tboxNotFB2DirCopyTo.Text.Trim();
