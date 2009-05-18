@@ -129,31 +129,37 @@ namespace SharpFBTools.Tools
 									"Исходные fb2-файлы",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные fb2 в Zip-архивах",
+									"Исходные  Zip-архивы с fb2",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные fb2 в Rar-архивах",
+									"Исходные  Rar-архивы с fb2",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные fb2 в 7zip-архивах",
+									"Исходные 7zip-архивы с fb2",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные fb2 в BZip2-архивах",
+									"Исходные BZip2-архивы с fb2",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные fb2 в Gzip-архивах",
+									"Исходные Gzip-архивы с fb2",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные fb2 в Tar-пакетах",
+									"Исходные Tar-пакеты с fb2",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Другие файлы",
+									"Исходные fb2-файлы из архивов",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего создано",
+									"Другие файлы",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Создано в папке-приемнике",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Нечитаемые fb2-файлы (архивы)",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Не валидные fb2-файлы (при вкл. опции)",
 									"0"}, -1);
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
 			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
@@ -507,9 +513,9 @@ namespace SharpFBTools.Tools
 			this.pProgress.Controls.Add(this.lvSettings);
 			this.pProgress.Controls.Add(this.lvFilesCount);
 			this.pProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pProgress.Location = new System.Drawing.Point(0, 333);
+			this.pProgress.Location = new System.Drawing.Point(0, 305);
 			this.pProgress.Name = "pProgress";
-			this.pProgress.Size = new System.Drawing.Size(828, 205);
+			this.pProgress.Size = new System.Drawing.Size(828, 233);
 			this.pProgress.TabIndex = 29;
 			// 
 			// lvSettings
@@ -588,9 +594,9 @@ namespace SharpFBTools.Tools
 									listViewItem24,
 									listViewItem25,
 									listViewItem26});
-			this.lvSettings.Location = new System.Drawing.Point(282, 0);
+			this.lvSettings.Location = new System.Drawing.Point(319, 0);
 			this.lvSettings.Name = "lvSettings";
-			this.lvSettings.Size = new System.Drawing.Size(546, 202);
+			this.lvSettings.Size = new System.Drawing.Size(509, 230);
 			this.lvSettings.TabIndex = 11;
 			this.lvSettings.UseCompatibleStateImageBehavior = false;
 			this.lvSettings.View = System.Windows.Forms.View.Details;
@@ -603,7 +609,7 @@ namespace SharpFBTools.Tools
 			// cHeaderSettingsValue
 			// 
 			this.cHeaderSettingsValue.Text = "Значение";
-			this.cHeaderSettingsValue.Width = 270;
+			this.cHeaderSettingsValue.Width = 310;
 			// 
 			// lvFilesCount
 			// 
@@ -625,10 +631,12 @@ namespace SharpFBTools.Tools
 									listViewItem35,
 									listViewItem36,
 									listViewItem37,
-									listViewItem38});
+									listViewItem38,
+									listViewItem39,
+									listViewItem40});
 			this.lvFilesCount.Location = new System.Drawing.Point(4, 3);
 			this.lvFilesCount.Name = "lvFilesCount";
-			this.lvFilesCount.Size = new System.Drawing.Size(272, 199);
+			this.lvFilesCount.Size = new System.Drawing.Size(309, 227);
 			this.lvFilesCount.TabIndex = 10;
 			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
 			this.lvFilesCount.View = System.Windows.Forms.View.Details;
@@ -636,7 +644,7 @@ namespace SharpFBTools.Tools
 			// columnHeader6
 			// 
 			this.columnHeader6.Text = "Папки и файлы";
-			this.columnHeader6.Width = 180;
+			this.columnHeader6.Width = 220;
 			// 
 			// columnHeader7
 			// 
@@ -652,7 +660,7 @@ namespace SharpFBTools.Tools
 			this.gBoxTemplatesDescription.ForeColor = System.Drawing.Color.Maroon;
 			this.gBoxTemplatesDescription.Location = new System.Drawing.Point(0, 155);
 			this.gBoxTemplatesDescription.Name = "gBoxTemplatesDescription";
-			this.gBoxTemplatesDescription.Size = new System.Drawing.Size(828, 178);
+			this.gBoxTemplatesDescription.Size = new System.Drawing.Size(828, 150);
 			this.gBoxTemplatesDescription.TabIndex = 30;
 			this.gBoxTemplatesDescription.TabStop = false;
 			this.gBoxTemplatesDescription.Text = " Описание шаблонов ";
@@ -665,7 +673,7 @@ namespace SharpFBTools.Tools
 			this.richTxtBoxDescTemplates.Location = new System.Drawing.Point(3, 16);
 			this.richTxtBoxDescTemplates.Name = "richTxtBoxDescTemplates";
 			this.richTxtBoxDescTemplates.ReadOnly = true;
-			this.richTxtBoxDescTemplates.Size = new System.Drawing.Size(822, 159);
+			this.richTxtBoxDescTemplates.Size = new System.Drawing.Size(822, 131);
 			this.richTxtBoxDescTemplates.TabIndex = 9;
 			this.richTxtBoxDescTemplates.Text = "";
 			// 

@@ -202,7 +202,7 @@ namespace SharpFBTools.Tools
 			} else {
 				FilesWorker.Archiver.zip( s7zaPath, sArchType, sFromFilePath, sToFilePath );
 			}
-			IncStatus( 10 ); // всего создано
+			IncStatus( 11 ); // всего создано
 		}
 		
 		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
@@ -216,7 +216,7 @@ namespace SharpFBTools.Tools
 			if( File.Exists( sFromFilePath ) ) {
 				File.Copy( sFromFilePath, sToFilePath );
 			}
-			IncStatus( 10 ); // всего создано
+			IncStatus( 11 ); // всего создано
 		}
 		private string FileExsistWorker( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode,
 		                                string sArchType )
@@ -265,10 +265,11 @@ namespace SharpFBTools.Tools
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
 						MakeFileFor1Genre1AuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
 						                               sSource, sTarget, lSLexems, dfm, true );
+						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
 				}  else {
 					// пропускаем не fb2-файлы и архивы
-					IncStatus( 9 ); // другие файлы
+					IncStatus( 10 ); // другие файлы
 				}
 			}
 		}
@@ -297,10 +298,11 @@ namespace SharpFBTools.Tools
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
 						MakeFileForAllGenre1AuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
 						                                 sSource, sTarget, lSLexems, dfm, true ) ;
+						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
 				}  else {
 					// пропускаем не fb2-файлы и архивы
-					IncStatus( 9 ); // другие файлы
+					IncStatus( 10 ); // другие файлы
 				}
 			}
 		}
@@ -335,10 +337,11 @@ namespace SharpFBTools.Tools
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
 						MakeFileFor1GenreAllAuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
 						                                 sSource, sTarget, lSLexems, dfm, true );
+						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
 				} else {
 					// пропускаем не fb2-файлы и архивы
-					IncStatus( 9 ); // другие файлы
+					IncStatus( 10 ); // другие файлы
 				}
 			}
 		}
@@ -373,10 +376,11 @@ namespace SharpFBTools.Tools
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
 						MakeFileForAllGenreAllAuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
 						                                   sSource, sTarget, lSLexems, dfm, true );
+						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
 				}  else {
 					// пропускаем не fb2-файлы и архивы
-					IncStatus( 9 ); // другие файлы
+					IncStatus( 10 ); // другие файлы
 				}
 			}
 		}
@@ -408,6 +412,7 @@ namespace SharpFBTools.Tools
 				if( nGenreIndex==0 && nAuthorIndex==0 ) {
 					// помещаем его в папку для невалидных файлов
 					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotValidFB2Dir, dfm.FileExistMode );
+					IncStatus( 13 ); // не валидные fb2-файлы
 					return false; // файл невалидный - пропускаем его, сортируем дальше
 				} else {
 					return false; // файл уже скопирован - пропускаем его, сортируем дальше
@@ -423,7 +428,7 @@ namespace SharpFBTools.Tools
 			string sFrom = ( !bFromArchive ? sSource : Settings.Settings.GetTempDir() );
 			string sToFilePath = sBadDir+"\\"+sFromFilePath.Remove( 0, sFrom.Length );
 			CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, false );
-			IncStatus( 11 ); // нечитаемые fb2-файлы или архивы
+			IncStatus( 12 ); // нечитаемые fb2-файлы или архивы
 		}
 			
 		private void MakeFB2File( string sFromFilePath, string sSource, string sTarget,
