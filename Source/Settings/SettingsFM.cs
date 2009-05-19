@@ -46,6 +46,7 @@ namespace Settings
 		private static string m_sFMFB2NotReadDir	= Settings.GetProgDir()+"\\_NotReadFB2";
 		private static string m_sFMFB2LongPathDir	= Settings.GetProgDir()+"\\_FB2LongPath";
 		private static string m_sFMFB2NotValidDir	= Settings.GetProgDir()+"\\_NotValidFB2";
+		private static string m_sFMArchNotOpenDir	= Settings.GetProgDir()+"\\_NotOpenArchive";
 		//
 		private static string m_sFMNoGenreGroup	= "Неизвестная Группа Жанров";
 		private static string m_sFMNoGenre		= "Жанра Нет";
@@ -97,6 +98,10 @@ namespace Settings
 		
 		public static string GetDefFMFB2NotValidDir() {
 			return m_sFMFB2NotValidDir;
+		}
+		
+		public static string GetDefFMArchNotOpenDir() {
+			return m_sFMArchNotOpenDir;
 		}
 		
 		public static string GetDefFMDescTemplatePath() {
@@ -173,6 +178,7 @@ namespace Settings
 		public static bool ReadFMGenresScheme() {
 			return Settings.ReadAttribute( "FMGenresScheme", "rbtnFMFB21Checked", GetDefFMrbtnGenreFB21Cheked() );
 		}
+		
 		public static string ReadFMFB2NotReadDir() {
 			return Settings.ReadAttribute( "FB2NotReadDir", "txtBoxFB2NotReadDir", GetDefFMFB2NotReadDir() );
 		}
@@ -181,6 +187,9 @@ namespace Settings
 		}
 		public static string ReadFMFB2NotValidDir() {
 			return Settings.ReadAttribute( "FB2NotValidDir", "txtBoxFB2NotValidDir", GetDefFMFB2NotValidDir() );
+		}
+		public static string ReadFMArchNotOpenDir() {
+			return Settings.ReadAttribute( "ArchNotOpenDir", "txtBoxArchNotOpenDir", GetDefFMArchNotOpenDir() );
 		}
 		
 		public static bool ReadRegisterAsIsChecked() {
@@ -435,6 +444,8 @@ namespace Settings
 			}
 			// папка для невалидных fb2
 			lv.Items[25].SubItems[1].Text = ReadFMFB2NotValidDir();
+			// папка для "битых" архивов
+			lv.Items[26].SubItems[1].Text = ReadFMArchNotOpenDir();
 			
 		}
 		#endregion

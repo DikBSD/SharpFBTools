@@ -161,6 +161,9 @@ namespace Options
 			this.txtBoxFMNoGenreGroup = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
+			this.label13 = new System.Windows.Forms.Label();
+			this.txtBoxArchNotOpenDir = new System.Windows.Forms.TextBox();
+			this.btnArchNotOpenDir = new System.Windows.Forms.Button();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -1177,6 +1180,9 @@ namespace Options
 			// 
 			// tpFMDirs
 			// 
+			this.tpFMDirs.Controls.Add(this.label13);
+			this.tpFMDirs.Controls.Add(this.txtBoxArchNotOpenDir);
+			this.tpFMDirs.Controls.Add(this.btnArchNotOpenDir);
 			this.tpFMDirs.Controls.Add(this.label12);
 			this.tpFMDirs.Controls.Add(this.txtBoxFB2NotValidDir);
 			this.tpFMDirs.Controls.Add(this.btnFB2NotValidDir);
@@ -1590,6 +1596,41 @@ namespace Options
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Неизвестная Группа Жанров:";
 			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.label13.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label13.Location = new System.Drawing.Point(3, 93);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(175, 13);
+			this.label13.TabIndex = 41;
+			this.label13.Text = "Папка для \"битых\" архивов:";
+			// 
+			// txtBoxArchNotOpenDir
+			// 
+			this.txtBoxArchNotOpenDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBoxArchNotOpenDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.txtBoxArchNotOpenDir.Location = new System.Drawing.Point(226, 89);
+			this.txtBoxArchNotOpenDir.Name = "txtBoxArchNotOpenDir";
+			this.txtBoxArchNotOpenDir.ReadOnly = true;
+			this.txtBoxArchNotOpenDir.Size = new System.Drawing.Size(309, 20);
+			this.txtBoxArchNotOpenDir.TabIndex = 39;
+			// 
+			// btnArchNotOpenDir
+			// 
+			this.btnArchNotOpenDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnArchNotOpenDir.Image = ((System.Drawing.Image)(resources.GetObject("btnArchNotOpenDir.Image")));
+			this.btnArchNotOpenDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnArchNotOpenDir.Location = new System.Drawing.Point(541, 87);
+			this.btnArchNotOpenDir.Name = "btnArchNotOpenDir";
+			this.btnArchNotOpenDir.Size = new System.Drawing.Size(37, 24);
+			this.btnArchNotOpenDir.TabIndex = 40;
+			this.btnArchNotOpenDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnArchNotOpenDir.UseVisualStyleBackColor = true;
+			this.btnArchNotOpenDir.Click += new System.EventHandler(this.BtnArchNotOpenDirClick);
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1660,6 +1701,9 @@ namespace Options
 			this.panel3.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Button btnArchNotOpenDir;
+		private System.Windows.Forms.TextBox txtBoxArchNotOpenDir;
+		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.Button btnDefRestore;
 		private System.Windows.Forms.Button btnFB2NotValidDir;
 		private System.Windows.Forms.TextBox txtBoxFB2NotValidDir;

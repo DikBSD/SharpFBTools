@@ -218,6 +218,40 @@ namespace SharpFBTools.Tools
 			}
 			IncStatus( 11 ); // всего создано
 		}
+		
+		private void CopyBadArchiveToBadDir( string sFromFilePath, string sSource, string sToDir, int nFileExistMode )
+		{
+			// копирование "битого" с сформированным именем (путь)
+			string sToFilePath = sToDir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
+			Regex rx = new Regex( @"\\+" );
+			sFromFilePath = rx.Replace( sFromFilePath, "\\" );
+			sToFilePath = rx.Replace( sToFilePath, "\\" );
+			string sSufix = "";
+			FileInfo fi = new FileInfo( sToFilePath );
+			if( !fi.Directory.Exists ) {
+				Directory.CreateDirectory( fi.Directory.ToString() );
+			}
+			// обработка уже существующих файлов в папке
+			if( File.Exists( sToFilePath ) ) {
+				if( nFileExistMode == 0 ) {
+					File.Delete( sToFilePath );
+				} else {
+					if( nFileExistMode == 1 ) {
+						// Добавить к создаваемому архиву очередной номер
+						sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sToFilePath ).ToString();
+					} else {
+						// Добавить к создаваемому архиву дату и время
+						sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
+					}
+					sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + Path.GetExtension( sToFilePath );
+				}
+			}
+			if( File.Exists( sFromFilePath ) ) {
+				File.Copy( sFromFilePath, sToFilePath );
+			}
+			IncStatus( 14 ); // всего создано
+		}
+		
 		private string FileExsistWorker( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode,
 		                                string sArchType )
 		{
@@ -262,6 +296,10 @@ namespace SharpFBTools.Tools
 				// это архив?
 				if( IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+					if( lFilesListFromArchive==null ) {
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
+						return; // не получилось открыть архив - "битый"
+					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
 						MakeFileFor1Genre1AuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
 						                               sSource, sTarget, lSLexems, dfm, true );
@@ -295,6 +333,10 @@ namespace SharpFBTools.Tools
 				// это архив?
 				if( IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+					if( lFilesListFromArchive==null ) {
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
+						return; // не получилось открыть архив - "битый"
+					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
 						MakeFileForAllGenre1AuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
 						                                 sSource, sTarget, lSLexems, dfm, true ) ;
@@ -334,6 +376,10 @@ namespace SharpFBTools.Tools
 				// это архив?
 				if( IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+					if( lFilesListFromArchive==null ) {
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
+						return; // не получилось открыть архив - "битый"
+					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
 						MakeFileFor1GenreAllAuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
 						                                 sSource, sTarget, lSLexems, dfm, true );
@@ -373,6 +419,10 @@ namespace SharpFBTools.Tools
 				// это архив?
 				if( IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+					if( lFilesListFromArchive==null ) {
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
+						return; // не получилось открыть архив - "битый"
+					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
 						MakeFileForAllGenreAllAuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
 						                                   sSource, sTarget, lSLexems, dfm, true );

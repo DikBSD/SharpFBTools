@@ -34,6 +34,7 @@ namespace Settings
 		private string m_sNotReadFB2Dir		= SettingsFM.ReadFMFB2NotReadDir();
 		private string m_sFileLongPathDir	= SettingsFM.ReadFMFB2LongPathDir();
 		private string m_sNotValidFB2Dir	= SettingsFM.ReadFMFB2NotValidDir();
+		private string m_sNotOpenArchDir	= SettingsFM.ReadFMArchNotOpenDir();
 		
 		private bool m_bGenreTypeMode		= SettingsFM.ReadGenreTypeMode();
 		private bool m_bGenresFB21Scheme	= SettingsFM.ReadFMGenresScheme();
@@ -122,6 +123,10 @@ namespace Settings
 		public virtual string NotValidFB2Dir {
 			get { return m_sNotValidFB2Dir; }
 			set { m_sNotValidFB2Dir = value; }
+        }
+		public virtual string NotOpenArchDir {
+			get { return m_sNotOpenArchDir; }
+			set { m_sNotOpenArchDir = value; }
         }
 		//
 		public virtual bool GenreTypeMode {

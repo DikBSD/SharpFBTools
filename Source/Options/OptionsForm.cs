@@ -87,6 +87,7 @@ namespace Options
 			txtBoxFB2NotReadDir.Text	= Settings.SettingsFM.GetDefFMFB2NotReadDir();
 			txtBoxFB2LongPathDir.Text	= Settings.SettingsFM.GetDefFMFB2LongPathDir();
 			txtBoxFB2NotValidDir.Text	= Settings.SettingsFM.GetDefFMFB2NotValidDir();
+			txtBoxArchNotOpenDir.Text	= Settings.SettingsFM.GetDefFMArchNotOpenDir();
 		}
 		private void DefFMDirNameForTagNotData() {
 			// название папки шаблонного тэга без данных
@@ -214,6 +215,10 @@ namespace Options
 					reader.ReadToFollowing("FB2NotValidDir");
 					if (reader.HasAttributes ) {
 						txtBoxFB2NotValidDir.Text = reader.GetAttribute("txtBoxFB2NotValidDir");
+					}
+					reader.ReadToFollowing("ArchNotOpenDir");
+					if (reader.HasAttributes ) {
+						txtBoxArchNotOpenDir.Text = reader.GetAttribute("txtBoxArchNotOpenDir");
 					}
 					reader.ReadToFollowing("TagsNoText");
 					if (reader.HasAttributes ) {
@@ -368,6 +373,10 @@ namespace Options
 							writer.WriteAttributeString( "txtBoxFB2NotValidDir", txtBoxFB2NotValidDir.Text );
 						writer.WriteFullEndElement();
 						
+						writer.WriteStartElement( "ArchNotOpenDir" );
+							writer.WriteAttributeString( "txtBoxArchNotOpenDir", txtBoxArchNotOpenDir.Text );
+						writer.WriteFullEndElement();
+						
 						writer.WriteStartElement( "TagsNoText" );
 							writer.WriteAttributeString( "txtBoxFMNoGenreGroup", txtBoxFMNoGenreGroup.Text );
 							writer.WriteAttributeString( "txtBoxFMNoGenre", txtBoxFMNoGenre.Text );
@@ -510,6 +519,12 @@ namespace Options
 			// указание пути к папке для невалидных fb2-файлов
 			FilesWorker.FilesWorker.OpenDirDlg( txtBoxFB2NotValidDir, fbdDir, "Укажите папку для невалидных fb2-файлов:" );
 		}
+		
+		void BtnArchNotOpenDirClick(object sender, EventArgs e)
+		{
+			// указание пути к папке для "битых" архивов
+			FilesWorker.FilesWorker.OpenDirDlg( txtBoxArchNotOpenDir, fbdDir, "Укажите папку для \"битых\" архивов:" );
+		}
 		#endregion
 		
 		#region Восстановление по-умолчанию
@@ -539,5 +554,7 @@ namespace Options
 		#endregion
 		
 		#endregion
+		
+		
 	}
 }
