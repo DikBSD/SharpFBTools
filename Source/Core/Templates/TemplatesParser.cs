@@ -512,10 +512,10 @@ namespace Templates {
 									sFileName += sNoLN;
 								} else {
 									if( lAuthors[nAuthorIndex].LastName==null ) {
-										sFileName += sNoLN;
+										sFileName += sNoLN + "\\" + sNoLN;
 									} else {
 										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
-											sFileName += sNoLN;
+											sFileName += sNoLN + "\\" + sNoLN;
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
 											sFileName += sExsist[0] + "\\" + sExsist;

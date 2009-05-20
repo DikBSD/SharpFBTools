@@ -195,39 +195,38 @@ namespace FB2.FB2Parsers
             XmlNodeList	em = xn.SelectNodes("./fb:email", m_NsManager);
             XmlNode		id = xn.SelectSingleNode("./fb:id", m_NsManager);
 
-            if( fn != null && ln != null ) {
-            	Author = new Author( TextFieldType<TextFieldType>( fn ), TextFieldType<TextFieldType>( ln ) );
+            if( fn != null || mn != null || ln != null || nn != null || hp != null || em != null || id != null ) {
+            	Author = new Author();
+            	if( fn != null ) {
+               		Author.FirstName = TextFieldType<TextFieldType>( fn );
+          		}
             	if( mn != null ) {
-                	Author.MiddleName = TextFieldType<TextFieldType>( mn );
-                }
+               		Author.MiddleName = TextFieldType<TextFieldType>( mn );
+          		}
+            	if( ln != null ) {
+               		Author.LastName = TextFieldType<TextFieldType>( ln );
+          		}
             	if( nn != null ) {
-                	Author.NickName = TextFieldType<TextFieldType>( nn );
-                }
+               		Author.NickName = TextFieldType<TextFieldType>( nn );
+          		}
+				if( hp.Count > 0 ) {
+	                IList<string> homePages = new List<string>();
+    	            foreach( XmlNode node in hp ) {
+        	            homePages.Add( node.InnerText );
+            	    }
+                	Author.HomePages = homePages;
+            	}
+	            if( em.Count > 0 ) {
+    	            IList<string> emails = new List<string>();
+        	        foreach( XmlNode node in em ) {
+            	        emails.Add( node.InnerText );
+                	}
+	                Author.Emails = emails;
+    	        }
+            	if( id != null ) {
+         	       Author.ID = id.InnerText;
+         	   }
             }
-            else {
-            	Author = new Author( TextFieldType<TextFieldType>( nn ) );
-            }
-
-            if( id != null ) {
-                Author.ID = id.InnerText;
-            }
-
-            if( hp.Count > 0 ) {
-                IList<string> homePages = new List<string>();
-                foreach( XmlNode node in hp ) {
-                    homePages.Add( node.InnerText );
-                }
-                Author.HomePages = homePages;
-            }
-
-            if( em.Count > 0 ) {
-                IList<string> emails = new List<string>();
-                foreach( XmlNode node in em ) {
-                    emails.Add( node.InnerText );
-                }
-                Author.Emails = emails;
-            }
-
             return Author;
             #endregion
         }
