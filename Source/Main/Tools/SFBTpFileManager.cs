@@ -759,5 +759,12 @@ namespace SharpFBTools.Tools
 		}
 		#endregion
 
+		
+		void BtnInsertTemplatesClick(object sender, EventArgs e)
+		{
+			// запуск диалога Вставки готовый шаблонов
+			BasiclTemplates btfrm = new BasiclTemplates();
+			btfrm.ShowDialog();
+		}
 	}
 }

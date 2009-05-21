@@ -246,6 +246,7 @@ namespace SharpFBTools.Tools
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.gBoxTemplatesDescription = new System.Windows.Forms.GroupBox();
 			this.richTxtBoxDescTemplates = new System.Windows.Forms.RichTextBox();
+			this.btnInsertTemplates = new System.Windows.Forms.Button();
 			this.ssProgress.SuspendLayout();
 			this.tsFileManager.SuspendLayout();
 			this.pSource.SuspendLayout();
@@ -404,6 +405,7 @@ namespace SharpFBTools.Tools
 			// 
 			// gBoxRenameTemplates
 			// 
+			this.gBoxRenameTemplates.Controls.Add(this.btnInsertTemplates);
 			this.gBoxRenameTemplates.Controls.Add(this.txtBoxTemplatesFromLine);
 			this.gBoxRenameTemplates.Controls.Add(this.cboxTemplatesPrepared);
 			this.gBoxRenameTemplates.Controls.Add(this.rBtnTemplatesFromLine);
@@ -536,7 +538,7 @@ namespace SharpFBTools.Tools
 			this.cboxTemplatesPrepared.Location = new System.Drawing.Point(143, 18);
 			this.cboxTemplatesPrepared.MaxDropDownItems = 50;
 			this.cboxTemplatesPrepared.Name = "cboxTemplatesPrepared";
-			this.cboxTemplatesPrepared.Size = new System.Drawing.Size(667, 21);
+			this.cboxTemplatesPrepared.Size = new System.Drawing.Size(538, 21);
 			this.cboxTemplatesPrepared.TabIndex = 7;
 			// 
 			// rBtnTemplatesFromLine
@@ -772,6 +774,17 @@ namespace SharpFBTools.Tools
 			this.richTxtBoxDescTemplates.TabIndex = 9;
 			this.richTxtBoxDescTemplates.Text = "";
 			// 
+			// btnInsertTemplates
+			// 
+			this.btnInsertTemplates.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.btnInsertTemplates.Location = new System.Drawing.Point(687, 16);
+			this.btnInsertTemplates.Name = "btnInsertTemplates";
+			this.btnInsertTemplates.Size = new System.Drawing.Size(123, 23);
+			this.btnInsertTemplates.TabIndex = 9;
+			this.btnInsertTemplates.Text = "Вставить готовый";
+			this.btnInsertTemplates.UseVisualStyleBackColor = true;
+			this.btnInsertTemplates.Click += new System.EventHandler(this.BtnInsertTemplatesClick);
+			// 
 			// SFBTpFileManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -797,6 +810,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Button btnInsertTemplates;
 		private System.Windows.Forms.ToolStripButton tsbtnTargetDir;
 		private System.Windows.Forms.ListView lvSettings;
 		private System.Windows.Forms.ColumnHeader cHeaderSettingsValue;
