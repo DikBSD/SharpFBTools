@@ -110,53 +110,54 @@ namespace FB2.Genres
 				m_dFB22Genres.Add(m_sFB22GenreCode[i], m_sFB22GenreNames[i] );
 			}
 			/* инициализация словаря групп жанров */
+			Settings.DataFM dfm = new Settings.DataFM();
 			for( int i=0; i!= 13; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Фантастика, Фэнтэзи" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupSf );
 			}
 			for( int i=13; i!= 25; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Детективы, Боевики" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupDetective );
 			}
 			for( int i=25; i!= 32; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Проза" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupProse );
 			}
 			for( int i=32; i!= 37; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Любовные романы" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupLove );
 			}
 			for( int i=37; i!= 44; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Приключения" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupAdventure );
 			}
 			for( int i=44; i!= 52; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Детское" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupChildren );
 			}
 			for( int i=52; i!= 54; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Поэзия, Драматургия" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupPoetry );
 			}
 			for( int i=54; i!= 60; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Старинное" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupAntique );
 			}
 			for( int i=60; i!= 74; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Наука, Образование" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupScience );
 			}
 			for( int i=74; i!= 81; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Компьютеры" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupComputers );
 			}
 			for( int i=81; i!= 86; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Справочники" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupReference );
 			}
 			for( int i=86; i!= 91; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Документальное" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupNonfiction );
 			}
 			for( int i=91; i!= 96; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Религия" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupReligion );
 			}
 			for( int i=96; i!= 100; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Юмор" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupHumor );
 			}
 			for( int i=100; i!= 110; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Дом, Семья" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupHome );
 			}
 			for( int i=110; i!= m_sFB22GenreCode.Length; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], "Бизнес" );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], dfm.GenresGroupBusiness );
 			}
 			#endregion
 		}

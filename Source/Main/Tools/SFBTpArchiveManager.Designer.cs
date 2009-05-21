@@ -336,6 +336,7 @@ namespace SharpFBTools.Tools
 									this.columnHeader1,
 									this.columnHeader2});
 			this.lvGeneralCount.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvGeneralCount.FullRowSelect = true;
 			this.lvGeneralCount.GridLines = true;
 			this.lvGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem1,
@@ -582,6 +583,7 @@ namespace SharpFBTools.Tools
 			this.lvUAGeneralCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.cHeaderDirsFiles,
 									this.cHeaderCount});
+			this.lvUAGeneralCount.FullRowSelect = true;
 			this.lvUAGeneralCount.GridLines = true;
 			this.lvUAGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem4,
@@ -613,6 +615,7 @@ namespace SharpFBTools.Tools
 			this.lvUACount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.cHeaderArchive,
 									this.cHeaderArchiveCount});
+			this.lvUACount.FullRowSelect = true;
 			this.lvUACount.GridLines = true;
 			listViewGroup1.Header = "Архивы";
 			listViewGroup1.Name = "lvgArchive";

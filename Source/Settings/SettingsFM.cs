@@ -36,18 +36,18 @@ namespace Settings
 		private static bool m_brbtnAuthorAllCheked	= false;
 		private static bool m_brbtnGenreSchemaCheked	= true;
 		private static bool m_brbtnGenreTextCheked		= false;
-		
 		private static bool m_brbtnFMAllFB2Cheked		= true;
 		private static bool m_brbtnFMOnleValidFB2Cheked	= false;
-		
 		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
+		// пути к файлам-справкам
 		private static string m_sFileManagerHelpPath	= Settings.GetProgDir()+"\\Help\\FileManagerHelp.rtf";
-		private static string m_sDescTemplatePath	= Settings.GetProgDir()+"\\Help\\TemplatesDescription.rtf";
+		private static string m_sDescTemplatePath		= Settings.GetProgDir()+"\\Help\\TemplatesDescription.rtf";
+		// папки для "проблемных" файлов
 		private static string m_sFMFB2NotReadDir	= Settings.GetProgDir()+"\\_NotReadFB2";
 		private static string m_sFMFB2LongPathDir	= Settings.GetProgDir()+"\\_FB2LongPath";
 		private static string m_sFMFB2NotValidDir	= Settings.GetProgDir()+"\\_NotValidFB2";
 		private static string m_sFMArchNotOpenDir	= Settings.GetProgDir()+"\\_NotOpenArchive";
-		//
+		// названия папок для шаблонных тэгов без данных
 		private static string m_sFMNoGenreGroup	= "Неизвестная Группа Жанров";
 		private static string m_sFMNoGenre		= "Жанра Нет";
 		private static string m_sFMNoLang		= "Языка Книги Нет";
@@ -58,7 +58,24 @@ namespace Settings
 		private static string m_sFMNoBookTitle	= "Названия Книги Нет";
 		private static string m_sFMNoSequence	= "Серии Нет";
 		private static string m_sFMNoNSequence	= "Номера Серии Нет";
-		
+		// название Групп Жанров
+		private static string m_sFMsf			= "Фантастика, Фэнтэзи";
+		private static string m_sFMdetective	= "Детективы, Боевики";
+		private static string m_sFMprose		= "Проза";
+		private static string m_sFMlove			= "Любовные романы";
+		private static string m_sFMadventure	= "Приключения";
+		private static string m_sFMchildren		= "Детское";
+		private static string m_sFMpoetry		= "Поэзия, Драматургия";
+		private static string m_sFMantique		= "Старинное";
+		private static string m_sFMscience		= "Наука, Образование";
+		private static string m_sFMcomputers	= "Компьютеры";
+		private static string m_sFMreference	= "Справочники";
+		private static string m_sFMnonfiction	= "Документальное";
+		private static string m_sFMreligion		= "Религия";
+		private static string m_sFMhumor		= "Юмор";
+		private static string m_sFMhome			= "Дом, Семья";
+		private static string m_sFMbusiness		= "Бизнес";
+		// рабочие папки и данные
 		private static string m_sFMDataScanDir		= "";
 		private static string m_sFMDataTargetDir	= "";
 		private static string m_sFMDataTemplate		= "";
@@ -320,7 +337,6 @@ namespace Settings
 		public static string GetDefFMNoNSequence() {
 			return m_sFMNoNSequence;
 		}
-		
 		// чтение названий папок тэгов, данных у которых нет
 		public static string ReadFMNoGenreGroup() {
 			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoGenreGroup", GetDefFMNoGenreGroup() );
@@ -352,6 +368,106 @@ namespace Settings
 		public static string ReadFMNoNSequence() {
 			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoNSequence", GetDefFMNoNSequence() );
 		}
+		
+		// название папок Групп Жанров
+		public static string GetDefFMGenresGroupSf() {
+			return m_sFMsf;
+		}
+		public static string GetDefFMGenresGroupDetective() {
+			return m_sFMdetective;
+		}
+		public static string GetDefFMGenresGroupProse() {
+			return m_sFMprose;
+		}
+		public static string GetDefFMGenresGroupLove() {
+			return m_sFMlove;
+		}
+		public static string GetDefFMGenresGroupAdventure() {
+			return m_sFMadventure;
+		}
+		public static string GetDefFMGenresGroupChildren() {
+			return m_sFMchildren;
+		}
+		public static string GetDefFMGenresGroupPoetry() {
+			return m_sFMpoetry;
+		}
+		public static string GetDefFMGenresGroupAntique() {
+			return m_sFMantique;
+		}
+		public static string GetDefFMGenresGroupScience() {
+			return m_sFMscience;
+		}
+		public static string GetDefFMGenresGroupComputers() {
+			return m_sFMcomputers;
+		}
+		public static string GetDefFMGenresGroupReference() {
+			return m_sFMreference;
+		}
+		public static string GetDefFMGenresGroupNonfiction() {
+			return m_sFMnonfiction;
+		}
+		public static string GetDefFMGenresGroupReligion() {
+			return m_sFMreligion;
+		}
+		public static string GetDefFMGenresGroupHumor() {
+			return m_sFMhumor;
+		}
+		public static string GetDefFMGenresGroupHome() {
+			return m_sFMhome;
+		}
+		public static string GetDefFMGenresGroupBusiness() {
+			return m_sFMbusiness;
+		}
+		// чтение названий Групп Жанров
+		public static string ReadFMSf() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMsf", GetDefFMGenresGroupSf() );
+		}
+		public static string ReadFMDetective() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMdetective", GetDefFMGenresGroupDetective() );
+		}
+		public static string ReadFMProse() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMprose", GetDefFMGenresGroupProse() );
+		}
+		public static string ReadFMLove() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMlove", GetDefFMGenresGroupLove() );
+		}
+		public static string ReadFMAdventure() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMadventure", GetDefFMGenresGroupAdventure() );
+		}
+		public static string ReadFMChildren() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMchildren", GetDefFMGenresGroupChildren() );
+		}
+		public static string ReadFMPoetry() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMpoetry", GetDefFMGenresGroupPoetry() );
+		}
+		public static string ReadFMAntique() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMantique", GetDefFMGenresGroupAntique() );
+		}
+		public static string ReadFMScience() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMscience", GetDefFMGenresGroupScience() );
+		}
+		public static string ReadFMComputers() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMcomputers", GetDefFMGenresGroupComputers() );
+		}
+		public static string ReadFMReference() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMreference", GetDefFMGenresGroupReference() );
+		}
+		public static string ReadFMNonfiction() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMnonfiction", GetDefFMGenresGroupNonfiction() );
+		}
+		public static string ReadFMReligion() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMreligion", GetDefFMGenresGroupReligion() );
+		}
+		public static string ReadFMHumor() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMhumor", GetDefFMGenresGroupHumor() );
+		}
+		public static string ReadFMHome() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMhome", GetDefFMGenresGroupHome() );
+		}
+		public static string ReadFMBusiness() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMbusiness", GetDefFMGenresGroupBusiness() );
+		}
+		
 		
 		// заполнение индикатора настроек
 		public static void SetInfoSettings( ListView lv ) {
@@ -446,6 +562,23 @@ namespace Settings
 			lv.Items[25].SubItems[1].Text = ReadFMFB2NotValidDir();
 			// папка для "битых" архивов
 			lv.Items[26].SubItems[1].Text = ReadFMArchNotOpenDir();
+			// названия Групп Жанров
+			lv.Items[27].SubItems[1].Text = ReadFMSf();
+			lv.Items[28].SubItems[1].Text = ReadFMDetective();
+			lv.Items[29].SubItems[1].Text = ReadFMProse();
+			lv.Items[30].SubItems[1].Text = ReadFMLove();
+			lv.Items[31].SubItems[1].Text = ReadFMAdventure();
+			lv.Items[32].SubItems[1].Text = ReadFMChildren();
+			lv.Items[33].SubItems[1].Text = ReadFMPoetry();
+			lv.Items[34].SubItems[1].Text = ReadFMAntique();
+			lv.Items[35].SubItems[1].Text = ReadFMScience();
+			lv.Items[36].SubItems[1].Text = ReadFMComputers();
+			lv.Items[37].SubItems[1].Text = ReadFMReference();
+			lv.Items[38].SubItems[1].Text = ReadFMNonfiction();
+			lv.Items[39].SubItems[1].Text = ReadFMReligion();
+			lv.Items[40].SubItems[1].Text = ReadFMHumor();
+			lv.Items[41].SubItems[1].Text = ReadFMHome();
+			lv.Items[42].SubItems[1].Text = ReadFMBusiness();
 			
 		}
 		#endregion

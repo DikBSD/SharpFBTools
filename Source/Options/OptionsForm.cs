@@ -35,6 +35,8 @@ namespace Options
 			DefFMProblemFilesDir();
 			// название папки шаблонного тэга без данных
 			DefFMDirNameForTagNotData();
+			// название Групп Жанров
+			DefFMGenresGroups();
 			// читаем сохраненные настройки, если они есть
 			ReadSettings();
 			#endregion
@@ -103,6 +105,26 @@ namespace Options
 			txtBoxFMNoNSequence.Text	= Settings.SettingsFM.GetDefFMNoNSequence();
 		}
 		
+		private void DefFMGenresGroups() {
+			// название Групп Жанров
+			txtboxFMsf.Text			= Settings.SettingsFM.GetDefFMGenresGroupSf();
+			txtboxFMdetective.Text	= Settings.SettingsFM.GetDefFMGenresGroupDetective();
+			txtboxFMprose.Text		= Settings.SettingsFM.GetDefFMGenresGroupProse();
+			txtboxFMlove.Text		= Settings.SettingsFM.GetDefFMGenresGroupLove();
+			txtboxFMadventure.Text	= Settings.SettingsFM.GetDefFMGenresGroupAdventure();
+			txtboxFMchildren.Text	= Settings.SettingsFM.GetDefFMGenresGroupChildren();
+			txtboxFMpoetry.Text		= Settings.SettingsFM.GetDefFMGenresGroupPoetry();
+			txtboxFMantique.Text	= Settings.SettingsFM.GetDefFMGenresGroupAntique();
+			txtboxFMscience.Text	= Settings.SettingsFM.GetDefFMGenresGroupScience();
+			txtboxFMcomputers.Text	= Settings.SettingsFM.GetDefFMGenresGroupComputers();
+			txtboxFMreference.Text	= Settings.SettingsFM.GetDefFMGenresGroupReference();
+			txtboxFMnonfiction.Text	= Settings.SettingsFM.GetDefFMGenresGroupNonfiction();
+			txtboxFMreligion.Text	= Settings.SettingsFM.GetDefFMGenresGroupReligion();
+			txtboxFMhumor.Text		= Settings.SettingsFM.GetDefFMGenresGroupHumor();
+			txtboxFMhome.Text		= Settings.SettingsFM.GetDefFMGenresGroupHome();
+			txtboxFMbusiness.Text	= Settings.SettingsFM.GetDefFMGenresGroupBusiness();
+		}
+
 		private void ReadSettings() {
 			// чтение настроек из xml-файла
 			#region Код
@@ -232,6 +254,25 @@ namespace Options
 						txtBoxFMNoBookTitle.Text = reader.GetAttribute("txtBoxFMNoBookTitle");
 						txtBoxFMNoSequence.Text = reader.GetAttribute("txtBoxFMNoSequence");
 						txtBoxFMNoNSequence.Text = reader.GetAttribute("txtBoxFMNoNSequence");
+					}
+					reader.ReadToFollowing("GenresGroups");
+					if (reader.HasAttributes ) {
+						txtboxFMsf.Text			= reader.GetAttribute("txtboxFMsf");
+						txtboxFMdetective.Text	= reader.GetAttribute("txtboxFMdetective");
+						txtboxFMprose.Text		= reader.GetAttribute("txtboxFMprose");
+						txtboxFMlove.Text		= reader.GetAttribute("txtboxFMlove");
+						txtboxFMadventure.Text	= reader.GetAttribute("txtboxFMadventure");
+						txtboxFMchildren.Text	= reader.GetAttribute("txtboxFMchildren");
+						txtboxFMpoetry.Text		= reader.GetAttribute("txtboxFMpoetry");
+						txtboxFMantique.Text	= reader.GetAttribute("txtboxFMantique");
+						txtboxFMscience.Text	= reader.GetAttribute("txtboxFMscience");
+						txtboxFMcomputers.Text	= reader.GetAttribute("txtboxFMcomputers");
+						txtboxFMreference.Text	= reader.GetAttribute("txtboxFMreference");
+						txtboxFMnonfiction.Text	= reader.GetAttribute("txtboxFMnonfiction");
+						txtboxFMreligion.Text	= reader.GetAttribute("txtboxFMreligion");
+						txtboxFMhumor.Text		= reader.GetAttribute("txtboxFMhumor");
+						txtboxFMhome.Text		= reader.GetAttribute("txtboxFMhome");
+						txtboxFMbusiness.Text	= reader.GetAttribute("txtboxFMbusiness");
 					}
 				} catch {
 					MessageBox.Show( "Поврежден файл настроек: \""+Settings.Settings.GetSettingsPath()+"\".\nУдалите его, он создастся автоматически при сохранении настроек", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -388,6 +429,25 @@ namespace Options
 							writer.WriteAttributeString( "txtBoxFMNoBookTitle", txtBoxFMNoBookTitle.Text );
 							writer.WriteAttributeString( "txtBoxFMNoSequence", txtBoxFMNoSequence.Text );
 							writer.WriteAttributeString( "txtBoxFMNoNSequence", txtBoxFMNoNSequence.Text );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "GenresGroups" );
+							writer.WriteAttributeString( "txtboxFMsf", txtboxFMsf.Text );
+							writer.WriteAttributeString( "txtboxFMdetective", txtboxFMdetective.Text );
+							writer.WriteAttributeString( "txtboxFMprose", txtboxFMprose.Text );
+							writer.WriteAttributeString( "txtboxFMlove", txtboxFMlove.Text );
+							writer.WriteAttributeString( "txtboxFMadventure", txtboxFMadventure.Text );
+							writer.WriteAttributeString( "txtboxFMchildren", txtboxFMchildren.Text );
+							writer.WriteAttributeString( "txtboxFMpoetry", txtboxFMpoetry.Text );
+							writer.WriteAttributeString( "txtboxFMantique", txtboxFMantique.Text );
+							writer.WriteAttributeString( "txtboxFMscience", txtboxFMscience.Text );
+							writer.WriteAttributeString( "txtboxFMcomputers", txtboxFMcomputers.Text );
+							writer.WriteAttributeString( "txtboxFMreference", txtboxFMreference.Text );
+							writer.WriteAttributeString( "txtboxFMnonfiction", txtboxFMnonfiction.Text );
+							writer.WriteAttributeString( "txtboxFMreligion", txtboxFMreligion.Text );
+							writer.WriteAttributeString( "txtboxFMhumor", txtboxFMhumor.Text );
+							writer.WriteAttributeString( "txtboxFMhome", txtboxFMhome.Text );
+							writer.WriteAttributeString( "txtboxFMbusiness", txtboxFMbusiness.Text );
 						writer.WriteFullEndElement();
 						
 					writer.WriteEndElement();
@@ -547,6 +607,9 @@ namespace Options
 						case 2: // название папки шаблонного тэга без данных
 							DefFMDirNameForTagNotData();
 							break;
+						case 3: // название Групп Жанров
+							DefFMGenresGroups();
+							break;
 					}
 					break;
 			}
@@ -554,7 +617,6 @@ namespace Options
 		#endregion
 		
 		#endregion
-		
-		
+
 	}
 }

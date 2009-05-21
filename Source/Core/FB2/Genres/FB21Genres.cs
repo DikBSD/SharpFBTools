@@ -102,50 +102,51 @@ namespace FB2.Genres
 				m_dFB21Genres.Add( m_sFB21GenreCode[i], m_sFB21GenreNames[i] );
 			}
 			/* инициализация словаря групп жанров */
+			Settings.DataFM dfm = new Settings.DataFM();
 			for( int i=0; i!= 12; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Фантастика, Фэнтэзи" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupSf );
 			}
 			for( int i=12; i!= 24; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Детективы, Боевики" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupDetective );
 			}
 			for( int i=24; i!= 30; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Проза" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupProse );
 			}
 			for( int i=30; i!= 35; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Любовные романы" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupLove );
 			}
 			for( int i=35; i!= 42; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Приключения" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupAdventure );
 			}
 			for( int i=42; i!= 50; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Детское" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupChildren );
 			}
 			for( int i=50; i!= 52; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Поэзия, Драматургия" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupPoetry );
 			}
 			for( int i=52; i!= 58; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Старинное" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupAntique );
 			}
 			for( int i=58; i!= 73; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Наука, Образование" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupScience );
 			}
 			for( int i=73; i!= 80; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Компьютеры" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupComputers );
 			}
 			for( int i=80; i!= 85; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Справочники" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupReference );
 			}
 			for( int i=85; i!= 90; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Документальное" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupNonfiction );
 			}
 			for( int i=90; i!= 95; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Религия" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupReligion );
 			}
 			for( int i=95; i!= 99; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Юмор" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupHumor );
 			}
 			for( int i=99; i!= m_sFB21GenreCode.Length; ++i ) {
-				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], "Дом, Семья" );
+				m_dFB21GenresGroup.Add( m_sFB21GenreCode[i], dfm.GenresGroupHome );
 			}
 			#endregion
 		}
