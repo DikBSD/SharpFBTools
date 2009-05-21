@@ -23,5 +23,17 @@ namespace SharpFBTools.Tools
 			InitializeComponent();
 
 		}
+		
+		void TvBasicTemplatesAfterSelect(object sender, TreeViewEventArgs e)
+		{
+			// кнопка Вставить доступна только в случае выбора шаблона
+			btnInsert.Enabled = ( tvBasicTemplates.SelectedNode.GetNodeCount( true ) == 0 );
+		}
+		
+		void BtnInsertClick(object sender, EventArgs e)
+		{
+			// вставка выбранного шаблона в поле шаблонов
+			
+		}
 	}
 }

@@ -44,6 +44,7 @@ namespace SharpFBTools.Tools
 		{
 			return lvSettings;
 		}
+		
 		public SFBTpFileManager()
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -757,8 +758,6 @@ namespace SharpFBTools.Tools
 		{
 			Settings.SettingsFM.FMDataTemplate = txtBoxTemplatesFromLine.Text;
 		}
-		#endregion
-
 		
 		void BtnInsertTemplatesClick(object sender, EventArgs e)
 		{
@@ -766,5 +765,6 @@ namespace SharpFBTools.Tools
 			BasiclTemplates btfrm = new BasiclTemplates();
 			btfrm.ShowDialog();
 		}
+		#endregion
 	}
 }
