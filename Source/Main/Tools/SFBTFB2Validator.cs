@@ -673,14 +673,15 @@ namespace SharpFBTools.Tools
 				lvFilesCount.Refresh();
 			} else {
 				// сканировать и все подпапки
-				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvFilesCount );
-				lDirList.Sort();
+				tsslblProgress.Text = "Создание списка папок:";
+				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvFilesCount, false );
 			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
+			ssProgress.Refresh();
 			tlCentral.Refresh(); // обновление контролов на форме
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount, tsProgressBar );
-			lFilesList.Sort();
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress,
+			                                                                 lvFilesCount, tsProgressBar, true );
 			
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );

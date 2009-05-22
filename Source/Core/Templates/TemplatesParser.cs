@@ -252,7 +252,7 @@ namespace Templates {
 											lexem.Lexem = "";
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
-											lexem.Lexem = sExsist[0] + "\\" + sExsist;
+											lexem.Lexem = sExsist[0].ToString().ToUpper() + "\\" + sExsist;
 										}
 									}
 								}
@@ -518,7 +518,7 @@ namespace Templates {
 											sFileName += sNoLN + "\\" + sNoLN;
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
-											sFileName += sExsist[0] + "\\" + sExsist;
+											sFileName += sExsist[0].ToString().ToUpper() + "\\" + sExsist;
 										}
 									}
 								}
@@ -649,7 +649,7 @@ namespace Templates {
 									if( lAuthors[nAuthorIndex].LastName != null ) {
 										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length!=0 ) {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
-											sFileName += sExsist[0] + "\\" + sExsist;
+											sFileName += sExsist[0].ToString().ToUpper() + "\\" + sExsist;
 										}
 									}
 								}

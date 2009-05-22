@@ -638,13 +638,14 @@ namespace SharpFBTools.Tools
 				lvFilesCount.Refresh();
 			} else {
 				// сканировать и все подпапки
-				lDirList = FilesWorker.FilesWorker.DirsParser( sSource, lvFilesCount );
-				//lDirList.Sort();
+				tsslblProgress.Text = "Создание списка папок:";
+				lDirList = FilesWorker.FilesWorker.DirsParser( sSource, lvFilesCount, false );
 			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount, tsProgressBar );
-			//lFilesList.Sort();
+			ssProgress.Refresh();
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
+			                                                                 tsProgressBar, false );
 
 			int nFilesCount = lFilesList.Count;
 			if( nFilesCount == 0 ) {

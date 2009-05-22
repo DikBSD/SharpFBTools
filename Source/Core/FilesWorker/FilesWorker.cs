@@ -26,7 +26,7 @@ namespace FilesWorker
 		}
 		
 		#region Открытые статические методы класса
-		public static List<string> DirsParser( string sStartDir, ListView lv ) {
+		public static List<string> DirsParser( string sStartDir, ListView lv, bool bSort ) {
 			// список всех вложенных папок для стартового, включая и стартовый - замена рекурсии
 			List<string> lAllDirsList = new List<string>();
 			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
@@ -51,11 +51,14 @@ namespace FilesWorker
 				// удаляем из рабочего списка обработанные папки
 				lWorkDirList.RemoveRange( 0, nWorkCount );
 			}
-			return lAllDirsList; 
+			if( bSort ) {
+				lAllDirsList.Sort();
+			}
+			return lAllDirsList;
 		}
 		
 		public static List<string> AllFilesParser( List<string> lsDirs, StatusStrip ssProgress, ListView lv,
-		                                          ToolStripProgressBar pBar ) {
+		                                          ToolStripProgressBar pBar, bool bSort ) {
 			// список всех файлов - по cписку папок - замена рекурсии
 			pBar.Maximum = lsDirs.Count+1;
 			List<string> lFilesList = new List<string>();
@@ -70,6 +73,9 @@ namespace FilesWorker
 				++pBar.Value;
 				ssProgress.Refresh();
 				lv.Refresh();
+			}
+			if( bSort ) {
+				lFilesList.Sort();
 			}
 			return lFilesList;
 		}

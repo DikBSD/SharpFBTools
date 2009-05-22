@@ -277,7 +277,7 @@ namespace StringProcessing
 
 		public static string SpaceString( string sString, int nMode ) {
 			// обработка пробелов в строке
-			if( sString==null || sString=="" ) {
+			if( sString==null || sString.Length==0 ) {
 				return sString;
 			}
 			string s = "";
@@ -311,7 +311,7 @@ namespace StringProcessing
 		
 		public static string RegisterString( string sString, int nMode ) {
 			// задание регистра строке
-			if( sString==null || sString=="" ) {
+			if( sString==null || sString.Length==0 ) {
 				return "";
 			}
 			switch( nMode ) {
@@ -329,7 +329,7 @@ namespace StringProcessing
 		public static string TransliterationString( string sString ) {
 			// транслитерация строки
 			string sStr = sString;
-			if( sString==null || sString=="" ) {
+			if( sString==null || sString.Length==0 ) {
 				return sString;
 			}
 			const string sTemplate = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#№$%^[](){}-+=_;.,\\";
@@ -349,7 +349,7 @@ namespace StringProcessing
 		public static string StrictString( string sString ) {
 			// "строгое" значение строки
 			string s = sString;
-			if( sString==null || sString=="" ) {
+			if( sString==null || sString.Length==0 ) {
 				return sString;
 			}
 			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
@@ -366,7 +366,7 @@ namespace StringProcessing
 		public static string StrictPath( string sPath ) {
 			// "строгое" значение строки
 			string s = sPath;
-			if( sPath==null || sPath=="" ) {
+			if( sPath==null || sPath.Length==0 ) {
 				return sPath;
 			}
 			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}-_";
@@ -383,7 +383,7 @@ namespace StringProcessing
 		public static string OnlyCorrectSymbolsForString( string sString ) {
 			// только корректные символы для имен файлов
 			string s = sString;
-			if( sString==null || sString=="" ) {
+			if( sString==null || sString.Length==0 ) {
 				return sString;
 			}
 			const string sBad = "*/|?\\<>\"&:\t\r\n";
@@ -408,7 +408,7 @@ namespace StringProcessing
 		public static string OnlyCorrectSymbolsForPath( string sString ) {
 			// только корректные символы для имен файлов
 			string s = sString;
-			if( sString==null || sString=="" ) {
+			if( sString==null || sString.Length==0 ) {
 				return sString;
 			}
 			const string sBad = "*/|?<>\"&:\t\r\n";
