@@ -405,7 +405,7 @@ namespace Templates {
 				switch( lexem.Type ) {
 					case Lexems.SimpleType.const_text:
 						// постоянные символы
-						sFileName += lexem.Lexem.Trim();
+						sFileName += lexem.Lexem;
 						break;
 					case Lexems.SimpleType.const_template:
 						// постоянный шаблон
