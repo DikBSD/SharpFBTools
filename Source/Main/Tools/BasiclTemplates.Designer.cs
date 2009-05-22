@@ -740,7 +740,14 @@ namespace SharpFBTools.Tools
 									treeNode271,
 									treeNode302,
 									treeNode327});
-			System.Windows.Forms.TreeNode treeNode329 = new System.Windows.Forms.TreeNode("Язык\\Автор\\Жанр\\Серия\\Название Книги");
+			System.Windows.Forms.TreeNode treeNode329 = new System.Windows.Forms.TreeNode("По Жанрам", new System.Windows.Forms.TreeNode[] {
+									treeNode82,
+									treeNode164,
+									treeNode246,
+									treeNode328});
+			System.Windows.Forms.TreeNode treeNode330 = new System.Windows.Forms.TreeNode("Язык\\Автор\\Жанр\\Серия\\Название Книги");
+			System.Windows.Forms.TreeNode treeNode331 = new System.Windows.Forms.TreeNode("По Авторам", new System.Windows.Forms.TreeNode[] {
+									treeNode330});
 			this.tvBasicTemplates = new System.Windows.Forms.TreeView();
 			this.pControl = new System.Windows.Forms.Panel();
 			this.btnCollapseAll = new System.Windows.Forms.Button();
@@ -966,7 +973,7 @@ namespace SharpFBTools.Tools
 			treeNode81.ForeColor = System.Drawing.Color.Green;
 			treeNode81.Name = "Узел2";
 			treeNode81.Text = "Название Книги: Фамилия, (Серия, Номер Серии) и Название";
-			treeNode82.ForeColor = System.Drawing.Color.Red;
+			treeNode82.ForeColor = System.Drawing.Color.Purple;
 			treeNode82.Name = "Узел5";
 			treeNode82.Text = "Язык\\Группа\\Жанр\\Буква\\Автор\\Серия\\Название Книги";
 			treeNode83.Name = "Узел4";
@@ -1178,7 +1185,7 @@ namespace SharpFBTools.Tools
 			treeNode163.ForeColor = System.Drawing.Color.Green;
 			treeNode163.Name = "Узел4";
 			treeNode163.Text = "Название Книги: Фамилия, (Серия, Номер Серии) и Название";
-			treeNode164.ForeColor = System.Drawing.Color.Red;
+			treeNode164.ForeColor = System.Drawing.Color.Purple;
 			treeNode164.Name = "Узел0";
 			treeNode164.Text = "Язык\\Группа\\Жанр\\Автор\\Серия\\Название Книги";
 			treeNode165.Name = "Узел2";
@@ -1380,7 +1387,7 @@ namespace SharpFBTools.Tools
 			treeNode245.ForeColor = System.Drawing.Color.Green;
 			treeNode245.Name = "Узел56";
 			treeNode245.Text = "Название Книги: Фамилия, (Серия, Номер Серии) и Название";
-			treeNode246.ForeColor = System.Drawing.Color.Red;
+			treeNode246.ForeColor = System.Drawing.Color.Purple;
 			treeNode246.Name = "Узел6";
 			treeNode246.Text = "Язык\\Жанр\\Буква\\Автор\\Серия\\Название Книги";
 			treeNode247.Name = "Узел2";
@@ -1582,18 +1589,21 @@ namespace SharpFBTools.Tools
 			treeNode327.ForeColor = System.Drawing.Color.Green;
 			treeNode327.Name = "Узел52";
 			treeNode327.Text = "Название Книги: Фамилия, (Серия, Номер Серии) и Название";
-			treeNode328.ForeColor = System.Drawing.Color.Red;
+			treeNode328.ForeColor = System.Drawing.Color.Purple;
 			treeNode328.Name = "Узел0";
 			treeNode328.Text = "Язык\\Жанр\\Автор\\Серия\\Название Книги";
 			treeNode329.ForeColor = System.Drawing.Color.Red;
-			treeNode329.Name = "Узел1";
-			treeNode329.Text = "Язык\\Автор\\Жанр\\Серия\\Название Книги";
+			treeNode329.Name = "Узел77";
+			treeNode329.Text = "По Жанрам";
+			treeNode330.ForeColor = System.Drawing.Color.Purple;
+			treeNode330.Name = "Узел1";
+			treeNode330.Text = "Язык\\Автор\\Жанр\\Серия\\Название Книги";
+			treeNode331.ForeColor = System.Drawing.Color.Red;
+			treeNode331.Name = "Узел78";
+			treeNode331.Text = "По Авторам";
 			this.tvBasicTemplates.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-									treeNode82,
-									treeNode164,
-									treeNode246,
-									treeNode328,
-									treeNode329});
+									treeNode329,
+									treeNode331});
 			this.tvBasicTemplates.Size = new System.Drawing.Size(650, 289);
 			this.tvBasicTemplates.TabIndex = 0;
 			this.tvBasicTemplates.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TvBasicTemplatesAfterSelect);
