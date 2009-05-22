@@ -697,6 +697,9 @@ namespace SharpFBTools.Tools
 			tlCentral.Refresh(); // обновление контролов на форме
 			FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
 			string sTempDir = Settings.Settings.GetTempDir();
+			listViewNotValid.BeginUpdate();
+			listViewValid.BeginUpdate();
+			listViewNotFB2.BeginUpdate();
 			foreach( string sFile in lFilesList ) {
 				string sExt = Path.GetExtension( sFile );
 				if( sExt.ToLower() == ".fb2" ) {
@@ -724,6 +727,10 @@ namespace SharpFBTools.Tools
 			lvFilesCount.Items[3].SubItems[1].Text = m_lFB2ZipFiles.ToString();
 			lvFilesCount.Items[4].SubItems[1].Text = m_lFB2RarFiles.ToString();
 			lvFilesCount.Items[5].SubItems[1].Text = m_lNotFB2Files.ToString();
+			
+			listViewNotValid.EndUpdate();
+			listViewValid.EndUpdate();
+			listViewNotFB2.EndUpdate();
 			
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
