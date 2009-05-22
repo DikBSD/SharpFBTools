@@ -53,7 +53,9 @@ namespace SharpFBTools.Tools
 		
 		void BtnExpandAllClick(object sender, EventArgs e)
 		{
+			tvBasicTemplates.BeginUpdate();
 			tvBasicTemplates.ExpandAll();
+			tvBasicTemplates.EndUpdate();
 		}
 		#endregion
 	}

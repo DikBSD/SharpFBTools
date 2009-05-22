@@ -270,11 +270,9 @@ namespace Options
 			// 
 			// btnOK
 			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.Location = new System.Drawing.Point(498, 3);
+			this.btnOK.Location = new System.Drawing.Point(498, 6);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(112, 23);
+			this.btnOK.Size = new System.Drawing.Size(112, 26);
 			this.btnOK.TabIndex = 0;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -282,12 +280,10 @@ namespace Options
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-									| System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(376, 3);
+			this.btnCancel.Location = new System.Drawing.Point(368, 6);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(100, 23);
+			this.btnCancel.Size = new System.Drawing.Size(108, 26);
 			this.btnCancel.TabIndex = 1;
 			this.btnCancel.Text = "Отмена";
 			this.btnCancel.UseVisualStyleBackColor = true;
@@ -302,16 +298,16 @@ namespace Options
 			this.pBtn.Controls.Add(this.btnOK);
 			this.pBtn.Controls.Add(this.btnCancel);
 			this.pBtn.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pBtn.Location = new System.Drawing.Point(0, 481);
+			this.pBtn.Location = new System.Drawing.Point(0, 478);
 			this.pBtn.Name = "pBtn";
-			this.pBtn.Size = new System.Drawing.Size(617, 29);
+			this.pBtn.Size = new System.Drawing.Size(617, 42);
 			this.pBtn.TabIndex = 2;
 			// 
 			// btnDefRestore
 			// 
-			this.btnDefRestore.Location = new System.Drawing.Point(8, 3);
+			this.btnDefRestore.Location = new System.Drawing.Point(8, 6);
 			this.btnDefRestore.Name = "btnDefRestore";
-			this.btnDefRestore.Size = new System.Drawing.Size(336, 23);
+			this.btnDefRestore.Size = new System.Drawing.Size(336, 26);
 			this.btnDefRestore.TabIndex = 2;
 			this.btnDefRestore.Text = "Восстановить по-умолчанию (для каждой вкоадки отдельно)";
 			this.btnDefRestore.UseVisualStyleBackColor = true;
@@ -326,7 +322,7 @@ namespace Options
 			this.tcOptions.Location = new System.Drawing.Point(0, 0);
 			this.tcOptions.Name = "tcOptions";
 			this.tcOptions.SelectedIndex = 0;
-			this.tcOptions.Size = new System.Drawing.Size(617, 481);
+			this.tcOptions.Size = new System.Drawing.Size(617, 478);
 			this.tcOptions.TabIndex = 3;
 			// 
 			// tpGeneral
@@ -337,7 +333,7 @@ namespace Options
 			this.tpGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tpGeneral.Name = "tpGeneral";
 			this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpGeneral.Size = new System.Drawing.Size(609, 455);
+			this.tpGeneral.Size = new System.Drawing.Size(609, 465);
 			this.tpGeneral.TabIndex = 0;
 			this.tpGeneral.Text = " Основные ";
 			this.tpGeneral.UseVisualStyleBackColor = true;
@@ -772,7 +768,7 @@ namespace Options
 			this.tpFileManager.Location = new System.Drawing.Point(4, 22);
 			this.tpFileManager.Name = "tpFileManager";
 			this.tpFileManager.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFileManager.Size = new System.Drawing.Size(609, 455);
+			this.tpFileManager.Size = new System.Drawing.Size(609, 452);
 			this.tpFileManager.TabIndex = 2;
 			this.tpFileManager.Text = " Менеджер файлов ";
 			this.tpFileManager.UseVisualStyleBackColor = true;
@@ -787,7 +783,7 @@ namespace Options
 			this.tcFM.Location = new System.Drawing.Point(3, 3);
 			this.tcFM.Name = "tcFM";
 			this.tcFM.SelectedIndex = 0;
-			this.tcFM.Size = new System.Drawing.Size(603, 449);
+			this.tcFM.Size = new System.Drawing.Size(603, 446);
 			this.tcFM.TabIndex = 36;
 			// 
 			// tpFMGeneral
@@ -798,7 +794,7 @@ namespace Options
 			this.tpFMGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tpFMGeneral.Name = "tpFMGeneral";
 			this.tpFMGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMGeneral.Size = new System.Drawing.Size(595, 423);
+			this.tpFMGeneral.Size = new System.Drawing.Size(595, 433);
 			this.tpFMGeneral.TabIndex = 0;
 			this.tpFMGeneral.Text = " Основные ";
 			this.tpFMGeneral.UseVisualStyleBackColor = true;
@@ -809,7 +805,7 @@ namespace Options
 			this.pSortFB2.Controls.Add(this.rbtnFMAllFB2);
 			this.pSortFB2.Controls.Add(this.label11);
 			this.pSortFB2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pSortFB2.Location = new System.Drawing.Point(3, 208);
+			this.pSortFB2.Location = new System.Drawing.Point(3, 218);
 			this.pSortFB2.Name = "pSortFB2";
 			this.pSortFB2.Size = new System.Drawing.Size(589, 23);
 			this.pSortFB2.TabIndex = 30;
@@ -863,7 +859,7 @@ namespace Options
 			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxFMGeneral.Location = new System.Drawing.Point(3, 3);
 			this.gboxFMGeneral.Name = "gboxFMGeneral";
-			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 228);
+			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 238);
 			this.gboxFMGeneral.TabIndex = 28;
 			this.gboxFMGeneral.TabStop = false;
 			this.gboxFMGeneral.Text = " Основные настройки ";
@@ -1115,7 +1111,7 @@ namespace Options
 			this.gboxApportionment.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.gboxApportionment.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxApportionment.Location = new System.Drawing.Point(3, 231);
+			this.gboxApportionment.Location = new System.Drawing.Point(3, 241);
 			this.gboxApportionment.Name = "gboxApportionment";
 			this.gboxApportionment.Size = new System.Drawing.Size(589, 189);
 			this.gboxApportionment.TabIndex = 29;
@@ -1729,7 +1725,7 @@ namespace Options
 			this.tpFMGenreGroups.Location = new System.Drawing.Point(4, 22);
 			this.tpFMGenreGroups.Name = "tpFMGenreGroups";
 			this.tpFMGenreGroups.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMGenreGroups.Size = new System.Drawing.Size(595, 423);
+			this.tpFMGenreGroups.Size = new System.Drawing.Size(595, 420);
 			this.tpFMGenreGroups.TabIndex = 3;
 			this.tpFMGenreGroups.Text = " Группы Жанров ";
 			this.tpFMGenreGroups.UseVisualStyleBackColor = true;
@@ -2171,7 +2167,7 @@ namespace Options
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(617, 510);
+			this.ClientSize = new System.Drawing.Size(617, 520);
 			this.Controls.Add(this.tcOptions);
 			this.Controls.Add(this.pBtn);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
