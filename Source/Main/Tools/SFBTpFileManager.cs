@@ -765,9 +765,13 @@ namespace SharpFBTools.Tools
 		
 		void BtnInsertTemplatesClick(object sender, EventArgs e)
 		{
-			// запуск диалога Вставки готовый шаблонов
+			// запуск диалога Вставки готовых шаблонов
 			BasiclTemplates btfrm = new BasiclTemplates();
 			btfrm.ShowDialog();
+			if( btfrm.GetTemplateLine()!=null ) {
+				txtBoxTemplatesFromLine.Text = btfrm.GetTemplateLine();
+			}
+			btfrm.Dispose();
 		}
 		#endregion
 	}

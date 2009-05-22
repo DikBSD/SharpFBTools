@@ -128,6 +128,7 @@ namespace Main
 			ofrm.ShowDialog();
 			// данные установок для Менеджера Файлов - в Info ListView
 			Settings.SettingsFM.SetInfoSettings( sfbTpFileManager.GetSettingsInfoListView() );
+			ofrm.Dispose();
 		}
 		
 		void MainFormFormClosed(object sender, FormClosedEventArgs e)

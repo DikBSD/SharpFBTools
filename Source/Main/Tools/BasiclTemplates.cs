@@ -17,7 +17,8 @@ namespace SharpFBTools.Tools
 	/// </summary>
 	public partial class BasiclTemplates : Form
 	{
-		private string m_sLine = "";
+		// выбранная строка с шаблонами подстановки
+		private string m_sLine = null;
 		
 		public BasiclTemplates()
 		{
@@ -25,7 +26,13 @@ namespace SharpFBTools.Tools
 			InitializeComponent();
 
 		}
+		#region Открытые методы
+		public string GetTemplateLine() {
+			return m_sLine;
+		}
+		#endregion
 		
+		#region Обработчики событий
 		void TvBasicTemplatesAfterSelect(object sender, TreeViewEventArgs e)
 		{
 			// кнопка Вставить доступна только в случае выбора шаблона
@@ -36,6 +43,8 @@ namespace SharpFBTools.Tools
 		{
 			// вставка выбранного шаблона в поле шаблонов
 			m_sLine = tvBasicTemplates.SelectedNode.Text;
+			this.Close();
 		}
+		#endregion
 	}
 }
