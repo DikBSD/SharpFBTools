@@ -49,7 +49,6 @@ namespace SharpFBTools.Tools
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
-			cboxTemplatesPrepared.SelectedIndex = 0;
 			Init();
 			// читаем сохраненные пути к папкам и шаблон Менеджера Файлов, если они есть
 			ReadFMTempData();
@@ -569,12 +568,7 @@ namespace SharpFBTools.Tools
 				return;
 			}
 			// проверки на корректность шаблонных строк
-			string sLineTemplate = "";
-			if( rBtnTemplatesPrepared.Checked ) {
-				sLineTemplate = cboxTemplatesPrepared.Text.Trim();
-			} else {
-				sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
-			}
+			string sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
 			// проверка "пустоту" строки с шаблонами
 			if( sLineTemplate == "" ) {
 				MessageBox.Show( "Строка шаблонов не может быть пустой!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -712,17 +706,6 @@ namespace SharpFBTools.Tools
 				string openFolderName = fbdScanDir.SelectedPath;
                 tboxSourceDir.Text = openFolderName;
             }
-		}
-
-		void RBtnTemplatesPreparedCheckedChanged(object sender, EventArgs e)
-		{
-			cboxTemplatesPrepared.Enabled = rBtnTemplatesPrepared.Checked;
-		}
-		
-		void RBtnTemplatesFromLineCheckedChanged(object sender, EventArgs e)
-		{
-			txtBoxTemplatesFromLine.Enabled = rBtnTemplatesFromLine.Checked;
-			txtBoxTemplatesFromLine.Focus();
 		}
 		
 		void TsbtnSortFilesToClick(object sender, EventArgs e)

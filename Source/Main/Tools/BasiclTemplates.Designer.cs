@@ -398,9 +398,179 @@ namespace SharpFBTools.Tools
 									treeNode107,
 									treeNode138,
 									treeNode163});
-			System.Windows.Forms.TreeNode treeNode165 = new System.Windows.Forms.TreeNode("Язык\\Жанр\\Буква\\Автор\\Серия\\Название Книги");
-			System.Windows.Forms.TreeNode treeNode166 = new System.Windows.Forms.TreeNode("Язык\\Жанр\\Автор\\Серия\\Название Книги");
-			System.Windows.Forms.TreeNode treeNode167 = new System.Windows.Forms.TreeNode("Язык\\Автор\\Жанр\\Серия\\Название Книги");
+			System.Windows.Forms.TreeNode treeNode165 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[#*SI* - ]*BT*");
+			System.Windows.Forms.TreeNode treeNode166 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[#*SI* - ]*BT*");
+			System.Windows.Forms.TreeNode treeNode167 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\#1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode165,
+									treeNode166});
+			System.Windows.Forms.TreeNode treeNode168 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[#*SI*_]*BT*");
+			System.Windows.Forms.TreeNode treeNode169 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[#*SI*_]*BT*");
+			System.Windows.Forms.TreeNode treeNode170 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\#1_Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode168,
+									treeNode169});
+			System.Windows.Forms.TreeNode treeNode171 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[#*SI* - ]*BT*");
+			System.Windows.Forms.TreeNode treeNode172 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[#*SI* - ]*BT*");
+			System.Windows.Forms.TreeNode treeNode173 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\#1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode171,
+									treeNode172});
+			System.Windows.Forms.TreeNode treeNode174 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[#*SI*_]*BT*");
+			System.Windows.Forms.TreeNode treeNode175 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[#*SI*_]*BT*");
+			System.Windows.Forms.TreeNode treeNode176 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\#1_Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode174,
+									treeNode175});
+			System.Windows.Forms.TreeNode treeNode177 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[*SI* - ]*BT*");
+			System.Windows.Forms.TreeNode treeNode178 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[*SI* - ]*BT*");
+			System.Windows.Forms.TreeNode treeNode179 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode177,
+									treeNode178});
+			System.Windows.Forms.TreeNode treeNode180 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[*SI*_]*BT*");
+			System.Windows.Forms.TreeNode treeNode181 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[*SI*_]*BT*");
+			System.Windows.Forms.TreeNode treeNode182 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\1_Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode180,
+									treeNode181});
+			System.Windows.Forms.TreeNode treeNode183 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI* - ]*BT*");
+			System.Windows.Forms.TreeNode treeNode184 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI* - ]*BT*");
+			System.Windows.Forms.TreeNode treeNode185 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode183,
+									treeNode184});
+			System.Windows.Forms.TreeNode treeNode186 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI*_]*BT*");
+			System.Windows.Forms.TreeNode treeNode187 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI*_]*BT*");
+			System.Windows.Forms.TreeNode treeNode188 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\1_Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode186,
+									treeNode187});
+			System.Windows.Forms.TreeNode treeNode189 = new System.Windows.Forms.TreeNode("Название Книги: Номер Серии и Название", new System.Windows.Forms.TreeNode[] {
+									treeNode167,
+									treeNode170,
+									treeNode173,
+									treeNode176,
+									treeNode179,
+									treeNode182,
+									treeNode185,
+									treeNode188});
+			System.Windows.Forms.TreeNode treeNode190 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ #*SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode191 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ #*SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode192 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий #1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode190,
+									treeNode191});
+			System.Windows.Forms.TreeNode treeNode193 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ - #*SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode194 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ - #*SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode195 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий - #1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode193,
+									treeNode194});
+			System.Windows.Forms.TreeNode treeNode196 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_#*SI*]_*BT*");
+			System.Windows.Forms.TreeNode treeNode197 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_#*SI*]_*BT*");
+			System.Windows.Forms.TreeNode treeNode198 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий_#1_Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode196,
+									treeNode197});
+			System.Windows.Forms.TreeNode treeNode199 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ - #*SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode200 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ - #*SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode201 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий - #1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode199,
+									treeNode200});
+			System.Windows.Forms.TreeNode treeNode202 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_#*SI*]_*BT*");
+			System.Windows.Forms.TreeNode treeNode203 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_#*SI*]_*BT*");
+			System.Windows.Forms.TreeNode treeNode204 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий_#1_Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode202,
+									treeNode203});
+			System.Windows.Forms.TreeNode treeNode205 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ *SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode206 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ *SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode207 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий 1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode205,
+									treeNode206});
+			System.Windows.Forms.TreeNode treeNode208 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ - *SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode209 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ - *SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode210 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий - 1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode208,
+									treeNode209});
+			System.Windows.Forms.TreeNode treeNode211 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*");
+			System.Windows.Forms.TreeNode treeNode212 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*");
+			System.Windows.Forms.TreeNode treeNode213 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий_1_Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode211,
+									treeNode212});
+			System.Windows.Forms.TreeNode treeNode214 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ - *SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode215 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ - *SI*] - *BT*");
+			System.Windows.Forms.TreeNode treeNode216 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий - 1 - Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode214,
+									treeNode215});
+			System.Windows.Forms.TreeNode treeNode217 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*");
+			System.Windows.Forms.TreeNode treeNode218 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*");
+			System.Windows.Forms.TreeNode treeNode219 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий_1_Обитаемый остров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode217,
+									treeNode218});
+			System.Windows.Forms.TreeNode treeNode220 = new System.Windows.Forms.TreeNode("Название Книги: Фамилия, Номер Серии и Название", new System.Windows.Forms.TreeNode[] {
+									treeNode192,
+									treeNode195,
+									treeNode198,
+									treeNode201,
+									treeNode204,
+									treeNode207,
+									treeNode210,
+									treeNode213,
+									treeNode216,
+									treeNode219});
+			System.Windows.Forms.TreeNode treeNode221 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ (*SN* - #*SI*)] - *BT*");
+			System.Windows.Forms.TreeNode treeNode222 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ (*SN* - #*SI*)] - *BT*");
+			System.Windows.Forms.TreeNode treeNode223 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий (Камерер - #1) - Обитаемый ос" +
+						"тров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode221,
+									treeNode222});
+			System.Windows.Forms.TreeNode treeNode224 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_(*SN*_#*SI*)]_*BT*");
+			System.Windows.Forms.TreeNode treeNode225 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_(*SN*_#*SI*)]_*BT*");
+			System.Windows.Forms.TreeNode treeNode226 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий_(Камерер_#1)_Обитаемый остров" +
+						".fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode224,
+									treeNode225});
+			System.Windows.Forms.TreeNode treeNode227 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ (*SN* - #*SI*)] - *BT*");
+			System.Windows.Forms.TreeNode treeNode228 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ (*SN* - #*SI*)] - *BT*");
+			System.Windows.Forms.TreeNode treeNode229 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий (Камерер - #1) - Обитаемый ос" +
+						"тров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode227,
+									treeNode228});
+			System.Windows.Forms.TreeNode treeNode230 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_#*SI*)]_*BT*");
+			System.Windows.Forms.TreeNode treeNode231 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_#*SI*)]_*BT*");
+			System.Windows.Forms.TreeNode treeNode232 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий_(Камерер_#1)_Обитаемый остров" +
+						".fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode230,
+									treeNode231});
+			System.Windows.Forms.TreeNode treeNode233 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ (*SN* - *SI*)] - *BT*");
+			System.Windows.Forms.TreeNode treeNode234 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ (*SN* - *SI*)] - *BT*");
+			System.Windows.Forms.TreeNode treeNode235 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий (Камерер - 1) - Обитаемый ост" +
+						"ров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode233,
+									treeNode234});
+			System.Windows.Forms.TreeNode treeNode236 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*");
+			System.Windows.Forms.TreeNode treeNode237 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*");
+			System.Windows.Forms.TreeNode treeNode238 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий_(Камерер_1)_Обитаемый остров." +
+						"fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode236,
+									treeNode237});
+			System.Windows.Forms.TreeNode treeNode239 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ (*SN* - *SI*)] - *BT*");
+			System.Windows.Forms.TreeNode treeNode240 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ (*SN* - *SI*)] - *BT*");
+			System.Windows.Forms.TreeNode treeNode241 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий (Камерер - 1) - Обитаемый ост" +
+						"ров.fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode239,
+									treeNode240});
+			System.Windows.Forms.TreeNode treeNode242 = new System.Windows.Forms.TreeNode("*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*");
+			System.Windows.Forms.TreeNode treeNode243 = new System.Windows.Forms.TreeNode("*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*");
+			System.Windows.Forms.TreeNode treeNode244 = new System.Windows.Forms.TreeNode("Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий_(Камерер_1)_Обитаемый остров." +
+						"fb2", new System.Windows.Forms.TreeNode[] {
+									treeNode242,
+									treeNode243});
+			System.Windows.Forms.TreeNode treeNode245 = new System.Windows.Forms.TreeNode("Название Книги: Фамилия, (Серия, Номер Серии) и Название", new System.Windows.Forms.TreeNode[] {
+									treeNode223,
+									treeNode226,
+									treeNode229,
+									treeNode232,
+									treeNode235,
+									treeNode238,
+									treeNode241,
+									treeNode244});
+			System.Windows.Forms.TreeNode treeNode246 = new System.Windows.Forms.TreeNode("Язык\\Жанр\\Буква\\Автор\\Серия\\Название Книги", new System.Windows.Forms.TreeNode[] {
+									treeNode189,
+									treeNode220,
+									treeNode245});
+			System.Windows.Forms.TreeNode treeNode247 = new System.Windows.Forms.TreeNode("Язык\\Жанр\\Автор\\Серия\\Название Книги");
+			System.Windows.Forms.TreeNode treeNode248 = new System.Windows.Forms.TreeNode("Язык\\Автор\\Жанр\\Серия\\Название Книги");
 			this.tvBasicTemplates = new System.Windows.Forms.TreeView();
 			this.pControl = new System.Windows.Forms.Panel();
 			this.btnCollapseAll = new System.Windows.Forms.Button();
@@ -841,21 +1011,220 @@ namespace SharpFBTools.Tools
 			treeNode164.ForeColor = System.Drawing.Color.Red;
 			treeNode164.Name = "Узел0";
 			treeNode164.Text = "Язык\\Группа\\Жанр\\Автор\\Серия\\Название Книги";
-			treeNode165.ForeColor = System.Drawing.Color.Red;
-			treeNode165.Name = "Узел6";
-			treeNode165.Text = "Язык\\Жанр\\Буква\\Автор\\Серия\\Название Книги";
-			treeNode166.ForeColor = System.Drawing.Color.Red;
-			treeNode166.Name = "Узел0";
-			treeNode166.Text = "Язык\\Жанр\\Автор\\Серия\\Название Книги";
-			treeNode167.ForeColor = System.Drawing.Color.Red;
+			treeNode165.Name = "Узел2";
+			treeNode165.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[#*SI* - ]*BT*";
+			treeNode166.Name = "Узел3";
+			treeNode166.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[#*SI* - ]*BT*";
+			treeNode167.ForeColor = System.Drawing.Color.Blue;
 			treeNode167.Name = "Узел1";
-			treeNode167.Text = "Язык\\Автор\\Жанр\\Серия\\Название Книги";
+			treeNode167.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\#1 - Обитаемый остров.fb2";
+			treeNode168.Name = "Узел5";
+			treeNode168.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[#*SI*_]*BT*";
+			treeNode169.Name = "Узел6";
+			treeNode169.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[#*SI*_]*BT*";
+			treeNode170.ForeColor = System.Drawing.Color.Blue;
+			treeNode170.Name = "Узел4";
+			treeNode170.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\#1_Обитаемый остров.fb2";
+			treeNode171.Name = "Узел8";
+			treeNode171.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[#*SI* - ]*BT*";
+			treeNode172.Name = "Узел9";
+			treeNode172.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[#*SI* - ]*BT*";
+			treeNode173.ForeColor = System.Drawing.Color.Blue;
+			treeNode173.Name = "Узел7";
+			treeNode173.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\#1 - Обитаемый остров.fb2";
+			treeNode174.Name = "Узел11";
+			treeNode174.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[#*SI*_]*BT*";
+			treeNode175.Name = "Узел12";
+			treeNode175.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[#*SI*_]*BT*";
+			treeNode176.ForeColor = System.Drawing.Color.Blue;
+			treeNode176.Name = "Узел10";
+			treeNode176.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\#1_Обитаемый остров.fb2";
+			treeNode177.Name = "Узел14";
+			treeNode177.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[*SI* - ]*BT*";
+			treeNode178.Name = "Узел15";
+			treeNode178.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[*SI* - ]*BT*";
+			treeNode179.ForeColor = System.Drawing.Color.Blue;
+			treeNode179.Name = "Узел13";
+			treeNode179.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\1 - Обитаемый остров.fb2";
+			treeNode180.Name = "Узел17";
+			treeNode180.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[*SI*_]*BT*";
+			treeNode181.Name = "Узел18";
+			treeNode181.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\[*SI*_]*BT*";
+			treeNode182.ForeColor = System.Drawing.Color.Blue;
+			treeNode182.Name = "Узел16";
+			treeNode182.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\1_Обитаемый остров.fb2";
+			treeNode183.Name = "Узел20";
+			treeNode183.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI* - ]*BT*";
+			treeNode184.Name = "Узел21";
+			treeNode184.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI* - ]*BT*";
+			treeNode185.ForeColor = System.Drawing.Color.Blue;
+			treeNode185.Name = "Узел19";
+			treeNode185.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\1 - Обитаемый остров.fb2";
+			treeNode186.Name = "Узел23";
+			treeNode186.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI*_]*BT*";
+			treeNode187.Name = "Узел24";
+			treeNode187.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\[*SI*_]*BT*";
+			treeNode188.ForeColor = System.Drawing.Color.Blue;
+			treeNode188.Name = "Узел22";
+			treeNode188.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\1_Обитаемый остров.fb2";
+			treeNode189.ForeColor = System.Drawing.Color.Green;
+			treeNode189.Name = "Узел0";
+			treeNode189.Text = "Название Книги: Номер Серии и Название";
+			treeNode190.Name = "Узел27";
+			treeNode190.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ #*SI*] - *BT*";
+			treeNode191.Name = "Узел28";
+			treeNode191.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ #*SI*] - *BT*";
+			treeNode192.ForeColor = System.Drawing.Color.Blue;
+			treeNode192.Name = "Узел26";
+			treeNode192.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий #1 - Обитаемый остров.fb2";
+			treeNode193.Name = "Узел30";
+			treeNode193.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ - #*SI*] - *BT*";
+			treeNode194.Name = "Узел31";
+			treeNode194.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ - #*SI*] - *BT*";
+			treeNode195.ForeColor = System.Drawing.Color.Blue;
+			treeNode195.Name = "Узел29";
+			treeNode195.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий - #1 - Обитаемый остров.fb2";
+			treeNode196.Name = "Узел33";
+			treeNode196.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_#*SI*]_*BT*";
+			treeNode197.Name = "Узел34";
+			treeNode197.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_#*SI*]_*BT*";
+			treeNode198.ForeColor = System.Drawing.Color.Blue;
+			treeNode198.Name = "Узел32";
+			treeNode198.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий_#1_Обитаемый остров.fb2";
+			treeNode199.Name = "Узел36";
+			treeNode199.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ - #*SI*] - *BT*";
+			treeNode200.Name = "Узел37";
+			treeNode200.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ - #*SI*] - *BT*";
+			treeNode201.ForeColor = System.Drawing.Color.Blue;
+			treeNode201.Name = "Узел35";
+			treeNode201.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий - #1 - Обитаемый остров.fb2";
+			treeNode202.Name = "Узел39";
+			treeNode202.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_#*SI*]_*BT*";
+			treeNode203.Name = "Узел40";
+			treeNode203.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_#*SI*]_*BT*";
+			treeNode204.ForeColor = System.Drawing.Color.Blue;
+			treeNode204.Name = "Узел38";
+			treeNode204.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий_#1_Обитаемый остров.fb2";
+			treeNode205.Name = "Узел42";
+			treeNode205.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ *SI*] - *BT*";
+			treeNode206.Name = "Узел43";
+			treeNode206.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ *SI*] - *BT*";
+			treeNode207.ForeColor = System.Drawing.Color.Blue;
+			treeNode207.Name = "Узел41";
+			treeNode207.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий 1 - Обитаемый остров.fb2";
+			treeNode208.Name = "Узел45";
+			treeNode208.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ - *SI*] - *BT*";
+			treeNode209.Name = "Узел46";
+			treeNode209.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ - *SI*] - *BT*";
+			treeNode210.ForeColor = System.Drawing.Color.Blue;
+			treeNode210.Name = "Узел44";
+			treeNode210.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий - 1 - Обитаемый остров.fb2";
+			treeNode211.Name = "Узел48";
+			treeNode211.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*";
+			treeNode212.Name = "Узел49";
+			treeNode212.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*";
+			treeNode213.ForeColor = System.Drawing.Color.Blue;
+			treeNode213.Name = "Узел47";
+			treeNode213.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий_1_Обитаемый остров.fb2";
+			treeNode214.Name = "Узел51";
+			treeNode214.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ - *SI*] - *BT*";
+			treeNode215.Name = "Узел52";
+			treeNode215.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ - *SI*] - *BT*";
+			treeNode216.ForeColor = System.Drawing.Color.Blue;
+			treeNode216.Name = "Узел50";
+			treeNode216.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий - 1 - Обитаемый остров.fb2";
+			treeNode217.Name = "Узел54";
+			treeNode217.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*";
+			treeNode218.Name = "Узел55";
+			treeNode218.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_*SI*]_*BT*";
+			treeNode219.ForeColor = System.Drawing.Color.Blue;
+			treeNode219.Name = "Узел53";
+			treeNode219.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий_1_Обитаемый остров.fb2";
+			treeNode220.ForeColor = System.Drawing.Color.Green;
+			treeNode220.Name = "Узел25";
+			treeNode220.Text = "Название Книги: Фамилия, Номер Серии и Название";
+			treeNode221.Name = "Узел58";
+			treeNode221.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ (*SN* - #*SI*)] - *BT*";
+			treeNode222.Name = "Узел59";
+			treeNode222.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ (*SN* - #*SI*)] - *BT*";
+			treeNode223.ForeColor = System.Drawing.Color.Blue;
+			treeNode223.Name = "Узел57";
+			treeNode223.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий (Камерер - #1) - Обитаемый ос" +
+			"тров.fb2";
+			treeNode224.Name = "Узел61";
+			treeNode224.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_(*SN*_#*SI*)]_*BT*";
+			treeNode225.Name = "Узел62";
+			treeNode225.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_(*SN*_#*SI*)]_*BT*";
+			treeNode226.ForeColor = System.Drawing.Color.Blue;
+			treeNode226.Name = "Узел60";
+			treeNode226.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий_(Камерер_#1)_Обитаемый остров" +
+			".fb2";
+			treeNode227.Name = "Узел64";
+			treeNode227.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ (*SN* - #*SI*)] - *BT*";
+			treeNode228.Name = "Узел65";
+			treeNode228.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ (*SN* - #*SI*)] - *BT*";
+			treeNode229.ForeColor = System.Drawing.Color.Blue;
+			treeNode229.Name = "Узел63";
+			treeNode229.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий (Камерер - #1) - Обитаемый ос" +
+			"тров.fb2";
+			treeNode230.Name = "Узел67";
+			treeNode230.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_#*SI*)]_*BT*";
+			treeNode231.Name = "Узел68";
+			treeNode231.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_#*SI*)]_*BT*";
+			treeNode232.ForeColor = System.Drawing.Color.Blue;
+			treeNode232.Name = "Узел66";
+			treeNode232.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий_(Камерер_#1)_Обитаемый остров" +
+			".fb2";
+			treeNode233.Name = "Узел70";
+			treeNode233.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ (*SN* - *SI*)] - *BT*";
+			treeNode234.Name = "Узел71";
+			treeNode234.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[ (*SN* - *SI*)] - *BT*";
+			treeNode235.ForeColor = System.Drawing.Color.Blue;
+			treeNode235.Name = "Узел69";
+			treeNode235.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий (Камерер - 1) - Обитаемый ост" +
+			"ров.fb2";
+			treeNode236.Name = "Узел73";
+			treeNode236.Text = "*L*\\*G*\\*LBAL*[ *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*";
+			treeNode237.Name = "Узел74";
+			treeNode237.Text = "*L*\\*G*\\[*LBAL* *BAF*][ *BAM*][ *BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*";
+			treeNode238.ForeColor = System.Drawing.Color.Blue;
+			treeNode238.Name = "Узел72";
+			treeNode238.Text = "Пример: ru\\sf\\С\\Стругацкий Борис\\Камерер\\Стругацкий_(Камерер_1)_Обитаемый остров." +
+			"fb2";
+			treeNode239.Name = "Узел76";
+			treeNode239.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ (*SN* - *SI*)] - *BT*";
+			treeNode240.Name = "Узел77";
+			treeNode240.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[ (*SN* - *SI*)] - *BT*";
+			treeNode241.ForeColor = System.Drawing.Color.Blue;
+			treeNode241.Name = "Узел75";
+			treeNode241.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий (Камерер - 1) - Обитаемый ост" +
+			"ров.fb2";
+			treeNode242.Name = "Узел79";
+			treeNode242.Text = "*L*\\*G*\\*LBAL*[_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*";
+			treeNode243.Name = "Узел80";
+			treeNode243.Text = "*L*\\*G*\\[*LBAL*_*BAF*][_*BAM*][_*BAN*]\\[*SN*]\\*BAL*[_(*SN*_*SI*)]_*BT*";
+			treeNode244.ForeColor = System.Drawing.Color.Blue;
+			treeNode244.Name = "Узел78";
+			treeNode244.Text = "Пример: ru\\sf\\C\\Стругацкий_Борис\\Камерер\\Стругацкий_(Камерер_1)_Обитаемый остров." +
+			"fb2";
+			treeNode245.ForeColor = System.Drawing.Color.Green;
+			treeNode245.Name = "Узел56";
+			treeNode245.Text = "Название Книги: Фамилия, (Серия, Номер Серии) и Название";
+			treeNode246.ForeColor = System.Drawing.Color.Red;
+			treeNode246.Name = "Узел6";
+			treeNode246.Text = "Язык\\Жанр\\Буква\\Автор\\Серия\\Название Книги";
+			treeNode247.ForeColor = System.Drawing.Color.Red;
+			treeNode247.Name = "Узел0";
+			treeNode247.Text = "Язык\\Жанр\\Автор\\Серия\\Название Книги";
+			treeNode248.ForeColor = System.Drawing.Color.Red;
+			treeNode248.Name = "Узел1";
+			treeNode248.Text = "Язык\\Автор\\Жанр\\Серия\\Название Книги";
 			this.tvBasicTemplates.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
 									treeNode82,
 									treeNode164,
-									treeNode165,
-									treeNode166,
-									treeNode167});
+									treeNode246,
+									treeNode247,
+									treeNode248});
 			this.tvBasicTemplates.Size = new System.Drawing.Size(650, 289);
 			this.tvBasicTemplates.TabIndex = 0;
 			this.tvBasicTemplates.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TvBasicTemplatesAfterSelect);
