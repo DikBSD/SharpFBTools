@@ -45,6 +45,16 @@ namespace SharpFBTools.Tools
 			m_sLine = tvBasicTemplates.SelectedNode.Text;
 			this.Close();
 		}
+		
+		void BtnCollapseAllClick(object sender, EventArgs e)
+		{
+			tvBasicTemplates.CollapseAll();
+		}
+		
+		void BtnExpandAllClick(object sender, EventArgs e)
+		{
+			tvBasicTemplates.ExpandAll();
+		}
 		#endregion
 	}
 }
