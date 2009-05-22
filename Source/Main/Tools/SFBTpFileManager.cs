@@ -173,7 +173,7 @@ namespace SharpFBTools.Tools
 			// создание нового файла или архива
 			try {
 				if( !dfm.ToArchiveMode ) {
-					CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode );
+					CopyFileToTargetDir( sFromFilePath, sToFilePath, false, nFileExistMode, bAddToFileNameBookIDMode );
 				} else {
 					// упаковка в архив
 					string sArchType = StringProcessing.StringProcessing.GetArchiveExt( dfm.ArchiveTypeText );
@@ -184,7 +184,7 @@ namespace SharpFBTools.Tools
 				string sFileLongPathDir = dfm.FileLongPathDir;
 				Directory.CreateDirectory( sFileLongPathDir );
 				sToFilePath = sFileLongPathDir+"\\"+Path.GetFileName( sFromFilePath );
-				CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, false );	
+				CopyFileToTargetDir( sFromFilePath, sToFilePath, true, nFileExistMode, false );	
 			}
 		}
 		
@@ -206,7 +206,8 @@ namespace SharpFBTools.Tools
 			IncStatus( 11 ); // всего создано
 		}
 		
-		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode )
+		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, bool bBad,
+		                                 int nFileExistMode, bool bAddToFileNameBookIDMode )
 		{
 			// копирование файла с сформированным именем (путь)
 			Regex rx = new Regex( @"\\+" );
@@ -217,7 +218,9 @@ namespace SharpFBTools.Tools
 			if( File.Exists( sFromFilePath ) ) {
 				File.Copy( sFromFilePath, sToFilePath );
 			}
-			IncStatus( 11 ); // всего создано
+			if( !bBad ) {
+				IncStatus( 11 ); // всего создано
+			}
 		}
 		
 		private void CopyBadArchiveToBadDir( string sFromFilePath, string sSource, string sToDir, int nFileExistMode )
@@ -250,7 +253,7 @@ namespace SharpFBTools.Tools
 			if( File.Exists( sFromFilePath ) ) {
 				File.Copy( sFromFilePath, sToFilePath );
 			}
-			IncStatus( 14 ); // всего создано
+			IncStatus( 14 ); // "битые" архивы - не открылись
 		}
 		
 		private string FileExsistWorker( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode,
@@ -478,7 +481,7 @@ namespace SharpFBTools.Tools
 			Directory.CreateDirectory( sBadDir );
 			string sFrom = ( !bFromArchive ? sSource : Settings.Settings.GetTempDir() );
 			string sToFilePath = sBadDir+"\\"+sFromFilePath.Remove( 0, sFrom.Length );
-			CopyFileToTargetDir( sFromFilePath, sToFilePath, nFileExistMode, false );
+			CopyFileToTargetDir( sFromFilePath, sToFilePath, true, nFileExistMode, false );
 			IncStatus( 12 ); // нечитаемые fb2-файлы или архивы
 		}
 			

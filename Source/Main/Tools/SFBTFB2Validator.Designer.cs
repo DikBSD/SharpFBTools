@@ -212,12 +212,12 @@ namespace SharpFBTools.Tools
 			// 
 			// tSBValidate
 			// 
+			this.tSBValidate.AutoToolTip = false;
 			this.tSBValidate.Image = ((System.Drawing.Image)(resources.GetObject("tSBValidate.Image")));
 			this.tSBValidate.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tSBValidate.Name = "tSBValidate";
 			this.tSBValidate.Size = new System.Drawing.Size(90, 28);
 			this.tSBValidate.Text = "Валидация";
-			this.tSBValidate.ToolTipText = "Проверить fb2-файлы на соответствие схеме (валидация)";
 			this.tSBValidate.Click += new System.EventHandler(this.TSBValidateClick);
 			// 
 			// tsSep2

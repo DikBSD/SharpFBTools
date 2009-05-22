@@ -233,6 +233,7 @@ namespace SharpFBTools.Tools
 			this.lblDir = new System.Windows.Forms.Label();
 			this.fbdScanDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.gBoxRenameTemplates = new System.Windows.Forms.GroupBox();
+			this.btnInsertTemplates = new System.Windows.Forms.Button();
 			this.txtBoxTemplatesFromLine = new System.Windows.Forms.TextBox();
 			this.cboxTemplatesPrepared = new System.Windows.Forms.ComboBox();
 			this.rBtnTemplatesFromLine = new System.Windows.Forms.RadioButton();
@@ -246,7 +247,6 @@ namespace SharpFBTools.Tools
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.gBoxTemplatesDescription = new System.Windows.Forms.GroupBox();
 			this.richTxtBoxDescTemplates = new System.Windows.Forms.RichTextBox();
-			this.btnInsertTemplates = new System.Windows.Forms.Button();
 			this.ssProgress.SuspendLayout();
 			this.tsFileManager.SuspendLayout();
 			this.pSource.SuspendLayout();
@@ -323,12 +323,12 @@ namespace SharpFBTools.Tools
 			// 
 			// tsbtnSortFilesTo
 			// 
+			this.tsbtnSortFilesTo.AutoToolTip = false;
 			this.tsbtnSortFilesTo.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSortFilesTo.Image")));
 			this.tsbtnSortFilesTo.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnSortFilesTo.Name = "tsbtnSortFilesTo";
 			this.tsbtnSortFilesTo.Size = new System.Drawing.Size(102, 28);
 			this.tsbtnSortFilesTo.Text = "Сортировать";
-			this.tsbtnSortFilesTo.ToolTipText = "Сортировать файлы в соответствии с шаблонами подстановки";
 			this.tsbtnSortFilesTo.Click += new System.EventHandler(this.TsbtnSortFilesToClick);
 			// 
 			// pSource
@@ -419,6 +419,17 @@ namespace SharpFBTools.Tools
 			this.gBoxRenameTemplates.TabIndex = 26;
 			this.gBoxRenameTemplates.TabStop = false;
 			this.gBoxRenameTemplates.Text = " Шаблоны подстановки ";
+			// 
+			// btnInsertTemplates
+			// 
+			this.btnInsertTemplates.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.btnInsertTemplates.Location = new System.Drawing.Point(687, 16);
+			this.btnInsertTemplates.Name = "btnInsertTemplates";
+			this.btnInsertTemplates.Size = new System.Drawing.Size(123, 23);
+			this.btnInsertTemplates.TabIndex = 9;
+			this.btnInsertTemplates.Text = "Вставить готовый";
+			this.btnInsertTemplates.UseVisualStyleBackColor = true;
+			this.btnInsertTemplates.Click += new System.EventHandler(this.BtnInsertTemplatesClick);
 			// 
 			// txtBoxTemplatesFromLine
 			// 
@@ -773,17 +784,6 @@ namespace SharpFBTools.Tools
 			this.richTxtBoxDescTemplates.Size = new System.Drawing.Size(822, 116);
 			this.richTxtBoxDescTemplates.TabIndex = 9;
 			this.richTxtBoxDescTemplates.Text = "";
-			// 
-			// btnInsertTemplates
-			// 
-			this.btnInsertTemplates.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnInsertTemplates.Location = new System.Drawing.Point(687, 16);
-			this.btnInsertTemplates.Name = "btnInsertTemplates";
-			this.btnInsertTemplates.Size = new System.Drawing.Size(123, 23);
-			this.btnInsertTemplates.TabIndex = 9;
-			this.btnInsertTemplates.Text = "Вставить готовый";
-			this.btnInsertTemplates.UseVisualStyleBackColor = true;
-			this.btnInsertTemplates.Click += new System.EventHandler(this.BtnInsertTemplatesClick);
 			// 
 			// SFBTpFileManager
 			// 

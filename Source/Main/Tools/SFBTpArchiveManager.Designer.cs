@@ -195,12 +195,12 @@ namespace SharpFBTools.Tools
 			// 
 			// tsbtnArchive
 			// 
+			this.tsbtnArchive.AutoToolTip = false;
 			this.tsbtnArchive.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnArchive.Image")));
 			this.tsbtnArchive.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnArchive.Name = "tsbtnArchive";
 			this.tsbtnArchive.Size = new System.Drawing.Size(95, 28);
 			this.tsbtnArchive.Text = "Запаковать";
-			this.tsbtnArchive.ToolTipText = "Запаковать fb2-файлы";
 			this.tsbtnArchive.Click += new System.EventHandler(this.TsbtnArchiveClick);
 			// 
 			// ssProgress
@@ -884,12 +884,12 @@ namespace SharpFBTools.Tools
 			// 
 			// tsbtnUnArchive
 			// 
+			this.tsbtnUnArchive.AutoToolTip = false;
 			this.tsbtnUnArchive.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnUnArchive.Image")));
 			this.tsbtnUnArchive.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnUnArchive.Name = "tsbtnUnArchive";
 			this.tsbtnUnArchive.Size = new System.Drawing.Size(100, 28);
 			this.tsbtnUnArchive.Text = "Распаковать";
-			this.tsbtnUnArchive.ToolTipText = "Рапаковать архивы";
 			this.tsbtnUnArchive.Click += new System.EventHandler(this.TsbtnUnArchiveClick);
 			// 
 			// imgl16

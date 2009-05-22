@@ -17,6 +17,8 @@ namespace SharpFBTools.Tools
 	/// </summary>
 	public partial class BasiclTemplates : Form
 	{
+		private string m_sLine = "";
+		
 		public BasiclTemplates()
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -33,7 +35,7 @@ namespace SharpFBTools.Tools
 		void BtnInsertClick(object sender, EventArgs e)
 		{
 			// вставка выбранного шаблона в поле шаблонов
-			
+			m_sLine = tvBasicTemplates.SelectedNode.Text;
 		}
 	}
 }
