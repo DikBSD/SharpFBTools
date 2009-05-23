@@ -216,9 +216,9 @@ namespace SharpFBTools.Tools
 			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, "" );
 			if( File.Exists( sFromFilePath ) ) {
 				File.Copy( sFromFilePath, sToFilePath );
-			}
-			if( !bBad ) {
-				IncStatus( 11, true ); // всего создано
+				if( !bBad ) {
+					IncStatus( 11, true ); // всего создано
+				}
 			}
 		}
 		
