@@ -58,7 +58,7 @@ namespace FilesWorker
 		}
 		
 		public static List<string> AllFilesParser( List<string> lsDirs, StatusStrip ssProgress, ListView lv,
-		                                          ToolStripProgressBar pBar, bool bSort ) {
+		                                          ToolStripProgressBar pBar, bool bSort, bool bLVRefresh ) {
 			// список всех файлов - по cписку папок - замена рекурсии
 			pBar.Maximum = lsDirs.Count+1;
 			List<string> lFilesList = new List<string>();
@@ -68,11 +68,15 @@ namespace FilesWorker
 						lFilesList.Add( s + "\\" + fiNextFile.Name );
 						lv.Items[1].SubItems[1].Text = lFilesList.Count.ToString();
 						ssProgress.Refresh();
-						lv.Refresh();
+						if( bLVRefresh ) {
+							lv.Refresh();
+						}
 				}
 				++pBar.Value;
 				ssProgress.Refresh();
-				lv.Refresh();
+				if( bLVRefresh ) {
+					lv.Refresh();
+				}
 			}
 			if( bSort ) {
 				lFilesList.Sort();

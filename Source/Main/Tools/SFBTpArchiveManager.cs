@@ -541,8 +541,8 @@ namespace SharpFBTools.Tools
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			ssProgress.Refresh();
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress,
-			                                                                 lvGeneralCount, tsProgressBar, false );
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvGeneralCount,
+			                                                                 tsProgressBar, false, false );
 			
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -605,8 +605,8 @@ namespace SharpFBTools.Tools
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			gboxUACount.Refresh();
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress,
-			                                                                 lvUAGeneralCount, tsProgressBar, false );
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvUAGeneralCount,
+			                                                                 tsProgressBar, false, false );
 			
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "В указанной папке не найдено ни одного файла!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -698,8 +698,8 @@ namespace SharpFBTools.Tools
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
 			gboxUACount.Refresh();
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress,
-			                                                                 lvUAGeneralCount, tsProgressBar, false );
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvUAGeneralCount,
+			                                                                 tsProgressBar, false, false );
 			
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "В указанной папке не найдено ни одного файла!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );

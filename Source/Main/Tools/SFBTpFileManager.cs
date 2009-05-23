@@ -644,7 +644,7 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text = "Создание списка файлов:";
 			ssProgress.Refresh();
 			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
-			                                                                 tsProgressBar, false );
+			                                                                 tsProgressBar, false, false );
 
 			int nFilesCount = lFilesList.Count;
 			if( nFilesCount == 0 ) {

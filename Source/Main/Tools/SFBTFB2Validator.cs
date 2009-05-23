@@ -680,8 +680,8 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text = "Создание списка файлов:";
 			ssProgress.Refresh();
 			tlCentral.Refresh(); // обновление контролов на форме
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress,
-			                                                                 lvFilesCount, tsProgressBar, true );
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
+			                                                                 tsProgressBar, true, false );
 			
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
