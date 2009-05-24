@@ -639,6 +639,7 @@ namespace SharpFBTools.Tools
 				// сканировать и все подпапки
 				tsslblProgress.Text = "Создание списка папок:";
 				lDirList = FilesWorker.FilesWorker.DirsParser( sSource, lvFilesCount, false );
+				lvFilesCount.Refresh();
 			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";

@@ -537,6 +537,7 @@ namespace SharpFBTools.Tools
 				// сканировать и все подпапки
 				tsslblProgress.Text = "Создание списка попок:";
 				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvGeneralCount, false );
+				lvGeneralCount.Refresh();
 			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
@@ -600,6 +601,7 @@ namespace SharpFBTools.Tools
 			} else {
 				// сканировать и все подпапки
 				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount, false );
+				lvUAGeneralCount.Refresh();
 			}
 			ssProgress.Refresh();
 			// сортированный список всех файлов
@@ -692,8 +694,8 @@ namespace SharpFBTools.Tools
 				lvUAGeneralCount.Refresh();
 			} else {
 				// сканировать и все подпапки
-				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName,
-				                                              lvUAGeneralCount, false );
+				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvUAGeneralCount, false );
+				lvUAGeneralCount.Refresh();
 			}
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
