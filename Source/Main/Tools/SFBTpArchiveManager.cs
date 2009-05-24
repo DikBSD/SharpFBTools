@@ -544,6 +544,7 @@ namespace SharpFBTools.Tools
 			ssProgress.Refresh();
 			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvGeneralCount,
 			                                                                 tsProgressBar, false, false );
+			lvGeneralCount.Refresh();
 			
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -609,6 +610,7 @@ namespace SharpFBTools.Tools
 			gboxUACount.Refresh();
 			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvUAGeneralCount,
 			                                                                 tsProgressBar, false, false );
+			lvUAGeneralCount.Refresh();
 			
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "В указанной папке не найдено ни одного файла!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -702,6 +704,7 @@ namespace SharpFBTools.Tools
 			gboxUACount.Refresh();
 			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvUAGeneralCount,
 			                                                                 tsProgressBar, false, false );
+			lvUAGeneralCount.Refresh();
 			
 			if( lFilesList.Count == 0 ) {
 				MessageBox.Show( "В указанной папке не найдено ни одного файла!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );

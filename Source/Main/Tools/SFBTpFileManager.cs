@@ -647,6 +647,7 @@ namespace SharpFBTools.Tools
 			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
 			                                                                 tsProgressBar, false, false );
 
+			lvFilesCount.Refresh();
 			int nFilesCount = lFilesList.Count;
 			if( nFilesCount == 0 ) {
 				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
