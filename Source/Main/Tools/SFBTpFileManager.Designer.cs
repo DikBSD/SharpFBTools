@@ -417,9 +417,9 @@ namespace SharpFBTools.Tools
 			// btnInsertTemplates
 			// 
 			this.btnInsertTemplates.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnInsertTemplates.Location = new System.Drawing.Point(15, 19);
+			this.btnInsertTemplates.Location = new System.Drawing.Point(668, 16);
 			this.btnInsertTemplates.Name = "btnInsertTemplates";
-			this.btnInsertTemplates.Size = new System.Drawing.Size(137, 26);
+			this.btnInsertTemplates.Size = new System.Drawing.Size(142, 28);
 			this.btnInsertTemplates.TabIndex = 9;
 			this.btnInsertTemplates.Text = "Вставить готовый";
 			this.btnInsertTemplates.UseVisualStyleBackColor = true;
@@ -429,7 +429,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.txtBoxTemplatesFromLine.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtBoxTemplatesFromLine.Location = new System.Drawing.Point(162, 21);
+			this.txtBoxTemplatesFromLine.Location = new System.Drawing.Point(14, 21);
 			this.txtBoxTemplatesFromLine.Name = "txtBoxTemplatesFromLine";
 			this.txtBoxTemplatesFromLine.Size = new System.Drawing.Size(648, 20);
 			this.txtBoxTemplatesFromLine.TabIndex = 8;
