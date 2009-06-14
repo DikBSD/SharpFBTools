@@ -11,6 +11,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.IO;
 
+using System.Collections.Generic;
+
 namespace FilesWorker
 {
 	/// <summary>
@@ -20,6 +22,30 @@ namespace FilesWorker
 	{
 		public Archiver()
 		{
+		}
+		
+		public static int debug_unzip( List<string> gebug, string sZipPath, string sFilePath, string sTempDir ) {
+			// распаковка zip-фрхива
+			Regex rx = new Regex( @"\\+" );
+			sZipPath = rx.Replace( sZipPath, "\\" );
+			sFilePath = rx.Replace( sFilePath, "\\" );
+			sTempDir = rx.Replace( sTempDir, "\\" );
+			
+			if( !Directory.Exists( sTempDir ) ) {
+				Directory.CreateDirectory( sTempDir );
+			}
+			
+			string s = "\"" + sZipPath + "\" e"; // Распаковать (для полных путей - x)
+			s += " -y"; // На все отвечать yes
+			s += " " + "\"" + sFilePath + "\""; // Файл который нужно распаковать
+			s += " -o" + "\"" + sTempDir + "\""; // Временная папка распаковки
+			
+			try {
+				return Microsoft.VisualBasic.Interaction.Shell(s, Microsoft.VisualBasic.AppWinStyle.Hide, true, -1);
+			} catch {
+				gebug.Add( "строка s= "+s+"sZipPath= "+sZipPath+" | sFilePath="+sFilePath+" | sTempDir="+sTempDir );
+				return -1;
+			}
 		}
 		
 		public static int unzip( string sZipPath, string sFilePath, string sTempDir ) {
@@ -37,6 +63,7 @@ namespace FilesWorker
 			s += " -y"; // На все отвечать yes
 			s += " " + "\"" + sFilePath + "\""; // Файл который нужно распаковать
 			s += " -o" + "\"" + sTempDir + "\""; // Временная папка распаковки
+			
 			return Microsoft.VisualBasic.Interaction.Shell(s, Microsoft.VisualBasic.AppWinStyle.Hide, true, -1);
 		}
 		

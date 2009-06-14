@@ -20,6 +20,8 @@ using FB2.Description.DocumentInfo;
 using StringProcessing;
 using FilesWorker;
 
+using System.Text;
+
 namespace SharpFBTools.Tools
 {
 	/// <summary>
@@ -29,6 +31,8 @@ namespace SharpFBTools.Tools
 	{
 		#region Закрытые члены-данные класса
 		private string m_sReady = "Готово.";
+		// TODO: только для отладки
+		private static List<string> debug = new List<string>();
 		#endregion
 		
 		public SFBTpArchiveManager()
@@ -276,35 +280,40 @@ namespace SharpFBTools.Tools
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".zip":
-							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							//FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.debug_unzip( debug, s7zaPath, sFile, sTempDir );
 							lvUACount.Items[1].SubItems[1].Text = (++lZip).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".7z":
-							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							//FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.debug_unzip( debug, s7zaPath, sFile, sTempDir );
 							lvUACount.Items[2].SubItems[1].Text = (++l7Z).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".bz2":
-							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							//FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.debug_unzip( debug, s7zaPath, sFile, sTempDir );
 							lvUACount.Items[3].SubItems[1].Text = (++lBZip2).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".gz":
-							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							//FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.debug_unzip( debug, s7zaPath, sFile, sTempDir );
 							lvUACount.Items[4].SubItems[1].Text = (++lGZip).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
 							DeleteSourceFileIsNeeds( sFile );
 							break;
 						case ".tar":
-							FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							//FilesWorker.Archiver.unzip( s7zaPath, sFile, sTempDir );
+							FilesWorker.Archiver.debug_unzip( debug, s7zaPath, sFile, sTempDir );
 							lvUACount.Items[5].SubItems[1].Text = (++lTar).ToString();
 							++lCount;
 							// удаление исходного архива, если включена опция
@@ -343,7 +352,8 @@ namespace SharpFBTools.Tools
 			string sTempDir = Settings.Settings.GetTempDir();
 			foreach( string sFile in lFilesList ) {
 				if( Path.GetExtension( sFile.ToLower() ) == sExt ) {
-					FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sFile, sTempDir );
+					//FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sFile, sTempDir );
+					FilesWorker.Archiver.debug_unzip( debug, Settings.Settings.Read7zaPath(), sFile, sTempDir );
 					lvUAGeneralCount.Items[2].SubItems[1].Text = (++lAllArchive).ToString();
 					lvUACount.Items[nArchCountItem].SubItems[1].Text = (++lCount).ToString();
 					if( Directory.Exists( sTempDir ) ) {
@@ -716,6 +726,20 @@ namespace SharpFBTools.Tools
 			gboxUACount.Refresh();
 
 			long lCount = ArchivesToFile( lFilesList, sTarget, tsProgressBar );
+			
+			//TODO: Только для отладки
+			if( debug.Count>0 ) {
+				StreamWriter sw = new StreamWriter( "c:\\test_unzip.txt", false, Encoding.UTF8 );
+				foreach( string sLine in debug ) {
+					sw.WriteLine( sLine );
+				}
+				sw.Close();
+				MessageBox.Show( "Был сбой программы!" +
+				                "Данные - в файле c:\test_unzip.txt", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			} else {
+				MessageBox.Show( "Сбоя программы не было!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
+			//TODO: Только для отладки
 			
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
