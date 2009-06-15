@@ -309,7 +309,7 @@ namespace Options
 			this.btnDefRestore.Name = "btnDefRestore";
 			this.btnDefRestore.Size = new System.Drawing.Size(336, 26);
 			this.btnDefRestore.TabIndex = 2;
-			this.btnDefRestore.Text = "Восстановить по-умолчанию (для каждой вкоадки отдельно)";
+			this.btnDefRestore.Text = "Восстановить по-умолчанию (для каждой вкладки отдельно)";
 			this.btnDefRestore.UseVisualStyleBackColor = true;
 			this.btnDefRestore.Click += new System.EventHandler(this.BtnDefRestoreClick);
 			// 
@@ -333,7 +333,7 @@ namespace Options
 			this.tpGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tpGeneral.Name = "tpGeneral";
 			this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpGeneral.Size = new System.Drawing.Size(609, 465);
+			this.tpGeneral.Size = new System.Drawing.Size(609, 452);
 			this.tpGeneral.TabIndex = 0;
 			this.tpGeneral.Text = " Основные ";
 			this.tpGeneral.UseVisualStyleBackColor = true;
@@ -633,7 +633,7 @@ namespace Options
 			this.tpValidator.Location = new System.Drawing.Point(4, 22);
 			this.tpValidator.Name = "tpValidator";
 			this.tpValidator.Padding = new System.Windows.Forms.Padding(3);
-			this.tpValidator.Size = new System.Drawing.Size(609, 455);
+			this.tpValidator.Size = new System.Drawing.Size(609, 452);
 			this.tpValidator.TabIndex = 1;
 			this.tpValidator.Text = " Валидатор ";
 			this.tpValidator.UseVisualStyleBackColor = true;
@@ -794,7 +794,7 @@ namespace Options
 			this.tpFMGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tpFMGeneral.Name = "tpFMGeneral";
 			this.tpFMGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMGeneral.Size = new System.Drawing.Size(595, 433);
+			this.tpFMGeneral.Size = new System.Drawing.Size(595, 420);
 			this.tpFMGeneral.TabIndex = 0;
 			this.tpFMGeneral.Text = " Основные ";
 			this.tpFMGeneral.UseVisualStyleBackColor = true;
@@ -805,7 +805,7 @@ namespace Options
 			this.pSortFB2.Controls.Add(this.rbtnFMAllFB2);
 			this.pSortFB2.Controls.Add(this.label11);
 			this.pSortFB2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pSortFB2.Location = new System.Drawing.Point(3, 218);
+			this.pSortFB2.Location = new System.Drawing.Point(3, 205);
 			this.pSortFB2.Name = "pSortFB2";
 			this.pSortFB2.Size = new System.Drawing.Size(589, 23);
 			this.pSortFB2.TabIndex = 30;
@@ -859,7 +859,7 @@ namespace Options
 			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxFMGeneral.Location = new System.Drawing.Point(3, 3);
 			this.gboxFMGeneral.Name = "gboxFMGeneral";
-			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 238);
+			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 225);
 			this.gboxFMGeneral.TabIndex = 28;
 			this.gboxFMGeneral.TabStop = false;
 			this.gboxFMGeneral.Text = " Основные настройки ";
@@ -1111,7 +1111,7 @@ namespace Options
 			this.gboxApportionment.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.gboxApportionment.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxApportionment.Location = new System.Drawing.Point(3, 241);
+			this.gboxApportionment.Location = new System.Drawing.Point(3, 228);
 			this.gboxApportionment.Name = "gboxApportionment";
 			this.gboxApportionment.Size = new System.Drawing.Size(589, 189);
 			this.gboxApportionment.TabIndex = 29;
@@ -1258,7 +1258,7 @@ namespace Options
 			this.tpFMDirs.Location = new System.Drawing.Point(4, 22);
 			this.tpFMDirs.Name = "tpFMDirs";
 			this.tpFMDirs.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMDirs.Size = new System.Drawing.Size(595, 423);
+			this.tpFMDirs.Size = new System.Drawing.Size(595, 420);
 			this.tpFMDirs.TabIndex = 1;
 			this.tpFMDirs.Text = " Папки для \"проблемных\" файлов ";
 			this.tpFMDirs.UseVisualStyleBackColor = true;
@@ -1408,7 +1408,7 @@ namespace Options
 			this.tpFMNoTagsText.Controls.Add(this.gBoxFMNoTags);
 			this.tpFMNoTagsText.Location = new System.Drawing.Point(4, 22);
 			this.tpFMNoTagsText.Name = "tpFMNoTagsText";
-			this.tpFMNoTagsText.Size = new System.Drawing.Size(595, 423);
+			this.tpFMNoTagsText.Size = new System.Drawing.Size(595, 420);
 			this.tpFMNoTagsText.TabIndex = 2;
 			this.tpFMNoTagsText.Text = " Папки шаблонного тэга без данных ";
 			this.tpFMNoTagsText.UseVisualStyleBackColor = true;
@@ -1429,7 +1429,7 @@ namespace Options
 			this.gBoxFMNoTags.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.gBoxFMNoTags.Location = new System.Drawing.Point(0, 0);
 			this.gBoxFMNoTags.Name = "gBoxFMNoTags";
-			this.gBoxFMNoTags.Size = new System.Drawing.Size(595, 423);
+			this.gBoxFMNoTags.Size = new System.Drawing.Size(595, 420);
 			this.gBoxFMNoTags.TabIndex = 0;
 			this.gBoxFMNoTags.TabStop = false;
 			this.gBoxFMNoTags.Text = " Для отсутствующих данных тэгов ";
@@ -1742,6 +1742,7 @@ namespace Options
 			// 
 			// txtboxFMbusiness
 			// 
+			this.txtboxFMbusiness.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMbusiness.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMbusiness.Name = "txtboxFMbusiness";
 			this.txtboxFMbusiness.Size = new System.Drawing.Size(424, 20);
@@ -1769,6 +1770,7 @@ namespace Options
 			// 
 			// txtboxFMhome
 			// 
+			this.txtboxFMhome.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMhome.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMhome.Name = "txtboxFMhome";
 			this.txtboxFMhome.Size = new System.Drawing.Size(424, 20);
@@ -1796,6 +1798,7 @@ namespace Options
 			// 
 			// txtboxFMhumor
 			// 
+			this.txtboxFMhumor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMhumor.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMhumor.Name = "txtboxFMhumor";
 			this.txtboxFMhumor.Size = new System.Drawing.Size(424, 20);
@@ -1823,6 +1826,7 @@ namespace Options
 			// 
 			// txtboxFMreligion
 			// 
+			this.txtboxFMreligion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMreligion.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMreligion.Name = "txtboxFMreligion";
 			this.txtboxFMreligion.Size = new System.Drawing.Size(424, 20);
@@ -1850,6 +1854,7 @@ namespace Options
 			// 
 			// txtboxFMnonfiction
 			// 
+			this.txtboxFMnonfiction.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMnonfiction.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMnonfiction.Name = "txtboxFMnonfiction";
 			this.txtboxFMnonfiction.Size = new System.Drawing.Size(424, 20);
@@ -1877,6 +1882,7 @@ namespace Options
 			// 
 			// txtboxFMreference
 			// 
+			this.txtboxFMreference.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMreference.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMreference.Name = "txtboxFMreference";
 			this.txtboxFMreference.Size = new System.Drawing.Size(424, 20);
@@ -1904,6 +1910,7 @@ namespace Options
 			// 
 			// txtboxFMcomputers
 			// 
+			this.txtboxFMcomputers.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMcomputers.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMcomputers.Name = "txtboxFMcomputers";
 			this.txtboxFMcomputers.Size = new System.Drawing.Size(424, 20);
@@ -1931,6 +1938,7 @@ namespace Options
 			// 
 			// txtboxFMscience
 			// 
+			this.txtboxFMscience.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMscience.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMscience.Name = "txtboxFMscience";
 			this.txtboxFMscience.Size = new System.Drawing.Size(424, 20);
@@ -1958,6 +1966,7 @@ namespace Options
 			// 
 			// txtboxFMantique
 			// 
+			this.txtboxFMantique.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMantique.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMantique.Name = "txtboxFMantique";
 			this.txtboxFMantique.Size = new System.Drawing.Size(424, 20);
@@ -1985,6 +1994,7 @@ namespace Options
 			// 
 			// txtboxFMpoetry
 			// 
+			this.txtboxFMpoetry.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMpoetry.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMpoetry.Name = "txtboxFMpoetry";
 			this.txtboxFMpoetry.Size = new System.Drawing.Size(424, 20);
@@ -2012,6 +2022,7 @@ namespace Options
 			// 
 			// txtboxFMchildren
 			// 
+			this.txtboxFMchildren.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMchildren.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMchildren.Name = "txtboxFMchildren";
 			this.txtboxFMchildren.Size = new System.Drawing.Size(424, 20);
@@ -2039,6 +2050,7 @@ namespace Options
 			// 
 			// txtboxFMadventure
 			// 
+			this.txtboxFMadventure.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMadventure.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMadventure.Name = "txtboxFMadventure";
 			this.txtboxFMadventure.Size = new System.Drawing.Size(424, 20);
@@ -2066,6 +2078,7 @@ namespace Options
 			// 
 			// txtboxFMlove
 			// 
+			this.txtboxFMlove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMlove.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMlove.Name = "txtboxFMlove";
 			this.txtboxFMlove.Size = new System.Drawing.Size(424, 20);
@@ -2093,6 +2106,7 @@ namespace Options
 			// 
 			// txtboxFMprose
 			// 
+			this.txtboxFMprose.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMprose.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMprose.Name = "txtboxFMprose";
 			this.txtboxFMprose.Size = new System.Drawing.Size(424, 20);
@@ -2120,6 +2134,7 @@ namespace Options
 			// 
 			// txtboxFMdetective
 			// 
+			this.txtboxFMdetective.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMdetective.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMdetective.Name = "txtboxFMdetective";
 			this.txtboxFMdetective.Size = new System.Drawing.Size(424, 20);
@@ -2147,6 +2162,7 @@ namespace Options
 			// 
 			// txtboxFMsf
 			// 
+			this.txtboxFMsf.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.txtboxFMsf.Location = new System.Drawing.Point(159, 2);
 			this.txtboxFMsf.Name = "txtboxFMsf";
 			this.txtboxFMsf.Size = new System.Drawing.Size(424, 20);
