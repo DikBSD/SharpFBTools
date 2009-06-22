@@ -854,7 +854,7 @@ namespace SharpFBTools.Tools
 			this.gbNotFB2.Size = new System.Drawing.Size(817, 76);
 			this.gbNotFB2.TabIndex = 9;
 			this.gbNotFB2.TabStop = false;
-			this.gbNotFB2.Text = " Обработка не валидных fb2-файлов: ";
+			this.gbNotFB2.Text = " Обработка не fb2-файлов: ";
 			// 
 			// lblNotFB2FilesMoveDir
 			// 
