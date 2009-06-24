@@ -47,6 +47,10 @@
     <Compile Include="Tools\BasiclTemplates.Designer.cs">
       <DependentUpon>BasiclTemplates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\SelectedSortData.cs" />
+    <Compile Include="Tools\SelectedSortData.Designer.cs">
+      <DependentUpon>SelectedSortData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\SFBTFB2Validator.cs" />
     <Compile Include="Tools\SFBTFB2Validator.Designer.cs" />
     <Compile Include="Tools\SFBTpAbout.cs" />
@@ -64,6 +68,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\BasiclTemplates.resx">
       <DependentUpon>BasiclTemplates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\SelectedSortData.resx">
+      <DependentUpon>SelectedSortData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\SFBTFB2Validator.resx">
       <DependentUpon>SFBTFB2Validator.cs</DependentUpon>

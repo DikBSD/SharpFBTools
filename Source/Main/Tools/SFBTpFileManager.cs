@@ -767,6 +767,28 @@ namespace SharpFBTools.Tools
 			}
 			btfrm.Dispose();
 		}
+		
+		void BtnSSGetDataClick(object sender, EventArgs e)
+		{
+			// запуск диалога Сбора данных для Избранной Сортировки
+			SelectedSortData ssdfrm = new SelectedSortData();
+			ssdfrm.ShowDialog();
+			if( ssdfrm.lvSSData.Items.Count>0 ) {
+				for( int i=0; i!=ssdfrm.lvSSData.Items.Count; ++i ) {
+					ListViewItem lvi = new ListViewItem( ssdfrm.lvSSData.Items[i].Text );
+					lvi.SubItems.Add( ssdfrm.lvSSData.Items[i].SubItems[1].Text );
+					lvi.SubItems.Add( ssdfrm.lvSSData.Items[i].SubItems[2].Text );
+					lvi.SubItems.Add( ssdfrm.lvSSData.Items[i].SubItems[3].Text );
+					lvi.SubItems.Add( ssdfrm.lvSSData.Items[i].SubItems[4].Text );
+					lvi.SubItems.Add( ssdfrm.lvSSData.Items[i].SubItems[5].Text );
+					lvi.SubItems.Add( ssdfrm.lvSSData.Items[i].SubItems[6].Text );
+					lvi.SubItems.Add( ssdfrm.lvSSData.Items[i].SubItems[7].Text );
+					// добавление записи в список
+					lvSSData.Items.Add( lvi );
+				}
+			}
+			ssdfrm.Dispose();
+		}
 		#endregion
 	}
 }

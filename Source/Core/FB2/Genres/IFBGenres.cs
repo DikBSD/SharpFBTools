@@ -17,5 +17,7 @@ namespace FB2.Genres
 	{
 		string GetFBGenreName( string sGenreCode );
 		string GetFBGenreGroup( string sGenreCode );
+		string[] GetFBGenreNamesArray();
+		string[] GetFBGenreCodesArray();
 	}
 }

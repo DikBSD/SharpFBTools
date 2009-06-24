@@ -270,6 +270,7 @@ namespace Options
 			// 
 			// btnOK
 			// 
+			this.btnOK.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.btnOK.Location = new System.Drawing.Point(498, 6);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(112, 26);
@@ -281,6 +282,7 @@ namespace Options
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.btnCancel.Location = new System.Drawing.Point(368, 6);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(108, 26);
@@ -305,6 +307,7 @@ namespace Options
 			// 
 			// btnDefRestore
 			// 
+			this.btnDefRestore.ForeColor = System.Drawing.Color.Navy;
 			this.btnDefRestore.Location = new System.Drawing.Point(8, 6);
 			this.btnDefRestore.Name = "btnDefRestore";
 			this.btnDefRestore.Size = new System.Drawing.Size(336, 26);
