@@ -29,9 +29,9 @@ namespace SharpFBTools.Tools
 		public SelectedSortQueryCriteria()
 		{
 		}
-		public SelectedSortQueryCriteria( string sLang,
+		public SelectedSortQueryCriteria( string sLang, string sGenresGroup, string sGenre, 
 		                                 string sLast, string sFirst, string sMiddle, string sNick,
-		                                 string sGenresGroup, string sGenre, string sSequence )
+		                                 string sSequence )
 		{
 			m_Lang		= sLang;
 			m_Last		= sLast;
