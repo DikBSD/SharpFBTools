@@ -51,6 +51,7 @@
     <Compile Include="Tools\SelectedSortData.Designer.cs">
       <DependentUpon>SelectedSortData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\SelectedSortQueryCriteria.cs" />
     <Compile Include="Tools\SFBTFB2Validator.cs" />
     <Compile Include="Tools\SFBTFB2Validator.Designer.cs" />
     <Compile Include="Tools\SFBTpAbout.cs" />
