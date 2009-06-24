@@ -709,14 +709,7 @@ namespace SharpFBTools.Tools
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования
-			if( tboxSourceDir.Text !="" ) {
-				fbdScanDir.SelectedPath = tboxSourceDir.Text;
-			}
-			DialogResult result = fbdScanDir.ShowDialog();
-			if (result == DialogResult.OK) {
-				string openFolderName = fbdScanDir.SelectedPath;
-                tboxSourceDir.Text = openFolderName;
-            }
+			FilesWorker.FilesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" );
 		}
 		
 		void TsbtnSortFilesToClick(object sender, EventArgs e)
@@ -788,6 +781,46 @@ namespace SharpFBTools.Tools
 				}
 			}
 			ssdfrm.Dispose();
+		}
+		
+		void BtnSSInsertTemplatesClick(object sender, EventArgs e)
+		{
+			// запуск диалога Вставки готовых шаблонов
+			BasiclTemplates btfrm = new BasiclTemplates();
+			btfrm.ShowDialog();
+			if( btfrm.GetTemplateLine()!=null ) {
+				txtBoxSSTemplatesFromLine.Text = btfrm.GetTemplateLine();
+			}
+			btfrm.Dispose();
+		}
+		
+		void TsbtnSSOpenDirClick(object sender, EventArgs e)
+		{
+			// задание папки с fb2-файлами и архивами для сканирования (Избранная Сортировка)
+			FilesWorker.FilesWorker.OpenDirDlg( tboxSSSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами (Избранная Сортировка):" );
+		}
+		
+		void TsbtnSSTargetDirClick(object sender, EventArgs e)
+		{
+			// задание папки-приемника для размешения отсортированных файлов (Избранная Сортировка)
+			FilesWorker.FilesWorker.OpenDirDlg( tboxSSToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов (Избранная Сортировка):" );
+		}
+	
+		void TsbtnSSSortFilesToClick(object sender, EventArgs e)
+		{
+			// Избранная Сортировка
+			string sSource = tboxSSSourceDir.Text.Trim();
+			if( sSource == "" ) {
+				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			DirectoryInfo diFolder = new DirectoryInfo( sSource );
+			if( !diFolder.Exists ) {
+				MessageBox.Show( "Папка не найдена: " + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+
+			//SortFb2Files( sSource );
 		}
 		#endregion
 	}

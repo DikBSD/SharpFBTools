@@ -111,30 +111,6 @@ namespace SharpFBTools.Tools
 			cmbBoxSSGenres.SelectedIndex = 0;
 		}
 		
-		private bool IsGenreGroupTemplateAndSortValidate() {
-			// соответствует ли критерий поиска Группа Жанров (если выбрана) шаблону *GG* или [*GG*] в строке Шаблонов
-			if( lvSSData.Items.Count == 0 ) {
-				return false;
-			}
-			string sGG		= "";
-			string sGenre	= "";
-			if( chkBoxGenre.Checked ) {
-				if( rbtnSSGenresGroup.Checked ) {
-					sGG = cmbBoxSSGenresGroup.Text.Trim();
-				} else {
-					sGenre = cmbBoxSSGenres.Text.Trim();
-				}
-			}
-			// перебираем все записи в списке
-			for( int i=0; i!=lvSSData.Items.Count; ++i ) {
-				if( lvSSData.Items[i].SubItems[1].Text==sGG && 
-				  lvSSData.Items[i].SubItems[2].Text==sGenre ) {
-					return true;
-				}
-			}
-			return false;
-		}
-		
 		private bool IsRecordExist() {
 			// есть ли такая запись в списке
 			if( lvSSData.Items.Count == 0 ) {
@@ -209,24 +185,37 @@ namespace SharpFBTools.Tools
 		void BtnAddClick(object sender, EventArgs e)
 		{
 			// Добавить данные сортировки в список
-			// проверка, задана ли строка с Шаблонами подстановки
-			if( txtBoxTemplatesFromLine.Text.Trim().Length==0 ) {
-				MessageBox.Show( "Сначала задайте строку с Шаблонами подстановки!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			}
-			
 			// проверка, выбранали хоть одна опция сортировки
 			if( !chBoxSSLang.Checked && !chBoxAuthor.Checked &&
 			   	!chkBoxGenre.Checked && !chBoxSSSequence.Checked ) {
 				MessageBox.Show( "Выберите хоть одну опцию поиска для сортировки (чекбоксы)!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			
-			// проверка, соответствует ли критерий поиска Группа Жанров (если выбрана) шаблону *GG* или [*GG*] в строке Шаблонов
-			if( IsGenreGroupTemplateAndSortValidate() ) {
-				MessageBox.Show( "В строке Шаблонов Подстановки есть Шаблон Группы Жанров *GG*, а в критерии поиска Вы выбрали Жанр!\r\n" +
-				                "В этом случае для критерия поиска Вы можете выбрать ТОЛЬКО Группу Жанров, но не Жанр!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
+
+			// если выбран ТОЛЬКО Автор и (или) Серия
+			if( !chBoxSSLang.Checked && !chkBoxGenre.Checked) {
+				if( chBoxAuthor.Checked && !chBoxSSSequence.Checked ) {
+					// выбран только Автор - не пустые ли все его поля
+					if( textBoxSSLast.Text.Trim().Length==0 && textBoxSSFirst.Text.Trim().Length==0 &&
+					  textBoxSSMiddle.Text.Trim().Length==0 && textBoxSSNick.Text.Trim().Length==0 ) {
+						MessageBox.Show( "Заполните хоть одно поле для Автора Книг!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return;
+					}
+				} else if( !chBoxAuthor.Checked && chBoxSSSequence.Checked ) {
+					// выбрана только Серия - не пустое ли его поле
+					if( txtBoxSSSequence.Text.Trim().Length==0 ) {
+						MessageBox.Show( "Заполните поле для Серии Книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return;
+					}
+				} else {
+					// выбран И Автор И Серия - не пустые ли все поля
+					if( textBoxSSLast.Text.Trim().Length==0 && textBoxSSFirst.Text.Trim().Length==0 &&
+					 	textBoxSSMiddle.Text.Trim().Length==0 && textBoxSSNick.Text.Trim().Length==0 &&
+					 	txtBoxSSSequence.Text.Trim().Length==0 ) {
+						MessageBox.Show( "Заполните хоть одно поле для Автора Книг и (или) для Серии Книг!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return;
+					}
+				}
 			}
 			
 			// проверка, есть ли вводимые данные в списке
@@ -342,17 +331,6 @@ namespace SharpFBTools.Tools
 		void ChBoxSSSequenceClick(object sender, EventArgs e)
 		{
 			txtBoxSSSequence.Focus();
-		}
-		
-		void BtnInsertTemplatesClick(object sender, EventArgs e)
-		{
-			// запуск диалога Вставки готовых шаблонов
-			BasiclTemplates btfrm = new BasiclTemplates();
-			btfrm.ShowDialog();
-			if( btfrm.GetTemplateLine()!=null ) {
-				txtBoxTemplatesFromLine.Text = btfrm.GetTemplateLine();
-			}
-			btfrm.Dispose();
 		}
 		#endregion
 		

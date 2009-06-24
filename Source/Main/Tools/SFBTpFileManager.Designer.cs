@@ -240,7 +240,7 @@ namespace SharpFBTools.Tools
 			this.pFullSortDirs = new System.Windows.Forms.Panel();
 			this.chBoxScanSubDir = new System.Windows.Forms.CheckBox();
 			this.tpSelectedSort = new System.Windows.Forms.TabPage();
-			this.btnSSGetData = new System.Windows.Forms.Button();
+			this.pData = new System.Windows.Forms.Panel();
 			this.lvSSData = new System.Windows.Forms.ListView();
 			this.cHeaderLang = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderGenresGroup = new System.Windows.Forms.ColumnHeader();
@@ -250,6 +250,7 @@ namespace SharpFBTools.Tools
 			this.cHeaderMiddle = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderNick = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderSequence = new System.Windows.Forms.ColumnHeader();
+			this.btnSSGetData = new System.Windows.Forms.Button();
 			this.gBoxSelectedlSortRenameTemplates = new System.Windows.Forms.GroupBox();
 			this.btnSSInsertTemplates = new System.Windows.Forms.Button();
 			this.txtBoxSSTemplatesFromLine = new System.Windows.Forms.TextBox();
@@ -272,7 +273,6 @@ namespace SharpFBTools.Tools
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.pProgress = new System.Windows.Forms.Panel();
-			this.pData = new System.Windows.Forms.Panel();
 			this.ssProgress.SuspendLayout();
 			this.tsFullSort.SuspendLayout();
 			this.tcSort.SuspendLayout();
@@ -281,11 +281,11 @@ namespace SharpFBTools.Tools
 			this.gBoxFullSortRenameTemplates.SuspendLayout();
 			this.pFullSortDirs.SuspendLayout();
 			this.tpSelectedSort.SuspendLayout();
+			this.pData.SuspendLayout();
 			this.gBoxSelectedlSortRenameTemplates.SuspendLayout();
 			this.pSelectedSortDirs.SuspendLayout();
 			this.tsSelectedSort.SuspendLayout();
 			this.pProgress.SuspendLayout();
-			this.pData.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ssProgress
@@ -540,18 +540,14 @@ namespace SharpFBTools.Tools
 			this.tpSelectedSort.Text = " Избранная Сортировка ";
 			this.tpSelectedSort.UseVisualStyleBackColor = true;
 			// 
-			// btnSSGetData
+			// pData
 			// 
-			this.btnSSGetData.Dock = System.Windows.Forms.DockStyle.Top;
-			this.btnSSGetData.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnSSGetData.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSGetData.Location = new System.Drawing.Point(3, 145);
-			this.btnSSGetData.Name = "btnSSGetData";
-			this.btnSSGetData.Size = new System.Drawing.Size(814, 28);
-			this.btnSSGetData.TabIndex = 10;
-			this.btnSSGetData.Text = "Собрать данные для Избранной Сортировки";
-			this.btnSSGetData.UseVisualStyleBackColor = true;
-			this.btnSSGetData.Click += new System.EventHandler(this.BtnSSGetDataClick);
+			this.pData.Controls.Add(this.lvSSData);
+			this.pData.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pData.Location = new System.Drawing.Point(3, 173);
+			this.pData.Name = "pData";
+			this.pData.Size = new System.Drawing.Size(814, 90);
+			this.pData.TabIndex = 62;
 			// 
 			// lvSSData
 			// 
@@ -614,6 +610,19 @@ namespace SharpFBTools.Tools
 			this.cHeaderSequence.Text = "Серия";
 			this.cHeaderSequence.Width = 80;
 			// 
+			// btnSSGetData
+			// 
+			this.btnSSGetData.Dock = System.Windows.Forms.DockStyle.Top;
+			this.btnSSGetData.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.btnSSGetData.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.btnSSGetData.Location = new System.Drawing.Point(3, 145);
+			this.btnSSGetData.Name = "btnSSGetData";
+			this.btnSSGetData.Size = new System.Drawing.Size(814, 28);
+			this.btnSSGetData.TabIndex = 10;
+			this.btnSSGetData.Text = "Собрать данные для Избранной Сортировки";
+			this.btnSSGetData.UseVisualStyleBackColor = true;
+			this.btnSSGetData.Click += new System.EventHandler(this.BtnSSGetDataClick);
+			// 
 			// gBoxSelectedlSortRenameTemplates
 			// 
 			this.gBoxSelectedlSortRenameTemplates.Controls.Add(this.btnSSInsertTemplates);
@@ -638,6 +647,7 @@ namespace SharpFBTools.Tools
 			this.btnSSInsertTemplates.TabIndex = 9;
 			this.btnSSInsertTemplates.Text = "Вставить готовый";
 			this.btnSSInsertTemplates.UseVisualStyleBackColor = true;
+			this.btnSSInsertTemplates.Click += new System.EventHandler(this.BtnSSInsertTemplatesClick);
 			// 
 			// txtBoxSSTemplatesFromLine
 			// 
@@ -736,6 +746,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnSSOpenDir.Size = new System.Drawing.Size(123, 28);
 			this.tsbtnSSOpenDir.Text = "Папка - источник";
 			this.tsbtnSSOpenDir.ToolTipText = "Открыть папку с fb2-файлами и (или) архивами...";
+			this.tsbtnSSOpenDir.Click += new System.EventHandler(this.TsbtnSSOpenDirClick);
 			// 
 			// toolStripSeparator1
 			// 
@@ -750,6 +761,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnSSTargetDir.Size = new System.Drawing.Size(124, 28);
 			this.tsbtnSSTargetDir.Text = "Папка - приемник";
 			this.tsbtnSSTargetDir.ToolTipText = "Папка - приемник отсортированных fb2-файлов (архивов)";
+			this.tsbtnSSTargetDir.Click += new System.EventHandler(this.TsbtnSSTargetDirClick);
 			// 
 			// toolStripSeparator2
 			// 
@@ -764,6 +776,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnSSSortFilesTo.Name = "tsbtnSSSortFilesTo";
 			this.tsbtnSSSortFilesTo.Size = new System.Drawing.Size(102, 28);
 			this.tsbtnSSSortFilesTo.Text = "Сортировать";
+			this.tsbtnSSSortFilesTo.Click += new System.EventHandler(this.TsbtnSSSortFilesToClick);
 			// 
 			// lvSettings
 			// 
@@ -949,15 +962,6 @@ namespace SharpFBTools.Tools
 			this.pProgress.Size = new System.Drawing.Size(828, 246);
 			this.pProgress.TabIndex = 33;
 			// 
-			// pData
-			// 
-			this.pData.Controls.Add(this.lvSSData);
-			this.pData.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pData.Location = new System.Drawing.Point(3, 173);
-			this.pData.Name = "pData";
-			this.pData.Size = new System.Drawing.Size(814, 90);
-			this.pData.TabIndex = 62;
-			// 
 			// SFBTpFileManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -981,6 +985,7 @@ namespace SharpFBTools.Tools
 			this.pFullSortDirs.PerformLayout();
 			this.tpSelectedSort.ResumeLayout(false);
 			this.tpSelectedSort.PerformLayout();
+			this.pData.ResumeLayout(false);
 			this.gBoxSelectedlSortRenameTemplates.ResumeLayout(false);
 			this.gBoxSelectedlSortRenameTemplates.PerformLayout();
 			this.pSelectedSortDirs.ResumeLayout(false);
@@ -988,7 +993,6 @@ namespace SharpFBTools.Tools
 			this.tsSelectedSort.ResumeLayout(false);
 			this.tsSelectedSort.PerformLayout();
 			this.pProgress.ResumeLayout(false);
-			this.pData.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}

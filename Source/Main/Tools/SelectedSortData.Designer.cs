@@ -36,7 +36,6 @@ namespace SharpFBTools.Tools
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectedSortData));
 			this.cmbBoxSSLang = new System.Windows.Forms.ComboBox();
 			this.chBoxSSLang = new System.Windows.Forms.CheckBox();
 			this.txtBoxSSSequence = new System.Windows.Forms.TextBox();
@@ -69,12 +68,7 @@ namespace SharpFBTools.Tools
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnDelete = new System.Windows.Forms.Button();
 			this.btnAdd = new System.Windows.Forms.Button();
-			this.txtBoxWarning = new System.Windows.Forms.TextBox();
-			this.gBoxFullSortRenameTemplates = new System.Windows.Forms.GroupBox();
-			this.btnInsertTemplates = new System.Windows.Forms.Button();
-			this.txtBoxTemplatesFromLine = new System.Windows.Forms.TextBox();
 			this.gBoxGenre.SuspendLayout();
-			this.gBoxFullSortRenameTemplates.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// cmbBoxSSLang
@@ -83,7 +77,7 @@ namespace SharpFBTools.Tools
 			this.cmbBoxSSLang.Enabled = false;
 			this.cmbBoxSSLang.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.cmbBoxSSLang.FormattingEnabled = true;
-			this.cmbBoxSSLang.Location = new System.Drawing.Point(81, 151);
+			this.cmbBoxSSLang.Location = new System.Drawing.Point(81, 9);
 			this.cmbBoxSSLang.Name = "cmbBoxSSLang";
 			this.cmbBoxSSLang.Size = new System.Drawing.Size(215, 21);
 			this.cmbBoxSSLang.TabIndex = 36;
@@ -91,7 +85,7 @@ namespace SharpFBTools.Tools
 			// chBoxSSLang
 			// 
 			this.chBoxSSLang.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxSSLang.Location = new System.Drawing.Point(12, 151);
+			this.chBoxSSLang.Location = new System.Drawing.Point(12, 9);
 			this.chBoxSSLang.Name = "chBoxSSLang";
 			this.chBoxSSLang.Size = new System.Drawing.Size(65, 24);
 			this.chBoxSSLang.TabIndex = 35;
@@ -102,7 +96,7 @@ namespace SharpFBTools.Tools
 			// txtBoxSSSequence
 			// 
 			this.txtBoxSSSequence.Enabled = false;
-			this.txtBoxSSSequence.Location = new System.Drawing.Point(81, 307);
+			this.txtBoxSSSequence.Location = new System.Drawing.Point(81, 165);
 			this.txtBoxSSSequence.Name = "txtBoxSSSequence";
 			this.txtBoxSSSequence.Size = new System.Drawing.Size(621, 20);
 			this.txtBoxSSSequence.TabIndex = 46;
@@ -110,7 +104,7 @@ namespace SharpFBTools.Tools
 			// chBoxSSSequence
 			// 
 			this.chBoxSSSequence.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxSSSequence.Location = new System.Drawing.Point(12, 305);
+			this.chBoxSSSequence.Location = new System.Drawing.Point(12, 163);
 			this.chBoxSSSequence.Name = "chBoxSSSequence";
 			this.chBoxSSSequence.Size = new System.Drawing.Size(65, 24);
 			this.chBoxSSSequence.TabIndex = 45;
@@ -123,7 +117,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.lblSSNick.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblSSNick.ForeColor = System.Drawing.Color.Navy;
-			this.lblSSNick.Location = new System.Drawing.Point(344, 200);
+			this.lblSSNick.Location = new System.Drawing.Point(344, 58);
 			this.lblSSNick.Name = "lblSSNick";
 			this.lblSSNick.Size = new System.Drawing.Size(33, 24);
 			this.lblSSNick.TabIndex = 57;
@@ -133,7 +127,7 @@ namespace SharpFBTools.Tools
 			// textBoxSSNick
 			// 
 			this.textBoxSSNick.Enabled = false;
-			this.textBoxSSNick.Location = new System.Drawing.Point(380, 205);
+			this.textBoxSSNick.Location = new System.Drawing.Point(380, 63);
 			this.textBoxSSNick.Name = "textBoxSSNick";
 			this.textBoxSSNick.Size = new System.Drawing.Size(192, 20);
 			this.textBoxSSNick.TabIndex = 56;
@@ -142,7 +136,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.lblSSMiddle.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblSSMiddle.ForeColor = System.Drawing.Color.Navy;
-			this.lblSSMiddle.Location = new System.Drawing.Point(81, 200);
+			this.lblSSMiddle.Location = new System.Drawing.Point(81, 58);
 			this.lblSSMiddle.Name = "lblSSMiddle";
 			this.lblSSMiddle.Size = new System.Drawing.Size(64, 24);
 			this.lblSSMiddle.TabIndex = 55;
@@ -152,7 +146,7 @@ namespace SharpFBTools.Tools
 			// textBoxSSMiddle
 			// 
 			this.textBoxSSMiddle.Enabled = false;
-			this.textBoxSSMiddle.Location = new System.Drawing.Point(146, 205);
+			this.textBoxSSMiddle.Location = new System.Drawing.Point(146, 63);
 			this.textBoxSSMiddle.Name = "textBoxSSMiddle";
 			this.textBoxSSMiddle.Size = new System.Drawing.Size(192, 20);
 			this.textBoxSSMiddle.TabIndex = 54;
@@ -161,7 +155,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.lblSSFirst.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblSSFirst.ForeColor = System.Drawing.Color.Navy;
-			this.lblSSFirst.Location = new System.Drawing.Point(344, 178);
+			this.lblSSFirst.Location = new System.Drawing.Point(344, 36);
 			this.lblSSFirst.Name = "lblSSFirst";
 			this.lblSSFirst.Size = new System.Drawing.Size(35, 24);
 			this.lblSSFirst.TabIndex = 53;
@@ -171,7 +165,7 @@ namespace SharpFBTools.Tools
 			// chBoxAuthor
 			// 
 			this.chBoxAuthor.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxAuthor.Location = new System.Drawing.Point(12, 179);
+			this.chBoxAuthor.Location = new System.Drawing.Point(12, 37);
 			this.chBoxAuthor.Name = "chBoxAuthor";
 			this.chBoxAuthor.Size = new System.Drawing.Size(67, 24);
 			this.chBoxAuthor.TabIndex = 49;
@@ -183,7 +177,7 @@ namespace SharpFBTools.Tools
 			// textBoxSSLast
 			// 
 			this.textBoxSSLast.Enabled = false;
-			this.textBoxSSLast.Location = new System.Drawing.Point(146, 181);
+			this.textBoxSSLast.Location = new System.Drawing.Point(146, 39);
 			this.textBoxSSLast.Name = "textBoxSSLast";
 			this.textBoxSSLast.Size = new System.Drawing.Size(192, 20);
 			this.textBoxSSLast.TabIndex = 50;
@@ -191,7 +185,7 @@ namespace SharpFBTools.Tools
 			// textBoxSSFirst
 			// 
 			this.textBoxSSFirst.Enabled = false;
-			this.textBoxSSFirst.Location = new System.Drawing.Point(380, 181);
+			this.textBoxSSFirst.Location = new System.Drawing.Point(380, 39);
 			this.textBoxSSFirst.Name = "textBoxSSFirst";
 			this.textBoxSSFirst.Size = new System.Drawing.Size(192, 20);
 			this.textBoxSSFirst.TabIndex = 52;
@@ -200,7 +194,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.lblSSLast.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblSSLast.ForeColor = System.Drawing.Color.Navy;
-			this.lblSSLast.Location = new System.Drawing.Point(81, 178);
+			this.lblSSLast.Location = new System.Drawing.Point(81, 36);
 			this.lblSSLast.Name = "lblSSLast";
 			this.lblSSLast.Size = new System.Drawing.Size(59, 24);
 			this.lblSSLast.TabIndex = 51;
@@ -215,9 +209,9 @@ namespace SharpFBTools.Tools
 			this.gBoxGenre.Controls.Add(this.rbtnSSGenresGroup);
 			this.gBoxGenre.Enabled = false;
 			this.gBoxGenre.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxGenre.Location = new System.Drawing.Point(81, 231);
+			this.gBoxGenre.Location = new System.Drawing.Point(81, 89);
 			this.gBoxGenre.Name = "gBoxGenre";
-			this.gBoxGenre.Size = new System.Drawing.Size(621, 71);
+			this.gBoxGenre.Size = new System.Drawing.Size(491, 71);
 			this.gBoxGenre.TabIndex = 58;
 			this.gBoxGenre.TabStop = false;
 			// 
@@ -229,7 +223,7 @@ namespace SharpFBTools.Tools
 			this.cmbBoxSSGenres.FormattingEnabled = true;
 			this.cmbBoxSSGenres.Location = new System.Drawing.Point(136, 41);
 			this.cmbBoxSSGenres.Name = "cmbBoxSSGenres";
-			this.cmbBoxSSGenres.Size = new System.Drawing.Size(479, 21);
+			this.cmbBoxSSGenres.Size = new System.Drawing.Size(336, 21);
 			this.cmbBoxSSGenres.TabIndex = 38;
 			// 
 			// cmbBoxSSGenresGroup
@@ -239,7 +233,7 @@ namespace SharpFBTools.Tools
 			this.cmbBoxSSGenresGroup.FormattingEnabled = true;
 			this.cmbBoxSSGenresGroup.Location = new System.Drawing.Point(136, 15);
 			this.cmbBoxSSGenresGroup.Name = "cmbBoxSSGenresGroup";
-			this.cmbBoxSSGenresGroup.Size = new System.Drawing.Size(479, 21);
+			this.cmbBoxSSGenresGroup.Size = new System.Drawing.Size(336, 21);
 			this.cmbBoxSSGenresGroup.Sorted = true;
 			this.cmbBoxSSGenresGroup.TabIndex = 37;
 			// 
@@ -270,7 +264,7 @@ namespace SharpFBTools.Tools
 			// chkBoxGenre
 			// 
 			this.chkBoxGenre.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chkBoxGenre.Location = new System.Drawing.Point(12, 231);
+			this.chkBoxGenre.Location = new System.Drawing.Point(12, 89);
 			this.chkBoxGenre.Name = "chkBoxGenre";
 			this.chkBoxGenre.Size = new System.Drawing.Size(65, 22);
 			this.chkBoxGenre.TabIndex = 65;
@@ -291,7 +285,7 @@ namespace SharpFBTools.Tools
 									this.cHeaderSequence});
 			this.lvSSData.FullRowSelect = true;
 			this.lvSSData.GridLines = true;
-			this.lvSSData.Location = new System.Drawing.Point(12, 337);
+			this.lvSSData.Location = new System.Drawing.Point(12, 195);
 			this.lvSSData.Name = "lvSSData";
 			this.lvSSData.Size = new System.Drawing.Size(694, 118);
 			this.lvSSData.TabIndex = 60;
@@ -343,7 +337,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnCancel.Location = new System.Drawing.Point(443, 465);
+			this.btnCancel.Location = new System.Drawing.Point(443, 323);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(110, 26);
 			this.btnCancel.TabIndex = 62;
@@ -354,7 +348,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnOK.Enabled = false;
 			this.btnOK.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnOK.Location = new System.Drawing.Point(592, 465);
+			this.btnOK.Location = new System.Drawing.Point(592, 323);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(110, 26);
 			this.btnOK.TabIndex = 61;
@@ -366,7 +360,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnDelete.Enabled = false;
 			this.btnDelete.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnDelete.Location = new System.Drawing.Point(583, 199);
+			this.btnDelete.Location = new System.Drawing.Point(592, 130);
 			this.btnDelete.Name = "btnDelete";
 			this.btnDelete.Size = new System.Drawing.Size(110, 26);
 			this.btnDelete.TabIndex = 64;
@@ -377,7 +371,7 @@ namespace SharpFBTools.Tools
 			// btnAdd
 			// 
 			this.btnAdd.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnAdd.Location = new System.Drawing.Point(583, 151);
+			this.btnAdd.Location = new System.Drawing.Point(592, 82);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(110, 26);
 			this.btnAdd.TabIndex = 63;
@@ -385,58 +379,12 @@ namespace SharpFBTools.Tools
 			this.btnAdd.UseVisualStyleBackColor = true;
 			this.btnAdd.Click += new System.EventHandler(this.BtnAddClick);
 			// 
-			// txtBoxWarning
-			// 
-			this.txtBoxWarning.Location = new System.Drawing.Point(9, 0);
-			this.txtBoxWarning.Multiline = true;
-			this.txtBoxWarning.Name = "txtBoxWarning";
-			this.txtBoxWarning.ReadOnly = true;
-			this.txtBoxWarning.Size = new System.Drawing.Size(687, 85);
-			this.txtBoxWarning.TabIndex = 66;
-			this.txtBoxWarning.Text = resources.GetString("txtBoxWarning.Text");
-			// 
-			// gBoxFullSortRenameTemplates
-			// 
-			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnInsertTemplates);
-			this.gBoxFullSortRenameTemplates.Controls.Add(this.txtBoxTemplatesFromLine);
-			this.gBoxFullSortRenameTemplates.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxFullSortRenameTemplates.ForeColor = System.Drawing.Color.Indigo;
-			this.gBoxFullSortRenameTemplates.Location = new System.Drawing.Point(12, 89);
-			this.gBoxFullSortRenameTemplates.Name = "gBoxFullSortRenameTemplates";
-			this.gBoxFullSortRenameTemplates.Size = new System.Drawing.Size(684, 56);
-			this.gBoxFullSortRenameTemplates.TabIndex = 67;
-			this.gBoxFullSortRenameTemplates.TabStop = false;
-			this.gBoxFullSortRenameTemplates.Text = " Шаблоны подстановки ";
-			// 
-			// btnInsertTemplates
-			// 
-			this.btnInsertTemplates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnInsertTemplates.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnInsertTemplates.Location = new System.Drawing.Point(530, 15);
-			this.btnInsertTemplates.Name = "btnInsertTemplates";
-			this.btnInsertTemplates.Size = new System.Drawing.Size(142, 28);
-			this.btnInsertTemplates.TabIndex = 9;
-			this.btnInsertTemplates.Text = "Вставить готовый";
-			this.btnInsertTemplates.UseVisualStyleBackColor = true;
-			this.btnInsertTemplates.Click += new System.EventHandler(this.BtnInsertTemplatesClick);
-			// 
-			// txtBoxTemplatesFromLine
-			// 
-			this.txtBoxTemplatesFromLine.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtBoxTemplatesFromLine.Location = new System.Drawing.Point(6, 20);
-			this.txtBoxTemplatesFromLine.Name = "txtBoxTemplatesFromLine";
-			this.txtBoxTemplatesFromLine.Size = new System.Drawing.Size(516, 20);
-			this.txtBoxTemplatesFromLine.TabIndex = 8;
-			// 
 			// SelectedSortData
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(718, 501);
-			this.Controls.Add(this.gBoxFullSortRenameTemplates);
-			this.Controls.Add(this.txtBoxWarning);
+			this.ClientSize = new System.Drawing.Size(718, 357);
 			this.Controls.Add(this.chkBoxGenre);
 			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.btnAdd);
@@ -465,15 +413,9 @@ namespace SharpFBTools.Tools
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Данные для Избранной Сортировки";
 			this.gBoxGenre.ResumeLayout(false);
-			this.gBoxFullSortRenameTemplates.ResumeLayout(false);
-			this.gBoxFullSortRenameTemplates.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
-		private System.Windows.Forms.TextBox txtBoxWarning;
-		private System.Windows.Forms.TextBox txtBoxTemplatesFromLine;
-		private System.Windows.Forms.Button btnInsertTemplates;
-		private System.Windows.Forms.GroupBox gBoxFullSortRenameTemplates;
 		private System.Windows.Forms.CheckBox chkBoxGenre;
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.Button btnDelete;
