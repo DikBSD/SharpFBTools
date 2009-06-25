@@ -656,8 +656,7 @@ namespace SharpFBTools.Tools
 			return true;
 		}
 		
-		private void SortFb2Files( string sSource, string sTarget, string sLineTemplate )
-		{
+		private void SortFb2Files( string sSource, string sTarget, string sLineTemplate ) {
 			// полная сортировка файлов
 			DateTime dtStart = DateTime.Now;
 			// инициализация контролов
@@ -682,6 +681,7 @@ namespace SharpFBTools.Tools
 			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
 			                                                                 tsProgressBar, false, false );
 
+			// проверка, есть ли хоть один файл в папке для сканирования
 			lvFilesCount.Refresh();
 			int nFilesCount = lFilesList.Count;
 			if( nFilesCount == 0 ) {
@@ -704,6 +704,7 @@ namespace SharpFBTools.Tools
 			
 			// формируем лексемы шаблонной строки
 			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
+			// сортировка
 			foreach( string sFromFilePath in lFilesList ) {
 				// создаем файл по новому пути
 				if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
@@ -722,6 +723,7 @@ namespace SharpFBTools.Tools
 				++tsProgressBar.Value;
 				ssProgress.Refresh();
 			}
+			// завершение работы
 			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
@@ -731,6 +733,216 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Visible = false;
 		}
 
+		void SelectedSortFb2Files( string sSource, string sTarget, string sLineTemplate ) {
+			// Избранная Сортировка файлов
+			DateTime dtStart = DateTime.Now;
+			// инициализация контролов
+			Init();
+			tsProgressBar.Visible = true;
+			// сортированный список всех вложенных папок
+			List<string> lDirList = new List<string>();
+			if( !chBoxSSScanSubDir.Checked ) {
+				// сканировать только указанную папку
+				lDirList.Add( sSource );
+				lvFilesCount.Items[0].SubItems[1].Text = "1";
+				lvFilesCount.Refresh();
+			} else {
+				// сканировать и все подпапки
+				tsslblProgress.Text = "Создание списка папок:";
+				lDirList = FilesWorker.FilesWorker.DirsParser( sSource, lvFilesCount, false );
+				lvFilesCount.Refresh();
+			}
+			// сортированный список всех файлов
+			tsslblProgress.Text = "Создание списка файлов:";
+			ssProgress.Refresh();
+			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
+			                                                                 tsProgressBar, false, false );
+			
+			// проверка, есть ли хоть один файл в папке для сканирования
+			lvFilesCount.Refresh();
+			int nFilesCount = lFilesList.Count;
+			if( nFilesCount == 0 ) {
+				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				tsslblProgress.Text = Settings.Settings.GetReady();
+				tsProgressBar.Visible = false;
+				return;
+			}
+			
+			// сортировка файлов по папкам, согласно шаблонам подстановки
+			tsslblProgress.Text = "Сортировка файлов:";
+			tsProgressBar.Visible = true;
+			tsProgressBar.Maximum = nFilesCount+1;
+			tsProgressBar.Value = 1;
+			ssProgress.Refresh();
+	
+			// данные настроек для сортировки по шаблонам
+			Settings.DataFM dfm = new Settings.DataFM();
+			string sTempDir = Settings.Settings.GetTempDir();
+			// формируем лексемы шаблонной строки
+			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
+			// сортировка
+			foreach( string sFromFilePath in lFilesList ) {
+				/* создаем файл по новому пути */
+				// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
+				if( IsConformity( sFromFilePath ) ) {
+					if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
+						// по первому Жанру и первому Автору Книги
+						MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+					} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
+						// по первому Жанру и всем Авторам Книги
+						MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+					} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
+						// по всем Жанрам и первому Автору Книги
+						MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+					} else {
+						// по всем Жанрам и всем Авторам Книги
+						MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+					}
+				}
+				++tsProgressBar.Value;
+				ssProgress.Refresh();
+			}
+			// завершение работы
+			FilesWorker.FilesWorker.RemoveDir( sTempDir );
+			DateTime dtEnd = DateTime.Now;
+			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sMess = "Сортировка файлов в указанную папку завершена!\nЗатрачено времени: "+sTime;
+			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			tsslblProgress.Text = Settings.Settings.GetReady();
+			tsProgressBar.Visible = false;
+		}
+		
+		private bool IsConformity( string sFromFilePath ) {
+			// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
+			fB2Parser fb2	= null;
+			TitleInfo ti	= null;
+			try {
+				fb2	= new fB2Parser( sFromFilePath );
+				ti	= fb2.GetTitleInfo();
+				if( ti==null ) return false;
+			} catch {
+				return false;
+			}
+			bool bRet = true; // флаг, нашли ли соответствие
+			string			sFB2Lang		= ti.Lang;
+			IList<Genre>	lFB2Genres		= ti.Genres;
+			IList<Author>	lFB2Authors		= ti.Authors;
+			IList<Sequence>	lFB2Sequences	= ti.Sequences;
+			string sLang, sFirstName, sGenre, sMiddleName, sLastName, sNickName, sSequence;
+			foreach( SelectedSortQueryCriteria ssqc in m_lSSQCList ) {
+				sLang		= ssqc.Lang;
+				sGenre		= ssqc.Genre;
+				sFirstName	= ssqc.FirstName;
+				sMiddleName	= ssqc.MiddleName;
+				sLastName	= ssqc.LastName;
+				sNickName	= ssqc.NickName;
+				sSequence	= ssqc.Sequence;
+				// проверка языка книги
+				if( sFB2Lang != null ) {
+					if( sLang.Length != 0 ) {
+						if( sLang != sFB2Lang ) {
+							bRet = false; continue;
+						}
+					}
+				} else {
+					// в книге тега языка нет
+					if( sLang.Length != 0 ) {
+						bRet = false; continue;
+					}
+				}
+				// проверка жанра книги
+				bool b = false;
+				if( lFB2Genres != null ) {
+					if( sGenre.Length != 0 ) {
+						foreach( Genre gfb2 in lFB2Genres ) {
+							if( gfb2.Name == sGenre ) {
+								b = true; break;
+							}
+						}
+						if( !b ) {
+							bRet = false; continue;
+						}
+					}
+				} else {
+					// в книге тега жанра нет
+					if( sGenre.Length != 0 ) {
+						bRet = false; continue;
+					}
+				}
+				// проверка серии книги
+				b = false;
+				if( lFB2Sequences != null ) {
+					if( sSequence.Length != 0 ) {
+						foreach( Sequence sfb2 in lFB2Sequences ) {
+							if( sfb2.Name == sSequence ) {
+								b = true; break;
+							}
+						}
+						if( !b ) {
+							bRet = false; continue;
+						}
+					}
+				} else {
+					// в книге тега серии нет
+					if( sSequence.Length != 0 ) {
+						bRet = false; continue;
+					}
+				}
+				if( lFB2Authors != null ) {
+					b = false;
+					if( sFirstName.Length != 0 ) {
+						foreach( Author afb2 in lFB2Authors ) {
+							if( afb2.FirstName.Value == sFirstName ) {
+								b = true; break;
+							}
+						}
+						if( !b ) {
+							bRet = false; continue;
+						}
+					}
+					b = false;
+					if( sMiddleName.Length != 0 ) {
+						foreach( Author afb2 in lFB2Authors ) {
+							if( afb2.MiddleName.Value == sMiddleName ) {
+								b = true; break;
+							}
+						}
+						if( !b ) {
+							bRet = false; continue;
+						}
+					}
+					b = false;
+					if( sLastName.Length != 0 ) {
+						foreach( Author afb2 in lFB2Authors ) {
+							if( afb2.LastName.Value == sLastName ) {
+								b = true; break;
+							}
+						}
+						if( !b ) {
+							bRet = false; continue;
+						}
+					}
+					b = false;
+					if( sNickName.Length != 0 ) {
+						foreach( Author afb2 in lFB2Authors ) {
+							if( afb2.NickName.Value == sNickName ) {
+								b = true; break;
+							}
+						}
+						if( !b ) {
+							bRet = false; continue;
+						}
+					}
+				} else {
+					// в книге тегов автора нет
+					if( sFirstName.Length != 0 || sMiddleName.Length != 0 ||
+					  	sNickName.Length != 0 || sNickName.Length != 0 ) continue;
+				}
+				bRet = true; break;
+			}
+			return bRet;
+		}
+		
 		#endregion
 		
 		#region Обработчики событий
@@ -795,6 +1007,7 @@ namespace SharpFBTools.Tools
 		void BtnSSGetDataClick(object sender, EventArgs e)
 		{
 			// запуск диалога Сбора данных для Избранной Сортировки
+			#region Код
 			SelectedSortData ssdfrm = new SelectedSortData();
 			// если в основном списке критериев поиска уже есть записи, то копируем их в форму сбора данных
 			if( lvSSData.Items.Count > 0 ) {
@@ -878,6 +1091,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			ssdfrm.Dispose();
+			#endregion
 		}
 		
 		void BtnSSInsertTemplatesClick(object sender, EventArgs e)
@@ -911,6 +1125,12 @@ namespace SharpFBTools.Tools
 			if( !IsFolderdataCorrect( tboxSSSourceDir, tboxSSToDir, sMessTitle ) ) {
 				return;
 			}
+			// проверка на наличие критериев поиска для Избранной Сортировки
+			if( lvSSData.Items.Count == 0 ) {
+				MessageBox.Show( "Задайте хоть один критерий для Избранной Сортировки (кнопка \"Собрать данные для Избранной Сортировки\")!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				btnSSGetData.Focus();
+				return;
+			}
 			// проверка на наличие архиваторов
 			if( !IsArchivatorsExist( sMessTitle ) ) {
 				return;
@@ -919,7 +1139,7 @@ namespace SharpFBTools.Tools
 			if( !IsLineTemplateCorrect( txtBoxSSTemplatesFromLine.Text.Trim(), sMessTitle ) ) {
 				return;
 			}
-			//SelectedSortFb2Files( tboxSSSourceDir.Text, tboxSSToDir.Text, txtBoxSSTemplatesFromLine.Text.Trim() );
+			SelectedSortFb2Files( tboxSSSourceDir.Text, tboxSSToDir.Text, txtBoxSSTemplatesFromLine.Text.Trim() );
 		}
 		#endregion
 	}

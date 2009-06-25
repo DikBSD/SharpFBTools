@@ -608,7 +608,7 @@ namespace SharpFBTools.Tools
 			// cHeaderSequence
 			// 
 			this.cHeaderSequence.Text = "Серия";
-			this.cHeaderSequence.Width = 80;
+			this.cHeaderSequence.Width = 140;
 			// 
 			// btnSSGetData
 			// 
