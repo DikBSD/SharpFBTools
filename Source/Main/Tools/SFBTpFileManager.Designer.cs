@@ -250,6 +250,7 @@ namespace SharpFBTools.Tools
 			this.cHeaderMiddle = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderNick = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderSequence = new System.Windows.Forms.ColumnHeader();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnSSGetData = new System.Windows.Forms.Button();
 			this.gBoxSelectedlSortRenameTemplates = new System.Windows.Forms.GroupBox();
 			this.btnSSInsertTemplates = new System.Windows.Forms.Button();
@@ -282,6 +283,7 @@ namespace SharpFBTools.Tools
 			this.pFullSortDirs.SuspendLayout();
 			this.tpSelectedSort.SuspendLayout();
 			this.pData.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.gBoxSelectedlSortRenameTemplates.SuspendLayout();
 			this.pSelectedSortDirs.SuspendLayout();
 			this.tsSelectedSort.SuspendLayout();
@@ -527,7 +529,6 @@ namespace SharpFBTools.Tools
 			// tpSelectedSort
 			// 
 			this.tpSelectedSort.Controls.Add(this.pData);
-			this.tpSelectedSort.Controls.Add(this.btnSSGetData);
 			this.tpSelectedSort.Controls.Add(this.gBoxSelectedlSortRenameTemplates);
 			this.tpSelectedSort.Controls.Add(this.pSelectedSortDirs);
 			this.tpSelectedSort.Controls.Add(this.tsSelectedSort);
@@ -543,10 +544,11 @@ namespace SharpFBTools.Tools
 			// pData
 			// 
 			this.pData.Controls.Add(this.lvSSData);
+			this.pData.Controls.Add(this.panel1);
 			this.pData.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pData.Location = new System.Drawing.Point(3, 173);
+			this.pData.Location = new System.Drawing.Point(3, 145);
 			this.pData.Name = "pData";
-			this.pData.Size = new System.Drawing.Size(814, 90);
+			this.pData.Size = new System.Drawing.Size(814, 118);
 			this.pData.TabIndex = 62;
 			// 
 			// lvSSData
@@ -563,9 +565,9 @@ namespace SharpFBTools.Tools
 			this.lvSSData.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSSData.FullRowSelect = true;
 			this.lvSSData.GridLines = true;
-			this.lvSSData.Location = new System.Drawing.Point(0, 0);
+			this.lvSSData.Location = new System.Drawing.Point(0, 35);
 			this.lvSSData.Name = "lvSSData";
-			this.lvSSData.Size = new System.Drawing.Size(814, 90);
+			this.lvSSData.Size = new System.Drawing.Size(814, 83);
 			this.lvSSData.TabIndex = 61;
 			this.lvSSData.UseCompatibleStateImageBehavior = false;
 			this.lvSSData.View = System.Windows.Forms.View.Details;
@@ -610,14 +612,24 @@ namespace SharpFBTools.Tools
 			this.cHeaderSequence.Text = "Серия";
 			this.cHeaderSequence.Width = 140;
 			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.btnSSGetData);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel1.Location = new System.Drawing.Point(0, 0);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(814, 35);
+			this.panel1.TabIndex = 62;
+			// 
 			// btnSSGetData
 			// 
-			this.btnSSGetData.Dock = System.Windows.Forms.DockStyle.Top;
+			this.btnSSGetData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSSGetData.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.btnSSGetData.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSGetData.Location = new System.Drawing.Point(3, 145);
+			this.btnSSGetData.Location = new System.Drawing.Point(23, 3);
 			this.btnSSGetData.Name = "btnSSGetData";
-			this.btnSSGetData.Size = new System.Drawing.Size(814, 28);
+			this.btnSSGetData.Size = new System.Drawing.Size(763, 28);
 			this.btnSSGetData.TabIndex = 10;
 			this.btnSSGetData.Text = "Собрать данные для Избранной Сортировки";
 			this.btnSSGetData.UseVisualStyleBackColor = true;
@@ -986,6 +998,7 @@ namespace SharpFBTools.Tools
 			this.tpSelectedSort.ResumeLayout(false);
 			this.tpSelectedSort.PerformLayout();
 			this.pData.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
 			this.gBoxSelectedlSortRenameTemplates.ResumeLayout(false);
 			this.gBoxSelectedlSortRenameTemplates.PerformLayout();
 			this.pSelectedSortDirs.ResumeLayout(false);
@@ -996,6 +1009,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel pData;
 		private System.Windows.Forms.Button btnSSGetData;
 		private System.Windows.Forms.ColumnHeader cHeaderSequence;
