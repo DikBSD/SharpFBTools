@@ -781,22 +781,51 @@ namespace SharpFBTools.Tools
 			// формируем лексемы шаблонной строки
 			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			// сортировка
+			string sExt = "";
 			foreach( string sFromFilePath in lFilesList ) {
 				/* создаем файл по новому пути */
-				// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
-				if( IsConformity( sFromFilePath ) ) {
-					if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
-						// по первому Жанру и первому Автору Книги
-						MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-					} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
-						// по первому Жанру и всем Авторам Книги
-						MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-					} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
-						// по всем Жанрам и первому Автору Книги
-						MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-					} else {
-						// по всем Жанрам и всем Авторам Книги
-						MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+				sExt = Path.GetExtension( sFromFilePath ).ToLower();
+				if( sExt==".fb2" ) {
+					// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
+					if( IsConformity( sFromFilePath ) ) {
+						if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
+							// по первому Жанру и первому Автору Книги
+							MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+						} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
+							// по первому Жанру и всем Авторам Книги
+							MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+						} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
+							// по всем Жанрам и первому Автору Книги
+							MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+						} else {
+							// по всем Жанрам и всем Авторам Книги
+							MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+						}
+					}
+				} else {
+					// это архив?
+					if( IsArchive( sExt ) ) {
+						List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+						if( lFilesListFromArchive!=null ) {
+							foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
+								// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
+								if( IsConformity( sFB2FromArchPath ) ) {
+									if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
+										// по первому Жанру и первому Автору Книги
+										MakeFileFor1Genre1Author( sFB2FromArchPath, sSource, sTarget, lSLexems, dfm );
+									} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
+										// по первому Жанру и всем Авторам Книги
+										MakeFileFor1GenreAllAuthor( sFB2FromArchPath, sSource, sTarget, lSLexems, dfm );
+									} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
+										// по всем Жанрам и первому Автору Книги
+										MakeFileForAllGenre1Author( sFB2FromArchPath, sSource, sTarget, lSLexems, dfm );
+									} else {
+										// по всем Жанрам и всем Авторам Книги
+										MakeFileForAllGenreAllAuthor( sFB2FromArchPath, sSource, sTarget, lSLexems, dfm );
+									}
+								}
+							}
+						}
 					}
 				}
 				++tsProgressBar.Value;
