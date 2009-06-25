@@ -7,6 +7,7 @@
  * License: GPL 2.1
  */
 using System;
+using System.Collections.Generic;
 
 namespace FB2.Genres
 {
@@ -19,5 +20,6 @@ namespace FB2.Genres
 		string GetFBGenreGroup( string sGenreCode );
 		string[] GetFBGenreNamesArray();
 		string[] GetFBGenreCodesArray();
+		List<string> GetFBGenresForGroup( string sGGroup );
 	}
 }

@@ -28,6 +28,8 @@ using Templates.Lexems;
 using Templates;
 using StringProcessing;
 using FilesWorker;
+using Settings;
+using FB2.Genres;
 
 using fB2Parser = FB2.FB2Parsers.FB2Parser;
 
@@ -794,48 +796,87 @@ namespace SharpFBTools.Tools
 		{
 			// запуск диалога Сбора данных для Избранной Сортировки
 			SelectedSortData ssdfrm = new SelectedSortData();
-			ssdfrm.ShowDialog();
-			if( ssdfrm.lvSSData.Items.Count>0 ) {
-				m_lSSQCList = new List<SelectedSortQueryCriteria>();
-				string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence;
-				for( int i=0; i!=ssdfrm.lvSSData.Items.Count; ++i ) {
-					sLang	= ssdfrm.lvSSData.Items[i].Text;
-					sGGroup	= ssdfrm.lvSSData.Items[i].SubItems[1].Text;
-					sGenre	= ssdfrm.lvSSData.Items[i].SubItems[2].Text;
-					sLast	= ssdfrm.lvSSData.Items[i].SubItems[3].Text;
-					sFirst	= ssdfrm.lvSSData.Items[i].SubItems[4].Text;
-					sMiddle	= ssdfrm.lvSSData.Items[i].SubItems[5].Text;
-					sNick	= ssdfrm.lvSSData.Items[i].SubItems[6].Text;
-					sSequence	= ssdfrm.lvSSData.Items[i].SubItems[7].Text;
-					ListViewItem lvi = new ListViewItem( sLang );
-								lvi.SubItems.Add( sGGroup );
-								lvi.SubItems.Add( sGenre );
-								lvi.SubItems.Add( sLast );
-								lvi.SubItems.Add( sFirst );
-								lvi.SubItems.Add( sMiddle );
-								lvi.SubItems.Add( sNick );
-								lvi.SubItems.Add( sSequence );
-					// добавление записи в список
-					lvSSData.Items.Add( lvi );
-					/* заполняем список критериев поиска для Избранной Сортировки */
-					// "вычленяем" язык книги
-					if( sLang.Length!=0 ) {
-						sLang = sLang.Substring( sLang.IndexOf( "(" )+1 );
-						sLang = sLang.Remove( sLang.IndexOf( ")" ) );
-					}
-					// если есть Жанр, то "вычленяем" его из строки
-					if( sGenre.Length!=0 ) {
-						sGenre = sGenre.Substring( sGenre.IndexOf( "(" )+1 );
-						sGenre = sGenre.Remove( sGenre.IndexOf( ")" ) );
-					}
-					// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
-					if( sGGroup.Length!=0 ) {
-						
-					}
-					m_lSSQCList.Add( new SelectedSortQueryCriteria(
-								sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence ) );
+			// если в основном списке критериев поиска уже есть записи, то копируем их в форму сбора данных
+			if( lvSSData.Items.Count > 0 ) {
+				for( int i=0; i!=lvSSData.Items.Count; ++i ) {
+					ListViewItem lvi = new ListViewItem( lvSSData.Items[i].Text );
+								lvi.SubItems.Add( lvSSData.Items[i].SubItems[1].Text );
+								lvi.SubItems.Add( lvSSData.Items[i].SubItems[2].Text );
+								lvi.SubItems.Add( lvSSData.Items[i].SubItems[3].Text );
+								lvi.SubItems.Add( lvSSData.Items[i].SubItems[4].Text );
+								lvi.SubItems.Add( lvSSData.Items[i].SubItems[5].Text );
+								lvi.SubItems.Add( lvSSData.Items[i].SubItems[6].Text );
+								lvi.SubItems.Add( lvSSData.Items[i].SubItems[7].Text );
+					ssdfrm.lvSSData.Items.Add( lvi );
 				}
 			}
+
+			ssdfrm.ShowDialog();
+			if( ssdfrm.IsOKClicked() ) {
+				/* обрабатываем собранные данные */
+				List<string> lsGenres = null; // временный список Жанров по конкретной Группе Жанров
+				if( ssdfrm.lvSSData.Items.Count > 0 ) {
+					// удаляем записи в списке, если они есть
+					if( lvSSData.Items.Count > 0 ) {
+						lvSSData.Items.Clear();
+					}
+					m_lSSQCList = new List<SelectedSortQueryCriteria>();
+					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence;
+					for( int i=0; i!=ssdfrm.lvSSData.Items.Count; ++i ) {
+						sLang	= ssdfrm.lvSSData.Items[i].Text;
+						sGGroup	= ssdfrm.lvSSData.Items[i].SubItems[1].Text;
+						sGenre	= ssdfrm.lvSSData.Items[i].SubItems[2].Text;
+						sLast	= ssdfrm.lvSSData.Items[i].SubItems[3].Text;
+						sFirst	= ssdfrm.lvSSData.Items[i].SubItems[4].Text;
+						sMiddle	= ssdfrm.lvSSData.Items[i].SubItems[5].Text;
+						sNick	= ssdfrm.lvSSData.Items[i].SubItems[6].Text;
+						sSequence	= ssdfrm.lvSSData.Items[i].SubItems[7].Text;
+						ListViewItem lvi = new ListViewItem( sLang );
+									lvi.SubItems.Add( sGGroup );
+									lvi.SubItems.Add( sGenre );
+									lvi.SubItems.Add( sLast );
+									lvi.SubItems.Add( sFirst );
+									lvi.SubItems.Add( sMiddle );
+									lvi.SubItems.Add( sNick );
+									lvi.SubItems.Add( sSequence );
+						// добавление записи в список
+						lvSSData.Items.Add( lvi );
+						/* заполняем список критериев поиска для Избранной Сортировки */
+						// "вычленяем" язык книги
+						if( sLang.Length!=0 ) {
+							sLang = sLang.Substring( sLang.IndexOf( "(" )+1 );
+							sLang = sLang.Remove( sLang.IndexOf( ")" ) );
+						}
+						// если есть Жанр, то "вычленяем" его из строки
+						if( sGenre.Length!=0 ) {
+							sGenre = sGenre.Substring( sGenre.IndexOf( "(" )+1 );
+							sGenre = sGenre.Remove( sGenre.IndexOf( ")" ) );
+						}
+						// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
+						if( sGGroup.Length!=0 ) {
+							DataFM dfm = new DataFM();
+							IFBGenres fb2g = null;
+							if( dfm.GenresFB21Scheme ) {
+								fb2g = new FB21Genres();
+							} else {
+								fb2g = new FB22Genres();
+							}
+							lsGenres = fb2g.GetFBGenresForGroup( sGGroup );
+						}
+						// формируем список критериев поиска в зависимости от наличия Групп Жанров
+						if( lsGenres==null ) {
+							m_lSSQCList.Add( new SelectedSortQueryCriteria(
+									sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence ) );
+						} else {
+							foreach( string sG in lsGenres ) {
+								m_lSSQCList.Add( new SelectedSortQueryCriteria(
+										sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence ) );
+							}
+						}
+					}
+				}
+			}
+			
 			ssdfrm.Dispose();
 		}
 		

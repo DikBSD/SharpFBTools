@@ -21,8 +21,9 @@ namespace SharpFBTools.Tools
 	/// </summary>
 	public partial class SelectedSortData : Form
 	{
-		string m_sTitle = "SharpFBTools - Избранная Сортировка";
-		
+		private string m_sTitle		= "SharpFBTools - Избранная Сортировка";
+		private bool m_bOKClicked	= false;
+			
 		public SelectedSortData()
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -145,6 +146,12 @@ namespace SharpFBTools.Tools
 				}
 			}
 			return false;
+		}
+		#endregion
+		
+		#region Открытые методы
+		public bool IsOKClicked() {
+			return m_bOKClicked;
 		}
 		#endregion
 		
@@ -315,11 +322,16 @@ namespace SharpFBTools.Tools
 			} else {
 				btnOK.Enabled = true;
 			}
+			
+			if( lvSSData.Items.Count > 0 ) {
+				btnOK.Enabled = true;
+			}
 		}
 		
 		void BtnOKClick(object sender, EventArgs e)
 		{
 			// принять данные
+			m_bOKClicked = true;
 			this.Close();
 		}
 		

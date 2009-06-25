@@ -19,6 +19,7 @@ namespace FB2.Genres
 		#region Закрытые данные класса
 		private Dictionary<string, string> m_dFB21Genres		= new Dictionary<string, string>();
 		private Dictionary<string, string> m_dFB21GenresGroup	= new Dictionary<string, string>();
+		private List<string> m_lsGenresForGroup = null;
 		
 		private string[] m_sFB21GenreCode = {
 			/*0*/"sf_history","sf_action","sf_epic","sf_heroic","sf_detective","sf_cyberpunk","sf_space","sf_social","sf_horror","sf_humor",
@@ -169,6 +170,20 @@ namespace FB2.Genres
 		}
 		public string[] GetFBGenreCodesArray() {
 			return m_sFB21GenreCode;
+		}
+		
+		public List<string> GetFBGenresForGroup( string sGGroup ) {
+			if( m_dFB21GenresGroup.ContainsValue( sGGroup ) ) {
+				m_lsGenresForGroup = new List<string>();
+				foreach( string g in m_dFB21GenresGroup.Keys ) {
+					// m_dFB21GenresGroup.Values - Группы; m_dFB21GenresGroup.Keys - Жанры
+					if( m_dFB21GenresGroup[g] == sGGroup ) {
+						m_lsGenresForGroup.Add( g );
+					}
+				}
+				return m_lsGenresForGroup;
+			}
+			return null;
 		}
 		#endregion
 	}
