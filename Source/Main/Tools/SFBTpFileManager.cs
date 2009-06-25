@@ -656,12 +656,20 @@ namespace SharpFBTools.Tools
 			return true;
 		}
 		
-		private void SortFb2Files( string sSource, string sTarget, string sLineTemplate ) {
-			// полная сортировка файлов
+		private void SortFb2Files( string sSource, string sTarget, string sLineTemplate, bool bFullSort ) {
+			// Полная или Избранная Сортировка файлов
 			DateTime dtStart = DateTime.Now;
+			string sMessTitle = "";
+			if( bFullSort ) {
+				sMessTitle = "SharpFBTools - Полная Сортировка";
+			} else {
+				sMessTitle = "SharpFBTools - Избранная Сортировка";
+			}
+			
 			// инициализация контролов
 			Init();
 			tsProgressBar.Visible = true;
+			
 			// сортированный список всех вложенных папок
 			List<string> lDirList = new List<string>();
 			if( !chBoxScanSubDir.Checked ) {
@@ -685,7 +693,7 @@ namespace SharpFBTools.Tools
 			lvFilesCount.Refresh();
 			int nFilesCount = lFilesList.Count;
 			if( nFilesCount == 0 ) {
-				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				tsslblProgress.Text = Settings.Settings.GetReady();
 				tsProgressBar.Visible = false;
 				return;
@@ -705,110 +713,58 @@ namespace SharpFBTools.Tools
 			// формируем лексемы шаблонной строки
 			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
 			// сортировка
-			foreach( string sFromFilePath in lFilesList ) {
-				// создаем файл по новому пути
-				if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
-					// по первому Жанру и первому Автору Книги
-					MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-				} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
-					// по первому Жанру и всем Авторам Книги
-					MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-				} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
-					// по всем Жанрам и первому Автору Книги
-					MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-				} else {
-					// по всем Жанрам и всем Авторам Книги
-					MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+			if( bFullSort ) {
+				// Полная Сортировка
+				foreach( string sFromFilePath in lFilesList ) {
+					// создаем файл по новому пути
+					if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
+						// по первому Жанру и первому Автору Книги
+						MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+					} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
+						// по первому Жанру и всем Авторам Книги
+						MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+					} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
+						// по всем Жанрам и первому Автору Книги
+						MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+					} else {
+						// по всем Жанрам и всем Авторам Книги
+						MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+					}
+					++tsProgressBar.Value;
+					ssProgress.Refresh();
 				}
-				++tsProgressBar.Value;
-				ssProgress.Refresh();
-			}
-			// завершение работы
-			FilesWorker.FilesWorker.RemoveDir( sTempDir );
-			DateTime dtEnd = DateTime.Now;
-			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
-			string sMess = "Сортировка файлов в указанную папку завершена!\nЗатрачено времени: "+sTime;
-			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
-			tsslblProgress.Text = Settings.Settings.GetReady();
-			tsProgressBar.Visible = false;
-		}
-
-		void SelectedSortFb2Files( string sSource, string sTarget, string sLineTemplate ) {
-			// Избранная Сортировка файлов
-			DateTime dtStart = DateTime.Now;
-			// инициализация контролов
-			Init();
-			tsProgressBar.Visible = true;
-			// сортированный список всех вложенных папок
-			List<string> lDirList = new List<string>();
-			if( !chBoxSSScanSubDir.Checked ) {
-				// сканировать только указанную папку
-				lDirList.Add( sSource );
-				lvFilesCount.Items[0].SubItems[1].Text = "1";
-				lvFilesCount.Refresh();
 			} else {
-				// сканировать и все подпапки
-				tsslblProgress.Text = "Создание списка папок:";
-				lDirList = FilesWorker.FilesWorker.DirsParser( sSource, lvFilesCount, false );
-				lvFilesCount.Refresh();
-			}
-			// сортированный список всех файлов
-			tsslblProgress.Text = "Создание списка файлов:";
-			ssProgress.Refresh();
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
-			                                                                 tsProgressBar, false, false );
-			
-			// проверка, есть ли хоть один файл в папке для сканирования
-			lvFilesCount.Refresh();
-			int nFilesCount = lFilesList.Count;
-			if( nFilesCount == 0 ) {
-				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
-				tsslblProgress.Text = Settings.Settings.GetReady();
-				tsProgressBar.Visible = false;
-				return;
-			}
-			
-			// сортировка файлов по папкам, согласно шаблонам подстановки
-			tsslblProgress.Text = "Сортировка файлов:";
-			tsProgressBar.Visible = true;
-			tsProgressBar.Maximum = nFilesCount+1;
-			tsProgressBar.Value = 1;
-			ssProgress.Refresh();
-	
-			// данные настроек для сортировки по шаблонам
-			Settings.DataFM dfm = new Settings.DataFM();
-			string sTempDir = Settings.Settings.GetTempDir();
-			// формируем лексемы шаблонной строки
-			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
-			// сортировка
-			string sExt = "";
-			foreach( string sFromFilePath in lFilesList ) {
-				/* создаем файл по новому пути */
-				sExt = Path.GetExtension( sFromFilePath ).ToLower();
-				if( sExt==".fb2" ) {
-					// Создание файла по критериям Избранной сортировки
-					MakeFileForSelectedSortingWorker( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-				} else {
-					// это архив?
-					if( IsArchive( sExt ) ) {
-						List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
-						if( lFilesListFromArchive!=null ) {
-							foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
-								// Создание файла по критериям Избранной сортировки
-								MakeFileForSelectedSortingWorker( sFB2FromArchPath, sSource, sTarget, lSLexems, dfm );
+				// Избранная Сортировка
+				string sExt = "";
+				foreach( string sFromFilePath in lFilesList ) {
+					/* создаем файл по новому пути */
+					sExt = Path.GetExtension( sFromFilePath ).ToLower();
+					if( sExt==".fb2" ) {
+						// Создание файла по критериям Избранной сортировки
+						MakeFileForSelectedSortingWorker( sFromFilePath, sSource, sTarget, lSLexems, dfm );
+					} else {
+						// это архив?
+						if( IsArchive( sExt ) ) {
+							List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+							if( lFilesListFromArchive!=null ) {
+								foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
+									// Создание файла по критериям Избранной сортировки
+									MakeFileForSelectedSortingWorker( sFB2FromArchPath, sSource, sTarget, lSLexems, dfm );
+								}
 							}
 						}
 					}
+					++tsProgressBar.Value;
+					ssProgress.Refresh();
 				}
-				++tsProgressBar.Value;
-				ssProgress.Refresh();
 			}
+
 			// завершение работы
 			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 			string sMess = "Сортировка файлов в указанную папку завершена!\nЗатрачено времени: "+sTime;
-			MessageBox.Show( sMess, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			MessageBox.Show( sMess, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsslblProgress.Text = Settings.Settings.GetReady();
 			tsProgressBar.Visible = false;
 		}
@@ -990,8 +946,8 @@ namespace SharpFBTools.Tools
 			if( !IsLineTemplateCorrect( txtBoxTemplatesFromLine.Text.Trim(), sMessTitle ) ) {
 				return;
 			}
-
-			SortFb2Files( tboxSourceDir.Text, tboxSortAllToDir.Text, txtBoxTemplatesFromLine.Text.Trim() );
+			// Полная Сортировка
+			SortFb2Files( tboxSourceDir.Text, tboxSortAllToDir.Text, txtBoxTemplatesFromLine.Text.Trim(), true );
 		}
 		
 		void BtnSortAllToDirClick(object sender, EventArgs e)
@@ -1161,7 +1117,8 @@ namespace SharpFBTools.Tools
 			if( !IsLineTemplateCorrect( txtBoxSSTemplatesFromLine.Text.Trim(), sMessTitle ) ) {
 				return;
 			}
-			SelectedSortFb2Files( tboxSSSourceDir.Text, tboxSSToDir.Text, txtBoxSSTemplatesFromLine.Text.Trim() );
+			// Избранная Сортировка
+			SortFb2Files( tboxSSSourceDir.Text, tboxSSToDir.Text, txtBoxSSTemplatesFromLine.Text.Trim(), false );
 		}
 		#endregion
 	}
