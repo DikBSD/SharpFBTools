@@ -824,6 +824,8 @@ namespace SharpFBTools.Tools
 			IList<Author>	lFB2Authors		= ti.Authors;
 			IList<Sequence>	lFB2Sequences	= ti.Sequences;
 			string sLang, sFirstName, sGenre, sMiddleName, sLastName, sNickName, sSequence;
+			bool bExactFit;
+			Regex re = null;
 			foreach( SelectedSortQueryCriteria ssqc in m_lSSQCList ) {
 				sLang		= ssqc.Lang;
 				sGenre		= ssqc.Genre;
@@ -832,6 +834,7 @@ namespace SharpFBTools.Tools
 				sLastName	= ssqc.LastName;
 				sNickName	= ssqc.NickName;
 				sSequence	= ssqc.Sequence;
+				bExactFit	= ssqc.ExactFit;
 				// проверка языка книги
 				if( sFB2Lang != null ) {
 					if( sLang.Length != 0 ) {
@@ -869,8 +872,16 @@ namespace SharpFBTools.Tools
 				if( lFB2Sequences != null ) {
 					if( sSequence.Length != 0 ) {
 						foreach( Sequence sfb2 in lFB2Sequences ) {
-							if( sfb2.Name == sSequence ) {
-								b = true; break;
+							if( bExactFit ) {
+								// точное соответствие
+								if( sfb2.Name == sSequence ) {
+									b = true; break;
+								}
+							} else {
+								re = new Regex( sSequence, RegexOptions.IgnoreCase );
+								if( re.IsMatch( sfb2.Name ) ) {
+									b = true; break;
+								}
 							}
 						}
 						if( !b ) {
@@ -883,12 +894,21 @@ namespace SharpFBTools.Tools
 						bRet = false; continue;
 					}
 				}
+				// проверка автора книги
 				if( lFB2Authors != null ) {
 					b = false;
 					if( sFirstName.Length != 0 ) {
 						foreach( Author afb2 in lFB2Authors ) {
-							if( afb2.FirstName.Value == sFirstName ) {
-								b = true; break;
+							if( bExactFit ) {
+								// точное соответствие
+								if( afb2.FirstName.Value == sFirstName ) {
+									b = true; break;
+								}
+							} else {
+								re = new Regex( sFirstName, RegexOptions.IgnoreCase );
+								if( re.IsMatch( afb2.FirstName.Value ) ) {
+									b = true; break;
+								}
 							}
 						}
 						if( !b ) {
@@ -898,8 +918,16 @@ namespace SharpFBTools.Tools
 					b = false;
 					if( sMiddleName.Length != 0 ) {
 						foreach( Author afb2 in lFB2Authors ) {
-							if( afb2.MiddleName.Value == sMiddleName ) {
-								b = true; break;
+							if( bExactFit ) {
+								// точное соответствие
+								if( afb2.MiddleName.Value == sMiddleName ) {
+									b = true; break;
+								}
+							} else {
+								re = new Regex( sMiddleName, RegexOptions.IgnoreCase );
+								if( re.IsMatch( afb2.MiddleName.Value ) ) {
+									b = true; break;
+								}
 							}
 						}
 						if( !b ) {
@@ -909,8 +937,16 @@ namespace SharpFBTools.Tools
 					b = false;
 					if( sLastName.Length != 0 ) {
 						foreach( Author afb2 in lFB2Authors ) {
-							if( afb2.LastName.Value == sLastName ) {
-								b = true; break;
+							if( bExactFit ) {
+								// точное соответствие
+								if( afb2.LastName.Value == sLastName ) {
+									b = true; break;
+								}
+							} else {
+								re = new Regex( sLastName, RegexOptions.IgnoreCase );
+								if( re.IsMatch( afb2.LastName.Value ) ) {
+									b = true; break;
+								}
 							}
 						}
 						if( !b ) {
@@ -920,8 +956,16 @@ namespace SharpFBTools.Tools
 					b = false;
 					if( sNickName.Length != 0 ) {
 						foreach( Author afb2 in lFB2Authors ) {
-							if( afb2.NickName.Value == sNickName ) {
-								b = true; break;
+							if( bExactFit ) {
+								// точное соответствие
+								if( afb2.NickName.Value == sNickName ) {
+									b = true; break;
+								}
+							} else {
+								re = new Regex( sNickName, RegexOptions.IgnoreCase );
+								if( re.IsMatch( afb2.NickName.Value ) ) {
+									b = true; break;
+								}
 							}
 						}
 						if( !b ) {
@@ -1030,6 +1074,7 @@ namespace SharpFBTools.Tools
 								lvi.SubItems.Add( lvSSData.Items[i].SubItems[5].Text );
 								lvi.SubItems.Add( lvSSData.Items[i].SubItems[6].Text );
 								lvi.SubItems.Add( lvSSData.Items[i].SubItems[7].Text );
+								lvi.SubItems.Add( lvSSData.Items[i].SubItems[8].Text );
 					ssdfrm.lvSSData.Items.Add( lvi );
 				}
 			}
@@ -1044,7 +1089,7 @@ namespace SharpFBTools.Tools
 						lvSSData.Items.Clear();
 					}
 					m_lSSQCList = new List<SelectedSortQueryCriteria>();
-					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence;
+					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sExactFit;
 					for( int i=0; i!=ssdfrm.lvSSData.Items.Count; ++i ) {
 						sLang	= ssdfrm.lvSSData.Items[i].Text;
 						sGGroup	= ssdfrm.lvSSData.Items[i].SubItems[1].Text;
@@ -1054,6 +1099,7 @@ namespace SharpFBTools.Tools
 						sMiddle	= ssdfrm.lvSSData.Items[i].SubItems[5].Text;
 						sNick	= ssdfrm.lvSSData.Items[i].SubItems[6].Text;
 						sSequence	= ssdfrm.lvSSData.Items[i].SubItems[7].Text;
+						sExactFit	= ssdfrm.lvSSData.Items[i].SubItems[8].Text;
 						ListViewItem lvi = new ListViewItem( sLang );
 									lvi.SubItems.Add( sGGroup );
 									lvi.SubItems.Add( sGenre );
@@ -1062,6 +1108,7 @@ namespace SharpFBTools.Tools
 									lvi.SubItems.Add( sMiddle );
 									lvi.SubItems.Add( sNick );
 									lvi.SubItems.Add( sSequence );
+									lvi.SubItems.Add( sExactFit );
 						// добавление записи в список
 						lvSSData.Items.Add( lvi );
 						/* заполняем список критериев поиска для Избранной Сортировки */
@@ -1089,11 +1136,11 @@ namespace SharpFBTools.Tools
 						// формируем список критериев поиска в зависимости от наличия Групп Жанров
 						if( lsGenres==null ) {
 							m_lSSQCList.Add( new SelectedSortQueryCriteria(
-									sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence ) );
+								sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sExactFit=="Да"?true:false ) );
 						} else {
 							foreach( string sG in lsGenres ) {
 								m_lSSQCList.Add( new SelectedSortQueryCriteria(
-										sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence ) );
+										sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence,sExactFit=="Да"?true:false ) );
 							}
 						}
 					}

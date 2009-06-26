@@ -16,14 +16,15 @@ namespace SharpFBTools.Tools
 	public class SelectedSortQueryCriteria
 	{
 		#region Закрытые члены класса
-		private string m_Lang	= "";
-		private string m_Last	= "";
-		private string m_First	= "";
-		private string m_Middle	= "";
-		private string m_Nick	= "";
-		private string m_GenresGroup	= "";
-		private string m_Genre			= "";
-		private string m_Sequence		= "";
+		private string	m_Lang	= "";
+		private string	m_Last	= "";
+		private string	m_First	= "";
+		private string	m_Middle	= "";
+		private string	m_Nick		= "";
+		private string	m_GenresGroup	= "";
+		private string	m_Genre			= "";
+		private string	m_Sequence		= "";
+		private bool	m_ExactFit		= true;
 		#endregion
 		
 		public SelectedSortQueryCriteria()
@@ -31,7 +32,7 @@ namespace SharpFBTools.Tools
 		}
 		public SelectedSortQueryCriteria( string sLang, string sGenresGroup, string sGenre, 
 		                                 string sLast, string sFirst, string sMiddle, string sNick,
-		                                 string sSequence )
+		                                 string sSequence, bool bExactFit )
 		{
 			m_Lang		= sLang;
 			m_Last		= sLast;
@@ -41,6 +42,7 @@ namespace SharpFBTools.Tools
 			m_GenresGroup	= sGenresGroup;
 			m_Genre			= sGenre;
 			m_Sequence		= sSequence;
+			m_ExactFit		= bExactFit;
 		}
 		
 		#region Свойства класса
@@ -75,6 +77,10 @@ namespace SharpFBTools.Tools
 		public virtual string Sequence {
 			get { return m_Sequence; }
 			set { m_Sequence = value; }
+        }
+		public virtual bool ExactFit {
+			get { return m_ExactFit; }
+			set { m_ExactFit = value; }
         }
 		#endregion
 	}

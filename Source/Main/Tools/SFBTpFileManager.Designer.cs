@@ -274,6 +274,7 @@ namespace SharpFBTools.Tools
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.pProgress = new System.Windows.Forms.Panel();
+			this.cHeaderExactFit = new System.Windows.Forms.ColumnHeader();
 			this.ssProgress.SuspendLayout();
 			this.tsFullSort.SuspendLayout();
 			this.tcSort.SuspendLayout();
@@ -561,7 +562,8 @@ namespace SharpFBTools.Tools
 									this.cHeaderFirst,
 									this.cHeaderMiddle,
 									this.cHeaderNick,
-									this.cHeaderSequence});
+									this.cHeaderSequence,
+									this.cHeaderExactFit});
 			this.lvSSData.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSSData.FullRowSelect = true;
 			this.lvSSData.GridLines = true;
@@ -977,6 +979,10 @@ namespace SharpFBTools.Tools
 			this.pProgress.Size = new System.Drawing.Size(828, 246);
 			this.pProgress.TabIndex = 33;
 			// 
+			// cHeaderExactFit
+			// 
+			this.cHeaderExactFit.Text = "Точное соответствие";
+			// 
 			// SFBTpFileManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1012,6 +1018,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ColumnHeader cHeaderExactFit;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel pData;
 		private System.Windows.Forms.Button btnSSGetData;

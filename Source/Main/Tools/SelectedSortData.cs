@@ -283,6 +283,13 @@ namespace SharpFBTools.Tools
 				lvi.SubItems.Add( "" );
 			}
 			
+			// Точное соответствие
+			if( chBoxExactFit.Checked ) {
+				lvi.SubItems.Add( "Да" );
+			} else {
+				lvi.SubItems.Add( "Нет" );
+			}
+			
 			// добавление записи в список
 			lvSSData.Items.Add( lvi );
 			
