@@ -289,6 +289,16 @@ namespace Settings
 						writer.WriteStartElement( "FMTemplate" );
 							writer.WriteAttributeString( "txtBoxTemplatesFromLine", SettingsFM.FMDataTemplate );
 						writer.WriteFullEndElement();
+
+						writer.WriteStartElement( "FMSSScanDir" );
+							writer.WriteAttributeString( "tboxSSSourceDir", SettingsFM.FMDataSSScanDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "FMSSTargetDir" );
+							writer.WriteAttributeString( "tboxSSToDir", SettingsFM.FMDataSSTargetDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "FMSSTemplate" );
+							writer.WriteAttributeString( "txtBoxSSTemplatesFromLine", SettingsFM.FMDataSSTemplate );
+						writer.WriteFullEndElement();
 					writer.WriteEndElement();
 					
 				writer.WriteEndElement();

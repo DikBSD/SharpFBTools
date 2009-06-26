@@ -75,10 +75,14 @@ namespace Settings
 		private static string m_sFMhumor		= "Юмор";
 		private static string m_sFMhome			= "Дом, Семья";
 		private static string m_sFMbusiness		= "Бизнес";
-		// рабочие папки и данные
+		// рабочие папки и данные для Полной Сортировки
 		private static string m_sFMDataScanDir		= "";
 		private static string m_sFMDataTargetDir	= "";
 		private static string m_sFMDataTemplate		= "";
+		// рабочие папки и данные для Избранной Сортировки
+		private static string m_sFMDataSSScanDir	= "";
+		private static string m_sFMDataSSTargetDir	= "";
+		private static string m_sFMDataSSTemplate	= "";
 		
 		#endregion
 		
@@ -595,6 +599,19 @@ namespace Settings
 		public static string FMDataTemplate {
 			get { return m_sFMDataTemplate; }
 			set { m_sFMDataTemplate = value; }
+		}
+		
+		public static string FMDataSSScanDir {
+			get { return m_sFMDataSSScanDir; }
+			set { m_sFMDataSSScanDir = value; }
+		}
+		public static string FMDataSSTargetDir {
+			get { return m_sFMDataSSTargetDir; }
+			set { m_sFMDataSSTargetDir = value; }
+		}
+		public static string FMDataSSTemplate {
+			get { return m_sFMDataSSTemplate; }
+			set { m_sFMDataSSTemplate = value; }
 		}
 		#endregion
 		

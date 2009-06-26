@@ -125,6 +125,7 @@ namespace SharpFBTools.Tools
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
 			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
+				// Полная Сортировка
 				reader.ReadToFollowing("FMScanDir");
 				if (reader.HasAttributes ) {
 					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
@@ -139,6 +140,22 @@ namespace SharpFBTools.Tools
 				if (reader.HasAttributes ) {
 					txtBoxTemplatesFromLine.Text = reader.GetAttribute("txtBoxTemplatesFromLine");
 					Settings.SettingsFM.FMDataTemplate =  txtBoxTemplatesFromLine.Text.Trim();
+				}
+				// Избранная Сортировка
+				reader.ReadToFollowing("FMSSScanDir");
+				if (reader.HasAttributes ) {
+					tboxSSSourceDir.Text = reader.GetAttribute("tboxSSSourceDir");
+					Settings.SettingsFM.FMDataSSScanDir = tboxSSSourceDir.Text.Trim();
+				}
+				reader.ReadToFollowing("FMSSTargetDir");
+				if (reader.HasAttributes ) {
+					tboxSSToDir.Text = reader.GetAttribute("tboxSSToDir");
+					Settings.SettingsFM.FMDataSSTargetDir = tboxSSToDir.Text.Trim();
+				}
+				reader.ReadToFollowing("FMSSTemplate");
+				if (reader.HasAttributes ) {
+					txtBoxSSTemplatesFromLine.Text = reader.GetAttribute("txtBoxSSTemplatesFromLine");
+					Settings.SettingsFM.FMDataSSTemplate =  txtBoxSSTemplatesFromLine.Text.Trim();
 				}
 				reader.Close();
 			}
@@ -969,6 +986,21 @@ namespace SharpFBTools.Tools
 		void TxtBoxTemplatesFromLineTextChanged(object sender, EventArgs e)
 		{
 			Settings.SettingsFM.FMDataTemplate = txtBoxTemplatesFromLine.Text;
+		}
+		
+		void TboxSSSourceDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsFM.FMDataSSScanDir = tboxSSSourceDir.Text;
+		}
+		
+		void TboxSSToDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsFM.FMDataSSTargetDir = tboxSSToDir.Text;
+		}
+		
+		void TxtBoxSSTemplatesFromLineTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsFM.FMDataSSTemplate = txtBoxSSTemplatesFromLine.Text;
 		}
 		
 		void BtnInsertTemplatesClick(object sender, EventArgs e)

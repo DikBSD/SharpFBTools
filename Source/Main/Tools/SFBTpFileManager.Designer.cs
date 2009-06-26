@@ -669,6 +669,7 @@ namespace SharpFBTools.Tools
 			this.txtBoxSSTemplatesFromLine.Name = "txtBoxSSTemplatesFromLine";
 			this.txtBoxSSTemplatesFromLine.Size = new System.Drawing.Size(646, 20);
 			this.txtBoxSSTemplatesFromLine.TabIndex = 8;
+			this.txtBoxSSTemplatesFromLine.TextChanged += new System.EventHandler(this.TxtBoxSSTemplatesFromLineTextChanged);
 			// 
 			// pSelectedSortDirs
 			// 
@@ -716,6 +717,7 @@ namespace SharpFBTools.Tools
 			this.tboxSSToDir.Name = "tboxSSToDir";
 			this.tboxSSToDir.Size = new System.Drawing.Size(634, 20);
 			this.tboxSSToDir.TabIndex = 3;
+			this.tboxSSToDir.TextChanged += new System.EventHandler(this.TboxSSToDirTextChanged);
 			// 
 			// tboxSSSourceDir
 			// 
@@ -726,6 +728,7 @@ namespace SharpFBTools.Tools
 			this.tboxSSSourceDir.Name = "tboxSSSourceDir";
 			this.tboxSSSourceDir.Size = new System.Drawing.Size(470, 21);
 			this.tboxSSSourceDir.TabIndex = 1;
+			this.tboxSSSourceDir.TextChanged += new System.EventHandler(this.TboxSSSourceDirTextChanged);
 			// 
 			// lbSSlDir
 			// 
