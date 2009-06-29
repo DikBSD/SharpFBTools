@@ -865,7 +865,7 @@ namespace SharpFBTools.Tools
 				// проверка языка книги
 				if( sFB2Lang != null ) {
 					if( sLang.Length != 0 ) {
-						if( sLang != sFB2Lang ) {
+						if( sFB2Lang != sLang ) {
 							bRet = false; continue;
 						}
 					}
@@ -880,8 +880,12 @@ namespace SharpFBTools.Tools
 				if( lFB2Genres != null ) {
 					if( sGenre.Length != 0 ) {
 						foreach( Genre gfb2 in lFB2Genres ) {
-							if( gfb2.Name == sGenre ) {
-								b = true; break;
+							if( gfb2.Name != null ) {
+								if( gfb2.Name == sGenre ) {
+									b = true; break;
+								}
+							} else {
+								bRet = false; continue;
 							}
 						}
 						if( !b ) {
@@ -899,16 +903,20 @@ namespace SharpFBTools.Tools
 				if( lFB2Sequences != null ) {
 					if( sSequence.Length != 0 ) {
 						foreach( Sequence sfb2 in lFB2Sequences ) {
-							if( bExactFit ) {
-								// точное соответствие
-								if( sfb2.Name == sSequence ) {
-									b = true; break;
+							if( sfb2.Name != null ) {
+								if( bExactFit ) {
+									// точное соответствие
+									if( sfb2.Name == sSequence ) {
+										b = true; break;
+									}
+								} else {
+									re = new Regex( sSequence, RegexOptions.IgnoreCase );
+									if( re.IsMatch( sfb2.Name ) ) {
+										b = true; break;
+									}
 								}
 							} else {
-								re = new Regex( sSequence, RegexOptions.IgnoreCase );
-								if( re.IsMatch( sfb2.Name ) ) {
-									b = true; break;
-								}
+								bRet = false; continue;
 							}
 						}
 						if( !b ) {
@@ -926,16 +934,20 @@ namespace SharpFBTools.Tools
 					b = false;
 					if( sFirstName.Length != 0 ) {
 						foreach( Author afb2 in lFB2Authors ) {
-							if( bExactFit ) {
-								// точное соответствие
-								if( afb2.FirstName.Value == sFirstName ) {
-									b = true; break;
+							if( afb2.FirstName != null ) {
+								if( bExactFit ) {
+									// точное соответствие
+									if( afb2.FirstName.Value == sFirstName ) {
+										b = true; break;
+									}
+								} else {
+									re = new Regex( sFirstName, RegexOptions.IgnoreCase );
+									if( re.IsMatch( afb2.FirstName.Value ) ) {
+										b = true; break;
+									}
 								}
 							} else {
-								re = new Regex( sFirstName, RegexOptions.IgnoreCase );
-								if( re.IsMatch( afb2.FirstName.Value ) ) {
-									b = true; break;
-								}
+								bRet = false; continue;
 							}
 						}
 						if( !b ) {
@@ -945,16 +957,20 @@ namespace SharpFBTools.Tools
 					b = false;
 					if( sMiddleName.Length != 0 ) {
 						foreach( Author afb2 in lFB2Authors ) {
-							if( bExactFit ) {
-								// точное соответствие
-								if( afb2.MiddleName.Value == sMiddleName ) {
-									b = true; break;
+							if( afb2.MiddleName != null ) {
+								if( bExactFit ) {
+									// точное соответствие
+									if( afb2.MiddleName.Value == sMiddleName ) {
+										b = true; break;
+									}
+								} else {
+									re = new Regex( sMiddleName, RegexOptions.IgnoreCase );
+									if( re.IsMatch( afb2.MiddleName.Value ) ) {
+										b = true; break;
+									}
 								}
 							} else {
-								re = new Regex( sMiddleName, RegexOptions.IgnoreCase );
-								if( re.IsMatch( afb2.MiddleName.Value ) ) {
-									b = true; break;
-								}
+								bRet = false; continue;
 							}
 						}
 						if( !b ) {
@@ -964,16 +980,20 @@ namespace SharpFBTools.Tools
 					b = false;
 					if( sLastName.Length != 0 ) {
 						foreach( Author afb2 in lFB2Authors ) {
-							if( bExactFit ) {
-								// точное соответствие
-								if( afb2.LastName.Value == sLastName ) {
-									b = true; break;
+							if( afb2.LastName != null ) {
+								if( bExactFit ) {
+									// точное соответствие
+									if( afb2.LastName.Value == sLastName ) {
+										b = true; break;
+									}
+								} else {
+									re = new Regex( sLastName, RegexOptions.IgnoreCase );
+									if( re.IsMatch( afb2.LastName.Value ) ) {
+										b = true; break;
+									}
 								}
 							} else {
-								re = new Regex( sLastName, RegexOptions.IgnoreCase );
-								if( re.IsMatch( afb2.LastName.Value ) ) {
-									b = true; break;
-								}
+								bRet = false; continue;
 							}
 						}
 						if( !b ) {
@@ -983,16 +1003,20 @@ namespace SharpFBTools.Tools
 					b = false;
 					if( sNickName.Length != 0 ) {
 						foreach( Author afb2 in lFB2Authors ) {
-							if( bExactFit ) {
-								// точное соответствие
-								if( afb2.NickName.Value == sNickName ) {
-									b = true; break;
+							if( afb2.NickName != null ) {
+								if( bExactFit ) {
+									// точное соответствие
+									if( afb2.NickName.Value == sNickName ) {
+										b = true; break;
+									}
+								} else {
+									re = new Regex( sNickName, RegexOptions.IgnoreCase );
+									if( re.IsMatch( afb2.NickName.Value ) ) {
+										b = true; break;
+									}
 								}
 							} else {
-								re = new Regex( sNickName, RegexOptions.IgnoreCase );
-								if( re.IsMatch( afb2.NickName.Value ) ) {
-									b = true; break;
-								}
+								bRet = false; continue;
 							}
 						}
 						if( !b ) {

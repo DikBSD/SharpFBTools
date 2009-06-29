@@ -372,6 +372,7 @@ namespace SharpFBTools.Tools
 			// 
 			// tsbtnFullSortStop
 			// 
+			this.tsbtnFullSortStop.AutoToolTip = false;
 			this.tsbtnFullSortStop.Enabled = false;
 			this.tsbtnFullSortStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFullSortStop.Image")));
 			this.tsbtnFullSortStop.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -815,6 +816,7 @@ namespace SharpFBTools.Tools
 			// 
 			// tsbtnSSSortStop
 			// 
+			this.tsbtnSSSortStop.AutoToolTip = false;
 			this.tsbtnSSSortStop.Enabled = false;
 			this.tsbtnSSSortStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSSSortStop.Image")));
 			this.tsbtnSSSortStop.ImageTransparentColor = System.Drawing.Color.Magenta;
