@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Threading;
 
 using FB2.FB2Parsers;
 using FB2.Common;
@@ -42,7 +43,16 @@ namespace SharpFBTools.Tools
 	{
 		private FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
 		private List<SelectedSortQueryCriteria> m_lSSQCList = null; // список критериев поиска для Избранной Сортировки
-		
+        private DateTime m_dtStart;
+        private BackgroundWorker m_bw = null;
+		private string m_sSource		= "";
+		private string m_sTarget		= "";
+		private string m_sLineTemplate	= "";
+		private string m_sMessTitle		= "";
+        private bool m_bFullSort		= true;
+		private List<string> m_lFilesList	= null;
+        
+        
 		public ListView GetSettingsInfoListView()
 		{
 			return lvSettings;
@@ -52,6 +62,8 @@ namespace SharpFBTools.Tools
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
+			InitializeBackgroundWorker();
+			
 			Init();
 			// читаем сохраненные пути к папкам и шаблон Менеджера Файлов, если они есть
 			ReadFMTempData();
@@ -67,6 +79,112 @@ namespace SharpFBTools.Tools
 			Settings.SettingsFM.SetInfoSettings( lvSettings );
 		}
 		
+		#region Закрытые методы реализации BackgroundWorker
+		private void InitializeBackgroundWorker() {
+			// Инициализация перед использование BackgroundWorker 
+            m_bw = new BackgroundWorker();
+            //m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
+            m_bw.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
+            m_bw.DoWork += new DoWorkEventHandler( bw_DoWork );
+            m_bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
+		}
+		
+		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
+			// сортировка файлов по папкам, согласно шаблонам подстановки
+			// данные настроек для сортировки по шаблонам
+			Settings.DataFM dfm = new Settings.DataFM();
+			
+			// формируем лексемы шаблонной строки
+			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( m_sLineTemplate );
+			// сортировка
+			if( m_bFullSort ) {
+				// Полная Сортировка
+				foreach( string sFromFilePath in m_lFilesList ) {
+					//Проверить флаг на остановку процесса 
+        	        if( ( m_bw.CancellationPending == true ) ) {
+    	                e.Cancel = true; //Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+	                    break;
+					} else {
+						// создаем файл по новому пути
+						if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
+							// по первому Жанру и первому Автору Книги
+							MakeFileFor1Genre1Author( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
+						} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
+							// по первому Жанру и всем Авторам Книги
+							MakeFileFor1GenreAllAuthor( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
+						} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
+							// по всем Жанрам и первому Автору Книги
+							MakeFileForAllGenre1Author( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
+						} else {
+							// по всем Жанрам и всем Авторам Книги
+							MakeFileForAllGenreAllAuthor( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
+						}
+					}
+					++tsProgressBar.Value;
+				}
+			} else {
+				// Избранная Сортировка
+				string sExt = "";
+				foreach( string sFromFilePath in m_lFilesList ) {
+					//Проверить флаг на остановку процесса 
+        	        if( ( m_bw.CancellationPending == true ) ) {
+    	                e.Cancel = true; //Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+	                    break;
+					} else {
+						// создаем файл по новому пути
+						sExt = Path.GetExtension( sFromFilePath ).ToLower();
+						if( sExt==".fb2" ) {
+							// Создание файла по критериям Избранной сортировки
+							MakeFileForSelectedSortingWorker( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
+						} else {
+							// это архив?
+							if( IsArchive( sExt ) ) {
+								List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+								if( lFilesListFromArchive!=null ) {
+									foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
+										// Создание файла по критериям Избранной сортировки
+										MakeFileForSelectedSortingWorker( sFB2FromArchPath, m_sSource, m_sTarget, lSLexems, dfm );
+									}
+								}
+							}
+						}
+					}
+					++tsProgressBar.Value;
+				}
+			}
+        }
+     
+        private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
+            // Проверяем это отмена, ошибка, или конец задачи и сообщить
+            DateTime dtEnd = DateTime.Now;
+            m_lFilesList.Clear();
+            FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+            
+            string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sMessCanceled	= "Сортировка основлена!\nЗатрачено времени: "+sTime;
+			string sMessError		= "";
+			string sMessDone		= "Сортировка файлов в указанную папку завершена!\nЗатрачено времени: "+sTime;
+           
+			if( ( e.Cancelled == true ) ) {
+                MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            } else if( e.Error != null ) {
+                sMessError = "Error!\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
+            	MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            } else {
+            	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            }
+			
+			tsslblProgress.Text = Settings.Settings.GetReady();
+
+			if( m_bFullSort ) {
+				SetFullSortingStartEnabled( true );
+			} else {
+				SetSelectedSortingStartEnabled( true );
+			}
+            m_bw.Dispose();
+        }
+		#endregion
+		
 		#region Закрытые вспомогательные методы класса
 		private void Init() {
 			// инициализация контролов и переменных
@@ -78,6 +196,31 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Visible	= false;
 			// очистка временной папки
 			FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+		}
+		
+		private void SetFullSortingStartEnabled( bool bEnabled ) {
+			tpSelectedSort.Enabled	= bEnabled;
+			tsbtnOpenDir.Enabled	= bEnabled;
+			tsbtnTargetDir.Enabled	= bEnabled;
+			pFullSortDirs.Enabled	= bEnabled;
+			gBoxFullSortRenameTemplates.Enabled	= bEnabled;
+			tsbtnFullSortStop.Enabled	= !bEnabled;
+			tsProgressBar.Visible		= !bEnabled;
+			tcSort.Refresh();
+			ssProgress.Refresh();
+		}
+		
+		private void SetSelectedSortingStartEnabled( bool bEnabled ) {
+			tpFullSort.Enabled			= bEnabled;
+			tsbtnSSOpenDir.Enabled		= bEnabled;
+			tsbtnSSTargetDir.Enabled	= bEnabled;
+			pSelectedSortDirs.Enabled	= bEnabled;
+			gBoxSelectedlSortRenameTemplates.Enabled	= bEnabled;
+			btnSSGetData.Enabled		= bEnabled;
+			tsbtnSSSortStop.Enabled		= !bEnabled;
+			tsProgressBar.Visible		= !bEnabled;
+			tcSort.Refresh();
+			ssProgress.Refresh();
 		}
 		
 		private bool IsFolderdataCorrect( TextBox tbSource, TextBox tbTarget, string sMessTitle )
@@ -580,9 +723,6 @@ namespace SharpFBTools.Tools
 		private void IncStatus( int nItem, bool bRefresh ) {
 			lvFilesCount.Items[nItem].SubItems[1].Text	=
 					Convert.ToString( 1+Convert.ToInt32( lvFilesCount.Items[nItem].SubItems[1].Text ) );
-			if( bRefresh  ) {
-				lvFilesCount.Refresh();
-			}
 		}
 
 		private bool IsArchivatorsExist( string sMessTitle ) {
@@ -671,119 +811,6 @@ namespace SharpFBTools.Tools
 				return false;
 			}
 			return true;
-		}
-		
-		private void SortFb2Files( string sSource, string sTarget, string sLineTemplate, bool bFullSort ) {
-			// Полная или Избранная Сортировка файлов
-			DateTime dtStart = DateTime.Now;
-			string sMessTitle = "";
-			if( bFullSort ) {
-				sMessTitle = "SharpFBTools - Полная Сортировка";
-			} else {
-				sMessTitle = "SharpFBTools - Избранная Сортировка";
-			}
-			
-			// инициализация контролов
-			Init();
-			tsProgressBar.Visible = true;
-			
-			// сортированный список всех вложенных папок
-			List<string> lDirList = new List<string>();
-			if( !chBoxScanSubDir.Checked ) {
-				// сканировать только указанную папку
-				lDirList.Add( sSource );
-				lvFilesCount.Items[0].SubItems[1].Text = "1";
-				lvFilesCount.Refresh();
-			} else {
-				// сканировать и все подпапки
-				tsslblProgress.Text = "Создание списка папок:";
-				lDirList = FilesWorker.FilesWorker.DirsParser( sSource, lvFilesCount, false );
-				lvFilesCount.Refresh();
-			}
-			// сортированный список всех файлов
-			tsslblProgress.Text = "Создание списка файлов:";
-			ssProgress.Refresh();
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
-			                                                                 tsProgressBar, false, false );
-
-			// проверка, есть ли хоть один файл в папке для сканирования
-			lvFilesCount.Refresh();
-			int nFilesCount = lFilesList.Count;
-			if( nFilesCount == 0 ) {
-				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-				tsslblProgress.Text = Settings.Settings.GetReady();
-				tsProgressBar.Visible = false;
-				return;
-			}
-			
-			// сортировка файлов по папкам, согласно шаблонам подстановки
-			tsslblProgress.Text = "Сортировка файлов:";
-			tsProgressBar.Visible = true;
-			tsProgressBar.Maximum = nFilesCount+1;
-			tsProgressBar.Value = 1;
-			ssProgress.Refresh();
-	
-			// данные настроек для сортировки по шаблонам
-			Settings.DataFM dfm = new Settings.DataFM();
-			string sTempDir = Settings.Settings.GetTempDir();
-			
-			// формируем лексемы шаблонной строки
-			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( sLineTemplate );
-			// сортировка
-			if( bFullSort ) {
-				// Полная Сортировка
-				foreach( string sFromFilePath in lFilesList ) {
-					// создаем файл по новому пути
-					if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
-						// по первому Жанру и первому Автору Книги
-						MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-					} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
-						// по первому Жанру и всем Авторам Книги
-						MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-					} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
-						// по всем Жанрам и первому Автору Книги
-						MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-					} else {
-						// по всем Жанрам и всем Авторам Книги
-						MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-					}
-					++tsProgressBar.Value;
-					ssProgress.Refresh();
-				}
-			} else {
-				// Избранная Сортировка
-				string sExt = "";
-				foreach( string sFromFilePath in lFilesList ) {
-					/* создаем файл по новому пути */
-					sExt = Path.GetExtension( sFromFilePath ).ToLower();
-					if( sExt==".fb2" ) {
-						// Создание файла по критериям Избранной сортировки
-						MakeFileForSelectedSortingWorker( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-					} else {
-						// это архив?
-						if( IsArchive( sExt ) ) {
-							List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
-							if( lFilesListFromArchive!=null ) {
-								foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
-									// Создание файла по критериям Избранной сортировки
-									MakeFileForSelectedSortingWorker( sFB2FromArchPath, sSource, sTarget, lSLexems, dfm );
-								}
-							}
-						}
-					}
-					++tsProgressBar.Value;
-					ssProgress.Refresh();
-				}
-			}
-
-			// завершение работы
-			FilesWorker.FilesWorker.RemoveDir( sTempDir );
-			DateTime dtEnd = DateTime.Now;
-			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
-			string sMess = "Сортировка файлов в указанную папку завершена!\nЗатрачено времени: "+sTime;
-			MessageBox.Show( sMess, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-			tsslblProgress.Text = Settings.Settings.GetReady();
-			tsProgressBar.Visible = false;
 		}
 		
 		private void MakeFileForSelectedSortingWorker( string sFromFilePath, string sSource, string sTarget,
@@ -994,21 +1021,62 @@ namespace SharpFBTools.Tools
 		void TsbtnSortFilesToClick(object sender, EventArgs e)
 		{
 			// Полная сортировка
-			string sMessTitle = "SharpFBTools - Полная Сортировка";
+			m_bFullSort = true;
+			m_sSource = tboxSourceDir.Text;
+			m_sTarget = tboxSortAllToDir.Text;
+			m_sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
+			m_sMessTitle = "SharpFBTools - Полная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsFolderdataCorrect( tboxSourceDir, tboxSortAllToDir, sMessTitle ) ) {
+			if( !IsFolderdataCorrect( tboxSourceDir, tboxSortAllToDir, m_sMessTitle ) ) {
 				return;
 			}
 			// проверка на наличие архиваторов
-			if( !IsArchivatorsExist( sMessTitle ) ) {
+			if( !IsArchivatorsExist( m_sMessTitle ) ) {
 				return;
 			}
 			// проверки на корректность шаблонных строк
-			if( !IsLineTemplateCorrect( txtBoxTemplatesFromLine.Text.Trim(), sMessTitle ) ) {
+			if( !IsLineTemplateCorrect( m_sLineTemplate, m_sMessTitle ) ) {
 				return;
 			}
-			// Полная Сортировка
-			SortFb2Files( tboxSourceDir.Text, tboxSortAllToDir.Text, txtBoxTemplatesFromLine.Text.Trim(), true );
+			
+			// инициализация контролов
+			m_dtStart = DateTime.Now;
+			Init();
+			SetFullSortingStartEnabled( false );
+			
+			List<string> lDirList = new List<string>();
+			if( !chBoxScanSubDir.Checked ) {
+				// сканировать только указанную папку
+				lDirList.Add( m_sSource );
+				lvFilesCount.Items[0].SubItems[1].Text = "1";
+			} else {
+				// сканировать и все подпапки
+				tsslblProgress.Text = "Создание списка папок:";
+				lDirList = FilesWorker.FilesWorker.DirsParser( m_sSource, lvFilesCount, false );
+			}
+			
+			// сортированный список всех файлов
+			tsslblProgress.Text = "Создание списка файлов:";
+			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
+			                                                 		tsProgressBar, false, false );
+			lDirList.Clear();
+			
+			// проверка, есть ли хоть один файл в папке для сканирования
+			if( m_lFilesList.Count == 0 ) {
+				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				tsslblProgress.Text = Settings.Settings.GetReady();
+				SetFullSortingStartEnabled( true );
+				return;
+			}
+			
+			// Запуск процесса DoWork от Бекграунд Воркера
+			tsslblProgress.Text = "Сортировка файлов:";
+			tsProgressBar.Maximum = m_lFilesList.Count+1;
+			tsProgressBar.Value = 1;
+			if( m_bw.IsBusy != true ) {
+				//если не занят то запустить процесс
+            	m_bw.RunWorkerAsync();
+			}
 		}
 		
 		void BtnSortAllToDirClick(object sender, EventArgs e)
@@ -1174,31 +1242,89 @@ namespace SharpFBTools.Tools
 			FilesWorker.FilesWorker.OpenDirDlg( tboxSSToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов (Избранная Сортировка):" );
 		}
 	
+		void TsbtnFullSortStopClick(object sender, EventArgs e)
+		{
+			// Остановка выполнения процесса Полной Сортировки
+			if( m_bw.WorkerSupportsCancellation == true ) {
+				m_bw.CancelAsync();
+			}
+		}
+		
 		void TsbtnSSSortFilesToClick(object sender, EventArgs e)
 		{
 			// Избранная Сортировка
-			string sMessTitle = "SharpFBTools - Избранная Сортировка";
+			m_bFullSort = false;
+			m_sSource = tboxSSSourceDir.Text;
+			m_sTarget = tboxSSToDir.Text;
+			m_sLineTemplate = txtBoxSSTemplatesFromLine.Text.Trim();
+			m_sMessTitle = "SharpFBTools - Избранная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsFolderdataCorrect( tboxSSSourceDir, tboxSSToDir, sMessTitle ) ) {
+			if( !IsFolderdataCorrect( tboxSSSourceDir, tboxSSToDir, m_sMessTitle ) ) {
 				return;
 			}
 			// проверка на наличие критериев поиска для Избранной Сортировки
 			if( lvSSData.Items.Count == 0 ) {
-				MessageBox.Show( "Задайте хоть один критерий для Избранной Сортировки (кнопка \"Собрать данные для Избранной Сортировки\")!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				MessageBox.Show( "Задайте хоть один критерий для Избранной Сортировки (кнопка \"Собрать данные для Избранной Сортировки\")!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				btnSSGetData.Focus();
 				return;
 			}
 			// проверка на наличие архиваторов
-			if( !IsArchivatorsExist( sMessTitle ) ) {
+			if( !IsArchivatorsExist( m_sMessTitle ) ) {
 				return;
 			}
 			// проверки на корректность шаблонных строк
-			if( !IsLineTemplateCorrect( txtBoxSSTemplatesFromLine.Text.Trim(), sMessTitle ) ) {
+			if( !IsLineTemplateCorrect( m_sLineTemplate, m_sMessTitle ) ) {
 				return;
 			}
-			// Избранная Сортировка
-			SortFb2Files( tboxSSSourceDir.Text, tboxSSToDir.Text, txtBoxSSTemplatesFromLine.Text.Trim(), false );
+			
+			// инициализация контролов
+			m_dtStart = DateTime.Now;
+			Init();
+			SetSelectedSortingStartEnabled( false );
+			
+			List<string> lDirList = new List<string>();
+			if( !chBoxSSScanSubDir.Checked ) {
+				// сканировать только указанную папку
+				lDirList.Add( m_sSource );
+				lvFilesCount.Items[0].SubItems[1].Text = "1";
+			} else {
+				// сканировать и все подпапки
+				tsslblProgress.Text = "Создание списка папок:";
+				lDirList = FilesWorker.FilesWorker.DirsParser( m_sSource, lvFilesCount, false );
+			}
+			
+			// сортированный список всех файлов
+			tsslblProgress.Text = "Создание списка файлов:";
+			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
+			                                                 		tsProgressBar, false, false );
+			lDirList.Clear();
+			
+			// проверка, есть ли хоть один файл в папке для сканирования
+			if( m_lFilesList.Count == 0 ) {
+				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				tsslblProgress.Text = Settings.Settings.GetReady();
+				SetSelectedSortingStartEnabled( true );
+				return;
+			}
+			
+			// Запуск процесса DoWork от Бекграунд Воркера
+			tsslblProgress.Text = "Сортировка файлов:";
+			tsProgressBar.Maximum = m_lFilesList.Count+1;
+			tsProgressBar.Value = 1;
+			if( m_bw.IsBusy != true ) {
+				//если не занят то запустить процесс
+            	m_bw.RunWorkerAsync();
+			}
+		}
+		
+		void TsbtnSSSortStopClick(object sender, EventArgs e)
+		{
+			// Остановка выполнения процесса Избранной Сортировки
+			if( m_bw.WorkerSupportsCancellation == true ) {
+				m_bw.CancelAsync();
+			}
 		}
 		#endregion
+
 	}
 }

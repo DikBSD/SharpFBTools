@@ -225,6 +225,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnTargetDir = new System.Windows.Forms.ToolStripButton();
 			this.tsSep2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnSortFilesTo = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnFullSortStop = new System.Windows.Forms.ToolStripButton();
 			this.lblFullSortTargetDir = new System.Windows.Forms.Label();
 			this.tboxSortAllToDir = new System.Windows.Forms.TextBox();
 			this.tboxSourceDir = new System.Windows.Forms.TextBox();
@@ -250,6 +251,7 @@ namespace SharpFBTools.Tools
 			this.cHeaderMiddle = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderNick = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderSequence = new System.Windows.Forms.ColumnHeader();
+			this.cHeaderExactFit = new System.Windows.Forms.ColumnHeader();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnSSGetData = new System.Windows.Forms.Button();
 			this.gBoxSelectedlSortRenameTemplates = new System.Windows.Forms.GroupBox();
@@ -267,6 +269,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnSSTargetDir = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnSSSortFilesTo = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnSSSortStop = new System.Windows.Forms.ToolStripButton();
 			this.lvSettings = new System.Windows.Forms.ListView();
 			this.cHeaderSettings = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderSettingsValue = new System.Windows.Forms.ColumnHeader();
@@ -274,7 +277,6 @@ namespace SharpFBTools.Tools
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.pProgress = new System.Windows.Forms.Panel();
-			this.cHeaderExactFit = new System.Windows.Forms.ColumnHeader();
 			this.ssProgress.SuspendLayout();
 			this.tsFullSort.SuspendLayout();
 			this.tcSort.SuspendLayout();
@@ -321,7 +323,8 @@ namespace SharpFBTools.Tools
 									this.tsSep1,
 									this.tsbtnTargetDir,
 									this.tsSep2,
-									this.tsbtnSortFilesTo});
+									this.tsbtnSortFilesTo,
+									this.tsbtnFullSortStop});
 			this.tsFullSort.Location = new System.Drawing.Point(3, 3);
 			this.tsFullSort.Name = "tsFullSort";
 			this.tsFullSort.Size = new System.Drawing.Size(814, 31);
@@ -366,6 +369,16 @@ namespace SharpFBTools.Tools
 			this.tsbtnSortFilesTo.Size = new System.Drawing.Size(102, 28);
 			this.tsbtnSortFilesTo.Text = "Сортировать";
 			this.tsbtnSortFilesTo.Click += new System.EventHandler(this.TsbtnSortFilesToClick);
+			// 
+			// tsbtnFullSortStop
+			// 
+			this.tsbtnFullSortStop.Enabled = false;
+			this.tsbtnFullSortStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFullSortStop.Image")));
+			this.tsbtnFullSortStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnFullSortStop.Name = "tsbtnFullSortStop";
+			this.tsbtnFullSortStop.Size = new System.Drawing.Size(96, 28);
+			this.tsbtnFullSortStop.Text = "Остановить";
+			this.tsbtnFullSortStop.Click += new System.EventHandler(this.TsbtnFullSortStopClick);
 			// 
 			// lblFullSortTargetDir
 			// 
@@ -614,6 +627,10 @@ namespace SharpFBTools.Tools
 			this.cHeaderSequence.Text = "Серия";
 			this.cHeaderSequence.Width = 140;
 			// 
+			// cHeaderExactFit
+			// 
+			this.cHeaderExactFit.Text = "Точное соответствие";
+			// 
 			// panel1
 			// 
 			this.panel1.Controls.Add(this.btnSSGetData);
@@ -749,7 +766,8 @@ namespace SharpFBTools.Tools
 									this.toolStripSeparator1,
 									this.tsbtnSSTargetDir,
 									this.toolStripSeparator2,
-									this.tsbtnSSSortFilesTo});
+									this.tsbtnSSSortFilesTo,
+									this.tsbtnSSSortStop});
 			this.tsSelectedSort.Location = new System.Drawing.Point(3, 3);
 			this.tsSelectedSort.Name = "tsSelectedSort";
 			this.tsSelectedSort.Size = new System.Drawing.Size(814, 31);
@@ -794,6 +812,16 @@ namespace SharpFBTools.Tools
 			this.tsbtnSSSortFilesTo.Size = new System.Drawing.Size(102, 28);
 			this.tsbtnSSSortFilesTo.Text = "Сортировать";
 			this.tsbtnSSSortFilesTo.Click += new System.EventHandler(this.TsbtnSSSortFilesToClick);
+			// 
+			// tsbtnSSSortStop
+			// 
+			this.tsbtnSSSortStop.Enabled = false;
+			this.tsbtnSSSortStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSSSortStop.Image")));
+			this.tsbtnSSSortStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnSSSortStop.Name = "tsbtnSSSortStop";
+			this.tsbtnSSSortStop.Size = new System.Drawing.Size(96, 28);
+			this.tsbtnSSSortStop.Text = "Остановить";
+			this.tsbtnSSSortStop.Click += new System.EventHandler(this.TsbtnSSSortStopClick);
 			// 
 			// lvSettings
 			// 
@@ -979,10 +1007,6 @@ namespace SharpFBTools.Tools
 			this.pProgress.Size = new System.Drawing.Size(828, 246);
 			this.pProgress.TabIndex = 33;
 			// 
-			// cHeaderExactFit
-			// 
-			this.cHeaderExactFit.Text = "Точное соответствие";
-			// 
 			// SFBTpFileManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1018,6 +1042,8 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripButton tsbtnFullSortStop;
+		private System.Windows.Forms.ToolStripButton tsbtnSSSortStop;
 		private System.Windows.Forms.ColumnHeader cHeaderExactFit;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel pData;
