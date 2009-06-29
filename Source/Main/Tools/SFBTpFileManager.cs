@@ -258,7 +258,7 @@ namespace SharpFBTools.Tools
 			ssProgress.Refresh();
 		}
 		
-		private bool IsFolderdataCorrect( TextBox tbSource, TextBox tbTarget, string sMessTitle )
+		private bool IsFolderdataCorrect( TextBox tbSource, TextBox tbTarget )
 		{
 			// проверка на корректность данных папок источника и приемника файлов
 			string sSource = tbSource.Text.Trim();
@@ -272,25 +272,25 @@ namespace SharpFBTools.Tools
 			
 			// проверки на корректность папок источника и приемника
 			if( sSource.Length == 0 ) {
-				MessageBox.Show( "Выберите папку для сканирования!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			DirectoryInfo diFolder = new DirectoryInfo( sSource );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена: " + sSource, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена: " + sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			if( sTarget.Length == 0 ) {
-				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			diFolder = new DirectoryInfo( sTarget );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена: " + sTarget + "\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена: " + sTarget + "\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			if( sSource == sTarget ) {
-				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			return true;
@@ -403,8 +403,8 @@ namespace SharpFBTools.Tools
 			return lFilesList;
 		}
 		
-		private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode,
-		                         Settings.DataFM dfm ) {
+		private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode,
+		                          bool bAddToFileNameBookIDMode, Settings.DataFM dfm ) {
 			// создание нового файла или архива
 			try {
 				if( !dfm.ToArchiveMode ) {
@@ -493,8 +493,8 @@ namespace SharpFBTools.Tools
 			IncStatus( 14 ); // "битые" архивы - не открылись
 		}
 		
-		private string FileExsistWorker( string sFromFilePath, string sToFilePath, int nFileExistMode, bool bAddToFileNameBookIDMode,
-		                                string sArchType )
+		private string FileExsistWorker( string sFromFilePath, string sToFilePath, int nFileExistMode,
+		                                bool bAddToFileNameBookIDMode, string sArchType )
 		{
 			// обработка уже существующих файлов в папке
 			string sSufix = "";
@@ -760,19 +760,21 @@ namespace SharpFBTools.Tools
 					Convert.ToString( 1+Convert.ToInt32( lvFilesCount.Items[nItem].SubItems[1].Text ) );
 		}
 
-		private bool IsArchivatorsExist( string sMessTitle ) {
+		private bool IsArchivatorsExist() {
 			// проверка на наличие архиваторов
 			string s7zPath	= Settings.Settings.Read7zaPath();
 			string sRarPath	= Settings.Settings.ReadRarPath();
 			if( Settings.SettingsFM.ReadToArchiveMode() ) {
 				if( Settings.SettingsFM.ReadArchiveTypeText().ToLower()=="rar" ) {
 					if( sRarPath.Trim().Length==0 ) {
-						MessageBox.Show( "В Настройках выбрана rar-архивация отсортированных файлов.\nПри этом не указана папка с установленным консольным Rar-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						MessageBox.Show( "В Настройках выбрана rar-архивация отсортированных файлов.\nПри этом не указана папка с установленным консольным Rar-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+						                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return false;
 					} else {
 						// проверка на наличие архиваторов
 						if( !File.Exists( sRarPath ) ) {
-							MessageBox.Show( "В Настройках выбрана rar-архивация отсортированных файлов.\nПри этом не найден файл консольного Rar-архиватора "+sRarPath+"!\nУкажите путь к нему в Настройках.\nРабота остановлена!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+							MessageBox.Show( "В Настройках выбрана rar-архивация отсортированных файлов.\nПри этом не найден файл консольного Rar-архиватора "+sRarPath+"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+							                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 							return false;
 						}
 					}
@@ -780,69 +782,80 @@ namespace SharpFBTools.Tools
 			}
 			
 			if( s7zPath.Trim().Length==0 ) {
-				MessageBox.Show( "В Настройках не указана папка с установленным консольным 7Zip-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "В Настройках не указана папка с установленным консольным 7Zip-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			} else {
 				if( !File.Exists( s7zPath ) ) {
-					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return false;
 				}
 			}
 			return true;
 		}
 		
-		private bool IsLineTemplateCorrect( string sLineTemplate, string sMessTitle ) {
+		private bool IsLineTemplateCorrect( string sLineTemplate ) {
 			// проверки на корректность шаблонных строк
 			// проверка "пустоту" строки с шаблонами
 			if( sLineTemplate.Length == 0 ) {
-				MessageBox.Show( "Строка шаблонов не может быть пустой!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка шаблонов не может быть пустой!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на корректность строки с шаблонами
 			if( !Templates.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
-				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&\\t\\r\\n между шаблонами!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&\\t\\r\\n между шаблонами!\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на четность * в строке с шаблонами
 			if( !Templates.TemplatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
-				MessageBox.Show( "Строка с шаблонами подстановки содержит нечетное число *!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами подстановки содержит нечетное число *!\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка, не стоит ли ] перед [
 			if( sLineTemplate.IndexOf('[')!=-1 && sLineTemplate.IndexOf(']')!=-1 ) {
 				if( sLineTemplate.IndexOf('[') > sLineTemplate.IndexOf(']') ) {
-					MessageBox.Show( "В строке с шаблонами закрывающая скобка ] не может стоять перед открывающей [ !\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show( "В строке с шаблонами закрывающая скобка ] не может стоять перед открывающей [ !\nРабота прекращена.",
+					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return false;
 				}
 			}
 			// проверка на соответствие [ ] в строке с шаблонами
 			if( !Templates.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
-				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками [ ]!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками [ ]!\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на соответствие ( ) в строке с шаблонами
 			if( !Templates.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
-				MessageBox.Show( "В строке с шаблонами нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "В строке с шаблонами нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на \ в начале строки с шаблонами
 			if( sLineTemplate[0]=='\\' ) {
-				MessageBox.Show( "Строка с шаблонами не может начинаться с '\\'!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами не может начинаться с '\\'!\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на \ в конце строки с шаблонами
 			if( sLineTemplate[sLineTemplate.Length-1]=='\\' ) {
-				MessageBox.Show( "Строка с шаблонами не может заканчиваться на '\\' !\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами не может заканчиваться на '\\' !\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка условных шаблонов на наличие в них вспом. символов без самих шаблонов
 			if( !Templates.TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
-				MessageBox.Show( "Условные шаблоны [] в строке с шаблонами не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Условные шаблоны [] в строке с шаблонами не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на множественность символа папки \ в строке с шаблонами
 			if( sLineTemplate.IndexOf( "\\\\" )!=-1 ) {
-				MessageBox.Show( "Строка с шаблонами не может содержать несколько идущих подряд символов папки '\\' !\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Строка с шаблонами не может содержать несколько идущих подряд символов папки '\\' !\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			return true;
@@ -1091,15 +1104,15 @@ namespace SharpFBTools.Tools
 			m_sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
 			m_sMessTitle = "SharpFBTools - Полная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsFolderdataCorrect( tboxSourceDir, tboxSortAllToDir, m_sMessTitle ) ) {
+			if( !IsFolderdataCorrect( tboxSourceDir, tboxSortAllToDir ) ) {
 				return;
 			}
 			// проверка на наличие архиваторов
-			if( !IsArchivatorsExist( m_sMessTitle ) ) {
+			if( !IsArchivatorsExist() ) {
 				return;
 			}
 			// проверки на корректность шаблонных строк
-			if( !IsLineTemplateCorrect( m_sLineTemplate, m_sMessTitle ) ) {
+			if( !IsLineTemplateCorrect( m_sLineTemplate ) ) {
 				return;
 			}
 			
@@ -1299,7 +1312,7 @@ namespace SharpFBTools.Tools
 			m_sLineTemplate = txtBoxSSTemplatesFromLine.Text.Trim();
 			m_sMessTitle = "SharpFBTools - Избранная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsFolderdataCorrect( tboxSSSourceDir, tboxSSToDir, m_sMessTitle ) ) {
+			if( !IsFolderdataCorrect( tboxSSSourceDir, tboxSSToDir ) ) {
 				return;
 			}
 			// проверка на наличие критериев поиска для Избранной Сортировки
@@ -1309,11 +1322,11 @@ namespace SharpFBTools.Tools
 				return;
 			}
 			// проверка на наличие архиваторов
-			if( !IsArchivatorsExist( m_sMessTitle ) ) {
+			if( !IsArchivatorsExist() ) {
 				return;
 			}
 			// проверки на корректность шаблонных строк
-			if( !IsLineTemplateCorrect( m_sLineTemplate, m_sMessTitle ) ) {
+			if( !IsLineTemplateCorrect( m_sLineTemplate ) ) {
 				return;
 			}
 			
