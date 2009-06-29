@@ -292,6 +292,9 @@ namespace SharpFBTools.Tools
 			
 			// добавление записи в список
 			lvSSData.Items.Add( lvi );
+			for( int i=0; i!=lvSSData.Items.Count; ++i ) {
+				lvSSData.Items[ i ].Selected = false;
+			}
 			lvSSData.Items[ lvSSData.Items.Count-1 ].Selected	= true;
 			lvSSData.Items[ lvSSData.Items.Count-1 ].Focused	= true;
 			
