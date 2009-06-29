@@ -30,7 +30,7 @@ namespace SharpFBTools.Tools
 	public partial class SFBTpArchiveManager : UserControl
 	{
 		#region Закрытые члены-данные класса
-		private string m_sReady = "Готово.";
+
 		#endregion
 		
 		public SFBTpArchiveManager()
@@ -54,7 +54,7 @@ namespace SharpFBTools.Tools
 				lvGeneralCount.Items[i].SubItems[1].Text = "0";
 			}
 			tsProgressBar.Value		= 1;
-			tsslblProgress.Text		= m_sReady;
+			tsslblProgress.Text		= Settings.Settings.GetReady();
 			tsProgressBar.Visible	= false;
 		}
 		
@@ -67,7 +67,7 @@ namespace SharpFBTools.Tools
 				lvUACount.Items[i].SubItems[1].Text = "0";
 			}
 			tsProgressBar.Value		= 1;
-			tsslblProgress.Text		= m_sReady;
+			tsslblProgress.Text		= Settings.Settings.GetReady();
 			tsProgressBar.Visible	= false;
 		}
 		
@@ -565,7 +565,7 @@ namespace SharpFBTools.Tools
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 			MessageBox.Show( "Упаковка fb2-файлов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
-			tsslblProgress.Text = m_sReady;
+			tsslblProgress.Text = Settings.Settings.GetReady();
 			tsProgressBar.Visible = false;
 		}
 
@@ -645,7 +645,7 @@ namespace SharpFBTools.Tools
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 			MessageBox.Show( "Анализ имеющихся файлов завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
-			tsslblProgress.Text = m_sReady;
+			tsslblProgress.Text = Settings.Settings.GetReady();
 			tsProgressBar.Visible = false;
 		}
 		
@@ -725,7 +725,7 @@ namespace SharpFBTools.Tools
 			} else {
 				MessageBox.Show( "В папке для сканирования не найдено ни одного архива указанного типа!\nРаспаковка не произведена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
-			tsslblProgress.Text = m_sReady;
+			tsslblProgress.Text = Settings.Settings.GetReady();
 			tsProgressBar.Visible = false;
 		}
 		
