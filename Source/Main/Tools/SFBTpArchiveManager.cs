@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Threading;
 
 using FB2.Description.DocumentInfo;
 using StringProcessing;
@@ -30,13 +31,14 @@ namespace SharpFBTools.Tools
 	public partial class SFBTpArchiveManager : UserControl
 	{
 		#region Закрытые члены-данные класса
-
+		private BackgroundWorker m_bw = null;
 		#endregion
 		
 		public SFBTpArchiveManager()
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
+			InitializeBackgroundWorker();
 			InitA();	// инициализация контролов (Упаковка)
 			InitUA();	// инициализация контролов (Распаковка
 			// читаем сохраненные пути к папкам Менеджера Архивов, если они есть
@@ -46,6 +48,46 @@ namespace SharpFBTools.Tools
 			cboxUAExistArchive.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу очередного номера
 			cboxUAType.SelectedIndex			= 6; // Все архивы
 		}
+		
+		#region Закрытые методы реализации BackgroundWorker
+		private void InitializeBackgroundWorker() {
+			// Инициализация перед использование BackgroundWorker 
+            m_bw = new BackgroundWorker();
+            //m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
+            m_bw.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
+            m_bw.DoWork += new DoWorkEventHandler( bw_DoWork );
+            m_bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
+		}
+		
+		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
+
+        }
+     
+        private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
+            // Проверяем это отмена, ошибка, или конец задачи и сообщить
+/*            DateTime dtEnd = DateTime.Now;
+            m_lFilesList.Clear();
+            FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+            
+            string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sMessCanceled	= "Сортировка основлена!\nЗатрачено времени: "+sTime;
+			string sMessError		= "";
+			string sMessDone		= "Сортировка файлов в указанную папку завершена!\nЗатрачено времени: "+sTime;
+           
+			if( ( e.Cancelled == true ) ) {
+                MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            } else if( e.Error != null ) {
+                sMessError = "Error!\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
+            	MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            } else {
+            	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            }
+			
+			tsslblProgress.Text = Settings.Settings.GetReady();
+*/
+            m_bw.Dispose();
+        }
+		#endregion
 		
 		#region Закрытые Общие Вспомогательны методы класса
 		private void InitA() {
@@ -758,6 +800,22 @@ namespace SharpFBTools.Tools
 		{
 			Settings.SettingsAM.AMAUATargetDir = tboxUAToAnotherDir.Text;
 		}
+		
+		void TsbtnArchiveStopClick(object sender, EventArgs e)
+		{
+			// Остановка выполнения процесса Архивации
+			if( m_bw.WorkerSupportsCancellation == true ) {
+				m_bw.CancelAsync();
+			}
+		}
 		#endregion
+		
+		void TsbtnUnArchiveStopClick(object sender, EventArgs e)
+		{
+			// Остановка выполнения процесса Распаковки
+			if( m_bw.WorkerSupportsCancellation == true ) {
+				m_bw.CancelAsync();
+			}
+		}
 	}
 }

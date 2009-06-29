@@ -38,50 +38,51 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpArchiveManager));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Распаковано архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлы из этих архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Rar",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Zip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
 									"7z",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
 									"BZip2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
 									"GZip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Tar",
 									"0"}, -1);
 			this.tsArchiver = new System.Windows.Forms.ToolStrip();
 			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnArchive = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnArchiveStop = new System.Windows.Forms.ToolStripButton();
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
 			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -143,6 +144,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnUAAnalyze = new System.Windows.Forms.ToolStripButton();
 			this.tsSep3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnUnArchive = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnUnArchiveStop = new System.Windows.Forms.ToolStripButton();
 			this.imgl16 = new System.Windows.Forms.ImageList(this.components);
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.tsArchiver.SuspendLayout();
@@ -172,7 +174,8 @@ namespace SharpFBTools.Tools
 			this.tsArchiver.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.tsbtnOpenDir,
 									this.tsSep1,
-									this.tsbtnArchive});
+									this.tsbtnArchive,
+									this.tsbtnArchiveStop});
 			this.tsArchiver.Location = new System.Drawing.Point(3, 3);
 			this.tsArchiver.Name = "tsArchiver";
 			this.tsArchiver.Size = new System.Drawing.Size(754, 31);
@@ -202,6 +205,17 @@ namespace SharpFBTools.Tools
 			this.tsbtnArchive.Size = new System.Drawing.Size(95, 28);
 			this.tsbtnArchive.Text = "Запаковать";
 			this.tsbtnArchive.Click += new System.EventHandler(this.TsbtnArchiveClick);
+			// 
+			// tsbtnArchiveStop
+			// 
+			this.tsbtnArchiveStop.AutoToolTip = false;
+			this.tsbtnArchiveStop.Enabled = false;
+			this.tsbtnArchiveStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnArchiveStop.Image")));
+			this.tsbtnArchiveStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnArchiveStop.Name = "tsbtnArchiveStop";
+			this.tsbtnArchiveStop.Size = new System.Drawing.Size(96, 28);
+			this.tsbtnArchiveStop.Text = "Остановить";
+			this.tsbtnArchiveStop.Click += new System.EventHandler(this.TsbtnArchiveStopClick);
 			// 
 			// ssProgress
 			// 
@@ -339,9 +353,9 @@ namespace SharpFBTools.Tools
 			this.lvGeneralCount.FullRowSelect = true;
 			this.lvGeneralCount.GridLines = true;
 			this.lvGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3});
+									listViewItem14,
+									listViewItem15,
+									listViewItem16});
 			this.lvGeneralCount.Location = new System.Drawing.Point(3, 16);
 			this.lvGeneralCount.Name = "lvGeneralCount";
 			this.lvGeneralCount.Size = new System.Drawing.Size(748, 208);
@@ -586,10 +600,10 @@ namespace SharpFBTools.Tools
 			this.lvUAGeneralCount.FullRowSelect = true;
 			this.lvUAGeneralCount.GridLines = true;
 			this.lvUAGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem4,
-									listViewItem5,
-									listViewItem6,
-									listViewItem7});
+									listViewItem17,
+									listViewItem18,
+									listViewItem19,
+									listViewItem20});
 			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 16);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
 			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 241);
@@ -617,24 +631,24 @@ namespace SharpFBTools.Tools
 									this.cHeaderArchiveCount});
 			this.lvUACount.FullRowSelect = true;
 			this.lvUACount.GridLines = true;
-			listViewGroup1.Header = "Архивы";
-			listViewGroup1.Name = "lvgArchive";
+			listViewGroup2.Header = "Архивы";
+			listViewGroup2.Name = "lvgArchive";
 			this.lvUACount.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-									listViewGroup1});
-			listViewItem8.Group = listViewGroup1;
-			listViewItem8.StateImageIndex = 0;
-			listViewItem9.Group = listViewGroup1;
-			listViewItem10.Group = listViewGroup1;
-			listViewItem11.Group = listViewGroup1;
-			listViewItem12.Group = listViewGroup1;
-			listViewItem13.Group = listViewGroup1;
+									listViewGroup2});
+			listViewItem21.Group = listViewGroup2;
+			listViewItem21.StateImageIndex = 0;
+			listViewItem22.Group = listViewGroup2;
+			listViewItem23.Group = listViewGroup2;
+			listViewItem24.Group = listViewGroup2;
+			listViewItem25.Group = listViewGroup2;
+			listViewItem26.Group = listViewGroup2;
 			this.lvUACount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem8,
-									listViewItem9,
-									listViewItem10,
-									listViewItem11,
-									listViewItem12,
-									listViewItem13});
+									listViewItem21,
+									listViewItem22,
+									listViewItem23,
+									listViewItem24,
+									listViewItem25,
+									listViewItem26});
 			this.lvUACount.Location = new System.Drawing.Point(398, 16);
 			this.lvUACount.Name = "lvUACount";
 			this.lvUACount.Size = new System.Drawing.Size(347, 241);
@@ -847,7 +861,8 @@ namespace SharpFBTools.Tools
 									this.tsSep2,
 									this.tsbtnUAAnalyze,
 									this.tsSep3,
-									this.tsbtnUnArchive});
+									this.tsbtnUnArchive,
+									this.tsbtnUnArchiveStop});
 			this.tsUnArchiver.Location = new System.Drawing.Point(3, 3);
 			this.tsUnArchiver.Name = "tsUnArchiver";
 			this.tsUnArchiver.Size = new System.Drawing.Size(754, 31);
@@ -891,6 +906,17 @@ namespace SharpFBTools.Tools
 			this.tsbtnUnArchive.Size = new System.Drawing.Size(100, 28);
 			this.tsbtnUnArchive.Text = "Распаковать";
 			this.tsbtnUnArchive.Click += new System.EventHandler(this.TsbtnUnArchiveClick);
+			// 
+			// tsbtnUnArchiveStop
+			// 
+			this.tsbtnUnArchiveStop.AutoToolTip = false;
+			this.tsbtnUnArchiveStop.Enabled = false;
+			this.tsbtnUnArchiveStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnUnArchiveStop.Image")));
+			this.tsbtnUnArchiveStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnUnArchiveStop.Name = "tsbtnUnArchiveStop";
+			this.tsbtnUnArchiveStop.Size = new System.Drawing.Size(96, 28);
+			this.tsbtnUnArchiveStop.Text = "Остановить";
+			this.tsbtnUnArchiveStop.Click += new System.EventHandler(this.TsbtnUnArchiveStopClick);
 			// 
 			// imgl16
 			// 
@@ -940,6 +966,8 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripButton tsbtnUnArchiveStop;
+		private System.Windows.Forms.ToolStripButton tsbtnArchiveStop;
 		private System.Windows.Forms.CheckBox chBoxAddFileNameBookID;
 		private System.Windows.Forms.CheckBox chBoxAddArchiveNameBookID;
 		private System.Windows.Forms.CheckBox cboxScanSubDirToUnArchive;
