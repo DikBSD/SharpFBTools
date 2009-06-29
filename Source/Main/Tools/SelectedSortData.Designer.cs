@@ -290,6 +290,7 @@ namespace SharpFBTools.Tools
 									this.cHeaderExactFit});
 			this.lvSSData.FullRowSelect = true;
 			this.lvSSData.GridLines = true;
+			this.lvSSData.HideSelection = false;
 			this.lvSSData.Location = new System.Drawing.Point(12, 265);
 			this.lvSSData.Name = "lvSSData";
 			this.lvSSData.Size = new System.Drawing.Size(694, 118);
@@ -369,6 +370,8 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnDelete.Enabled = false;
 			this.btnDelete.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
+			this.btnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnDelete.Location = new System.Drawing.Point(592, 200);
 			this.btnDelete.Name = "btnDelete";
 			this.btnDelete.Size = new System.Drawing.Size(110, 26);
@@ -380,6 +383,8 @@ namespace SharpFBTools.Tools
 			// btnAdd
 			// 
 			this.btnAdd.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnAdd.Image")));
+			this.btnAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnAdd.Location = new System.Drawing.Point(592, 152);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(110, 26);

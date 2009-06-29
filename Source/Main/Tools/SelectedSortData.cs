@@ -292,6 +292,8 @@ namespace SharpFBTools.Tools
 			
 			// добавление записи в список
 			lvSSData.Items.Add( lvi );
+			lvSSData.Items[ lvSSData.Items.Count-1 ].Selected	= true;
+			lvSSData.Items[ lvSSData.Items.Count-1 ].Focused	= true;
 			
 			// очищаем поля ввода
 			textBoxSSLast.Text		= "";

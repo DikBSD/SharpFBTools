@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAMhJREFUOE9jYBgF
+        1AmB1TwM/284qMy/7aY8/4GP8vzHgcrzX4QCcZjy/FcRQAyknwH5T4HiD7yVgepU5oP0wG0HcV63Zf1/
+        25r2/31H2v+P3Wn/P/Ug8McuiPjbtrT/r5rS/r9ozPqPaUCE6v93sSr/Pyeq/P+WqvL/e7rK/x8ZQAyk
+        QfzPSSr/38ep/H8dofL/WbAqpgEPAvX/PwrW/f8kTPf/swjd/y+iEPg5kA0SA8k9CtL9fz9AD9MAkJNI
+        xdSJgVFTKA8BAJYAmayLGrILAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="btnAdd.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
+        CxMBAJqcGAAAAYBJREFUOE9j/P//PwMjIyMDOuAsYt3Jx88jCRL/9PHr8+99v9zR1YD0MoAJLMCmyfRM
+        27Gm/y3HG/47NFmcwqYGrwGOk+xuzrwz6//U29P/u050uk6yATYTTW90Xmn733a56b/dBAvSDbCepH+t
+        +Ur5/4bLxf9tJxhdxesC1hqmDZyN7Fs5G1i3cDezbuGoYN3itdj0Re3ljP/Vl1L+ey+yeM5RzrqZEyjH
+        2QTEzaxbWRuYNsHDQGeu+v/6i4X/ay9m/a+/lPG/6Uba/+rLMf/LLoT8Lz4f+L/sYuj/8quR/wvOhv3P
+        PBnyP+VYyH+l2bJA/dBYMJyv/r/pctr/piuJ/1uux/9vuxH9v+KK9//Sy+7/iy45/6+84vO//mrQ/4pL
+        /v8Lz/n+zznl+191rhTCAIZ6hv/YcMUNm/9lNyyxyoHU441GkILqh1r/qx5qQAzAAggaUPOe4T8Ik23A
+        2t/u/9f+cSffgM5HZv+7n5iRbwBKwOILA1BgkIvJ1gizEACvZ3uBZvX0gQAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="txtBoxInfo.Text" xml:space="preserve">
     <value>Опция "Точное соответствие" применима только к Автору и к Серии Книги.
 Пример: в поле Фамилия Автора задано "Ку" (без кавычек).
