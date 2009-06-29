@@ -227,22 +227,48 @@ namespace StringProcessing
 				Convert.ToString( m_ulDateCount );
 		}
 		
-		public static long GetFileNewNumber( string sFileName ) {
+		public static string RemoveComaBeforeSlash( string sFilePath ){
+			// обработка последней "." перед \
+			string [] sSlash = sFilePath.Split('\\');
+			sFilePath = "";
+			foreach( string sI in sSlash ) {
+				string sNew = "";
+				if( sI.Substring( sI.Length-1, 1  ) == "." ) {
+					sNew = sI.Remove( sI.Length-1, 1  );
+				} else {
+					sNew = sI;
+				}
+				sFilePath += sNew+"\\";
+			}
+			return sFilePath = sFilePath.Remove( sFilePath.Length-1, 1 );
+		}
+		
+		public static long GetFileNewNumber( string sFilePath ) {
 			// номер для нового файла, если уже есть несколько таких же
 			Regex rx = new Regex( @"\\+" );
-			sFileName = rx.Replace( sFileName, "\\" );
+			sFilePath = rx.Replace( sFilePath, "\\" );
+			
+			string [] files = Directory.GetFiles( Path.GetDirectoryName( sFilePath ) );
+			string sFilePathLower = sFilePath.ToLower();
+			
+			// обработка последней "." перед \
+			sFilePathLower = RemoveComaBeforeSlash( sFilePathLower );
 
-			string [] files = Directory.GetFiles( Path.GetDirectoryName( sFileName ) );
-			string sTemp = sFileName.ToLower();
-			if( sTemp.IndexOf( ".fb2" )!=-1 ) {
-				sTemp = sTemp.Substring( 0, sTemp.IndexOf( ".fb2" ) );
+			string sFilePathNotExtLower = "";
+			
+			if( sFilePathLower.IndexOf( ".fb2" )!=-1 ) {
+				sFilePathNotExtLower = sFilePathLower.Substring( 0, sFilePathLower.IndexOf( ".fb2" ) );
 			} else {
-				sTemp = sTemp.Substring( 0, sTemp.IndexOf( Path.GetExtension( sFileName ) ) );
+				sFilePathNotExtLower = sFilePathLower.Substring( 0, sFilePathLower.IndexOf(
+																	Path.GetExtension( sFilePathLower ) ) );
 			}
-			string s = sFileName.Substring( 0, sTemp.Length );
+			string s = sFilePathLower.Substring( 0, sFilePathNotExtLower.Length );
+			s = s.Replace( '.', '_' );
+			
 			long lCount = 0;
 			foreach( string sFile in files ) {
-				if( sFile.IndexOf( s )!=-1) {
+				string sIter = sFile.ToLower().Replace( '.', '_' );
+				if( sIter.IndexOf( s )!=-1) {
 					++lCount;
 				}
 			}
