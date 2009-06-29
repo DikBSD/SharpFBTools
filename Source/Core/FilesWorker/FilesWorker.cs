@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Threading;
+using System.ComponentModel;
 
 namespace FilesWorker
 {
@@ -76,6 +78,32 @@ namespace FilesWorker
 				ssProgress.Refresh();
 				if( bLVRefresh ) {
 					lv.Refresh();
+				}
+			}
+			if( bSort ) {
+				lFilesList.Sort();
+			}
+			return lFilesList;
+		}
+		
+		public static List<string> AllFilesParser( BackgroundWorker bw, DoWorkEventArgs e,
+		                                          List<string> lsDirs, ListView lv,
+		                                          ToolStripProgressBar pBar, bool bSort ) {
+			// список всех файлов - по cписку папок - замена рекурсии
+			pBar.Maximum = lsDirs.Count+1;
+			List<string> lFilesList = new List<string>();
+			foreach( string s in lsDirs ) {
+				// Проверить флаг на остановку процесса 
+        	    if( ( bw.CancellationPending == true ) ) {
+					e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+					break;
+				} else {
+					DirectoryInfo diFolder = new DirectoryInfo( s );
+					foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+						lFilesList.Add( s + "\\" + fiNextFile.Name );
+						lv.Items[1].SubItems[1].Text = lFilesList.Count.ToString();
+					}
+					++pBar.Value;
 				}
 			}
 			if( bSort ) {

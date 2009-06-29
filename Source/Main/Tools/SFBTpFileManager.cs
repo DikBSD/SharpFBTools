@@ -50,6 +50,7 @@ namespace SharpFBTools.Tools
 		private string m_sLineTemplate	= "";
 		private string m_sMessTitle		= "";
         private bool m_bFullSort		= true;
+        private bool m_bScanSubDirs		= true;
 		private List<string> m_lFilesList	= null;
         
         
@@ -91,6 +92,40 @@ namespace SharpFBTools.Tools
 		
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			// сортировка файлов по папкам, согласно шаблонам подстановки
+			m_dtStart = DateTime.Now;
+			List<string> lDirList = new List<string>();
+			if( !m_bScanSubDirs ) {
+				// сканировать только указанную папку
+				lDirList.Add( m_sSource );
+				lvFilesCount.Items[0].SubItems[1].Text = "1";
+			} else {
+				// сканировать и все подпапки
+				tsslblProgress.Text = "Создание списка папок:";
+				lDirList = FilesWorker.FilesWorker.DirsParser( m_sSource, lvFilesCount, false );
+			}
+			
+			// сортированный список всех файлов
+			tsslblProgress.Text = "Создание списка файлов:";
+			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bw, e, lDirList, lvFilesCount, tsProgressBar, false );
+			lDirList.Clear();
+			if( ( m_bw.CancellationPending == true ) )  {
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+				return;
+			}
+			
+			// проверка, есть ли хоть один файл в папке для сканирования
+			if( m_lFilesList.Count == 0 ) {
+				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				tsslblProgress.Text = Settings.Settings.GetReady();
+				SetSelectedSortingStartEnabled( true );
+				return;
+			}
+			
+			// Запуск процесса DoWork от Бекграунд Воркера
+			tsslblProgress.Text		= "Сортировка файлов:";
+			tsProgressBar.Maximum	= m_lFilesList.Count+1;
+			tsProgressBar.Value		= 1;
+			
 			// данные настроек для сортировки по шаблонам
 			Settings.DataFM dfm = new Settings.DataFM();
 			
@@ -100,10 +135,10 @@ namespace SharpFBTools.Tools
 			if( m_bFullSort ) {
 				// Полная Сортировка
 				foreach( string sFromFilePath in m_lFilesList ) {
-					//Проверить флаг на остановку процесса 
-        	        if( ( m_bw.CancellationPending == true ) ) {
-    	                e.Cancel = true; //Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
-	                    break;
+					// Проверить флаг на остановку процесса 
+					if( ( m_bw.CancellationPending == true ) ) {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+						break;
 					} else {
 						// создаем файл по новому пути
 						if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
@@ -126,10 +161,10 @@ namespace SharpFBTools.Tools
 				// Избранная Сортировка
 				string sExt = "";
 				foreach( string sFromFilePath in m_lFilesList ) {
-					//Проверить флаг на остановку процесса 
-        	        if( ( m_bw.CancellationPending == true ) ) {
-    	                e.Cancel = true; //Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
-	                    break;
+					// Проверить флаг на остановку процесса 
+					if( ( m_bw.CancellationPending == true ) ) {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+						break;
 					} else {
 						// создаем файл по новому пути
 						sExt = Path.GetExtension( sFromFilePath ).ToLower();
@@ -1046,6 +1081,11 @@ namespace SharpFBTools.Tools
 		{
 			// Полная сортировка
 			m_bFullSort = true;
+			if( chBoxScanSubDir.Checked ) {
+				m_bScanSubDirs = true;
+			} else {
+				m_bScanSubDirs = false;
+			}
 			m_sSource = tboxSourceDir.Text;
 			m_sTarget = tboxSortAllToDir.Text;
 			m_sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
@@ -1064,39 +1104,10 @@ namespace SharpFBTools.Tools
 			}
 			
 			// инициализация контролов
-			m_dtStart = DateTime.Now;
 			Init();
 			SetFullSortingStartEnabled( false );
-			
-			List<string> lDirList = new List<string>();
-			if( !chBoxScanSubDir.Checked ) {
-				// сканировать только указанную папку
-				lDirList.Add( m_sSource );
-				lvFilesCount.Items[0].SubItems[1].Text = "1";
-			} else {
-				// сканировать и все подпапки
-				tsslblProgress.Text = "Создание списка папок:";
-				lDirList = FilesWorker.FilesWorker.DirsParser( m_sSource, lvFilesCount, false );
-			}
-			
-			// сортированный список всех файлов
-			tsslblProgress.Text = "Создание списка файлов:";
-			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
-			                                                 		tsProgressBar, false, false );
-			lDirList.Clear();
-			
-			// проверка, есть ли хоть один файл в папке для сканирования
-			if( m_lFilesList.Count == 0 ) {
-				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-				tsslblProgress.Text = Settings.Settings.GetReady();
-				SetFullSortingStartEnabled( true );
-				return;
-			}
-			
+		
 			// Запуск процесса DoWork от Бекграунд Воркера
-			tsslblProgress.Text = "Сортировка файлов:";
-			tsProgressBar.Maximum = m_lFilesList.Count+1;
-			tsProgressBar.Value = 1;
 			if( m_bw.IsBusy != true ) {
 				//если не занят то запустить процесс
             	m_bw.RunWorkerAsync();
@@ -1278,6 +1289,11 @@ namespace SharpFBTools.Tools
 		{
 			// Избранная Сортировка
 			m_bFullSort = false;
+			if( chBoxSSScanSubDir.Checked ) {
+				m_bScanSubDirs = true;
+			} else {
+				m_bScanSubDirs = false;
+			}
 			m_sSource = tboxSSSourceDir.Text;
 			m_sTarget = tboxSSToDir.Text;
 			m_sLineTemplate = txtBoxSSTemplatesFromLine.Text.Trim();
@@ -1302,39 +1318,10 @@ namespace SharpFBTools.Tools
 			}
 			
 			// инициализация контролов
-			m_dtStart = DateTime.Now;
 			Init();
 			SetSelectedSortingStartEnabled( false );
-			
-			List<string> lDirList = new List<string>();
-			if( !chBoxSSScanSubDir.Checked ) {
-				// сканировать только указанную папку
-				lDirList.Add( m_sSource );
-				lvFilesCount.Items[0].SubItems[1].Text = "1";
-			} else {
-				// сканировать и все подпапки
-				tsslblProgress.Text = "Создание списка папок:";
-				lDirList = FilesWorker.FilesWorker.DirsParser( m_sSource, lvFilesCount, false );
-			}
-			
-			// сортированный список всех файлов
-			tsslblProgress.Text = "Создание списка файлов:";
-			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
-			                                                 		tsProgressBar, false, false );
-			lDirList.Clear();
-			
-			// проверка, есть ли хоть один файл в папке для сканирования
-			if( m_lFilesList.Count == 0 ) {
-				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-				tsslblProgress.Text = Settings.Settings.GetReady();
-				SetSelectedSortingStartEnabled( true );
-				return;
-			}
-			
+	
 			// Запуск процесса DoWork от Бекграунд Воркера
-			tsslblProgress.Text = "Сортировка файлов:";
-			tsProgressBar.Maximum = m_lFilesList.Count+1;
-			tsProgressBar.Value = 1;
 			if( m_bw.IsBusy != true ) {
 				//если не занят то запустить процесс
             	m_bw.RunWorkerAsync();
