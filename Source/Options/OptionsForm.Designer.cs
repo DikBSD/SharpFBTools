@@ -271,9 +271,9 @@ namespace Options
 			// btnOK
 			// 
 			this.btnOK.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnOK.Location = new System.Drawing.Point(498, 6);
+			this.btnOK.Location = new System.Drawing.Point(511, 6);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(112, 26);
+			this.btnOK.Size = new System.Drawing.Size(99, 26);
 			this.btnOK.TabIndex = 0;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -283,9 +283,9 @@ namespace Options
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnCancel.Location = new System.Drawing.Point(368, 6);
+			this.btnCancel.Location = new System.Drawing.Point(405, 6);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(108, 26);
+			this.btnCancel.Size = new System.Drawing.Size(93, 26);
 			this.btnCancel.TabIndex = 1;
 			this.btnCancel.Text = "Отмена";
 			this.btnCancel.UseVisualStyleBackColor = true;
@@ -307,10 +307,11 @@ namespace Options
 			// 
 			// btnDefRestore
 			// 
+			this.btnDefRestore.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.btnDefRestore.ForeColor = System.Drawing.Color.Navy;
 			this.btnDefRestore.Location = new System.Drawing.Point(8, 6);
 			this.btnDefRestore.Name = "btnDefRestore";
-			this.btnDefRestore.Size = new System.Drawing.Size(336, 26);
+			this.btnDefRestore.Size = new System.Drawing.Size(386, 26);
 			this.btnDefRestore.TabIndex = 2;
 			this.btnDefRestore.Text = "Восстановить по-умолчанию (для каждой вкладки отдельно)";
 			this.btnDefRestore.UseVisualStyleBackColor = true;

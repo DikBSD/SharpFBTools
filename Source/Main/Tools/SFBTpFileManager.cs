@@ -41,6 +41,7 @@ namespace SharpFBTools.Tools
 	/// </summary>
 	public partial class SFBTpFileManager : UserControl
 	{
+		#region Закрытые данные класса
 		private FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
 		private List<SelectedSortQueryCriteria> m_lSSQCList = null; // список критериев поиска для Избранной Сортировки
         private DateTime m_dtStart;
@@ -52,7 +53,7 @@ namespace SharpFBTools.Tools
         private bool m_bFullSort		= true;
         private bool m_bScanSubDirs		= true;
 		private List<string> m_lFilesList	= null;
-        
+        #endregion
         
 		public ListView GetSettingsInfoListView()
 		{
@@ -196,7 +197,7 @@ namespace SharpFBTools.Tools
             FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
             
             string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
-			string sMessCanceled	= "Сортировка основлена!\nЗатрачено времени: "+sTime;
+			string sMessCanceled	= "Сортировка остановлена!\nЗатрачено времени: "+sTime;
 			string sMessError		= "";
 			string sMessDone		= "Сортировка файлов в указанную папку завершена!\nЗатрачено времени: "+sTime;
            

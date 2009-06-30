@@ -138,8 +138,11 @@ namespace SharpFBTools.Tools
             m_lFilesList.Clear();
             FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
             
+            tsslblProgress.Text = Settings.Settings.GetReady();
+			SetArhivingStartEnabled( true );
+			
             string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
-			string sMessCanceled	= "Упаковка fb2-файлов основлена!\nЗатрачено времени: "+sTime;
+			string sMessCanceled	= "Упаковка fb2-файлов остановлена!\nЗатрачено времени: "+sTime;
 			string sMessError		= "";
 			string sMessDone		= "Упаковка fb2-файлов завершена!\nЗатрачено времени: "+sTime;
            
@@ -152,8 +155,6 @@ namespace SharpFBTools.Tools
             	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
 			
-			tsslblProgress.Text = Settings.Settings.GetReady();
-			SetArhivingStartEnabled( true );
             m_bwa.Dispose();
         }
 		
@@ -200,9 +201,12 @@ namespace SharpFBTools.Tools
 			DateTime dtEnd = DateTime.Now;
             m_lFilesList.Clear();
             FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-            
+			
+            tsslblProgress.Text = Settings.Settings.GetReady();
+			SetUnPackingStartEnabled( true );
+			
             string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
-			string sMessCanceled	= "Распаковка архивов в fb2-файлы основлена!\nЗатрачено времени: "+sTime;
+			string sMessCanceled	= "Распаковка архивов в fb2-файлы остановлена!\nЗатрачено времени: "+sTime;
 			string sMessError		= "";
 			string sMessDone		= "";
 			if( m_lUnpackCount > 0 ) {
@@ -220,8 +224,6 @@ namespace SharpFBTools.Tools
             	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
 			
-			tsslblProgress.Text = Settings.Settings.GetReady();
-			SetUnPackingStartEnabled( true );
             m_bwu.Dispose();
 		}
 		
@@ -292,6 +294,9 @@ namespace SharpFBTools.Tools
 			DateTime dtEnd = DateTime.Now;
             m_lFilesList.Clear();
             
+            tsslblProgress.Text = Settings.Settings.GetReady();
+			SetAnalyzingStartEnabled( true );
+			
             string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
 			string sMessCanceled	= "Анализ имеющихся файлов основлен!\nЗатрачено времени: "+sTime;
 			string sMessError		= "";
@@ -305,9 +310,7 @@ namespace SharpFBTools.Tools
             } else {
             	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
-			
-			tsslblProgress.Text = Settings.Settings.GetReady();
-			SetAnalyzingStartEnabled( true );
+
             m_bwt.Dispose();
 		}
 		#endregion
