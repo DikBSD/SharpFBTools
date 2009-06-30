@@ -121,7 +121,6 @@ namespace SharpFBTools.Tools
 				return;
 			}
 			
-			// Запуск процесса DoWork от Бекграунд Воркера
 			tsslblProgress.Text		= "Сортировка файлов:";
 			tsProgressBar.Maximum	= m_lFilesList.Count+1;
 			tsProgressBar.Value		= 1;
