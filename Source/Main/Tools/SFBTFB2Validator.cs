@@ -642,8 +642,8 @@ namespace SharpFBTools.Tools
 	            return;
 			}
 			tsslblProgress.Text = sProgressText;
-			tsProgressBar.Visible = true;
 			tsProgressBar.Maximum = nCount+1;
+			tsProgressBar.Visible = true;
 			tsProgressBar.Value = 1;
 			for( int i=0; i!=nCount; ++i ) {
 				// Проверить флаг на остановку процесса 
@@ -981,26 +981,6 @@ namespace SharpFBTools.Tools
 				// если не занят то запустить процесс
             	m_bwcmd.RunWorkerAsync();
 			}
-/*			switch( tcResult.SelectedIndex ) {
-				case 0:
-					// не валидные fb2-файлы
-					CopyOrMoveFilesTo( true, tboxSourceDir.Text.Trim(), tboxFB2NotValidDirCopyTo.Text.Trim(),
-		                       listViewNotValid, tpNotValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
-		                       "Копирование не валидных fb2-файлов:", m_sNotValid );
-					break;
-				case 1:
-					// валидные fb2-файлы
-					CopyOrMoveFilesTo( true, tboxSourceDir.Text.Trim(), tboxFB2ValidDirCopyTo.Text.Trim(),
-		                       listViewValid, tpValid, "валидных fb2-файлов", "валидные fb2-файлы",
-		                       "Копирование валидных fb2-файлов:", m_sValid );
-					break;
-				case 2:
-					// не fb2-файлы
-					CopyOrMoveFilesTo( true, tboxSourceDir.Text.Trim(), tboxNotFB2DirCopyTo.Text.Trim(),
-		                       listViewNotFB2, tpNotFB2Files, "не fb2-файлов", "не fb2-файлы",
-		                       "Копирование не fb2-файлов:", m_sNotFB2Files );
-					break;
-			}*/
 		}
 		
 		void TsbtnMoveFilesToClick(object sender, EventArgs e)
@@ -1015,26 +995,6 @@ namespace SharpFBTools.Tools
 				// если не занят то запустить процесс
             	m_bwcmd.RunWorkerAsync();
 			}
-/*			switch( tcResult.SelectedIndex ) {
-				case 0:
-					// не валидные fb2-файлы
-					CopyOrMoveFilesTo( false, tboxSourceDir.Text.Trim(), tboxFB2NotValidDirMoveTo.Text.Trim(),
-		                       listViewNotValid, tpNotValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
-		                       "Перемещение не валидных fb2-файлов:", m_sNotValid );
-					break;
-				case 1:
-					// валидные fb2-файлы
-					CopyOrMoveFilesTo( false, tboxSourceDir.Text.Trim(), tboxFB2ValidDirMoveTo.Text.Trim(),
-		                       listViewValid, tpValid, "валидных fb2-файлов", "валидные fb2-файлы",
-		                       "Перемещение валидных fb2-файлов:", m_sValid );
-					break;
-				case 2:
-					// не fb2-файлы
-					CopyOrMoveFilesTo( false, tboxSourceDir.Text.Trim(), tboxNotFB2DirMoveTo.Text.Trim(),
-		                       listViewNotFB2, tpNotFB2Files, "не fb2-файлов", "не fb2-файлы",
-		                       "Перемещение не fb2-файлов:", m_sNotFB2Files );
-					break;
-			}*/
 		}
 		
 		void TsbtnDeleteFilesClick(object sender, EventArgs e)
@@ -1049,23 +1009,6 @@ namespace SharpFBTools.Tools
 				// если не занят то запустить процесс
             	m_bwcmd.RunWorkerAsync();
 			}
-/*			switch( tcResult.SelectedIndex ) {
-				case 0:
-					// не валидные fb2-файлы
-					DeleteFiles( listViewNotValid, tpNotValid, "не валидных fb2-файлов", "не валидные fb2-файлы",
-		                       "Удаление не валидных fb2-файлов:", m_sNotValid );
-					break;
-				case 1:
-					// валидные fb2-файлы
-					DeleteFiles( listViewValid, tpValid, "валидных fb2-файлов", "валидные fb2-файлы",
-		                       "Удаление валидных fb2-файлов:", m_sValid );
-					break;
-				case 2:
-					// не fb2-файлы
-					DeleteFiles( listViewNotFB2, tpNotFB2Files, "не fb2-файлов", "не fb2-файлы",
-		                       "Удаление не fb2-файлов:", m_sNotFB2Files );
-					break;
-			}*/
 		}
 		
 		void TsmiReportAsHTMLClick(object sender, EventArgs e)
