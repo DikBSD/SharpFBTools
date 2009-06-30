@@ -110,7 +110,7 @@ namespace SharpFBTools.Tools
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwa, e, lDirList, lvGeneralCount, tsProgressBar, false );
 			lDirList.Clear();
 			if( ( m_bwa.CancellationPending == true ) )  {
-				e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
 				return;
 			}
 			
@@ -159,6 +159,7 @@ namespace SharpFBTools.Tools
 		
 		private void bwu_DoWork( object sender, DoWorkEventArgs e ) {
 			// распаковка архивов в файлы
+			m_dtStart = DateTime.Now;
 			// сортированный список всех вложенных папок
 			List<string> lDirList = new List<string>();
 			if( !cboxScanSubDirToUnArchive.Checked ) {
@@ -176,7 +177,7 @@ namespace SharpFBTools.Tools
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwu, e, lDirList, lvGeneralCount, tsProgressBar, false );
 			lDirList.Clear();
 			if( ( m_bwu.CancellationPending == true ) )  {
-				e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwu_RunWorkerCompleted
 				return;
 			}
 			
@@ -226,6 +227,7 @@ namespace SharpFBTools.Tools
 		
 		private void bwt_DoWork( object sender, DoWorkEventArgs e ) {
 			// Анализ файлов в папке на определение числа и типа архивов
+			m_dtStart = DateTime.Now;
 			// сортированный список всех вложенных папок
 			List<string> lDirList = new List<string>();
 			if( !cboxScanSubDirToUnArchive.Checked ) {
@@ -243,7 +245,7 @@ namespace SharpFBTools.Tools
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwt, e, lDirList, lvGeneralCount, tsProgressBar, false );
 			lDirList.Clear();
 			if( ( m_bwt.CancellationPending == true ) )  {
-				e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwt_RunWorkerCompleted
 				return;
 			}
 			
@@ -411,7 +413,7 @@ namespace SharpFBTools.Tools
 		private bool IsArchivatorsPathCorrectForArchive( string s7zPath, string sRarPath ) {
 			// проверка на наличие архиваторов и корректность путей к ним
 			if( cboxArchiveType.SelectedIndex==0 && sRarPath.Length==0 ) {
-				MessageBox.Show( "Не указана папка с установленным консольным Rar-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+				MessageBox.Show( "В Настройках не указана папка с установленным консольным Rar-архиватором!\nРабота остановлена!",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
@@ -424,35 +426,12 @@ namespace SharpFBTools.Tools
 				}
 			} else {
 				if( !File.Exists( s7zPath ) ) {
-					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена.",
+					MessageBox.Show( "Не найден файл консольного Zip-архиватора 7z(a).exe \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена.",
 					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return false;
 				}
 			}
-			return true;
-		}
-		
-		private bool IsArchivatorsPathCorrectForUnArchive( string s7zPath, string sUnRarPath ) {
-			// проверка на наличие архиваторов и корректность путей к ним
-			if( s7zPath.Trim().Length == 0 ) {
-				MessageBox.Show( "В Настройках не указана папка с установленным консольным 7z(a).exe!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return false;
-			}
-			if( sUnRarPath.Trim().Length == 0 ) {
-				MessageBox.Show( "В Настройках не указана папка с установленным консольным UnRar.exe!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return false;
-			}
 			
-			if( !File.Exists( s7zPath ) ) {
-				MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена.",
-				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return false;
-			}
-			if( !File.Exists( sUnRarPath ) ) {
-				MessageBox.Show( "Не найден файл консольного UnRar-распаковщика \""+sUnRarPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
-				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return false;
-			}
 			return true;
 		}
 		
@@ -957,7 +936,8 @@ namespace SharpFBTools.Tools
 			// читаем путь к UnRar и к 7z из настроек
 			m_s7zPath		= Settings.Settings.Read7zaPath().Trim();
 			m_sUnRarPath	= Settings.Settings.ReadUnRarPath().Trim();
-			if( !IsArchivatorsPathCorrectForUnArchive( m_s7zPath, m_sUnRarPath ) ) {
+			// проверка на наличие архиваторов и корректность путей к ним
+			if( !FilesWorker.Archiver.IsArchivatorsPathCorrectForUnArchive( m_s7zPath, m_sUnRarPath, m_sMessTitle ) ) {
 				return;
 			}
 

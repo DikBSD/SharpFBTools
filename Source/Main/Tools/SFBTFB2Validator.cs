@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Threading;
 
 using Settings;
 using FB2.FB2Parsers;
@@ -29,10 +30,20 @@ namespace SharpFBTools.Tools
 	/// </summary>
 	public partial class SFBTpFB2Validator : UserControl
 	{
+		#region Закрытые данные класса
+		private string m_s7zPath	= Settings.Settings.Read7zaPath().Trim();
+		private string m_sUnRarPath	= Settings.Settings.ReadUnRarPath().Trim();
+		private DateTime m_dtStart;
+        private BackgroundWorker m_bwv	= null;
+        private string m_sMessTitle		= "";
+        private string m_sScan			= "";
+        private List<string> m_lFilesList	= null;
+		#endregion
 		public SFBTpFB2Validator()
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
+			InitializeValidateBackgroundWorker();
 			cboxExistFile.SelectedIndex = 1;
 			// инициализация контролов
 			Init();
@@ -77,6 +88,127 @@ namespace SharpFBTools.Tools
 		private string	m_TXTFilter 	= "TXT файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
 		#endregion
 		
+		#region Закрытые методы реализации BackgroundWorker
+		private void InitializeValidateBackgroundWorker() {
+			// Инициализация перед использование BackgroundWorker Валидации
+            m_bwv = new BackgroundWorker();
+            //m_bwv.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
+            m_bwv.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
+            m_bwv.DoWork += new DoWorkEventHandler( bwv_DoWork );
+            m_bwv.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bwv_RunWorkerCompleted );
+		}
+		
+		private void bwv_DoWork( object sender, DoWorkEventArgs e ) {
+			// Валидация
+			m_dtStart = DateTime.Now;
+			// сортированный список всех вложенных папок
+			List<string> lDirList = new List<string>();
+			if( !cboxScanSubDir.Checked ) {
+				// сканировать только указанную папку
+				lDirList.Add( m_sScan );
+				lvFilesCount.Items[0].SubItems[1].Text = "1";
+			} else {
+				// сканировать и все подпапки
+				tsslblProgress.Text = "Создание списка папок:";
+				lDirList = FilesWorker.FilesWorker.DirsParser( m_sScan, lvFilesCount, false );
+			}
+			
+			// сортированный список всех файлов
+			tsslblProgress.Text = "Создание списка файлов:";
+			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwv, e, lDirList, lvFilesCount, tsProgressBar, false );
+			lDirList.Clear();
+			if( ( m_bwv.CancellationPending == true ) )  {
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwv_RunWorkerCompleted
+				return;
+			}
+			
+			// проверка, есть ли хоть один файл в папке для сканирования
+			if( m_lFilesList.Count == 0 ) {
+				MessageBox.Show( "В указанной папке не найдено ни одного файла!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				Init();
+				return;
+			}
+			
+			// проверка файлов
+			tsslblProgress.Text = "Проверка найденных файлов на валидность:";
+			tsProgressBar.Maximum = m_lFilesList.Count+1;
+			tsProgressBar.Value = 1;
+
+			FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
+			string sTempDir = Settings.Settings.GetTempDir();
+			listViewNotValid.BeginUpdate();
+			listViewValid.BeginUpdate();
+			listViewNotFB2.BeginUpdate();
+			string sExt = "";
+			foreach( string sFile in m_lFilesList ) {
+				// Проверить флаг на остановку процесса 
+				if( ( m_bwv.CancellationPending == true ) ) {
+					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwv_RunWorkerCompleted
+					break;
+				} else {
+					sExt = Path.GetExtension( sFile );
+					if( sExt.ToLower() == ".fb2" ) {
+						++this.m_lFB2Files;
+						ParseFB2File( sFile, fv2V );
+					} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
+						// очистка временной папки
+						FilesWorker.FilesWorker.RemoveDir( sTempDir );
+						Directory.CreateDirectory( sTempDir );
+						ParseArchiveFile( sFile, fv2V, sTempDir );
+					} else {
+						// разные файлы
+						++this.m_lNotFB2Files;
+						ListViewItem item = new ListViewItem( sFile, 0 );
+	   					item.ForeColor = m_NotFB2FontColor;
+						item.SubItems.Add( Path.GetExtension( sFile ) );
+   						FileInfo fi = new FileInfo( sFile );
+   						item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
+						tpNotFB2Files.Text = m_sNotFB2Files + "( " + m_lNotFB2Files.ToString() + " ) " ;
+						++tsProgressBar.Value;
+					}
+				}
+			}
+
+		}
+		
+		private void bwv_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
+            // Проверяем это отмена, ошибка, или конец задачи и сообщить
+            lvFilesCount.Items[2].SubItems[1].Text = m_lFB2Files.ToString();
+			lvFilesCount.Items[3].SubItems[1].Text = m_lFB2ZipFiles.ToString();
+			lvFilesCount.Items[4].SubItems[1].Text = m_lFB2RarFiles.ToString();
+			lvFilesCount.Items[5].SubItems[1].Text = m_lNotFB2Files.ToString();
+			
+			listViewNotValid.EndUpdate();
+			listViewValid.EndUpdate();
+			listViewNotFB2.EndUpdate();
+			
+            DateTime dtEnd = DateTime.Now;
+            m_lFilesList.Clear();
+            FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+            
+            string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sMessCanceled	= "Проверка файлов на соответствие FictionBook.xsd схеме  основлена!\nЗатрачено времени: "+sTime;
+			string sMessError		= "";
+			string sMessDone		= "Проверка файлов на соответствие FictionBook.xsd схеме завершена!\nЗатрачено времени: "+sTime;
+           
+			if( ( e.Cancelled == true ) ) {
+                MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            } else if( e.Error != null ) {
+                sMessError = "Error!\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
+            	MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            } else {
+            	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            }
+			
+			tsslblProgress.Text = Settings.Settings.GetReady();
+
+			SetValidingStartEnabled( true );
+            m_bwv.Dispose();
+
+		}
+		#endregion
+		
 		#region Закрытые вспомогательные методы класса
 		private void Init() {
 			// инициализация контролов и переменных
@@ -96,6 +228,21 @@ namespace SharpFBTools.Tools
 			m_lFB2Valid	= m_lFB2NotValid = m_lFB2Files = m_lFB2ZipFiles = m_lFB2RarFiles = m_lNotFB2Files = 0;
 			// очистка временной папки
 			FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+		}
+		
+		private void SetValidingStartEnabled( bool bEnabled ) {
+			// доступность контролов при Валидации
+			tcResult.Enabled			= bEnabled;
+			tSBValidate.Enabled			= bEnabled;
+			tsbtnCopyFilesTo.Enabled	= bEnabled;
+			tsbtnMoveFilesTo.Enabled	= bEnabled;
+			tsbtnDeleteFiles.Enabled	= bEnabled;
+			tsddbtnMakeFileList.Enabled	= bEnabled;
+			tsddbtnMakeReport.Enabled	= bEnabled;
+			tSBValidateStop.Enabled		= !bEnabled;
+			tsProgressBar.Visible		= !bEnabled;
+			tcResult.Refresh();
+			ssProgress.Refresh();
 		}
 		
 		private ListView GetCurrentListWiew()
@@ -190,9 +337,9 @@ namespace SharpFBTools.Tools
 			//TODO: заменить все unrar на unzip
 			string sExt = Path.GetExtension( sArchiveFile );
 			if( sExt.ToLower() == ".zip" ) {
-				FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sArchiveFile, sTempDir );
+				FilesWorker.Archiver.unzip( m_s7zPath, sArchiveFile, sTempDir );
 			} else if( sExt.ToLower() == ".rar" ) {
-				FilesWorker.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sArchiveFile, sTempDir );
+				FilesWorker.Archiver.unrar( m_sUnRarPath, sArchiveFile, sTempDir );
 			}
 			string [] files = Directory.GetFiles( sTempDir );
 			if( files.Length <= 0 ) return;
@@ -625,122 +772,39 @@ namespace SharpFBTools.Tools
 		void TSBValidateClick(object sender, EventArgs e)
 		{
 			// Ввлидация fb2-файлов в выбранной папке
-			tlCentral.Refresh(); // обновление контролов на форме
 			// проверка на наличие архиваторов
-			string s7zPath	= Settings.Settings.Read7zaPath();
-			string sRarPath	= Settings.Settings.ReadRarPath();
-			if( sRarPath.Trim().Length==0 ) {
-				MessageBox.Show( "В Настройках не указана папка с установленным консольным Rar-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			} else {
-				// проверка на наличие архиваторов
-				if( !File.Exists( sRarPath ) ) {
-					MessageBox.Show( "При этом не найден файл консольного Rar-архиватора "+sRarPath+"!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-					return;
-				}
-			}
-			if( s7zPath.Trim().Length==0 ) {
-				MessageBox.Show( "В Настройках не указана папка с установленным консольным 7Zip-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			} else {
-				if( !File.Exists( s7zPath ) ) {
-					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-					return;
-				}
-			}
+			m_s7zPath		= Settings.Settings.Read7zaPath().Trim();
+			m_sUnRarPath	= Settings.Settings.ReadUnRarPath().Trim();
+			m_sMessTitle	= "SharpFBTools - Валидация";
+			m_sScan			= tboxSourceDir.Text.Trim();			
+			
 			// проверки задания папки сканирования
-			string sSource = tboxSourceDir.Text.Trim();
-			if( sSource == "" ) {
-				MessageBox.Show( "Выберите папку для сканирования!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			if( m_sScan.Length == 0 ) {
+				MessageBox.Show( "Выберите папку для сканирования!",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( sSource );
+			DirectoryInfo diFolder = new DirectoryInfo( m_sScan );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена: " + sSource, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка для сканирования не найдена: " + m_sScan,
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 			
-			DateTime dtStart = DateTime.Now;
+			// проверка на наличие архиваторов и корректность путей к ним
+			if( !FilesWorker.Archiver.IsArchivatorsPathCorrectForUnArchive( m_s7zPath, m_sUnRarPath, m_sMessTitle ) ) {
+				return;
+			}
+
 			// инициализация контролов
 			Init();
-			tsProgressBar.Visible = true;
-			// сортированный список всех вложенных папок
-			List<string> lDirList = new List<string>();
-			if( !cboxScanSubDir.Checked ) {
-				// сканировать только указанную папку
-				lDirList.Add( diFolder.FullName );
-				lvFilesCount.Items[0].SubItems[1].Text = "1";
-				lvFilesCount.Refresh();
-			} else {
-				// сканировать и все подпапки
-				tsslblProgress.Text = "Создание списка папок:";
-				lDirList = FilesWorker.FilesWorker.DirsParser( diFolder.FullName, lvFilesCount, false );
-				lvFilesCount.Refresh();
+			SetValidingStartEnabled( false );
+			
+			// Запуск процесса DoWork от Бекграунд Воркера
+			if( m_bwv.IsBusy != true ) {
+				// если не занят то запустить процесс
+            	m_bwv.RunWorkerAsync();
 			}
-			// сортированный список всех файлов
-			tsslblProgress.Text = "Создание списка файлов:";
-			ssProgress.Refresh();
-			tlCentral.Refresh(); // обновление контролов на форме
-			List<string> lFilesList = FilesWorker.FilesWorker.AllFilesParser( lDirList, ssProgress, lvFilesCount,
-			                                                                 tsProgressBar, true, false );
-			lvFilesCount.Refresh();
-			
-			if( lFilesList.Count == 0 ) {
-				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				Init();
-				return;
-			}
-			
-			// проверка файлов
-			tsslblProgress.Text = "Проверка найденных файлов на соответствие схеме (валидация):";
-			tsProgressBar.Maximum = lFilesList.Count+1;
-			tsProgressBar.Value = 1;
-			ssProgress.Refresh();
-			tlCentral.Refresh(); // обновление контролов на форме
-			FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
-			string sTempDir = Settings.Settings.GetTempDir();
-			listViewNotValid.BeginUpdate();
-			listViewValid.BeginUpdate();
-			listViewNotFB2.BeginUpdate();
-			foreach( string sFile in lFilesList ) {
-				string sExt = Path.GetExtension( sFile );
-				if( sExt.ToLower() == ".fb2" ) {
-					++this.m_lFB2Files;
-					ParseFB2File( sFile, fv2V );
-				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
-					// очистка временной папки
-					FilesWorker.FilesWorker.RemoveDir( sTempDir );
-					Directory.CreateDirectory( sTempDir );
-					ParseArchiveFile( sFile, fv2V, sTempDir );
-				} else {
-					// разные файлы
-					++this.m_lNotFB2Files;
-					ListViewItem item = new ListViewItem( sFile, 0 );
-   					item.ForeColor = m_NotFB2FontColor;
-					item.SubItems.Add( Path.GetExtension( sFile ) );
-   					FileInfo fi = new FileInfo( sFile );
-   					item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
-					listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
-					tpNotFB2Files.Text = m_sNotFB2Files + "( " + m_lNotFB2Files.ToString() + " ) " ;
-					++tsProgressBar.Value;
-				}
-			}
-			lvFilesCount.Items[2].SubItems[1].Text = m_lFB2Files.ToString();
-			lvFilesCount.Items[3].SubItems[1].Text = m_lFB2ZipFiles.ToString();
-			lvFilesCount.Items[4].SubItems[1].Text = m_lFB2RarFiles.ToString();
-			lvFilesCount.Items[5].SubItems[1].Text = m_lNotFB2Files.ToString();
-			
-			listViewNotValid.EndUpdate();
-			listViewValid.EndUpdate();
-			listViewNotFB2.EndUpdate();
-			
-			DateTime dtEnd = DateTime.Now;
-			string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
-			MessageBox.Show( "Проверка файлов на соответствие FictionBook.xsd схеме завершена!\nЗатрачено времени: "+sTime, "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
-			tsslblProgress.Text = Settings.Settings.GetReady();
-			tsProgressBar.Visible = false;
-			// очистка временной папки
-			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 		}
 		
 		void TsbtnCopyFilesToClick(object sender, EventArgs e)
@@ -1255,6 +1319,14 @@ namespace SharpFBTools.Tools
 		void TboxNotFB2DirMoveToTextChanged(object sender, EventArgs e)
 		{
 			Settings.SettingsValidator.NotFB2DirMoveTo = tboxNotFB2DirMoveTo.Text;
+		}
+		
+		void TSBValidateStopClick(object sender, EventArgs e)
+		{
+			// Остановка выполнения процесса Валидации
+			if( m_bwv.WorkerSupportsCancellation == true ) {
+				m_bwv.CancelAsync();
+			}
 		}
 		#endregion
 	}

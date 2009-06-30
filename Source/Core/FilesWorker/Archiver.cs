@@ -10,6 +10,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Windows.Forms;
 
 using System.Collections.Generic;
 
@@ -118,6 +119,33 @@ namespace FilesWorker
 			s += " \"" + sFB2RarFilePath + "\""; // файл-архив .fb2.rar
 			s += " \"" + sFilePath + "\""; // Файл который нужно запаковать
 			return Microsoft.VisualBasic.Interaction.Shell(s, Microsoft.VisualBasic.AppWinStyle.Hide, true, -1);
+		}
+		
+		public static bool IsArchivatorsPathCorrectForUnArchive( string s7zPath, string sUnRarPath, string sMessTitle ) {
+			// проверка на наличие архиваторов и корректность путей к ним
+			if( s7zPath.Trim().Length == 0 ) {
+				MessageBox.Show( "В Настройках не указана папка с установленным консольным 7z(a).exe!",
+				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			if( sUnRarPath.Trim().Length == 0 ) {
+				MessageBox.Show( "В Настройках не указана папка с установленным консольным UnRar.exe!",
+				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			
+			if( !File.Exists( s7zPath ) ) {
+				MessageBox.Show( "Не найден файл консольного Zip-архиватора 7z(a).exe \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена.",
+				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			if( !File.Exists( sUnRarPath ) ) {
+				MessageBox.Show( "Не найден файл консольного UnRar-распаковщика \""+sUnRarPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			
+			return true;
 		}
 	}
 }

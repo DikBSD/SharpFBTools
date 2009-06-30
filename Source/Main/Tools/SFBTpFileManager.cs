@@ -136,7 +136,7 @@ namespace SharpFBTools.Tools
 				foreach( string sFromFilePath in m_lFilesList ) {
 					// Проверить флаг на остановку процесса 
 					if( ( m_bw.CancellationPending == true ) ) {
-						e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						break;
 					} else {
 						// создаем файл по новому пути
@@ -180,6 +180,7 @@ namespace SharpFBTools.Tools
 										MakeFileForSelectedSortingWorker( sFB2FromArchPath, m_sSource, m_sTarget, lSLexems, dfm );
 									}
 								}
+								FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 							}
 						}
 					}
@@ -545,6 +546,7 @@ namespace SharpFBTools.Tools
 						                               sSource, sTarget, lSLexems, dfm, true );
 						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
+					FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 				}  else {
 					// пропускаем не fb2-файлы и архивы
 					IncStatus( 10 ); // другие файлы
@@ -582,6 +584,7 @@ namespace SharpFBTools.Tools
 						                                 sSource, sTarget, lSLexems, dfm, true ) ;
 						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
+					FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 				}  else {
 					// пропускаем не fb2-файлы и архивы
 					IncStatus( 10 ); // другие файлы
@@ -625,6 +628,7 @@ namespace SharpFBTools.Tools
 						                                 sSource, sTarget, lSLexems, dfm, true );
 						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
+					FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 				} else {
 					// пропускаем не fb2-файлы и архивы
 					IncStatus( 10 ); // другие файлы
@@ -668,6 +672,7 @@ namespace SharpFBTools.Tools
 						                                   sSource, sTarget, lSLexems, dfm, true );
 						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
+					FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 				}  else {
 					// пропускаем не fb2-файлы и архивы
 					IncStatus( 10 ); // другие файлы

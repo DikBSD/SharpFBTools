@@ -38,22 +38,22 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .zip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .rar-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
@@ -153,6 +153,7 @@ namespace SharpFBTools.Tools
 			this.tsmi4 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenArchiveDir = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiFileDeleteFromDisk = new System.Windows.Forms.ToolStripMenuItem();
+			this.tSBValidateStop = new System.Windows.Forms.ToolStripButton();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.tcResult.SuspendLayout();
@@ -182,6 +183,7 @@ namespace SharpFBTools.Tools
 									this.tsbtnOpenDir,
 									this.tsSep1,
 									this.tSBValidate,
+									this.tSBValidateStop,
 									this.tsSep2,
 									this.tsbtnCopyFilesTo,
 									this.tsbtnMoveFilesTo,
@@ -275,7 +277,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiMakeNotValidFileList.Image = ((System.Drawing.Image)(resources.GetObject("tsmiMakeNotValidFileList.Image")));
 			this.tsmiMakeNotValidFileList.Name = "tsmiMakeNotValidFileList";
-			this.tsmiMakeNotValidFileList.Size = new System.Drawing.Size(288, 22);
+			this.tsmiMakeNotValidFileList.Size = new System.Drawing.Size(296, 30);
 			this.tsmiMakeNotValidFileList.Text = "Сохранить список Не валидных файлов";
 			this.tsmiMakeNotValidFileList.Click += new System.EventHandler(this.TsmiMakeNotValidFileListClick);
 			// 
@@ -283,7 +285,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiMakeValidFileList.Image = ((System.Drawing.Image)(resources.GetObject("tsmiMakeValidFileList.Image")));
 			this.tsmiMakeValidFileList.Name = "tsmiMakeValidFileList";
-			this.tsmiMakeValidFileList.Size = new System.Drawing.Size(288, 22);
+			this.tsmiMakeValidFileList.Size = new System.Drawing.Size(296, 30);
 			this.tsmiMakeValidFileList.Text = "Сохранить список Валидных файлов";
 			this.tsmiMakeValidFileList.Click += new System.EventHandler(this.TsmiMakeValidFileListClick);
 			// 
@@ -983,12 +985,12 @@ namespace SharpFBTools.Tools
 			this.lvFilesCount.FullRowSelect = true;
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4,
-									listViewItem5,
-									listViewItem6});
+									listViewItem7,
+									listViewItem8,
+									listViewItem9,
+									listViewItem10,
+									listViewItem11,
+									listViewItem12});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(223, 116);
@@ -1128,6 +1130,17 @@ namespace SharpFBTools.Tools
 			this.tsmiFileDeleteFromDisk.Text = "Удалить упакованный файл с диска";
 			this.tsmiFileDeleteFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
+			// tSBValidateStop
+			// 
+			this.tSBValidateStop.AutoToolTip = false;
+			this.tSBValidateStop.Enabled = false;
+			this.tSBValidateStop.Image = ((System.Drawing.Image)(resources.GetObject("tSBValidateStop.Image")));
+			this.tSBValidateStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tSBValidateStop.Name = "tSBValidateStop";
+			this.tSBValidateStop.Size = new System.Drawing.Size(96, 28);
+			this.tSBValidateStop.Text = "Остановить";
+			this.tSBValidateStop.Click += new System.EventHandler(this.TSBValidateStopClick);
+			// 
 			// SFBTpFB2Validator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1171,6 +1184,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripButton tSBValidateStop;
 		private System.Windows.Forms.CheckBox chBoxAddBookID;
 		private System.Windows.Forms.FolderBrowserDialog fbdDir;
 		private System.Windows.Forms.CheckBox cboxScanSubDir;
