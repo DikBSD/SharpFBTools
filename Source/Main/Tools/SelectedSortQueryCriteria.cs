@@ -23,6 +23,7 @@ namespace SharpFBTools.Tools
 		private string	m_Nick		= "";
 		private string	m_GenresGroup	= "";
 		private string	m_Genre			= "";
+		private string	m_BookTitle		= "";
 		private string	m_Sequence		= "";
 		private bool	m_ExactFit		= true;
 		#endregion
@@ -32,7 +33,7 @@ namespace SharpFBTools.Tools
 		}
 		public SelectedSortQueryCriteria( string sLang, string sGenresGroup, string sGenre, 
 		                                 string sLast, string sFirst, string sMiddle, string sNick,
-		                                 string sSequence, bool bExactFit )
+		                                 string sSequence, string sBookTitle, bool bExactFit )
 		{
 			m_Lang		= sLang;
 			m_Last		= sLast;
@@ -42,6 +43,7 @@ namespace SharpFBTools.Tools
 			m_GenresGroup	= sGenresGroup;
 			m_Genre			= sGenre;
 			m_Sequence		= sSequence;
+			m_BookTitle		= sBookTitle;
 			m_ExactFit		= bExactFit;
 		}
 		
@@ -77,6 +79,10 @@ namespace SharpFBTools.Tools
 		public virtual string Sequence {
 			get { return m_Sequence; }
 			set { m_Sequence = value; }
+        }
+		public virtual string BookTitle {
+			get { return m_BookTitle; }
+			set { m_BookTitle = value; }
         }
 		public virtual bool ExactFit {
 			get { return m_ExactFit; }

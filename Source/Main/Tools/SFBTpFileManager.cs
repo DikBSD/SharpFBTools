@@ -894,10 +894,11 @@ namespace SharpFBTools.Tools
 			}
 			bool bRet = true; // флаг, нашли ли соответствие
 			string			sFB2Lang		= ti.Lang;
+			BookTitle		sFB2BookTitle	= ti.BookTitle;
 			IList<Genre>	lFB2Genres		= ti.Genres;
 			IList<Author>	lFB2Authors		= ti.Authors;
 			IList<Sequence>	lFB2Sequences	= ti.Sequences;
-			string sLang, sFirstName, sGenre, sMiddleName, sLastName, sNickName, sSequence;
+			string sLang, sFirstName, sGenre, sMiddleName, sLastName, sNickName, sSequence, sBookTitle;
 			bool bExactFit;
 			Regex re = null;
 			foreach( SelectedSortQueryCriteria ssqc in m_lSSQCList ) {
@@ -908,6 +909,7 @@ namespace SharpFBTools.Tools
 				sLastName	= ssqc.LastName;
 				sNickName	= ssqc.NickName;
 				sSequence	= ssqc.Sequence;
+				sBookTitle	= ssqc.BookTitle;
 				bExactFit	= ssqc.ExactFit;
 				// проверка языка книги
 				if( sFB2Lang != null ) {
@@ -1075,11 +1077,35 @@ namespace SharpFBTools.Tools
 					if( sFirstName.Length != 0 || sMiddleName.Length != 0 ||
 					  	sNickName.Length != 0 || sNickName.Length != 0 ) continue;
 				}
+				// проверка названия книги				
+				if( sFB2BookTitle != null ) {
+					if( sFB2BookTitle.Value != null ) {
+						if( bExactFit ) {
+							// точное соответствие
+							if( sFB2BookTitle.Value != sBookTitle ) {
+								bRet = false; continue;
+							}
+						} else {
+							re = new Regex( sBookTitle, RegexOptions.IgnoreCase );
+							if( !re.IsMatch( sFB2BookTitle.Value ) ) {
+								bRet = false; continue;
+							}
+						}
+					} else {
+						// пустой тэг <book-title>
+						bRet = false; continue;
+					}
+				} else {
+					// в книге тега названия нет
+					if( sBookTitle.Length != 0 ) {
+						bRet = false; continue;
+					}
+				}
+				
 				bRet = true; break;
 			}
 			return bRet;
 		}
-		
 		#endregion
 		
 		#region Обработчики событий
@@ -1190,8 +1216,10 @@ namespace SharpFBTools.Tools
 								lvi.SubItems.Add( lvSSData.Items[i].SubItems[6].Text );
 								lvi.SubItems.Add( lvSSData.Items[i].SubItems[7].Text );
 								lvi.SubItems.Add( lvSSData.Items[i].SubItems[8].Text );
+								lvi.SubItems.Add( lvSSData.Items[i].SubItems[9].Text );
 					ssdfrm.lvSSData.Items.Add( lvi );
 				}
+				ssdfrm.lblCount.Text = Convert.ToString( lvSSData.Items.Count );
 			}
 
 			ssdfrm.ShowDialog();
@@ -1204,7 +1232,7 @@ namespace SharpFBTools.Tools
 						lvSSData.Items.Clear();
 					}
 					m_lSSQCList = new List<SelectedSortQueryCriteria>();
-					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sExactFit;
+					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit;
 					for( int i=0; i!=ssdfrm.lvSSData.Items.Count; ++i ) {
 						sLang	= ssdfrm.lvSSData.Items[i].Text;
 						sGGroup	= ssdfrm.lvSSData.Items[i].SubItems[1].Text;
@@ -1214,7 +1242,8 @@ namespace SharpFBTools.Tools
 						sMiddle	= ssdfrm.lvSSData.Items[i].SubItems[5].Text;
 						sNick	= ssdfrm.lvSSData.Items[i].SubItems[6].Text;
 						sSequence	= ssdfrm.lvSSData.Items[i].SubItems[7].Text;
-						sExactFit	= ssdfrm.lvSSData.Items[i].SubItems[8].Text;
+						sBTitle		= ssdfrm.lvSSData.Items[i].SubItems[8].Text;
+						sExactFit	= ssdfrm.lvSSData.Items[i].SubItems[9].Text;
 						ListViewItem lvi = new ListViewItem( sLang );
 									lvi.SubItems.Add( sGGroup );
 									lvi.SubItems.Add( sGenre );
@@ -1223,6 +1252,7 @@ namespace SharpFBTools.Tools
 									lvi.SubItems.Add( sMiddle );
 									lvi.SubItems.Add( sNick );
 									lvi.SubItems.Add( sSequence );
+									lvi.SubItems.Add( sBTitle );
 									lvi.SubItems.Add( sExactFit );
 						// добавление записи в список
 						lvSSData.Items.Add( lvi );
@@ -1251,11 +1281,11 @@ namespace SharpFBTools.Tools
 						// формируем список критериев поиска в зависимости от наличия Групп Жанров
 						if( lsGenres==null ) {
 							m_lSSQCList.Add( new SelectedSortQueryCriteria(
-								sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sExactFit=="Да"?true:false ) );
+								sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
 						} else {
 							foreach( string sG in lsGenres ) {
 								m_lSSQCList.Add( new SelectedSortQueryCriteria(
-										sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence,sExactFit=="Да"?true:false ) );
+										sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
 							}
 						}
 					}

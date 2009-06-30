@@ -251,6 +251,7 @@ namespace SharpFBTools.Tools
 			this.cHeaderMiddle = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderNick = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderSequence = new System.Windows.Forms.ColumnHeader();
+			this.cHeaderBookTitle = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderExactFit = new System.Windows.Forms.ColumnHeader();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnSSGetData = new System.Windows.Forms.Button();
@@ -577,6 +578,7 @@ namespace SharpFBTools.Tools
 									this.cHeaderMiddle,
 									this.cHeaderNick,
 									this.cHeaderSequence,
+									this.cHeaderBookTitle,
 									this.cHeaderExactFit});
 			this.lvSSData.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSSData.FullRowSelect = true;
@@ -627,6 +629,11 @@ namespace SharpFBTools.Tools
 			// 
 			this.cHeaderSequence.Text = "Серия";
 			this.cHeaderSequence.Width = 140;
+			// 
+			// cHeaderBookTitle
+			// 
+			this.cHeaderBookTitle.Text = "Название Книги";
+			this.cHeaderBookTitle.Width = 110;
 			// 
 			// cHeaderExactFit
 			// 
@@ -1044,6 +1051,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ColumnHeader cHeaderBookTitle;
 		private System.Windows.Forms.ToolStripButton tsbtnFullSortStop;
 		private System.Windows.Forms.ToolStripButton tsbtnSSSortStop;
 		private System.Windows.Forms.ColumnHeader cHeaderExactFit;

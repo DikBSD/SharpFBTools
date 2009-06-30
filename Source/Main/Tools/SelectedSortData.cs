@@ -21,9 +21,11 @@ namespace SharpFBTools.Tools
 	/// </summary>
 	public partial class SelectedSortData : Form
 	{
+		#region Закрытые данные класса
 		private string m_sTitle		= "SharpFBTools - Избранная Сортировка";
 		private bool m_bOKClicked	= false;
-			
+		#endregion
+
 		public SelectedSortData()
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -132,6 +134,8 @@ namespace SharpFBTools.Tools
 			string sMiddle	= textBoxSSMiddle.Text.Trim()	!= "" ? textBoxSSMiddle.Text.Trim() : "";
 			string sNick	= textBoxSSNick.Text.Trim()		!= "" ? textBoxSSNick.Text.Trim()	: "";
 			string sSeq		= txtBoxSSSequence.Text.Trim()	!= "" ? txtBoxSSSequence.Text.Trim(): "";
+			string sBTitle	= txtBoxSSBookTitle.Text.Trim()	!= "" ? txtBoxSSBookTitle.Text.Trim(): "";
+			
 			// перебираем все записи в списке
 			for( int i=0; i!=lvSSData.Items.Count; ++i ) {
 				if( lvSSData.Items[i].Text==sLang && 
@@ -141,7 +145,8 @@ namespace SharpFBTools.Tools
 				  lvSSData.Items[i].SubItems[4].Text==sFirst	&&
 				  lvSSData.Items[i].SubItems[5].Text==sMiddle	&&
 				  lvSSData.Items[i].SubItems[6].Text==sNick		&&
-				  lvSSData.Items[i].SubItems[7].Text==sSeq ) {
+				  lvSSData.Items[i].SubItems[7].Text==sSeq		&&
+				  lvSSData.Items[i].SubItems[8].Text==sBTitle ) {
 					return true;
 				}
 			}
@@ -189,37 +194,43 @@ namespace SharpFBTools.Tools
 			cmbBoxSSGenres.Enabled = rbtnSSGenres.Checked;
 		}
 
+		void ChkBoxBookTitleCheckedChanged(object sender, EventArgs e)
+		{
+			txtBoxSSBookTitle.Enabled = chkBoxBookTitle.Checked;
+		}
+		
 		void BtnAddClick(object sender, EventArgs e)
 		{
 			// Добавить данные сортировки в список
 			// проверка, выбранали хоть одна опция сортировки
 			if( !chBoxSSLang.Checked && !chBoxAuthor.Checked &&
-			   	!chkBoxGenre.Checked && !chBoxSSSequence.Checked ) {
+			   	!chkBoxGenre.Checked && !chBoxSSSequence.Checked &&
+			    !chkBoxBookTitle.Checked ) {
 				MessageBox.Show( "Выберите хоть одну опцию поиска для сортировки (чекбоксы)!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 
-			// если выбран ТОЛЬКО Автор и (или) Серия
+			// если выбран ТОЛЬКО Автор и (или) Серия и (или) Название Книги
 			if( !chBoxSSLang.Checked && !chkBoxGenre.Checked) {
-				if( chBoxAuthor.Checked && !chBoxSSSequence.Checked ) {
-					// выбран только Автор - не пустые ли все его поля
+				if( chBoxAuthor.Checked ) {
+					// выбран Автор - не пустые ли все его поля
 					if( textBoxSSLast.Text.Trim().Length==0 && textBoxSSFirst.Text.Trim().Length==0 &&
 					  textBoxSSMiddle.Text.Trim().Length==0 && textBoxSSNick.Text.Trim().Length==0 ) {
 						MessageBox.Show( "Заполните хоть одно поле для Автора Книг!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
 					}
-				} else if( !chBoxAuthor.Checked && chBoxSSSequence.Checked ) {
-					// выбрана только Серия - не пустое ли его поле
-					if( txtBoxSSSequence.Text.Trim().Length==0 ) {
-						MessageBox.Show( "Заполните поле для Серии Книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				}
+				if( chkBoxBookTitle.Checked ) {
+					// выбрано Название Книги - не пустое ли ее поле
+					if( txtBoxSSBookTitle.Text.Trim().Length==0 ) {
+						MessageBox.Show( "Заполните поле для Названия Книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
 					}
-				} else {
-					// выбран И Автор И Серия - не пустые ли все поля
-					if( textBoxSSLast.Text.Trim().Length==0 && textBoxSSFirst.Text.Trim().Length==0 &&
-					 	textBoxSSMiddle.Text.Trim().Length==0 && textBoxSSNick.Text.Trim().Length==0 &&
-					 	txtBoxSSSequence.Text.Trim().Length==0 ) {
-						MessageBox.Show( "Заполните хоть одно поле для Автора Книг и (или) для Серии Книг!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				}
+				if( chBoxSSSequence.Checked ) {
+					// выбрана Серия - не пустое ли ее поле
+					if( txtBoxSSSequence.Text.Trim().Length==0 ) {
+						MessageBox.Show( "Заполните поле для Серии Книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
 					}
 				}
@@ -283,6 +294,15 @@ namespace SharpFBTools.Tools
 				lvi.SubItems.Add( "" );
 			}
 			
+			// Название Книги
+			if( chkBoxBookTitle.Checked ) {
+				if( txtBoxSSBookTitle.Text.Trim().Length!=0 ) {
+					lvi.SubItems.Add( txtBoxSSBookTitle.Text.Trim() );
+				} else lvi.SubItems.Add( "" );
+			} else {
+				lvi.SubItems.Add( "" );
+			}
+			
 			// Точное соответствие
 			if( chBoxExactFit.Checked ) {
 				lvi.SubItems.Add( "Да" );
@@ -304,7 +324,10 @@ namespace SharpFBTools.Tools
 			textBoxSSMiddle.Text	= "";
 			textBoxSSNick.Text		= "";
 			txtBoxSSSequence.Text	= "";
+			txtBoxSSBookTitle.Text	= "";
 			
+			lblCount.Text = Convert.ToString( lvSSData.Items.Count );
+
 			btnOK.Enabled = true;
 		}
 		
@@ -335,6 +358,8 @@ namespace SharpFBTools.Tools
 				btnOK.Enabled = true;
 			}
 			
+			lblCount.Text = Convert.ToString( lvSSData.Items.Count );
+			
 			if( lvSSData.Items.Count > 0 ) {
 				btnOK.Enabled = true;
 			}
@@ -356,7 +381,11 @@ namespace SharpFBTools.Tools
 		{
 			txtBoxSSSequence.Focus();
 		}
-		#endregion
 		
+		void ChkBoxBookTitleClick(object sender, EventArgs e)
+		{
+			txtBoxSSBookTitle.Focus();
+		}
+		#endregion
 	}
 }
