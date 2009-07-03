@@ -104,6 +104,7 @@ namespace Options
 			this.chBoxStrict = new System.Windows.Forms.CheckBox();
 			this.chBoxTranslit = new System.Windows.Forms.CheckBox();
 			this.gboxRegister = new System.Windows.Forms.GroupBox();
+			this.rbtnAsSentence = new System.Windows.Forms.RadioButton();
 			this.rbtnUpper = new System.Windows.Forms.RadioButton();
 			this.rbtnLower = new System.Windows.Forms.RadioButton();
 			this.rbtnAsIs = new System.Windows.Forms.RadioButton();
@@ -1063,6 +1064,7 @@ namespace Options
 			// 
 			// gboxRegister
 			// 
+			this.gboxRegister.Controls.Add(this.rbtnAsSentence);
 			this.gboxRegister.Controls.Add(this.rbtnUpper);
 			this.gboxRegister.Controls.Add(this.rbtnLower);
 			this.gboxRegister.Controls.Add(this.rbtnAsIs);
@@ -1076,24 +1078,34 @@ namespace Options
 			this.gboxRegister.TabStop = false;
 			this.gboxRegister.Text = " Регистр имени файла ";
 			// 
+			// rbtnAsSentence
+			// 
+			this.rbtnAsSentence.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnAsSentence.Location = new System.Drawing.Point(359, 16);
+			this.rbtnAsSentence.Name = "rbtnAsSentence";
+			this.rbtnAsSentence.Size = new System.Drawing.Size(217, 18);
+			this.rbtnAsSentence.TabIndex = 3;
+			this.rbtnAsSentence.Text = "Каждое Слово С Большой Буквы";
+			this.rbtnAsSentence.UseVisualStyleBackColor = true;
+			// 
 			// rbtnUpper
 			// 
 			this.rbtnUpper.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnUpper.Location = new System.Drawing.Point(105, 16);
+			this.rbtnUpper.Location = new System.Drawing.Point(214, 16);
 			this.rbtnUpper.Name = "rbtnUpper";
-			this.rbtnUpper.Size = new System.Drawing.Size(132, 18);
+			this.rbtnUpper.Size = new System.Drawing.Size(139, 18);
 			this.rbtnUpper.TabIndex = 2;
-			this.rbtnUpper.Text = "Верхний регистр";
+			this.rbtnUpper.Text = "ПРОПИСНЫЕ БУКВЫ";
 			this.rbtnUpper.UseVisualStyleBackColor = true;
 			// 
 			// rbtnLower
 			// 
 			this.rbtnLower.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnLower.Location = new System.Drawing.Point(238, 16);
+			this.rbtnLower.Location = new System.Drawing.Point(83, 16);
 			this.rbtnLower.Name = "rbtnLower";
-			this.rbtnLower.Size = new System.Drawing.Size(132, 18);
+			this.rbtnLower.Size = new System.Drawing.Size(127, 18);
 			this.rbtnLower.TabIndex = 1;
-			this.rbtnLower.Text = "Нижний регистр";
+			this.rbtnLower.Text = "строчные буквы";
 			this.rbtnLower.UseVisualStyleBackColor = true;
 			// 
 			// rbtnAsIs
@@ -1102,7 +1114,7 @@ namespace Options
 			this.rbtnAsIs.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.rbtnAsIs.Location = new System.Drawing.Point(3, 16);
 			this.rbtnAsIs.Name = "rbtnAsIs";
-			this.rbtnAsIs.Size = new System.Drawing.Size(96, 18);
+			this.rbtnAsIs.Size = new System.Drawing.Size(78, 18);
 			this.rbtnAsIs.TabIndex = 0;
 			this.rbtnAsIs.TabStop = true;
 			this.rbtnAsIs.Text = "Как есть";
@@ -2285,6 +2297,7 @@ namespace Options
 			this.panel13.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.RadioButton rbtnAsSentence;
 		private System.Windows.Forms.TextBox txtboxFMhome;
 		private System.Windows.Forms.TextBox txtboxFMbusiness;
 		private System.Windows.Forms.TextBox txtboxFMlove;

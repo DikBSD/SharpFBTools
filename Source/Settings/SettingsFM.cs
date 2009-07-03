@@ -28,6 +28,7 @@ namespace Settings
 		private static Int16 m_ncboxFileExistSelectedIndex		= 1;
 		private static bool m_bchBoxDelFB2FilesCheked	= false;
 		private static bool m_brbtnAsIsCheked	= true;
+		private static bool m_rbtnAsSentenceCheked	= false;
 		private static bool m_brbtnLowerCheked	= false;
 		private static bool m_brbtnUpperCheked	= false;
 		private static bool m_brbtnGenreOneCheked	= true;
@@ -160,6 +161,9 @@ namespace Settings
 		public static bool GetDefFMrbtnAsIsCheked() {
 			return m_brbtnAsIsCheked;
 		}
+		public static bool GetDefFMrbtnAsSentenceCheked() {
+			return m_rbtnAsSentenceCheked;
+		}
 		public static bool GetDefFMrbtnLowerCheked() {
 			return m_brbtnLowerCheked;
 		}
@@ -217,6 +221,10 @@ namespace Settings
 			// читаем режим для регистра Как есть
 			return Settings.ReadAttribute( "Register", "rbtnAsIsChecked", GetDefFMrbtnAsIsCheked() );
 		}
+		public static bool ReadRegisterAsSentenceChecked() {
+			// читаем режим для регистра Как в предложениях
+			return Settings.ReadAttribute( "Register", "rbtnAsSentenceChecked", GetDefFMrbtnAsSentenceCheked() );
+		}
 		public static bool ReadRegisterLowerChecked() {
 			// читаем режим для Нижнего регистра
 			return Settings.ReadAttribute( "Register", "rbtnLowerChecked", GetDefFMrbtnLowerCheked() );
@@ -228,16 +236,19 @@ namespace Settings
 		
 		public static int ReadRegisterMode() {
 			// читаем режим для регистра из настроек
-			// возврат 0 - как есть; 1 - нижний; 2 - верхний
-			bool bAsIs	= Settings.ReadAttribute( "Register", "rbtnAsIsChecked", GetDefFMrbtnAsIsCheked() );
-			bool bLower	= Settings.ReadAttribute( "Register", "rbtnLowerChecked", GetDefFMrbtnLowerCheked() );
-			bool bUpper	= Settings.ReadAttribute( "Register", "rbtnUpperChecked", GetDefFMrbtnUpperCheked() );
+			// возврат 0 - КАК есть; 1 - Как в предложении; 2 - нижний; 3 - ВЕРХНИЙ
+			bool bAsIs		= Settings.ReadAttribute( "Register", "rbtnAsIsChecked", GetDefFMrbtnAsIsCheked() );
+			bool bSentence	= Settings.ReadAttribute( "Register", "rbtnAsSentenceChecked", GetDefFMrbtnAsSentenceCheked() );
+			bool bLower		= Settings.ReadAttribute( "Register", "rbtnLowerChecked", GetDefFMrbtnLowerCheked() );
+			bool bUpper		= Settings.ReadAttribute( "Register", "rbtnUpperChecked", GetDefFMrbtnUpperCheked() );
 			if( bAsIs ) {
 				return 0;
 			} else if ( bLower ) {
 				return 1;
 			} else if ( bUpper ) {
 				return 2;
+			} else if ( bSentence ) {
+				return 3;
 			} else {
 				return 0;
 			}
@@ -478,9 +489,11 @@ namespace Settings
 			// загружаем в ListView-индикатор настроек данные 
 			// регистр
 			if( ReadRegisterLowerChecked() ) {
-				lv.Items[0].SubItems[1].Text = "Нижний регистр";
+				lv.Items[0].SubItems[1].Text = "строчные";
 			} else if( ReadRegisterUpperChecked() ) {
-				lv.Items[0].SubItems[1].Text = "Верхний регистр";
+				lv.Items[0].SubItems[1].Text = "ПРОПИСНЫЕ";
+			} else if( ReadRegisterAsSentenceChecked() ) {
+				lv.Items[0].SubItems[1].Text = "Каждое Слово С Большой Буквы";
 			} else {
 				lv.Items[0].SubItems[1].Text = "Как есть";
 			}

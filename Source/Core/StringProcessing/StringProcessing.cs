@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Text;
 
 using FB2.FB2Parsers;
 using FB2.Description.DocumentInfo;
@@ -334,6 +335,32 @@ namespace StringProcessing
 			}
 			return s;
 		}
+
+		public static string ToUpperFirstLetterAnyWord( string sString, char c ) {
+			// Все Слова Строки Начать с Большой Буквы
+			if( sString.IndexOf( c ) !=-1 ) {
+				StringBuilder sb = new StringBuilder();
+				for( int i=0; i!=sString.Length; ++i ) {
+					if( i >= sString.Length ) {
+						break;
+					} else {
+						if( sString[i] != c ) {
+							sb.Append( sString[i] );
+						} else {
+							if( i >= sString.Length-1 ) {
+								sb.Append( sString[i] ); // c - это последний символ в строке
+								break;
+							}
+							sb.Append( sString[i]+sString[i+1].ToString().ToUpper() );
+							++i;
+						}
+					}
+				}
+				sb[0] = Convert.ToChar( sString[0].ToString().ToUpper() );
+				sString = sb.ToString();
+			}
+			return sString;
+		}
 		
 		public static string RegisterString( string sString, int nMode ) {
 			// задание регистра строке
@@ -343,10 +370,21 @@ namespace StringProcessing
 			switch( nMode ) {
 				case 0: // Как есть
 					return sString;
-				case 1: // нижний регистр
+				case 1: // строчные
 					return sString.ToLower();
-				case 2: // верхний регистр
+				case 2: // ПРОПИСНЫЕ
 					return sString.ToUpper();
+				case 3: // Все Слова С Большой Буквы
+					string sRet = sString.ToLower();
+					// Символ справа от '' делаем Прописным
+					sRet = ToUpperFirstLetterAnyWord( sRet, ' ' );
+					sRet = ToUpperFirstLetterAnyWord( sRet, '_' );
+					sRet = ToUpperFirstLetterAnyWord( sRet, '[' );
+					sRet = ToUpperFirstLetterAnyWord( sRet, '(' );
+					sRet = ToUpperFirstLetterAnyWord( sRet, ']' );
+					sRet = ToUpperFirstLetterAnyWord( sRet, ')' );
+					sRet = ToUpperFirstLetterAnyWord( sRet, '\\' );
+					return sRet;
 				default:
 					return sString;
 			}
@@ -432,7 +470,7 @@ namespace StringProcessing
 		}
 		
 		public static string OnlyCorrectSymbolsForPath( string sString ) {
-			// только корректные символы для имен файлов
+			// только корректные символы для путей файлов
 			string s = sString;
 			if( sString==null || sString.Length==0 ) {
 				return sString;

@@ -72,6 +72,7 @@ namespace Options
 			cboxFileExist.SelectedIndex = Settings.SettingsFM.GetDefFMcboxFileExistSelectedIndex();
 			chBoxDelFB2Files.Checked = Settings.SettingsFM.GetDefFMchBoxDelFB2FilesCheked();
 			rbtnAsIs.Checked = Settings.SettingsFM.GetDefFMrbtnAsIsCheked();
+			rbtnAsSentence.Checked = Settings.SettingsFM.GetDefFMrbtnAsSentenceCheked();
 			rbtnLower.Checked = Settings.SettingsFM.GetDefFMrbtnLowerCheked();
 			rbtnUpper.Checked = Settings.SettingsFM.GetDefFMrbtnUpperCheked();
 			rbtnGenreOne.Checked = Settings.SettingsFM.GetDefFMrbtnGenreOneCheked();
@@ -169,6 +170,7 @@ namespace Options
 					reader.ReadToFollowing("Register");
 					if (reader.HasAttributes ) {
 						rbtnAsIs.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAsIsChecked") );
+						rbtnAsSentence.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAsSentenceChecked") );
 						rbtnLower.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnLowerChecked") );
 						rbtnUpper.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnUpperChecked") );
 					}
@@ -341,6 +343,7 @@ namespace Options
 					writer.WriteStartElement( "FileManager" );
 						writer.WriteStartElement( "Register" );
 							writer.WriteAttributeString( "rbtnAsIsChecked", rbtnAsIs.Checked.ToString() );
+							writer.WriteAttributeString( "rbtnAsSentenceChecked", rbtnAsSentence.Checked.ToString() );
 							writer.WriteAttributeString( "rbtnLowerChecked", rbtnLower.Checked.ToString() );
 							writer.WriteAttributeString( "rbtnUpperChecked", rbtnUpper.Checked.ToString() );
 						writer.WriteFullEndElement();
