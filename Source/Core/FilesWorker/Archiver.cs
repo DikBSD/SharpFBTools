@@ -11,8 +11,9 @@ using System;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Windows.Forms;
-
+using System.Diagnostics;
 using System.Collections.Generic;
+
 
 namespace FilesWorker
 {
@@ -24,7 +25,7 @@ namespace FilesWorker
 		public Archiver()
 		{
 		}
-		
+
 		public static int debug_unzip( List<string> gebug, string sZipPath, string sFilePath, string sTempDir ) {
 			// распаковка zip-фрхива
 			Regex rx = new Regex( @"\\+" );
@@ -49,7 +50,7 @@ namespace FilesWorker
 			}
 		}
 		
-		public static int unzip( string sZipPath, string sFilePath, string sTempDir ) {
+		public static int _unzip( string sZipPath, string sFilePath, string sTempDir ) {
 			// распаковка zip-фрхива
 			Regex rx = new Regex( @"\\+" );
 			sZipPath = rx.Replace( sZipPath, "\\" );
@@ -68,7 +69,7 @@ namespace FilesWorker
 			return Microsoft.VisualBasic.Interaction.Shell(s, Microsoft.VisualBasic.AppWinStyle.Hide, true, -1);
 		}
 		
-		public static int unrar( string sUnRarPath, string sFilePath, string sTempDir ) {
+		public static int _unrar( string sUnRarPath, string sFilePath, string sTempDir ) {
 			// распаковка rar-фрхива
 			Regex rx = new Regex( @"\\+" );
 			sUnRarPath = rx.Replace( sUnRarPath, "\\" );
@@ -86,7 +87,7 @@ namespace FilesWorker
 			return Microsoft.VisualBasic.Interaction.Shell(s, Microsoft.VisualBasic.AppWinStyle.Hide, true, -1);
 		}
 		
-		public static int zip( string sZipPath, string sType, string sFilePath,
+		public static int _zip( string sZipPath, string sType, string sFilePath,
 		                      string sFB2ZipFilePath ) {
 			// упаковка в zip-фрхив
 			Regex rx = new Regex( @"\\+" );
@@ -102,7 +103,7 @@ namespace FilesWorker
 			return Microsoft.VisualBasic.Interaction.Shell(s, Microsoft.VisualBasic.AppWinStyle.Hide, true, -1);
 		}
 		
-		public static int rar( string sRarPath, string sFilePath,
+		public static int _rar( string sRarPath, string sFilePath,
 		                      string sFB2RarFilePath, bool bRestoreInfo ) {
 			// упаковка в rar-фрхив
 			Regex rx = new Regex( @"\\+" );
@@ -147,5 +148,117 @@ namespace FilesWorker
 			
 			return true;
 		}
+		
+		public static void unzip( string sZipPath, string sFilePath, string sTempDir ) {
+			// распаковка zip-фрхива
+			Regex rx	= new Regex( @"\\+" );
+			sZipPath	= rx.Replace( sZipPath, "\\" );
+			sFilePath	= rx.Replace( sFilePath, "\\" );
+			sTempDir	= rx.Replace( sTempDir, "\\" );
+			
+			if( !Directory.Exists( sTempDir ) ) {
+				Directory.CreateDirectory( sTempDir );
+			}
+			
+			string s = " e"; 				// Распаковать (для полных путей - x)
+			s += " -y"; 					// На все отвечать yes
+			s += " \"" + sFilePath + "\"";	// Файл который нужно распаковать
+			s += " -o\"" + sTempDir + "\"";	// Временная папка распаковки
+			
+			ProcessStartInfo startInfo = new ProcessStartInfo( sZipPath, s );
+			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			int nIdP = Process.Start(startInfo).Id;
+			// заглушка - блокировка выхода из процесса, пока запущенная программа еще открыта и работает
+			try {
+				Process _p = Process.GetProcessById( nIdP );
+				while( _p != null ) {
+					_p = Process.GetProcessById( nIdP );
+				}
+			} catch( System.ArgumentException ) { }
+		}
+		
+		public static void unrar( string sUnRarPath, string sFilePath, string sTempDir ) {
+			// распаковка rar-фрхива
+			Regex rx	= new Regex( @"\\+" );
+			sUnRarPath	= rx.Replace( sUnRarPath, "\\" );
+			sFilePath	= rx.Replace( sFilePath, "\\" );
+			sTempDir	= rx.Replace( sTempDir, "\\" );
+			
+			if( !Directory.Exists( sTempDir ) ) {
+				Directory.CreateDirectory( sTempDir );
+			}
+			
+			string s = " e"; 					// Распаковать (для полных путей - x)
+			s += " -y"; 						// На все отвечать yes
+			s += " " + "\"" + sFilePath + "\"";	// Файл который нужно распаковать
+			s += " " + "\"" + sTempDir + "\"";	// Временная папка распаковки
+			
+			ProcessStartInfo startInfo = new ProcessStartInfo( sUnRarPath, s );
+			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			int nIdP = Process.Start(startInfo).Id;
+			// заглушка - блокировка выхода из процесса, пока запущенная программа еще открыта и работает
+			try {
+				Process _p = Process.GetProcessById( nIdP );
+				while( _p != null ) {
+					_p = Process.GetProcessById( nIdP );
+				}
+			} catch( System.ArgumentException ) { }
+		}
+		
+		public static void zip( string sZipPath, string sType, string sFilePath,
+		                      	string sFB2ZipFilePath ) {
+			// упаковка в zip-фрхив
+			Regex rx		= new Regex( @"\\+" );
+			sZipPath		= rx.Replace( sZipPath, "\\" );
+			sFilePath		= rx.Replace( sFilePath, "\\" );
+			sFB2ZipFilePath = rx.Replace( sFB2ZipFilePath, "\\" );
+			
+			string s = " a"; 						// запаковать
+			s += " -t"+sType.ToLower(); 			// в sType - тип архивации
+			s += " -y"; 							// На все отвечать yes
+			s += " \"" + sFB2ZipFilePath + "\""; 	// файл-архив .fb2.sType
+			s += " \"" + sFilePath + "\""; 			// Файл который нужно запаковать
+			
+			ProcessStartInfo startInfo = new ProcessStartInfo( sZipPath, s );
+			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			int nIdP = Process.Start(startInfo).Id;
+			// заглушка - блокировка выхода из процесса, пока запущенная программа еще открыта и работает
+			try {
+				Process _p = Process.GetProcessById( nIdP );
+				while( _p != null ) {
+					_p = Process.GetProcessById( nIdP );
+				}
+			} catch( System.ArgumentException ) { }
+		}
+		
+		public static void rar( string sRarPath, string sFilePath,
+		                 	     string sFB2RarFilePath, bool bRestoreInfo ) {
+			// упаковка в rar-фрхив
+			Regex rx		= new Regex( @"\\+" );
+			sRarPath		= rx.Replace( sRarPath, "\\" );
+			sFilePath		= rx.Replace( sFilePath, "\\" );
+			sFB2RarFilePath = rx.Replace( sFB2RarFilePath, "\\" );
+			
+			string s = " a -m5"; 	// запаковать с максимальным сжатием
+			if( bRestoreInfo ) {
+				s += " -rr"; 		// добавить информацию для восстановления
+			}
+			s += " -y"; 							// На все отвечать yes
+			s += " -ep"; 							// Исключить пути из имен
+			s += " \"" + sFB2RarFilePath + "\""; 	// файл-архив .fb2.rar
+			s += " \"" + sFilePath + "\""; 			// Файл который нужно запаковать
+			
+			ProcessStartInfo startInfo = new ProcessStartInfo( sRarPath, s );
+			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			int nIdP = Process.Start(startInfo).Id;
+			// заглушка - блокировка выхода из процесса, пока запущенная программа еще открыта и работает
+			try {
+				Process _p = Process.GetProcessById( nIdP );
+				while( _p != null ) {
+					_p = Process.GetProcessById( nIdP );
+				}
+			} catch( System.ArgumentException ) { }
+		}
+		
 	}
 }
