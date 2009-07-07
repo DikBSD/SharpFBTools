@@ -608,6 +608,7 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Maximum = nCount+1;
 			tsProgressBar.Visible = true;
 			tsProgressBar.Value = 1;
+			string sTempDir = Settings.Settings.GetTempDir();
 			for( int i=0; i!=nCount; ++i ) {
 				// Проверить флаг на остановку процесса 
 				if( ( bw.CancellationPending == true ) ) {
@@ -630,7 +631,6 @@ namespace SharpFBTools.Tools
 							if( chBoxAddBookID.Checked ) {
 								string sExtTemp = Path.GetExtension( sFilePath ).ToLower();
 								if( sExtTemp != ".fb2" ) {
-									string sTempDir = Settings.Settings.GetTempDir();
 									FilesWorker.FilesWorker.RemoveDir( sTempDir );
 //									Directory.CreateDirectory( sTempDir );
 									if( sExtTemp.ToLower() == ".rar" ) {
