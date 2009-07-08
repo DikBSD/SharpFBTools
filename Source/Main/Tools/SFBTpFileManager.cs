@@ -1091,21 +1091,23 @@ namespace SharpFBTools.Tools
 				}
 				// проверка названия книги				
 				if( sFB2BookTitle != null ) {
-					if( sFB2BookTitle.Value != null ) {
-						if( bExactFit ) {
-							// точное соответствие
-							if( sFB2BookTitle.Value != sBookTitle ) {
-								bRet = false; continue;
+					if( sBookTitle.Length != 0 ) {
+						if( sFB2BookTitle.Value != null ) {
+							if( bExactFit ) {
+								// точное соответствие
+								if( sFB2BookTitle.Value != sBookTitle ) {
+									bRet = false; continue;
+								}
+							} else {
+								re = new Regex( sBookTitle, RegexOptions.IgnoreCase );
+								if( !re.IsMatch( sFB2BookTitle.Value ) ) {
+									bRet = false; continue;
+								}
 							}
 						} else {
-							re = new Regex( sBookTitle, RegexOptions.IgnoreCase );
-							if( !re.IsMatch( sFB2BookTitle.Value ) ) {
-								bRet = false; continue;
-							}
+							// пустой тэг <book-title>
+							bRet = false; continue;
 						}
-					} else {
-						// пустой тэг <book-title>
-						bRet = false; continue;
 					}
 				} else {
 					// в книге тега названия нет
