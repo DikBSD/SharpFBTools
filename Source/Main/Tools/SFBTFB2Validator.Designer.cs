@@ -38,22 +38,22 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .zip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .rar-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
@@ -1009,12 +1009,12 @@ namespace SharpFBTools.Tools
 			this.lvFilesCount.FullRowSelect = true;
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4,
-									listViewItem5,
-									listViewItem6});
+									listViewItem13,
+									listViewItem14,
+									listViewItem15,
+									listViewItem16,
+									listViewItem17,
+									listViewItem18});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(223, 116);
@@ -1051,6 +1051,7 @@ namespace SharpFBTools.Tools
 			this.gboxCopyMoveOptions.Controls.Add(this.chBoxAddBookID);
 			this.gboxCopyMoveOptions.Controls.Add(this.cboxExistFile);
 			this.gboxCopyMoveOptions.Controls.Add(this.lblExistFile);
+			this.gboxCopyMoveOptions.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxCopyMoveOptions.Location = new System.Drawing.Point(229, 3);
 			this.gboxCopyMoveOptions.Name = "gboxCopyMoveOptions";
 			this.gboxCopyMoveOptions.Size = new System.Drawing.Size(597, 112);
@@ -1061,9 +1062,9 @@ namespace SharpFBTools.Tools
 			// chBoxAddBookID
 			// 
 			this.chBoxAddBookID.Enabled = false;
-			this.chBoxAddBookID.Location = new System.Drawing.Point(228, 45);
+			this.chBoxAddBookID.Location = new System.Drawing.Point(263, 48);
 			this.chBoxAddBookID.Name = "chBoxAddBookID";
-			this.chBoxAddBookID.Size = new System.Drawing.Size(246, 18);
+			this.chBoxAddBookID.Size = new System.Drawing.Size(230, 18);
 			this.chBoxAddBookID.TabIndex = 19;
 			this.chBoxAddBookID.Text = " Добавить ID Книги к имени файла";
 			this.chBoxAddBookID.UseVisualStyleBackColor = true;
@@ -1076,9 +1077,9 @@ namespace SharpFBTools.Tools
 									"Заменить существующий файл новым",
 									"Добавить к новому файлу очередной номер",
 									"Добавить к новому файлу дату и время"});
-			this.cboxExistFile.Location = new System.Drawing.Point(228, 21);
+			this.cboxExistFile.Location = new System.Drawing.Point(263, 21);
 			this.cboxExistFile.Name = "cboxExistFile";
-			this.cboxExistFile.Size = new System.Drawing.Size(260, 21);
+			this.cboxExistFile.Size = new System.Drawing.Size(314, 21);
 			this.cboxExistFile.TabIndex = 18;
 			this.cboxExistFile.SelectedIndexChanged += new System.EventHandler(this.CboxExistFileSelectedIndexChanged);
 			// 
@@ -1087,7 +1088,7 @@ namespace SharpFBTools.Tools
 			this.lblExistFile.AutoSize = true;
 			this.lblExistFile.Location = new System.Drawing.Point(15, 24);
 			this.lblExistFile.Name = "lblExistFile";
-			this.lblExistFile.Size = new System.Drawing.Size(213, 13);
+			this.lblExistFile.Size = new System.Drawing.Size(242, 13);
 			this.lblExistFile.TabIndex = 17;
 			this.lblExistFile.Text = "Одинаковые файлы в папке-приемнике:";
 			// 

@@ -66,7 +66,7 @@ namespace SharpFBTools.Tools
 		private Color	m_ZipFontColor				= Color.BlueViolet;	// цвет для zip не fb2
 		private Color	m_RarFontColor				= Color.DarkCyan; 	// цвет для rar не fb2
 		private Color	m_NotFB2FontColor			= Color.Black;		// цвет для всех остальных файлов
-		//
+		// найденные файлы
 		private long	m_lFB2Valid		= 0; // число валидных файлов
 		private long	m_lFB2NotValid	= 0; // число не валидных файлов
 		private long	m_lFB2Files		= 0; // число fb2 файлов (не сжатых)
@@ -78,33 +78,35 @@ namespace SharpFBTools.Tools
 		private	string	m_sValid		= " Валидные fb2-файлы ";
 		private string	m_sNotFB2Files	= " Не fb2-файлы ";
 		// Report
-		private string	m_FB2NotValidReportEmpty	= "Список не валидных fb2-файлов пуст!\nОтчет не сохранен.";
-		private string	m_FB2ValidReportEmpty		= "Список валидных fb2-файлов пуст!\nОтчет не сохранен.";
-		private string	m_NotFB2FileReportEmpty		= "Список не fb2-файлов пуст!\nОтчет не сохранен.";
-		private string	m_FB2NotValidFilesListReport = "Список не валидных fb2-файлов";
-		private string	m_FB2ValidFilesListReport 	= "Список валидных fb2-файлов";
-		private string	m_NotFB2FilesListReport 	= "Список не fb2-файлов";
-		private string	m_GeneratingReport			= "Генерация отчета";
-		private string	m_ReportSaveOk = "Отчет сохранен в файл:\n";
-		private string	m_HTMLFilter 	= "HTML файлы (*.html)|*.html|Все файлы (*.*)|*.*";
-		private string	m_FB2Filter 	= "fb2 файлы (*.fb2)|*.fb2|Все файлы (*.*)|*.*";
-		private string	m_CSV_csv_Filter = "CVS файлы (*.csv)|*.csv|Все файлы (*.*)|*.*";
-		private string	m_TXTFilter 	= "TXT файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
+		private string	m_FB2NotValidReportEmpty		= "Список не валидных fb2-файлов пуст!\nОтчет не сохранен.";
+		private string	m_FB2ValidReportEmpty			= "Список валидных fb2-файлов пуст!\nОтчет не сохранен.";
+		private string	m_NotFB2FileReportEmpty			= "Список не fb2-файлов пуст!\nОтчет не сохранен.";
+		private string	m_FB2NotValidFilesListReport	= "Список не валидных fb2-файлов";
+		private string	m_FB2ValidFilesListReport	 	= "Список валидных fb2-файлов";
+		private string	m_NotFB2FilesListReport 		= "Список не fb2-файлов";
+		private string	m_GeneratingReport				= "Генерация отчета";
+		private string	m_ReportSaveOk 		= "Отчет сохранен в файл:\n";
+		private string	m_HTMLFilter 		= "HTML файлы (*.html)|*.html|Все файлы (*.*)|*.*";
+		private string	m_FB2Filter 		= "fb2 файлы (*.fb2)|*.fb2|Все файлы (*.*)|*.*";
+		private string	m_CSV_csv_Filter	= "CVS файлы (*.csv)|*.csv|Все файлы (*.*)|*.*";
+		private string	m_TXTFilter 		= "TXT файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
 		#endregion
 		
 		#region Закрытые методы реализации BackgroundWorker Валидатора
 		private void InitializeValidateBackgroundWorker() {
 			// Инициализация перед использование BackgroundWorker Валидации
             m_bwv = new BackgroundWorker();
-            //m_bwv.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
+            m_bwv.WorkerReportsProgress			= true; // Позволить выводить прогресс процесса
             m_bwv.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-            m_bwv.DoWork += new DoWorkEventHandler( bwv_DoWork );
-            m_bwv.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bwv_RunWorkerCompleted );
+            m_bwv.DoWork 				+= new DoWorkEventHandler( bwv_DoWork );
+            m_bwv.ProgressChanged 		+= new ProgressChangedEventHandler( bwv_ProgressChanged );
+            m_bwv.RunWorkerCompleted 	+= new RunWorkerCompletedEventHandler( bwv_RunWorkerCompleted );
 		}
 		
 		private void bwv_DoWork( object sender, DoWorkEventArgs e ) {
 			// Валидация
 			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка файлов:";
 			// сортированный список всех вложенных папок
 			List<string> lDirList = new List<string>();
 			if( !cboxScanSubDir.Checked ) {
@@ -113,12 +115,10 @@ namespace SharpFBTools.Tools
 				lvFilesCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				tsslblProgress.Text = "Создание списка папок:";
 				lDirList = FilesWorker.FilesWorker.DirsParser( m_sScan, lvFilesCount, false );
 			}
 			
 			// сортированный список всех файлов
-			tsslblProgress.Text = "Создание списка файлов:";
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwv, e, lDirList, lvFilesCount, tsProgressBar, false );
 			lDirList.Clear();
 			if( ( m_bwv.CancellationPending == true ) )  {
@@ -134,9 +134,9 @@ namespace SharpFBTools.Tools
 			}
 			
 			// проверка файлов
-			tsslblProgress.Text = "Проверка найденных файлов на валидность:";
-			tsProgressBar.Maximum = m_lFilesList.Count+1;
-			tsProgressBar.Value = 1;
+			tsslblProgress.Text		= "Проверка найденных файлов на валидность:";
+			tsProgressBar.Maximum	= m_lFilesList.Count;
+			tsProgressBar.Value		= 0;
 
 			FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
 			string sTempDir = Settings.Settings.GetTempDir();
@@ -152,7 +152,7 @@ namespace SharpFBTools.Tools
 				} else {
 					sExt = Path.GetExtension( sFile );
 					if( sExt.ToLower() == ".fb2" ) {
-						++this.m_lFB2Files;
+						++m_lFB2Files;
 						ParseFB2File( sFile, fv2V );
 					} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
 						// очистка временной папки
@@ -161,28 +161,37 @@ namespace SharpFBTools.Tools
 						ParseArchiveFile( sFile, fv2V, sTempDir );
 					} else {
 						// разные файлы
-						++this.m_lNotFB2Files;
+						++m_lNotFB2Files;
 						ListViewItem item = new ListViewItem( sFile, 0 );
 	   					item.ForeColor = m_NotFB2FontColor;
 						item.SubItems.Add( Path.GetExtension( sFile ) );
    						FileInfo fi = new FileInfo( sFile );
    						item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
 						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
-						tpNotFB2Files.Text = m_sNotFB2Files + "( " + m_lNotFB2Files.ToString() + " ) " ;
-						++tsProgressBar.Value;
+
+						m_bwv.ReportProgress( 0 ); // отобразим данные в контролах
 					}
 				}
 			}
 
 		}
 		
-		private void bwv_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
-            // Проверяем это отмена, ошибка, или конец задачи и сообщить
-            lvFilesCount.Items[2].SubItems[1].Text = m_lFB2Files.ToString();
+		private void bwv_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
+            // Отобразим результат Валидации
+			lvFilesCount.Items[2].SubItems[1].Text = m_lFB2Files.ToString();
 			lvFilesCount.Items[3].SubItems[1].Text = m_lFB2ZipFiles.ToString();
 			lvFilesCount.Items[4].SubItems[1].Text = m_lFB2RarFiles.ToString();
 			lvFilesCount.Items[5].SubItems[1].Text = m_lNotFB2Files.ToString();
 			
+			tpNotFB2Files.Text	= m_sNotFB2Files + "( " + m_lNotFB2Files.ToString() + " ) " ;
+			tpValid.Text		= m_sValid + "( " + m_lFB2Valid.ToString() + " ) " ;
+			tpNotValid.Text		= m_sNotValid + "( " + m_lFB2NotValid.ToString() + " ) " ;
+
+            ++tsProgressBar.Value;
+        }
+		
+		private void bwv_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
+            // Проверяем это отмена, ошибка, или конец задачи и сообщить
 			listViewNotValid.EndUpdate();
 			listViewValid.EndUpdate();
 			listViewNotFB2.EndUpdate();
@@ -209,7 +218,6 @@ namespace SharpFBTools.Tools
             }
 
             m_bwv.Dispose();
-
 		}
 		#endregion
 		
@@ -217,10 +225,11 @@ namespace SharpFBTools.Tools
 		private void InitializeFilesWorkerBackgroundWorker() {
 			// Инициализация перед использование BackgroundWorker Копирование / Перемещение / Удаление
             m_bwcmd = new BackgroundWorker();
-            //m_bwcmd.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
+            m_bwcmd.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
             m_bwcmd.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-            m_bwcmd.DoWork += new DoWorkEventHandler( bwcmd_DoWork );
-            m_bwcmd.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bwcmd_RunWorkerCompleted );
+            m_bwcmd.DoWork				+= new DoWorkEventHandler( bwcmd_DoWork );
+			m_bwcmd.ProgressChanged 	+= new ProgressChangedEventHandler( bwcmd_ProgressChanged );
+            m_bwcmd.RunWorkerCompleted	+= new RunWorkerCompletedEventHandler( bwcmd_RunWorkerCompleted );
 		}
 		
 		private void bwcmd_DoWork( object sender, DoWorkEventArgs e ) {
@@ -285,12 +294,17 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
+		private void bwcmd_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
+            // Отобразим результат Копирования / Перемещения
+            ++tsProgressBar.Value;
+        }
+		
 		private void bwcmd_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
             // Завершение работы Обработчика Файлов
 			string sMessCanceled, sMessError, sMessDone, sTabPageDefText, sMessTitle;
             sMessCanceled = sMessError = sMessDone = sTabPageDefText = sMessTitle = "";
             ListView lw	= null;
-            TabPage tp	= null;
+            TabPage	tp	= null;
             switch( tcResult.SelectedIndex ) {
 				case 0:
 					// не валидные fb2-файлы
@@ -302,7 +316,7 @@ namespace SharpFBTools.Tools
 					// валидные fb2-файлы
 					sTabPageDefText = m_sValid;
 					lw = listViewValid;
-					tp = tpNotValid;
+					tp = tpValid;
 					break;
 				case 2:
 					// не fb2-файлы
@@ -319,7 +333,6 @@ namespace SharpFBTools.Tools
 					sMessCanceled	= "Копирование файлов в указанную папку остановлено!";
             		break;
             	case "Move":
-            		// только для перемещения файлов
 					sMessTitle		= "SharpFBTools - Перемещение файлов";
             		sMessDone 		= "Перемещение файлов в указанную папку завершено!";
 					sMessCanceled	= "Перемещение файлов в указанную папку остановлено!";
@@ -342,7 +355,7 @@ namespace SharpFBTools.Tools
 			if( ( e.Cancelled == true ) ) {
                 MessageBox.Show( sMessCanceled, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             } else if( e.Error != null ) {
-                sMessError = "Error!\n" + e.Error.Message + "\n" + e.Error.StackTrace;
+                sMessError = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace;
             	MessageBox.Show( sMessError, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             } else {
             	MessageBox.Show( sMessDone, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -366,7 +379,7 @@ namespace SharpFBTools.Tools
 			tpNotValid.Text		= m_sNotValid;
 			tpValid.Text		= m_sValid;
 			tpNotFB2Files.Text	= m_sNotFB2Files;
-			tsProgressBar.Value	= 1;
+			tsProgressBar.Value	= 0;
 			tsslblProgress.Text		= Settings.Settings.GetReady();
 			tsProgressBar.Visible	= false;
 			m_lFB2Valid	= m_lFB2NotValid = m_lFB2Files = m_lFB2ZipFiles = m_lFB2RarFiles = m_lNotFB2Files = 0;
@@ -472,26 +485,24 @@ namespace SharpFBTools.Tools
 			string sMsg = fv2Validator.ValidatingFB2File( sFile );
 			if ( sMsg == "" ) {
            		// файл валидный
-           		++this.m_lFB2Valid;
+           		++m_lFB2Valid;
 				//listViewValid.Items.Add( sFile );
 				ListViewItem item = new ListViewItem( sFile, 0 );
    				item.ForeColor = m_FB2ValidFontColor;
 				FileInfo fi = new FileInfo( sFile );
    				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
 				listViewValid.Items.AddRange( new ListViewItem[]{ item } );
-				tpValid.Text = m_sValid + "( " + m_lFB2Valid.ToString() + " ) " ;
            	} else {
            		// файл не валидный
-           		++this.m_lFB2NotValid;
+           		++m_lFB2NotValid;
 				ListViewItem item = new ListViewItem( sFile, 0 );
    				item.ForeColor = m_FB2NotValidFontColor;
 				item.SubItems.Add( sMsg );
    				FileInfo fi = new FileInfo( sFile );
    				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
 				listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
-				tpNotValid.Text = m_sNotValid + "( " + m_lFB2NotValid.ToString() + " ) " ;
            	}
-			++tsProgressBar.Value;
+			m_bwv.ReportProgress( 0 ); // отобразим данные в контролах
 		}
 		
 		private void ParseArchiveFile( string sArchiveFile, FB2Parser.FB2Validator fv2Validator, string sTempDir ) {
@@ -511,15 +522,15 @@ namespace SharpFBTools.Tools
 
 			if ( sMsg == "" ) {
            		// файл валидный - это fb2
-           		++this.m_lFB2Valid;
+           		++m_lFB2Valid;
 				//listViewValid.Items.Add( sArchiveFile + "/" + sFileName );
 				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName , 0 );
 				if( sExt.ToLower() == ".zip" ) {
 					item.ForeColor = m_ZipFB2ValidFontColor;
-					++this.m_lFB2ZipFiles;
+					++m_lFB2ZipFiles;
 				} else if( sExt.ToLower() == ".rar" ) {
 					item.ForeColor = m_RarFB2ValidFontColor;
-					++this.m_lFB2RarFiles;
+					++m_lFB2RarFiles;
 				}
 				FileInfo fi = new FileInfo( sArchiveFile );
    				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
@@ -527,7 +538,6 @@ namespace SharpFBTools.Tools
    				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    				item.SubItems.Add( s );
 				listViewValid.Items.AddRange( new ListViewItem[]{ item } );
-				tpValid.Text = m_sValid + "( " + this.m_lFB2Valid.ToString() + " ) " ;
            	} else {
            		// архив не валидный - посмотрим, что это
         		if( sExt.ToLower() == ".zip" ) {
@@ -535,7 +545,7 @@ namespace SharpFBTools.Tools
            			sExt = Path.GetExtension( sFileName );
 					if( sExt.ToLower() != ".fb2" ) {
            				sMsg = "Тип файла: " + sExt;
-           				++this.m_lNotFB2Files;
+           				++m_lNotFB2Files;
            				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_ZipFontColor;
            				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
@@ -545,10 +555,9 @@ namespace SharpFBTools.Tools
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
-						tpNotFB2Files.Text = this.m_sNotFB2Files + "( " + this.m_lNotFB2Files.ToString() + " ) ";
 					} else {
-						++this.m_lFB2ZipFiles;
-						++this.m_lFB2NotValid;
+						++m_lFB2ZipFiles;
+						++m_lFB2NotValid;
 						ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_ZipFB2NotValidFontColor;
 						item.SubItems.Add( sMsg );
@@ -558,14 +567,13 @@ namespace SharpFBTools.Tools
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
-						tpNotValid.Text = this.m_sNotValid + "( " + this.m_lFB2NotValid.ToString() + " ) ";
 					}
 				} else if( sExt.ToLower() == ".rar" ) {
 					// определяем тип разархивированного файла
            			sExt = Path.GetExtension( sFileName );
 					if( sExt.ToLower() != ".fb2" ) {
         				sMsg = "Тип файла: " + sExt;
-          				++this.m_lNotFB2Files;
+          				++m_lNotFB2Files;
           				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_RarFontColor;
           				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
@@ -575,10 +583,9 @@ namespace SharpFBTools.Tools
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
-						tpNotFB2Files.Text = this.m_sNotFB2Files + "( " + this.m_lNotFB2Files.ToString() + " ) ";
 					} else {
-						++this.m_lFB2RarFiles;
-						++this.m_lFB2NotValid;
+						++m_lFB2RarFiles;
+						++m_lFB2NotValid;
 						ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
    						item.ForeColor = m_RarFB2NotValidFontColor;
 						item.SubItems.Add( sMsg );
@@ -588,11 +595,10 @@ namespace SharpFBTools.Tools
    						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
-						tpNotValid.Text = this.m_sNotValid + "( " + this.m_lFB2NotValid.ToString() + " ) ";
 					}
 				}
             }
-			++tsProgressBar.Value;
+			m_bwv.ReportProgress( 0 ); // отобразим данные в контролах
 		}
 		#endregion
 		
@@ -605,9 +611,6 @@ namespace SharpFBTools.Tools
 			#region Код
 			int nCount = lv.Items.Count;
 			tsslblProgress.Text = sProgressText;
-			tsProgressBar.Maximum = nCount+1;
-			tsProgressBar.Visible = true;
-			tsProgressBar.Value = 1;
 			string sTempDir = Settings.Settings.GetTempDir();
 			for( int i=0; i!=nCount; ++i ) {
 				// Проверить флаг на остановку процесса 
@@ -685,7 +688,7 @@ namespace SharpFBTools.Tools
 							tp.Text = sTabPageDefText + "( " + Convert.ToString( lv.Items.Count ) +" )";
 						}
 					}
-					++tsProgressBar.Value;
+					bw.ReportProgress( nCount ); // отобразим данные в контролах
 				}
 			}
 			#endregion
@@ -697,9 +700,6 @@ namespace SharpFBTools.Tools
 			#region Код
 			int nCount = lv.Items.Count;
 			tsslblProgress.Text = sProgressText;
-			tsProgressBar.Visible = true;
-			tsProgressBar.Maximum = nCount+1;
-			tsProgressBar.Value = 1;
 			for( int i=0; i!=nCount; ++i ) {
 				// Проверить флаг на остановку процесса 
 				if( ( bw.CancellationPending == true ) ) {
@@ -712,7 +712,7 @@ namespace SharpFBTools.Tools
 						lv.Items[0].Remove();
 						tp.Text = sTabPageDefText + "( " + Convert.ToString( lv.Items.Count ) +" )";
 					}
-					++tsProgressBar.Value;
+					bw.ReportProgress( nCount ); // отобразим данные в контролах
 				}
 			}
 			#endregion
@@ -813,7 +813,11 @@ namespace SharpFBTools.Tools
 			m_s7zPath		= Settings.Settings.Read7zaPath().Trim();
 			m_sUnRarPath	= Settings.Settings.ReadUnRarPath().Trim();
 			m_sMessTitle	= "SharpFBTools - Валидация";
-			m_sScan			= tboxSourceDir.Text.Trim();			
+			
+			m_sScan		= tboxSourceDir.Text.Trim();
+			Regex rx	= new Regex( @"\\+$" );
+			m_sScan		= rx.Replace( m_sScan, "" );
+			tboxSourceDir.Text = m_sScan;
 			
 			// проверки задания папки сканирования
 			if( m_sScan.Length == 0 ) {
@@ -906,7 +910,9 @@ namespace SharpFBTools.Tools
 			}
 			
 			// инициализация контролов
-			tsProgressBar.Value	= 1;
+			tsProgressBar.Maximum 	= lv.Items.Count;
+			tsProgressBar.Visible	= true;
+			tsProgressBar.Value		= 0;
 			SetFilesWorkerStartEnabled( false );
 			
 			// Запуск процесса DoWork от Бекграунд Воркера
@@ -978,7 +984,9 @@ namespace SharpFBTools.Tools
 			}
 			
 			// инициализация контролов
-			tsProgressBar.Value	= 1;
+			tsProgressBar.Maximum 	= lv.Items.Count;
+			tsProgressBar.Visible	= true;
+			tsProgressBar.Value		= 0;
 			SetFilesWorkerStartEnabled( false );
 		
 			// Запуск процесса DoWork от Бекграунд Воркера
@@ -1026,7 +1034,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			// инициализация контролов
-			tsProgressBar.Value	= 1;
+			tsProgressBar.Value	= 0;
 			SetFilesWorkerStartEnabled( false );
 		
 			// Запуск процесса DoWork от Бекграунд Воркера
