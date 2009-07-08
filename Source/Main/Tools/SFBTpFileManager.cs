@@ -85,15 +85,17 @@ namespace SharpFBTools.Tools
 		private void InitializeBackgroundWorker() {
 			// Инициализация перед использование BackgroundWorker 
             m_bw = new BackgroundWorker();
-            //m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
+            m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
             m_bw.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-            m_bw.DoWork += new DoWorkEventHandler( bw_DoWork );
+            m_bw.DoWork 			+= new DoWorkEventHandler( bw_DoWork );
+            m_bw.ProgressChanged 	+= new ProgressChangedEventHandler( bw_ProgressChanged );
             m_bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
 		}
 		
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			// сортировка файлов по папкам, согласно шаблонам подстановки
 			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка файлов:";
 			List<string> lDirList = new List<string>();
 			if( !m_bScanSubDirs ) {
 				// сканировать только указанную папку
@@ -101,12 +103,10 @@ namespace SharpFBTools.Tools
 				lvFilesCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				tsslblProgress.Text = "Создание списка папок:";
 				lDirList = FilesWorker.FilesWorker.DirsParser( m_sSource, lvFilesCount, false );
 			}
 			
-			// сортированный список всех файлов
-			tsslblProgress.Text = "Создание списка файлов:";
+			// не сортированный список всех файлов
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bw, e, lDirList, lvFilesCount, tsProgressBar, false );
 			lDirList.Clear();
 			if( ( m_bw.CancellationPending == true ) )  {
@@ -123,8 +123,8 @@ namespace SharpFBTools.Tools
 			}
 			
 			tsslblProgress.Text		= "Сортировка файлов:";
-			tsProgressBar.Maximum	= m_lFilesList.Count+1;
-			tsProgressBar.Value		= 1;
+			tsProgressBar.Maximum	= m_lFilesList.Count;
+			tsProgressBar.Value		= 0;
 			
 			// данные настроек для сортировки по шаблонам
 			Settings.DataFM dfm = new Settings.DataFM();
@@ -155,7 +155,7 @@ namespace SharpFBTools.Tools
 							MakeFileForAllGenreAllAuthor( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
 						}
 					}
-					++tsProgressBar.Value;
+					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
 			} else {
 				// Избранная Сортировка
@@ -185,11 +185,17 @@ namespace SharpFBTools.Tools
 							}
 						}
 					}
-					++tsProgressBar.Value;
+					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
 			}
         }
-     
+
+		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
+            // Отобразим результат
+
+            ++tsProgressBar.Value;
+        }
+		
         private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
             // Проверяем это отмена, ошибка, или конец задачи и сообщить
             DateTime dtEnd = DateTime.Now;
@@ -227,7 +233,7 @@ namespace SharpFBTools.Tools
 			for( int i=0; i!=lvFilesCount.Items.Count; ++i ) {
 				lvFilesCount.Items[i].SubItems[1].Text	= "0";
 			}
-			tsProgressBar.Value		= 1;
+			tsProgressBar.Value		= 0;
 			tsslblProgress.Text		= Settings.Settings.GetReady();
 			tsProgressBar.Visible	= false;
 			// очистка временной папки

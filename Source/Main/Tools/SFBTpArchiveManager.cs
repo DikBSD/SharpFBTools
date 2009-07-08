@@ -143,7 +143,8 @@ namespace SharpFBTools.Tools
 			}
 
 			tsslblProgress.Text = "Упаковка найденных файлов в " + cboxArchiveType.Text + ":";
-			tsProgressBar.Value = 0;
+			tsProgressBar.Maximum	= m_lFilesList.Count;
+			tsProgressBar.Value 	= 0;
 			BackgroundWorker bw = sender as BackgroundWorker;
 			if( cboxArchiveType.SelectedIndex == 0 ) {
 				FileToArchive( bw, e, m_sRarPath, m_lFilesList, false );// rar
@@ -155,8 +156,7 @@ namespace SharpFBTools.Tools
 		private void bwa_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат
             lvGeneralCount.Items[2].SubItems[1].Text = (m_lFB2FtA).ToString();
-            tsProgressBar.Maximum	= m_lFilesList.Count+1;
-            tsProgressBar.Value		= e.ProgressPercentage;
+            tsProgressBar.Value	= e.ProgressPercentage;
         }
 		
         private void bwa_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
@@ -216,9 +216,9 @@ namespace SharpFBTools.Tools
 				return;
 			}
 			
-			tsslblProgress.Text = "Распаковка архивов:";
-			tsProgressBar.Maximum = m_lFilesList.Count+1;
-			tsProgressBar.Value = 0;
+			tsslblProgress.Text 	= "Распаковка архивов:";
+			tsProgressBar.Maximum 	= m_lFilesList.Count;
+			tsProgressBar.Value 	= 0;
 			BackgroundWorker bw = sender as BackgroundWorker;
 			m_lUnpackCount = ArchivesToFile( bw, e, m_lFilesList, m_sTarget );
 		}
@@ -235,8 +235,7 @@ namespace SharpFBTools.Tools
 			lvUAGeneralCount.Items[2].SubItems[1].Text = (m_lCountU).ToString();
 			lvUAGeneralCount.Items[3].SubItems[1].Text = (m_lFB2U).ToString();
 
-			tsProgressBar.Maximum	= m_lFilesList.Count+1;
-			tsProgressBar.Value		= e.ProgressPercentage;
+			tsProgressBar.Value	= e.ProgressPercentage;
         }
 		
 		private void bwu_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
@@ -300,7 +299,8 @@ namespace SharpFBTools.Tools
 				return;
 			}
 
-			tsslblProgress.Text	= "Анализ файлов на наличие архивов:";
+			tsslblProgress.Text		= "Анализ файлов на наличие архивов:";
+			tsProgressBar.Maximum	= m_lFilesList.Count;
 			m_lRar = m_lZip = m_l7Z = m_lBZip2 = m_lGZip = m_lTar = 0;
 			int n = 0;
 			foreach( string sFile in m_lFilesList ) {
@@ -335,8 +335,8 @@ namespace SharpFBTools.Tools
 			lvUACount.Items[3].SubItems[1].Text = (m_lBZip2).ToString();
 			lvUACount.Items[4].SubItems[1].Text = (m_lGZip).ToString();
 			lvUACount.Items[5].SubItems[1].Text = (m_lTar).ToString();
-			tsProgressBar.Maximum	= m_lFilesList.Count+1;
-			tsProgressBar.Value		= e.ProgressPercentage;
+
+			tsProgressBar.Value	= e.ProgressPercentage;
         }
 		
 		private void bwt_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
@@ -350,7 +350,7 @@ namespace SharpFBTools.Tools
             string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
 			string sMessCanceled	= "Анализ имеющихся файлов основлен!\nЗатрачено времени: "+sTime;
 			string sMessError		= "";
-			string sMessDone		= "Анализ имеющихся файлов завершена!\nЗатрачено времени: ";
+			string sMessDone		= "Анализ имеющихся файлов завершена!\nЗатрачено времени: "+sTime;
 			
 			if( ( e.Cancelled == true ) ) {
                 MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
