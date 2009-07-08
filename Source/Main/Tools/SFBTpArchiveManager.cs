@@ -175,7 +175,7 @@ namespace SharpFBTools.Tools
 			
 			// сортированный список всех файлов
 			tsslblProgress.Text = "Создание списка файлов:";
-			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwu, e, lDirList, lvGeneralCount, tsProgressBar, false );
+			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwu, e, lDirList, lvUAGeneralCount, tsProgressBar, false );
 			lDirList.Clear();
 			if( ( m_bwu.CancellationPending == true ) )  {
 				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwu_RunWorkerCompleted

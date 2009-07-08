@@ -167,14 +167,11 @@ namespace FilesWorker
 			
 			ProcessStartInfo startInfo = new ProcessStartInfo( sZipPath, s );
 			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-			int nIdP = Process.Start(startInfo).Id;
-			// заглушка - блокировка выхода из процесса, пока запущенная программа еще открыта и работает
-			try {
-				Process _p = Process.GetProcessById( nIdP );
-				while( _p != null ) {
-					_p = Process.GetProcessById( nIdP );
-				}
-			} catch( System.ArgumentException ) { }
+			Process p = Process.Start(startInfo);
+			p.PriorityClass = ProcessPriorityClass.High;
+			p.WaitForExit();
+			p.Close();
+			p.Dispose();
 		}
 		
 		public static void unrar( string sUnRarPath, string sFilePath, string sTempDir ) {
@@ -195,14 +192,11 @@ namespace FilesWorker
 			
 			ProcessStartInfo startInfo = new ProcessStartInfo( sUnRarPath, s );
 			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-			int nIdP = Process.Start(startInfo).Id;
-			// заглушка - блокировка выхода из процесса, пока запущенная программа еще открыта и работает
-			try {
-				Process _p = Process.GetProcessById( nIdP );
-				while( _p != null ) {
-					_p = Process.GetProcessById( nIdP );
-				}
-			} catch( System.ArgumentException ) { }
+			Process p = Process.Start(startInfo);
+			p.PriorityClass = ProcessPriorityClass.High;
+			p.WaitForExit();
+			p.Close();
+			p.Dispose();
 		}
 		
 		public static void zip( string sZipPath, string sType, string sFilePath,
@@ -221,14 +215,11 @@ namespace FilesWorker
 			
 			ProcessStartInfo startInfo = new ProcessStartInfo( sZipPath, s );
 			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-			int nIdP = Process.Start(startInfo).Id;
-			// заглушка - блокировка выхода из процесса, пока запущенная программа еще открыта и работает
-			try {
-				Process _p = Process.GetProcessById( nIdP );
-				while( _p != null ) {
-					_p = Process.GetProcessById( nIdP );
-				}
-			} catch( System.ArgumentException ) { }
+			Process p = Process.Start(startInfo);
+			p.PriorityClass = ProcessPriorityClass.High;
+			p.WaitForExit();
+			p.Close();
+			p.Dispose();
 		}
 		
 		public static void rar( string sRarPath, string sFilePath,
@@ -250,14 +241,11 @@ namespace FilesWorker
 			
 			ProcessStartInfo startInfo = new ProcessStartInfo( sRarPath, s );
 			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-			int nIdP = Process.Start(startInfo).Id;
-			// заглушка - блокировка выхода из процесса, пока запущенная программа еще открыта и работает
-			try {
-				Process _p = Process.GetProcessById( nIdP );
-				while( _p != null ) {
-					_p = Process.GetProcessById( nIdP );
-				}
-			} catch( System.ArgumentException ) { }
+			Process p = Process.Start(startInfo);
+			p.PriorityClass = ProcessPriorityClass.High;
+			p.WaitForExit();
+			p.Close();
+			p.Dispose();
 		}
 		
 	}
