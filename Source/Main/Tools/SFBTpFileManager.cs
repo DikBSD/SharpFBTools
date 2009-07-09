@@ -223,7 +223,6 @@ namespace SharpFBTools.Tools
 			} else {
 				SetSelectedSortingStartEnabled( true );
 			}
-            m_bw.Dispose();
         }
 		#endregion
 		

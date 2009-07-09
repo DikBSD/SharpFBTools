@@ -181,8 +181,6 @@ namespace SharpFBTools.Tools
             } else {
             	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
-			
-            m_bwa.Dispose();
         }
 		
 		private void bwu_DoWork( object sender, DoWorkEventArgs e ) {
@@ -265,8 +263,6 @@ namespace SharpFBTools.Tools
             } else {
             	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
-			
-            m_bwu.Dispose();
 		}
 		
 		private void bwt_DoWork( object sender, DoWorkEventArgs e ) {
@@ -360,8 +356,6 @@ namespace SharpFBTools.Tools
             } else {
             	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
-
-            m_bwt.Dispose();
 		}
 		#endregion
 		

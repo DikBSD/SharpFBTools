@@ -216,8 +216,6 @@ namespace SharpFBTools.Tools
             } else {
             	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
-
-            m_bwv.Dispose();
 		}
 		#endregion
 		
@@ -360,8 +358,6 @@ namespace SharpFBTools.Tools
             } else {
             	MessageBox.Show( sMessDone, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
-            
-            m_bwcmd.Dispose();
 		}
 		
 		#endregion
