@@ -239,9 +239,18 @@ namespace FilesWorker
 			s += " \"" + sFB2RarFilePath + "\""; 	// файл-архив .fb2.rar
 			s += " \"" + sFilePath + "\""; 			// Файл который нужно запаковать
 			
-			ProcessStartInfo startInfo = new ProcessStartInfo( sRarPath, s );
+			/*ProcessStartInfo startInfo = new ProcessStartInfo( sRarPath, s );
 			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
 			Process p = Process.Start(startInfo);
+			p.PriorityClass = ProcessPriorityClass.High;
+			p.WaitForExit();
+			p.Close();
+			p.Dispose();*/
+			Process p = new Process();
+			p.StartInfo.FileName = sRarPath;
+			p.StartInfo.Arguments = s;
+			p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			p.Start();
 			p.PriorityClass = ProcessPriorityClass.High;
 			p.WaitForExit();
 			p.Close();
