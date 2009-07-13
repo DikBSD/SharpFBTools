@@ -42,7 +42,8 @@ namespace SharpFBTools.Tools
 		private string m_sTarget		= "";
 		// Для Упаковки
 		private BackgroundWorker m_bwa = null;
-		private long m_lFB2FtA	= 0;
+		private long m_lFB2FtA		= 0;
+		private long m_lAnotherFtA	= 0;
 		// Для Анализа
 		private BackgroundWorker m_bwt = null;
 		private long m_lRar 	= 0;
@@ -156,6 +157,7 @@ namespace SharpFBTools.Tools
 		private void bwa_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат
             lvGeneralCount.Items[2].SubItems[1].Text = (m_lFB2FtA).ToString();
+            lvGeneralCount.Items[3].SubItems[1].Text = (m_lAnotherFtA).ToString();
             tsProgressBar.Value	= e.ProgressPercentage;
         }
 		
@@ -676,10 +678,13 @@ namespace SharpFBTools.Tools
 							} else {
 								FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
 							}
+						} else {
+							++m_lAnotherFtA;
 						}
 					} else {
 						// упаковываем любые файлы
 						if( Path.GetExtension( sFile ).ToLower() == ".fb2" ) ++m_lFB2FtA;
+						else ++m_lAnotherFtA;
 						// упаковываем
 						string sArchiveExt = "."+StringProcessing.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
 						if( rbtnToSomeDir.Checked ) {
