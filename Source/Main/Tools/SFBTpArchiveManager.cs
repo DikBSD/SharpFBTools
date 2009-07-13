@@ -57,6 +57,7 @@ namespace SharpFBTools.Tools
 		private long m_lUnpackCount	= 0;
 		private long m_lCountU 	= 0;
 		private long m_lFB2U 	= 0;
+		private long m_lAnotherU = 0;
 		private long m_lRarU 	= 0;
 		private long m_lZipU 	= 0;
 		private long m_l7ZU		= 0;
@@ -234,6 +235,7 @@ namespace SharpFBTools.Tools
 
 			lvUAGeneralCount.Items[2].SubItems[1].Text = (m_lCountU).ToString();
 			lvUAGeneralCount.Items[3].SubItems[1].Text = (m_lFB2U).ToString();
+			lvUAGeneralCount.Items[4].SubItems[1].Text = (m_lAnotherU).ToString();
 
 			tsProgressBar.Value	= e.ProgressPercentage;
         }
@@ -651,7 +653,7 @@ namespace SharpFBTools.Tools
 			// упаковка fb2-файлов в .fb2.??? - где ??? - тип архива (задается в cboxArchiveType)
 			// bFB2=true - упаковываем только fb2-файлы; bFB2=false - упаковываем любые файлы
 			#region Код
-			m_lFB2FtA = 0;
+			m_lFB2FtA = m_lAnotherFtA = 0;
 			string sArchiveFile = "";
 			int n = 0;
 			foreach( string sFile in lFilesList ) {
@@ -768,9 +770,11 @@ namespace SharpFBTools.Tools
 							string [] files = Directory.GetFiles( sTempDir );
 							foreach( string sFB2File in files ) {
 								string sFileName = Path.GetFileName( sFB2File );
-								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) {
-									++m_lFB2U;
+								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_lFB2U;
+								else {
+									if( !bFB2 ) ++m_lAnotherU;
 								}
+								
 								if( FileToDir( sFileName, sFile, sMoveToDir, bFB2 ) ) {
 								} else {
 									File.Delete( sFileName );
@@ -819,9 +823,11 @@ namespace SharpFBTools.Tools
 							string [] files = Directory.GetFiles( sTempDir );
 							foreach( string sFB2File in files ) {
 								string sFileName = Path.GetFileName( sFB2File );
-								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) {
-									++m_lFB2U;
+								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_lFB2U;
+								else {
+									if( !bFB2 ) ++m_lAnotherU;
 								}
+								
 								if( FileToDir( sFileName, sFile, sMoveToDir, bFB2 ) ) {
 								} else {
 									File.Delete( sFileName );
@@ -841,12 +847,12 @@ namespace SharpFBTools.Tools
 		                            List<string> lFilesList, string sMoveToDir, bool bFB2 ) {
 			// Распаковать ахривы
 			// bFB2=true - распаковываем только fb2-файлы; bFB2=false - распаковываем любые файлы
-			m_lCountU = m_lFB2U = m_lRarU = m_lZipU = m_l7ZU = m_lBZip2U = m_lGZipU = m_lTarU = 0;
+			m_lCountU = m_lFB2U = m_lAnotherU = m_lRarU = m_lZipU = m_l7ZU = m_lBZip2U = m_lGZipU = m_lTarU = 0;
 			string sArchType = StringProcessing.StringProcessing.GetArchiveExt( cboxUAType.Text );
-			long lCount = 0;
 			string sTempDir = Settings.Settings.GetTempDir();
 			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 			string sExt = "";
+			long lCount = 0;
 			switch( sArchType.ToLower() ) {
 				case "":
 					lCount = AllArchivesToFile( bw, e, lFilesList, sMoveToDir, bFB2 );
@@ -867,9 +873,11 @@ namespace SharpFBTools.Tools
 									string [] files = Directory.GetFiles( sTempDir );
 									foreach( string sFB2File in files ) {
 										string sFileName = Path.GetFileName( sFB2File );
-										if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) {
-											++m_lFB2U;
+										if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_lFB2U;
+										else {
+											if( !bFB2 ) ++m_lAnotherU;
 										}
+										
 										if( FileToDir( sFileName, sFile, sMoveToDir, bFB2 ) ) {
 										}  else {
 											File.Delete( sFileName );
