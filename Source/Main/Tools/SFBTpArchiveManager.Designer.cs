@@ -38,48 +38,48 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpArchiveManager));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-									"fb2-файлов",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Другие файлы",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего папок",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего файлов",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Распаковано архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлы из этих архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Rar",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Zip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
 									"7z",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
 									"BZip2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
 									"GZip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Tar",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего папок",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2-файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Другие файлы",
 									"0"}, -1);
 			this.tsArchiver = new System.Windows.Forms.ToolStrip();
 			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
@@ -97,13 +97,7 @@ namespace SharpFBTools.Tools
 			this.tcArchiver = new System.Windows.Forms.TabControl();
 			this.tpArchive = new System.Windows.Forms.TabPage();
 			this.pOptions = new System.Windows.Forms.Panel();
-			this.gboxCount = new System.Windows.Forms.GroupBox();
-			this.lvGeneralCount = new System.Windows.Forms.ListView();
-			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.gboxOptions = new System.Windows.Forms.GroupBox();
-			this.cboxAddRestoreInfo = new System.Windows.Forms.CheckBox();
-			this.cboxDelFB2Files = new System.Windows.Forms.CheckBox();
 			this.pToAnotherDir = new System.Windows.Forms.Panel();
 			this.btnToAnotherDir = new System.Windows.Forms.Button();
 			this.tboxToAnotherDir = new System.Windows.Forms.TextBox();
@@ -121,6 +115,7 @@ namespace SharpFBTools.Tools
 			this.tpUnArchive = new System.Windows.Forms.TabPage();
 			this.pUAOptions = new System.Windows.Forms.Panel();
 			this.gboxUAOptions = new System.Windows.Forms.GroupBox();
+			this.panel2 = new System.Windows.Forms.Panel();
 			this.gboxUACount = new System.Windows.Forms.GroupBox();
 			this.lvUAGeneralCount = new System.Windows.Forms.ListView();
 			this.cHeaderDirsFiles = new System.Windows.Forms.ColumnHeader();
@@ -129,15 +124,16 @@ namespace SharpFBTools.Tools
 			this.cHeaderArchive = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderArchiveCount = new System.Windows.Forms.ColumnHeader();
 			this.cboxUADelFB2Files = new System.Windows.Forms.CheckBox();
+			this.pUnbPackFiles = new System.Windows.Forms.Panel();
+			this.rbAnyU = new System.Windows.Forms.RadioButton();
+			this.rbFB2U = new System.Windows.Forms.RadioButton();
+			this.lblFilesUType = new System.Windows.Forms.Label();
 			this.pUAToAnotherDir = new System.Windows.Forms.Panel();
 			this.btnUAToAnotherDir = new System.Windows.Forms.Button();
 			this.tboxUAToAnotherDir = new System.Windows.Forms.TextBox();
 			this.rbtnUAToAnotherDir = new System.Windows.Forms.RadioButton();
 			this.rbtnUAToSomeDir = new System.Windows.Forms.RadioButton();
 			this.pUAType = new System.Windows.Forms.Panel();
-			this.rbAnyU = new System.Windows.Forms.RadioButton();
-			this.rbFB2U = new System.Windows.Forms.RadioButton();
-			this.lblFilesUType = new System.Windows.Forms.Label();
 			this.chBoxAddFileNameBookID = new System.Windows.Forms.CheckBox();
 			this.cboxUAExistArchive = new System.Windows.Forms.ComboBox();
 			this.lblUAExistArchive = new System.Windows.Forms.Label();
@@ -157,6 +153,13 @@ namespace SharpFBTools.Tools
 			this.tsbtnUnArchiveStop = new System.Windows.Forms.ToolStripButton();
 			this.imgl16 = new System.Windows.Forms.ImageList(this.components);
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
+			this.pArchiveFiles = new System.Windows.Forms.Panel();
+			this.cboxAddRestoreInfo = new System.Windows.Forms.CheckBox();
+			this.cboxDelFB2Files = new System.Windows.Forms.CheckBox();
+			this.gboxCount = new System.Windows.Forms.GroupBox();
+			this.lvGeneralCount = new System.Windows.Forms.ListView();
+			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.tsArchiver.SuspendLayout();
 			this.ssProgress.SuspendLayout();
 			this.pScanDir.SuspendLayout();
@@ -164,18 +167,21 @@ namespace SharpFBTools.Tools
 			this.tcArchiver.SuspendLayout();
 			this.tpArchive.SuspendLayout();
 			this.pOptions.SuspendLayout();
-			this.gboxCount.SuspendLayout();
 			this.gboxOptions.SuspendLayout();
 			this.pToAnotherDir.SuspendLayout();
 			this.pType.SuspendLayout();
 			this.tpUnArchive.SuspendLayout();
 			this.pUAOptions.SuspendLayout();
 			this.gboxUAOptions.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.gboxUACount.SuspendLayout();
+			this.pUnbPackFiles.SuspendLayout();
 			this.pUAToAnotherDir.SuspendLayout();
 			this.pUAType.SuspendLayout();
 			this.pUAScanDir.SuspendLayout();
 			this.tsUnArchiver.SuspendLayout();
+			this.pArchiveFiles.SuspendLayout();
+			this.gboxCount.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tsArchiver
@@ -343,82 +349,21 @@ namespace SharpFBTools.Tools
 			this.pOptions.Size = new System.Drawing.Size(754, 384);
 			this.pOptions.TabIndex = 26;
 			// 
-			// gboxCount
-			// 
-			this.gboxCount.Controls.Add(this.lvGeneralCount);
-			this.gboxCount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gboxCount.Location = new System.Drawing.Point(0, 151);
-			this.gboxCount.Name = "gboxCount";
-			this.gboxCount.Size = new System.Drawing.Size(754, 233);
-			this.gboxCount.TabIndex = 3;
-			this.gboxCount.TabStop = false;
-			this.gboxCount.Text = " Ход работы ";
-			// 
-			// lvGeneralCount
-			// 
-			this.lvGeneralCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader1,
-									this.columnHeader2});
-			this.lvGeneralCount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvGeneralCount.FullRowSelect = true;
-			this.lvGeneralCount.GridLines = true;
-			this.lvGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4});
-			this.lvGeneralCount.Location = new System.Drawing.Point(3, 16);
-			this.lvGeneralCount.Name = "lvGeneralCount";
-			this.lvGeneralCount.Size = new System.Drawing.Size(748, 214);
-			this.lvGeneralCount.TabIndex = 2;
-			this.lvGeneralCount.UseCompatibleStateImageBehavior = false;
-			this.lvGeneralCount.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader1
-			// 
-			this.columnHeader1.Text = "Папки и файлы";
-			this.columnHeader1.Width = 200;
-			// 
-			// columnHeader2
-			// 
-			this.columnHeader2.Text = "Количество";
-			this.columnHeader2.Width = 80;
-			// 
 			// gboxOptions
 			// 
 			this.gboxOptions.Controls.Add(this.cboxAddRestoreInfo);
 			this.gboxOptions.Controls.Add(this.cboxDelFB2Files);
+			this.gboxOptions.Controls.Add(this.pArchiveFiles);
 			this.gboxOptions.Controls.Add(this.pToAnotherDir);
 			this.gboxOptions.Controls.Add(this.rbtnToAnotherDir);
 			this.gboxOptions.Controls.Add(this.rbtnToSomeDir);
 			this.gboxOptions.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxOptions.Location = new System.Drawing.Point(0, 0);
 			this.gboxOptions.Name = "gboxOptions";
-			this.gboxOptions.Size = new System.Drawing.Size(754, 151);
+			this.gboxOptions.Size = new System.Drawing.Size(754, 177);
 			this.gboxOptions.TabIndex = 1;
 			this.gboxOptions.TabStop = false;
 			this.gboxOptions.Text = " Настройки ";
-			// 
-			// cboxAddRestoreInfo
-			// 
-			this.cboxAddRestoreInfo.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cboxAddRestoreInfo.Location = new System.Drawing.Point(3, 121);
-			this.cboxAddRestoreInfo.Name = "cboxAddRestoreInfo";
-			this.cboxAddRestoreInfo.Size = new System.Drawing.Size(748, 24);
-			this.cboxAddRestoreInfo.TabIndex = 4;
-			this.cboxAddRestoreInfo.Text = " Добавить в архив информацию для его восстановления";
-			this.cboxAddRestoreInfo.UseVisualStyleBackColor = true;
-			this.cboxAddRestoreInfo.Visible = false;
-			// 
-			// cboxDelFB2Files
-			// 
-			this.cboxDelFB2Files.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cboxDelFB2Files.Location = new System.Drawing.Point(3, 97);
-			this.cboxDelFB2Files.Name = "cboxDelFB2Files";
-			this.cboxDelFB2Files.Size = new System.Drawing.Size(748, 24);
-			this.cboxDelFB2Files.TabIndex = 3;
-			this.cboxDelFB2Files.Text = " Удалить fb2-файлы после упаковки";
-			this.cboxDelFB2Files.UseVisualStyleBackColor = true;
 			// 
 			// pToAnotherDir
 			// 
@@ -480,9 +425,6 @@ namespace SharpFBTools.Tools
 			// 
 			// pType
 			// 
-			this.pType.Controls.Add(this.rbAny);
-			this.pType.Controls.Add(this.rbFB2);
-			this.pType.Controls.Add(this.lblFilesType);
 			this.pType.Controls.Add(this.chBoxAddArchiveNameBookID);
 			this.pType.Controls.Add(this.cboxExistArchive);
 			this.pType.Controls.Add(this.lblExistArchive);
@@ -496,7 +438,7 @@ namespace SharpFBTools.Tools
 			// 
 			// rbAny
 			// 
-			this.rbAny.Location = new System.Drawing.Point(239, 27);
+			this.rbAny.Location = new System.Drawing.Point(240, 8);
 			this.rbAny.Name = "rbAny";
 			this.rbAny.Size = new System.Drawing.Size(76, 18);
 			this.rbAny.TabIndex = 23;
@@ -506,7 +448,7 @@ namespace SharpFBTools.Tools
 			// rbFB2
 			// 
 			this.rbFB2.Checked = true;
-			this.rbFB2.Location = new System.Drawing.Point(146, 27);
+			this.rbFB2.Location = new System.Drawing.Point(147, 8);
 			this.rbFB2.Name = "rbFB2";
 			this.rbFB2.Size = new System.Drawing.Size(93, 18);
 			this.rbFB2.TabIndex = 22;
@@ -518,7 +460,7 @@ namespace SharpFBTools.Tools
 			// lblFilesType
 			// 
 			this.lblFilesType.AutoSize = true;
-			this.lblFilesType.Location = new System.Drawing.Point(3, 28);
+			this.lblFilesType.Location = new System.Drawing.Point(4, 9);
 			this.lblFilesType.Name = "lblFilesType";
 			this.lblFilesType.Size = new System.Drawing.Size(133, 13);
 			this.lblFilesType.TabIndex = 21;
@@ -609,8 +551,9 @@ namespace SharpFBTools.Tools
 			// 
 			// gboxUAOptions
 			// 
-			this.gboxUAOptions.Controls.Add(this.gboxUACount);
+			this.gboxUAOptions.Controls.Add(this.panel2);
 			this.gboxUAOptions.Controls.Add(this.cboxUADelFB2Files);
+			this.gboxUAOptions.Controls.Add(this.pUnbPackFiles);
 			this.gboxUAOptions.Controls.Add(this.pUAToAnotherDir);
 			this.gboxUAOptions.Controls.Add(this.rbtnUAToAnotherDir);
 			this.gboxUAOptions.Controls.Add(this.rbtnUAToSomeDir);
@@ -622,15 +565,24 @@ namespace SharpFBTools.Tools
 			this.gboxUAOptions.TabStop = false;
 			this.gboxUAOptions.Text = " Настройки ";
 			// 
+			// panel2
+			// 
+			this.panel2.Controls.Add(this.gboxUACount);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel2.Location = new System.Drawing.Point(3, 151);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(748, 230);
+			this.panel2.TabIndex = 7;
+			// 
 			// gboxUACount
 			// 
 			this.gboxUACount.Controls.Add(this.lvUAGeneralCount);
 			this.gboxUACount.Controls.Add(this.lvUACount);
 			this.gboxUACount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gboxUACount.Location = new System.Drawing.Point(3, 121);
+			this.gboxUACount.Location = new System.Drawing.Point(0, 0);
 			this.gboxUACount.Name = "gboxUACount";
-			this.gboxUACount.Size = new System.Drawing.Size(748, 260);
-			this.gboxUACount.TabIndex = 4;
+			this.gboxUACount.Size = new System.Drawing.Size(748, 230);
+			this.gboxUACount.TabIndex = 8;
 			this.gboxUACount.TabStop = false;
 			this.gboxUACount.Text = " Ход работы ";
 			// 
@@ -644,13 +596,13 @@ namespace SharpFBTools.Tools
 			this.lvUAGeneralCount.FullRowSelect = true;
 			this.lvUAGeneralCount.GridLines = true;
 			this.lvUAGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem5,
-									listViewItem6,
-									listViewItem7,
-									listViewItem8});
+									listViewItem15,
+									listViewItem16,
+									listViewItem17,
+									listViewItem18});
 			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 16);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
-			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 241);
+			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 211);
 			this.lvUAGeneralCount.TabIndex = 1;
 			this.lvUAGeneralCount.UseCompatibleStateImageBehavior = false;
 			this.lvUAGeneralCount.View = System.Windows.Forms.View.Details;
@@ -675,27 +627,27 @@ namespace SharpFBTools.Tools
 									this.cHeaderArchiveCount});
 			this.lvUACount.FullRowSelect = true;
 			this.lvUACount.GridLines = true;
-			listViewGroup1.Header = "Архивы";
-			listViewGroup1.Name = "lvgArchive";
+			listViewGroup2.Header = "Архивы";
+			listViewGroup2.Name = "lvgArchive";
 			this.lvUACount.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-									listViewGroup1});
-			listViewItem9.Group = listViewGroup1;
-			listViewItem9.StateImageIndex = 0;
-			listViewItem10.Group = listViewGroup1;
-			listViewItem11.Group = listViewGroup1;
-			listViewItem12.Group = listViewGroup1;
-			listViewItem13.Group = listViewGroup1;
-			listViewItem14.Group = listViewGroup1;
+									listViewGroup2});
+			listViewItem19.Group = listViewGroup2;
+			listViewItem19.StateImageIndex = 0;
+			listViewItem20.Group = listViewGroup2;
+			listViewItem21.Group = listViewGroup2;
+			listViewItem22.Group = listViewGroup2;
+			listViewItem23.Group = listViewGroup2;
+			listViewItem24.Group = listViewGroup2;
 			this.lvUACount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem9,
-									listViewItem10,
-									listViewItem11,
-									listViewItem12,
-									listViewItem13,
-									listViewItem14});
+									listViewItem19,
+									listViewItem20,
+									listViewItem21,
+									listViewItem22,
+									listViewItem23,
+									listViewItem24});
 			this.lvUACount.Location = new System.Drawing.Point(398, 16);
 			this.lvUACount.Name = "lvUACount";
-			this.lvUACount.Size = new System.Drawing.Size(347, 241);
+			this.lvUACount.Size = new System.Drawing.Size(347, 211);
 			this.lvUACount.TabIndex = 0;
 			this.lvUACount.UseCompatibleStateImageBehavior = false;
 			this.lvUACount.View = System.Windows.Forms.View.Details;
@@ -713,12 +665,53 @@ namespace SharpFBTools.Tools
 			// cboxUADelFB2Files
 			// 
 			this.cboxUADelFB2Files.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cboxUADelFB2Files.Location = new System.Drawing.Point(3, 97);
+			this.cboxUADelFB2Files.Location = new System.Drawing.Point(3, 127);
 			this.cboxUADelFB2Files.Name = "cboxUADelFB2Files";
 			this.cboxUADelFB2Files.Size = new System.Drawing.Size(748, 24);
-			this.cboxUADelFB2Files.TabIndex = 3;
+			this.cboxUADelFB2Files.TabIndex = 6;
 			this.cboxUADelFB2Files.Text = " Удалить архивы после распаковки";
 			this.cboxUADelFB2Files.UseVisualStyleBackColor = true;
+			// 
+			// pUnbPackFiles
+			// 
+			this.pUnbPackFiles.Controls.Add(this.rbAnyU);
+			this.pUnbPackFiles.Controls.Add(this.rbFB2U);
+			this.pUnbPackFiles.Controls.Add(this.lblFilesUType);
+			this.pUnbPackFiles.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pUnbPackFiles.Location = new System.Drawing.Point(3, 97);
+			this.pUnbPackFiles.Name = "pUnbPackFiles";
+			this.pUnbPackFiles.Size = new System.Drawing.Size(748, 30);
+			this.pUnbPackFiles.TabIndex = 5;
+			// 
+			// rbAnyU
+			// 
+			this.rbAnyU.Location = new System.Drawing.Point(220, 8);
+			this.rbAnyU.Name = "rbAnyU";
+			this.rbAnyU.Size = new System.Drawing.Size(76, 18);
+			this.rbAnyU.TabIndex = 26;
+			this.rbAnyU.Text = "Любые";
+			this.rbAnyU.UseVisualStyleBackColor = true;
+			// 
+			// rbFB2U
+			// 
+			this.rbFB2U.Checked = true;
+			this.rbFB2U.Location = new System.Drawing.Point(127, 8);
+			this.rbFB2U.Name = "rbFB2U";
+			this.rbFB2U.Size = new System.Drawing.Size(93, 18);
+			this.rbFB2U.TabIndex = 25;
+			this.rbFB2U.TabStop = true;
+			this.rbFB2U.Text = "Только fb2";
+			this.rbFB2U.UseVisualStyleBackColor = true;
+			this.rbFB2U.CheckedChanged += new System.EventHandler(this.RbFB2UCheckedChanged);
+			// 
+			// lblFilesUType
+			// 
+			this.lblFilesUType.AutoSize = true;
+			this.lblFilesUType.Location = new System.Drawing.Point(5, 9);
+			this.lblFilesUType.Name = "lblFilesUType";
+			this.lblFilesUType.Size = new System.Drawing.Size(115, 13);
+			this.lblFilesUType.TabIndex = 24;
+			this.lblFilesUType.Text = "Извлекать Файлы:";
 			// 
 			// pUAToAnotherDir
 			// 
@@ -780,9 +773,6 @@ namespace SharpFBTools.Tools
 			// 
 			// pUAType
 			// 
-			this.pUAType.Controls.Add(this.rbAnyU);
-			this.pUAType.Controls.Add(this.rbFB2U);
-			this.pUAType.Controls.Add(this.lblFilesUType);
 			this.pUAType.Controls.Add(this.chBoxAddFileNameBookID);
 			this.pUAType.Controls.Add(this.cboxUAExistArchive);
 			this.pUAType.Controls.Add(this.lblUAExistArchive);
@@ -793,36 +783,6 @@ namespace SharpFBTools.Tools
 			this.pUAType.Name = "pUAType";
 			this.pUAType.Size = new System.Drawing.Size(754, 48);
 			this.pUAType.TabIndex = 26;
-			// 
-			// rbAnyU
-			// 
-			this.rbAnyU.Location = new System.Drawing.Point(219, 27);
-			this.rbAnyU.Name = "rbAnyU";
-			this.rbAnyU.Size = new System.Drawing.Size(76, 18);
-			this.rbAnyU.TabIndex = 26;
-			this.rbAnyU.Text = "Любые";
-			this.rbAnyU.UseVisualStyleBackColor = true;
-			// 
-			// rbFB2U
-			// 
-			this.rbFB2U.Checked = true;
-			this.rbFB2U.Location = new System.Drawing.Point(126, 27);
-			this.rbFB2U.Name = "rbFB2U";
-			this.rbFB2U.Size = new System.Drawing.Size(93, 18);
-			this.rbFB2U.TabIndex = 25;
-			this.rbFB2U.TabStop = true;
-			this.rbFB2U.Text = "Только fb2";
-			this.rbFB2U.UseVisualStyleBackColor = true;
-			this.rbFB2U.CheckedChanged += new System.EventHandler(this.RbFB2UCheckedChanged);
-			// 
-			// lblFilesUType
-			// 
-			this.lblFilesUType.AutoSize = true;
-			this.lblFilesUType.Location = new System.Drawing.Point(4, 28);
-			this.lblFilesUType.Name = "lblFilesUType";
-			this.lblFilesUType.Size = new System.Drawing.Size(115, 13);
-			this.lblFilesUType.TabIndex = 24;
-			this.lblFilesUType.Text = "Извлекать Файлы:";
 			// 
 			// chBoxAddFileNameBookID
 			// 
@@ -1014,6 +974,79 @@ namespace SharpFBTools.Tools
 			this.imgl16.Images.SetKeyName(0, "Archive1.png");
 			this.imgl16.Images.SetKeyName(1, "UnArchive1.png");
 			// 
+			// pArchiveFiles
+			// 
+			this.pArchiveFiles.Controls.Add(this.rbAny);
+			this.pArchiveFiles.Controls.Add(this.lblFilesType);
+			this.pArchiveFiles.Controls.Add(this.rbFB2);
+			this.pArchiveFiles.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pArchiveFiles.Location = new System.Drawing.Point(3, 97);
+			this.pArchiveFiles.Name = "pArchiveFiles";
+			this.pArchiveFiles.Size = new System.Drawing.Size(748, 30);
+			this.pArchiveFiles.TabIndex = 5;
+			// 
+			// cboxAddRestoreInfo
+			// 
+			this.cboxAddRestoreInfo.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cboxAddRestoreInfo.Location = new System.Drawing.Point(3, 151);
+			this.cboxAddRestoreInfo.Name = "cboxAddRestoreInfo";
+			this.cboxAddRestoreInfo.Size = new System.Drawing.Size(748, 24);
+			this.cboxAddRestoreInfo.TabIndex = 7;
+			this.cboxAddRestoreInfo.Text = " Добавить в архив информацию для его восстановления";
+			this.cboxAddRestoreInfo.UseVisualStyleBackColor = true;
+			this.cboxAddRestoreInfo.Visible = false;
+			// 
+			// cboxDelFB2Files
+			// 
+			this.cboxDelFB2Files.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cboxDelFB2Files.Location = new System.Drawing.Point(3, 127);
+			this.cboxDelFB2Files.Name = "cboxDelFB2Files";
+			this.cboxDelFB2Files.Size = new System.Drawing.Size(748, 24);
+			this.cboxDelFB2Files.TabIndex = 6;
+			this.cboxDelFB2Files.Text = " Удалить fb2-файлы после упаковки";
+			this.cboxDelFB2Files.UseVisualStyleBackColor = true;
+			// 
+			// gboxCount
+			// 
+			this.gboxCount.Controls.Add(this.lvGeneralCount);
+			this.gboxCount.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gboxCount.Location = new System.Drawing.Point(0, 177);
+			this.gboxCount.Name = "gboxCount";
+			this.gboxCount.Size = new System.Drawing.Size(754, 207);
+			this.gboxCount.TabIndex = 4;
+			this.gboxCount.TabStop = false;
+			this.gboxCount.Text = " Ход работы ";
+			// 
+			// lvGeneralCount
+			// 
+			this.lvGeneralCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader1,
+									this.columnHeader2});
+			this.lvGeneralCount.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvGeneralCount.FullRowSelect = true;
+			this.lvGeneralCount.GridLines = true;
+			this.lvGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem25,
+									listViewItem26,
+									listViewItem27,
+									listViewItem28});
+			this.lvGeneralCount.Location = new System.Drawing.Point(3, 16);
+			this.lvGeneralCount.Name = "lvGeneralCount";
+			this.lvGeneralCount.Size = new System.Drawing.Size(748, 188);
+			this.lvGeneralCount.TabIndex = 2;
+			this.lvGeneralCount.UseCompatibleStateImageBehavior = false;
+			this.lvGeneralCount.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Папки и файлы";
+			this.columnHeader1.Width = 200;
+			// 
+			// columnHeader2
+			// 
+			this.columnHeader2.Text = "Количество";
+			this.columnHeader2.Width = 80;
+			// 
 			// SFBTpArchiveManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1033,7 +1066,6 @@ namespace SharpFBTools.Tools
 			this.tpArchive.ResumeLayout(false);
 			this.tpArchive.PerformLayout();
 			this.pOptions.ResumeLayout(false);
-			this.gboxCount.ResumeLayout(false);
 			this.gboxOptions.ResumeLayout(false);
 			this.pToAnotherDir.ResumeLayout(false);
 			this.pToAnotherDir.PerformLayout();
@@ -1043,7 +1075,10 @@ namespace SharpFBTools.Tools
 			this.tpUnArchive.PerformLayout();
 			this.pUAOptions.ResumeLayout(false);
 			this.gboxUAOptions.ResumeLayout(false);
+			this.panel2.ResumeLayout(false);
 			this.gboxUACount.ResumeLayout(false);
+			this.pUnbPackFiles.ResumeLayout(false);
+			this.pUnbPackFiles.PerformLayout();
 			this.pUAToAnotherDir.ResumeLayout(false);
 			this.pUAToAnotherDir.PerformLayout();
 			this.pUAType.ResumeLayout(false);
@@ -1052,9 +1087,15 @@ namespace SharpFBTools.Tools
 			this.pUAScanDir.PerformLayout();
 			this.tsUnArchiver.ResumeLayout(false);
 			this.tsUnArchiver.PerformLayout();
+			this.pArchiveFiles.ResumeLayout(false);
+			this.pArchiveFiles.PerformLayout();
+			this.gboxCount.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Panel pArchiveFiles;
+		private System.Windows.Forms.Panel pUnbPackFiles;
+		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Label lblFilesUType;
 		private System.Windows.Forms.RadioButton rbFB2U;
 		private System.Windows.Forms.RadioButton rbAnyU;

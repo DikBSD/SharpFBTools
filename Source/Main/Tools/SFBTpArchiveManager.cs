@@ -1086,7 +1086,7 @@ namespace SharpFBTools.Tools
 		
 		void RbFB2UCheckedChanged(object sender, EventArgs e)
 		{
-			chBoxAddArchiveNameBookID.Visible = rbFB2U.Checked;
+			chBoxAddFileNameBookID.Visible = rbFB2U.Checked;
 		}
 		
 		void TsbtnArchiveStopClick(object sender, EventArgs e)
