@@ -77,6 +77,7 @@ namespace SharpFBTools.Tools
 			this.chkBoxBookTitle = new System.Windows.Forms.CheckBox();
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.lblCount = new System.Windows.Forms.Label();
+			this.btnDeleteAll = new System.Windows.Forms.Button();
 			this.gBoxGenre.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -369,6 +370,8 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnOK.Enabled = false;
 			this.btnOK.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.btnOK.Image = ((System.Drawing.Image)(resources.GetObject("btnOK.Image")));
+			this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnOK.Location = new System.Drawing.Point(610, 416);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(110, 26);
@@ -469,12 +472,28 @@ namespace SharpFBTools.Tools
 			this.lblCount.TabIndex = 71;
 			this.lblCount.Text = "0";
 			// 
+			// btnDeleteAll
+			// 
+			this.btnDeleteAll.Enabled = false;
+			this.btnDeleteAll.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.btnDeleteAll.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteAll.Image")));
+			this.btnDeleteAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnDeleteAll.Location = new System.Drawing.Point(610, 197);
+			this.btnDeleteAll.Name = "btnDeleteAll";
+			this.btnDeleteAll.Size = new System.Drawing.Size(110, 26);
+			this.btnDeleteAll.TabIndex = 72;
+			this.btnDeleteAll.Text = "Удалить все";
+			this.btnDeleteAll.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnDeleteAll.UseVisualStyleBackColor = true;
+			this.btnDeleteAll.Click += new System.EventHandler(this.BtnDeleteAllClick);
+			// 
 			// SelectedSortData
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(734, 455);
+			this.Controls.Add(this.btnDeleteAll);
 			this.Controls.Add(this.lblCount);
 			this.Controls.Add(this.lblInfo);
 			this.Controls.Add(this.txtBoxSSBookTitle);
@@ -508,10 +527,12 @@ namespace SharpFBTools.Tools
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Данные для Избранной Сортировки";
+			this.Shown += new System.EventHandler(this.SelectedSortDataShown);
 			this.gBoxGenre.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Button btnDeleteAll;
 		public System.Windows.Forms.Label lblCount;
 		private System.Windows.Forms.Label lblInfo;
 		private System.Windows.Forms.CheckBox chkBoxBookTitle;

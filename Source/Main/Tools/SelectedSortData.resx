@@ -118,6 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnOK.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIQAA
+        LiEBB1v8/wAAAUtJREFUSEtjPHHiBANNAMhgWmCaGAoOBVq4luoGMy9i+A9zKFVczLWI6z/DbIShcBeL
+        rxSH20RK0HDM4fjvcNrhv942PQz9YBeLrxL/b3bVjGjDWaey/tc8rvk/4GPAf5HFIlj1gQ1m6GD4r/1d
+        +7/EZQm8hjP1M/0XPCL4X+OHBlg99zxunOrhYcx8nfk/6z/W/4znGTG91cnwn+EAw3+WbyxgNazPgOo6
+        MdUhByPcYIaVQM3foPg4JCIYmoD8HUD8DknuPpDdjBpR2OIFYXANUMMbJHwNyH6KJgZ0NQNQHTERjJLc
+        GM4CNT7GgYEuJ8ZArOmYYSHQ0FtY8CzSDMXIeQxlQEMvouFu0g3FmqUZdgMNPgHEB4G4nDxDsRsM9DbD
+        TiDOI99Q7AbnAg0FYlIiCm9yg8dmNOWGUr3YxJrzKPU6un6qlMfYHAUAaZgQv2zfnUAAAAAASUVORK5C
+        YII=
+</value>
+  </data>
   <data name="btnDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -146,5 +159,18 @@
 Пример: в поле Фамилия Автора задано "Ку" (без кавычек).
 1. Если опция включена, то будут найдены Книги только для Автора с Фамилией "Ку", но не "ку". РЕГИСТР учитывается!
 2. Если опция отключена, то будут  найдены все книги Куприна, Купера, Пикуля и т.д., при соблюдении других условиев поиска, если они заданы.  При отключенной опции РЕГИСТР НЕ учитывается!</value>
+  </data>
+  <data name="btnDeleteAll.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIQAA
+        LiEBB1v8/wAAAYBJREFUSEu11L9Lw0AUB/CoIP5YRNBBCE4dFMXFbgqCiEMVnDq41EVBcJBOgggOgoiL
+        4lZx0MnJycnJSQL+Ja0araLj+5qvmNK7JHdHIYWj0B6ffO/dy+sKgsDL5UM4j5UL+lcFPe3P1Rq+a6tw
+        PUVYGcfbup/Yr8BE5fkG8lTD19mSFScq+3OQ6ixeV0aU/QrMpETl8RzycILP4/lMvB2V7Sm8LA9nwzw+
+        kxKV+0PI3R4+DooJ3Iam1pg/MilRud2FXG/hvTrdwl3QTJh/MClRuaxALspo7kyiuVlo1TTt+O0Xbmw3
+        JiUqp1Htj6IS/V+UDTUmjp/OpDoaltQOSGtN6wuiH182CggXh6ytaIT1iyIqZR9SGkVjps+IZ8I6yuMz
+        KVFZiL6Lg2j4PZl4KmxqKSYlKhO9kLFu1Pu9VDwBu/QpkxKVAQ/ieahHS79ABXZBY4BJicZLxxWYU4oD
+        xaVP+QBiTjA3c0rpA8U0QolbS+E6g132WV8QF6SjN69T+BdarFQoR/GvlAAAAABJRU5ErkJggg==
+</value>
   </data>
 </root>

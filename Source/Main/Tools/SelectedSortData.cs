@@ -334,9 +334,10 @@ namespace SharpFBTools.Tools
 		void LvSSDataSelectedIndexChanged(object sender, EventArgs e)
 		{
 			if( lvSSData.SelectedItems.Count == 0 ) {
-				btnDelete.Enabled	= false;
+				btnDelete.Enabled = false;
 			} else {
-				btnDelete.Enabled	= true;
+				btnDelete.Enabled 		= true;
+				btnDeleteAll.Enabled 	= true;
 			}
 		}
 		
@@ -362,7 +363,30 @@ namespace SharpFBTools.Tools
 			
 			if( lvSSData.Items.Count > 0 ) {
 				btnOK.Enabled = true;
+			} else {
+				btnDelete.Enabled 		= false;
+				btnDeleteAll.Enabled	= false;
 			}
+		}
+		
+		void BtnDeleteAllClick(object sender, EventArgs e)
+		{
+			// удаление всех данных сортировки из списка
+			string sMess = "Вы действительно хотите удалить ВСЕ данные из списка?";
+			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+			DialogResult result;
+			result = MessageBox.Show( sMess, m_sTitle, buttons, MessageBoxIcon.Question );
+	        if(result == DialogResult.No) {
+	            return;
+			}
+			
+			lvSSData.Items.Clear();
+			
+			btnDelete.Enabled 		= false;
+			btnDeleteAll.Enabled	= false;
+			//btnOK.Enabled 			= false;
+			
+			lblCount.Text = Convert.ToString( lvSSData.Items.Count );
 		}
 		
 		void BtnOKClick(object sender, EventArgs e)
@@ -386,6 +410,12 @@ namespace SharpFBTools.Tools
 		{
 			txtBoxSSBookTitle.Focus();
 		}
+		
+		void SelectedSortDataShown(object sender, EventArgs e)
+		{
+			if( lvSSData.Items.Count > 0 )  btnDeleteAll.Enabled = true;
+		}
 		#endregion
+
 	}
 }
