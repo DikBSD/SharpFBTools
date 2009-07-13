@@ -135,6 +135,9 @@ namespace SharpFBTools.Tools
 			this.rbtnUAToAnotherDir = new System.Windows.Forms.RadioButton();
 			this.rbtnUAToSomeDir = new System.Windows.Forms.RadioButton();
 			this.pUAType = new System.Windows.Forms.Panel();
+			this.rbAnyU = new System.Windows.Forms.RadioButton();
+			this.rbFB2U = new System.Windows.Forms.RadioButton();
+			this.lblFilesUType = new System.Windows.Forms.Label();
 			this.chBoxAddFileNameBookID = new System.Windows.Forms.CheckBox();
 			this.cboxUAExistArchive = new System.Windows.Forms.ComboBox();
 			this.lblUAExistArchive = new System.Windows.Forms.Label();
@@ -344,9 +347,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.gboxCount.Controls.Add(this.lvGeneralCount);
 			this.gboxCount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gboxCount.Location = new System.Drawing.Point(0, 157);
+			this.gboxCount.Location = new System.Drawing.Point(0, 151);
 			this.gboxCount.Name = "gboxCount";
-			this.gboxCount.Size = new System.Drawing.Size(754, 227);
+			this.gboxCount.Size = new System.Drawing.Size(754, 233);
 			this.gboxCount.TabIndex = 3;
 			this.gboxCount.TabStop = false;
 			this.gboxCount.Text = " Ход работы ";
@@ -366,7 +369,7 @@ namespace SharpFBTools.Tools
 									listViewItem4});
 			this.lvGeneralCount.Location = new System.Drawing.Point(3, 16);
 			this.lvGeneralCount.Name = "lvGeneralCount";
-			this.lvGeneralCount.Size = new System.Drawing.Size(748, 208);
+			this.lvGeneralCount.Size = new System.Drawing.Size(748, 214);
 			this.lvGeneralCount.TabIndex = 2;
 			this.lvGeneralCount.UseCompatibleStateImageBehavior = false;
 			this.lvGeneralCount.View = System.Windows.Forms.View.Details;
@@ -391,7 +394,7 @@ namespace SharpFBTools.Tools
 			this.gboxOptions.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxOptions.Location = new System.Drawing.Point(0, 0);
 			this.gboxOptions.Name = "gboxOptions";
-			this.gboxOptions.Size = new System.Drawing.Size(754, 157);
+			this.gboxOptions.Size = new System.Drawing.Size(754, 151);
 			this.gboxOptions.TabIndex = 1;
 			this.gboxOptions.TabStop = false;
 			this.gboxOptions.Text = " Настройки ";
@@ -493,7 +496,7 @@ namespace SharpFBTools.Tools
 			// 
 			// rbAny
 			// 
-			this.rbAny.Location = new System.Drawing.Point(149, 27);
+			this.rbAny.Location = new System.Drawing.Point(239, 27);
 			this.rbAny.Name = "rbAny";
 			this.rbAny.Size = new System.Drawing.Size(76, 18);
 			this.rbAny.TabIndex = 23;
@@ -503,7 +506,7 @@ namespace SharpFBTools.Tools
 			// rbFB2
 			// 
 			this.rbFB2.Checked = true;
-			this.rbFB2.Location = new System.Drawing.Point(56, 27);
+			this.rbFB2.Location = new System.Drawing.Point(146, 27);
 			this.rbFB2.Name = "rbFB2";
 			this.rbFB2.Size = new System.Drawing.Size(93, 18);
 			this.rbFB2.TabIndex = 22;
@@ -515,11 +518,11 @@ namespace SharpFBTools.Tools
 			// lblFilesType
 			// 
 			this.lblFilesType.AutoSize = true;
-			this.lblFilesType.Location = new System.Drawing.Point(3, 29);
+			this.lblFilesType.Location = new System.Drawing.Point(3, 28);
 			this.lblFilesType.Name = "lblFilesType";
-			this.lblFilesType.Size = new System.Drawing.Size(49, 13);
+			this.lblFilesType.Size = new System.Drawing.Size(133, 13);
 			this.lblFilesType.TabIndex = 21;
-			this.lblFilesType.Text = "Файлы:";
+			this.lblFilesType.Text = "Упаковывать Файлы:";
 			// 
 			// chBoxAddArchiveNameBookID
 			// 
@@ -777,6 +780,9 @@ namespace SharpFBTools.Tools
 			// 
 			// pUAType
 			// 
+			this.pUAType.Controls.Add(this.rbAnyU);
+			this.pUAType.Controls.Add(this.rbFB2U);
+			this.pUAType.Controls.Add(this.lblFilesUType);
 			this.pUAType.Controls.Add(this.chBoxAddFileNameBookID);
 			this.pUAType.Controls.Add(this.cboxUAExistArchive);
 			this.pUAType.Controls.Add(this.lblUAExistArchive);
@@ -787,6 +793,36 @@ namespace SharpFBTools.Tools
 			this.pUAType.Name = "pUAType";
 			this.pUAType.Size = new System.Drawing.Size(754, 48);
 			this.pUAType.TabIndex = 26;
+			// 
+			// rbAnyU
+			// 
+			this.rbAnyU.Location = new System.Drawing.Point(219, 27);
+			this.rbAnyU.Name = "rbAnyU";
+			this.rbAnyU.Size = new System.Drawing.Size(76, 18);
+			this.rbAnyU.TabIndex = 26;
+			this.rbAnyU.Text = "Любые";
+			this.rbAnyU.UseVisualStyleBackColor = true;
+			// 
+			// rbFB2U
+			// 
+			this.rbFB2U.Checked = true;
+			this.rbFB2U.Location = new System.Drawing.Point(126, 27);
+			this.rbFB2U.Name = "rbFB2U";
+			this.rbFB2U.Size = new System.Drawing.Size(93, 18);
+			this.rbFB2U.TabIndex = 25;
+			this.rbFB2U.TabStop = true;
+			this.rbFB2U.Text = "Только fb2";
+			this.rbFB2U.UseVisualStyleBackColor = true;
+			this.rbFB2U.CheckedChanged += new System.EventHandler(this.RbFB2UCheckedChanged);
+			// 
+			// lblFilesUType
+			// 
+			this.lblFilesUType.AutoSize = true;
+			this.lblFilesUType.Location = new System.Drawing.Point(4, 28);
+			this.lblFilesUType.Name = "lblFilesUType";
+			this.lblFilesUType.Size = new System.Drawing.Size(115, 13);
+			this.lblFilesUType.TabIndex = 24;
+			this.lblFilesUType.Text = "Извлекать Файлы:";
 			// 
 			// chBoxAddFileNameBookID
 			// 
@@ -1019,6 +1055,9 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Label lblFilesUType;
+		private System.Windows.Forms.RadioButton rbFB2U;
+		private System.Windows.Forms.RadioButton rbAnyU;
 		private System.Windows.Forms.Label lblFilesType;
 		private System.Windows.Forms.RadioButton rbFB2;
 		private System.Windows.Forms.RadioButton rbAny;
