@@ -147,9 +147,9 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Value 	= 0;
 			BackgroundWorker bw = sender as BackgroundWorker;
 			if( cboxArchiveType.SelectedIndex == 0 ) {
-				FileToArchive( bw, e, m_sRarPath, m_lFilesList, false );// rar
+				FileToArchive( bw, e, m_sRarPath, m_lFilesList, rbFB2.Checked, false );// rar
 			} else {
-				FileToArchive( bw, e, m_s7zPath, m_lFilesList, true );	// zip, 7z...
+				FileToArchive( bw, e, m_s7zPath, m_lFilesList, rbFB2.Checked, true );	// zip, 7z...
 			}
         }
 		
@@ -583,13 +583,74 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Архивация
+		private string MakeNewArchivePathToSomeDirWithSufix( string sFilePath, string sArchiveExt ) {
+			// создание уникального пути создаваемого архива, помещаемого в ту же папку, где лежит и исхлжный файл
+			string sSufix = ""; // для добавления к имени нового архива суфикса
+			string sFileExt = Path.GetExtension( sFilePath ).ToLower();
+			string sArchiveFile = sFilePath + sArchiveExt;
+			if( File.Exists( sArchiveFile ) ) {
+				if( cboxExistArchive.SelectedIndex == 0 ) {
+					File.Delete( sArchiveFile );
+				} else {
+					if( chBoxAddArchiveNameBookID.Checked ) {
+						// Добавить к создаваемому файлу Id Книги, если есть
+						try {
+							sSufix = "_" + StringProcessing.StringProcessing.GetBookID( sFilePath );
+						} catch { }
+					}
+					if( cboxExistArchive.SelectedIndex == 1 ) {
+						// Добавить к создаваемому файлу очередной номер
+						sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sFilePath ).ToString();
+					} else {
+						// Добавить к создаваемому файлу дату и время
+						sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
+					}
+					sArchiveFile = sFilePath.Remove( sFilePath.Length-4 ) + sSufix + sFileExt + sArchiveExt;
+				}
+			}
+			return sArchiveFile;
+		}
+		
+		private string MakeNewArchivePathToAnotherDirWithSufix( string sSourceDir, string sTargetDir, string sFilePath, string sArchiveExt ) {
+			// создание уникального пути создаваемого архива, помещаемого в другую папку
+			string sSufix = ""; // для добавления к имени нового архива суфикса
+			string sFileExt = Path.GetExtension( sFilePath ).ToLower();
+			string sNewFilePath = sFilePath.Remove( 0, sSourceDir.Length );
+			string sArchiveFile = sTargetDir + sNewFilePath + sArchiveExt;
+			FileInfo fi = new FileInfo( sArchiveFile );
+			if( !fi.Directory.Exists ) {
+				Directory.CreateDirectory( fi.Directory.ToString() );
+			}
+			if( File.Exists( sArchiveFile ) ) {
+				if( cboxExistArchive.SelectedIndex == 0 ) {
+					File.Delete( sArchiveFile );
+				} else {
+					if( chBoxAddArchiveNameBookID.Checked ) {
+						// Добавить к создаваемому файлу Id Книги, если есть
+						try {
+							sSufix = "_" + StringProcessing.StringProcessing.GetBookID( sFilePath );
+						} catch { }
+					}
+					if( cboxExistArchive.SelectedIndex == 1 ) {
+						// Добавить к создаваемому файлу очередной номер
+						sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sArchiveFile ).ToString();
+					} else {
+						// Добавить к создаваемому файлу дату и время
+						sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
+					}
+					sArchiveFile = sTargetDir + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + sFileExt + sArchiveExt;
+				}
+			}
+			return sArchiveFile;
+		}
+		
 		private void FileToArchive( BackgroundWorker bw, DoWorkEventArgs e,
-		                           string sArchPath, List<string> lFilesList, bool bZip ) {
+		                           string sArchPath, List<string> lFilesList, bool bFB2, bool bZip ) {
 			// упаковка fb2-файлов в .fb2.??? - где ??? - тип архива (задается в cboxArchiveType)
+			// bFB2=true - упаковываем только fb2-файлы; bFB2=false - упаковываем любые файлы
 			#region Код
 			m_lFB2FtA = 0;
-			string sExt = ""; string sArchiveFile = ""; string sDotExt = "";
-			string sSufix = ""; // для добавления к имени нового архива суфикса
+			string sArchiveFile = "";
 			int n = 0;
 			foreach( string sFile in lFilesList ) {
 				// Проверить флаг на остановку процесса 
@@ -597,70 +658,46 @@ namespace SharpFBTools.Tools
 					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
 					break;
 				} else {
-					sExt = Path.GetExtension( sFile );
-					if( sExt.ToLower() == ".fb2" ) {
-						++m_lFB2FtA;
+					if( bFB2 ) {
+						// упаковываем только fb2-файлы
+						if( Path.GetExtension( sFile ).ToLower() == ".fb2" ) {
+							++m_lFB2FtA;
+							// упаковываем
+							string sArchiveExt = "."+StringProcessing.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
+							if( rbtnToSomeDir.Checked ) {
+								// создаем архив в той же папке, где и исходный fb2-файл
+								sArchiveFile = MakeNewArchivePathToSomeDirWithSufix( sFile, sArchiveExt );
+							} else {
+								// создаем архив в другой папке
+								sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
+							}
+							if( bZip ) {
+								FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
+							} else {
+								FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
+							}
+						}
+					} else {
+						// упаковываем любые файлы
+						if( Path.GetExtension( sFile ).ToLower() == ".fb2" ) ++m_lFB2FtA;
 						// упаковываем
-						sDotExt = "."+StringProcessing.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
+						string sArchiveExt = "."+StringProcessing.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
 						if( rbtnToSomeDir.Checked ) {
 							// создаем архив в той же папке, где и исходный fb2-файл
-							sArchiveFile = sFile + sDotExt;
-							if( File.Exists( sArchiveFile ) ) {
-								if( cboxExistArchive.SelectedIndex==0 ) {
-									File.Delete( sArchiveFile );
-								} else {
-									if( chBoxAddArchiveNameBookID.Checked ) {
-										try {
-											sSufix = "_" + StringProcessing.StringProcessing.GetBookID( sFile );
-										} catch { }
-									}
-									if( cboxExistArchive.SelectedIndex == 1 ) {
-										// Добавить к создаваемому файлу очередной номер
-										sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sFile ).ToString();
-									} else {
-										// Добавить к создаваемому файлу дату и время
-										sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
-									}
-									sArchiveFile = sFile.Remove( sFile.Length-4 ) + sSufix + ".fb2" + sDotExt;
-								}
-							}
+							sArchiveFile = MakeNewArchivePathToSomeDirWithSufix( sFile, sArchiveExt );
 						} else {
 							// создаем архив в другой папке
-							string sNewFilePath = sFile.Remove( 0, m_sSource.Length );
-							sArchiveFile = m_sTarget + sNewFilePath + sDotExt;
-							FileInfo fi = new FileInfo( sArchiveFile );
-							if( !fi.Directory.Exists ) {
-								Directory.CreateDirectory( fi.Directory.ToString() );
-							}
-							if( File.Exists( sArchiveFile ) ) {
-								if( cboxExistArchive.SelectedIndex==0 ) {
-									File.Delete( sArchiveFile );
-								} else {
-									if( chBoxAddArchiveNameBookID.Checked ) {
-										try {
-											sSufix = "_" + StringProcessing.StringProcessing.GetBookID( sFile );
-										} catch { }
-									}
-									if( cboxExistArchive.SelectedIndex == 1 ) {
-										// Добавить к создаваемому файлу очередной номер
-										sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sArchiveFile ).ToString();
-									} else {
-										// Добавить к создаваемому файлу дату и время
-										sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
-									}
-									sArchiveFile = m_sTarget + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + ".fb2" + sDotExt;
-								}
-							}
+							sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
 						}
 						if( bZip ) {
 							FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
 						} else {
 							FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
 						}
-					
-						// удаляем исходный файл, если задана опция
-						DeleteSourceFileIsNeeds( sFile, cboxDelFB2Files.Checked );
 					}
+					// удаляем исходный файл, если задана опция
+					DeleteSourceFileIsNeeds( sFile, cboxDelFB2Files.Checked );
+					
 					bw.ReportProgress( ++n ); // отобразим данные в контролах
 				}
 			}
@@ -1036,6 +1073,11 @@ namespace SharpFBTools.Tools
 			Settings.SettingsAM.AMAUATargetDir = tboxUAToAnotherDir.Text;
 		}
 		
+		void RbFB2CheckedChanged(object sender, EventArgs e)
+		{
+			chBoxAddArchiveNameBookID.Visible = rbFB2.Checked;
+		}
+		
 		void TsbtnArchiveStopClick(object sender, EventArgs e)
 		{
 			// Остановка выполнения процесса Архивации
@@ -1059,6 +1101,8 @@ namespace SharpFBTools.Tools
 				m_bwt.CancelAsync();
 			}
 		}
+		
 		#endregion
+		
 	}
 }

@@ -107,6 +107,9 @@ namespace SharpFBTools.Tools
 			this.rbtnToAnotherDir = new System.Windows.Forms.RadioButton();
 			this.rbtnToSomeDir = new System.Windows.Forms.RadioButton();
 			this.pType = new System.Windows.Forms.Panel();
+			this.rbAny = new System.Windows.Forms.RadioButton();
+			this.rbFB2 = new System.Windows.Forms.RadioButton();
+			this.lblFilesType = new System.Windows.Forms.Label();
 			this.chBoxAddArchiveNameBookID = new System.Windows.Forms.CheckBox();
 			this.cboxExistArchive = new System.Windows.Forms.ComboBox();
 			this.lblExistArchive = new System.Windows.Forms.Label();
@@ -470,6 +473,9 @@ namespace SharpFBTools.Tools
 			// 
 			// pType
 			// 
+			this.pType.Controls.Add(this.rbAny);
+			this.pType.Controls.Add(this.rbFB2);
+			this.pType.Controls.Add(this.lblFilesType);
 			this.pType.Controls.Add(this.chBoxAddArchiveNameBookID);
 			this.pType.Controls.Add(this.cboxExistArchive);
 			this.pType.Controls.Add(this.lblExistArchive);
@@ -480,6 +486,36 @@ namespace SharpFBTools.Tools
 			this.pType.Name = "pType";
 			this.pType.Size = new System.Drawing.Size(754, 48);
 			this.pType.TabIndex = 25;
+			// 
+			// rbAny
+			// 
+			this.rbAny.Location = new System.Drawing.Point(149, 27);
+			this.rbAny.Name = "rbAny";
+			this.rbAny.Size = new System.Drawing.Size(76, 18);
+			this.rbAny.TabIndex = 23;
+			this.rbAny.Text = "Любые";
+			this.rbAny.UseVisualStyleBackColor = true;
+			// 
+			// rbFB2
+			// 
+			this.rbFB2.Checked = true;
+			this.rbFB2.Location = new System.Drawing.Point(56, 27);
+			this.rbFB2.Name = "rbFB2";
+			this.rbFB2.Size = new System.Drawing.Size(93, 18);
+			this.rbFB2.TabIndex = 22;
+			this.rbFB2.TabStop = true;
+			this.rbFB2.Text = "Только fb2";
+			this.rbFB2.UseVisualStyleBackColor = true;
+			this.rbFB2.CheckedChanged += new System.EventHandler(this.RbFB2CheckedChanged);
+			// 
+			// lblFilesType
+			// 
+			this.lblFilesType.AutoSize = true;
+			this.lblFilesType.Location = new System.Drawing.Point(3, 29);
+			this.lblFilesType.Name = "lblFilesType";
+			this.lblFilesType.Size = new System.Drawing.Size(49, 13);
+			this.lblFilesType.TabIndex = 21;
+			this.lblFilesType.Text = "Файлы:";
 			// 
 			// chBoxAddArchiveNameBookID
 			// 
@@ -979,6 +1015,9 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Label lblFilesType;
+		private System.Windows.Forms.RadioButton rbFB2;
+		private System.Windows.Forms.RadioButton rbAny;
 		private System.Windows.Forms.ToolStripButton tsbtnUAAnalyzeStop;
 		private System.Windows.Forms.ToolStripButton tsbtnUnArchiveStop;
 		private System.Windows.Forms.ToolStripButton tsbtnArchiveStop;
