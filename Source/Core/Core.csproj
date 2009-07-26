@@ -84,6 +84,7 @@
     <Compile Include="FB2\Genres\FB22Genres.cs" />
     <Compile Include="FB2\Genres\IFBGenres.cs" />
     <Compile Include="FilesWorker\Archiver.cs" />
+    <Compile Include="FilesWorker\CommandManager.cs" />
     <Compile Include="FilesWorker\FilesWorker.cs" />
     <Compile Include="Reports\ValidatorReports.cs" />
     <Compile Include="StringProcessing\StringProcessing.cs" />

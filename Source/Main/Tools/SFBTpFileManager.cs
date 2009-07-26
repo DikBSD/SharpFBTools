@@ -16,6 +16,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Threading;
+using System.Diagnostics;
 
 using FB2.FB2Parsers;
 using FB2.Common;
@@ -357,27 +358,27 @@ namespace SharpFBTools.Tools
 			FilesWorker.FilesWorker.RemoveDir( sTempDir );
 			switch( sExt ) {
 				case ".rar":
-					FilesWorker.Archiver.unrar( dfm.UnRarPath, sFromFile, sTempDir );
+					FilesWorker.Archiver.unrar( dfm.UnRarPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 4 );
 					break;
 				case ".zip":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir );
+					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 3 );
 					break;
 				case ".7z":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir );
+					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 5 );
 					break;
 				case ".bz2":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir );
+					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 6 );
 					break;
 				case ".gz":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir );
+					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 7 );
 					break;
 				case ".tar":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir );
+					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 8 );
 					break;
 			}
@@ -440,9 +441,9 @@ namespace SharpFBTools.Tools
 			
 			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, sArchType );
 			if( sArchType == "rar" ) {
-				FilesWorker.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true );
+				FilesWorker.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true, ProcessPriorityClass.AboveNormal );
 			} else {
-				FilesWorker.Archiver.zip( s7zaPath, sArchType, sFromFilePath, sToFilePath );
+				FilesWorker.Archiver.zip( s7zaPath, sArchType, sFromFilePath, sToFilePath, ProcessPriorityClass.AboveNormal );
 			}
 			IncStatus( 11 ); // всего создано
 		}

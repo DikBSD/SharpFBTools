@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Threading;
+using System.Diagnostics;
 
 using Settings;
 using FB2.FB2Parsers;
@@ -506,9 +507,9 @@ namespace SharpFBTools.Tools
 			//TODO: заменить все unrar на unzip
 			string sExt = Path.GetExtension( sArchiveFile );
 			if( sExt.ToLower() == ".zip" ) {
-				FilesWorker.Archiver.unzip( m_s7zPath, sArchiveFile, sTempDir );
+				FilesWorker.Archiver.unzip( m_s7zPath, sArchiveFile, sTempDir, ProcessPriorityClass.AboveNormal );
 			} else if( sExt.ToLower() == ".rar" ) {
-				FilesWorker.Archiver.unrar( m_sUnRarPath, sArchiveFile, sTempDir );
+				FilesWorker.Archiver.unrar( m_sUnRarPath, sArchiveFile, sTempDir, ProcessPriorityClass.AboveNormal );
 			}
 			string [] files = Directory.GetFiles( sTempDir );
 			if( files.Length <= 0 ) return;
@@ -633,9 +634,9 @@ namespace SharpFBTools.Tools
 									FilesWorker.FilesWorker.RemoveDir( sTempDir );
 //									Directory.CreateDirectory( sTempDir );
 									if( sExtTemp.ToLower() == ".rar" ) {
-										FilesWorker.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir );
+										FilesWorker.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
 									} else {
-										FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir );
+										FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
 									}
 									if( Directory.Exists( sTempDir ) ) {
 										string [] files = Directory.GetFiles( sTempDir );
@@ -1311,9 +1312,9 @@ namespace SharpFBTools.Tools
 					FilesWorker.FilesWorker.RemoveDir( sTempDir );
 //					Directory.CreateDirectory( sTempDir );
 					if( sExt.ToLower() == ".zip" ) {
-						FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir );
+						FilesWorker.Archiver.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
 					} else if( sExt.ToLower() == ".rar" ) {
-						FilesWorker.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir );
+						FilesWorker.Archiver.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
 					}
 					string [] files = Directory.GetFiles( sTempDir );
 					if( files.Length > 0 ) {

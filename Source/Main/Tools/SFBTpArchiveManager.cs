@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Threading;
+using System.Diagnostics;
 
 using FB2.Description.DocumentInfo;
 using StringProcessing;
@@ -676,9 +677,9 @@ namespace SharpFBTools.Tools
 								sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
 							}
 							if( bZip ) {
-								FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
+								FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile, ProcessPriorityClass.AboveNormal );
 							} else {
-								FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
+								FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked, ProcessPriorityClass.AboveNormal );
 							}
 						} else {
 							++m_lAnotherFtA;
@@ -697,9 +698,9 @@ namespace SharpFBTools.Tools
 							sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
 						}
 						if( bZip ) {
-							FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile );
+							FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile, ProcessPriorityClass.AboveNormal );
 						} else {
-							FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked );
+							FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked, ProcessPriorityClass.AboveNormal );
 						}
 					}
 					// удаляем исходный файл, если задана опция
@@ -730,37 +731,37 @@ namespace SharpFBTools.Tools
 						//TODO: заменить все unrar на unzip
 						switch( sExt.ToLower() ) {
 							case ".rar":
-								FilesWorker.Archiver.unrar( m_sUnRarPath, sFile, sTempDir );
+								FilesWorker.Archiver.unrar( m_sUnRarPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
 								++m_lCountU; ++m_lRarU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".zip":
-								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir );
+								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
 								++m_lCountU; ++m_lZipU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".7z":
-								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir );
+								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
 								++m_lCountU; ++m_l7ZU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".bz2":
-								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir );
+								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
 								++m_lCountU; ++m_lBZip2U;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".gz":
-								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir );
+								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
 								++m_lCountU; ++m_lGZipU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".tar":
-								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir );
+								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
 								++m_lCountU; ++m_lTarU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
@@ -800,7 +801,7 @@ namespace SharpFBTools.Tools
 					break;
 				} else {
 					if( Path.GetExtension( sFile.ToLower() ) == sExt ) {
-						FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir );
+						FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
 						++m_lCountU; ++lCount;
 						switch( sExt ) {
 							case ".zip":
@@ -867,7 +868,7 @@ namespace SharpFBTools.Tools
 							sExt = Path.GetExtension( sFile );
 							if( sExt.ToLower() == ".rar" ) {
 								//TODO: заменить все unrar на unzip
-								FilesWorker.Archiver.unrar( m_sUnRarPath, sFile, sTempDir );
+								FilesWorker.Archiver.unrar( m_sUnRarPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
 								++m_lCountU; ++m_lRarU;
 								if( Directory.Exists( sTempDir ) ) {
 									string [] files = Directory.GetFiles( sTempDir );
