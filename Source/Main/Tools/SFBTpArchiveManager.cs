@@ -43,28 +43,28 @@ namespace SharpFBTools.Tools
 		private string m_sTarget		= "";
 		// Для Упаковки
 		private BackgroundWorker m_bwa = null;
-		private long m_lFB2FtA		= 0;
-		private long m_lAnotherFtA	= 0;
+		private int	m_nFB2FtA		= 0;
+		private int	m_nAnotherFtA	= 0;
 		// Для Анализа
 		private BackgroundWorker m_bwt = null;
-		private long m_lRar 	= 0;
-		private long m_lZip 	= 0;
-		private long m_l7Z 		= 0;
-		private long m_lBZip2 	= 0;
-		private long m_lGZip 	= 0;
-		private long m_lTar 	= 0;
+		private int	m_nRar 		= 0;
+		private int	m_nZip 		= 0;
+		private int	m_n7Z 		= 0;
+		private int	m_nBZip2 	= 0;
+		private int	m_nGZip 	= 0;
+		private int	m_nTar 		= 0;
 		// Для Распаковки
 		private BackgroundWorker m_bwu = null;
-		private long m_lUnpackCount	= 0;
-		private long m_lCountU 	= 0;
-		private long m_lFB2U 	= 0;
-		private long m_lAnotherU = 0;
-		private long m_lRarU 	= 0;
-		private long m_lZipU 	= 0;
-		private long m_l7ZU		= 0;
-		private long m_lBZip2U 	= 0;
-		private long m_lGZipU 	= 0;
-		private long m_lTarU 	= 0;
+		private int	m_nUnpackCount	= 0;
+		private int	m_nCountU 	= 0;
+		private int	m_nFB2U 	= 0;
+		private int	m_nAnotherU = 0;
+		private int	m_nRarU 	= 0;
+		private int	m_nZipU 	= 0;
+		private int	m_n7ZU		= 0;
+		private int	m_nBZip2U 	= 0;
+		private int	m_nGZipU 	= 0;
+		private int	m_nTarU 	= 0;
 		#endregion
 		
 		public SFBTpArchiveManager()
@@ -117,8 +117,6 @@ namespace SharpFBTools.Tools
 
 		private void bwa_DoWork( object sender, DoWorkEventArgs e ) {
 			// упаковка файлов в архивы
-			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка файлов:";
 			// сортированный список всех вложенных папок
 			List<string> lDirList = new List<string>();
 			if( !cboxScanSubDirToArchive.Checked ) {
@@ -133,10 +131,6 @@ namespace SharpFBTools.Tools
 			// не сортированный список всех файлов
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwa, e, lDirList, lvGeneralCount, tsProgressBar, false );
 			lDirList.Clear();
-			if( ( m_bwa.CancellationPending == true ) )  {
-				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
-				return;
-			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
 			if( m_lFilesList.Count == 0 ) {
@@ -148,18 +142,26 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text = "Упаковка найденных файлов в " + cboxArchiveType.Text + ":";
 			tsProgressBar.Maximum	= m_lFilesList.Count;
 			tsProgressBar.Value 	= 0;
-			BackgroundWorker bw = sender as BackgroundWorker;
-			if( cboxArchiveType.SelectedIndex == 0 ) {
-				FileToArchive( bw, e, m_sRarPath, m_lFilesList, rbFB2.Checked, false );// rar
-			} else {
-				FileToArchive( bw, e, m_s7zPath, m_lFilesList, rbFB2.Checked, true );	// zip, 7z...
+			m_nFB2FtA = m_nAnotherFtA = 0;
+			int n = 0;
+			foreach( string sFile in m_lFilesList ) {
+				if( ( m_bwa.CancellationPending == true ) )  {
+					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
+					return;
+				}
+				if( cboxArchiveType.SelectedIndex == 0 ) {
+					FileToArchive( m_sRarPath, sFile, rbFB2.Checked, false ); // rar
+				} else {
+					FileToArchive( m_s7zPath, sFile, rbFB2.Checked, true );   // zip, 7z...
+				}
+				m_bwa.ReportProgress( ++n ); // отобразим данные в контролах
 			}
         }
 		
 		private void bwa_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат
-            lvGeneralCount.Items[2].SubItems[1].Text = (m_lFB2FtA).ToString();
-            lvGeneralCount.Items[3].SubItems[1].Text = (m_lAnotherFtA).ToString();
+            lvGeneralCount.Items[2].SubItems[1].Text = (m_nFB2FtA).ToString();
+            lvGeneralCount.Items[3].SubItems[1].Text = (m_nAnotherFtA).ToString();
             tsProgressBar.Value	= e.ProgressPercentage;
         }
 		
@@ -189,7 +191,6 @@ namespace SharpFBTools.Tools
 		
 		private void bwu_DoWork( object sender, DoWorkEventArgs e ) {
 			// распаковка архивов в файлы
-			m_dtStart = DateTime.Now;
 			// сортированный список всех вложенных папок
 			List<string> lDirList = new List<string>();
 			if( !cboxScanSubDirToUnArchive.Checked ) {
@@ -198,12 +199,10 @@ namespace SharpFBTools.Tools
 				lvUAGeneralCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				tsslblProgress.Text = "Создание списка папок:";
 				lDirList = FilesWorker.FilesWorker.DirsParser( m_sSource, lvUAGeneralCount, false );
 			}
 			
 			// сортированный список всех файлов
-			tsslblProgress.Text = "Создание списка файлов:";
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwu, e, lDirList, lvUAGeneralCount, tsProgressBar, false );
 			lDirList.Clear();
 			if( ( m_bwu.CancellationPending == true ) )  {
@@ -221,22 +220,84 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text 	= "Распаковка архивов:";
 			tsProgressBar.Maximum 	= m_lFilesList.Count;
 			tsProgressBar.Value 	= 0;
+			m_nCountU = m_nFB2U = m_nAnotherU = m_nRarU = m_nZipU = m_n7ZU = m_nBZip2U = m_nGZipU = m_nTarU = 0;
+			
+			string sArchType	= StringProcessing.StringProcessing.GetArchiveExt( cboxUAType.Text );
+			string sTempDir		= Settings.Settings.GetTempDir();
+			FilesWorker.FilesWorker.RemoveDir( sTempDir );
+			
+			string sExt = "";
 			BackgroundWorker bw = sender as BackgroundWorker;
-			m_lUnpackCount = ArchivesToFile( bw, e, m_lFilesList, m_sTarget, rbFB2U.Checked );
+			switch( sArchType.ToLower() ) {
+				case "":
+					m_nUnpackCount = AllArchivesToFile( bw, e, m_lFilesList, m_sTarget, rbFB2U.Checked );
+					break;
+				case "rar":
+					int n = 0;
+					foreach( string sFile in m_lFilesList ) {
+						if( ( m_bwu.CancellationPending == true ) ) {
+							e.Cancel = true; // Выставить окончание - по отмене, сработает событие m_bwu_RunWorkerCompleted
+							return;
+						} else {
+							sExt = Path.GetExtension( sFile );
+							if( sExt.ToLower() == ".rar" ) {
+								//TODO: заменить все unrar на unzip
+								FilesWorker.Archiver.unrar( m_sUnRarPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
+								++m_nCountU; ++m_nRarU;
+								if( Directory.Exists( sTempDir ) ) {
+									string [] files = Directory.GetFiles( sTempDir );
+									foreach( string sFB2File in files ) {
+										string sFileName = Path.GetFileName( sFB2File );
+										if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_nFB2U;
+										else {
+											if( !rbFB2U.Checked ) ++m_nAnotherU;
+										}
+										
+										if( FileToDir( sFileName, sFile, m_sTarget, rbFB2U.Checked ) ) {
+										}  else {
+											File.Delete( sFileName );
+										}
+									}
+								}
+								// удаление исходного архива, если включена опция
+								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
+							}
+							m_bwu.ReportProgress( ++n ); // отобразим данные в контролах
+							m_nUnpackCount = m_nRarU;
+						}
+					}
+					break;
+				case "zip":
+					m_nUnpackCount = TypeArchToFile( bw, e, m_lFilesList, m_sTarget, ".zip", rbFB2U.Checked );
+					break;
+				case "7z":
+					m_nUnpackCount = TypeArchToFile( bw, e, m_lFilesList, m_sTarget, ".7z", rbFB2U.Checked );
+					break;
+				case "bz2":
+					m_nUnpackCount = TypeArchToFile( bw, e, m_lFilesList, m_sTarget, ".bz2", rbFB2U.Checked );
+					break;
+				case "gz":
+					m_nUnpackCount = TypeArchToFile( bw, e, m_lFilesList, m_sTarget, ".gz", rbFB2U.Checked );
+					break;
+				case "tar":
+					m_nUnpackCount = TypeArchToFile( bw, e, m_lFilesList, m_sTarget, ".tar", rbFB2U.Checked );
+					break;
+			}
+			
 		}
 		
 		private void bwu_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат Распаковки
-			lvUACount.Items[0].SubItems[1].Text = (m_lRarU).ToString();
-			lvUACount.Items[1].SubItems[1].Text = (m_lZipU).ToString();
-			lvUACount.Items[2].SubItems[1].Text = (m_l7ZU).ToString();
-			lvUACount.Items[3].SubItems[1].Text = (m_lBZip2U).ToString();
-			lvUACount.Items[4].SubItems[1].Text = (m_lGZipU).ToString();
-			lvUACount.Items[5].SubItems[1].Text = (m_lTarU).ToString();
+			lvUACount.Items[0].SubItems[1].Text = (m_nRarU).ToString();
+			lvUACount.Items[1].SubItems[1].Text = (m_nZipU).ToString();
+			lvUACount.Items[2].SubItems[1].Text = (m_n7ZU).ToString();
+			lvUACount.Items[3].SubItems[1].Text = (m_nBZip2U).ToString();
+			lvUACount.Items[4].SubItems[1].Text = (m_nGZipU).ToString();
+			lvUACount.Items[5].SubItems[1].Text = (m_nTarU).ToString();
 
-			lvUAGeneralCount.Items[2].SubItems[1].Text = (m_lCountU).ToString();
-			lvUAGeneralCount.Items[3].SubItems[1].Text = (m_lFB2U).ToString();
-			lvUAGeneralCount.Items[4].SubItems[1].Text = (m_lAnotherU).ToString();
+			lvUAGeneralCount.Items[2].SubItems[1].Text = (m_nCountU).ToString();
+			lvUAGeneralCount.Items[3].SubItems[1].Text = (m_nFB2U).ToString();
+			lvUAGeneralCount.Items[4].SubItems[1].Text = (m_nAnotherU).ToString();
 
 			tsProgressBar.Value	= e.ProgressPercentage;
         }
@@ -254,7 +315,7 @@ namespace SharpFBTools.Tools
 			string sMessCanceled	= "Распаковка архивов в fb2-файлы остановлена!\nЗатрачено времени: "+sTime;
 			string sMessError		= "";
 			string sMessDone		= "";
-			if( m_lUnpackCount > 0 ) {
+			if( m_nUnpackCount > 0 ) {
 				sMessDone	= "Распаковка архивов в fb2-файлы завершена!\nЗатрачено времени: "+sTime;
 			} else {
 				sMessDone	= "В папке для сканирования не найдено ни одного архива указанного типа!\nРаспаковка не произведена."+sTime;
@@ -272,8 +333,6 @@ namespace SharpFBTools.Tools
 		
 		private void bwt_DoWork( object sender, DoWorkEventArgs e ) {
 			// Анализ файлов в папке на определение числа и типа архивов
-			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка файлов:";
 			// сортированный список всех вложенных папок
 			List<string> lDirList = new List<string>();
 			if( !cboxScanSubDirToUnArchive.Checked ) {
@@ -288,10 +347,6 @@ namespace SharpFBTools.Tools
 			// не сортированный список всех файлов
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwt, e, lDirList, lvUAGeneralCount, tsProgressBar, false );
 			lDirList.Clear();
-			if( ( m_bwt.CancellationPending == true ) )  {
-				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwt_RunWorkerCompleted
-				return;
-			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
 			if( m_lFilesList.Count == 0 ) {
@@ -302,7 +357,7 @@ namespace SharpFBTools.Tools
 
 			tsslblProgress.Text		= "Анализ файлов на наличие архивов:";
 			tsProgressBar.Maximum	= m_lFilesList.Count;
-			m_lRar = m_lZip = m_l7Z = m_lBZip2 = m_lGZip = m_lTar = 0;
+			m_nRar = m_nZip = m_n7Z = m_nBZip2 = m_nGZip = m_nTar = 0;
 			int n = 0;
 			foreach( string sFile in m_lFilesList ) {
 				// Проверить флаг на остановку процесса 
@@ -312,17 +367,17 @@ namespace SharpFBTools.Tools
 				} else {
 					string sExt = Path.GetExtension( sFile ).ToLower();
 					if( sExt == ".rar" )
-						++m_lRar;
+						++m_nRar;
 					else if( sExt == ".zip" )
-						++m_lZip;
+						++m_nZip;
 					else if( sExt == ".7z" )	
-						++m_l7Z;
+						++m_n7Z;
 					else if( sExt == ".bz2" )	
-						++m_lBZip2;
+						++m_nBZip2;
 					else if( sExt == ".gz" )	
-						++m_lGZip;
+						++m_nGZip;
 					else if( sExt == ".tar" )
-						++m_lTar;
+						++m_nTar;
 					m_bwt.ReportProgress( ++n ); // отобразим данные в контролах
 				}
 			}
@@ -330,12 +385,12 @@ namespace SharpFBTools.Tools
 		
 		private void bwt_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат Анализа
-			lvUACount.Items[0].SubItems[1].Text = (m_lRar).ToString();
-			lvUACount.Items[1].SubItems[1].Text = (m_lZip).ToString();
-			lvUACount.Items[2].SubItems[1].Text = (m_l7Z).ToString();
-			lvUACount.Items[3].SubItems[1].Text = (m_lBZip2).ToString();
-			lvUACount.Items[4].SubItems[1].Text = (m_lGZip).ToString();
-			lvUACount.Items[5].SubItems[1].Text = (m_lTar).ToString();
+			lvUACount.Items[0].SubItems[1].Text = (m_nRar).ToString();
+			lvUACount.Items[1].SubItems[1].Text = (m_nZip).ToString();
+			lvUACount.Items[2].SubItems[1].Text = (m_n7Z).ToString();
+			lvUACount.Items[3].SubItems[1].Text = (m_nBZip2).ToString();
+			lvUACount.Items[4].SubItems[1].Text = (m_nGZip).ToString();
+			lvUACount.Items[5].SubItems[1].Text = (m_nTar).ToString();
 
 			tsProgressBar.Value	= e.ProgressPercentage;
         }
@@ -386,7 +441,7 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Value		= 0;
 			tsslblProgress.Text		= Settings.Settings.GetReady();
 			tsProgressBar.Visible	= false;
-			m_lUnpackCount			= 0;
+			m_nUnpackCount			= 0;
 		}
 		
 		private void SetArhivingStartEnabled( bool bEnabled ) {
@@ -649,72 +704,59 @@ namespace SharpFBTools.Tools
 			return sArchiveFile;
 		}
 		
-		private void FileToArchive( BackgroundWorker bw, DoWorkEventArgs e,
-		                           string sArchPath, List<string> lFilesList, bool bFB2, bool bZip ) {
+		private void FileToArchive( string sArchPath, string sFile, bool bFB2, bool bZip ) {
 			// упаковка fb2-файлов в .fb2.??? - где ??? - тип архива (задается в cboxArchiveType)
 			// bFB2=true - упаковываем только fb2-файлы; bFB2=false - упаковываем любые файлы
 			#region Код
-			m_lFB2FtA = m_lAnotherFtA = 0;
-			string sArchiveFile = "";
-			int n = 0;
-			foreach( string sFile in lFilesList ) {
-				// Проверить флаг на остановку процесса 
-				if( ( bw.CancellationPending == true ) ) {
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
-					break;
-				} else {
-					if( bFB2 ) {
-						// упаковываем только fb2-файлы
-						if( Path.GetExtension( sFile ).ToLower() == ".fb2" ) {
-							++m_lFB2FtA;
-							// упаковываем
-							string sArchiveExt = "."+StringProcessing.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
-							if( rbtnToSomeDir.Checked ) {
-								// создаем архив в той же папке, где и исходный fb2-файл
-								sArchiveFile = MakeNewArchivePathToSomeDirWithSufix( sFile, sArchiveExt );
-							} else {
-								// создаем архив в другой папке
-								sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
-							}
-							if( bZip ) {
-								FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile, ProcessPriorityClass.AboveNormal );
-							} else {
-								FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked, ProcessPriorityClass.AboveNormal );
-							}
-						} else {
-							++m_lAnotherFtA;
-						}
+			string sArchiveFile	= "";
+			string sArchiveExt	= "."+StringProcessing.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
+			if( bFB2 ) {
+				// упаковываем только fb2-файлы
+				if( Path.GetExtension( sFile ).ToLower() == ".fb2" ) {
+					++m_nFB2FtA;
+					// упаковываем
+					if( rbtnToSomeDir.Checked ) {
+						// создаем архив в той же папке, где и исходный fb2-файл
+						sArchiveFile = MakeNewArchivePathToSomeDirWithSufix( sFile, sArchiveExt );
 					} else {
-						// упаковываем любые файлы
-						if( Path.GetExtension( sFile ).ToLower() == ".fb2" ) ++m_lFB2FtA;
-						else ++m_lAnotherFtA;
-						// упаковываем
-						string sArchiveExt = "."+StringProcessing.StringProcessing.GetArchiveExt( cboxArchiveType.Text );
-						if( rbtnToSomeDir.Checked ) {
-							// создаем архив в той же папке, где и исходный fb2-файл
-							sArchiveFile = MakeNewArchivePathToSomeDirWithSufix( sFile, sArchiveExt );
-						} else {
-							// создаем архив в другой папке
-							sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
-						}
-						if( bZip ) {
-							FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile, ProcessPriorityClass.AboveNormal );
-						} else {
-							FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked, ProcessPriorityClass.AboveNormal );
-						}
+						// создаем архив в другой папке
+						sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
 					}
-					// удаляем исходный файл, если задана опция
-					DeleteSourceFileIsNeeds( sFile, cboxDelFB2Files.Checked );
-					
-					bw.ReportProgress( ++n ); // отобразим данные в контролах
+					if( bZip ) {
+						FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile, ProcessPriorityClass.AboveNormal );
+					} else {
+						FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked, ProcessPriorityClass.AboveNormal );
+					}
+				} else {
+					++m_nAnotherFtA;
+				}
+			} else {
+				// упаковываем любые файлы
+				if( Path.GetExtension( sFile ).ToLower() == ".fb2" ) ++m_nFB2FtA;
+				else ++m_nAnotherFtA;
+				// упаковываем
+				if( rbtnToSomeDir.Checked ) {
+					// создаем архив в той же папке, где и исходный файл
+					sArchiveFile = MakeNewArchivePathToSomeDirWithSufix( sFile, sArchiveExt );
+				} else {
+					// создаем архив в другой папке
+					sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
+				}
+				if( bZip ) {
+					FilesWorker.Archiver.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile, ProcessPriorityClass.AboveNormal );
+				} else {
+					FilesWorker.Archiver.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked, ProcessPriorityClass.AboveNormal );
 				}
 			}
+			// удаляем исходный файл, если задана опция
+			DeleteSourceFileIsNeeds( sFile, cboxDelFB2Files.Checked );
+			
 			#endregion
 		}
 		#endregion
 				
 		#region Распаковка
-		private long AllArchivesToFile( BackgroundWorker bw, DoWorkEventArgs e,
+		private int AllArchivesToFile( BackgroundWorker bw, DoWorkEventArgs e,
 		                               List<string> lFilesList, string sMoveToDir, bool bFB2 ) {
 			// Распаковать все архивы
 			string sTempDir	= Settings.Settings.GetTempDir();
@@ -732,37 +774,37 @@ namespace SharpFBTools.Tools
 						switch( sExt.ToLower() ) {
 							case ".rar":
 								FilesWorker.Archiver.unrar( m_sUnRarPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
-								++m_lCountU; ++m_lRarU;
+								++m_nCountU; ++m_nRarU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".zip":
 								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
-								++m_lCountU; ++m_lZipU;
+								++m_nCountU; ++m_nZipU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".7z":
 								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
-								++m_lCountU; ++m_l7ZU;
+								++m_nCountU; ++m_n7ZU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".bz2":
 								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
-								++m_lCountU; ++m_lBZip2U;
+								++m_nCountU; ++m_nBZip2U;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".gz":
 								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
-								++m_lCountU; ++m_lGZipU;
+								++m_nCountU; ++m_nGZipU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
 							case ".tar":
 								FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
-								++m_lCountU; ++m_lTarU;
+								++m_nCountU; ++m_nTarU;
 								// удаление исходного архива, если включена опция
 								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
 								break;
@@ -771,9 +813,9 @@ namespace SharpFBTools.Tools
 							string [] files = Directory.GetFiles( sTempDir );
 							foreach( string sFB2File in files ) {
 								string sFileName = Path.GetFileName( sFB2File );
-								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_lFB2U;
+								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_nFB2U;
 								else {
-									if( !bFB2 ) ++m_lAnotherU;
+									if( !bFB2 ) ++m_nAnotherU;
 								}
 								
 								if( FileToDir( sFileName, sFile, sMoveToDir, bFB2 ) ) {
@@ -786,14 +828,14 @@ namespace SharpFBTools.Tools
 					bw.ReportProgress( ++n ); // отобразим данные в контролах
 				}
 			}
-			return m_lCountU;
+			return m_nCountU;
 		}
 		
-		private long TypeArchToFile( BackgroundWorker bw, DoWorkEventArgs e,
+		private int TypeArchToFile( BackgroundWorker bw, DoWorkEventArgs e,
 		                            List<string> lFilesList, string sMoveToDir, string sExt, bool bFB2 ) {
 			// Распаковать выбранный тип ахрива
 			string sTempDir = Settings.Settings.GetTempDir();
-			long lCount = 0;
+			int nCount = 0;
 			int n = 0;
 			foreach( string sFile in lFilesList ) {
 				if( ( bw.CancellationPending == true ) ) {
@@ -802,31 +844,31 @@ namespace SharpFBTools.Tools
 				} else {
 					if( Path.GetExtension( sFile.ToLower() ) == sExt ) {
 						FilesWorker.Archiver.unzip( m_s7zPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
-						++m_lCountU; ++lCount;
+						++m_nCountU; ++nCount;
 						switch( sExt ) {
 							case ".zip":
-								++m_lZipU;
+								++m_nZipU;
 								break;
 							case ".7z":
-								++m_l7ZU;
+								++m_n7ZU;
 								break;
 							case ".bz2":
-								++m_lBZip2U;
+								++m_nBZip2U;
 								break;
 							case ".gz":
-								++m_lGZipU;
+								++m_nGZipU;
 								break;
 							case ".tar":
-								++m_lTarU;
+								++m_nTarU;
 								break;
 						}
 						if( Directory.Exists( sTempDir ) ) {
 							string [] files = Directory.GetFiles( sTempDir );
 							foreach( string sFB2File in files ) {
 								string sFileName = Path.GetFileName( sFB2File );
-								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_lFB2U;
+								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_nFB2U;
 								else {
-									if( !bFB2 ) ++m_lAnotherU;
+									if( !bFB2 ) ++m_nAnotherU;
 								}
 								
 								if( FileToDir( sFileName, sFile, sMoveToDir, bFB2 ) ) {
@@ -841,75 +883,7 @@ namespace SharpFBTools.Tools
 					bw.ReportProgress( ++n ); // отобразим данные в контролах
 				}
 			}
-			return lCount;
-		}
-		
-		private long ArchivesToFile( BackgroundWorker bw, DoWorkEventArgs e,
-		                            List<string> lFilesList, string sMoveToDir, bool bFB2 ) {
-			// Распаковать ахривы
-			// bFB2=true - распаковываем только fb2-файлы; bFB2=false - распаковываем любые файлы
-			m_lCountU = m_lFB2U = m_lAnotherU = m_lRarU = m_lZipU = m_l7ZU = m_lBZip2U = m_lGZipU = m_lTarU = 0;
-			string sArchType = StringProcessing.StringProcessing.GetArchiveExt( cboxUAType.Text );
-			string sTempDir = Settings.Settings.GetTempDir();
-			FilesWorker.FilesWorker.RemoveDir( sTempDir );
-			string sExt = "";
-			long lCount = 0;
-			switch( sArchType.ToLower() ) {
-				case "":
-					lCount = AllArchivesToFile( bw, e, lFilesList, sMoveToDir, bFB2 );
-					break;
-				case "rar":
-					int n = 0;
-					foreach( string sFile in lFilesList ) {
-						if( ( bw.CancellationPending == true ) ) {
-							e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-							break;
-						} else {
-							sExt = Path.GetExtension( sFile );
-							if( sExt.ToLower() == ".rar" ) {
-								//TODO: заменить все unrar на unzip
-								FilesWorker.Archiver.unrar( m_sUnRarPath, sFile, sTempDir, ProcessPriorityClass.AboveNormal );
-								++m_lCountU; ++m_lRarU;
-								if( Directory.Exists( sTempDir ) ) {
-									string [] files = Directory.GetFiles( sTempDir );
-									foreach( string sFB2File in files ) {
-										string sFileName = Path.GetFileName( sFB2File );
-										if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_lFB2U;
-										else {
-											if( !bFB2 ) ++m_lAnotherU;
-										}
-										
-										if( FileToDir( sFileName, sFile, sMoveToDir, bFB2 ) ) {
-										}  else {
-											File.Delete( sFileName );
-										}
-									}
-								}
-								// удаление исходного архива, если включена опция
-								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
-							}
-							bw.ReportProgress( ++n ); // отобразим данные в контролах
-							lCount = m_lRarU;
-						}
-					}
-					break;
-				case "zip":
-					lCount = TypeArchToFile( bw, e, lFilesList, sMoveToDir, ".zip", bFB2 );
-					break;
-				case "7z":
-					lCount = TypeArchToFile( bw, e, lFilesList, sMoveToDir, ".7z", bFB2 );
-					break;
-				case "bz2":
-					lCount = TypeArchToFile( bw, e, lFilesList, sMoveToDir, ".bz2", bFB2 );
-					break;
-				case "gz":
-					lCount = TypeArchToFile( bw, e, lFilesList, sMoveToDir, ".gz", bFB2 );
-					break;
-				case "tar":
-					lCount = TypeArchToFile( bw, e, lFilesList, sMoveToDir, ".tar", bFB2 );
-					break;
-			}
-			return lCount;
+			return nCount;
 		}
 		#endregion
 		
@@ -983,6 +957,9 @@ namespace SharpFBTools.Tools
 			InitA();
 			SetArhivingStartEnabled( false );
 			
+			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка файлов:";
+			
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if( m_bwa.IsBusy != true ) {
 				//если не занят то запустить процесс
@@ -1014,6 +991,9 @@ namespace SharpFBTools.Tools
 			// инициализация контролов
 			InitUA();
 			SetAnalyzingStartEnabled( false );
+			
+			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка файлов:";
 			
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if( m_bwt.IsBusy != true ) {
@@ -1050,6 +1030,9 @@ namespace SharpFBTools.Tools
 			// инициализация контролов
 			InitUA();
 			SetUnPackingStartEnabled( false );
+			
+			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка файлов:";
 			
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if( m_bwu.IsBusy != true ) {
