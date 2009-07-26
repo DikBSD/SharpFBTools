@@ -1074,11 +1074,39 @@ namespace SharpFBTools.Tools
 		void RbFB2CheckedChanged(object sender, EventArgs e)
 		{
 			chBoxAddArchiveNameBookID.Visible = rbFB2.Checked;
+			int n = cboxExistArchive.SelectedIndex;
+			cboxExistArchive.Items.Clear();
+			if( rbFB2.Checked ) {
+				lblExistArchive.Text = "Одинаковые fb2-архивы:";
+				cboxExistArchive.Items.Add( "Заменить существующий fb2-архив создаваемым" );
+				cboxExistArchive.Items.Add( "Добавить к создаваемому fb2-архиву очередной номер" );
+				cboxExistArchive.Items.Add( "Добавить к создаваемому fb2-архиву дату и время" );
+			} else {
+				lblExistArchive.Text = "Одинаковые архивы:";
+				cboxExistArchive.Items.Add( "Заменить существующий архив создаваемым" );
+				cboxExistArchive.Items.Add( "Добавить к создаваемому архиву очередной номер" );
+				cboxExistArchive.Items.Add( "Добавить к создаваемому архиву дату и время" );
+			}
+			cboxExistArchive.SelectedIndex = n;
 		}
 		
 		void RbFB2UCheckedChanged(object sender, EventArgs e)
 		{
 			chBoxAddFileNameBookID.Visible = rbFB2U.Checked;
+			int n = cboxUAExistArchive.SelectedIndex;
+			cboxUAExistArchive.Items.Clear();
+			if( rbFB2U.Checked ) {
+				lblUAExistArchive.Text = "Одинаковые fb2-файлы:";
+				cboxUAExistArchive.Items.Add( "Заменить существующий fb2-файл создаваемым" );
+				cboxUAExistArchive.Items.Add( "Добавить к создаваемому fb2-файлу очередной номер" );
+				cboxUAExistArchive.Items.Add( "Добавить к создаваемому fb2-файлу дату и время" );
+			} else {
+				lblUAExistArchive.Text = "Одинаковые файлы:";
+				cboxUAExistArchive.Items.Add( "Заменить существующий файл создаваемым" );
+				cboxUAExistArchive.Items.Add( "Добавить к создаваемому файлу очередной номер" );
+				cboxUAExistArchive.Items.Add( "Добавить к создаваемому файлу дату и время" );
+			}
+			cboxUAExistArchive.SelectedIndex = n;
 		}
 		
 		void TsbtnArchiveStopClick(object sender, EventArgs e)

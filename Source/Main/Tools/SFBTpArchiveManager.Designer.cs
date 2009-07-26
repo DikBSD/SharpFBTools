@@ -38,50 +38,50 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpArchiveManager));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Распаковано архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлы из этих архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы из этих архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Архивы", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Rar",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Zip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
 									"7z",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
 									"BZip2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
 									"GZip",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Tar",
 									"0"}, -1);
 			this.tsArchiver = new System.Windows.Forms.ToolStrip();
@@ -372,10 +372,10 @@ namespace SharpFBTools.Tools
 			this.lvGeneralCount.FullRowSelect = true;
 			this.lvGeneralCount.GridLines = true;
 			this.lvGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4});
+									listViewItem16,
+									listViewItem17,
+									listViewItem18,
+									listViewItem19});
 			this.lvGeneralCount.Location = new System.Drawing.Point(3, 16);
 			this.lvGeneralCount.Name = "lvGeneralCount";
 			this.lvGeneralCount.Size = new System.Drawing.Size(748, 188);
@@ -571,9 +571,11 @@ namespace SharpFBTools.Tools
 			this.lblExistArchive.AutoSize = true;
 			this.lblExistArchive.Location = new System.Drawing.Point(195, 7);
 			this.lblExistArchive.Name = "lblExistArchive";
+			this.lblExistArchive.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.lblExistArchive.Size = new System.Drawing.Size(155, 13);
 			this.lblExistArchive.TabIndex = 15;
 			this.lblExistArchive.Text = "Одинаковые fb2-архивы:";
+			this.lblExistArchive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lblArchiveType
 			// 
@@ -672,11 +674,11 @@ namespace SharpFBTools.Tools
 			this.lvUAGeneralCount.FullRowSelect = true;
 			this.lvUAGeneralCount.GridLines = true;
 			this.lvUAGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem5,
-									listViewItem6,
-									listViewItem7,
-									listViewItem8,
-									listViewItem9});
+									listViewItem20,
+									listViewItem21,
+									listViewItem22,
+									listViewItem23,
+									listViewItem24});
 			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 16);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
 			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 211);
@@ -704,24 +706,24 @@ namespace SharpFBTools.Tools
 									this.cHeaderArchiveCount});
 			this.lvUACount.FullRowSelect = true;
 			this.lvUACount.GridLines = true;
-			listViewGroup1.Header = "Архивы";
-			listViewGroup1.Name = "lvgArchive";
+			listViewGroup2.Header = "Архивы";
+			listViewGroup2.Name = "lvgArchive";
 			this.lvUACount.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-									listViewGroup1});
-			listViewItem10.Group = listViewGroup1;
-			listViewItem10.StateImageIndex = 0;
-			listViewItem11.Group = listViewGroup1;
-			listViewItem12.Group = listViewGroup1;
-			listViewItem13.Group = listViewGroup1;
-			listViewItem14.Group = listViewGroup1;
-			listViewItem15.Group = listViewGroup1;
+									listViewGroup2});
+			listViewItem25.Group = listViewGroup2;
+			listViewItem25.StateImageIndex = 0;
+			listViewItem26.Group = listViewGroup2;
+			listViewItem27.Group = listViewGroup2;
+			listViewItem28.Group = listViewGroup2;
+			listViewItem29.Group = listViewGroup2;
+			listViewItem30.Group = listViewGroup2;
 			this.lvUACount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem10,
-									listViewItem11,
-									listViewItem12,
-									listViewItem13,
-									listViewItem14,
-									listViewItem15});
+									listViewItem25,
+									listViewItem26,
+									listViewItem27,
+									listViewItem28,
+									listViewItem29,
+									listViewItem30});
 			this.lvUACount.Location = new System.Drawing.Point(398, 16);
 			this.lvUACount.Name = "lvUACount";
 			this.lvUACount.Size = new System.Drawing.Size(347, 211);
@@ -868,7 +870,7 @@ namespace SharpFBTools.Tools
 			this.chBoxAddFileNameBookID.Name = "chBoxAddFileNameBookID";
 			this.chBoxAddFileNameBookID.Size = new System.Drawing.Size(246, 18);
 			this.chBoxAddFileNameBookID.TabIndex = 21;
-			this.chBoxAddFileNameBookID.Text = " Добавить ID Книги к имени архива";
+			this.chBoxAddFileNameBookID.Text = " Добавить ID Книги к имени файла";
 			this.chBoxAddFileNameBookID.UseVisualStyleBackColor = true;
 			// 
 			// cboxUAExistArchive
@@ -890,9 +892,11 @@ namespace SharpFBTools.Tools
 			this.lblUAExistArchive.AutoSize = true;
 			this.lblUAExistArchive.Location = new System.Drawing.Point(215, 7);
 			this.lblUAExistArchive.Name = "lblUAExistArchive";
-			this.lblUAExistArchive.Size = new System.Drawing.Size(155, 13);
+			this.lblUAExistArchive.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.lblUAExistArchive.Size = new System.Drawing.Size(150, 13);
 			this.lblUAExistArchive.TabIndex = 15;
-			this.lblUAExistArchive.Text = "Одинаковые fb2-архивы:";
+			this.lblUAExistArchive.Text = "Одинаковые fb2-файлы:";
+			this.lblUAExistArchive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lblUAType
 			// 
