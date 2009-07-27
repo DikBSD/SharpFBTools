@@ -95,8 +95,6 @@ namespace SharpFBTools.Tools
 		
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			// сортировка файлов по папкам, согласно шаблонам подстановки
-			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка файлов:";
 			List<string> lDirList = new List<string>();
 			if( !m_bScanSubDirs ) {
 				// сканировать только указанную папку
@@ -110,10 +108,6 @@ namespace SharpFBTools.Tools
 			// не сортированный список всех файлов
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bw, e, lDirList, lvFilesCount, tsProgressBar, false );
 			lDirList.Clear();
-			if( ( m_bw.CancellationPending == true ) )  {
-				e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
-				return;
-			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
 			if( m_lFilesList.Count == 0 ) {
@@ -1153,7 +1147,10 @@ namespace SharpFBTools.Tools
 			// инициализация контролов
 			Init();
 			SetFullSortingStartEnabled( false );
-		
+
+			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка файлов:";
+			
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if( m_bw.IsBusy != true ) {
 				//если не занят то запустить процесс
@@ -1371,7 +1368,10 @@ namespace SharpFBTools.Tools
 			// инициализация контролов
 			Init();
 			SetSelectedSortingStartEnabled( false );
-	
+
+			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка файлов:";
+			
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if( m_bw.IsBusy != true ) {
 				//если не занят то запустить процесс
