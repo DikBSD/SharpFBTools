@@ -133,11 +133,11 @@ namespace FilesWorker
 			Microsoft.VisualBasic.Interaction.Shell( sStartFilePath, Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
 		}
 		
-		public static string FormatFileLenght( long lLenght ) {
-			float f = lLenght;
-			if( lLenght < 1024 ) {
-				return lLenght.ToString()+" байт";
-			} else if( lLenght < 1048576 ) { // >=1 Мб
+		public static string FormatFileLength( long lLength ) {
+			float f = lLength;
+			if( lLength < 1024 ) {
+				return lLength.ToString()+" байт";
+			} else if( lLength < 1048576 ) { // >=1 Мб
 				return (f/1024).ToString()+" Кб";
 			} else { // <=1 Гб
 				return (f/(1024*1024)).ToString()+" Мб";

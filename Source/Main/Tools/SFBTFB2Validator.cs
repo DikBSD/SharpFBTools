@@ -106,8 +106,6 @@ namespace SharpFBTools.Tools
 		
 		private void bwv_DoWork( object sender, DoWorkEventArgs e ) {
 			// Валидация
-			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка файлов:";
 			// сортированный список всех вложенных папок
 			List<string> lDirList = new List<string>();
 			if( !cboxScanSubDir.Checked ) {
@@ -122,10 +120,6 @@ namespace SharpFBTools.Tools
 			// сортированный список всех файлов
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwv, e, lDirList, lvFilesCount, tsProgressBar, false );
 			lDirList.Clear();
-			if( ( m_bwv.CancellationPending == true ) )  {
-				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwv_RunWorkerCompleted
-				return;
-			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
 			if( m_lFilesList.Count == 0 ) {
@@ -167,7 +161,7 @@ namespace SharpFBTools.Tools
 	   					item.ForeColor = m_NotFB2FontColor;
 						item.SubItems.Add( Path.GetExtension( sFile ) );
    						FileInfo fi = new FileInfo( sFile );
-   						item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+   						item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLength( fi.Length ) );
 						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
 
 						m_bwv.ReportProgress( 0 ); // отобразим данные в контролах
@@ -487,7 +481,7 @@ namespace SharpFBTools.Tools
 				ListViewItem item = new ListViewItem( sFile, 0 );
    				item.ForeColor = m_FB2ValidFontColor;
 				FileInfo fi = new FileInfo( sFile );
-   				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+   				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLength( fi.Length ) );
 				listViewValid.Items.AddRange( new ListViewItem[]{ item } );
            	} else {
            		// файл не валидный
@@ -496,7 +490,7 @@ namespace SharpFBTools.Tools
    				item.ForeColor = m_FB2NotValidFontColor;
 				item.SubItems.Add( sMsg );
    				FileInfo fi = new FileInfo( sFile );
-   				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+   				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLength( fi.Length ) );
 				listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
            	}
 			m_bwv.ReportProgress( 0 ); // отобразим данные в контролах
@@ -530,9 +524,9 @@ namespace SharpFBTools.Tools
 					++m_nFB2RarFiles;
 				}
 				FileInfo fi = new FileInfo( sArchiveFile );
-   				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   				string s = FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    				fi = new FileInfo( sTempDir+"\\"+sFileName );
-   				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   				s += " / "+FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    				item.SubItems.Add( s );
 				listViewValid.Items.AddRange( new ListViewItem[]{ item } );
            	} else {
@@ -547,9 +541,9 @@ namespace SharpFBTools.Tools
    						item.ForeColor = m_ZipFontColor;
            				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
    						FileInfo fi = new FileInfo( sArchiveFile );
-   						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						string s = FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    						fi = new FileInfo( sTempDir+"\\"+sFileName );
-   						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						s += " / "+FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
 					} else {
@@ -559,9 +553,9 @@ namespace SharpFBTools.Tools
    						item.ForeColor = m_ZipFB2NotValidFontColor;
 						item.SubItems.Add( sMsg );
    						FileInfo fi = new FileInfo( sArchiveFile );
-   						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						string s = FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    						fi = new FileInfo( sTempDir+"\\"+sFileName );
-   						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						s += " / "+FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
 					}
@@ -575,9 +569,9 @@ namespace SharpFBTools.Tools
    						item.ForeColor = m_RarFontColor;
           				item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
    						FileInfo fi = new FileInfo( sArchiveFile );
-   						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						string s = FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    						fi = new FileInfo( sTempDir+"\\"+sFileName );
-   						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						s += " / "+FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    						item.SubItems.Add( s );
    						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
 					} else {
@@ -587,9 +581,9 @@ namespace SharpFBTools.Tools
    						item.ForeColor = m_RarFB2NotValidFontColor;
 						item.SubItems.Add( sMsg );
    						FileInfo fi = new FileInfo( sArchiveFile );
-   						string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						string s = FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    						fi = new FileInfo( sTempDir+"\\"+sFileName );
-   						s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+   						s += " / "+FilesWorker.FilesWorker.FormatFileLength( fi.Length );
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
 					}
@@ -837,6 +831,9 @@ namespace SharpFBTools.Tools
 			// инициализация контролов
 			Init();
 			SetValidingStartEnabled( false );
+			
+			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка файлов:";
 			
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if( m_bwv.IsBusy != true ) {
@@ -1281,7 +1278,7 @@ namespace SharpFBTools.Tools
 							ListViewItem item = new ListViewItem( sSelectedItemText, 0 );
 	   						item.ForeColor = m_FB2ValidFontColor;
 							FileInfo fi = new FileInfo( sSelectedItemText );
-   							item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+   							item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLength( fi.Length ) );
 							listViewValid.Items.AddRange( new ListViewItem[]{ item } );
 							tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) ";
            				} else {
@@ -1301,7 +1298,7 @@ namespace SharpFBTools.Tools
    							item.ForeColor = m_FB2NotValidFontColor;
    							item.SubItems.Add( sMsg );
 							FileInfo fi = new FileInfo( sSelectedItemText );
-			   				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLenght( fi.Length ) );
+			   				item.SubItems.Add( FilesWorker.FilesWorker.FormatFileLength( fi.Length ) );
 							listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
 							tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) ";
 							sMsg += "\n\n" + sMoveValToNotVal;
@@ -1336,9 +1333,9 @@ namespace SharpFBTools.Tools
 									item.ForeColor = m_RarFB2ValidFontColor;
 								}
 								FileInfo fi = new FileInfo( sFilePath );
-				   				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+				   				string s = FilesWorker.FilesWorker.FormatFileLength( fi.Length );
 				   				fi = new FileInfo( sTempDir+"\\"+sFB2FileName );
-				   				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+				   				s += " / "+FilesWorker.FilesWorker.FormatFileLength( fi.Length );
 				   				item.SubItems.Add( s );
 								listViewValid.Items.AddRange( new ListViewItem[]{ item } );
 								tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) ";
@@ -1364,9 +1361,9 @@ namespace SharpFBTools.Tools
 								}
 								item.SubItems.Add( sMsg );
 								FileInfo fi = new FileInfo( sFilePath );
-				   				string s = FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+				   				string s = FilesWorker.FilesWorker.FormatFileLength( fi.Length );
 				   				fi = new FileInfo( sTempDir+"\\"+sFB2FileName );
-				   				s += " / "+FilesWorker.FilesWorker.FormatFileLenght( fi.Length );
+				   				s += " / "+FilesWorker.FilesWorker.FormatFileLength( fi.Length );
 				   				item.SubItems.Add( s );
 								listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
 								tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) ";
