@@ -51,6 +51,11 @@ namespace FilesWorker
 			return true;
 		}
 		
+		public static bool IsArchive( string sExt ) {
+			// архив ли это - по расширению
+			return ( sExt==".zip" || sExt==".rar" || sExt==".7z" || sExt==".bz2" || sExt==".gz" || sExt==".tar" );
+		}
+		
 /*		public static void unzip( string sZipPath, string sFilePath, string sTempDir ) {
 			// распаковка zip-фрхива
 			Regex rx	= new Regex( @"\\+" );

@@ -174,7 +174,7 @@ namespace SharpFBTools.Tools
 							MakeFileForSelectedSortingWorker( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
 						} else {
 							// это архив?
-							if( IsArchive( sExt ) ) {
+							if( FilesWorker.Archiver.IsArchive( sExt ) ) {
 								List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 								if( lFilesListFromArchive!=null ) {
 									foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -344,11 +344,6 @@ namespace SharpFBTools.Tools
 				}
 				reader.Close();
 			}
-		}
-		
-		private bool IsArchive( string sExt )
-		{
-			return ( sExt==".zip" || sExt==".rar" || sExt==".7z" || sExt==".bz2" || sExt==".gz" || sExt==".tar" );
 		}
 		
 		private List<string> GetFileListFromArchive( string sFromFile, Settings.DataFM dfm ) {
@@ -542,7 +537,7 @@ namespace SharpFBTools.Tools
 				IncStatus( 2 ); // исходные fb2-файлы
 			} else {
 				// это архив?
-				if( IsArchive( sExt ) ) {
+				if( FilesWorker.Archiver.IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
@@ -580,7 +575,7 @@ namespace SharpFBTools.Tools
 				IncStatus( 2 ); // исходные fb2-файлы
 			} else {
 				// это архив?
-				if( IsArchive( sExt ) ) {
+				if( FilesWorker.Archiver.IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
@@ -624,7 +619,7 @@ namespace SharpFBTools.Tools
 				IncStatus( 2 ); // исходные fb2-файлы
 			} else {
 				// это архив?
-				if( IsArchive( sExt ) ) {
+				if( FilesWorker.Archiver.IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
@@ -668,7 +663,7 @@ namespace SharpFBTools.Tools
 				IncStatus( 2 ); // исходные fb2-файлы
 			} else {
 				// это архив?
-				if( IsArchive( sExt ) ) {
+				if( FilesWorker.Archiver.IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
