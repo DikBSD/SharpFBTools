@@ -460,13 +460,13 @@ namespace SharpFBTools.Tools
 			this.lblInfo.Name = "lblInfo";
 			this.lblInfo.Size = new System.Drawing.Size(185, 23);
 			this.lblInfo.TabIndex = 70;
-			this.lblInfo.Text = "Число записей условй поиска:";
+			this.lblInfo.Text = "Число записей условий поиска:";
 			// 
 			// lblCount
 			// 
 			this.lblCount.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblCount.ForeColor = System.Drawing.Color.Navy;
-			this.lblCount.Location = new System.Drawing.Point(192, 416);
+			this.lblCount.Location = new System.Drawing.Point(196, 416);
 			this.lblCount.Name = "lblCount";
 			this.lblCount.Size = new System.Drawing.Size(62, 23);
 			this.lblCount.TabIndex = 71;
