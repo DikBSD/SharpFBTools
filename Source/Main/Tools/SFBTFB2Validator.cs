@@ -121,6 +121,12 @@ namespace SharpFBTools.Tools
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bwv, e, lDirList, lvFilesCount, tsProgressBar, false );
 			lDirList.Clear();
 			
+			// проверка остановки процесса
+			if( ( m_bwv.CancellationPending == true ) )  {
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwv_RunWorkerCompleted
+				return;
+			}
+			
 			// проверка, есть ли хоть один файл в папке для сканирования
 			if( m_lFilesList.Count == 0 ) {
 				MessageBox.Show( "В указанной папке не найдено ни одного файла!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );

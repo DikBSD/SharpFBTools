@@ -4,9 +4,36 @@ using System.Threading;
 
 namespace FilesWorker
 {
-   
-    public class CommandManager
-    {
+
+	// ********************************* //
+	public class Priority {
+		public Priority() {
+
+        }
+		public static ProcessPriorityClass GetPriority( string sPriority ) {
+			switch( sPriority ) {
+				case "Низкий (Idle)" :
+					return ProcessPriorityClass.Idle;
+				case "Ниже Среднего" :
+					return ProcessPriorityClass.BelowNormal;
+				case "Средний" :
+					return ProcessPriorityClass.Normal;
+				case "Выше Среднего" :
+					return ProcessPriorityClass.AboveNormal;
+				case "Высокий" :
+					return ProcessPriorityClass.High;
+				case "Реального времени (RealTime)" :
+					return ProcessPriorityClass.RealTime;
+				default :
+					return ProcessPriorityClass.AboveNormal;
+			}
+		}
+			
+	}
+	
+	// ********************************* //
+	
+    public class CommandManager {
         private Process	m_oProc;
         private string	m_sResult;
 
