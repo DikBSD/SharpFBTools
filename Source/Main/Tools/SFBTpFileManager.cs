@@ -889,6 +889,46 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
+		private List<SelectedSortQueryCriteria> MakeSelectedSortQuerysList(
+								string sLang, string sLast, string sFirst, string sMiddle, string sNick,
+								string sGGroup, string sGenre, string sSequence, string sBTitle, string sExactFit ) {
+			// заполняем список критериев поиска для Избранной Сортировки
+			List<SelectedSortQueryCriteria> lSSQCList = new List<SelectedSortQueryCriteria>();
+			List<string> lsGenres = null; // временный список Жанров по конкретной Группе Жанров
+			// "вычленяем" язык книги
+			if( sLang.Length!=0 ) {
+				sLang = sLang.Substring( sLang.IndexOf( "(" )+1 );
+				sLang = sLang.Remove( sLang.IndexOf( ")" ) );
+			}
+			// если есть Жанр, то "вычленяем" его из строки
+			if( sGenre.Length!=0 ) {
+				sGenre = sGenre.Substring( sGenre.IndexOf( "(" )+1 );
+				sGenre = sGenre.Remove( sGenre.IndexOf( ")" ) );
+			}
+			// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
+			if( sGGroup.Length!=0 ) {
+				DataFM dfm = new DataFM();
+				IFBGenres fb2g = null;
+				if( dfm.GenresFB21Scheme ) {
+					fb2g = new FB21Genres();
+				} else {
+					fb2g = new FB22Genres();
+				}
+				lsGenres = fb2g.GetFBGenresForGroup( sGGroup );
+			}
+			// формируем список критериев поиска в зависимости от наличия Групп Жанров
+			if( lsGenres==null ) {
+				lSSQCList.Add( new SelectedSortQueryCriteria(
+				sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
+			} else {
+				foreach( string sG in lsGenres ) {
+					lSSQCList.Add( new SelectedSortQueryCriteria(
+							sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
+				}
+			}
+			return lSSQCList;
+		}
+		
 		private bool IsConformity( string sFromFilePath ) {
 			// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
 			fB2Parser fb2	= null;
@@ -1463,44 +1503,5 @@ namespace SharpFBTools.Tools
 		}
 		#endregion
 
-		private List<SelectedSortQueryCriteria> MakeSelectedSortQuerysList(
-								string sLang, string sLast, string sFirst, string sMiddle, string sNick,
-								string sGGroup, string sGenre, string sSequence, string sBTitle, string sExactFit ) {
-			// заполняем список критериев поиска для Избранной Сортировки
-			List<SelectedSortQueryCriteria> lSSQCList = new List<SelectedSortQueryCriteria>();
-			List<string> lsGenres = null; // временный список Жанров по конкретной Группе Жанров
-			// "вычленяем" язык книги
-			if( sLang.Length!=0 ) {
-				sLang = sLang.Substring( sLang.IndexOf( "(" )+1 );
-				sLang = sLang.Remove( sLang.IndexOf( ")" ) );
-			}
-			// если есть Жанр, то "вычленяем" его из строки
-			if( sGenre.Length!=0 ) {
-				sGenre = sGenre.Substring( sGenre.IndexOf( "(" )+1 );
-				sGenre = sGenre.Remove( sGenre.IndexOf( ")" ) );
-			}
-			// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
-			if( sGGroup.Length!=0 ) {
-				DataFM dfm = new DataFM();
-				IFBGenres fb2g = null;
-				if( dfm.GenresFB21Scheme ) {
-					fb2g = new FB21Genres();
-				} else {
-					fb2g = new FB22Genres();
-				}
-				lsGenres = fb2g.GetFBGenresForGroup( sGGroup );
-			}
-			// формируем список критериев поиска в зависимости от наличия Групп Жанров
-			if( lsGenres==null ) {
-				lSSQCList.Add( new SelectedSortQueryCriteria(
-				sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
-			} else {
-				foreach( string sG in lsGenres ) {
-					lSSQCList.Add( new SelectedSortQueryCriteria(
-							sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
-				}
-			}
-			return lSSQCList;
-		}
 	}
 }
