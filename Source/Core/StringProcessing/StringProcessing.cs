@@ -533,6 +533,16 @@ namespace StringProcessing
 			}
 			return s;
 		}
+		
+		public static bool IsNumberInString( string sNumber ) {
+			// если в строке sNumber - число (1, 01, 34 ...), то возвращается true, если нет (0x3, 2v ...) - false
+			try {
+				Convert.ToInt32( sNumber );
+			} catch {
+				return false;
+			}
+			return true;
+		}
 		#endregion
 		
 		#region Поиск одинаковых строк в списке List

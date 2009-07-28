@@ -132,7 +132,41 @@ namespace Templates {
 			return lexems;
 		}
 		
-		private static string ParseComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors, 
+		private static string MakeSII( string sSequence ) {
+			// формирование номера Серии Книги по Шаблону 0X
+			// проверка, число ли это
+			if( !StringProcessing.StringProcessing.IsNumberInString( sSequence ) ) {
+				return sSequence; // не число
+			} else {
+				// число, смотрим, сколько цифр и добавляем слева нужное число 0.
+				if( sSequence.Length==1 ) {
+					return "0"+sSequence;
+				} else {
+					// число символов >= 2
+					return sSequence;
+				}
+			}
+		}
+		
+		private static string MakeSIII( string sSequence ) {
+			// формирование номера Серии Книги по Шаблону 00X
+			// проверка, число ли это
+			if( !StringProcessing.StringProcessing.IsNumberInString( sSequence ) ) {
+				return sSequence; // не число
+			} else {
+				// число, смотрим, сколько цифр и добавляем слева нужное число 0.
+				if( sSequence.Length==1 ) {
+					return "00"+sSequence;
+				} else if( sSequence.Length==2 ) {
+					return "0"+sSequence;
+				} else {
+					// число символов >= 3
+					return sSequence;
+				}
+			}
+		}
+		
+		private static string ParseComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors,
 												BookTitle btBookTitle, IList<Sequence> lSequences, IFBGenres fb2g,
 												Settings.DataFM dfm, int nGenreIndex, int nAuthorIndex ) {
 			// парсинг сложных условных групп
@@ -294,7 +328,7 @@ namespace Templates {
 									}
 								}
 								break;
-							case "*SI*": // Номер Серии Книги
+							case "*SI*": // Номер Серии Книги X
 								if( lSequences == null ) {
 									lexem.Lexem = "";
 								} else {
@@ -302,6 +336,28 @@ namespace Templates {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = lSequences[0].Number;
+									}
+								}
+								break;
+							case "*SII*": // Номер Серии Книги 0X
+								if( lSequences == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lSequences[0].Number==null ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = MakeSII( lSequences[0].Number );
+									}
+								}
+								break;
+							case "*SIII*": // Номер Серии Книги 00X
+								if( lSequences == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lSequences[0].Number==null ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = MakeSIII( lSequences[0].Number );
 									}
 								}
 								break;
@@ -386,6 +442,7 @@ namespace Templates {
 		public static string Parse( string sFB2FilePath, List<Lexems.TPSimple> lSLexems, Settings.DataFM dfm,
 		                           int nGenreIndex, int nAuthorIndex ) {
 			// формирование имени файла на основе данных Description и шаблонов подстановки
+			#region Код
 			string sFileName = "";
 			fB2Parser fb2 = new fB2Parser( sFB2FilePath );
 			TitleInfo ti = fb2.GetTitleInfo();
@@ -571,6 +628,28 @@ namespace Templates {
 									}
 								}
 								break;
+							case "*SII*": // Номер Серии Книги 0X
+								if( lSequences == null ) {
+									sFileName += dfm.NoNSequence;
+								} else {
+									if( lSequences[0].Number==null ) {
+										sFileName += dfm.NoNSequence;
+									} else {
+										sFileName += MakeSII( lSequences[0].Number );
+									}
+								}
+								break;
+							case "*SIII*": // Номер Серии Книги 00X
+								if( lSequences == null ) {
+									sFileName += dfm.NoNSequence;
+								} else {
+									if( lSequences[0].Number==null ) {
+										sFileName += dfm.NoNSequence;
+									} else {
+										sFileName += MakeSIII( lSequences[0].Number );
+									}
+								}
+								break;
 							default :
 								sFileName += "";
 								break;
@@ -684,6 +763,20 @@ namespace Templates {
 									}
 								}
 								break;
+							case "[*SII*]": // Номер Серии Книги 0X
+								if( lSequences != null ) {
+									if( lSequences[0].Number != null ) {
+										sFileName += MakeSII( lSequences[0].Number );
+									}
+								}
+								break;
+							case "[*SIII*]": // Номер Серии Книги 00X
+								if( lSequences != null ) {
+									if( lSequences[0].Number != null ) {
+										sFileName += MakeSIII( lSequences[0].Number );
+									}
+								}
+								break;
 							default :
 								//sFileName += "";
 								break;
@@ -708,6 +801,7 @@ namespace Templates {
 			rx = new Regex( @"\\+" );
 			sFileName = rx.Replace( sFileName, "\\" );
 			return StringProcessing.StringProcessing.GetGeneralWorkedPath( sFileName );
+			#endregion
 		}
 			
 		#endregion

@@ -14,7 +14,7 @@ namespace Templates.Lexems {
 	/// </summary>
 	public class AllTemplates {
 		protected static readonly string[] m_sAllTemplates = new string[] {
-								"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*GG*",
+								"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*GG*","*SII*","*SIII*",
 								};
 		public AllTemplates() {
 			
@@ -61,6 +61,12 @@ namespace Templates.Lexems {
         }
 		public string GG {
             get { return m_sAllTemplates[10]; }
+        }
+		public string SII {
+            get { return m_sAllTemplates[11]; }
+        }
+		public string SIII {
+            get { return m_sAllTemplates[12]; }
         }
 	}
 	
