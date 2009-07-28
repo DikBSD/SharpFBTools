@@ -108,6 +108,11 @@ namespace SharpFBTools.Tools
 			// не сортированный список всех файлов
 			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bw, e, lDirList, lvFilesCount, tsProgressBar, false );
 			lDirList.Clear();
+			// Проверить флаг на остановку процесса 
+			if( ( m_bw.CancellationPending == true ) ) {
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+				return;
+			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
 			if( m_lFilesList.Count == 0 ) {
@@ -235,6 +240,7 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void SetFullSortingStartEnabled( bool bEnabled ) {
+			// доступность контролов при Полной Сортировки
 			tpSelectedSort.Enabled	= bEnabled;
 			tsbtnOpenDir.Enabled	= bEnabled;
 			tsbtnTargetDir.Enabled	= bEnabled;
@@ -247,12 +253,13 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void SetSelectedSortingStartEnabled( bool bEnabled ) {
+			// доступность контролов при Избранной Сортировки
 			tpFullSort.Enabled			= bEnabled;
 			tsbtnSSOpenDir.Enabled		= bEnabled;
 			tsbtnSSTargetDir.Enabled	= bEnabled;
 			pSelectedSortDirs.Enabled	= bEnabled;
 			gBoxSelectedlSortRenameTemplates.Enabled	= bEnabled;
-			btnSSGetData.Enabled		= bEnabled;
+			pSSData.Enabled				= bEnabled;
 			tsbtnSSSortStop.Enabled		= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
 			tcSort.Refresh();
@@ -1231,12 +1238,9 @@ namespace SharpFBTools.Tools
 			ssdfrm.ShowDialog();
 			if( ssdfrm.IsOKClicked() ) {
 				/* обрабатываем собранные данные */
-				List<string> lsGenres = null; // временный список Жанров по конкретной Группе Жанров
 				if( ssdfrm.lvSSData.Items.Count > 0 ) {
 					// удаляем записи в списке, если они есть
-					if( lvSSData.Items.Count > 0 ) {
-						lvSSData.Items.Clear();
-					}
+					lvSSData.Items.Clear();
 					m_lSSQCList = new List<SelectedSortQueryCriteria>();
 					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit;
 					for( int i=0; i!=ssdfrm.lvSSData.Items.Count; ++i ) {
@@ -1262,38 +1266,9 @@ namespace SharpFBTools.Tools
 									lvi.SubItems.Add( sExactFit );
 						// добавление записи в список
 						lvSSData.Items.Add( lvi );
-						/* заполняем список критериев поиска для Избранной Сортировки */
-						// "вычленяем" язык книги
-						if( sLang.Length!=0 ) {
-							sLang = sLang.Substring( sLang.IndexOf( "(" )+1 );
-							sLang = sLang.Remove( sLang.IndexOf( ")" ) );
-						}
-						// если есть Жанр, то "вычленяем" его из строки
-						if( sGenre.Length!=0 ) {
-							sGenre = sGenre.Substring( sGenre.IndexOf( "(" )+1 );
-							sGenre = sGenre.Remove( sGenre.IndexOf( ")" ) );
-						}
-						// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
-						if( sGGroup.Length!=0 ) {
-							DataFM dfm = new DataFM();
-							IFBGenres fb2g = null;
-							if( dfm.GenresFB21Scheme ) {
-								fb2g = new FB21Genres();
-							} else {
-								fb2g = new FB22Genres();
-							}
-							lsGenres = fb2g.GetFBGenresForGroup( sGGroup );
-						}
-						// формируем список критериев поиска в зависимости от наличия Групп Жанров
-						if( lsGenres==null ) {
-							m_lSSQCList.Add( new SelectedSortQueryCriteria(
-								sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
-						} else {
-							foreach( string sG in lsGenres ) {
-								m_lSSQCList.Add( new SelectedSortQueryCriteria(
-										sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
-							}
-						}
+						// заполняем список критериев поиска для Избранной Сортировки
+						m_lSSQCList.AddRange( MakeSelectedSortQuerysList( sLang, sLast, sFirst, sMiddle, sNick,
+						                                                 sGGroup, sGenre, sSequence, sBTitle, sExactFit ) );
 					}
 				}
 			}
@@ -1396,10 +1371,10 @@ namespace SharpFBTools.Tools
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				return;
 			}
-			sfdSaveXMLFile.Filter = "XML файлы (*.xml)|*.xml|Все файлы (*.*)|*.*";;
+			sfdSaveXMLFile.Filter = "SharpFBTools файлы (*.qss)|*.qss|Все файлы (*.*)|*.*";;
 			sfdSaveXMLFile.FileName = "";
 			DialogResult result = sfdSaveXMLFile.ShowDialog();
-			if (result == DialogResult.OK) {
+			if( result == DialogResult.OK ) {
 				XmlWriter writer = null;
 				try {
 					XmlWriterSettings settings = new XmlWriterSettings();
@@ -1431,6 +1406,101 @@ namespace SharpFBTools.Tools
 				}
 	         }
 		}
+		
+		void BtnSSDataListLoadClick(object sender, EventArgs e)
+		{
+			// загрузить список критериев Избранной Сортировки из файла
+			sfdOpenXMLFile.Filter = "SharpFBTools файлы (*.qss)|*.qss|Все файлы (*.*)|*.*";
+			sfdOpenXMLFile.FileName = "";
+			DialogResult result = sfdOpenXMLFile.ShowDialog();
+			if( result == DialogResult.OK ) {
+				XmlReaderSettings xml = new XmlReaderSettings();
+				xml.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( sfdOpenXMLFile.FileName, xml ) ) {
+					try {
+						reader.ReadToFollowing("Item");
+						if( reader.HasAttributes ) {
+							// удаляем записи в списке, если они есть
+							lvSSData.Items.Clear();
+							m_lSSQCList = new List<SelectedSortQueryCriteria>();
+							string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit;
+							do {
+       							sLang		= reader.GetAttribute("Lang");
+       							sLast		= reader.GetAttribute("Last");
+       							sFirst		= reader.GetAttribute("First");
+       							sMiddle		= reader.GetAttribute("Middle");
+       							sNick		= reader.GetAttribute("Nick");
+       							sGGroup		= reader.GetAttribute("GGroup");
+       							sGenre		= reader.GetAttribute("Genre");
+       							sSequence	= reader.GetAttribute("Sequence");
+       							sBTitle		= reader.GetAttribute("BookTitle");
+       							sExactFit	= reader.GetAttribute("ExactFit");
+       							
+       							ListViewItem lvi = new ListViewItem( sLang );
+											lvi.SubItems.Add( sGGroup );
+											lvi.SubItems.Add( sGenre );
+											lvi.SubItems.Add( sLast );
+											lvi.SubItems.Add( sFirst );
+											lvi.SubItems.Add( sMiddle );
+											lvi.SubItems.Add( sNick );
+											lvi.SubItems.Add( sSequence );
+											lvi.SubItems.Add( sBTitle );
+											lvi.SubItems.Add( sExactFit );
+								// добавление записи в список
+								lvSSData.Items.Add( lvi );
+								// заполняем список критериев поиска для Избранной Сортировки
+								m_lSSQCList.AddRange( MakeSelectedSortQuerysList( sLang, sLast, sFirst, sMiddle, sNick,
+																sGGroup, sGenre, sSequence, sBTitle, sExactFit ) );
+    						} while( reader.ReadToNextSibling("Item") );
+						}
+					} catch {
+						MessageBox.Show( "Поврежден списка данных для Избранной Сортировки:\n\""+sfdOpenXMLFile.FileName+"\".", "SharpFBTools - Избранная Сортировка", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					} finally {
+						reader.Close();
+					}
+				}
+			}
+		}
 		#endregion
+
+		private List<SelectedSortQueryCriteria> MakeSelectedSortQuerysList(
+								string sLang, string sLast, string sFirst, string sMiddle, string sNick,
+								string sGGroup, string sGenre, string sSequence, string sBTitle, string sExactFit ) {
+			// заполняем список критериев поиска для Избранной Сортировки
+			List<SelectedSortQueryCriteria> lSSQCList = new List<SelectedSortQueryCriteria>();
+			List<string> lsGenres = null; // временный список Жанров по конкретной Группе Жанров
+			// "вычленяем" язык книги
+			if( sLang.Length!=0 ) {
+				sLang = sLang.Substring( sLang.IndexOf( "(" )+1 );
+				sLang = sLang.Remove( sLang.IndexOf( ")" ) );
+			}
+			// если есть Жанр, то "вычленяем" его из строки
+			if( sGenre.Length!=0 ) {
+				sGenre = sGenre.Substring( sGenre.IndexOf( "(" )+1 );
+				sGenre = sGenre.Remove( sGenre.IndexOf( ")" ) );
+			}
+			// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
+			if( sGGroup.Length!=0 ) {
+				DataFM dfm = new DataFM();
+				IFBGenres fb2g = null;
+				if( dfm.GenresFB21Scheme ) {
+					fb2g = new FB21Genres();
+				} else {
+					fb2g = new FB22Genres();
+				}
+				lsGenres = fb2g.GetFBGenresForGroup( sGGroup );
+			}
+			// формируем список критериев поиска в зависимости от наличия Групп Жанров
+			if( lsGenres==null ) {
+				lSSQCList.Add( new SelectedSortQueryCriteria(
+				sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
+			} else {
+				foreach( string sG in lsGenres ) {
+					lSSQCList.Add( new SelectedSortQueryCriteria(
+							sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
+				}
+			}
+			return lSSQCList;
+		}
 	}
 }
