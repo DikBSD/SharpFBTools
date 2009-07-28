@@ -1386,7 +1386,51 @@ namespace SharpFBTools.Tools
 				m_bw.CancelAsync();
 			}
 		}
+		
+		void BtnSSDataListSaveClick(object sender, EventArgs e)
+		{
+			// сохранить список критериев Избранной Сортировки в файл
+			string sMessTitle = "SharpFBTools - Избранная Сортировка";
+			if( lvSSData.Items.Count == 0 ) {
+				MessageBox.Show( "Список данных для Избранной Сортировки пуст.\nЗадайте хоть один критерий Сортировки (кнопка 'Собрать данные для Избранной Сортировки').",
+				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
+			sfdSaveXMLFile.Filter = "XML файлы (*.xml)|*.xml|Все файлы (*.*)|*.*";;
+			sfdSaveXMLFile.FileName = "";
+			DialogResult result = sfdSaveXMLFile.ShowDialog();
+			if (result == DialogResult.OK) {
+				XmlWriter writer = null;
+				try {
+					XmlWriterSettings settings = new XmlWriterSettings();
+					settings.Indent = true;
+					settings.IndentChars = ("\t");
+					settings.OmitXmlDeclaration = true;
+					writer = XmlWriter.Create( sfdSaveXMLFile.FileName, settings );
+					writer.WriteStartElement( "SelectedSortingData" );
+					for( int i=0; i!=lvSSData.Items.Count; ++i ) {
+						writer.WriteStartElement( "Item" );
+							writer.WriteAttributeString( "Lang", lvSSData.Items[i].Text );
+							writer.WriteAttributeString( "GGroup", lvSSData.Items[i].SubItems[1].Text );
+							writer.WriteAttributeString( "Genre", lvSSData.Items[i].SubItems[2].Text );
+							writer.WriteAttributeString( "Last", lvSSData.Items[i].SubItems[3].Text );
+							writer.WriteAttributeString( "First", lvSSData.Items[i].SubItems[4].Text );
+							writer.WriteAttributeString( "Middle", lvSSData.Items[i].SubItems[5].Text );
+							writer.WriteAttributeString( "Nick", lvSSData.Items[i].SubItems[6].Text );
+							writer.WriteAttributeString( "Sequence", lvSSData.Items[i].SubItems[7].Text );
+							writer.WriteAttributeString( "BookTitle", lvSSData.Items[i].SubItems[8].Text );
+							writer.WriteAttributeString( "ExactFit", lvSSData.Items[i].SubItems[9].Text );
+						writer.WriteEndElement();
+					}
+					writer.WriteEndElement();
+					writer.Flush();
+					MessageBox.Show( "Список данных для Избранной Сортировки сохранен в файл!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				}  finally  {
+					if (writer != null)
+					writer.Close();
+				}
+	         }
+		}
 		#endregion
-
 	}
 }
