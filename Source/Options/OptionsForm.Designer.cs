@@ -301,7 +301,7 @@ namespace Options
 			this.pBtn.Controls.Add(this.btnOK);
 			this.pBtn.Controls.Add(this.btnCancel);
 			this.pBtn.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pBtn.Location = new System.Drawing.Point(0, 478);
+			this.pBtn.Location = new System.Drawing.Point(0, 487);
 			this.pBtn.Name = "pBtn";
 			this.pBtn.Size = new System.Drawing.Size(617, 42);
 			this.pBtn.TabIndex = 2;
@@ -327,7 +327,7 @@ namespace Options
 			this.tcOptions.Location = new System.Drawing.Point(0, 0);
 			this.tcOptions.Name = "tcOptions";
 			this.tcOptions.SelectedIndex = 0;
-			this.tcOptions.Size = new System.Drawing.Size(617, 478);
+			this.tcOptions.Size = new System.Drawing.Size(617, 487);
 			this.tcOptions.TabIndex = 3;
 			// 
 			// tpGeneral
@@ -773,7 +773,7 @@ namespace Options
 			this.tpFileManager.Location = new System.Drawing.Point(4, 22);
 			this.tpFileManager.Name = "tpFileManager";
 			this.tpFileManager.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFileManager.Size = new System.Drawing.Size(609, 452);
+			this.tpFileManager.Size = new System.Drawing.Size(609, 461);
 			this.tpFileManager.TabIndex = 2;
 			this.tpFileManager.Text = " Менеджер файлов ";
 			this.tpFileManager.UseVisualStyleBackColor = true;
@@ -788,18 +788,17 @@ namespace Options
 			this.tcFM.Location = new System.Drawing.Point(3, 3);
 			this.tcFM.Name = "tcFM";
 			this.tcFM.SelectedIndex = 0;
-			this.tcFM.Size = new System.Drawing.Size(603, 446);
+			this.tcFM.Size = new System.Drawing.Size(603, 455);
 			this.tcFM.TabIndex = 36;
 			// 
 			// tpFMGeneral
 			// 
-			this.tpFMGeneral.Controls.Add(this.pSortFB2);
 			this.tpFMGeneral.Controls.Add(this.gboxFMGeneral);
 			this.tpFMGeneral.Controls.Add(this.gboxApportionment);
 			this.tpFMGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tpFMGeneral.Name = "tpFMGeneral";
 			this.tpFMGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMGeneral.Size = new System.Drawing.Size(595, 420);
+			this.tpFMGeneral.Size = new System.Drawing.Size(595, 429);
 			this.tpFMGeneral.TabIndex = 0;
 			this.tpFMGeneral.Text = " Основные ";
 			this.tpFMGeneral.UseVisualStyleBackColor = true;
@@ -809,10 +808,10 @@ namespace Options
 			this.pSortFB2.Controls.Add(this.rbtnFMOnleValidFB2);
 			this.pSortFB2.Controls.Add(this.rbtnFMAllFB2);
 			this.pSortFB2.Controls.Add(this.label11);
-			this.pSortFB2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pSortFB2.Location = new System.Drawing.Point(3, 205);
+			this.pSortFB2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pSortFB2.Location = new System.Drawing.Point(3, 204);
 			this.pSortFB2.Name = "pSortFB2";
-			this.pSortFB2.Size = new System.Drawing.Size(589, 23);
+			this.pSortFB2.Size = new System.Drawing.Size(583, 23);
 			this.pSortFB2.TabIndex = 30;
 			// 
 			// rbtnFMOnleValidFB2
@@ -851,6 +850,7 @@ namespace Options
 			// 
 			// gboxFMGeneral
 			// 
+			this.gboxFMGeneral.Controls.Add(this.pSortFB2);
 			this.gboxFMGeneral.Controls.Add(this.pFMGenres);
 			this.gboxFMGeneral.Controls.Add(this.chBoxDelFB2Files);
 			this.gboxFMGeneral.Controls.Add(this.chBoxAddToFileNameBookID);
@@ -864,7 +864,7 @@ namespace Options
 			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxFMGeneral.Location = new System.Drawing.Point(3, 3);
 			this.gboxFMGeneral.Name = "gboxFMGeneral";
-			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 225);
+			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 234);
 			this.gboxFMGeneral.TabIndex = 28;
 			this.gboxFMGeneral.TabStop = false;
 			this.gboxFMGeneral.Text = " Основные настройки ";
@@ -883,7 +883,7 @@ namespace Options
 			// rbtnFMFB22
 			// 
 			this.rbtnFMFB22.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFMFB22.Location = new System.Drawing.Point(217, 2);
+			this.rbtnFMFB22.Location = new System.Drawing.Point(220, 2);
 			this.rbtnFMFB22.Name = "rbtnFMFB22";
 			this.rbtnFMFB22.Size = new System.Drawing.Size(63, 17);
 			this.rbtnFMFB22.TabIndex = 2;
@@ -894,7 +894,7 @@ namespace Options
 			// 
 			this.rbtnFMFB21.Checked = true;
 			this.rbtnFMFB21.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFMFB21.Location = new System.Drawing.Point(138, 2);
+			this.rbtnFMFB21.Location = new System.Drawing.Point(141, 2);
 			this.rbtnFMFB21.Name = "rbtnFMFB21";
 			this.rbtnFMFB21.Size = new System.Drawing.Size(62, 17);
 			this.rbtnFMFB21.TabIndex = 1;
@@ -955,7 +955,7 @@ namespace Options
 									"Добавить к создаваемому файлу дату и время"});
 			this.cboxFileExist.Location = new System.Drawing.Point(151, 2);
 			this.cboxFileExist.Name = "cboxFileExist";
-			this.cboxFileExist.Size = new System.Drawing.Size(433, 21);
+			this.cboxFileExist.Size = new System.Drawing.Size(425, 21);
 			this.cboxFileExist.TabIndex = 20;
 			this.cboxFileExist.SelectedIndexChanged += new System.EventHandler(this.CboxFileExistSelectedIndexChanged);
 			// 
@@ -996,7 +996,7 @@ namespace Options
 									"Tar"});
 			this.cboxArchiveType.Location = new System.Drawing.Point(461, 4);
 			this.cboxArchiveType.Name = "cboxArchiveType";
-			this.cboxArchiveType.Size = new System.Drawing.Size(123, 21);
+			this.cboxArchiveType.Size = new System.Drawing.Size(115, 21);
 			this.cboxArchiveType.TabIndex = 17;
 			// 
 			// cboxSpace
@@ -1127,7 +1127,7 @@ namespace Options
 			this.gboxApportionment.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.gboxApportionment.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxApportionment.Location = new System.Drawing.Point(3, 228);
+			this.gboxApportionment.Location = new System.Drawing.Point(3, 237);
 			this.gboxApportionment.Name = "gboxApportionment";
 			this.gboxApportionment.Size = new System.Drawing.Size(589, 189);
 			this.gboxApportionment.TabIndex = 29;
@@ -2199,7 +2199,7 @@ namespace Options
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(617, 520);
+			this.ClientSize = new System.Drawing.Size(617, 529);
 			this.Controls.Add(this.tcOptions);
 			this.Controls.Add(this.pBtn);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
