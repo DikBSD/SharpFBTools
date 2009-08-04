@@ -7,9 +7,9 @@
  * License: GPL 2.1
  */
 using System;
-using FB2.Common;
+using Core.FB2.Common;
 
-namespace FB2.Description.TitleInfo
+namespace Core.FB2.Description.TitleInfo
 {
 	/// <summary>
 	/// Description of Coverpage.

@@ -13,7 +13,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Text;
 
-namespace Reports
+namespace Core.Reports
 {
 	/// <summary>
 	/// Description of ValidatorReports.

@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace FB2.Description.Common
+namespace Core.FB2.Description.Common
 {
 	/// <summary>
 	/// Description of IDateType.

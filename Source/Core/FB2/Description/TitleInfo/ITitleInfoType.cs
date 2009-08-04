@@ -8,9 +8,10 @@
  */
 using System;
 using System.Collections.Generic;
-using FB2.Description.Common;
 
-namespace FB2.Description.TitleInfo
+using Core.FB2.Description.Common;
+
+namespace Core.FB2.Description.TitleInfo
 {
 	/// <summary>
 	/// Description of ITitleInfoType.

@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FB2.Genres
+namespace Core.FB2.Genres
 {
 	/// <summary>
 	/// Description of IFBGenres.

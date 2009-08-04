@@ -14,7 +14,7 @@ using System.Xml.Schema;
 
 using Settings;
 
-namespace FB2Parser
+namespace Core.FB2Parser
 {
 	/// <summary>
 	/// Description of FB2Validator.

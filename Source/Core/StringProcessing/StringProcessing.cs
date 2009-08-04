@@ -12,10 +12,12 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
 
-using FB2.FB2Parsers;
-using FB2.Description.DocumentInfo;
+using Core.FB2.FB2Parsers;
+using Core.FB2.Description.DocumentInfo;
 
-namespace StringProcessing
+using fB2Parser	= Core.FB2.FB2Parsers.FB2Parser;
+
+namespace Core.StringProcessing
 {
 	/// <summary>
 	/// Description of StringProcessing.
@@ -282,7 +284,7 @@ namespace StringProcessing
 			Regex rx = new Regex( @"\\+" );
 			sFB2FilePath = rx.Replace( sFB2FilePath, "\\" );
 			
-			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
+			fB2Parser fb2p = new fB2Parser( sFB2FilePath );
 			DocumentInfo di = fb2p.GetDocumentInfo();
 			
 			string sID = OnlyCorrectSymbolsForString( di.ID );
@@ -295,7 +297,7 @@ namespace StringProcessing
 			Regex rx = new Regex( @"\\+" );
 			sFB2FilePath = rx.Replace( sFB2FilePath, "\\" );
 			
-			FB2.FB2Parsers.FB2Parser fb2p = new FB2.FB2Parsers.FB2Parser( sFB2FilePath );
+			fB2Parser fb2p = new fB2Parser( sFB2FilePath );
 			DocumentInfo di = fb2p.GetDocumentInfo();
 			
 			string sID = OnlyCorrectSymbolsForString( di.ID );

@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using FB2.FB2Parsers;
-using FB2.Description.TitleInfo;
-using FB2.Description.Common;
-using FB2.Genres;
+using Core.FB2.FB2Parsers;
+using Core.FB2.Description.TitleInfo;
+using Core.FB2.Description.Common;
+using Core.FB2.Genres;
 //using FB2.Common;
 //using FB2.Description;
 //using FB2.Description.DocumentInfo;
@@ -25,7 +25,7 @@ using FB2.Genres;
 //using FilesWorker;
 
 
-using fB2Parser = FB2.FB2Parsers.FB2Parser;
+using fB2Parser = Core.FB2.FB2Parsers.FB2Parser;
 
 namespace Core.BookSorting
 {

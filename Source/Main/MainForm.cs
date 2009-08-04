@@ -17,6 +17,8 @@ using SharpFBTools;
 using SharpFBTools.AssemblyInfo;
 using SharpFBTools.Tools;
 
+using filesWorker = Core.FilesWorker.FilesWorker;
+
 namespace Main
 {
 	/// <summary>
@@ -69,7 +71,7 @@ namespace Main
 		{
 			// выход из программы
 			// очистка временной папки
-			FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 			this.Close();
 		}
 		

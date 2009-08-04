@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using System.Xml;
 using System.IO;
 
+using filesWorker = Core.FilesWorker.FilesWorker;
+
 namespace Options
 {
 	/// <summary>
@@ -568,25 +570,25 @@ namespace Options
 		void BtnFB2NotReadDirClick(object sender, EventArgs e)
 		{
 			// указание пути к папке дл€ нечитаемых fb2-файлов
-			FilesWorker.FilesWorker.OpenDirDlg( txtBoxFB2NotReadDir, fbdDir, "”кажите папку дл€ нечитаемых fb2-файлов:" );
+			filesWorker.OpenDirDlg( txtBoxFB2NotReadDir, fbdDir, "”кажите папку дл€ нечитаемых fb2-файлов:" );
 		}
 		
 		void BtnFB2LongPathDirClick(object sender, EventArgs e)
 		{
 			// указание пути к папке дл€ fb2-файлов с сгенерированными длинными именами
-			FilesWorker.FilesWorker.OpenDirDlg( txtBoxFB2LongPathDir, fbdDir, "”кажите папку дл€ fb2-файлов, у которых после генерации имен путь получаетс€ слишком длинный:" );
+			filesWorker.OpenDirDlg( txtBoxFB2LongPathDir, fbdDir, "”кажите папку дл€ fb2-файлов, у которых после генерации имен путь получаетс€ слишком длинный:" );
 		}
 		
 		void BtnFB2NotValidDirClick(object sender, EventArgs e)
 		{
 			// указание пути к папке дл€ невалидных fb2-файлов
-			FilesWorker.FilesWorker.OpenDirDlg( txtBoxFB2NotValidDir, fbdDir, "”кажите папку дл€ невалидных fb2-файлов:" );
+			filesWorker.OpenDirDlg( txtBoxFB2NotValidDir, fbdDir, "”кажите папку дл€ невалидных fb2-файлов:" );
 		}
 		
 		void BtnArchNotOpenDirClick(object sender, EventArgs e)
 		{
 			// указание пути к папке дл€ "битых" архивов
-			FilesWorker.FilesWorker.OpenDirDlg( txtBoxArchNotOpenDir, fbdDir, "”кажите папку дл€ \"битых\" архивов:" );
+			filesWorker.OpenDirDlg( txtBoxArchNotOpenDir, fbdDir, "”кажите папку дл€ \"битых\" архивов:" );
 		}
 		#endregion
 		

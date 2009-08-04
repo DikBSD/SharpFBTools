@@ -10,9 +10,10 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using FB2.Common;
 
-namespace FB2.Description.Common
+using Core.FB2.Common;
+
+namespace Core.FB2.Description.Common
 {
 	/// <summary>
 	/// Description of Author.

@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Settings;
 
-using FB2.Genres;
+using Core.FB2.Genres;
 
 
 namespace SharpFBTools.Tools

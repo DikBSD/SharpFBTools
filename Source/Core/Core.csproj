@@ -41,7 +41,6 @@
     <Folder Include="FB2\Description\DocumentInfo" />
     <Folder Include="FB2\Description\TitleInfo" />
     <Folder Include="FB2\Description\PublishInfo" />
-    <Folder Include="FB2\Description\Output" />
     <Folder Include="FB2\FB2Parsers" />
     <Folder Include="FB2\Genres" />
     <Folder Include="FilesWorker" />

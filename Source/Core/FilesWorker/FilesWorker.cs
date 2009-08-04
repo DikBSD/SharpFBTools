@@ -15,7 +15,7 @@ using System.Globalization;
 using System.Threading;
 using System.ComponentModel;
 
-namespace FilesWorker
+namespace Core.FilesWorker
 {
 	/// <summary>
 	/// Description of FilesWorker.

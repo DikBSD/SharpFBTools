@@ -7,9 +7,10 @@
  * License: GPL 2.1
  */
 using System;
-using FB2.Common;
 
-namespace FB2.Description.Common
+using Core.FB2.Common;
+
+namespace Core.FB2.Description.Common
 {
 	/// <summary>
 	/// Description of Date.

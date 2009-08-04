@@ -9,15 +9,16 @@
 using System;
 using System.Xml;
 using System.Collections.Generic;
-using FB2.Common;
-using FB2.Description;
-using FB2.Description.TitleInfo;
-using FB2.Description.DocumentInfo;
-using FB2.Description.PublishInfo;
-using FB2.Description.CustomInfo;
-using FB2.Description.Common;
 
-namespace FB2.FB2Parsers
+using Core.FB2.Common;
+using Core.FB2.Description;
+using Core.FB2.Description.TitleInfo;
+using Core.FB2.Description.DocumentInfo;
+using Core.FB2.Description.PublishInfo;
+using Core.FB2.Description.CustomInfo;
+using Core.FB2.Description.Common;
+
+namespace Core.FB2.FB2Parsers
 {
 	/// <summary>
 	/// Description of FB2Parser.

@@ -8,9 +8,9 @@
  */
 using System;
 
-using FB2.Description.Common;
+using Core.FB2.Description.Common;
 
-namespace FB2.Description.CustomInfo
+namespace Core.FB2.Description.CustomInfo
 {
 	/// <summary>
 	/// Description of CustomInfo.

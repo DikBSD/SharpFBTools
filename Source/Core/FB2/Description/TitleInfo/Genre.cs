@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace FB2.Description.TitleInfo
+namespace Core.FB2.Description.TitleInfo
 {
 	/// <summary>
 	/// Description of Genre.

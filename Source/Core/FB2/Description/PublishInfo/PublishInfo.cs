@@ -8,10 +8,11 @@
  */
 using System;
 using System.Collections.Generic;
-using FB2.Description.Common;
-using FB2.Description.TitleInfo;
 
-namespace FB2.Description.PublishInfo
+using Core.FB2.Description.Common;
+using Core.FB2.Description.TitleInfo;
+
+namespace Core.FB2.Description.PublishInfo
 {
 	/// <summary>
 	/// Description of PublishInfo.

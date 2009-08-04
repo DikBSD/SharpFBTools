@@ -18,14 +18,22 @@ using System.Xml;
 using System.Threading;
 using System.Diagnostics;
 
-using FB2.FB2Parsers;
-using FB2.Description.TitleInfo;
-using FB2.Description.Common;
-using Settings;
-using FB2.Genres;
+using Core.FB2.FB2Parsers;
+using Core.FB2.Description.TitleInfo;
+using Core.FB2.Description.Common;
+using Core.FB2.Genres;
 using Core.BookSorting;
+using Settings;
 
-using fB2Parser = FB2.FB2Parsers.FB2Parser;
+using fB2Parser			= Core.FB2.FB2Parsers.FB2Parser;
+using filesWorker		= Core.FilesWorker.FilesWorker;
+using archivesWorker	= Core.FilesWorker.Archiver;
+using fb2Validator		= Core.FB2Parser.FB2Validator;
+using stringProcessing	= Core.StringProcessing.StringProcessing;
+using templatesParser	= Core.Templates.TemplatesParser;
+using templatesVerify	= Core.Templates.TemplatesVerify;
+using templatesLexemsSimple		= Core.Templates.Lexems.TPSimple;
+using selectedSortQueryCriteria	= Core.BookSorting.SelectedSortQueryCriteria;
 
 namespace SharpFBTools.Tools
 {
@@ -35,8 +43,8 @@ namespace SharpFBTools.Tools
 	public partial class SFBTpFileManager : UserControl
 	{
 		#region Закрытые данные класса
-		private FB2Parser.FB2Validator fv2V = new FB2Parser.FB2Validator();
-		private List<Core.BookSorting.SelectedSortQueryCriteria> m_lSSQCList = null; // список критериев поиска для Избранной Сортировки
+		private fb2Validator fv2V = new fb2Validator();
+		private List<selectedSortQueryCriteria> m_lSSQCList = null; // список критериев поиска для Избранной Сортировки
         private DateTime m_dtStart;
         private BackgroundWorker m_bw = null;
 		private string m_sSource		= "";
@@ -94,11 +102,11 @@ namespace SharpFBTools.Tools
 				lvFilesCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				lDirList = FilesWorker.FilesWorker.DirsParser( m_sSource, lvFilesCount, false );
+				lDirList = filesWorker.DirsParser( m_sSource, lvFilesCount, false );
 			}
 			
 			// не сортированный список всех файлов
-			m_lFilesList = FilesWorker.FilesWorker.AllFilesParser( m_bw, e, lDirList, lvFilesCount, tsProgressBar, false );
+			m_lFilesList = filesWorker.AllFilesParser( m_bw, e, lDirList, lvFilesCount, tsProgressBar, false );
 			lDirList.Clear();
 			// Проверить флаг на остановку процесса 
 			if( ( m_bw.CancellationPending == true ) ) {
@@ -122,7 +130,7 @@ namespace SharpFBTools.Tools
 			Settings.DataFM dfm = new Settings.DataFM();
 			
 			// формируем лексемы шаблонной строки
-			List<Templates.Lexems.TPSimple> lSLexems = Templates.TemplatesParser.GemSimpleLexems( m_sLineTemplate );
+			List<templatesLexemsSimple> lSLexems = templatesParser.GemSimpleLexems( m_sLineTemplate );
 			// сортировка
 			if( m_bFullSort ) {
 				// Полная Сортировка
@@ -165,7 +173,7 @@ namespace SharpFBTools.Tools
 							MakeFileForSelectedSortingWorker( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
 						} else {
 							// это архив?
-							if( FilesWorker.Archiver.IsArchive( sExt ) ) {
+							if( archivesWorker.IsArchive( sExt ) ) {
 								List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 								if( lFilesListFromArchive!=null ) {
 									foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -173,7 +181,7 @@ namespace SharpFBTools.Tools
 										MakeFileForSelectedSortingWorker( sFB2FromArchPath, m_sSource, m_sTarget, lSLexems, dfm );
 									}
 								}
-								FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+								filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 							}
 						}
 					}
@@ -192,7 +200,7 @@ namespace SharpFBTools.Tools
             // Проверяем это отмена, ошибка, или конец задачи и сообщить
             DateTime dtEnd = DateTime.Now;
             m_lFilesList.Clear();
-            FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+            filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
             
             string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
 			string sMessCanceled	= "Сортировка остановлена!\nЗатрачено времени: "+sTime;
@@ -228,7 +236,7 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text		= Settings.Settings.GetReady();
 			tsProgressBar.Visible	= false;
 			// очистка временной папки
-			FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 		}
 		
 		private void SetFullSortingStartEnabled( bool bEnabled ) {
@@ -343,30 +351,30 @@ namespace SharpFBTools.Tools
 			// Распаковать архив во временную папку
 			string sTempDir 	= Settings.Settings.GetTempDir();
 			string sExt			= Path.GetExtension( sFromFile ).ToLower();
-			FilesWorker.FilesWorker.RemoveDir( sTempDir );
+			filesWorker.RemoveDir( sTempDir );
 			switch( sExt ) {
 				case ".rar":
-					FilesWorker.Archiver.unrar( dfm.UnRarPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					archivesWorker.unrar( dfm.UnRarPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 4 );
 					break;
 				case ".zip":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 3 );
 					break;
 				case ".7z":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 5 );
 					break;
 				case ".bz2":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 6 );
 					break;
 				case ".gz":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 7 );
 					break;
 				case ".tar":
-					FilesWorker.Archiver.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 8 );
 					break;
 			}
@@ -399,14 +407,14 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode,
-		                          bool bAddToFileNameBookIDMode, Settings.DataFM dfm ) {
+		                          	bool bAddToFileNameBookIDMode, Settings.DataFM dfm ) {
 			// создание нового файла или архива
 			try {
 				if( !dfm.ToArchiveMode ) {
 					CopyFileToTargetDir( sFromFilePath, sToFilePath, false, nFileExistMode, bAddToFileNameBookIDMode );
 				} else {
 					// упаковка в архив
-					string sArchType = StringProcessing.StringProcessing.GetArchiveExt( dfm.ArchiveTypeText );
+					string sArchType = stringProcessing.GetArchiveExt( dfm.ArchiveTypeText );
 					CopyFileToArchive( dfm.A7zaPath, dfm.RarPath, sArchType, sFromFilePath, sToFilePath+"."+sArchType, 
 					                  nFileExistMode, bAddToFileNameBookIDMode );
 				}
@@ -429,9 +437,9 @@ namespace SharpFBTools.Tools
 			
 			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, sArchType );
 			if( sArchType == "rar" ) {
-				FilesWorker.Archiver.rar( sRarPath, sFromFilePath, sToFilePath, true, ProcessPriorityClass.AboveNormal );
+				archivesWorker.rar( sRarPath, sFromFilePath, sToFilePath, true, ProcessPriorityClass.AboveNormal );
 			} else {
-				FilesWorker.Archiver.zip( s7zaPath, sArchType, sFromFilePath, sToFilePath, ProcessPriorityClass.AboveNormal );
+				archivesWorker.zip( s7zaPath, sArchType, sFromFilePath, sToFilePath, ProcessPriorityClass.AboveNormal );
 			}
 			IncStatus( 11 ); // всего создано
 		}
@@ -474,10 +482,10 @@ namespace SharpFBTools.Tools
 				} else {
 					if( nFileExistMode == 1 ) {
 						// Добавить к создаваемому архиву очередной номер
-						sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sToFilePath ).ToString();
+						sSufix += "_" + stringProcessing.GetFileNewNumber( sToFilePath ).ToString();
 					} else {
 						// Добавить к создаваемому архиву дату и время
-						sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
+						sSufix += "_" + stringProcessing.GetDateTimeExt();
 					}
 					sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + Path.GetExtension( sToFilePath );
 				}
@@ -502,14 +510,14 @@ namespace SharpFBTools.Tools
 					File.Delete( sToFilePath );
 				} else {
 					if( bAddToFileNameBookIDMode ) {
-						sSufix = "_" + StringProcessing.StringProcessing.GetFMBookID( sFromFilePath );
+						sSufix = "_" + stringProcessing.GetFMBookID( sFromFilePath );
 					}
 					if( nFileExistMode == 1 ) {
 						// Добавить к создаваемому файлу очередной номер
-						sSufix += "_" + StringProcessing.StringProcessing.GetFileNewNumber( sToFilePath ).ToString();
+						sSufix += "_" + stringProcessing.GetFileNewNumber( sToFilePath ).ToString();
 					} else {
 						// Добавить к создаваемому файлу дату и время
-						sSufix += "_" + StringProcessing.StringProcessing.GetDateTimeExt();
+						sSufix += "_" + stringProcessing.GetDateTimeExt();
 					}
 					if( sArchType.Length==0 ) {
 						sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + ".fb2";
@@ -522,7 +530,7 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void MakeFileFor1Genre1Author( string sFromFilePath, string sSource, string sTarget,
-		                                      List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm ) {
+		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
 			// создаем файл по новому пути для первого Жанра и для первого Автора Книги
 			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
 			if( sExt==".fb2" ) {
@@ -530,7 +538,7 @@ namespace SharpFBTools.Tools
 				IncStatus( 2 ); // исходные fb2-файлы
 			} else {
 				// это архив?
-				if( FilesWorker.Archiver.IsArchive( sExt ) ) {
+				if( archivesWorker.IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
@@ -541,7 +549,7 @@ namespace SharpFBTools.Tools
 						                               sSource, sTarget, lSLexems, dfm, true );
 						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
-					FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 				}  else {
 					// пропускаем не fb2-файлы и архивы
 					IncStatus( 10 ); // другие файлы
@@ -549,7 +557,7 @@ namespace SharpFBTools.Tools
 			}
 		}
 		private void MakeFileFor1Genre1AuthorWorker( string sExt, string sFromFilePath, string sSource, string sTarget,
-		                                      List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
+		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
 			try {
 				MakeFB2File( sFromFilePath, sSource, sTarget, lSLexems, dfm, bFromArchive, 0, 0 );
 			} catch {
@@ -560,7 +568,7 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void MakeFileForAllGenre1Author( string sFromFilePath, string sSource, string sTarget,
-		                                      List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm ) {
+		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
 			// создаем файл по новому пути для всех Жанров и для первого Автора Книги
 			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
 			if( sExt==".fb2" ) {
@@ -568,7 +576,7 @@ namespace SharpFBTools.Tools
 				IncStatus( 2 ); // исходные fb2-файлы
 			} else {
 				// это архив?
-				if( FilesWorker.Archiver.IsArchive( sExt ) ) {
+				if( archivesWorker.IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
@@ -579,7 +587,7 @@ namespace SharpFBTools.Tools
 						                                 sSource, sTarget, lSLexems, dfm, true ) ;
 						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
-					FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 				}  else {
 					// пропускаем не fb2-файлы и архивы
 					IncStatus( 10 ); // другие файлы
@@ -587,7 +595,7 @@ namespace SharpFBTools.Tools
 			}
 		}
 		private void MakeFileForAllGenre1AuthorWorker( string sExt, string sFromFilePath, string sSource, string sTarget,
-		                                      List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
+		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
 			try {
 				fB2Parser fb2 = new fB2Parser( sFromFilePath );
 				TitleInfo ti = fb2.GetTitleInfo();
@@ -604,7 +612,7 @@ namespace SharpFBTools.Tools
 		}
 
 		private void MakeFileFor1GenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
-		                                      	List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm ) {
+		                                      	List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
 			// создаем файл по новому пути для первого Жанра и для всех Авторов Книги
 			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
 			if( sExt==".fb2" ) {
@@ -612,7 +620,7 @@ namespace SharpFBTools.Tools
 				IncStatus( 2 ); // исходные fb2-файлы
 			} else {
 				// это архив?
-				if( FilesWorker.Archiver.IsArchive( sExt ) ) {
+				if( archivesWorker.IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
@@ -623,7 +631,7 @@ namespace SharpFBTools.Tools
 						                                 sSource, sTarget, lSLexems, dfm, true );
 						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
-					FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 				} else {
 					// пропускаем не fb2-файлы и архивы
 					IncStatus( 10 ); // другие файлы
@@ -631,7 +639,7 @@ namespace SharpFBTools.Tools
 			}
 		}
 		private void MakeFileFor1GenreAllAuthorWorker( string sExt, string sFromFilePath, string sSource, string sTarget,
-		                                      List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
+		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
 			try {
 				fB2Parser fb2 = new fB2Parser( sFromFilePath );
 				TitleInfo ti = fb2.GetTitleInfo();
@@ -648,7 +656,7 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void MakeFileForAllGenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
-		                                      		List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm) {
+		                                      		List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm) {
 			// создаем файл по новому пути для всех Жанров и для всех Авторов Книги
 			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
 			if( sExt==".fb2" ) {
@@ -656,7 +664,7 @@ namespace SharpFBTools.Tools
 				IncStatus( 2 ); // исходные fb2-файлы
 			} else {
 				// это архив?
-				if( FilesWorker.Archiver.IsArchive( sExt ) ) {
+				if( archivesWorker.IsArchive( sExt ) ) {
 					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
@@ -667,7 +675,7 @@ namespace SharpFBTools.Tools
 						                                   sSource, sTarget, lSLexems, dfm, true );
 						IncStatus( 9 ); // Исходные fb2-файлы из архивов
 					}
-					FilesWorker.FilesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 				}  else {
 					// пропускаем не fb2-файлы и архивы
 					IncStatus( 10 ); // другие файлы
@@ -675,7 +683,7 @@ namespace SharpFBTools.Tools
 			}
 		}
 		private void MakeFileForAllGenreAllAuthorWorker( string sExt, string sFromFilePath, string sSource, string sTarget,
-		                                      List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
+		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
 			try {
 				fB2Parser fb2 = new fB2Parser( sFromFilePath );
 				TitleInfo ti = fb2.GetTitleInfo();
@@ -722,7 +730,7 @@ namespace SharpFBTools.Tools
 		}
 			
 		private void MakeFB2File( string sFromFilePath, string sSource, string sTarget,
-		                      List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm,
+		                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm,
 		                      bool bFromArchive, int nGenreIndex, int nAuthorIndex ) {
 			// создаем файл по новому пути
 			string sTempDir = Settings.Settings.GetTempDir();
@@ -738,7 +746,7 @@ namespace SharpFBTools.Tools
 				}
 				try {
 					string sToFilePath = sTarget + "\\" +
-							Templates.TemplatesParser.Parse( sFromFilePath, lSLexems, dfm, nGenreIndex, nAuthorIndex ) + ".fb2";
+							templatesParser.Parse( sFromFilePath, lSLexems, dfm, nGenreIndex, nAuthorIndex ) + ".fb2";
 					CreateFileTo( sFromFilePath, sToFilePath, dfm.FileExistMode, dfm.AddToFileNameBookIDMode, dfm );
 				} catch /*( System.IO.FileLoadException )*/ {
 					// нечитаемый fb2-файл - копируем его в папку Bad
@@ -802,13 +810,13 @@ namespace SharpFBTools.Tools
 				return false;
 			}
 			// проверка на корректность строки с шаблонами
-			if( !Templates.TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
+			if( !templatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&\\t\\r\\n между шаблонами!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на четность * в строке с шаблонами
-			if( !Templates.TemplatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
+			if( !templatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
 				MessageBox.Show( "Строка с шаблонами подстановки содержит нечетное число *!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
@@ -822,13 +830,13 @@ namespace SharpFBTools.Tools
 				}
 			}
 			// проверка на соответствие [ ] в строке с шаблонами
-			if( !Templates.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
+			if( !templatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
 				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками [ ]!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на соответствие ( ) в строке с шаблонами
-			if( !Templates.TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
+			if( !templatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
 				MessageBox.Show( "В строке с шаблонами нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
@@ -846,7 +854,7 @@ namespace SharpFBTools.Tools
 				return false;
 			}
 			// проверка условных шаблонов на наличие в них вспом. символов без самих шаблонов
-			if( !Templates.TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
+			if( !templatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Условные шаблоны [] в строке с шаблонами не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
@@ -861,7 +869,7 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void MakeFileForSelectedSortingWorker( string sFromFilePath, string sSource, string sTarget,
-		                                             List<Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm ) {
+		                                             List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
 			// Создание файла по критериям Избранной сортировки
 			// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
 			FB2SelectedSorting fb2ss = new FB2SelectedSorting();
@@ -887,7 +895,7 @@ namespace SharpFBTools.Tools
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования
-			FilesWorker.FilesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" );
+			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" );
 		}
 		
 		void TsbtnSortFilesToClick(object sender, EventArgs e)
@@ -933,7 +941,7 @@ namespace SharpFBTools.Tools
 		void BtnSortAllToDirClick(object sender, EventArgs e)
 		{
 			// задание папки-приемника для размешения отсортированных файлов
-			FilesWorker.FilesWorker.OpenDirDlg( tboxSortAllToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов:" );
+			filesWorker.OpenDirDlg( tboxSortAllToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов:" );
 		}
 		
 		void TboxSourceDirTextChanged(object sender, EventArgs e)
@@ -1006,7 +1014,7 @@ namespace SharpFBTools.Tools
 				if( ssdfrm.lvSSData.Items.Count > 0 ) {
 					// удаляем записи в списке, если они есть
 					lvSSData.Items.Clear();
-					m_lSSQCList = new List<Core.BookSorting.SelectedSortQueryCriteria>();
+					m_lSSQCList = new List<selectedSortQueryCriteria>();
 					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit;
 					DataFM dfm = new DataFM();
 					FB2SelectedSorting fb2ss = new FB2SelectedSorting();
@@ -1059,13 +1067,13 @@ namespace SharpFBTools.Tools
 		void TsbtnSSOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования (Избранная Сортировка)
-			FilesWorker.FilesWorker.OpenDirDlg( tboxSSSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами (Избранная Сортировка):" );
+			filesWorker.OpenDirDlg( tboxSSSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами (Избранная Сортировка):" );
 		}
 		
 		void TsbtnSSTargetDirClick(object sender, EventArgs e)
 		{
 			// задание папки-приемника для размешения отсортированных файлов (Избранная Сортировка)
-			FilesWorker.FilesWorker.OpenDirDlg( tboxSSToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов (Избранная Сортировка):" );
+			filesWorker.OpenDirDlg( tboxSSToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов (Избранная Сортировка):" );
 		}
 	
 		void TsbtnFullSortStopClick(object sender, EventArgs e)
@@ -1192,7 +1200,7 @@ namespace SharpFBTools.Tools
 							lvSSData.Items.Clear();
 							DataFM dfm = new DataFM();
 							FB2SelectedSorting fb2ss = new FB2SelectedSorting();
-							m_lSSQCList = new List<Core.BookSorting.SelectedSortQueryCriteria>();
+							m_lSSQCList = new List<selectedSortQueryCriteria>();
 							string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit;
 							do {
        							sLang		= reader.GetAttribute("Lang");

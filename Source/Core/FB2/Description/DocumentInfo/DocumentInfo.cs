@@ -8,9 +8,10 @@
  */
 using System;
 using System.Collections.Generic;
-using FB2.Description.Common;
 
-namespace FB2.Description.DocumentInfo
+using Core.FB2.Description.Common;
+
+namespace Core.FB2.Description.DocumentInfo
 {
 	/// <summary>
 	/// Description of DocumentInfo.

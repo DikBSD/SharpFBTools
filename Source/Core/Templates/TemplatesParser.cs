@@ -10,24 +10,24 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using FB2.FB2Parsers;
-using FB2.Common;
-using FB2.Description;
-using FB2.Description.TitleInfo;
-using FB2.Description.DocumentInfo;
-using FB2.Description.PublishInfo;
-using FB2.Description.CustomInfo;
-using FB2.Description.Common;
-using FB2.Genres;
-using StringProcessing;
+using Core.FB2.FB2Parsers;
+using Core.FB2.Common;
+using Core.FB2.Description;
+using Core.FB2.Description.TitleInfo;
+using Core.FB2.Description.DocumentInfo;
+using Core.FB2.Description.PublishInfo;
+using Core.FB2.Description.CustomInfo;
+using Core.FB2.Description.Common;
+using Core.FB2.Genres;
+using Core.StringProcessing;
 
-using fB2Parser = FB2.FB2Parsers.FB2Parser;
+using fB2Parser = Core.FB2.FB2Parsers.FB2Parser;
 
-namespace Templates {
+namespace Core.Templates {
 	/// <summary>
 	/// Description of TemplatesParser.
 	/// </summary>
-	public class TemplatesParser : Lexems.AllTemplates
+	public class TemplatesParser : Core.Templates.Lexems.AllTemplates
 	{
 		#region Закрытые данные
 		private static char cSeparator = '↑';
@@ -112,7 +112,7 @@ namespace Templates {
 			return "";
 		}
 		
-		private static List<Lexems.TPComplex> GemComplexLexems( string sLine ) {
+		private static List<Core.Templates.Lexems.TPComplex> GemComplexLexems( string sLine ) {
 			/* получение лексем из сложной группы */
 			// разбиваем строку относительно *
 			string str = sLine.Remove( 0, 1 );
@@ -398,7 +398,7 @@ namespace Templates {
 		#endregion
 		
 		#region Открытые методы
-		public static List<Lexems.TPSimple> GemSimpleLexems( string sLine ) {
+		public static List<Core.Templates.Lexems.TPSimple> GemSimpleLexems( string sLine ) {
 			/* получение простых лексем из шаблонной строки */
 			// разбиваем строку относительно [ и ]
 			string [] sTemp = InsertSeparatorToSquareBracket( sLine ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries );
@@ -439,7 +439,7 @@ namespace Templates {
 			return lexems;
 		}
 		
-		public static string Parse( string sFB2FilePath, List<Lexems.TPSimple> lSLexems, Settings.DataFM dfm,
+		public static string Parse( string sFB2FilePath, List<Core.Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm,
 		                           int nGenreIndex, int nAuthorIndex ) {
 			// формирование имени файла на основе данных Description и шаблонов подстановки
 			#region Код

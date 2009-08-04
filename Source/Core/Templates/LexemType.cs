@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace Templates.Lexems {
+namespace Core.Templates.Lexems {
 	/// <summary>
 	/// Description of AllTemplates
 	/// </summary>

@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Templates
+namespace Core.Templates
 {
 	/// <summary>
 	/// Description of TemplatesVerify.

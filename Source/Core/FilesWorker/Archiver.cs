@@ -13,7 +13,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace FilesWorker
+namespace Core.FilesWorker
 {
 	/// <summary>
 	/// Description of Archiver.

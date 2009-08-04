@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace FB2.Common
+namespace Core.FB2.Common
 {
 	/// <summary>
 	/// Description of IInlineImageType.

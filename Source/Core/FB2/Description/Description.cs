@@ -7,12 +7,12 @@
  * License: GPL 2.1
  */
 using System;
-using FB2.Description.TitleInfo;
-using FB2.Description.DocumentInfo;
-using FB2.Description.PublishInfo;
-using FB2.Description.CustomInfo;
+using Core.FB2.Description.TitleInfo;
+using Core.FB2.Description.DocumentInfo;
+using Core.FB2.Description.PublishInfo;
+using Core.FB2.Description.CustomInfo;
 
-namespace FB2.Description
+namespace Core.FB2.Description
 {
 	/// <summary>
 	/// Description of Description.
