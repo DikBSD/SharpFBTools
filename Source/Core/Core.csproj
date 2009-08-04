@@ -45,10 +45,13 @@
     <Folder Include="FB2\FB2Parsers" />
     <Folder Include="FB2\Genres" />
     <Folder Include="FilesWorker" />
+    <Folder Include="BookSorting" />
     <Folder Include="Reports" />
     <Folder Include="StringProcessing" />
     <Folder Include="Templates" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BookSorting\FB2SelectedSorting.cs" />
+    <Compile Include="BookSorting\SelectedSortQueryCriteria.cs" />
     <Compile Include="FB2\Common\IInlineImageType.cs" />
     <Compile Include="FB2\Common\InlineImage.cs" />
     <Compile Include="FB2\Description\Common\Author.cs" />

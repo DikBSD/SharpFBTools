@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace SharpFBTools.Tools
+namespace Core.BookSorting
 {
 	/// <summary>
 	/// Description of SelectedSortQueryCriteria.
