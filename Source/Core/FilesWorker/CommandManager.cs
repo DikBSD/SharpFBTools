@@ -1,11 +1,20 @@
-﻿using System;
+﻿/*
+ * Created by SharpDevelop.
+ * User: Кузнецов Вадим (DikBSD)
+ * Date: 08.08.2009
+ * Time: 17:06
+ * 
+ * License: GPL 2.1
+ */
+
+using System;
 using System.Diagnostics;
 using System.Threading;
 
 namespace Core.FilesWorker
 {
 
-	// ********************************* //
+	// ********************************************************************* //
 	public class Priority {
 		public Priority() {
 
@@ -31,7 +40,7 @@ namespace Core.FilesWorker
 			
 	}
 	
-	// ********************************* //
+	// ************************************************************************************* //
 	
     public class CommandManager {
         private Process	m_oProc;
@@ -48,7 +57,7 @@ namespace Core.FilesWorker
         /// <param name="sArgs"></param>
         /// <param name="ppcPriorityClass"></param>
         /// <returns></returns>
-        public string Run( string sStartProgPath, string sArgs, ProcessPriorityClass  ppcPriorityClass )  {
+        public string Run( string sStartProgPath, string sArgs, ProcessWindowStyle processWindowStyle, ProcessPriorityClass  ppcPriorityClass )  {
             m_sResult = "";
             m_oProc = new Process();
             
@@ -59,7 +68,7 @@ namespace Core.FilesWorker
             
 			oInfo.UseShellExecute	= true;
 			oInfo.CreateNoWindow	= true;
-			oInfo.WindowStyle		= ProcessWindowStyle.Hidden;			
+			oInfo.WindowStyle		= processWindowStyle;
 
 			m_oProc.StartInfo = oInfo;
 

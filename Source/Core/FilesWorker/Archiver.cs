@@ -175,7 +175,7 @@ namespace Core.FilesWorker
 			s += " -o\"" + sTempDir + "\"";	// Временная папка распаковки
 
 			CommandManager manag = new CommandManager();
-			return manag.Run( sZipPath, s, ppcPriorityClass );
+			return manag.Run( sZipPath, s, ProcessWindowStyle.Hidden, ppcPriorityClass );
 		}
 		
 		public static string unrar( string sUnRarPath, string sFilePath, string sTempDir,
@@ -196,7 +196,7 @@ namespace Core.FilesWorker
 			s += " \"" + sTempDir + "\"";	// Временная папка распаковки
 
 			CommandManager manag = new CommandManager();
-			return manag.Run( sUnRarPath, s, ppcPriorityClass );
+			return manag.Run( sUnRarPath, s, ProcessWindowStyle.Hidden, ppcPriorityClass );
 		}
 		
 		public static string zip( string sZipPath, string sType, string sFilePath,
@@ -214,7 +214,7 @@ namespace Core.FilesWorker
 			s += " \"" + sFilePath + "\""; 			// Файл который нужно запаковать
 
 			CommandManager manag = new CommandManager();
-			return manag.Run( sZipPath, s, ppcPriorityClass );
+			return manag.Run( sZipPath, s, ProcessWindowStyle.Hidden, ppcPriorityClass );
 		}
 		
 		public static string rar( string sRarPath, string sFilePath,
@@ -236,7 +236,7 @@ namespace Core.FilesWorker
 			s += " \"" + sFilePath + "\""; 			// Файл который нужно запаковать
 
 			CommandManager manag = new CommandManager();
-			return manag.Run( sRarPath, s, ppcPriorityClass );
+			return manag.Run( sRarPath, s, ProcessWindowStyle.Hidden, ppcPriorityClass );
 		}
 		
 	}
