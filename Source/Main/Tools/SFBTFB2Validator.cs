@@ -1166,7 +1166,7 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				filesWorker.StartFile( "\""+sTFB2Path+"\"" + " " + "\""+sFilePath+"\"" );
+				filesWorker.StartFile( sTFB2Path, sFilePath );
 			}
 		}
 		
@@ -1188,7 +1188,7 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				filesWorker.StartFile( "\""+sFBEPath+"\"" + " " + "\""+sFilePath+"\"" );
+				filesWorker.StartFile( sFBEPath, sFilePath );
 			}
 		}
 		
@@ -1210,7 +1210,7 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				filesWorker.StartFile( "\""+sFBReaderPath+"\"" + " " + "\""+sFilePath+"\"" );
+				filesWorker.StartFile( sFBReaderPath, sFilePath );
 			}
 		}
 		
@@ -1248,7 +1248,7 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				filesWorker.StartFile( "\""+sWinRarPath+"\"" + " " + "\""+sFilePath+"\"" );
+				filesWorker.StartFile( sWinRarPath, sFilePath );
 			}
 		}
 		

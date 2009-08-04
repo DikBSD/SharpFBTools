@@ -12,8 +12,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
-using System.Threading;
 using System.ComponentModel;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Core.FilesWorker
 {
@@ -117,20 +118,24 @@ namespace Core.FilesWorker
 		public static void ShowDir( System.Windows.Forms.ListView lw ) {
 			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
 			FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
-			Microsoft.VisualBasic.Interaction.Shell( "c:\\WINDOWS\\explorer.exe " + "\""+fi.Directory.ToString()+"\"", Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
+			CommandManager manag = new CommandManager();
+			manag.Run( "c:\\WINDOWS\\explorer.exe", "\""+fi.Directory.ToString()+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
 		}
 		
 		public static void ShowDir( string sDir ) {
-			Microsoft.VisualBasic.Interaction.Shell( "c:\\WINDOWS\\explorer.exe " + "\""+sDir+"\"", Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
+			CommandManager manag = new CommandManager();
+			manag.Run( "c:\\WINDOWS\\explorer.exe", "\""+sDir+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
 		}
 		
-		public static void StartFile( System.Windows.Forms.ListView lw ) {
+		public static void StartFile( string sProgramPath, System.Windows.Forms.ListView lw ) {
 			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
-			Microsoft.VisualBasic.Interaction.Shell( si[0].SubItems[0].Text.Split('/')[0], Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
+			CommandManager manag = new CommandManager();
+			manag.Run( "\""+sProgramPath+"\"", "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
 		}
 		
-		public static void StartFile( string sStartFilePath ) {
-			Microsoft.VisualBasic.Interaction.Shell( sStartFilePath, Microsoft.VisualBasic.AppWinStyle.NormalFocus, true, 200 );
+		public static void StartFile( string sProgramPath, string sStartFilePath ) {
+			CommandManager manag = new CommandManager();
+			manag.Run( "\""+sProgramPath+"\"", "\""+sStartFilePath+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
 		}
 		
 		public static string FormatFileLength( long lLength ) {
