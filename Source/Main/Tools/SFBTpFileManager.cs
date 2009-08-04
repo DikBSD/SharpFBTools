@@ -977,7 +977,7 @@ namespace SharpFBTools.Tools
 		void BtnInsertTemplatesClick(object sender, EventArgs e)
 		{
 			// запуск диалога Вставки готовых шаблонов
-			BasiclTemplates btfrm = new BasiclTemplates();
+			Core.BookSorting.BasiclTemplates btfrm = new Core.BookSorting.BasiclTemplates();
 			btfrm.ShowDialog();
 			if( btfrm.GetTemplateLine()!=null ) {
 				txtBoxTemplatesFromLine.Text = btfrm.GetTemplateLine();
@@ -989,7 +989,7 @@ namespace SharpFBTools.Tools
 		{
 			// запуск диалога Сбора данных для Избранной Сортировки
 			#region Код
-			SelectedSortData ssdfrm = new SelectedSortData();
+			Core.BookSorting.SelectedSortData ssdfrm = new Core.BookSorting.SelectedSortData();
 			// если в основном списке критериев поиска уже есть записи, то копируем их в форму сбора данных
 			if( lvSSData.Items.Count > 0 ) {
 				for( int i=0; i!=lvSSData.Items.Count; ++i ) {
@@ -1056,7 +1056,7 @@ namespace SharpFBTools.Tools
 		void BtnSSInsertTemplatesClick(object sender, EventArgs e)
 		{
 			// запуск диалога Вставки готовых шаблонов
-			BasiclTemplates btfrm = new BasiclTemplates();
+			Core.BookSorting.BasiclTemplates btfrm = new Core.BookSorting.BasiclTemplates();
 			btfrm.ShowDialog();
 			if( btfrm.GetTemplateLine()!=null ) {
 				txtBoxSSTemplatesFromLine.Text = btfrm.GetTemplateLine();
