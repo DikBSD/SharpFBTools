@@ -45,6 +45,7 @@
     <Folder Include="FB2\Genres" />
     <Folder Include="FilesWorker" />
     <Folder Include="BookSorting" />
+    <Folder Include="FB2Dublicator" />
     <Folder Include="Reports" />
     <Folder Include="StringProcessing" />
     <Folder Include="Templates" />
@@ -55,6 +56,7 @@
     <Compile Include="BookSorting\SelectedSortData.cs" />
     <Compile Include="BookSorting\SelectedSortData.Designer.cs" />
     <Compile Include="BookSorting\SelectedSortQueryCriteria.cs" />
+    <Compile Include="FB2Dublicator\Fb2Comparer.cs" />
     <Compile Include="FB2\Common\IInlineImageType.cs" />
     <Compile Include="FB2\Common\InlineImage.cs" />
     <Compile Include="FB2\Description\Common\Author.cs" />
