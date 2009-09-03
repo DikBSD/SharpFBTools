@@ -36,183 +36,183 @@ namespace SharpFBTools.Tools
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Основные", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Что делать с одинаковыми файлами", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Папки с проблемными fb2-файлами", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup9 = new System.Windows.Forms.ListViewGroup("Названия папок для тэгов без данных", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup10 = new System.Windows.Forms.ListViewGroup("Названия Групп Жанров", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewItem listViewItem59 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("Основные", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("Что делать с одинаковыми файлами", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup13 = new System.Windows.Forms.ListViewGroup("Папки с проблемными fb2-файлами", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup14 = new System.Windows.Forms.ListViewGroup("Названия папок для тэгов без данных", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup15 = new System.Windows.Forms.ListViewGroup("Названия Групп Жанров", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewItem listViewItem117 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Регистр имени файла (папок)",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem60 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem118 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Раскладка файлов по Авторам",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem61 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem119 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Раскладка файлов по Жанрам",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem62 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem120 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Вид папки - Жанра",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem63 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem121 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Транслитерация имен файлов",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem64 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem122 = new System.Windows.Forms.ListViewItem(new string[] {
 									"\"Строгие\" имена файлов",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem65 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem123 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Обработка пробелов",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem66 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem124 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Упаковка в архив",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem67 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem125 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Режим",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem68 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem126 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Добавить к имени файла ID Книги",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem69 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem127 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Удалить исходные файлы после сортировки",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem70 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem128 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Папка для нечитаемых fb2-файлов (архивов)",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem71 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem129 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Папка для fb2-файлов с длинными именами",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem72 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem130 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Схема Жанров",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem73 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem131 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Для неизвестной группы Жанров",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem74 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem132 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Когда Жанра Книги Нет",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem75 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem133 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Когда Языка Книги Нет",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem76 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem134 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Когда Имени Автора Книги Нет",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem77 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem135 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Когда Отчества Автора Книги Нет",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem78 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem136 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Когда Фамилия Автора Книги Нет",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem79 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem137 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Когда Ника Автора Книги Нет",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem80 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem138 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Когда Названия Книги Нет",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem81 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem139 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Когда Серии Книги Нет",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem82 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem140 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Когда Номера Серии Книги Нет",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem83 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem141 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Тип Сортировки",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem84 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem142 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Папка для не валидных fb2-файлов",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem85 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem143 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Папка для \"битых\" архивов",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem86 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem144 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Фантастика, Фэнтэзи",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem87 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem145 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Детективы, Боевики",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem88 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem146 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Проза",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem89 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem147 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Любовные романы",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem90 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem148 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Приключения",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem91 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem149 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Детское",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem92 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem150 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Поэзия, Драматургия",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem93 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem151 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Старинное",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem94 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem152 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Наука, Образование",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem95 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem153 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Компьютеры",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem96 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem154 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Справочники",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem97 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem155 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Документальное",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem98 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem156 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Религия",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem99 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem157 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Юмор",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem100 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem158 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Дом, Семья",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem101 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem159 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Бизнес",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem102 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem160 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem103 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem161 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem104 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem162 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2-файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem105 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem163 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные  Zip-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem106 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem164 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные  Rar-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem107 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem165 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные 7zip-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem108 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem166 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные BZip2-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem109 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem167 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные Gzip-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem110 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem168 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные Tar-пакеты с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem111 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem169 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2-файлы из архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem112 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem170 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem113 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem171 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Создано в папке-приемнике",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem114 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem172 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Нечитаемые fb2-файлы (архивы)",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem115 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem173 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Не валидные fb2-файлы (при вкл. опции)",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem116 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem174 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Битые архивы (не открылись)",
 									"0"}, -1);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Dublicator));
@@ -237,12 +237,14 @@ namespace SharpFBTools.Tools
 			this.tsbtnFullSortStop = new System.Windows.Forms.ToolStripButton();
 			this.lwResult = new System.Windows.Forms.ListView();
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
 			this.pMode = new System.Windows.Forms.Panel();
 			this.cboxMode = new System.Windows.Forms.ComboBox();
 			this.lblMode = new System.Windows.Forms.Label();
+			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
 			this.ssProgress.SuspendLayout();
 			this.pProgress.SuspendLayout();
 			this.pFullSortDirs.SuspendLayout();
@@ -292,112 +294,113 @@ namespace SharpFBTools.Tools
 									this.cHeaderSettingsValue});
 			this.lvSettings.FullRowSelect = true;
 			this.lvSettings.GridLines = true;
-			listViewGroup6.Header = "Основные";
-			listViewGroup6.Name = "listViewGroup1";
-			listViewGroup7.Header = "Что делать с одинаковыми файлами";
-			listViewGroup7.Name = "listViewGroup2";
-			listViewGroup8.Header = "Папки с проблемными fb2-файлами";
-			listViewGroup8.Name = "listViewGroup3";
-			listViewGroup9.Header = "Названия папок для тэгов без данных";
-			listViewGroup9.Name = "listViewGroup4";
-			listViewGroup10.Header = "Названия Групп Жанров";
-			listViewGroup10.Name = "listViewGroup5";
+			listViewGroup11.Header = "Основные";
+			listViewGroup11.Name = "listViewGroup1";
+			listViewGroup12.Header = "Что делать с одинаковыми файлами";
+			listViewGroup12.Name = "listViewGroup2";
+			listViewGroup13.Header = "Папки с проблемными fb2-файлами";
+			listViewGroup13.Name = "listViewGroup3";
+			listViewGroup14.Header = "Названия папок для тэгов без данных";
+			listViewGroup14.Name = "listViewGroup4";
+			listViewGroup15.Header = "Названия Групп Жанров";
+			listViewGroup15.Name = "listViewGroup5";
 			this.lvSettings.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-									listViewGroup6,
-									listViewGroup7,
-									listViewGroup8,
-									listViewGroup9,
-									listViewGroup10});
-			listViewItem59.Group = listViewGroup6;
-			listViewItem59.StateImageIndex = 0;
-			listViewItem60.Group = listViewGroup6;
-			listViewItem61.Group = listViewGroup6;
-			listViewItem62.Group = listViewGroup6;
-			listViewItem63.Group = listViewGroup6;
-			listViewItem64.Group = listViewGroup6;
-			listViewItem65.Group = listViewGroup6;
-			listViewItem66.Group = listViewGroup6;
-			listViewItem67.Group = listViewGroup7;
-			listViewItem68.Group = listViewGroup7;
-			listViewItem69.Group = listViewGroup6;
-			listViewItem70.Group = listViewGroup8;
-			listViewItem71.Group = listViewGroup8;
-			listViewItem72.Group = listViewGroup6;
-			listViewItem73.Group = listViewGroup9;
-			listViewItem74.Group = listViewGroup9;
-			listViewItem75.Group = listViewGroup9;
-			listViewItem76.Group = listViewGroup9;
-			listViewItem77.Group = listViewGroup9;
-			listViewItem78.Group = listViewGroup9;
-			listViewItem79.Group = listViewGroup9;
-			listViewItem80.Group = listViewGroup9;
-			listViewItem81.Group = listViewGroup9;
-			listViewItem82.Group = listViewGroup9;
-			listViewItem83.Group = listViewGroup6;
-			listViewItem84.Group = listViewGroup8;
-			listViewItem85.Group = listViewGroup8;
-			listViewItem86.Group = listViewGroup10;
-			listViewItem87.Group = listViewGroup10;
-			listViewItem88.Group = listViewGroup10;
-			listViewItem89.Group = listViewGroup10;
-			listViewItem90.Group = listViewGroup10;
-			listViewItem91.Group = listViewGroup10;
-			listViewItem92.Group = listViewGroup10;
-			listViewItem93.Group = listViewGroup10;
-			listViewItem94.Group = listViewGroup10;
-			listViewItem95.Group = listViewGroup10;
-			listViewItem96.Group = listViewGroup10;
-			listViewItem97.Group = listViewGroup10;
-			listViewItem98.Group = listViewGroup10;
-			listViewItem99.Group = listViewGroup10;
-			listViewItem100.Group = listViewGroup10;
-			listViewItem101.Group = listViewGroup10;
+									listViewGroup11,
+									listViewGroup12,
+									listViewGroup13,
+									listViewGroup14,
+									listViewGroup15});
+			listViewItem117.Group = listViewGroup11;
+			listViewItem117.StateImageIndex = 0;
+			listViewItem118.Group = listViewGroup11;
+			listViewItem119.Group = listViewGroup11;
+			listViewItem120.Group = listViewGroup11;
+			listViewItem121.Group = listViewGroup11;
+			listViewItem122.Group = listViewGroup11;
+			listViewItem123.Group = listViewGroup11;
+			listViewItem124.Group = listViewGroup11;
+			listViewItem125.Group = listViewGroup12;
+			listViewItem126.Group = listViewGroup12;
+			listViewItem127.Group = listViewGroup11;
+			listViewItem128.Group = listViewGroup13;
+			listViewItem129.Group = listViewGroup13;
+			listViewItem130.Group = listViewGroup11;
+			listViewItem131.Group = listViewGroup14;
+			listViewItem132.Group = listViewGroup14;
+			listViewItem133.Group = listViewGroup14;
+			listViewItem134.Group = listViewGroup14;
+			listViewItem135.Group = listViewGroup14;
+			listViewItem136.Group = listViewGroup14;
+			listViewItem137.Group = listViewGroup14;
+			listViewItem138.Group = listViewGroup14;
+			listViewItem139.Group = listViewGroup14;
+			listViewItem140.Group = listViewGroup14;
+			listViewItem141.Group = listViewGroup11;
+			listViewItem142.Group = listViewGroup13;
+			listViewItem143.Group = listViewGroup13;
+			listViewItem144.Group = listViewGroup15;
+			listViewItem145.Group = listViewGroup15;
+			listViewItem146.Group = listViewGroup15;
+			listViewItem147.Group = listViewGroup15;
+			listViewItem148.Group = listViewGroup15;
+			listViewItem149.Group = listViewGroup15;
+			listViewItem150.Group = listViewGroup15;
+			listViewItem151.Group = listViewGroup15;
+			listViewItem152.Group = listViewGroup15;
+			listViewItem153.Group = listViewGroup15;
+			listViewItem154.Group = listViewGroup15;
+			listViewItem155.Group = listViewGroup15;
+			listViewItem156.Group = listViewGroup15;
+			listViewItem157.Group = listViewGroup15;
+			listViewItem158.Group = listViewGroup15;
+			listViewItem159.Group = listViewGroup15;
 			this.lvSettings.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem59,
-									listViewItem60,
-									listViewItem61,
-									listViewItem62,
-									listViewItem63,
-									listViewItem64,
-									listViewItem65,
-									listViewItem66,
-									listViewItem67,
-									listViewItem68,
-									listViewItem69,
-									listViewItem70,
-									listViewItem71,
-									listViewItem72,
-									listViewItem73,
-									listViewItem74,
-									listViewItem75,
-									listViewItem76,
-									listViewItem77,
-									listViewItem78,
-									listViewItem79,
-									listViewItem80,
-									listViewItem81,
-									listViewItem82,
-									listViewItem83,
-									listViewItem84,
-									listViewItem85,
-									listViewItem86,
-									listViewItem87,
-									listViewItem88,
-									listViewItem89,
-									listViewItem90,
-									listViewItem91,
-									listViewItem92,
-									listViewItem93,
-									listViewItem94,
-									listViewItem95,
-									listViewItem96,
-									listViewItem97,
-									listViewItem98,
-									listViewItem99,
-									listViewItem100,
-									listViewItem101});
+									listViewItem117,
+									listViewItem118,
+									listViewItem119,
+									listViewItem120,
+									listViewItem121,
+									listViewItem122,
+									listViewItem123,
+									listViewItem124,
+									listViewItem125,
+									listViewItem126,
+									listViewItem127,
+									listViewItem128,
+									listViewItem129,
+									listViewItem130,
+									listViewItem131,
+									listViewItem132,
+									listViewItem133,
+									listViewItem134,
+									listViewItem135,
+									listViewItem136,
+									listViewItem137,
+									listViewItem138,
+									listViewItem139,
+									listViewItem140,
+									listViewItem141,
+									listViewItem142,
+									listViewItem143,
+									listViewItem144,
+									listViewItem145,
+									listViewItem146,
+									listViewItem147,
+									listViewItem148,
+									listViewItem149,
+									listViewItem150,
+									listViewItem151,
+									listViewItem152,
+									listViewItem153,
+									listViewItem154,
+									listViewItem155,
+									listViewItem156,
+									listViewItem157,
+									listViewItem158,
+									listViewItem159});
 			this.lvSettings.Location = new System.Drawing.Point(317, 4);
 			this.lvSettings.Name = "lvSettings";
+			this.lvSettings.ShowItemToolTips = true;
 			this.lvSettings.Size = new System.Drawing.Size(505, 245);
 			this.lvSettings.TabIndex = 11;
 			this.lvSettings.UseCompatibleStateImageBehavior = false;
@@ -423,21 +426,21 @@ namespace SharpFBTools.Tools
 			this.lvFilesCount.FullRowSelect = true;
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem102,
-									listViewItem103,
-									listViewItem104,
-									listViewItem105,
-									listViewItem106,
-									listViewItem107,
-									listViewItem108,
-									listViewItem109,
-									listViewItem110,
-									listViewItem111,
-									listViewItem112,
-									listViewItem113,
-									listViewItem114,
-									listViewItem115,
-									listViewItem116});
+									listViewItem160,
+									listViewItem161,
+									listViewItem162,
+									listViewItem163,
+									listViewItem164,
+									listViewItem165,
+									listViewItem166,
+									listViewItem167,
+									listViewItem168,
+									listViewItem169,
+									listViewItem170,
+									listViewItem171,
+									listViewItem172,
+									listViewItem173,
+									listViewItem174});
 			this.lvFilesCount.Location = new System.Drawing.Point(3, 4);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(309, 242);
@@ -551,8 +554,10 @@ namespace SharpFBTools.Tools
 			this.lwResult.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.columnHeader1,
 									this.columnHeader2,
+									this.columnHeader8,
 									this.columnHeader3,
-									this.columnHeader4});
+									this.columnHeader4,
+									this.columnHeader5});
 			this.lwResult.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lwResult.FullRowSelect = true;
 			this.lwResult.GridLines = true;
@@ -569,18 +574,20 @@ namespace SharpFBTools.Tools
 			this.columnHeader1.Text = "Книга (путь к файлу)";
 			this.columnHeader1.Width = 255;
 			// 
-			// columnHeader2
-			// 
-			this.columnHeader2.Text = "Id";
-			this.columnHeader2.Width = 120;
-			// 
 			// columnHeader3
 			// 
-			this.columnHeader3.Text = "Версия";
+			this.columnHeader3.Text = "Id";
+			this.columnHeader3.Width = 120;
 			// 
 			// columnHeader4
 			// 
-			this.columnHeader4.Text = "Размер";
+			this.columnHeader4.Text = "Версия";
+			this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader4.Width = 50;
+			// 
+			// columnHeader5
+			// 
+			this.columnHeader5.Text = "Размер";
 			// 
 			// pMode
 			// 
@@ -619,6 +626,16 @@ namespace SharpFBTools.Tools
 			this.lblMode.TabIndex = 0;
 			this.lblMode.Text = "Данные для Сравнения:";
 			// 
+			// columnHeader2
+			// 
+			this.columnHeader2.Text = "Автор(ы)";
+			this.columnHeader2.Width = 210;
+			// 
+			// columnHeader8
+			// 
+			this.columnHeader8.Text = "Жанр(ы)";
+			this.columnHeader8.Width = 110;
+			// 
 			// SFBTpFB2Dublicator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -642,6 +659,8 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ColumnHeader columnHeader8;
+		private System.Windows.Forms.ColumnHeader columnHeader5;
 		private System.Windows.Forms.ComboBox cboxMode;
 		private System.Windows.Forms.Label lblMode;
 		private System.Windows.Forms.Panel pMode;
