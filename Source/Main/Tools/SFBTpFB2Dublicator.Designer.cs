@@ -550,6 +550,7 @@ namespace SharpFBTools.Tools
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.Size = new System.Drawing.Size(484, 21);
 			this.tboxSourceDir.TabIndex = 1;
+			this.tboxSourceDir.TextChanged += new System.EventHandler(this.TboxSourceDirTextChanged);
 			// 
 			// lblScanDir
 			// 

@@ -9,6 +9,7 @@
 
 using System;
 using System.IO;
+using System.Xml;
 using System.Drawing;
 using System.Threading;
 using System.Diagnostics;
@@ -44,6 +45,9 @@ namespace SharpFBTools.Tools
 			InitializeComponent();
 			InitializeBackgroundWorker();
 			
+			Init();
+			// читаем сохраненные пути к папкам Поиска одинаковых fb2-файлов, если они есть
+			ReadFB2DupTempData();
 			cboxMode.SelectedIndex = 0; // Условия для Сравнения fb2-файлов: Автор(ы) и Название Книги
 		}
 
@@ -139,6 +143,23 @@ namespace SharpFBTools.Tools
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 		}
 		
+		private void ReadFB2DupTempData() {
+			// чтение путей к данным поиска одинаковых fb2-файлов из xml-файла
+			string sSettings = Settings.Settings.WorksDataSettingsPath;
+			if( !File.Exists( sSettings ) ) return;
+			XmlReaderSettings settings = new XmlReaderSettings();
+			settings.IgnoreWhitespace = true;
+			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
+				// Полная Сортировка
+				reader.ReadToFollowing("FB2DupScanDir");
+				if (reader.HasAttributes ) {
+					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
+					Settings.SettingsFB2Dup.FMDataScanDir = tboxSourceDir.Text.Trim();
+				}
+				reader.Close();
+			}
+		}
+		
 		private void SetSearchFB2DupStartEnabled( bool bEnabled ) {
 			// доступность контролов при Поиске одинаковых fb2-файлов
 			pSearchFBDup2Dirs.Enabled	= bEnabled;
@@ -203,6 +224,11 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Обработчики событий
+		void TboxSourceDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsFB2Dup.FMDataScanDir = tboxSourceDir.Text;
+		}
+		
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования
@@ -264,6 +290,7 @@ namespace SharpFBTools.Tools
 */			
 		}
 		#endregion
+
 
 	}
 }
