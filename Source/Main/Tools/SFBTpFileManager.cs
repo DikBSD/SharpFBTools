@@ -244,6 +244,7 @@ namespace SharpFBTools.Tools
 			tpSelectedSort.Enabled	= bEnabled;
 			tsbtnOpenDir.Enabled	= bEnabled;
 			tsbtnTargetDir.Enabled	= bEnabled;
+			tsbtnSortFilesTo.Enabled= bEnabled;
 			pFullSortDirs.Enabled	= bEnabled;
 			gBoxFullSortRenameTemplates.Enabled	= bEnabled;
 			tsbtnFullSortStop.Enabled	= !bEnabled;
@@ -257,6 +258,7 @@ namespace SharpFBTools.Tools
 			tpFullSort.Enabled			= bEnabled;
 			tsbtnSSOpenDir.Enabled		= bEnabled;
 			tsbtnSSTargetDir.Enabled	= bEnabled;
+			tsbtnSSSortFilesTo.Enabled	= bEnabled;
 			pSelectedSortDirs.Enabled	= bEnabled;
 			gBoxSelectedlSortRenameTemplates.Enabled	= bEnabled;
 			pSSData.Enabled				= bEnabled;

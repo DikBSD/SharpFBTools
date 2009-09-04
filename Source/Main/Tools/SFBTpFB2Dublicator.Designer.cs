@@ -140,7 +140,7 @@ namespace SharpFBTools.Tools
 			this.lvFilesCount = new System.Windows.Forms.ListView();
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
-			this.pFullSortDirs = new System.Windows.Forms.Panel();
+			this.pSearchFBDup2Dirs = new System.Windows.Forms.Panel();
 			this.chBoxScanSubDir = new System.Windows.Forms.CheckBox();
 			this.tboxSourceDir = new System.Windows.Forms.TextBox();
 			this.lblScanDir = new System.Windows.Forms.Label();
@@ -148,17 +148,19 @@ namespace SharpFBTools.Tools
 			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnSearchDubls = new System.Windows.Forms.ToolStripButton();
-			this.tsbtnFullSortStop = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnSearchFb2DupStop = new System.Windows.Forms.ToolStripButton();
 			this.lwResult = new System.Windows.Forms.ListView();
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
 			this.pMode = new System.Windows.Forms.Panel();
 			this.cboxMode = new System.Windows.Forms.ComboBox();
 			this.lblMode = new System.Windows.Forms.Label();
+			this.fbdScanDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.ssProgress.SuspendLayout();
 			this.pProgress.SuspendLayout();
 			this.tcViewFB2Desc.SuspendLayout();
@@ -169,7 +171,7 @@ namespace SharpFBTools.Tools
 			this.tpCustomInfo.SuspendLayout();
 			this.tpHistory.SuspendLayout();
 			this.tpAnnotation.SuspendLayout();
-			this.pFullSortDirs.SuspendLayout();
+			this.pSearchFBDup2Dirs.SuspendLayout();
 			this.tsFullSort.SuspendLayout();
 			this.pMode.SuspendLayout();
 			this.SuspendLayout();
@@ -514,16 +516,16 @@ namespace SharpFBTools.Tools
 			this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader7.Width = 80;
 			// 
-			// pFullSortDirs
+			// pSearchFBDup2Dirs
 			// 
-			this.pFullSortDirs.Controls.Add(this.chBoxScanSubDir);
-			this.pFullSortDirs.Controls.Add(this.tboxSourceDir);
-			this.pFullSortDirs.Controls.Add(this.lblScanDir);
-			this.pFullSortDirs.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pFullSortDirs.Location = new System.Drawing.Point(0, 31);
-			this.pFullSortDirs.Name = "pFullSortDirs";
-			this.pFullSortDirs.Size = new System.Drawing.Size(828, 37);
-			this.pFullSortDirs.TabIndex = 36;
+			this.pSearchFBDup2Dirs.Controls.Add(this.chBoxScanSubDir);
+			this.pSearchFBDup2Dirs.Controls.Add(this.tboxSourceDir);
+			this.pSearchFBDup2Dirs.Controls.Add(this.lblScanDir);
+			this.pSearchFBDup2Dirs.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pSearchFBDup2Dirs.Location = new System.Drawing.Point(0, 31);
+			this.pSearchFBDup2Dirs.Name = "pSearchFBDup2Dirs";
+			this.pSearchFBDup2Dirs.Size = new System.Drawing.Size(828, 37);
+			this.pSearchFBDup2Dirs.TabIndex = 36;
 			// 
 			// chBoxScanSubDir
 			// 
@@ -565,7 +567,7 @@ namespace SharpFBTools.Tools
 									this.tsbtnOpenDir,
 									this.tsSep1,
 									this.tsbtnSearchDubls,
-									this.tsbtnFullSortStop});
+									this.tsbtnSearchFb2DupStop});
 			this.tsFullSort.Location = new System.Drawing.Point(0, 0);
 			this.tsFullSort.Name = "tsFullSort";
 			this.tsFullSort.Size = new System.Drawing.Size(828, 31);
@@ -579,6 +581,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnOpenDir.Size = new System.Drawing.Size(123, 28);
 			this.tsbtnOpenDir.Text = "Папка - источник";
 			this.tsbtnOpenDir.ToolTipText = "Открыть папку с fb2-файлами и (или) архивами...";
+			this.tsbtnOpenDir.Click += new System.EventHandler(this.TsbtnOpenDirClick);
 			// 
 			// tsSep1
 			// 
@@ -595,15 +598,16 @@ namespace SharpFBTools.Tools
 			this.tsbtnSearchDubls.Text = "Поиск одинаковых книг";
 			this.tsbtnSearchDubls.Click += new System.EventHandler(this.TsbtnSearchDublsClick);
 			// 
-			// tsbtnFullSortStop
+			// tsbtnSearchFb2DupStop
 			// 
-			this.tsbtnFullSortStop.AutoToolTip = false;
-			this.tsbtnFullSortStop.Enabled = false;
-			this.tsbtnFullSortStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFullSortStop.Image")));
-			this.tsbtnFullSortStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnFullSortStop.Name = "tsbtnFullSortStop";
-			this.tsbtnFullSortStop.Size = new System.Drawing.Size(96, 28);
-			this.tsbtnFullSortStop.Text = "Остановить";
+			this.tsbtnSearchFb2DupStop.AutoToolTip = false;
+			this.tsbtnSearchFb2DupStop.Enabled = false;
+			this.tsbtnSearchFb2DupStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSearchFb2DupStop.Image")));
+			this.tsbtnSearchFb2DupStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnSearchFb2DupStop.Name = "tsbtnSearchFb2DupStop";
+			this.tsbtnSearchFb2DupStop.Size = new System.Drawing.Size(96, 28);
+			this.tsbtnSearchFb2DupStop.Text = "Остановить";
+			this.tsbtnSearchFb2DupStop.Click += new System.EventHandler(this.TsbtnFullSortStopClick);
 			// 
 			// lwResult
 			// 
@@ -613,6 +617,7 @@ namespace SharpFBTools.Tools
 									this.columnHeader8,
 									this.columnHeader3,
 									this.columnHeader4,
+									this.columnHeader19,
 									this.columnHeader5});
 			this.lwResult.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lwResult.FullRowSelect = true;
@@ -633,12 +638,12 @@ namespace SharpFBTools.Tools
 			// columnHeader2
 			// 
 			this.columnHeader2.Text = "Автор(ы)";
-			this.columnHeader2.Width = 210;
+			this.columnHeader2.Width = 180;
 			// 
 			// columnHeader8
 			// 
 			this.columnHeader8.Text = "Жанр(ы)";
-			this.columnHeader8.Width = 110;
+			this.columnHeader8.Width = 90;
 			// 
 			// columnHeader3
 			// 
@@ -650,6 +655,11 @@ namespace SharpFBTools.Tools
 			this.columnHeader4.Text = "Версия";
 			this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader4.Width = 50;
+			// 
+			// columnHeader19
+			// 
+			this.columnHeader19.Text = "Валидность";
+			this.columnHeader19.Width = 50;
 			// 
 			// columnHeader5
 			// 
@@ -691,13 +701,17 @@ namespace SharpFBTools.Tools
 			this.lblMode.TabIndex = 0;
 			this.lblMode.Text = "Данные для Сравнения:";
 			// 
+			// fbdScanDir
+			// 
+			this.fbdScanDir.Description = "Укажите папку для сканирования с fb2-файлами и архивами";
+			// 
 			// SFBTpFB2Dublicator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.lwResult);
 			this.Controls.Add(this.pMode);
-			this.Controls.Add(this.pFullSortDirs);
+			this.Controls.Add(this.pSearchFBDup2Dirs);
 			this.Controls.Add(this.tsFullSort);
 			this.Controls.Add(this.pProgress);
 			this.Controls.Add(this.ssProgress);
@@ -714,14 +728,18 @@ namespace SharpFBTools.Tools
 			this.tpCustomInfo.ResumeLayout(false);
 			this.tpHistory.ResumeLayout(false);
 			this.tpAnnotation.ResumeLayout(false);
-			this.pFullSortDirs.ResumeLayout(false);
-			this.pFullSortDirs.PerformLayout();
+			this.pSearchFBDup2Dirs.ResumeLayout(false);
+			this.pSearchFBDup2Dirs.PerformLayout();
 			this.tsFullSort.ResumeLayout(false);
 			this.tsFullSort.PerformLayout();
 			this.pMode.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripButton tsbtnSearchFb2DupStop;
+		private System.Windows.Forms.Panel pSearchFBDup2Dirs;
+		private System.Windows.Forms.FolderBrowserDialog fbdScanDir;
+		private System.Windows.Forms.ColumnHeader columnHeader19;
 		private System.Windows.Forms.ColumnHeader columnHeader18;
 		private System.Windows.Forms.ColumnHeader columnHeader17;
 		private System.Windows.Forms.ListView lwSourceTitleInfo;
@@ -764,8 +782,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.Label lblScanDir;
 		private System.Windows.Forms.TextBox tboxSourceDir;
 		private System.Windows.Forms.CheckBox chBoxScanSubDir;
-		private System.Windows.Forms.Panel pFullSortDirs;
-		private System.Windows.Forms.ToolStripButton tsbtnFullSortStop;
 		private System.Windows.Forms.ToolStripButton tsbtnSearchDubls;
 		private System.Windows.Forms.ToolStripSeparator tsSep1;
 		private System.Windows.Forms.ToolStripButton tsbtnOpenDir;

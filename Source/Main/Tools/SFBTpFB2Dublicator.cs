@@ -8,13 +8,19 @@
  */
 
 using System;
-using System.ComponentModel;
+using System.IO;
 using System.Drawing;
+using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 using Core.FB2Dublicator;
 
-using fB2Parser = Core.FB2.FB2Parsers.FB2Parser;
+using fB2Parser 	= Core.FB2.FB2Parsers.FB2Parser;
+using filesWorker	= Core.FilesWorker.FilesWorker;
 
 namespace SharpFBTools.Tools
 {
@@ -23,20 +29,228 @@ namespace SharpFBTools.Tools
 	/// </summary>
 	public partial class SFBTpFB2Dublicator : UserControl
 	{
+		#region Закрытые данные класса
+		private DateTime m_dtStart;
+        private BackgroundWorker m_bw	= null;
+        private string m_sSource		= "";
+        private bool m_bScanSubDirs		= true;
+        private string m_sMessTitle		= "";
+		private List<string> m_lFilesList	= null;
+        #endregion
+		
 		public SFBTpFB2Dublicator()
 		{
-			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
 			InitializeComponent();
+			InitializeBackgroundWorker();
 			
 			cboxMode.SelectedIndex = 0; // Условия для Сравнения fb2-файлов: Автор(ы) и Название Книги
 		}
 
+		#region Закрытые методы реализации BackgroundWorker
+		private void InitializeBackgroundWorker() {
+			// Инициализация перед использование BackgroundWorker 
+            m_bw = new BackgroundWorker();
+            m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
+            m_bw.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
+            m_bw.DoWork 			+= new DoWorkEventHandler( bw_DoWork );
+            m_bw.ProgressChanged 	+= new ProgressChangedEventHandler( bw_ProgressChanged );
+            m_bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
+		}
+		
+		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
+			// поиск одинаковых fb2-файлов
+			List<string> lDirList = new List<string>();
+			if( !m_bScanSubDirs ) {
+				// сканировать только указанную папку
+				lDirList.Add( m_sSource );
+				lvFilesCount.Items[0].SubItems[1].Text = "1";
+			} else {
+				// сканировать и все подпапки
+				lDirList = filesWorker.DirsParser( m_sSource, lvFilesCount, false );
+			}
+			
+			// не сортированный список всех файлов
+			m_lFilesList = filesWorker.AllFilesParser( m_bw, e, lDirList, lvFilesCount, tsProgressBar, false );
+			lDirList.Clear();
+			// Проверить флаг на остановку процесса 
+			if( ( m_bw.CancellationPending == true ) ) {
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+				return;
+			}
+			
+			// проверка, есть ли хоть один файл в папке для сканирования
+			if( m_lFilesList.Count == 0 ) {
+				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				tsslblProgress.Text = Settings.Settings.GetReady();
+				SetSearchFB2DupStartEnabled( true );
+				return;
+			}
+			
+			tsslblProgress.Text		= "Поиск одинаковых fb2-файлов:";
+			tsProgressBar.Maximum	= m_lFilesList.Count;
+			tsProgressBar.Value		= 0;
+
+			
+		}
+		
+		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
+            // Отобразим результат
+
+            ++tsProgressBar.Value;
+        }
+		
+		 private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
+            // Проверяем - это отмена, ошибка, или конец задачи и сообщить
+            DateTime dtEnd = DateTime.Now;
+            m_lFilesList.Clear();
+            filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+            
+            string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sMessCanceled	= "Поиск одинаковых fb2-файлов остановлен!\nЗатрачено времени: "+sTime;
+			string sMessError		= "";
+			string sMessDone		= "Поиск одинаковых fb2-файлов завершен!\nЗатрачено времени: "+sTime;
+           
+			if( ( e.Cancelled == true ) ) {
+                MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            } else if( e.Error != null ) {
+                sMessError = "Error!\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
+            	MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            } else {
+            	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+            }
+			
+			tsslblProgress.Text = Settings.Settings.GetReady();
+
+			SetSearchFB2DupStartEnabled( true );
+        }
+		#endregion
+		
+		#region Закрытые вспомогательные методы класса
+		private void Init() {
+			// инициализация контролов и переменных
+			for( int i=0; i!=lvFilesCount.Items.Count; ++i ) {
+				lvFilesCount.Items[i].SubItems[1].Text	= "0";
+			}
+			tsProgressBar.Value		= 0;
+			tsslblProgress.Text		= Settings.Settings.GetReady();
+			tsProgressBar.Visible	= false;
+			// очистка временной папки
+			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+		}
+		
+		private void SetSearchFB2DupStartEnabled( bool bEnabled ) {
+			// доступность контролов при Поиске одинаковых fb2-файлов
+			pSearchFBDup2Dirs.Enabled	= bEnabled;
+			pMode.Enabled				= bEnabled;
+			tsbtnOpenDir.Enabled		= bEnabled;
+			tsbtnSearchDubls.Enabled	= bEnabled;
+			tsbtnSearchFb2DupStop.Enabled	= !bEnabled;
+			tsProgressBar.Visible			= !bEnabled;
+			ssProgress.Refresh();
+		}
+		
+		private bool IsScanFolderDataCorrect( TextBox tbSource ) {
+			// проверка на корректность данных папок источника
+			string sSource = tbSource.Text.Trim();
+			Regex rx = new Regex( @"\\+$" );
+			sSource = rx.Replace( sSource, "" );
+			tbSource.Text = sSource;
+			
+			// проверки на корректность папок источника
+			if( sSource.Length == 0 ) {
+				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			DirectoryInfo diFolder = new DirectoryInfo( sSource );
+			if( !diFolder.Exists ) {
+				MessageBox.Show( "Папка не найдена: " + sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			return true;
+		}
+		
+		private bool IsArchivatorsExist() {
+			// проверка на наличие архиваторов
+			string s7zPath	= Settings.Settings.Read7zaPath();
+			string sRarPath	= Settings.Settings.ReadRarPath();
+			
+			if( s7zPath.Trim().Length==0 ) {
+				MessageBox.Show( "В Настройках не указана папка с установленным консольным 7Zip-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			} else {
+				if( !File.Exists( s7zPath ) ) {
+					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return false;
+				}
+			}
+			
+			if( sRarPath.Trim().Length==0 ) {
+				MessageBox.Show( "В Настройках не указана папка с установленным консольным rar-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			} else {
+				if( !File.Exists( sRarPath ) ) {
+					MessageBox.Show( "Не найден файл консольного rar-архиватора \""+sRarPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return false;
+				}
+			}
+			return true;
+		}
+		#endregion
+		
+		#region Обработчики событий
+		void TsbtnOpenDirClick(object sender, EventArgs e)
+		{
+			// задание папки с fb2-файлами и архивами для сканирования
+			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами:" );
+		}
+		
+		void TsbtnFullSortStopClick(object sender, EventArgs e)
+		{
+			// Остановка выполнения процесса Поиска одинаковых fb2-файлов
+			if( m_bw.WorkerSupportsCancellation == true ) {
+				m_bw.CancelAsync();
+			}
+		}
 		
 		void TsbtnSearchDublsClick(object sender, EventArgs e)
 		{
-			try {
+			// Поиск одинаковых fb2-файлов
+			if( chBoxScanSubDir.Checked ) {
+				m_bScanSubDirs = true;
+			} else {
+				m_bScanSubDirs = false;
+			}
+			m_sSource = tboxSourceDir.Text;
+			m_sMessTitle = "SharpFBTools - Поиск одинаковых fb2-файлов";
+			// проверка на корректность данных папок источника и приемника файлов
+			if( !IsScanFolderDataCorrect( tboxSourceDir ) ) {
+				return;
+			}
+			// проверка на наличие архиваторов
+			if( !IsArchivatorsExist() ) {
+				return;
+			}
+			
+			// инициализация контролов
+			Init();
+			SetSearchFB2DupStartEnabled( false );
+
+			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка файлов:";
+			
+			// Запуск процесса DoWork от Бекграунд Воркера
+			if( m_bw.IsBusy != true ) {
+				//если не занят то запустить процесс
+            	m_bw.RunWorkerAsync();
+			}
+			
+			
+/*			try {
 				fB2Parser fb2_1 = new fB2Parser( "c:\\Temp\\_Test\\01.fb2" );
 				fB2Parser fb2_2 = new fB2Parser( "c:\\Temp\\_Test\\02.fb2" );
 				Fb2Comparer fb2c = new Fb2Comparer( fb2_1.GetDescription(), fb2_2.GetDescription() );
@@ -47,7 +261,9 @@ namespace SharpFBTools.Tools
 			} catch {
 				MessageBox.Show( "catch!!!", "!!!!!!!!!!!!!", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 			}
-			
+*/			
 		}
+		#endregion
+
 	}
 }
