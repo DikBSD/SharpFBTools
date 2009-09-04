@@ -121,7 +121,7 @@
     <value>17, 7</value>
   </metadata>
   <metadata name="tsFullSort.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>298, 9</value>
+    <value>110, 9</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="tsbtnOpenDir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -161,12 +161,13 @@
   <data name="tsbtnSearchDubls.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAPJJREFUWEftl4EO
-        xBAMht2bezRv5vyidz1sXQ1NLpM02Qz9/FrsFUKIzrIAwNKcpfOsvjmA9z5aWQq96OBcq0KcUOD3B4BU
-        yJWV0TcCneA/q94AoKKnBuq5UiJAap9GP7Y0QANQO8c7le0AtXM1gCiRoAAH4CosjQG+BPUEtijwCYqS
-        ARyiB+AconjMMPZpGnLZyXmdBaPO0U8E6GWAKg1HgpBJgu3xuxmV5y0A0pmwNAs05wGtoQR89L0bA1qA
-        C8t82qTJAi3A6OzR71HgPxQwD8KpAHci+k7fcvVr74C9e+GyOk3+r2hr/2OyYlaaMR8F3tYFyRKuM47Z
-        AAAAAElFTkSuQmCC
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAU1JREFUWEftltER
+        gyAMhulM3ckV7Agdw4c+dRZWcBZqkHAUE0hSzr5oL4enlvz8fARu7vwruGdK+jg/OWQMU/rB/T8khHtw
+        Mf4mwL235BDJAbyxtloXgYE9UEAwXgYLqUG6mH5d17Asr9i2Ypp8gIBvkwBxO89zqCNSCRd0aBKQ7ASy
+        I1gwt/BsrmLLQw0sC6hfloIoYdkBhQDss2wPArS2ar5vTgE6gFNi4VIAJQ8h2oICQJD3fiiUrAO1jTB6
+        SG4SwDHRgLAuJHlZlmD+DOUmgIOwKUADWe9bbgq6AixAwn8IKEkISQEUlKZCtdf7GGIHKCitlTJXRwWE
+        Q6EsBUghFAnAzYubFmqzkk6BWEBr1ywElP2JIGxCSdnIPWNK8+FA0jvRiPd7pg4cBlSfiHoCRr+/TsX7
+        qak4FY+2uNefGsJeh9r3l4BrFXytgg/mZQhF9GBMPwAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="tsbtnFullSortStop.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
