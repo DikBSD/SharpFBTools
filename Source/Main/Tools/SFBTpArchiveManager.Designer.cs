@@ -137,6 +137,8 @@ namespace SharpFBTools.Tools
 			this.cHeaderArchiveCount = new System.Windows.Forms.ColumnHeader();
 			this.cboxUADelFB2Files = new System.Windows.Forms.CheckBox();
 			this.pUnbPackFiles = new System.Windows.Forms.Panel();
+			this.cboxPriorityU = new System.Windows.Forms.ComboBox();
+			this.lblPriorityU = new System.Windows.Forms.Label();
 			this.rbAnyU = new System.Windows.Forms.RadioButton();
 			this.rbFB2U = new System.Windows.Forms.RadioButton();
 			this.lblFilesUType = new System.Windows.Forms.Label();
@@ -165,8 +167,6 @@ namespace SharpFBTools.Tools
 			this.tsbtnUnArchiveStop = new System.Windows.Forms.ToolStripButton();
 			this.imgl16 = new System.Windows.Forms.ImageList(this.components);
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
-			this.cboxPriorityU = new System.Windows.Forms.ComboBox();
-			this.lblPriorityU = new System.Windows.Forms.Label();
 			this.tsArchiver.SuspendLayout();
 			this.ssProgress.SuspendLayout();
 			this.pScanDir.SuspendLayout();
@@ -209,8 +209,8 @@ namespace SharpFBTools.Tools
 			this.tsbtnOpenDir.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnOpenDir.Image")));
 			this.tsbtnOpenDir.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnOpenDir.Name = "tsbtnOpenDir";
-			this.tsbtnOpenDir.Size = new System.Drawing.Size(114, 28);
-			this.tsbtnOpenDir.Text = "Открыть папку";
+			this.tsbtnOpenDir.Size = new System.Drawing.Size(123, 28);
+			this.tsbtnOpenDir.Text = "Папка - источник";
 			this.tsbtnOpenDir.ToolTipText = "Открыть папку с fb2-файлами...";
 			this.tsbtnOpenDir.Click += new System.EventHandler(this.TsbtnOpenDirClick);
 			// 
@@ -795,6 +795,31 @@ namespace SharpFBTools.Tools
 			this.pUnbPackFiles.Size = new System.Drawing.Size(748, 30);
 			this.pUnbPackFiles.TabIndex = 5;
 			// 
+			// cboxPriorityU
+			// 
+			this.cboxPriorityU.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxPriorityU.FormattingEnabled = true;
+			this.cboxPriorityU.Items.AddRange(new object[] {
+									"Низкий (Idle)",
+									"Ниже Среднего",
+									"Средний",
+									"Выше Среднего",
+									"Высокий",
+									"Реального времени (RealTime)"});
+			this.cboxPriorityU.Location = new System.Drawing.Point(409, 5);
+			this.cboxPriorityU.Name = "cboxPriorityU";
+			this.cboxPriorityU.Size = new System.Drawing.Size(328, 21);
+			this.cboxPriorityU.TabIndex = 28;
+			// 
+			// lblPriorityU
+			// 
+			this.lblPriorityU.AutoSize = true;
+			this.lblPriorityU.Location = new System.Drawing.Point(331, 9);
+			this.lblPriorityU.Name = "lblPriorityU";
+			this.lblPriorityU.Size = new System.Drawing.Size(72, 13);
+			this.lblPriorityU.TabIndex = 27;
+			this.lblPriorityU.Text = "Приоритет:";
+			// 
 			// rbAnyU
 			// 
 			this.rbAnyU.Location = new System.Drawing.Point(220, 8);
@@ -1025,8 +1050,8 @@ namespace SharpFBTools.Tools
 			this.tsbtnUAOpenDir.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnUAOpenDir.Image")));
 			this.tsbtnUAOpenDir.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnUAOpenDir.Name = "tsbtnUAOpenDir";
-			this.tsbtnUAOpenDir.Size = new System.Drawing.Size(114, 28);
-			this.tsbtnUAOpenDir.Text = "Открыть папку";
+			this.tsbtnUAOpenDir.Size = new System.Drawing.Size(123, 28);
+			this.tsbtnUAOpenDir.Text = "Папка - источник";
 			this.tsbtnUAOpenDir.ToolTipText = "Открыть папку с fb2-файлами...";
 			this.tsbtnUAOpenDir.Click += new System.EventHandler(this.TsbtnUAOpenDirClick);
 			// 
@@ -1087,31 +1112,6 @@ namespace SharpFBTools.Tools
 			this.imgl16.TransparentColor = System.Drawing.Color.Transparent;
 			this.imgl16.Images.SetKeyName(0, "Archive1.png");
 			this.imgl16.Images.SetKeyName(1, "UnArchive1.png");
-			// 
-			// cboxPriorityU
-			// 
-			this.cboxPriorityU.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboxPriorityU.FormattingEnabled = true;
-			this.cboxPriorityU.Items.AddRange(new object[] {
-									"Низкий (Idle)",
-									"Ниже Среднего",
-									"Средний",
-									"Выше Среднего",
-									"Высокий",
-									"Реального времени (RealTime)"});
-			this.cboxPriorityU.Location = new System.Drawing.Point(409, 5);
-			this.cboxPriorityU.Name = "cboxPriorityU";
-			this.cboxPriorityU.Size = new System.Drawing.Size(328, 21);
-			this.cboxPriorityU.TabIndex = 28;
-			// 
-			// lblPriorityU
-			// 
-			this.lblPriorityU.AutoSize = true;
-			this.lblPriorityU.Location = new System.Drawing.Point(331, 9);
-			this.lblPriorityU.Name = "lblPriorityU";
-			this.lblPriorityU.Size = new System.Drawing.Size(72, 13);
-			this.lblPriorityU.TabIndex = 27;
-			this.lblPriorityU.Text = "Приоритет:";
 			// 
 			// SFBTpArchiveManager
 			// 
