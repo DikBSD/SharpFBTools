@@ -42,6 +42,7 @@ namespace SharpFBTools.Tools
 				Fb2Comparer fb2c = new Fb2Comparer( fb2_1.GetDescription(), fb2_2.GetDescription() );
 				bool bId		= fb2c.IsIdEquality();
 				bool bBookTitle	= fb2c.IsBookTitleEquality();
+				bool bBookAuthor= fb2c.IsBookAuthorEquality();
 			} catch {
 				MessageBox.Show( "catch!!!", "!!!!!!!!!!!!!", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 			}

@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 using Core.FB2.Description.Common;
 using Core.FB2.Description;
@@ -30,6 +31,54 @@ namespace Core.FB2Dublicator
 			m_DescFB2File1 = DescFB2File1;
 			m_DescFB2File2 = DescFB2File2;
 		}
+				
+		#region Закрытые вспомогательные методы класса
+		// сравнение 2-х строк на включение 2-й в 1-ю или 1-й во 2-ю
+		public bool IsStringsEquality( string str1, string str2 ) {
+			Regex re = new Regex( str1, RegexOptions.IgnoreCase );
+			bool b1 = re.IsMatch( str2 );
+			re = new Regex( str2, RegexOptions.IgnoreCase );
+			bool b2 = re.IsMatch( str1 );
+			return ( b1 || b2 );
+		}
+		
+		// включается ли Фамилия И Имя (или только Фамилия) 2-го Автора в Фамилия И Имя (или только Фамилия) 1-го и наоборот
+		private bool IsLastFirsNameEquality( Author afb2_1, Author afb2_2 ) {
+			if( afb2_1.LastName != null ) {
+				// У Автора 1-й Книги есть Фамилия
+				if( afb2_1.FirstName != null ) {
+					// У Автора 1-й Книги есть И Фамилия И Имя. Смотрим, что есть у Автора из 2-й Книги
+					if( ( afb2_2.LastName != null ) && ( afb2_2.FirstName != null ) ) {
+						// У Автора 2-й Книги есть И Фамилия И Имя : сравниваем по Фамилия И Имя
+						if( IsStringsEquality( afb2_1.LastName.Value, afb2_2.LastName.Value ) &&
+						   	IsStringsEquality( afb2_1.FirstName.Value, afb2_2.FirstName.Value )	) {
+							return true; // нашли соответствие одного Автора, можно завершать сравнение
+						}
+					}
+				} else {
+					// У Автора 1-й Книги есть Фамилия, НО нет Имени : сравниваем только по Фамилия
+					if( afb2_2.LastName != null ) {
+						// У Автора 2-й Книги есть Фамилия
+						if( IsStringsEquality( afb2_1.LastName.Value, afb2_2.LastName.Value ) )
+							return true; // нашли соответствие одного Автора, можно завершать сравнение
+					}
+				}
+			}
+			return false;
+		}
+		
+		// включается ли Nick 2-го Автора в Nick 1-го и наоборот
+		private bool IsNickEquality( Author afb2_1, Author afb2_2 ) {
+			if( afb2_1.NickName != null ) {
+				if( afb2_2.NickName != null ) {
+					if( IsStringsEquality( afb2_1.NickName.Value, afb2_2.NickName.Value ) ) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		#endregion
 		
 		#region Открытые методы класса
 		// возвращается true, если файлы имеют одинаковое Id
@@ -55,12 +104,17 @@ namespace Core.FB2Dublicator
 			return bt1.Value == bt2.Value;
         }
 		
-		// 1. если bAllAuthors=true - полное соответствие всех авторов в обоих книгах
-		// возвращается true, если файлы имеют одинаковое число Авторов и соответственно, одинаковых Авторов
-		// 2. если bAllAuthors=false - какой-то автор из книги 1 есть в списке авторов книге 2
-		// возвращается true, если какой-то автор из книги 1 есть в списке авторов книге 2
-		// сравнение - только по тегам: Имя, Фамилия, Отчество и Ник Авторов (e-mail и web игнорируются)
-		public bool IsBookAuthorEquality( bool bAllAuthors  ) {
+		/* I. Алгоритм:
+		1. Сравнение - только по тегам: Имя, Фамилия, Отчество и Ник Авторов (e-mail и web игнорируются)
+		2. Условия: Если в обоих книгах есть ФИ, то сравнение по ФИ, Иначе
+						Если в одной книге есть Ф, а в другой - ФИ или Ф, то сравнение по Ф, Иначе
+						Если в обоин книгах есть Ник, то сравнение по Нику, Иначе
+						Авторы - разные
+		3. Сравнения - не строгое, а на включение данных Автора одной в тегах для другой,
+			чтобы отловить такие ситуации: в 1-й книге: Стругацкий, во 2-й - Стругацкий (Витецкий) */
+		/* Возвращаемое значение:
+			возвращается true, если какой-то автор из книги 1 есть в списке авторов книге 2 */
+		public bool IsBookAuthorEquality() {
 			IList<Author> lFB2Authors1 = m_DescFB2File1.TitleInfo.Authors;
 			IList<Author> lFB2Authors2 = m_DescFB2File2.TitleInfo.Authors;
 			
@@ -69,36 +123,25 @@ namespace Core.FB2Dublicator
 			else if( ( lFB2Authors1 == null && lFB2Authors2 != null ) || ( lFB2Authors1 != null && lFB2Authors2 == null ) )
 				return false;
 			
-			if( bAllAuthors ) {
-				bool bFull = false; // флаг равенста данных Авторов
-				// полное соответствие всех авторов в обоих книгах
-				foreach( Author afb2_1 in lFB2Authors1 ) {
-					foreach( Author afb2_2 in lFB2Authors2 ) {
-						if( ( afb2_1.FirstName != null && afb2_1.FirstName == null ) ||
-						   ( afb2_1.FirstName == null && afb2_1.FirstName != null ) ) {
-							bFull = false; break;
-						}
-						if( ( afb2_1.MiddleName != null && afb2_1.MiddleName == null ) ||
-						   ( afb2_1.MiddleName == null && afb2_1.MiddleName != null ) ) {
-							bFull = false; break;
-						}
-						if( ( afb2_1.LastName != null && afb2_1.LastName == null ) ||
-						   ( afb2_1.LastName == null && afb2_1.LastName != null ) ) {
-							bFull = false; break;
-						}
-						if( ( afb2_1.NickName != null && afb2_1.NickName == null ) ||
-						   ( afb2_1.NickName == null && afb2_1.NickName != null ) ) {
-							bFull = false; break;
-						}
+			// соответствие какого-то одного автора в обоих книгах
+			foreach( Author afb2_1 in lFB2Authors1 ) {
+				foreach( Author afb2_2 in lFB2Authors2 ) {
+					// Сначала Сравниваем Фамилия И Имя (или только Фамилия) Авторов
+					if( IsLastFirsNameEquality( afb2_1, afb2_2 ) ) {
+						return true; // нашли соответствие одного Автора, можно завершать сравнение
+					}
+					
+					// Теперь Сравниваем Авторов по их Никам
+					if( IsNickEquality( afb2_1, afb2_2 ) ) {
+						return true; // нашли соответствие одного Автора, можно завершать сравнение
 					}
 				}
-			} else {
-				// какой-то автор из книги 1 есть в списке авторов книге 2
 			}
-				
+			
 			return false;
 		}
 
 		#endregion
+
 	}
 }
