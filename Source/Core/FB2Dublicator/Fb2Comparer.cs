@@ -9,9 +9,9 @@
 using System;
 using System.Collections.Generic;
 
+using Core.FB2.Description.Common;
 using Core.FB2.Description;
 using Core.FB2.Description.TitleInfo;
-using Core.FB2.Genres;
 
 namespace Core.FB2Dublicator
 {
@@ -32,13 +32,13 @@ namespace Core.FB2Dublicator
 		}
 		
 		#region Открытые методы класса
+		// возвращается true, если файлы имеют одинаковое Id
 		public bool IsIdEquality() {
-			// true, если файлы имеют одинаковое Id
 			return m_DescFB2File1.DocumentInfo.ID == m_DescFB2File2.DocumentInfo.ID;
         }
 		
+		// возвращается true, если файлы имеют одинаковое BookTitle (название книги)
 		public bool IsBookTitleEquality() {
-			// true, если файлы имеют одинаковое BookTitle (название книги)
 			BookTitle bt1 = m_DescFB2File1.TitleInfo.BookTitle;
 			BookTitle bt2 = m_DescFB2File2.TitleInfo.BookTitle;
 			
@@ -55,18 +55,50 @@ namespace Core.FB2Dublicator
 			return bt1.Value == bt2.Value;
         }
 		
-		public bool IsBookAuthorEquality() {
-			// true, если файлы имеют одинаковое число Авторов и соответственно, одинаковых Авторов
-			return false;
-		}
-		
-		public bool IsGenreEquality() {
-			// true, если файлы имеют одинаковое число Жанров и соответственно, одинаковые Жанры
-			IList<Genre> lGenres1 = m_DescFB2File1.TitleInfo.Genres;
-			IList<Genre> lGenres2 = m_DescFB2File2.TitleInfo.Genres;
+		// 1. если bAllAuthors=true - полное соответствие всех авторов в обоих книгах
+		// возвращается true, если файлы имеют одинаковое число Авторов и соответственно, одинаковых Авторов
+		// 2. если bAllAuthors=false - какой-то автор из книги 1 есть в списке авторов книге 2
+		// возвращается true, если какой-то автор из книги 1 есть в списке авторов книге 2
+		// сравнение - только по тегам: Имя, Фамилия, Отчество и Ник Авторов (e-mail и web игнорируются)
+		public bool IsBookAuthorEquality( bool bAllAuthors  ) {
+			IList<Author> lFB2Authors1 = m_DescFB2File1.TitleInfo.Authors;
+			IList<Author> lFB2Authors2 = m_DescFB2File2.TitleInfo.Authors;
 			
+			if( lFB2Authors1 == null && lFB2Authors2 == null )
+				return true;
+			else if( ( lFB2Authors1 == null && lFB2Authors2 != null ) || ( lFB2Authors1 != null && lFB2Authors2 == null ) )
+				return false;
+			
+			if( bAllAuthors ) {
+				bool bFull = false; // флаг равенста данных Авторов
+				// полное соответствие всех авторов в обоих книгах
+				foreach( Author afb2_1 in lFB2Authors1 ) {
+					foreach( Author afb2_2 in lFB2Authors2 ) {
+						if( ( afb2_1.FirstName != null && afb2_1.FirstName == null ) ||
+						   ( afb2_1.FirstName == null && afb2_1.FirstName != null ) ) {
+							bFull = false; break;
+						}
+						if( ( afb2_1.MiddleName != null && afb2_1.MiddleName == null ) ||
+						   ( afb2_1.MiddleName == null && afb2_1.MiddleName != null ) ) {
+							bFull = false; break;
+						}
+						if( ( afb2_1.LastName != null && afb2_1.LastName == null ) ||
+						   ( afb2_1.LastName == null && afb2_1.LastName != null ) ) {
+							bFull = false; break;
+						}
+						if( ( afb2_1.NickName != null && afb2_1.NickName == null ) ||
+						   ( afb2_1.NickName == null && afb2_1.NickName != null ) ) {
+							bFull = false; break;
+						}
+					}
+				}
+			} else {
+				// какой-то автор из книги 1 есть в списке авторов книге 2
+			}
+				
 			return false;
 		}
+
 		#endregion
 	}
 }
