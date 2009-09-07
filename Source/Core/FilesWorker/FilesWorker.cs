@@ -122,9 +122,21 @@ namespace Core.FilesWorker
 			manag.Run( "c:\\WINDOWS\\explorer.exe", "\""+fi.Directory.ToString()+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
 		}
 		
+		public static void ShowAsyncDir( System.Windows.Forms.ListView lw ) {
+			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
+			FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
+			CommandManager manag = new CommandManager();
+			manag.RunAsync( "c:\\WINDOWS\\explorer.exe", "\""+fi.Directory.ToString()+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
+		}
+		
 		public static void ShowDir( string sDir ) {
 			CommandManager manag = new CommandManager();
 			manag.Run( "c:\\WINDOWS\\explorer.exe", "\""+sDir+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
+		}
+		
+		public static void ShowAsyncDir( string sDir ) {
+			CommandManager manag = new CommandManager();
+			manag.RunAsync( "c:\\WINDOWS\\explorer.exe", "\""+sDir+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
 		}
 		
 		public static void StartFile( string sProgramPath, System.Windows.Forms.ListView lw ) {
@@ -133,9 +145,20 @@ namespace Core.FilesWorker
 			manag.Run( "\""+sProgramPath+"\"", "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
 		}
 		
+		public static void StartAsyncFile( string sProgramPath, System.Windows.Forms.ListView lw ) {
+			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
+			CommandManager manag = new CommandManager();
+			manag.RunAsync( "\""+sProgramPath+"\"", "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
+		}
+		
 		public static void StartFile( string sProgramPath, string sStartFilePath ) {
 			CommandManager manag = new CommandManager();
 			manag.Run( "\""+sProgramPath+"\"", "\""+sStartFilePath+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
+		}
+		
+		public static void StartAsyncFile( string sProgramPath, string sStartFilePath ) {
+			CommandManager manag = new CommandManager();
+			manag.RunAsync( "\""+sProgramPath+"\"", "\""+sStartFilePath+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
 		}
 		
 		public static string FormatFileLength( long lLength ) {
