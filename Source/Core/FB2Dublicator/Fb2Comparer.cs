@@ -34,7 +34,7 @@ namespace Core.FB2Dublicator
 				
 		#region Закрытые вспомогательные методы класса
 		// сравнение 2-х строк на включение 2-й в 1-ю или 1-й во 2-ю
-		public bool IsStringsEquality( string str1, string str2 ) {
+		private bool IsStringsEquality( string str1, string str2 ) {
 			bool b1 = false, b2 = false;
 			Regex re = null;
 			if( str1.Length != 0 ) {

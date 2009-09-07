@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Core.FB2Dublicator;
+using Core.Misc;
 
 using fB2Parser 		= Core.FB2.FB2Parsers.FB2Parser;
 using filesWorker		= Core.FilesWorker.FilesWorker;
@@ -104,6 +105,7 @@ namespace SharpFBTools.Tools
 			if( m_lDupFiles == null ) 	m_lDupFiles = new List<string>();
 			else 						m_lDupFiles.Clear();
 			
+			Misc misc = new Misc();
 			// Сравнение fb2-файлов
 			foreach( string sFromFilePath in m_lFilesList ) {
 				// Проверить флаг на остановку процесса 
@@ -118,15 +120,15 @@ namespace SharpFBTools.Tools
 							// заносим путь к дублю в список дублей
 							m_lDupFiles.Add( sFromFilePath );
 						}
-						//IncStatus( 2 ); // исходные fb2-файлы
+						misc.IncListViewStatus( lvResult, 2 ); // исходные fb2-файлы
 					} else {
 						// это архив?
 						if( archivesWorker.IsArchive( sExt ) ) {
 							// пропускаем архивы
-							//IncStatus( 10 ); // архивы
+							misc.IncListViewStatus( lvResult, 3 ); // архивы
 						}  else {
 							// пропускаем не fb2-файлы
-							//IncStatus( 10 ); // другие файлы
+							misc.IncListViewStatus( lvResult, 4 ); // другие файлы 
 						}
 					}
 				}
@@ -273,7 +275,7 @@ namespace SharpFBTools.Tools
 		// Сравнение fb2-файлов, согласно заданного условия сравнения
 		// Параметры:
 		// m_lFilesList - список всех файлов в папке-источнике; m_lDupFiles - список файлов, которые имеют копии;
-		// nMode - режим сравнения книг: 0 - по Id Книги; 1- по Автору(ам) и Названию Книги
+		// nMode - режим сравнения книг: 0 - по Id Книги; 1 - по Автору(ам) и Названию Книги
 		private bool CompareFB2Files( string sFromFilePath, int nMode, List<string> m_lFilesList, List<string> m_lDupFiles ) {
 			for( int i=0; i!=m_lFilesList.Count; ++i ) {
 				// смотрим, не сравниваем ли книгу с самой собой
@@ -288,7 +290,14 @@ namespace SharpFBTools.Tools
 					if( sExt==".fb2" ) {
 						fb2_2 = new fB2Parser( m_lFilesList[i] );
 						Fb2Comparer	fb2c = new Fb2Comparer( fb2_1.GetDescription(), fb2_2.GetDescription() );
-						if( fb2c.IsIdEquality() ) return true;
+						// обработка режимов сравнения
+						if( nMode == 0 ) {
+							// по Id Книги
+							if( fb2c.IsIdEquality() ) return true;
+						} else {
+							// по Автору(ам) и Названию Книги
+							if( fb2c.IsBookAuthorEquality() && fb2c.IsBookTitleEquality() ) return true;
+						}
 					}
 				} catch {
 					// проблемные файлы игнорируем

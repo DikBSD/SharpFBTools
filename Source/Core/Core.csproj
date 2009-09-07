@@ -46,6 +46,7 @@
     <Folder Include="FilesWorker" />
     <Folder Include="BookSorting" />
     <Folder Include="FB2Dublicator" />
+    <Folder Include="Misc" />
     <Folder Include="Reports" />
     <Folder Include="StringProcessing" />
     <Folder Include="Templates" />
@@ -94,6 +95,7 @@
     <Compile Include="FilesWorker\Archiver.cs" />
     <Compile Include="FilesWorker\CommandManager.cs" />
     <Compile Include="FilesWorker\FilesWorker.cs" />
+    <Compile Include="Misc\Misc.cs" />
     <Compile Include="Reports\ValidatorReports.cs" />
     <Compile Include="StringProcessing\StringProcessing.cs" />
     <Compile Include="Templates\LexemType.cs" />

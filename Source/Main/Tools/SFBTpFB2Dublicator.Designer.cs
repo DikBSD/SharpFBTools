@@ -93,19 +93,13 @@ namespace SharpFBTools.Tools
 									"Исходные fb2-файлы",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные  архивы с fb2",
+									"Архивы",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные fb2-файлы из архивов",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Нечитаемые fb2-файлы (архивы)",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Битые архивы (не открылись)",
+			System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Нечитаемые fb2-файлы",
 									"0"}, -1);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Dublicator));
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
@@ -149,7 +143,7 @@ namespace SharpFBTools.Tools
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnSearchDubls = new System.Windows.Forms.ToolStripButton();
 			this.tsbtnSearchFb2DupStop = new System.Windows.Forms.ToolStripButton();
-			this.lwResult = new System.Windows.Forms.ListView();
+			this.lvResult = new System.Windows.Forms.ListView();
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
@@ -495,9 +489,7 @@ namespace SharpFBTools.Tools
 									listViewItem36,
 									listViewItem37,
 									listViewItem38,
-									listViewItem39,
-									listViewItem40,
-									listViewItem41});
+									listViewItem39});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(267, 213);
@@ -610,9 +602,9 @@ namespace SharpFBTools.Tools
 			this.tsbtnSearchFb2DupStop.Text = "Остановить";
 			this.tsbtnSearchFb2DupStop.Click += new System.EventHandler(this.TsbtnFullSortStopClick);
 			// 
-			// lwResult
+			// lvResult
 			// 
-			this.lwResult.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.lvResult.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.columnHeader1,
 									this.columnHeader2,
 									this.columnHeader8,
@@ -620,16 +612,16 @@ namespace SharpFBTools.Tools
 									this.columnHeader4,
 									this.columnHeader19,
 									this.columnHeader5});
-			this.lwResult.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lwResult.FullRowSelect = true;
-			this.lwResult.GridLines = true;
-			this.lwResult.Location = new System.Drawing.Point(0, 94);
-			this.lwResult.MultiSelect = false;
-			this.lwResult.Name = "lwResult";
-			this.lwResult.Size = new System.Drawing.Size(828, 231);
-			this.lwResult.TabIndex = 38;
-			this.lwResult.UseCompatibleStateImageBehavior = false;
-			this.lwResult.View = System.Windows.Forms.View.Details;
+			this.lvResult.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvResult.FullRowSelect = true;
+			this.lvResult.GridLines = true;
+			this.lvResult.Location = new System.Drawing.Point(0, 94);
+			this.lvResult.MultiSelect = false;
+			this.lvResult.Name = "lvResult";
+			this.lvResult.Size = new System.Drawing.Size(828, 231);
+			this.lvResult.TabIndex = 38;
+			this.lvResult.UseCompatibleStateImageBehavior = false;
+			this.lvResult.View = System.Windows.Forms.View.Details;
 			// 
 			// columnHeader1
 			// 
@@ -710,7 +702,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.lwResult);
+			this.Controls.Add(this.lvResult);
 			this.Controls.Add(this.pMode);
 			this.Controls.Add(this.pSearchFBDup2Dirs);
 			this.Controls.Add(this.tsFullSort);
@@ -737,6 +729,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ListView lvResult;
 		private System.Windows.Forms.ToolStripButton tsbtnSearchFb2DupStop;
 		private System.Windows.Forms.Panel pSearchFBDup2Dirs;
 		private System.Windows.Forms.FolderBrowserDialog fbdScanDir;
@@ -775,7 +768,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.ColumnHeader columnHeader3;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
-		private System.Windows.Forms.ListView lwResult;
 		private System.Windows.Forms.ColumnHeader columnHeader7;
 		private System.Windows.Forms.ColumnHeader columnHeader6;
 		private System.Windows.Forms.ListView lvFilesCount;
