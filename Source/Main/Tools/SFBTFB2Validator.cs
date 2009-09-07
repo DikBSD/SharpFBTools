@@ -1589,7 +1589,14 @@ namespace SharpFBTools.Tools
 				m_bwcmd.CancelAsync();
 			}
 		}
+		
+		void TboxSourceDirKeyPress(object sender, KeyPressEventArgs e)
+		{
+			// запуск Валидации по нажатию Enter на поле ввода папки для сканирования
+			if ( e.KeyChar == (char)Keys.Return ) {
+				TSBValidateClick( sender, e );
+			}
+		}
 		#endregion
-	
 	}
 }

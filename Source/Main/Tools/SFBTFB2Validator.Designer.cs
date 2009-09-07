@@ -389,6 +389,7 @@ namespace SharpFBTools.Tools
 			this.tboxSourceDir.Size = new System.Drawing.Size(484, 20);
 			this.tboxSourceDir.TabIndex = 4;
 			this.tboxSourceDir.TextChanged += new System.EventHandler(this.TboxSourceDirTextChanged);
+			this.tboxSourceDir.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TboxSourceDirKeyPress);
 			// 
 			// lblDir
 			// 
