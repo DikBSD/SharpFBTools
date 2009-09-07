@@ -18,8 +18,10 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using Core.FB2Dublicator;
 using Core.Misc;
+using Core.FB2Dublicator;
+using Core.FB2.Description.Common;
+using Core.FB2.Description.TitleInfo;
 
 using fB2Parser 		= Core.FB2.FB2Parsers.FB2Parser;
 using filesWorker		= Core.FilesWorker.FilesWorker;
@@ -105,7 +107,7 @@ namespace SharpFBTools.Tools
 			if( m_lDupFiles == null ) 	m_lDupFiles = new List<string>();
 			else 						m_lDupFiles.Clear();
 			
-			Misc misc = new Misc();
+//			Misc misc = new Misc();
 			// Сравнение fb2-файлов
 			List<string> m_lLVGC = new List<string>(); // список групп  одинаковых книг
 			ListViewGroup lvg = null; // группа одинаковых книг
@@ -122,19 +124,47 @@ namespace SharpFBTools.Tools
 						if( CompareFB2Files( sFromFilePath, cboxMode.SelectedIndex, m_lFilesList, m_lDupFiles ) ) {
 							// заносим путь к дублю в список дублей
 							m_lDupFiles.Add( sFromFilePath );
+							// формирование списка одинаковых Книг для просмотра
+							BookData bd = new BookData( sFromFilePath );
+							string sValid = bd.IsValid;
+							if( cboxMode.SelectedIndex == 0 ) {
+								string sID = bd.ID;
+								if( m_lLVGC.IndexOf( sID ) == -1 ) {
+									m_lLVGC.Add( sID );
+									lvg = new ListViewGroup( sID);
+								}
+								if( lvg != null ) {
+									lvResult.Groups.Add( lvg );
+									ListViewItem lvi = new ListViewItem( sFromFilePath );
+									lvi.SubItems.Add( bd.BookTitle );
+									lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
+									lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+									lvi.SubItems.Add( bd.Version );
+									lvi.SubItems.Add( sValid==""?"Да":"Нет" );
+									lvi.SubItems.Add( bd.FileLength );
+									lvi.Group = lvg;
+									lvResult.Items.Add( lvi );
+								}
+							} else {
+								string sBookTitle = bd.BookTitle;
+								if( m_lLVGC.IndexOf( sBookTitle ) == -1 ) {
+									m_lLVGC.Add( sBookTitle );
+									lvg = new ListViewGroup( sBookTitle);
+								}
+								if( lvg != null ) {
+									lvResult.Groups.Add( lvg );
+									ListViewItem lvi = new ListViewItem( sFromFilePath );
+									lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
+									lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+									lvi.SubItems.Add( bd.ID );
+									lvi.SubItems.Add( bd.Version );
+									lvi.SubItems.Add( sValid==""?"Да":"Нет" );
+									lvi.SubItems.Add( bd.FileLength );
+									lvi.Group = lvg;
+									lvResult.Items.Add( lvi );
+								}
+							}
 							
-							fB2Parser fb2 = new fB2Parser( sFromFilePath );
-							string sID = fb2.GetDocumentInfo().ID;
-							if( m_lLVGC.IndexOf( sID ) == -1 ) {
-								m_lLVGC.Add( sID );
-								lvg = new ListViewGroup( sID);
-							}
-							if( lvg != null ) {
-								lvResult.Groups.Add( lvg );
-								ListViewItem lvi = new ListViewItem( sFromFilePath );
-								lvi.Group = lvg;
-								lvResult.Items.Add( lvi );
-							}
 						}
 						//misc.IncListViewStatus( lvResult, 2 ); // исходные fb2-файлы
 					} else {
@@ -188,6 +218,7 @@ namespace SharpFBTools.Tools
 		#region Закрытые вспомогательные методы класса
 		private void Init() {
 			// инициализация контролов и переменных
+			lvResult.Items.Clear();
 			for( int i=0; i!=lvFilesCount.Items.Count; ++i ) {
 				lvFilesCount.Items[i].SubItems[1].Text	= "0";
 			}
@@ -323,6 +354,34 @@ namespace SharpFBTools.Tools
 			return false;
 		}
 		
+		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
+		private string MakeAutorsString( IList<Author> Authors ) {
+			string sA = ""; int n = 0;
+			foreach( Author a in Authors ) {
+				sA += Convert.ToString(++n)+": ";
+				if( a.LastName!=null && a.LastName.Value!=null )
+					sA += a.LastName.Value+" ";
+				if( a.FirstName!=null && a.FirstName.Value!=null )
+					sA += a.FirstName.Value+" ";
+				if( a.MiddleName!=null && a.FirstName.Value!=null )
+					sA += a.MiddleName.Value+" ";
+				if( a.NickName!=null && a.NickName.Value!=null )
+					sA += a.NickName.Value;
+				sA += "; ";
+			}
+			return sA;
+		}
+		
+		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
+		private string MakeGenresString( IList<Genre> Genres ) {
+			string sG = ""; int n = 0;
+			foreach( Genre g in Genres ) {
+				sG += Convert.ToString(++n)+": ";
+				if( g.Name!=null ) sG += g.Name;
+				sG += "; ";
+			}
+			return sG;
+		}
 		#endregion
 		
 		#region Обработчики событий
@@ -377,7 +436,28 @@ namespace SharpFBTools.Tools
             	m_bw.RunWorkerAsync();
 			}		
 		}
+		
+		void CboxModeSelectedIndexChanged(object sender, EventArgs e)
+		{
+			// изменение колонок просмотрщика найденного, взависимости от режима сравнения
+			lvResult.Columns.Clear();
+			if( cboxMode.SelectedIndex == 0 ) {
+				// по Id Книги
+				lvResult.Columns.Add( "Одинаковые ID (Путь к Книге)", 300 );
+				lvResult.Columns.Add( "Название Книги", 180 );
+				lvResult.Columns.Add( "Автор(ы) Книги", 100 );
+				lvResult.Columns.Add( "Жанр(ы) Книги", 120 );
+			} else {
+				// по Автору(ам) и Названию Книги
+				lvResult.Columns.Add( "Книга (Путь к Книге)", 300 );
+				lvResult.Columns.Add( "Автор(ы) Книги", 180 );
+				lvResult.Columns.Add( "Жанр(ы) Книги", 100 );
+				lvResult.Columns.Add( "ID Книги", 120 );
+			}
+			lvResult.Columns.Add( "Версия", 50 );
+			lvResult.Columns.Add( "Валидность", 50, HorizontalAlignment.Center );
+			lvResult.Columns.Add( "Размер", 90, HorizontalAlignment.Center );
+		}
 		#endregion
-
 	}
 }

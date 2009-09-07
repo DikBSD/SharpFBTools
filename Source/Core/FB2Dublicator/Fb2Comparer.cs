@@ -10,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using Core.FB2.Description.Common;
 using Core.FB2.Description;
+using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
 
 namespace Core.FB2Dublicator
