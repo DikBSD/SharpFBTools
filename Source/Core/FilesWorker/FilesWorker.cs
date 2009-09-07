@@ -172,8 +172,7 @@ namespace Core.FilesWorker
 			}
 		}
 		
-		public static bool OpenDirDlg( TextBox tb, FolderBrowserDialog fbd, string sTitle )
-		{
+		public static bool OpenDirDlg( TextBox tb, FolderBrowserDialog fbd, string sTitle ) {
 			// задание папки черед диалог открытия папки
 			if( tb.Text.Trim() !="" ) {
 				fbd.SelectedPath = tb.Text.Trim();
@@ -187,6 +186,33 @@ namespace Core.FilesWorker
             }
 			return false;
 		}
+		
+		// составляем список файлов (или одного) из папки
+		// Параметры:
+		// sFromDir - папка-источник; bSort=true - сортировать список; bFB2Only=true - список только fb2-файлов
+		public static List<string> MakeFileListFromDir( string sFromDir, bool bSort, bool bFB2Only ) {
+			List<string> lFilesList = null;
+			if( Directory.Exists( sFromDir ) ) {
+				string [] files = Directory.GetFiles( sFromDir );
+				if( files.Length != 0 ) {
+					lFilesList = new List<string>();
+					foreach( string sFile in files ) {
+						if( bFB2Only ) {
+							if( Path.GetExtension( Path.GetFileName( sFile ) ).ToLower()==".fb2" ) {
+								lFilesList.Add( sFile );
+							}
+						} else {
+							lFilesList.Add( sFile );
+						}
+					}
+					if( bSort ) {
+						lFilesList.Sort();
+					}
+				}
+			}
+			return lFilesList;
+		}
+		
 		#endregion
 	}
 }

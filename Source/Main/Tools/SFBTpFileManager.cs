@@ -174,7 +174,8 @@ namespace SharpFBTools.Tools
 						} else {
 							// это архив?
 							if( archivesWorker.IsArchive( sExt ) ) {
-								List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+								List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
+								IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 								if( lFilesListFromArchive!=null ) {
 									foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
 										// Создание файла по критериям Избранной сортировки
@@ -349,63 +350,28 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		private List<string> GetFileListFromArchive( string sFromFile, Settings.DataFM dfm ) {
-			// Распаковать архив во временную папку
-			string sTempDir 	= Settings.Settings.GetTempDir();
-			string sExt			= Path.GetExtension( sFromFile ).ToLower();
-			filesWorker.RemoveDir( sTempDir );
+		private void IncArchiveInfo( string sExt ) {
+			// Увеличить число определенного файла-архива на 1
 			switch( sExt ) {
 				case ".rar":
-					archivesWorker.unrar( dfm.UnRarPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 4 );
 					break;
 				case ".zip":
-					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 3 );
 					break;
 				case ".7z":
-					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 5 );
 					break;
 				case ".bz2":
-					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 6 );
 					break;
 				case ".gz":
-					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 7 );
 					break;
 				case ".tar":
-					archivesWorker.unzip( dfm.A7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
 					IncStatus( 8 );
 					break;
 			}
-			// составляем список файлов (или одного) из архива
-			return MakeFileListFromDir( sTempDir, false, true );
-		}
-		
-		private List<string> MakeFileListFromDir( string sFromDir, bool bSort, bool bFB2Only ) {
-			// составляем список файлов (или одного) из архива
-			List<string> lFilesList = null;
-			if( Directory.Exists( sFromDir ) ) {
-				string [] files = Directory.GetFiles( sFromDir );
-				if( files.Length != 0 ) {
-					lFilesList = new List<string>();
-					foreach( string sFile in files ) {
-						if( bFB2Only ) {
-							if( Path.GetExtension( Path.GetFileName( sFile ) )==".fb2" ) {
-								lFilesList.Add( sFile );
-							}
-						} else {
-							lFilesList.Add( sFile );
-						}
-					}
-					if( bSort ) {
-						lFilesList.Sort();
-					}
-				}
-			}
-			return lFilesList;
 		}
 		
 		private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode,
@@ -541,7 +507,8 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
-					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
+					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
 						return; // не получилось открыть архив - "битый"
@@ -579,7 +546,8 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
-					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
+					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
 						return; // не получилось открыть архив - "битый"
@@ -623,7 +591,8 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
-					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
+					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
 						return; // не получилось открыть архив - "битый"
@@ -667,7 +636,8 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
-					List<string> lFilesListFromArchive = GetFileListFromArchive( sFromFilePath, dfm );
+					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
+					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
 						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
 						return; // не получилось открыть архив - "битый"

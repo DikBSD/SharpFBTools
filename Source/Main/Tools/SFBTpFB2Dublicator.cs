@@ -20,8 +20,9 @@ using System.Text.RegularExpressions;
 
 using Core.FB2Dublicator;
 
-using fB2Parser 	= Core.FB2.FB2Parsers.FB2Parser;
-using filesWorker	= Core.FilesWorker.FilesWorker;
+using fB2Parser 		= Core.FB2.FB2Parsers.FB2Parser;
+using filesWorker		= Core.FilesWorker.FilesWorker;
+using archivesWorker	= Core.FilesWorker.Archiver;
 
 namespace SharpFBTools.Tools
 {
@@ -36,7 +37,8 @@ namespace SharpFBTools.Tools
         private string m_sSource		= "";
         private bool m_bScanSubDirs		= true;
         private string m_sMessTitle		= "";
-		private List<string> m_lFilesList	= null;
+		private List<string> m_lFilesList	= null; // список всех проверяемых файлов
+		private List<string> m_lDupFiles	= null; // список файлов, имеющих копии, соответственно условию сравнения
         #endregion
 		
 		public SFBTpFB2Dublicator()
@@ -94,8 +96,42 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text		= "Поиск одинаковых fb2-файлов:";
 			tsProgressBar.Maximum	= m_lFilesList.Count;
 			tsProgressBar.Value		= 0;
-
 			
+			// данные настроек для поиска одинаковых fb2-книг
+			Settings.DataFB2Dup dfb2dup = new Settings.DataFB2Dup();
+			
+			 // список книг, имеющих копии
+			if( m_lDupFiles == null ) 	m_lDupFiles = new List<string>();
+			else 						m_lDupFiles.Clear();
+			
+			// Сравнение fb2-файлов
+			foreach( string sFromFilePath in m_lFilesList ) {
+				// Проверить флаг на остановку процесса 
+				if( ( m_bw.CancellationPending == true ) ) {
+					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+					break;
+				} else {
+					string sExt = Path.GetExtension( sFromFilePath ).ToLower();
+					if( sExt==".fb2" ) {
+						// сравнение fb2-файлов, согласно заданного условия сравнения
+						if( CompareFB2Files( sFromFilePath, cboxMode.SelectedIndex, m_lFilesList, m_lDupFiles ) ) {
+							// заносим путь к дублю в список дублей
+							m_lDupFiles.Add( sFromFilePath );
+						}
+						//IncStatus( 2 ); // исходные fb2-файлы
+					} else {
+						// это архив?
+						if( archivesWorker.IsArchive( sExt ) ) {
+							// пропускаем архивы
+							//IncStatus( 10 ); // архивы
+						}  else {
+							// пропускаем не fb2-файлы
+							//IncStatus( 10 ); // другие файлы
+						}
+					}
+				}
+				m_bw.ReportProgress( 0 ); // отобразим данные в контролах
+			}
 		}
 		
 		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
@@ -221,6 +257,46 @@ namespace SharpFBTools.Tools
 			}
 			return true;
 		}
+		
+		// есть ли искомый файл в списке
+		private bool FileExistsInList( string sFromFilePath, List<string> slDupFiles ) {
+			if( m_lDupFiles != null ) {
+				foreach( string sDup in slDupFiles ) {
+					if( sFromFilePath == sDup ) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		
+		// Сравнение fb2-файлов, согласно заданного условия сравнения
+		// Параметры:
+		// m_lFilesList - список всех файлов в папке-источнике; m_lDupFiles - список файлов, которые имеют копии;
+		// nMode - режим сравнения книг: 0 - по Id Книги; 1- по Автору(ам) и Названию Книги
+		private bool CompareFB2Files( string sFromFilePath, int nMode, List<string> m_lFilesList, List<string> m_lDupFiles ) {
+			for( int i=0; i!=m_lFilesList.Count; ++i ) {
+				// смотрим, не сравниваем ли книгу с самой собой
+				if( sFromFilePath == m_lFilesList[i] ) continue;
+				// смотрим, не сравниваем ли книгу с уже добавленной в список дублей
+				if( FileExistsInList( sFromFilePath, m_lDupFiles ) ) continue;
+				// сравниваем две книги
+				try {
+					fB2Parser	fb2_1	= new fB2Parser( sFromFilePath );
+					fB2Parser	fb2_2	= null;
+					string sExt = Path.GetExtension( m_lFilesList[i] ).ToLower();
+					if( sExt==".fb2" ) {
+						fb2_2 = new fB2Parser( m_lFilesList[i] );
+						Fb2Comparer	fb2c = new Fb2Comparer( fb2_1.GetDescription(), fb2_2.GetDescription() );
+						if( fb2c.IsIdEquality() ) return true;
+					}
+				} catch {
+					// проблемные файлы игнорируем
+				}
+			}
+			return false;
+		}
+		
 		#endregion
 		
 		#region Обработчики событий
@@ -273,24 +349,9 @@ namespace SharpFBTools.Tools
 			if( m_bw.IsBusy != true ) {
 				//если не занят то запустить процесс
             	m_bw.RunWorkerAsync();
-			}
-			
-			
-/*			try {
-				fB2Parser fb2_1 = new fB2Parser( "c:\\Temp\\_Test\\01.fb2" );
-				fB2Parser fb2_2 = new fB2Parser( "c:\\Temp\\_Test\\02.fb2" );
-				Fb2Comparer fb2c = new Fb2Comparer( fb2_1.GetDescription(), fb2_2.GetDescription() );
-				bool bId		= fb2c.IsIdEquality();
-				bool bBookTitle	= fb2c.IsBookTitleEquality();
-				//bool bBookAuthor= fb2c.IsBookAuthorEquality();
-				bool bBookTitleBookAuthor = fb2c.IsBookTitleEquality() && fb2c.IsBookAuthorEquality();
-			} catch {
-				MessageBox.Show( "catch!!!", "!!!!!!!!!!!!!", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-			}
-*/			
+			}		
 		}
 		#endregion
-
 
 	}
 }

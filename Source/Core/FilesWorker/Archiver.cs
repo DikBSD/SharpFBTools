@@ -8,10 +8,13 @@
  */
 
 using System;
-using System.Text.RegularExpressions;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+using filesWorker = Core.FilesWorker.FilesWorker;
 
 namespace Core.FilesWorker
 {
@@ -237,6 +240,34 @@ namespace Core.FilesWorker
 
 			CommandManager manag = new CommandManager();
 			return manag.Run( sRarPath, s, ProcessWindowStyle.Hidden, ppcPriorityClass );
+		}
+		
+		// получить список всех файлов из архива во временной папке
+		public static List<string> GetFileListFromArchive( string sFromFile, string sTempDir, string sA7zaPath, string sUnRarPath ) {
+			string sExt	= Path.GetExtension( sFromFile ).ToLower();
+			filesWorker.RemoveDir( sTempDir );
+			switch( sExt ) {
+				case ".rar":
+					unrar( sUnRarPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					break;
+				case ".zip":
+					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					break;
+				case ".7z":
+					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					break;
+				case ".bz2":
+					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					break;
+				case ".gz":
+					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					break;
+				case ".tar":
+					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+					break;
+			}
+			// составляем список файлов (или одного) из архива
+			return filesWorker.MakeFileListFromDir( sTempDir, false, true );
 		}
 		
 	}
