@@ -98,7 +98,7 @@ namespace Main
 									this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(740, 52);
+			this.tsMain.Size = new System.Drawing.Size(738, 52);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnFB2Validator
@@ -239,6 +239,7 @@ namespace Main
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SharpFBTools";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFormFormClosed);
 			this.tscMain.TopToolStripPanel.ResumeLayout(false);
 			this.tscMain.TopToolStripPanel.PerformLayout();
