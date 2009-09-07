@@ -107,6 +107,9 @@ namespace SharpFBTools.Tools
 			
 			Misc misc = new Misc();
 			// Сравнение fb2-файлов
+			List<string> m_lLVGC = new List<string>(); // список групп  одинаковых книг
+			ListViewGroup lvg = null; // группа одинаковых книг
+			lvResult.BeginUpdate();
 			foreach( string sFromFilePath in m_lFilesList ) {
 				// Проверить флаг на остановку процесса 
 				if( ( m_bw.CancellationPending == true ) ) {
@@ -119,16 +122,29 @@ namespace SharpFBTools.Tools
 						if( CompareFB2Files( sFromFilePath, cboxMode.SelectedIndex, m_lFilesList, m_lDupFiles ) ) {
 							// заносим путь к дублю в список дублей
 							m_lDupFiles.Add( sFromFilePath );
+							
+							fB2Parser fb2 = new fB2Parser( sFromFilePath );
+							string sID = fb2.GetDocumentInfo().ID;
+							if( m_lLVGC.IndexOf( sID ) == -1 ) {
+								m_lLVGC.Add( sID );
+								lvg = new ListViewGroup( sID);
+							}
+							if( lvg != null ) {
+								lvResult.Groups.Add( lvg );
+								ListViewItem lvi = new ListViewItem( sFromFilePath );
+								lvi.Group = lvg;
+								lvResult.Items.Add( lvi );
+							}
 						}
-						misc.IncListViewStatus( lvResult, 2 ); // исходные fb2-файлы
+						//misc.IncListViewStatus( lvResult, 2 ); // исходные fb2-файлы
 					} else {
 						// это архив?
 						if( archivesWorker.IsArchive( sExt ) ) {
 							// пропускаем архивы
-							misc.IncListViewStatus( lvResult, 3 ); // архивы
+							//misc.IncListViewStatus( lvResult, 3 ); // архивы
 						}  else {
 							// пропускаем не fb2-файлы
-							misc.IncListViewStatus( lvResult, 4 ); // другие файлы 
+							//misc.IncListViewStatus( lvResult, 4 ); // другие файлы 
 						}
 					}
 				}
@@ -144,6 +160,7 @@ namespace SharpFBTools.Tools
 		
 		 private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
             // Проверяем - это отмена, ошибка, или конец задачи и сообщить
+            lvResult.EndUpdate();
             DateTime dtEnd = DateTime.Now;
             m_lFilesList.Clear();
             filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
