@@ -1054,21 +1054,21 @@ namespace SharpFBTools.Tools
 		{
 			// занесение ошибки валидации в бокс
 			ListView.SelectedListViewItemCollection si = listViewNotValid.SelectedItems;
-			foreach ( ListViewItem item in si ) {
-				rеboxNotValid.Text = item.SubItems[1].Text;
-			}
-			if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
-				// путь к выделенному файлу
-				string s = si[0].SubItems[0].Text.Split('/')[0];
-				// отределяем его расширение
-				string sExt = Path.GetExtension( s );
-				if( sExt.ToLower() == ".fb2" ) {
-					listViewNotValid.ContextMenuStrip = cmsFB2;
+			if( si.Count > 0 ) {
+				rеboxNotValid.Text = si[0].SubItems[1].Text;
+				if( listViewNotValid.Items.Count > 0 && listViewNotValid.SelectedItems.Count != 0 ) {
+					// путь к выделенному файлу
+					string s = si[0].SubItems[0].Text.Split('/')[0];
+					// отределяем его расширение
+					string sExt = Path.GetExtension( s );
+					if( sExt.ToLower() == ".fb2" ) {
+						listViewNotValid.ContextMenuStrip = cmsFB2;
+					} else {
+						listViewNotValid.ContextMenuStrip = cmsArchive;
+					}
 				} else {
-					listViewNotValid.ContextMenuStrip = cmsArchive;
+					rеboxNotValid.Clear();
 				}
-			} else {
-				rеboxNotValid.Clear();
 			}
 		}
 		
