@@ -26,7 +26,7 @@ namespace Core.FB2.Description.TitleInfo
         Date Date { get; set; }
         Coverpage Coverpage { get; set; }
         string Lang { get; set; }
-        string ScrLang { get; set; }
+        string SrcLang { get; set; }
         IList<Author> Translators { get; set; }
         IList<Sequence> Sequences { get; set; }
 	}

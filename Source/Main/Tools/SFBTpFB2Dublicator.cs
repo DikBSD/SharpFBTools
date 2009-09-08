@@ -122,7 +122,7 @@ namespace SharpFBTools.Tools
 				} else {
 					string sExt = Path.GetExtension( sFromFilePath ).ToLower();
 					if( sExt==".fb2" ) {
-						++m_sv.FB2;
+						++m_sv.FB2; // число fb2-файлов из списка всех анализируемых файлов
 						// сравнение fb2-файлов, согласно заданного условия сравнения
 						if( CompareFB2Files( sFromFilePath, cboxMode.SelectedIndex, m_lFilesList, m_lDupFiles ) ) {
 							++m_sv.AllFB2InGroups;
@@ -134,49 +134,45 @@ namespace SharpFBTools.Tools
 							if( cboxMode.SelectedIndex == 0 ) {
 								string sID = bd.ID;
 								lvg = new ListViewGroup( sID );
-								
-								if( lvg != null ) {
-									ListViewItem lvi = new ListViewItem( sFromFilePath );
-									lvi.SubItems.Add( bd.BookTitle );
-									lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
-									lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
-									lvi.SubItems.Add( bd.Version );
-									lvi.SubItems.Add( sValid==""?"Да":"Нет" );
-									lvi.SubItems.Add( bd.FileLength );
+
+								ListViewItem lvi = new ListViewItem( sFromFilePath );
+								lvi.SubItems.Add( bd.BookTitle );
+								lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
+								lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+								lvi.SubItems.Add( bd.Version );
+								lvi.SubItems.Add( sValid==""?"Да":"Нет" );
+								lvi.SubItems.Add( bd.FileLength );
 									
-									// заносим группу в хеш, если она там отсутствует
-									if( AddBookGroupInHashTable( htBookGroups, lvg ) ) {
-										++m_sv.Group; // новая группа книг
-									}
-									
-									// присваиваем группу книге
-									lvResult.Groups.Add( (ListViewGroup)htBookGroups[sID] );
-									lvi.Group = (ListViewGroup)htBookGroups[sID];
-									lvResult.Items.Add( lvi );
+								// заносим группу в хеш, если она там отсутствует
+								if( AddBookGroupInHashTable( htBookGroups, lvg ) ) {
+									++m_sv.Group; // новая группа книг
 								}
+									
+								// присваиваем группу книге
+								lvResult.Groups.Add( (ListViewGroup)htBookGroups[sID] );
+								lvi.Group = (ListViewGroup)htBookGroups[sID];
+								lvResult.Items.Add( lvi );
 							} else {
 								string sBookTitle = bd.BookTitle;
 								lvg = new ListViewGroup( sBookTitle );
-								
-								if( lvg != null ) {
-									ListViewItem lvi = new ListViewItem( sFromFilePath );
-									lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
-									lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
-									lvi.SubItems.Add( bd.ID );
-									lvi.SubItems.Add( bd.Version );
-									lvi.SubItems.Add( sValid==""?"Да":"Нет" );
-									lvi.SubItems.Add( bd.FileLength );
+
+								ListViewItem lvi = new ListViewItem( sFromFilePath );
+								lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
+								lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+								lvi.SubItems.Add( bd.ID );
+								lvi.SubItems.Add( bd.Version );
+								lvi.SubItems.Add( sValid==""?"Да":"Нет" );
+								lvi.SubItems.Add( bd.FileLength );
 									
-									// заносим группу в хеш, если она там отсутствует
-									if( AddBookGroupInHashTable( htBookGroups, lvg ) ) {
-										++m_sv.Group; // новая группа книг
-									}
-									
-									// присваиваем группу книге
-									lvResult.Groups.Add( (ListViewGroup)htBookGroups[sBookTitle] );
-									lvi.Group = (ListViewGroup)htBookGroups[sBookTitle];
-									lvResult.Items.Add( lvi );
+								// заносим группу в хеш, если она там отсутствует
+								if( AddBookGroupInHashTable( htBookGroups, lvg ) ) {
+									++m_sv.Group; // новая группа книг
 								}
+									
+								// присваиваем группу книге
+								lvResult.Groups.Add( (ListViewGroup)htBookGroups[sBookTitle] );
+								lvi.Group = (ListViewGroup)htBookGroups[sBookTitle];
+								lvResult.Items.Add( lvi );
 							}
 						}
 					} else {
@@ -402,6 +398,18 @@ namespace SharpFBTools.Tools
 			return sG;
 		}
 		
+		// формирование строки с URLs Книги из списка всех URLs ЭТОЙ Книги
+		private string MakeURLsString( IList<string> URLs ) {
+			if( URLs == null ) return "Отсутствует"; 
+			string sURLs = ""; int n = 0;
+			foreach( string s in URLs ) {
+				sURLs += Convert.ToString(++n)+": ";
+				if( s!=null || s.Length!=0 ) sURLs += s;
+				sURLs += "; ";
+			}
+			return sURLs;
+		}
+		
 		// создание хеш-таблицы для групп одинаковых книг
 		private bool AddBookGroupInHashTable( Hashtable groups, ListViewGroup lvg ) {
 			if( groups == null ) return false;
@@ -496,7 +504,24 @@ namespace SharpFBTools.Tools
 				// пропускаем ситуацию, когда курсор переходит от одной строки к другой - нет выбранного item'а
 				Misc		msc	= new Misc();
 				BookData	bd	= new BookData( si[0].Text );
+				// считываем данные TitleInfo
+				msc.ListViewStatus( lwTitleInfo, 0, bd.BookTitle );
+				msc.ListViewStatus( lwTitleInfo, 1, MakeGenresString( bd.Genres ) );
+				msc.ListViewStatus( lwTitleInfo, 2, bd.Lang );
+				msc.ListViewStatus( lwTitleInfo, 3, bd.SrcLang );
+				msc.ListViewStatus( lwTitleInfo, 4, MakeAutorsString( bd.Authors ) );
+				msc.ListViewStatus( lwTitleInfo, 5, bd.DateText+" ("+bd.DateValue+")" );
+				msc.ListViewStatus( lwTitleInfo, 6, bd.Keywords );
+				msc.ListViewStatus( lwTitleInfo, 7, bd.Coverpage );
+				
+				// считываем данные DocuventInfo
 				msc.ListViewStatus( lvDocumentInfo, 0, bd.ID );
+				msc.ListViewStatus( lvDocumentInfo, 1, bd.Version );
+				msc.ListViewStatus( lvDocumentInfo, 2, bd.FB2DateText+" ("+bd.FB2DateValue+")" );
+				msc.ListViewStatus( lvDocumentInfo, 3, bd.Programms );
+				msc.ListViewStatus( lvDocumentInfo, 4, bd.OCR );
+				msc.ListViewStatus( lvDocumentInfo, 5, MakeURLsString( bd.URLs ) );
+				msc.ListViewStatus( lvDocumentInfo, 6, MakeAutorsString( bd.FB2Authors ) );
 			}
 		}
 		#endregion

@@ -27,7 +27,7 @@ namespace Core.FB2.Description.TitleInfo
 		private Date			m_Date			= null;
 		private Coverpage		m_Coverpage		= null;
         private string			m_Lang			= null;
-        private string			m_ScrLang		= null;
+        private string			m_SrcLang		= null;
         private IList<Author>	m_Translators	= null;
         private IList<Sequence>	m_Sequences		= null;
         #endregion
@@ -37,7 +37,7 @@ namespace Core.FB2.Description.TitleInfo
 		{
 		}
 		public TitleInfo( IList<Genre> genres, IList<Author> authors, BookTitle bookTitle, Annotation annotation,
-                         Keywords keywords, Date date, Coverpage coverpage, string lang, string scrLang,
+                         Keywords keywords, Date date, Coverpage coverpage, string lang, string srcLang,
                          IList<Author> translators, IList<Sequence> sequences )
         {
             m_Genres 		= genres;
@@ -48,7 +48,7 @@ namespace Core.FB2.Description.TitleInfo
             m_Date 			= date;
             m_Coverpage		= coverpage;
             m_Lang 			= lang;
-            m_ScrLang 		= scrLang;
+            m_SrcLang 		= srcLang;
             m_Translators 	= translators;
             m_Sequences 	= sequences;
         }
@@ -103,10 +103,10 @@ namespace Core.FB2.Description.TitleInfo
             set { m_Lang = value; }
         }
 
-        public virtual string ScrLang
+        public virtual string SrcLang
         {
-            get { return m_ScrLang; }
-            set { m_ScrLang = value; }
+            get { return m_SrcLang; }
+            set { m_SrcLang = value; }
         }
 
         public virtual IList<Author> Translators
