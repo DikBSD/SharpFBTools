@@ -13,6 +13,7 @@ using System.Xml;
 using System.Drawing;
 using System.Threading;
 using System.Diagnostics;
+using System.Collections;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -110,7 +111,7 @@ namespace SharpFBTools.Tools
 			else 						m_lDupFiles.Clear();
 			
 			// Сравнение fb2-файлов
-			List<string> m_lLVGC = new List<string>(); // список групп одинаковых книг
+			Hashtable htBookGroups = new Hashtable(); // хеш-таблица групп одинаковых книг
 			ListViewGroup lvg = null; // группа одинаковых книг
 			lvResult.BeginUpdate();
 			foreach( string sFromFilePath in m_lFilesList ) {
@@ -132,13 +133,9 @@ namespace SharpFBTools.Tools
 							string sValid = bd.IsValid;
 							if( cboxMode.SelectedIndex == 0 ) {
 								string sID = bd.ID;
-								if( m_lLVGC.IndexOf( sID ) == -1 ) {
-									m_lLVGC.Add( sID );
-									lvg = new ListViewGroup( sID);
-									++m_sv.Group;
-								}
+								lvg = new ListViewGroup( sID );
+								
 								if( lvg != null ) {
-									lvResult.Groups.Add( lvg );
 									ListViewItem lvi = new ListViewItem( sFromFilePath );
 									lvi.SubItems.Add( bd.BookTitle );
 									lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
@@ -146,18 +143,22 @@ namespace SharpFBTools.Tools
 									lvi.SubItems.Add( bd.Version );
 									lvi.SubItems.Add( sValid==""?"Да":"Нет" );
 									lvi.SubItems.Add( bd.FileLength );
-									lvi.Group = lvg;
+									
+									// заносим группу в хеш, если она там отсутствует
+									if( AddBookGroupInHashTable( htBookGroups, lvg ) ) {
+										++m_sv.Group; // новая группа книг
+									}
+									
+									// присваиваем группу книге
+									lvResult.Groups.Add( (ListViewGroup)htBookGroups[sID] );
+									lvi.Group = (ListViewGroup)htBookGroups[sID];
 									lvResult.Items.Add( lvi );
 								}
 							} else {
 								string sBookTitle = bd.BookTitle;
-								if( m_lLVGC.IndexOf( sBookTitle ) == -1 ) {
-									m_lLVGC.Add( sBookTitle );
-									lvg = new ListViewGroup( sBookTitle);
-									++m_sv.Group;
-								}
+								lvg = new ListViewGroup( sBookTitle );
+								
 								if( lvg != null ) {
-									lvResult.Groups.Add( lvg );
 									ListViewItem lvi = new ListViewItem( sFromFilePath );
 									lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
 									lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
@@ -165,7 +166,15 @@ namespace SharpFBTools.Tools
 									lvi.SubItems.Add( bd.Version );
 									lvi.SubItems.Add( sValid==""?"Да":"Нет" );
 									lvi.SubItems.Add( bd.FileLength );
-									lvi.Group = lvg;
+									
+									// заносим группу в хеш, если она там отсутствует
+									if( AddBookGroupInHashTable( htBookGroups, lvg ) ) {
+										++m_sv.Group; // новая группа книг
+									}
+									
+									// присваиваем группу книге
+									lvResult.Groups.Add( (ListViewGroup)htBookGroups[sBookTitle] );
+									lvi.Group = (ListViewGroup)htBookGroups[sBookTitle];
 									lvResult.Items.Add( lvi );
 								}
 							}
@@ -236,6 +245,7 @@ namespace SharpFBTools.Tools
 			// очистка временной папки
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 			if( m_sv!=null ) m_sv.Clear(); // сброс данных класса для отображения прогресса
+			lvResult.Groups.Clear();
 		}
 		
 		private void ReadFB2DupTempData() {
@@ -391,6 +401,16 @@ namespace SharpFBTools.Tools
 			}
 			return sG;
 		}
+		
+		// создание хеш-таблицы для групп одинаковых книг
+		private bool AddBookGroupInHashTable( Hashtable groups, ListViewGroup lvg ) {
+			if( groups == null ) return false;
+			if( !groups.Contains( lvg.Header ) ) {
+				groups.Add( lvg.Header, lvg );
+				return true;
+			}
+			return false;
+		}
 		#endregion
 		
 		#region Обработчики событий
@@ -467,7 +487,20 @@ namespace SharpFBTools.Tools
 			lvResult.Columns.Add( "Валидность", 50, HorizontalAlignment.Center );
 			lvResult.Columns.Add( "Размер", 90, HorizontalAlignment.Center );
 		}
+		
+		void LvResultSelectedIndexChanged(object sender, EventArgs e)
+		{
+			// занесение ошибки валидации в бокс
+			ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
+			if( si.Count > 0 ) {
+				// пропускаем ситуацию, когда курсор переходит от одной строки к другой - нет выбранного item'а
+				Misc		msc	= new Misc();
+				BookData	bd	= new BookData( si[0].Text );
+				msc.ListViewStatus( lvDocumentInfo, 0, bd.ID );
+			}
+		}
 		#endregion
+		
 	}
 	
 	/// <summary>
