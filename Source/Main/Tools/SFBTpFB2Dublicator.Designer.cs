@@ -90,7 +90,7 @@ namespace SharpFBTools.Tools
 									"Всего файлов",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные fb2-файлы",
+									"Всего fb2-файлы",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Архивы",
@@ -99,10 +99,10 @@ namespace SharpFBTools.Tools
 									"Другие файлы",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Нечитаемые fb2-файлы",
+									"Всего групп одинаковых книг",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего групп одинаковых книг",
+									"Книг во всех группах одинаковых книг",
 									"0"}, -1);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Dublicator));
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
@@ -215,10 +215,10 @@ namespace SharpFBTools.Tools
 			this.tcViewFB2Desc.Controls.Add(this.tpHistory);
 			this.tcViewFB2Desc.Controls.Add(this.tpAnnotation);
 			this.tcViewFB2Desc.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tcViewFB2Desc.Location = new System.Drawing.Point(267, 0);
+			this.tcViewFB2Desc.Location = new System.Drawing.Point(296, 0);
 			this.tcViewFB2Desc.Name = "tcViewFB2Desc";
 			this.tcViewFB2Desc.SelectedIndex = 0;
-			this.tcViewFB2Desc.Size = new System.Drawing.Size(561, 213);
+			this.tcViewFB2Desc.Size = new System.Drawing.Size(532, 213);
 			this.tcViewFB2Desc.TabIndex = 11;
 			// 
 			// tpTitleInfo
@@ -226,7 +226,7 @@ namespace SharpFBTools.Tools
 			this.tpTitleInfo.Controls.Add(this.lwTitleInfo);
 			this.tpTitleInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpTitleInfo.Name = "tpTitleInfo";
-			this.tpTitleInfo.Size = new System.Drawing.Size(553, 187);
+			this.tpTitleInfo.Size = new System.Drawing.Size(524, 187);
 			this.tpTitleInfo.TabIndex = 0;
 			this.tpTitleInfo.Text = "Title Info";
 			this.tpTitleInfo.UseVisualStyleBackColor = true;
@@ -252,7 +252,7 @@ namespace SharpFBTools.Tools
 									listViewItem10});
 			this.lwTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lwTitleInfo.Name = "lwTitleInfo";
-			this.lwTitleInfo.Size = new System.Drawing.Size(553, 187);
+			this.lwTitleInfo.Size = new System.Drawing.Size(524, 187);
 			this.lwTitleInfo.TabIndex = 11;
 			this.lwTitleInfo.UseCompatibleStateImageBehavior = false;
 			this.lwTitleInfo.View = System.Windows.Forms.View.Details;
@@ -266,14 +266,14 @@ namespace SharpFBTools.Tools
 			// 
 			this.columnHeader10.Text = "Значение";
 			this.columnHeader10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.columnHeader10.Width = 330;
+			this.columnHeader10.Width = 420;
 			// 
 			// tpSourceTitleInfo
 			// 
 			this.tpSourceTitleInfo.Controls.Add(this.lwSourceTitleInfo);
 			this.tpSourceTitleInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpSourceTitleInfo.Name = "tpSourceTitleInfo";
-			this.tpSourceTitleInfo.Size = new System.Drawing.Size(553, 187);
+			this.tpSourceTitleInfo.Size = new System.Drawing.Size(524, 187);
 			this.tpSourceTitleInfo.TabIndex = 1;
 			this.tpSourceTitleInfo.Text = "Source Title Info";
 			this.tpSourceTitleInfo.UseVisualStyleBackColor = true;
@@ -299,7 +299,7 @@ namespace SharpFBTools.Tools
 									listViewItem20});
 			this.lwSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lwSourceTitleInfo.Name = "lwSourceTitleInfo";
-			this.lwSourceTitleInfo.Size = new System.Drawing.Size(553, 187);
+			this.lwSourceTitleInfo.Size = new System.Drawing.Size(524, 187);
 			this.lwSourceTitleInfo.TabIndex = 12;
 			this.lwSourceTitleInfo.UseCompatibleStateImageBehavior = false;
 			this.lwSourceTitleInfo.View = System.Windows.Forms.View.Details;
@@ -313,7 +313,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.columnHeader18.Text = "Значение";
 			this.columnHeader18.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.columnHeader18.Width = 330;
+			this.columnHeader18.Width = 420;
 			// 
 			// tpDocumentInfo
 			// 
@@ -498,7 +498,7 @@ namespace SharpFBTools.Tools
 									listViewItem40});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
 			this.lvFilesCount.Name = "lvFilesCount";
-			this.lvFilesCount.Size = new System.Drawing.Size(267, 213);
+			this.lvFilesCount.Size = new System.Drawing.Size(296, 213);
 			this.lvFilesCount.TabIndex = 10;
 			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
 			this.lvFilesCount.View = System.Windows.Forms.View.Details;
@@ -506,7 +506,7 @@ namespace SharpFBTools.Tools
 			// columnHeader6
 			// 
 			this.columnHeader6.Text = "Папки и файлы";
-			this.columnHeader6.Width = 180;
+			this.columnHeader6.Width = 210;
 			// 
 			// columnHeader7
 			// 

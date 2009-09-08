@@ -121,9 +121,10 @@ namespace SharpFBTools.Tools
 				} else {
 					string sExt = Path.GetExtension( sFromFilePath ).ToLower();
 					if( sExt==".fb2" ) {
+						++m_sv.FB2;
 						// сравнение fb2-файлов, согласно заданного условия сравнения
 						if( CompareFB2Files( sFromFilePath, cboxMode.SelectedIndex, m_lFilesList, m_lDupFiles ) ) {
-							++m_sv.FB2;
+							++m_sv.AllFB2InGroups;
 							// заносим путь к дублю в список дублей
 							m_lDupFiles.Add( sFromFilePath );
 							// формирование списка одинаковых Книг для просмотра
@@ -184,12 +185,13 @@ namespace SharpFBTools.Tools
 		
 		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат
-            Misc msc = new Misc();
-            msc.ListViewStatus( lvFilesCount, 2, m_sv.FB2 );
-            msc.ListViewStatus( lvFilesCount, 3, m_sv.Archive );
-            msc.ListViewStatus( lvFilesCount, 4, m_sv.Other );
-            msc.ListViewStatus( lvFilesCount, 6, m_sv.Group );
-            ++tsProgressBar.Value;
+			Misc msc = new Misc();
+			msc.ListViewStatus( lvFilesCount, 2, m_sv.FB2 );
+			msc.ListViewStatus( lvFilesCount, 3, m_sv.Archive );
+			msc.ListViewStatus( lvFilesCount, 4, m_sv.Other );
+			msc.ListViewStatus( lvFilesCount, 5, m_sv.Group );
+			msc.ListViewStatus( lvFilesCount, 6, m_sv.AllFB2InGroups );
+			++tsProgressBar.Value;
         }
 		
 		 private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
@@ -197,6 +199,7 @@ namespace SharpFBTools.Tools
             lvResult.EndUpdate();
             DateTime dtEnd = DateTime.Now;
             m_lFilesList.Clear();
+            m_sv.Clear();
             filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
             
             string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
@@ -473,10 +476,11 @@ namespace SharpFBTools.Tools
 	public class StatusView {
 		
 		#region Закрытые данные класса
-		private int m_nFB2		= 0;
-		private int m_nArchive	= 0;
-		private int m_nOther	= 0;
-		private int m_nGroup	= 0;
+		private int m_nFB2				= 0;
+		private int m_nArchive			= 0;
+		private int m_nOther			= 0;
+		private int m_nGroup			= 0;
+		private int m_nAllFB2InGroups	= 0;
 		#endregion
 		
 		public StatusView() {
@@ -486,10 +490,11 @@ namespace SharpFBTools.Tools
 		#region Открытые методы класса
 		public void Clear() {
 			// сброс всех данных
-			m_nFB2		= 0;
-			m_nArchive	= 0;
-			m_nOther	= 0;
-			m_nGroup	= 0;
+			m_nFB2				= 0;
+			m_nArchive			= 0;
+			m_nOther			= 0;
+			m_nGroup			= 0;
+			m_nAllFB2InGroups	= 0;
 		}
 		#endregion
 		
@@ -512,6 +517,11 @@ namespace SharpFBTools.Tools
 		public virtual int Group {
 			get { return m_nGroup; }
 			set { m_nGroup = value; }
+        }
+		
+		public virtual int AllFB2InGroups {
+			get { return m_nAllFB2InGroups; }
+			set { m_nAllFB2InGroups = value; }
         }
 		#endregion
 	}
