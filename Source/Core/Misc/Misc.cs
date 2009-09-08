@@ -26,5 +26,15 @@ namespace Core.Misc
 			lv.Items[nItem].SubItems[1].Text =
 				Convert.ToString( 1+Convert.ToInt32( lv.Items[nItem].SubItems[1].Text ) );
 		}
+		
+		// занесение в нужный item определеного значения
+		public void ListViewStatus( ListView lv, int nItem, int nValue ) {
+			lv.Items[nItem].SubItems[1].Text = Convert.ToString( nValue );
+		}
+		
+		// занесение в нужный item определеного значения
+		public void ListViewStatus( ListView lv, int nItem, string sValue ) {
+			lv.Items[nItem].SubItems[1].Text = sValue;
+		}
 	}
 }

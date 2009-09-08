@@ -35,6 +35,7 @@ namespace SharpFBTools.Tools
 	public partial class SFBTpFB2Dublicator : UserControl
 	{
 		#region Закрытые данные класса
+		private StatusView m_sv 		= null; 
 		private DateTime m_dtStart;
         private BackgroundWorker m_bw	= null;
         private string m_sSource		= "";
@@ -53,6 +54,7 @@ namespace SharpFBTools.Tools
 			Init();
 			// читаем сохраненные пути к папкам Поиска одинаковых fb2-файлов, если они есть
 			ReadFB2DupTempData();
+			m_sv = new StatusView();
 			cboxMode.SelectedIndex = 0; // Условия для Сравнения fb2-файлов: Автор(ы) и Название Книги
 		}
 
@@ -107,9 +109,8 @@ namespace SharpFBTools.Tools
 			if( m_lDupFiles == null ) 	m_lDupFiles = new List<string>();
 			else 						m_lDupFiles.Clear();
 			
-//			Misc misc = new Misc();
 			// Сравнение fb2-файлов
-			List<string> m_lLVGC = new List<string>(); // список групп  одинаковых книг
+			List<string> m_lLVGC = new List<string>(); // список групп одинаковых книг
 			ListViewGroup lvg = null; // группа одинаковых книг
 			lvResult.BeginUpdate();
 			foreach( string sFromFilePath in m_lFilesList ) {
@@ -122,6 +123,7 @@ namespace SharpFBTools.Tools
 					if( sExt==".fb2" ) {
 						// сравнение fb2-файлов, согласно заданного условия сравнения
 						if( CompareFB2Files( sFromFilePath, cboxMode.SelectedIndex, m_lFilesList, m_lDupFiles ) ) {
+							++m_sv.FB2;
 							// заносим путь к дублю в список дублей
 							m_lDupFiles.Add( sFromFilePath );
 							// формирование списка одинаковых Книг для просмотра
@@ -132,6 +134,7 @@ namespace SharpFBTools.Tools
 								if( m_lLVGC.IndexOf( sID ) == -1 ) {
 									m_lLVGC.Add( sID );
 									lvg = new ListViewGroup( sID);
+									++m_sv.Group;
 								}
 								if( lvg != null ) {
 									lvResult.Groups.Add( lvg );
@@ -150,6 +153,7 @@ namespace SharpFBTools.Tools
 								if( m_lLVGC.IndexOf( sBookTitle ) == -1 ) {
 									m_lLVGC.Add( sBookTitle );
 									lvg = new ListViewGroup( sBookTitle);
+									++m_sv.Group;
 								}
 								if( lvg != null ) {
 									lvResult.Groups.Add( lvg );
@@ -164,17 +168,13 @@ namespace SharpFBTools.Tools
 									lvResult.Items.Add( lvi );
 								}
 							}
-							
 						}
-						//misc.IncListViewStatus( lvResult, 2 ); // исходные fb2-файлы
 					} else {
 						// это архив?
 						if( archivesWorker.IsArchive( sExt ) ) {
-							// пропускаем архивы
-							//misc.IncListViewStatus( lvResult, 3 ); // архивы
+							++m_sv.Archive;	// пропускаем архивы
 						}  else {
-							// пропускаем не fb2-файлы
-							//misc.IncListViewStatus( lvResult, 4 ); // другие файлы 
+							++m_sv.Other;	// пропускаем не fb2-файлы
 						}
 					}
 				}
@@ -184,7 +184,11 @@ namespace SharpFBTools.Tools
 		
 		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат
-
+            Misc msc = new Misc();
+            msc.ListViewStatus( lvFilesCount, 2, m_sv.FB2 );
+            msc.ListViewStatus( lvFilesCount, 3, m_sv.Archive );
+            msc.ListViewStatus( lvFilesCount, 4, m_sv.Other );
+            msc.ListViewStatus( lvFilesCount, 6, m_sv.Group );
             ++tsProgressBar.Value;
         }
 		
@@ -216,6 +220,7 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые вспомогательные методы класса
+		// увеличение значения 2-й колонки ListView на 1
 		private void Init() {
 			// инициализация контролов и переменных
 			lvResult.Items.Clear();
@@ -227,6 +232,7 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Visible	= false;
 			// очистка временной папки
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			if( m_sv!=null ) m_sv.Clear(); // сброс данных класса для отображения прогресса
 		}
 		
 		private void ReadFB2DupTempData() {
@@ -460,4 +466,54 @@ namespace SharpFBTools.Tools
 		}
 		#endregion
 	}
+	
+	/// <summary>
+	/// Description of StatusView.
+	/// </summary>
+	public class StatusView {
+		
+		#region Закрытые данные класса
+		private int m_nFB2		= 0;
+		private int m_nArchive	= 0;
+		private int m_nOther	= 0;
+		private int m_nGroup	= 0;
+		#endregion
+		
+		public StatusView() {
+
+		}
+		
+		#region Открытые методы класса
+		public void Clear() {
+			// сброс всех данных
+			m_nFB2		= 0;
+			m_nArchive	= 0;
+			m_nOther	= 0;
+			m_nGroup	= 0;
+		}
+		#endregion
+		
+		#region Свойства класса
+		public virtual int FB2 {
+			get { return m_nFB2; }
+			set { m_nFB2 = value; }
+        }
+		
+		public virtual int Archive {
+			get { return m_nArchive; }
+			set { m_nArchive = value; }
+        }
+		
+		public virtual int Other {
+			get { return m_nOther; }
+			set { m_nOther = value; }
+        }
+		
+		public virtual int Group {
+			get { return m_nGroup; }
+			set { m_nGroup = value; }
+        }
+		#endregion
+	}
+	
 }
