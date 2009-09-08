@@ -454,14 +454,14 @@ namespace SharpFBTools.Tools
 				// по Id Книги
 				lvResult.Columns.Add( "Одинаковые ID (Путь к Книге)", 300 );
 				lvResult.Columns.Add( "Название Книги", 180 );
-				lvResult.Columns.Add( "Автор(ы) Книги", 100 );
-				lvResult.Columns.Add( "Жанр(ы) Книги", 120 );
+				lvResult.Columns.Add( "Автор(ы) Книги", 180 );
+				lvResult.Columns.Add( "Жанр(ы) Книги", 180 );
 			} else {
 				// по Автору(ам) и Названию Книги
 				lvResult.Columns.Add( "Книга (Путь к Книге)", 300 );
 				lvResult.Columns.Add( "Автор(ы) Книги", 180 );
-				lvResult.Columns.Add( "Жанр(ы) Книги", 100 );
-				lvResult.Columns.Add( "ID Книги", 120 );
+				lvResult.Columns.Add( "Жанр(ы) Книги", 180 );
+				lvResult.Columns.Add( "ID Книги", 200 );
 			}
 			lvResult.Columns.Add( "Версия", 50 );
 			lvResult.Columns.Add( "Валидность", 50, HorizontalAlignment.Center );
