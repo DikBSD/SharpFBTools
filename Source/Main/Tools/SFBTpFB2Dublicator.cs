@@ -461,7 +461,7 @@ namespace SharpFBTools.Tools
 			ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
 			if( si.Count > 0 ) {
 				// пропускаем ситуацию, когда курсор переходит от одной строки к другой - нет выбранного item'а
-				Misc		msc	= new Misc();
+				Misc				msc	= new Misc();
 				FB2BookDataForDup	bd	= new FB2BookDataForDup( si[0].Text );
 				// считываем данные TitleInfo
 				msc.ListViewStatus( lwTitleInfo, 0, bd.BookTitle );
@@ -474,7 +474,7 @@ namespace SharpFBTools.Tools
 				msc.ListViewStatus( lwTitleInfo, 7, bd.Coverpage );
 				msc.ListViewStatus( lwTitleInfo, 8, bd.Translators );
 				msc.ListViewStatus( lwTitleInfo, 9, bd.Sequences );
-				// считываем данные DocuventInfo
+				// считываем данные DocumentInfo
 				msc.ListViewStatus( lvDocumentInfo, 0, bd.ID );
 				msc.ListViewStatus( lvDocumentInfo, 1, bd.Version );
 				msc.ListViewStatus( lvDocumentInfo, 2, bd.FB2Date );
@@ -482,6 +482,13 @@ namespace SharpFBTools.Tools
 				msc.ListViewStatus( lvDocumentInfo, 4, bd.SrcOcr );
 				msc.ListViewStatus( lvDocumentInfo, 5, bd.SrcUrls );
 				msc.ListViewStatus( lvDocumentInfo, 6, bd.FB2Authors );
+				// считываем данные PublishInfo
+				msc.ListViewStatus( lwPublishInfo, 0, bd.PIBookName );
+				msc.ListViewStatus( lwPublishInfo, 1, bd.PIPublisher );
+				msc.ListViewStatus( lwPublishInfo, 2, bd.PIYear );
+				msc.ListViewStatus( lwPublishInfo, 3, bd.PICity );
+				msc.ListViewStatus( lwPublishInfo, 4, bd.PIISBN );
+				msc.ListViewStatus( lwPublishInfo, 5, bd.PISequences );
 			}
 		}
 		#endregion

@@ -240,6 +240,55 @@ namespace Core.FB2Dublicator
         }
 		#endregion
 		
+		#region PublishInfo
+		// Заголовок Книги
+		public virtual string PIBookName {
+			get {
+				return ( m_fb2bd.PIBookName != null && m_fb2bd.PIBookName.Value != null )
+					? m_fb2bd.PIBookName.Value
+					: "";
+			}
+        }
+		// Издатель
+		public virtual string PIPublisher {
+			get {
+				return ( m_fb2bd.PIPublisher != null && m_fb2bd.PIPublisher.Value != null )
+					? m_fb2bd.PIPublisher.Value
+					: "";
+			}
+        }
+		// Город
+		public virtual string PICity {
+			get {
+				return ( m_fb2bd.PICity != null && m_fb2bd.PICity.Value != null )
+					? m_fb2bd.PICity.Value
+					: "";
+			}
+        }
+		// Год издания
+		public virtual string PIYear {
+			get {
+				return ( m_fb2bd.PIYear != null )
+					? m_fb2bd.PIYear
+					: "";
+			}
+        }
+		// ISBN
+		public virtual string PIISBN {
+			get {
+				return ( m_fb2bd.PIISBN != null && m_fb2bd.PIISBN.Value != null )
+					? m_fb2bd.PIISBN.Value
+					: "";
+			}
+        }
+		// Серии
+		public virtual string PISequences {
+			get {
+				return MakeSequencesString( m_fb2bd.PISequences );
+			}
+        }
+		#endregion
+		
 		#endregion
 	}
 }
