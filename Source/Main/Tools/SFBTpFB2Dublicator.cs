@@ -129,16 +129,16 @@ namespace SharpFBTools.Tools
 							// заносим путь к дублю в список дублей
 							m_lDupFiles.Add( sFromFilePath );
 							// формирование списка одинаковых Книг для просмотра
-							BookData bd = new BookData( sFromFilePath );
+							FB2BookDataForDup bd = new FB2BookDataForDup( sFromFilePath );
 							string sValid = bd.IsValid;
 							if( cboxMode.SelectedIndex == 0 ) {
 								string sID = bd.ID;
 								lvg = new ListViewGroup( sID );
 
 								ListViewItem lvi = new ListViewItem( sFromFilePath );
-								lvi.SubItems.Add( ( bd.BookTitle!=null && bd.BookTitle.Value!=null ) ? bd.BookTitle.Value : "" );
-								lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
-								lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+								lvi.SubItems.Add( bd.BookTitle );
+								lvi.SubItems.Add( bd.Authors );
+								lvi.SubItems.Add( bd.Genres );
 								lvi.SubItems.Add( bd.Version );
 								lvi.SubItems.Add( sValid==""?"Да":"Нет" );
 								lvi.SubItems.Add( bd.FileLength );
@@ -153,12 +153,12 @@ namespace SharpFBTools.Tools
 								lvi.Group = (ListViewGroup)htBookGroups[sID];
 								lvResult.Items.Add( lvi );
 							} else {
-								string sBookTitle = ( bd.BookTitle!=null && bd.BookTitle.Value!=null ) ? bd.BookTitle.Value : "";
+								string sBookTitle = bd.BookTitle;
 								lvg = new ListViewGroup( sBookTitle );
 
 								ListViewItem lvi = new ListViewItem( sFromFilePath );
-								lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
-								lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+								lvi.SubItems.Add( bd.Authors );
+								lvi.SubItems.Add( bd.Genres );
 								lvi.SubItems.Add( bd.ID );
 								lvi.SubItems.Add( bd.Version );
 								lvi.SubItems.Add( sValid==""?"Да":"Нет" );
@@ -369,76 +369,6 @@ namespace SharpFBTools.Tools
 			return false;
 		}
 		
-		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
-		private string MakeAutorsString( IList<Author> Authors ) {
-			if( Authors == null ) return ""; 
-			string sA = ""; int n = 0;
-			foreach( Author a in Authors ) {
-				sA += Convert.ToString(++n)+": ";
-				if( a.LastName!=null && a.LastName.Value!=null )
-					sA += a.LastName.Value+" ";
-				if( a.FirstName!=null && a.FirstName.Value!=null )
-					sA += a.FirstName.Value+" ";
-				if( a.MiddleName!=null && a.FirstName.Value!=null )
-					sA += a.MiddleName.Value+" ";
-				if( a.NickName!=null && a.NickName.Value!=null )
-					sA += a.NickName.Value;
-				sA += "; ";
-			}
-			return sA;
-		}
-		
-		// формирование строки с Датой Написания Книги или Датой Создания fb2-файла
-		private string MakeDateString( Date Date ) {
-			if( Date == null ) return ""; 
-			string sDate = "";
-			if( Date.Text!=null )	sDate += Date.Text;
-			else 				sDate += "Нет";
-			if( Date.Value!=null )	sDate += " ("+Date.Value+")";
-			else					sDate += "Нет";
-			sDate += "; ";
-			return sDate;
-		}
-		
-		// формирование строки с Сериями Книги из списка всех Серий ЭТОЙ Книги
-		private string MakeSequencesString( IList<Sequence> Sequences ) {
-			if( Sequences == null ) return ""; 
-			string sSeq = ""; int n = 0;
-			foreach( Sequence s in Sequences ) {
-				sSeq += Convert.ToString(++n)+": ";
-				if( s.Name!=null )	sSeq += s.Name;
-				else 				sSeq += "Нет";
-				if( s.Number!=null )	sSeq += " ("+s.Number+") ";
-				else					sSeq += "Нет";
-				sSeq += "; ";
-			}
-			return sSeq;
-		}
-		
-		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
-		private string MakeGenresString( IList<Genre> Genres ) {
-			if( Genres == null ) return ""; 
-			string sG = ""; int n = 0;
-			foreach( Genre g in Genres ) {
-				sG += Convert.ToString(++n)+": ";
-				if( g.Name!=null ) sG += g.Name;
-				sG += "; ";
-			}
-			return sG;
-		}
-		
-		// формирование строки с URLs Книги из списка всех URLs ЭТОЙ Книги
-		private string MakeURLsString( IList<string> URLs ) {
-			if( URLs == null ) return ""; 
-			string sURLs = ""; int n = 0;
-			foreach( string s in URLs ) {
-				sURLs += Convert.ToString(++n)+": ";
-				if( s!=null || s.Length!=0 ) sURLs += s;
-				sURLs += "; ";
-			}
-			return sURLs;
-		}
-		
 		// создание хеш-таблицы для групп одинаковых книг
 		private bool AddBookGroupInHashTable( Hashtable groups, ListViewGroup lvg ) {
 			if( groups == null ) return false;
@@ -532,26 +462,26 @@ namespace SharpFBTools.Tools
 			if( si.Count > 0 ) {
 				// пропускаем ситуацию, когда курсор переходит от одной строки к другой - нет выбранного item'а
 				Misc		msc	= new Misc();
-				BookData	bd	= new BookData( si[0].Text );
+				FB2BookDataForDup	bd	= new FB2BookDataForDup( si[0].Text );
 				// считываем данные TitleInfo
-				msc.ListViewStatus( lwTitleInfo, 0, ( bd.BookTitle!=null && bd.BookTitle.Value!=null ) ? bd.BookTitle.Value : "" );
-				msc.ListViewStatus( lwTitleInfo, 1, MakeGenresString( bd.Genres ) );
+				msc.ListViewStatus( lwTitleInfo, 0, bd.BookTitle );
+				msc.ListViewStatus( lwTitleInfo, 1, bd.Genres );
 				msc.ListViewStatus( lwTitleInfo, 2, bd.Lang );
 				msc.ListViewStatus( lwTitleInfo, 3, bd.SrcLang );
-				msc.ListViewStatus( lwTitleInfo, 4, MakeAutorsString( bd.Authors ) );
-				msc.ListViewStatus( lwTitleInfo, 5, MakeDateString( bd.Date ) );
-				msc.ListViewStatus( lwTitleInfo, 6, ( bd.Keywords!=null && bd.Keywords.Value!=null ) ? bd.Keywords.Value : "" );
-				msc.ListViewStatus( lwTitleInfo, 7, ( bd.Coverpage!=null && bd.Coverpage.Value!=null ) ? bd.Coverpage.Value : "" );
-				msc.ListViewStatus( lwTitleInfo, 8, MakeAutorsString( bd.Translators ) );
-				msc.ListViewStatus( lwTitleInfo, 9, MakeSequencesString( bd.Sequences ) );
+				msc.ListViewStatus( lwTitleInfo, 4, bd.Authors );
+				msc.ListViewStatus( lwTitleInfo, 5, bd.Date );
+				msc.ListViewStatus( lwTitleInfo, 6, bd.Keywords );
+				msc.ListViewStatus( lwTitleInfo, 7, bd.Coverpage );
+				msc.ListViewStatus( lwTitleInfo, 8, bd.Translators );
+				msc.ListViewStatus( lwTitleInfo, 9, bd.Sequences );
 				// считываем данные DocuventInfo
 				msc.ListViewStatus( lvDocumentInfo, 0, bd.ID );
 				msc.ListViewStatus( lvDocumentInfo, 1, bd.Version );
-				msc.ListViewStatus( lvDocumentInfo, 2, MakeDateString( bd.FB2Date ) );
-				msc.ListViewStatus( lvDocumentInfo, 3, ( bd.ProgramUsed!=null && bd.ProgramUsed.Value!=null ) ? bd.ProgramUsed.Value : "" );
-				msc.ListViewStatus( lvDocumentInfo, 4, ( bd.SrcOcr!=null && bd.SrcOcr.Value!=null ) ? bd.SrcOcr.Value : "" );
-				msc.ListViewStatus( lvDocumentInfo, 5, MakeURLsString( bd.SrcUrls ) );
-				msc.ListViewStatus( lvDocumentInfo, 6, MakeAutorsString( bd.FB2Authors ) );
+				msc.ListViewStatus( lvDocumentInfo, 2, bd.FB2Date );
+				msc.ListViewStatus( lvDocumentInfo, 3, bd.ProgramUsed );
+				msc.ListViewStatus( lvDocumentInfo, 4, bd.SrcOcr );
+				msc.ListViewStatus( lvDocumentInfo, 5, bd.SrcUrls );
+				msc.ListViewStatus( lvDocumentInfo, 6, bd.FB2Authors );
 			}
 		}
 		#endregion

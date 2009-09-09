@@ -20,19 +20,19 @@ using fB2Parser 	= Core.FB2.FB2Parsers.FB2Parser;
 using FB2Validator	= Core.FB2Parser.FB2Validator;
 using filesWorker	= Core.FilesWorker.FilesWorker;
 
-namespace Core.FB2Dublicator
+namespace Core.FB2BookData
 {
 	/// <summary>
 	/// Description of BookData.
 	/// </summary>
-	public class BookData
+	public class FB2BookData
 	{
 		#region Закрытые данные класса
 		private fB2Parser m_fb2			= null; // fb2-парсер
 		private string m_sFromFilePath	= "";	// путь к анализируемой книге
 		#endregion
 		
-		public BookData( string sFromFilePath )
+		public FB2BookData( string sFromFilePath )
 		{
 			m_sFromFilePath = sFromFilePath;
 			m_fb2 = new fB2Parser( sFromFilePath );
