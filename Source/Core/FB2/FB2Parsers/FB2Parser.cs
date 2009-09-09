@@ -165,7 +165,7 @@ namespace Core.FB2.FB2Parsers
         private Genre GetGenre( XmlNode xn )
         {
             // извлечение информации по custom-info
-        	#region
+        	#region Код
             Genre genre = new Genre( xn.InnerText );
             if( xn.Attributes["match"] != null ) {
                 try {
@@ -446,6 +446,7 @@ namespace Core.FB2.FB2Parsers
             return customInfo;
             #endregion
         }
+        
         public Description.Description GetDescription()
         {
             // парсер description

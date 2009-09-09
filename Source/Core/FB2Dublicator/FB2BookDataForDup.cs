@@ -8,6 +8,7 @@
  */
 using System;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 
 using Core.FB2BookData;
@@ -285,6 +286,15 @@ namespace Core.FB2Dublicator
 		public virtual string PISequences {
 			get {
 				return MakeSequencesString( m_fb2bd.PISequences );
+			}
+        }
+		#endregion
+		
+		#region CustomInfo
+		public virtual string CICustomInfo {
+			get {
+				CustomInfoData cid = new CustomInfoData( m_fb2bd.CICustomInfo );
+				return "";
 			}
         }
 		#endregion
