@@ -12,6 +12,9 @@ using System.Collections.Generic;
 
 using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
+using Core.FB2.Description.DocumentInfo;
+using Core.FB2.Description.PublishInfo;
+using Core.FB2.Description.CustomInfo;
 
 using fB2Parser 	= Core.FB2.FB2Parsers.FB2Parser;
 using FB2Validator	= Core.FB2Parser.FB2Validator;
@@ -26,29 +29,7 @@ namespace Core.FB2Dublicator
 	{
 		#region Закрытые данные класса
 		private fB2Parser m_fb2			= null; // fb2-парсер
-		// Разное
 		private string m_sFromFilePath	= "";	// путь к анализируемой книге
-		private string m_sValid			= "";	// Валидность Книги
-		private string m_sFileLength	= "";	// Размер fb2-файла
-		// TitleInfo
-		private string m_sBookTitle		= "";	// Название Книги
-		private IList<Genre> m_Genres	= null;	// Список Жанров Книги
-		private string m_sLang			= "";	// Язык
-		private string m_sSrcLang		= "";	// Язык оригинала
-		private IList<Author> m_Authors	= null;	// Список Авторов Книги
-		private string m_sDateText		= "";	// Дата написания Книги: Текст
-		private string m_sDateValue		= "";	// Дата написания Книги: Значение
-		private string m_sKeywords		= null;	// Ключевые слова
-		private string m_sCoverpage		= "";	// Обложки
-		// DocumentInfo
-		private string m_sID			= "";	// ID Книги
-		private string m_sVersion		= "";	// Версия fb2-файла
-		private string m_sFB2DateText	= "";	// Дата создания fb2: Текст
-		private string m_sFB2DateValue	= "";	// Дата создания fb2: Значение
-		private string m_sProgramms		= "";	// Использованные программы
-		private string m_sOCR			= "";	// OCR
-		private IList<string> m_URLs	= null;	// URLs
-		private IList<Author> m_FB2Authors	= null;	// Список Авторов fb2-файла
 		#endregion
 		
 		public BookData( string sFromFilePath )
@@ -58,211 +39,126 @@ namespace Core.FB2Dublicator
 		}
 		
 		#region Свойства класса
+		
 		#region Разное
 		public virtual string FileLength {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );
-				m_sFileLength = filesWorker.FormatFileLength( fi.Length );
-				return m_sFileLength;
+				return filesWorker.FormatFileLength( fi.Length );
 			}
         }
 		
 		public virtual string IsValid {
 			get {
 				FB2Validator fv2Validator = new FB2Validator();
-				m_sValid = fv2Validator.ValidatingFB2File( m_sFromFilePath );
-				return m_sValid;
+				return fv2Validator.ValidatingFB2File( m_sFromFilePath );
 			}
         }
 		#endregion
 		
 		#region TitleInfo
-		public virtual string BookTitle {
+		public virtual BookTitle BookTitle {
 			get {
-				if( m_fb2.GetTitleInfo().BookTitle != null && m_fb2.GetTitleInfo().BookTitle.Value != null ) {
-					m_sBookTitle = m_fb2.GetTitleInfo().BookTitle.Value;
-				} else {
-					m_sBookTitle = "Название Книги отсутствует";
-				}
-				return m_sBookTitle;
+				return m_fb2.GetTitleInfo().BookTitle;
 			}
         }
 		
 		public virtual string Lang {
 			get {
-				if( m_fb2.GetTitleInfo().Lang != null  ) {
-					m_sLang = m_fb2.GetTitleInfo().Lang;
-				} else {
-					m_sLang = "Отсутствует";
-				}
-				return m_sLang;
+				return m_fb2.GetTitleInfo().Lang;
 			}
         }
 		
 		public virtual string SrcLang {
 			get {
-				if( m_fb2.GetTitleInfo().SrcLang != null  ) {
-					m_sSrcLang = m_fb2.GetTitleInfo().SrcLang;
-				} else {
-					m_sSrcLang = "Отсутствует";
-				}
-				return m_sSrcLang;
+				return m_fb2.GetTitleInfo().SrcLang;
 			}
         }
 		
 		public virtual IList<Genre> Genres {
 			get {
-				if( m_fb2.GetTitleInfo().Genres != null ) {
-					m_Genres = m_fb2.GetTitleInfo().Genres;
-				} else {
-					m_Genres = null;
-				}
-				return m_Genres;
+				return m_fb2.GetTitleInfo().Genres;
 			}
         }
 		
 		public virtual IList<Author> Authors {
 			get {
-				if( m_fb2.GetTitleInfo().Authors != null ) {
-					m_Authors = m_fb2.GetTitleInfo().Authors;
-				} else {
-					m_Authors = null;
-				}
-				return m_Authors;
+				return m_fb2.GetTitleInfo().Authors;
 			}
         }
 		
-		public virtual string DateText {
+		public virtual Date Date {
 			get {
-				if( m_fb2.GetTitleInfo().Date != null && m_fb2.GetTitleInfo().Date.Text != null ) {
-					m_sDateText = m_fb2.GetTitleInfo().Date.Text;
-				} else {
-					m_sDateText = "Отсутствует";
-				}
-				return m_sDateText;
+				return m_fb2.GetTitleInfo().Date;
 			}
         }
 		
-		public virtual string DateValue {
+		public virtual Keywords Keywords {
 			get {
-				if( m_fb2.GetTitleInfo().Date != null && m_fb2.GetTitleInfo().Date.Value != null ) {
-					m_sDateValue = m_fb2.GetTitleInfo().Date.Value;
-				} else {
-					m_sDateValue = "Отсутствует";
-				}
-				return m_sDateValue;
+				return m_fb2.GetTitleInfo().Keywords;
 			}
         }
 		
-		public virtual string Keywords {
+		public virtual Coverpage Coverpage {
 			get {
-				if( m_fb2.GetTitleInfo().Keywords != null && m_fb2.GetTitleInfo().Keywords.Value != null ) {
-					m_sKeywords = m_fb2.GetTitleInfo().Keywords.Value;
-				} else {
-					m_sKeywords = "Отсутствуют";
-				}
-				return m_sKeywords;
+				return m_fb2.GetTitleInfo().Coverpage;
 			}
         }
 		
-		public virtual string Coverpage {
+		public virtual IList<Author> Translators {
 			get {
-				if( m_fb2.GetTitleInfo().Coverpage != null && m_fb2.GetTitleInfo().Coverpage.Value != null ) {
-					m_sCoverpage = m_fb2.GetTitleInfo().Coverpage.Value;
-				} else {
-					m_sCoverpage = "Отсутствует";
-				}
-				return m_sCoverpage;
+				return m_fb2.GetTitleInfo().Translators;
 			}
         }
+		
+		public virtual IList<Sequence> Sequences {
+			get {
+				return m_fb2.GetTitleInfo().Sequences;
+			}
+        }
+		
 		#endregion
 		
 		#region DocumentInfo
 		public virtual string ID {
 			get {
-				if( m_fb2.GetDocumentInfo().ID != null ) {
-					m_sID = m_fb2.GetDocumentInfo().ID;
-				} else {
-					m_sID = "ID Книги отсутствует";
-				}
-				return m_sID;
+				return m_fb2.GetDocumentInfo().ID;
 			}
         }
 		
 		public virtual string Version {
 			get {
-				if( m_fb2.GetDocumentInfo().Version != null ) {
-					m_sVersion = m_fb2.GetDocumentInfo().Version;
-				} else {
-					m_sVersion = "Отсутствует";
-				}
-				return m_sVersion;
+				return m_fb2.GetDocumentInfo().Version;
 			}
         }
 		
-		public virtual string FB2DateText {
+		public virtual Date FB2Date {
 			get {
-				if( m_fb2.GetDocumentInfo().Date != null && m_fb2.GetDocumentInfo().Date.Text != null ) {
-					m_sFB2DateText = m_fb2.GetDocumentInfo().Date.Text;
-				} else {
-					m_sFB2DateText = "Отсутствует";
-				}
-				return m_sFB2DateText;
+				return m_fb2.GetDocumentInfo().Date;
 			}
         }
 		
-		public virtual string FB2DateValue {
+		public virtual ProgramUsed ProgramUsed {
 			get {
-				if( m_fb2.GetDocumentInfo().Date != null && m_fb2.GetDocumentInfo().Date.Value != null ) {
-					m_sFB2DateValue = m_fb2.GetDocumentInfo().Date.Value;
-				} else {
-					m_sFB2DateValue = "Отсутствует";
-				}
-				return m_sFB2DateValue;
+				return m_fb2.GetDocumentInfo().ProgramUsed;
 			}
         }
 		
-		public virtual string Programms {
+		public virtual SrcOCR SrcOcr {
 			get {
-				if( m_fb2.GetDocumentInfo().ProgramUsed != null && m_fb2.GetDocumentInfo().ProgramUsed.Value != null ) {
-					m_sProgramms = m_fb2.GetDocumentInfo().ProgramUsed.Value;
-				} else {
-					m_sProgramms = "Отсутствует";
-				}
-				return m_sProgramms;
-			}
-        }
-		
-		public virtual string OCR {
-			get {
-				if( m_fb2.GetDocumentInfo().SrcOcr != null && m_fb2.GetDocumentInfo().SrcOcr.Value != null ) {
-					m_sOCR = m_fb2.GetDocumentInfo().SrcOcr.Value;
-				} else {
-					m_sOCR = "Отсутствует";
-				}
-				return m_sOCR;
+				return m_fb2.GetDocumentInfo().SrcOcr;
 			}
         }
 
-		public virtual IList<string> URLs {
+		public virtual IList<string> SrcUrls {
 			get {
-				if( m_fb2.GetDocumentInfo().SrcUrls != null ) {
-					m_URLs = m_fb2.GetDocumentInfo().SrcUrls;
-				} else {
-					m_URLs = null;
-				}
-				return m_URLs;
+				return m_fb2.GetDocumentInfo().SrcUrls;
 			}
         }
 		
 		public virtual IList<Author> FB2Authors {
 			get {
-				if( m_fb2.GetDocumentInfo().Authors != null ) {
-					m_FB2Authors = m_fb2.GetDocumentInfo().Authors;
-				} else {
-					m_FB2Authors = null;
-				}
-				return m_FB2Authors;
+				return m_fb2.GetDocumentInfo().Authors;
 			}
         }
 		#endregion
