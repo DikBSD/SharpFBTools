@@ -45,7 +45,8 @@ namespace SharpFBTools.Tools
         private string m_sMessTitle		= "";
 		private List<string> m_lFilesList	= null; // список всех проверяемых файлов
 		private List<string> m_lDupFiles	= null; // список файлов, имеющих копии, соответственно условию сравнения
-        #endregion
+		private bool m_bCheckValid			= false;	// проверять или нет fb2-файл на валидность
+		#endregion
 		
 		public SFBTpFB2Dublicator()
 		{
@@ -131,7 +132,9 @@ namespace SharpFBTools.Tools
 							m_lDupFiles.Add( sFromFilePath );
 							// формирование списка одинаковых Книг для просмотра
 							FB2BookDataForDup bd = new FB2BookDataForDup( sFromFilePath );
-							string sValid = bd.IsValid;
+							string sValid = "?";
+							if( m_bCheckValid ) sValid = ( bd.IsValid == "" ) ? "Да" : "Нет";
+
 							if( cboxMode.SelectedIndex == 0 ) {
 								string sID = bd.DIID;
 								lvg = new ListViewGroup( sID );
@@ -141,7 +144,7 @@ namespace SharpFBTools.Tools
 								lvi.SubItems.Add( bd.TIAuthors );
 								lvi.SubItems.Add( bd.TIGenres );
 								lvi.SubItems.Add( bd.DIVersion );
-								lvi.SubItems.Add( sValid==""?"Да":"Нет" );
+								lvi.SubItems.Add( sValid );
 								lvi.SubItems.Add( bd.FileLength );
 									
 								// заносим группу в хеш, если она там отсутствует
@@ -424,6 +427,7 @@ namespace SharpFBTools.Tools
 			Init();
 			SetSearchFB2DupStartEnabled( false );
 
+			m_bCheckValid = chBoxIsValid.Checked;
 			m_dtStart = DateTime.Now;
 			tsslblProgress.Text = "Создание списка файлов:";
 			

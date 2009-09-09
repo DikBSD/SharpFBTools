@@ -210,6 +210,7 @@ namespace SharpFBTools.Tools
 			this.cboxMode = new System.Windows.Forms.ComboBox();
 			this.lblMode = new System.Windows.Forms.Label();
 			this.fbdScanDir = new System.Windows.Forms.FolderBrowserDialog();
+			this.chBoxIsValid = new System.Windows.Forms.CheckBox();
 			this.ssProgress.SuspendLayout();
 			this.pProgress.SuspendLayout();
 			this.tcViewFB2Desc.SuspendLayout();
@@ -714,6 +715,7 @@ namespace SharpFBTools.Tools
 			// 
 			// pMode
 			// 
+			this.pMode.Controls.Add(this.chBoxIsValid);
 			this.pMode.Controls.Add(this.cboxMode);
 			this.pMode.Controls.Add(this.lblMode);
 			this.pMode.Dock = System.Windows.Forms.DockStyle.Top;
@@ -736,7 +738,7 @@ namespace SharpFBTools.Tools
 												"Id, но Автор и Название - одинаковые)"});
 			this.cboxMode.Location = new System.Drawing.Point(166, 1);
 			this.cboxMode.Name = "cboxMode";
-			this.cboxMode.Size = new System.Drawing.Size(656, 21);
+			this.cboxMode.Size = new System.Drawing.Size(484, 21);
 			this.cboxMode.TabIndex = 17;
 			this.cboxMode.SelectedIndexChanged += new System.EventHandler(this.CboxModeSelectedIndexChanged);
 			// 
@@ -752,6 +754,18 @@ namespace SharpFBTools.Tools
 			// fbdScanDir
 			// 
 			this.fbdScanDir.Description = "Укажите папку для сканирования с fb2-файлами и архивами";
+			// 
+			// chBoxIsValid
+			// 
+			this.chBoxIsValid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.chBoxIsValid.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.chBoxIsValid.ForeColor = System.Drawing.Color.Navy;
+			this.chBoxIsValid.Location = new System.Drawing.Point(656, 1);
+			this.chBoxIsValid.Name = "chBoxIsValid";
+			this.chBoxIsValid.Size = new System.Drawing.Size(168, 24);
+			this.chBoxIsValid.TabIndex = 18;
+			this.chBoxIsValid.Text = "Провеять на валидность";
+			this.chBoxIsValid.UseVisualStyleBackColor = true;
 			// 
 			// SFBTpFB2Dublicator
 			// 
@@ -784,6 +798,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chBoxIsValid;
 		private System.Windows.Forms.ListView lvPublishInfo;
 		private System.Windows.Forms.ListView lvTitleInfo;
 		private System.Windows.Forms.ListView lvSourceTitleInfo;
