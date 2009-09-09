@@ -291,10 +291,9 @@ namespace Core.FB2Dublicator
 		#endregion
 		
 		#region CustomInfo
-		public virtual string CICustomInfo {
+		public virtual IList<CustomInfo> CICustomInfo {
 			get {
-				CustomInfoData cid = new CustomInfoData( m_fb2bd.CICustomInfo );
-				return "";
+				return m_fb2bd.CICustomInfo;
 			}
         }
 		#endregion

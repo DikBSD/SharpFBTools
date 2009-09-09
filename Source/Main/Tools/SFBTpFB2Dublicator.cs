@@ -23,6 +23,7 @@ using Core.Misc;
 using Core.FB2Dublicator;
 using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
+using Core.FB2.Description.CustomInfo;
 
 using fB2Parser 		= Core.FB2.FB2Parsers.FB2Parser;
 using filesWorker		= Core.FilesWorker.FilesWorker;
@@ -489,6 +490,16 @@ namespace SharpFBTools.Tools
 				msc.ListViewStatus( lwPublishInfo, 3, bd.PICity );
 				msc.ListViewStatus( lwPublishInfo, 4, bd.PIISBN );
 				msc.ListViewStatus( lwPublishInfo, 5, bd.PISequences );
+				// считываем данные CustomInfo
+				lvCustomInfo.Items.Clear();
+				IList<CustomInfo> lcu = bd.CICustomInfo;
+				if( lcu != null ) {
+					foreach( CustomInfo ci in lcu ) {
+						ListViewItem lvi = new ListViewItem( ci.InfoType );
+						lvi.SubItems.Add( ci.Value );
+						lvCustomInfo.Items.Add( lvi );
+					}
+				}
 			}
 		}
 		#endregion

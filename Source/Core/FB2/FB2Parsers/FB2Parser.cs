@@ -9,6 +9,7 @@
 using System;
 using System.Xml;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 using Core.FB2.Common;
 using Core.FB2.Description;
@@ -431,19 +432,27 @@ namespace Core.FB2.FB2Parsers
             #endregion
         }
         
-        public CustomInfo GetCustomInfo()
+        public IList<CustomInfo> GetCustomInfo()
         {
             // извлечение информации по custom-info
         	#region Код
-        	XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:custom-info", m_NsManager );
-            if( xn == null ) {
-                return null;
-            }
-            CustomInfo customInfo = new CustomInfo(xn.InnerText, xn.Attributes["info-type"].Value);
-            if( xn.Attributes["lang"] != null ) {
-                customInfo.Lang = xn.Attributes["lang"].Value;
-            }
-            return customInfo;
+        	IList<CustomInfo> ilCustomInfos = null;
+			
+        	XmlNodeList xmlNodes = m_xmlDoc.SelectNodes( "/fb:FictionBook/fb:description/fb:custom-info", m_NsManager );
+        	if( xmlNodes == null ) return null;
+			
+        	if( xmlNodes.Count > 0  ) {
+				ilCustomInfos = new List<CustomInfo>();
+				foreach( XmlNode node in xmlNodes ) {
+					CustomInfo customInfo = new CustomInfo(node.InnerText, node.Attributes["info-type"].Value);
+					if( node.Attributes["lang"] != null ) {
+						customInfo.Lang = node.Attributes["lang"].Value;
+					}
+					ilCustomInfos.Add( customInfo );
+				}
+			}
+			
+            return ilCustomInfos;
             #endregion
         }
         
@@ -451,12 +460,12 @@ namespace Core.FB2.FB2Parsers
         {
             // парсер description
         	#region Код
-            TitleInfo titleInfo			= GetTitleInfo();
-            TitleInfo srcTitleInfo		= GetSourceTitleInfo();
-            DocumentInfo documentInfo	= GetDocumentInfo();
-            PublishInfo publishInfo		= GetPublishInfo();
-            CustomInfo customInfo		= GetCustomInfo();
-
+            TitleInfo titleInfo				= GetTitleInfo();
+            TitleInfo srcTitleInfo			= GetSourceTitleInfo();
+            DocumentInfo documentInfo		= GetDocumentInfo();
+            PublishInfo publishInfo			= GetPublishInfo();
+			IList<CustomInfo> customInfo	= GetCustomInfo();
+			
             return new Description.Description( titleInfo, srcTitleInfo, documentInfo, publishInfo, customInfo );
             #endregion
         }

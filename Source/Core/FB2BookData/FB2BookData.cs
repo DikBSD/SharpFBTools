@@ -229,11 +229,12 @@ namespace Core.FB2BookData
 		#endregion
 		
 		#region CustomInfo
-		public virtual CustomInfo CICustomInfo {
+		public virtual IList<CustomInfo> CICustomInfo {
 			get {
 				return m_fb2.GetCustomInfo();
 			}
         }
+		
 		#endregion
 		
 		#endregion

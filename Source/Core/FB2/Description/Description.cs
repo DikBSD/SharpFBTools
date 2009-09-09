@@ -7,6 +7,8 @@
  * License: GPL 2.1
  */
 using System;
+using System.Collections.Generic;
+
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.PublishInfo;
@@ -20,11 +22,11 @@ namespace Core.FB2.Description
 	public class Description
 	{
 		#region Закрытые данные класса
-        private TitleInfo.TitleInfo			m_TitleInfo		= null;
-        private TitleInfo.TitleInfo			m_ScrTitleInfo	= null;
-        private DocumentInfo.DocumentInfo	m_DocumentInfo	= null;
-        private PublishInfo.PublishInfo		m_PublishInfo	= null;
-        private CustomInfo.CustomInfo		m_CustomInfo	= null;
+        private TitleInfo.TitleInfo				m_TitleInfo		= null;
+        private TitleInfo.TitleInfo				m_ScrTitleInfo	= null;
+        private DocumentInfo.DocumentInfo		m_DocumentInfo	= null;
+        private PublishInfo.PublishInfo			m_PublishInfo	= null;
+        private IList<CustomInfo.CustomInfo>	m_CustomInfo	= null;
         #endregion
         
 		#region Конструкторы класса
@@ -33,7 +35,7 @@ namespace Core.FB2.Description
 		}
 		public Description( TitleInfo.TitleInfo titleInfo, TitleInfo.TitleInfo scrTitleInfo,
 		                   DocumentInfo.DocumentInfo documentInfo, PublishInfo.PublishInfo publishInfo,
-		                   CustomInfo.CustomInfo customInfo )
+		                   IList<CustomInfo.CustomInfo> customInfo )
         {
             m_TitleInfo		= titleInfo;
             m_ScrTitleInfo	= scrTitleInfo;
@@ -64,10 +66,11 @@ namespace Core.FB2.Description
             set { m_PublishInfo = value; }
         }
 
-        public virtual CustomInfo.CustomInfo CustomInfo {
+        public virtual IList<CustomInfo.CustomInfo> CustomInfo {
             get { return m_CustomInfo; }
             set { m_CustomInfo = value; }
         }
+
 		#endregion
 	}
 }
