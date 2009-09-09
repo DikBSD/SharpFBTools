@@ -118,114 +118,199 @@ namespace Core.FB2Dublicator
 		#endregion
 		
 		#region TitleInfo
-		public virtual string BookTitle {
+		public virtual string TIAnnotation {
 			get {
-				return ( m_fb2bd.BookTitle != null && m_fb2bd.BookTitle.Value != null )
-					? m_fb2bd.BookTitle.Value
+				return ( m_fb2bd.TIAnnotation != null && m_fb2bd.TIAnnotation.Value != null )
+					? m_fb2bd.TIAnnotation.Value
 					: "";
 			}
         }
 		
-		public virtual string Lang {
+		public virtual string TIBookTitle {
 			get {
-				return m_fb2bd.Lang;
-			}
-        }
-		
-		public virtual string SrcLang {
-			get {
-				return m_fb2bd.SrcLang;
-			}
-        }
-		
-		public virtual string Genres {
-			get {
-				return MakeGenresString( m_fb2bd.Genres );
-			}
-        }
-		
-		public virtual string Authors {
-			get {
-				return MakeAutorsString( m_fb2bd.Authors );
-			}
-        }
-		
-		public virtual string Date {
-			get {
-				return MakeDateString( m_fb2bd.Date );
-			}
-        }
-		
-		public virtual string Keywords {
-			get {
-				return ( m_fb2bd.Keywords != null && m_fb2bd.Keywords.Value != null )
-					? m_fb2bd.Keywords.Value
+				return ( m_fb2bd.TIBookTitle != null && m_fb2bd.TIBookTitle.Value != null )
+					? m_fb2bd.TIBookTitle.Value
 					: "";
 			}
         }
 		
-		public virtual string Coverpage {
+		public virtual string TILang {
 			get {
-				return ( m_fb2bd.Coverpage != null && m_fb2bd.Coverpage.Value != null )
-					? m_fb2bd.Coverpage.Value
+				return m_fb2bd.TILang;
+			}
+        }
+		
+		public virtual string TISrcLang {
+			get {
+				return m_fb2bd.TISrcLang;
+			}
+        }
+		
+		public virtual string TIGenres {
+			get {
+				return MakeGenresString( m_fb2bd.TIGenres );
+			}
+        }
+		
+		public virtual string TIAuthors {
+			get {
+				return MakeAutorsString( m_fb2bd.TIAuthors );
+			}
+        }
+		
+		public virtual string TIDate {
+			get {
+				return MakeDateString( m_fb2bd.TIDate );
+			}
+        }
+		
+		public virtual string TIKeywords {
+			get {
+				return ( m_fb2bd.TIKeywords != null && m_fb2bd.TIKeywords.Value != null )
+					? m_fb2bd.TIKeywords.Value
 					: "";
 			}
         }
 		
-		public virtual string Translators {
+		public virtual string TICoverpage {
 			get {
-				return MakeAutorsString( m_fb2bd.Translators );
+				return ( m_fb2bd.TICoverpage != null && m_fb2bd.TICoverpage.Value != null )
+					? m_fb2bd.TICoverpage.Value
+					: "";
 			}
         }
 		
-		public virtual string Sequences {
+		public virtual string TITranslators {
 			get {
-				return MakeSequencesString( m_fb2bd.Sequences );
+				return MakeAutorsString( m_fb2bd.TITranslators );
+			}
+        }
+		
+		public virtual string TISequences {
+			get {
+				return MakeSequencesString( m_fb2bd.TISequences );
+			}
+        }
+		
+		#endregion
+		
+		#region SourceTitleInfo
+		public virtual string STIAnnotation {
+			get {
+				return ( m_fb2bd.STIAnnotation != null && m_fb2bd.STIAnnotation.Value != null )
+					? m_fb2bd.TIAnnotation.Value
+					: "";
+			}
+        }
+		
+		public virtual string STIBookTitle {
+			get {
+				return ( m_fb2bd.STIBookTitle != null && m_fb2bd.STIBookTitle.Value != null )
+					? m_fb2bd.STIBookTitle.Value
+					: "";
+			}
+        }
+		
+		public virtual string STILang {
+			get {
+				return m_fb2bd.STILang;
+			}
+        }
+		
+		public virtual string STISrcLang {
+			get {
+				return m_fb2bd.STISrcLang;
+			}
+        }
+		
+		public virtual string STIGenres {
+			get {
+				return MakeGenresString( m_fb2bd.STIGenres );
+			}
+        }
+		
+		public virtual string STIAuthors {
+			get {
+				return MakeAutorsString( m_fb2bd.STIAuthors );
+			}
+        }
+		
+		public virtual string STIDate {
+			get {
+				return MakeDateString( m_fb2bd.STIDate );
+			}
+        }
+		
+		public virtual string STIKeywords {
+			get {
+				return ( m_fb2bd.STIKeywords != null && m_fb2bd.STIKeywords.Value != null )
+					? m_fb2bd.STIKeywords.Value
+					: "";
+			}
+        }
+		
+		public virtual string STICoverpage {
+			get {
+				return ( m_fb2bd.STICoverpage != null && m_fb2bd.STICoverpage.Value != null )
+					? m_fb2bd.STICoverpage.Value
+					: "";
+			}
+        }
+		
+		public virtual string STITranslators {
+			get {
+				return MakeAutorsString( m_fb2bd.STITranslators );
+			}
+        }
+		
+		public virtual string STISequences {
+			get {
+				return MakeSequencesString( m_fb2bd.STISequences );
 			}
         }
 		
 		#endregion
 		
 		#region DocumentInfo
-		public virtual string ID {
+		public virtual string DIID {
 			get {
-				return m_fb2bd.ID;
+				return m_fb2bd.DIID;
 			}
         }
 		
-		public virtual string Version {
+		public virtual string DIVersion {
 			get {
-				return m_fb2bd.Version;
+				return m_fb2bd.DIVersion;
 			}
         }
 		
-		public virtual string FB2Date {
+		public virtual string DIFB2Date {
 			get {
-				return MakeDateString( m_fb2bd.FB2Date );
+				return MakeDateString( m_fb2bd.DIFB2Date );
 			}
         }
 		
-		public virtual string ProgramUsed {
+		public virtual string DIProgramUsed {
 			get {
-				return ( m_fb2bd.ProgramUsed != null && m_fb2bd.ProgramUsed.Value != null )
-					? m_fb2bd.ProgramUsed.Value
+				return ( m_fb2bd.DIProgramUsed != null && m_fb2bd.DIProgramUsed.Value != null )
+					? m_fb2bd.DIProgramUsed.Value
 					: "";
 			}
         }
 		
-		public virtual string SrcOcr {
+		public virtual string DISrcOcr {
 			get {
-				return ( m_fb2bd.SrcOcr != null && m_fb2bd.SrcOcr.Value != null )
-					? m_fb2bd.SrcOcr.Value
+				return ( m_fb2bd.DISrcOcr != null && m_fb2bd.DISrcOcr.Value != null )
+					? m_fb2bd.DISrcOcr.Value
 					: "";
 			}
         }
 
-		public virtual string SrcUrls {
+		public virtual string DISrcUrls {
 			get {
-				if( m_fb2bd.SrcUrls == null ) return ""; 
+				if( m_fb2bd.DISrcUrls == null ) return ""; 
 				string sURLs = ""; int n = 0;
-				foreach( string s in m_fb2bd.SrcUrls ) {
+				foreach( string s in m_fb2bd.DISrcUrls ) {
 					sURLs += Convert.ToString(++n)+": ";
 					if( s!=null || s.Length!=0 ) sURLs += s;
 					sURLs += "; ";
@@ -234,11 +319,20 @@ namespace Core.FB2Dublicator
 			}
         }
 		
-		public virtual string FB2Authors {
+		public virtual string DIFB2Authors {
 			get {
-				return MakeAutorsString( m_fb2bd.FB2Authors );
+				return MakeAutorsString( m_fb2bd.DIFB2Authors );
 			}
         }
+		
+		public virtual string DIHistory {
+			get {
+				return ( m_fb2bd.DIHistory != null && m_fb2bd.DIHistory.Value != null )
+					? m_fb2bd.DIHistory.Value
+					: "";
+			}
+        }
+		
 		#endregion
 		
 		#region PublishInfo

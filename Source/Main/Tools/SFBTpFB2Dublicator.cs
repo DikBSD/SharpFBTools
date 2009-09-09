@@ -133,14 +133,14 @@ namespace SharpFBTools.Tools
 							FB2BookDataForDup bd = new FB2BookDataForDup( sFromFilePath );
 							string sValid = bd.IsValid;
 							if( cboxMode.SelectedIndex == 0 ) {
-								string sID = bd.ID;
+								string sID = bd.DIID;
 								lvg = new ListViewGroup( sID );
 
 								ListViewItem lvi = new ListViewItem( sFromFilePath );
-								lvi.SubItems.Add( bd.BookTitle );
-								lvi.SubItems.Add( bd.Authors );
-								lvi.SubItems.Add( bd.Genres );
-								lvi.SubItems.Add( bd.Version );
+								lvi.SubItems.Add( bd.TIBookTitle );
+								lvi.SubItems.Add( bd.TIAuthors );
+								lvi.SubItems.Add( bd.TIGenres );
+								lvi.SubItems.Add( bd.DIVersion );
 								lvi.SubItems.Add( sValid==""?"Да":"Нет" );
 								lvi.SubItems.Add( bd.FileLength );
 									
@@ -154,14 +154,14 @@ namespace SharpFBTools.Tools
 								lvi.Group = (ListViewGroup)htBookGroups[sID];
 								lvResult.Items.Add( lvi );
 							} else {
-								string sBookTitle = bd.BookTitle;
+								string sBookTitle = bd.TIBookTitle;
 								lvg = new ListViewGroup( sBookTitle );
 
 								ListViewItem lvi = new ListViewItem( sFromFilePath );
-								lvi.SubItems.Add( bd.Authors );
-								lvi.SubItems.Add( bd.Genres );
-								lvi.SubItems.Add( bd.ID );
-								lvi.SubItems.Add( bd.Version );
+								lvi.SubItems.Add( bd.TIAuthors );
+								lvi.SubItems.Add( bd.TIGenres );
+								lvi.SubItems.Add( bd.DIID );
+								lvi.SubItems.Add( bd.DIVersion );
 								lvi.SubItems.Add( sValid==""?"Да":"Нет" );
 								lvi.SubItems.Add( bd.FileLength );
 									
@@ -459,37 +459,49 @@ namespace SharpFBTools.Tools
 		void LvResultSelectedIndexChanged(object sender, EventArgs e)
 		{
 			// занесение ошибки валидации в бокс
+			#region Код
 			ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
 			if( si.Count > 0 ) {
 				// пропускаем ситуацию, когда курсор переходит от одной строки к другой - нет выбранного item'а
 				Misc				msc	= new Misc();
 				FB2BookDataForDup	bd	= new FB2BookDataForDup( si[0].Text );
 				// считываем данные TitleInfo
-				msc.ListViewStatus( lwTitleInfo, 0, bd.BookTitle );
-				msc.ListViewStatus( lwTitleInfo, 1, bd.Genres );
-				msc.ListViewStatus( lwTitleInfo, 2, bd.Lang );
-				msc.ListViewStatus( lwTitleInfo, 3, bd.SrcLang );
-				msc.ListViewStatus( lwTitleInfo, 4, bd.Authors );
-				msc.ListViewStatus( lwTitleInfo, 5, bd.Date );
-				msc.ListViewStatus( lwTitleInfo, 6, bd.Keywords );
-				msc.ListViewStatus( lwTitleInfo, 7, bd.Coverpage );
-				msc.ListViewStatus( lwTitleInfo, 8, bd.Translators );
-				msc.ListViewStatus( lwTitleInfo, 9, bd.Sequences );
+				msc.ListViewStatus( lvTitleInfo, 0, bd.TIBookTitle );
+				msc.ListViewStatus( lvTitleInfo, 1, bd.TIGenres );
+				msc.ListViewStatus( lvTitleInfo, 2, bd.TILang );
+				msc.ListViewStatus( lvTitleInfo, 3, bd.TISrcLang );
+				msc.ListViewStatus( lvTitleInfo, 4, bd.TIAuthors );
+				msc.ListViewStatus( lvTitleInfo, 5, bd.TIDate );
+				msc.ListViewStatus( lvTitleInfo, 6, bd.TIKeywords );
+				msc.ListViewStatus( lvTitleInfo, 7, bd.TICoverpage );
+				msc.ListViewStatus( lvTitleInfo, 8, bd.TITranslators );
+				msc.ListViewStatus( lvTitleInfo, 9, bd.TISequences );
+				// считываем данные SourceTitleInfo
+				msc.ListViewStatus( lvSourceTitleInfo, 0, bd.STIBookTitle );
+				msc.ListViewStatus( lvSourceTitleInfo, 1, bd.STIGenres );
+				msc.ListViewStatus( lvSourceTitleInfo, 2, bd.STILang );
+				msc.ListViewStatus( lvSourceTitleInfo, 3, bd.STISrcLang );
+				msc.ListViewStatus( lvSourceTitleInfo, 4, bd.STIAuthors );
+				msc.ListViewStatus( lvSourceTitleInfo, 5, bd.STIDate );
+				msc.ListViewStatus( lvSourceTitleInfo, 6, bd.STIKeywords );
+				msc.ListViewStatus( lvSourceTitleInfo, 7, bd.STICoverpage );
+				msc.ListViewStatus( lvSourceTitleInfo, 8, bd.STITranslators );
+				msc.ListViewStatus( lvSourceTitleInfo, 9, bd.STISequences );
 				// считываем данные DocumentInfo
-				msc.ListViewStatus( lvDocumentInfo, 0, bd.ID );
-				msc.ListViewStatus( lvDocumentInfo, 1, bd.Version );
-				msc.ListViewStatus( lvDocumentInfo, 2, bd.FB2Date );
-				msc.ListViewStatus( lvDocumentInfo, 3, bd.ProgramUsed );
-				msc.ListViewStatus( lvDocumentInfo, 4, bd.SrcOcr );
-				msc.ListViewStatus( lvDocumentInfo, 5, bd.SrcUrls );
-				msc.ListViewStatus( lvDocumentInfo, 6, bd.FB2Authors );
+				msc.ListViewStatus( lvDocumentInfo, 0, bd.DIID );
+				msc.ListViewStatus( lvDocumentInfo, 1, bd.DIVersion );
+				msc.ListViewStatus( lvDocumentInfo, 2, bd.DIFB2Date );
+				msc.ListViewStatus( lvDocumentInfo, 3, bd.DIProgramUsed );
+				msc.ListViewStatus( lvDocumentInfo, 4, bd.DISrcOcr );
+				msc.ListViewStatus( lvDocumentInfo, 5, bd.DISrcUrls );
+				msc.ListViewStatus( lvDocumentInfo, 6, bd.DIFB2Authors );
 				// считываем данные PublishInfo
-				msc.ListViewStatus( lwPublishInfo, 0, bd.PIBookName );
-				msc.ListViewStatus( lwPublishInfo, 1, bd.PIPublisher );
-				msc.ListViewStatus( lwPublishInfo, 2, bd.PIYear );
-				msc.ListViewStatus( lwPublishInfo, 3, bd.PICity );
-				msc.ListViewStatus( lwPublishInfo, 4, bd.PIISBN );
-				msc.ListViewStatus( lwPublishInfo, 5, bd.PISequences );
+				msc.ListViewStatus( lvPublishInfo, 0, bd.PIBookName );
+				msc.ListViewStatus( lvPublishInfo, 1, bd.PIPublisher );
+				msc.ListViewStatus( lvPublishInfo, 2, bd.PIYear );
+				msc.ListViewStatus( lvPublishInfo, 3, bd.PICity );
+				msc.ListViewStatus( lvPublishInfo, 4, bd.PIISBN );
+				msc.ListViewStatus( lvPublishInfo, 5, bd.PISequences );
 				// считываем данные CustomInfo
 				lvCustomInfo.Items.Clear();
 				IList<CustomInfo> lcu = bd.CICustomInfo;
@@ -500,7 +512,12 @@ namespace SharpFBTools.Tools
 						lvCustomInfo.Items.Add( lvi );
 					}
 				}
+				// считываем данные History
+				rtbHistory.Clear(); rtbHistory.Text = bd.DIHistory;
+				// считываем данные Annotation
+				rtbAnnotation.Clear(); rtbAnnotation.Text = bd.TIAnnotation;
 			}
+			#endregion
 		}
 		#endregion
 		

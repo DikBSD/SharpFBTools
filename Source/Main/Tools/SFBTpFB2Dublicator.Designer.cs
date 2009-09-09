@@ -98,10 +98,10 @@ namespace SharpFBTools.Tools
 									""}, -1, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
 			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
 									"ID Книги",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold));
+									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Версия fb2-файла",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold));
+									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Дата создания: Текст (Значение)",
 									""}, -1);
@@ -163,11 +163,11 @@ namespace SharpFBTools.Tools
 			this.pProgress = new System.Windows.Forms.Panel();
 			this.tcViewFB2Desc = new System.Windows.Forms.TabControl();
 			this.tpTitleInfo = new System.Windows.Forms.TabPage();
-			this.lwTitleInfo = new System.Windows.Forms.ListView();
+			this.lvTitleInfo = new System.Windows.Forms.ListView();
 			this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader10 = new System.Windows.Forms.ColumnHeader();
 			this.tpSourceTitleInfo = new System.Windows.Forms.TabPage();
-			this.lwSourceTitleInfo = new System.Windows.Forms.ListView();
+			this.lvSourceTitleInfo = new System.Windows.Forms.ListView();
 			this.columnHeader17 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader18 = new System.Windows.Forms.ColumnHeader();
 			this.tpDocumentInfo = new System.Windows.Forms.TabPage();
@@ -175,7 +175,7 @@ namespace SharpFBTools.Tools
 			this.columnHeader15 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader16 = new System.Windows.Forms.ColumnHeader();
 			this.tpPublishInfo = new System.Windows.Forms.TabPage();
-			this.lwPublishInfo = new System.Windows.Forms.ListView();
+			this.lvPublishInfo = new System.Windows.Forms.ListView();
 			this.columnHeader13 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader14 = new System.Windows.Forms.ColumnHeader();
 			this.tpCustomInfo = new System.Windows.Forms.TabPage();
@@ -275,7 +275,7 @@ namespace SharpFBTools.Tools
 			// 
 			// tpTitleInfo
 			// 
-			this.tpTitleInfo.Controls.Add(this.lwTitleInfo);
+			this.tpTitleInfo.Controls.Add(this.lvTitleInfo);
 			this.tpTitleInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpTitleInfo.Name = "tpTitleInfo";
 			this.tpTitleInfo.Size = new System.Drawing.Size(524, 187);
@@ -283,15 +283,15 @@ namespace SharpFBTools.Tools
 			this.tpTitleInfo.Text = "Title Info";
 			this.tpTitleInfo.UseVisualStyleBackColor = true;
 			// 
-			// lwTitleInfo
+			// lvTitleInfo
 			// 
-			this.lwTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.lvTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.columnHeader9,
 									this.columnHeader10});
-			this.lwTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lwTitleInfo.FullRowSelect = true;
-			this.lwTitleInfo.GridLines = true;
-			this.lwTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+			this.lvTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvTitleInfo.FullRowSelect = true;
+			this.lvTitleInfo.GridLines = true;
+			this.lvTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem1,
 									listViewItem2,
 									listViewItem3,
@@ -302,12 +302,12 @@ namespace SharpFBTools.Tools
 									listViewItem8,
 									listViewItem9,
 									listViewItem10});
-			this.lwTitleInfo.Location = new System.Drawing.Point(0, 0);
-			this.lwTitleInfo.Name = "lwTitleInfo";
-			this.lwTitleInfo.Size = new System.Drawing.Size(524, 187);
-			this.lwTitleInfo.TabIndex = 11;
-			this.lwTitleInfo.UseCompatibleStateImageBehavior = false;
-			this.lwTitleInfo.View = System.Windows.Forms.View.Details;
+			this.lvTitleInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvTitleInfo.Name = "lvTitleInfo";
+			this.lvTitleInfo.Size = new System.Drawing.Size(524, 187);
+			this.lvTitleInfo.TabIndex = 11;
+			this.lvTitleInfo.UseCompatibleStateImageBehavior = false;
+			this.lvTitleInfo.View = System.Windows.Forms.View.Details;
 			// 
 			// columnHeader9
 			// 
@@ -321,7 +321,7 @@ namespace SharpFBTools.Tools
 			// 
 			// tpSourceTitleInfo
 			// 
-			this.tpSourceTitleInfo.Controls.Add(this.lwSourceTitleInfo);
+			this.tpSourceTitleInfo.Controls.Add(this.lvSourceTitleInfo);
 			this.tpSourceTitleInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpSourceTitleInfo.Name = "tpSourceTitleInfo";
 			this.tpSourceTitleInfo.Size = new System.Drawing.Size(524, 187);
@@ -329,15 +329,15 @@ namespace SharpFBTools.Tools
 			this.tpSourceTitleInfo.Text = "Source Title Info";
 			this.tpSourceTitleInfo.UseVisualStyleBackColor = true;
 			// 
-			// lwSourceTitleInfo
+			// lvSourceTitleInfo
 			// 
-			this.lwSourceTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.lvSourceTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.columnHeader17,
 									this.columnHeader18});
-			this.lwSourceTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lwSourceTitleInfo.FullRowSelect = true;
-			this.lwSourceTitleInfo.GridLines = true;
-			this.lwSourceTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+			this.lvSourceTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvSourceTitleInfo.FullRowSelect = true;
+			this.lvSourceTitleInfo.GridLines = true;
+			this.lvSourceTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem11,
 									listViewItem12,
 									listViewItem13,
@@ -348,12 +348,12 @@ namespace SharpFBTools.Tools
 									listViewItem18,
 									listViewItem19,
 									listViewItem20});
-			this.lwSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
-			this.lwSourceTitleInfo.Name = "lwSourceTitleInfo";
-			this.lwSourceTitleInfo.Size = new System.Drawing.Size(524, 187);
-			this.lwSourceTitleInfo.TabIndex = 12;
-			this.lwSourceTitleInfo.UseCompatibleStateImageBehavior = false;
-			this.lwSourceTitleInfo.View = System.Windows.Forms.View.Details;
+			this.lvSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvSourceTitleInfo.Name = "lvSourceTitleInfo";
+			this.lvSourceTitleInfo.Size = new System.Drawing.Size(524, 187);
+			this.lvSourceTitleInfo.TabIndex = 12;
+			this.lvSourceTitleInfo.UseCompatibleStateImageBehavior = false;
+			this.lvSourceTitleInfo.View = System.Windows.Forms.View.Details;
 			// 
 			// columnHeader17
 			// 
@@ -410,7 +410,7 @@ namespace SharpFBTools.Tools
 			// 
 			// tpPublishInfo
 			// 
-			this.tpPublishInfo.Controls.Add(this.lwPublishInfo);
+			this.tpPublishInfo.Controls.Add(this.lvPublishInfo);
 			this.tpPublishInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpPublishInfo.Name = "tpPublishInfo";
 			this.tpPublishInfo.Size = new System.Drawing.Size(524, 187);
@@ -418,27 +418,27 @@ namespace SharpFBTools.Tools
 			this.tpPublishInfo.Text = "Publish Info";
 			this.tpPublishInfo.UseVisualStyleBackColor = true;
 			// 
-			// lwPublishInfo
+			// lvPublishInfo
 			// 
-			this.lwPublishInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.lvPublishInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.columnHeader13,
 									this.columnHeader14});
-			this.lwPublishInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lwPublishInfo.FullRowSelect = true;
-			this.lwPublishInfo.GridLines = true;
-			this.lwPublishInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+			this.lvPublishInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvPublishInfo.FullRowSelect = true;
+			this.lvPublishInfo.GridLines = true;
+			this.lvPublishInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 									listViewItem28,
 									listViewItem29,
 									listViewItem30,
 									listViewItem31,
 									listViewItem32,
 									listViewItem33});
-			this.lwPublishInfo.Location = new System.Drawing.Point(0, 0);
-			this.lwPublishInfo.Name = "lwPublishInfo";
-			this.lwPublishInfo.Size = new System.Drawing.Size(524, 187);
-			this.lwPublishInfo.TabIndex = 12;
-			this.lwPublishInfo.UseCompatibleStateImageBehavior = false;
-			this.lwPublishInfo.View = System.Windows.Forms.View.Details;
+			this.lvPublishInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvPublishInfo.Name = "lvPublishInfo";
+			this.lvPublishInfo.Size = new System.Drawing.Size(524, 187);
+			this.lvPublishInfo.TabIndex = 12;
+			this.lvPublishInfo.UseCompatibleStateImageBehavior = false;
+			this.lvPublishInfo.View = System.Windows.Forms.View.Details;
 			// 
 			// columnHeader13
 			// 
@@ -784,6 +784,9 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ListView lvPublishInfo;
+		private System.Windows.Forms.ListView lvTitleInfo;
+		private System.Windows.Forms.ListView lvSourceTitleInfo;
 		private System.Windows.Forms.ListView lvResult;
 		private System.Windows.Forms.ToolStripButton tsbtnSearchFb2DupStop;
 		private System.Windows.Forms.Panel pSearchFBDup2Dirs;
@@ -791,17 +794,14 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.ColumnHeader columnHeader19;
 		private System.Windows.Forms.ColumnHeader columnHeader18;
 		private System.Windows.Forms.ColumnHeader columnHeader17;
-		private System.Windows.Forms.ListView lwSourceTitleInfo;
 		private System.Windows.Forms.ColumnHeader columnHeader16;
 		private System.Windows.Forms.ColumnHeader columnHeader15;
 		private System.Windows.Forms.ListView lvDocumentInfo;
 		private System.Windows.Forms.ColumnHeader columnHeader14;
 		private System.Windows.Forms.ColumnHeader columnHeader13;
-		private System.Windows.Forms.ListView lwPublishInfo;
 		private System.Windows.Forms.ColumnHeader columnHeader12;
 		private System.Windows.Forms.ColumnHeader columnHeader11;
 		private System.Windows.Forms.ListView lvCustomInfo;
-		private System.Windows.Forms.ListView lwTitleInfo;
 		private System.Windows.Forms.ColumnHeader columnHeader10;
 		private System.Windows.Forms.ColumnHeader columnHeader9;
 		private System.Windows.Forms.RichTextBox rtbAnnotation;

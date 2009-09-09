@@ -37,7 +37,15 @@ namespace Core.FB2BookData
 		#region Свойства класса
 		
 		#region TitleInfo
-		public virtual BookTitle BookTitle {
+		public virtual Annotation TIAnnotation {
+			get {
+				return ( m_fb2.GetTitleInfo() != null )
+					? m_fb2.GetTitleInfo().Annotation
+					: null;
+			}
+        }
+		
+		public virtual BookTitle TIBookTitle {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().BookTitle
@@ -45,7 +53,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual string Lang {
+		public virtual string TILang {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().Lang
@@ -53,7 +61,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual string SrcLang {
+		public virtual string TISrcLang {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().SrcLang
@@ -61,7 +69,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual IList<Genre> Genres {
+		public virtual IList<Genre> TIGenres {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().Genres
@@ -69,7 +77,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual IList<Author> Authors {
+		public virtual IList<Author> TIAuthors {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().Authors
@@ -77,7 +85,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual Date Date {
+		public virtual Date TIDate {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().Date
@@ -85,7 +93,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual Keywords Keywords {
+		public virtual Keywords TIKeywords {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().Keywords
@@ -93,7 +101,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual Coverpage Coverpage {
+		public virtual Coverpage TICoverpage {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().Coverpage
@@ -101,7 +109,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual IList<Author> Translators {
+		public virtual IList<Author> TITranslators {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().Translators
@@ -109,7 +117,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual IList<Sequence> Sequences {
+		public virtual IList<Sequence> TISequences {
 			get {
 				return ( m_fb2.GetTitleInfo() != null )
 					? m_fb2.GetTitleInfo().Sequences
@@ -119,8 +127,99 @@ namespace Core.FB2BookData
 		
 		#endregion
 		
+		#region SourceTitleInfo
+		public virtual Annotation STIAnnotation {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().Annotation
+					: null;
+			}
+        }
+		
+		public virtual BookTitle STIBookTitle {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().BookTitle
+					: null;
+			}
+        }
+		
+		public virtual string STILang {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().Lang
+					: null;
+			}
+        }
+		
+		public virtual string STISrcLang {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().SrcLang
+					: null;
+			}
+        }
+		
+		public virtual IList<Genre> STIGenres {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().Genres
+					: null;
+			}
+        }
+		
+		public virtual IList<Author> STIAuthors {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().Authors
+					: null;
+			}
+        }
+		
+		public virtual Date STIDate {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().Date
+					: null;
+			}
+        }
+		
+		public virtual Keywords STIKeywords {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().Keywords
+					: null;
+			}
+        }
+		
+		public virtual Coverpage STICoverpage {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().Coverpage
+					: null;
+			}
+        }
+		
+		public virtual IList<Author> STITranslators {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().Translators
+					: null;
+			}
+        }
+		
+		public virtual IList<Sequence> STISequences {
+			get {
+				return ( m_fb2.GetSourceTitleInfo() != null )
+					? m_fb2.GetSourceTitleInfo().Sequences
+					: null;
+			}
+        }
+		
+		#endregion
+		
 		#region DocumentInfo
-		public virtual string ID {
+		public virtual string DIID {
 			get {
 				return ( m_fb2.GetDocumentInfo() != null )
 					? m_fb2.GetDocumentInfo().ID
@@ -128,7 +227,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual string Version {
+		public virtual string DIVersion {
 			get {
 				return ( m_fb2.GetDocumentInfo() != null )
 					? m_fb2.GetDocumentInfo().Version
@@ -136,7 +235,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual Date FB2Date {
+		public virtual Date DIFB2Date {
 			get {
 				return ( m_fb2.GetDocumentInfo() != null )
 					? m_fb2.GetDocumentInfo().Date
@@ -144,7 +243,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual ProgramUsed ProgramUsed {
+		public virtual ProgramUsed DIProgramUsed {
 			get {
 				return ( m_fb2.GetDocumentInfo() != null )
 					? m_fb2.GetDocumentInfo().ProgramUsed
@@ -152,7 +251,7 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual SrcOCR SrcOcr {
+		public virtual SrcOCR DISrcOcr {
 			get {
 				return ( m_fb2.GetDocumentInfo() != null )
 					? m_fb2.GetDocumentInfo().SrcOcr
@@ -160,7 +259,7 @@ namespace Core.FB2BookData
 			}
         }
 
-		public virtual IList<string> SrcUrls {
+		public virtual IList<string> DISrcUrls {
 			get {
 				return ( m_fb2.GetDocumentInfo() != null )
 					? m_fb2.GetDocumentInfo().SrcUrls
@@ -168,13 +267,22 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual IList<Author> FB2Authors {
+		public virtual IList<Author> DIFB2Authors {
 			get {
 				return ( m_fb2.GetDocumentInfo() != null )
 					? m_fb2.GetDocumentInfo().Authors
 					: null;
 			}
         }
+		
+		public virtual History DIHistory {
+			get {
+				return ( m_fb2.GetDocumentInfo() != null )
+					? m_fb2.GetDocumentInfo().History
+					: null;
+			}
+        }
+		
 		#endregion
 		
 		#region PublishInfo
