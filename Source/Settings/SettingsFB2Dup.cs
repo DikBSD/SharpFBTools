@@ -16,14 +16,20 @@ namespace Settings
 	public class SettingsFB2Dup
 	{
 		#region Закрытые статические данные класса
-		// рабочие папки и данные для Полной Сортировки
-		private static string m_sFB2DupScanDir = "";
+		private static string m_sDuplicatorHelpPath = Settings.GetProgDir()+"\\Help\\FB2DuplicatorHelp.rtf";
+		private static string m_sFB2DupScanDir = ""; // рабочие папки и данные для Полной Сортировки
 		#endregion
 		
 		public SettingsFB2Dup()
 		{
 		}
-			
+		
+		#region Открытые статические методы класса
+		public static string GetDuplicatorHelpPath() {
+			return m_sDuplicatorHelpPath;
+		}
+		#endregion
+		
 		#region Открытые статические свойства класса
 		public static string FMDataScanDir {
 			get { return m_sFB2DupScanDir; }

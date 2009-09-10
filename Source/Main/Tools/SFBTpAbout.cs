@@ -48,6 +48,7 @@ namespace SharpFBTools.Tools
 			string sFB2ValidatorHelpPath	= Settings.SettingsValidator.GetFB2ValidatorHelpPath();
 			string sFileManagerHelpPath		= Settings.SettingsFM.GetFileManagerHelpPath();
 			string sArchiveManagerHelpPath	= Settings.SettingsAM.GetArchiveManagerHelpPath();
+			string sDuplicatorHelpPath		= Settings.SettingsFB2Dup.GetDuplicatorHelpPath();
 			switch( cboxInstrument.SelectedIndex ) {
 				case 0:
 					if( File.Exists( sFB2ValidatorHelpPath ) ) {
@@ -68,6 +69,13 @@ namespace SharpFBTools.Tools
 						rtboxHelp.LoadFile( sArchiveManagerHelpPath );
 					} else {
 						rtboxHelp.Text = "Не найден файл Справки Менеджера Архивов: \""+sArchiveManagerHelpPath+"\"";
+					}
+					break;
+				case 4:
+					if( File.Exists( sDuplicatorHelpPath ) ) {
+						rtboxHelp.LoadFile( sDuplicatorHelpPath );
+					} else {
+						rtboxHelp.Text = "Не найден файл Справки Дубликатора fb2-файлов: \""+sDuplicatorHelpPath+"\"";
 					}
 					break;
 			}
