@@ -146,6 +146,9 @@ namespace SharpFBTools.Tools
 								lvi.SubItems.Add( bd.DIVersion );
 								lvi.SubItems.Add( sValid );
 								lvi.SubItems.Add( bd.FileLength );
+								
+								lvi.SubItems.Add( bd.FileCreationTime );
+								lvi.SubItems.Add( bd.FileLastWriteTime );
 									
 								// заносим группу в хеш, если она там отсутствует
 								if( AddBookGroupInHashTable( htBookGroups, lvg ) ) {
@@ -167,6 +170,9 @@ namespace SharpFBTools.Tools
 								lvi.SubItems.Add( bd.DIVersion );
 								lvi.SubItems.Add( sValid==""?"Да":"Нет" );
 								lvi.SubItems.Add( bd.FileLength );
+								
+								lvi.SubItems.Add( bd.FileCreationTime );
+								lvi.SubItems.Add( bd.FileLastWriteTime );
 									
 								// заносим группу в хеш, если она там отсутствует
 								if( AddBookGroupInHashTable( htBookGroups, lvg ) ) {
@@ -458,6 +464,9 @@ namespace SharpFBTools.Tools
 			lvResult.Columns.Add( "Версия", 50 );
 			lvResult.Columns.Add( "Валидность", 50, HorizontalAlignment.Center );
 			lvResult.Columns.Add( "Размер", 90, HorizontalAlignment.Center );
+			
+			lvResult.Columns.Add( "Дата создания", 120 );
+			lvResult.Columns.Add( "Последнее изменение", 120 );
 		}
 		
 		void LvResultSelectedIndexChanged(object sender, EventArgs e)

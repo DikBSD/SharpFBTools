@@ -109,6 +109,22 @@ namespace Core.FB2Dublicator
 			}
         }
 		
+		// время создания файла
+		public virtual string FileCreationTime {
+			get {
+				FileInfo fi = new FileInfo( m_sFromFilePath );
+				return fi.CreationTime.ToString();
+			}
+        }
+		
+		// время последней записи в файл
+		public virtual string FileLastWriteTime {
+			get {
+				FileInfo fi = new FileInfo( m_sFromFilePath );
+				return fi.LastWriteTime.ToString();
+			}
+        }
+		
 		public virtual string IsValid {
 			get {
 				FB2Validator fv2Validator = new FB2Validator();
