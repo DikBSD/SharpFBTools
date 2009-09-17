@@ -207,10 +207,10 @@ namespace SharpFBTools.Tools
 			this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
 			this.pMode = new System.Windows.Forms.Panel();
+			this.chBoxIsValid = new System.Windows.Forms.CheckBox();
 			this.cboxMode = new System.Windows.Forms.ComboBox();
 			this.lblMode = new System.Windows.Forms.Label();
 			this.fbdScanDir = new System.Windows.Forms.FolderBrowserDialog();
-			this.chBoxIsValid = new System.Windows.Forms.CheckBox();
 			this.ssProgress.SuspendLayout();
 			this.pProgress.SuspendLayout();
 			this.tcViewFB2Desc.SuspendLayout();
@@ -724,6 +724,18 @@ namespace SharpFBTools.Tools
 			this.pMode.Size = new System.Drawing.Size(828, 26);
 			this.pMode.TabIndex = 37;
 			// 
+			// chBoxIsValid
+			// 
+			this.chBoxIsValid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.chBoxIsValid.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.chBoxIsValid.ForeColor = System.Drawing.Color.Navy;
+			this.chBoxIsValid.Location = new System.Drawing.Point(656, 1);
+			this.chBoxIsValid.Name = "chBoxIsValid";
+			this.chBoxIsValid.Size = new System.Drawing.Size(168, 24);
+			this.chBoxIsValid.TabIndex = 18;
+			this.chBoxIsValid.Text = "Проверять на валидность";
+			this.chBoxIsValid.UseVisualStyleBackColor = true;
+			// 
 			// cboxMode
 			// 
 			this.cboxMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -754,18 +766,6 @@ namespace SharpFBTools.Tools
 			// fbdScanDir
 			// 
 			this.fbdScanDir.Description = "Укажите папку для сканирования с fb2-файлами и архивами";
-			// 
-			// chBoxIsValid
-			// 
-			this.chBoxIsValid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.chBoxIsValid.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.chBoxIsValid.ForeColor = System.Drawing.Color.Navy;
-			this.chBoxIsValid.Location = new System.Drawing.Point(656, 1);
-			this.chBoxIsValid.Name = "chBoxIsValid";
-			this.chBoxIsValid.Size = new System.Drawing.Size(168, 24);
-			this.chBoxIsValid.TabIndex = 18;
-			this.chBoxIsValid.Text = "Провеять на валидность";
-			this.chBoxIsValid.UseVisualStyleBackColor = true;
 			// 
 			// SFBTpFB2Dublicator
 			// 
