@@ -111,7 +111,7 @@ namespace Core.FB2Dublicator
 			else if( ( bt1.Value == null && bt2.Value != null ) || ( bt1.Value != null && bt2.Value == null ) )
 				return false;
 			
-			return bt1.Value == bt2.Value;
+			return IsStringsEquality( bt1.Value, bt2.Value );
         }
 		
 		/* I. Алгоритм:
