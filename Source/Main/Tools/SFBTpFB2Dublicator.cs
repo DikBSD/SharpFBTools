@@ -76,16 +76,15 @@ namespace SharpFBTools.Tools
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			// поиск одинаковых fb2-файлов
 			List<string> lDirList = new List<string>();
-			int nAllFilesCount = 0; //  число всех файлов во всех подпапках папки сканирования
 			if( !m_bScanSubDirs ) {
 				// сканировать только указанную папку
 				lDirList.Add( m_sSource );
 				lvFilesCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				nAllFilesCount = filesWorker.DirsParser( m_sSource, lvFilesCount, ref lDirList, false );
+				m_sv.AllFiles = DirsParser( m_sSource, lvFilesCount, ref lDirList, false );
 			}
-
+			MessageBox.Show( m_sv.AllFiles.ToString(), m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 			// Проверить флаг на остановку процесса 
 			if( ( m_bw.CancellationPending == true ) ) {
 				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
@@ -93,7 +92,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
-			if( nAllFilesCount == 0 ) {
+			if( m_sv.AllFiles == 0 ) {
 				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				tsslblProgress.Text = Settings.Settings.GetReady();
 				SetSearchFB2DupStartEnabled( true );
@@ -101,19 +100,18 @@ namespace SharpFBTools.Tools
 			}
 			
 			tsslblProgress.Text		= "Хеширование fb2-файлов:";
-			tsProgressBar.Maximum	= nAllFilesCount;
+			tsProgressBar.Maximum	= m_sv.AllFiles;
 			tsProgressBar.Value		= 0;
 			
 			// Сравнение fb2-файлов
 			lvResult.BeginUpdate();
 			Hashtable htBookGroups = new Hashtable(); // хеш-таблица групп одинаковых книг
 			ListViewGroup lvg = null; // группа одинаковых книг
-           	int nAllGroups = 0, nAllFB2InGroups = 0;
            	if( cboxMode.SelectedIndex == 0 ) {
            		MakeColumns( 0 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
            		Hashtable htFB2ForID = FilesHashForIDParser( m_bw, e, lDirList );
            		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
-           		tsProgressBar.Maximum	= htFB2ForID.Count;
+           		tsProgressBar.Maximum	= htFB2ForID.Count+1;
 				tsProgressBar.Value		= 0;
            		foreach( FB2FilesData fb2f in htFB2ForID.Values ) {
            			// Проверить флаг на остановку процесса 
@@ -122,10 +120,10 @@ namespace SharpFBTools.Tools
 						return;
 					}
 	           		if( fb2f.Count > 1 ) {
-     	      			++nAllGroups; // число групп одинаковых книг
+     	      			++m_sv.Group; // число групп одинаковых книг
      	      			IList<string> ilPath = fb2f.GetPathList();
         	   			for( int i=0; i!=fb2f.Count; ++i ) {
-           					++nAllFB2InGroups;	// число книг во всех группах одинаковых книг
+           					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
            					lvg = new ListViewGroup( fb2f.Id );
            					ListViewItem lvi = new ListViewItem( ilPath[i] );
            					lvi.SubItems.Add( MakeBookTitleString( fb2f.GetBookData( ilPath[i] ).BookTitle ) );
@@ -150,7 +148,7 @@ namespace SharpFBTools.Tools
            		MakeColumns( 1 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
            		Hashtable htFB2ForABT = FilesHashForABTParser( m_bw, e, lDirList );
            		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
-           		tsProgressBar.Maximum	= htFB2ForABT.Count;
+           		tsProgressBar.Maximum	= htFB2ForABT.Count+1;
 				tsProgressBar.Value		= 0;
            		foreach( FB2FilesData fb2f in htFB2ForABT.Values ) {
            			// Проверить флаг на остановку процесса 
@@ -159,10 +157,10 @@ namespace SharpFBTools.Tools
 						return;
 					}
            			if( fb2f.Count > 1 ) {
-           				++nAllGroups; // число групп одинаковых книг
+           				++m_sv.Group; // число групп одинаковых книг
 	           			IList<string> ilPath = fb2f.GetPathList();
            				for( int i=0; i!=fb2f.Count; ++i ) {
-           					++nAllFB2InGroups;	// число книг во всех группах одинаковых книг
+           					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
 							lvg = new ListViewGroup( fb2f.BookTitleForKey );
 							ListViewItem lvi = new ListViewItem( ilPath[i] );
 							lvi.SubItems.Add( MakeAutorsString( fb2f.GetBookData( ilPath[i] ).Authors ) );
@@ -184,10 +182,6 @@ namespace SharpFBTools.Tools
            			m_bw.ReportProgress( 0 );
            		}
            	}
-           	Misc msc = new Misc();
-           	msc.ListViewStatus( lvFilesCount, 5, nAllGroups );		// число групп одинаковых книг
-			msc.ListViewStatus( lvFilesCount, 6, nAllFB2InGroups );	// число книг во всех группах одинаковых книг
-
 			lDirList.Clear();
 		}
 		
@@ -350,7 +344,6 @@ namespace SharpFBTools.Tools
 						return htFB2ForID;
 					}
 					
-					++m_sv.AllFiles;
 					string sPath	= s + "\\" + fiNextFile.Name;
 					string sExt		= Path.GetExtension( sPath ).ToLower();
 					if( sExt==".fb2" ) {
@@ -365,7 +358,7 @@ namespace SharpFBTools.Tools
 							++m_sv.Other;	// пропускаем не fb2-файлы
 						}
 					}
-					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
+					bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
 			}
 			return htFB2ForID;
@@ -427,7 +420,6 @@ namespace SharpFBTools.Tools
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						return htFB2ForABT;
 					}
-					++m_sv.AllFiles;
 					string sPath	= s + "\\" + fiNextFile.Name;
 					string sExt		= Path.GetExtension( sPath ).ToLower();
 					if( sExt==".fb2" ) {
@@ -442,7 +434,7 @@ namespace SharpFBTools.Tools
 							++m_sv.Other;	// пропускаем не fb2-файлы
 						}
 					}
-					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
+					bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
 			}
 			return htFB2ForABT;
@@ -609,6 +601,58 @@ namespace SharpFBTools.Tools
 			return fv2Validator.ValidatingFB2File( sFilePath ) == "" ? "Да" : "Нет";
         }
 		#endregion
+		
+		
+		// создание списка всех подпапок в заданной
+		// параметры:	sStartDir - папка для сканирования;
+		//				lAllDirsList - заполняемый список папок в папке сканирования и ее подпапках
+		//				bSort = true - сортировать созданный список папок
+		// возвращает: число всех файлов в папке для сканирования и ее подпапках
+		public int DirsParser( string sStartDir, ListView lv, ref List<string> lAllDirsList, bool bSort ) {
+			int nAllFilesCount = 0;
+			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
+			List<string> lWorkDirList = new List<string>();
+			// начальное заполнение списков
+			nAllFilesCount = DirListMaker( sStartDir, ref lWorkDirList );
+			lAllDirsList.Add( sStartDir );
+			lAllDirsList.AddRange( lWorkDirList );
+			lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
+			while( lWorkDirList.Count != 0 ) {
+				// перебор папок в указанной папке s
+				int nWorkCount = lWorkDirList.Count;
+				for( int i=0; i!=nWorkCount; ++i ) {
+					// l - список найденных папок в указанной папке sWD
+					List<string> l = new List<string>();
+					nAllFilesCount += DirListMaker( lWorkDirList[i], ref l );
+					// заносим найденные папки в рабочий и полный список папок
+					lWorkDirList.AddRange( l );
+					lAllDirsList.AddRange( l );
+					lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
+//					lv.Refresh();
+				}
+				// удаляем из рабочего списка обработанные папки
+				lWorkDirList.RemoveRange( 0, nWorkCount );
+			}
+			if( bSort ) {
+				lAllDirsList.Sort();
+			}
+			return nAllFilesCount;
+		}
+		private int DirListMaker( string sStartDir, ref List<string> lDirList ) {
+			int nFilesCount = 0;
+			// папки в текущей папке
+			string[] dirs = Directory.GetDirectories(sStartDir);
+			if( dirs.Length==0 ) {
+				nFilesCount = Directory.GetFiles( sStartDir ).Length;
+				return nFilesCount;
+			}
+			
+			foreach( string sDir in dirs ) {
+				lDirList.Add( sDir );
+				nFilesCount += Directory.GetFiles( sDir ).Length;
+			}
+			return nFilesCount; 
+		}
 		
 		#region Обработчики событий
 		void TboxSourceDirTextChanged(object sender, EventArgs e)

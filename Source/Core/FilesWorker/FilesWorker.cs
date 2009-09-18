@@ -224,7 +224,7 @@ namespace Core.FilesWorker
 			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
 			List<string> lWorkDirList = new List<string>();
 			// начальное заполнение списков
-			nAllFilesCount += DirListMaker( sStartDir, ref lWorkDirList );
+			nAllFilesCount = DirListMaker( sStartDir, ref lWorkDirList );
 			lAllDirsList.Add( sStartDir );
 			lAllDirsList.AddRange( lWorkDirList );
 			lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
@@ -249,17 +249,20 @@ namespace Core.FilesWorker
 			}
 			return nAllFilesCount;
 		}
+
+		#endregion]
 		
+		#region Закрытые вспомогательные методы
 		// создание списка подпапок в заданной
 		// параметры:	sStartDir - папка для сканирования;
 		//				lDirList - заполняемый список папок в текущей папке
 		// возвращает: число файлов в текущем каталоге
-		public static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
+		private static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
 			int nFilesCount = 0;
 			// папки в текущей папке
 			string[] dirs = Directory.GetDirectories(sStartDir);
 			if( dirs.Length==0 ) {
-				nFilesCount += Directory.GetFiles( sStartDir ).Length;
+				nFilesCount = Directory.GetFiles( sStartDir ).Length;
 				return nFilesCount;
 			}
 			
@@ -270,13 +273,13 @@ namespace Core.FilesWorker
 			return nFilesCount; 
 		}
 		/*
-		public static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
+		private static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
 			int nFilesCount = 0;
 			// папки в текущей папке
 			DirectoryInfo diFolder = new DirectoryInfo( sStartDir );
 			if( diFolder.GetDirectories().Length==0 ) {
 				DirectoryInfo di = new DirectoryInfo( sStartDir );
-				nFilesCount += di.GetFiles().Length;
+				nFilesCount = di.GetFiles().Length;
 				return nFilesCount;
 			}
 			
@@ -287,7 +290,7 @@ namespace Core.FilesWorker
 			}
 			return nFilesCount; 
 		}*/
-		
 		#endregion
+		
 	}
 }
