@@ -213,6 +213,81 @@ namespace Core.FilesWorker
 			return lFilesList;
 		}
 		
+		// *********************************************************************************** //
+		// создание списка всех подпапок в заданной
+		// параметры:	sStartDir - папка для сканирования;
+		//				lAllDirsList - заполняемый список папок в папке сканирования и ее подпапках
+		//				bSort = true - сортировать созданный список папок
+		// возвращает: число всех файлов в папке для сканирования и ее подпапках
+		public static int DirsParser( string sStartDir, ListView lv, ref List<string> lAllDirsList, bool bSort ) {
+			int nAllFilesCount = 0;
+			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
+			List<string> lWorkDirList = new List<string>();
+			// начальное заполнение списков
+			nAllFilesCount += DirListMaker( sStartDir, ref lWorkDirList );
+			lAllDirsList.Add( sStartDir );
+			lAllDirsList.AddRange( lWorkDirList );
+			lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
+			while( lWorkDirList.Count != 0 ) {
+				// перебор папок в указанной папке s
+				int nWorkCount = lWorkDirList.Count;
+				for( int i=0; i!=nWorkCount; ++i ) {
+					// l - список найденных папок в указанной папке sWD
+					List<string> l = new List<string>();
+					nAllFilesCount += DirListMaker( lWorkDirList[i], ref l );
+					// заносим найденные папки в рабочий и полный список папок
+					lWorkDirList.AddRange( l );
+					lAllDirsList.AddRange( l );
+					lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
+//					lv.Refresh();
+				}
+				// удаляем из рабочего списка обработанные папки
+				lWorkDirList.RemoveRange( 0, nWorkCount );
+			}
+			if( bSort ) {
+				lAllDirsList.Sort();
+			}
+			return nAllFilesCount;
+		}
+		
+		// создание списка подпапок в заданной
+		// параметры:	sStartDir - папка для сканирования;
+		//				lDirList - заполняемый список папок в текущей папке
+		// возвращает: число файлов в текущем каталоге
+		public static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
+			int nFilesCount = 0;
+			// папки в текущей папке
+			string[] dirs = Directory.GetDirectories(sStartDir);
+			if( dirs.Length==0 ) {
+				nFilesCount += Directory.GetFiles( sStartDir ).Length;
+				return nFilesCount;
+			}
+			
+			foreach( string sDir in dirs ) {
+				lDirList.Add( sDir );
+				nFilesCount += Directory.GetFiles( sDir ).Length;
+			}
+			return nFilesCount; 
+		}
+		/*
+		public static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
+			int nFilesCount = 0;
+			// папки в текущей папке
+			DirectoryInfo diFolder = new DirectoryInfo( sStartDir );
+			if( diFolder.GetDirectories().Length==0 ) {
+				DirectoryInfo di = new DirectoryInfo( sStartDir );
+				nFilesCount += di.GetFiles().Length;
+				return nFilesCount;
+			}
+			
+			foreach( DirectoryInfo diNextFolder in diFolder.GetDirectories() ) {
+				lDirList.Add( sStartDir + "\\" + diNextFolder.Name );
+				DirectoryInfo di = new DirectoryInfo( sStartDir + "\\" + diNextFolder.Name );
+				nFilesCount += di.GetFiles().Length;
+			}
+			return nFilesCount; 
+		}*/
+		
 		#endregion
 	}
 }

@@ -59,6 +59,9 @@
     <Compile Include="BookSorting\SelectedSortData.Designer.cs" />
     <Compile Include="BookSorting\SelectedSortQueryCriteria.cs" />
     <Compile Include="FB2BookData\FB2BookData.cs" />
+    <Compile Include="FB2Dublicator\BookData.cs" />
+    <Compile Include="FB2Dublicator\BookDataABTKey.cs" />
+    <Compile Include="FB2Dublicator\FB2ABTComparer.cs" />
     <Compile Include="FB2Dublicator\FB2BookDataForDup.cs" />
     <Compile Include="FB2Dublicator\Fb2Comparer.cs" />
     <Compile Include="FB2\Common\IInlineImageType.cs" />

@@ -752,7 +752,6 @@ namespace SharpFBTools.Tools
 			this.cboxMode.Name = "cboxMode";
 			this.cboxMode.Size = new System.Drawing.Size(484, 21);
 			this.cboxMode.TabIndex = 17;
-			this.cboxMode.SelectedIndexChanged += new System.EventHandler(this.CboxModeSelectedIndexChanged);
 			// 
 			// lblMode
 			// 
