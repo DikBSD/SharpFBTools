@@ -82,9 +82,9 @@ namespace SharpFBTools.Tools
 				lvFilesCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				m_sv.AllFiles = DirsParser( m_sSource, lvFilesCount, ref lDirList, false );
+				m_sv.AllFiles = filesWorker.DirsParser( m_sSource, lvFilesCount, ref lDirList, false );
 			}
-			MessageBox.Show( m_sv.AllFiles.ToString(), m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+
 			// Проверить флаг на остановку процесса 
 			if( ( m_bw.CancellationPending == true ) ) {
 				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
@@ -601,58 +601,6 @@ namespace SharpFBTools.Tools
 			return fv2Validator.ValidatingFB2File( sFilePath ) == "" ? "Да" : "Нет";
         }
 		#endregion
-		
-		
-		// создание списка всех подпапок в заданной
-		// параметры:	sStartDir - папка для сканирования;
-		//				lAllDirsList - заполняемый список папок в папке сканирования и ее подпапках
-		//				bSort = true - сортировать созданный список папок
-		// возвращает: число всех файлов в папке для сканирования и ее подпапках
-		public int DirsParser( string sStartDir, ListView lv, ref List<string> lAllDirsList, bool bSort ) {
-			int nAllFilesCount = 0;
-			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
-			List<string> lWorkDirList = new List<string>();
-			// начальное заполнение списков
-			nAllFilesCount = DirListMaker( sStartDir, ref lWorkDirList );
-			lAllDirsList.Add( sStartDir );
-			lAllDirsList.AddRange( lWorkDirList );
-			lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
-			while( lWorkDirList.Count != 0 ) {
-				// перебор папок в указанной папке s
-				int nWorkCount = lWorkDirList.Count;
-				for( int i=0; i!=nWorkCount; ++i ) {
-					// l - список найденных папок в указанной папке sWD
-					List<string> l = new List<string>();
-					nAllFilesCount += DirListMaker( lWorkDirList[i], ref l );
-					// заносим найденные папки в рабочий и полный список папок
-					lWorkDirList.AddRange( l );
-					lAllDirsList.AddRange( l );
-					lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
-//					lv.Refresh();
-				}
-				// удаляем из рабочего списка обработанные папки
-				lWorkDirList.RemoveRange( 0, nWorkCount );
-			}
-			if( bSort ) {
-				lAllDirsList.Sort();
-			}
-			return nAllFilesCount;
-		}
-		private int DirListMaker( string sStartDir, ref List<string> lDirList ) {
-			int nFilesCount = 0;
-			// папки в текущей папке
-			string[] dirs = Directory.GetDirectories(sStartDir);
-			if( dirs.Length==0 ) {
-				nFilesCount = Directory.GetFiles( sStartDir ).Length;
-				return nFilesCount;
-			}
-			
-			foreach( string sDir in dirs ) {
-				lDirList.Add( sDir );
-				nFilesCount += Directory.GetFiles( sDir ).Length;
-			}
-			return nFilesCount; 
-		}
 		
 		#region Обработчики событий
 		void TboxSourceDirTextChanged(object sender, EventArgs e)

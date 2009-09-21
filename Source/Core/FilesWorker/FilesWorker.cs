@@ -224,7 +224,8 @@ namespace Core.FilesWorker
 			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
 			List<string> lWorkDirList = new List<string>();
 			// начальное заполнение списков
-			nAllFilesCount = DirListMaker( sStartDir, ref lWorkDirList );
+			nAllFilesCount = Directory.GetFiles( sStartDir ).Length;
+			nAllFilesCount += DirListMaker( sStartDir, ref lWorkDirList );
 			lAllDirsList.Add( sStartDir );
 			lAllDirsList.AddRange( lWorkDirList );
 			lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
@@ -261,11 +262,6 @@ namespace Core.FilesWorker
 			int nFilesCount = 0;
 			// папки в текущей папке
 			string[] dirs = Directory.GetDirectories(sStartDir);
-			if( dirs.Length==0 ) {
-				nFilesCount = Directory.GetFiles( sStartDir ).Length;
-				return nFilesCount;
-			}
-			
 			foreach( string sDir in dirs ) {
 				lDirList.Add( sDir );
 				nFilesCount += Directory.GetFiles( sDir ).Length;
@@ -277,12 +273,6 @@ namespace Core.FilesWorker
 			int nFilesCount = 0;
 			// папки в текущей папке
 			DirectoryInfo diFolder = new DirectoryInfo( sStartDir );
-			if( diFolder.GetDirectories().Length==0 ) {
-				DirectoryInfo di = new DirectoryInfo( sStartDir );
-				nFilesCount = di.GetFiles().Length;
-				return nFilesCount;
-			}
-			
 			foreach( DirectoryInfo diNextFolder in diFolder.GetDirectories() ) {
 				lDirList.Add( sStartDir + "\\" + diNextFolder.Name );
 				DirectoryInfo di = new DirectoryInfo( sStartDir + "\\" + diNextFolder.Name );
