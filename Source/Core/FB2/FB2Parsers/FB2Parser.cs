@@ -444,7 +444,12 @@ namespace Core.FB2.FB2Parsers
         	if( xmlNodes.Count > 0  ) {
 				ilCustomInfos = new List<CustomInfo>();
 				foreach( XmlNode node in xmlNodes ) {
-					CustomInfo customInfo = new CustomInfo(node.InnerText, node.Attributes["info-type"].Value);
+					CustomInfo customInfo = null;
+					if( node.Attributes["info-type"] != null ) {
+						customInfo = new CustomInfo( node.InnerText, node.Attributes["info-type"].Value);
+					} else {
+						customInfo = new CustomInfo( node.InnerText, null );
+					}
 					if( node.Attributes["lang"] != null ) {
 						customInfo.Lang = node.Attributes["lang"].Value;
 					}
