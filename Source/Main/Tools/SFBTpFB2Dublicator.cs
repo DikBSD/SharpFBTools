@@ -374,8 +374,9 @@ namespace SharpFBTools.Tools
 				DocumentInfo di = dfb2.DocumentInfo;
 				if( di==null ) return;
 				
-				string sID = ( di.ID != null ) ? di.ID : "?";
+				string sID = ( di.ID != null ) ? di.ID : "Тега <id> в этих книгах нет";
 				if( sID==null ) return;
+				if( sID.Length==0 ) sID = "Тег <id> в этих книгах \"пустой\"";
 				
 				string sVersion = di.Version;;
 				TitleInfo ti = dfb2.TitleInfo;
@@ -526,7 +527,7 @@ namespace SharpFBTools.Tools
 		
 		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
 		private string MakeAutorsString( IList<Author> Authors ) {
-			if( Authors==null ) return "?";
+			if( Authors==null ) return "Тег <authors> в книге отсутствует";
 			string sA = ""; int n = 0;
 			foreach( Author a in Authors ) {
 				sA += Convert.ToString(++n)+": ";
