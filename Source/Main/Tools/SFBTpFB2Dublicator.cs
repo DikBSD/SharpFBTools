@@ -27,7 +27,8 @@ using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.CustomInfo;
 
-using fB2Parser 		= Core.FB2.FB2Parsers.FB2Parser;
+//using fB2Parser 		= Core.FB2.FB2Parsers.FB2Parser;
+using fB2Parser 		= Core.FB2Dublicator.FB2ParserForDup;
 using filesWorker		= Core.FilesWorker.FilesWorker;
 using archivesWorker	= Core.FilesWorker.Archiver;
 using FB2Validator		= Core.FB2Parser.FB2Validator;
@@ -369,28 +370,16 @@ namespace SharpFBTools.Tools
 		private void MakeFB2IDHashTable( string sPath, ref Hashtable htFB2ForID ) {
 			try {
 				fB2Parser fb2 = new fB2Parser( sPath );
-				Description dfb2 = fb2.GetDescription();
-				if( dfb2==null ) return;
-				DocumentInfo di = dfb2.DocumentInfo;
-				if( di==null ) return;
-				
-				string sID = ( di.ID != null ) ? di.ID : "Тега <id> в этих книгах нет";
+				string sID = fb2.Id;
 				if( sID==null ) return;
+
 				if( sID.Length==0 ) sID = "Тег <id> в этих книгах \"пустой\"";
-				
-				string sVersion = di.Version;;
-				TitleInfo ti = dfb2.TitleInfo;
-				
-				BookTitle 		bookTitle	= null;
-				IList<Author>	authors		= null;
-				if( ti!=null ) {
-					bookTitle	= ti.BookTitle;
-					authors		= ti.Authors;
-				}
+				string sVersion = fb2.Version;;
+				BookTitle 		bookTitle	= fb2.BookTitle;
+				IList<Author>	authors		= fb2.Authors;
 				
 				// данные о книге
-				BookData fb2BookData =
-								new BookData( bookTitle, authors, ti.Genres, sID, sVersion, sPath );
+				BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, sID, sVersion, sPath );
 				
 				if( !htFB2ForID.ContainsKey( sID ) ) {
 					// такой книги в числе дублей еще нет
@@ -446,62 +435,53 @@ namespace SharpFBTools.Tools
 		private void MakeFB2ABTHashTable( string sPath, ref Hashtable htFB2ForABT ) {
 			try {
 				fB2Parser fb2 = new fB2Parser( sPath );
-				Description dfb2 = fb2.GetDescription();
-				if( dfb2!=null ) {
-					TitleInfo		ti	= dfb2.TitleInfo;
-					DocumentInfo	di	= dfb2.DocumentInfo;
-					if( ti==null ) return;
-					string sId = null, sVersion = null;
-					if( di!=null ) {
-						sId			= di.ID;
-						sVersion	= di.Version;
-					}
-					BookTitle bookTitle		= ti.BookTitle;
-					IList<Author> authors	= ti.Authors;
-					BookDataABTKey htKey = new BookDataABTKey( authors, bookTitle );
+				string sId		= fb2.Id;
+				string sVersion	= fb2.Version;
 
-					// данные о книге
-					BookData fb2BookData =
-								new BookData( bookTitle, authors, ti.Genres, sId, sVersion, sPath );
-					// ищем в хеше дубли
-					DictionaryEntry deDup = IsBookEqualityInHash( ref htFB2ForABT, authors, bookTitle );
-					if( deDup.Key==null ) {
-						// такой книги еще нет в хэше
-						// заносим только те книги, где тэг названия - есть
-						if( bookTitle!=null && bookTitle.Value!=null ) {
-							FB2FilesData fb2f = new FB2FilesData();
-							fb2f.BookTitleForKey = bookTitle.Value;
-							fb2f.AddBookData( fb2BookData );
-							fb2f.AddPath( sPath );
-							htFB2ForABT.Add( htKey, fb2f );
-						}
-					} else {
-						// такая книга уже есть
-						// обработка данных value хеша
-						BookDataABTKey aFromHash = (BookDataABTKey)deDup.Key;
-						// вытаскивает value их хэша по key
-						FB2FilesData fb2f = (FB2FilesData)htFB2ForABT[deDup.Key];
+				BookTitle bookTitle		= fb2.BookTitle;
+				IList<Author> authors	= fb2.Authors;
+				// ключ
+				BookDataABTKey htKey = new BookDataABTKey( authors, bookTitle );
+				// данные о книге
+				BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, sId, sVersion, sPath );
+				// ищем в хеше дубли
+				DictionaryEntry deDup = IsBookEqualityInHash( ref htFB2ForABT, authors, bookTitle );
+				if( deDup.Key==null ) {
+					// такой книги еще нет в хэше
+					// заносим только те книги, где тэг названия - есть
+					if( bookTitle!=null && bookTitle.Value!=null ) {
+						FB2FilesData fb2f = new FB2FilesData();
+						fb2f.BookTitleForKey = bookTitle.Value;
 						fb2f.AddBookData( fb2BookData );
-						// заменяем Название книги в хеше на самое длинное
-						bool bKeyNewBT = false; bool bKeyNewA = false;
-						if( bookTitle!=null && bookTitle.Value!=null ) {
-							if( bookTitle.Value.Length > aFromHash.BookTitle.Value.Length ) {
-								// заменяем Название книги в данных хеша на самое длинное
-								fb2f.BookTitleForKey = bookTitle.Value;
-								// заменяем key в хеше на тот, где название - длиннее
-								htKey.BookTitle = bookTitle; bKeyNewBT = true;
-							}
-						}
 						fb2f.AddPath( sPath );
-						// обработка key хеша
-						if( authors.Count > aFromHash.Authors.Count ) bKeyNewA = true;
-						// заменяем key в хеше на тот, где больше число авторов, и название - длиннее
-						if( bKeyNewA || bKeyNewBT ) {
-							htFB2ForABT.Remove( deDup.Key );
-							htFB2ForABT.Add( htKey, fb2f );
-						} else {
-							htFB2ForABT[deDup.Key] = fb2f;
+						htFB2ForABT.Add( htKey, fb2f );
+					}
+				} else {
+					// такая книга уже есть
+					// обработка данных value хеша
+					BookDataABTKey aFromHash = (BookDataABTKey)deDup.Key;
+					// вытаскивает value их хэша по key
+					FB2FilesData fb2f = (FB2FilesData)htFB2ForABT[deDup.Key];
+					fb2f.AddBookData( fb2BookData );
+					// заменяем Название книги в хеше на самое длинное
+					bool bKeyNewBT = false; bool bKeyNewA = false;
+					if( bookTitle!=null && bookTitle.Value!=null ) {
+						if( bookTitle.Value.Length > aFromHash.BookTitle.Value.Length ) {
+							// заменяем Название книги в данных хеша на самое длинное
+							fb2f.BookTitleForKey = bookTitle.Value;
+							// заменяем key в хеше на тот, где название - длиннее
+							htKey.BookTitle = bookTitle; bKeyNewBT = true;
 						}
+					}
+					fb2f.AddPath( sPath );
+					// обработка key хеша
+					if( authors.Count > aFromHash.Authors.Count ) bKeyNewA = true;
+					// заменяем key в хеше на тот, где больше число авторов, и название - длиннее
+					if( bKeyNewA || bKeyNewBT ) {
+						htFB2ForABT.Remove( deDup.Key );
+						htFB2ForABT.Add( htKey, fb2f );
+					} else {
+						htFB2ForABT[deDup.Key] = fb2f;
 					}
 				}
 			} catch {} // пропускаем проблемные файлы
