@@ -36,6 +36,7 @@ namespace SharpFBTools.Tools
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Название Книги",
 									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
@@ -206,6 +207,16 @@ namespace SharpFBTools.Tools
 			this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+			this.cmsFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.tsmiFileReValidate = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi3 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiEditInTextEditor = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiEditInFB2Editor = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiViewInReader = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmi2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiOpenFileDir = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiDeleteFileFromDisk = new System.Windows.Forms.ToolStripMenuItem();
 			this.pMode = new System.Windows.Forms.Panel();
 			this.chBoxIsValid = new System.Windows.Forms.CheckBox();
 			this.cboxMode = new System.Windows.Forms.ComboBox();
@@ -223,6 +234,7 @@ namespace SharpFBTools.Tools
 			this.tpAnnotation.SuspendLayout();
 			this.pSearchFBDup2Dirs.SuspendLayout();
 			this.tsFullSort.SuspendLayout();
+			this.cmsFB2.SuspendLayout();
 			this.pMode.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -597,6 +609,7 @@ namespace SharpFBTools.Tools
 			this.tboxSourceDir.Size = new System.Drawing.Size(484, 21);
 			this.tboxSourceDir.TabIndex = 1;
 			this.tboxSourceDir.TextChanged += new System.EventHandler(this.TboxSourceDirTextChanged);
+			this.tboxSourceDir.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TboxSourceDirKeyPress);
 			// 
 			// lblScanDir
 			// 
@@ -666,6 +679,7 @@ namespace SharpFBTools.Tools
 									this.columnHeader4,
 									this.columnHeader19,
 									this.columnHeader5});
+			this.lvResult.ContextMenuStrip = this.cmsFB2;
 			this.lvResult.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvResult.FullRowSelect = true;
 			this.lvResult.HideSelection = false;
@@ -712,6 +726,84 @@ namespace SharpFBTools.Tools
 			// columnHeader5
 			// 
 			this.columnHeader5.Text = "Размер";
+			// 
+			// cmsFB2
+			// 
+			this.cmsFB2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+									this.tsmiFileReValidate,
+									this.tsmi3,
+									this.tsmiEditInTextEditor,
+									this.tsmiEditInFB2Editor,
+									this.tsmi1,
+									this.tsmiViewInReader,
+									this.tsmi2,
+									this.tsmiOpenFileDir,
+									this.tsmiDeleteFileFromDisk});
+			this.cmsFB2.Name = "cmsValidator";
+			this.cmsFB2.Size = new System.Drawing.Size(293, 176);
+			// 
+			// tsmiFileReValidate
+			// 
+			this.tsmiFileReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileReValidate.Image")));
+			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
+			this.tsmiFileReValidate.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFileReValidate.Text = "Проверить файл - валидация";
+			this.tsmiFileReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
+			// 
+			// tsmi3
+			// 
+			this.tsmi3.Name = "tsmi3";
+			this.tsmi3.Size = new System.Drawing.Size(289, 6);
+			// 
+			// tsmiEditInTextEditor
+			// 
+			this.tsmiEditInTextEditor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInTextEditor.Image")));
+			this.tsmiEditInTextEditor.Name = "tsmiEditInTextEditor";
+			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(292, 22);
+			this.tsmiEditInTextEditor.Text = "Редактировать в текстовом редакторе";
+			this.tsmiEditInTextEditor.Click += new System.EventHandler(this.TsmiEditInTextEditorClick);
+			// 
+			// tsmiEditInFB2Editor
+			// 
+			this.tsmiEditInFB2Editor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInFB2Editor.Image")));
+			this.tsmiEditInFB2Editor.Name = "tsmiEditInFB2Editor";
+			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(292, 22);
+			this.tsmiEditInFB2Editor.Text = "Редактировать в fb2-редакторе";
+			this.tsmiEditInFB2Editor.Click += new System.EventHandler(this.TsmiEditInFB2EditorClick);
+			// 
+			// tsmi1
+			// 
+			this.tsmi1.Name = "tsmi1";
+			this.tsmi1.Size = new System.Drawing.Size(289, 6);
+			// 
+			// tsmiViewInReader
+			// 
+			this.tsmiViewInReader.Image = ((System.Drawing.Image)(resources.GetObject("tsmiViewInReader.Image")));
+			this.tsmiViewInReader.Name = "tsmiViewInReader";
+			this.tsmiViewInReader.Size = new System.Drawing.Size(292, 22);
+			this.tsmiViewInReader.Text = "Запустить в fb2-читалке (Просмотр)";
+			this.tsmiViewInReader.Click += new System.EventHandler(this.TsmiViewInReaderClick);
+			// 
+			// tsmi2
+			// 
+			this.tsmi2.Name = "tsmi2";
+			this.tsmi2.Size = new System.Drawing.Size(289, 6);
+			// 
+			// tsmiOpenFileDir
+			// 
+			this.tsmiOpenFileDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenFileDir.Image")));
+			this.tsmiOpenFileDir.Name = "tsmiOpenFileDir";
+			this.tsmiOpenFileDir.Size = new System.Drawing.Size(292, 22);
+			this.tsmiOpenFileDir.Text = "Открыть папку для выделенного файла";
+			this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
+			// 
+			// tsmiDeleteFileFromDisk
+			// 
+			this.tsmiDeleteFileFromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteFileFromDisk.Image")));
+			this.tsmiDeleteFileFromDisk.Name = "tsmiDeleteFileFromDisk";
+			this.tsmiDeleteFileFromDisk.Size = new System.Drawing.Size(292, 22);
+			this.tsmiDeleteFileFromDisk.Text = "Удалить файл с диска";
+			this.tsmiDeleteFileFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
 			// pMode
 			// 
@@ -793,10 +885,21 @@ namespace SharpFBTools.Tools
 			this.pSearchFBDup2Dirs.PerformLayout();
 			this.tsFullSort.ResumeLayout(false);
 			this.tsFullSort.PerformLayout();
+			this.cmsFB2.ResumeLayout(false);
 			this.pMode.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripMenuItem tsmiDeleteFileFromDisk;
+		private System.Windows.Forms.ToolStripMenuItem tsmiOpenFileDir;
+		private System.Windows.Forms.ToolStripSeparator tsmi2;
+		private System.Windows.Forms.ToolStripMenuItem tsmiViewInReader;
+		private System.Windows.Forms.ToolStripSeparator tsmi1;
+		private System.Windows.Forms.ToolStripMenuItem tsmiEditInFB2Editor;
+		private System.Windows.Forms.ToolStripMenuItem tsmiEditInTextEditor;
+		private System.Windows.Forms.ToolStripSeparator tsmi3;
+		private System.Windows.Forms.ToolStripMenuItem tsmiFileReValidate;
+		private System.Windows.Forms.ContextMenuStrip cmsFB2;
 		private System.Windows.Forms.CheckBox chBoxIsValid;
 		private System.Windows.Forms.ListView lvPublishInfo;
 		private System.Windows.Forms.ListView lvTitleInfo;
