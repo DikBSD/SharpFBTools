@@ -581,6 +581,14 @@ namespace SharpFBTools.Tools
 			FB2Validator fv2Validator = new FB2Validator();
 			return fv2Validator.ValidatingFB2File( sFilePath ) == "" ? "Да" : "Нет";
         }
+		
+		// извлечение информации из текста тэга <p>
+		private string GetDataFromTagP( string sP ) {
+			sP = sP.Replace( "</p>","\r\n" ); sP = sP.Replace( "</P>","\r\n" );
+			sP = sP.Replace( "<p xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\">", "" );
+			sP = sP.Replace( "<P xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\">", "" );
+			return sP;
+		}
 		#endregion
 		
 		#region Обработчики событий
@@ -694,9 +702,9 @@ namespace SharpFBTools.Tools
 					}
 				}
 				// считываем данные History
-				rtbHistory.Clear(); rtbHistory.Text = bd.DIHistory;
+				rtbHistory.Clear(); rtbHistory.Text = GetDataFromTagP( bd.DIHistory );
 				// считываем данные Annotation
-				rtbAnnotation.Clear(); rtbAnnotation.Text = bd.TIAnnotation;
+				rtbAnnotation.Clear(); rtbAnnotation.Text = GetDataFromTagP( bd.TIAnnotation );
 			}
 			#endregion
 		}
