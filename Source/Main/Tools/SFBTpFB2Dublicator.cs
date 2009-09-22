@@ -589,6 +589,7 @@ namespace SharpFBTools.Tools
 			sP = sP.Replace( "<P xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\">", "" );
 			return sP;
 		}
+		
 		#endregion
 		
 		#region Обработчики событий
