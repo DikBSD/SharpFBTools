@@ -654,9 +654,9 @@ namespace SharpFBTools.Tools
 				msc.ListViewStatus( lvTitleInfo, 4, bd.TIAuthors );
 				msc.ListViewStatus( lvTitleInfo, 5, bd.TIDate );
 				msc.ListViewStatus( lvTitleInfo, 6, bd.TIKeywords );
-				msc.ListViewStatus( lvTitleInfo, 7, bd.TICoverpage );
-				msc.ListViewStatus( lvTitleInfo, 8, bd.TITranslators );
-				msc.ListViewStatus( lvTitleInfo, 9, bd.TISequences );
+				msc.ListViewStatus( lvTitleInfo, 7, bd.TITranslators );
+				msc.ListViewStatus( lvTitleInfo, 8, bd.TISequences );
+				msc.ListViewStatus( lvTitleInfo, 9, (bd.TICoverpage.Split('#').Length-1).ToString() );
 				// считываем данные SourceTitleInfo
 				msc.ListViewStatus( lvSourceTitleInfo, 0, bd.STIBookTitle );
 				msc.ListViewStatus( lvSourceTitleInfo, 1, bd.STIGenres );
@@ -665,9 +665,9 @@ namespace SharpFBTools.Tools
 				msc.ListViewStatus( lvSourceTitleInfo, 4, bd.STIAuthors );
 				msc.ListViewStatus( lvSourceTitleInfo, 5, bd.STIDate );
 				msc.ListViewStatus( lvSourceTitleInfo, 6, bd.STIKeywords );
-				msc.ListViewStatus( lvSourceTitleInfo, 7, bd.STICoverpage );
-				msc.ListViewStatus( lvSourceTitleInfo, 8, bd.STITranslators );
-				msc.ListViewStatus( lvSourceTitleInfo, 9, bd.STISequences );
+				msc.ListViewStatus( lvSourceTitleInfo, 7, bd.STITranslators );
+				msc.ListViewStatus( lvSourceTitleInfo, 8, bd.STISequences );
+				msc.ListViewStatus( lvSourceTitleInfo, 9, (bd.STICoverpage.Split('#').Length-1).ToString() );
 				// считываем данные DocumentInfo
 				msc.ListViewStatus( lvDocumentInfo, 0, bd.DIID );
 				msc.ListViewStatus( lvDocumentInfo, 1, bd.DIVersion );

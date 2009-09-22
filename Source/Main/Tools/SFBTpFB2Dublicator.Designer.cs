@@ -59,14 +59,14 @@ namespace SharpFBTools.Tools
 									"Ключевые слова",
 									""}, -1);
 			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Обложка",
-									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Переводчик(и)",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Серия(и) (Номер)",
 									""}, -1, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
+			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Число Обложек",
+									""}, -1);
 			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Название Книги",
 									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
@@ -89,14 +89,14 @@ namespace SharpFBTools.Tools
 									"Ключевые слова",
 									""}, -1);
 			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Обложка",
-									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Переводчик(и)",
 									""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Серия(и) (Номер)",
 									""}, -1, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
+			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Число Обложек",
+									""}, -1);
 			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
 									"ID Книги",
 									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
@@ -740,7 +740,7 @@ namespace SharpFBTools.Tools
 									this.tsmiOpenFileDir,
 									this.tsmiDeleteFileFromDisk});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(293, 176);
+			this.cmsFB2.Size = new System.Drawing.Size(293, 154);
 			// 
 			// tsmiFileReValidate
 			// 
