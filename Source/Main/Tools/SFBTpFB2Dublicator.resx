@@ -191,6 +191,16 @@
   <metadata name="cmsFB2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>297, 6</value>
   </metadata>
+  <data name="tsmiDiffFB2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAADBQTFRFAAAAgAAA
+        AIAAgIAAAACAgACAAICAgICAwMDA/wAAAP8A//8AAAD//wD/AP//////ex+xxAAAAKJJREFUKM+VkTEO
+        wjAMRbN1hZlLZqsFQ2GKJU7ALdhAyoUQU7d2M4ltkuDAwJenp28n/nZo5BCPrkoA0UI05ZrhOxiLvIAY
+        bzEecl1/gAtrZ8GmzlDQOTpwtiDYGcVx2rKaFt20glGSCH/s0oEuD0lszi8pWBBp8kRh0JDX/T2DNXXI
+        DHhA6meDOp6QHGxoZ7ChecWzoQWDvS28QdBvlut/6gWDLBeBignFVAAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="tsmiFileReValidate.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

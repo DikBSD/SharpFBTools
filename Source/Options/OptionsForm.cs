@@ -54,6 +54,7 @@ namespace Options
 			tboxFBEPath.Text	= Settings.Settings.GetDefFBEPath();
 			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
 			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
+			tboxDiffPath.Text 	= Settings.Settings.GetDiffPath();
 		}
 		private void DefValidator() {
 			// Валидатор
@@ -156,6 +157,10 @@ namespace Options
 					reader.ReadToFollowing("Reader");
 					if (reader.HasAttributes ) {
 						tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
+					}
+					reader.ReadToFollowing("Diff");
+					if (reader.HasAttributes ) {
+						tboxDiffPath.Text = reader.GetAttribute("DiffPath");
 					}
 					// Валидатор
 					reader.ReadToFollowing("ValidatorDoubleClick");
@@ -325,6 +330,10 @@ namespace Options
 						
 						writer.WriteStartElement( "Reader" );
 							writer.WriteAttributeString( "FBReaderPath", tboxReaderPath.Text );
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "Diff" );
+							writer.WriteAttributeString( "DiffPath", tboxDiffPath.Text );
 						writer.WriteFullEndElement();
 					writer.WriteEndElement();
 					
@@ -551,6 +560,18 @@ namespace Options
                 tboxReaderPath.Text = ofDlg.FileName;
             }
 		}
+		
+		void BtnDiffPathClick(object sender, EventArgs e)
+		{
+			// указание пути к diff-программе
+			ofDlg.Title = "Укажите путь к diff-программе визуального сравнения файлов:";
+			ofDlg.FileName = "";
+			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
+			DialogResult result = ofDlg.ShowDialog();
+			if (result == DialogResult.OK) {
+                tboxDiffPath.Text = ofDlg.FileName;
+            }
+		}
 		#endregion
 
 		#region Менеджер Файлов
@@ -623,5 +644,7 @@ namespace Options
 		
 		#endregion
 
+		
+		
 	}
 }

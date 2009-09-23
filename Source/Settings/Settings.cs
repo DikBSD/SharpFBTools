@@ -26,15 +26,17 @@ namespace Settings
 		private static string m_sTempDir = GetProgDir()+"\\Temp"; // временный каталог
 		private static string m_settings = GetProgDir()+"\\settings.xml";
 		private static string m_sFB21SchemePath = GetProgDir()+"\\FictionBook.xsd";
-		private static string m_sTFB2Path = "c:\\WINDOWS\\NOTEPAD.EXE";
-		private static string m_sWinRarPath = "c:\\Program Files\\WinRAR\\WinRAR.exe";
-		private static string m_sRarPath = "c:\\Program Files\\WinRAR\\Rar.exe";
-		private static string m_sUnRARPath = GetProgDir()+"\\UnRAR.exe";
-		private static string m_s7zaPath = GetProgDir()+"\\7za.exe";		
-		private static string m_sFBEPath = "c:\\Program Files\\FictionBook Editor\\FBE.exe";
-		private static string m_sFBReaderPath = "c:\\Program Files\\AlReader 2\\AlReader2.exe";
-		private static string m_sLicensePath = GetProgDir()+"\\License GPL 2.1.rtf";
-		private static string m_sChangeFilePath = GetProgDir()+"\\Change.rtf";
+		private static string m_sTFB2Path	= "c:\\WINDOWS\\NOTEPAD.EXE";
+		private static string m_sWinRarPath	= "c:\\Program Files\\WinRAR\\WinRAR.exe";
+		private static string m_sRarPath	= "c:\\Program Files\\WinRAR\\Rar.exe";
+		private static string m_sUnRARPath	= GetProgDir()+"\\UnRAR.exe";
+		private static string m_s7zaPath	= GetProgDir()+"\\7za.exe";		
+		private static string m_sFBEPath	= "c:\\Program Files\\FictionBook Editor\\FBE.exe";
+		private static string m_sFBReaderPath	= "c:\\Program Files\\AlReader 2\\AlReader2.exe";
+		private static string m_sDiffPath		= "";
+		
+		private static string m_sLicensePath	= GetProgDir()+"\\License GPL 2.1.rtf";
+		private static string m_sChangeFilePath	= GetProgDir()+"\\Change.rtf";
 		//
 		private static string m_sWorksDataSettingsPath = Settings.GetProgDir()+"\\SharpFBToolsWorksData.xml";
 		#endregion
@@ -174,6 +176,10 @@ namespace Settings
 			return m_sFBReaderPath;
 		}
 		
+		public static string GetDiffPath() {
+			return m_sDiffPath;
+		}
+		
 		public static string GetLicensePath() {
 			return m_sLicensePath;
 		}
@@ -200,22 +206,22 @@ namespace Settings
 			// читаем путь к консольному 7za из настроек
 			return ReadAttribute( "A7za", "A7zaPath", GetDef7zaPath() );
 		}
-		
 		public static string ReadTextFB2EPath() {
 			// читаем путь к текстовому редактору из настроек
 			return ReadAttribute( "Editors", "TextFB2EPath", GetDefTFB2Path() );
 		}
-		
 		public static string ReadFBEPath() {
 			// читаем путь к FBE из настроек
 			return ReadAttribute( "Editors", "FBEPath", GetDefFBEPath() );
 		}
-		
 		public static string ReadFBReaderPath() {
 			// читаем путь к читалке из настроек
 			return ReadAttribute( "Reader", "FBReaderPath", GetDefFBReaderPath() );
 		}
-		
+		public static string ReadDiffPath() {
+			// читаем путь к читалке из настроек
+			return ReadAttribute( "Diff", "DiffPath", GetDiffPath() );
+		}
 		#endregion
 		
 		#region Общие Сообщения

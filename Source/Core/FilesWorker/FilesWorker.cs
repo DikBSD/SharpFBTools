@@ -161,6 +161,11 @@ namespace Core.FilesWorker
 			manag.RunAsync( "\""+sProgramPath+"\"", "\""+sStartFilePath+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
 		}
 		
+		public static void StartAsyncDiff( string sProgramPath, string sPath1, string sPath2 ) {
+			CommandManager manag = new CommandManager();
+			manag.RunAsync( "\""+sProgramPath+"\"", "\""+sPath1+"\" \""+sPath2+"\"", ProcessWindowStyle.Maximized, Core.FilesWorker.Priority.GetPriority( "Средний" ) );
+		}
+		
 		public static string FormatFileLength( long lLength ) {
 			float f = lLength;
 			if( lLength < 1024 ) {

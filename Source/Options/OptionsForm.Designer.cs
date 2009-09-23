@@ -44,6 +44,10 @@ namespace Options
 			this.btnDefRestore = new System.Windows.Forms.Button();
 			this.tcOptions = new System.Windows.Forms.TabControl();
 			this.tpGeneral = new System.Windows.Forms.TabPage();
+			this.gboxDiff = new System.Windows.Forms.GroupBox();
+			this.lblDiffPath = new System.Windows.Forms.Label();
+			this.tboxDiffPath = new System.Windows.Forms.TextBox();
+			this.btnDiffPath = new System.Windows.Forms.Button();
 			this.gboxReader = new System.Windows.Forms.GroupBox();
 			this.lblFBReaderPath = new System.Windows.Forms.Label();
 			this.tboxReaderPath = new System.Windows.Forms.TextBox();
@@ -82,11 +86,11 @@ namespace Options
 			this.tpFileManager = new System.Windows.Forms.TabPage();
 			this.tcFM = new System.Windows.Forms.TabControl();
 			this.tpFMGeneral = new System.Windows.Forms.TabPage();
+			this.gboxFMGeneral = new System.Windows.Forms.GroupBox();
 			this.pSortFB2 = new System.Windows.Forms.Panel();
 			this.rbtnFMOnleValidFB2 = new System.Windows.Forms.RadioButton();
 			this.rbtnFMAllFB2 = new System.Windows.Forms.RadioButton();
 			this.label11 = new System.Windows.Forms.Label();
-			this.gboxFMGeneral = new System.Windows.Forms.GroupBox();
 			this.pFMGenres = new System.Windows.Forms.Panel();
 			this.rbtnFMFB22 = new System.Windows.Forms.RadioButton();
 			this.rbtnFMFB21 = new System.Windows.Forms.RadioButton();
@@ -217,6 +221,7 @@ namespace Options
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
+			this.gboxDiff.SuspendLayout();
 			this.gboxReader.SuspendLayout();
 			this.gboxEditors.SuspendLayout();
 			this.gboxRar.SuspendLayout();
@@ -226,8 +231,8 @@ namespace Options
 			this.tpFileManager.SuspendLayout();
 			this.tcFM.SuspendLayout();
 			this.tpFMGeneral.SuspendLayout();
-			this.pSortFB2.SuspendLayout();
 			this.gboxFMGeneral.SuspendLayout();
+			this.pSortFB2.SuspendLayout();
 			this.pFMGenres.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -332,16 +337,65 @@ namespace Options
 			// 
 			// tpGeneral
 			// 
+			this.tpGeneral.Controls.Add(this.gboxDiff);
 			this.tpGeneral.Controls.Add(this.gboxReader);
 			this.tpGeneral.Controls.Add(this.gboxEditors);
 			this.tpGeneral.Controls.Add(this.gboxRar);
 			this.tpGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tpGeneral.Name = "tpGeneral";
 			this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpGeneral.Size = new System.Drawing.Size(609, 452);
+			this.tpGeneral.Size = new System.Drawing.Size(609, 461);
 			this.tpGeneral.TabIndex = 0;
 			this.tpGeneral.Text = " Основные ";
 			this.tpGeneral.UseVisualStyleBackColor = true;
+			// 
+			// gboxDiff
+			// 
+			this.gboxDiff.Controls.Add(this.lblDiffPath);
+			this.gboxDiff.Controls.Add(this.tboxDiffPath);
+			this.gboxDiff.Controls.Add(this.btnDiffPath);
+			this.gboxDiff.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gboxDiff.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gboxDiff.ForeColor = System.Drawing.Color.Maroon;
+			this.gboxDiff.Location = new System.Drawing.Point(3, 249);
+			this.gboxDiff.Name = "gboxDiff";
+			this.gboxDiff.Size = new System.Drawing.Size(603, 45);
+			this.gboxDiff.TabIndex = 16;
+			this.gboxDiff.TabStop = false;
+			this.gboxDiff.Text = " Diff-программа визуального сравнения ";
+			// 
+			// lblDiffPath
+			// 
+			this.lblDiffPath.AutoSize = true;
+			this.lblDiffPath.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblDiffPath.Location = new System.Drawing.Point(7, 19);
+			this.lblDiffPath.Name = "lblDiffPath";
+			this.lblDiffPath.Size = new System.Drawing.Size(139, 13);
+			this.lblDiffPath.TabIndex = 16;
+			this.lblDiffPath.Text = "Путь к diff-программе:";
+			// 
+			// tboxDiffPath
+			// 
+			this.tboxDiffPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxDiffPath.Location = new System.Drawing.Point(184, 16);
+			this.tboxDiffPath.Name = "tboxDiffPath";
+			this.tboxDiffPath.ReadOnly = true;
+			this.tboxDiffPath.Size = new System.Drawing.Size(368, 20);
+			this.tboxDiffPath.TabIndex = 14;
+			// 
+			// btnDiffPath
+			// 
+			this.btnDiffPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnDiffPath.Image = ((System.Drawing.Image)(resources.GetObject("btnDiffPath.Image")));
+			this.btnDiffPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnDiffPath.Location = new System.Drawing.Point(558, 13);
+			this.btnDiffPath.Name = "btnDiffPath";
+			this.btnDiffPath.Size = new System.Drawing.Size(37, 24);
+			this.btnDiffPath.TabIndex = 15;
+			this.btnDiffPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnDiffPath.UseVisualStyleBackColor = true;
+			this.btnDiffPath.Click += new System.EventHandler(this.BtnDiffPathClick);
 			// 
 			// gboxReader
 			// 
@@ -372,7 +426,7 @@ namespace Options
 			// 
 			this.tboxReaderPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxReaderPath.Location = new System.Drawing.Point(184, 12);
+			this.tboxReaderPath.Location = new System.Drawing.Point(184, 15);
 			this.tboxReaderPath.Name = "tboxReaderPath";
 			this.tboxReaderPath.ReadOnly = true;
 			this.tboxReaderPath.Size = new System.Drawing.Size(368, 20);
@@ -383,7 +437,7 @@ namespace Options
 			this.btnReaderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnReaderPath.Image = ((System.Drawing.Image)(resources.GetObject("btnReaderPath.Image")));
 			this.btnReaderPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnReaderPath.Location = new System.Drawing.Point(558, 10);
+			this.btnReaderPath.Location = new System.Drawing.Point(558, 13);
 			this.btnReaderPath.Name = "btnReaderPath";
 			this.btnReaderPath.Size = new System.Drawing.Size(37, 24);
 			this.btnReaderPath.TabIndex = 15;
@@ -638,7 +692,7 @@ namespace Options
 			this.tpValidator.Location = new System.Drawing.Point(4, 22);
 			this.tpValidator.Name = "tpValidator";
 			this.tpValidator.Padding = new System.Windows.Forms.Padding(3);
-			this.tpValidator.Size = new System.Drawing.Size(609, 452);
+			this.tpValidator.Size = new System.Drawing.Size(609, 461);
 			this.tpValidator.TabIndex = 1;
 			this.tpValidator.Text = " Валидатор ";
 			this.tpValidator.UseVisualStyleBackColor = true;
@@ -803,6 +857,27 @@ namespace Options
 			this.tpFMGeneral.Text = " Основные ";
 			this.tpFMGeneral.UseVisualStyleBackColor = true;
 			// 
+			// gboxFMGeneral
+			// 
+			this.gboxFMGeneral.Controls.Add(this.pSortFB2);
+			this.gboxFMGeneral.Controls.Add(this.pFMGenres);
+			this.gboxFMGeneral.Controls.Add(this.chBoxDelFB2Files);
+			this.gboxFMGeneral.Controls.Add(this.chBoxAddToFileNameBookID);
+			this.gboxFMGeneral.Controls.Add(this.panel2);
+			this.gboxFMGeneral.Controls.Add(this.panel1);
+			this.gboxFMGeneral.Controls.Add(this.chBoxStrict);
+			this.gboxFMGeneral.Controls.Add(this.chBoxTranslit);
+			this.gboxFMGeneral.Controls.Add(this.gboxRegister);
+			this.gboxFMGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gboxFMGeneral.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
+			this.gboxFMGeneral.Location = new System.Drawing.Point(3, 3);
+			this.gboxFMGeneral.Name = "gboxFMGeneral";
+			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 234);
+			this.gboxFMGeneral.TabIndex = 28;
+			this.gboxFMGeneral.TabStop = false;
+			this.gboxFMGeneral.Text = " Основные настройки ";
+			// 
 			// pSortFB2
 			// 
 			this.pSortFB2.Controls.Add(this.rbtnFMOnleValidFB2);
@@ -847,27 +922,6 @@ namespace Options
 			this.label11.Size = new System.Drawing.Size(133, 16);
 			this.label11.TabIndex = 0;
 			this.label11.Text = "Сортировка файлов:";
-			// 
-			// gboxFMGeneral
-			// 
-			this.gboxFMGeneral.Controls.Add(this.pSortFB2);
-			this.gboxFMGeneral.Controls.Add(this.pFMGenres);
-			this.gboxFMGeneral.Controls.Add(this.chBoxDelFB2Files);
-			this.gboxFMGeneral.Controls.Add(this.chBoxAddToFileNameBookID);
-			this.gboxFMGeneral.Controls.Add(this.panel2);
-			this.gboxFMGeneral.Controls.Add(this.panel1);
-			this.gboxFMGeneral.Controls.Add(this.chBoxStrict);
-			this.gboxFMGeneral.Controls.Add(this.chBoxTranslit);
-			this.gboxFMGeneral.Controls.Add(this.gboxRegister);
-			this.gboxFMGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gboxFMGeneral.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxFMGeneral.Location = new System.Drawing.Point(3, 3);
-			this.gboxFMGeneral.Name = "gboxFMGeneral";
-			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 234);
-			this.gboxFMGeneral.TabIndex = 28;
-			this.gboxFMGeneral.TabStop = false;
-			this.gboxFMGeneral.Text = " Основные настройки ";
 			// 
 			// pFMGenres
 			// 
@@ -1274,7 +1328,7 @@ namespace Options
 			this.tpFMDirs.Location = new System.Drawing.Point(4, 22);
 			this.tpFMDirs.Name = "tpFMDirs";
 			this.tpFMDirs.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMDirs.Size = new System.Drawing.Size(595, 420);
+			this.tpFMDirs.Size = new System.Drawing.Size(595, 429);
 			this.tpFMDirs.TabIndex = 1;
 			this.tpFMDirs.Text = " Папки для \"проблемных\" файлов ";
 			this.tpFMDirs.UseVisualStyleBackColor = true;
@@ -1424,7 +1478,7 @@ namespace Options
 			this.tpFMNoTagsText.Controls.Add(this.gBoxFMNoTags);
 			this.tpFMNoTagsText.Location = new System.Drawing.Point(4, 22);
 			this.tpFMNoTagsText.Name = "tpFMNoTagsText";
-			this.tpFMNoTagsText.Size = new System.Drawing.Size(595, 420);
+			this.tpFMNoTagsText.Size = new System.Drawing.Size(595, 429);
 			this.tpFMNoTagsText.TabIndex = 2;
 			this.tpFMNoTagsText.Text = " Папки шаблонного тэга без данных ";
 			this.tpFMNoTagsText.UseVisualStyleBackColor = true;
@@ -1445,7 +1499,7 @@ namespace Options
 			this.gBoxFMNoTags.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.gBoxFMNoTags.Location = new System.Drawing.Point(0, 0);
 			this.gBoxFMNoTags.Name = "gBoxFMNoTags";
-			this.gBoxFMNoTags.Size = new System.Drawing.Size(595, 420);
+			this.gBoxFMNoTags.Size = new System.Drawing.Size(595, 429);
 			this.gBoxFMNoTags.TabIndex = 0;
 			this.gBoxFMNoTags.TabStop = false;
 			this.gBoxFMNoTags.Text = " Для отсутствующих данных тэгов ";
@@ -1741,7 +1795,7 @@ namespace Options
 			this.tpFMGenreGroups.Location = new System.Drawing.Point(4, 22);
 			this.tpFMGenreGroups.Name = "tpFMGenreGroups";
 			this.tpFMGenreGroups.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMGenreGroups.Size = new System.Drawing.Size(595, 420);
+			this.tpFMGenreGroups.Size = new System.Drawing.Size(595, 429);
 			this.tpFMGenreGroups.TabIndex = 3;
 			this.tpFMGenreGroups.Text = " Группы Жанров ";
 			this.tpFMGenreGroups.UseVisualStyleBackColor = true;
@@ -2213,6 +2267,8 @@ namespace Options
 			this.pBtn.ResumeLayout(false);
 			this.tcOptions.ResumeLayout(false);
 			this.tpGeneral.ResumeLayout(false);
+			this.gboxDiff.ResumeLayout(false);
+			this.gboxDiff.PerformLayout();
 			this.gboxReader.ResumeLayout(false);
 			this.gboxReader.PerformLayout();
 			this.gboxEditors.ResumeLayout(false);
@@ -2225,8 +2281,8 @@ namespace Options
 			this.tpFileManager.ResumeLayout(false);
 			this.tcFM.ResumeLayout(false);
 			this.tpFMGeneral.ResumeLayout(false);
-			this.pSortFB2.ResumeLayout(false);
 			this.gboxFMGeneral.ResumeLayout(false);
+			this.pSortFB2.ResumeLayout(false);
 			this.pFMGenres.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
@@ -2297,6 +2353,10 @@ namespace Options
 			this.panel13.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Button btnDiffPath;
+		private System.Windows.Forms.TextBox tboxDiffPath;
+		private System.Windows.Forms.Label lblDiffPath;
+		private System.Windows.Forms.GroupBox gboxDiff;
 		private System.Windows.Forms.RadioButton rbtnAsSentence;
 		private System.Windows.Forms.TextBox txtboxFMhome;
 		private System.Windows.Forms.TextBox txtboxFMbusiness;
