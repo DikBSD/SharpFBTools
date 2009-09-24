@@ -309,7 +309,10 @@ namespace Settings
 					
 					writer.WriteStartElement( "FB2DuplicatesSearcher" );
 						writer.WriteStartElement( "FB2DupScanDir" );
-							writer.WriteAttributeString( "tboxSourceDir", SettingsFB2Dup.FMDataScanDir );
+							writer.WriteAttributeString( "tboxSourceDir", SettingsFB2Dup.DupScanDir );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "FB2DupToDir" );
+							writer.WriteAttributeString( "tboxDupToDir", SettingsFB2Dup.DupToDir );
 						writer.WriteFullEndElement();
 					writer.WriteEndElement();
 					

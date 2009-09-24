@@ -60,7 +60,8 @@ namespace SharpFBTools.Tools
 			// читаем сохраненные пути к папкам Поиска одинаковых fb2-файлов, если они есть
 			ReadFB2DupTempData();
 			m_sv = new StatusView();
-			cboxMode.SelectedIndex = 0; // Условия для Сравнения fb2-файлов: Автор(ы) и Название Книги
+			cboxMode.SelectedIndex			= 0; // Условия для Сравнения fb2-файлов: Автор(ы) и Название Книги
+			cboxDupExistFile.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу очередного номера
 		}
 
 		#region Закрытые методы реализации BackgroundWorker
@@ -254,7 +255,12 @@ namespace SharpFBTools.Tools
 				reader.ReadToFollowing("FB2DupScanDir");
 				if (reader.HasAttributes ) {
 					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
-					Settings.SettingsFB2Dup.FMDataScanDir = tboxSourceDir.Text.Trim();
+					Settings.SettingsFB2Dup.DupScanDir = tboxSourceDir.Text.Trim();
+				}
+				reader.ReadToFollowing("FB2DupToDir");
+				if (reader.HasAttributes ) {
+					tboxDupToDir.Text = reader.GetAttribute("tboxDupToDir");
+					Settings.SettingsFB2Dup.DupToDir = tboxDupToDir.Text.Trim();
 				}
 				reader.Close();
 			}
@@ -264,6 +270,7 @@ namespace SharpFBTools.Tools
 			// доступность контролов при Поиске одинаковых fb2-файлов
 			pSearchFBDup2Dirs.Enabled	= bEnabled;
 			pMode.Enabled				= bEnabled;
+			pExistFile.Enabled			= bEnabled;
 			tsbtnOpenDir.Enabled		= bEnabled;
 			tsbtnSearchDubls.Enabled	= bEnabled;
 			tsbtnSearchFb2DupStop.Enabled	= !bEnabled;
@@ -619,13 +626,24 @@ namespace SharpFBTools.Tools
 		#region Обработчики событий
 		void TboxSourceDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsFB2Dup.FMDataScanDir = tboxSourceDir.Text;
+			Settings.SettingsFB2Dup.DupScanDir = tboxSourceDir.Text;
+		}
+		
+		void TboxDupToDirTextChanged(object sender, EventArgs e)
+		{
+			Settings.SettingsFB2Dup.DupToDir = tboxDupToDir.Text;
 		}
 		
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования
 			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" );
+		}
+		
+		void TsbtnToDirClick(object sender, EventArgs e)
+		{
+			// задание папки-приемника для размешения копий
+			filesWorker.OpenDirDlg( tboxDupToDir, fbdScanDir, "Укажите папку-приемник для размешения копий книг:" );
 		}
 		
 		void TsbtnFullSortStopClick(object sender, EventArgs e)
@@ -741,6 +759,12 @@ namespace SharpFBTools.Tools
 				TsbtnSearchDublsClick( sender, e );
 			}
 		}
+		
+		void CboxDupExistFileSelectedIndexChanged(object sender, EventArgs e)
+		{
+			chBoxAddFileNameBookID.Enabled = ( cboxDupExistFile.SelectedIndex != 0 );
+		}
+		
 		#endregion
 		
 		#region Обработчики для контекстного меню
