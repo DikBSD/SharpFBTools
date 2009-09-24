@@ -300,7 +300,7 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void bwcmd_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-            // Отобразим результат Копирования / Перемещения
+            // Отобразим результат Копирования / Перемещения / Удаления
             ++tsProgressBar.Value;
         }
 		
@@ -354,7 +354,6 @@ namespace SharpFBTools.Tools
 														listViewNotFB2.Items.Count ).ToString();
 			tsslblProgress.Text = Settings.Settings.GetReady();
 			SetFilesWorkerStartEnabled( true );
-			tsProgressBar.Visible = false;
 			
             // Проверяем это отмена, ошибка, или конец задачи и сообщить
 			if( ( e.Cancelled == true ) ) {
@@ -419,6 +418,7 @@ namespace SharpFBTools.Tools
 			pScanDir.Enabled			= bEnabled;
 			gboxCopyMoveOptions.Enabled	= bEnabled;
 			tsbtnFilesWorkStop.Enabled	= !bEnabled;
+			tsProgressBar.Visible		= !bEnabled;
 			tcResult.Refresh();
 			ssProgress.Refresh();
 		}
@@ -605,7 +605,7 @@ namespace SharpFBTools.Tools
 		}
 		#endregion
 		
-		#region Копирование, перемещение файлов
+		#region Копирование, перемещение, удаление файлов
 		void CopyOrMoveFilesTo( BackgroundWorker bw, DoWorkEventArgs e,
 		                       bool bCopy, string sSource, string sTarget,
 		                       ListView lv, TabPage tp,
@@ -691,7 +691,7 @@ namespace SharpFBTools.Tools
 							tp.Text = sTabPageDefText + "( " + Convert.ToString( lv.Items.Count ) +" )";
 						}
 					}
-					bw.ReportProgress( nCount ); // отобразим данные в контролах
+					bw.ReportProgress( i ); // отобразим данные в контролах
 				}
 			}
 			#endregion
@@ -715,7 +715,7 @@ namespace SharpFBTools.Tools
 						lv.Items[0].Remove();
 						tp.Text = sTabPageDefText + "( " + Convert.ToString( lv.Items.Count ) +" )";
 					}
-					bw.ReportProgress( nCount ); // отобразим данные в контролах
+					bw.ReportProgress( i ); // отобразим данные в контролах
 				}
 			}
 			#endregion
@@ -917,7 +917,6 @@ namespace SharpFBTools.Tools
 			
 			// инициализация контролов
 			tsProgressBar.Maximum 	= lv.Items.Count;
-			tsProgressBar.Visible	= true;
 			tsProgressBar.Value		= 0;
 			SetFilesWorkerStartEnabled( false );
 			
@@ -991,7 +990,6 @@ namespace SharpFBTools.Tools
 			
 			// инициализация контролов
 			tsProgressBar.Maximum 	= lv.Items.Count;
-			tsProgressBar.Visible	= true;
 			tsProgressBar.Value		= 0;
 			SetFilesWorkerStartEnabled( false );
 		
@@ -1040,7 +1038,8 @@ namespace SharpFBTools.Tools
 			}
 			
 			// инициализация контролов
-			tsProgressBar.Value	= 0;
+			tsProgressBar.Maximum 	= lv.Items.Count;
+			tsProgressBar.Value		= 0;
 			SetFilesWorkerStartEnabled( false );
 		
 			// Запуск процесса DoWork от Бекграунд Воркера
