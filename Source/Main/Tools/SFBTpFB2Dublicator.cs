@@ -582,11 +582,35 @@ namespace SharpFBTools.Tools
 			return fv2Validator.ValidatingFB2File( sFilePath ) == "" ? "Да" : "Нет";
         }
 		
-		// извлечение информации из текста тэга <p>
+		private string GetSubtring( string sP, string sStart, string sEnd ) {
+			string s = "";
+			int nStart = sP.IndexOf( sStart );
+			int nEnd = -1;
+			if( nStart!=-1 ) {
+				nEnd = sP.IndexOf( sEnd );
+				if( nEnd!=-1 ) {
+					nEnd += sEnd.Length;
+				}
+				s = sP.Substring( nStart, nEnd-nStart );
+			}
+			return s;
+		}
+		// извлечение информации из текста тэга <p>, убираем инлайн-теги для простоты
 		private string GetDataFromTagP( string sP ) {
 			sP = sP.Replace( "</p>","\r\n" ); sP = sP.Replace( "</P>","\r\n" );
-			sP = sP.Replace( "<p xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\">", "" );
-			sP = sP.Replace( "<P xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\">", "" );
+			string s = GetSubtring( sP, "<p ", ">" );
+			if( s.Length!=0 ) sP = sP.Replace( s, "" );
+			s = GetSubtring( sP, "<P ", ">" );
+			if( s.Length!=0 ) sP = sP.Replace( s, "" );
+			string[] sIT = { "<strong>", "<STRONG>", "</strong>", "</STRONG>",
+								"<emphasis>", "<EMPHASIS>", "</emphasis>", "</EMPHASIS>",
+								"<sup>", "<SUP>", "</sup>", "</SUP>",
+								"<sub>", "<SUB>", "</sub>", "</SUB>",
+								"<code>", "<CODE>", "</code>", "</CODE>",
+								"<strikethrough>", "<STRIKETHROUGH>", "</strikethrough>", "</STRIKETHROUGH>" };
+			foreach( string sT in sIT ) {
+				sP = sP.Replace( sT, "" );
+			}
 			return sP;
 		}
 		
