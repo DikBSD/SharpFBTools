@@ -817,10 +817,8 @@ namespace SharpFBTools.Tools
 			m_sUnRarPath	= Settings.Settings.ReadUnRarPath().Trim();
 			m_sMessTitle	= "SharpFBTools - Валидация";
 			
-			m_sScan		= tboxSourceDir.Text.Trim();
-			Regex rx	= new Regex( @"\\+$" );
-			m_sScan		= rx.Replace( m_sScan, "" );
-			tboxSourceDir.Text = m_sScan;
+			m_sScan				= stringProcessing.WorkingDirPath( tboxSourceDir.Text.Trim() );
+			tboxSourceDir.Text	= m_sScan;
 			
 			// проверки задания папки сканирования
 			if( m_sScan.Length == 0 ) {
@@ -860,23 +858,28 @@ namespace SharpFBTools.Tools
 			m_sFileWorkerMode = "Copy";
 
 			string sMessTitle = "SharpFBTools - Копирование файлов";
-			string sSource = tboxSourceDir.Text.Trim();
+			string sSource 		= stringProcessing.WorkingDirPath( tboxSourceDir.Text.Trim() );
+			tboxSourceDir.Text	= sSource;
+			
 			string sTarget, sType, sType1;
 			sTarget = sType = sType1 = "";
 			ListView lv = GetCurrentListWiew();
 			switch( tcResult.SelectedIndex ) {
 				case 0: // не валидные fb2-файлы
-					sTarget = tboxFB2NotValidDirCopyTo.Text.Trim();
+					sTarget = stringProcessing.WorkingDirPath( tboxFB2NotValidDirCopyTo.Text.Trim() );
+					tboxFB2NotValidDirCopyTo.Text = sTarget;
 					sType	= "не валидных fb2-файлов";
 					sType1	= "не валидные fb2-файлы";
 					break;
 				case 1: // валидные fb2-файлы
-					sTarget = tboxFB2ValidDirCopyTo.Text.Trim();
+					sTarget = stringProcessing.WorkingDirPath( tboxFB2ValidDirCopyTo.Text.Trim() );
+					tboxFB2ValidDirCopyTo.Text = sTarget;
 					sType	= "валидных fb2-файлов";
 					sType1	= "валидные fb2-файлы";
 					break;
 				case 2: // не fb2-файлы
-					sTarget = tboxNotFB2DirCopyTo.Text.Trim();
+					sTarget = stringProcessing.WorkingDirPath( tboxNotFB2DirCopyTo.Text.Trim() );
+					tboxNotFB2DirCopyTo.Text = sTarget;
 					sType	= "не fb2-файлов";
 					sType1	= "не fb2-файлы";
 					break;
@@ -933,23 +936,27 @@ namespace SharpFBTools.Tools
 			m_sFileWorkerMode = "Move";
 			
 			string sMessTitle = "SharpFBTools - Перемещение файлов";
-			string sSource = tboxSourceDir.Text.Trim();
+			string sSource 		= stringProcessing.WorkingDirPath( tboxSourceDir.Text.Trim() );
+			tboxSourceDir.Text	= sSource;
 			string sTarget, sType, sType1;
 			sTarget = sType = sType1 = "";
 			ListView lv = GetCurrentListWiew();
 			switch( tcResult.SelectedIndex ) {
 				case 0: // не валидные fb2-файлы
-					sTarget = tboxFB2NotValidDirMoveTo.Text.Trim();
+					sTarget = stringProcessing.WorkingDirPath( tboxFB2NotValidDirMoveTo.Text.Trim() );
+					tboxFB2NotValidDirMoveTo.Text = sTarget;
 					sType	= "не валидных fb2-файлов";
 					sType1	= "не валидные fb2-файлы";
 					break;
 				case 1: // валидные fb2-файлы
-					sTarget = tboxFB2ValidDirMoveTo.Text.Trim();
+					sTarget = stringProcessing.WorkingDirPath( tboxFB2ValidDirMoveTo.Text.Trim() );
+					tboxFB2ValidDirMoveTo.Text = sTarget;
 					sType	= "валидных fb2-файлов";
 					sType1	= "валидные fb2-файлы";
 					break;
 				case 2: // не fb2-файлы
-					sTarget = tboxNotFB2DirMoveTo.Text.Trim();
+					sTarget = stringProcessing.WorkingDirPath( tboxNotFB2DirMoveTo.Text.Trim() );
+					tboxNotFB2DirMoveTo.Text = sTarget;
 					sType	= "не fb2-файлов";
 					sType1	= "не fb2-файлы";
 					break;

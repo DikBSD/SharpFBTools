@@ -879,8 +879,11 @@ namespace SharpFBTools.Tools
 			} else {
 				m_bScanSubDirs = false;
 			}
-			m_sSource = tboxSourceDir.Text;
-			m_sTarget = tboxSortAllToDir.Text;
+			m_sSource			= stringProcessing.WorkingDirPath( tboxSourceDir.Text.Trim() );
+			tboxSourceDir.Text	= m_sSource;
+			m_sTarget				= stringProcessing.WorkingDirPath( tboxSortAllToDir.Text.Trim() );
+			tboxSortAllToDir.Text	= m_sTarget;
+			
 			m_sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
 			m_sMessTitle = "SharpFBTools - Полная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
@@ -1065,8 +1068,12 @@ namespace SharpFBTools.Tools
 			} else {
 				m_bScanSubDirs = false;
 			}
-			m_sSource = tboxSSSourceDir.Text;
-			m_sTarget = tboxSSToDir.Text;
+			
+			m_sSource				= stringProcessing.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
+			tboxSSSourceDir.Text	= m_sSource;
+			m_sTarget				= stringProcessing.WorkingDirPath( tboxSSToDir.Text.Trim() );
+			tboxSSToDir.Text		= m_sTarget;
+			
 			m_sLineTemplate = txtBoxSSTemplatesFromLine.Text.Trim();
 			m_sMessTitle = "SharpFBTools - Избранная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов

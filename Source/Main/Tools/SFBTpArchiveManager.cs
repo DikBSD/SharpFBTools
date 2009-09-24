@@ -978,8 +978,10 @@ namespace SharpFBTools.Tools
 		{
 			// Запаковка fb2-файлов
 			m_sMessTitle = "SharpFBTools - Упаковка в архивы";
-			m_sSource = tboxSourceDir.Text.Trim();
-			m_sTarget = tboxToAnotherDir.Text.Trim();
+			m_sSource			= stringProcessing.WorkingDirPath( tboxSourceDir.Text.Trim() );
+			tboxSourceDir.Text	= m_sSource;
+			m_sTarget				= stringProcessing.WorkingDirPath( tboxToAnotherDir.Text.Trim() );
+			tboxToAnotherDir.Text	= m_sTarget;
 			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
 			
 			// проверки папки для сканирования
@@ -1053,8 +1055,10 @@ namespace SharpFBTools.Tools
 		{
 			// Распаковка архивов
 			m_sMessTitle = "SharpFBTools - Распаковка архивов";
-			m_sSource = tboxUASourceDir.Text.Trim();
-			m_sTarget = tboxUAToAnotherDir.Text.Trim();
+			m_sSource				= stringProcessing.WorkingDirPath( tboxUASourceDir.Text.Trim() );
+			tboxUASourceDir.Text	= m_sSource;
+			m_sTarget				= stringProcessing.WorkingDirPath( tboxUAToAnotherDir.Text.Trim() );
+			tboxUAToAnotherDir.Text	= m_sTarget;
 			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
 			
 			// проверки папки для сканирования
