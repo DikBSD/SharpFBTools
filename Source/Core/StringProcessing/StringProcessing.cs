@@ -545,6 +545,18 @@ namespace Core.StringProcessing
 			}
 			return true;
 		}
+		
+		// обработка строки с папкой
+		public static string WorkingDirPath( string sDir ) {
+			if( sDir.Length>3 ) {
+				Regex rx = new Regex( @"\\+$" );
+				sDir = rx.Replace( sDir, "" );
+			} else if( sDir.Length==2 ) {
+				sDir += "\\";
+			}
+			return sDir;
+		}
+		
 		#endregion
 		
 		#region Поиск одинаковых строк в списке List

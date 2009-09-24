@@ -90,7 +90,8 @@ namespace SharpFBTools.Tools
 				// сканировать и все подпапки
 				m_sv.AllFiles = filesWorker.DirsParser( m_sSource, lvFilesCount, ref lDirList, false );
 			}
-
+			m_bw.ReportProgress( 0 ); // отобразим данные в контролах
+			
 			// Проверить флаг на остановку процесса 
 			if( ( m_bw.CancellationPending == true ) ) {
 				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
@@ -116,6 +117,11 @@ namespace SharpFBTools.Tools
            	if( cboxMode.SelectedIndex == 0 ) {
            		MakeColumns( 0 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
            		Hashtable htFB2ForID = FilesHashForIDParser( m_bw, e, lDirList );
+           		// Проверить флаг на остановку процесса
+				if( ( m_bw.CancellationPending == true ) ) {
+					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+					return;
+				}
            		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
            		tsProgressBar.Maximum	= htFB2ForID.Count+1;
 				tsProgressBar.Value		= 0;
@@ -353,6 +359,7 @@ namespace SharpFBTools.Tools
 		
 		private void SetSearchFB2DupStartEnabled( bool bEnabled ) {
 			// доступность контролов при Поиске одинаковых fb2-файлов
+			lvResult.Enabled			= bEnabled;
 			pSearchFBDup2Dirs.Enabled	= bEnabled;
 			pMode.Enabled				= bEnabled;
 			pExistFile.Enabled			= bEnabled;
@@ -382,10 +389,8 @@ namespace SharpFBTools.Tools
 		
 		private bool IsScanFolderDataCorrect( TextBox tbSource ) {
 			// проверка на корректность данных папок источника
-			string sSource = tbSource.Text.Trim();
-			Regex rx = new Regex( @"\\+$" );
-			sSource = rx.Replace( sSource, "" );
-			tbSource.Text = sSource;
+			string sSource	= stringProcessing.WorkingDirPath( tbSource.Text.Trim() );
+			tbSource.Text	= sSource;
 			
 			// проверки на корректность папок источника
 			if( sSource.Length == 0 ) {
@@ -885,7 +890,7 @@ namespace SharpFBTools.Tools
 			} else {
 				m_bScanSubDirs = false;
 			}
-			m_sSource = tboxSourceDir.Text;
+			
 			m_sMessTitle = "SharpFBTools - Поиск одинаковых fb2-файлов";
 			// проверка на корректность данных папок источника и приемника файлов
 			if( !IsScanFolderDataCorrect( tboxSourceDir ) ) {
@@ -896,6 +901,7 @@ namespace SharpFBTools.Tools
 				return;
 			}*/
 			
+			m_sSource = tboxSourceDir.Text;
 			// инициализация контролов
 			Init();
 			SetSearchFB2DupStartEnabled( false );
@@ -1006,7 +1012,8 @@ namespace SharpFBTools.Tools
 		{
 			// копировать помеченные файлы в папку-приемник
 			string sMessTitle = "SharpFBTools - Копирование копий книг";
-			string sTarget = tboxDupToDir.Text.Trim();
+			string sTarget		= stringProcessing.WorkingDirPath( tboxDupToDir.Text.Trim() );
+			tboxDupToDir.Text	= sTarget;
 			// проверки корректности путей к папкам
 			if( sTarget.Length == 0 ) {
 				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.",
@@ -1053,7 +1060,8 @@ namespace SharpFBTools.Tools
 		{
 			// переместить помеченные файлы в папку-приемник
 			string sMessTitle = "SharpFBTools - Перемещение копий книг";
-			string sTarget = tboxDupToDir.Text.Trim();
+			string sTarget		= stringProcessing.WorkingDirPath( tboxDupToDir.Text.Trim() );
+			tboxDupToDir.Text	= sTarget;
 			// проверки корректности путей к папкам
 			if( sTarget.Length == 0 ) {
 				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.",

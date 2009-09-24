@@ -263,7 +263,7 @@ namespace Core.FilesWorker
 		// параметры:	sStartDir - папка для сканирования;
 		//				lDirList - заполняемый список папок в текущей папке
 		// возвращает: число файлов в текущем каталоге
-		private static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
+		/*private static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
 			int nFilesCount = 0;
 			// папки в текущей папке
 			string[] dirs = Directory.GetDirectories(sStartDir);
@@ -272,17 +272,35 @@ namespace Core.FilesWorker
 				nFilesCount += Directory.GetFiles( sDir ).Length;
 			}
 			return nFilesCount; 
+		}*/
+		private static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
+			int nFilesCount = 0;
+			// папки в текущей папке
+			try {
+				string[] dirs = Directory.GetDirectories(sStartDir);
+				foreach( string sDir in dirs ) {
+					try {
+						nFilesCount += Directory.GetFiles( sDir ).Length;
+						lDirList.Add( sDir );
+					} catch { continue; }
+				}
+			} catch { lDirList.Remove( sStartDir ); }
+			return nFilesCount; 
 		}
 		/*
 		private static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
 			int nFilesCount = 0;
 			// папки в текущей папке
-			DirectoryInfo diFolder = new DirectoryInfo( sStartDir );
-			foreach( DirectoryInfo diNextFolder in diFolder.GetDirectories() ) {
-				lDirList.Add( sStartDir + "\\" + diNextFolder.Name );
-				DirectoryInfo di = new DirectoryInfo( sStartDir + "\\" + diNextFolder.Name );
-				nFilesCount += di.GetFiles().Length;
-			}
+			try {
+				DirectoryInfo diFolder = new DirectoryInfo( sStartDir );
+				foreach( DirectoryInfo diNextFolder in diFolder.GetDirectories() ) {
+					try {
+						DirectoryInfo di = new DirectoryInfo( sStartDir + "\\" + diNextFolder.Name );
+						nFilesCount += di.GetFiles().Length;
+						lDirList.Add( sStartDir + "\\" + diNextFolder.Name );
+					} catch { continue; }
+				}
+			} catch { lDirList.Remove( sStartDir ); }
 			return nFilesCount; 
 		}*/
 		#endregion
