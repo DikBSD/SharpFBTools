@@ -28,10 +28,11 @@ using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.CustomInfo;
 
 //using fB2Parser 		= Core.FB2.FB2Parsers.FB2Parser;
-using fB2Parser 		= Core.FB2Dublicator.FB2ParserForDup;
-using filesWorker		= Core.FilesWorker.FilesWorker;
 using archivesWorker	= Core.FilesWorker.Archiver;
 using FB2Validator		= Core.FB2Parser.FB2Validator;
+using filesWorker		= Core.FilesWorker.FilesWorker;
+using fB2Parser 		= Core.FB2Dublicator.FB2ParserForDup;
+using stringProcessing	= Core.StringProcessing.StringProcessing;
 
 namespace SharpFBTools.Tools
 {
@@ -244,16 +245,16 @@ namespace SharpFBTools.Tools
 			// Обработка файлов
 			System.Windows.Forms.ListView.CheckedListViewItemCollection	checkedItems = lvResult.CheckedItems;
 			switch( m_sFileWorkerMode ) {
-/*				case "Copy":
-					CopyOrMoveFilesTo( m_bwcmd, e, true, tboxSourceDir.Text.Trim(), tboxFB2NotValidDirCopyTo.Text.Trim(),
-	                		       listViewNotValid, tpNotValid, "Копирование не валидных fb2-файлов:", m_sNotValid );
+				case "Copy":
+					CopyOrMoveFilesTo( m_bwcmd, e, true, m_sSource, tboxDupToDir.Text.Trim(),
+									checkedItems, "Копирование помеченных копий книг:" );
 	               	break;
 				case "Move":
-					CopyOrMoveFilesTo( m_bwcmd, e, false, tboxSourceDir.Text.Trim(), tboxFB2NotValidDirMoveTo.Text.Trim(),
-                		       listViewNotValid, tpNotValid, "Перемещение не валидных fb2-файлов:", m_sNotValid );
+					CopyOrMoveFilesTo( m_bwcmd, e, false, m_sSource, tboxDupToDir.Text.Trim(),
+									checkedItems, "Перемещение помеченных копий книг:" );
                 	break;
-*/				case "Delete":
-					DeleteFiles( m_bwcmd, e, checkedItems, "Удаление не валидных fb2-файлов:" );
+				case "Delete":
+					DeleteFiles( m_bwcmd, e, checkedItems, "Удаление помеченных копий книг:" );
 					break;
 				default:
 					return;
@@ -724,6 +725,95 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Копирование, перемещение, удаление файлов
+		void CopyOrMoveFilesTo( BackgroundWorker bw, DoWorkEventArgs e,
+		                       bool bCopy, string sSource, string sTarget,
+		                       System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems,
+		                       string sProgressText ) {
+			// копировать или переместить файлы в...
+			#region Код
+			tsslblProgress.Text = sProgressText;
+			string sTempDir = Settings.Settings.GetTempDir();
+			foreach( ListViewItem lvi in checkedItems ) {
+				// Проверить флаг на остановку процесса 
+				if( ( bw.CancellationPending == true ) ) {
+					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
+					break;
+				} else {
+					string sFilePath = lvi.Text;
+					string sNewPath = sTarget + sFilePath.Remove( 0, sSource.Length );
+					FileInfo fi = new FileInfo( sNewPath );
+					if( !fi.Directory.Exists ) {
+						Directory.CreateDirectory( fi.Directory.ToString() );
+					}
+					string sSufix = "";
+					if( File.Exists( sNewPath ) ) {
+						if( cboxDupExistFile.SelectedIndex==0 ) {
+							File.Delete( sNewPath );
+						} else {
+							if( chBoxAddFileNameBookID.Checked ) {
+								string sExtTemp = Path.GetExtension( sFilePath ).ToLower();
+								if( sExtTemp != ".fb2" ) {
+									filesWorker.RemoveDir( sTempDir );
+//									Directory.CreateDirectory( sTempDir );
+									if( sExtTemp.ToLower() == ".rar" ) {
+										archivesWorker.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
+									} else {
+										archivesWorker.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
+									}
+									if( Directory.Exists( sTempDir ) ) {
+										string [] files = Directory.GetFiles( sTempDir );
+										try {
+											sSufix = "_" + stringProcessing.GetBookID( files[0] );
+										} catch { }
+										filesWorker.RemoveDir( sTempDir );
+									}
+								} else {
+									try {
+										sSufix = "_" + stringProcessing.GetBookID( sFilePath );
+									} catch { }
+								}
+							}
+							if( cboxDupExistFile.SelectedIndex == 1 ) {
+								// Добавить к создаваемому файлу очередной номер
+								sSufix += "_" + stringProcessing.GetFileNewNumber( sNewPath ).ToString();
+							} else {
+								// Добавить к создаваемому файлу дату и время
+								sSufix += "_" + stringProcessing.GetDateTimeExt();
+							}
+						
+							string sFB2File = sNewPath.ToLower();
+							if( sFB2File.IndexOf( ".fb2" )!=1 ) {
+								sFB2File = sFB2File.Substring( 0, sFB2File.IndexOf( ".fb2" )+4 );
+							}
+							string sExt = sNewPath.Remove( 0, sFB2File.Length );
+							if( sExt.Length == 0 ) {
+								sExt = Path.GetExtension( sNewPath );
+								sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
+							} else {
+								sExt = Path.GetExtension( sFB2File ) + Path.GetExtension( sNewPath );
+								sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
+							}
+						}
+					}
+				
+					Regex rx = new Regex( @"\\+" );
+					sFilePath = rx.Replace( sFilePath, "\\" );
+					if( File.Exists( sFilePath ) ) {
+						if( bCopy ) {
+							File.Copy( sFilePath, sNewPath );
+						} else {
+							File.Move( sFilePath, sNewPath );
+							ListViewGroup lvg = lvi.Group;
+							lvResult.Items.Remove( lvi );
+							if( lvg.Items.Count == 0 )
+								lvResult.Groups.Remove( lvg );
+						}
+					}
+					bw.ReportProgress( 0 ); // отобразим данные в контролах
+				}
+			}
+			#endregion
+		}
 		
 		void DeleteFiles( BackgroundWorker bw, DoWorkEventArgs e,
 		                 System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems,
