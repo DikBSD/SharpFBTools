@@ -214,7 +214,8 @@ namespace SharpFBTools.Tools
 			string sMessCanceled	= "Поиск одинаковых fb2-файлов остановлен!\nЗатрачено времени: "+sTime;
 			string sMessError		= "";
 			string sMessDone		= "Поиск одинаковых fb2-файлов завершен!\nЗатрачено времени: "+sTime;
-           
+			if( lvResult.Items.Count==0 ) sMessDone += "\n\nНе найдено НИ ОДНОЙ копии книг!";
+			
 			if( ( e.Cancelled == true ) ) {
                 MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             } else if( e.Error != null ) {
