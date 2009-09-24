@@ -740,16 +740,15 @@ namespace SharpFBTools.Tools
 						lvResult.Items[ lvResult.SelectedItems[0].Index ].Remove();
 					} else return;
 				}
+				
 				// новое число групп и книг во всех группах
-				int n = Convert.ToInt32( lvFilesCount.Items[6].SubItems[1].Text )-1;
 				Misc msc = new Misc();
-				msc.ListViewStatus( lvFilesCount, 6, n.ToString() );
-				// если в группе уже нет ни одного файла - то число групп уменьшаем на 1
+				// число групп
 				if( lvg.Items.Count == 0 )
-					msc.ListViewStatus( lvFilesCount, 5, Convert.ToInt32( lvFilesCount.Items[6].SubItems[1].Text )-1 );
-				// если всех книг в группах нет ни одной, то число групп = 0
-				if( lvFilesCount.Items[6].SubItems[1].Text == "0" )
-					msc.ListViewStatus( lvFilesCount, 5, "0" );
+					lvResult.Groups.Remove( lvg );					
+				msc.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count.ToString() );
+				// число книг во всех группах
+				msc.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count.ToString() );
 			}
 			#endregion
 		}
