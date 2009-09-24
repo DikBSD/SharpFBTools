@@ -204,7 +204,7 @@ namespace SharpFBTools.Tools
 			listViewNotFB2.EndUpdate();
 			
             DateTime dtEnd = DateTime.Now;
-            m_lFilesList.Clear();
+            if( m_lFilesList!=null ) m_lFilesList.Clear();
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
            
             tsslblProgress.Text = Settings.Settings.GetReady();

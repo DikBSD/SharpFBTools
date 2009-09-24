@@ -200,7 +200,7 @@ namespace SharpFBTools.Tools
         private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
             // Проверяем это отмена, ошибка, или конец задачи и сообщить
             DateTime dtEnd = DateTime.Now;
-            m_lFilesList.Clear();
+            if( m_lFilesList!=null ) m_lFilesList.Clear();
             filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
             
             string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";

@@ -179,7 +179,7 @@ namespace SharpFBTools.Tools
         private void bwa_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
             // Проверяем это отмена, ошибка, или конец задачи и сообщить
             DateTime dtEnd = DateTime.Now;
-            m_lFilesList.Clear();
+            if( m_lFilesList!=null ) m_lFilesList.Clear();
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
             
             tsslblProgress.Text = Settings.Settings.GetReady();
@@ -319,7 +319,7 @@ namespace SharpFBTools.Tools
 		private void bwu_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
 			// Проверяем это отмена, ошибка, или конец задачи и сообщить
 			DateTime dtEnd = DateTime.Now;
-            m_lFilesList.Clear();
+            if( m_lFilesList!=null ) m_lFilesList.Clear();
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 			
             tsslblProgress.Text = Settings.Settings.GetReady();
@@ -418,7 +418,7 @@ namespace SharpFBTools.Tools
 		private void bwt_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
 			// Проверяем это отмена, ошибка, или конец задачи и сообщить
 			DateTime dtEnd = DateTime.Now;
-            m_lFilesList.Clear();
+            if( m_lFilesList!=null ) m_lFilesList.Clear();
             
             tsslblProgress.Text = Settings.Settings.GetReady();
 			SetAnalyzingStartEnabled( true );
