@@ -523,29 +523,30 @@ namespace SharpFBTools.Tools
 			ssProgress.Refresh();
 		}
 		
-		private bool IsSourceDirCorrect( string sSource, DirectoryInfo diFolder ) {
+		private bool IsSourceDirCorrect( string sSource, string sMessTitle ) {
 			// проверки папки для сканирования
+			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
 			if( sSource.Length == 0 ) {
-				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Выберите папку для сканирования!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка для сканирования не найдена: " + sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка для сканирования не найдена: " + sSource, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			return true;
 		}
 		
-		private bool IsTargetDirCorrect( string sTarget, bool bToAnotherDir ) {
+		private bool IsTargetDirCorrect( string sTarget, bool bToAnotherDir, string sMessTitle ) {
 			// проверки папки-приемника
 			if( bToAnotherDir ) {
+				// папка-приемник - отличная от источника
 				if( sTarget.Length == 0 ) {
-					MessageBox.Show( "Не задана папка-приемник архивов!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show( "Не задана папка-приемник архивов!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return false;
 				} else {
-					DirectoryInfo df = new DirectoryInfo( sTarget );
-					if( !df.Exists ) {
-						MessageBox.Show( "Папка-приемник не найдена: " + sTarget, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					// проверка папки-приемника и создание ее, если нужно
+					if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) ) {
 						return false;
 					}
 				}
@@ -978,18 +979,18 @@ namespace SharpFBTools.Tools
 		{
 			// Запаковка fb2-файлов
 			m_sMessTitle = "SharpFBTools - Упаковка в архивы";
+			
 			m_sSource			= filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
 			tboxSourceDir.Text	= m_sSource;
-			m_sTarget				= filesWorker.WorkingDirPath( tboxToAnotherDir.Text.Trim() );
-			tboxToAnotherDir.Text	= m_sTarget;
-			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
-			
 			// проверки папки для сканирования
-			if( !IsSourceDirCorrect( m_sSource, diFolder ) ) {
+			if( !IsSourceDirCorrect( m_sSource, m_sMessTitle ) ) {
 				return;
 			}
+			
+			m_sTarget				= filesWorker.WorkingDirPath( tboxToAnotherDir.Text.Trim() );
+			tboxToAnotherDir.Text	= m_sTarget;
 			// проверки папки-приемника
-			if( !IsTargetDirCorrect( m_sTarget, rbtnToAnotherDir.Checked ) ) {
+			if( !IsTargetDirCorrect( m_sTarget, rbtnToAnotherDir.Checked, m_sMessTitle ) ) {
 				return;
 			}
 			
@@ -1029,11 +1030,11 @@ namespace SharpFBTools.Tools
 		{
 			// анализ файлов - какие архивы есть в папке сканирования
 			m_sMessTitle = "SharpFBTools - Анализ файлов";
-			m_sSource = tboxUASourceDir.Text.Trim();
-			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
-			
+
+			m_sSource				= filesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
+			tboxUASourceDir.Text	= m_sSource;
 			// проверки папки для сканирования перед запуском Анализа
-			if( !IsSourceDirCorrect( m_sSource, diFolder ) ) {
+			if( !IsSourceDirCorrect( m_sSource, m_sMessTitle ) ) {
 				return;
 			}
 
@@ -1055,18 +1056,18 @@ namespace SharpFBTools.Tools
 		{
 			// Распаковка архивов
 			m_sMessTitle = "SharpFBTools - Распаковка архивов";
+
 			m_sSource				= filesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
 			tboxUASourceDir.Text	= m_sSource;
-			m_sTarget				= filesWorker.WorkingDirPath( tboxUAToAnotherDir.Text.Trim() );
-			tboxUAToAnotherDir.Text	= m_sTarget;
-			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
-			
 			// проверки папки для сканирования
-			if( !IsSourceDirCorrect( m_sSource, diFolder ) ) {
+			if( !IsSourceDirCorrect( m_sSource, m_sMessTitle ) ) {
 				return;
 			}
+			
+			m_sTarget				= filesWorker.WorkingDirPath( tboxUAToAnotherDir.Text.Trim() );
+			tboxUAToAnotherDir.Text	= m_sTarget;
 			// проверки папки-приемника
-			if( !IsTargetDirCorrect( m_sTarget, rbtnUAToAnotherDir.Checked ) ) {
+			if( !IsTargetDirCorrect( m_sTarget, rbtnUAToAnotherDir.Checked, m_sMessTitle ) ) {
 				return;
 			}
 			

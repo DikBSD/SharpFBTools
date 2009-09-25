@@ -276,6 +276,26 @@ namespace Core.FilesWorker
 			}
 			return sDir;
 		}
+		
+		// ппроверка на наличие указаной папки и ее создание, если ее нет
+		public static bool CreateDirIfNeed( string sDir, string sMessTitle ) {
+			DirectoryInfo diFolder = new DirectoryInfo( sDir );
+			if( !diFolder.Exists ) {
+				string sMess = "Папка-приемник не найдена: " + sDir + ".\nСоздать ее?";
+				DialogResult result = MessageBox.Show( sMess, sMessTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question );
+	        	if( result == DialogResult.No ) {
+					MessageBox.Show( "Работа прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+	            	return false;
+				}
+				try {
+					diFolder.Create();
+				} catch {
+					MessageBox.Show( "Не могу создать папку "+sDir+"!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return false;
+				}
+			}
+			return true;
+		}
 
 		#endregion]
 		

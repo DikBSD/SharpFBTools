@@ -1011,7 +1011,7 @@ namespace SharpFBTools.Tools
 		void TsbtnDupCopyClick(object sender, EventArgs e)
 		{
 			// копировать помеченные файлы в папку-приемник
-			string sMessTitle = "SharpFBTools - Копирование копий книг";
+			string sMessTitle	= "SharpFBTools - Копирование копий книг";
 			string sTarget		= filesWorker.WorkingDirPath( tboxDupToDir.Text.Trim() );
 			tboxDupToDir.Text	= sTarget;
 			// проверки корректности путей к папкам
@@ -1025,18 +1025,14 @@ namespace SharpFBTools.Tools
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( sTarget );
-			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка-приемник не найдена: " + sTarget + "\nРабота прекращена.",
-				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			// проверка папки-приемника и создание ее, если нужно
+			if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) ) {
 				return;
 			}
 			
 			int nCount = lvResult.CheckedItems.Count;
 			string sMess = "Вы действительно хотите скопировать "+nCount.ToString()+" отмеченные книги в папку \""+sTarget+"\"?";
-			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-			DialogResult result;
-			result = MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question );
+			DialogResult result = MessageBox.Show( sMess, sMessTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question );
 	        if(result == DialogResult.No) {
 				tsslblProgress.Text = Settings.Settings.GetReady();
 				SetFilesWorkerStartEnabled( true );
@@ -1073,10 +1069,8 @@ namespace SharpFBTools.Tools
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( sTarget );
-			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка-приемник не найдена: " + sTarget + "\nРабота прекращена.",
-				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			// проверка папки-приемника и создание ее, если нужно
+			if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) ) {
 				return;
 			}
 			

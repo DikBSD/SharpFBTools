@@ -901,13 +901,11 @@ namespace SharpFBTools.Tools
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( sTarget );
-			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка-приемник не найдена: " + sTarget + "\nРабота прекращена.",
-				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			// проверка папки-приемника и создание ее, если нужно
+			if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) ) {
 				return;
 			}
-			
+	
 			string sMess = "Вы действительно хотите скопировать "+sType1+" в папку \""+sTarget+"\"?";
 			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
@@ -978,13 +976,11 @@ namespace SharpFBTools.Tools
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( sTarget );
-			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка-приемник не найдена: " + sTarget + "\nРабота прекращена.",
-				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			// проверка папки-приемника и создание ее, если нужно
+			if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) ) {
 				return;
 			}
-			
+				
 			string sMess = "Вы действительно хотите переместить "+sType1+" в папку \""+sTarget+"\"?";
 			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;

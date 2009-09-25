@@ -272,36 +272,32 @@ namespace SharpFBTools.Tools
 		private bool IsFolderdataCorrect( TextBox tbSource, TextBox tbTarget )
 		{
 			// проверка на корректность данных папок источника и приемника файлов
-			string sSource = tbSource.Text.Trim();
-			string sTarget = tbTarget.Text.Trim();
-			Regex rx = new Regex( @"\\+$" );
-			sSource = rx.Replace( sSource, "" );
-			tbSource.Text = sSource;
-			rx = new Regex( @"\\+$" );
-			sTarget = rx.Replace( sTarget, "" );
-			tbTarget.Text = sTarget;
+			// обработка заданных каталогов
+			m_sSource		= filesWorker.WorkingDirPath( tbSource.Text.Trim() );
+			tbSource.Text	= m_sSource;
+			m_sTarget		= filesWorker.WorkingDirPath( tbTarget.Text.Trim() );
+			tbTarget.Text	= m_sTarget;
 			
 			// проверки на корректность папок источника и приемника
-			if( sSource.Length == 0 ) {
+			if( m_sSource.Length == 0 ) {
 				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( sSource );
+			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена: " + sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена: " + m_sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
-			if( sTarget.Length == 0 ) {
+			if( m_sTarget.Length == 0 ) {
 				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
-			diFolder = new DirectoryInfo( sTarget );
-			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена: " + sTarget + "\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			if( m_sSource == m_sTarget ) {
+				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
-			if( sSource == sTarget ) {
-				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			// проверка папки-приемника и создание ее, если нужно
+			if( !filesWorker.CreateDirIfNeed( m_sTarget, m_sMessTitle ) ) {
 				return false;
 			}
 			return true;
@@ -879,10 +875,6 @@ namespace SharpFBTools.Tools
 			} else {
 				m_bScanSubDirs = false;
 			}
-			m_sSource			= filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
-			tboxSourceDir.Text	= m_sSource;
-			m_sTarget				= filesWorker.WorkingDirPath( tboxSortAllToDir.Text.Trim() );
-			tboxSortAllToDir.Text	= m_sTarget;
 			
 			m_sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
 			m_sMessTitle = "SharpFBTools - Полная Сортировка";
@@ -1068,11 +1060,6 @@ namespace SharpFBTools.Tools
 			} else {
 				m_bScanSubDirs = false;
 			}
-			
-			m_sSource				= filesWorker.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
-			tboxSSSourceDir.Text	= m_sSource;
-			m_sTarget				= filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
-			tboxSSToDir.Text		= m_sTarget;
 			
 			m_sLineTemplate = txtBoxSSTemplatesFromLine.Text.Trim();
 			m_sMessTitle = "SharpFBTools - Избранная Сортировка";
