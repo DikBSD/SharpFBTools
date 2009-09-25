@@ -142,6 +142,7 @@ namespace SharpFBTools.Tools
 							lvi.SubItems.Add( MakeAutorsString( fb2f.GetBookData( ilPath[i] ).Authors ) );
 							lvi.SubItems.Add( MakeGenresString( fb2f.GetBookData( ilPath[i] ).Genres ) );
 							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Version );
+							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Encoding );
 							lvi.SubItems.Add( m_bCheckValid ? IsValid( ilPath[i] ) : "?" );
 							lvi.SubItems.Add( GetFileLength( ilPath[i] ) );
 							lvi.SubItems.Add( GetFileCreationTime( ilPath[i] ) );
@@ -179,6 +180,7 @@ namespace SharpFBTools.Tools
 							lvi.SubItems.Add( MakeGenresString( fb2f.GetBookData( ilPath[i] ).Genres ) );
 							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Id );
 							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Version );
+							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Encoding );
 							lvi.SubItems.Add( m_bCheckValid ? IsValid( ilPath[i] ) : "?" );
 							lvi.SubItems.Add( GetFileLength( ilPath[i] ) );
 							lvi.SubItems.Add( GetFileCreationTime( ilPath[i] ) );
@@ -484,6 +486,8 @@ namespace SharpFBTools.Tools
 		private void MakeFB2IDHashTable( string sPath, ref Hashtable htFB2ForID ) {
 			try {
 				fB2Parser fb2 = new fB2Parser( sPath );
+				string sEncoding = filesWorker.GetFileEncoding( fb2.XmlDoc.InnerXml.Split('>')[0] );
+				if( sEncoding == null )  sEncoding = "?";
 				string sID = fb2.Id;
 				if( sID==null ) return;
 
@@ -493,7 +497,7 @@ namespace SharpFBTools.Tools
 				IList<Author>	authors		= fb2.Authors;
 				
 				// данные о книге
-				BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, sID, sVersion, sPath );
+				BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, sID, sVersion, sPath, sEncoding );
 				
 				if( !htFB2ForID.ContainsKey( sID ) ) {
 					// такой книги в числе дублей еще нет
@@ -549,15 +553,17 @@ namespace SharpFBTools.Tools
 		private void MakeFB2ABTHashTable( string sPath, ref Hashtable htFB2ForABT ) {
 			try {
 				fB2Parser fb2 = new fB2Parser( sPath );
-				string sId		= fb2.Id;
-				string sVersion	= fb2.Version;
+				string sId			= fb2.Id;
+				string sVersion		= fb2.Version;
+				string sEncoding	= filesWorker.GetFileEncoding( fb2.XmlDoc.InnerXml.Split('>')[0] );
+				if( sEncoding == null )  sEncoding = "?";
 
 				BookTitle bookTitle		= fb2.BookTitle;
 				IList<Author> authors	= fb2.Authors;
 				// ключ
 				BookDataABTKey htKey = new BookDataABTKey( authors, bookTitle );
 				// данные о книге
-				BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, sId, sVersion, sPath );
+				BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, sId, sVersion, sPath, sEncoding );
 				// ищем в хеше дубли
 				DictionaryEntry deDup = IsBookEqualityInHash( ref htFB2ForABT, authors, bookTitle );
 				if( deDup.Key==null ) {
@@ -667,6 +673,7 @@ namespace SharpFBTools.Tools
 				lvResult.Columns.Add( "ID Книги", 200 );
 			}
 			lvResult.Columns.Add( "Версия", 50 );
+			lvResult.Columns.Add( "Кодировка", 90, HorizontalAlignment.Center );
 			lvResult.Columns.Add( "Валидность", 50, HorizontalAlignment.Center );
 			lvResult.Columns.Add( "Размер", 90, HorizontalAlignment.Center );
 			

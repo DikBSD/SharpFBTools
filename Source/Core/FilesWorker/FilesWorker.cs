@@ -277,7 +277,7 @@ namespace Core.FilesWorker
 			return sDir;
 		}
 		
-		// ппроверка на наличие указаной папки и ее создание, если ее нет
+		// проверка на наличие указаной папки и ее создание, если ее нет
 		public static bool CreateDirIfNeed( string sDir, string sMessTitle ) {
 			DirectoryInfo diFolder = new DirectoryInfo( sDir );
 			if( !diFolder.Exists ) {
@@ -295,6 +295,25 @@ namespace Core.FilesWorker
 				}
 			}
 			return true;
+		}
+		
+		// считывание кодировки файла, если она задана в строке sLine
+		public static string GetFileEncoding( string sLine ) {
+			string sFileEncoding = "";
+			int nStart = sLine.IndexOf( "encoding" );
+			if( nStart!=-1 ) {
+				sFileEncoding = sLine.Substring( nStart+8 );
+				nStart = sFileEncoding.IndexOf( "\"" );
+				if( nStart!=-1 ) {
+					sFileEncoding = sFileEncoding.Substring( nStart+1 );
+					nStart = sFileEncoding.IndexOf( "\"" );
+					if( nStart!=-1 ) {
+						sFileEncoding = sFileEncoding.Substring( 0, nStart );
+						return sFileEncoding;
+					}
+				}
+			}
+			return null;
 		}
 
 		#endregion]

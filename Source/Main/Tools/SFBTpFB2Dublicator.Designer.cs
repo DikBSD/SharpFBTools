@@ -238,6 +238,7 @@ namespace SharpFBTools.Tools
 			this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
 			this.ssProgress.SuspendLayout();
@@ -336,6 +337,7 @@ namespace SharpFBTools.Tools
 									listViewItem10});
 			this.lvTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvTitleInfo.Name = "lvTitleInfo";
+			this.lvTitleInfo.ShowItemToolTips = true;
 			this.lvTitleInfo.Size = new System.Drawing.Size(524, 187);
 			this.lvTitleInfo.TabIndex = 11;
 			this.lvTitleInfo.UseCompatibleStateImageBehavior = false;
@@ -382,6 +384,7 @@ namespace SharpFBTools.Tools
 									listViewItem20});
 			this.lvSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvSourceTitleInfo.Name = "lvSourceTitleInfo";
+			this.lvSourceTitleInfo.ShowItemToolTips = true;
 			this.lvSourceTitleInfo.Size = new System.Drawing.Size(524, 187);
 			this.lvSourceTitleInfo.TabIndex = 12;
 			this.lvSourceTitleInfo.UseCompatibleStateImageBehavior = false;
@@ -425,6 +428,7 @@ namespace SharpFBTools.Tools
 									listViewItem27});
 			this.lvDocumentInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvDocumentInfo.Name = "lvDocumentInfo";
+			this.lvDocumentInfo.ShowItemToolTips = true;
 			this.lvDocumentInfo.Size = new System.Drawing.Size(524, 187);
 			this.lvDocumentInfo.TabIndex = 12;
 			this.lvDocumentInfo.UseCompatibleStateImageBehavior = false;
@@ -467,6 +471,7 @@ namespace SharpFBTools.Tools
 									listViewItem33});
 			this.lvPublishInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvPublishInfo.Name = "lvPublishInfo";
+			this.lvPublishInfo.ShowItemToolTips = true;
 			this.lvPublishInfo.Size = new System.Drawing.Size(524, 187);
 			this.lvPublishInfo.TabIndex = 12;
 			this.lvPublishInfo.UseCompatibleStateImageBehavior = false;
@@ -502,6 +507,7 @@ namespace SharpFBTools.Tools
 			this.lvCustomInfo.GridLines = true;
 			this.lvCustomInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvCustomInfo.Name = "lvCustomInfo";
+			this.lvCustomInfo.ShowItemToolTips = true;
 			this.lvCustomInfo.Size = new System.Drawing.Size(524, 187);
 			this.lvCustomInfo.TabIndex = 12;
 			this.lvCustomInfo.UseCompatibleStateImageBehavior = false;
@@ -794,7 +800,7 @@ namespace SharpFBTools.Tools
 									this.tsmiCheckedAll,
 									this.tsmiUnCheckedAll});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(293, 254);
+			this.cmsFB2.Size = new System.Drawing.Size(293, 232);
 			// 
 			// tsmiDiffFB2
 			// 
@@ -1005,6 +1011,7 @@ namespace SharpFBTools.Tools
 									this.columnHeader8,
 									this.columnHeader3,
 									this.columnHeader4,
+									this.columnHeader20,
 									this.columnHeader19,
 									this.columnHeader5});
 			this.lvResult.ContextMenuStrip = this.cmsFB2;
@@ -1014,6 +1021,7 @@ namespace SharpFBTools.Tools
 			this.lvResult.Location = new System.Drawing.Point(0, 140);
 			this.lvResult.MultiSelect = false;
 			this.lvResult.Name = "lvResult";
+			this.lvResult.ShowItemToolTips = true;
 			this.lvResult.Size = new System.Drawing.Size(828, 185);
 			this.lvResult.TabIndex = 40;
 			this.lvResult.UseCompatibleStateImageBehavior = false;
@@ -1046,6 +1054,12 @@ namespace SharpFBTools.Tools
 			this.columnHeader4.Text = "Версия";
 			this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader4.Width = 50;
+			// 
+			// columnHeader20
+			// 
+			this.columnHeader20.Text = "Кодировка";
+			this.columnHeader20.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader20.Width = 80;
 			// 
 			// columnHeader19
 			// 
@@ -1091,6 +1105,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ColumnHeader columnHeader20;
 		private System.Windows.Forms.ToolStripMenuItem tsmiUnCheckedAll;
 		private System.Windows.Forms.ToolStripMenuItem tsmiCheckedAll;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;

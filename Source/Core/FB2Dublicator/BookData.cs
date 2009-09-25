@@ -26,9 +26,10 @@ namespace Core.FB2Dublicator
 		private string 			m_Id		= null;	// Id Книги
 		private string 			m_Version	= null;	// Версия Книги
 		private string			m_Path		= null;	// путь к fb2-файлу Книги
+		private string 			m_Encoding	= null; // кодировка книги
 		#endregion
 		
-		public BookData( BookTitle BookTitle, IList<Author> Authors, IList<Genre> Genres, string Id, string Version, string Path )
+		public BookData( BookTitle BookTitle, IList<Author> Authors, IList<Genre> Genres, string Id, string Version, string Path, string Encoding )
 		{
 			m_BookTitle	= BookTitle;
 			m_Authors	= Authors;
@@ -36,10 +37,8 @@ namespace Core.FB2Dublicator
 			m_Id		= Id;
 			m_Version	= Version;
 			m_Path		= Path;
+			m_Encoding	= Encoding;
 		}
-		
-		#region Открытые методы класса
-		#endregion
 		
 		#region Свойства класса
 		public virtual BookTitle BookTitle {
@@ -70,6 +69,11 @@ namespace Core.FB2Dublicator
 		public virtual string Path {
 			get { return m_Path; }
 			set { m_Path = value; }
+        }
+		
+		public virtual string Encoding {
+			get { return m_Encoding; }
+			set { m_Encoding = value; }
         }
 		#endregion
 	}

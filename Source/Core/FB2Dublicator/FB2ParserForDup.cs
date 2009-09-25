@@ -133,6 +133,10 @@ namespace Core.FB2Dublicator
         #endregion
         
 		#region Свойства класса
+		public XmlDocument XmlDoc {
+            get { return m_xmlDoc; }
+        }
+		
 		public virtual string Id {
         	get {
         		XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:document-info", m_NsManager );
