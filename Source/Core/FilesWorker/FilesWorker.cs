@@ -8,13 +8,14 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Globalization;
 using System.ComponentModel;
-using System.Threading;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Core.FilesWorker
 {
@@ -263,6 +264,17 @@ namespace Core.FilesWorker
 				lAllDirsList.Sort();
 			}
 			return nAllFilesCount;
+		}
+		
+		// обработка строки с папкой
+		public static string WorkingDirPath( string sDir ) {
+			if( sDir.Length>3 ) {
+				Regex rx = new Regex( @"\\+$" );
+				sDir = rx.Replace( sDir, "" );
+			} else if( sDir.Length==2 ) {
+				sDir += "\\";
+			}
+			return sDir;
 		}
 
 		#endregion]

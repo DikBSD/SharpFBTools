@@ -978,9 +978,9 @@ namespace SharpFBTools.Tools
 		{
 			// Запаковка fb2-файлов
 			m_sMessTitle = "SharpFBTools - Упаковка в архивы";
-			m_sSource			= stringProcessing.WorkingDirPath( tboxSourceDir.Text.Trim() );
+			m_sSource			= filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
 			tboxSourceDir.Text	= m_sSource;
-			m_sTarget				= stringProcessing.WorkingDirPath( tboxToAnotherDir.Text.Trim() );
+			m_sTarget				= filesWorker.WorkingDirPath( tboxToAnotherDir.Text.Trim() );
 			tboxToAnotherDir.Text	= m_sTarget;
 			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
 			
@@ -1055,9 +1055,9 @@ namespace SharpFBTools.Tools
 		{
 			// Распаковка архивов
 			m_sMessTitle = "SharpFBTools - Распаковка архивов";
-			m_sSource				= stringProcessing.WorkingDirPath( tboxUASourceDir.Text.Trim() );
+			m_sSource				= filesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
 			tboxUASourceDir.Text	= m_sSource;
-			m_sTarget				= stringProcessing.WorkingDirPath( tboxUAToAnotherDir.Text.Trim() );
+			m_sTarget				= filesWorker.WorkingDirPath( tboxUAToAnotherDir.Text.Trim() );
 			tboxUAToAnotherDir.Text	= m_sTarget;
 			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
 			

@@ -879,9 +879,9 @@ namespace SharpFBTools.Tools
 			} else {
 				m_bScanSubDirs = false;
 			}
-			m_sSource			= stringProcessing.WorkingDirPath( tboxSourceDir.Text.Trim() );
+			m_sSource			= filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
 			tboxSourceDir.Text	= m_sSource;
-			m_sTarget				= stringProcessing.WorkingDirPath( tboxSortAllToDir.Text.Trim() );
+			m_sTarget				= filesWorker.WorkingDirPath( tboxSortAllToDir.Text.Trim() );
 			tboxSortAllToDir.Text	= m_sTarget;
 			
 			m_sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
@@ -1069,9 +1069,9 @@ namespace SharpFBTools.Tools
 				m_bScanSubDirs = false;
 			}
 			
-			m_sSource				= stringProcessing.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
+			m_sSource				= filesWorker.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
 			tboxSSSourceDir.Text	= m_sSource;
-			m_sTarget				= stringProcessing.WorkingDirPath( tboxSSToDir.Text.Trim() );
+			m_sTarget				= filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
 			tboxSSToDir.Text		= m_sTarget;
 			
 			m_sLineTemplate = txtBoxSSTemplatesFromLine.Text.Trim();

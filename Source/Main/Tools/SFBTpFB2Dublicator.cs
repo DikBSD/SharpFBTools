@@ -389,7 +389,7 @@ namespace SharpFBTools.Tools
 		
 		private bool IsScanFolderDataCorrect( TextBox tbSource ) {
 			// проверка на корректность данных папок источника
-			string sSource	= stringProcessing.WorkingDirPath( tbSource.Text.Trim() );
+			string sSource	= filesWorker.WorkingDirPath( tbSource.Text.Trim() );
 			tbSource.Text	= sSource;
 			
 			// проверки на корректность папок источника
@@ -1012,7 +1012,7 @@ namespace SharpFBTools.Tools
 		{
 			// копировать помеченные файлы в папку-приемник
 			string sMessTitle = "SharpFBTools - Копирование копий книг";
-			string sTarget		= stringProcessing.WorkingDirPath( tboxDupToDir.Text.Trim() );
+			string sTarget		= filesWorker.WorkingDirPath( tboxDupToDir.Text.Trim() );
 			tboxDupToDir.Text	= sTarget;
 			// проверки корректности путей к папкам
 			if( sTarget.Length == 0 ) {
@@ -1060,7 +1060,7 @@ namespace SharpFBTools.Tools
 		{
 			// переместить помеченные файлы в папку-приемник
 			string sMessTitle = "SharpFBTools - Перемещение копий книг";
-			string sTarget		= stringProcessing.WorkingDirPath( tboxDupToDir.Text.Trim() );
+			string sTarget		= filesWorker.WorkingDirPath( tboxDupToDir.Text.Trim() );
 			tboxDupToDir.Text	= sTarget;
 			// проверки корректности путей к папкам
 			if( sTarget.Length == 0 ) {

@@ -25,6 +25,7 @@ namespace Core.StringProcessing
 	public class StringProcessing
 	{
 		private static ulong m_ulDateCount = 0;
+		
 		#region «акрытые вспомогательные методы класса
 		private static string[] MakeTranslitLettersArray() {
 			// массив замены русских символов латинскими
@@ -544,17 +545,6 @@ namespace Core.StringProcessing
 				return false;
 			}
 			return true;
-		}
-		
-		// обработка строки с папкой
-		public static string WorkingDirPath( string sDir ) {
-			if( sDir.Length>3 ) {
-				Regex rx = new Regex( @"\\+$" );
-				sDir = rx.Replace( sDir, "" );
-			} else if( sDir.Length==2 ) {
-				sDir += "\\";
-			}
-			return sDir;
 		}
 		
 		#endregion
