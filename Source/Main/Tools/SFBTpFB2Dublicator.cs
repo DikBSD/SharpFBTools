@@ -501,17 +501,16 @@ namespace SharpFBTools.Tools
 				
 				if( !htFB2ForID.ContainsKey( sID ) ) {
 					// такой книги в числе дублей еще нет
-					FB2FilesData fb2f = new FB2FilesData();
+					FB2FilesData fb2f = new FB2FilesData( fb2BookData );
 					fb2f.Id = sID;
-					fb2f.AddBookData( fb2BookData );
 					fb2f.AddPath( sPath );
 					htFB2ForID.Add( sID, fb2f );
 				} else {
 					// такая книга в числе дублей уже есть
-					FB2FilesData fb2f = (FB2FilesData)htFB2ForID[sID];
+					FB2FilesData fb2f = (FB2FilesData)htFB2ForID[sID] ;
 					fb2f.AddBookData( fb2BookData );
 					fb2f.AddPath( sPath );
-					htFB2ForID[sID] = fb2f;
+					//htFB2ForID[sID] = fb2f; //ИЗБЫТОЧНЫЙ КОД
 				}
 			} catch {} // пропускаем проблемные файлы
 		}
@@ -565,23 +564,22 @@ namespace SharpFBTools.Tools
 				// данные о книге
 				BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, sId, sVersion, sPath, sEncoding );
 				// ищем в хеше дубли
-				DictionaryEntry deDup = IsBookEqualityInHash( ref htFB2ForABT, authors, bookTitle );
-				if( deDup.Key==null ) {
+				BookDataABTKey keyDup = IsBookEqualityInHash( ref htFB2ForABT, authors, bookTitle );
+				if( keyDup==null ) {
 					// такой книги еще нет в хэше
 					// заносим только те книги, где тэг названия - есть
 					if( bookTitle!=null && bookTitle.Value!=null ) {
-						FB2FilesData fb2f = new FB2FilesData();
+						FB2FilesData fb2f = new FB2FilesData( fb2BookData );
 						fb2f.BookTitleForKey = bookTitle.Value;
-						fb2f.AddBookData( fb2BookData );
 						fb2f.AddPath( sPath );
 						htFB2ForABT.Add( htKey, fb2f );
 					}
 				} else {
 					// такая книга уже есть
 					// обработка данных value хеша
-					BookDataABTKey aFromHash = (BookDataABTKey)deDup.Key;
+					BookDataABTKey aFromHash = (BookDataABTKey)keyDup;
 					// вытаскивает value их хэша по key
-					FB2FilesData fb2f = (FB2FilesData)htFB2ForABT[deDup.Key];
+					FB2FilesData fb2f = (FB2FilesData)htFB2ForABT[keyDup];
 					fb2f.AddBookData( fb2BookData );
 					// заменяем Название книги в хеше на самое длинное
 					bool bKeyNewBT = false; bool bKeyNewA = false;
@@ -598,25 +596,23 @@ namespace SharpFBTools.Tools
 					if( authors.Count > aFromHash.Authors.Count ) bKeyNewA = true;
 					// заменяем key в хеше на тот, где больше число авторов, и название - длиннее
 					if( bKeyNewA || bKeyNewBT ) {
-						htFB2ForABT.Remove( deDup.Key );
+						htFB2ForABT.Remove( keyDup );
 						htFB2ForABT.Add( htKey, fb2f );
-					} else {
-						htFB2ForABT[deDup.Key] = fb2f;
-					}
+					}// else {
+					//	htFB2ForABT[keyDup] = fb2f; // ИЗБЫТОЧНЫЙ КОД
+					//}
 				}
 			} catch {} // пропускаем проблемные файлы
 		}
 		
 		// ищем в хеше дубли
 		// возвращаем: путой DictionaryEntry, если не нашли, или найденный ключ
-		private DictionaryEntry IsBookEqualityInHash( ref Hashtable htFB2ForABT, IList<Author> Authors, BookTitle bookTitle ) {
-			foreach ( DictionaryEntry de in htFB2ForABT ) {
-           		BookDataABTKey abtkFromHash = (BookDataABTKey)de.Key;
+		private BookDataABTKey IsBookEqualityInHash( ref Hashtable htFB2ForABT, IList<Author> Authors, BookTitle bookTitle ) {
+			foreach ( BookDataABTKey abtkFromHash in htFB2ForABT.Keys ) {
            		FB2ABTComparer fb2c = new FB2ABTComparer( bookTitle, abtkFromHash.BookTitle, Authors, abtkFromHash.Authors );
-           		if( fb2c.IsBookTitleEquality() && fb2c.IsBookAuthorEquality() ) return de;
+           		if( fb2c.IsBookTitleEquality() && fb2c.IsBookAuthorEquality() ) return abtkFromHash;
            	}
-			DictionaryEntry d;
-			return d;
+			return null;
 		}
 		
 		// формирование строки с Названием Книги
@@ -1428,9 +1424,14 @@ namespace SharpFBTools.Tools
 		private IList<BookData>	m_ilFB2Book			= new List<BookData>();
 		#endregion
 		
+		#region конструкторы
 		public FB2FilesData() {
 
 		}
+		public FB2FilesData( BookData bd ) {
+			m_ilFB2Book.Add( bd );
+		}
+		#endregion
 		
 		#region Открытые методы класса
 		public void AddBookData( BookData abt ) {
