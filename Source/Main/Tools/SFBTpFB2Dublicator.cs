@@ -133,9 +133,8 @@ namespace SharpFBTools.Tools
 					}
 	           		if( fb2f.Count > 1 ) {
      	      			++m_sv.Group; // число групп одинаковых книг
-        	   			for( int i=0; i!=fb2f.Count; ++i ) {
+        	   			foreach( BookData bd in fb2f ) {
            					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
-           					BookData bd = fb2f[i];
            					lvg = new ListViewGroup( fb2f.Id );
            					ListViewItem lvi = new ListViewItem( bd.Path );
            					lvi.SubItems.Add( MakeBookTitleString( bd.BookTitle ) );
@@ -170,10 +169,13 @@ namespace SharpFBTools.Tools
 						return;
 					}
            			if( fb2f.Count > 1 ) {
+           				// проверка на Авторов
+           				Hashtable ht = FindDupForAuthors( fb2f );
+           				MessageBox.Show( ht.Count.ToString(), "!!!", MessageBoxButtons.OK, MessageBoxIcon.Information );
+           				
            				++m_sv.Group; // число групп одинаковых книг
-           				for( int i=0; i!=fb2f.Count; ++i ) {
+           				foreach( BookData bd in fb2f ) {
            					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
-           					BookData bd = fb2f[i];
 							lvg = new ListViewGroup( fb2f.BookTitleForKey );
 							ListViewItem lvi = new ListViewItem( bd.Path );
 							lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
@@ -578,9 +580,63 @@ namespace SharpFBTools.Tools
 			} catch {} // пропускаем проблемные файлы
 		}
 		
+		// создание групп копий по Авторам, относительно найденного Названия Книги
+		private Hashtable FindDupForAuthors( FB2FilesDataList fb2Group ) {
+			Hashtable ht = new Hashtable();
+			foreach( BookData bd in fb2Group ) {
+				// заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
+				FindDupForAuthorsWorker( bd, ref ht );
+			}
+			return ht;
+		}
+		
+		private Hashtable FindDupForAuthorsWorker( BookData bd, ref Hashtable ht ) {
+			// группировка книг по Авторам
+			// ключ
+			BookDataABTKey htKey = new BookDataABTKey( bd.Authors, bd.BookTitle );
+			// данные о книге
+			BookData fb2BookData = new BookData( bd.BookTitle, bd.Authors, bd.Genres, bd.Id, bd.Version, bd.Path, bd.Encoding );
+			// ищем в хеше дубли
+			BookDataABTKey keyDup = IsBookEqualityInHash( ref ht, bd.Authors, bd.BookTitle );
+			if( keyDup==null ) {
+				// такой книги еще нет в хэше
+				// заносим только те книги, где тэг названия - есть
+				FB2FilesDataList fb2f = new FB2FilesDataList();
+				fb2f.AddBookData( fb2BookData );
+				fb2f.BookTitleForKey = bd.BookTitle.Value;
+				ht.Add( htKey, fb2f );
+			} else {
+				// такая книга уже есть
+				// обработка данных value хеша
+				BookDataABTKey aFromHash = (BookDataABTKey)keyDup;
+				// вытаскивает value их хэша по key
+				FB2FilesDataList fb2f = (FB2FilesDataList)ht[keyDup];
+				fb2f.AddBookData( fb2BookData );
+				// заменяем Название книги в хеше на самое длинное
+				bool bKeyNewBT = false; bool bKeyNewA = false;
+				if( bd.BookTitle.Value.Length > aFromHash.BookTitle.Value.Length ) {
+					// заменяем Название книги в данных хеша на самое длинное
+					fb2f.BookTitleForKey = bd.BookTitle.Value;
+					// заменяем key в хеше на тот, где название - длиннее
+					htKey.BookTitle = bd.BookTitle; bKeyNewBT = true;
+				}
+				// обработка key хеша
+				if( bd.Authors.Count > aFromHash.Authors.Count ) bKeyNewA = true;
+				// заменяем key в хеше на тот, где больше число авторов, и название - длиннее
+				if( bKeyNewA || bKeyNewBT ) {
+					ht.Remove( keyDup );
+					ht.Add( htKey, fb2f );
+				}// else {
+				//	ht[keyDup] = fb2f; // ИЗБЫТОЧНЫЙ КОД
+				//}
+			}
+			
+			return ht;
+		}
+		
 		// заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
 		// параметры: sPath - путь к fb2-файлу; htFB2ForABT - хеш-таблица
-		private void _MakeFB2ABTHashTable( string sPath, ref Hashtable htFB2ForABT ) {
+/*		private void _MakeFB2ABTHashTable( string sPath, ref Hashtable htFB2ForABT ) {
 			try {
 				fB2Parser fb2 = new fB2Parser( sPath );
 				string sId			= fb2.Id;
@@ -633,7 +689,7 @@ namespace SharpFBTools.Tools
 					//}
 				}
 			} catch {} // пропускаем проблемные файлы
-		}
+		}*/
 		
 		// ищем в хеше дубли
 		// возвращаем: путой DictionaryEntry, если не нашли, или найденный ключ
