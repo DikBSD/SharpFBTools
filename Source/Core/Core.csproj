@@ -62,6 +62,7 @@
     <Compile Include="FB2Dublicator\BookData.cs" />
     <Compile Include="FB2Dublicator\BookDataABTKey.cs" />
     <Compile Include="FB2Dublicator\FB2ABTComparer.cs" />
+    <Compile Include="FB2Dublicator\FB2AuthorsComparer.cs" />
     <Compile Include="FB2Dublicator\FB2BookDataForDup.cs" />
     <Compile Include="FB2Dublicator\FB2ParserForDup.cs" />
     <Compile Include="FB2\Common\IInlineImageType.cs" />

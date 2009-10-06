@@ -196,7 +196,6 @@ namespace SharpFBTools.Tools
     	       					}
            					}
            				}
-           				
            			}
            			m_bw.ReportProgress( 0 );
            		}
@@ -586,14 +585,53 @@ namespace SharpFBTools.Tools
 		// создание групп копий по Авторам, относительно найденного Названия Книги
 		private Hashtable FindDupForAuthors( FB2FilesDataList fb2Group ) {
 			Hashtable ht = new Hashtable();
-			foreach( BookData bd in fb2Group ) {
-				// заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
-				FindDupForAuthorsWorker( bd, ref ht );
+			bool bDone = false;
+			while( fb2Group.Count > 0 ) {
+				if( bDone ) break;
+				// перебор всех книг группы
+				for( int i=0; i!=fb2Group.Count; ++i ) {
+					// группировка книг по Авторам
+					if( fb2Group.Count==0 ) {
+						bDone = true; break;
+					}
+					BookData bd = fb2Group[i];
+					// ключ
+					BookDataABTKey htKey = new BookDataABTKey( bd.Authors, bd.BookTitle );
+					// ищем в группе одинакового названия книги дубли
+					FB2FilesDataList fb2NewGroup = MakeDupGroup( ref fb2Group, bd.Authors );
+					if( fb2NewGroup!=null ) {
+						// заносим группу в хэш
+						fb2NewGroup.BookTitleForKey = bd.BookTitle.Value+" ( " + MakeAutorsString( bd.Authors )+" )";
+						ht.Add( htKey, fb2NewGroup );
+						// удаляем найденное из основной группы fb2Group, чтобы повторно их не проверять
+						foreach ( BookData b in fb2NewGroup ) {
+							fb2Group.Remove( fb2Group.GetBookData( b.Path ) );
+						}
+					}
+				}
 			}
 			return ht;
 		}
 		
-		private Hashtable FindDupForAuthorsWorker( BookData bd, ref Hashtable ht ) {
+		// создание списка дублей книг для конкретного Названия по Авторам
+		// возвращаем: null, если не нашли копии, или созданный список копий
+		private FB2FilesDataList MakeDupGroup( ref FB2FilesDataList fb2Group, IList<Author> Authors ) {
+			if( fb2Group.Count < 2 ) return null;
+			FB2FilesDataList g = new FB2FilesDataList();
+			foreach ( BookData bd in fb2Group ) {
+           		FB2AuthorsComparer fb2c = new FB2AuthorsComparer( Authors, bd.Authors );
+           		if( fb2c.IsBookAuthorEquality() ) {
+           			// данные о книге
+					BookData fb2BookData = new BookData( bd.BookTitle, bd.Authors, bd.Genres, bd.Id, bd.Version, bd.Path, bd.Encoding );
+           			g.Add( fb2BookData );
+           		}
+           	}
+			// возвращаем только группу копий, а не 1 книгу
+			if( g.Count > 1 ) return g;
+			return null;
+		}
+		
+/*		private Hashtable FindDupForAuthorsWorker( BookData bd, FB2FilesDataList fb2Group, ref Hashtable ht ) {
 			// группировка книг по Авторам
 			// ключ
 			BookDataABTKey htKey = new BookDataABTKey( bd.Authors, bd.BookTitle );
@@ -635,7 +673,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			return ht;
-		}
+		}*/
 		
 		// заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
 		// параметры: sPath - путь к fb2-файлу; htFB2ForABT - хеш-таблица
@@ -695,7 +733,7 @@ MessageBox.Show( "bd.Path= "+bd.Path, "FindDupForAuthorsWorker - НОВАЯ", Me
 			} catch {} // пропускаем проблемные файлы
 		}*/
 		
-		// ищем в хеше дубли - для конкретного Названия по Авторам
+/*		// ищем в хеше дубли - для конкретного Названия по Авторам
 		// возвращаем: путой DictionaryEntry, если не нашли, или найденный ключ
 		private BookDataABTKey IsBookEqualityInHash( ref Hashtable htFB2ForABT, IList<Author> Authors, BookTitle bookTitle ) {
 			foreach ( BookDataABTKey key in htFB2ForABT.Keys ) {
@@ -703,7 +741,7 @@ MessageBox.Show( "bd.Path= "+bd.Path, "FindDupForAuthorsWorker - НОВАЯ", Me
            		if( fb2c.IsBookAuthorEquality() ) return key;
            	}
 			return null;
-		}
+		}*/
 		
 		// формирование строки с Названием Книги
 		private string MakeBookTitleString( BookTitle bookTitle ) {
@@ -1520,6 +1558,12 @@ MessageBox.Show( "bd.Path= "+bd.Path, "FindDupForAuthorsWorker - НОВАЯ", Me
 		#region Открытые методы класса
 		public void AddBookData( BookData abt ) {
 			this.Add( abt );
+        }
+		public BookData GetBookData( string sPath ) {
+			foreach( BookData a in this ) {
+				if( a.Path == sPath ) return a;
+			}
+			return null;
         }
 		#endregion
 		
