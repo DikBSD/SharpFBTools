@@ -125,7 +125,7 @@ namespace SharpFBTools.Tools
            		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
            		tsProgressBar.Maximum	= htFB2ForID.Count+1;
 				tsProgressBar.Value		= 0;
-           		foreach( FB2FilesData fb2f in htFB2ForID.Values ) {
+           		foreach( FB2FilesDataList fb2f in htFB2ForID.Values ) {
            			// Проверить флаг на остановку процесса 
 					if( ( m_bw.CancellationPending == true ) ) {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
@@ -133,20 +133,20 @@ namespace SharpFBTools.Tools
 					}
 	           		if( fb2f.Count > 1 ) {
      	      			++m_sv.Group; // число групп одинаковых книг
-     	      			IList<string> ilPath = fb2f.GetPathList();
         	   			for( int i=0; i!=fb2f.Count; ++i ) {
            					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
+           					BookData bd = fb2f[i];
            					lvg = new ListViewGroup( fb2f.Id );
-           					ListViewItem lvi = new ListViewItem( ilPath[i] );
-           					lvi.SubItems.Add( MakeBookTitleString( fb2f.GetBookData( ilPath[i] ).BookTitle ) );
-							lvi.SubItems.Add( MakeAutorsString( fb2f.GetBookData( ilPath[i] ).Authors ) );
-							lvi.SubItems.Add( MakeGenresString( fb2f.GetBookData( ilPath[i] ).Genres ) );
-							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Version );
-							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Encoding );
-							lvi.SubItems.Add( m_bCheckValid ? IsValid( ilPath[i] ) : "?" );
-							lvi.SubItems.Add( GetFileLength( ilPath[i] ) );
-							lvi.SubItems.Add( GetFileCreationTime( ilPath[i] ) );
-							lvi.SubItems.Add( FileLastWriteTime( ilPath[i] ) );
+           					ListViewItem lvi = new ListViewItem( bd.Path );
+           					lvi.SubItems.Add( MakeBookTitleString( bd.BookTitle ) );
+							lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
+							lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+							lvi.SubItems.Add( bd.Version );
+							lvi.SubItems.Add( bd.Encoding );
+							lvi.SubItems.Add( m_bCheckValid ? IsValid( bd.Path ) : "?" );
+							lvi.SubItems.Add( GetFileLength( bd.Path ) );
+							lvi.SubItems.Add( GetFileCreationTime( bd.Path ) );
+							lvi.SubItems.Add( FileLastWriteTime( bd.Path ) );
 							// заносим группу в хеш, если она там отсутствует
 							AddBookGroupInHashTable( htBookGroups, lvg );
 							// присваиваем группу книге
@@ -163,7 +163,7 @@ namespace SharpFBTools.Tools
            		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
            		tsProgressBar.Maximum	= htFB2ForABT.Count+1;
 				tsProgressBar.Value		= 0;
-           		foreach( FB2FilesData fb2f in htFB2ForABT.Values ) {
+           		foreach( FB2FilesDataList fb2f in htFB2ForABT.Values ) {
            			// Проверить флаг на остановку процесса 
 					if( ( m_bw.CancellationPending == true ) ) {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
@@ -171,20 +171,20 @@ namespace SharpFBTools.Tools
 					}
            			if( fb2f.Count > 1 ) {
            				++m_sv.Group; // число групп одинаковых книг
-	           			IList<string> ilPath = fb2f.GetPathList();
            				for( int i=0; i!=fb2f.Count; ++i ) {
            					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
+           					BookData bd = fb2f[i];
 							lvg = new ListViewGroup( fb2f.BookTitleForKey );
-							ListViewItem lvi = new ListViewItem( ilPath[i] );
-							lvi.SubItems.Add( MakeAutorsString( fb2f.GetBookData( ilPath[i] ).Authors ) );
-							lvi.SubItems.Add( MakeGenresString( fb2f.GetBookData( ilPath[i] ).Genres ) );
-							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Id );
-							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Version );
-							lvi.SubItems.Add( fb2f.GetBookData( ilPath[i] ).Encoding );
-							lvi.SubItems.Add( m_bCheckValid ? IsValid( ilPath[i] ) : "?" );
-							lvi.SubItems.Add( GetFileLength( ilPath[i] ) );
-							lvi.SubItems.Add( GetFileCreationTime( ilPath[i] ) );
-							lvi.SubItems.Add( FileLastWriteTime( ilPath[i] ) );
+							ListViewItem lvi = new ListViewItem( bd.Path );
+							lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
+							lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+							lvi.SubItems.Add( bd.Id );
+							lvi.SubItems.Add( bd.Version );
+							lvi.SubItems.Add( bd.Encoding );
+							lvi.SubItems.Add( m_bCheckValid ? IsValid( bd.Path ) : "?" );
+							lvi.SubItems.Add( GetFileLength( bd.Path ) );
+							lvi.SubItems.Add( GetFileCreationTime( bd.Path ) );
+							lvi.SubItems.Add( FileLastWriteTime( bd.Path ) );
 							// заносим группу в хеш, если она там отсутствует
 							AddBookGroupInHashTable( htBookGroups, lvg );
 							// присваиваем группу книге
@@ -501,15 +501,13 @@ namespace SharpFBTools.Tools
 				
 				if( !htFB2ForID.ContainsKey( sID ) ) {
 					// такой книги в числе дублей еще нет
-					FB2FilesData fb2f = new FB2FilesData( fb2BookData );
+					FB2FilesDataList fb2f = new FB2FilesDataList( fb2BookData );
 					fb2f.Id = sID;
-					fb2f.AddPath( sPath );
 					htFB2ForID.Add( sID, fb2f );
 				} else {
 					// такая книга в числе дублей уже есть
-					FB2FilesData fb2f = (FB2FilesData)htFB2ForID[sID] ;
+					FB2FilesDataList fb2f = (FB2FilesDataList)htFB2ForID[sID] ;
 					fb2f.AddBookData( fb2BookData );
-					fb2f.AddPath( sPath );
 					//htFB2ForID[sID] = fb2f; //ИЗБЫТОЧНЫЙ КОД
 				}
 			} catch {} // пропускаем проблемные файлы
@@ -569,9 +567,8 @@ namespace SharpFBTools.Tools
 					// такой книги еще нет в хэше
 					// заносим только те книги, где тэг названия - есть
 					if( bookTitle!=null && bookTitle.Value!=null ) {
-						FB2FilesData fb2f = new FB2FilesData( fb2BookData );
+						FB2FilesDataList fb2f = new FB2FilesDataList( fb2BookData );
 						fb2f.BookTitleForKey = bookTitle.Value;
-						fb2f.AddPath( sPath );
 						htFB2ForABT.Add( htKey, fb2f );
 					}
 				} else {
@@ -579,7 +576,7 @@ namespace SharpFBTools.Tools
 					// обработка данных value хеша
 					BookDataABTKey aFromHash = (BookDataABTKey)keyDup;
 					// вытаскивает value их хэша по key
-					FB2FilesData fb2f = (FB2FilesData)htFB2ForABT[keyDup];
+					FB2FilesDataList fb2f = (FB2FilesDataList)htFB2ForABT[keyDup];
 					fb2f.AddBookData( fb2BookData );
 					// заменяем Название книги в хеше на самое длинное
 					bool bKeyNewBT = false; bool bKeyNewA = false;
@@ -591,7 +588,6 @@ namespace SharpFBTools.Tools
 							htKey.BookTitle = bookTitle; bKeyNewBT = true;
 						}
 					}
-					fb2f.AddPath( sPath );
 					// обработка key хеша
 					if( authors.Count > aFromHash.Authors.Count ) bKeyNewA = true;
 					// заменяем key в хеше на тот, где больше число авторов, и название - длиннее
@@ -1411,44 +1407,28 @@ namespace SharpFBTools.Tools
         }
 		#endregion
 	}
-	
+
 	/// <summary>
 	/// класс для хранения информации по одинаковым книгам (контекст Авторы и Название )
 	/// </summary>
-	public class FB2FilesData {
+	public class FB2FilesDataList : List<BookData> {
 		#region Закрытые данные класса
 		private string	m_sBookTitleForKey	= null;
 		private string	m_sId				= null;
-		
-		private IList<string>	m_ilPath			= new List<string>();
-		private IList<BookData>	m_ilFB2Book			= new List<BookData>();
 		#endregion
 		
 		#region конструкторы
-		public FB2FilesData() {
+		public FB2FilesDataList() {
 
 		}
-		public FB2FilesData( BookData bd ) {
-			m_ilFB2Book.Add( bd );
+		public FB2FilesDataList( BookData bd ) {
+			this.Add( bd );
 		}
 		#endregion
 		
 		#region Открытые методы класса
 		public void AddBookData( BookData abt ) {
-			m_ilFB2Book.Add( abt );
-        }
-		public BookData GetBookData( string sPath ) {
-			foreach( BookData a in m_ilFB2Book ) {
-				if( a.Path == sPath )
-					return a;
-			}
-			return null;
-        }
-		public void AddPath( string sFB2Path ) {
-			m_ilPath.Add( sFB2Path );
-        }
-		public IList<string> GetPathList() {
-			return m_ilPath;
+			this.Add( abt );
         }
 		#endregion
 		
@@ -1460,10 +1440,6 @@ namespace SharpFBTools.Tools
 		public virtual string Id {
 			get { return m_sId; }
 			set { m_sId = value; }
-        }
-		
-		public virtual int Count {
-			get { return m_ilPath.Count; }
         }
 		#endregion
 	}
