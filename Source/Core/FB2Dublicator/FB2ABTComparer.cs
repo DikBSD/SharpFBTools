@@ -60,6 +60,8 @@ namespace Core.FB2Dublicator
 					// У Автора 1-й Книги есть И Фамилия И Имя. Смотрим, что есть у Автора из 2-й Книги
 					if( ( afb2_2.LastName != null ) && ( afb2_2.FirstName != null ) ) {
 						// У Автора 2-й Книги есть И Фамилия И Имя : сравниваем по Фамилия И Имя
+						if( ( afb2_1.LastName.Value == afb2_2.LastName.Value ) &&
+						  	afb2_1.FirstName.Value == afb2_2.FirstName.Value ) return true;
 						if( IsStringsEquality( afb2_1.LastName.Value, afb2_2.LastName.Value ) &&
 						   	IsStringsEquality( afb2_1.FirstName.Value, afb2_2.FirstName.Value )	) {
 							return true; // нашли соответствие одного Автора, можно завершать сравнение
@@ -69,6 +71,7 @@ namespace Core.FB2Dublicator
 					// У Автора 1-й Книги есть Фамилия, НО нет Имени : сравниваем только по Фамилия
 					if( afb2_2.LastName != null ) {
 						// У Автора 2-й Книги есть Фамилия
+						if( afb2_1.LastName.Value == afb2_2.LastName.Value ) return true;
 						if( IsStringsEquality( afb2_1.LastName.Value, afb2_2.LastName.Value ) ) {
 							return true; // нашли соответствие одного Автора, можно завершать сравнение
 						}
@@ -81,6 +84,7 @@ namespace Core.FB2Dublicator
 		// включается ли Nick 2-го Автора в Nick 1-го и наоборот
 		private bool IsNickEquality( Author afb2_1, Author afb2_2 ) {
 			if( afb2_1.NickName != null && afb2_2.NickName != null ) {
+				if( afb2_1.NickName.Value == afb2_2.NickName.Value ) return true;
 				if( IsStringsEquality( afb2_1.NickName.Value, afb2_2.NickName.Value ) ) {
 					return true;
 				}
@@ -103,6 +107,8 @@ namespace Core.FB2Dublicator
 				return true;
 			else if( ( m_BT1.Value == null && m_BT2.Value != null ) || ( m_BT1.Value != null && m_BT2.Value == null ) )
 				return false;
+			
+			if( m_BT1.Value == m_BT2.Value ) return true;
 			
 			return IsStringsEquality( m_BT1.Value, m_BT2.Value );
         }

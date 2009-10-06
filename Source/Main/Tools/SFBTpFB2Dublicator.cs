@@ -501,7 +501,8 @@ namespace SharpFBTools.Tools
 				
 				if( !htFB2ForID.ContainsKey( sID ) ) {
 					// такой книги в числе дублей еще нет
-					FB2FilesDataList fb2f = new FB2FilesDataList( fb2BookData );
+					FB2FilesDataList fb2f = new FB2FilesDataList();
+					fb2f.AddBookData( fb2BookData );
 					fb2f.Id = sID;
 					htFB2ForID.Add( sID, fb2f );
 				} else {
@@ -545,9 +546,41 @@ namespace SharpFBTools.Tools
 			return htFB2ForABT;
 		}
 		
-		// заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
+		// заполнение хеш таблицы данными о fb2-книгах в контексте их Названия
 		// параметры: sPath - путь к fb2-файлу; htFB2ForABT - хеш-таблица
 		private void MakeFB2ABTHashTable( string sPath, ref Hashtable htFB2ForABT ) {
+			try {
+				fB2Parser fb2 = new fB2Parser( sPath );
+				BookTitle bookTitle	= fb2.BookTitle;
+				if( bookTitle!=null && bookTitle.Value!=null ) {
+					IList<Author> authors	= fb2.Authors;
+					string sId			= fb2.Id;
+					string sVersion		= fb2.Version;
+					string sEncoding	= filesWorker.GetFileEncoding( fb2.XmlDoc.InnerXml.Split('>')[0] );
+					if( sEncoding == null )  sEncoding = "?";
+					// данные о книге
+					BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, sId, sVersion, sPath, sEncoding );
+					string sBT = bookTitle.Value.Trim();
+					if( !htFB2ForABT.ContainsKey( sBT ) ) {
+						// такой книги в числе дублей еще нет
+						FB2FilesDataList fb2f = new FB2FilesDataList();
+						fb2f.BookTitleForKey = sBT;
+						fb2f.AddBookData( fb2BookData );
+						htFB2ForABT.Add( sBT, fb2f );
+					} else {
+						// такая книга в числе дублей уже есть
+						FB2FilesDataList fb2f = (FB2FilesDataList)htFB2ForABT[sBT];
+						fb2f.AddBookData( fb2BookData );
+						//htFB2ForID[sBT] = fb2f; //ИЗБЫТОЧНЫЙ КОД
+					}
+				}
+
+			} catch {} // пропускаем проблемные файлы
+		}
+		
+		// заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
+		// параметры: sPath - путь к fb2-файлу; htFB2ForABT - хеш-таблица
+		private void _MakeFB2ABTHashTable( string sPath, ref Hashtable htFB2ForABT ) {
 			try {
 				fB2Parser fb2 = new fB2Parser( sPath );
 				string sId			= fb2.Id;
@@ -567,7 +600,8 @@ namespace SharpFBTools.Tools
 					// такой книги еще нет в хэше
 					// заносим только те книги, где тэг названия - есть
 					if( bookTitle!=null && bookTitle.Value!=null ) {
-						FB2FilesDataList fb2f = new FB2FilesDataList( fb2BookData );
+						FB2FilesDataList fb2f = new FB2FilesDataList();
+						fb2f.AddBookData( fb2BookData );
 						fb2f.BookTitleForKey = bookTitle.Value;
 						htFB2ForABT.Add( htKey, fb2f );
 					}
@@ -1420,9 +1454,6 @@ namespace SharpFBTools.Tools
 		#region конструкторы
 		public FB2FilesDataList() {
 
-		}
-		public FB2FilesDataList( BookData bd ) {
-			this.Add( bd );
 		}
 		#endregion
 		
