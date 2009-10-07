@@ -608,6 +608,8 @@ namespace SharpFBTools.Tools
 							fb2Group.Remove( fb2Group.GetBookData( b.Path ) );
 						}
 					}
+					// защита от зацикливания, если в списке с одинаковым Названием Книги - по одной книге на разных Авторов
+					if( i==fb2Group.Count-1 && fb2NewGroup==null ) return ht;
 				}
 			}
 			return ht;
