@@ -125,7 +125,7 @@ namespace SharpFBTools.Tools
            		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
            		tsProgressBar.Maximum	= htFB2ForID.Count+1;
 				tsProgressBar.Value		= 0;
-           		foreach( FB2FilesDataList fb2f in htFB2ForID.Values ) {
+				foreach( FB2FilesDataIDList fb2f in htFB2ForID.Values ) {
            			// Проверить флаг на остановку процесса 
 					if( ( m_bw.CancellationPending == true ) ) {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
@@ -162,7 +162,7 @@ namespace SharpFBTools.Tools
            		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
            		tsProgressBar.Maximum	= htFB2ForABT.Count+1;
 				tsProgressBar.Value		= 0;
-           		foreach( FB2FilesDataList fb2f in htFB2ForABT.Values ) {
+           		foreach( FB2FilesDataABTList fb2f in htFB2ForABT.Values ) {
            			// Проверить флаг на остановку процесса 
 					if( ( m_bw.CancellationPending == true ) ) {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
@@ -171,7 +171,7 @@ namespace SharpFBTools.Tools
            			if( fb2f.Count > 1 ) {
            				// разбивка на группы для одинакового Названия по Авторам
            				Hashtable ht = FindDupForAuthors( fb2f );
-           				foreach( FB2FilesDataList fb2List in ht.Values ) {
+           				foreach( FB2FilesDataABTList fb2List in ht.Values ) {
            					if( fb2List.Count > 1 ) {
            						++m_sv.Group; // число групп одинаковых книг
 		           				foreach( BookData bd in fb2List ) {
@@ -505,13 +505,13 @@ namespace SharpFBTools.Tools
 				
 				if( !htFB2ForID.ContainsKey( sID ) ) {
 					// такой книги в числе дублей еще нет
-					FB2FilesDataList fb2f = new FB2FilesDataList();
+					FB2FilesDataIDList fb2f = new FB2FilesDataIDList();
 					fb2f.AddBookData( fb2BookData );
 					fb2f.Id = sID;
 					htFB2ForID.Add( sID, fb2f );
 				} else {
 					// такая книга в числе дублей уже есть
-					FB2FilesDataList fb2f = (FB2FilesDataList)htFB2ForID[sID] ;
+					FB2FilesDataIDList fb2f = (FB2FilesDataIDList)htFB2ForID[sID] ;
 					fb2f.AddBookData( fb2BookData );
 					//htFB2ForID[sID] = fb2f; //ИЗБЫТОЧНЫЙ КОД
 				}
@@ -567,13 +567,13 @@ namespace SharpFBTools.Tools
 					string sBT = bookTitle.Value.Trim();
 					if( !htFB2ForABT.ContainsKey( sBT ) ) {
 						// такой книги в числе дублей еще нет
-						FB2FilesDataList fb2f = new FB2FilesDataList();
+						FB2FilesDataABTList fb2f = new FB2FilesDataABTList();
 						fb2f.BookTitleForKey = sBT;
 						fb2f.AddBookData( fb2BookData );
 						htFB2ForABT.Add( sBT, fb2f );
 					} else {
 						// такая книга в числе дублей уже есть
-						FB2FilesDataList fb2f = (FB2FilesDataList)htFB2ForABT[sBT];
+						FB2FilesDataABTList fb2f = (FB2FilesDataABTList)htFB2ForABT[sBT];
 						fb2f.AddBookData( fb2BookData );
 						//htFB2ForID[sBT] = fb2f; //ИЗБЫТОЧНЫЙ КОД
 					}
@@ -581,9 +581,9 @@ namespace SharpFBTools.Tools
 
 			} catch {} // пропускаем проблемные файлы
 		}
-		
+
 		// создание групп копий по Авторам, относительно найденного Названия Книги
-		private Hashtable FindDupForAuthors( FB2FilesDataList fb2Group ) {
+		private Hashtable FindDupForAuthors( FB2FilesDataABTList fb2Group ) {
 			Hashtable ht = new Hashtable();
 			bool bDone = false;
 			while( fb2Group.Count > 0 ) {
@@ -598,7 +598,7 @@ namespace SharpFBTools.Tools
 					// ключ
 					BookDataABTKey htKey = new BookDataABTKey( bd.Authors, bd.BookTitle );
 					// ищем в группе одинакового названия книги дубли
-					FB2FilesDataList fb2NewGroup = MakeDupGroup( ref fb2Group, bd.Authors );
+					FB2FilesDataABTList fb2NewGroup = MakeDupGroup( ref fb2Group, bd.Authors );
 					if( fb2NewGroup!=null ) {
 						// заносим группу в хэш
 						fb2NewGroup.BookTitleForKey = bd.BookTitle.Value+" ( " + MakeAutorsString( bd.Authors )+" )";
@@ -615,9 +615,9 @@ namespace SharpFBTools.Tools
 		
 		// создание списка дублей книг для конкретного Названия по Авторам
 		// возвращаем: null, если не нашли копии, или созданный список копий
-		private FB2FilesDataList MakeDupGroup( ref FB2FilesDataList fb2Group, IList<Author> Authors ) {
+		private FB2FilesDataABTList MakeDupGroup( ref FB2FilesDataABTList fb2Group, IList<Author> Authors ) {
 			if( fb2Group.Count < 2 ) return null;
-			FB2FilesDataList g = new FB2FilesDataList();
+			FB2FilesDataABTList g = new FB2FilesDataABTList();
 			foreach ( BookData bd in fb2Group ) {
            		FB2AuthorsComparer fb2c = new FB2AuthorsComparer( Authors, bd.Authors );
            		if( fb2c.IsBookAuthorEquality() ) {
@@ -1363,45 +1363,4 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 	}
-	
-	#region Вспомогательные классы
-	/// <summary>
-	/// класс для хранения информации по одинаковым книгам (контекст Авторы и Название )
-	/// </summary>
-	public class FB2FilesDataList : List<BookData> {
-		#region Закрытые данные класса
-		private string	m_sBookTitleForKey	= null;
-		private string	m_sId				= null;
-		#endregion
-		
-		#region конструкторы
-		public FB2FilesDataList() {
-
-		}
-		#endregion
-		
-		#region Открытые методы класса
-		public void AddBookData( BookData abt ) {
-			this.Add( abt );
-        }
-		public BookData GetBookData( string sPath ) {
-			foreach( BookData a in this ) {
-				if( a.Path == sPath ) return a;
-			}
-			return null;
-        }
-		#endregion
-		
-		#region Свойства класса
-		public virtual string BookTitleForKey {
-			get { return m_sBookTitleForKey; }
-			set { m_sBookTitleForKey = value; }
-        }
-		public virtual string Id {
-			get { return m_sId; }
-			set { m_sId = value; }
-        }
-		#endregion
-	}
-	#endregion
 }
