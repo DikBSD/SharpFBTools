@@ -138,8 +138,8 @@ namespace SharpFBTools.Tools
            					lvg = new ListViewGroup( fb2f.Id );
            					ListViewItem lvi = new ListViewItem( bd.Path );
            					lvi.SubItems.Add( MakeBookTitleString( bd.BookTitle ) );
-							lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
-							lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+							lvi.SubItems.Add( MakeAutorsString( bd.Authors, true ) );
+							lvi.SubItems.Add( MakeGenresString( bd.Genres, true ) );
 							lvi.SubItems.Add( bd.Version );
 							lvi.SubItems.Add( bd.Encoding );
 							lvi.SubItems.Add( m_bCheckValid ? IsValid( bd.Path ) : "?" );
@@ -178,8 +178,8 @@ namespace SharpFBTools.Tools
     		       					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
     		       					lvg = new ListViewGroup( fb2List.BookTitleForKey );
 									ListViewItem lvi = new ListViewItem( bd.Path );
-									lvi.SubItems.Add( MakeAutorsString( bd.Authors ) );
-									lvi.SubItems.Add( MakeGenresString( bd.Genres ) );
+									lvi.SubItems.Add( MakeAutorsString( bd.Authors, true ) );
+									lvi.SubItems.Add( MakeGenresString( bd.Genres, true ) );
 									lvi.SubItems.Add( bd.Id );
 									lvi.SubItems.Add( bd.Version );
 									lvi.SubItems.Add( bd.Encoding );
@@ -601,7 +601,7 @@ namespace SharpFBTools.Tools
 					FB2FilesDataABTList fb2NewGroup = MakeDupGroup( ref fb2Group, bd.Authors );
 					if( fb2NewGroup!=null ) {
 						// заносим группу в хэш
-						fb2NewGroup.BookTitleForKey = bd.BookTitle.Value+" ( " + MakeAutorsString( bd.Authors )+" )";
+						fb2NewGroup.BookTitleForKey = bd.BookTitle.Value+" ( " + MakeAutorsString( bd.Authors, false )+" )";
 						ht.Add( htKey, fb2NewGroup );
 						// удаляем найденное из основной группы fb2Group, чтобы повторно их не проверять
 						foreach ( BookData b in fb2NewGroup ) {
@@ -640,11 +640,11 @@ namespace SharpFBTools.Tools
 		}
 		
 		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
-		private string MakeAutorsString( IList<Author> Authors ) {
+		private string MakeAutorsString( IList<Author> Authors, bool bNumber ) {
 			if( Authors==null ) return "Тег <authors> в книге отсутствует";
 			string sA = ""; int n = 0;
 			foreach( Author a in Authors ) {
-				sA += Convert.ToString(++n)+": ";
+				++n;
 				if( a.LastName!=null && a.LastName.Value!=null )
 					sA += a.LastName.Value+" ";
 				if( a.FirstName!=null && a.FirstName.Value!=null )
@@ -655,19 +655,21 @@ namespace SharpFBTools.Tools
 					sA += a.NickName.Value;
 				sA += "; ";
 			}
-			return sA;
+			if( bNumber ) sA = Convert.ToString(n)+": " + sA;
+			return sA.Substring( 0, sA.LastIndexOf( ";" )-1 );
 		}
 		
 		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
-		private string MakeGenresString( IList<Genre> Genres ) {
+		private string MakeGenresString( IList<Genre> Genres, bool bNumber ) {
 			if( Genres==null ) return "?";
 			string sG = ""; int n = 0;
 			foreach( Genre g in Genres ) {
-				sG += Convert.ToString(++n)+": ";
+				++n;
 				if( g.Name!=null ) sG += g.Name;
 				sG += "; ";
 			}
-			return sG;
+			if( bNumber ) sG = Convert.ToString(n)+": " + sG;
+			return sG.Substring( 0, sG.LastIndexOf( ";" )-1 );
 		}
 		
 		// изменение колонок просмотрщика найденного, взависимости от режима сравнения

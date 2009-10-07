@@ -47,7 +47,7 @@ namespace Core.FB2Dublicator
 			if( Authors == null ) return ""; 
 			string sA = ""; int n = 0;
 			foreach( Author a in Authors ) {
-				sA += Convert.ToString(++n)+": ";
+				++n;
 				if( a.LastName!=null && a.LastName.Value!=null )
 					sA += a.LastName.Value+" ";
 				if( a.FirstName!=null && a.FirstName.Value!=null )
@@ -58,7 +58,8 @@ namespace Core.FB2Dublicator
 					sA += a.NickName.Value;
 				sA += "; ";
 			}
-			return sA;
+			sA = Convert.ToString(n)+": " + sA;
+			return sA.Substring( 0, sA.LastIndexOf( ";" )-1 );
 		}
 		
 		// формирование строки с Датой Написания Книги или Датой Создания fb2-файла
@@ -75,11 +76,12 @@ namespace Core.FB2Dublicator
 			if( Genres == null ) return ""; 
 			string sG = ""; int n = 0;
 			foreach( Genre g in Genres ) {
-				sG += Convert.ToString(++n)+": ";
+				++n;
 				if( g.Name!=null ) sG += g.Name;
 				sG += "; ";
 			}
-			return sG;
+			sG = Convert.ToString(n)+": " + sG;
+			return sG.Substring( 0, sG.LastIndexOf( ";" )-1 );
 		}
 		
 		// формирование строки с Сериями Книги из списка всех Серий ЭТОЙ Книги
@@ -87,14 +89,15 @@ namespace Core.FB2Dublicator
 			if( Sequences == null ) return ""; 
 			string sSeq = ""; int n = 0;
 			foreach( Sequence s in Sequences ) {
-				sSeq += Convert.ToString(++n)+": ";
+				++n;
 				if( s.Name!=null )	sSeq += s.Name;
 				else 				sSeq += "Нет";
 				if( s.Number!=null )	sSeq += " ("+s.Number+") ";
 				else					sSeq += "Нет";
 				sSeq += "; ";
 			}
-			return sSeq;
+			sSeq = Convert.ToString(n)+": " + sSeq;
+			return sSeq.Substring( 0, sSeq.LastIndexOf( ";" )-1 );
 		}
 		
 		#endregion
