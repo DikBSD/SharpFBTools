@@ -156,7 +156,45 @@ namespace SharpFBTools.Tools
         	   		}
            			m_bw.ReportProgress( 0 );
            		}
-           	} else {
+           	} else if( cboxMode.SelectedIndex == 1 ) {
+				MakeColumns( 1 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
+           		Hashtable htFB2ForABT = FilesHashForABTParser( m_bw, e, lDirList );
+           		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
+           		tsProgressBar.Maximum	= htFB2ForABT.Count+1;
+				tsProgressBar.Value		= 0;
+           		foreach( FB2FilesDataABTList fb2f in htFB2ForABT.Values ) {
+           			// Проверить флаг на остановку процесса 
+					if( ( m_bw.CancellationPending == true ) ) {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+						return;
+					}
+           			if( fb2f.Count > 1 ) {
+           				// разбивка на группы для одинакового Названия по Авторам
+   						++m_sv.Group; // число групп одинаковых книг
+           				foreach( BookData bd in fb2f ) {
+	       					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
+	       					lvg = new ListViewGroup( fb2f.BookTitleForKey );
+							ListViewItem lvi = new ListViewItem( bd.Path );
+							lvi.SubItems.Add( MakeAutorsString( bd.Authors, true ) );
+							lvi.SubItems.Add( MakeGenresString( bd.Genres, true ) );
+							lvi.SubItems.Add( bd.Id );
+							lvi.SubItems.Add( bd.Version );
+							lvi.SubItems.Add( bd.Encoding );
+							lvi.SubItems.Add( m_bCheckValid ? IsValid( bd.Path ) : "?" );
+							lvi.SubItems.Add( GetFileLength( bd.Path ) );
+							lvi.SubItems.Add( GetFileCreationTime( bd.Path ) );
+							lvi.SubItems.Add( FileLastWriteTime( bd.Path ) );
+							// заносим группу в хеш, если она там отсутствует
+							AddBookGroupInHashTable( htBookGroups, lvg );
+							// присваиваем группу книге
+							lvResult.Groups.Add( (ListViewGroup)htBookGroups[fb2f.BookTitleForKey] );
+							lvi.Group = (ListViewGroup)htBookGroups[fb2f.BookTitleForKey];
+							lvResult.Items.Add( lvi );
+       					}
+           			}
+           			m_bw.ReportProgress( 0 );
+           		}
+			} else {
            		MakeColumns( 1 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
            		Hashtable htFB2ForABT = FilesHashForABTParser( m_bw, e, lDirList );
            		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
