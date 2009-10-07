@@ -106,6 +106,9 @@ namespace SharpFBTools.Tools
 				return;
 			}
 			
+			// очистка контролов вывода данных по книге по ее выбору
+			ClearDataFields();
+			
 			tsslblProgress.Text		= "Хеширование fb2-файлов:";
 			tsProgressBar.Maximum	= m_sv.AllFiles;
 			tsProgressBar.Value		= 0;
@@ -114,7 +117,9 @@ namespace SharpFBTools.Tools
 			lvResult.BeginUpdate();
 			Hashtable htBookGroups = new Hashtable(); // хеш-таблица групп одинаковых книг
 			ListViewGroup lvg = null; // группа одинаковых книг
-           	if( cboxMode.SelectedIndex == 0 ) {
+           	
+			string sProgress = "Создание Списка одинаковых fb2-файлов:";
+			if( cboxMode.SelectedIndex == 0 ) {
            		MakeColumns( 0 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
            		Hashtable htFB2ForID = FilesHashForIDParser( m_bw, e, lDirList );
            		// Проверить флаг на остановку процесса
@@ -122,9 +127,10 @@ namespace SharpFBTools.Tools
 					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 					return;
 				}
-           		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
-           		tsProgressBar.Maximum	= htFB2ForID.Count+1;
-				tsProgressBar.Value		= 0;
+           		
+           		tsslblProgress.Text		= sProgress;
+           		tsProgressBar.Maximum	= htFB2ForID.Values.Count;
+           		tsProgressBar.Value		= 0;
 				foreach( FB2FilesDataIDList fb2f in htFB2ForID.Values ) {
            			// Проверить флаг на остановку процесса 
 					if( ( m_bw.CancellationPending == true ) ) {
@@ -159,9 +165,9 @@ namespace SharpFBTools.Tools
            	} else if( cboxMode.SelectedIndex == 1 ) {
 				MakeColumns( 1 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
            		Hashtable htFB2ForABT = FilesHashForABTParser( m_bw, e, lDirList );
-           		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
-           		tsProgressBar.Maximum	= htFB2ForABT.Count+1;
-				tsProgressBar.Value		= 0;
+           		tsslblProgress.Text		= sProgress;
+           		tsProgressBar.Maximum	= htFB2ForABT.Values.Count;
+           		tsProgressBar.Value		= 0;
            		foreach( FB2FilesDataABTList fb2f in htFB2ForABT.Values ) {
            			// Проверить флаг на остановку процесса 
 					if( ( m_bw.CancellationPending == true ) ) {
@@ -197,9 +203,9 @@ namespace SharpFBTools.Tools
 			} else {
            		MakeColumns( 1 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
            		Hashtable htFB2ForABT = FilesHashForABTParser( m_bw, e, lDirList );
-           		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
-           		tsProgressBar.Maximum	= htFB2ForABT.Count+1;
-				tsProgressBar.Value		= 0;
+           		tsslblProgress.Text		= sProgress;
+           		tsProgressBar.Maximum	= htFB2ForABT.Values.Count;
+           		tsProgressBar.Value		= 0;
            		foreach( FB2FilesDataABTList fb2f in htFB2ForABT.Values ) {
            			// Проверить флаг на остановку процесса 
 					if( ( m_bw.CancellationPending == true ) ) {
@@ -377,6 +383,26 @@ namespace SharpFBTools.Tools
 			if( m_sv!=null ) m_sv.Clear(); // сброс данных класса для отображения прогресса
 			lvResult.Items.Clear();
 			lvResult.Groups.Clear();
+		}
+		
+		// очистка контролов вывода данных по книге по ее выбору
+		private void ClearDataFields() {
+			for( int i=0; i!=lvTitleInfo.Items.Count; ++i ) {
+				lvTitleInfo.Items[i].SubItems[1].Text		= "";
+				lvSourceTitleInfo.Items[i].SubItems[1].Text	= "";
+				
+			}
+			for( int i=0; i!=lvDocumentInfo.Items.Count; ++i ) {
+				lvDocumentInfo.Items[i].SubItems[1].Text = "";
+				
+			}
+			for( int i=0; i!=lvPublishInfo.Items.Count; ++i ) {
+				lvPublishInfo.Items[i].SubItems[1].Text = "";
+				
+			}
+			lvCustomInfo.Items.Clear();
+			rtbHistory.Clear();
+			rtbAnnotation.Clear();
 		}
 		
 		private void ReadFB2DupTempData() {
