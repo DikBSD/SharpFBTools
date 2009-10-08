@@ -88,7 +88,7 @@ namespace SharpFBTools.Tools
 				lvFilesCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				m_sv.AllFiles = filesWorker.DirsParser( m_sSource, lvFilesCount, ref lDirList, false );
+				m_sv.AllFiles = filesWorker.DirsParser( m_bw, e, m_sSource, lvFilesCount, ref lDirList, false );
 			}
 			m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 			
@@ -524,7 +524,7 @@ namespace SharpFBTools.Tools
 			foreach( string s in lsDirs ) {
 				DirectoryInfo diFolder = new DirectoryInfo( s );
 				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-					if( ( m_bw.CancellationPending == true ) )  {
+					if( ( bw.CancellationPending == true ) )  {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						return htFB2ForID;
 					}
@@ -590,7 +590,7 @@ namespace SharpFBTools.Tools
 			foreach( string s in lsDirs ) {
 				DirectoryInfo diFolder = new DirectoryInfo( s );
 				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-					if( ( m_bw.CancellationPending == true ) )  {
+					if( ( bw.CancellationPending == true ) )  {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						return htFB2ForABT;
 					}

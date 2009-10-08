@@ -234,7 +234,7 @@ namespace Core.FilesWorker
 		//				lAllDirsList - заполняемый список папок в папке сканирования и ее подпапках
 		//				bSort = true - сортировать созданный список папок
 		// возвращает: число всех файлов в папке для сканирования и ее подпапках
-		public static int DirsParser( string sStartDir, ListView lv, ref List<string> lAllDirsList, bool bSort ) {
+		public static int DirsParser( BackgroundWorker bw, DoWorkEventArgs e, string sStartDir, ListView lv, ref List<string> lAllDirsList, bool bSort ) {
 			int nAllFilesCount = 0;
 			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
 			List<string> lWorkDirList = new List<string>();
@@ -248,6 +248,10 @@ namespace Core.FilesWorker
 				// перебор папок в указанной папке s
 				int nWorkCount = lWorkDirList.Count;
 				for( int i=0; i!=nWorkCount; ++i ) {
+					if( ( bw.CancellationPending == true ) )  {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+						return nAllFilesCount;
+					}
 					// l - список найденных папок в указанной папке sWD
 					List<string> l = new List<string>();
 					nAllFilesCount += DirListMaker( lWorkDirList[i], ref l );
