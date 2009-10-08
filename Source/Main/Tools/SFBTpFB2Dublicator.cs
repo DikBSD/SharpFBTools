@@ -1358,11 +1358,11 @@ namespace SharpFBTools.Tools
            			// файл валидный
            			mbi = MessageBoxIcon.Information;
 					sErrorMsg = sOkMsg;
-					si[0].SubItems[5].Text = "Да";
+					si[0].SubItems[6].Text = "Да";
 				} else {
 					// файл не валидный
 					mbi = MessageBoxIcon.Error;
-					si[0].SubItems[5].Text = "Нет";
+					si[0].SubItems[6].Text = "Нет";
 				}
 				DateTime dtEnd = DateTime.Now;
 				string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
@@ -1428,7 +1428,137 @@ namespace SharpFBTools.Tools
 				lvi.Checked = false;
 			}
 		}
-		#endregion
 		
+		void TsbtnDupSaveListClick(object sender, EventArgs e)
+		{
+			// сохранение списка найденных копий
+			#region Код
+			if( lvResult.Items.Count==0 ) {
+				MessageBox.Show( "Нет ни одной копии книг!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
+
+			string sPath = "";
+			sfdList.Filter = "SharpFBTools Файлы копий (*.sdf)|*.sdf|Все файлы (*.*)|*.*";
+			sfdList.FileName = "";
+			sfdList.InitialDirectory = Settings.Settings.GetProgDir();
+			DialogResult result = sfdList.ShowDialog();
+			if( result == DialogResult.OK ) {
+				sPath = sfdList.FileName;
+				Environment.CurrentDirectory = Settings.Settings.GetProgDir();
+				XmlWriter writer = null;
+				try {
+					XmlWriterSettings data = new XmlWriterSettings();
+					data.Indent = true;
+					data.IndentChars = ("\t");
+					data.OmitXmlDeclaration = true;
+				
+					writer = XmlWriter.Create( sPath, data );
+					writer.WriteStartElement( "Duplicator" );
+						// режим поиска
+						writer.WriteStartElement( "Mode" );
+							writer.WriteAttributeString( "mode", cboxMode.SelectedIndex.ToString() );
+						writer.WriteFullEndElement();
+						// число стьолбцов и записей
+						writer.WriteStartElement( "Count" );
+							writer.WriteAttributeString( "ItemsCount", lvResult.Items.Count.ToString() );
+							writer.WriteAttributeString( "ColumnsCount", lvResult.Columns.Count.ToString() );
+						writer.WriteFullEndElement();
+						// данные поиска
+						writer.WriteStartElement( "Items" );
+						for( int i=0; i!=lvResult.Items.Count; ++i ) {
+							ListViewItem item = lvResult.Items[i];
+							writer.WriteStartElement( "item"+i.ToString() );
+							for( int j=0; j!=lvResult.Columns.Count; ++j ) {
+								writer.WriteAttributeString( "c"+j.ToString(), item.SubItems[j].Text );
+							}
+							writer.WriteAttributeString( "g", item.Group.Header );
+							writer.WriteFullEndElement();
+						}
+						writer.WriteEndElement();
+					writer.WriteEndElement();
+					writer.Flush();
+				}  finally  {
+					if (writer != null)
+					writer.Close();
+				}
+				MessageBox.Show( "Сохранение списка копий завершено!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
+			
+			#endregion
+		}
+		
+		void TsbtnDupOpenListClick(object sender, EventArgs e)
+		{
+			// загрузка списка копий
+			#region Код
+			sfdLoadList.InitialDirectory = Settings.Settings.GetProgDir();
+			sfdLoadList.Filter		= "SharpFBTools Файлы копий (*.sdf)|*.sdf|Все файлы (*.*)|*.*";
+			sfdLoadList.FileName	= "";
+			string sPath = "";
+			DialogResult result = sfdLoadList.ShowDialog();
+			if( result == DialogResult.OK ) {
+				sPath = sfdLoadList.FileName;
+				// инициализация контролов
+				Init();
+				// установка режима поиска
+				if( !File.Exists( sPath ) ) {
+					MessageBox.Show( "Не найден файл списка Дубликатора: \""+sPath+"\"!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+				XmlReaderSettings data = new XmlReaderSettings();
+				data.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( sPath, data ) ) {
+					try {
+						// режим поиска
+						reader.ReadToFollowing("Mode");
+						if( reader.HasAttributes ) {
+							cboxMode.SelectedIndex = Convert.ToInt32( reader.GetAttribute("mode") );
+							// изменение колонок просмотрщика найденного, взависимости от режима сравнения
+							MakeColumns( cboxMode.SelectedIndex );
+						}
+						// число стьолбцов и записей
+						int nItemsCount	= 0, nColumnsCount = 0;
+						reader.ReadToFollowing("Count");
+						if( reader.HasAttributes ) {
+							nItemsCount		= Convert.ToInt32( reader.GetAttribute("ItemsCount") );
+							nColumnsCount	= Convert.ToInt32( reader.GetAttribute("ColumnsCount") );
+						}
+						// данные поиска
+						Hashtable htBookGroups = new Hashtable(); // хеш-таблица групп одинаковых книг
+						ListViewGroup lvg = null; // группа одинаковых книг
+						ListViewItem lvi = null;
+						for( int i=0; i!=nItemsCount; ++i ) {
+							reader.ReadToFollowing("item"+i.ToString());
+							string sGroup	= reader.GetAttribute("g");
+							lvg = new ListViewGroup( sGroup );
+							lvi = new ListViewItem( reader.GetAttribute("c0") );
+							for( int j=1; j!=nColumnsCount; ++j ) {
+								if( reader.HasAttributes ) {
+									lvi.SubItems.Add( reader.GetAttribute("c"+j.ToString()) );
+								}
+							}
+							// заносим группу в хеш, если она там отсутствует
+							AddBookGroupInHashTable( htBookGroups, lvg );
+							// присваиваем группу книге
+							lvResult.Groups.Add( (ListViewGroup)htBookGroups[sGroup] );
+							lvi.Group = (ListViewGroup)htBookGroups[sGroup];
+							lvResult.Items.Add( lvi );
+						}
+						// Отобразим результат в индикаторе прогресса
+						Misc msc = new Misc();
+						msc.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count );
+						msc.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count );
+					} catch {
+						MessageBox.Show( "Поврежден файл списка Дубликатора: \""+sPath+"\"!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					} finally {
+						reader.Close();
+					}
+				}
+			}
+			#endregion
+		}
+		#endregion
+
 	}
 }

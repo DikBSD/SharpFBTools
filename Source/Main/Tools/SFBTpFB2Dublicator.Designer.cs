@@ -208,6 +208,9 @@ namespace SharpFBTools.Tools
 			this.tsbtnDupMove = new System.Windows.Forms.ToolStripButton();
 			this.tsbtnDupDelete = new System.Windows.Forms.ToolStripButton();
 			this.tsbtnDupWorkStop = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbtnDupSaveList = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnDupOpenList = new System.Windows.Forms.ToolStripButton();
 			this.cmsFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tsmiDiffFB2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -241,6 +244,8 @@ namespace SharpFBTools.Tools
 			this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+			this.sfdList = new System.Windows.Forms.SaveFileDialog();
+			this.sfdLoadList = new System.Windows.Forms.OpenFileDialog();
 			this.ssProgress.SuspendLayout();
 			this.pProgress.SuspendLayout();
 			this.tcViewFB2Desc.SuspendLayout();
@@ -682,7 +687,10 @@ namespace SharpFBTools.Tools
 									this.tsbtnDupCopy,
 									this.tsbtnDupMove,
 									this.tsbtnDupDelete,
-									this.tsbtnDupWorkStop});
+									this.tsbtnDupWorkStop,
+									this.toolStripSeparator5,
+									this.tsbtnDupSaveList,
+									this.tsbtnDupOpenList});
 			this.tsFullSort.Location = new System.Drawing.Point(0, 0);
 			this.tsFullSort.Name = "tsFullSort";
 			this.tsFullSort.Size = new System.Drawing.Size(828, 31);
@@ -723,8 +731,8 @@ namespace SharpFBTools.Tools
 			this.tsbtnSearchDubls.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSearchDubls.Image")));
 			this.tsbtnSearchDubls.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnSearchDubls.Name = "tsbtnSearchDubls";
-			this.tsbtnSearchDubls.Size = new System.Drawing.Size(157, 28);
-			this.tsbtnSearchDubls.Text = "Поиск одинаковых книг";
+			this.tsbtnSearchDubls.Size = new System.Drawing.Size(98, 28);
+			this.tsbtnSearchDubls.Text = "Поиск копий";
 			this.tsbtnSearchDubls.Click += new System.EventHandler(this.TsbtnSearchDublsClick);
 			// 
 			// tsbtnSearchFb2DupStop
@@ -781,6 +789,31 @@ namespace SharpFBTools.Tools
 			this.tsbtnDupWorkStop.Name = "tsbtnDupWorkStop";
 			this.tsbtnDupWorkStop.Size = new System.Drawing.Size(96, 28);
 			this.tsbtnDupWorkStop.Text = "Остановить";
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 6);
+			// 
+			// tsbtnDupSaveList
+			// 
+			this.tsbtnDupSaveList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDupSaveList.Image")));
+			this.tsbtnDupSaveList.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnDupSaveList.Name = "tsbtnDupSaveList";
+			this.tsbtnDupSaveList.Size = new System.Drawing.Size(90, 28);
+			this.tsbtnDupSaveList.Text = "Сохранить";
+			this.tsbtnDupSaveList.ToolTipText = "Сохранить список копий книг в файл";
+			this.tsbtnDupSaveList.Click += new System.EventHandler(this.TsbtnDupSaveListClick);
+			// 
+			// tsbtnDupOpenList
+			// 
+			this.tsbtnDupOpenList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDupOpenList.Image")));
+			this.tsbtnDupOpenList.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnDupOpenList.Name = "tsbtnDupOpenList";
+			this.tsbtnDupOpenList.Size = new System.Drawing.Size(87, 28);
+			this.tsbtnDupOpenList.Text = "Загрузить";
+			this.tsbtnDupOpenList.ToolTipText = "Загрузить список копий книг из файла";
+			this.tsbtnDupOpenList.Click += new System.EventHandler(this.TsbtnDupOpenListClick);
 			// 
 			// cmsFB2
 			// 
@@ -1072,6 +1105,16 @@ namespace SharpFBTools.Tools
 			// 
 			this.columnHeader5.Text = "Размер";
 			// 
+			// sfdList
+			// 
+			this.sfdList.RestoreDirectory = true;
+			this.sfdList.Title = "Укажите название файла копий";
+			// 
+			// sfdLoadList
+			// 
+			this.sfdLoadList.RestoreDirectory = true;
+			this.sfdLoadList.Title = "Загрузка Списка копий книг";
+			// 
 			// SFBTpFB2Dublicator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1107,6 +1150,11 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.OpenFileDialog sfdLoadList;
+		private System.Windows.Forms.SaveFileDialog sfdList;
+		private System.Windows.Forms.ToolStripButton tsbtnDupOpenList;
+		private System.Windows.Forms.ToolStripButton tsbtnDupSaveList;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ColumnHeader columnHeader20;
 		private System.Windows.Forms.ToolStripMenuItem tsmiUnCheckedAll;
 		private System.Windows.Forms.ToolStripMenuItem tsmiCheckedAll;
