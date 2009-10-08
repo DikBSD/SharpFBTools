@@ -95,6 +95,7 @@ namespace SharpFBTools.Tools
 		
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			// сортировка файлов по папкам, согласно шаблонам подстановки
+			int nAllFiles = 0;
 			List<string> lDirList = new List<string>();
 			if( !m_bScanSubDirs ) {
 				// сканировать только указанную папку
@@ -102,12 +103,12 @@ namespace SharpFBTools.Tools
 				lvFilesCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				lDirList = filesWorker.DirsParser( m_sSource, lvFilesCount, false );
+				nAllFiles = filesWorker.DirsParser( m_bw, e, m_sSource, lvFilesCount, ref lDirList, false );
 			}
 			
-			// не сортированный список всех файлов
-			m_lFilesList = filesWorker.AllFilesParser( m_bw, e, lDirList, lvFilesCount, tsProgressBar, false );
-			lDirList.Clear();
+			// отобразим число всех файлов в папке сканирования
+			lvFilesCount.Items[1].SubItems[1].Text = nAllFiles.ToString();
+			
 			// Проверить флаг на остановку процесса 
 			if( ( m_bw.CancellationPending == true ) ) {
 				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
@@ -115,7 +116,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
-			if( m_lFilesList.Count == 0 ) {
+			if( nAllFiles == 0 ) {
 				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				tsslblProgress.Text = Settings.Settings.GetReady();
 				SetSelectedSortingStartEnabled( true );
@@ -123,7 +124,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			tsslblProgress.Text		= "Сортировка файлов:";
-			tsProgressBar.Maximum	= m_lFilesList.Count;
+			tsProgressBar.Maximum	= nAllFiles;
 			tsProgressBar.Value		= 0;
 			
 			// данные настроек для сортировки по шаблонам
@@ -134,12 +135,16 @@ namespace SharpFBTools.Tools
 			// сортировка
 			if( m_bFullSort ) {
 				// Полная Сортировка
-				foreach( string sFromFilePath in m_lFilesList ) {
-					// Проверить флаг на остановку процесса 
-					if( ( m_bw.CancellationPending == true ) ) {
-						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-						break;
-					} else {
+				foreach( string s in lDirList ) {
+					DirectoryInfo diFolder = new DirectoryInfo( s );
+					foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+						// Проверить флаг на остановку процесса 
+						if( ( m_bw.CancellationPending == true ) ) {
+							e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+							break;
+						} 
+						string sFromFilePath = s + "\\" + fiNextFile.Name;
+						
 						// создаем файл по новому пути
 						if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
 							// по первому Жанру и первому Автору Книги
@@ -154,20 +159,23 @@ namespace SharpFBTools.Tools
 							// по всем Жанрам и всем Авторам Книги
 							MakeFileForAllGenreAllAuthor( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
 						}
+
+						m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 					}
-					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
 			} else {
 				// Избранная Сортировка
-				string sExt = "";
-				foreach( string sFromFilePath in m_lFilesList ) {
-					// Проверить флаг на остановку процесса 
-					if( ( m_bw.CancellationPending == true ) ) {
-						e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
-						break;
-					} else {
+				foreach( string s in lDirList ) {
+					DirectoryInfo diFolder = new DirectoryInfo( s );
+					foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+						// Проверить флаг на остановку процесса 
+						if( ( m_bw.CancellationPending == true ) ) {
+							e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+							break;
+						} 
+						string sFromFilePath = s + "\\" + fiNextFile.Name;
+						string sExt = Path.GetExtension( sFromFilePath ).ToLower();
 						// создаем файл по новому пути
-						sExt = Path.GetExtension( sFromFilePath ).ToLower();
 						if( sExt==".fb2" ) {
 							// Создание файла по критериям Избранной сортировки
 							MakeFileForSelectedSortingWorker( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
@@ -185,10 +193,11 @@ namespace SharpFBTools.Tools
 								filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 							}
 						}
+						m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 					}
-					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
 			}
+			lDirList.Clear();
         }
 
 		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
