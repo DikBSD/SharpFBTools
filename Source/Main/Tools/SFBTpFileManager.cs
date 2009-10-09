@@ -25,13 +25,13 @@ using Core.FB2.Genres;
 using Core.BookSorting;
 using Settings;
 
-using fB2Parser			= Core.FB2.FB2Parsers.FB2Parser;
-using filesWorker		= Core.FilesWorker.FilesWorker;
-using archivesWorker	= Core.FilesWorker.Archiver;
-using fb2Validator		= Core.FB2Parser.FB2Validator;
-using stringProcessing	= Core.StringProcessing.StringProcessing;
-using templatesParser	= Core.Templates.TemplatesParser;
-using templatesVerify	= Core.Templates.TemplatesVerify;
+using fB2Parser					= Core.FB2.FB2Parsers.FB2Parser;
+using filesWorker				= Core.FilesWorker.FilesWorker;
+using archivesWorker			= Core.FilesWorker.Archiver;
+using fb2Validator				= Core.FB2Parser.FB2Validator;
+using stringProcessing			= Core.StringProcessing.StringProcessing;
+using templatesParser			= Core.Templates.TemplatesParser;
+using templatesVerify			= Core.Templates.TemplatesVerify;
 using templatesLexemsSimple		= Core.Templates.Lexems.TPSimple;
 using selectedSortQueryCriteria	= Core.BookSorting.SelectedSortQueryCriteria;
 
@@ -53,7 +53,6 @@ namespace SharpFBTools.Tools
 		private string m_sMessTitle		= "";
         private bool m_bFullSort		= true;
         private bool m_bScanSubDirs		= true;
-		private List<string> m_lFilesList	= null;
         #endregion
         
 		public ListView GetSettingsInfoListView()
@@ -209,7 +208,6 @@ namespace SharpFBTools.Tools
         private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
             // Проверяем это отмена, ошибка, или конец задачи и сообщить
             DateTime dtEnd = DateTime.Now;
-            if( m_lFilesList!=null ) m_lFilesList.Clear();
             filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
             
             string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
