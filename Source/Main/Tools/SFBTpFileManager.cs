@@ -201,7 +201,6 @@ namespace SharpFBTools.Tools
 
 		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат
-
             ++tsProgressBar.Value;
         }
 		

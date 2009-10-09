@@ -11,7 +11,7 @@ using System;
 namespace Core.FB2Dublicator
 {
 	/// <summary>
-	/// класс для хранения данных для отображения прогресса программы
+	/// класс для хранения данных для отображения прогресса Дубликатора
 	/// </summary>
 	public class StatusView {
 		
