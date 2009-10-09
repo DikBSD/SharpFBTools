@@ -176,14 +176,14 @@ namespace SharpFBTools.Tools
         }
 		
 		private void bwa_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-            // Отобразим результат
-            lvGeneralCount.Items[2].SubItems[1].Text = (m_nFB2FtA).ToString();
-            lvGeneralCount.Items[3].SubItems[1].Text = (m_nAnotherFtA).ToString();
+            // Отобразим результат Упаковки
+            if( chBoxViewProgressA.Checked ) ArchiveProgressData();
             tsProgressBar.Value	= e.ProgressPercentage;
         }
 		
         private void bwa_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
             // Проверяем это отмена, ошибка, или конец задачи и сообщить
+            ArchiveProgressData(); // Отобразим результат Упаковки
             DateTime dtEnd = DateTime.Now;
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
             
@@ -310,22 +310,13 @@ namespace SharpFBTools.Tools
 		
 		private void bwu_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат Распаковки
-			lvUACount.Items[0].SubItems[1].Text = (m_nRarU).ToString();
-			lvUACount.Items[1].SubItems[1].Text = (m_nZipU).ToString();
-			lvUACount.Items[2].SubItems[1].Text = (m_n7ZU).ToString();
-			lvUACount.Items[3].SubItems[1].Text = (m_nBZip2U).ToString();
-			lvUACount.Items[4].SubItems[1].Text = (m_nGZipU).ToString();
-			lvUACount.Items[5].SubItems[1].Text = (m_nTarU).ToString();
-
-			lvUAGeneralCount.Items[2].SubItems[1].Text = (m_nCountU).ToString();
-			lvUAGeneralCount.Items[3].SubItems[1].Text = (m_nFB2U).ToString();
-			lvUAGeneralCount.Items[4].SubItems[1].Text = (m_nAnotherU).ToString();
-
+			if( chBoxViewProgressU.Checked ) UnArchiveProgressData();
 			tsProgressBar.Value	= e.ProgressPercentage;
         }
 		
 		private void bwu_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
 			// Проверяем это отмена, ошибка, или конец задачи и сообщить
+			UnArchiveProgressData(); // Отобразим результат Распаковки
 			DateTime dtEnd = DateTime.Now;
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 			
@@ -410,18 +401,13 @@ namespace SharpFBTools.Tools
 		
 		private void bwt_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат Анализа
-			lvUACount.Items[0].SubItems[1].Text = (m_nRar).ToString();
-			lvUACount.Items[1].SubItems[1].Text = (m_nZip).ToString();
-			lvUACount.Items[2].SubItems[1].Text = (m_n7Z).ToString();
-			lvUACount.Items[3].SubItems[1].Text = (m_nBZip2).ToString();
-			lvUACount.Items[4].SubItems[1].Text = (m_nGZip).ToString();
-			lvUACount.Items[5].SubItems[1].Text = (m_nTar).ToString();
-
+			if( chBoxViewProgressU.Checked ) TestArchiveProgressData();
 			tsProgressBar.Value	= e.ProgressPercentage;
         }
 		
 		private void bwt_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
 			// Проверяем это отмена, ошибка, или конец задачи и сообщить
+			TestArchiveProgressData(); // Отобразим результат Анализа
 			DateTime dtEnd = DateTime.Now;
             
             tsslblProgress.Text = Settings.Settings.GetReady();
@@ -444,6 +430,36 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые Общие Вспомогательны методы класса
+		private void ArchiveProgressData() {
+            // Отобразим результат Упаковки
+            lvGeneralCount.Items[2].SubItems[1].Text = (m_nFB2FtA).ToString();
+            lvGeneralCount.Items[3].SubItems[1].Text = (m_nAnotherFtA).ToString();
+        }
+		
+		private void TestArchiveProgressData() {
+            // Отобразим результат Анализа
+			lvUACount.Items[0].SubItems[1].Text = (m_nRar).ToString();
+			lvUACount.Items[1].SubItems[1].Text = (m_nZip).ToString();
+			lvUACount.Items[2].SubItems[1].Text = (m_n7Z).ToString();
+			lvUACount.Items[3].SubItems[1].Text = (m_nBZip2).ToString();
+			lvUACount.Items[4].SubItems[1].Text = (m_nGZip).ToString();
+			lvUACount.Items[5].SubItems[1].Text = (m_nTar).ToString();
+        }
+		
+		private void UnArchiveProgressData() {
+            // Отобразим результат Распаковки
+			lvUACount.Items[0].SubItems[1].Text = (m_nRarU).ToString();
+			lvUACount.Items[1].SubItems[1].Text = (m_nZipU).ToString();
+			lvUACount.Items[2].SubItems[1].Text = (m_n7ZU).ToString();
+			lvUACount.Items[3].SubItems[1].Text = (m_nBZip2U).ToString();
+			lvUACount.Items[4].SubItems[1].Text = (m_nGZipU).ToString();
+			lvUACount.Items[5].SubItems[1].Text = (m_nTarU).ToString();
+
+			lvUAGeneralCount.Items[2].SubItems[1].Text = (m_nCountU).ToString();
+			lvUAGeneralCount.Items[3].SubItems[1].Text = (m_nFB2U).ToString();
+			lvUAGeneralCount.Items[4].SubItems[1].Text = (m_nAnotherU).ToString();
+        }
+		
 		private void InitA() {
 			// инициализация контролов и переменных  (Упаковка)
 			for( int i=0; i!=lvGeneralCount.Items.Count; ++i ) {
@@ -1019,7 +1035,7 @@ namespace SharpFBTools.Tools
 			SetArhivingStartEnabled( false );
 			
 			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка файлов:";
+			tsslblProgress.Text = "Создание списка папок:";
 			m_bScanSubDirs = cboxScanSubDirToArchive.Checked;
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if( m_bwa.IsBusy != true ) {
@@ -1054,7 +1070,7 @@ namespace SharpFBTools.Tools
 			SetAnalyzingStartEnabled( false );
 			
 			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка файлов:";
+			tsslblProgress.Text = "Создание списка папок:";
 			m_bScanSubDirs = cboxScanSubDirToUnArchive.Checked;
 			
 			// Запуск процесса DoWork от Бекграунд Воркера
@@ -1096,7 +1112,7 @@ namespace SharpFBTools.Tools
 			SetUnPackingStartEnabled( false );
 			
 			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка файлов:";
+			tsslblProgress.Text = "Создание списка папок:";
 			m_bScanSubDirs = cboxScanSubDirToUnArchive.Checked;
 			
 			// Запуск процесса DoWork от Бекграунд Воркера

@@ -282,6 +282,7 @@ namespace SharpFBTools.Tools
 			this.pProgress = new System.Windows.Forms.Panel();
 			this.sfdSaveXMLFile = new System.Windows.Forms.SaveFileDialog();
 			this.sfdOpenXMLFile = new System.Windows.Forms.OpenFileDialog();
+			this.chBoxViewProgress = new System.Windows.Forms.CheckBox();
 			this.ssProgress.SuspendLayout();
 			this.tsFullSort.SuspendLayout();
 			this.tcSort.SuspendLayout();
@@ -461,7 +462,7 @@ namespace SharpFBTools.Tools
 			this.richTxtBoxDescTemplates.Location = new System.Drawing.Point(3, 16);
 			this.richTxtBoxDescTemplates.Name = "richTxtBoxDescTemplates";
 			this.richTxtBoxDescTemplates.ReadOnly = true;
-			this.richTxtBoxDescTemplates.Size = new System.Drawing.Size(808, 99);
+			this.richTxtBoxDescTemplates.Size = new System.Drawing.Size(808, 77);
 			this.richTxtBoxDescTemplates.TabIndex = 9;
 			this.richTxtBoxDescTemplates.Text = "";
 			// 
@@ -474,7 +475,7 @@ namespace SharpFBTools.Tools
 			this.tcSort.Location = new System.Drawing.Point(0, 0);
 			this.tcSort.Name = "tcSort";
 			this.tcSort.SelectedIndex = 0;
-			this.tcSort.Size = new System.Drawing.Size(828, 292);
+			this.tcSort.Size = new System.Drawing.Size(828, 270);
 			this.tcSort.TabIndex = 31;
 			// 
 			// tpFullSort
@@ -487,7 +488,7 @@ namespace SharpFBTools.Tools
 			this.tpFullSort.Location = new System.Drawing.Point(4, 22);
 			this.tpFullSort.Name = "tpFullSort";
 			this.tpFullSort.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFullSort.Size = new System.Drawing.Size(820, 266);
+			this.tpFullSort.Size = new System.Drawing.Size(820, 244);
 			this.tpFullSort.TabIndex = 0;
 			this.tpFullSort.Text = " Полная Сортировка ";
 			this.tpFullSort.UseVisualStyleBackColor = true;
@@ -500,7 +501,7 @@ namespace SharpFBTools.Tools
 			this.gBoxFullSortTemplatesDescription.ForeColor = System.Drawing.Color.Maroon;
 			this.gBoxFullSortTemplatesDescription.Location = new System.Drawing.Point(3, 145);
 			this.gBoxFullSortTemplatesDescription.Name = "gBoxFullSortTemplatesDescription";
-			this.gBoxFullSortTemplatesDescription.Size = new System.Drawing.Size(814, 118);
+			this.gBoxFullSortTemplatesDescription.Size = new System.Drawing.Size(814, 96);
 			this.gBoxFullSortTemplatesDescription.TabIndex = 33;
 			this.gBoxFullSortTemplatesDescription.TabStop = false;
 			this.gBoxFullSortTemplatesDescription.Text = " Описание шаблонов подстановки ";
@@ -982,9 +983,9 @@ namespace SharpFBTools.Tools
 									listViewItem41,
 									listViewItem42,
 									listViewItem43});
-			this.lvSettings.Location = new System.Drawing.Point(317, 4);
+			this.lvSettings.Location = new System.Drawing.Point(317, 30);
 			this.lvSettings.Name = "lvSettings";
-			this.lvSettings.Size = new System.Drawing.Size(505, 245);
+			this.lvSettings.Size = new System.Drawing.Size(505, 241);
 			this.lvSettings.TabIndex = 11;
 			this.lvSettings.UseCompatibleStateImageBehavior = false;
 			this.lvSettings.View = System.Windows.Forms.View.Details;
@@ -1024,9 +1025,9 @@ namespace SharpFBTools.Tools
 									listViewItem56,
 									listViewItem57,
 									listViewItem58});
-			this.lvFilesCount.Location = new System.Drawing.Point(3, 4);
+			this.lvFilesCount.Location = new System.Drawing.Point(3, 30);
 			this.lvFilesCount.Name = "lvFilesCount";
-			this.lvFilesCount.Size = new System.Drawing.Size(309, 242);
+			this.lvFilesCount.Size = new System.Drawing.Size(309, 238);
 			this.lvFilesCount.TabIndex = 10;
 			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
 			this.lvFilesCount.View = System.Windows.Forms.View.Details;
@@ -1044,12 +1045,13 @@ namespace SharpFBTools.Tools
 			// 
 			// pProgress
 			// 
+			this.pProgress.Controls.Add(this.chBoxViewProgress);
 			this.pProgress.Controls.Add(this.lvSettings);
 			this.pProgress.Controls.Add(this.lvFilesCount);
 			this.pProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pProgress.Location = new System.Drawing.Point(0, 292);
+			this.pProgress.Location = new System.Drawing.Point(0, 270);
 			this.pProgress.Name = "pProgress";
-			this.pProgress.Size = new System.Drawing.Size(828, 246);
+			this.pProgress.Size = new System.Drawing.Size(828, 268);
 			this.pProgress.TabIndex = 33;
 			// 
 			// sfdSaveXMLFile
@@ -1061,6 +1063,20 @@ namespace SharpFBTools.Tools
 			// 
 			this.sfdOpenXMLFile.RestoreDirectory = true;
 			this.sfdOpenXMLFile.Title = "Загрузка Данных для Избранной Сортировки из файла";
+			// 
+			// chBoxViewProgress
+			// 
+			this.chBoxViewProgress.Checked = true;
+			this.chBoxViewProgress.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxViewProgress.Dock = System.Windows.Forms.DockStyle.Top;
+			this.chBoxViewProgress.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxViewProgress.Location = new System.Drawing.Point(0, 0);
+			this.chBoxViewProgress.Name = "chBoxViewProgress";
+			this.chBoxViewProgress.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this.chBoxViewProgress.Size = new System.Drawing.Size(828, 24);
+			this.chBoxViewProgress.TabIndex = 23;
+			this.chBoxViewProgress.Text = "Отображать изменение хода работы";
+			this.chBoxViewProgress.UseVisualStyleBackColor = true;
 			// 
 			// SFBTpFileManager
 			// 
@@ -1097,6 +1113,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chBoxViewProgress;
 		private System.Windows.Forms.Panel pSSData;
 		private System.Windows.Forms.OpenFileDialog sfdOpenXMLFile;
 		private System.Windows.Forms.Button btnSSDataListLoad;

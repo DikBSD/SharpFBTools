@@ -38,18 +38,6 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpArchiveManager));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего папок",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего файлов",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-									"fb2-файлов",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Другие файлы",
-									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
@@ -84,6 +72,18 @@ namespace SharpFBTools.Tools
 			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Tar",
 									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего папок",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Всего файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+									"fb2-файлов",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Другие файлы",
+									"0"}, -1);
 			this.tsArchiver = new System.Windows.Forms.ToolStrip();
 			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
@@ -101,9 +101,6 @@ namespace SharpFBTools.Tools
 			this.tpArchive = new System.Windows.Forms.TabPage();
 			this.pOptions = new System.Windows.Forms.Panel();
 			this.gboxCount = new System.Windows.Forms.GroupBox();
-			this.lvGeneralCount = new System.Windows.Forms.ListView();
-			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
 			this.gboxOptions = new System.Windows.Forms.GroupBox();
 			this.cboxAddRestoreInfo = new System.Windows.Forms.CheckBox();
 			this.cboxDelFB2Files = new System.Windows.Forms.CheckBox();
@@ -167,6 +164,11 @@ namespace SharpFBTools.Tools
 			this.tsbtnUnArchiveStop = new System.Windows.Forms.ToolStripButton();
 			this.imgl16 = new System.Windows.Forms.ImageList(this.components);
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
+			this.chBoxViewProgressA = new System.Windows.Forms.CheckBox();
+			this.lvGeneralCount = new System.Windows.Forms.ListView();
+			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+			this.chBoxViewProgressU = new System.Windows.Forms.CheckBox();
 			this.tsArchiver.SuspendLayout();
 			this.ssProgress.SuspendLayout();
 			this.pScanDir.SuspendLayout();
@@ -359,6 +361,7 @@ namespace SharpFBTools.Tools
 			// gboxCount
 			// 
 			this.gboxCount.Controls.Add(this.lvGeneralCount);
+			this.gboxCount.Controls.Add(this.chBoxViewProgressA);
 			this.gboxCount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gboxCount.Location = new System.Drawing.Point(0, 177);
 			this.gboxCount.Name = "gboxCount";
@@ -366,36 +369,6 @@ namespace SharpFBTools.Tools
 			this.gboxCount.TabIndex = 4;
 			this.gboxCount.TabStop = false;
 			this.gboxCount.Text = " Ход работы ";
-			// 
-			// lvGeneralCount
-			// 
-			this.lvGeneralCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader1,
-									this.columnHeader2});
-			this.lvGeneralCount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvGeneralCount.FullRowSelect = true;
-			this.lvGeneralCount.GridLines = true;
-			this.lvGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4});
-			this.lvGeneralCount.Location = new System.Drawing.Point(3, 16);
-			this.lvGeneralCount.Name = "lvGeneralCount";
-			this.lvGeneralCount.Size = new System.Drawing.Size(748, 188);
-			this.lvGeneralCount.TabIndex = 2;
-			this.lvGeneralCount.UseCompatibleStateImageBehavior = false;
-			this.lvGeneralCount.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader1
-			// 
-			this.columnHeader1.Text = "Папки и файлы";
-			this.columnHeader1.Width = 200;
-			// 
-			// columnHeader2
-			// 
-			this.columnHeader2.Text = "Количество";
-			this.columnHeader2.Width = 80;
 			// 
 			// gboxOptions
 			// 
@@ -685,6 +658,7 @@ namespace SharpFBTools.Tools
 			// 
 			// gboxUACount
 			// 
+			this.gboxUACount.Controls.Add(this.chBoxViewProgressU);
 			this.gboxUACount.Controls.Add(this.lvUAGeneralCount);
 			this.gboxUACount.Controls.Add(this.lvUACount);
 			this.gboxUACount.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -710,9 +684,9 @@ namespace SharpFBTools.Tools
 									listViewItem7,
 									listViewItem8,
 									listViewItem9});
-			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 16);
+			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 46);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
-			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 211);
+			this.lvUAGeneralCount.Size = new System.Drawing.Size(392, 181);
 			this.lvUAGeneralCount.TabIndex = 1;
 			this.lvUAGeneralCount.UseCompatibleStateImageBehavior = false;
 			this.lvUAGeneralCount.View = System.Windows.Forms.View.Details;
@@ -755,9 +729,9 @@ namespace SharpFBTools.Tools
 									listViewItem13,
 									listViewItem14,
 									listViewItem15});
-			this.lvUACount.Location = new System.Drawing.Point(398, 16);
+			this.lvUACount.Location = new System.Drawing.Point(398, 46);
 			this.lvUACount.Name = "lvUACount";
-			this.lvUACount.Size = new System.Drawing.Size(347, 211);
+			this.lvUACount.Size = new System.Drawing.Size(347, 181);
 			this.lvUACount.TabIndex = 0;
 			this.lvUACount.UseCompatibleStateImageBehavior = false;
 			this.lvUACount.View = System.Windows.Forms.View.Details;
@@ -1113,6 +1087,62 @@ namespace SharpFBTools.Tools
 			this.imgl16.Images.SetKeyName(0, "Archive1.png");
 			this.imgl16.Images.SetKeyName(1, "UnArchive1.png");
 			// 
+			// chBoxViewProgressA
+			// 
+			this.chBoxViewProgressA.Checked = true;
+			this.chBoxViewProgressA.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxViewProgressA.Dock = System.Windows.Forms.DockStyle.Top;
+			this.chBoxViewProgressA.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxViewProgressA.Location = new System.Drawing.Point(3, 16);
+			this.chBoxViewProgressA.Name = "chBoxViewProgressA";
+			this.chBoxViewProgressA.Size = new System.Drawing.Size(748, 24);
+			this.chBoxViewProgressA.TabIndex = 24;
+			this.chBoxViewProgressA.Text = "Отображать изменение хода работы";
+			this.chBoxViewProgressA.UseVisualStyleBackColor = true;
+			// 
+			// lvGeneralCount
+			// 
+			this.lvGeneralCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader1,
+									this.columnHeader2});
+			this.lvGeneralCount.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvGeneralCount.FullRowSelect = true;
+			this.lvGeneralCount.GridLines = true;
+			this.lvGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem1,
+									listViewItem2,
+									listViewItem3,
+									listViewItem4});
+			this.lvGeneralCount.Location = new System.Drawing.Point(3, 40);
+			this.lvGeneralCount.Name = "lvGeneralCount";
+			this.lvGeneralCount.Size = new System.Drawing.Size(748, 164);
+			this.lvGeneralCount.TabIndex = 25;
+			this.lvGeneralCount.UseCompatibleStateImageBehavior = false;
+			this.lvGeneralCount.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Папки и файлы";
+			this.columnHeader1.Width = 200;
+			// 
+			// columnHeader2
+			// 
+			this.columnHeader2.Text = "Количество";
+			this.columnHeader2.Width = 80;
+			// 
+			// chBoxViewProgressU
+			// 
+			this.chBoxViewProgressU.Checked = true;
+			this.chBoxViewProgressU.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxViewProgressU.Dock = System.Windows.Forms.DockStyle.Top;
+			this.chBoxViewProgressU.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxViewProgressU.Location = new System.Drawing.Point(3, 16);
+			this.chBoxViewProgressU.Name = "chBoxViewProgressU";
+			this.chBoxViewProgressU.Size = new System.Drawing.Size(742, 24);
+			this.chBoxViewProgressU.TabIndex = 25;
+			this.chBoxViewProgressU.Text = "Отображать изменение хода работы";
+			this.chBoxViewProgressU.UseVisualStyleBackColor = true;
+			// 
 			// SFBTpArchiveManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1159,6 +1189,8 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chBoxViewProgressU;
+		private System.Windows.Forms.CheckBox chBoxViewProgressA;
 		private System.Windows.Forms.Label lblPriorityU;
 		private System.Windows.Forms.ComboBox cboxPriorityU;
 		private System.Windows.Forms.Label lblPriorityA;
