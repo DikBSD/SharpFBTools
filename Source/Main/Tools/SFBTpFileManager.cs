@@ -140,7 +140,7 @@ namespace SharpFBTools.Tools
 						// Проверить флаг на остановку процесса 
 						if( ( m_bw.CancellationPending == true ) ) {
 							e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-							break;
+							return;
 						} 
 						string sFromFilePath = s + "\\" + fiNextFile.Name;
 						
@@ -170,7 +170,7 @@ namespace SharpFBTools.Tools
 						// Проверить флаг на остановку процесса 
 						if( ( m_bw.CancellationPending == true ) ) {
 							e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-							break;
+							return;
 						} 
 						string sFromFilePath = s + "\\" + fiNextFile.Name;
 						string sExt = Path.GetExtension( sFromFilePath ).ToLower();

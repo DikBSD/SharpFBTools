@@ -41,12 +41,12 @@ namespace SharpFBTools.Tools
 		private string m_s7zPath	= Settings.Settings.Read7zaPath().Trim();
 		private string m_sUnRarPath	= Settings.Settings.ReadUnRarPath().Trim();
 		private DateTime m_dtStart;
-        private BackgroundWorker m_bwv	= null;
-        private BackgroundWorker m_bwcmd= null;
-        private string m_sMessTitle		= "";
-        private string m_sScan			= "";
-        private string m_sFileWorkerMode = "";
-        private List<string> m_lFilesList	= null;
+        private BackgroundWorker m_bwv		= null;
+        private BackgroundWorker m_bwcmd	= null;
+        private string	m_sMessTitle		= "";
+        private string	m_sScan				= "";
+        private string	m_sFileWorkerMode	= "";
+        private bool	m_bScanSubDirs		= true;
 		#endregion
 		
 		public SFBTpFB2Validator()
@@ -112,20 +112,19 @@ namespace SharpFBTools.Tools
 		
 		private void bwv_DoWork( object sender, DoWorkEventArgs e ) {
 			// Валидация
-			// сортированный список всех вложенных папок
+			int nAllFiles = 0;
 			List<string> lDirList = new List<string>();
-			if( !cboxScanSubDir.Checked ) {
+			if( !m_bScanSubDirs ) {
 				// сканировать только указанную папку
 				lDirList.Add( m_sScan );
 				lvFilesCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				lDirList = filesWorker.DirsParser( m_sScan, lvFilesCount, false );
+				nAllFiles = filesWorker.DirsParser( m_bwv, e, m_sScan, lvFilesCount, ref lDirList, false );
 			}
 			
-			// сортированный список всех файлов
-			m_lFilesList = filesWorker.AllFilesParser( m_bwv, e, lDirList, lvFilesCount, tsProgressBar, false );
-			lDirList.Clear();
+			// отобразим число всех файлов в папке сканирования
+			lvFilesCount.Items[1].SubItems[1].Text = nAllFiles.ToString();
 			
 			// проверка остановки процесса
 			if( ( m_bwv.CancellationPending == true ) )  {
@@ -134,7 +133,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
-			if( m_lFilesList.Count == 0 ) {
+			if( nAllFiles == 0 ) {
 				MessageBox.Show( "В указанной папке не найдено ни одного файла!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				Init();
 				return;
@@ -142,7 +141,7 @@ namespace SharpFBTools.Tools
 			
 			// проверка файлов
 			tsslblProgress.Text		= "Проверка найденных файлов на валидность:";
-			tsProgressBar.Maximum	= m_lFilesList.Count;
+			tsProgressBar.Maximum	= nAllFiles;
 			tsProgressBar.Value		= 0;
 
 			FB2Validator fv2V = new FB2Validator();
@@ -150,13 +149,16 @@ namespace SharpFBTools.Tools
 			listViewNotValid.BeginUpdate();
 			listViewValid.BeginUpdate();
 			listViewNotFB2.BeginUpdate();
-			string sExt = "";
-			foreach( string sFile in m_lFilesList ) {
-				// Проверить флаг на остановку процесса 
-				if( ( m_bwv.CancellationPending == true ) ) {
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwv_RunWorkerCompleted
-					break;
-				} else {
+			string sExt = "", sFile = "";
+			foreach( string s in lDirList ) {
+				DirectoryInfo diFolder = new DirectoryInfo( s );
+				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+					// Проверить флаг на остановку процесса 
+					if( ( m_bwv.CancellationPending == true ) ) {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwv_RunWorkerCompleted
+						return;
+					}
+					sFile = s + "\\" + fiNextFile.Name;
 					sExt = Path.GetExtension( sFile );
 					if( sExt.ToLower() == ".fb2" ) {
 						++m_nFB2Files;
@@ -180,7 +182,7 @@ namespace SharpFBTools.Tools
 					}
 				}
 			}
-
+			lDirList.Clear();
 		}
 		
 		private void bwv_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
@@ -204,7 +206,6 @@ namespace SharpFBTools.Tools
 			listViewNotFB2.EndUpdate();
 			
             DateTime dtEnd = DateTime.Now;
-            if( m_lFilesList!=null ) m_lFilesList.Clear();
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
            
             tsslblProgress.Text = Settings.Settings.GetReady();
@@ -843,6 +844,7 @@ namespace SharpFBTools.Tools
 			SetValidingStartEnabled( false );
 			
 			m_dtStart = DateTime.Now;
+			m_bScanSubDirs = cboxScanSubDir.Checked;
 			tsslblProgress.Text = "Создание списка файлов:";
 			
 			// Запуск процесса DoWork от Бекграунд Воркера
