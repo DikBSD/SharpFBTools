@@ -1057,7 +1057,7 @@ namespace SharpFBTools.Tools
 			this.chBoxViewProgress.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
 			this.chBoxViewProgress.Size = new System.Drawing.Size(831, 24);
 			this.chBoxViewProgress.TabIndex = 22;
-			this.chBoxViewProgress.Text = "Отображать данные хода работы";
+			this.chBoxViewProgress.Text = "Отображать изменение хода работы";
 			this.chBoxViewProgress.UseVisualStyleBackColor = true;
 			// 
 			// gboxCopyMoveOptions

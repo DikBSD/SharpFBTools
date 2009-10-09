@@ -37,6 +37,7 @@ namespace SharpFBTools.Tools
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Dublicator));
 			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Название Книги",
 									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
@@ -157,39 +158,9 @@ namespace SharpFBTools.Tools
 			System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Книг во всех группах одинаковых книг",
 									"0"}, -1);
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Dublicator));
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
 			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-			this.pProgress = new System.Windows.Forms.Panel();
-			this.tcViewFB2Desc = new System.Windows.Forms.TabControl();
-			this.tpTitleInfo = new System.Windows.Forms.TabPage();
-			this.lvTitleInfo = new System.Windows.Forms.ListView();
-			this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader10 = new System.Windows.Forms.ColumnHeader();
-			this.tpSourceTitleInfo = new System.Windows.Forms.TabPage();
-			this.lvSourceTitleInfo = new System.Windows.Forms.ListView();
-			this.columnHeader17 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader18 = new System.Windows.Forms.ColumnHeader();
-			this.tpDocumentInfo = new System.Windows.Forms.TabPage();
-			this.lvDocumentInfo = new System.Windows.Forms.ListView();
-			this.columnHeader15 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader16 = new System.Windows.Forms.ColumnHeader();
-			this.tpPublishInfo = new System.Windows.Forms.TabPage();
-			this.lvPublishInfo = new System.Windows.Forms.ListView();
-			this.columnHeader13 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader14 = new System.Windows.Forms.ColumnHeader();
-			this.tpCustomInfo = new System.Windows.Forms.TabPage();
-			this.lvCustomInfo = new System.Windows.Forms.ListView();
-			this.columnHeader11 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader12 = new System.Windows.Forms.ColumnHeader();
-			this.tpHistory = new System.Windows.Forms.TabPage();
-			this.rtbHistory = new System.Windows.Forms.RichTextBox();
-			this.tpAnnotation = new System.Windows.Forms.TabPage();
-			this.rtbAnnotation = new System.Windows.Forms.RichTextBox();
-			this.lvFilesCount = new System.Windows.Forms.ListView();
-			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.pSearchFBDup2Dirs = new System.Windows.Forms.Panel();
 			this.lblDupToDir = new System.Windows.Forms.Label();
 			this.tboxDupToDir = new System.Windows.Forms.TextBox();
@@ -235,6 +206,38 @@ namespace SharpFBTools.Tools
 			this.chBoxAddFileNameBookID = new System.Windows.Forms.CheckBox();
 			this.cboxDupExistFile = new System.Windows.Forms.ComboBox();
 			this.lblDupExistFile = new System.Windows.Forms.Label();
+			this.sfdList = new System.Windows.Forms.SaveFileDialog();
+			this.sfdLoadList = new System.Windows.Forms.OpenFileDialog();
+			this.pInfo = new System.Windows.Forms.Panel();
+			this.tcViewFB2Desc = new System.Windows.Forms.TabControl();
+			this.tpTitleInfo = new System.Windows.Forms.TabPage();
+			this.lvTitleInfo = new System.Windows.Forms.ListView();
+			this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader10 = new System.Windows.Forms.ColumnHeader();
+			this.tpSourceTitleInfo = new System.Windows.Forms.TabPage();
+			this.lvSourceTitleInfo = new System.Windows.Forms.ListView();
+			this.columnHeader17 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader18 = new System.Windows.Forms.ColumnHeader();
+			this.tpDocumentInfo = new System.Windows.Forms.TabPage();
+			this.lvDocumentInfo = new System.Windows.Forms.ListView();
+			this.columnHeader15 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader16 = new System.Windows.Forms.ColumnHeader();
+			this.tpPublishInfo = new System.Windows.Forms.TabPage();
+			this.lvPublishInfo = new System.Windows.Forms.ListView();
+			this.columnHeader13 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader14 = new System.Windows.Forms.ColumnHeader();
+			this.tpCustomInfo = new System.Windows.Forms.TabPage();
+			this.lvCustomInfo = new System.Windows.Forms.ListView();
+			this.columnHeader11 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader12 = new System.Windows.Forms.ColumnHeader();
+			this.tpHistory = new System.Windows.Forms.TabPage();
+			this.rtbHistory = new System.Windows.Forms.RichTextBox();
+			this.tpAnnotation = new System.Windows.Forms.TabPage();
+			this.rtbAnnotation = new System.Windows.Forms.RichTextBox();
+			this.lvFilesCount = new System.Windows.Forms.ListView();
+			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
+			this.chBoxViewProgress = new System.Windows.Forms.CheckBox();
 			this.lvResult = new System.Windows.Forms.ListView();
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
@@ -244,10 +247,13 @@ namespace SharpFBTools.Tools
 			this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
-			this.sfdList = new System.Windows.Forms.SaveFileDialog();
-			this.sfdLoadList = new System.Windows.Forms.OpenFileDialog();
 			this.ssProgress.SuspendLayout();
-			this.pProgress.SuspendLayout();
+			this.pSearchFBDup2Dirs.SuspendLayout();
+			this.tsFullSort.SuspendLayout();
+			this.cmsFB2.SuspendLayout();
+			this.pMode.SuspendLayout();
+			this.pExistFile.SuspendLayout();
+			this.pInfo.SuspendLayout();
 			this.tcViewFB2Desc.SuspendLayout();
 			this.tpTitleInfo.SuspendLayout();
 			this.tpSourceTitleInfo.SuspendLayout();
@@ -256,11 +262,6 @@ namespace SharpFBTools.Tools
 			this.tpCustomInfo.SuspendLayout();
 			this.tpHistory.SuspendLayout();
 			this.tpAnnotation.SuspendLayout();
-			this.pSearchFBDup2Dirs.SuspendLayout();
-			this.tsFullSort.SuspendLayout();
-			this.cmsFB2.SuspendLayout();
-			this.pMode.SuspendLayout();
-			this.pExistFile.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ssProgress
@@ -284,325 +285,6 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsProgressBar.Name = "tsProgressBar";
 			this.tsProgressBar.Size = new System.Drawing.Size(400, 16);
-			// 
-			// pProgress
-			// 
-			this.pProgress.Controls.Add(this.tcViewFB2Desc);
-			this.pProgress.Controls.Add(this.lvFilesCount);
-			this.pProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pProgress.Location = new System.Drawing.Point(0, 325);
-			this.pProgress.Name = "pProgress";
-			this.pProgress.Size = new System.Drawing.Size(828, 213);
-			this.pProgress.TabIndex = 34;
-			// 
-			// tcViewFB2Desc
-			// 
-			this.tcViewFB2Desc.Controls.Add(this.tpTitleInfo);
-			this.tcViewFB2Desc.Controls.Add(this.tpSourceTitleInfo);
-			this.tcViewFB2Desc.Controls.Add(this.tpDocumentInfo);
-			this.tcViewFB2Desc.Controls.Add(this.tpPublishInfo);
-			this.tcViewFB2Desc.Controls.Add(this.tpCustomInfo);
-			this.tcViewFB2Desc.Controls.Add(this.tpHistory);
-			this.tcViewFB2Desc.Controls.Add(this.tpAnnotation);
-			this.tcViewFB2Desc.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tcViewFB2Desc.Location = new System.Drawing.Point(296, 0);
-			this.tcViewFB2Desc.Name = "tcViewFB2Desc";
-			this.tcViewFB2Desc.SelectedIndex = 0;
-			this.tcViewFB2Desc.Size = new System.Drawing.Size(532, 213);
-			this.tcViewFB2Desc.TabIndex = 11;
-			// 
-			// tpTitleInfo
-			// 
-			this.tpTitleInfo.Controls.Add(this.lvTitleInfo);
-			this.tpTitleInfo.Location = new System.Drawing.Point(4, 22);
-			this.tpTitleInfo.Name = "tpTitleInfo";
-			this.tpTitleInfo.Size = new System.Drawing.Size(524, 187);
-			this.tpTitleInfo.TabIndex = 0;
-			this.tpTitleInfo.Text = "Title Info";
-			this.tpTitleInfo.UseVisualStyleBackColor = true;
-			// 
-			// lvTitleInfo
-			// 
-			this.lvTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader9,
-									this.columnHeader10});
-			this.lvTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvTitleInfo.FullRowSelect = true;
-			this.lvTitleInfo.GridLines = true;
-			this.lvTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4,
-									listViewItem5,
-									listViewItem6,
-									listViewItem7,
-									listViewItem8,
-									listViewItem9,
-									listViewItem10});
-			this.lvTitleInfo.Location = new System.Drawing.Point(0, 0);
-			this.lvTitleInfo.Name = "lvTitleInfo";
-			this.lvTitleInfo.ShowItemToolTips = true;
-			this.lvTitleInfo.Size = new System.Drawing.Size(524, 187);
-			this.lvTitleInfo.TabIndex = 11;
-			this.lvTitleInfo.UseCompatibleStateImageBehavior = false;
-			this.lvTitleInfo.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader9
-			// 
-			this.columnHeader9.Text = "Тэги";
-			this.columnHeader9.Width = 187;
-			// 
-			// columnHeader10
-			// 
-			this.columnHeader10.Text = "Значение";
-			this.columnHeader10.Width = 420;
-			// 
-			// tpSourceTitleInfo
-			// 
-			this.tpSourceTitleInfo.Controls.Add(this.lvSourceTitleInfo);
-			this.tpSourceTitleInfo.Location = new System.Drawing.Point(4, 22);
-			this.tpSourceTitleInfo.Name = "tpSourceTitleInfo";
-			this.tpSourceTitleInfo.Size = new System.Drawing.Size(524, 187);
-			this.tpSourceTitleInfo.TabIndex = 1;
-			this.tpSourceTitleInfo.Text = "Source Title Info";
-			this.tpSourceTitleInfo.UseVisualStyleBackColor = true;
-			// 
-			// lvSourceTitleInfo
-			// 
-			this.lvSourceTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader17,
-									this.columnHeader18});
-			this.lvSourceTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvSourceTitleInfo.FullRowSelect = true;
-			this.lvSourceTitleInfo.GridLines = true;
-			this.lvSourceTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem11,
-									listViewItem12,
-									listViewItem13,
-									listViewItem14,
-									listViewItem15,
-									listViewItem16,
-									listViewItem17,
-									listViewItem18,
-									listViewItem19,
-									listViewItem20});
-			this.lvSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
-			this.lvSourceTitleInfo.Name = "lvSourceTitleInfo";
-			this.lvSourceTitleInfo.ShowItemToolTips = true;
-			this.lvSourceTitleInfo.Size = new System.Drawing.Size(524, 187);
-			this.lvSourceTitleInfo.TabIndex = 12;
-			this.lvSourceTitleInfo.UseCompatibleStateImageBehavior = false;
-			this.lvSourceTitleInfo.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader17
-			// 
-			this.columnHeader17.Text = "Тэги";
-			this.columnHeader17.Width = 187;
-			// 
-			// columnHeader18
-			// 
-			this.columnHeader18.Text = "Значение";
-			this.columnHeader18.Width = 420;
-			// 
-			// tpDocumentInfo
-			// 
-			this.tpDocumentInfo.Controls.Add(this.lvDocumentInfo);
-			this.tpDocumentInfo.Location = new System.Drawing.Point(4, 22);
-			this.tpDocumentInfo.Name = "tpDocumentInfo";
-			this.tpDocumentInfo.Size = new System.Drawing.Size(524, 187);
-			this.tpDocumentInfo.TabIndex = 2;
-			this.tpDocumentInfo.Text = "Document Info";
-			this.tpDocumentInfo.UseVisualStyleBackColor = true;
-			// 
-			// lvDocumentInfo
-			// 
-			this.lvDocumentInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader15,
-									this.columnHeader16});
-			this.lvDocumentInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvDocumentInfo.FullRowSelect = true;
-			this.lvDocumentInfo.GridLines = true;
-			this.lvDocumentInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem21,
-									listViewItem22,
-									listViewItem23,
-									listViewItem24,
-									listViewItem25,
-									listViewItem26,
-									listViewItem27});
-			this.lvDocumentInfo.Location = new System.Drawing.Point(0, 0);
-			this.lvDocumentInfo.Name = "lvDocumentInfo";
-			this.lvDocumentInfo.ShowItemToolTips = true;
-			this.lvDocumentInfo.Size = new System.Drawing.Size(524, 187);
-			this.lvDocumentInfo.TabIndex = 12;
-			this.lvDocumentInfo.UseCompatibleStateImageBehavior = false;
-			this.lvDocumentInfo.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader15
-			// 
-			this.columnHeader15.Text = "Тэги";
-			this.columnHeader15.Width = 180;
-			// 
-			// columnHeader16
-			// 
-			this.columnHeader16.Text = "Значение";
-			this.columnHeader16.Width = 340;
-			// 
-			// tpPublishInfo
-			// 
-			this.tpPublishInfo.Controls.Add(this.lvPublishInfo);
-			this.tpPublishInfo.Location = new System.Drawing.Point(4, 22);
-			this.tpPublishInfo.Name = "tpPublishInfo";
-			this.tpPublishInfo.Size = new System.Drawing.Size(524, 187);
-			this.tpPublishInfo.TabIndex = 3;
-			this.tpPublishInfo.Text = "Publish Info";
-			this.tpPublishInfo.UseVisualStyleBackColor = true;
-			// 
-			// lvPublishInfo
-			// 
-			this.lvPublishInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader13,
-									this.columnHeader14});
-			this.lvPublishInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvPublishInfo.FullRowSelect = true;
-			this.lvPublishInfo.GridLines = true;
-			this.lvPublishInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem28,
-									listViewItem29,
-									listViewItem30,
-									listViewItem31,
-									listViewItem32,
-									listViewItem33});
-			this.lvPublishInfo.Location = new System.Drawing.Point(0, 0);
-			this.lvPublishInfo.Name = "lvPublishInfo";
-			this.lvPublishInfo.ShowItemToolTips = true;
-			this.lvPublishInfo.Size = new System.Drawing.Size(524, 187);
-			this.lvPublishInfo.TabIndex = 12;
-			this.lvPublishInfo.UseCompatibleStateImageBehavior = false;
-			this.lvPublishInfo.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader13
-			// 
-			this.columnHeader13.Text = "Тэги";
-			this.columnHeader13.Width = 100;
-			// 
-			// columnHeader14
-			// 
-			this.columnHeader14.Text = "Значение";
-			this.columnHeader14.Width = 430;
-			// 
-			// tpCustomInfo
-			// 
-			this.tpCustomInfo.Controls.Add(this.lvCustomInfo);
-			this.tpCustomInfo.Location = new System.Drawing.Point(4, 22);
-			this.tpCustomInfo.Name = "tpCustomInfo";
-			this.tpCustomInfo.Size = new System.Drawing.Size(524, 187);
-			this.tpCustomInfo.TabIndex = 4;
-			this.tpCustomInfo.Text = "Custom Info";
-			this.tpCustomInfo.UseVisualStyleBackColor = true;
-			// 
-			// lvCustomInfo
-			// 
-			this.lvCustomInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader11,
-									this.columnHeader12});
-			this.lvCustomInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvCustomInfo.FullRowSelect = true;
-			this.lvCustomInfo.GridLines = true;
-			this.lvCustomInfo.Location = new System.Drawing.Point(0, 0);
-			this.lvCustomInfo.Name = "lvCustomInfo";
-			this.lvCustomInfo.ShowItemToolTips = true;
-			this.lvCustomInfo.Size = new System.Drawing.Size(524, 187);
-			this.lvCustomInfo.TabIndex = 12;
-			this.lvCustomInfo.UseCompatibleStateImageBehavior = false;
-			this.lvCustomInfo.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader11
-			// 
-			this.columnHeader11.Text = "Тип";
-			this.columnHeader11.Width = 150;
-			// 
-			// columnHeader12
-			// 
-			this.columnHeader12.Text = "Значение";
-			this.columnHeader12.Width = 380;
-			// 
-			// tpHistory
-			// 
-			this.tpHistory.Controls.Add(this.rtbHistory);
-			this.tpHistory.Location = new System.Drawing.Point(4, 22);
-			this.tpHistory.Name = "tpHistory";
-			this.tpHistory.Size = new System.Drawing.Size(524, 187);
-			this.tpHistory.TabIndex = 5;
-			this.tpHistory.Text = "History";
-			this.tpHistory.UseVisualStyleBackColor = true;
-			// 
-			// rtbHistory
-			// 
-			this.rtbHistory.BackColor = System.Drawing.SystemColors.Window;
-			this.rtbHistory.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rtbHistory.Location = new System.Drawing.Point(0, 0);
-			this.rtbHistory.Name = "rtbHistory";
-			this.rtbHistory.ReadOnly = true;
-			this.rtbHistory.Size = new System.Drawing.Size(524, 187);
-			this.rtbHistory.TabIndex = 0;
-			this.rtbHistory.Text = "";
-			// 
-			// tpAnnotation
-			// 
-			this.tpAnnotation.Controls.Add(this.rtbAnnotation);
-			this.tpAnnotation.Location = new System.Drawing.Point(4, 22);
-			this.tpAnnotation.Name = "tpAnnotation";
-			this.tpAnnotation.Size = new System.Drawing.Size(524, 187);
-			this.tpAnnotation.TabIndex = 6;
-			this.tpAnnotation.Text = "Annotation";
-			this.tpAnnotation.UseVisualStyleBackColor = true;
-			// 
-			// rtbAnnotation
-			// 
-			this.rtbAnnotation.BackColor = System.Drawing.SystemColors.Window;
-			this.rtbAnnotation.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rtbAnnotation.Location = new System.Drawing.Point(0, 0);
-			this.rtbAnnotation.Name = "rtbAnnotation";
-			this.rtbAnnotation.ReadOnly = true;
-			this.rtbAnnotation.Size = new System.Drawing.Size(524, 187);
-			this.rtbAnnotation.TabIndex = 0;
-			this.rtbAnnotation.Text = "";
-			// 
-			// lvFilesCount
-			// 
-			this.lvFilesCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader6,
-									this.columnHeader7});
-			this.lvFilesCount.Dock = System.Windows.Forms.DockStyle.Left;
-			this.lvFilesCount.FullRowSelect = true;
-			this.lvFilesCount.GridLines = true;
-			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem34,
-									listViewItem35,
-									listViewItem36,
-									listViewItem37,
-									listViewItem38,
-									listViewItem39,
-									listViewItem40});
-			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
-			this.lvFilesCount.Name = "lvFilesCount";
-			this.lvFilesCount.Size = new System.Drawing.Size(296, 213);
-			this.lvFilesCount.TabIndex = 10;
-			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
-			this.lvFilesCount.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader6
-			// 
-			this.columnHeader6.Text = "Папки и файлы";
-			this.columnHeader6.Width = 210;
-			// 
-			// columnHeader7
-			// 
-			this.columnHeader7.Text = "Кол-во";
-			this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.columnHeader7.Width = 80;
 			// 
 			// pSearchFBDup2Dirs
 			// 
@@ -1037,6 +719,350 @@ namespace SharpFBTools.Tools
 			this.lblDupExistFile.Text = "Одинаковые fb2-файлы:";
 			this.lblDupExistFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
+			// sfdList
+			// 
+			this.sfdList.RestoreDirectory = true;
+			this.sfdList.Title = "Укажите название файла копий";
+			// 
+			// sfdLoadList
+			// 
+			this.sfdLoadList.RestoreDirectory = true;
+			this.sfdLoadList.Title = "Загрузка Списка копий книг";
+			// 
+			// pInfo
+			// 
+			this.pInfo.Controls.Add(this.tcViewFB2Desc);
+			this.pInfo.Controls.Add(this.lvFilesCount);
+			this.pInfo.Controls.Add(this.chBoxViewProgress);
+			this.pInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.pInfo.Location = new System.Drawing.Point(0, 302);
+			this.pInfo.Name = "pInfo";
+			this.pInfo.Size = new System.Drawing.Size(828, 236);
+			this.pInfo.TabIndex = 44;
+			// 
+			// tcViewFB2Desc
+			// 
+			this.tcViewFB2Desc.Controls.Add(this.tpTitleInfo);
+			this.tcViewFB2Desc.Controls.Add(this.tpSourceTitleInfo);
+			this.tcViewFB2Desc.Controls.Add(this.tpDocumentInfo);
+			this.tcViewFB2Desc.Controls.Add(this.tpPublishInfo);
+			this.tcViewFB2Desc.Controls.Add(this.tpCustomInfo);
+			this.tcViewFB2Desc.Controls.Add(this.tpHistory);
+			this.tcViewFB2Desc.Controls.Add(this.tpAnnotation);
+			this.tcViewFB2Desc.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tcViewFB2Desc.Location = new System.Drawing.Point(296, 24);
+			this.tcViewFB2Desc.Name = "tcViewFB2Desc";
+			this.tcViewFB2Desc.SelectedIndex = 0;
+			this.tcViewFB2Desc.Size = new System.Drawing.Size(532, 212);
+			this.tcViewFB2Desc.TabIndex = 43;
+			// 
+			// tpTitleInfo
+			// 
+			this.tpTitleInfo.Controls.Add(this.lvTitleInfo);
+			this.tpTitleInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpTitleInfo.Name = "tpTitleInfo";
+			this.tpTitleInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpTitleInfo.TabIndex = 0;
+			this.tpTitleInfo.Text = "Title Info";
+			this.tpTitleInfo.UseVisualStyleBackColor = true;
+			// 
+			// lvTitleInfo
+			// 
+			this.lvTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader9,
+									this.columnHeader10});
+			this.lvTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvTitleInfo.FullRowSelect = true;
+			this.lvTitleInfo.GridLines = true;
+			this.lvTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem1,
+									listViewItem2,
+									listViewItem3,
+									listViewItem4,
+									listViewItem5,
+									listViewItem6,
+									listViewItem7,
+									listViewItem8,
+									listViewItem9,
+									listViewItem10});
+			this.lvTitleInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvTitleInfo.Name = "lvTitleInfo";
+			this.lvTitleInfo.ShowItemToolTips = true;
+			this.lvTitleInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvTitleInfo.TabIndex = 11;
+			this.lvTitleInfo.UseCompatibleStateImageBehavior = false;
+			this.lvTitleInfo.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader9
+			// 
+			this.columnHeader9.Text = "Тэги";
+			this.columnHeader9.Width = 187;
+			// 
+			// columnHeader10
+			// 
+			this.columnHeader10.Text = "Значение";
+			this.columnHeader10.Width = 420;
+			// 
+			// tpSourceTitleInfo
+			// 
+			this.tpSourceTitleInfo.Controls.Add(this.lvSourceTitleInfo);
+			this.tpSourceTitleInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpSourceTitleInfo.Name = "tpSourceTitleInfo";
+			this.tpSourceTitleInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpSourceTitleInfo.TabIndex = 1;
+			this.tpSourceTitleInfo.Text = "Source Title Info";
+			this.tpSourceTitleInfo.UseVisualStyleBackColor = true;
+			// 
+			// lvSourceTitleInfo
+			// 
+			this.lvSourceTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader17,
+									this.columnHeader18});
+			this.lvSourceTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvSourceTitleInfo.FullRowSelect = true;
+			this.lvSourceTitleInfo.GridLines = true;
+			this.lvSourceTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem11,
+									listViewItem12,
+									listViewItem13,
+									listViewItem14,
+									listViewItem15,
+									listViewItem16,
+									listViewItem17,
+									listViewItem18,
+									listViewItem19,
+									listViewItem20});
+			this.lvSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvSourceTitleInfo.Name = "lvSourceTitleInfo";
+			this.lvSourceTitleInfo.ShowItemToolTips = true;
+			this.lvSourceTitleInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvSourceTitleInfo.TabIndex = 12;
+			this.lvSourceTitleInfo.UseCompatibleStateImageBehavior = false;
+			this.lvSourceTitleInfo.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader17
+			// 
+			this.columnHeader17.Text = "Тэги";
+			this.columnHeader17.Width = 187;
+			// 
+			// columnHeader18
+			// 
+			this.columnHeader18.Text = "Значение";
+			this.columnHeader18.Width = 420;
+			// 
+			// tpDocumentInfo
+			// 
+			this.tpDocumentInfo.Controls.Add(this.lvDocumentInfo);
+			this.tpDocumentInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpDocumentInfo.Name = "tpDocumentInfo";
+			this.tpDocumentInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpDocumentInfo.TabIndex = 2;
+			this.tpDocumentInfo.Text = "Document Info";
+			this.tpDocumentInfo.UseVisualStyleBackColor = true;
+			// 
+			// lvDocumentInfo
+			// 
+			this.lvDocumentInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader15,
+									this.columnHeader16});
+			this.lvDocumentInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvDocumentInfo.FullRowSelect = true;
+			this.lvDocumentInfo.GridLines = true;
+			this.lvDocumentInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem21,
+									listViewItem22,
+									listViewItem23,
+									listViewItem24,
+									listViewItem25,
+									listViewItem26,
+									listViewItem27});
+			this.lvDocumentInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvDocumentInfo.Name = "lvDocumentInfo";
+			this.lvDocumentInfo.ShowItemToolTips = true;
+			this.lvDocumentInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvDocumentInfo.TabIndex = 12;
+			this.lvDocumentInfo.UseCompatibleStateImageBehavior = false;
+			this.lvDocumentInfo.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader15
+			// 
+			this.columnHeader15.Text = "Тэги";
+			this.columnHeader15.Width = 180;
+			// 
+			// columnHeader16
+			// 
+			this.columnHeader16.Text = "Значение";
+			this.columnHeader16.Width = 340;
+			// 
+			// tpPublishInfo
+			// 
+			this.tpPublishInfo.Controls.Add(this.lvPublishInfo);
+			this.tpPublishInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpPublishInfo.Name = "tpPublishInfo";
+			this.tpPublishInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpPublishInfo.TabIndex = 3;
+			this.tpPublishInfo.Text = "Publish Info";
+			this.tpPublishInfo.UseVisualStyleBackColor = true;
+			// 
+			// lvPublishInfo
+			// 
+			this.lvPublishInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader13,
+									this.columnHeader14});
+			this.lvPublishInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvPublishInfo.FullRowSelect = true;
+			this.lvPublishInfo.GridLines = true;
+			this.lvPublishInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem28,
+									listViewItem29,
+									listViewItem30,
+									listViewItem31,
+									listViewItem32,
+									listViewItem33});
+			this.lvPublishInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvPublishInfo.Name = "lvPublishInfo";
+			this.lvPublishInfo.ShowItemToolTips = true;
+			this.lvPublishInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvPublishInfo.TabIndex = 12;
+			this.lvPublishInfo.UseCompatibleStateImageBehavior = false;
+			this.lvPublishInfo.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader13
+			// 
+			this.columnHeader13.Text = "Тэги";
+			this.columnHeader13.Width = 100;
+			// 
+			// columnHeader14
+			// 
+			this.columnHeader14.Text = "Значение";
+			this.columnHeader14.Width = 430;
+			// 
+			// tpCustomInfo
+			// 
+			this.tpCustomInfo.Controls.Add(this.lvCustomInfo);
+			this.tpCustomInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpCustomInfo.Name = "tpCustomInfo";
+			this.tpCustomInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpCustomInfo.TabIndex = 4;
+			this.tpCustomInfo.Text = "Custom Info";
+			this.tpCustomInfo.UseVisualStyleBackColor = true;
+			// 
+			// lvCustomInfo
+			// 
+			this.lvCustomInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader11,
+									this.columnHeader12});
+			this.lvCustomInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvCustomInfo.FullRowSelect = true;
+			this.lvCustomInfo.GridLines = true;
+			this.lvCustomInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvCustomInfo.Name = "lvCustomInfo";
+			this.lvCustomInfo.ShowItemToolTips = true;
+			this.lvCustomInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvCustomInfo.TabIndex = 12;
+			this.lvCustomInfo.UseCompatibleStateImageBehavior = false;
+			this.lvCustomInfo.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader11
+			// 
+			this.columnHeader11.Text = "Тип";
+			this.columnHeader11.Width = 150;
+			// 
+			// columnHeader12
+			// 
+			this.columnHeader12.Text = "Значение";
+			this.columnHeader12.Width = 380;
+			// 
+			// tpHistory
+			// 
+			this.tpHistory.Controls.Add(this.rtbHistory);
+			this.tpHistory.Location = new System.Drawing.Point(4, 22);
+			this.tpHistory.Name = "tpHistory";
+			this.tpHistory.Size = new System.Drawing.Size(524, 186);
+			this.tpHistory.TabIndex = 5;
+			this.tpHistory.Text = "History";
+			this.tpHistory.UseVisualStyleBackColor = true;
+			// 
+			// rtbHistory
+			// 
+			this.rtbHistory.BackColor = System.Drawing.SystemColors.Window;
+			this.rtbHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rtbHistory.Location = new System.Drawing.Point(0, 0);
+			this.rtbHistory.Name = "rtbHistory";
+			this.rtbHistory.ReadOnly = true;
+			this.rtbHistory.Size = new System.Drawing.Size(524, 186);
+			this.rtbHistory.TabIndex = 0;
+			this.rtbHistory.Text = "";
+			// 
+			// tpAnnotation
+			// 
+			this.tpAnnotation.Controls.Add(this.rtbAnnotation);
+			this.tpAnnotation.Location = new System.Drawing.Point(4, 22);
+			this.tpAnnotation.Name = "tpAnnotation";
+			this.tpAnnotation.Size = new System.Drawing.Size(524, 186);
+			this.tpAnnotation.TabIndex = 6;
+			this.tpAnnotation.Text = "Annotation";
+			this.tpAnnotation.UseVisualStyleBackColor = true;
+			// 
+			// rtbAnnotation
+			// 
+			this.rtbAnnotation.BackColor = System.Drawing.SystemColors.Window;
+			this.rtbAnnotation.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rtbAnnotation.Location = new System.Drawing.Point(0, 0);
+			this.rtbAnnotation.Name = "rtbAnnotation";
+			this.rtbAnnotation.ReadOnly = true;
+			this.rtbAnnotation.Size = new System.Drawing.Size(524, 186);
+			this.rtbAnnotation.TabIndex = 0;
+			this.rtbAnnotation.Text = "";
+			// 
+			// lvFilesCount
+			// 
+			this.lvFilesCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+									this.columnHeader6,
+									this.columnHeader7});
+			this.lvFilesCount.Dock = System.Windows.Forms.DockStyle.Left;
+			this.lvFilesCount.FullRowSelect = true;
+			this.lvFilesCount.GridLines = true;
+			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+									listViewItem34,
+									listViewItem35,
+									listViewItem36,
+									listViewItem37,
+									listViewItem38,
+									listViewItem39,
+									listViewItem40});
+			this.lvFilesCount.Location = new System.Drawing.Point(0, 24);
+			this.lvFilesCount.Name = "lvFilesCount";
+			this.lvFilesCount.Size = new System.Drawing.Size(296, 212);
+			this.lvFilesCount.TabIndex = 42;
+			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
+			this.lvFilesCount.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader6
+			// 
+			this.columnHeader6.Text = "Папки и файлы";
+			this.columnHeader6.Width = 210;
+			// 
+			// columnHeader7
+			// 
+			this.columnHeader7.Text = "Кол-во";
+			this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader7.Width = 80;
+			// 
+			// chBoxViewProgress
+			// 
+			this.chBoxViewProgress.Checked = true;
+			this.chBoxViewProgress.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxViewProgress.Dock = System.Windows.Forms.DockStyle.Top;
+			this.chBoxViewProgress.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxViewProgress.Location = new System.Drawing.Point(0, 0);
+			this.chBoxViewProgress.Name = "chBoxViewProgress";
+			this.chBoxViewProgress.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this.chBoxViewProgress.Size = new System.Drawing.Size(828, 24);
+			this.chBoxViewProgress.TabIndex = 41;
+			this.chBoxViewProgress.Text = "Отображать изменение хода работы";
+			this.chBoxViewProgress.UseVisualStyleBackColor = true;
+			// 
 			// lvResult
 			// 
 			this.lvResult.CheckBoxes = true;
@@ -1057,8 +1083,8 @@ namespace SharpFBTools.Tools
 			this.lvResult.MultiSelect = false;
 			this.lvResult.Name = "lvResult";
 			this.lvResult.ShowItemToolTips = true;
-			this.lvResult.Size = new System.Drawing.Size(828, 185);
-			this.lvResult.TabIndex = 40;
+			this.lvResult.Size = new System.Drawing.Size(828, 162);
+			this.lvResult.TabIndex = 45;
 			this.lvResult.UseCompatibleStateImageBehavior = false;
 			this.lvResult.View = System.Windows.Forms.View.Details;
 			this.lvResult.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.LvResultItemChecked);
@@ -1105,40 +1131,21 @@ namespace SharpFBTools.Tools
 			// 
 			this.columnHeader5.Text = "Размер";
 			// 
-			// sfdList
-			// 
-			this.sfdList.RestoreDirectory = true;
-			this.sfdList.Title = "Укажите название файла копий";
-			// 
-			// sfdLoadList
-			// 
-			this.sfdLoadList.RestoreDirectory = true;
-			this.sfdLoadList.Title = "Загрузка Списка копий книг";
-			// 
 			// SFBTpFB2Dublicator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.lvResult);
+			this.Controls.Add(this.pInfo);
 			this.Controls.Add(this.pExistFile);
 			this.Controls.Add(this.pMode);
 			this.Controls.Add(this.pSearchFBDup2Dirs);
 			this.Controls.Add(this.tsFullSort);
-			this.Controls.Add(this.pProgress);
 			this.Controls.Add(this.ssProgress);
 			this.Name = "SFBTpFB2Dublicator";
 			this.Size = new System.Drawing.Size(828, 560);
 			this.ssProgress.ResumeLayout(false);
 			this.ssProgress.PerformLayout();
-			this.pProgress.ResumeLayout(false);
-			this.tcViewFB2Desc.ResumeLayout(false);
-			this.tpTitleInfo.ResumeLayout(false);
-			this.tpSourceTitleInfo.ResumeLayout(false);
-			this.tpDocumentInfo.ResumeLayout(false);
-			this.tpPublishInfo.ResumeLayout(false);
-			this.tpCustomInfo.ResumeLayout(false);
-			this.tpHistory.ResumeLayout(false);
-			this.tpAnnotation.ResumeLayout(false);
 			this.pSearchFBDup2Dirs.ResumeLayout(false);
 			this.pSearchFBDup2Dirs.PerformLayout();
 			this.tsFullSort.ResumeLayout(false);
@@ -1147,9 +1154,20 @@ namespace SharpFBTools.Tools
 			this.pMode.ResumeLayout(false);
 			this.pExistFile.ResumeLayout(false);
 			this.pExistFile.PerformLayout();
+			this.pInfo.ResumeLayout(false);
+			this.tcViewFB2Desc.ResumeLayout(false);
+			this.tpTitleInfo.ResumeLayout(false);
+			this.tpSourceTitleInfo.ResumeLayout(false);
+			this.tpDocumentInfo.ResumeLayout(false);
+			this.tpPublishInfo.ResumeLayout(false);
+			this.tpCustomInfo.ResumeLayout(false);
+			this.tpHistory.ResumeLayout(false);
+			this.tpAnnotation.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chBoxViewProgress;
+		private System.Windows.Forms.Panel pInfo;
 		private System.Windows.Forms.OpenFileDialog sfdLoadList;
 		private System.Windows.Forms.SaveFileDialog sfdList;
 		private System.Windows.Forms.ToolStripButton tsbtnDupOpenList;
@@ -1227,7 +1245,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.ColumnHeader columnHeader7;
 		private System.Windows.Forms.ColumnHeader columnHeader6;
 		private System.Windows.Forms.ListView lvFilesCount;
-		private System.Windows.Forms.Panel pProgress;
 		private System.Windows.Forms.Label lblScanDir;
 		private System.Windows.Forms.TextBox tboxSourceDir;
 		private System.Windows.Forms.CheckBox chBoxScanSubDir;

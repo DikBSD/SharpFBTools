@@ -249,18 +249,13 @@ namespace SharpFBTools.Tools
 		
 		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат
-			Misc msc = new Misc();
-			msc.ListViewStatus( lvFilesCount, 1, m_sv.AllFiles );
-			msc.ListViewStatus( lvFilesCount, 2, m_sv.FB2 );
-			msc.ListViewStatus( lvFilesCount, 3, m_sv.Archive );
-			msc.ListViewStatus( lvFilesCount, 4, m_sv.Other );
-			msc.ListViewStatus( lvFilesCount, 5, m_sv.Group );
-			msc.ListViewStatus( lvFilesCount, 6, m_sv.AllFB2InGroups );
+            if( chBoxViewProgress.Checked ) ViewDupProgressData();
 			++tsProgressBar.Value;
         }
 		
 		 private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
             // Проверяем - это отмена, ошибка, или конец задачи и сообщить
+            ViewDupProgressData(); // отображение данных прогресса
             lvResult.EndUpdate();
             DateTime dtEnd = DateTime.Now;
             m_sv.Clear();
@@ -368,6 +363,17 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые вспомогательные методы класса
+		private void ViewDupProgressData() {
+            // Отобразим результат
+			Misc msc = new Misc();
+			msc.ListViewStatus( lvFilesCount, 1, m_sv.AllFiles );
+			msc.ListViewStatus( lvFilesCount, 2, m_sv.FB2 );
+			msc.ListViewStatus( lvFilesCount, 3, m_sv.Archive );
+			msc.ListViewStatus( lvFilesCount, 4, m_sv.Other );
+			msc.ListViewStatus( lvFilesCount, 5, m_sv.Group );
+			msc.ListViewStatus( lvFilesCount, 6, m_sv.AllFB2InGroups );
+        }
+		
 		// увеличение значения 2-й колонки ListView на 1
 		private void Init() {
 			// инициализация контролов и переменных
@@ -1510,6 +1516,8 @@ namespace SharpFBTools.Tools
 				data.IgnoreWhitespace = true;
 				using ( XmlReader reader = XmlReader.Create( sPath, data ) ) {
 					try {
+						lvResult.BeginUpdate();
+						Misc msc = new Misc();
 						// режим поиска
 						reader.ReadToFollowing("Mode");
 						if( reader.HasAttributes ) {
@@ -1546,12 +1554,12 @@ namespace SharpFBTools.Tools
 							lvResult.Items.Add( lvi );
 						}
 						// Отобразим результат в индикаторе прогресса
-						Misc msc = new Misc();
 						msc.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count );
 						msc.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count );
 					} catch {
 						MessageBox.Show( "Поврежден файл списка Дубликатора: \""+sPath+"\"!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					} finally {
+						lvResult.EndUpdate();
 						reader.Close();
 					}
 				}
