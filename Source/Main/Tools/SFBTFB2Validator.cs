@@ -159,11 +159,11 @@ namespace SharpFBTools.Tools
 						return;
 					}
 					sFile = s + "\\" + fiNextFile.Name;
-					sExt = Path.GetExtension( sFile );
-					if( sExt.ToLower() == ".fb2" ) {
+					sExt = Path.GetExtension( sFile ).ToLower();
+					if( sExt == ".fb2" ) {
 						++m_nFB2Files;
 						ParseFB2File( sFile, fv2V );
-					} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
+					} else if( sExt == ".zip" || sExt == ".rar" ) {
 						// очистка временной папки
 						filesWorker.RemoveDir( sTempDir );
 						Directory.CreateDirectory( sTempDir );
@@ -512,10 +512,10 @@ namespace SharpFBTools.Tools
 		private void ParseArchiveFile( string sArchiveFile, FB2Validator fv2Validator, string sTempDir ) {
 			// парсер архива
 			//TODO: заменить все unrar на unzip
-			string sExt = Path.GetExtension( sArchiveFile );
-			if( sExt.ToLower() == ".zip" ) {
+			string sExt = Path.GetExtension( sArchiveFile ).ToLower();
+			if( sExt == ".zip" ) {
 				archivesWorker.unzip( m_s7zPath, sArchiveFile, sTempDir, ProcessPriorityClass.AboveNormal );
-			} else if( sExt.ToLower() == ".rar" ) {
+			} else if( sExt == ".rar" ) {
 				archivesWorker.unrar( m_sUnRarPath, sArchiveFile, sTempDir, ProcessPriorityClass.AboveNormal );
 			}
 			string [] files = Directory.GetFiles( sTempDir );
@@ -529,10 +529,10 @@ namespace SharpFBTools.Tools
            		++m_nFB2Valid;
 				//listViewValid.Items.Add( sArchiveFile + "/" + sFileName );
 				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName , 0 );
-				if( sExt.ToLower() == ".zip" ) {
+				if( sExt == ".zip" ) {
 					item.ForeColor = m_ZipFB2ValidFontColor;
 					++m_nFB2ZipFiles;
-				} else if( sExt.ToLower() == ".rar" ) {
+				} else if( sExt == ".rar" ) {
 					item.ForeColor = m_RarFB2ValidFontColor;
 					++m_nFB2RarFiles;
 				}
@@ -544,10 +544,10 @@ namespace SharpFBTools.Tools
 				listViewValid.Items.AddRange( new ListViewItem[]{ item } );
            	} else {
            		// архив не валидный - посмотрим, что это
-        		if( sExt.ToLower() == ".zip" ) {
+        		if( sExt == ".zip" ) {
 					// определяем тип разархивированного файла
-           			sExt = Path.GetExtension( sFileName );
-					if( sExt.ToLower() != ".fb2" ) {
+           			sExt = Path.GetExtension( sFileName ).ToLower();
+					if( sExt != ".fb2" ) {
            				sMsg = "Тип файла: " + sExt;
            				++m_nNotFB2Files;
            				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
@@ -572,10 +572,10 @@ namespace SharpFBTools.Tools
    						item.SubItems.Add( s );
 						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
 					}
-				} else if( sExt.ToLower() == ".rar" ) {
+				} else if( sExt == ".rar" ) {
 					// определяем тип разархивированного файла
-           			sExt = Path.GetExtension( sFileName );
-					if( sExt.ToLower() != ".fb2" ) {
+           			sExt = Path.GetExtension( sFileName ).ToLower();
+					if( sExt != ".fb2" ) {
         				sMsg = "Тип файла: " + sExt;
           				++m_nNotFB2Files;
           				ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
@@ -1064,8 +1064,8 @@ namespace SharpFBTools.Tools
 					// путь к выделенному файлу
 					string s = si[0].SubItems[0].Text.Split('/')[0];
 					// отределяем его расширение
-					string sExt = Path.GetExtension( s );
-					if( sExt.ToLower() == ".fb2" ) {
+					string sExt = Path.GetExtension( s ).ToLower();
+					if( sExt == ".fb2" ) {
 						listViewNotValid.ContextMenuStrip = cmsFB2;
 					} else {
 						listViewNotValid.ContextMenuStrip = cmsArchive;
@@ -1083,8 +1083,8 @@ namespace SharpFBTools.Tools
 				// путь к выделенному файлу
 				string s = si[0].SubItems[0].Text.Split('/')[0];
 				// отределяем его расширение
-				string sExt = Path.GetExtension( s );
-				if( sExt.ToLower() == ".fb2" ) {
+				string sExt = Path.GetExtension( s ).ToLower();
+				if( sExt == ".fb2" ) {
 					listViewValid.ContextMenuStrip = cmsFB2;
 				} else {
 					listViewValid.ContextMenuStrip = cmsArchive;
@@ -1272,14 +1272,14 @@ namespace SharpFBTools.Tools
 					return;
 				}
 				MessageBoxIcon mbi = MessageBoxIcon.Information;
-				string sExt = Path.GetExtension( sFilePath );
+				string sExt = Path.GetExtension( sFilePath ).ToLower();
 				string sMsg = "";
 				string sErrorMsg = "СООБЩЕНИЕ ОБ ОШИБКЕ:";
 				string sOkMsg = "ОШИБОК НЕТ - ФАЙЛ ВАЛИДЕН";
 				string sMoveNotValToVal = "Путь к этому файлу перенесен из Списка не валидных fb2-файлов в Список валидных.";
 				string sMoveValToNotVal = "Путь к этому файлу перенесен из Списка валидных fb2-файлов в Список не валидных.";
 				FB2Validator fv2V = new FB2Validator();
-				if( sExt.ToLower() == ".fb2" ) {
+				if( sExt == ".fb2" ) {
 					// для несжатого fb2-файла
 					sMsg = fv2V.ValidatingFB2File( sFilePath );
 					if ( sMsg == "" ) {
@@ -1320,13 +1320,13 @@ namespace SharpFBTools.Tools
 							sMsg += "\n\n" + sMoveValToNotVal;
 						}
 					}
-				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
+				} else if( sExt == ".zip" || sExt == ".rar" ) {
 					// очистка временной папки
 					filesWorker.RemoveDir( sTempDir );
 //					Directory.CreateDirectory( sTempDir );
-					if( sExt.ToLower() == ".zip" ) {
+					if( sExt == ".zip" ) {
 						archivesWorker.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
-					} else if( sExt.ToLower() == ".rar" ) {
+					} else if( sExt == ".rar" ) {
 						archivesWorker.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
 					}
 					string [] files = Directory.GetFiles( sTempDir );
@@ -1343,9 +1343,9 @@ namespace SharpFBTools.Tools
 								tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() + " ) ";
 								string sFB2FileName = sSelectedItemText.Split('/')[1];
 								ListViewItem item = new ListViewItem( sSelectedItemText , 0 );
-								if( sExt.ToLower() == ".zip" ) {
+								if( sExt == ".zip" ) {
 									item.ForeColor = m_ZipFB2ValidFontColor;
-								} else if( sExt.ToLower() == ".rar" ) {
+								} else if( sExt == ".rar" ) {
 									item.ForeColor = m_RarFB2ValidFontColor;
 								}
 								FileInfo fi = new FileInfo( sFilePath );
@@ -1370,9 +1370,9 @@ namespace SharpFBTools.Tools
 								tpValid.Text = m_sValid + "( " + listViewValid.Items.Count.ToString() + " ) ";
 								string sFB2FileName = sSelectedItemText.Split('/')[1];
 								ListViewItem item = new ListViewItem( sSelectedItemText , 0 );
-								if( sExt.ToLower() == ".zip" ) {
+								if( sExt == ".zip" ) {
 									item.ForeColor = m_ZipFB2NotValidFontColor;
-								} else if( sExt.ToLower() == ".rar" ) {
+								} else if( sExt == ".rar" ) {
 									item.ForeColor = m_RarFB2NotValidFontColor;
 								}
 								item.SubItems.Add( sMsg );
@@ -1441,8 +1441,8 @@ namespace SharpFBTools.Tools
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
 				string sSelectedItemText = si[0].SubItems[0].Text;
 				string sFilePath = sSelectedItemText.Split('/')[0];
-				string sExt = Path.GetExtension( sFilePath );
-				if( sExt.ToLower() == ".fb2" ) {
+				string sExt = Path.GetExtension( sFilePath ).ToLower();
+				if( sExt == ".fb2" ) {
 					switch ( Settings.SettingsValidator.ReadValidatorFB2SelectedIndex() ) {
 						case 0: // Повторная Валидация
 							TsmiFileReValidateClick( sender, e );
@@ -1460,7 +1460,7 @@ namespace SharpFBTools.Tools
 							TsmiOpenFileDirClick( sender, e );
 							break;
 					}
-				} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
+				} else if( sExt == ".zip" || sExt == ".rar" ) {
 					switch ( Settings.SettingsValidator.ReadValidatorFB2ArchiveSelectedIndex() ) {
 						case 0: // Повторная Валидация
 							TsmiFileReValidateClick( sender, e );
@@ -1486,8 +1486,8 @@ namespace SharpFBTools.Tools
             		ListView.SelectedListViewItemCollection si = l.SelectedItems;
 					string sSelectedItemText = si[0].SubItems[0].Text;
 					string sFilePath = sSelectedItemText.Split('/')[0];
-					string sExt = Path.GetExtension( sFilePath );
-					if( sExt.ToLower() == ".fb2" ) {
+					string sExt = Path.GetExtension( sFilePath ).ToLower();
+					if( sExt == ".fb2" ) {
 						switch ( Settings.SettingsValidator.ReadValidatorFB2SelectedIndexPE() ) {
 							case 0: // Повторная Валидация
 								TsmiFileReValidateClick( sender, e );
@@ -1505,7 +1505,7 @@ namespace SharpFBTools.Tools
 								TsmiOpenFileDirClick( sender, e );
 								break;
 						}
-					} else if( sExt.ToLower() == ".zip" || sExt.ToLower() == ".rar" ) {
+					} else if( sExt == ".zip" || sExt == ".rar" ) {
 						switch ( Settings.SettingsValidator.ReadValidatorFB2ArchiveSelectedIndexPE() ) {
 							case 0: // Повторная Валидация
 								TsmiFileReValidateClick( sender, e );
