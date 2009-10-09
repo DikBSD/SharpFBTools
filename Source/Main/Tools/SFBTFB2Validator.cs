@@ -158,8 +158,8 @@ namespace SharpFBTools.Tools
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwv_RunWorkerCompleted
 						return;
 					}
-					sFile = s + "\\" + fiNextFile.Name;
-					sExt = Path.GetExtension( sFile ).ToLower();
+					sFile	= s + "\\" + fiNextFile.Name;
+					sExt	= Path.GetExtension( sFile ).ToLower();
 					if( sExt == ".fb2" ) {
 						++m_nFB2Files;
 						ParseFB2File( sFile, fv2V );
