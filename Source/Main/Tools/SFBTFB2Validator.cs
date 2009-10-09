@@ -187,21 +187,14 @@ namespace SharpFBTools.Tools
 		
 		private void bwv_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат Валидации
-			lvFilesCount.Items[2].SubItems[1].Text = m_nFB2Files.ToString();
-			lvFilesCount.Items[3].SubItems[1].Text = m_nFB2ZipFiles.ToString();
-			lvFilesCount.Items[4].SubItems[1].Text = m_nFB2RarFiles.ToString();
-			lvFilesCount.Items[5].SubItems[1].Text = m_nNotFB2Files.ToString();
-			
-			tpNotFB2Files.Text	= m_sNotFB2Files + "( " + m_nNotFB2Files.ToString() + " ) " ;
-			tpValid.Text		= m_sValid + "( " + m_nFB2Valid.ToString() + " ) " ;
-			tpNotValid.Text		= m_sNotValid + "( " + m_nFB2NotValid.ToString() + " ) " ;
-
+            if( chBoxViewProgress.Checked ) ValidProgressData();
             ++tsProgressBar.Value;
         }
 		
 		private void bwv_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
             // Проверяем это отмена, ошибка, или конец задачи и сообщить
-			listViewNotValid.EndUpdate();
+			ValidProgressData(); // Отобразим результат Валидации
+            listViewNotValid.EndUpdate();
 			listViewValid.EndUpdate();
 			listViewNotFB2.EndUpdate();
 			
@@ -370,6 +363,18 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые вспомогательные методы класса
+		private void ValidProgressData() {
+            // Отобразим результат Валидации
+           	lvFilesCount.Items[2].SubItems[1].Text = m_nFB2Files.ToString();
+			lvFilesCount.Items[3].SubItems[1].Text = m_nFB2ZipFiles.ToString();
+			lvFilesCount.Items[4].SubItems[1].Text = m_nFB2RarFiles.ToString();
+			lvFilesCount.Items[5].SubItems[1].Text = m_nNotFB2Files.ToString();
+			
+			tpNotFB2Files.Text	= m_sNotFB2Files + "( " + m_nNotFB2Files.ToString() + " ) " ;
+			tpValid.Text		= m_sValid + "( " + m_nFB2Valid.ToString() + " ) " ;
+			tpNotValid.Text		= m_sNotValid + "( " + m_nFB2NotValid.ToString() + " ) " ;
+        }
+		
 		private void Init() {
 			// инициализация контролов и переменных
 			for( int i=0; i!=lvFilesCount.Items.Count; ++i ) {

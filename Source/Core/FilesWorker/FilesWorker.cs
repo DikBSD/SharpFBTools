@@ -30,67 +30,6 @@ namespace Core.FilesWorker
 		}
 		
 		#region Открытые статические методы класса
-		public static List<string> DirsParser( string sStartDir, ListView lv, bool bSort ) {
-			// список всех вложенных папок для стартового, включая и стартовый - замена рекурсии
-			List<string> lAllDirsList = new List<string>();
-			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
-			List<string> lWorkDirList = new List<string>();
-			// начальное заполнение списков
-			lWorkDirList = DirListMaker( sStartDir );
-			lAllDirsList.Add( sStartDir );
-			lAllDirsList.AddRange( lWorkDirList );
-			lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
-			while( lWorkDirList.Count != 0 ) {
-				// перебор папок в указанной папке s
-				int nWorkCount = lWorkDirList.Count;
-				for( int i=0; i!=nWorkCount; ++i  ) {
-					// l - список найденных папок в указанной папке
-					List<string> l = DirListMaker( lWorkDirList[i] );
-					// заносим найденные папки в рабочий и полный список папок
-					lWorkDirList.AddRange( l );
-					lAllDirsList.AddRange( l );
-					lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
-					lv.Refresh();
-				}
-				// удаляем из рабочего списка обработанные папки
-				lWorkDirList.RemoveRange( 0, nWorkCount );
-			}
-			if( bSort ) {
-				lAllDirsList.Sort();
-			}
-			return lAllDirsList;
-		}
-		
-		public static List<string> AllFilesParser( BackgroundWorker bw, DoWorkEventArgs e,
-		                                          List<string> lsDirs, ListView lv,
-		                                          ToolStripProgressBar pBar, bool bSort ) {
-			// список всех файлов - по cписку папок - замена рекурсии
-			pBar.Maximum = lsDirs.Count+1;
-			List<string> lFilesList = new List<string>();
-			foreach( string s in lsDirs ) {
-				// Проверить флаг на остановку процесса 
-        	    if( ( bw.CancellationPending == true ) ) {
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
-					break;
-				} else {
-					try {
-						DirectoryInfo diFolder = new DirectoryInfo( s );
-						foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-							lFilesList.Add( s + "\\" + fiNextFile.Name );
-							lv.Items[1].SubItems[1].Text = lFilesList.Count.ToString();
-						}
-					} catch {
-						// игнорируем папки и файлы, к которым нет доступа
-					}
-					++pBar.Value;
-				}
-			}
-			if( bSort ) {
-				lFilesList.Sort();
-			}
-			return lFilesList;
-		}
-		
 		public static void DumpReadOnlyAttrForFiles( string sDir ) {
 			// сброс для списка файлов аттрибута только для чтения
 			DirectoryInfo diFolder = new DirectoryInfo( sDir );
@@ -108,21 +47,6 @@ namespace Core.FilesWorker
 				DumpReadOnlyAttrForFiles( sDir );
 				Directory.Delete( sDir, true );
 			}
-		}
-		
-		public static List<string> DirListMaker( string sStartDir ) {
-			// папки в текущей папке
-			List<string> lDirList	= new List<string>();
-			try {
-				DirectoryInfo diFolder	= new DirectoryInfo( sStartDir );
-				foreach( DirectoryInfo diNextFolder in diFolder.GetDirectories() ) {
-					lDirList.Add( sStartDir + "\\" + diNextFolder.Name );
-				}
-			} catch { 
-				// игнорируем папки, к которым нет доступа
-			}
-			
-			return lDirList; 
 		}
 		
 		public static void ShowDir( System.Windows.Forms.ListView lw ) {

@@ -143,6 +143,7 @@ namespace SharpFBTools.Tools
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.pInfo = new System.Windows.Forms.Panel();
+			this.chBoxViewProgress = new System.Windows.Forms.CheckBox();
 			this.gboxCopyMoveOptions = new System.Windows.Forms.GroupBox();
 			this.chBoxAddBookID = new System.Windows.Forms.CheckBox();
 			this.cboxExistFile = new System.Windows.Forms.ComboBox();
@@ -412,7 +413,7 @@ namespace SharpFBTools.Tools
 			this.tcResult.Margin = new System.Windows.Forms.Padding(0);
 			this.tcResult.Name = "tcResult";
 			this.tcResult.SelectedIndex = 0;
-			this.tcResult.Size = new System.Drawing.Size(831, 299);
+			this.tcResult.Size = new System.Drawing.Size(831, 272);
 			this.tcResult.TabIndex = 16;
 			// 
 			// tpNotValid
@@ -424,7 +425,7 @@ namespace SharpFBTools.Tools
 			this.tpNotValid.Location = new System.Drawing.Point(4, 23);
 			this.tpNotValid.Name = "tpNotValid";
 			this.tpNotValid.Padding = new System.Windows.Forms.Padding(3);
-			this.tpNotValid.Size = new System.Drawing.Size(823, 272);
+			this.tpNotValid.Size = new System.Drawing.Size(823, 245);
 			this.tpNotValid.TabIndex = 0;
 			this.tpNotValid.Text = " Не валидные fb2-файлы ";
 			this.tpNotValid.UseVisualStyleBackColor = true;
@@ -514,7 +515,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.pErrors.Controls.Add(this.rеboxNotValid);
 			this.pErrors.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pErrors.Location = new System.Drawing.Point(3, 180);
+			this.pErrors.Location = new System.Drawing.Point(3, 153);
 			this.pErrors.Name = "pErrors";
 			this.pErrors.Size = new System.Drawing.Size(817, 89);
 			this.pErrors.TabIndex = 1;
@@ -548,7 +549,7 @@ namespace SharpFBTools.Tools
 			this.listViewNotValid.MultiSelect = false;
 			this.listViewNotValid.Name = "listViewNotValid";
 			this.listViewNotValid.ShowItemToolTips = true;
-			this.listViewNotValid.Size = new System.Drawing.Size(817, 97);
+			this.listViewNotValid.Size = new System.Drawing.Size(817, 70);
 			this.listViewNotValid.TabIndex = 0;
 			this.listViewNotValid.UseCompatibleStateImageBehavior = false;
 			this.listViewNotValid.View = System.Windows.Forms.View.Details;
@@ -657,7 +658,7 @@ namespace SharpFBTools.Tools
 			this.tpValid.Location = new System.Drawing.Point(4, 23);
 			this.tpValid.Name = "tpValid";
 			this.tpValid.Padding = new System.Windows.Forms.Padding(3);
-			this.tpValid.Size = new System.Drawing.Size(823, 272);
+			this.tpValid.Size = new System.Drawing.Size(823, 245);
 			this.tpValid.TabIndex = 1;
 			this.tpValid.Text = " Валидные fb2-файлы ";
 			this.tpValid.UseVisualStyleBackColor = true;
@@ -668,7 +669,7 @@ namespace SharpFBTools.Tools
 			this.pValidLV.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pValidLV.Location = new System.Drawing.Point(3, 79);
 			this.pValidLV.Name = "pValidLV";
-			this.pValidLV.Size = new System.Drawing.Size(817, 190);
+			this.pValidLV.Size = new System.Drawing.Size(817, 163);
 			this.pValidLV.TabIndex = 9;
 			// 
 			// listViewValid
@@ -685,7 +686,7 @@ namespace SharpFBTools.Tools
 			this.listViewValid.MultiSelect = false;
 			this.listViewValid.Name = "listViewValid";
 			this.listViewValid.ShowItemToolTips = true;
-			this.listViewValid.Size = new System.Drawing.Size(817, 190);
+			this.listViewValid.Size = new System.Drawing.Size(817, 163);
 			this.listViewValid.TabIndex = 1;
 			this.listViewValid.UseCompatibleStateImageBehavior = false;
 			this.listViewValid.View = System.Windows.Forms.View.Details;
@@ -791,7 +792,7 @@ namespace SharpFBTools.Tools
 			this.tpNotFB2Files.Location = new System.Drawing.Point(4, 23);
 			this.tpNotFB2Files.Name = "tpNotFB2Files";
 			this.tpNotFB2Files.Padding = new System.Windows.Forms.Padding(3);
-			this.tpNotFB2Files.Size = new System.Drawing.Size(823, 272);
+			this.tpNotFB2Files.Size = new System.Drawing.Size(823, 245);
 			this.tpNotFB2Files.TabIndex = 2;
 			this.tpNotFB2Files.Text = " Не fb2-файлы ";
 			this.tpNotFB2Files.UseVisualStyleBackColor = true;
@@ -802,7 +803,7 @@ namespace SharpFBTools.Tools
 			this.pNotValidLV.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pNotValidLV.Location = new System.Drawing.Point(3, 79);
 			this.pNotValidLV.Name = "pNotValidLV";
-			this.pNotValidLV.Size = new System.Drawing.Size(817, 190);
+			this.pNotValidLV.Size = new System.Drawing.Size(817, 163);
 			this.pNotValidLV.TabIndex = 10;
 			// 
 			// listViewNotFB2
@@ -820,7 +821,7 @@ namespace SharpFBTools.Tools
 			this.listViewNotFB2.MultiSelect = false;
 			this.listViewNotFB2.Name = "listViewNotFB2";
 			this.listViewNotFB2.ShowItemToolTips = true;
-			this.listViewNotFB2.Size = new System.Drawing.Size(817, 190);
+			this.listViewNotFB2.Size = new System.Drawing.Size(817, 163);
 			this.listViewNotFB2.TabIndex = 2;
 			this.listViewNotFB2.UseCompatibleStateImageBehavior = false;
 			this.listViewNotFB2.View = System.Windows.Forms.View.Details;
@@ -1016,9 +1017,9 @@ namespace SharpFBTools.Tools
 									listViewItem4,
 									listViewItem5,
 									listViewItem6});
-			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
+			this.lvFilesCount.Location = new System.Drawing.Point(0, 24);
 			this.lvFilesCount.Name = "lvFilesCount";
-			this.lvFilesCount.Size = new System.Drawing.Size(223, 116);
+			this.lvFilesCount.Size = new System.Drawing.Size(223, 119);
 			this.lvFilesCount.TabIndex = 20;
 			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
 			this.lvFilesCount.View = System.Windows.Forms.View.Details;
@@ -1036,13 +1037,28 @@ namespace SharpFBTools.Tools
 			// 
 			// pInfo
 			// 
+			this.pInfo.Controls.Add(this.chBoxViewProgress);
 			this.pInfo.Controls.Add(this.gboxCopyMoveOptions);
 			this.pInfo.Controls.Add(this.lvFilesCount);
 			this.pInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pInfo.Location = new System.Drawing.Point(0, 362);
+			this.pInfo.Location = new System.Drawing.Point(0, 335);
 			this.pInfo.Name = "pInfo";
-			this.pInfo.Size = new System.Drawing.Size(831, 116);
+			this.pInfo.Size = new System.Drawing.Size(831, 143);
 			this.pInfo.TabIndex = 21;
+			// 
+			// chBoxViewProgress
+			// 
+			this.chBoxViewProgress.Checked = true;
+			this.chBoxViewProgress.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxViewProgress.Dock = System.Windows.Forms.DockStyle.Top;
+			this.chBoxViewProgress.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxViewProgress.Location = new System.Drawing.Point(0, 0);
+			this.chBoxViewProgress.Name = "chBoxViewProgress";
+			this.chBoxViewProgress.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this.chBoxViewProgress.Size = new System.Drawing.Size(831, 24);
+			this.chBoxViewProgress.TabIndex = 22;
+			this.chBoxViewProgress.Text = "Отображать данные хода работы";
+			this.chBoxViewProgress.UseVisualStyleBackColor = true;
 			// 
 			// gboxCopyMoveOptions
 			// 
@@ -1053,9 +1069,9 @@ namespace SharpFBTools.Tools
 			this.gboxCopyMoveOptions.Controls.Add(this.cboxExistFile);
 			this.gboxCopyMoveOptions.Controls.Add(this.lblExistFile);
 			this.gboxCopyMoveOptions.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gboxCopyMoveOptions.Location = new System.Drawing.Point(229, 3);
+			this.gboxCopyMoveOptions.Location = new System.Drawing.Point(229, 24);
 			this.gboxCopyMoveOptions.Name = "gboxCopyMoveOptions";
-			this.gboxCopyMoveOptions.Size = new System.Drawing.Size(597, 112);
+			this.gboxCopyMoveOptions.Size = new System.Drawing.Size(597, 118);
 			this.gboxCopyMoveOptions.TabIndex = 21;
 			this.gboxCopyMoveOptions.TabStop = false;
 			this.gboxCopyMoveOptions.Text = " Настройки для Копирования / Перемещения файлов ";
@@ -1099,7 +1115,7 @@ namespace SharpFBTools.Tools
 			this.pCentral.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pCentral.Location = new System.Drawing.Point(0, 63);
 			this.pCentral.Name = "pCentral";
-			this.pCentral.Size = new System.Drawing.Size(831, 299);
+			this.pCentral.Size = new System.Drawing.Size(831, 272);
 			this.pCentral.TabIndex = 22;
 			// 
 			// cmsArchive
@@ -1199,6 +1215,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chBoxViewProgress;
 		private System.Windows.Forms.ToolStripButton tsbtnFilesWorkStop;
 		private System.Windows.Forms.ToolStripButton tSBValidateStop;
 		private System.Windows.Forms.CheckBox chBoxAddBookID;
