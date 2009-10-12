@@ -36,5 +36,21 @@ namespace Core.Misc
 		public void ListViewStatus( ListView lv, int nItem, string sValue ) {
 			lv.Items[nItem].SubItems[1].Text = sValue;
 		}
+		
+		// отметить все итемы (снять все отметки)
+		public void CheckdAllListViewItems( ListView lv, bool bCheck ) {
+			if( lv.Items.Count > 0  ) {
+				for( int i=0; i!=lv.Items.Count; ++i ) {
+					lv.Items[i].Checked = bCheck;
+				}
+			}
+		}
+		
+		// снять отметки с помеченных итемов
+		public void UnCheckdAllListViewItems( System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems) {
+			foreach( ListViewItem lvi in checkedItems ) {
+				lvi.Checked = false;
+			}
+		}
 	}
 }

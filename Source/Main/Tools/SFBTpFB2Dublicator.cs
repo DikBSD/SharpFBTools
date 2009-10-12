@@ -1419,20 +1419,15 @@ namespace SharpFBTools.Tools
 		void TsmiCheckedAllClick(object sender, EventArgs e)
 		{
 			// отметить все книги
-			if( lvResult.Items.Count > 0  ) {
-				for( int i=0; i!=lvResult.Items.Count; ++i ) {
-					lvResult.Items[i].Checked = true;
-				}
-			}
+			Misc ms = new Misc();
+			ms.CheckdAllListViewItems( lvResult, true );
 		}
 		
 		void TsmiUnCheckedAllClick(object sender, EventArgs e)
 		{
 			// снять отметки со всех книг
-			System.Windows.Forms.ListView.CheckedListViewItemCollection	checkedItems = lvResult.CheckedItems;
-			foreach( ListViewItem lvi in checkedItems ) {
-				lvi.Checked = false;
-			}
+			Misc ms = new Misc();
+			ms.UnCheckdAllListViewItems( lvResult.CheckedItems );
 		}
 		
 		void TsbtnDupSaveListClick(object sender, EventArgs e)

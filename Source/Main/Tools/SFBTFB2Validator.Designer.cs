@@ -156,6 +156,15 @@ namespace SharpFBTools.Tools
 			this.tsmi4 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenArchiveDir = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiFileDeleteFromDisk = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiFB2CheckedAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiArchiveCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiNotFB2CheckedAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiNotFB2UnCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiArchiveUnCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiFB2UnCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.tcResult.SuspendLayout();
@@ -583,9 +592,12 @@ namespace SharpFBTools.Tools
 									this.tsmiViewInReader,
 									this.tsmi2,
 									this.tsmiOpenFileDir,
-									this.tsmiDeleteFileFromDisk});
+									this.tsmiDeleteFileFromDisk,
+									this.toolStripSeparator1,
+									this.tsmiFB2CheckedAll,
+									this.tsmiFB2UnCheckedAll});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(293, 154);
+			this.cmsFB2.Size = new System.Drawing.Size(293, 204);
 			// 
 			// tsmiFileReValidate
 			// 
@@ -847,9 +859,12 @@ namespace SharpFBTools.Tools
 			// 
 			this.cmsNotFB2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.tsmiOpenNotFB2FileDir,
-									this.tsmiDeleteNotFB2FromDisk});
+									this.tsmiDeleteNotFB2FromDisk,
+									this.toolStripSeparator3,
+									this.tsmiNotFB2CheckedAll,
+									this.tsmiNotFB2UnCheckedAll});
 			this.cmsNotFB2.Name = "cmsValidator";
-			this.cmsNotFB2.Size = new System.Drawing.Size(293, 48);
+			this.cmsNotFB2.Size = new System.Drawing.Size(293, 120);
 			// 
 			// tsmiOpenNotFB2FileDir
 			// 
@@ -1126,9 +1141,12 @@ namespace SharpFBTools.Tools
 									this.tsmiOpenInArchivator,
 									this.tsmi4,
 									this.tsmiOpenArchiveDir,
-									this.tsmiFileDeleteFromDisk});
+									this.tsmiFileDeleteFromDisk,
+									this.toolStripSeparator2,
+									this.tsmiArchiveCheckedAll,
+									this.tsmiArchiveUnCheckedAll});
 			this.cmsArchive.Name = "cmsValidator";
-			this.cmsArchive.Size = new System.Drawing.Size(297, 104);
+			this.cmsArchive.Size = new System.Drawing.Size(297, 154);
 			// 
 			// tsmiFileAndArchiveReValidate
 			// 
@@ -1171,6 +1189,63 @@ namespace SharpFBTools.Tools
 			this.tsmiFileDeleteFromDisk.Size = new System.Drawing.Size(296, 22);
 			this.tsmiFileDeleteFromDisk.Text = "Удалить упакованный файл с диска";
 			this.tsmiFileDeleteFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(289, 6);
+			// 
+			// tsmiFB2CheckedAll
+			// 
+			this.tsmiFB2CheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFB2CheckedAll.Image")));
+			this.tsmiFB2CheckedAll.Name = "tsmiFB2CheckedAll";
+			this.tsmiFB2CheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFB2CheckedAll.Text = "Пометить все файлы";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(293, 6);
+			// 
+			// tsmiArchiveCheckedAll
+			// 
+			this.tsmiArchiveCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiArchiveCheckedAll.Image")));
+			this.tsmiArchiveCheckedAll.Name = "tsmiArchiveCheckedAll";
+			this.tsmiArchiveCheckedAll.Size = new System.Drawing.Size(296, 22);
+			this.tsmiArchiveCheckedAll.Text = "Пометить все файлы";
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(289, 6);
+			// 
+			// tsmiNotFB2CheckedAll
+			// 
+			this.tsmiNotFB2CheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiNotFB2CheckedAll.Image")));
+			this.tsmiNotFB2CheckedAll.Name = "tsmiNotFB2CheckedAll";
+			this.tsmiNotFB2CheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiNotFB2CheckedAll.Text = "Пометить все файлы";
+			// 
+			// tsmiNotFB2UnCheckedAll
+			// 
+			this.tsmiNotFB2UnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiNotFB2UnCheckedAll.Image")));
+			this.tsmiNotFB2UnCheckedAll.Name = "tsmiNotFB2UnCheckedAll";
+			this.tsmiNotFB2UnCheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiNotFB2UnCheckedAll.Text = "Снять все отметки";
+			// 
+			// tsmiArchiveUnCheckedAll
+			// 
+			this.tsmiArchiveUnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiArchiveUnCheckedAll.Image")));
+			this.tsmiArchiveUnCheckedAll.Name = "tsmiArchiveUnCheckedAll";
+			this.tsmiArchiveUnCheckedAll.Size = new System.Drawing.Size(296, 22);
+			this.tsmiArchiveUnCheckedAll.Text = "Снять все отметки";
+			// 
+			// tsmiFB2UnCheckedAll
+			// 
+			this.tsmiFB2UnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFB2UnCheckedAll.Image")));
+			this.tsmiFB2UnCheckedAll.Name = "tsmiFB2UnCheckedAll";
+			this.tsmiFB2UnCheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFB2UnCheckedAll.Text = "Снять все отметки";
 			// 
 			// SFBTpFB2Validator
 			// 
@@ -1215,6 +1290,15 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripMenuItem tsmiArchiveUnCheckedAll;
+		private System.Windows.Forms.ToolStripMenuItem tsmiNotFB2UnCheckedAll;
+		private System.Windows.Forms.ToolStripMenuItem tsmiFB2UnCheckedAll;
+		private System.Windows.Forms.ToolStripMenuItem tsmiArchiveCheckedAll;
+		private System.Windows.Forms.ToolStripMenuItem tsmiNotFB2CheckedAll;
+		private System.Windows.Forms.ToolStripMenuItem tsmiFB2CheckedAll;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.CheckBox chBoxViewProgress;
 		private System.Windows.Forms.ToolStripButton tsbtnFilesWorkStop;
 		private System.Windows.Forms.ToolStripButton tSBValidateStop;
