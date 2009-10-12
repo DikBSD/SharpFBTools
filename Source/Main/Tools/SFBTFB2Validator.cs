@@ -18,6 +18,7 @@ using System.Xml;
 using System.Threading;
 using System.Diagnostics;
 
+using Core.Misc;
 using Settings;
 using Core.FB2.FB2Parsers;
 using Core.FB2.Description.DocumentInfo;
@@ -486,6 +487,21 @@ namespace SharpFBTools.Tools
 				reader.Close();
 			}
 		}
+		
+		// отметить все итемы
+		private void CheckAll() {
+			ListView l = GetCurrentListWiew();
+			Misc ms = new Misc();
+			ms.CheckdAllListViewItems( l, true );
+		}
+		
+		// снять отметки со всех итемов
+		private void UnCheckAll() {
+			ListView l = GetCurrentListWiew();
+			Misc ms = new Misc();
+			ms.UnCheckdAllListViewItems( l.CheckedItems );
+		}
+		
 		#endregion
 				
 		#region Парсеры файлов и архивов
@@ -1606,6 +1622,43 @@ namespace SharpFBTools.Tools
 				TSBValidateClick( sender, e );
 			}
 		}
+		
+		void TsmiFB2CheckedAllClick(object sender, EventArgs e)
+		{
+			// отметить все FB2 книги
+			CheckAll();
+		}
+		
+		void TsmiFB2UnCheckedAllClick(object sender, EventArgs e)
+		{
+			// снять отметки со всех FB2 книг
+			UnCheckAll();
+		}
+		
+		void TsmiArchiveCheckedAllClick(object sender, EventArgs e)
+		{
+			// отметить все Архивы
+			CheckAll();
+		}
+		
+		void TsmiArchiveUnCheckedAllClick(object sender, EventArgs e)
+		{
+			// снять отметки со всех Архивов
+			UnCheckAll();
+		}
+		
+		void TsmiNotFB2CheckedAllClick(object sender, EventArgs e)
+		{
+			// отметить все не FB2 файлы
+			CheckAll();
+		}
+		
+		void TsmiNotFB2UnCheckedAllClick(object sender, EventArgs e)
+		{
+			// снять отметки со не FB2 файлов
+			UnCheckAll();
+		}
 		#endregion
+
 	}
 }

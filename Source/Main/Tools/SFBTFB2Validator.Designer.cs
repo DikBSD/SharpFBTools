@@ -104,6 +104,9 @@ namespace SharpFBTools.Tools
 			this.tsmi2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenFileDir = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiDeleteFileFromDisk = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiFB2CheckedAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiFB2UnCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.tpValid = new System.Windows.Forms.TabPage();
 			this.pValidLV = new System.Windows.Forms.Panel();
 			this.listViewValid = new System.Windows.Forms.ListView();
@@ -125,6 +128,9 @@ namespace SharpFBTools.Tools
 			this.cmsNotFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tsmiOpenNotFB2FileDir = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiDeleteNotFB2FromDisk = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiNotFB2CheckedAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiNotFB2UnCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.gbNotFB2 = new System.Windows.Forms.GroupBox();
 			this.lblNotFB2FilesMoveDir = new System.Windows.Forms.Label();
 			this.btnNotFB2MoveTo = new System.Windows.Forms.Button();
@@ -156,15 +162,9 @@ namespace SharpFBTools.Tools
 			this.tsmi4 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenArchiveDir = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiFileDeleteFromDisk = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsmiFB2CheckedAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiArchiveCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsmiNotFB2CheckedAll = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmiNotFB2UnCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiArchiveUnCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmiFB2UnCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsValidator.SuspendLayout();
 			this.pScanDir.SuspendLayout();
 			this.tcResult.SuspendLayout();
@@ -546,6 +546,7 @@ namespace SharpFBTools.Tools
 			this.listViewNotValid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.listViewNotValid.CheckBoxes = true;
 			this.listViewNotValid.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.chNonValidFile,
 									this.chNonValidError,
@@ -662,6 +663,27 @@ namespace SharpFBTools.Tools
 			this.tsmiDeleteFileFromDisk.Text = "Удалить файл с диска";
 			this.tsmiDeleteFileFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(289, 6);
+			// 
+			// tsmiFB2CheckedAll
+			// 
+			this.tsmiFB2CheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFB2CheckedAll.Image")));
+			this.tsmiFB2CheckedAll.Name = "tsmiFB2CheckedAll";
+			this.tsmiFB2CheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFB2CheckedAll.Text = "Пометить все файлы";
+			this.tsmiFB2CheckedAll.Click += new System.EventHandler(this.TsmiFB2CheckedAllClick);
+			// 
+			// tsmiFB2UnCheckedAll
+			// 
+			this.tsmiFB2UnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFB2UnCheckedAll.Image")));
+			this.tsmiFB2UnCheckedAll.Name = "tsmiFB2UnCheckedAll";
+			this.tsmiFB2UnCheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFB2UnCheckedAll.Text = "Снять все отметки";
+			this.tsmiFB2UnCheckedAll.Click += new System.EventHandler(this.TsmiFB2UnCheckedAllClick);
+			// 
 			// tpValid
 			// 
 			this.tpValid.Controls.Add(this.pValidLV);
@@ -686,6 +708,7 @@ namespace SharpFBTools.Tools
 			// 
 			// listViewValid
 			// 
+			this.listViewValid.CheckBoxes = true;
 			this.listViewValid.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.chValidFile,
 									this.chValidLenght});
@@ -820,6 +843,7 @@ namespace SharpFBTools.Tools
 			// 
 			// listViewNotFB2
 			// 
+			this.listViewNotFB2.CheckBoxes = true;
 			this.listViewNotFB2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 									this.columnHeader1,
 									this.columnHeader2,
@@ -881,6 +905,27 @@ namespace SharpFBTools.Tools
 			this.tsmiDeleteNotFB2FromDisk.Size = new System.Drawing.Size(292, 22);
 			this.tsmiDeleteNotFB2FromDisk.Text = "Удалить файл с диска";
 			this.tsmiDeleteNotFB2FromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(289, 6);
+			// 
+			// tsmiNotFB2CheckedAll
+			// 
+			this.tsmiNotFB2CheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiNotFB2CheckedAll.Image")));
+			this.tsmiNotFB2CheckedAll.Name = "tsmiNotFB2CheckedAll";
+			this.tsmiNotFB2CheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiNotFB2CheckedAll.Text = "Пометить все файлы";
+			this.tsmiNotFB2CheckedAll.Click += new System.EventHandler(this.TsmiNotFB2CheckedAllClick);
+			// 
+			// tsmiNotFB2UnCheckedAll
+			// 
+			this.tsmiNotFB2UnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiNotFB2UnCheckedAll.Image")));
+			this.tsmiNotFB2UnCheckedAll.Name = "tsmiNotFB2UnCheckedAll";
+			this.tsmiNotFB2UnCheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiNotFB2UnCheckedAll.Text = "Снять все отметки";
+			this.tsmiNotFB2UnCheckedAll.Click += new System.EventHandler(this.TsmiNotFB2UnCheckedAllClick);
 			// 
 			// gbNotFB2
 			// 
@@ -1190,18 +1235,6 @@ namespace SharpFBTools.Tools
 			this.tsmiFileDeleteFromDisk.Text = "Удалить упакованный файл с диска";
 			this.tsmiFileDeleteFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(289, 6);
-			// 
-			// tsmiFB2CheckedAll
-			// 
-			this.tsmiFB2CheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFB2CheckedAll.Image")));
-			this.tsmiFB2CheckedAll.Name = "tsmiFB2CheckedAll";
-			this.tsmiFB2CheckedAll.Size = new System.Drawing.Size(292, 22);
-			this.tsmiFB2CheckedAll.Text = "Пометить все файлы";
-			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -1213,25 +1246,7 @@ namespace SharpFBTools.Tools
 			this.tsmiArchiveCheckedAll.Name = "tsmiArchiveCheckedAll";
 			this.tsmiArchiveCheckedAll.Size = new System.Drawing.Size(296, 22);
 			this.tsmiArchiveCheckedAll.Text = "Пометить все файлы";
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(289, 6);
-			// 
-			// tsmiNotFB2CheckedAll
-			// 
-			this.tsmiNotFB2CheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiNotFB2CheckedAll.Image")));
-			this.tsmiNotFB2CheckedAll.Name = "tsmiNotFB2CheckedAll";
-			this.tsmiNotFB2CheckedAll.Size = new System.Drawing.Size(292, 22);
-			this.tsmiNotFB2CheckedAll.Text = "Пометить все файлы";
-			// 
-			// tsmiNotFB2UnCheckedAll
-			// 
-			this.tsmiNotFB2UnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiNotFB2UnCheckedAll.Image")));
-			this.tsmiNotFB2UnCheckedAll.Name = "tsmiNotFB2UnCheckedAll";
-			this.tsmiNotFB2UnCheckedAll.Size = new System.Drawing.Size(292, 22);
-			this.tsmiNotFB2UnCheckedAll.Text = "Снять все отметки";
+			this.tsmiArchiveCheckedAll.Click += new System.EventHandler(this.TsmiArchiveCheckedAllClick);
 			// 
 			// tsmiArchiveUnCheckedAll
 			// 
@@ -1239,13 +1254,7 @@ namespace SharpFBTools.Tools
 			this.tsmiArchiveUnCheckedAll.Name = "tsmiArchiveUnCheckedAll";
 			this.tsmiArchiveUnCheckedAll.Size = new System.Drawing.Size(296, 22);
 			this.tsmiArchiveUnCheckedAll.Text = "Снять все отметки";
-			// 
-			// tsmiFB2UnCheckedAll
-			// 
-			this.tsmiFB2UnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFB2UnCheckedAll.Image")));
-			this.tsmiFB2UnCheckedAll.Name = "tsmiFB2UnCheckedAll";
-			this.tsmiFB2UnCheckedAll.Size = new System.Drawing.Size(292, 22);
-			this.tsmiFB2UnCheckedAll.Text = "Снять все отметки";
+			this.tsmiArchiveUnCheckedAll.Click += new System.EventHandler(this.TsmiArchiveUnCheckedAllClick);
 			// 
 			// SFBTpFB2Validator
 			// 
