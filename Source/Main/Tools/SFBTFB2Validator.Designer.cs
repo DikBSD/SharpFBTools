@@ -255,8 +255,8 @@ namespace SharpFBTools.Tools
 			this.tsbtnCopyFilesTo.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnCopyFilesTo.Image")));
 			this.tsbtnCopyFilesTo.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnCopyFilesTo.Name = "tsbtnCopyFilesTo";
-			this.tsbtnCopyFilesTo.Size = new System.Drawing.Size(116, 28);
-			this.tsbtnCopyFilesTo.Text = "Копировать Все";
+			this.tsbtnCopyFilesTo.Size = new System.Drawing.Size(96, 28);
+			this.tsbtnCopyFilesTo.Text = "Копировать";
 			this.tsbtnCopyFilesTo.ToolTipText = "Копировать файлы (для выбранной вкладки)";
 			this.tsbtnCopyFilesTo.Click += new System.EventHandler(this.TsbtnCopyFilesToClick);
 			// 
@@ -265,8 +265,8 @@ namespace SharpFBTools.Tools
 			this.tsbtnMoveFilesTo.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnMoveFilesTo.Image")));
 			this.tsbtnMoveFilesTo.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnMoveFilesTo.Name = "tsbtnMoveFilesTo";
-			this.tsbtnMoveFilesTo.Size = new System.Drawing.Size(121, 28);
-			this.tsbtnMoveFilesTo.Text = "Переместить Все";
+			this.tsbtnMoveFilesTo.Size = new System.Drawing.Size(101, 28);
+			this.tsbtnMoveFilesTo.Text = "Переместить";
 			this.tsbtnMoveFilesTo.ToolTipText = "Переместить файлы (для  выбранной вкладки)";
 			this.tsbtnMoveFilesTo.Click += new System.EventHandler(this.TsbtnMoveFilesToClick);
 			// 
@@ -275,8 +275,8 @@ namespace SharpFBTools.Tools
 			this.tsbtnDeleteFiles.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDeleteFiles.Image")));
 			this.tsbtnDeleteFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnDeleteFiles.Name = "tsbtnDeleteFiles";
-			this.tsbtnDeleteFiles.Size = new System.Drawing.Size(99, 28);
-			this.tsbtnDeleteFiles.Text = "Удалить Все";
+			this.tsbtnDeleteFiles.Size = new System.Drawing.Size(79, 28);
+			this.tsbtnDeleteFiles.Text = "Удалить";
 			this.tsbtnDeleteFiles.ToolTipText = "Удалить файлы (для  выбранной вкладки)";
 			this.tsbtnDeleteFiles.Click += new System.EventHandler(this.TsbtnDeleteFilesClick);
 			// 
@@ -888,7 +888,7 @@ namespace SharpFBTools.Tools
 									this.tsmiNotFB2CheckedAll,
 									this.tsmiNotFB2UnCheckedAll});
 			this.cmsNotFB2.Name = "cmsValidator";
-			this.cmsNotFB2.Size = new System.Drawing.Size(293, 120);
+			this.cmsNotFB2.Size = new System.Drawing.Size(293, 98);
 			// 
 			// tsmiOpenNotFB2FileDir
 			// 

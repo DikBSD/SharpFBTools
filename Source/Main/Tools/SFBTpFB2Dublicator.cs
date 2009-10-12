@@ -916,8 +916,7 @@ namespace SharpFBTools.Tools
 							File.Move( sFilePath, sNewPath );
 							ListViewGroup lvg = lvi.Group;
 							lvResult.Items.Remove( lvi );
-							if( lvg.Items.Count == 0 )
-								lvResult.Groups.Remove( lvg );
+							if( lvg.Items.Count == 0 ) lvResult.Groups.Remove( lvg );
 						}
 					}
 					bw.ReportProgress( ++i ); // отобразим данные в контролах

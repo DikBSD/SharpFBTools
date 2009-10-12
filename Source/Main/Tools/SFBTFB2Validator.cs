@@ -304,48 +304,47 @@ namespace SharpFBTools.Tools
             // Завершение работы Обработчика Файлов
 			string sMessCanceled, sMessError, sMessDone, sTabPageDefText, sMessTitle;
             sMessCanceled = sMessError = sMessDone = sTabPageDefText = sMessTitle = "";
-            ListView lw	= null;
-            TabPage	tp	= null;
+            ListView	lv	= null;
+            TabPage		tp	= null;
             switch( tcResult.SelectedIndex ) {
 				case 0:
 					// не валидные fb2-файлы
 					sTabPageDefText = m_sNotValid;
-					lw = listViewNotValid;
+					lv = listViewNotValid;
 					tp = tpNotValid;
 					break;
 				case 1:
 					// валидные fb2-файлы
 					sTabPageDefText = m_sValid;
-					lw = listViewValid;
+					lv = listViewValid;
 					tp = tpValid;
 					break;
 				case 2:
 					// не fb2-файлы
 					sTabPageDefText = m_sNotFB2Files;
-					lw = listViewNotFB2;
+					lv = listViewNotFB2;
 					tp = tpNotFB2Files;
 					break;
 			}
             
             switch( m_sFileWorkerMode ) {
             	case "Copy":
-					sMessTitle		= "SharpFBTools - Копирование файлов";
+					sMessTitle		= "SharpFBTools - Копирование помеченных файлов";
             		sMessDone 		= "Копирование файлов в указанную папку завершено!";
 					sMessCanceled	= "Копирование файлов в указанную папку остановлено!";
             		break;
             	case "Move":
-					sMessTitle		= "SharpFBTools - Перемещение файлов";
+					sMessTitle		= "SharpFBTools - Перемещение помеченных файлов";
             		sMessDone 		= "Перемещение файлов в указанную папку завершено!";
 					sMessCanceled	= "Перемещение файлов в указанную папку остановлено!";
-					tp.Text	= sTabPageDefText;
             		break;
             	case "Delete":
-            		sMessTitle		= "SharpFBTools - Удаление файлов";
+            		sMessTitle		= "SharpFBTools - Удаление помеченных файлов";
             		sMessDone 		= "Удаление файлов из папки-источника завершено!";
 					sMessCanceled	= "Удаление файлов из папки-источника остановлено!";
-					tp.Text	= sTabPageDefText;
             		break;
             }
+            tp.Text = sTabPageDefText + "( " + lv.Items.Count.ToString() +" )";
             lvFilesCount.Items[1].SubItems[1].Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
 														listViewNotFB2.Items.Count ).ToString();
 			tsslblProgress.Text = Settings.Settings.GetReady();
@@ -626,24 +625,25 @@ namespace SharpFBTools.Tools
 		}
 		#endregion
 		
-		#region Копирование, перемещение, удаление файлов
+		#region Реализация Copy/Move/Delete помеченных файлов
 		void CopyOrMoveFilesTo( BackgroundWorker bw, DoWorkEventArgs e,
 		                       bool bCopy, string sSource, string sTarget,
 		                       ListView lv, TabPage tp,
 		                       string sProgressText, string sTabPageDefText ) {
 			// копировать или переместить файлы в...
 			#region Код
-			int nCount = lv.Items.Count;
+			System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems = lv.CheckedItems;
 			tsslblProgress.Text = sProgressText;
+			int i=0;
 			string sTempDir = Settings.Settings.GetTempDir();
-			for( int i=0; i!=nCount; ++i ) {
+			foreach( ListViewItem lvi in checkedItems ) {
 				// Проверить флаг на остановку процесса 
 				if( ( bw.CancellationPending == true ) ) {
 					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
 					break;
 				} else {
-					string sItemText = ( bCopy ? lv.Items[i].SubItems[0].Text
-					                    : sItemText = lv.Items[0].SubItems[0].Text );
+					string sItemText = ( bCopy ? lvi.Text
+					                    		: sItemText = lvi.Text );
 					string sFilePath = sItemText.Split('/')[0];
 					string sNewPath = sTarget + sFilePath.Remove( 0, sSource.Length );
 					FileInfo fi = new FileInfo( sNewPath );
@@ -708,11 +708,11 @@ namespace SharpFBTools.Tools
 							File.Copy( sFilePath, sNewPath );
 						} else {
 							File.Move( sFilePath, sNewPath );
-							lv.Items[0].Remove();
-							tp.Text = sTabPageDefText + "( " + Convert.ToString( lv.Items.Count ) +" )";
+							lv.Items.Remove( lvi );
+							tp.Text = sTabPageDefText + "( " + lv.Items.Count.ToString() +" )";
 						}
 					}
-					bw.ReportProgress( i ); // отобразим данные в контролах
+					bw.ReportProgress( ++i ); // отобразим данные в контролах
 				}
 			}
 			#endregion
@@ -722,21 +722,23 @@ namespace SharpFBTools.Tools
 		                 ListView lv, TabPage tp, string sProgressText, string sTabPageDefText ) {
 			// удалить файлы...
 			#region Код
-			int nCount = lv.Items.Count;
+			int i = 0;
+			System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems = lv.CheckedItems;
 			tsslblProgress.Text = sProgressText;
-			for( int i=0; i!=nCount; ++i ) {
+			string sFilePath = "";
+			foreach( ListViewItem lvi in checkedItems ) {
 				// Проверить флаг на остановку процесса 
 				if( ( bw.CancellationPending == true ) ) {
 					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
 					break;
 				} else {
-					string sFilePath = lv.Items[0].SubItems[0].Text.Split('/')[0];
+					sFilePath = lvi.Text.Split('/')[0];
 					if( File.Exists( sFilePath) ) {
 						File.Delete( sFilePath );
-						lv.Items[0].Remove();
-						tp.Text = sTabPageDefText + "( " + Convert.ToString( lv.Items.Count ) +" )";
+						lv.Items.Remove( lvi );
+						tp.Text = sTabPageDefText + "( " + lv.Items.Count.ToString() +" )";
 					}
-					bw.ReportProgress( i ); // отобразим данные в контролах
+					bw.ReportProgress( ++i ); // отобразим данные в контролах
 				}
 			}
 			#endregion
@@ -883,27 +885,24 @@ namespace SharpFBTools.Tools
 			string sSource 		= filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
 			tboxSourceDir.Text	= sSource;
 			
-			string sTarget, sType, sType1;
-			sTarget = sType = sType1 = "";
+			string sTarget, sType;
+			sTarget = sType = "";
 			ListView lv = GetCurrentListWiew();
 			switch( tcResult.SelectedIndex ) {
 				case 0: // не валидные fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxFB2NotValidDirCopyTo.Text.Trim() );
 					tboxFB2NotValidDirCopyTo.Text = sTarget;
 					sType	= "отмеченных не валидных fb2-файлов";
-					sType1	= "отмеченные не валидные fb2-файлы";
 					break;
 				case 1: // валидные fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxFB2ValidDirCopyTo.Text.Trim() );
 					tboxFB2ValidDirCopyTo.Text = sTarget;
 					sType	= "отмеченных валидных fb2-файлов";
-					sType1	= "отмеченные валидные fb2-файлы";
 					break;
 				case 2: // не fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxNotFB2DirCopyTo.Text.Trim() );
 					tboxNotFB2DirCopyTo.Text = sTarget;
 					sType	= "отмеченных не fb2-файлов";
-					sType1	= "отмеченные не fb2-файлы";
 					break;
 			}
 
@@ -932,8 +931,9 @@ namespace SharpFBTools.Tools
 			if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) ) {
 				return;
 			}
-	
-			string sMess = "Вы действительно хотите скопировать "+sType1+" в папку \""+sTarget+"\"?";
+			
+			int nCount = lv.CheckedItems.Count;
+			string sMess = "Вы действительно хотите скопировать "+nCount.ToString()+" "+sType+" в папку \""+sTarget+"\"?";
 			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
 			result = MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question );
@@ -963,27 +963,24 @@ namespace SharpFBTools.Tools
 			string sMessTitle = "SharpFBTools - Перемещение помеченных файлов";
 			string sSource 		= filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
 			tboxSourceDir.Text	= sSource;
-			string sTarget, sType, sType1;
-			sTarget = sType = sType1 = "";
+			string sTarget, sType;
+			sTarget = sType = "";
 			ListView lv = GetCurrentListWiew();
 			switch( tcResult.SelectedIndex ) {
 				case 0: // не валидные fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxFB2NotValidDirMoveTo.Text.Trim() );
 					tboxFB2NotValidDirMoveTo.Text = sTarget;
 					sType	= "отмеченных не валидных fb2-файлов";
-					sType1	= "отмеченные не валидные fb2-файлы";
 					break;
 				case 1: // валидные fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxFB2ValidDirMoveTo.Text.Trim() );
 					tboxFB2ValidDirMoveTo.Text = sTarget;
 					sType	= "отмеченных валидных fb2-файлов";
-					sType1	= "отмеченные валидные fb2-файлы";
 					break;
 				case 2: // не fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxNotFB2DirMoveTo.Text.Trim() );
 					tboxNotFB2DirMoveTo.Text = sTarget;
 					sType	= "отмеченных не fb2-файлов";
-					sType1	= "отмеченные не fb2-файлы";
 					break;
 			}
 
@@ -1012,8 +1009,9 @@ namespace SharpFBTools.Tools
 			if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) ) {
 				return;
 			}
-				
-			string sMess = "Вы действительно хотите переместить "+sType1+" в папку \""+sTarget+"\"?";
+			
+			int nCount = lv.CheckedItems.Count;
+			string sMess = "Вы действительно хотите переместить "+nCount.ToString()+" "+sType+" в папку \""+sTarget+"\"?";
 			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
 			result = MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question );
@@ -1041,21 +1039,17 @@ namespace SharpFBTools.Tools
 			m_sFileWorkerMode = "Delete";
 			
 			string sMessTitle = "SharpFBTools - Удаление помеченных файлов";
-			string sType, sType1;
-			sType = sType1 = "";
+			string sType = "";
 			ListView lv = GetCurrentListWiew();
 			switch( tcResult.SelectedIndex ) {
 				case 0: // не валидные fb2-файлы
 					sType	= "отмеченных не валидных fb2-файлов";
-					sType1	= "отмеченные не валидные fb2-файлы";
 					break;
 				case 1: // валидные fb2-файлы
 					sType	= "отмеченных валидных fb2-файлов";
-					sType1	= "отмеченные валидные fb2-файлы";
 					break;
 				case 2: // не fb2-файлы
 					sType	= "отмеченных не fb2-файлов";
-					sType1	= "отмеченные не fb2-файлы";
 					break;
 			}
 			int nCount = lv.Items.Count;
@@ -1069,7 +1063,9 @@ namespace SharpFBTools.Tools
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
-			string sMess = "Вы действительно хотите удалить "+sType1+"?";
+			
+			nCount = lv.CheckedItems.Count;
+			string sMess = "Вы действительно хотите удалить "+nCount.ToString()+" "+sType+"?";
 			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
 			result = MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question );
