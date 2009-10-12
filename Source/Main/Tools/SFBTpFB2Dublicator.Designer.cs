@@ -471,6 +471,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnDupWorkStop.Name = "tsbtnDupWorkStop";
 			this.tsbtnDupWorkStop.Size = new System.Drawing.Size(96, 28);
 			this.tsbtnDupWorkStop.Text = "Остановить";
+			this.tsbtnDupWorkStop.Click += new System.EventHandler(this.TsbtnDupWorkStopClick);
 			// 
 			// toolStripSeparator5
 			// 

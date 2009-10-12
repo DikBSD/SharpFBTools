@@ -18,12 +18,12 @@ using System.Xml;
 using System.Threading;
 using System.Diagnostics;
 
-using Core.Misc;
 using Settings;
-using Core.FB2.FB2Parsers;
-using Core.FB2.Description.DocumentInfo;
-using Core.StringProcessing;
+using Core.Misc;
 using Core.FilesWorker;
+using Core.FB2.FB2Parsers;
+using Core.StringProcessing;
+using Core.FB2.Description.DocumentInfo;
 
 using filesWorker		= Core.FilesWorker.FilesWorker;
 using archivesWorker	= Core.FilesWorker.Archiver;
@@ -48,6 +48,7 @@ namespace SharpFBTools.Tools
         private string	m_sScan				= "";
         private string	m_sFileWorkerMode	= "";
         private bool	m_bScanSubDirs		= true;
+        private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
 		#endregion
 		
 		public SFBTpFB2Validator()
@@ -491,15 +492,13 @@ namespace SharpFBTools.Tools
 		// отметить все итемы
 		private void CheckAll() {
 			ListView l = GetCurrentListWiew();
-			Misc ms = new Misc();
-			ms.CheckdAllListViewItems( l, true );
+			m_mscLV.CheckdAllListViewItems( l, true );
 		}
 		
 		// снять отметки со всех итемов
 		private void UnCheckAll() {
 			ListView l = GetCurrentListWiew();
-			Misc ms = new Misc();
-			ms.UnCheckdAllListViewItems( l.CheckedItems );
+			m_mscLV.UnCheckdAllListViewItems( l.CheckedItems );
 		}
 		
 		#endregion
@@ -880,7 +879,7 @@ namespace SharpFBTools.Tools
 			// копирование файлов в зависимости от выбранной вкладки
 			m_sFileWorkerMode = "Copy";
 
-			string sMessTitle = "SharpFBTools - Копирование файлов";
+			string sMessTitle = "SharpFBTools - Копирование помеченных файлов";
 			string sSource 		= filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
 			tboxSourceDir.Text	= sSource;
 			
@@ -891,26 +890,31 @@ namespace SharpFBTools.Tools
 				case 0: // не валидные fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxFB2NotValidDirCopyTo.Text.Trim() );
 					tboxFB2NotValidDirCopyTo.Text = sTarget;
-					sType	= "не валидных fb2-файлов";
-					sType1	= "не валидные fb2-файлы";
+					sType	= "отмеченных не валидных fb2-файлов";
+					sType1	= "отмеченные не валидные fb2-файлы";
 					break;
 				case 1: // валидные fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxFB2ValidDirCopyTo.Text.Trim() );
 					tboxFB2ValidDirCopyTo.Text = sTarget;
-					sType	= "валидных fb2-файлов";
-					sType1	= "валидные fb2-файлы";
+					sType	= "отмеченных валидных fb2-файлов";
+					sType1	= "отмеченные валидные fb2-файлы";
 					break;
 				case 2: // не fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxNotFB2DirCopyTo.Text.Trim() );
 					tboxNotFB2DirCopyTo.Text = sTarget;
-					sType	= "не fb2-файлов";
-					sType1	= "не fb2-файлы";
+					sType	= "отмеченных не fb2-файлов";
+					sType1	= "отмеченные не fb2-файлы";
 					break;
 			}
 
 			// проверки корректности путей к папкам
 			if( lv.Items.Count == 0 ) {
 				MessageBox.Show( "Список "+sType+" пуст!\nРабота прекращена.",
+				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			if( lv.CheckedItems.Count == 0 ) {
+				MessageBox.Show( "Нет "+sType+"!\nРабота прекращена.",
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
@@ -940,7 +944,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			// инициализация контролов
-			tsProgressBar.Maximum 	= lv.Items.Count;
+			tsProgressBar.Maximum 	= lv.CheckedItems.Count;
 			tsProgressBar.Value		= 0;
 			SetFilesWorkerStartEnabled( false );
 			
@@ -956,7 +960,7 @@ namespace SharpFBTools.Tools
 			// перемещение файлов в зависимости от выбранной вкладки
 			m_sFileWorkerMode = "Move";
 			
-			string sMessTitle = "SharpFBTools - Перемещение файлов";
+			string sMessTitle = "SharpFBTools - Перемещение помеченных файлов";
 			string sSource 		= filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
 			tboxSourceDir.Text	= sSource;
 			string sTarget, sType, sType1;
@@ -966,26 +970,31 @@ namespace SharpFBTools.Tools
 				case 0: // не валидные fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxFB2NotValidDirMoveTo.Text.Trim() );
 					tboxFB2NotValidDirMoveTo.Text = sTarget;
-					sType	= "не валидных fb2-файлов";
-					sType1	= "не валидные fb2-файлы";
+					sType	= "отмеченных не валидных fb2-файлов";
+					sType1	= "отмеченные не валидные fb2-файлы";
 					break;
 				case 1: // валидные fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxFB2ValidDirMoveTo.Text.Trim() );
 					tboxFB2ValidDirMoveTo.Text = sTarget;
-					sType	= "валидных fb2-файлов";
-					sType1	= "валидные fb2-файлы";
+					sType	= "отмеченных валидных fb2-файлов";
+					sType1	= "отмеченные валидные fb2-файлы";
 					break;
 				case 2: // не fb2-файлы
 					sTarget = filesWorker.WorkingDirPath( tboxNotFB2DirMoveTo.Text.Trim() );
 					tboxNotFB2DirMoveTo.Text = sTarget;
-					sType	= "не fb2-файлов";
-					sType1	= "не fb2-файлы";
+					sType	= "отмеченных не fb2-файлов";
+					sType1	= "отмеченные не fb2-файлы";
 					break;
 			}
 
 			// проверки корректности путей к папкам
 			if( lv.Items.Count == 0 ) {
 				MessageBox.Show( "Список "+sType+" пуст!\nРабота прекращена.",
+				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			if( lv.CheckedItems.Count == 0 ) {
+				MessageBox.Show( "Нет "+sType+"!\nРабота прекращена.",
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
@@ -1015,7 +1024,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			// инициализация контролов
-			tsProgressBar.Maximum 	= lv.Items.Count;
+			tsProgressBar.Maximum 	= lv.CheckedItems.Count;
 			tsProgressBar.Value		= 0;
 			SetFilesWorkerStartEnabled( false );
 		
@@ -1031,27 +1040,32 @@ namespace SharpFBTools.Tools
 			// удаление файлов в зависимости от выбранной вкладки
 			m_sFileWorkerMode = "Delete";
 			
-			string sMessTitle = "SharpFBTools - Удаление файлов";
+			string sMessTitle = "SharpFBTools - Удаление помеченных файлов";
 			string sType, sType1;
 			sType = sType1 = "";
 			ListView lv = GetCurrentListWiew();
 			switch( tcResult.SelectedIndex ) {
 				case 0: // не валидные fb2-файлы
-					sType	= "не валидных fb2-файлов";
-					sType1	= "не валидные fb2-файлы";
+					sType	= "отмеченных не валидных fb2-файлов";
+					sType1	= "отмеченные не валидные fb2-файлы";
 					break;
 				case 1: // валидные fb2-файлы
-					sType	= "валидных fb2-файлов";
-					sType1	= "валидные fb2-файлы";
+					sType	= "отмеченных валидных fb2-файлов";
+					sType1	= "отмеченные валидные fb2-файлы";
 					break;
 				case 2: // не fb2-файлы
-					sType	= "не fb2-файлов";
-					sType1	= "не fb2-файлы";
+					sType	= "отмеченных не fb2-файлов";
+					sType1	= "отмеченные не fb2-файлы";
 					break;
 			}
 			int nCount = lv.Items.Count;
 			if( nCount == 0) {
 				MessageBox.Show( "Список "+sType+" пуст!\nРабота прекращена.",
+				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			if( lv.CheckedItems.Count == 0 ) {
+				MessageBox.Show( "Нет "+sType+"!\nРабота прекращена.",
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
@@ -1064,7 +1078,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			// инициализация контролов
-			tsProgressBar.Maximum 	= lv.Items.Count;
+			tsProgressBar.Maximum 	= lv.CheckedItems.Count;
 			tsProgressBar.Value		= 0;
 			SetFilesWorkerStartEnabled( false );
 		

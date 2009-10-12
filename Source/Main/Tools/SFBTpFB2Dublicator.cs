@@ -51,6 +51,7 @@ namespace SharpFBTools.Tools
         private string	m_sMessTitle		= "";
 		private bool	m_bCheckValid		= false;	// проверять или нет fb2-файл на валидность
 		private string	m_sFileWorkerMode	= "";
+		private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
 		#endregion
 		
 		public SFBTpFB2Dublicator()
@@ -295,18 +296,22 @@ namespace SharpFBTools.Tools
 		
 		private void bwcmd_DoWork( object sender, DoWorkEventArgs e ) {
 			// Обработка файлов
-			System.Windows.Forms.ListView.CheckedListViewItemCollection	checkedItems = lvResult.CheckedItems;
+			string sTempDir = Settings.Settings.GetTempDir();
 			switch( m_sFileWorkerMode ) {
 				case "Copy":
-					CopyOrMoveFilesTo( m_bwcmd, e, true, m_sSource, tboxDupToDir.Text.Trim(),
-									checkedItems, "Копирование помеченных копий книг:" );
+					m_mscLV.CopyOrMoveFilesTo( m_bwcmd, e, true,
+					                    m_sSource, tboxDupToDir.Text.Trim(), sTempDir, lvResult, 
+										cboxDupExistFile.SelectedIndex, chBoxAddFileNameBookID.Checked,
+										tsslblProgress, "Копирование помеченных копий книг:" );
 	               	break;
 				case "Move":
-					CopyOrMoveFilesTo( m_bwcmd, e, false, m_sSource, tboxDupToDir.Text.Trim(),
-									checkedItems, "Перемещение помеченных копий книг:" );
-                	break;
+	               	m_mscLV.CopyOrMoveFilesTo( m_bwcmd, e, false,
+	               	                    m_sSource, tboxDupToDir.Text.Trim(), sTempDir, lvResult,
+										cboxDupExistFile.SelectedIndex, chBoxAddFileNameBookID.Checked,
+										tsslblProgress, "Перемещение помеченных копий книг:" );
+       	        	break;
 				case "Delete":
-					DeleteFiles( m_bwcmd, e, checkedItems, "Удаление помеченных копий книг:" );
+       	        	m_mscLV.DeleteFiles( m_bwcmd, e, lvResult, tsslblProgress, "Удаление помеченных копий книг:" );
 					break;
 				default:
 					return;
@@ -315,11 +320,10 @@ namespace SharpFBTools.Tools
 		
 		private void bwcmd_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
             // Отобразим результат Копирования / Перемещения / Удаление
-            Misc msc = new Misc();
        		// новое число групп и книг во всех группах
-			msc.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count.ToString() );
+			m_mscLV.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count.ToString() );
 			// число книг во всех группах
-			msc.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count.ToString() );
+			m_mscLV.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count.ToString() );
             ++tsProgressBar.Value;
         }
 		
@@ -365,13 +369,12 @@ namespace SharpFBTools.Tools
 		#region Закрытые вспомогательные методы класса
 		private void ViewDupProgressData() {
             // Отобразим результат
-			Misc msc = new Misc();
-			msc.ListViewStatus( lvFilesCount, 1, m_sv.AllFiles );
-			msc.ListViewStatus( lvFilesCount, 2, m_sv.FB2 );
-			msc.ListViewStatus( lvFilesCount, 3, m_sv.Archive );
-			msc.ListViewStatus( lvFilesCount, 4, m_sv.Other );
-			msc.ListViewStatus( lvFilesCount, 5, m_sv.Group );
-			msc.ListViewStatus( lvFilesCount, 6, m_sv.AllFB2InGroups );
+			m_mscLV.ListViewStatus( lvFilesCount, 1, m_sv.AllFiles );
+			m_mscLV.ListViewStatus( lvFilesCount, 2, m_sv.FB2 );
+			m_mscLV.ListViewStatus( lvFilesCount, 3, m_sv.Archive );
+			m_mscLV.ListViewStatus( lvFilesCount, 4, m_sv.Other );
+			m_mscLV.ListViewStatus( lvFilesCount, 5, m_sv.Group );
+			m_mscLV.ListViewStatus( lvFilesCount, 6, m_sv.AllFB2InGroups );
         }
 		
 		// увеличение значения 2-й колонки ListView на 1
@@ -452,9 +455,15 @@ namespace SharpFBTools.Tools
 			tsbtnOpenDir.Enabled		= bEnabled;
 			tsbtnToDir.Enabled			= bEnabled;
 			tsbtnSearchDubls.Enabled	= bEnabled;
-			tsbtnDupCopy.Enabled		= bEnabled;
-			tsbtnDupMove.Enabled		= bEnabled;
-			tsbtnDupDelete.Enabled		= bEnabled;
+			if( lvResult.Items.Count==0 ) {
+				tsbtnDupCopy.Enabled	= !bEnabled;
+				tsbtnDupMove.Enabled	= !bEnabled;
+				tsbtnDupDelete.Enabled	= !bEnabled;
+			} else {
+				tsbtnDupCopy.Enabled	= bEnabled;
+				tsbtnDupMove.Enabled	= bEnabled;
+				tsbtnDupDelete.Enabled	= bEnabled;
+			}
 			pSearchFBDup2Dirs.Enabled	= bEnabled;
 			pMode.Enabled				= bEnabled;
 			pExistFile.Enabled			= bEnabled;
@@ -822,128 +831,7 @@ namespace SharpFBTools.Tools
 		}
 		
 		#endregion
-		
-		#region Копирование, перемещение, удаление файлов
-		void CopyOrMoveFilesTo( BackgroundWorker bw, DoWorkEventArgs e,
-		                       bool bCopy, string sSource, string sTarget,
-		                       System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems,
-		                       string sProgressText ) {
-			// копировать или переместить файлы в...
-			#region Код
-			tsslblProgress.Text = sProgressText;
-			string sTempDir = Settings.Settings.GetTempDir();
-			foreach( ListViewItem lvi in checkedItems ) {
-				// Проверить флаг на остановку процесса 
-				if( ( bw.CancellationPending == true ) ) {
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
-					break;
-				} else {
-					string sFilePath = lvi.Text;
-					string sNewPath = sTarget + sFilePath.Remove( 0, sSource.Length );
-					FileInfo fi = new FileInfo( sNewPath );
-					if( !fi.Directory.Exists ) {
-						Directory.CreateDirectory( fi.Directory.ToString() );
-					}
-					string sSufix = "";
-					if( File.Exists( sNewPath ) ) {
-						if( cboxDupExistFile.SelectedIndex==0 ) {
-							File.Delete( sNewPath );
-						} else {
-							if( chBoxAddFileNameBookID.Checked ) {
-								string sExtTemp = Path.GetExtension( sFilePath ).ToLower();
-								if( sExtTemp != ".fb2" ) {
-									filesWorker.RemoveDir( sTempDir );
-//									Directory.CreateDirectory( sTempDir );
-									if( sExtTemp.ToLower() == ".rar" ) {
-										archivesWorker.unrar( Settings.Settings.ReadUnRarPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
-									} else {
-										archivesWorker.unzip( Settings.Settings.Read7zaPath(), sFilePath, sTempDir, ProcessPriorityClass.AboveNormal );
-									}
-									if( Directory.Exists( sTempDir ) ) {
-										string [] files = Directory.GetFiles( sTempDir );
-										try {
-											sSufix = "_" + stringProcessing.GetBookID( files[0] );
-										} catch { }
-										filesWorker.RemoveDir( sTempDir );
-									}
-								} else {
-									try {
-										sSufix = "_" + stringProcessing.GetBookID( sFilePath );
-									} catch { }
-								}
-							}
-							if( cboxDupExistFile.SelectedIndex == 1 ) {
-								// Добавить к создаваемому файлу очередной номер
-								sSufix += "_" + stringProcessing.GetFileNewNumber( sNewPath ).ToString();
-							} else {
-								// Добавить к создаваемому файлу дату и время
-								sSufix += "_" + stringProcessing.GetDateTimeExt();
-							}
-						
-							string sFB2File = sNewPath.ToLower();
-							if( sFB2File.IndexOf( ".fb2" )!=1 ) {
-								sFB2File = sFB2File.Substring( 0, sFB2File.IndexOf( ".fb2" )+4 );
-							}
-							string sExt = sNewPath.Remove( 0, sFB2File.Length );
-							if( sExt.Length == 0 ) {
-								sExt = Path.GetExtension( sNewPath );
-								sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
-							} else {
-								sExt = Path.GetExtension( sFB2File ) + Path.GetExtension( sNewPath );
-								sNewPath = sNewPath.Remove( sNewPath.Length - sExt.Length ) + sSufix + sExt;
-							}
-						}
-					}
-				
-					Regex rx = new Regex( @"\\+" );
-					sFilePath = rx.Replace( sFilePath, "\\" );
-					if( File.Exists( sFilePath ) ) {
-						if( bCopy ) {
-							File.Copy( sFilePath, sNewPath );
-						} else {
-							File.Move( sFilePath, sNewPath );
-							ListViewGroup lvg = lvi.Group;
-							lvResult.Items.Remove( lvi );
-							if( lvg.Items.Count == 0 )
-								lvResult.Groups.Remove( lvg );
-						}
-					}
-					bw.ReportProgress( 0 ); // отобразим данные в контролах
-				}
-			}
-			#endregion
-		}
-		
-		void DeleteFiles( BackgroundWorker bw, DoWorkEventArgs e,
-		                 System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems,
-		                 string sProgressText ) {
-			// удалить помеченные файлы...
-			#region Код
-			tsslblProgress.Text = sProgressText;
-			foreach( ListViewItem lvi in checkedItems ) {
-				// Проверить флаг на остановку процесса 
-				if( ( bw.CancellationPending == true ) ) {
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
-					break;
-				} else {
-					string sFilePath = lvi.Text;
-					if( File.Exists( sFilePath) ) {
-						File.Delete( sFilePath );
-					}
-					
-					ListViewGroup lvg = lvi.Group;
-					lvResult.Items.Remove( lvi );
-					if( lvg.Items.Count == 0 )
-						lvResult.Groups.Remove( lvg );
-					
-					bw.ReportProgress( 0 ); // отобразим данные в контролах
-				}
-			}
-			#endregion
-		}
-		
-		#endregion
-		
+	
 		#region Обработчики событий
 		void TboxSourceDirTextChanged(object sender, EventArgs e)
 		{
@@ -1017,45 +905,44 @@ namespace SharpFBTools.Tools
 			ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
 			if( si.Count > 0 ) {
 				// пропускаем ситуацию, когда курсор переходит от одной строки к другой - нет выбранного item'а
-				Misc				msc	= new Misc();
 				FB2BookDataForDup	bd	= new FB2BookDataForDup( si[0].Text );
 				// считываем данные TitleInfo
-				msc.ListViewStatus( lvTitleInfo, 0, bd.TIBookTitle );
-				msc.ListViewStatus( lvTitleInfo, 1, bd.TIGenres );
-				msc.ListViewStatus( lvTitleInfo, 2, bd.TILang );
-				msc.ListViewStatus( lvTitleInfo, 3, bd.TISrcLang );
-				msc.ListViewStatus( lvTitleInfo, 4, bd.TIAuthors );
-				msc.ListViewStatus( lvTitleInfo, 5, bd.TIDate );
-				msc.ListViewStatus( lvTitleInfo, 6, bd.TIKeywords );
-				msc.ListViewStatus( lvTitleInfo, 7, bd.TITranslators );
-				msc.ListViewStatus( lvTitleInfo, 8, bd.TISequences );
-				msc.ListViewStatus( lvTitleInfo, 9, (bd.TICoverpage.Split('#').Length-1).ToString() );
+				m_mscLV.ListViewStatus( lvTitleInfo, 0, bd.TIBookTitle );
+				m_mscLV.ListViewStatus( lvTitleInfo, 1, bd.TIGenres );
+				m_mscLV.ListViewStatus( lvTitleInfo, 2, bd.TILang );
+				m_mscLV.ListViewStatus( lvTitleInfo, 3, bd.TISrcLang );
+				m_mscLV.ListViewStatus( lvTitleInfo, 4, bd.TIAuthors );
+				m_mscLV.ListViewStatus( lvTitleInfo, 5, bd.TIDate );
+				m_mscLV.ListViewStatus( lvTitleInfo, 6, bd.TIKeywords );
+				m_mscLV.ListViewStatus( lvTitleInfo, 7, bd.TITranslators );
+				m_mscLV.ListViewStatus( lvTitleInfo, 8, bd.TISequences );
+				m_mscLV.ListViewStatus( lvTitleInfo, 9, (bd.TICoverpage.Split('#').Length-1).ToString() );
 				// считываем данные SourceTitleInfo
-				msc.ListViewStatus( lvSourceTitleInfo, 0, bd.STIBookTitle );
-				msc.ListViewStatus( lvSourceTitleInfo, 1, bd.STIGenres );
-				msc.ListViewStatus( lvSourceTitleInfo, 2, bd.STILang );
-				msc.ListViewStatus( lvSourceTitleInfo, 3, bd.STISrcLang );
-				msc.ListViewStatus( lvSourceTitleInfo, 4, bd.STIAuthors );
-				msc.ListViewStatus( lvSourceTitleInfo, 5, bd.STIDate );
-				msc.ListViewStatus( lvSourceTitleInfo, 6, bd.STIKeywords );
-				msc.ListViewStatus( lvSourceTitleInfo, 7, bd.STITranslators );
-				msc.ListViewStatus( lvSourceTitleInfo, 8, bd.STISequences );
-				msc.ListViewStatus( lvSourceTitleInfo, 9, (bd.STICoverpage.Split('#').Length-1).ToString() );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 0, bd.STIBookTitle );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 1, bd.STIGenres );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 2, bd.STILang );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 3, bd.STISrcLang );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 4, bd.STIAuthors );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 5, bd.STIDate );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 6, bd.STIKeywords );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 7, bd.STITranslators );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 8, bd.STISequences );
+				m_mscLV.ListViewStatus( lvSourceTitleInfo, 9, (bd.STICoverpage.Split('#').Length-1).ToString() );
 				// считываем данные DocumentInfo
-				msc.ListViewStatus( lvDocumentInfo, 0, bd.DIID );
-				msc.ListViewStatus( lvDocumentInfo, 1, bd.DIVersion );
-				msc.ListViewStatus( lvDocumentInfo, 2, bd.DIFB2Date );
-				msc.ListViewStatus( lvDocumentInfo, 3, bd.DIProgramUsed );
-				msc.ListViewStatus( lvDocumentInfo, 4, bd.DISrcOcr );
-				msc.ListViewStatus( lvDocumentInfo, 5, bd.DISrcUrls );
-				msc.ListViewStatus( lvDocumentInfo, 6, bd.DIFB2Authors );
+				m_mscLV.ListViewStatus( lvDocumentInfo, 0, bd.DIID );
+				m_mscLV.ListViewStatus( lvDocumentInfo, 1, bd.DIVersion );
+				m_mscLV.ListViewStatus( lvDocumentInfo, 2, bd.DIFB2Date );
+				m_mscLV.ListViewStatus( lvDocumentInfo, 3, bd.DIProgramUsed );
+				m_mscLV.ListViewStatus( lvDocumentInfo, 4, bd.DISrcOcr );
+				m_mscLV.ListViewStatus( lvDocumentInfo, 5, bd.DISrcUrls );
+				m_mscLV.ListViewStatus( lvDocumentInfo, 6, bd.DIFB2Authors );
 				// считываем данные PublishInfo
-				msc.ListViewStatus( lvPublishInfo, 0, bd.PIBookName );
-				msc.ListViewStatus( lvPublishInfo, 1, bd.PIPublisher );
-				msc.ListViewStatus( lvPublishInfo, 2, bd.PIYear );
-				msc.ListViewStatus( lvPublishInfo, 3, bd.PICity );
-				msc.ListViewStatus( lvPublishInfo, 4, bd.PIISBN );
-				msc.ListViewStatus( lvPublishInfo, 5, bd.PISequences );
+				m_mscLV.ListViewStatus( lvPublishInfo, 0, bd.PIBookName );
+				m_mscLV.ListViewStatus( lvPublishInfo, 1, bd.PIPublisher );
+				m_mscLV.ListViewStatus( lvPublishInfo, 2, bd.PIYear );
+				m_mscLV.ListViewStatus( lvPublishInfo, 3, bd.PICity );
+				m_mscLV.ListViewStatus( lvPublishInfo, 4, bd.PIISBN );
+				m_mscLV.ListViewStatus( lvPublishInfo, 5, bd.PISequences );
 				// считываем данные CustomInfo
 				lvCustomInfo.Items.Clear();
 				IList<CustomInfo> lcu = bd.CICustomInfo;
@@ -1217,6 +1104,13 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
+		void TsbtnDupWorkStopClick(object sender, EventArgs e)
+		{
+			// Остановка выполнения процесса копирования(перемещения, удаления) fb2-файлов
+			if( m_bwcmd.WorkerSupportsCancellation == true ) {
+				m_bwcmd.CancelAsync();
+			}
+		}
 		#endregion
 		
 		#region Обработчики для контекстного меню
@@ -1242,13 +1136,12 @@ namespace SharpFBTools.Tools
 				}
 				
 				// новое число групп и книг во всех группах
-				Misc msc = new Misc();
 				// число групп
 				if( lvg.Items.Count == 0 )
 					lvResult.Groups.Remove( lvg );					
-				msc.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count.ToString() );
+				m_mscLV.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count.ToString() );
 				// число книг во всех группах
-				msc.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count.ToString() );
+				m_mscLV.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count.ToString() );
 			}
 			#endregion
 		}
@@ -1419,15 +1312,13 @@ namespace SharpFBTools.Tools
 		void TsmiCheckedAllClick(object sender, EventArgs e)
 		{
 			// отметить все книги
-			Misc ms = new Misc();
-			ms.CheckdAllListViewItems( lvResult, true );
+			m_mscLV.CheckdAllListViewItems( lvResult, true );
 		}
 		
 		void TsmiUnCheckedAllClick(object sender, EventArgs e)
 		{
 			// снять отметки со всех книг
-			Misc ms = new Misc();
-			ms.UnCheckdAllListViewItems( lvResult.CheckedItems );
+			m_mscLV.UnCheckdAllListViewItems( lvResult.CheckedItems );
 		}
 		
 		void TsbtnDupSaveListClick(object sender, EventArgs e)
@@ -1512,7 +1403,6 @@ namespace SharpFBTools.Tools
 				using ( XmlReader reader = XmlReader.Create( sPath, data ) ) {
 					try {
 						lvResult.BeginUpdate();
-						Misc msc = new Misc();
 						// режим поиска
 						reader.ReadToFollowing("Mode");
 						if( reader.HasAttributes ) {
@@ -1549,8 +1439,8 @@ namespace SharpFBTools.Tools
 							lvResult.Items.Add( lvi );
 						}
 						// Отобразим результат в индикаторе прогресса
-						msc.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count );
-						msc.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count );
+						m_mscLV.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count );
+						m_mscLV.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count );
 					} catch {
 						MessageBox.Show( "Поврежден файл списка Дубликатора: \""+sPath+"\"!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					} finally {
