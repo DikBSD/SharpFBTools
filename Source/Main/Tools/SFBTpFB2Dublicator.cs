@@ -663,15 +663,14 @@ namespace SharpFBTools.Tools
 
 		// создание групп копий по Авторам, относительно найденного Названия Книги
 		private Hashtable FindDupForAuthors( FB2FilesDataABTList fb2Group ) {
+			// TODO: кривой код - надо переделать
 			Hashtable ht = new Hashtable();
-			bool bDone = false;
 			while( fb2Group.Count > 0 ) {
-				if( bDone ) break;
 				// перебор всех книг группы
 				for( int i=0; i!=fb2Group.Count; ++i ) {
 					// группировка книг по Авторам
-					if( fb2Group.Count==0 ) {
-						bDone = true; break;
+					if( fb2Group.Count==0 || i>fb2Group.Count ) {
+						return ht;
 					}
 					BookData bd = fb2Group[i];
 					// ключ
