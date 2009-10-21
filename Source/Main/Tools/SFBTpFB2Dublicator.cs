@@ -1607,6 +1607,10 @@ namespace SharpFBTools.Tools
 				
 					writer = XmlWriter.Create( sPath, data );
 					writer.WriteStartElement( "Duplicator" );
+						// папка-источник
+						writer.WriteStartElement( "ScanDir" );
+							writer.WriteAttributeString( "scandir", m_sSource );
+						writer.WriteFullEndElement();
 						// режим поиска
 						writer.WriteStartElement( "Mode" );
 							writer.WriteAttributeString( "mode", cboxMode.SelectedIndex.ToString() );
@@ -1663,6 +1667,12 @@ namespace SharpFBTools.Tools
 				using ( XmlReader reader = XmlReader.Create( sPath, data ) ) {
 					try {
 						lvResult.BeginUpdate();
+						// папка-источник
+						reader.ReadToFollowing("ScanDir");
+						if( reader.HasAttributes ) {
+							m_sSource = reader.GetAttribute("scandir");
+							tboxSourceDir.Text = m_sSource;
+						}
 						// режим поиска
 						reader.ReadToFollowing("Mode");
 						if( reader.HasAttributes ) {
