@@ -58,6 +58,9 @@ namespace SharpFBTools.Tools
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			SetToolButtonsSettings();
+			
 			InitializeBackgroundWorker();
 			InitializeFilesWorkerBackgroundWorker();
 			
@@ -69,6 +72,13 @@ namespace SharpFBTools.Tools
 			cboxDupExistFile.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу очередного номера
 		}
 
+		#region Открытые методы класса
+		// задание для кнопок ToolStrip стиля и положения текста и картинки
+		public void SetToolButtonsSettings() {
+			Settings.SettingsFB2Dup.SetToolButtonsSettings( tsDup );
+		}
+		#endregion
+		
 		#region Закрытые методы реализации BackgroundWorker
 		private void InitializeBackgroundWorker() {
 			// Инициализация перед использование BackgroundWorker 
@@ -473,7 +483,7 @@ namespace SharpFBTools.Tools
 				reader.Close();
 			}
 		}
-		
+
 		private void SetSearchFB2DupStartEnabled( bool bEnabled ) {
 			// доступность контролов при Поиске одинаковых fb2-файлов
 			lvResult.Enabled			= bEnabled;

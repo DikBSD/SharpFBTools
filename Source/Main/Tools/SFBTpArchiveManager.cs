@@ -75,6 +75,9 @@ namespace SharpFBTools.Tools
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			SetToolButtonsSettings();
+			
 			InitializeArchiveBackgroundWorker();
 			InitializeUnPackBackgroundWorker();
 			InitializeAnalyzeBackgroundWorker();
@@ -89,6 +92,14 @@ namespace SharpFBTools.Tools
 			cboxPriorityA.SelectedIndex			= 2; // Приоритет Упаковки Средний
 			cboxPriorityU.SelectedIndex			= 2; // Приоритет Распаковки Средний
 		}
+		
+		#region Открытые методы класса
+		// задание для кнопок ToolStrip стиля и положения текста и картинки
+		public void SetToolButtonsSettings() {
+			Settings.SettingsAM.SetToolButtonsSettings( tsArchiver );
+			Settings.SettingsAM.SetToolButtonsSettings( tsUnArchiver );
+		}
+		#endregion
 		
 		#region Закрытые методы реализации BackgroundWorker
 		private void InitializeArchiveBackgroundWorker() {

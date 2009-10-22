@@ -44,6 +44,19 @@ namespace Options
 			this.btnDefRestore = new System.Windows.Forms.Button();
 			this.tcOptions = new System.Windows.Forms.TabControl();
 			this.tpGeneral = new System.Windows.Forms.TabPage();
+			this.gboxButtons = new System.Windows.Forms.GroupBox();
+			this.cboxTIRFB2Dup = new System.Windows.Forms.ComboBox();
+			this.cboxDSFB2Dup = new System.Windows.Forms.ComboBox();
+			this.lblFB2Dup = new System.Windows.Forms.Label();
+			this.cboxTIRArchiveManager = new System.Windows.Forms.ComboBox();
+			this.cboxDSArchiveManager = new System.Windows.Forms.ComboBox();
+			this.lblArchiveManager = new System.Windows.Forms.Label();
+			this.cboxTIRFileManager = new System.Windows.Forms.ComboBox();
+			this.cboxDSFileManager = new System.Windows.Forms.ComboBox();
+			this.lblFileManager = new System.Windows.Forms.Label();
+			this.cboxTIRValidator = new System.Windows.Forms.ComboBox();
+			this.cboxDSValidator = new System.Windows.Forms.ComboBox();
+			this.lblValidator = new System.Windows.Forms.Label();
 			this.gboxDiff = new System.Windows.Forms.GroupBox();
 			this.lblDiffPath = new System.Windows.Forms.Label();
 			this.tboxDiffPath = new System.Windows.Forms.TextBox();
@@ -221,6 +234,7 @@ namespace Options
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
+			this.gboxButtons.SuspendLayout();
 			this.gboxDiff.SuspendLayout();
 			this.gboxReader.SuspendLayout();
 			this.gboxEditors.SuspendLayout();
@@ -337,6 +351,7 @@ namespace Options
 			// 
 			// tpGeneral
 			// 
+			this.tpGeneral.Controls.Add(this.gboxButtons);
 			this.tpGeneral.Controls.Add(this.gboxDiff);
 			this.tpGeneral.Controls.Add(this.gboxReader);
 			this.tpGeneral.Controls.Add(this.gboxEditors);
@@ -348,6 +363,186 @@ namespace Options
 			this.tpGeneral.TabIndex = 0;
 			this.tpGeneral.Text = " Основные ";
 			this.tpGeneral.UseVisualStyleBackColor = true;
+			// 
+			// gboxButtons
+			// 
+			this.gboxButtons.Controls.Add(this.cboxTIRFB2Dup);
+			this.gboxButtons.Controls.Add(this.cboxDSFB2Dup);
+			this.gboxButtons.Controls.Add(this.lblFB2Dup);
+			this.gboxButtons.Controls.Add(this.cboxTIRArchiveManager);
+			this.gboxButtons.Controls.Add(this.cboxDSArchiveManager);
+			this.gboxButtons.Controls.Add(this.lblArchiveManager);
+			this.gboxButtons.Controls.Add(this.cboxTIRFileManager);
+			this.gboxButtons.Controls.Add(this.cboxDSFileManager);
+			this.gboxButtons.Controls.Add(this.lblFileManager);
+			this.gboxButtons.Controls.Add(this.cboxTIRValidator);
+			this.gboxButtons.Controls.Add(this.cboxDSValidator);
+			this.gboxButtons.Controls.Add(this.lblValidator);
+			this.gboxButtons.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gboxButtons.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gboxButtons.ForeColor = System.Drawing.Color.Maroon;
+			this.gboxButtons.Location = new System.Drawing.Point(3, 294);
+			this.gboxButtons.Name = "gboxButtons";
+			this.gboxButtons.Size = new System.Drawing.Size(603, 121);
+			this.gboxButtons.TabIndex = 17;
+			this.gboxButtons.TabStop = false;
+			this.gboxButtons.Text = " Внешний вид кнопок инструментов (иконка и текст) ";
+			// 
+			// cboxTIRFB2Dup
+			// 
+			this.cboxTIRFB2Dup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxTIRFB2Dup.FormattingEnabled = true;
+			this.cboxTIRFB2Dup.Items.AddRange(new object[] {
+									"Overlay",
+									"ImageAboveText",
+									"TextAboveImage",
+									"ImageBeforeText",
+									"TextBeforeImage"});
+			this.cboxTIRFB2Dup.Location = new System.Drawing.Point(273, 92);
+			this.cboxTIRFB2Dup.Name = "cboxTIRFB2Dup";
+			this.cboxTIRFB2Dup.Size = new System.Drawing.Size(130, 21);
+			this.cboxTIRFB2Dup.TabIndex = 27;
+			// 
+			// cboxDSFB2Dup
+			// 
+			this.cboxDSFB2Dup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxDSFB2Dup.FormattingEnabled = true;
+			this.cboxDSFB2Dup.Items.AddRange(new object[] {
+									"Text",
+									"Image",
+									"ImageAndText"});
+			this.cboxDSFB2Dup.Location = new System.Drawing.Point(138, 92);
+			this.cboxDSFB2Dup.Name = "cboxDSFB2Dup";
+			this.cboxDSFB2Dup.Size = new System.Drawing.Size(130, 21);
+			this.cboxDSFB2Dup.TabIndex = 26;
+			this.cboxDSFB2Dup.SelectedIndexChanged += new System.EventHandler(this.CboxDSFB2DupSelectedIndexChanged);
+			// 
+			// lblFB2Dup
+			// 
+			this.lblFB2Dup.AutoSize = true;
+			this.lblFB2Dup.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblFB2Dup.Location = new System.Drawing.Point(7, 95);
+			this.lblFB2Dup.Name = "lblFB2Dup";
+			this.lblFB2Dup.Size = new System.Drawing.Size(128, 13);
+			this.lblFB2Dup.TabIndex = 25;
+			this.lblFB2Dup.Text = "Дубликатор файлов:";
+			// 
+			// cboxTIRArchiveManager
+			// 
+			this.cboxTIRArchiveManager.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxTIRArchiveManager.FormattingEnabled = true;
+			this.cboxTIRArchiveManager.Items.AddRange(new object[] {
+									"Overlay",
+									"ImageAboveText",
+									"TextAboveImage",
+									"ImageBeforeText",
+									"TextBeforeImage"});
+			this.cboxTIRArchiveManager.Location = new System.Drawing.Point(273, 66);
+			this.cboxTIRArchiveManager.Name = "cboxTIRArchiveManager";
+			this.cboxTIRArchiveManager.Size = new System.Drawing.Size(130, 21);
+			this.cboxTIRArchiveManager.TabIndex = 24;
+			// 
+			// cboxDSArchiveManager
+			// 
+			this.cboxDSArchiveManager.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxDSArchiveManager.FormattingEnabled = true;
+			this.cboxDSArchiveManager.Items.AddRange(new object[] {
+									"Text",
+									"Image",
+									"ImageAndText"});
+			this.cboxDSArchiveManager.Location = new System.Drawing.Point(138, 66);
+			this.cboxDSArchiveManager.Name = "cboxDSArchiveManager";
+			this.cboxDSArchiveManager.Size = new System.Drawing.Size(130, 21);
+			this.cboxDSArchiveManager.TabIndex = 23;
+			this.cboxDSArchiveManager.SelectedIndexChanged += new System.EventHandler(this.CboxDSArchiveManagerSelectedIndexChanged);
+			// 
+			// lblArchiveManager
+			// 
+			this.lblArchiveManager.AutoSize = true;
+			this.lblArchiveManager.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblArchiveManager.Location = new System.Drawing.Point(7, 69);
+			this.lblArchiveManager.Name = "lblArchiveManager";
+			this.lblArchiveManager.Size = new System.Drawing.Size(127, 13);
+			this.lblArchiveManager.TabIndex = 22;
+			this.lblArchiveManager.Text = "Менеджер Архивов:";
+			// 
+			// cboxTIRFileManager
+			// 
+			this.cboxTIRFileManager.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxTIRFileManager.FormattingEnabled = true;
+			this.cboxTIRFileManager.Items.AddRange(new object[] {
+									"Overlay",
+									"ImageAboveText",
+									"TextAboveImage",
+									"ImageBeforeText",
+									"TextBeforeImage"});
+			this.cboxTIRFileManager.Location = new System.Drawing.Point(273, 41);
+			this.cboxTIRFileManager.Name = "cboxTIRFileManager";
+			this.cboxTIRFileManager.Size = new System.Drawing.Size(130, 21);
+			this.cboxTIRFileManager.TabIndex = 21;
+			// 
+			// cboxDSFileManager
+			// 
+			this.cboxDSFileManager.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxDSFileManager.FormattingEnabled = true;
+			this.cboxDSFileManager.Items.AddRange(new object[] {
+									"Text",
+									"Image",
+									"ImageAndText"});
+			this.cboxDSFileManager.Location = new System.Drawing.Point(138, 41);
+			this.cboxDSFileManager.Name = "cboxDSFileManager";
+			this.cboxDSFileManager.Size = new System.Drawing.Size(130, 21);
+			this.cboxDSFileManager.TabIndex = 20;
+			this.cboxDSFileManager.SelectedIndexChanged += new System.EventHandler(this.CboxDSFileManagerSelectedIndexChanged);
+			// 
+			// lblFileManager
+			// 
+			this.lblFileManager.AutoSize = true;
+			this.lblFileManager.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblFileManager.Location = new System.Drawing.Point(7, 44);
+			this.lblFileManager.Name = "lblFileManager";
+			this.lblFileManager.Size = new System.Drawing.Size(121, 13);
+			this.lblFileManager.TabIndex = 19;
+			this.lblFileManager.Text = "Менеджер Файлов:";
+			// 
+			// cboxTIRValidator
+			// 
+			this.cboxTIRValidator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxTIRValidator.FormattingEnabled = true;
+			this.cboxTIRValidator.Items.AddRange(new object[] {
+									"Overlay",
+									"ImageAboveText",
+									"TextAboveImage",
+									"ImageBeforeText",
+									"TextBeforeImage"});
+			this.cboxTIRValidator.Location = new System.Drawing.Point(273, 16);
+			this.cboxTIRValidator.Name = "cboxTIRValidator";
+			this.cboxTIRValidator.Size = new System.Drawing.Size(130, 21);
+			this.cboxTIRValidator.TabIndex = 18;
+			// 
+			// cboxDSValidator
+			// 
+			this.cboxDSValidator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboxDSValidator.FormattingEnabled = true;
+			this.cboxDSValidator.Items.AddRange(new object[] {
+									"Text",
+									"Image",
+									"ImageAndText"});
+			this.cboxDSValidator.Location = new System.Drawing.Point(138, 16);
+			this.cboxDSValidator.Name = "cboxDSValidator";
+			this.cboxDSValidator.Size = new System.Drawing.Size(130, 21);
+			this.cboxDSValidator.TabIndex = 17;
+			this.cboxDSValidator.SelectedIndexChanged += new System.EventHandler(this.CboxDSValidatorSelectedIndexChanged);
+			// 
+			// lblValidator
+			// 
+			this.lblValidator.AutoSize = true;
+			this.lblValidator.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblValidator.Location = new System.Drawing.Point(7, 19);
+			this.lblValidator.Name = "lblValidator";
+			this.lblValidator.Size = new System.Drawing.Size(74, 13);
+			this.lblValidator.TabIndex = 16;
+			this.lblValidator.Text = "Валидатор:";
 			// 
 			// gboxDiff
 			// 
@@ -2267,6 +2462,8 @@ namespace Options
 			this.pBtn.ResumeLayout(false);
 			this.tcOptions.ResumeLayout(false);
 			this.tpGeneral.ResumeLayout(false);
+			this.gboxButtons.ResumeLayout(false);
+			this.gboxButtons.PerformLayout();
 			this.gboxDiff.ResumeLayout(false);
 			this.gboxDiff.PerformLayout();
 			this.gboxReader.ResumeLayout(false);
@@ -2353,6 +2550,19 @@ namespace Options
 			this.panel13.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Label lblFB2Dup;
+		private System.Windows.Forms.ComboBox cboxDSFB2Dup;
+		private System.Windows.Forms.ComboBox cboxTIRFB2Dup;
+		private System.Windows.Forms.ComboBox cboxTIRArchiveManager;
+		private System.Windows.Forms.Label lblArchiveManager;
+		private System.Windows.Forms.ComboBox cboxDSArchiveManager;
+		private System.Windows.Forms.Label lblFileManager;
+		private System.Windows.Forms.ComboBox cboxDSFileManager;
+		private System.Windows.Forms.ComboBox cboxTIRFileManager;
+		private System.Windows.Forms.ComboBox cboxTIRValidator;
+		private System.Windows.Forms.ComboBox cboxDSValidator;
+		private System.Windows.Forms.Label lblValidator;
+		private System.Windows.Forms.GroupBox gboxButtons;
 		private System.Windows.Forms.Button btnDiffPath;
 		private System.Windows.Forms.TextBox tboxDiffPath;
 		private System.Windows.Forms.Label lblDiffPath;

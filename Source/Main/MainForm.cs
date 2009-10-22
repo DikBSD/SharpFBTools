@@ -128,6 +128,11 @@ namespace Main
 			// запуск диалога Настроек
 			OptionsForm ofrm = new OptionsForm();
 			ofrm.ShowDialog();
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			sfbTpFB2Validator.SetToolButtonsSettings();
+			sfbTpFileManager.SetToolButtonsSettings();
+			sfbTpArchiveManager.SetToolButtonsSettings();
+			sfbTpFB2Dublicator.SetToolButtonsSettings();
 			// данные установок для Менеджера Файлов - в Info ListView
 			Settings.SettingsFM.SetInfoSettings( sfbTpFileManager.GetSettingsInfoListView() );
 			ofrm.Dispose();

@@ -7,6 +7,7 @@
  * License: GPL 2.1
  */
 using System;
+using System.Windows.Forms;
 
 namespace Settings
 {
@@ -19,6 +20,9 @@ namespace Settings
 		private static string m_sDuplicatorHelpPath = Settings.GetProgDir()+"\\Help\\FB2DuplicatorHelp.rtf";
 		private static string m_sFB2DupScanDir	= ""; // папка сканирования
 		private static string m_sFB2DupToDir 	= ""; // папка приемник
+		// вид ToolButtons инструмента
+		private static string m_cboxDSFB2DupText	= "ImageAndText";
+		private static string m_cboxTIRFB2DupText	= "ImageBeforeText";
 		#endregion
 		
 		public SettingsFB2Dup()
@@ -28,6 +32,16 @@ namespace Settings
 		#region Открытые статические методы класса
 		public static string GetDuplicatorHelpPath() {
 			return m_sDuplicatorHelpPath;
+		}
+		public static string GetDefDupcboxDSFB2DupText() {
+			return m_cboxDSFB2DupText;
+		}
+		public static string GetDefDupcboxTIRFB2DupText() {
+			return m_cboxTIRFB2DupText;
+		}
+		public static void SetToolButtonsSettings( ToolStrip ts ) {
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			Settings.SetToolButtonsSettings( "DupToolButtons", "cboxDSFB2DupText", "cboxTIRFB2DupText", ts );
 		}
 		#endregion
 		

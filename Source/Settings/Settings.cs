@@ -7,10 +7,10 @@
  * License: GPL 2.1
  */
 using System;
-using System.Collections.Generic;
-using System.Xml;
 using System.IO;
+using System.Xml;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Settings
 {
@@ -44,6 +44,40 @@ namespace Settings
 		#region Общие Сообщения
 		private static string m_sReady	= "Готово.";
 		private static string m_sNoID	= "Id_Нет";
+		#endregion
+		
+		#region Стили ToolButtons
+		// получение стиля ToolButton
+		private static ToolStripItemDisplayStyle GetToolButtonDisplayStyle( string DisplayStyle ) {
+			switch( DisplayStyle ) {
+				case "Image":
+					return ToolStripItemDisplayStyle.Image;
+				case "Text":
+					return ToolStripItemDisplayStyle.Text;
+				case "ImageAndText":
+					return ToolStripItemDisplayStyle.ImageAndText;
+				default:
+					return ToolStripItemDisplayStyle.ImageAndText;
+			}
+		}
+		
+		// получение TextImageRelation ToolButton
+		private static TextImageRelation GetToolButtonTextImageRelation( string sTextImageRelation ) {
+			switch( sTextImageRelation ) {
+				case "Overlay":
+					return TextImageRelation.Overlay;
+				case "ImageAboveText":
+					return TextImageRelation.ImageAboveText;
+				case "TextAboveImage":
+					return TextImageRelation.TextAboveImage;
+				case "ImageBeforeText":
+					return TextImageRelation.ImageBeforeText;
+				case "TextBeforeImage":
+					return TextImageRelation.TextBeforeImage;
+				default:
+					return TextImageRelation.ImageBeforeText;
+			}
+		}
 		#endregion
 		
 		#endregion
@@ -188,7 +222,7 @@ namespace Settings
 			return m_sChangeFilePath;
 		}
 
-		////// Чтение из файла настроек данных по конкретному параметру
+		////// Чтение из файла настроек данных по конкретному параметру //
 		
 		public static string ReadWinRARPath() {
 			// читаем путь к WinRar из настроек
@@ -325,6 +359,38 @@ namespace Settings
 		}
 		#endregion
 	
+		#region Стили ToolButtons
+		// задание для кнопок ToolStrip стиля и положения текста и картинки
+		public static void SetToolButtonsSettings( string sNodeName, string sAttrDS, string sAttrTIR, ToolStrip ts ) {
+			// чтение настроек для ToolButtons из xml-файла
+			string sSettings = GetSettingsPath();
+			if( !File.Exists( sSettings ) ) return;
+			XmlReaderSettings settings = new XmlReaderSettings();
+			settings.IgnoreWhitespace = true;
+			string sDS = "", sTIR = "";
+			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
+				try {
+					reader.ReadToFollowing( sNodeName );
+					if (reader.HasAttributes ) {
+						sDS = reader.GetAttribute( sAttrDS );
+						sTIR = reader.GetAttribute( sAttrTIR );
+					}
+				} catch {
+					MessageBox.Show( "Поврежден файл настроек: \""+GetSettingsPath()+"\".\nУдалите его, он создастся автоматически при сохранении настроек", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				} finally {
+					reader.Close();
+				}
+			}
+			if( sDS.Length!=0 ) {
+				for( int i=0; i!=ts.Items.Count; ++i ) {
+					ts.Items[i].DisplayStyle		= (ToolStripItemDisplayStyle)GetToolButtonDisplayStyle( sDS );
+					ts.Items[i].TextImageRelation	= (TextImageRelation)GetToolButtonTextImageRelation( sTIR );
+				}
+			}
+		}
+
+		#endregion
+		
 		#endregion
 
 	}

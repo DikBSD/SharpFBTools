@@ -55,6 +55,9 @@ namespace SharpFBTools.Tools
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			SetToolButtonsSettings();
+			
 			InitializeValidateBackgroundWorker();
 			InitializeFilesWorkerBackgroundWorker();
 			cboxExistFile.SelectedIndex = 1;
@@ -63,6 +66,13 @@ namespace SharpFBTools.Tools
 			// читаем сохраненные пути к папкам Валидатора, если они есть
 			ReadValidatorDirs();
 		}
+		
+		#region Открытые методы класса
+		// задание для кнопок ToolStrip стиля и положения текста и картинки
+		public void SetToolButtonsSettings() {
+			Settings.SettingsValidator.SetToolButtonsSettings( tsValidator );
+		}
+		#endregion
 		
 		#region Закрытые данные класса
 		// Color

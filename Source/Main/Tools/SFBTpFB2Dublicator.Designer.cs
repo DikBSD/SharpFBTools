@@ -167,7 +167,7 @@ namespace SharpFBTools.Tools
 			this.chBoxScanSubDir = new System.Windows.Forms.CheckBox();
 			this.tboxSourceDir = new System.Windows.Forms.TextBox();
 			this.lblScanDir = new System.Windows.Forms.Label();
-			this.tsFullSort = new System.Windows.Forms.ToolStrip();
+			this.tsDup = new System.Windows.Forms.ToolStrip();
 			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnToDir = new System.Windows.Forms.ToolStripButton();
@@ -249,7 +249,7 @@ namespace SharpFBTools.Tools
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
 			this.ssProgress.SuspendLayout();
 			this.pSearchFBDup2Dirs.SuspendLayout();
-			this.tsFullSort.SuspendLayout();
+			this.tsDup.SuspendLayout();
 			this.cmsFB2.SuspendLayout();
 			this.pMode.SuspendLayout();
 			this.pExistFile.SuspendLayout();
@@ -355,10 +355,10 @@ namespace SharpFBTools.Tools
 			this.lblScanDir.TabIndex = 6;
 			this.lblScanDir.Text = "Папка для сканирования:";
 			// 
-			// tsFullSort
+			// tsDup
 			// 
-			this.tsFullSort.ImageScalingSize = new System.Drawing.Size(24, 24);
-			this.tsFullSort.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.tsDup.ImageScalingSize = new System.Drawing.Size(24, 24);
+			this.tsDup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.tsbtnOpenDir,
 									this.toolStripSeparator2,
 									this.tsbtnToDir,
@@ -373,10 +373,10 @@ namespace SharpFBTools.Tools
 									this.toolStripSeparator5,
 									this.tsbtnDupSaveList,
 									this.tsbtnDupOpenList});
-			this.tsFullSort.Location = new System.Drawing.Point(0, 0);
-			this.tsFullSort.Name = "tsFullSort";
-			this.tsFullSort.Size = new System.Drawing.Size(828, 31);
-			this.tsFullSort.TabIndex = 35;
+			this.tsDup.Location = new System.Drawing.Point(0, 0);
+			this.tsDup.Name = "tsDup";
+			this.tsDup.Size = new System.Drawing.Size(828, 31);
+			this.tsDup.TabIndex = 35;
 			// 
 			// tsbtnOpenDir
 			// 
@@ -476,7 +476,7 @@ namespace SharpFBTools.Tools
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 31);
 			// 
 			// tsbtnDupSaveList
 			// 
@@ -1142,7 +1142,7 @@ namespace SharpFBTools.Tools
 			this.Controls.Add(this.pExistFile);
 			this.Controls.Add(this.pMode);
 			this.Controls.Add(this.pSearchFBDup2Dirs);
-			this.Controls.Add(this.tsFullSort);
+			this.Controls.Add(this.tsDup);
 			this.Controls.Add(this.ssProgress);
 			this.Name = "SFBTpFB2Dublicator";
 			this.Size = new System.Drawing.Size(828, 560);
@@ -1150,8 +1150,8 @@ namespace SharpFBTools.Tools
 			this.ssProgress.PerformLayout();
 			this.pSearchFBDup2Dirs.ResumeLayout(false);
 			this.pSearchFBDup2Dirs.PerformLayout();
-			this.tsFullSort.ResumeLayout(false);
-			this.tsFullSort.PerformLayout();
+			this.tsDup.ResumeLayout(false);
+			this.tsDup.PerformLayout();
 			this.cmsFB2.ResumeLayout(false);
 			this.pMode.ResumeLayout(false);
 			this.pExistFile.ResumeLayout(false);
@@ -1168,6 +1168,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStrip tsDup;
 		private System.Windows.Forms.CheckBox chBoxViewProgress;
 		private System.Windows.Forms.Panel pInfo;
 		private System.Windows.Forms.OpenFileDialog sfdLoadList;
@@ -1253,7 +1254,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.ToolStripButton tsbtnSearchDubls;
 		private System.Windows.Forms.ToolStripSeparator tsSep1;
 		private System.Windows.Forms.ToolStripButton tsbtnOpenDir;
-		private System.Windows.Forms.ToolStrip tsFullSort;
 		private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
 		private System.Windows.Forms.ToolStripStatusLabel tsslblProgress;
 		private System.Windows.Forms.StatusStrip ssProgress;

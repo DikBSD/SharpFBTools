@@ -40,6 +40,9 @@ namespace Settings
 		private static bool m_brbtnFMAllFB2Cheked		= true;
 		private static bool m_brbtnFMOnleValidFB2Cheked	= false;
 		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
+		// внешний вид ToolButtons инструмента
+		private static string m_cboxDSFileManagerText	= "ImageAndText";
+		private static string m_cboxTIRFileManagerText	= "ImageBeforeText";
 		// пути к файлам-справкам
 		private static string m_sFileManagerHelpPath	= Settings.GetProgDir()+"\\Help\\FileManagerHelp.rtf";
 		private static string m_sDescTemplatePath		= Settings.GetProgDir()+"\\Help\\TemplatesDescription.rtf";
@@ -92,6 +95,18 @@ namespace Settings
 		}
 		
 		#region Открытые статические методы класса
+		public static void SetToolButtonsSettings( ToolStrip ts ) {
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			Settings.SetToolButtonsSettings( "FileManagerToolButtons", "cboxDSFileManagerText", "cboxTIRFileManagerText", ts );
+		}
+		
+		public static string GetDefFMcboxDSFileManagerText() {
+			return m_cboxDSFileManagerText;
+		}
+		public static string GetDefFMcboxTIRFileManagerText() {
+			return m_cboxTIRFileManagerText;
+		}
+		
 		public static bool GetDefFMrbtnFMAllFB2Cheked() {
 			return m_brbtnFMAllFB2Cheked;
 		}

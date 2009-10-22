@@ -8,6 +8,7 @@
  */
 using System;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace Settings
 {
@@ -22,6 +23,9 @@ namespace Settings
 		private static Int16 m_nValidatorForFB2ArchiveSelectedIndex	= 1;
 		private static Int16 m_nValidatorForFB2SelectedIndexPE		= 0;
 		private static Int16 m_nValidatorForFB2ArchiveSelectedIndexPE	= 0;
+		// вид ToolButtons инструмента
+		private static string m_cboxDSValidatorText		= "ImageAndText";
+		private static string m_cboxTIRValidatorText	= "ImageBeforeText";
 		//
 		private static string m_sScanDir 				= "";
 		private static string m_sFB2NotValidDirCopyTo	= "";
@@ -37,6 +41,18 @@ namespace Settings
 		}
 		
 		#region Открытые статические методы
+		public static void SetToolButtonsSettings( ToolStrip ts ) {
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			Settings.SetToolButtonsSettings( "ValidatorToolButtons", "cboxDSValidatorText", "cboxTIRValidatorText", ts );
+		}
+		
+		public static string GetDefValidatorcboxDSValidatorText() {
+			return m_cboxDSValidatorText;
+		}
+		public static string GetDefValidatorcboxTIRValidatorText() {
+			return m_cboxTIRValidatorText;
+		}
+		
 		public static Int16 GetDefValidatorFB2SelectedIndex() {
 			return m_nValidatorForFB2SelectedIndex;
 		}

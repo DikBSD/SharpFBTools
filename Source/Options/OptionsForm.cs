@@ -17,7 +17,7 @@ using filesWorker = Core.FilesWorker.FilesWorker;
 namespace Options
 {
 	/// <summary>
-	/// Description of OptionsForm.
+	/// Настройка опций всех инструментов
 	/// </summary>
 	public partial class OptionsForm : Form
 	{
@@ -39,7 +39,7 @@ namespace Options
 			DefFMDirNameForTagNotData();
 			// название Групп Жанров
 			DefFMGenresGroups();
-			// читаем сохраненные настройки, если они есть
+			/* читаем сохраненные настройки, если они есть */
 			ReadSettings();
 			#endregion
 		}
@@ -55,6 +55,14 @@ namespace Options
 			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
 			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
 			tboxDiffPath.Text 	= Settings.Settings.GetDiffPath();
+			cboxDSValidator.Text		= Settings.SettingsValidator.GetDefValidatorcboxDSValidatorText();
+			cboxTIRValidator.Text		= Settings.SettingsValidator.GetDefValidatorcboxTIRValidatorText();;
+			cboxDSArchiveManager.Text	= Settings.SettingsAM.GetDefAMcboxDSArchiveManagerText();
+			cboxTIRArchiveManager.Text	= Settings.SettingsAM.GetDefAMcboxTIRArchiveManagerText();
+			cboxDSFileManager.Text		= Settings.SettingsFM.GetDefFMcboxDSFileManagerText();
+			cboxTIRFileManager.Text 	= Settings.SettingsFM.GetDefFMcboxTIRFileManagerText();
+			cboxDSFB2Dup.Text			= Settings.SettingsFB2Dup.GetDefDupcboxDSFB2DupText();
+			cboxTIRFB2Dup.Text			= Settings.SettingsFB2Dup.GetDefDupcboxTIRFB2DupText();
 		}
 		private void DefValidator() {
 			// Валидатор
@@ -161,6 +169,26 @@ namespace Options
 					reader.ReadToFollowing("Diff");
 					if (reader.HasAttributes ) {
 						tboxDiffPath.Text = reader.GetAttribute("DiffPath");
+					}
+					reader.ReadToFollowing("ValidatorToolButtons");
+					if (reader.HasAttributes ) {
+						cboxDSValidator.Text = reader.GetAttribute("cboxDSValidatorText");
+						cboxTIRValidator.Text = reader.GetAttribute("cboxTIRValidatorText");
+					}
+					reader.ReadToFollowing("FileManagerToolButtons");
+					if (reader.HasAttributes ) {
+						cboxDSFileManager.Text = reader.GetAttribute("cboxDSFileManagerText");
+						cboxTIRFileManager.Text = reader.GetAttribute("cboxTIRFileManagerText");
+					}
+					reader.ReadToFollowing("ArchiveManagerToolButtons");
+					if (reader.HasAttributes ) {
+						cboxDSArchiveManager.Text = reader.GetAttribute("cboxDSArchiveManagerText");
+						cboxTIRArchiveManager.Text = reader.GetAttribute("cboxTIRArchiveManagerText");
+					}
+					reader.ReadToFollowing("DupToolButtons");
+					if (reader.HasAttributes ) {
+						cboxDSFB2Dup.Text = reader.GetAttribute("cboxDSFB2DupText");
+						cboxTIRFB2Dup.Text = reader.GetAttribute("cboxTIRFB2DupText");
 					}
 					// Валидатор
 					reader.ReadToFollowing("ValidatorDoubleClick");
@@ -292,12 +320,7 @@ namespace Options
 			#endregion
 		}
 		
-		#endregion
-		
-		#region Обработчики
-				
-		void BtnOKClick(object sender, EventArgs e)
-		{
+		private void WriteSettings() {
 			// сохранение настроек в ini
 			#region Код
 			// устанавливаем текущую папку - папка программы
@@ -335,6 +358,26 @@ namespace Options
 						writer.WriteStartElement( "Diff" );
 							writer.WriteAttributeString( "DiffPath", tboxDiffPath.Text );
 						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "ToolButtons" );
+							writer.WriteStartElement( "ValidatorToolButtons" );
+								writer.WriteAttributeString( "cboxDSValidatorText", cboxDSValidator.Text );
+								writer.WriteAttributeString( "cboxTIRValidatorText", cboxTIRValidator.Text );
+							writer.WriteFullEndElement();
+							writer.WriteStartElement( "FileManagerToolButtons" );
+								writer.WriteAttributeString( "cboxDSFileManagerText", cboxDSFileManager.Text );
+								writer.WriteAttributeString( "cboxTIRFileManagerText", cboxTIRFileManager.Text );
+							writer.WriteFullEndElement();
+							writer.WriteStartElement( "ArchiveManagerToolButtons" );
+								writer.WriteAttributeString( "cboxDSArchiveManagerText", cboxDSArchiveManager.Text );
+								writer.WriteAttributeString( "cboxTIRArchiveManagerText", cboxTIRArchiveManager.Text );
+							writer.WriteFullEndElement();
+							writer.WriteStartElement( "DupToolButtons" );
+								writer.WriteAttributeString( "cboxDSFB2DupText", cboxDSFB2Dup.Text );
+								writer.WriteAttributeString( "cboxTIRFB2DupText", cboxTIRFB2Dup.Text );
+							writer.WriteFullEndElement();
+						writer.WriteFullEndElement();
+						
 					writer.WriteEndElement();
 					
 					// Валидатор
@@ -471,9 +514,19 @@ namespace Options
 			}  finally  {
 				if (writer != null)
 				writer.Close();
-				this.Close();
 			}
 			#endregion
+		}
+		
+		#endregion
+		
+		#region Обработчики
+				
+		void BtnOKClick(object sender, EventArgs e)
+		{
+			// сохранение настроек в ini
+			WriteSettings();
+			this.Close();
 		}
 		
 		#region Общее
@@ -572,6 +625,26 @@ namespace Options
                 tboxDiffPath.Text = ofDlg.FileName;
             }
 		}
+		
+		void CboxDSValidatorSelectedIndexChanged(object sender, EventArgs e)
+		{
+			cboxTIRValidator.Enabled = cboxDSValidator.SelectedIndex == 2;
+		}
+		
+		void CboxDSFileManagerSelectedIndexChanged(object sender, EventArgs e)
+		{
+			cboxTIRFileManager.Enabled = cboxDSFileManager.SelectedIndex == 2;
+		}
+		
+		void CboxDSArchiveManagerSelectedIndexChanged(object sender, EventArgs e)
+		{
+			cboxTIRArchiveManager.Enabled = cboxDSArchiveManager.SelectedIndex == 2;
+		}
+		
+		void CboxDSFB2DupSelectedIndexChanged(object sender, EventArgs e)
+		{
+			cboxTIRFB2Dup.Enabled = cboxDSFB2Dup.SelectedIndex == 2;
+		}
 		#endregion
 
 		#region Менеджер Файлов
@@ -644,7 +717,5 @@ namespace Options
 		
 		#endregion
 
-		
-		
 	}
 }

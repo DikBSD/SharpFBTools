@@ -8,6 +8,7 @@
  */
 using System;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace Settings
 {
@@ -23,7 +24,9 @@ namespace Settings
 		private static string m_sUAScanDir 			= "";
 		private static string m_sATargetDir			= "";
 		private static string m_sUATargetDir		= "";
-		
+		// вид ToolButtons инструмента
+		private static string m_cboxDSArchiveManagerText	= "ImageAndText";
+		private static string m_cboxTIRArchiveManagerText	= "ImageBeforeText";
 		#endregion
 		
 		public SettingsAM()
@@ -59,6 +62,16 @@ namespace Settings
 		#region Открытые статические методы класса
 		public static string GetArchiveManagerHelpPath() {
 			return m_sArchiveManagerHelpPath;
+		}
+		public static string GetDefAMcboxDSArchiveManagerText() {
+			return m_cboxDSArchiveManagerText;
+		}
+		public static string GetDefAMcboxTIRArchiveManagerText() {
+			return m_cboxTIRArchiveManagerText;
+		}
+		public static void SetToolButtonsSettings( ToolStrip ts ) {
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			Settings.SetToolButtonsSettings( "ArchiveManagerToolButtons", "cboxDSArchiveManagerText", "cboxTIRArchiveManagerText", ts );
 		}
 		#endregion
 	}

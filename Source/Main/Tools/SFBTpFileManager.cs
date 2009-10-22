@@ -56,16 +56,14 @@ namespace SharpFBTools.Tools
         private bool m_bScanSubDirs		= true;
         private StatusView m_sv			= new StatusView();
         #endregion
-        
-		public ListView GetSettingsInfoListView()
-		{
-			return lvSettings;
-		}
 		
 		public SFBTpFileManager()
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			SetToolButtonsSettings();
+			
 			InitializeBackgroundWorker();
 			
 			Init();
@@ -82,6 +80,18 @@ namespace SharpFBTools.Tools
 			// загружаем в ListView-индикатор настроек данные 
 			Settings.SettingsFM.SetInfoSettings( lvSettings );
 		}
+		
+		#region Открытые методы класса
+		public ListView GetSettingsInfoListView() {
+			return lvSettings;
+		}
+		
+		// задание для кнопок ToolStrip стиля и положения текста и картинки
+		public void SetToolButtonsSettings() {
+			Settings.SettingsFM.SetToolButtonsSettings( tsFullSort );
+			Settings.SettingsFM.SetToolButtonsSettings( tsSelectedSort );
+		}
+		#endregion
 		
 		#region Закрытые методы реализации BackgroundWorker
 		private void InitializeBackgroundWorker() {
