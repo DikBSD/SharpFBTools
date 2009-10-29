@@ -1721,6 +1721,7 @@ namespace SharpFBTools.Tools
 						// Отобразим результат в индикаторе прогресса
 						m_mscLV.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count );
 						m_mscLV.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count );
+						MessageBox.Show( "Список копий книг загружен.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					} catch {
 						MessageBox.Show( "Поврежден файл списка Дубликатора: \""+sPath+"\"!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					} finally {

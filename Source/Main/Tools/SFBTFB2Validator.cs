@@ -66,14 +66,7 @@ namespace SharpFBTools.Tools
 			// читаем сохраненные пути к папкам Валидатора, если они есть
 			ReadValidatorDirs();
 		}
-		
-		#region Открытые методы класса
-		// задание для кнопок ToolStrip стиля и положения текста и картинки
-		public void SetToolButtonsSettings() {
-			Settings.SettingsValidator.SetToolButtonsSettings( tsValidator );
-		}
-		#endregion
-		
+			
 		#region Закрытые данные класса
 		// Color
 		private Color	m_FB2ValidFontColor			= Color.Black;		// цвет для несжатых валидных fb2
@@ -111,6 +104,7 @@ namespace SharpFBTools.Tools
 		private string	m_TXTFilter 		= "TXT файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
 		#endregion
 		
+		#region Закрытые методы
 		#region Закрытые методы реализации BackgroundWorker Валидатора
 		private void InitializeValidateBackgroundWorker() {
 			// Инициализация перед использование BackgroundWorker Валидации
@@ -417,6 +411,7 @@ namespace SharpFBTools.Tools
 			tsddbtnMakeReport.Enabled	= bEnabled;
 			pScanDir.Enabled			= bEnabled;
 			gboxCopyMoveOptions.Enabled	= bEnabled;
+			pViewError.Enabled			= bEnabled;
 			tSBValidateStop.Enabled		= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
 			tcResult.Refresh();
@@ -434,6 +429,7 @@ namespace SharpFBTools.Tools
 			tsddbtnMakeReport.Enabled	= bEnabled;
 			pScanDir.Enabled			= bEnabled;
 			gboxCopyMoveOptions.Enabled	= bEnabled;
+			pViewError.Enabled			= bEnabled;
 			tsbtnFilesWorkStop.Enabled	= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
 			tcResult.Refresh();
@@ -512,7 +508,7 @@ namespace SharpFBTools.Tools
 		
 		#endregion
 				
-		#region Парсеры файлов и архивов
+		#region Закрытые Парсеры файлов и архивов
 		private void ParseFB2File( string sFile, FB2Validator fv2Validator ) {
 			// парсер несжатого fb2-файла
 			string sMsg = fv2Validator.ValidatingFB2File( sFile );
@@ -635,8 +631,8 @@ namespace SharpFBTools.Tools
 		}
 		#endregion
 		
-		#region Реализация Copy/Move/Delete помеченных файлов
-		void CopyOrMoveFilesTo( BackgroundWorker bw, DoWorkEventArgs e,
+		#region Закрытая Реализация Copy/Move/Delete помеченных файлов
+		private void CopyOrMoveFilesTo( BackgroundWorker bw, DoWorkEventArgs e,
 		                       bool bCopy, string sSource, string sTarget,
 		                       ListView lv, TabPage tp,
 		                       string sProgressText, string sTabPageDefText ) {
@@ -728,7 +724,7 @@ namespace SharpFBTools.Tools
 			#endregion
 		}
 		
-		void DeleteFiles( BackgroundWorker bw, DoWorkEventArgs e,
+		private void DeleteFiles( BackgroundWorker bw, DoWorkEventArgs e,
 		                 ListView lv, TabPage tp, string sProgressText, string sTabPageDefText ) {
 			// удалить файлы...
 			#region Код
@@ -755,8 +751,8 @@ namespace SharpFBTools.Tools
 		}
 		#endregion
 		
-		#region Генерация отчетов
-		void MakeReport( int nModeReport ) {
+		#region Закрытая Генерация отчетов
+		private void MakeReport( int nModeReport ) {
 			// создание отчета заданного через nModeReport вида для разных вкладок (видов найденных файлов)
 			// 0 - html; 1 - fb2; 3 - csv(csv); 4 - csv(txt)
 			switch( tcResult.SelectedIndex ) {
@@ -838,6 +834,14 @@ namespace SharpFBTools.Tools
 					break;
 			}
 			return true;
+		}
+		#endregion
+		#endregion
+		
+		#region Открытые методы класса
+		// задание для кнопок ToolStrip стиля и положения текста и картинки
+		public void SetToolButtonsSettings() {
+			Settings.SettingsValidator.SetToolButtonsSettings( tsValidator );
 		}
 		#endregion
 		
@@ -1678,7 +1682,126 @@ namespace SharpFBTools.Tools
 			// снять отметки со не FB2 файлов
 			UnCheckAll();
 		}
-		#endregion
+		
+		void BtnSaveListClick(object sender, EventArgs e)
+		{
+			// сохранение списка найденных невалидных файлов
+			#region Код
+			if( listViewNotValid.Items.Count==0 ) {
+				MessageBox.Show( "Список невалидных файлов пуст!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
 
+			string sPath = "";
+			sfdReport.Filter = "SharpFBTools файлы списков (*.svf)|*.svf|Все файлы (*.*)|*.*";
+			sfdReport.FileName = "";
+			sfdReport.InitialDirectory = Settings.Settings.GetProgDir();
+			DialogResult result = sfdReport.ShowDialog();
+			if( result == DialogResult.OK ) {
+				sPath = sfdReport.FileName;
+				Environment.CurrentDirectory = Settings.Settings.GetProgDir();
+				XmlWriter writer = null;
+				try {
+					XmlWriterSettings data = new XmlWriterSettings();
+					data.Indent = true;
+					data.IndentChars = ("\t");
+					data.OmitXmlDeclaration = true;
+				
+					writer = XmlWriter.Create( sPath, data );
+					writer.WriteStartElement( "Validator" );
+						// папка-источник
+						writer.WriteStartElement( "ScanDir" );
+							writer.WriteAttributeString( "scandir", m_sScan );
+						writer.WriteFullEndElement();
+						// число стьолбцов и записей
+						writer.WriteStartElement( "Count" );
+							writer.WriteAttributeString( "ItemsCount", listViewNotValid.Items.Count.ToString() );
+							writer.WriteAttributeString( "ColumnsCount", listViewNotValid.Columns.Count.ToString() );
+						writer.WriteFullEndElement();
+						// данные поиска
+						writer.WriteStartElement( "Items" );
+						for( int i=0; i!=listViewNotValid.Items.Count; ++i ) {
+							ListViewItem item = listViewNotValid.Items[i];
+							writer.WriteStartElement( "item"+i.ToString() );
+							for( int j=0; j!=listViewNotValid.Columns.Count; ++j ) {
+								writer.WriteAttributeString( "c"+j.ToString(), item.SubItems[j].Text );
+							}
+							writer.WriteFullEndElement();
+						}
+						writer.WriteEndElement();
+					writer.WriteEndElement();
+					writer.Flush();
+				}  finally  {
+					if (writer != null)
+					writer.Close();
+				}
+				MessageBox.Show( "Сохранение списка невалидных файлов завершено!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
+			
+			#endregion
+		}
+		
+		void BtnLoadListClick(object sender, EventArgs e)
+		{
+			// загрузка списка невалидных файлов
+			#region Код
+			sfdLoadList.InitialDirectory = Settings.Settings.GetProgDir();
+			sfdLoadList.Filter		= "SharpFBTools файлы списков (*.svf)|*.svf|Все файлы (*.*)|*.*";
+			sfdLoadList.FileName	= "";
+			string sPath = "";
+			DialogResult result = sfdLoadList.ShowDialog();
+			if( result == DialogResult.OK ) {
+				sPath = sfdLoadList.FileName;
+				// инициализация контролов
+				Init();
+				// установка режима поиска
+				if( !File.Exists( sPath ) ) {
+					MessageBox.Show( "Не найден файл списка Валидатора: \""+sPath+"\"!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+				XmlReaderSettings data = new XmlReaderSettings();
+				data.IgnoreWhitespace = true;
+				using ( XmlReader reader = XmlReader.Create( sPath, data ) ) {
+					try {
+						listViewNotValid.BeginUpdate();
+						// папка-источник
+						reader.ReadToFollowing("ScanDir");
+						if( reader.HasAttributes ) {
+							m_sScan = reader.GetAttribute("scandir");
+							tboxSourceDir.Text = m_sScan;
+						}
+								// число стьолбцов и записей
+						int nItemsCount	= 0, nColumnsCount = 0;
+						reader.ReadToFollowing("Count");
+						if( reader.HasAttributes ) {
+							nItemsCount		= Convert.ToInt32( reader.GetAttribute("ItemsCount") );
+							nColumnsCount	= Convert.ToInt32( reader.GetAttribute("ColumnsCount") );
+						}
+						// данные поиска
+						ListViewItem lvi = null;
+						for( int i=0; i!=nItemsCount; ++i ) {
+							reader.ReadToFollowing("item"+i.ToString());
+							lvi = new ListViewItem( reader.GetAttribute("c0") );
+							for( int j=1; j!=nColumnsCount; ++j ) {
+								if( reader.HasAttributes ) {
+									lvi.SubItems.Add( reader.GetAttribute("c"+j.ToString()) );
+								}
+							}
+							listViewNotValid.Items.Add( lvi );
+						}
+						// отобразим число невалидных файлов
+						tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() +" )";
+						MessageBox.Show( "Список невалидных файлов загружен.", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					} catch {
+						MessageBox.Show( "Поврежден файл списка Валидатора: \""+sPath+"\"!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					} finally {
+						listViewNotValid.EndUpdate();
+						reader.Close();
+					}
+				}
+			}
+			#endregion
+		}
+		#endregion
 	}
 }
