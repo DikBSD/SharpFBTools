@@ -1173,60 +1173,62 @@ namespace SharpFBTools.Tools
 			// занесение данных книги в контролы для просмотра
 			#region Код
 			ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
+			// пропускаем ситуацию, когда курсор переходит от одной строки к другой - нет выбранного item'а
 			if( si.Count > 0 ) {
-				// пропускаем ситуацию, когда курсор переходит от одной строки к другой - нет выбранного item'а
-				FB2BookDataForDup	bd	= new FB2BookDataForDup( si[0].Text );
-				// считываем данные TitleInfo
-				m_mscLV.ListViewStatus( lvTitleInfo, 0, bd.TIBookTitle );
-				m_mscLV.ListViewStatus( lvTitleInfo, 1, bd.TIGenres );
-				m_mscLV.ListViewStatus( lvTitleInfo, 2, bd.TILang );
-				m_mscLV.ListViewStatus( lvTitleInfo, 3, bd.TISrcLang );
-				m_mscLV.ListViewStatus( lvTitleInfo, 4, bd.TIAuthors );
-				m_mscLV.ListViewStatus( lvTitleInfo, 5, bd.TIDate );
-				m_mscLV.ListViewStatus( lvTitleInfo, 6, bd.TIKeywords );
-				m_mscLV.ListViewStatus( lvTitleInfo, 7, bd.TITranslators );
-				m_mscLV.ListViewStatus( lvTitleInfo, 8, bd.TISequences );
-				m_mscLV.ListViewStatus( lvTitleInfo, 9, (bd.TICoverpage.Split('#').Length-1).ToString() );
-				// считываем данные SourceTitleInfo
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 0, bd.STIBookTitle );
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 1, bd.STIGenres );
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 2, bd.STILang );
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 3, bd.STISrcLang );
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 4, bd.STIAuthors );
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 5, bd.STIDate );
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 6, bd.STIKeywords );
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 7, bd.STITranslators );
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 8, bd.STISequences );
-				m_mscLV.ListViewStatus( lvSourceTitleInfo, 9, (bd.STICoverpage.Split('#').Length-1).ToString() );
-				// считываем данные DocumentInfo
-				m_mscLV.ListViewStatus( lvDocumentInfo, 0, bd.DIID );
-				m_mscLV.ListViewStatus( lvDocumentInfo, 1, bd.DIVersion );
-				m_mscLV.ListViewStatus( lvDocumentInfo, 2, bd.DIFB2Date );
-				m_mscLV.ListViewStatus( lvDocumentInfo, 3, bd.DIProgramUsed );
-				m_mscLV.ListViewStatus( lvDocumentInfo, 4, bd.DISrcOcr );
-				m_mscLV.ListViewStatus( lvDocumentInfo, 5, bd.DISrcUrls );
-				m_mscLV.ListViewStatus( lvDocumentInfo, 6, bd.DIFB2Authors );
-				// считываем данные PublishInfo
-				m_mscLV.ListViewStatus( lvPublishInfo, 0, bd.PIBookName );
-				m_mscLV.ListViewStatus( lvPublishInfo, 1, bd.PIPublisher );
-				m_mscLV.ListViewStatus( lvPublishInfo, 2, bd.PIYear );
-				m_mscLV.ListViewStatus( lvPublishInfo, 3, bd.PICity );
-				m_mscLV.ListViewStatus( lvPublishInfo, 4, bd.PIISBN );
-				m_mscLV.ListViewStatus( lvPublishInfo, 5, bd.PISequences );
-				// считываем данные CustomInfo
-				lvCustomInfo.Items.Clear();
-				IList<CustomInfo> lcu = bd.CICustomInfo;
-				if( lcu != null ) {
-					foreach( CustomInfo ci in lcu ) {
-						ListViewItem lvi = new ListViewItem( ci.InfoType );
-						lvi.SubItems.Add( ci.Value );
-						lvCustomInfo.Items.Add( lvi );
+				if( File.Exists( si[0].Text ) ) {
+					FB2BookDataForDup	bd	= new FB2BookDataForDup( si[0].Text );
+					// считываем данные TitleInfo
+					m_mscLV.ListViewStatus( lvTitleInfo, 0, bd.TIBookTitle );
+					m_mscLV.ListViewStatus( lvTitleInfo, 1, bd.TIGenres );
+					m_mscLV.ListViewStatus( lvTitleInfo, 2, bd.TILang );
+					m_mscLV.ListViewStatus( lvTitleInfo, 3, bd.TISrcLang );
+					m_mscLV.ListViewStatus( lvTitleInfo, 4, bd.TIAuthors );
+					m_mscLV.ListViewStatus( lvTitleInfo, 5, bd.TIDate );
+					m_mscLV.ListViewStatus( lvTitleInfo, 6, bd.TIKeywords );
+					m_mscLV.ListViewStatus( lvTitleInfo, 7, bd.TITranslators );
+					m_mscLV.ListViewStatus( lvTitleInfo, 8, bd.TISequences );
+					m_mscLV.ListViewStatus( lvTitleInfo, 9, (bd.TICoverpage.Split('#').Length-1).ToString() );
+					// считываем данные SourceTitleInfo
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 0, bd.STIBookTitle );
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 1, bd.STIGenres );
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 2, bd.STILang );
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 3, bd.STISrcLang );
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 4, bd.STIAuthors );
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 5, bd.STIDate );
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 6, bd.STIKeywords );
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 7, bd.STITranslators );
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 8, bd.STISequences );
+					m_mscLV.ListViewStatus( lvSourceTitleInfo, 9, (bd.STICoverpage.Split('#').Length-1).ToString() );
+					// считываем данные DocumentInfo
+					m_mscLV.ListViewStatus( lvDocumentInfo, 0, bd.DIID );
+					m_mscLV.ListViewStatus( lvDocumentInfo, 1, bd.DIVersion );
+					m_mscLV.ListViewStatus( lvDocumentInfo, 2, bd.DIFB2Date );
+					m_mscLV.ListViewStatus( lvDocumentInfo, 3, bd.DIProgramUsed );
+					m_mscLV.ListViewStatus( lvDocumentInfo, 4, bd.DISrcOcr );
+					m_mscLV.ListViewStatus( lvDocumentInfo, 5, bd.DISrcUrls );
+					m_mscLV.ListViewStatus( lvDocumentInfo, 6, bd.DIFB2Authors );
+					// считываем данные PublishInfo
+					m_mscLV.ListViewStatus( lvPublishInfo, 0, bd.PIBookName );
+					m_mscLV.ListViewStatus( lvPublishInfo, 1, bd.PIPublisher );
+					m_mscLV.ListViewStatus( lvPublishInfo, 2, bd.PIYear );
+					m_mscLV.ListViewStatus( lvPublishInfo, 3, bd.PICity );
+					m_mscLV.ListViewStatus( lvPublishInfo, 4, bd.PIISBN );
+					m_mscLV.ListViewStatus( lvPublishInfo, 5, bd.PISequences );
+					// считываем данные CustomInfo
+					lvCustomInfo.Items.Clear();
+					IList<CustomInfo> lcu = bd.CICustomInfo;
+					if( lcu != null ) {
+						foreach( CustomInfo ci in lcu ) {
+							ListViewItem lvi = new ListViewItem( ci.InfoType );
+							lvi.SubItems.Add( ci.Value );
+							lvCustomInfo.Items.Add( lvi );
+						}
 					}
+					// считываем данные History
+					rtbHistory.Clear(); rtbHistory.Text = GetDataFromTagP( bd.DIHistory );
+					// считываем данные Annotation
+					rtbAnnotation.Clear(); rtbAnnotation.Text = GetDataFromTagP( bd.TIAnnotation );
 				}
-				// считываем данные History
-				rtbHistory.Clear(); rtbHistory.Text = GetDataFromTagP( bd.DIHistory );
-				// считываем данные Annotation
-				rtbAnnotation.Clear(); rtbAnnotation.Text = GetDataFromTagP( bd.TIAnnotation );
 			}
 			#endregion
 		}

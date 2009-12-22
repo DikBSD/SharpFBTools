@@ -737,9 +737,9 @@ namespace SharpFBTools.Tools
 			this.pInfo.Controls.Add(this.lvFilesCount);
 			this.pInfo.Controls.Add(this.chBoxViewProgress);
 			this.pInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pInfo.Location = new System.Drawing.Point(0, 302);
+			this.pInfo.Location = new System.Drawing.Point(0, 281);
 			this.pInfo.Name = "pInfo";
-			this.pInfo.Size = new System.Drawing.Size(828, 236);
+			this.pInfo.Size = new System.Drawing.Size(828, 257);
 			this.pInfo.TabIndex = 44;
 			// 
 			// tcViewFB2Desc
@@ -755,7 +755,7 @@ namespace SharpFBTools.Tools
 			this.tcViewFB2Desc.Location = new System.Drawing.Point(296, 24);
 			this.tcViewFB2Desc.Name = "tcViewFB2Desc";
 			this.tcViewFB2Desc.SelectedIndex = 0;
-			this.tcViewFB2Desc.Size = new System.Drawing.Size(532, 212);
+			this.tcViewFB2Desc.Size = new System.Drawing.Size(532, 233);
 			this.tcViewFB2Desc.TabIndex = 43;
 			// 
 			// tpTitleInfo
@@ -763,7 +763,7 @@ namespace SharpFBTools.Tools
 			this.tpTitleInfo.Controls.Add(this.lvTitleInfo);
 			this.tpTitleInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpTitleInfo.Name = "tpTitleInfo";
-			this.tpTitleInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpTitleInfo.Size = new System.Drawing.Size(524, 207);
 			this.tpTitleInfo.TabIndex = 0;
 			this.tpTitleInfo.Text = "Title Info";
 			this.tpTitleInfo.UseVisualStyleBackColor = true;
@@ -790,7 +790,7 @@ namespace SharpFBTools.Tools
 			this.lvTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvTitleInfo.Name = "lvTitleInfo";
 			this.lvTitleInfo.ShowItemToolTips = true;
-			this.lvTitleInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvTitleInfo.Size = new System.Drawing.Size(524, 207);
 			this.lvTitleInfo.TabIndex = 11;
 			this.lvTitleInfo.UseCompatibleStateImageBehavior = false;
 			this.lvTitleInfo.View = System.Windows.Forms.View.Details;
@@ -810,7 +810,7 @@ namespace SharpFBTools.Tools
 			this.tpSourceTitleInfo.Controls.Add(this.lvSourceTitleInfo);
 			this.tpSourceTitleInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpSourceTitleInfo.Name = "tpSourceTitleInfo";
-			this.tpSourceTitleInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpSourceTitleInfo.Size = new System.Drawing.Size(524, 207);
 			this.tpSourceTitleInfo.TabIndex = 1;
 			this.tpSourceTitleInfo.Text = "Source Title Info";
 			this.tpSourceTitleInfo.UseVisualStyleBackColor = true;
@@ -837,7 +837,7 @@ namespace SharpFBTools.Tools
 			this.lvSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvSourceTitleInfo.Name = "lvSourceTitleInfo";
 			this.lvSourceTitleInfo.ShowItemToolTips = true;
-			this.lvSourceTitleInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvSourceTitleInfo.Size = new System.Drawing.Size(524, 207);
 			this.lvSourceTitleInfo.TabIndex = 12;
 			this.lvSourceTitleInfo.UseCompatibleStateImageBehavior = false;
 			this.lvSourceTitleInfo.View = System.Windows.Forms.View.Details;
@@ -857,7 +857,7 @@ namespace SharpFBTools.Tools
 			this.tpDocumentInfo.Controls.Add(this.lvDocumentInfo);
 			this.tpDocumentInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpDocumentInfo.Name = "tpDocumentInfo";
-			this.tpDocumentInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpDocumentInfo.Size = new System.Drawing.Size(524, 207);
 			this.tpDocumentInfo.TabIndex = 2;
 			this.tpDocumentInfo.Text = "Document Info";
 			this.tpDocumentInfo.UseVisualStyleBackColor = true;
@@ -881,7 +881,7 @@ namespace SharpFBTools.Tools
 			this.lvDocumentInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvDocumentInfo.Name = "lvDocumentInfo";
 			this.lvDocumentInfo.ShowItemToolTips = true;
-			this.lvDocumentInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvDocumentInfo.Size = new System.Drawing.Size(524, 207);
 			this.lvDocumentInfo.TabIndex = 12;
 			this.lvDocumentInfo.UseCompatibleStateImageBehavior = false;
 			this.lvDocumentInfo.View = System.Windows.Forms.View.Details;
@@ -901,7 +901,7 @@ namespace SharpFBTools.Tools
 			this.tpPublishInfo.Controls.Add(this.lvPublishInfo);
 			this.tpPublishInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpPublishInfo.Name = "tpPublishInfo";
-			this.tpPublishInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpPublishInfo.Size = new System.Drawing.Size(524, 207);
 			this.tpPublishInfo.TabIndex = 3;
 			this.tpPublishInfo.Text = "Publish Info";
 			this.tpPublishInfo.UseVisualStyleBackColor = true;
@@ -924,7 +924,7 @@ namespace SharpFBTools.Tools
 			this.lvPublishInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvPublishInfo.Name = "lvPublishInfo";
 			this.lvPublishInfo.ShowItemToolTips = true;
-			this.lvPublishInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvPublishInfo.Size = new System.Drawing.Size(524, 207);
 			this.lvPublishInfo.TabIndex = 12;
 			this.lvPublishInfo.UseCompatibleStateImageBehavior = false;
 			this.lvPublishInfo.View = System.Windows.Forms.View.Details;
@@ -944,7 +944,7 @@ namespace SharpFBTools.Tools
 			this.tpCustomInfo.Controls.Add(this.lvCustomInfo);
 			this.tpCustomInfo.Location = new System.Drawing.Point(4, 22);
 			this.tpCustomInfo.Name = "tpCustomInfo";
-			this.tpCustomInfo.Size = new System.Drawing.Size(524, 186);
+			this.tpCustomInfo.Size = new System.Drawing.Size(524, 207);
 			this.tpCustomInfo.TabIndex = 4;
 			this.tpCustomInfo.Text = "Custom Info";
 			this.tpCustomInfo.UseVisualStyleBackColor = true;
@@ -960,7 +960,7 @@ namespace SharpFBTools.Tools
 			this.lvCustomInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvCustomInfo.Name = "lvCustomInfo";
 			this.lvCustomInfo.ShowItemToolTips = true;
-			this.lvCustomInfo.Size = new System.Drawing.Size(524, 186);
+			this.lvCustomInfo.Size = new System.Drawing.Size(524, 207);
 			this.lvCustomInfo.TabIndex = 12;
 			this.lvCustomInfo.UseCompatibleStateImageBehavior = false;
 			this.lvCustomInfo.View = System.Windows.Forms.View.Details;
@@ -980,7 +980,7 @@ namespace SharpFBTools.Tools
 			this.tpHistory.Controls.Add(this.rtbHistory);
 			this.tpHistory.Location = new System.Drawing.Point(4, 22);
 			this.tpHistory.Name = "tpHistory";
-			this.tpHistory.Size = new System.Drawing.Size(524, 186);
+			this.tpHistory.Size = new System.Drawing.Size(524, 207);
 			this.tpHistory.TabIndex = 5;
 			this.tpHistory.Text = "History";
 			this.tpHistory.UseVisualStyleBackColor = true;
@@ -992,7 +992,7 @@ namespace SharpFBTools.Tools
 			this.rtbHistory.Location = new System.Drawing.Point(0, 0);
 			this.rtbHistory.Name = "rtbHistory";
 			this.rtbHistory.ReadOnly = true;
-			this.rtbHistory.Size = new System.Drawing.Size(524, 186);
+			this.rtbHistory.Size = new System.Drawing.Size(524, 207);
 			this.rtbHistory.TabIndex = 0;
 			this.rtbHistory.Text = "";
 			// 
@@ -1035,7 +1035,7 @@ namespace SharpFBTools.Tools
 									listViewItem40});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 24);
 			this.lvFilesCount.Name = "lvFilesCount";
-			this.lvFilesCount.Size = new System.Drawing.Size(296, 212);
+			this.lvFilesCount.Size = new System.Drawing.Size(296, 233);
 			this.lvFilesCount.TabIndex = 42;
 			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
 			this.lvFilesCount.View = System.Windows.Forms.View.Details;
@@ -1085,7 +1085,7 @@ namespace SharpFBTools.Tools
 			this.lvResult.MultiSelect = false;
 			this.lvResult.Name = "lvResult";
 			this.lvResult.ShowItemToolTips = true;
-			this.lvResult.Size = new System.Drawing.Size(828, 162);
+			this.lvResult.Size = new System.Drawing.Size(828, 141);
 			this.lvResult.TabIndex = 45;
 			this.lvResult.UseCompatibleStateImageBehavior = false;
 			this.lvResult.View = System.Windows.Forms.View.Details;
