@@ -52,6 +52,7 @@ namespace SharpFBTools.Tools
 		private bool	m_bCheckValid		= false;	// проверять или нет fb2-файл на валидность
 		private string	m_sFileWorkerMode	= "";
 		private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
+		private bool	m_bFilesWorked		= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
 		#endregion
 		
 		public SFBTpFB2Dublicator()
@@ -345,6 +346,7 @@ namespace SharpFBTools.Tools
 		private void bwcmd_DoWork( object sender, DoWorkEventArgs e ) {
 			// Обработка файлов
 			string sTempDir = Settings.Settings.GetTempDir();
+			m_bFilesWorked = false;
 			switch( m_sFileWorkerMode ) {
 				case "Copy":
 					CopyOrMoveFilesTo( m_bwcmd, e, true,
@@ -395,6 +397,21 @@ namespace SharpFBTools.Tools
             		sMessDone 		= "Удаление файлов из папки-источника завершено!";
 					sMessCanceled	= "Удаление файлов из папки-источника остановлено!";
             		break;
+            }
+            
+            if( !m_bFilesWorked ) {
+            	string s = "На диске не найдено ни одного файла из помеченных!\n";
+            	switch( m_sFileWorkerMode ) {
+	            	case "Copy":
+        	    		sMessDone = s + "Копирование файлов в указанную папку не произведено!";
+            			break;
+	            	case "Move":
+        	    		sMessDone = s + "Перемещение файлов в указанную папку не произведено!";
+            			break;
+	            	case "Delete":
+        	    		sMessDone = s + "Удаление файлов из папки-источника не произведено!";
+            			break;
+            	}
             }
 
 			tsslblProgress.Text = Settings.Settings.GetReady();
@@ -997,6 +1014,11 @@ namespace SharpFBTools.Tools
 					return;
 				} else {
 					string sFilePath = lvi.Text;
+					// есть ли такая книга на диске? Если нет - то смотрим следующую
+					if( !File.Exists( sFilePath ) ) {
+						bw.ReportProgress( ++i ); // отобразим данные в контролах
+						break;
+					}
 					string sNewPath = sTarget + sFilePath.Remove( 0, sSource.Length );
 					FileInfo fi = new FileInfo( sNewPath );
 					if( !fi.Directory.Exists ) {
@@ -1064,6 +1086,7 @@ namespace SharpFBTools.Tools
 							lvResult.Items.Remove( lvi );
 							if( lvg.Items.Count == 0 ) lvResult.Groups.Remove( lvg );
 						}
+						m_bFilesWorked |= true;
 					}
 					bw.ReportProgress( ++i ); // отобразим данные в контролах
 				}
@@ -1088,13 +1111,11 @@ namespace SharpFBTools.Tools
 					string sFilePath = lvi.Text;
 					if( File.Exists( sFilePath) ) {
 						File.Delete( sFilePath );
+						ListViewGroup lvg = lvi.Group;
+						lvResult.Items.Remove( lvi );
+						if( lvg.Items.Count == 0 ) lvResult.Groups.Remove( lvg );
+						m_bFilesWorked |= true;
 					}
-					
-					ListViewGroup lvg = lvi.Group;
-					lvResult.Items.Remove( lvi );
-					if( lvg.Items.Count == 0 )
-						lvResult.Groups.Remove( lvg );
-					
 					bw.ReportProgress( ++i ); // отобразим данные в контролах
 				}
 			}
