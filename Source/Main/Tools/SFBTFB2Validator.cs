@@ -49,6 +49,7 @@ namespace SharpFBTools.Tools
         private string	m_sFileWorkerMode	= "";
         private bool	m_bScanSubDirs		= true;
         private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
+        private bool	m_bFilesWorked		= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
 		#endregion
 		
 		public SFBTpFB2Validator()
@@ -239,6 +240,7 @@ namespace SharpFBTools.Tools
 		
 		private void bwcmd_DoWork( object sender, DoWorkEventArgs e ) {
 			// Обработка файлов
+			m_bFilesWorked = false;
 			switch( m_sFileWorkerMode ) {
 				case "Copy":
 					switch( tcResult.SelectedIndex ) {
@@ -348,6 +350,21 @@ namespace SharpFBTools.Tools
 					sMessCanceled	= "Удаление файлов из папки-источника остановлено!";
             		break;
             }
+            if( !m_bFilesWorked ) {
+            	string s = "На диске не найдено ни одного файла из помеченных!\n";
+            	switch( m_sFileWorkerMode ) {
+	            	case "Copy":
+        	    		sMessDone = s + "Копирование файлов в указанную папку не произведено!";
+            			break;
+	            	case "Move":
+        	    		sMessDone = s + "Перемещение файлов в указанную папку не произведено!";
+            			break;
+	            	case "Delete":
+        	    		sMessDone = s + "Удаление файлов из папки-источника не произведено!";
+            			break;
+            	}
+            }
+            
             tp.Text = sTabPageDefText + "( " + lv.Items.Count.ToString() +" )";
             lvFilesCount.Items[1].SubItems[1].Text = ( listViewNotValid.Items.Count + listViewValid.Items.Count +
 														listViewNotFB2.Items.Count ).ToString();
@@ -648,9 +665,13 @@ namespace SharpFBTools.Tools
 					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
 					break;
 				} else {
-					string sItemText = ( bCopy ? lvi.Text
-					                    		: sItemText = lvi.Text );
-					string sFilePath = sItemText.Split('/')[0];
+					string sFilePath = lvi.Text.Split('/')[0];
+					// есть ли такая книга на диске? Если нет - то смотрим следующую
+					if( !File.Exists( sFilePath ) ) {
+						bw.ReportProgress( ++i ); // отобразим данные в контролах
+						break;
+					}
+					
 					string sNewPath = sTarget + sFilePath.Remove( 0, sSource.Length );
 					FileInfo fi = new FileInfo( sNewPath );
 					if( !fi.Directory.Exists ) {
@@ -717,6 +738,7 @@ namespace SharpFBTools.Tools
 							lv.Items.Remove( lvi );
 							tp.Text = sTabPageDefText + "( " + lv.Items.Count.ToString() +" )";
 						}
+						m_bFilesWorked |= true;
 					}
 					bw.ReportProgress( ++i ); // отобразим данные в контролах
 				}
@@ -743,6 +765,7 @@ namespace SharpFBTools.Tools
 						File.Delete( sFilePath );
 						lv.Items.Remove( lvi );
 						tp.Text = sTabPageDefText + "( " + lv.Items.Count.ToString() +" )";
+						m_bFilesWorked |= true;
 					}
 					bw.ReportProgress( ++i ); // отобразим данные в контролах
 				}
