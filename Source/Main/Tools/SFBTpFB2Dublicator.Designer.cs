@@ -516,7 +516,7 @@ namespace SharpFBTools.Tools
 									this.tsmiCheckedAll,
 									this.tsmiUnCheckedAll});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(322, 254);
+			this.cmsFB2.Size = new System.Drawing.Size(322, 232);
 			// 
 			// tsmiDiffFB2
 			// 

@@ -432,6 +432,17 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые вспомогательные методы класса
+		private void ConnectListViewResultEventHandlers( bool bConnect ) {
+			if( !bConnect ) {
+				// отключаем обработчики событий для lvResult (убираем "тормоза")
+				this.lvResult.ItemChecked -= new System.Windows.Forms.ItemCheckedEventHandler(this.LvResultItemChecked);
+				this.lvResult.SelectedIndexChanged -= new System.EventHandler(this.LvResultSelectedIndexChanged);
+			} else {
+				this.lvResult.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.LvResultItemChecked);
+				this.lvResult.SelectedIndexChanged += new System.EventHandler(this.LvResultSelectedIndexChanged);
+			}
+		}
+		
 		private void ViewDupProgressData() {
             // Отобразим результат
 			m_mscLV.ListViewStatus( lvFilesCount, 1, m_sv.AllFiles );
@@ -1616,13 +1627,17 @@ namespace SharpFBTools.Tools
 		void TsmiCheckedAllClick(object sender, EventArgs e)
 		{
 			// отметить все книги
+			ConnectListViewResultEventHandlers( false );
 			m_mscLV.CheckdAllListViewItems( lvResult, true );
+			ConnectListViewResultEventHandlers( true );
 		}
 		
 		void TsmiUnCheckedAllClick(object sender, EventArgs e)
 		{
 			// снять отметки со всех книг
+			ConnectListViewResultEventHandlers( false );
 			m_mscLV.UnCheckdAllListViewItems( lvResult.CheckedItems );
+			ConnectListViewResultEventHandlers( true );
 		}
 		
 		void TsbtnDupSaveListClick(object sender, EventArgs e)
@@ -1709,6 +1724,8 @@ namespace SharpFBTools.Tools
 				XmlReaderSettings data = new XmlReaderSettings();
 				data.IgnoreWhitespace = true;
 				using ( XmlReader reader = XmlReader.Create( sPath, data ) ) {
+					// отключаем обработчики событий для lvResult (убираем "тормоза")
+					ConnectListViewResultEventHandlers( false );
 					try {
 						lvResult.BeginUpdate();
 						// папка-источник
@@ -1733,24 +1750,26 @@ namespace SharpFBTools.Tools
 						}
 						// данные поиска
 						Hashtable htBookGroups = new Hashtable(); // хеш-таблица групп одинаковых книг
-						ListViewGroup lvg = null; // группа одинаковых книг
-						ListViewItem lvi = null;
+						ListViewGroup	lvg = null; // группа одинаковых книг
+						ListViewItem	lvi = null;
+						
+						string sGroup = "";
 						for( int i=0; i!=nItemsCount; ++i ) {
 							reader.ReadToFollowing("item"+i.ToString());
-							string sGroup	= reader.GetAttribute("g");
-							lvg = new ListViewGroup( sGroup );
-							lvi = new ListViewItem( reader.GetAttribute("c0") );
-							for( int j=1; j!=nColumnsCount; ++j ) {
-								if( reader.HasAttributes ) {
+							if( reader.HasAttributes ) {
+								sGroup = reader.GetAttribute("g");
+								lvg = new ListViewGroup( sGroup );
+								lvi = new ListViewItem( reader.GetAttribute("c0") );
+								for( int j=1; j!=nColumnsCount; ++j ) {
 									lvi.SubItems.Add( reader.GetAttribute("c"+j.ToString()) );
 								}
+								// заносим группу в хеш, если она там отсутствует
+								AddBookGroupInHashTable( htBookGroups, lvg );
+								// присваиваем группу книге
+								lvResult.Groups.Add( (ListViewGroup)htBookGroups[sGroup] );
+								lvi.Group = (ListViewGroup)htBookGroups[sGroup];
+								lvResult.Items.Add( lvi );
 							}
-							// заносим группу в хеш, если она там отсутствует
-							AddBookGroupInHashTable( htBookGroups, lvg );
-							// присваиваем группу книге
-							lvResult.Groups.Add( (ListViewGroup)htBookGroups[sGroup] );
-							lvi.Group = (ListViewGroup)htBookGroups[sGroup];
-							lvResult.Items.Add( lvi );
 						}
 						// Отобразим результат в индикаторе прогресса
 						m_mscLV.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count );
@@ -1761,12 +1780,12 @@ namespace SharpFBTools.Tools
 					} finally {
 						lvResult.EndUpdate();
 						reader.Close();
+						ConnectListViewResultEventHandlers( true );
 					}
 				}
 			}
 			#endregion
 		}
 		#endregion
-
 	}
 }

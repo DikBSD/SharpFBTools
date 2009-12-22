@@ -106,6 +106,38 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые методы
+		
+		#region Закрытые общие вспомогательные методы
+		private void ConnectListsEventHandlers( bool bConnect ) {
+			if( !bConnect ) {
+				// отключаем обработчики событий для Списков (убираем "тормоза")
+				// для istViewNotValid
+				this.listViewNotValid.SelectedIndexChanged -= new System.EventHandler(this.ListViewNotValidSelectedIndexChanged);
+				this.listViewNotValid.DoubleClick -= new System.EventHandler(this.ListViewNotValidDoubleClick);
+				this.listViewNotValid.KeyPress -= new System.Windows.Forms.KeyPressEventHandler(this.ListViewNotValidKeyPress);
+				// для listViewValid
+				this.listViewValid.SelectedIndexChanged -= new System.EventHandler(this.ListViewValidSelectedIndexChanged);
+				this.listViewValid.DoubleClick -= new System.EventHandler(this.ListViewNotValidDoubleClick);
+				this.listViewValid.KeyPress -= new System.Windows.Forms.KeyPressEventHandler(this.ListViewNotValidKeyPress);
+				// для listViewNotFB2
+				this.tsmiOpenFileDir.Click -= new System.EventHandler(this.TsmiOpenFileDirClick);
+			
+			} else {
+				// подключаем обработчики событий для Списков
+				// для istViewNotValid
+				this.listViewNotValid.SelectedIndexChanged += new System.EventHandler(this.ListViewNotValidSelectedIndexChanged);
+				this.listViewNotValid.DoubleClick += new System.EventHandler(this.ListViewNotValidDoubleClick);
+				this.listViewNotValid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ListViewNotValidKeyPress);
+				// для listViewValid
+				this.listViewValid.SelectedIndexChanged += new System.EventHandler(this.ListViewValidSelectedIndexChanged);
+				this.listViewValid.DoubleClick += new System.EventHandler(this.ListViewNotValidDoubleClick);
+				this.listViewValid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ListViewNotValidKeyPress);
+				// для listViewNotFB2
+				this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
+			}
+		}
+		#endregion
+		
 		#region Закрытые методы реализации BackgroundWorker Валидатора
 		private void InitializeValidateBackgroundWorker() {
 			// Инициализация перед использование BackgroundWorker Валидации
@@ -1673,37 +1705,49 @@ namespace SharpFBTools.Tools
 		void TsmiFB2CheckedAllClick(object sender, EventArgs e)
 		{
 			// отметить все FB2 книги
+			ConnectListsEventHandlers( false );
 			CheckAll();
+			ConnectListsEventHandlers( true );
 		}
 		
 		void TsmiFB2UnCheckedAllClick(object sender, EventArgs e)
 		{
 			// снять отметки со всех FB2 книг
+			ConnectListsEventHandlers( false );
 			UnCheckAll();
+			ConnectListsEventHandlers( true );
 		}
 		
 		void TsmiArchiveCheckedAllClick(object sender, EventArgs e)
 		{
 			// отметить все Архивы
+			ConnectListsEventHandlers( false );
 			CheckAll();
+			ConnectListsEventHandlers( true );
 		}
 		
 		void TsmiArchiveUnCheckedAllClick(object sender, EventArgs e)
 		{
 			// снять отметки со всех Архивов
+			ConnectListsEventHandlers( false );
 			UnCheckAll();
+			ConnectListsEventHandlers( true );
 		}
 		
 		void TsmiNotFB2CheckedAllClick(object sender, EventArgs e)
 		{
 			// отметить все не FB2 файлы
+			ConnectListsEventHandlers( false );
 			CheckAll();
+			ConnectListsEventHandlers( true );
 		}
 		
 		void TsmiNotFB2UnCheckedAllClick(object sender, EventArgs e)
 		{
 			// снять отметки со не FB2 файлов
+			ConnectListsEventHandlers( false );
 			UnCheckAll();
+			ConnectListsEventHandlers( true );
 		}
 		
 		void BtnSaveListClick(object sender, EventArgs e)
@@ -1785,6 +1829,8 @@ namespace SharpFBTools.Tools
 				XmlReaderSettings data = new XmlReaderSettings();
 				data.IgnoreWhitespace = true;
 				using ( XmlReader reader = XmlReader.Create( sPath, data ) ) {
+					// отключаем обработчики событий для lvResult (убираем "тормоза")
+					ConnectListsEventHandlers( false );
 					try {
 						listViewNotValid.BeginUpdate();
 						// папка-источник
@@ -1793,7 +1839,7 @@ namespace SharpFBTools.Tools
 							m_sScan = reader.GetAttribute("scandir");
 							tboxSourceDir.Text = m_sScan;
 						}
-								// число стьолбцов и записей
+						// число стьолбцов и записей
 						int nItemsCount	= 0, nColumnsCount = 0;
 						reader.ReadToFollowing("Count");
 						if( reader.HasAttributes ) {
@@ -1804,13 +1850,13 @@ namespace SharpFBTools.Tools
 						ListViewItem lvi = null;
 						for( int i=0; i!=nItemsCount; ++i ) {
 							reader.ReadToFollowing("item"+i.ToString());
-							lvi = new ListViewItem( reader.GetAttribute("c0") );
-							for( int j=1; j!=nColumnsCount; ++j ) {
-								if( reader.HasAttributes ) {
+							if( reader.HasAttributes ) {
+								lvi = new ListViewItem( reader.GetAttribute("c0") );
+								for( int j=1; j!=nColumnsCount; ++j ) {
 									lvi.SubItems.Add( reader.GetAttribute("c"+j.ToString()) );
 								}
+								listViewNotValid.Items.Add( lvi );
 							}
-							listViewNotValid.Items.Add( lvi );
 						}
 						// отобразим число невалидных файлов
 						tpNotValid.Text = m_sNotValid + "( " + listViewNotValid.Items.Count.ToString() +" )";
@@ -1820,6 +1866,7 @@ namespace SharpFBTools.Tools
 					} finally {
 						listViewNotValid.EndUpdate();
 						reader.Close();
+						ConnectListsEventHandlers( true );
 					}
 				}
 			}
