@@ -456,7 +456,6 @@ namespace SharpFBTools.Tools
 		// увеличение значения 2-й колонки ListView на 1
 		private void Init() {
 			// инициализация контролов и переменных
-			lvResult.Items.Clear();
 			for( int i=0; i!=lvFilesCount.Items.Count; ++i ) {
 				lvFilesCount.Items[i].SubItems[1].Text	= "0";
 			}
