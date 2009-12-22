@@ -1549,16 +1549,17 @@ namespace SharpFBTools.Tools
 			ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
 			if( lvResult.Items.Count > 0 && lvResult.SelectedItems.Count != 0 ) {
 				// проверка на наличие diff-программы
+				string sDiffTitle = "SharpFBTools - diff";
 				string sDiffPath = Settings.Settings.ReadDiffPath();
 			
 				if( sDiffPath.Trim().Length==0 ) {
 					MessageBox.Show( "В Настройках не указан путь к установленной diff-программе визуального сравнения файлов!\nУкажите путь к ней в Настройках.\nРабота остановлена!",
-					                "SharpFBTools - diff", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					                sDiffTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				} else {
 					if( !File.Exists( sDiffPath ) ) {
 						MessageBox.Show( "Не найден файл diff-программы визуального сравнения файлов \""+sDiffPath+"\"!\nУкажите путь к ней в Настройках.\nРабота остановлена!",
-						                "SharpFBTools - diff", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						                sDiffTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
 					}
 				}
@@ -1575,7 +1576,17 @@ namespace SharpFBTools.Tools
 				}
 				// запускаем инструмент сравнения
 				if( l.Count==2 ) {
-					filesWorker.StartAsyncDiff( sDiffPath, l[0], l[1] );
+					string sFilesNotExists = "";
+					if( !File.Exists( l[0] ) ) {
+						sFilesNotExists += l[0]; sFilesNotExists += "\n";
+					}
+					if( !File.Exists( l[1] ) ) {
+						sFilesNotExists += l[1]; sFilesNotExists += "\n";
+					}
+					if( sFilesNotExists.Length!=0 ) {
+						MessageBox.Show( "Не найден(ы) файл(ы) для сравнения:\n"+sFilesNotExists+"\nРабота остановлена!",
+						                sDiffTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					} else filesWorker.StartAsyncDiff( sDiffPath, l[0], l[1] );
 				}
 			}
 			#endregion

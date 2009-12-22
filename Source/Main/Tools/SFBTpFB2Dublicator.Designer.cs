@@ -516,39 +516,39 @@ namespace SharpFBTools.Tools
 									this.tsmiCheckedAll,
 									this.tsmiUnCheckedAll});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(293, 232);
+			this.cmsFB2.Size = new System.Drawing.Size(322, 254);
 			// 
 			// tsmiDiffFB2
 			// 
 			this.tsmiDiffFB2.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDiffFB2.Image")));
 			this.tsmiDiffFB2.Name = "tsmiDiffFB2";
-			this.tsmiDiffFB2.Size = new System.Drawing.Size(292, 22);
-			this.tsmiDiffFB2.Text = "diff два помеченных (checked) файла";
+			this.tsmiDiffFB2.Size = new System.Drawing.Size(321, 22);
+			this.tsmiDiffFB2.Text = "diff два помеченных (checked) файла в Группе";
 			this.tsmiDiffFB2.Click += new System.EventHandler(this.TsmiDiffFB2Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(289, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(318, 6);
 			// 
 			// tsmiFileReValidate
 			// 
 			this.tsmiFileReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileReValidate.Image")));
 			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
-			this.tsmiFileReValidate.Size = new System.Drawing.Size(292, 22);
+			this.tsmiFileReValidate.Size = new System.Drawing.Size(321, 22);
 			this.tsmiFileReValidate.Text = "Проверить файл - валидация";
 			this.tsmiFileReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
 			// 
 			// tsmi3
 			// 
 			this.tsmi3.Name = "tsmi3";
-			this.tsmi3.Size = new System.Drawing.Size(289, 6);
+			this.tsmi3.Size = new System.Drawing.Size(318, 6);
 			// 
 			// tsmiEditInTextEditor
 			// 
 			this.tsmiEditInTextEditor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInTextEditor.Image")));
 			this.tsmiEditInTextEditor.Name = "tsmiEditInTextEditor";
-			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(292, 22);
+			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(321, 22);
 			this.tsmiEditInTextEditor.Text = "Редактировать в текстовом редакторе";
 			this.tsmiEditInTextEditor.Click += new System.EventHandler(this.TsmiEditInTextEditorClick);
 			// 
@@ -556,33 +556,33 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiEditInFB2Editor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInFB2Editor.Image")));
 			this.tsmiEditInFB2Editor.Name = "tsmiEditInFB2Editor";
-			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(292, 22);
+			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(321, 22);
 			this.tsmiEditInFB2Editor.Text = "Редактировать в fb2-редакторе";
 			this.tsmiEditInFB2Editor.Click += new System.EventHandler(this.TsmiEditInFB2EditorClick);
 			// 
 			// tsmi1
 			// 
 			this.tsmi1.Name = "tsmi1";
-			this.tsmi1.Size = new System.Drawing.Size(289, 6);
+			this.tsmi1.Size = new System.Drawing.Size(318, 6);
 			// 
 			// tsmiViewInReader
 			// 
 			this.tsmiViewInReader.Image = ((System.Drawing.Image)(resources.GetObject("tsmiViewInReader.Image")));
 			this.tsmiViewInReader.Name = "tsmiViewInReader";
-			this.tsmiViewInReader.Size = new System.Drawing.Size(292, 22);
+			this.tsmiViewInReader.Size = new System.Drawing.Size(321, 22);
 			this.tsmiViewInReader.Text = "Запустить в fb2-читалке (Просмотр)";
 			this.tsmiViewInReader.Click += new System.EventHandler(this.TsmiViewInReaderClick);
 			// 
 			// tsmi2
 			// 
 			this.tsmi2.Name = "tsmi2";
-			this.tsmi2.Size = new System.Drawing.Size(289, 6);
+			this.tsmi2.Size = new System.Drawing.Size(318, 6);
 			// 
 			// tsmiOpenFileDir
 			// 
 			this.tsmiOpenFileDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenFileDir.Image")));
 			this.tsmiOpenFileDir.Name = "tsmiOpenFileDir";
-			this.tsmiOpenFileDir.Size = new System.Drawing.Size(292, 22);
+			this.tsmiOpenFileDir.Size = new System.Drawing.Size(321, 22);
 			this.tsmiOpenFileDir.Text = "Открыть папку для выделенного файла";
 			this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
 			// 
@@ -590,20 +590,20 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiDeleteFileFromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteFileFromDisk.Image")));
 			this.tsmiDeleteFileFromDisk.Name = "tsmiDeleteFileFromDisk";
-			this.tsmiDeleteFileFromDisk.Size = new System.Drawing.Size(292, 22);
+			this.tsmiDeleteFileFromDisk.Size = new System.Drawing.Size(321, 22);
 			this.tsmiDeleteFileFromDisk.Text = "Удалить файл с диска";
 			this.tsmiDeleteFileFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(289, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(318, 6);
 			// 
 			// tsmiCheckedAll
 			// 
 			this.tsmiCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiCheckedAll.Image")));
 			this.tsmiCheckedAll.Name = "tsmiCheckedAll";
-			this.tsmiCheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiCheckedAll.Size = new System.Drawing.Size(321, 22);
 			this.tsmiCheckedAll.Text = "Пометить все книги";
 			this.tsmiCheckedAll.Click += new System.EventHandler(this.TsmiCheckedAllClick);
 			// 
@@ -611,7 +611,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiUnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiUnCheckedAll.Image")));
 			this.tsmiUnCheckedAll.Name = "tsmiUnCheckedAll";
-			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(292, 22);
+			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(321, 22);
 			this.tsmiUnCheckedAll.Text = "Снять все отметки";
 			this.tsmiUnCheckedAll.Click += new System.EventHandler(this.TsmiUnCheckedAllClick);
 			// 
@@ -1001,7 +1001,7 @@ namespace SharpFBTools.Tools
 			this.tpAnnotation.Controls.Add(this.rtbAnnotation);
 			this.tpAnnotation.Location = new System.Drawing.Point(4, 22);
 			this.tpAnnotation.Name = "tpAnnotation";
-			this.tpAnnotation.Size = new System.Drawing.Size(524, 186);
+			this.tpAnnotation.Size = new System.Drawing.Size(524, 207);
 			this.tpAnnotation.TabIndex = 6;
 			this.tpAnnotation.Text = "Annotation";
 			this.tpAnnotation.UseVisualStyleBackColor = true;
@@ -1013,7 +1013,7 @@ namespace SharpFBTools.Tools
 			this.rtbAnnotation.Location = new System.Drawing.Point(0, 0);
 			this.rtbAnnotation.Name = "rtbAnnotation";
 			this.rtbAnnotation.ReadOnly = true;
-			this.rtbAnnotation.Size = new System.Drawing.Size(524, 186);
+			this.rtbAnnotation.Size = new System.Drawing.Size(524, 207);
 			this.rtbAnnotation.TabIndex = 0;
 			this.rtbAnnotation.Text = "";
 			// 
