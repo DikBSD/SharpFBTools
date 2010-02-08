@@ -98,7 +98,7 @@ namespace Main
 									this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(738, 52);
+			this.tsMain.Size = new System.Drawing.Size(786, 52);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnFB2Validator
@@ -123,9 +123,9 @@ namespace Main
 			this.tsbtnFileManager.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFileManager.Image")));
 			this.tsbtnFileManager.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnFileManager.Name = "tsbtnFileManager";
-			this.tsbtnFileManager.Size = new System.Drawing.Size(105, 49);
+			this.tsbtnFileManager.Size = new System.Drawing.Size(122, 49);
 			this.tsbtnFileManager.Tag = "tsbtnFileManager";
-			this.tsbtnFileManager.Text = "Менеджер файлов";
+			this.tsbtnFileManager.Text = "Сортировщик файлов";
 			this.tsbtnFileManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnFileManager.Click += new System.EventHandler(this.TsbtnFileManagerClick);
 			// 
