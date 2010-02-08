@@ -231,6 +231,7 @@ namespace Options
 			this.txtboxFMsf = new System.Windows.Forms.TextBox();
 			this.label14 = new System.Windows.Forms.Label();
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
+			this.chBoxConfirmationForExit = new System.Windows.Forms.CheckBox();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -351,6 +352,7 @@ namespace Options
 			// 
 			// tpGeneral
 			// 
+			this.tpGeneral.Controls.Add(this.chBoxConfirmationForExit);
 			this.tpGeneral.Controls.Add(this.gboxButtons);
 			this.tpGeneral.Controls.Add(this.gboxDiff);
 			this.tpGeneral.Controls.Add(this.gboxReader);
@@ -2443,6 +2445,18 @@ namespace Options
 			this.label14.Text = "Фантастика, Фэнтэзи:";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
+			// chBoxConfirmationForExit
+			// 
+			this.chBoxConfirmationForExit.Checked = true;
+			this.chBoxConfirmationForExit.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxConfirmationForExit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(10, 424);
+			this.chBoxConfirmationForExit.Name = "chBoxConfirmationForExit";
+			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(338, 24);
+			this.chBoxConfirmationForExit.TabIndex = 18;
+			this.chBoxConfirmationForExit.Text = " Подтверждение для выхода из программы";
+			this.chBoxConfirmationForExit.UseVisualStyleBackColor = true;
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2550,6 +2564,7 @@ namespace Options
 			this.panel13.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.CheckBox chBoxConfirmationForExit;
 		private System.Windows.Forms.Label lblFB2Dup;
 		private System.Windows.Forms.ComboBox cboxDSFB2Dup;
 		private System.Windows.Forms.ComboBox cboxTIRFB2Dup;

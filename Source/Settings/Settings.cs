@@ -256,6 +256,10 @@ namespace Settings
 			// читаем путь к читалке из настроек
 			return ReadAttribute( "Diff", "DiffPath", GetDiffPath() );
 		}
+		public static bool ReadConfirmationForExit() {
+			// читаем путь для подтверждения выхода из программы
+			return ReadAttribute( "ConfirmationForExit", "ConfirmationForExit", true );
+		}
 		#endregion
 		
 		#region Общие Сообщения

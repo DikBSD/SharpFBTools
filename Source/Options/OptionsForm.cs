@@ -63,6 +63,7 @@ namespace Options
 			cboxTIRFileManager.Text 	= Settings.SettingsFM.GetDefFMcboxTIRFileManagerText();
 			cboxDSFB2Dup.Text			= Settings.SettingsFB2Dup.GetDefDupcboxDSFB2DupText();
 			cboxTIRFB2Dup.Text			= Settings.SettingsFB2Dup.GetDefDupcboxTIRFB2DupText();
+			chBoxConfirmationForExit.Checked = true;
 		}
 		private void DefValidator() {
 			// Валидатор
@@ -145,50 +146,54 @@ namespace Options
 			XmlReaderSettings settings = new XmlReaderSettings();
 			settings.IgnoreWhitespace = true;
 			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
-				// Общее 
 				try {
+					// Общее 
 					reader.ReadToFollowing("WinRar");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
 						tboxRarPath.Text = reader.GetAttribute("RarPath");
 						tboxUnRarPath.Text = reader.GetAttribute("UnRarPath");
 					}
 					reader.ReadToFollowing("A7za");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						tbox7zaPath.Text = reader.GetAttribute("A7zaPath");
 					}
 					reader.ReadToFollowing("Editors");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						tboxFBEPath.Text = reader.GetAttribute("FBEPath");
 						tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
 					}
 					reader.ReadToFollowing("Reader");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
 					}
 					reader.ReadToFollowing("Diff");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						tboxDiffPath.Text = reader.GetAttribute("DiffPath");
 					}
 					reader.ReadToFollowing("ValidatorToolButtons");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						cboxDSValidator.Text = reader.GetAttribute("cboxDSValidatorText");
 						cboxTIRValidator.Text = reader.GetAttribute("cboxTIRValidatorText");
 					}
 					reader.ReadToFollowing("FileManagerToolButtons");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						cboxDSFileManager.Text = reader.GetAttribute("cboxDSFileManagerText");
 						cboxTIRFileManager.Text = reader.GetAttribute("cboxTIRFileManagerText");
 					}
 					reader.ReadToFollowing("ArchiveManagerToolButtons");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						cboxDSArchiveManager.Text = reader.GetAttribute("cboxDSArchiveManagerText");
 						cboxTIRArchiveManager.Text = reader.GetAttribute("cboxTIRArchiveManagerText");
 					}
 					reader.ReadToFollowing("DupToolButtons");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						cboxDSFB2Dup.Text = reader.GetAttribute("cboxDSFB2DupText");
 						cboxTIRFB2Dup.Text = reader.GetAttribute("cboxTIRFB2DupText");
+					}
+					reader.ReadToFollowing("ConfirmationForExit");
+					if( reader.HasAttributes ) {
+						chBoxConfirmationForExit.Checked = Convert.ToBoolean( reader.GetAttribute("ConfirmationForExit") );
 					}
 					// Валидатор
 					reader.ReadToFollowing("ValidatorDoubleClick");
@@ -210,77 +215,77 @@ namespace Options
 						rbtnUpper.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnUpperChecked") );
 					}
 					reader.ReadToFollowing("Translit");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						chBoxTranslit.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxTranslitChecked") );
 					}
 					reader.ReadToFollowing("Strict");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						chBoxStrict.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxStrictChecked") );
 					}
 					reader.ReadToFollowing("Space");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						cboxSpace.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxSpaceSelectedIndex") );
 					}
 					reader.ReadToFollowing("Archive");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						chBoxToArchive.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxToArchiveChecked") );
 						cboxArchiveType.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxArchiveTypeSelectedIndex") );
 					}
 					reader.ReadToFollowing("IsFileExist");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						cboxFileExist.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxFileExistSelectedIndex") );
 					}
 					reader.ReadToFollowing("AddToFileNameBookID");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						chBoxAddToFileNameBookID.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxAddToFileNameBookIDChecked") );
 					}
 					reader.ReadToFollowing("FileDelete");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						chBoxDelFB2Files.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxDelFB2FilesChecked") );
 					}
 					reader.ReadToFollowing("AuthorsToDirs");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						rbtnAuthorOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorOneChecked") );
 						rbtnAuthorAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorAllChecked") );
 					}
 					reader.ReadToFollowing("GenresToDirs");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						rbtnGenreOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreOneChecked") );
 						rbtnGenreAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreAllChecked") );
 					}
 					reader.ReadToFollowing("GenresType");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						rbtnGenreSchema.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreSchemaChecked") );
 						rbtnGenreText.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreTextChecked") );
 					}
 					reader.ReadToFollowing("FMGenresScheme");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						rbtnFMFB21.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnFMFB21Checked") );
 						rbtnFMFB22.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnFMFB22Checked") );
 					}
 					reader.ReadToFollowing("SortType");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						rbtnFMAllFB2.Checked		= Convert.ToBoolean( reader.GetAttribute("rbtnFMAllFB2Checked") );
 						rbtnFMOnleValidFB2.Checked	= Convert.ToBoolean( reader.GetAttribute("rbtnFMOnleValidFB2Checked") );
 					}
 					reader.ReadToFollowing("FB2NotReadDir");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						txtBoxFB2NotReadDir.Text = reader.GetAttribute("txtBoxFB2NotReadDir");
 					}
 					reader.ReadToFollowing("FB2LongPathDir");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						txtBoxFB2LongPathDir.Text = reader.GetAttribute("txtBoxFB2LongPathDir");
 					}
 					reader.ReadToFollowing("FB2NotValidDir");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						txtBoxFB2NotValidDir.Text = reader.GetAttribute("txtBoxFB2NotValidDir");
 					}
 					reader.ReadToFollowing("ArchNotOpenDir");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						txtBoxArchNotOpenDir.Text = reader.GetAttribute("txtBoxArchNotOpenDir");
 					}
 					reader.ReadToFollowing("TagsNoText");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						txtBoxFMNoGenreGroup.Text = reader.GetAttribute("txtBoxFMNoGenreGroup");
 						txtBoxFMNoGenre.Text = reader.GetAttribute("txtBoxFMNoGenre");
 						txtBoxFMNoLang.Text = reader.GetAttribute("txtBoxFMNoLang");
@@ -293,7 +298,7 @@ namespace Options
 						txtBoxFMNoNSequence.Text = reader.GetAttribute("txtBoxFMNoNSequence");
 					}
 					reader.ReadToFollowing("GenresGroups");
-					if (reader.HasAttributes ) {
+					if( reader.HasAttributes ) {
 						txtboxFMsf.Text			= reader.GetAttribute("txtboxFMsf");
 						txtboxFMdetective.Text	= reader.GetAttribute("txtboxFMdetective");
 						txtboxFMprose.Text		= reader.GetAttribute("txtboxFMprose");
@@ -376,6 +381,10 @@ namespace Options
 								writer.WriteAttributeString( "cboxDSFB2DupText", cboxDSFB2Dup.Text );
 								writer.WriteAttributeString( "cboxTIRFB2DupText", cboxTIRFB2Dup.Text );
 							writer.WriteFullEndElement();
+						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "ConfirmationForExit" );
+						writer.WriteAttributeString( "ConfirmationForExit", Convert.ToString( chBoxConfirmationForExit.Checked ) );
 						writer.WriteFullEndElement();
 						
 					writer.WriteEndElement();
