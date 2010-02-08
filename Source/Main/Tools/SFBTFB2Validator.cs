@@ -256,6 +256,14 @@ namespace SharpFBTools.Tools
             } else {
             	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
+			
+			// выделяем 1-ю найденную книгу
+			ListView l = GetCurrentListWiew();
+			if( l.Items.Count > 0 ) {
+				l.Focus();
+				l.Items[0].Focused	= true;
+				l.Items[0].Selected	= true;
+			}
 		}
 		#endregion
 		
