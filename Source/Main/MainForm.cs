@@ -77,7 +77,7 @@ namespace Main
 			} else {
 				DialogResult result = MessageBox.Show( "Вы действительно хотите выйти из программы?", "SharpFBTools",
 			                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question );
-	      	  if( result == DialogResult.Yes ) {
+	      	  	if( result == DialogResult.Yes ) {
 					// очистка временной папки
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 					this.Close();

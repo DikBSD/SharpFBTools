@@ -44,6 +44,7 @@ namespace Options
 			this.btnDefRestore = new System.Windows.Forms.Button();
 			this.tcOptions = new System.Windows.Forms.TabControl();
 			this.tpGeneral = new System.Windows.Forms.TabPage();
+			this.chBoxConfirmationForExit = new System.Windows.Forms.CheckBox();
 			this.gboxButtons = new System.Windows.Forms.GroupBox();
 			this.cboxTIRFB2Dup = new System.Windows.Forms.ComboBox();
 			this.cboxDSFB2Dup = new System.Windows.Forms.ComboBox();
@@ -231,7 +232,6 @@ namespace Options
 			this.txtboxFMsf = new System.Windows.Forms.TextBox();
 			this.label14 = new System.Windows.Forms.Label();
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
-			this.chBoxConfirmationForExit = new System.Windows.Forms.CheckBox();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -365,6 +365,18 @@ namespace Options
 			this.tpGeneral.TabIndex = 0;
 			this.tpGeneral.Text = " Основные ";
 			this.tpGeneral.UseVisualStyleBackColor = true;
+			// 
+			// chBoxConfirmationForExit
+			// 
+			this.chBoxConfirmationForExit.Checked = true;
+			this.chBoxConfirmationForExit.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxConfirmationForExit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(10, 424);
+			this.chBoxConfirmationForExit.Name = "chBoxConfirmationForExit";
+			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(338, 24);
+			this.chBoxConfirmationForExit.TabIndex = 18;
+			this.chBoxConfirmationForExit.Text = " Подтверждение для выхода из программы";
+			this.chBoxConfirmationForExit.UseVisualStyleBackColor = true;
 			// 
 			// gboxButtons
 			// 
@@ -1026,7 +1038,7 @@ namespace Options
 			this.tpFileManager.Padding = new System.Windows.Forms.Padding(3);
 			this.tpFileManager.Size = new System.Drawing.Size(609, 461);
 			this.tpFileManager.TabIndex = 2;
-			this.tpFileManager.Text = " Менеджер файлов ";
+			this.tpFileManager.Text = "Сортировщик";
 			this.tpFileManager.UseVisualStyleBackColor = true;
 			// 
 			// tcFM
@@ -2444,18 +2456,6 @@ namespace Options
 			this.label14.TabIndex = 0;
 			this.label14.Text = "Фантастика, Фэнтэзи:";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// chBoxConfirmationForExit
-			// 
-			this.chBoxConfirmationForExit.Checked = true;
-			this.chBoxConfirmationForExit.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chBoxConfirmationForExit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(10, 424);
-			this.chBoxConfirmationForExit.Name = "chBoxConfirmationForExit";
-			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(338, 24);
-			this.chBoxConfirmationForExit.TabIndex = 18;
-			this.chBoxConfirmationForExit.Text = " Подтверждение для выхода из программы";
-			this.chBoxConfirmationForExit.UseVisualStyleBackColor = true;
 			// 
 			// OptionsForm
 			// 
