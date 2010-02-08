@@ -1269,10 +1269,10 @@ namespace Options
 			this.cboxSpace.Items.AddRange(new object[] {
 									"Оставить",
 									"Удалить",
-									"Заменит на  _",
-									"Заменит на  -",
-									"Заменит на  +",
-									"Заменит на  ~"});
+									"Заменить на  _",
+									"Заменить на  -",
+									"Заменить на  +",
+									"Заменить на  ~"});
 			this.cboxSpace.Location = new System.Drawing.Point(151, 5);
 			this.cboxSpace.Name = "cboxSpace";
 			this.cboxSpace.Size = new System.Drawing.Size(123, 21);
