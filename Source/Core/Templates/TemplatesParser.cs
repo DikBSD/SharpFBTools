@@ -167,7 +167,7 @@ namespace Core.Templates {
 		}
 		
 		private static string ParseComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors,
-												BookTitle btBookTitle, IList<Sequence> lSequences, IFBGenres fb2g,
+												BookTitle btBookTitle, IList<Sequence> lSequences, IFBGenres fb2g, Date dBookDate,
 												Settings.DataFM dfm, int nGenreIndex, int nAuthorIndex ) {
 			// парсинг сложных условных групп
 			#region Код
@@ -361,6 +361,28 @@ namespace Core.Templates {
 									}
 								}
 								break;
+							case "*DT*": // Дата написания Книги (текст)
+								if( dBookDate == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( dBookDate.Text==null || dBookDate.Text.Trim().Length==0 ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = dBookDate.Text.Trim();
+									}
+								}
+								break;
+							case "*DV*": // Дата написания Книги (значение)
+								if( dBookDate == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( dBookDate.Value==null || dBookDate.Value.Trim().Length==0 ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = dBookDate.Value.Trim();
+									}
+								}
+								break;
 							default :
 								lexem.Lexem = "";
 								break;
@@ -457,6 +479,7 @@ namespace Core.Templates {
 			} else {
 				fb2g = new FB22Genres();
 			}
+			Date dBookDate = ti.Date;
 
 			foreach( Lexems.TPSimple lexem in lSLexems ) {
 				switch( lexem.Type ) {
@@ -650,6 +673,28 @@ namespace Core.Templates {
 									}
 								}
 								break;
+							case "*DT*": // Дата написания Книги (текст)
+								if( dBookDate == null ) {
+									sFileName += dfm.NoDateText;
+								} else {
+									if( dBookDate.Text==null || dBookDate.Text.Trim().Length==0 ) {
+										sFileName += dfm.NoDateText;
+									} else {
+										sFileName += dBookDate.Text.Trim();
+									}
+								}
+								break;
+							case "*DV*": // Дата написания Книги (значение)
+								if( dBookDate == null ) {
+									sFileName += dfm.NoDateText;
+								} else {
+									if( dBookDate.Value==null || dBookDate.Value.Trim().Length==0 ) {
+										sFileName += dfm.NoDateValue;
+									} else {
+										sFileName += dBookDate.Value.Trim();
+									}
+								}
+								break;
 							default :
 								sFileName += "";
 								break;
@@ -777,6 +822,20 @@ namespace Core.Templates {
 									}
 								}
 								break;
+							case "[*DT*]": // Дата написания Книги (текст)
+								if( dBookDate != null ) {
+									if( dBookDate.Text!=null || dBookDate.Text.Trim().Length!=0 ) {
+										sFileName += dBookDate.Text.Trim();
+									}
+								}
+								break;
+							case "[*DV*]": // Дата написания Книги (значение)
+								if( dBookDate != null ) {
+									if( dBookDate.Value!=null || dBookDate.Value.Trim().Length!=0 ) {
+										sFileName += dBookDate.Value.Trim();
+									}
+								}
+								break;
 							default :
 								//sFileName += "";
 								break;
@@ -785,7 +844,7 @@ namespace Core.Templates {
 					case Lexems.SimpleType.conditional_group:
 						// условная группа
 						sFileName += ParseComplexGroup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle,
-						                               lSequences, fb2g, dfm, nGenreIndex, nAuthorIndex );
+						                               lSequences, fb2g, dBookDate, dfm, nGenreIndex, nAuthorIndex );
 						break;
 					default :
 						// постоянные символы
