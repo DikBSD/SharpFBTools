@@ -15,6 +15,7 @@ namespace Core.Templates.Lexems {
 	public class AllTemplates {
 		protected static readonly string[] m_sAllTemplates = new string[] {
 								"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*GG*","*SII*","*SIII*","*DT*","DV",
+								"*LF*","*LM*","*LL*","*LN*"
 								};
 		public AllTemplates() {
 			
@@ -73,6 +74,18 @@ namespace Core.Templates.Lexems {
         }
 		public string DV {
             get { return m_sAllTemplates[14]; }
+        }
+		public string LF {
+            get { return m_sAllTemplates[15]; }
+        }
+		public string LM {
+            get { return m_sAllTemplates[16]; }
+        }
+		public string LL {
+            get { return m_sAllTemplates[17]; }
+        }
+		public string LN {
+            get { return m_sAllTemplates[18]; }
         }
 	}
 	
