@@ -39,6 +39,8 @@ namespace SharpFBTools.Tools
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpAbout));
 			this.tcAbout = new System.Windows.Forms.TabControl();
 			this.tpAbout = new System.Windows.Forms.TabPage();
+			this.lblAsIs1 = new System.Windows.Forms.Label();
+			this.lblAsIs = new System.Windows.Forms.Label();
 			this.lblWeb = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.lblDonate4Text = new System.Windows.Forms.Label();
@@ -63,8 +65,6 @@ namespace SharpFBTools.Tools
 			this.pMode = new System.Windows.Forms.Panel();
 			this.lblType = new System.Windows.Forms.Label();
 			this.cboxInstrument = new System.Windows.Forms.ComboBox();
-			this.lblAsIs = new System.Windows.Forms.Label();
-			this.lblAsIs1 = new System.Windows.Forms.Label();
 			this.tcAbout.SuspendLayout();
 			this.tpAbout.SuspendLayout();
 			this.tpLog.SuspendLayout();
@@ -112,6 +112,29 @@ namespace SharpFBTools.Tools
 			this.tpAbout.TabIndex = 0;
 			this.tpAbout.Text = " О программе ";
 			this.tpAbout.UseVisualStyleBackColor = true;
+			// 
+			// lblAsIs1
+			// 
+			this.lblAsIs1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblAsIs1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblAsIs1.Location = new System.Drawing.Point(3, 413);
+			this.lblAsIs1.Name = "lblAsIs1";
+			this.lblAsIs1.Size = new System.Drawing.Size(697, 41);
+			this.lblAsIs1.TabIndex = 15;
+			this.lblAsIs1.Text = "Разработчик программы не несет никакой ответственности за возможные негативные ре" +
+			"зультаты работы программы. Делайте копии файлов.";
+			this.lblAsIs1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblAsIs
+			// 
+			this.lblAsIs.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblAsIs.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblAsIs.Location = new System.Drawing.Point(3, 390);
+			this.lblAsIs.Name = "lblAsIs";
+			this.lblAsIs.Size = new System.Drawing.Size(697, 23);
+			this.lblAsIs.TabIndex = 14;
+			this.lblAsIs.Text = "Соглашение:";
+			this.lblAsIs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lblWeb
 			// 
@@ -224,7 +247,7 @@ namespace SharpFBTools.Tools
 			this.lblCopyright.Name = "lblCopyright";
 			this.lblCopyright.Size = new System.Drawing.Size(697, 19);
 			this.lblCopyright.TabIndex = 2;
-			this.lblCopyright.Text = "Copyright (c) 2009";
+			this.lblCopyright.Text = "Copyright (c) 2009-2010";
 			this.lblCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lblDeveloper
@@ -384,29 +407,6 @@ namespace SharpFBTools.Tools
 			this.cboxInstrument.Size = new System.Drawing.Size(608, 21);
 			this.cboxInstrument.TabIndex = 1;
 			this.cboxInstrument.SelectedIndexChanged += new System.EventHandler(this.CboxInstrumentSelectedIndexChanged);
-			// 
-			// lblAsIs
-			// 
-			this.lblAsIs.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblAsIs.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lblAsIs.Location = new System.Drawing.Point(3, 390);
-			this.lblAsIs.Name = "lblAsIs";
-			this.lblAsIs.Size = new System.Drawing.Size(697, 23);
-			this.lblAsIs.TabIndex = 14;
-			this.lblAsIs.Text = "Соглашение:";
-			this.lblAsIs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// lblAsIs1
-			// 
-			this.lblAsIs1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblAsIs1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lblAsIs1.Location = new System.Drawing.Point(3, 413);
-			this.lblAsIs1.Name = "lblAsIs1";
-			this.lblAsIs1.Size = new System.Drawing.Size(697, 41);
-			this.lblAsIs1.TabIndex = 15;
-			this.lblAsIs1.Text = "Разработчик программы не несет никакой ответственности за возможные негативные ре" +
-			"зультаты работы программы. Делайте копии файлов.";
-			this.lblAsIs1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// SFBTpAbout
 			// 

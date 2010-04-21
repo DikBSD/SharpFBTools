@@ -90,5 +90,6 @@ namespace SharpFBTools.Tools
 			lblDeveloper.Text = "Разработчик: "+SharpFBTools_AssemblyInfo.GetAssemblyCompany();
 			lblCopyright.Text = SharpFBTools_AssemblyInfo.GetAssemblyCopyright();
 		}
+
 	}
 }
