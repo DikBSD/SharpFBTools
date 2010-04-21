@@ -533,6 +533,27 @@ namespace Options
 				
 		void BtnOKClick(object sender, EventArgs e)
 		{
+			// проверка на названия папок
+			if( txtBoxFMNoGenreGroup.Text.Trim().Length==0 || txtBoxFMNoGenre.Text.Trim().Length==0 ||
+				txtBoxFMNoLang.Text.Trim().Length==0 || txtBoxFMNoFirstName.Text.Trim().Length==0 ||
+				txtBoxFMNoMiddleName.Text.Trim().Length==0 || txtBoxFMNoLastName.Text.Trim().Length==0 ||
+				txtBoxFMNoNickName.Text.Trim().Length==0 || txtBoxFMNoBookTitle.Text.Trim().Length==0 ||
+				txtBoxFMNoSequence.Text.Trim().Length==0 || txtBoxFMNoNSequence.Text.Trim().Length==0 ) {
+					MessageBox.Show( "Вкладка 'Сортировщик', Вкладка 'Папки шаблонного тэга без данных'\nНазвания папок должны иметь хотя бы 1 символ!",
+				                "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			} else if( txtboxFMsf.Text.Trim().Length==0 || txtboxFMdetective.Text.Trim().Length==0 || 
+			          txtboxFMprose.Text.Trim().Length==0 || txtboxFMlove.Text.Trim().Length==0 || 
+			          txtboxFMadventure.Text.Trim().Length==0 || txtboxFMchildren.Text.Trim().Length==0 || 
+			          txtboxFMpoetry.Text.Trim().Length==0 || txtboxFMantique.Text.Trim().Length==0 || 
+			          txtboxFMscience.Text.Trim().Length==0 || txtboxFMcomputers.Text.Trim().Length==0 || 
+			          txtboxFMreference.Text.Trim().Length==0 || txtboxFMnonfiction.Text.Trim().Length==0 || 
+			          txtboxFMreligion.Text.Trim().Length==0 || txtboxFMhumor.Text.Trim().Length==0 || 
+			          txtboxFMhome.Text.Trim().Length==0 || txtboxFMbusiness.Text.Trim().Length==0 ) {
+							MessageBox.Show( "Вкладка 'Сортировщик', Вкладка 'Группы Жанров'\nНазвания папок должны иметь хотя бы 1 символ!",
+				                "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
 			// сохранение настроек в ini
 			WriteSettings();
 			this.Close();
