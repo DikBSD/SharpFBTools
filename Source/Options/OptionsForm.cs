@@ -734,7 +734,11 @@ namespace Options
 							DefFMProblemFilesDir();
 							break;
 						case 2: // название папки шаблонного тэга без данных
-							DefFMDirNameForTagNotData();
+							switch( tcDesc.SelectedIndex ) {
+								case 0: // данные Книги из Description
+									DefFMDirNameForTagNotData();
+									break;
+							}
 							break;
 						case 3: // название Групп Жанров
 							DefFMGenresGroups();
