@@ -116,6 +116,8 @@ namespace Options
 			txtBoxFMNoBookTitle.Text	= Settings.SettingsFM.GetDefFMNoBookTitle();
 			txtBoxFMNoSequence.Text		= Settings.SettingsFM.GetDefFMNoSequence();
 			txtBoxFMNoNSequence.Text	= Settings.SettingsFM.GetDefFMNoNSequence();
+			txtBoxFMNoDateText.Text		= Settings.SettingsFM.GetDefFMNoDateText();
+			txtBoxFMNoDateValue.Text	= Settings.SettingsFM.GetDefFMNoDateValue();
 		}
 		
 		private void DefFMGenresGroups() {
@@ -296,6 +298,8 @@ namespace Options
 						txtBoxFMNoBookTitle.Text = reader.GetAttribute("txtBoxFMNoBookTitle");
 						txtBoxFMNoSequence.Text = reader.GetAttribute("txtBoxFMNoSequence");
 						txtBoxFMNoNSequence.Text = reader.GetAttribute("txtBoxFMNoNSequence");
+						txtBoxFMNoDateText.Text = reader.GetAttribute("txtBoxFMNoDateText");
+						txtBoxFMNoDateValue.Text = reader.GetAttribute("txtBoxFMNoDateValue");
 					}
 					reader.ReadToFollowing("GenresGroups");
 					if( reader.HasAttributes ) {
@@ -484,6 +488,7 @@ namespace Options
 							writer.WriteAttributeString( "txtBoxArchNotOpenDir", txtBoxArchNotOpenDir.Text );
 						writer.WriteFullEndElement();
 						
+						// для данных книги
 						writer.WriteStartElement( "TagsNoText" );
 							writer.WriteAttributeString( "txtBoxFMNoGenreGroup", txtBoxFMNoGenreGroup.Text );
 							writer.WriteAttributeString( "txtBoxFMNoGenre", txtBoxFMNoGenre.Text );
@@ -495,6 +500,8 @@ namespace Options
 							writer.WriteAttributeString( "txtBoxFMNoBookTitle", txtBoxFMNoBookTitle.Text );
 							writer.WriteAttributeString( "txtBoxFMNoSequence", txtBoxFMNoSequence.Text );
 							writer.WriteAttributeString( "txtBoxFMNoNSequence", txtBoxFMNoNSequence.Text );
+							writer.WriteAttributeString( "txtBoxFMNoDateText", txtBoxFMNoDateText.Text );
+							writer.WriteAttributeString( "txtBoxFMNoDateValue", txtBoxFMNoDateValue.Text );
 						writer.WriteFullEndElement();
 						
 						writer.WriteStartElement( "GenresGroups" );
@@ -538,8 +545,9 @@ namespace Options
 				txtBoxFMNoLang.Text.Trim().Length==0 || txtBoxFMNoFirstName.Text.Trim().Length==0 ||
 				txtBoxFMNoMiddleName.Text.Trim().Length==0 || txtBoxFMNoLastName.Text.Trim().Length==0 ||
 				txtBoxFMNoNickName.Text.Trim().Length==0 || txtBoxFMNoBookTitle.Text.Trim().Length==0 ||
-				txtBoxFMNoSequence.Text.Trim().Length==0 || txtBoxFMNoNSequence.Text.Trim().Length==0 ) {
-					MessageBox.Show( "Вкладка 'Сортировщик', Вкладка 'Папки шаблонного тэга без данных'\nНазвания папок должны иметь хотя бы 1 символ!",
+				txtBoxFMNoSequence.Text.Trim().Length==0 || txtBoxFMNoNSequence.Text.Trim().Length==0 ||
+				txtBoxFMNoDateText.Text.Trim().Length==0 || txtBoxFMNoDateValue.Text.Trim().Length==0 ) {
+					MessageBox.Show( "Вкладка 'Сортировщик' -> Вкладка 'Папки шаблонного тэга без данных' -> Вкладка 'Книга'\nНазвания папок должны иметь хотя бы 1 символ!",
 				                "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			} else if( txtboxFMsf.Text.Trim().Length==0 || txtboxFMdetective.Text.Trim().Length==0 || 

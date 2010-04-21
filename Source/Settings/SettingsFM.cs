@@ -62,6 +62,8 @@ namespace Settings
 		private static string m_sFMNoBookTitle	= "Названия Книги Нет";
 		private static string m_sFMNoSequence	= "Серии Нет";
 		private static string m_sFMNoNSequence	= "Номера Серии Нет";
+		private static string m_sFMNoDateText	= "Даты (Текст) Нет";
+		private static string m_sFMNoDateValue	= "Даты (Значение) Нет";
 		// название Групп Жанров
 		private static string m_sFMsf			= "Фантастика, Фэнтэзи";
 		private static string m_sFMdetective	= "Детективы, Боевики";
@@ -367,6 +369,12 @@ namespace Settings
 		public static string GetDefFMNoNSequence() {
 			return m_sFMNoNSequence;
 		}
+		public static string GetDefFMNoDateText() {
+			return m_sFMNoDateText;
+		}
+		public static string GetDefFMNoDateValue() {
+			return m_sFMNoDateValue;
+		}
 		// чтение названий папок тэгов, данных у которых нет
 		public static string ReadFMNoGenreGroup() {
 			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoGenreGroup", GetDefFMNoGenreGroup() );
@@ -398,7 +406,12 @@ namespace Settings
 		public static string ReadFMNoNSequence() {
 			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoNSequence", GetDefFMNoNSequence() );
 		}
-		
+		public static string ReadFMNoDateText() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoDateText", GetDefFMNoDateText() );
+		}
+		public static string ReadFMNoDateValue() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoDateValue", GetDefFMNoDateValue() );
+		}
 		// название папок Групп Жанров
 		public static string GetDefFMGenresGroupSf() {
 			return m_sFMsf;
@@ -584,6 +597,8 @@ namespace Settings
 			lv.Items[21].SubItems[1].Text = ReadFMNoBookTitle();
 			lv.Items[22].SubItems[1].Text = ReadFMNoSequence();
 			lv.Items[23].SubItems[1].Text = ReadFMNoNSequence();
+			lv.Items[43].SubItems[1].Text = ReadFMNoDateText();
+			lv.Items[44].SubItems[1].Text = ReadFMNoDateValue();
 			// тип сортировки - или Все файлы, или Только валидные
 			if( ReadSortValidType() ) {
 				lv.Items[24].SubItems[1].Text = "Любые fb2-файлы";
