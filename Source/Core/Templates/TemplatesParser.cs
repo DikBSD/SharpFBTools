@@ -762,7 +762,7 @@ namespace Core.Templates {
 							case "[*BAL*]": // Фамилия Автора Книги
 								if( lAuthors != null ) {
 									if( lAuthors[nAuthorIndex].LastName != null ) {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim() != "" ) {
+										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length!=0 ) {
 											sFileName += lAuthors[nAuthorIndex].LastName.Value.Trim();
 										}
 									}
