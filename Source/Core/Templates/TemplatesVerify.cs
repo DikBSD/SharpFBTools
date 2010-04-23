@@ -42,7 +42,8 @@ namespace Core.Templates
 			string[] sAllTemplates = new string[] {
 					"*LBAL*","*L*","*GG*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*SII*","*SIII*","*DT*","*DV*",
 					"*LF*","*LM*","*LL*","*LN*",
-					"*YEAR*","*PUB*",
+					"*YEAR*","*PUB*","*CITY*",
+					"*FB2AF*","*FB2AM*","*FB2AL*","*FB2AN*",
 					"[","]","\\","(",")","{","}"," ","`","~","'","!","@","#","№","$","%","^",
 					"-","+","=","_",";",".",","
 			};

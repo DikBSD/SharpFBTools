@@ -31,6 +31,12 @@ namespace Settings
 		private string m_sNoDateValue	= SettingsFM.ReadFMNoDateValue();
 		private string m_sNoYear		= SettingsFM.ReadFMNoYear();
 		private string m_sNoPublisher	= SettingsFM.ReadFMNoPublisher();
+		private string m_sNoCity		= SettingsFM.ReadFMNoCity();
+		private string m_sNoFB2FirstName		= SettingsFM.ReadFMNoFB2FirstName();
+		private string m_sNoFB2MiddleName		= SettingsFM.ReadFMNoFB2MiddleName();
+		private string m_sNoFB2LastName			= SettingsFM.ReadFMNoFB2LastName();
+		private string m_sNoFB2NickName			= SettingsFM.ReadFMNoFB2NickName();
+		
 		// название Групп Жанров
 		private string m_sSf			= SettingsFM.ReadFMSf();
 		private string m_sDetective		= SettingsFM.ReadFMDetective();
@@ -202,6 +208,26 @@ namespace Settings
 		public virtual string NoPublisher {
 			get { return m_sNoPublisher; }
 			set { m_sNoPublisher = value; }
+        }
+		public virtual string NoCity {
+			get { return m_sNoCity; }
+			set { m_sNoCity = value; }
+        }
+		public virtual string NoFB2FirstName {
+			get { return m_sNoFB2FirstName; }
+			set { m_sNoFB2FirstName = value; }
+        }
+		public virtual string NoFB2MiddleName {
+			get { return m_sNoFB2MiddleName; }
+			set { m_sNoFB2MiddleName = value; }
+        }
+		public virtual string NoFB2LastName {
+			get { return m_sNoFB2LastName; }
+			set { m_sNoFB2LastName = value; }
+        }
+		public virtual string NoFB2NickName {
+			get { return m_sNoFB2NickName; }
+			set { m_sNoFB2NickName = value; }
         }
 		// название Групп Жанров
 		public virtual string GenresGroupSf {

@@ -192,6 +192,12 @@ namespace Options
 			this.label1 = new System.Windows.Forms.Label();
 			this.tpPublishInfo = new System.Windows.Forms.TabPage();
 			this.gBoxFMPINoTags = new System.Windows.Forms.GroupBox();
+			this.panel32 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoPublisher = new System.Windows.Forms.TextBox();
+			this.label33 = new System.Windows.Forms.Label();
+			this.panel31 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoYear = new System.Windows.Forms.TextBox();
+			this.label32 = new System.Windows.Forms.Label();
 			this.tpFB2Info = new System.Windows.Forms.TabPage();
 			this.gBoxFMFB2INoTags = new System.Windows.Forms.GroupBox();
 			this.tpFMGenreGroups = new System.Windows.Forms.TabPage();
@@ -244,12 +250,21 @@ namespace Options
 			this.txtboxFMsf = new System.Windows.Forms.TextBox();
 			this.label14 = new System.Windows.Forms.Label();
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
-			this.panel31 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoYear = new System.Windows.Forms.TextBox();
-			this.label32 = new System.Windows.Forms.Label();
-			this.panel32 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoPublisher = new System.Windows.Forms.TextBox();
-			this.label33 = new System.Windows.Forms.Label();
+			this.panel33 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoCity = new System.Windows.Forms.TextBox();
+			this.label34 = new System.Windows.Forms.Label();
+			this.panel34 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoFB2NickName = new System.Windows.Forms.TextBox();
+			this.label35 = new System.Windows.Forms.Label();
+			this.panel35 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoFB2LastName = new System.Windows.Forms.TextBox();
+			this.label36 = new System.Windows.Forms.Label();
+			this.panel36 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoFB2MiddleName = new System.Windows.Forms.TextBox();
+			this.label37 = new System.Windows.Forms.Label();
+			this.panel37 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoFB2FirstName = new System.Windows.Forms.TextBox();
+			this.label38 = new System.Windows.Forms.Label();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -294,7 +309,10 @@ namespace Options
 			this.panel3.SuspendLayout();
 			this.tpPublishInfo.SuspendLayout();
 			this.gBoxFMPINoTags.SuspendLayout();
+			this.panel32.SuspendLayout();
+			this.panel31.SuspendLayout();
 			this.tpFB2Info.SuspendLayout();
+			this.gBoxFMFB2INoTags.SuspendLayout();
 			this.tpFMGenreGroups.SuspendLayout();
 			this.panel28.SuspendLayout();
 			this.panel27.SuspendLayout();
@@ -312,8 +330,11 @@ namespace Options
 			this.panel15.SuspendLayout();
 			this.panel14.SuspendLayout();
 			this.panel13.SuspendLayout();
-			this.panel31.SuspendLayout();
-			this.panel32.SuspendLayout();
+			this.panel33.SuspendLayout();
+			this.panel34.SuspendLayout();
+			this.panel35.SuspendLayout();
+			this.panel36.SuspendLayout();
+			this.panel37.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -2116,6 +2137,7 @@ namespace Options
 			// 
 			// gBoxFMPINoTags
 			// 
+			this.gBoxFMPINoTags.Controls.Add(this.panel33);
 			this.gBoxFMPINoTags.Controls.Add(this.panel32);
 			this.gBoxFMPINoTags.Controls.Add(this.panel31);
 			this.gBoxFMPINoTags.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2127,6 +2149,62 @@ namespace Options
 			this.gBoxFMPINoTags.TabIndex = 0;
 			this.gBoxFMPINoTags.TabStop = false;
 			this.gBoxFMPINoTags.Text = " Для отсутствующих данных тэгов ";
+			// 
+			// panel32
+			// 
+			this.panel32.Controls.Add(this.txtBoxFMNoPublisher);
+			this.panel32.Controls.Add(this.label33);
+			this.panel32.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel32.Location = new System.Drawing.Point(3, 48);
+			this.panel32.Name = "panel32";
+			this.panel32.Size = new System.Drawing.Size(575, 32);
+			this.panel32.TabIndex = 14;
+			// 
+			// txtBoxFMNoPublisher
+			// 
+			this.txtBoxFMNoPublisher.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoPublisher.Name = "txtBoxFMNoPublisher";
+			this.txtBoxFMNoPublisher.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoPublisher.TabIndex = 1;
+			// 
+			// label33
+			// 
+			this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label33.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label33.Location = new System.Drawing.Point(3, 8);
+			this.label33.Name = "label33";
+			this.label33.Size = new System.Drawing.Size(186, 18);
+			this.label33.TabIndex = 0;
+			this.label33.Text = "Издательства Нет:";
+			this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel31
+			// 
+			this.panel31.Controls.Add(this.txtBoxFMNoYear);
+			this.panel31.Controls.Add(this.label32);
+			this.panel31.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel31.Location = new System.Drawing.Point(3, 16);
+			this.panel31.Name = "panel31";
+			this.panel31.Size = new System.Drawing.Size(575, 32);
+			this.panel31.TabIndex = 13;
+			// 
+			// txtBoxFMNoYear
+			// 
+			this.txtBoxFMNoYear.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoYear.Name = "txtBoxFMNoYear";
+			this.txtBoxFMNoYear.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoYear.TabIndex = 1;
+			// 
+			// label32
+			// 
+			this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label32.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label32.Location = new System.Drawing.Point(3, 8);
+			this.label32.Name = "label32";
+			this.label32.Size = new System.Drawing.Size(186, 18);
+			this.label32.TabIndex = 0;
+			this.label32.Text = "Года издания Книги Нет:";
+			this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// tpFB2Info
 			// 
@@ -2141,6 +2219,10 @@ namespace Options
 			// 
 			// gBoxFMFB2INoTags
 			// 
+			this.gBoxFMFB2INoTags.Controls.Add(this.panel34);
+			this.gBoxFMFB2INoTags.Controls.Add(this.panel35);
+			this.gBoxFMFB2INoTags.Controls.Add(this.panel36);
+			this.gBoxFMFB2INoTags.Controls.Add(this.panel37);
 			this.gBoxFMFB2INoTags.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gBoxFMFB2INoTags.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gBoxFMFB2INoTags.ForeColor = System.Drawing.Color.Maroon;
@@ -2625,61 +2707,145 @@ namespace Options
 			this.label14.Text = "Фантастика, Фэнтэзи:";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// panel31
+			// panel33
 			// 
-			this.panel31.Controls.Add(this.txtBoxFMNoYear);
-			this.panel31.Controls.Add(this.label32);
-			this.panel31.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel31.Location = new System.Drawing.Point(3, 16);
-			this.panel31.Name = "panel31";
-			this.panel31.Size = new System.Drawing.Size(575, 32);
-			this.panel31.TabIndex = 13;
+			this.panel33.Controls.Add(this.txtBoxFMNoCity);
+			this.panel33.Controls.Add(this.label34);
+			this.panel33.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel33.Location = new System.Drawing.Point(3, 80);
+			this.panel33.Name = "panel33";
+			this.panel33.Size = new System.Drawing.Size(575, 32);
+			this.panel33.TabIndex = 15;
 			// 
-			// txtBoxFMNoYear
+			// txtBoxFMNoCity
 			// 
-			this.txtBoxFMNoYear.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoYear.Name = "txtBoxFMNoYear";
-			this.txtBoxFMNoYear.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoYear.TabIndex = 1;
+			this.txtBoxFMNoCity.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoCity.Name = "txtBoxFMNoCity";
+			this.txtBoxFMNoCity.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoCity.TabIndex = 1;
 			// 
-			// label32
+			// label34
 			// 
-			this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label32.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label32.Location = new System.Drawing.Point(3, 8);
-			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(186, 18);
-			this.label32.TabIndex = 0;
-			this.label32.Text = "Года издания Книги Нет:";
-			this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label34.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label34.Location = new System.Drawing.Point(3, 8);
+			this.label34.Name = "label34";
+			this.label34.Size = new System.Drawing.Size(186, 18);
+			this.label34.TabIndex = 0;
+			this.label34.Text = "Города Издательства Нет:";
+			this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// panel32
+			// panel34
 			// 
-			this.panel32.Controls.Add(this.txtBoxFMNoPublisher);
-			this.panel32.Controls.Add(this.label33);
-			this.panel32.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel32.Location = new System.Drawing.Point(3, 48);
-			this.panel32.Name = "panel32";
-			this.panel32.Size = new System.Drawing.Size(575, 32);
-			this.panel32.TabIndex = 14;
+			this.panel34.Controls.Add(this.txtBoxFMNoFB2NickName);
+			this.panel34.Controls.Add(this.label35);
+			this.panel34.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel34.Location = new System.Drawing.Point(3, 112);
+			this.panel34.Name = "panel34";
+			this.panel34.Size = new System.Drawing.Size(575, 32);
+			this.panel34.TabIndex = 14;
 			// 
-			// txtBoxFMNoPublisher
+			// txtBoxFMNoFB2NickName
 			// 
-			this.txtBoxFMNoPublisher.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoPublisher.Name = "txtBoxFMNoPublisher";
-			this.txtBoxFMNoPublisher.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoPublisher.TabIndex = 1;
+			this.txtBoxFMNoFB2NickName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoFB2NickName.Name = "txtBoxFMNoFB2NickName";
+			this.txtBoxFMNoFB2NickName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoFB2NickName.TabIndex = 1;
 			// 
-			// label33
+			// label35
 			// 
-			this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label33.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label33.Location = new System.Drawing.Point(3, 8);
-			this.label33.Name = "label33";
-			this.label33.Size = new System.Drawing.Size(186, 18);
-			this.label33.TabIndex = 0;
-			this.label33.Text = "Издательства Нет:";
-			this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label35.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label35.Location = new System.Drawing.Point(3, 8);
+			this.label35.Name = "label35";
+			this.label35.Size = new System.Drawing.Size(186, 18);
+			this.label35.TabIndex = 0;
+			this.label35.Text = "Ника fb2-создателя Нет:";
+			this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel35
+			// 
+			this.panel35.Controls.Add(this.txtBoxFMNoFB2LastName);
+			this.panel35.Controls.Add(this.label36);
+			this.panel35.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel35.Location = new System.Drawing.Point(3, 80);
+			this.panel35.Name = "panel35";
+			this.panel35.Size = new System.Drawing.Size(575, 32);
+			this.panel35.TabIndex = 13;
+			// 
+			// txtBoxFMNoFB2LastName
+			// 
+			this.txtBoxFMNoFB2LastName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoFB2LastName.Name = "txtBoxFMNoFB2LastName";
+			this.txtBoxFMNoFB2LastName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoFB2LastName.TabIndex = 1;
+			// 
+			// label36
+			// 
+			this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label36.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label36.Location = new System.Drawing.Point(3, 8);
+			this.label36.Name = "label36";
+			this.label36.Size = new System.Drawing.Size(186, 18);
+			this.label36.TabIndex = 0;
+			this.label36.Text = "Фамилия fb2-создателя Нет:";
+			this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel36
+			// 
+			this.panel36.Controls.Add(this.txtBoxFMNoFB2MiddleName);
+			this.panel36.Controls.Add(this.label37);
+			this.panel36.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel36.Location = new System.Drawing.Point(3, 48);
+			this.panel36.Name = "panel36";
+			this.panel36.Size = new System.Drawing.Size(575, 32);
+			this.panel36.TabIndex = 12;
+			// 
+			// txtBoxFMNoFB2MiddleName
+			// 
+			this.txtBoxFMNoFB2MiddleName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoFB2MiddleName.Name = "txtBoxFMNoFB2MiddleName";
+			this.txtBoxFMNoFB2MiddleName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoFB2MiddleName.TabIndex = 1;
+			// 
+			// label37
+			// 
+			this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label37.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label37.Location = new System.Drawing.Point(3, 8);
+			this.label37.Name = "label37";
+			this.label37.Size = new System.Drawing.Size(186, 18);
+			this.label37.TabIndex = 0;
+			this.label37.Text = "Отчества fb2-создателя Нет:";
+			this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel37
+			// 
+			this.panel37.Controls.Add(this.txtBoxFMNoFB2FirstName);
+			this.panel37.Controls.Add(this.label38);
+			this.panel37.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel37.Location = new System.Drawing.Point(3, 16);
+			this.panel37.Name = "panel37";
+			this.panel37.Size = new System.Drawing.Size(575, 32);
+			this.panel37.TabIndex = 11;
+			// 
+			// txtBoxFMNoFB2FirstName
+			// 
+			this.txtBoxFMNoFB2FirstName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoFB2FirstName.Name = "txtBoxFMNoFB2FirstName";
+			this.txtBoxFMNoFB2FirstName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoFB2FirstName.TabIndex = 1;
+			// 
+			// label38
+			// 
+			this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label38.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label38.Location = new System.Drawing.Point(3, 8);
+			this.label38.Name = "label38";
+			this.label38.Size = new System.Drawing.Size(186, 18);
+			this.label38.TabIndex = 0;
+			this.label38.Text = "Имени fb2-создателя Нет:";
+			this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// OptionsForm
 			// 
@@ -2761,7 +2927,12 @@ namespace Options
 			this.panel3.PerformLayout();
 			this.tpPublishInfo.ResumeLayout(false);
 			this.gBoxFMPINoTags.ResumeLayout(false);
+			this.panel32.ResumeLayout(false);
+			this.panel32.PerformLayout();
+			this.panel31.ResumeLayout(false);
+			this.panel31.PerformLayout();
 			this.tpFB2Info.ResumeLayout(false);
+			this.gBoxFMFB2INoTags.ResumeLayout(false);
 			this.tpFMGenreGroups.ResumeLayout(false);
 			this.panel28.ResumeLayout(false);
 			this.panel28.PerformLayout();
@@ -2795,12 +2966,33 @@ namespace Options
 			this.panel14.PerformLayout();
 			this.panel13.ResumeLayout(false);
 			this.panel13.PerformLayout();
-			this.panel31.ResumeLayout(false);
-			this.panel31.PerformLayout();
-			this.panel32.ResumeLayout(false);
-			this.panel32.PerformLayout();
+			this.panel33.ResumeLayout(false);
+			this.panel33.PerformLayout();
+			this.panel34.ResumeLayout(false);
+			this.panel34.PerformLayout();
+			this.panel35.ResumeLayout(false);
+			this.panel35.PerformLayout();
+			this.panel36.ResumeLayout(false);
+			this.panel36.PerformLayout();
+			this.panel37.ResumeLayout(false);
+			this.panel37.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Label label38;
+		private System.Windows.Forms.TextBox txtBoxFMNoFB2FirstName;
+		private System.Windows.Forms.Panel panel37;
+		private System.Windows.Forms.Label label37;
+		private System.Windows.Forms.TextBox txtBoxFMNoFB2MiddleName;
+		private System.Windows.Forms.Panel panel36;
+		private System.Windows.Forms.Label label36;
+		private System.Windows.Forms.TextBox txtBoxFMNoFB2LastName;
+		private System.Windows.Forms.Panel panel35;
+		private System.Windows.Forms.Label label35;
+		private System.Windows.Forms.TextBox txtBoxFMNoFB2NickName;
+		private System.Windows.Forms.Panel panel34;
+		private System.Windows.Forms.Label label34;
+		private System.Windows.Forms.TextBox txtBoxFMNoCity;
+		private System.Windows.Forms.Panel panel33;
 		private System.Windows.Forms.Label label33;
 		private System.Windows.Forms.TextBox txtBoxFMNoPublisher;
 		private System.Windows.Forms.Panel panel32;

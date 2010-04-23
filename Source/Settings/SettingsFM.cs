@@ -66,6 +66,11 @@ namespace Settings
 		private static string m_sFMNoDateValue	= "Даты (Значение) Нет";
 		private static string m_sFMNoYear		= "Года издания Нет";
 		private static string m_sFMNoPublisher	= "Издательства Нет";
+		private static string m_sFMNoCity		= "Города Издания Нет";
+		private static string m_sFMNoFB2FirstName	= "Имени fb2-создателя Нет";
+		private static string m_sFMNoFB2MiddleName	= "Отчества fb2-создателя Нет";
+		private static string m_sFMNoFB2LastName	= "Фамилия fb2-создателя Нет";
+		private static string m_sFMNoFB2NickName	= "Ника fb2-создателя Нет";
 		// название Групп Жанров
 		private static string m_sFMsf			= "Фантастика, Фэнтэзи";
 		private static string m_sFMdetective	= "Детективы, Боевики";
@@ -383,6 +388,21 @@ namespace Settings
 		public static string GetDefFMNoPublisher() {
 			return m_sFMNoPublisher;
 		}
+		public static string GetDefFMNoCity() {
+			return m_sFMNoCity;
+		}
+		public static string GetDefFMNoFB2FirstName() {
+			return m_sFMNoFB2FirstName;
+		}
+		public static string GetDefFMNoFB2MiddleName() {
+			return m_sFMNoFB2MiddleName;
+		}
+		public static string GetDefFMNoFB2LastName() {
+			return m_sFMNoFB2LastName;
+		}
+		public static string GetDefFMNoFB2NickName() {
+			return m_sFMNoFB2NickName;
+		}
 		
 		// чтение названий папок тэгов, данных у которых нет
 		public static string ReadFMNoGenreGroup() {
@@ -427,6 +447,22 @@ namespace Settings
 		public static string ReadFMNoPublisher() {
 			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoPublisher", GetDefFMNoPublisher() );
 		}
+		public static string ReadFMNoCity() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoCity", GetDefFMNoCity() );
+		}
+		public static string ReadFMNoFB2FirstName() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoFB2FirstName", GetDefFMNoFB2FirstName() );
+		}
+		public static string ReadFMNoFB2MiddleName() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoFB2MiddleName", GetDefFMNoFB2MiddleName() );
+		}
+		public static string ReadFMNoFB2LastName() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoFB2LastName", GetDefFMNoFB2LastName() );
+		}
+		public static string ReadFMNoFB2NickName() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoFB2NickName", GetDefFMNoFB2NickName() );
+		}
+		
 		// название папок Групп Жанров
 		public static string GetDefFMGenresGroupSf() {
 			return m_sFMsf;
@@ -616,6 +652,11 @@ namespace Settings
 			lv.Items[44].SubItems[1].Text = ReadFMNoDateValue();
 			lv.Items[45].SubItems[1].Text = ReadFMNoYear();
 			lv.Items[46].SubItems[1].Text = ReadFMNoPublisher();
+			lv.Items[47].SubItems[1].Text = ReadFMNoCity();
+			lv.Items[48].SubItems[1].Text = ReadFMNoFB2FirstName();
+			lv.Items[49].SubItems[1].Text = ReadFMNoFB2MiddleName();
+			lv.Items[50].SubItems[1].Text = ReadFMNoFB2LastName();
+			lv.Items[51].SubItems[1].Text = ReadFMNoFB2NickName();
 			// тип сортировки - или Все файлы, или Только валидные
 			if( ReadSortValidType() ) {
 				lv.Items[24].SubItems[1].Text = "Любые fb2-файлы";

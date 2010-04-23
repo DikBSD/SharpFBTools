@@ -168,7 +168,8 @@ namespace Core.Templates {
 		
 		private static string ParseComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors,
 												BookTitle btBookTitle, IList<Sequence> lSequences, IFBGenres fb2g, Date dBookDate,
-												string sYear, Publisher pubPub,
+												string sYear, Publisher pubPub, City cCity,
+												IList<Author> lfb2Authors,
 												Settings.DataFM dfm, int nGenreIndex, int nAuthorIndex ) {
 			// парсинг сложных условных групп
 			#region Код
@@ -466,6 +467,77 @@ namespace Core.Templates {
 									}
 								}
 								break;
+							case "*CITY*": // Город Издательства
+								if( cCity == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( cCity.Value==null || cCity.Value.Trim().Length==0 ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = cCity.Value.Trim();
+									}
+								}
+								break;
+							case "*FB2AF*": // Имя создателя fb2-файла
+								if( lfb2Authors == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lfb2Authors[nAuthorIndex].FirstName==null ) {
+										lexem.Lexem = "";
+									} else {
+										if( lfb2Authors[nAuthorIndex].FirstName.Value.Trim().Length==0 ) {
+											lexem.Lexem = "";
+										} else {
+											lexem.Lexem = lfb2Authors[nAuthorIndex].FirstName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*FB2AM*": // Отчество создателя fb2-файла
+								if( lfb2Authors == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lfb2Authors[nAuthorIndex].MiddleName==null ) {
+										lexem.Lexem = "";
+									} else {
+										if( lfb2Authors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
+											lexem.Lexem = "";
+										} else {
+											lexem.Lexem = lfb2Authors[nAuthorIndex].MiddleName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*FB2AL*": // Фамилия создателя fb2-файла
+								if( lfb2Authors == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lfb2Authors[nAuthorIndex].LastName==null ) {
+										lexem.Lexem = "";
+									} else {
+										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+											lexem.Lexem = "";
+										} else {
+											lexem.Lexem = lfb2Authors[nAuthorIndex].LastName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*FB2AN*": // Ник создателя fb2-файла
+								if( lfb2Authors == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( lfb2Authors[nAuthorIndex].NickName==null ) {
+										lexem.Lexem = "";
+									} else {
+										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
+											lexem.Lexem = "";
+										} else {
+											lexem.Lexem = lfb2Authors[nAuthorIndex].NickName.Value.Trim();
+										}
+									}
+								}
+								break;
 							default :
 								lexem.Lexem = "";
 								break;
@@ -566,8 +638,12 @@ namespace Core.Templates {
 			Date dBookDate = ti.Date;
 			
 			PublishInfo pi		= fb2.GetPublishInfo();
-			string sYear		= pi.Year;
-			Publisher pubPub	= pi.Publisher;
+			string 		sYear	= pi.Year;
+			Publisher 	pubPub	= pi.Publisher;
+			City		cCity	= pi.City;
+			
+			DocumentInfo di				= fb2.GetDocumentInfo();
+			IList<Author> lfb2Authors	= di.Authors;
 
 			foreach( Lexems.TPSimple lexem in lSLexems ) {
 				switch( lexem.Type ) {
@@ -865,6 +941,77 @@ namespace Core.Templates {
 									}
 								}
 								break;
+							case "*CITY*": // Город Издательства
+								if( cCity == null ) {
+									sFileName += dfm.NoCity;
+								} else {
+									if( cCity.Value==null || cCity.Value.Trim().Length==0 ) {
+										sFileName += dfm.NoCity;
+									} else {
+										sFileName += cCity.Value.Trim();
+									}
+								}
+								break;
+							case "*FB2AF*": // Имя сооздателя fb2-файла
+								if( lfb2Authors == null ) {
+									sFileName += dfm.NoFB2FirstName;
+								} else {
+									if( lfb2Authors[nAuthorIndex].FirstName==null ) {
+										sFileName += dfm.NoFB2FirstName;
+									} else {
+										if( lfb2Authors[nAuthorIndex].FirstName.Value.Trim().Length==0 ) {
+											sFileName += dfm.NoFB2FirstName;
+										} else {
+											sFileName += lfb2Authors[nAuthorIndex].FirstName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*FB2AM*": // Отчество сооздателя fb2-файла
+								if( lfb2Authors == null ) {
+									sFileName += dfm.NoFB2MiddleName;
+								} else {
+									if( lfb2Authors[nAuthorIndex].MiddleName==null ) {
+										sFileName += dfm.NoFB2MiddleName;
+									} else {
+										if( lfb2Authors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
+											sFileName += dfm.NoFB2MiddleName;
+										} else {
+											sFileName += lfb2Authors[nAuthorIndex].MiddleName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*FB2AL*": // Фамилия сооздателя fb2-файла
+								if( lfb2Authors == null ) {
+									sFileName += dfm.NoFB2LastName;
+								} else {
+									if( lfb2Authors[nAuthorIndex].LastName==null ) {
+										sFileName += dfm.NoFB2LastName;
+									} else {
+										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+											sFileName += dfm.NoFB2LastName;
+										} else {
+											sFileName += lfb2Authors[nAuthorIndex].LastName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "*FB2AN*": // Ник сооздателя fb2-файла
+								if( lfb2Authors == null ) {
+									sFileName += dfm.NoFB2NickName;
+								} else {
+									if( lfb2Authors[nAuthorIndex].NickName==null ) {
+										sFileName += dfm.NoFB2NickName;
+									} else {
+										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
+											sFileName += dfm.NoFB2NickName;
+										} else {
+											sFileName += lfb2Authors[nAuthorIndex].NickName.Value.Trim();
+										}
+									}
+								}
+								break;
 							default :
 								sFileName += "";
 								break;
@@ -1058,6 +1205,49 @@ namespace Core.Templates {
 									}
 								}
 								break;
+							case "[*CITY*]": // Город Издательства
+								if( cCity != null ) {
+									if( cCity.Value!=null || cCity.Value.Trim().Length!=0 ) {
+										sFileName += cCity.Value.Trim();
+									}
+								}
+								break;
+							case "[*FB2AF*]": // Имя создателя fb2-файла
+								if( lfb2Authors != null ) {
+									if( lfb2Authors[nAuthorIndex].FirstName != null ) {
+										if( lfb2Authors[nAuthorIndex].FirstName.Value.Trim().Length!=0 ) {
+											sFileName += lfb2Authors[nAuthorIndex].FirstName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "[*FB2AM*]": // Отчество создателя fb2-файла
+								if( lfb2Authors != null ) {
+									if( lfb2Authors[nAuthorIndex].MiddleName != null ) {
+										if( lfb2Authors[nAuthorIndex].MiddleName.Value.Trim().Length!=0 ) {
+											sFileName += lfb2Authors[nAuthorIndex].MiddleName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "[*FB2AL*]": // Фамилия создателя fb2-файла
+								if( lfb2Authors != null ) {
+									if( lfb2Authors[nAuthorIndex].LastName != null ) {
+										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length!=0 ) {
+											sFileName += lfb2Authors[nAuthorIndex].LastName.Value.Trim();
+										}
+									}
+								}
+								break;
+							case "[*FB2AN*]": // Ник создателя fb2-файла
+								if( lfb2Authors != null ) {
+									if( lfb2Authors[nAuthorIndex].NickName != null ) {
+										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length!=0 ) {
+											sFileName += lfb2Authors[nAuthorIndex].NickName.Value.Trim();
+										}
+									}
+								}
+								break;
 							default :
 								//sFileName += "";
 								break;
@@ -1066,7 +1256,8 @@ namespace Core.Templates {
 					case Lexems.SimpleType.conditional_group:
 						// условная группа
 						sFileName += ParseComplexGroup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle,
-						                               lSequences, fb2g, dBookDate, sYear, pubPub,
+						                               lSequences, fb2g, dBookDate, sYear, pubPub, cCity,
+						                               lfb2Authors,
 						                               dfm, nGenreIndex, nAuthorIndex );
 						break;
 					default :
