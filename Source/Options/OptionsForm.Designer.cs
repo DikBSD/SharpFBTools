@@ -151,6 +151,49 @@ namespace Options
 			this.txtBoxFB2NotReadDir = new System.Windows.Forms.TextBox();
 			this.btnFB2LongPathDir = new System.Windows.Forms.Button();
 			this.tpFMNoTagsText = new System.Windows.Forms.TabPage();
+			this.tcDesc = new System.Windows.Forms.TabControl();
+			this.tpBookInfo = new System.Windows.Forms.TabPage();
+			this.gBoxFMBINoTags = new System.Windows.Forms.GroupBox();
+			this.panel30 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoDateValue = new System.Windows.Forms.TextBox();
+			this.label31 = new System.Windows.Forms.Label();
+			this.panel29 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoDateText = new System.Windows.Forms.TextBox();
+			this.label30 = new System.Windows.Forms.Label();
+			this.panel12 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoNSequence = new System.Windows.Forms.TextBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.panel11 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoSequence = new System.Windows.Forms.TextBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.panel10 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoBookTitle = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.panel9 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoNickName = new System.Windows.Forms.TextBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.panel8 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoLastName = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.panel7 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoMiddleName = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.panel6 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoFirstName = new System.Windows.Forms.TextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.panel5 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoLang = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.panel4 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoGenre = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.panel3 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoGenreGroup = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.tpPublishInfo = new System.Windows.Forms.TabPage();
+			this.gBoxFMPINoTags = new System.Windows.Forms.GroupBox();
+			this.tpFB2Info = new System.Windows.Forms.TabPage();
+			this.gBoxFMFB2INoTags = new System.Windows.Forms.GroupBox();
 			this.tpFMGenreGroups = new System.Windows.Forms.TabPage();
 			this.panel28 = new System.Windows.Forms.Panel();
 			this.txtboxFMbusiness = new System.Windows.Forms.TextBox();
@@ -201,49 +244,12 @@ namespace Options
 			this.txtboxFMsf = new System.Windows.Forms.TextBox();
 			this.label14 = new System.Windows.Forms.Label();
 			this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
-			this.tcDesc = new System.Windows.Forms.TabControl();
-			this.tpBookInfo = new System.Windows.Forms.TabPage();
-			this.tpPublishInfo = new System.Windows.Forms.TabPage();
-			this.gBoxFMBINoTags = new System.Windows.Forms.GroupBox();
-			this.panel12 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoNSequence = new System.Windows.Forms.TextBox();
-			this.label10 = new System.Windows.Forms.Label();
-			this.panel11 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoSequence = new System.Windows.Forms.TextBox();
-			this.label9 = new System.Windows.Forms.Label();
-			this.panel10 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoBookTitle = new System.Windows.Forms.TextBox();
-			this.label8 = new System.Windows.Forms.Label();
-			this.panel9 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoNickName = new System.Windows.Forms.TextBox();
-			this.label7 = new System.Windows.Forms.Label();
-			this.panel8 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoLastName = new System.Windows.Forms.TextBox();
-			this.label6 = new System.Windows.Forms.Label();
-			this.panel7 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoMiddleName = new System.Windows.Forms.TextBox();
-			this.label5 = new System.Windows.Forms.Label();
-			this.panel6 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoFirstName = new System.Windows.Forms.TextBox();
-			this.label4 = new System.Windows.Forms.Label();
-			this.panel5 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoLang = new System.Windows.Forms.TextBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.panel4 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoGenre = new System.Windows.Forms.TextBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.panel3 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoGenreGroup = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.tpFB2Info = new System.Windows.Forms.TabPage();
-			this.gBoxFMPINoTags = new System.Windows.Forms.GroupBox();
-			this.gBoxFMFB2INoTags = new System.Windows.Forms.GroupBox();
-			this.panel29 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoDateText = new System.Windows.Forms.TextBox();
-			this.label30 = new System.Windows.Forms.Label();
-			this.panel30 = new System.Windows.Forms.Panel();
-			this.txtBoxFMNoDateValue = new System.Windows.Forms.TextBox();
-			this.label31 = new System.Windows.Forms.Label();
+			this.panel31 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoYear = new System.Windows.Forms.TextBox();
+			this.label32 = new System.Windows.Forms.Label();
+			this.panel32 = new System.Windows.Forms.Panel();
+			this.txtBoxFMNoPublisher = new System.Windows.Forms.TextBox();
+			this.label33 = new System.Windows.Forms.Label();
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
@@ -271,6 +277,24 @@ namespace Options
 			this.gBoxAuthors.SuspendLayout();
 			this.tpFMDirs.SuspendLayout();
 			this.tpFMNoTagsText.SuspendLayout();
+			this.tcDesc.SuspendLayout();
+			this.tpBookInfo.SuspendLayout();
+			this.gBoxFMBINoTags.SuspendLayout();
+			this.panel30.SuspendLayout();
+			this.panel29.SuspendLayout();
+			this.panel12.SuspendLayout();
+			this.panel11.SuspendLayout();
+			this.panel10.SuspendLayout();
+			this.panel9.SuspendLayout();
+			this.panel8.SuspendLayout();
+			this.panel7.SuspendLayout();
+			this.panel6.SuspendLayout();
+			this.panel5.SuspendLayout();
+			this.panel4.SuspendLayout();
+			this.panel3.SuspendLayout();
+			this.tpPublishInfo.SuspendLayout();
+			this.gBoxFMPINoTags.SuspendLayout();
+			this.tpFB2Info.SuspendLayout();
 			this.tpFMGenreGroups.SuspendLayout();
 			this.panel28.SuspendLayout();
 			this.panel27.SuspendLayout();
@@ -288,23 +312,8 @@ namespace Options
 			this.panel15.SuspendLayout();
 			this.panel14.SuspendLayout();
 			this.panel13.SuspendLayout();
-			this.tcDesc.SuspendLayout();
-			this.tpBookInfo.SuspendLayout();
-			this.tpPublishInfo.SuspendLayout();
-			this.gBoxFMBINoTags.SuspendLayout();
-			this.panel12.SuspendLayout();
-			this.panel11.SuspendLayout();
-			this.panel10.SuspendLayout();
-			this.panel9.SuspendLayout();
-			this.panel8.SuspendLayout();
-			this.panel7.SuspendLayout();
-			this.panel6.SuspendLayout();
-			this.panel5.SuspendLayout();
-			this.panel4.SuspendLayout();
-			this.panel3.SuspendLayout();
-			this.tpFB2Info.SuspendLayout();
-			this.panel29.SuspendLayout();
-			this.panel30.SuspendLayout();
+			this.panel31.SuspendLayout();
+			this.panel32.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -379,7 +388,7 @@ namespace Options
 			this.tpGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tpGeneral.Name = "tpGeneral";
 			this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpGeneral.Size = new System.Drawing.Size(609, 461);
+			this.tpGeneral.Size = new System.Drawing.Size(609, 470);
 			this.tpGeneral.TabIndex = 0;
 			this.tpGeneral.Text = " Основные ";
 			this.tpGeneral.UseVisualStyleBackColor = true;
@@ -919,7 +928,7 @@ namespace Options
 			this.tpValidator.Location = new System.Drawing.Point(4, 22);
 			this.tpValidator.Name = "tpValidator";
 			this.tpValidator.Padding = new System.Windows.Forms.Padding(3);
-			this.tpValidator.Size = new System.Drawing.Size(609, 461);
+			this.tpValidator.Size = new System.Drawing.Size(609, 470);
 			this.tpValidator.TabIndex = 1;
 			this.tpValidator.Text = " Валидатор ";
 			this.tpValidator.UseVisualStyleBackColor = true;
@@ -1079,7 +1088,7 @@ namespace Options
 			this.tpFMGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tpFMGeneral.Name = "tpFMGeneral";
 			this.tpFMGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMGeneral.Size = new System.Drawing.Size(595, 429);
+			this.tpFMGeneral.Size = new System.Drawing.Size(595, 438);
 			this.tpFMGeneral.TabIndex = 0;
 			this.tpFMGeneral.Text = " Основные ";
 			this.tpFMGeneral.UseVisualStyleBackColor = true;
@@ -1100,7 +1109,7 @@ namespace Options
 			this.gboxFMGeneral.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxFMGeneral.Location = new System.Drawing.Point(3, 3);
 			this.gboxFMGeneral.Name = "gboxFMGeneral";
-			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 234);
+			this.gboxFMGeneral.Size = new System.Drawing.Size(589, 243);
 			this.gboxFMGeneral.TabIndex = 28;
 			this.gboxFMGeneral.TabStop = false;
 			this.gboxFMGeneral.Text = " Основные настройки ";
@@ -1408,7 +1417,7 @@ namespace Options
 			this.gboxApportionment.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.gboxApportionment.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxApportionment.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxApportionment.Location = new System.Drawing.Point(3, 237);
+			this.gboxApportionment.Location = new System.Drawing.Point(3, 246);
 			this.gboxApportionment.Name = "gboxApportionment";
 			this.gboxApportionment.Size = new System.Drawing.Size(589, 189);
 			this.gboxApportionment.TabIndex = 29;
@@ -1555,7 +1564,7 @@ namespace Options
 			this.tpFMDirs.Location = new System.Drawing.Point(4, 22);
 			this.tpFMDirs.Name = "tpFMDirs";
 			this.tpFMDirs.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMDirs.Size = new System.Drawing.Size(595, 429);
+			this.tpFMDirs.Size = new System.Drawing.Size(595, 438);
 			this.tpFMDirs.TabIndex = 1;
 			this.tpFMDirs.Text = " Папки для \"проблемных\" файлов ";
 			this.tpFMDirs.UseVisualStyleBackColor = true;
@@ -1710,6 +1719,438 @@ namespace Options
 			this.tpFMNoTagsText.Text = " Папки шаблонного тэга без данных ";
 			this.tpFMNoTagsText.UseVisualStyleBackColor = true;
 			// 
+			// tcDesc
+			// 
+			this.tcDesc.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+			this.tcDesc.Controls.Add(this.tpBookInfo);
+			this.tcDesc.Controls.Add(this.tpPublishInfo);
+			this.tcDesc.Controls.Add(this.tpFB2Info);
+			this.tcDesc.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tcDesc.Location = new System.Drawing.Point(0, 0);
+			this.tcDesc.Name = "tcDesc";
+			this.tcDesc.SelectedIndex = 0;
+			this.tcDesc.Size = new System.Drawing.Size(595, 438);
+			this.tcDesc.TabIndex = 0;
+			// 
+			// tpBookInfo
+			// 
+			this.tpBookInfo.Controls.Add(this.gBoxFMBINoTags);
+			this.tpBookInfo.Location = new System.Drawing.Point(4, 4);
+			this.tpBookInfo.Name = "tpBookInfo";
+			this.tpBookInfo.Padding = new System.Windows.Forms.Padding(3);
+			this.tpBookInfo.Size = new System.Drawing.Size(587, 412);
+			this.tpBookInfo.TabIndex = 0;
+			this.tpBookInfo.Text = " Книга ";
+			this.tpBookInfo.UseVisualStyleBackColor = true;
+			// 
+			// gBoxFMBINoTags
+			// 
+			this.gBoxFMBINoTags.Controls.Add(this.panel30);
+			this.gBoxFMBINoTags.Controls.Add(this.panel29);
+			this.gBoxFMBINoTags.Controls.Add(this.panel12);
+			this.gBoxFMBINoTags.Controls.Add(this.panel11);
+			this.gBoxFMBINoTags.Controls.Add(this.panel10);
+			this.gBoxFMBINoTags.Controls.Add(this.panel9);
+			this.gBoxFMBINoTags.Controls.Add(this.panel8);
+			this.gBoxFMBINoTags.Controls.Add(this.panel7);
+			this.gBoxFMBINoTags.Controls.Add(this.panel6);
+			this.gBoxFMBINoTags.Controls.Add(this.panel5);
+			this.gBoxFMBINoTags.Controls.Add(this.panel4);
+			this.gBoxFMBINoTags.Controls.Add(this.panel3);
+			this.gBoxFMBINoTags.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gBoxFMBINoTags.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.gBoxFMBINoTags.ForeColor = System.Drawing.Color.Maroon;
+			this.gBoxFMBINoTags.Location = new System.Drawing.Point(3, 3);
+			this.gBoxFMBINoTags.Name = "gBoxFMBINoTags";
+			this.gBoxFMBINoTags.Size = new System.Drawing.Size(581, 406);
+			this.gBoxFMBINoTags.TabIndex = 1;
+			this.gBoxFMBINoTags.TabStop = false;
+			this.gBoxFMBINoTags.Text = " Для отсутствующих данных тэгов ";
+			// 
+			// panel30
+			// 
+			this.panel30.Controls.Add(this.txtBoxFMNoDateValue);
+			this.panel30.Controls.Add(this.label31);
+			this.panel30.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel30.Location = new System.Drawing.Point(3, 368);
+			this.panel30.Name = "panel30";
+			this.panel30.Size = new System.Drawing.Size(575, 32);
+			this.panel30.TabIndex = 11;
+			// 
+			// txtBoxFMNoDateValue
+			// 
+			this.txtBoxFMNoDateValue.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoDateValue.Name = "txtBoxFMNoDateValue";
+			this.txtBoxFMNoDateValue.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoDateValue.TabIndex = 1;
+			// 
+			// label31
+			// 
+			this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label31.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label31.Location = new System.Drawing.Point(3, 8);
+			this.label31.Name = "label31";
+			this.label31.Size = new System.Drawing.Size(186, 18);
+			this.label31.TabIndex = 0;
+			this.label31.Text = "Даты написания (знач.) Нет:";
+			this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel29
+			// 
+			this.panel29.Controls.Add(this.txtBoxFMNoDateText);
+			this.panel29.Controls.Add(this.label30);
+			this.panel29.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel29.Location = new System.Drawing.Point(3, 336);
+			this.panel29.Name = "panel29";
+			this.panel29.Size = new System.Drawing.Size(575, 32);
+			this.panel29.TabIndex = 10;
+			// 
+			// txtBoxFMNoDateText
+			// 
+			this.txtBoxFMNoDateText.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoDateText.Name = "txtBoxFMNoDateText";
+			this.txtBoxFMNoDateText.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoDateText.TabIndex = 1;
+			// 
+			// label30
+			// 
+			this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label30.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label30.Location = new System.Drawing.Point(3, 8);
+			this.label30.Name = "label30";
+			this.label30.Size = new System.Drawing.Size(186, 18);
+			this.label30.TabIndex = 0;
+			this.label30.Text = "Даты написания (текст) Нет:";
+			this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel12
+			// 
+			this.panel12.Controls.Add(this.txtBoxFMNoNSequence);
+			this.panel12.Controls.Add(this.label10);
+			this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel12.Location = new System.Drawing.Point(3, 304);
+			this.panel12.Name = "panel12";
+			this.panel12.Size = new System.Drawing.Size(575, 32);
+			this.panel12.TabIndex = 9;
+			// 
+			// txtBoxFMNoNSequence
+			// 
+			this.txtBoxFMNoNSequence.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoNSequence.Name = "txtBoxFMNoNSequence";
+			this.txtBoxFMNoNSequence.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoNSequence.TabIndex = 1;
+			// 
+			// label10
+			// 
+			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label10.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label10.Location = new System.Drawing.Point(3, 8);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(186, 18);
+			this.label10.TabIndex = 0;
+			this.label10.Text = "Номера Серии Нет:";
+			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel11
+			// 
+			this.panel11.Controls.Add(this.txtBoxFMNoSequence);
+			this.panel11.Controls.Add(this.label9);
+			this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel11.Location = new System.Drawing.Point(3, 272);
+			this.panel11.Name = "panel11";
+			this.panel11.Size = new System.Drawing.Size(575, 32);
+			this.panel11.TabIndex = 8;
+			// 
+			// txtBoxFMNoSequence
+			// 
+			this.txtBoxFMNoSequence.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoSequence.Name = "txtBoxFMNoSequence";
+			this.txtBoxFMNoSequence.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoSequence.TabIndex = 1;
+			// 
+			// label9
+			// 
+			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label9.Location = new System.Drawing.Point(3, 8);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(186, 18);
+			this.label9.TabIndex = 0;
+			this.label9.Text = "Серии Нет:";
+			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel10
+			// 
+			this.panel10.Controls.Add(this.txtBoxFMNoBookTitle);
+			this.panel10.Controls.Add(this.label8);
+			this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel10.Location = new System.Drawing.Point(3, 240);
+			this.panel10.Name = "panel10";
+			this.panel10.Size = new System.Drawing.Size(575, 32);
+			this.panel10.TabIndex = 7;
+			// 
+			// txtBoxFMNoBookTitle
+			// 
+			this.txtBoxFMNoBookTitle.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoBookTitle.Name = "txtBoxFMNoBookTitle";
+			this.txtBoxFMNoBookTitle.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoBookTitle.TabIndex = 1;
+			// 
+			// label8
+			// 
+			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label8.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label8.Location = new System.Drawing.Point(3, 8);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(186, 18);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "Названия Книги Нет:";
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel9
+			// 
+			this.panel9.Controls.Add(this.txtBoxFMNoNickName);
+			this.panel9.Controls.Add(this.label7);
+			this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel9.Location = new System.Drawing.Point(3, 208);
+			this.panel9.Name = "panel9";
+			this.panel9.Size = new System.Drawing.Size(575, 32);
+			this.panel9.TabIndex = 6;
+			// 
+			// txtBoxFMNoNickName
+			// 
+			this.txtBoxFMNoNickName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoNickName.Name = "txtBoxFMNoNickName";
+			this.txtBoxFMNoNickName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoNickName.TabIndex = 1;
+			// 
+			// label7
+			// 
+			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label7.Location = new System.Drawing.Point(3, 8);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(186, 18);
+			this.label7.TabIndex = 0;
+			this.label7.Text = "Ника Автора Нет:";
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel8
+			// 
+			this.panel8.Controls.Add(this.txtBoxFMNoLastName);
+			this.panel8.Controls.Add(this.label6);
+			this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel8.Location = new System.Drawing.Point(3, 176);
+			this.panel8.Name = "panel8";
+			this.panel8.Size = new System.Drawing.Size(575, 32);
+			this.panel8.TabIndex = 5;
+			// 
+			// txtBoxFMNoLastName
+			// 
+			this.txtBoxFMNoLastName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoLastName.Name = "txtBoxFMNoLastName";
+			this.txtBoxFMNoLastName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoLastName.TabIndex = 1;
+			// 
+			// label6
+			// 
+			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label6.Location = new System.Drawing.Point(3, 8);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(186, 18);
+			this.label6.TabIndex = 0;
+			this.label6.Text = "Фамилия Автора Нет:";
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel7
+			// 
+			this.panel7.Controls.Add(this.txtBoxFMNoMiddleName);
+			this.panel7.Controls.Add(this.label5);
+			this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel7.Location = new System.Drawing.Point(3, 144);
+			this.panel7.Name = "panel7";
+			this.panel7.Size = new System.Drawing.Size(575, 32);
+			this.panel7.TabIndex = 4;
+			// 
+			// txtBoxFMNoMiddleName
+			// 
+			this.txtBoxFMNoMiddleName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoMiddleName.Name = "txtBoxFMNoMiddleName";
+			this.txtBoxFMNoMiddleName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoMiddleName.TabIndex = 1;
+			// 
+			// label5
+			// 
+			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label5.Location = new System.Drawing.Point(3, 8);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(186, 18);
+			this.label5.TabIndex = 0;
+			this.label5.Text = "Отчества Автора Нет:";
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel6
+			// 
+			this.panel6.Controls.Add(this.txtBoxFMNoFirstName);
+			this.panel6.Controls.Add(this.label4);
+			this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel6.Location = new System.Drawing.Point(3, 112);
+			this.panel6.Name = "panel6";
+			this.panel6.Size = new System.Drawing.Size(575, 32);
+			this.panel6.TabIndex = 3;
+			// 
+			// txtBoxFMNoFirstName
+			// 
+			this.txtBoxFMNoFirstName.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoFirstName.Name = "txtBoxFMNoFirstName";
+			this.txtBoxFMNoFirstName.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoFirstName.TabIndex = 1;
+			// 
+			// label4
+			// 
+			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label4.Location = new System.Drawing.Point(3, 8);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(186, 18);
+			this.label4.TabIndex = 0;
+			this.label4.Text = "Имени Автора Нет:";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel5
+			// 
+			this.panel5.Controls.Add(this.txtBoxFMNoLang);
+			this.panel5.Controls.Add(this.label3);
+			this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel5.Location = new System.Drawing.Point(3, 80);
+			this.panel5.Name = "panel5";
+			this.panel5.Size = new System.Drawing.Size(575, 32);
+			this.panel5.TabIndex = 2;
+			// 
+			// txtBoxFMNoLang
+			// 
+			this.txtBoxFMNoLang.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoLang.Name = "txtBoxFMNoLang";
+			this.txtBoxFMNoLang.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoLang.TabIndex = 1;
+			// 
+			// label3
+			// 
+			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label3.Location = new System.Drawing.Point(3, 8);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(186, 18);
+			this.label3.TabIndex = 0;
+			this.label3.Text = "Языка Книги Нет:";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel4
+			// 
+			this.panel4.Controls.Add(this.txtBoxFMNoGenre);
+			this.panel4.Controls.Add(this.label2);
+			this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel4.Location = new System.Drawing.Point(3, 48);
+			this.panel4.Name = "panel4";
+			this.panel4.Size = new System.Drawing.Size(575, 32);
+			this.panel4.TabIndex = 1;
+			// 
+			// txtBoxFMNoGenre
+			// 
+			this.txtBoxFMNoGenre.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoGenre.Name = "txtBoxFMNoGenre";
+			this.txtBoxFMNoGenre.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoGenre.TabIndex = 1;
+			// 
+			// label2
+			// 
+			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label2.Location = new System.Drawing.Point(3, 8);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(186, 18);
+			this.label2.TabIndex = 0;
+			this.label2.Text = "Жанра Книги Нет:";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel3
+			// 
+			this.panel3.Controls.Add(this.txtBoxFMNoGenreGroup);
+			this.panel3.Controls.Add(this.label1);
+			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel3.Location = new System.Drawing.Point(3, 16);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(575, 32);
+			this.panel3.TabIndex = 0;
+			// 
+			// txtBoxFMNoGenreGroup
+			// 
+			this.txtBoxFMNoGenreGroup.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoGenreGroup.Name = "txtBoxFMNoGenreGroup";
+			this.txtBoxFMNoGenreGroup.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoGenreGroup.TabIndex = 1;
+			// 
+			// label1
+			// 
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label1.Location = new System.Drawing.Point(3, 8);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(186, 18);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Неизвестная Группа Жанров:";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tpPublishInfo
+			// 
+			this.tpPublishInfo.Controls.Add(this.gBoxFMPINoTags);
+			this.tpPublishInfo.Location = new System.Drawing.Point(4, 4);
+			this.tpPublishInfo.Name = "tpPublishInfo";
+			this.tpPublishInfo.Padding = new System.Windows.Forms.Padding(3);
+			this.tpPublishInfo.Size = new System.Drawing.Size(587, 412);
+			this.tpPublishInfo.TabIndex = 1;
+			this.tpPublishInfo.Text = " Издательство ";
+			this.tpPublishInfo.UseVisualStyleBackColor = true;
+			// 
+			// gBoxFMPINoTags
+			// 
+			this.gBoxFMPINoTags.Controls.Add(this.panel32);
+			this.gBoxFMPINoTags.Controls.Add(this.panel31);
+			this.gBoxFMPINoTags.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gBoxFMPINoTags.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gBoxFMPINoTags.ForeColor = System.Drawing.Color.Maroon;
+			this.gBoxFMPINoTags.Location = new System.Drawing.Point(3, 3);
+			this.gBoxFMPINoTags.Name = "gBoxFMPINoTags";
+			this.gBoxFMPINoTags.Size = new System.Drawing.Size(581, 406);
+			this.gBoxFMPINoTags.TabIndex = 0;
+			this.gBoxFMPINoTags.TabStop = false;
+			this.gBoxFMPINoTags.Text = " Для отсутствующих данных тэгов ";
+			// 
+			// tpFB2Info
+			// 
+			this.tpFB2Info.Controls.Add(this.gBoxFMFB2INoTags);
+			this.tpFB2Info.Location = new System.Drawing.Point(4, 4);
+			this.tpFB2Info.Name = "tpFB2Info";
+			this.tpFB2Info.Padding = new System.Windows.Forms.Padding(3);
+			this.tpFB2Info.Size = new System.Drawing.Size(587, 412);
+			this.tpFB2Info.TabIndex = 2;
+			this.tpFB2Info.Text = " FB2-файл ";
+			this.tpFB2Info.UseVisualStyleBackColor = true;
+			// 
+			// gBoxFMFB2INoTags
+			// 
+			this.gBoxFMFB2INoTags.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gBoxFMFB2INoTags.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gBoxFMFB2INoTags.ForeColor = System.Drawing.Color.Maroon;
+			this.gBoxFMFB2INoTags.Location = new System.Drawing.Point(3, 3);
+			this.gBoxFMFB2INoTags.Name = "gBoxFMFB2INoTags";
+			this.gBoxFMFB2INoTags.Size = new System.Drawing.Size(581, 406);
+			this.gBoxFMFB2INoTags.TabIndex = 1;
+			this.gBoxFMFB2INoTags.TabStop = false;
+			this.gBoxFMFB2INoTags.Text = " Для отсутствующих данных тэгов ";
+			// 
 			// tpFMGenreGroups
 			// 
 			this.tpFMGenreGroups.Controls.Add(this.panel28);
@@ -1731,7 +2172,7 @@ namespace Options
 			this.tpFMGenreGroups.Location = new System.Drawing.Point(4, 22);
 			this.tpFMGenreGroups.Name = "tpFMGenreGroups";
 			this.tpFMGenreGroups.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFMGenreGroups.Size = new System.Drawing.Size(595, 429);
+			this.tpFMGenreGroups.Size = new System.Drawing.Size(595, 438);
 			this.tpFMGenreGroups.TabIndex = 3;
 			this.tpFMGenreGroups.Text = " Группы Жанров ";
 			this.tpFMGenreGroups.UseVisualStyleBackColor = true;
@@ -2184,435 +2625,61 @@ namespace Options
 			this.label14.Text = "Фантастика, Фэнтэзи:";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// tcDesc
-			// 
-			this.tcDesc.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-			this.tcDesc.Controls.Add(this.tpBookInfo);
-			this.tcDesc.Controls.Add(this.tpPublishInfo);
-			this.tcDesc.Controls.Add(this.tpFB2Info);
-			this.tcDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tcDesc.Location = new System.Drawing.Point(0, 0);
-			this.tcDesc.Name = "tcDesc";
-			this.tcDesc.SelectedIndex = 0;
-			this.tcDesc.Size = new System.Drawing.Size(595, 438);
-			this.tcDesc.TabIndex = 0;
-			// 
-			// tpBookInfo
-			// 
-			this.tpBookInfo.Controls.Add(this.gBoxFMBINoTags);
-			this.tpBookInfo.Location = new System.Drawing.Point(4, 4);
-			this.tpBookInfo.Name = "tpBookInfo";
-			this.tpBookInfo.Padding = new System.Windows.Forms.Padding(3);
-			this.tpBookInfo.Size = new System.Drawing.Size(587, 412);
-			this.tpBookInfo.TabIndex = 0;
-			this.tpBookInfo.Text = " Книга ";
-			this.tpBookInfo.UseVisualStyleBackColor = true;
-			// 
-			// tpPublishInfo
-			// 
-			this.tpPublishInfo.Controls.Add(this.gBoxFMPINoTags);
-			this.tpPublishInfo.Location = new System.Drawing.Point(4, 4);
-			this.tpPublishInfo.Name = "tpPublishInfo";
-			this.tpPublishInfo.Padding = new System.Windows.Forms.Padding(3);
-			this.tpPublishInfo.Size = new System.Drawing.Size(587, 403);
-			this.tpPublishInfo.TabIndex = 1;
-			this.tpPublishInfo.Text = " Издательство ";
-			this.tpPublishInfo.UseVisualStyleBackColor = true;
-			// 
-			// gBoxFMBINoTags
-			// 
-			this.gBoxFMBINoTags.Controls.Add(this.panel30);
-			this.gBoxFMBINoTags.Controls.Add(this.panel29);
-			this.gBoxFMBINoTags.Controls.Add(this.panel12);
-			this.gBoxFMBINoTags.Controls.Add(this.panel11);
-			this.gBoxFMBINoTags.Controls.Add(this.panel10);
-			this.gBoxFMBINoTags.Controls.Add(this.panel9);
-			this.gBoxFMBINoTags.Controls.Add(this.panel8);
-			this.gBoxFMBINoTags.Controls.Add(this.panel7);
-			this.gBoxFMBINoTags.Controls.Add(this.panel6);
-			this.gBoxFMBINoTags.Controls.Add(this.panel5);
-			this.gBoxFMBINoTags.Controls.Add(this.panel4);
-			this.gBoxFMBINoTags.Controls.Add(this.panel3);
-			this.gBoxFMBINoTags.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gBoxFMBINoTags.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.gBoxFMBINoTags.ForeColor = System.Drawing.Color.Maroon;
-			this.gBoxFMBINoTags.Location = new System.Drawing.Point(3, 3);
-			this.gBoxFMBINoTags.Name = "gBoxFMBINoTags";
-			this.gBoxFMBINoTags.Size = new System.Drawing.Size(581, 406);
-			this.gBoxFMBINoTags.TabIndex = 1;
-			this.gBoxFMBINoTags.TabStop = false;
-			this.gBoxFMBINoTags.Text = " Для отсутствующих данных тэгов ";
-			// 
-			// panel12
-			// 
-			this.panel12.Controls.Add(this.txtBoxFMNoNSequence);
-			this.panel12.Controls.Add(this.label10);
-			this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel12.Location = new System.Drawing.Point(3, 304);
-			this.panel12.Name = "panel12";
-			this.panel12.Size = new System.Drawing.Size(575, 32);
-			this.panel12.TabIndex = 9;
-			// 
-			// txtBoxFMNoNSequence
-			// 
-			this.txtBoxFMNoNSequence.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoNSequence.Name = "txtBoxFMNoNSequence";
-			this.txtBoxFMNoNSequence.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoNSequence.TabIndex = 1;
-			// 
-			// label10
-			// 
-			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label10.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label10.Location = new System.Drawing.Point(3, 8);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(186, 18);
-			this.label10.TabIndex = 0;
-			this.label10.Text = "Номера Серии Нет:";
-			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel11
-			// 
-			this.panel11.Controls.Add(this.txtBoxFMNoSequence);
-			this.panel11.Controls.Add(this.label9);
-			this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel11.Location = new System.Drawing.Point(3, 272);
-			this.panel11.Name = "panel11";
-			this.panel11.Size = new System.Drawing.Size(575, 32);
-			this.panel11.TabIndex = 8;
-			// 
-			// txtBoxFMNoSequence
-			// 
-			this.txtBoxFMNoSequence.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoSequence.Name = "txtBoxFMNoSequence";
-			this.txtBoxFMNoSequence.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoSequence.TabIndex = 1;
-			// 
-			// label9
-			// 
-			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label9.Location = new System.Drawing.Point(3, 8);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(186, 18);
-			this.label9.TabIndex = 0;
-			this.label9.Text = "Серии Нет:";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel10
-			// 
-			this.panel10.Controls.Add(this.txtBoxFMNoBookTitle);
-			this.panel10.Controls.Add(this.label8);
-			this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel10.Location = new System.Drawing.Point(3, 240);
-			this.panel10.Name = "panel10";
-			this.panel10.Size = new System.Drawing.Size(575, 32);
-			this.panel10.TabIndex = 7;
-			// 
-			// txtBoxFMNoBookTitle
-			// 
-			this.txtBoxFMNoBookTitle.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoBookTitle.Name = "txtBoxFMNoBookTitle";
-			this.txtBoxFMNoBookTitle.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoBookTitle.TabIndex = 1;
-			// 
-			// label8
-			// 
-			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label8.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label8.Location = new System.Drawing.Point(3, 8);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(186, 18);
-			this.label8.TabIndex = 0;
-			this.label8.Text = "Названия Книги Нет:";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel9
-			// 
-			this.panel9.Controls.Add(this.txtBoxFMNoNickName);
-			this.panel9.Controls.Add(this.label7);
-			this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel9.Location = new System.Drawing.Point(3, 208);
-			this.panel9.Name = "panel9";
-			this.panel9.Size = new System.Drawing.Size(575, 32);
-			this.panel9.TabIndex = 6;
-			// 
-			// txtBoxFMNoNickName
-			// 
-			this.txtBoxFMNoNickName.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoNickName.Name = "txtBoxFMNoNickName";
-			this.txtBoxFMNoNickName.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoNickName.TabIndex = 1;
-			// 
-			// label7
-			// 
-			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label7.Location = new System.Drawing.Point(3, 8);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(186, 18);
-			this.label7.TabIndex = 0;
-			this.label7.Text = "Ника Автора Нет:";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel8
-			// 
-			this.panel8.Controls.Add(this.txtBoxFMNoLastName);
-			this.panel8.Controls.Add(this.label6);
-			this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel8.Location = new System.Drawing.Point(3, 176);
-			this.panel8.Name = "panel8";
-			this.panel8.Size = new System.Drawing.Size(575, 32);
-			this.panel8.TabIndex = 5;
-			// 
-			// txtBoxFMNoLastName
-			// 
-			this.txtBoxFMNoLastName.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoLastName.Name = "txtBoxFMNoLastName";
-			this.txtBoxFMNoLastName.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoLastName.TabIndex = 1;
-			// 
-			// label6
-			// 
-			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label6.Location = new System.Drawing.Point(3, 8);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(186, 18);
-			this.label6.TabIndex = 0;
-			this.label6.Text = "Фамилия Автора Нет:";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel7
-			// 
-			this.panel7.Controls.Add(this.txtBoxFMNoMiddleName);
-			this.panel7.Controls.Add(this.label5);
-			this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel7.Location = new System.Drawing.Point(3, 144);
-			this.panel7.Name = "panel7";
-			this.panel7.Size = new System.Drawing.Size(575, 32);
-			this.panel7.TabIndex = 4;
-			// 
-			// txtBoxFMNoMiddleName
-			// 
-			this.txtBoxFMNoMiddleName.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoMiddleName.Name = "txtBoxFMNoMiddleName";
-			this.txtBoxFMNoMiddleName.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoMiddleName.TabIndex = 1;
-			// 
-			// label5
-			// 
-			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label5.Location = new System.Drawing.Point(3, 8);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(186, 18);
-			this.label5.TabIndex = 0;
-			this.label5.Text = "Отчества Автора Нет:";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel6
-			// 
-			this.panel6.Controls.Add(this.txtBoxFMNoFirstName);
-			this.panel6.Controls.Add(this.label4);
-			this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel6.Location = new System.Drawing.Point(3, 112);
-			this.panel6.Name = "panel6";
-			this.panel6.Size = new System.Drawing.Size(575, 32);
-			this.panel6.TabIndex = 3;
-			// 
-			// txtBoxFMNoFirstName
-			// 
-			this.txtBoxFMNoFirstName.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoFirstName.Name = "txtBoxFMNoFirstName";
-			this.txtBoxFMNoFirstName.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoFirstName.TabIndex = 1;
-			// 
-			// label4
-			// 
-			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label4.Location = new System.Drawing.Point(3, 8);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(186, 18);
-			this.label4.TabIndex = 0;
-			this.label4.Text = "Имени Автора Нет:";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel5
-			// 
-			this.panel5.Controls.Add(this.txtBoxFMNoLang);
-			this.panel5.Controls.Add(this.label3);
-			this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel5.Location = new System.Drawing.Point(3, 80);
-			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(575, 32);
-			this.panel5.TabIndex = 2;
-			// 
-			// txtBoxFMNoLang
-			// 
-			this.txtBoxFMNoLang.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoLang.Name = "txtBoxFMNoLang";
-			this.txtBoxFMNoLang.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoLang.TabIndex = 1;
-			// 
-			// label3
-			// 
-			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label3.Location = new System.Drawing.Point(3, 8);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(186, 18);
-			this.label3.TabIndex = 0;
-			this.label3.Text = "Языка Книги Нет:";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel4
-			// 
-			this.panel4.Controls.Add(this.txtBoxFMNoGenre);
-			this.panel4.Controls.Add(this.label2);
-			this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel4.Location = new System.Drawing.Point(3, 48);
-			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(575, 32);
-			this.panel4.TabIndex = 1;
-			// 
-			// txtBoxFMNoGenre
-			// 
-			this.txtBoxFMNoGenre.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoGenre.Name = "txtBoxFMNoGenre";
-			this.txtBoxFMNoGenre.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoGenre.TabIndex = 1;
-			// 
-			// label2
-			// 
-			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label2.Location = new System.Drawing.Point(3, 8);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(186, 18);
-			this.label2.TabIndex = 0;
-			this.label2.Text = "Жанра Книги Нет:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel3
-			// 
-			this.panel3.Controls.Add(this.txtBoxFMNoGenreGroup);
-			this.panel3.Controls.Add(this.label1);
-			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel3.Location = new System.Drawing.Point(3, 16);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(575, 32);
-			this.panel3.TabIndex = 0;
-			// 
-			// txtBoxFMNoGenreGroup
-			// 
-			this.txtBoxFMNoGenreGroup.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoGenreGroup.Name = "txtBoxFMNoGenreGroup";
-			this.txtBoxFMNoGenreGroup.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoGenreGroup.TabIndex = 1;
-			// 
-			// label1
-			// 
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label1.Location = new System.Drawing.Point(3, 8);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(186, 18);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Неизвестная Группа Жанров:";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// tpFB2Info
-			// 
-			this.tpFB2Info.Controls.Add(this.gBoxFMFB2INoTags);
-			this.tpFB2Info.Location = new System.Drawing.Point(4, 4);
-			this.tpFB2Info.Name = "tpFB2Info";
-			this.tpFB2Info.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFB2Info.Size = new System.Drawing.Size(587, 403);
-			this.tpFB2Info.TabIndex = 2;
-			this.tpFB2Info.Text = " FB2-файл ";
-			this.tpFB2Info.UseVisualStyleBackColor = true;
-			// 
-			// gBoxFMPINoTags
-			// 
-			this.gBoxFMPINoTags.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gBoxFMPINoTags.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxFMPINoTags.ForeColor = System.Drawing.Color.Maroon;
-			this.gBoxFMPINoTags.Location = new System.Drawing.Point(3, 3);
-			this.gBoxFMPINoTags.Name = "gBoxFMPINoTags";
-			this.gBoxFMPINoTags.Size = new System.Drawing.Size(581, 397);
-			this.gBoxFMPINoTags.TabIndex = 0;
-			this.gBoxFMPINoTags.TabStop = false;
-			this.gBoxFMPINoTags.Text = " Для отсутствующих данных тэгов ";
-			// 
-			// gBoxFMFB2INoTags
-			// 
-			this.gBoxFMFB2INoTags.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gBoxFMFB2INoTags.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxFMFB2INoTags.ForeColor = System.Drawing.Color.Maroon;
-			this.gBoxFMFB2INoTags.Location = new System.Drawing.Point(3, 3);
-			this.gBoxFMFB2INoTags.Name = "gBoxFMFB2INoTags";
-			this.gBoxFMFB2INoTags.Size = new System.Drawing.Size(581, 397);
-			this.gBoxFMFB2INoTags.TabIndex = 1;
-			this.gBoxFMFB2INoTags.TabStop = false;
-			this.gBoxFMFB2INoTags.Text = " Для отсутствующих данных тэгов ";
-			// 
-			// panel29
-			// 
-			this.panel29.Controls.Add(this.txtBoxFMNoDateText);
-			this.panel29.Controls.Add(this.label30);
-			this.panel29.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel29.Location = new System.Drawing.Point(3, 336);
-			this.panel29.Name = "panel29";
-			this.panel29.Size = new System.Drawing.Size(575, 32);
-			this.panel29.TabIndex = 10;
-			// 
-			// txtBoxFMNoDateText
-			// 
-			this.txtBoxFMNoDateText.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoDateText.Name = "txtBoxFMNoDateText";
-			this.txtBoxFMNoDateText.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoDateText.TabIndex = 1;
-			// 
-			// label30
-			// 
-			this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label30.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label30.Location = new System.Drawing.Point(3, 8);
-			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(186, 18);
-			this.label30.TabIndex = 0;
-			this.label30.Text = "Даты написания (текст) Нет:";
-			this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// panel30
-			// 
-			this.panel30.Controls.Add(this.txtBoxFMNoDateValue);
-			this.panel30.Controls.Add(this.label31);
-			this.panel30.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel30.Location = new System.Drawing.Point(3, 368);
-			this.panel30.Name = "panel30";
-			this.panel30.Size = new System.Drawing.Size(575, 32);
-			this.panel30.TabIndex = 11;
-			// 
-			// txtBoxFMNoDateValue
-			// 
-			this.txtBoxFMNoDateValue.Location = new System.Drawing.Point(193, 6);
-			this.txtBoxFMNoDateValue.Name = "txtBoxFMNoDateValue";
-			this.txtBoxFMNoDateValue.Size = new System.Drawing.Size(390, 20);
-			this.txtBoxFMNoDateValue.TabIndex = 1;
-			// 
-			// label31
-			// 
-			this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label31.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label31.Location = new System.Drawing.Point(3, 8);
-			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(186, 18);
-			this.label31.TabIndex = 0;
-			this.label31.Text = "Даты написания (знач.) Нет:";
-			this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// panel31
+			// 
+			this.panel31.Controls.Add(this.txtBoxFMNoYear);
+			this.panel31.Controls.Add(this.label32);
+			this.panel31.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel31.Location = new System.Drawing.Point(3, 16);
+			this.panel31.Name = "panel31";
+			this.panel31.Size = new System.Drawing.Size(575, 32);
+			this.panel31.TabIndex = 13;
+			// 
+			// txtBoxFMNoYear
+			// 
+			this.txtBoxFMNoYear.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoYear.Name = "txtBoxFMNoYear";
+			this.txtBoxFMNoYear.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoYear.TabIndex = 1;
+			// 
+			// label32
+			// 
+			this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label32.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label32.Location = new System.Drawing.Point(3, 8);
+			this.label32.Name = "label32";
+			this.label32.Size = new System.Drawing.Size(186, 18);
+			this.label32.TabIndex = 0;
+			this.label32.Text = "Года издания Книги Нет:";
+			this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// panel32
+			// 
+			this.panel32.Controls.Add(this.txtBoxFMNoPublisher);
+			this.panel32.Controls.Add(this.label33);
+			this.panel32.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel32.Location = new System.Drawing.Point(3, 48);
+			this.panel32.Name = "panel32";
+			this.panel32.Size = new System.Drawing.Size(575, 32);
+			this.panel32.TabIndex = 14;
+			// 
+			// txtBoxFMNoPublisher
+			// 
+			this.txtBoxFMNoPublisher.Location = new System.Drawing.Point(193, 6);
+			this.txtBoxFMNoPublisher.Name = "txtBoxFMNoPublisher";
+			this.txtBoxFMNoPublisher.Size = new System.Drawing.Size(390, 20);
+			this.txtBoxFMNoPublisher.TabIndex = 1;
+			// 
+			// label33
+			// 
+			this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label33.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.label33.Location = new System.Drawing.Point(3, 8);
+			this.label33.Name = "label33";
+			this.label33.Size = new System.Drawing.Size(186, 18);
+			this.label33.TabIndex = 0;
+			this.label33.Text = "Издательства Нет:";
+			this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// OptionsForm
 			// 
@@ -2665,6 +2732,36 @@ namespace Options
 			this.tpFMDirs.ResumeLayout(false);
 			this.tpFMDirs.PerformLayout();
 			this.tpFMNoTagsText.ResumeLayout(false);
+			this.tcDesc.ResumeLayout(false);
+			this.tpBookInfo.ResumeLayout(false);
+			this.gBoxFMBINoTags.ResumeLayout(false);
+			this.panel30.ResumeLayout(false);
+			this.panel30.PerformLayout();
+			this.panel29.ResumeLayout(false);
+			this.panel29.PerformLayout();
+			this.panel12.ResumeLayout(false);
+			this.panel12.PerformLayout();
+			this.panel11.ResumeLayout(false);
+			this.panel11.PerformLayout();
+			this.panel10.ResumeLayout(false);
+			this.panel10.PerformLayout();
+			this.panel9.ResumeLayout(false);
+			this.panel9.PerformLayout();
+			this.panel8.ResumeLayout(false);
+			this.panel8.PerformLayout();
+			this.panel7.ResumeLayout(false);
+			this.panel7.PerformLayout();
+			this.panel6.ResumeLayout(false);
+			this.panel6.PerformLayout();
+			this.panel5.ResumeLayout(false);
+			this.panel5.PerformLayout();
+			this.panel4.ResumeLayout(false);
+			this.panel4.PerformLayout();
+			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
+			this.tpPublishInfo.ResumeLayout(false);
+			this.gBoxFMPINoTags.ResumeLayout(false);
+			this.tpFB2Info.ResumeLayout(false);
 			this.tpFMGenreGroups.ResumeLayout(false);
 			this.panel28.ResumeLayout(false);
 			this.panel28.PerformLayout();
@@ -2698,37 +2795,18 @@ namespace Options
 			this.panel14.PerformLayout();
 			this.panel13.ResumeLayout(false);
 			this.panel13.PerformLayout();
-			this.tcDesc.ResumeLayout(false);
-			this.tpBookInfo.ResumeLayout(false);
-			this.tpPublishInfo.ResumeLayout(false);
-			this.gBoxFMBINoTags.ResumeLayout(false);
-			this.panel12.ResumeLayout(false);
-			this.panel12.PerformLayout();
-			this.panel11.ResumeLayout(false);
-			this.panel11.PerformLayout();
-			this.panel10.ResumeLayout(false);
-			this.panel10.PerformLayout();
-			this.panel9.ResumeLayout(false);
-			this.panel9.PerformLayout();
-			this.panel8.ResumeLayout(false);
-			this.panel8.PerformLayout();
-			this.panel7.ResumeLayout(false);
-			this.panel7.PerformLayout();
-			this.panel6.ResumeLayout(false);
-			this.panel6.PerformLayout();
-			this.panel5.ResumeLayout(false);
-			this.panel5.PerformLayout();
-			this.panel4.ResumeLayout(false);
-			this.panel4.PerformLayout();
-			this.panel3.ResumeLayout(false);
-			this.panel3.PerformLayout();
-			this.tpFB2Info.ResumeLayout(false);
-			this.panel29.ResumeLayout(false);
-			this.panel29.PerformLayout();
-			this.panel30.ResumeLayout(false);
-			this.panel30.PerformLayout();
+			this.panel31.ResumeLayout(false);
+			this.panel31.PerformLayout();
+			this.panel32.ResumeLayout(false);
+			this.panel32.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Label label33;
+		private System.Windows.Forms.TextBox txtBoxFMNoPublisher;
+		private System.Windows.Forms.Panel panel32;
+		private System.Windows.Forms.Label label32;
+		private System.Windows.Forms.TextBox txtBoxFMNoYear;
+		private System.Windows.Forms.Panel panel31;
 		private System.Windows.Forms.Label label30;
 		private System.Windows.Forms.TextBox txtBoxFMNoDateText;
 		private System.Windows.Forms.Panel panel29;

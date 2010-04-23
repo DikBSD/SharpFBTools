@@ -168,6 +168,7 @@ namespace Core.Templates {
 		
 		private static string ParseComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors,
 												BookTitle btBookTitle, IList<Sequence> lSequences, IFBGenres fb2g, Date dBookDate,
+												string sYear, Publisher pubPub,
 												Settings.DataFM dfm, int nGenreIndex, int nAuthorIndex ) {
 			// парсинг сложных условных групп
 			#region Код
@@ -447,6 +448,24 @@ namespace Core.Templates {
 									}
 								}
 								break;
+							case "*YEAR*": // Год Издания Книги
+								if( sYear == null || sYear.Length==0 ) {
+									lexem.Lexem = "";
+								} else {
+									lexem.Lexem = sYear.Trim();
+								}
+								break;
+							case "*PUB*": // Издательство
+								if( pubPub == null ) {
+									lexem.Lexem = "";
+								} else {
+									if( pubPub.Value==null || pubPub.Value.Trim().Length==0 ) {
+										lexem.Lexem = "";
+									} else {
+										lexem.Lexem = pubPub.Value.Trim();
+									}
+								}
+								break;
 							default :
 								lexem.Lexem = "";
 								break;
@@ -530,12 +549,13 @@ namespace Core.Templates {
 			// формирование имени файла на основе данных Description и шаблонов подстановки
 			#region Код
 			string sFileName = "";
-			fB2Parser fb2 = new fB2Parser( sFB2FilePath );
-			TitleInfo ti = fb2.GetTitleInfo();
-			string sLang = ti.Lang;
-			IList<Genre> lGenres = ti.Genres;
-			IList<Author> lAuthors = ti.Authors;
-			BookTitle btBookTitle = ti.BookTitle;
+			fB2Parser fb2	= new fB2Parser( sFB2FilePath );
+			
+			TitleInfo ti				= fb2.GetTitleInfo();
+			string sLang				= ti.Lang;
+			IList<Genre> lGenres		= ti.Genres;
+			IList<Author> lAuthors		= ti.Authors;
+			BookTitle btBookTitle		= ti.BookTitle;
 			IList<Sequence> lSequences = ti.Sequences;
 			IFBGenres fb2g = null;
 			if( dfm.GenresFB21Scheme ) {
@@ -544,6 +564,10 @@ namespace Core.Templates {
 				fb2g = new FB22Genres();
 			}
 			Date dBookDate = ti.Date;
+			
+			PublishInfo pi		= fb2.GetPublishInfo();
+			string sYear		= pi.Year;
+			Publisher pubPub	= pi.Publisher;
 
 			foreach( Lexems.TPSimple lexem in lSLexems ) {
 				switch( lexem.Type ) {
@@ -823,6 +847,24 @@ namespace Core.Templates {
 									}
 								}
 								break;
+							case "*YEAR*": // Год Издания Книги
+								if( sYear==null || sYear.Length==0 ) {
+									sFileName += dfm.NoYear;
+								} else {
+									sFileName += sYear.Trim();
+								}
+								break;
+							case "*PUB*": // Издательство
+								if( pubPub == null ) {
+									sFileName += dfm.NoPublisher;
+								} else {
+									if( pubPub.Value==null || pubPub.Value.Trim().Length==0 ) {
+										sFileName += dfm.NoPublisher;
+									} else {
+										sFileName += pubPub.Value.Trim();
+									}
+								}
+								break;
 							default :
 								sFileName += "";
 								break;
@@ -1004,6 +1046,18 @@ namespace Core.Templates {
 									}
 								}
 								break;
+							case "[*YEAR*]": // Год Издания Книги
+								if( sYear!=null || sYear.Length!=0 ) {
+									sFileName += sYear.Trim();
+								}
+								break;
+							case "[*PUB*]": // Издательство
+								if( pubPub != null ) {
+									if( pubPub.Value!=null || pubPub.Value.Trim().Length!=0 ) {
+										sFileName += pubPub.Value.Trim();
+									}
+								}
+								break;
 							default :
 								//sFileName += "";
 								break;
@@ -1012,7 +1066,8 @@ namespace Core.Templates {
 					case Lexems.SimpleType.conditional_group:
 						// условная группа
 						sFileName += ParseComplexGroup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle,
-						                               lSequences, fb2g, dBookDate, dfm, nGenreIndex, nAuthorIndex );
+						                               lSequences, fb2g, dBookDate, sYear, pubPub,
+						                               dfm, nGenreIndex, nAuthorIndex );
 						break;
 					default :
 						// постоянные символы

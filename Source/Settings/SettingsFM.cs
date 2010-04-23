@@ -64,6 +64,8 @@ namespace Settings
 		private static string m_sFMNoNSequence	= "Номера Серии Нет";
 		private static string m_sFMNoDateText	= "Даты (Текст) Нет";
 		private static string m_sFMNoDateValue	= "Даты (Значение) Нет";
+		private static string m_sFMNoYear		= "Года издания Нет";
+		private static string m_sFMNoPublisher	= "Издательства Нет";
 		// название Групп Жанров
 		private static string m_sFMsf			= "Фантастика, Фэнтэзи";
 		private static string m_sFMdetective	= "Детективы, Боевики";
@@ -375,6 +377,13 @@ namespace Settings
 		public static string GetDefFMNoDateValue() {
 			return m_sFMNoDateValue;
 		}
+		public static string GetDefFMNoYear() {
+			return m_sFMNoYear;
+		}
+		public static string GetDefFMNoPublisher() {
+			return m_sFMNoPublisher;
+		}
+		
 		// чтение названий папок тэгов, данных у которых нет
 		public static string ReadFMNoGenreGroup() {
 			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoGenreGroup", GetDefFMNoGenreGroup() );
@@ -411,6 +420,12 @@ namespace Settings
 		}
 		public static string ReadFMNoDateValue() {
 			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoDateValue", GetDefFMNoDateValue() );
+		}
+		public static string ReadFMNoYear() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoYear", GetDefFMNoYear() );
+		}
+		public static string ReadFMNoPublisher() {
+			return Settings.ReadAttribute( "TagsNoText", "txtBoxFMNoPublisher", GetDefFMNoPublisher() );
 		}
 		// название папок Групп Жанров
 		public static string GetDefFMGenresGroupSf() {
@@ -599,6 +614,8 @@ namespace Settings
 			lv.Items[23].SubItems[1].Text = ReadFMNoNSequence();
 			lv.Items[43].SubItems[1].Text = ReadFMNoDateText();
 			lv.Items[44].SubItems[1].Text = ReadFMNoDateValue();
+			lv.Items[45].SubItems[1].Text = ReadFMNoYear();
+			lv.Items[46].SubItems[1].Text = ReadFMNoPublisher();
 			// тип сортировки - или Все файлы, или Только валидные
 			if( ReadSortValidType() ) {
 				lv.Items[24].SubItems[1].Text = "Любые fb2-файлы";

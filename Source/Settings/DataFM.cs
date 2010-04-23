@@ -29,6 +29,8 @@ namespace Settings
 		private string m_sNoNSequence	= SettingsFM.ReadFMNoNSequence();
 		private string m_sNoDateText	= SettingsFM.ReadFMNoDateText();
 		private string m_sNoDateValue	= SettingsFM.ReadFMNoDateValue();
+		private string m_sNoYear		= SettingsFM.ReadFMNoYear();
+		private string m_sNoPublisher	= SettingsFM.ReadFMNoPublisher();
 		// название Групп Жанров
 		private string m_sSf			= SettingsFM.ReadFMSf();
 		private string m_sDetective		= SettingsFM.ReadFMDetective();
@@ -192,6 +194,14 @@ namespace Settings
 		public virtual string NoDateValue {
 			get { return m_sNoDateValue; }
 			set { m_sNoDateValue = value; }
+        }
+		public virtual string NoYear {
+			get { return m_sNoYear; }
+			set { m_sNoYear = value; }
+        }
+		public virtual string NoPublisher {
+			get { return m_sNoPublisher; }
+			set { m_sNoPublisher = value; }
         }
 		// название Групп Жанров
 		public virtual string GenresGroupSf {
