@@ -93,7 +93,7 @@ namespace Core.FB2Dublicator
 				if( s.Name!=null )	sSeq += s.Name;
 				else 				sSeq += "Нет";
 				if( s.Number!=null )	sSeq += " ("+s.Number+") ";
-				else					sSeq += "Нет";
+				else					sSeq += " (Нет) ";
 				sSeq += "; ";
 			}
 			sSeq = Convert.ToString(n)+": " + sSeq;
