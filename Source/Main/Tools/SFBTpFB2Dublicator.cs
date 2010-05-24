@@ -521,7 +521,10 @@ namespace SharpFBTools.Tools
 			pMode.Enabled				= bEnabled;
 			pExistFile.Enabled			= bEnabled;
 			tsbtnOpenDir.Enabled		= bEnabled;
+			tsbtnToDir.Enabled			= bEnabled;
 			tsbtnSearchDubls.Enabled	= bEnabled;
+			tsbtnDupSaveList.Enabled	= bEnabled;
+			tsbtnDupOpenList.Enabled	= bEnabled;
 			tsbtnSearchFb2DupStop.Enabled	= !bEnabled;
 			tsProgressBar.Visible			= !bEnabled;
 			ssProgress.Refresh();
