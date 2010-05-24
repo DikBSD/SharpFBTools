@@ -637,10 +637,15 @@ namespace Core.Templates {
 			}
 			Date dBookDate = ti.Date;
 			
-			PublishInfo pi		= fb2.GetPublishInfo();
-			string 		sYear	= pi.Year;
-			Publisher 	pubPub	= pi.Publisher;
-			City		cCity	= pi.City;
+			PublishInfo pi		= null;
+			string sYear		= null;
+			Publisher pubPub	= null;
+			City cCity			= null;
+			if(pi!=null) {
+				sYear	= pi.Year;
+				pubPub	= pi.Publisher;
+				cCity	= pi.City;
+			}
 			
 			DocumentInfo di				= fb2.GetDocumentInfo();
 			IList<Author> lfb2Authors	= di.Authors;
