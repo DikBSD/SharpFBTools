@@ -461,6 +461,7 @@ namespace SharpFBTools.Tools
 			// доступность контролов при Валидации
 			tcResult.Enabled			= bEnabled;
 			tSBValidate.Enabled			= bEnabled;
+			tsbtnOpenDir.Enabled		= bEnabled;
 			tsbtnCopyFilesTo.Enabled	= bEnabled;
 			tsbtnMoveFilesTo.Enabled	= bEnabled;
 			tsbtnDeleteFiles.Enabled	= bEnabled;
