@@ -59,10 +59,10 @@ namespace Settings
 		private string m_sUnRarPath	= Settings.ReadUnRarPath();
 		private string m_sRarPath	= Settings.ReadRarPath();
 		// папки для "проблемных" файлов
-		private string m_sNotReadFB2Dir		= SettingsFM.ReadFMFB2NotReadDir();
-		private string m_sFileLongPathDir	= SettingsFM.ReadFMFB2LongPathDir();
-		private string m_sNotValidFB2Dir	= SettingsFM.ReadFMFB2NotValidDir();
-		private string m_sNotOpenArchDir	= SettingsFM.ReadFMArchNotOpenDir();
+		private string m_sNotReadFB2Dir		= SettingsFM.GetDefFMFB2NotReadDir();
+		private string m_sFileLongPathDir	= SettingsFM.GetDefFMFB2LongPathDir();
+		private string m_sNotValidFB2Dir	= SettingsFM.GetDefFMFB2NotValidDir();
+		private string m_sNotOpenArchDir	= SettingsFM.GetDefFMArchNotOpenDir();
 		// основные настройки
 		private bool m_bGenreTypeMode		= SettingsFM.ReadGenreTypeMode();
 		private bool m_bGenresFB21Scheme	= SettingsFM.ReadFMGenresScheme();

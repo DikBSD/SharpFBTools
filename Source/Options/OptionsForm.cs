@@ -33,8 +33,6 @@ namespace Options
 			// Менеджер Файлов
 			// основные для Менеджера Файлов
 			DefFMGeneral();
-			// Папки для "проблемных" файлов - для Менеджера Файлов
-			DefFMProblemFilesDir();
 			// название папки шаблонного тэга без данных
 			DefFMDirNameForTagNotData();
 			// название для данных Издательства из Description когда нет данных тэга
@@ -100,13 +98,6 @@ namespace Options
 			chBoxAddToFileNameBookID.Checked = Settings.SettingsFM.GetDefFMchBoxAddToFileNameBookIDChecked();
 			rbtnFMAllFB2.Checked		= Settings.SettingsFM.GetDefFMrbtnFMAllFB2Cheked();
 			rbtnFMOnleValidFB2.Checked	= Settings.SettingsFM.GetDefFMrbtnFMOnleValidFB2Cheked();
-		}
-		private void DefFMProblemFilesDir() {
-			// Папки для "проблемных" файлов - для Менеджера Файлов
-			txtBoxFB2NotReadDir.Text	= Settings.SettingsFM.GetDefFMFB2NotReadDir();
-			txtBoxFB2LongPathDir.Text	= Settings.SettingsFM.GetDefFMFB2LongPathDir();
-			txtBoxFB2NotValidDir.Text	= Settings.SettingsFM.GetDefFMFB2NotValidDir();
-			txtBoxArchNotOpenDir.Text	= Settings.SettingsFM.GetDefFMArchNotOpenDir();
 		}
 		private void DefFMDirNameForTagNotData() {
 			// название папки шаблонного тэга без данных
@@ -286,22 +277,6 @@ namespace Options
 					if( reader.HasAttributes ) {
 						rbtnFMAllFB2.Checked		= Convert.ToBoolean( reader.GetAttribute("rbtnFMAllFB2Checked") );
 						rbtnFMOnleValidFB2.Checked	= Convert.ToBoolean( reader.GetAttribute("rbtnFMOnleValidFB2Checked") );
-					}
-					reader.ReadToFollowing("FB2NotReadDir");
-					if( reader.HasAttributes ) {
-						txtBoxFB2NotReadDir.Text = reader.GetAttribute("txtBoxFB2NotReadDir");
-					}
-					reader.ReadToFollowing("FB2LongPathDir");
-					if( reader.HasAttributes ) {
-						txtBoxFB2LongPathDir.Text = reader.GetAttribute("txtBoxFB2LongPathDir");
-					}
-					reader.ReadToFollowing("FB2NotValidDir");
-					if( reader.HasAttributes ) {
-						txtBoxFB2NotValidDir.Text = reader.GetAttribute("txtBoxFB2NotValidDir");
-					}
-					reader.ReadToFollowing("ArchNotOpenDir");
-					if( reader.HasAttributes ) {
-						txtBoxArchNotOpenDir.Text = reader.GetAttribute("txtBoxArchNotOpenDir");
 					}
 					reader.ReadToFollowing("TagsNoText");
 					if( reader.HasAttributes ) {
@@ -494,22 +469,6 @@ namespace Options
 						writer.WriteStartElement( "SortType" );
 							writer.WriteAttributeString( "rbtnFMAllFB2Checked", rbtnFMAllFB2.Checked.ToString() );
 							writer.WriteAttributeString( "rbtnFMOnleValidFB2Checked", rbtnFMOnleValidFB2.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "FB2NotReadDir" );
-							writer.WriteAttributeString( "txtBoxFB2NotReadDir", txtBoxFB2NotReadDir.Text );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "FB2LongPathDir" );
-							writer.WriteAttributeString( "txtBoxFB2LongPathDir", txtBoxFB2LongPathDir.Text );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "FB2NotValidDir" );
-							writer.WriteAttributeString( "txtBoxFB2NotValidDir", txtBoxFB2NotValidDir.Text );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "ArchNotOpenDir" );
-							writer.WriteAttributeString( "txtBoxArchNotOpenDir", txtBoxArchNotOpenDir.Text );
 						writer.WriteFullEndElement();
 						
 						// для данных книги
@@ -741,29 +700,6 @@ namespace Options
 			cboxArchiveType.Enabled = chBoxToArchive.Checked;
 		}
 		
-		void BtnFB2NotReadDirClick(object sender, EventArgs e)
-		{
-			// указание пути к папке для нечитаемых fb2-файлов
-			filesWorker.OpenDirDlg( txtBoxFB2NotReadDir, fbdDir, "Укажите папку для нечитаемых fb2-файлов:" );
-		}
-		
-		void BtnFB2LongPathDirClick(object sender, EventArgs e)
-		{
-			// указание пути к папке для fb2-файлов с сгенерированными длинными именами
-			filesWorker.OpenDirDlg( txtBoxFB2LongPathDir, fbdDir, "Укажите папку для fb2-файлов, у которых после генерации имен путь получается слишком длинный:" );
-		}
-		
-		void BtnFB2NotValidDirClick(object sender, EventArgs e)
-		{
-			// указание пути к папке для невалидных fb2-файлов
-			filesWorker.OpenDirDlg( txtBoxFB2NotValidDir, fbdDir, "Укажите папку для невалидных fb2-файлов:" );
-		}
-		
-		void BtnArchNotOpenDirClick(object sender, EventArgs e)
-		{
-			// указание пути к папке для "битых" архивов
-			filesWorker.OpenDirDlg( txtBoxArchNotOpenDir, fbdDir, "Укажите папку для \"битых\" архивов:" );
-		}
 		#endregion
 		
 		#region Восстановление по-умолчанию
@@ -780,10 +716,7 @@ namespace Options
 						case 0: // основные - для Менеджера Файлов
 							DefFMGeneral();
 							break;
-						case 1: //Папки для "проблемных" файлов 
-							DefFMProblemFilesDir();
-							break;
-						case 2: // название папки шаблонного тэга без данных
+						case 1: // название папки шаблонного тэга без данных
 							switch( tcDesc.SelectedIndex ) {
 								case 0: // название для данных Книги из Description когда нет данных тэга
 									DefFMDirNameForTagNotData();
@@ -796,7 +729,7 @@ namespace Options
 									break;
 							}
 							break;
-						case 3: // название Групп Жанров
+						case 2: // название Групп Жанров
 							DefFMGenresGroups();
 							break;
 					}

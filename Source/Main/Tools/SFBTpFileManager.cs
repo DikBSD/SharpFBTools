@@ -141,6 +141,14 @@ namespace SharpFBTools.Tools
 			// данные настроек для сортировки по шаблонам
 			Settings.DataFM dfm = new Settings.DataFM();
 			
+			// папки для проблемных файлов
+			string sToDir = m_bFullSort ? tboxSortAllToDir.Text.Trim() : tboxSSToDir.Text.Trim();
+			dfm.NotReadFB2Dir	= sToDir + "\\" + dfm.NotReadFB2Dir;
+			dfm.FileLongPathDir	= sToDir + "\\" + dfm.FileLongPathDir;
+			dfm.NotValidFB2Dir	= sToDir + "\\" + dfm.NotValidFB2Dir;
+			dfm.NotOpenArchDir	= sToDir + "\\" + dfm.NotOpenArchDir;
+				
+			
 			// формируем лексемы шаблонной строки
 			List<templatesLexemsSimple> lSLexems = templatesParser.GemSimpleLexems( m_sLineTemplate );
 			// сортировка
@@ -582,7 +590,7 @@ namespace SharpFBTools.Tools
 				MakeFB2File( sFromFilePath, sSource, sTarget, lSLexems, dfm, bFromArchive, 0, 0 );
 			} catch {
 				if( sExt==".fb2" ) {
-					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotReadFB2Dir, dfm.FileExistMode );
+					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, tboxSourceDir.Text.Trim() + "\\" + dfm.NotReadFB2Dir, dfm.FileExistMode );
 				}
 			}
 		}
