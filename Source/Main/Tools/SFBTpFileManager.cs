@@ -76,16 +76,9 @@ namespace SharpFBTools.Tools
 			} else {
 				richTxtBoxDescTemplates.Text = "Не найден файл описания Шаблонов подстановки: \""+sTDPath+"\"";
 			}
-
-			// загружаем в ListView-индикатор настроек данные 
-			Settings.SettingsFM.SetInfoSettings( lvSettings );
 		}
 		
 		#region Открытые методы класса
-		public ListView GetSettingsInfoListView() {
-			return lvSettings;
-		}
-		
 		// задание для кнопок ToolStrip стиля и положения текста и картинки
 		public void SetToolButtonsSettings() {
 			Settings.SettingsFM.SetToolButtonsSettings( tsFullSort );

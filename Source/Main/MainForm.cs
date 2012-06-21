@@ -144,8 +144,6 @@ namespace Main
 			sfbTpFileManager.SetToolButtonsSettings();
 			sfbTpArchiveManager.SetToolButtonsSettings();
 			sfbTpFB2Dublicator.SetToolButtonsSettings();
-			// данные установок для Менеджера Файлов - в Info ListView
-			Settings.SettingsFM.SetInfoSettings( sfbTpFileManager.GetSettingsInfoListView() );
 			ofrm.Dispose();
 		}
 		
