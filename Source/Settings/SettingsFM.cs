@@ -47,10 +47,10 @@ namespace Settings
 		private static string m_sFileManagerHelpPath	= Settings.GetProgDir()+"\\Help\\FileManagerHelp.rtf";
 		private static string m_sDescTemplatePath		= Settings.GetProgDir()+"\\Help\\TemplatesDescription.rtf";
 		// папки для "проблемных" файлов
-		private static string m_sFMFB2NotReadDir	= "_NotReadFB2";
-		private static string m_sFMFB2LongPathDir	= "_FB2LongPath";
-		private static string m_sFMFB2NotValidDir	= "_NotValidFB2";
-		private static string m_sFMArchNotOpenDir	= "_NotOpenArchive";
+		private static string m_sFMFB2NotReadDir	= "_'Не читаемые' fb2 файлы";
+		private static string m_sFMFB2LongPathDir	= "_fb2 c длинными путями";
+		private static string m_sFMFB2NotValidDir	= "_Не валидные fb2 файлы";
+		private static string m_sFMArchNotOpenDir	= "_'Битые' архивы fb2 файлов";
 		// названия папок для шаблонных тэгов без данных
 		private static string m_sFMNoGenreGroup	= "Неизвестная Группа Жанров";
 		private static string m_sFMNoGenre		= "Жанра Нет";
