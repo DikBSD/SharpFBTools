@@ -289,6 +289,7 @@ namespace SharpFBTools.Tools
 					listViewSource.Items.Add(item);
 					
 				}
+				int nItemCount = 0;
 				const string space = " ";
 				if(checkBoxDirsView.CheckState == CheckState.Checked) {
 					foreach (DirectoryInfo dir in dirInfo.GetDirectories()) {
@@ -300,7 +301,11 @@ namespace SharpFBTools.Tools
 						item.SubItems.AddRange(subItems);
 						item.Checked = true;
 						item.Tag = new ListViewItemType("d", dir.FullName);
+						if(nItemCount%2 == 0) { // четное
+							item.BackColor = Color.Beige;
+						}
 						listViewSource.Items.Add(item);
+						++nItemCount;
 					}
 				}
 				foreach (FileInfo file in dirInfo.GetFiles()) {
@@ -313,7 +318,11 @@ namespace SharpFBTools.Tools
 						item.SubItems.AddRange(subItems);
 						item.Checked = true;
 						item.Tag = new ListViewItemType("f", file.FullName);
+						if(nItemCount%2 == 0) { // четное
+							item.BackColor = Color.AliceBlue;
+						}
 						listViewSource.Items.Add(item);
+						++nItemCount;
 					}
 				}
 				listViewSource.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -1438,7 +1447,7 @@ namespace SharpFBTools.Tools
 			// запуск диалога Вставки готовых шаблонов
 			Core.BookSorting.BasiclTemplates btfrm = new Core.BookSorting.BasiclTemplates();
 			btfrm.ShowDialog();
-			if( btfrm.GetTemplateLine()!=null ) {
+			if( btfrm.GetTemplateLine()!= null ) {
 				txtBoxSSTemplatesFromLine.Text = btfrm.GetTemplateLine();
 			}
 			btfrm.Dispose();
