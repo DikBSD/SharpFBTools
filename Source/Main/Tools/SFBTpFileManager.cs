@@ -138,11 +138,10 @@ namespace SharpFBTools.Tools
 			Settings.DataFM dfm = new Settings.DataFM();
 			
 			// папки для проблемных файлов
-			string sToDir = m_bFullSort ? m_sTarget : tboxSSToDir.Text.Trim();
-			dfm.NotReadFB2Dir	= sToDir + "\\" + dfm.NotReadFB2Dir;
-			dfm.FileLongPathDir	= sToDir + "\\" + dfm.FileLongPathDir;
-			dfm.NotValidFB2Dir	= sToDir + "\\" + dfm.NotValidFB2Dir;
-			dfm.NotOpenArchDir	= sToDir + "\\" + dfm.NotOpenArchDir;
+			dfm.NotReadFB2Dir	= m_sTarget + "\\" + dfm.NotReadFB2Dir;
+			dfm.FileLongPathDir	= m_sTarget + "\\" + dfm.FileLongPathDir;
+			dfm.NotValidFB2Dir	= m_sTarget + "\\" + dfm.NotValidFB2Dir;
+			dfm.NotOpenArchDir	= m_sTarget + "\\" + dfm.NotOpenArchDir;
 				
 			
 			// формируем лексемы шаблонной строки
@@ -481,11 +480,7 @@ namespace SharpFBTools.Tools
 		
 		private bool IsSourceDirDataCorrect()
 		{
-			// проверка на корректность данных папок источника и приемника файлов
-			// обработка заданных каталогов
-			m_sSource = filesWorker.WorkingDirPath( m_sSource ); textBoxAddress.Text = m_sSource;
-			m_sTarget = filesWorker.WorkingDirPath( m_sTarget );
-			
+			// Полная Сортировка: проверка на корректность данных папок источника и приемника файлов
 			// проверки на корректность папок источника и приемника
 			if( m_sSource.Length == 0 ) {
 				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -506,13 +501,7 @@ namespace SharpFBTools.Tools
 		
 		private bool IsFoldersDataCorrect()
 		{
-			// проверка на корректность данных папок источника и приемника файлов
-			// обработка заданных каталогов
-			m_sSource				= filesWorker.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
-			tboxSSSourceDir.Text	= m_sSource;
-			m_sTarget			= filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
-			tboxSSToDir.Text	= m_sTarget;
-			
+			// Селективная Сортировка: проверка на корректность данных папок источника и приемника файлов
 			// проверки на корректность папок источника и приемника
 			if( m_sSource.Length == 0 ) {
 				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -548,31 +537,25 @@ namespace SharpFBTools.Tools
 				// Полная Сортировка
 				reader.ReadToFollowing("FMScanDir");
 				if (reader.HasAttributes ) {
-					textBoxAddress.Text = reader.GetAttribute("tboxSourceDir");
-					m_sSource = textBoxAddress.Text.Trim();
-					Settings.SettingsFM.FMDataScanDir = m_sSource;
-					GenerateSourceList(m_sSource);
+					textBoxAddress.Text = Settings.SettingsFM.FMDataScanDir = reader.GetAttribute("tboxSourceDir").Trim();
+					GenerateSourceList(Settings.SettingsFM.FMDataScanDir);
 				}
 				reader.ReadToFollowing("FMTemplate");
 				if (reader.HasAttributes ) {
-					txtBoxTemplatesFromLine.Text = reader.GetAttribute("txtBoxTemplatesFromLine");
-					Settings.SettingsFM.FMDataTemplate =  txtBoxTemplatesFromLine.Text.Trim();
+					txtBoxTemplatesFromLine.Text = Settings.SettingsFM.FMDataTemplate = reader.GetAttribute("txtBoxTemplatesFromLine").Trim();
 				}
 				// Избранная Сортировка
 				reader.ReadToFollowing("FMSSScanDir");
 				if (reader.HasAttributes ) {
-					tboxSSSourceDir.Text = reader.GetAttribute("tboxSSSourceDir");
-					Settings.SettingsFM.FMDataSSScanDir = tboxSSSourceDir.Text.Trim();
+					tboxSSSourceDir.Text = Settings.SettingsFM.FMDataSSScanDir = reader.GetAttribute("tboxSSSourceDir").Trim();
 				}
 				reader.ReadToFollowing("FMSSTargetDir");
 				if (reader.HasAttributes ) {
-					tboxSSToDir.Text = reader.GetAttribute("tboxSSToDir");
-					Settings.SettingsFM.FMDataSSTargetDir = tboxSSToDir.Text.Trim();
+					tboxSSToDir.Text = Settings.SettingsFM.FMDataSSTargetDir = reader.GetAttribute("tboxSSToDir").Trim();
 				}
 				reader.ReadToFollowing("FMSSTemplate");
 				if (reader.HasAttributes ) {
-					txtBoxSSTemplatesFromLine.Text = reader.GetAttribute("txtBoxSSTemplatesFromLine");
-					Settings.SettingsFM.FMDataSSTemplate =  txtBoxSSTemplatesFromLine.Text.Trim();
+					txtBoxSSTemplatesFromLine.Text = Settings.SettingsFM.FMDataSSTemplate = reader.GetAttribute("txtBoxSSTemplatesFromLine").Trim();
 				}
 				reader.Close();
 			}
@@ -1299,7 +1282,11 @@ namespace SharpFBTools.Tools
 		void TsbtnSortFilesToClick(object sender, EventArgs e)
 		{
 			// Полная сортировка
+			// обработка заданных каталого
+			m_sSource = Settings.SettingsFM.FMDataScanDir = filesWorker.WorkingDirPath( textBoxAddress.Text.Trim() );
+			textBoxAddress.Text = m_sSource;
 			m_sTarget = m_sSource + "\\out"; // папка вывода out - внутри исходой
+			
 			m_bFullSort		= true;
 			m_bScanSubDirs	= true;
 			m_sLineTemplate	= txtBoxTemplatesFromLine.Text.Trim();
@@ -1470,6 +1457,14 @@ namespace SharpFBTools.Tools
 		{
 			// Избранная Сортировка
 			m_bFullSort = false;
+			
+			// обработка заданных каталогов
+			m_sSource = Settings.SettingsFM.FMDataSSScanDir = filesWorker.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
+			tboxSSSourceDir.Text	= m_sSource;
+			m_sTarget = Settings.SettingsFM.FMDataSSTargetDir = filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
+			tboxSSToDir.Text		= m_sTarget;
+			
+			
 			if( chBoxSSScanSubDir.Checked ) {
 				m_bScanSubDirs = true;
 			} else {
