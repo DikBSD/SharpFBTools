@@ -259,10 +259,14 @@ namespace SharpFBTools.Tools
 			if( !bConnect ) {
 				// отключаем обработчики событий для Списка (убираем "тормоза")
 				this.listViewSource.DoubleClick -= new System.EventHandler(this.ListViewSourceDoubleClick);
-			
+				this.listViewSource.ItemChecked -= new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
+				this.listViewSource.ItemCheck -= new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
+				
 			} else {
 				// подключаем обработчики событий для Списка
 				this.listViewSource.DoubleClick += new System.EventHandler(this.ListViewSourceDoubleClick);
+				this.listViewSource.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
+				this.listViewSource.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
 			}
 		}
 		
@@ -1258,6 +1262,33 @@ namespace SharpFBTools.Tools
 			listViewSource.Focus();
 		}
 		
+		void ListViewSourceItemCheck(object sender, ItemCheckEventArgs e)
+		{
+			if( listViewSource.Items.Count > 0 && listViewSource.SelectedItems.Count != 0 ) {
+				// при двойном клике на папке ".." пометку не ставим
+				if(e.Index == 0) { // ".."
+					e.NewValue = CheckState.Unchecked;
+				}
+			}
+		}
+		
+		void ListViewSourceItemChecked(object sender, ItemCheckedEventArgs e)
+		{
+			// пометка/снятие пометки по check на 0-й item - папка ".."
+			if( listViewSource.Items.Count > 0 ) {
+				ListViewItemType it = (ListViewItemType)e.Item.Tag;
+				if(it.Type=="dUp") {
+					ConnectListsEventHandlers( false );
+					if(e.Item.Checked) {
+						CheckAll();
+					} else {
+						UnCheckAll();
+					}
+					ConnectListsEventHandlers( true );
+				}
+			}
+		}
+		
 		
 		void TsbtnSortFilesToClick(object sender, EventArgs e)
 		{
@@ -1589,6 +1620,5 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
-
 	}
 }
