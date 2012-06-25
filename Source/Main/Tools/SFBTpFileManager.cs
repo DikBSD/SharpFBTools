@@ -441,7 +441,12 @@ namespace SharpFBTools.Tools
 			tsbtnOpenDir.Enabled	= bEnabled;
 			tsbtnTargetDir.Enabled	= bEnabled;
 			tsbtnSortFilesTo.Enabled= bEnabled;
-			pFullSortDirs.Enabled	= bEnabled;
+			panelAddress.Enabled		= bEnabled;
+			listViewSource.Enabled		= bEnabled;
+			checkBoxDirsView.Enabled	= bEnabled;
+			chBoxScanSubDir.Enabled		= bEnabled;
+			buttonSortFilesTo.Enabled	= bEnabled;
+			buttonFullSortStop.Enabled	= !bEnabled;
 			gBoxFullSortRenameTemplates.Enabled	= bEnabled;
 			tsbtnFullSortStop.Enabled	= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
