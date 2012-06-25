@@ -138,7 +138,7 @@ namespace SharpFBTools.Tools
 			Settings.DataFM dfm = new Settings.DataFM();
 			
 			// папки для проблемных файлов
-			string sToDir = m_bFullSort ? m_sSource + "\\" + m_sTarget : tboxSSToDir.Text.Trim();
+			string sToDir = m_bFullSort ? m_sTarget : tboxSSToDir.Text.Trim();
 			dfm.NotReadFB2Dir	= sToDir + "\\" + dfm.NotReadFB2Dir;
 			dfm.FileLongPathDir	= sToDir + "\\" + dfm.FileLongPathDir;
 			dfm.NotValidFB2Dir	= sToDir + "\\" + dfm.NotValidFB2Dir;
@@ -450,14 +450,11 @@ namespace SharpFBTools.Tools
 		
 		private void SetFullSortingStartEnabled( bool bEnabled ) {
 			// доступность контролов при Полной Сортировки
-			tpSelectedSort.Enabled	= bEnabled;
-			tsbtnOpenDir.Enabled	= bEnabled;
-			tsbtnTargetDir.Enabled	= bEnabled;
-			tsbtnSortFilesTo.Enabled= bEnabled;
+			tpSelectedSort.Enabled		= bEnabled;
+			tsbtnSortFilesTo.Enabled	= bEnabled;
 			panelAddress.Enabled		= bEnabled;
 			listViewSource.Enabled		= bEnabled;
 			checkBoxDirsView.Enabled	= bEnabled;
-			chBoxScanSubDir.Enabled		= bEnabled;
 			buttonSortFilesTo.Enabled	= bEnabled;
 			buttonFullSortStop.Enabled	= !bEnabled;
 			gBoxFullSortRenameTemplates.Enabled	= bEnabled;
@@ -486,9 +483,8 @@ namespace SharpFBTools.Tools
 		{
 			// проверка на корректность данных папок источника и приемника файлов
 			// обработка заданных каталогов
-			m_sSource		= filesWorker.WorkingDirPath( m_sSource );
-			textBoxAddress.Text	= m_sSource;
-			m_sTarget		= filesWorker.WorkingDirPath( m_sTarget );
+			m_sSource = filesWorker.WorkingDirPath( m_sSource ); textBoxAddress.Text = m_sSource;
+			m_sTarget = filesWorker.WorkingDirPath( m_sTarget );
 			
 			// проверки на корректность папок источника и приемника
 			if( m_sSource.Length == 0 ) {
@@ -500,6 +496,7 @@ namespace SharpFBTools.Tools
 				MessageBox.Show( "Папка не найдена: " + m_sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
+			
 			// проверка папки-приемника и создание ее, если нужно
 			if( !filesWorker.CreateDirIfNeed( m_sTarget, m_sMessTitle ) ) {
 				return false;
@@ -507,14 +504,14 @@ namespace SharpFBTools.Tools
 			return true;
 		}
 		
-		private bool IsFolderdataCorrect( TextBox tbSource, TextBox tbTarget )
+		private bool IsFoldersDataCorrect()
 		{
 			// проверка на корректность данных папок источника и приемника файлов
 			// обработка заданных каталогов
-			m_sSource		= filesWorker.WorkingDirPath( tbSource.Text.Trim() );
-			tbSource.Text	= m_sSource;
-			m_sTarget		= filesWorker.WorkingDirPath( tbTarget.Text.Trim() );
-			tbTarget.Text	= m_sTarget;
+			m_sSource				= filesWorker.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
+			tboxSSSourceDir.Text	= m_sSource;
+			m_sTarget			= filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
+			tboxSSToDir.Text	= m_sTarget;
 			
 			// проверки на корректность папок источника и приемника
 			if( m_sSource.Length == 0 ) {
@@ -774,7 +771,7 @@ namespace SharpFBTools.Tools
 				MakeFB2File( sFromFilePath, sSource, sTarget, lSLexems, dfm, bFromArchive, 0, 0 );
 			} catch {
 				if( sExt==".fb2" ) {
-					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, textBoxAddress.Text.Trim() + "\\" + dfm.NotReadFB2Dir, dfm.FileExistMode );
+					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotReadFB2Dir, dfm.FileExistMode );
 				}
 			}
 		}
@@ -1302,15 +1299,11 @@ namespace SharpFBTools.Tools
 		void TsbtnSortFilesToClick(object sender, EventArgs e)
 		{
 			// Полная сортировка
-			m_bFullSort = true;
-			if( chBoxScanSubDir.Checked ) {
-				m_bScanSubDirs = true;
-			} else {
-				m_bScanSubDirs = false;
-			}
-			
-			m_sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
-			m_sMessTitle = "SharpFBTools - Полная Сортировка";
+			m_sTarget = m_sSource + "\\out"; // папка вывода out - внутри исходой
+			m_bFullSort		= true;
+			m_bScanSubDirs	= true;
+			m_sLineTemplate	= txtBoxTemplatesFromLine.Text.Trim();
+			m_sMessTitle	= "SharpFBTools - Полная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
 			if( !IsSourceDirDataCorrect() ) {
 				return;
@@ -1486,7 +1479,7 @@ namespace SharpFBTools.Tools
 			m_sLineTemplate = txtBoxSSTemplatesFromLine.Text.Trim();
 			m_sMessTitle = "SharpFBTools - Избранная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsFolderdataCorrect( tboxSSSourceDir, tboxSSToDir ) ) {
+			if( !IsFoldersDataCorrect() ) {
 				return;
 			}
 			// проверка на наличие критериев поиска для Избранной Сортировки

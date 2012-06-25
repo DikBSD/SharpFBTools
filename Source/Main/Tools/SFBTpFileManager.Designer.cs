@@ -87,10 +87,6 @@ namespace SharpFBTools.Tools
 			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.tsFullSort = new System.Windows.Forms.ToolStrip();
-			this.tsbtnOpenDir = new System.Windows.Forms.ToolStripButton();
-			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbtnTargetDir = new System.Windows.Forms.ToolStripButton();
-			this.tsSep2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnSortFilesTo = new System.Windows.Forms.ToolStripButton();
 			this.tsbtnFullSortStop = new System.Windows.Forms.ToolStripButton();
 			this.fbdScanDir = new System.Windows.Forms.FolderBrowserDialog();
@@ -100,7 +96,6 @@ namespace SharpFBTools.Tools
 			this.tcSort = new System.Windows.Forms.TabControl();
 			this.tpFullSort = new System.Windows.Forms.TabPage();
 			this.panelStart = new System.Windows.Forms.Panel();
-			this.chBoxScanSubDir = new System.Windows.Forms.CheckBox();
 			this.buttonFullSortStop = new System.Windows.Forms.Button();
 			this.buttonSortFilesTo = new System.Windows.Forms.Button();
 			this.checkBoxDirsView = new System.Windows.Forms.CheckBox();
@@ -224,44 +219,12 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsFullSort.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.tsFullSort.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsbtnOpenDir,
-									this.tsSep1,
-									this.tsbtnTargetDir,
-									this.tsSep2,
 									this.tsbtnSortFilesTo,
 									this.tsbtnFullSortStop});
 			this.tsFullSort.Location = new System.Drawing.Point(3, 3);
 			this.tsFullSort.Name = "tsFullSort";
 			this.tsFullSort.Size = new System.Drawing.Size(814, 31);
 			this.tsFullSort.TabIndex = 19;
-			// 
-			// tsbtnOpenDir
-			// 
-			this.tsbtnOpenDir.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnOpenDir.Image")));
-			this.tsbtnOpenDir.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnOpenDir.Name = "tsbtnOpenDir";
-			this.tsbtnOpenDir.Size = new System.Drawing.Size(123, 28);
-			this.tsbtnOpenDir.Text = "Папка - источник";
-			this.tsbtnOpenDir.ToolTipText = "Открыть папку с fb2-файлами и (или) архивами...";
-			// 
-			// tsSep1
-			// 
-			this.tsSep1.Name = "tsSep1";
-			this.tsSep1.Size = new System.Drawing.Size(6, 31);
-			// 
-			// tsbtnTargetDir
-			// 
-			this.tsbtnTargetDir.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnTargetDir.Image")));
-			this.tsbtnTargetDir.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnTargetDir.Name = "tsbtnTargetDir";
-			this.tsbtnTargetDir.Size = new System.Drawing.Size(124, 28);
-			this.tsbtnTargetDir.Text = "Папка - приемник";
-			this.tsbtnTargetDir.ToolTipText = "Папка - приемник отсортированных fb2-файлов (архивов)";
-			// 
-			// tsSep2
-			// 
-			this.tsSep2.Name = "tsSep2";
-			this.tsSep2.Size = new System.Drawing.Size(6, 31);
 			// 
 			// tsbtnSortFilesTo
 			// 
@@ -352,7 +315,6 @@ namespace SharpFBTools.Tools
 			// 
 			// panelStart
 			// 
-			this.panelStart.Controls.Add(this.chBoxScanSubDir);
 			this.panelStart.Controls.Add(this.buttonFullSortStop);
 			this.panelStart.Controls.Add(this.buttonSortFilesTo);
 			this.panelStart.Controls.Add(this.checkBoxDirsView);
@@ -361,19 +323,6 @@ namespace SharpFBTools.Tools
 			this.panelStart.Name = "panelStart";
 			this.panelStart.Size = new System.Drawing.Size(814, 58);
 			this.panelStart.TabIndex = 36;
-			// 
-			// chBoxScanSubDir
-			// 
-			this.chBoxScanSubDir.Checked = true;
-			this.chBoxScanSubDir.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chBoxScanSubDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxScanSubDir.ForeColor = System.Drawing.Color.Navy;
-			this.chBoxScanSubDir.Location = new System.Drawing.Point(3, 34);
-			this.chBoxScanSubDir.Name = "chBoxScanSubDir";
-			this.chBoxScanSubDir.Size = new System.Drawing.Size(172, 21);
-			this.chBoxScanSubDir.TabIndex = 2;
-			this.chBoxScanSubDir.Text = "Сканировать и подпапки";
-			this.chBoxScanSubDir.UseVisualStyleBackColor = true;
 			// 
 			// buttonFullSortStop
 			// 
@@ -1231,19 +1180,14 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.TabPage tpFullSort;
 		private System.Windows.Forms.TabControl tcSort;
 		private System.Windows.Forms.Button btnInsertTemplates;
-		private System.Windows.Forms.ToolStripButton tsbtnTargetDir;
 		private System.Windows.Forms.ColumnHeader columnHeader7;
 		private System.Windows.Forms.ColumnHeader columnHeader6;
 		private System.Windows.Forms.ListView lvFilesCount;
-		private System.Windows.Forms.CheckBox chBoxScanSubDir;
 		private System.Windows.Forms.Panel pProgress;
 		private System.Windows.Forms.RichTextBox richTxtBoxDescTemplates;
 		private System.Windows.Forms.TextBox txtBoxTemplatesFromLine;
 		private System.Windows.Forms.FolderBrowserDialog fbdScanDir;
 		private System.Windows.Forms.ToolStripButton tsbtnSortFilesTo;
-		private System.Windows.Forms.ToolStripSeparator tsSep2;
-		private System.Windows.Forms.ToolStripSeparator tsSep1;
-		private System.Windows.Forms.ToolStripButton tsbtnOpenDir;
 		private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
 		private System.Windows.Forms.ToolStripStatusLabel tsslblProgress;
 		private System.Windows.Forms.StatusStrip ssProgress;
