@@ -90,7 +90,6 @@ namespace Settings
 		private static string m_sFMbusiness		= "Бизнес";
 		// рабочие папки и данные для Полной Сортировки
 		private static string m_sFMDataScanDir		= "";
-		private static string m_sFMDataTargetDir	= "";
 		private static string m_sFMDataTemplate		= "";
 		// рабочие папки и данные для Избранной Сортировки
 		private static string m_sFMDataSSScanDir	= "";
@@ -554,10 +553,6 @@ namespace Settings
 		public static string FMDataScanDir {
 			get { return m_sFMDataScanDir; }
 			set { m_sFMDataScanDir = value; }
-		}
-		public static string FMDataTargetDir {
-			get { return m_sFMDataTargetDir; }
-			set { m_sFMDataTargetDir = value; }
 		}
 		public static string FMDataTemplate {
 			get { return m_sFMDataTemplate; }

@@ -138,7 +138,7 @@ namespace SharpFBTools.Tools
 			Settings.DataFM dfm = new Settings.DataFM();
 			
 			// папки для проблемных файлов
-			string sToDir = m_bFullSort ? tboxSortAllToDir.Text.Trim() : tboxSSToDir.Text.Trim();
+			string sToDir = m_bFullSort ? m_sSource + "\\" + m_sTarget : tboxSSToDir.Text.Trim();
 			dfm.NotReadFB2Dir	= sToDir + "\\" + dfm.NotReadFB2Dir;
 			dfm.FileLongPathDir	= sToDir + "\\" + dfm.FileLongPathDir;
 			dfm.NotValidFB2Dir	= sToDir + "\\" + dfm.NotValidFB2Dir;
@@ -469,6 +469,31 @@ namespace SharpFBTools.Tools
 			ssProgress.Refresh();
 		}
 		
+		private bool IsSourceDirDataCorrect()
+		{
+			// проверка на корректность данных папок источника и приемника файлов
+			// обработка заданных каталогов
+			m_sSource		= filesWorker.WorkingDirPath( m_sSource );
+			textBoxAddress.Text	= m_sSource;
+			m_sTarget		= filesWorker.WorkingDirPath( m_sTarget );
+			
+			// проверки на корректность папок источника и приемника
+			if( m_sSource.Length == 0 ) {
+				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
+			if( !diFolder.Exists ) {
+				MessageBox.Show( "Папка не найдена: " + m_sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			// проверка папки-приемника и создание ее, если нужно
+			if( !filesWorker.CreateDirIfNeed( m_sTarget, m_sMessTitle ) ) {
+				return false;
+			}
+			return true;
+		}
+		
 		private bool IsFolderdataCorrect( TextBox tbSource, TextBox tbTarget )
 		{
 			// проверка на корректность данных папок источника и приемника файлов
@@ -513,13 +538,10 @@ namespace SharpFBTools.Tools
 				// Полная Сортировка
 				reader.ReadToFollowing("FMScanDir");
 				if (reader.HasAttributes ) {
-					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
-					Settings.SettingsFM.FMDataScanDir = tboxSourceDir.Text.Trim();
-				}
-				reader.ReadToFollowing("FMTargetDir");
-				if (reader.HasAttributes ) {
-					tboxSortAllToDir.Text = reader.GetAttribute("tboxSortAllToDir");
-					Settings.SettingsFM.FMDataTargetDir = tboxSortAllToDir.Text.Trim();
+					textBoxAddress.Text = reader.GetAttribute("tboxSourceDir");
+					m_sSource = textBoxAddress.Text.Trim();
+					Settings.SettingsFM.FMDataScanDir = m_sSource;
+					GenerateSourceList(m_sSource);
 				}
 				reader.ReadToFollowing("FMTemplate");
 				if (reader.HasAttributes ) {
@@ -739,7 +761,7 @@ namespace SharpFBTools.Tools
 				MakeFB2File( sFromFilePath, sSource, sTarget, lSLexems, dfm, bFromArchive, 0, 0 );
 			} catch {
 				if( sExt==".fb2" ) {
-					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, tboxSourceDir.Text.Trim() + "\\" + dfm.NotReadFB2Dir, dfm.FileExistMode );
+					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, textBoxAddress.Text.Trim() + "\\" + dfm.NotReadFB2Dir, dfm.FileExistMode );
 				}
 			}
 		}
@@ -1083,12 +1105,6 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Обработчики событий
-		void TsbtnOpenDirClick(object sender, EventArgs e)
-		{
-			// задание папки с fb2-файлами и архивами для сканирования
-			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" );
-		}
-		
 		void ButtonOpenSourceDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования
@@ -1256,7 +1272,7 @@ namespace SharpFBTools.Tools
 			m_sLineTemplate = txtBoxTemplatesFromLine.Text.Trim();
 			m_sMessTitle = "SharpFBTools - Полная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsFolderdataCorrect( tboxSourceDir, tboxSortAllToDir ) ) {
+			if( !IsSourceDirDataCorrect() ) {
 				return;
 			}
 			// проверка на наличие архиваторов
@@ -1282,20 +1298,9 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		void BtnSortAllToDirClick(object sender, EventArgs e)
+		void TextBoxAddressTextChanged(object sender, EventArgs e)
 		{
-			// задание папки-приемника для размешения отсортированных файлов
-			filesWorker.OpenDirDlg( tboxSortAllToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов:" );
-		}
-		
-		void TboxSourceDirTextChanged(object sender, EventArgs e)
-		{
-			Settings.SettingsFM.FMDataScanDir = tboxSourceDir.Text;
-		}
-		
-		void TboxSortAllToDirTextChanged(object sender, EventArgs e)
-		{
-			Settings.SettingsFM.FMDataTargetDir = tboxSortAllToDir.Text;
+			Settings.SettingsFM.FMDataScanDir = textBoxAddress.Text;
 		}
 		
 		void TxtBoxTemplatesFromLineTextChanged(object sender, EventArgs e)
@@ -1584,6 +1589,6 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
-		
+
 	}
 }

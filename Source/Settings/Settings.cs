@@ -327,9 +327,6 @@ namespace Settings
 						writer.WriteStartElement( "FMScanDir" );
 							writer.WriteAttributeString( "tboxSourceDir", SettingsFM.FMDataScanDir );
 						writer.WriteFullEndElement();
-						writer.WriteStartElement( "FMTargetDir" );
-							writer.WriteAttributeString( "tboxSortAllToDir", SettingsFM.FMDataTargetDir );
-						writer.WriteFullEndElement();
 						writer.WriteStartElement( "FMTemplate" );
 							writer.WriteAttributeString( "txtBoxTemplatesFromLine", SettingsFM.FMDataTemplate );
 						writer.WriteFullEndElement();
