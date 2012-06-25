@@ -552,13 +552,13 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		// отметить все итемы
+		// отметить все итемы ListView
 		private void CheckAll() {
 			ListView l = GetCurrentListWiew();
 			m_mscLV.CheckdAllListViewItems( l, true );
 		}
 		
-		// снять отметки со всех итемов
+		// снять отметки со всех итемов ListView
 		private void UnCheckAll() {
 			ListView l = GetCurrentListWiew();
 			m_mscLV.UnCheckdAllListViewItems( l.CheckedItems );

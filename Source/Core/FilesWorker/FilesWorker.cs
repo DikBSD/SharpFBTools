@@ -113,7 +113,7 @@ namespace Core.FilesWorker
 		
 		public static bool OpenDirDlg( TextBox tb, FolderBrowserDialog fbd, string sTitle ) {
 			// задание папки черед диалог открытия папки
-			if( tb.Text.Trim() !="" ) {
+			if( tb.Text.Trim() != "" ) {
 				fbd.SelectedPath = tb.Text.Trim();
 			}
 			fbd.Description = sTitle;

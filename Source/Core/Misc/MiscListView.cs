@@ -62,6 +62,15 @@ namespace Core.Misc
 				lvi.Checked = false;
 			}
 		}
+		
+		// пометить/снять пометку все выделенные элементы
+		public void ChekAllSelectedItems(ListView lv, bool bCheck) {
+			System.Windows.Forms.ListView.SelectedListViewItemCollection selectedItems = lv.SelectedItems;
+			foreach( ListViewItem lvi in selectedItems ) {
+				lvi.Checked = bCheck;
+			}
+		}
+		
 		#endregion
 
 	}

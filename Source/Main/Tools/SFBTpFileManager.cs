@@ -24,6 +24,7 @@ using Core.FB2.Description.Common;
 using Core.FB2.Genres;
 using Core.BookSorting;
 using Core.FileManager;
+using Core.Misc;
 using Settings;
 
 using fB2Parser					= Core.FB2.FB2Parsers.FB2Parser;
@@ -44,6 +45,7 @@ namespace SharpFBTools.Tools
 	public partial class SFBTpFileManager : UserControl
 	{
 		#region Закрытые данные класса
+		private string m_CurrentDir = "";
 		private fb2Validator fv2V = new fb2Validator();
 		private List<selectedSortQueryCriteria> m_lSSQCList = null; // список критериев поиска для Избранной Сортировки
         private DateTime m_dtStart;
@@ -55,6 +57,7 @@ namespace SharpFBTools.Tools
         private bool m_bFullSort		= true;
         private bool m_bScanSubDirs		= true;
         private StatusView m_sv			= new StatusView();
+        private MiscListView m_mscLV	= new MiscListView(); // класс по работе с ListView
         #endregion
 		
 		public SFBTpFileManager()
@@ -252,6 +255,154 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые вспомогательные методы класса
+		private void ConnectListsEventHandlers( bool bConnect ) {
+			if( !bConnect ) {
+				// отключаем обработчики событий для Списка (убираем "тормоза")
+				this.listViewSource.DoubleClick -= new System.EventHandler(this.ListViewSourceDoubleClick);
+			
+			} else {
+				// подключаем обработчики событий для Списка
+				this.listViewSource.DoubleClick += new System.EventHandler(this.ListViewSourceDoubleClick);
+			}
+		}
+		
+		private void GenerateSourceList(string dirPath) {
+        	// заполнение списка данными указанной папки
+        	m_CurrentDir = dirPath;
+        	listViewSource.Items.Clear();
+            DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
+			ListViewItem.ListViewSubItem[] subItems;
+			ListViewItem item = null;
+            if (dirInfo.Exists) {
+				if(dirInfo.Parent != null) {
+					item = new ListViewItem("..", 3);
+					subItems = new ListViewItem.ListViewSubItem[] {
+						new ListViewItem.ListViewSubItem(item, ""),
+						new ListViewItem.ListViewSubItem(item, "")
+					};
+					item.SubItems.AddRange(subItems);
+					item.Tag = new ListViewItemType("dUp", dirInfo.Parent.FullName);
+					listViewSource.Items.Add(item);
+					
+				}
+				const string space = " ";
+				if(checkBoxDirsView.CheckState == CheckState.Checked) {
+					foreach (DirectoryInfo dir in dirInfo.GetDirectories()) {
+						item = new ListViewItem(space+dir.Name+space, 0);
+						subItems = new ListViewItem.ListViewSubItem[] {
+							new ListViewItem.ListViewSubItem(item, space+"Directory"+space),
+							new ListViewItem.ListViewSubItem(item, space+dir.LastAccessTime.ToShortDateString()+space)
+						};
+						item.SubItems.AddRange(subItems);
+						item.Checked = true;
+						item.Tag = new ListViewItemType("d", dir.FullName);
+						listViewSource.Items.Add(item);
+					}
+				}
+				foreach (FileInfo file in dirInfo.GetFiles()) {
+					if(file.Extension.ToLower()==".fb2" || file.Extension.ToLower()==".zip") {
+						item = new ListViewItem(" "+file.Name+" ", file.Extension.ToLower()==".fb2" ? 1 : 2);
+						subItems = new ListViewItem.ListViewSubItem[] {
+							new ListViewItem.ListViewSubItem(item, space+"File"+space),
+							new ListViewItem.ListViewSubItem(item, space+file.LastAccessTime.ToShortDateString()+space)
+						};
+						item.SubItems.AddRange(subItems);
+						item.Checked = true;
+						item.Tag = new ListViewItemType("f", file.FullName);
+						listViewSource.Items.Add(item);
+					}
+				}
+				listViewSource.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+				for(int i=0; i!=listViewSource.Columns.Count; ++i) {
+					listViewSource.Columns[i].Width = listViewSource.Columns[i].Width + 2;
+				}
+            }
+        }
+		
+		// отметить все итемы ListView
+		private void CheckAll() {
+			m_mscLV.CheckdAllListViewItems( listViewSource, true );
+		}
+		
+		// снять отметки со всех итемов ListView
+		private void UnCheckAll() {
+			m_mscLV.UnCheckdAllListViewItems( listViewSource.CheckedItems );
+		}
+		
+		// пометить все файлы определенного типа
+		private void CheckTypeAllFiles(string sType, bool bCheck) {
+			if( listViewSource.Items.Count > 0  ) {
+				DirectoryInfo di = null;
+				for( int i=0; i!=listViewSource.Items.Count; ++i ) {
+					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
+					if(it.Type == "f") {
+						di = new DirectoryInfo(it.Value);
+						if(di.Extension.ToLower()=="."+sType.ToLower()) {
+							listViewSource.Items[i].Checked = bCheck;
+						}
+					}
+				}
+			}
+		}
+		
+		// снять пометку со всех файлов пределенного типа
+		private void UnCheckTypeAllFiles(string sType) {
+			DirectoryInfo di = null;
+			foreach( ListViewItem lvi in listViewSource.CheckedItems ) {
+				ListViewItemType it = (ListViewItemType)lvi.Tag;
+				if(it.Type == "f") {
+					di = new DirectoryInfo(it.Value);
+					if(di.Extension.ToLower()=="."+sType.ToLower()) {
+						lvi.Checked = false;
+					}
+				}
+			}
+		}
+		
+		// пометить все файлы
+		private void CheckAllFiles(bool bCheck) {
+			if( listViewSource.Items.Count > 0  ) {
+				for( int i=0; i!=listViewSource.Items.Count; ++i ) {
+					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
+					if(it.Type == "f") {
+						listViewSource.Items[i].Checked = bCheck;
+					}
+				}
+			}
+		}
+		
+		// снять пометку со всех файлов
+		private void UnCheckAllFiles() {
+			foreach( ListViewItem lvi in listViewSource.CheckedItems ) {
+				ListViewItemType it = (ListViewItemType)lvi.Tag;
+				if(it.Type == "f") {
+					lvi.Checked = false;
+				}
+			}
+		}
+	
+		// отметить все папки
+		private void CheckAllDirs(bool bCheck) {
+			if( listViewSource.Items.Count > 0  ) {
+				for( int i=0; i!=listViewSource.Items.Count; ++i ) {
+					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
+					if(it.Type == "d") {
+						listViewSource.Items[i].Checked = bCheck;
+					}
+				}
+			}
+		}
+		
+		// снять пометку со всех папок
+		private void UnCheckAllDirs() {
+			foreach( ListViewItem lvi in listViewSource.CheckedItems ) {
+				ListViewItemType it = (ListViewItemType)lvi.Tag;
+				if(it.Type == "d") {
+					lvi.Checked = false;
+				}
+			}
+		}
+		
 		private void SortingProgressData() {
             // Отобразим результат сортировки
             /*lvFilesCount.Items[0].SubItems[1].Text = Convert.ToString( m_sv.AllDirs );
@@ -933,6 +1084,160 @@ namespace SharpFBTools.Tools
 			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" );
 		}
 		
+		void ButtonOpenSourceDirClick(object sender, EventArgs e)
+		{
+			// задание папки с fb2-файлами и архивами для сканирования
+			if(filesWorker.OpenDirDlg( textBoxAddress, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" )) {
+				ButtonGoClick(sender, e);
+			}
+		}
+		
+		void ButtonGoClick(object sender, EventArgs e)
+		{
+			// переход на заданную папку-источник fb2-файлов
+			string s = textBoxAddress.Text.Trim();
+			if(s != "") {
+				DirectoryInfo info = new DirectoryInfo(s);
+				if(info.Exists) {
+					GenerateSourceList(info.FullName);
+				} else {
+					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ". Проверте правильности пути.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
+			}
+		}
+		
+		void TextBoxAddressKeyPress(object sender, KeyPressEventArgs e)
+		{
+			// обработка нажатия клавиш в поле ввода пути к папке-источнику
+			if ( e.KeyChar == (char)Keys.Return ) {
+				// отображение папок и/или фалов в заданной папке
+				ButtonGoClick( sender, e );
+			}
+		}
+		
+		void ListViewSourceDoubleClick(object sender, EventArgs e)
+		{
+			// переход в выбранную папку
+			if( listViewSource.Items.Count > 0 && listViewSource.SelectedItems.Count != 0 ) {
+				ListView.SelectedListViewItemCollection si = listViewSource.SelectedItems;
+				ListViewItemType it = (ListViewItemType)si[0].Tag;
+				if(it.Type=="d" || it.Type=="dUp") {
+					textBoxAddress.Text = it.Value;
+					GenerateSourceList(it.Value);
+				}
+			}
+		}
+		
+		void CheckBoxDirsViewClick(object sender, EventArgs e)
+		{
+			// переключатель видимости папок
+			if(listViewSource.Items.Count > 0) {
+				GenerateSourceList(m_CurrentDir);
+			}
+		}
+		
+		void TsmiCheckedAllClick(object sender, EventArgs e)
+		{
+			// Пометить все файлы и папки
+			ConnectListsEventHandlers( false );
+			CheckAll();
+			if(listViewSource.Items.Count > 0) {
+				listViewSource.Items[0].Checked = false;
+			}
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiUnCheckedAllClick(object sender, EventArgs e)
+		{
+			// Снять отметки со всех файлов и папок
+			ConnectListsEventHandlers( false );
+			UnCheckAll();
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiFilesCheckedAllClick(object sender, EventArgs e)
+		{
+			// Пометить все файлы
+			ConnectListsEventHandlers( false );
+			CheckAllFiles(true);
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiFilesUnCheckedAllClick(object sender, EventArgs e)
+		{
+			// Снять пометки со всех файлов
+			ConnectListsEventHandlers( false );
+			UnCheckAllFiles();
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiDirCheckedAllClick(object sender, EventArgs e)
+		{
+			// Пометить все папки
+			ConnectListsEventHandlers( false );
+			CheckAllDirs(true);
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiDirUnCheckedAllClick(object sender, EventArgs e)
+		{
+			// Снять пометки со всех папок
+			ConnectListsEventHandlers( false );
+			UnCheckAllDirs();
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiFB2CheckedAllClick(object sender, EventArgs e)
+		{
+			// Пометить все fb2 файлы
+			ConnectListsEventHandlers( false );
+			CheckTypeAllFiles("fb2", true);
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiFB2UnCheckedAllClick(object sender, EventArgs e)
+		{
+			// Снять пометки со всех fb2 файлов
+			ConnectListsEventHandlers( false );
+			UnCheckTypeAllFiles("fb2");
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiZipCheckedAllClick(object sender, EventArgs e)
+		{
+			// Пометить все zip файлы
+			ConnectListsEventHandlers( false );
+			CheckTypeAllFiles("zip", true);
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiZipUnCheckedAllClick(object sender, EventArgs e)
+		{
+			// Снять пометки со всех zip файлов
+			ConnectListsEventHandlers( false );
+			UnCheckTypeAllFiles("zip");
+			ConnectListsEventHandlers( true );
+		}
+		
+		void TsmiCheckedAllSelectedClick(object sender, EventArgs e)
+		{
+			// Пометить всё выделенное
+			ConnectListsEventHandlers( false );
+			m_mscLV.ChekAllSelectedItems(listViewSource, true);
+			ConnectListsEventHandlers( true );
+			listViewSource.Focus();
+		}
+		
+		void TsmiUnCheckedAllSelectedClick(object sender, EventArgs e)
+		{
+			// Снять пометки со всего выделенного
+			ConnectListsEventHandlers( false );
+			m_mscLV.ChekAllSelectedItems(listViewSource, false);
+			ConnectListsEventHandlers( true );
+			listViewSource.Focus();
+		}
+		
+		
 		void TsbtnSortFilesToClick(object sender, EventArgs e)
 		{
 			// Полная сортировка
@@ -1274,6 +1579,6 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
-
+		
 	}
 }

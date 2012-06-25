@@ -103,6 +103,7 @@
     <Compile Include="FB2\Genres\FB21Genres.cs" />
     <Compile Include="FB2\Genres\FB22Genres.cs" />
     <Compile Include="FB2\Genres\IFBGenres.cs" />
+    <Compile Include="FileManager\ListViewItemType.cs" />
     <Compile Include="FileManager\StatusView.cs" />
     <Compile Include="FilesWorker\Archiver.cs" />
     <Compile Include="FilesWorker\CommandManager.cs" />
