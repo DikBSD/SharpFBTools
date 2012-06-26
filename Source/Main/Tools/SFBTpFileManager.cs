@@ -102,16 +102,49 @@ namespace SharpFBTools.Tools
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			// сортировка файлов по папкам, согласно шаблонам подстановки
 			List<string> lDirList = new List<string>();
-			if( !m_bScanSubDirs ) {
-				// сканировать только указанную папку
-				lDirList.Add( m_sSource );
-				lvFilesCount.Items[0].SubItems[1].Text = "1";
+			List<string> lCheckedDirList = new List<string>();
+			List<string> lCheckedFileList = new List<string>();
+			if(m_bFullSort) {
+				/* Полная Сортировка */
+				// формируем список помеченных папок
+				System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems = listViewSource.CheckedItems;
+				foreach( ListViewItem lvi in checkedItems ) {
+					ListViewItemType it = (ListViewItemType)lvi.Tag;
+					if(it.Type == "d") {
+						lCheckedDirList.Add(it.Value.Trim());
+					} else if(it.Type == "f") {
+						lCheckedFileList.Add(it.Value.Trim());
+					}
+				}
+				if( !m_bScanSubDirs ) {
+					// сканировать только указанную папку
+					lDirList.AddRange(lCheckedDirList);// Add( m_sSource );
+					lvFilesCount.Items[0].SubItems[1].Text = lDirList.Count.ToString();
+				} else {
+					// сканировать и все подпапки
+					foreach(string sIn in lCheckedDirList) {
+						m_sv.AllFiles += filesWorker.DirsParser( m_bw, e, sIn, lvFilesCount, ref lDirList, false );
+					}
+					m_sv.AllFiles += lCheckedFileList.Count;
+					m_sv.AllDirs = lDirList.Count;
+				}
+				// проверка папки-приемника и создание ее, если нужно
+				if( !filesWorker.CreateDirIfNeed( m_sTarget, m_sMessTitle ) ) {
+					return;
+				}
 			} else {
-				// сканировать и все подпапки
-				m_sv.AllFiles	= filesWorker.DirsParser( m_bw, e, m_sSource, lvFilesCount, ref lDirList, false );
-				m_sv.AllDirs	= lDirList.Count;
+				// Избранная Сортировка
+				if( !m_bScanSubDirs ) {
+					// сканировать только указанную папку
+					lDirList.Add( m_sSource );
+					lvFilesCount.Items[0].SubItems[1].Text = "1";
+				} else {
+					// сканировать и все подпапки
+					m_sv.AllFiles	= filesWorker.DirsParser( m_bw, e, m_sSource, lvFilesCount, ref lDirList, false );
+					m_sv.AllDirs	= lDirList.Count;
+				}
 			}
-			
+
 			// отобразим число всех файлов в папке сканирования
 			lvFilesCount.Items[1].SubItems[1].Text = m_sv.AllFiles.ToString();
 			
@@ -148,6 +181,31 @@ namespace SharpFBTools.Tools
 			// сортировка
 			if( m_bFullSort ) {
 				// Полная Сортировка
+				// для помеченных файлов
+				foreach(string filePath in lCheckedFileList) {
+					// Проверить флаг на остановку процесса
+					if( ( m_bw.CancellationPending == true ) ) {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+						return;
+					}
+					// создаем файл по заданному пути
+					if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
+						// по первому Жанру и первому Автору Книги
+						MakeFileFor1Genre1Author( filePath, m_sSource, m_sTarget, lSLexems, dfm );
+					} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
+						// по первому Жанру и всем Авторам Книги
+						MakeFileFor1GenreAllAuthor( filePath, m_sSource, m_sTarget, lSLexems, dfm );
+					} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
+						// по всем Жанрам и первому Автору Книги
+						MakeFileForAllGenre1Author( filePath, m_sSource, m_sTarget, lSLexems, dfm );
+					} else {
+						// по всем Жанрам и всем Авторам Книги
+						MakeFileForAllGenreAllAuthor( filePath, m_sSource, m_sTarget, lSLexems, dfm );
+					}
+
+					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
+				}
+				// для помеченных папок
 				string sFromFilePath = "";
 				foreach( string s in lDirList ) {
 					DirectoryInfo diFolder = new DirectoryInfo( s );
@@ -177,6 +235,8 @@ namespace SharpFBTools.Tools
 						m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 					}
 				}
+				lCheckedDirList.Clear();
+				lCheckedFileList.Clear();
 			} else {
 				// Избранная Сортировка
 				string sFromFilePath = "", sExt = "";
@@ -489,11 +549,7 @@ namespace SharpFBTools.Tools
 				MessageBox.Show( "Папка не найдена: " + m_sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
-			
-			// проверка папки-приемника и создание ее, если нужно
-			if( !filesWorker.CreateDirIfNeed( m_sTarget, m_sMessTitle ) ) {
-				return false;
-			}
+
 			return true;
 		}
 		
@@ -1285,11 +1341,7 @@ namespace SharpFBTools.Tools
 			m_sTarget = m_sSource + "\\out"; // папка вывода out - внутри исходой
 			
 			m_bFullSort = true;
-			if( chBoxScanSubDir.Checked ) {
-				m_bScanSubDirs = true;
-			} else {
-				m_bScanSubDirs = false;
-			}
+			m_bScanSubDirs = chBoxScanSubDir.Checked ? true : false;
 			m_sLineTemplate	= txtBoxTemplatesFromLine.Text.Trim();
 			m_sMessTitle	= "SharpFBTools - Полная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
@@ -1456,7 +1508,7 @@ namespace SharpFBTools.Tools
 		
 		void TsbtnSSSortFilesToClick(object sender, EventArgs e)
 		{
-			// Избранная Сортировка
+			// ********* Избранная Сортировка ***********
 			m_bFullSort = false;
 			
 			// обработка заданных каталогов
@@ -1465,13 +1517,7 @@ namespace SharpFBTools.Tools
 			m_sTarget = Settings.SettingsFM.FMDataSSTargetDir = filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
 			tboxSSToDir.Text		= m_sTarget;
 			
-			
-			if( chBoxSSScanSubDir.Checked ) {
-				m_bScanSubDirs = true;
-			} else {
-				m_bScanSubDirs = false;
-			}
-			
+			m_bScanSubDirs = chBoxSSScanSubDir.Checked ? true : false;
 			m_sLineTemplate = txtBoxSSTemplatesFromLine.Text.Trim();
 			m_sMessTitle = "SharpFBTools - Избранная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов

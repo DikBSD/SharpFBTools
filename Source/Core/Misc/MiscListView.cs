@@ -57,7 +57,7 @@ namespace Core.Misc
 			}
 		}
 		// снять отметки с помеченных итемов
-		public void UnCheckdAllListViewItems( System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems) {
+		public void UnCheckdAllListViewItems( System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems ) {
 			foreach( ListViewItem lvi in checkedItems ) {
 				lvi.Checked = false;
 			}
