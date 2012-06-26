@@ -84,7 +84,6 @@ namespace SharpFBTools.Tools
 		#region Открытые методы класса
 		// задание для кнопок ToolStrip стиля и положения текста и картинки
 		public void SetToolButtonsSettings() {
-			Settings.SettingsFM.SetToolButtonsSettings( tsFullSort );
 			Settings.SettingsFM.SetToolButtonsSettings( tsSelectedSort );
 		}
 		#endregion
@@ -450,14 +449,13 @@ namespace SharpFBTools.Tools
 		private void SetFullSortingStartEnabled( bool bEnabled ) {
 			// доступность контролов при Полной Сортировки
 			tpSelectedSort.Enabled		= bEnabled;
-			tsbtnSortFilesTo.Enabled	= bEnabled;
 			panelAddress.Enabled		= bEnabled;
 			listViewSource.Enabled		= bEnabled;
 			checkBoxDirsView.Enabled	= bEnabled;
+			chBoxScanSubDir.Enabled		= bEnabled;
 			buttonSortFilesTo.Enabled	= bEnabled;
 			buttonFullSortStop.Enabled	= !bEnabled;
 			gBoxFullSortRenameTemplates.Enabled	= bEnabled;
-			tsbtnFullSortStop.Enabled	= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
 			tcSort.Refresh();
 			ssProgress.Refresh();
@@ -1278,17 +1276,20 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		
-		void TsbtnSortFilesToClick(object sender, EventArgs e)
+		void ButtonSortFilesToClick(object sender, EventArgs e)
 		{
-			// Полная сортировка
+			// ********* Полная сортировка *************
 			// обработка заданных каталого
 			m_sSource = Settings.SettingsFM.FMDataScanDir = filesWorker.WorkingDirPath( textBoxAddress.Text.Trim() );
 			textBoxAddress.Text = m_sSource;
 			m_sTarget = m_sSource + "\\out"; // папка вывода out - внутри исходой
 			
-			m_bFullSort		= true;
-			m_bScanSubDirs	= true;
+			m_bFullSort = true;
+			if( chBoxScanSubDir.Checked ) {
+				m_bScanSubDirs = true;
+			} else {
+				m_bScanSubDirs = false;
+			}
 			m_sLineTemplate	= txtBoxTemplatesFromLine.Text.Trim();
 			m_sMessTitle	= "SharpFBTools - Полная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
@@ -1445,7 +1446,7 @@ namespace SharpFBTools.Tools
 			filesWorker.OpenDirDlg( tboxSSToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов (Избранная Сортировка):" );
 		}
 	
-		void TsbtnFullSortStopClick(object sender, EventArgs e)
+		void ButtonFullSortStopClick(object sender, EventArgs e)
 		{
 			// Остановка выполнения процесса Полной Сортировки
 			if( m_bw.WorkerSupportsCancellation == true ) {
@@ -1617,5 +1618,6 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
+
 	}
 }

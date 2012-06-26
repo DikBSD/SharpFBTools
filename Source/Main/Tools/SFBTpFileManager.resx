@@ -120,42 +120,10 @@
   <metadata name="ssProgress.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>14, 10</value>
   </metadata>
-  <metadata name="tsFullSort.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>116, 10</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="tsbtnSortFilesTo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAPJJREFUWEftl4EO
-        xBAMht2bezRv5vyidz1sXQ1NLpM02Qz9/FrsFUKIzrIAwNKcpfOsvjmA9z5aWQq96OBcq0KcUOD3B4BU
-        yJWV0TcCneA/q94AoKKnBuq5UiJAap9GP7Y0QANQO8c7le0AtXM1gCiRoAAH4CosjQG+BPUEtijwCYqS
-        ARyiB+AconjMMPZpGnLZyXmdBaPO0U8E6GWAKg1HgpBJgu3xuxmV5y0A0pmwNAs05wGtoQR89L0bA1qA
-        C8t82qTJAi3A6OzR71HgPxQwD8KpAHci+k7fcvVr74C9e+GyOk3+r2hr/2OyYlaaMR8F3tYFyRKuM47Z
-        AAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="tsbtnFullSortStop.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAplJREFUWEedl91x
-        4zAMhOWa3JNbSAtpwW9+uC6SBxdwqUmHZbC8BQRStDXD0R9H+LAAKPCy27HNjstl+hovv33GTzHz4+Tz
-        GwCGx/W67zYejz9vjc9t2zFmx/itG38+n/BhaXzZPAwaBvgZRA1wu+27jWbcQQ4QeH63eTgL4KsQR4D7
-        3T5sAwdACJAMNeMYf20uAXzOKxARwD1vxgHBe0KoxzdXwAA+AEBFHGgV4j8AjdBzKmEQ96tNo7dmAPft
-        GSBs9OukyArEL4AmHK7pOSDsPhvoQG4wv2+K+DiD2DgxJBwhXNbgsRmtgPQZAFYhGgDKJSSSxlwNIr4L
-        IcgA+PZIiSOAJ5R6XSogVZBzogLIEFwjagCDUEn7tSjQEnCSAxqCap1YAqDhMgnfBKASSwD0sgqBlqH9
-        g0I5jkKgSgAAeXEeAq/zZlBDIOsCQtHf23UA4DwoJuW5BKBe0vjpWQFoHGcDUDBW3pICpdGkQJ+jAPAa
-        qrmKCBWTswMgDmEdcJlC4qkn7k1YDVmSvjQ3IwyLz6fx9wHyCqggbrj/F5L0gM2J2RVAw8CE0CQ5KFAl
-        XVIm/7Qq6WmjBEA4OGGWgFoRw6QUhapF6QAAJbheAyLUvpdfM6ZK6PM8JydeamhKAIUYApxBSEIy9lVX
-        FQCYB2wgoQRkG4aBy3BWIxnvZZdaO210W0NSdbGACACScHlp7v2hx53J91uOsbXrfYe3670lqyDyb5aG
-        4NnhXSrF7r20dtp9ca8QmtIMwTDQmJ4VIr8P0kN+7bJxL8ehLa8g8MFXRl902NqxyybIDCDnBD/26jk0
-        utrup33acGumSoyMY72o3rUFzbwPje5ggzjdOSrEOxvUXv+T3el86yolSpi8Yp5uXKd7433/B38g13nV
-        SRONAAAAAElFTkSuQmCC
-</value>
-  </data>
   <metadata name="fbdScanDir.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>225, 8</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonFullSortStop.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

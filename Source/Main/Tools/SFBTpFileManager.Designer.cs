@@ -86,9 +86,6 @@ namespace SharpFBTools.Tools
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
 			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-			this.tsFullSort = new System.Windows.Forms.ToolStrip();
-			this.tsbtnSortFilesTo = new System.Windows.Forms.ToolStripButton();
-			this.tsbtnFullSortStop = new System.Windows.Forms.ToolStripButton();
 			this.fbdScanDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.btnInsertTemplates = new System.Windows.Forms.Button();
 			this.txtBoxTemplatesFromLine = new System.Windows.Forms.TextBox();
@@ -96,9 +93,9 @@ namespace SharpFBTools.Tools
 			this.tcSort = new System.Windows.Forms.TabControl();
 			this.tpFullSort = new System.Windows.Forms.TabPage();
 			this.panelStart = new System.Windows.Forms.Panel();
+			this.chBoxScanSubDir = new System.Windows.Forms.CheckBox();
 			this.buttonFullSortStop = new System.Windows.Forms.Button();
 			this.buttonSortFilesTo = new System.Windows.Forms.Button();
-			this.checkBoxDirsView = new System.Windows.Forms.CheckBox();
 			this.listViewSource = new System.Windows.Forms.ListView();
 			this.colHeaderFileName = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderNewFileName = new System.Windows.Forms.ColumnHeader();
@@ -132,6 +129,7 @@ namespace SharpFBTools.Tools
 			this.buttonGo = new System.Windows.Forms.Button();
 			this.textBoxAddress = new System.Windows.Forms.TextBox();
 			this.labelAddress = new System.Windows.Forms.Label();
+			this.checkBoxDirsView = new System.Windows.Forms.CheckBox();
 			this.buttonOpenSourceDir = new System.Windows.Forms.Button();
 			this.gBoxFullSortRenameTemplates = new System.Windows.Forms.GroupBox();
 			this.tpSelectedSort = new System.Windows.Forms.TabPage();
@@ -176,7 +174,6 @@ namespace SharpFBTools.Tools
 			this.sfdSaveXMLFile = new System.Windows.Forms.SaveFileDialog();
 			this.sfdOpenXMLFile = new System.Windows.Forms.OpenFileDialog();
 			this.ssProgress.SuspendLayout();
-			this.tsFullSort.SuspendLayout();
 			this.tcSort.SuspendLayout();
 			this.tpFullSort.SuspendLayout();
 			this.panelStart.SuspendLayout();
@@ -214,38 +211,6 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsProgressBar.Name = "tsProgressBar";
 			this.tsProgressBar.Size = new System.Drawing.Size(400, 16);
-			// 
-			// tsFullSort
-			// 
-			this.tsFullSort.ImageScalingSize = new System.Drawing.Size(24, 24);
-			this.tsFullSort.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsbtnSortFilesTo,
-									this.tsbtnFullSortStop});
-			this.tsFullSort.Location = new System.Drawing.Point(3, 3);
-			this.tsFullSort.Name = "tsFullSort";
-			this.tsFullSort.Size = new System.Drawing.Size(814, 31);
-			this.tsFullSort.TabIndex = 19;
-			// 
-			// tsbtnSortFilesTo
-			// 
-			this.tsbtnSortFilesTo.AutoToolTip = false;
-			this.tsbtnSortFilesTo.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSortFilesTo.Image")));
-			this.tsbtnSortFilesTo.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnSortFilesTo.Name = "tsbtnSortFilesTo";
-			this.tsbtnSortFilesTo.Size = new System.Drawing.Size(102, 28);
-			this.tsbtnSortFilesTo.Text = "Сортировать";
-			this.tsbtnSortFilesTo.Click += new System.EventHandler(this.TsbtnSortFilesToClick);
-			// 
-			// tsbtnFullSortStop
-			// 
-			this.tsbtnFullSortStop.AutoToolTip = false;
-			this.tsbtnFullSortStop.Enabled = false;
-			this.tsbtnFullSortStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFullSortStop.Image")));
-			this.tsbtnFullSortStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnFullSortStop.Name = "tsbtnFullSortStop";
-			this.tsbtnFullSortStop.Size = new System.Drawing.Size(96, 28);
-			this.tsbtnFullSortStop.Text = "Остановить";
-			this.tsbtnFullSortStop.Click += new System.EventHandler(this.TsbtnFullSortStopClick);
 			// 
 			// fbdScanDir
 			// 
@@ -303,7 +268,6 @@ namespace SharpFBTools.Tools
 			this.tpFullSort.Controls.Add(this.listViewSource);
 			this.tpFullSort.Controls.Add(this.panelAddress);
 			this.tpFullSort.Controls.Add(this.gBoxFullSortRenameTemplates);
-			this.tpFullSort.Controls.Add(this.tsFullSort);
 			this.tpFullSort.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.tpFullSort.Location = new System.Drawing.Point(4, 22);
 			this.tpFullSort.Name = "tpFullSort";
@@ -315,14 +279,27 @@ namespace SharpFBTools.Tools
 			// 
 			// panelStart
 			// 
+			this.panelStart.Controls.Add(this.chBoxScanSubDir);
 			this.panelStart.Controls.Add(this.buttonFullSortStop);
 			this.panelStart.Controls.Add(this.buttonSortFilesTo);
-			this.panelStart.Controls.Add(this.checkBoxDirsView);
 			this.panelStart.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.panelStart.Location = new System.Drawing.Point(3, 183);
 			this.panelStart.Name = "panelStart";
 			this.panelStart.Size = new System.Drawing.Size(814, 58);
 			this.panelStart.TabIndex = 36;
+			// 
+			// chBoxScanSubDir
+			// 
+			this.chBoxScanSubDir.Checked = true;
+			this.chBoxScanSubDir.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxScanSubDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxScanSubDir.ForeColor = System.Drawing.Color.Navy;
+			this.chBoxScanSubDir.Location = new System.Drawing.Point(3, 4);
+			this.chBoxScanSubDir.Name = "chBoxScanSubDir";
+			this.chBoxScanSubDir.Size = new System.Drawing.Size(172, 24);
+			this.chBoxScanSubDir.TabIndex = 4;
+			this.chBoxScanSubDir.Text = "Сканировать и подпапки";
+			this.chBoxScanSubDir.UseVisualStyleBackColor = true;
 			// 
 			// buttonFullSortStop
 			// 
@@ -337,6 +314,7 @@ namespace SharpFBTools.Tools
 			this.buttonFullSortStop.Text = "Остановить";
 			this.buttonFullSortStop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.buttonFullSortStop.UseVisualStyleBackColor = true;
+			this.buttonFullSortStop.Click += new System.EventHandler(this.ButtonFullSortStopClick);
 			// 
 			// buttonSortFilesTo
 			// 
@@ -350,18 +328,7 @@ namespace SharpFBTools.Tools
 			this.buttonSortFilesTo.Text = "Сортировать";
 			this.buttonSortFilesTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.buttonSortFilesTo.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxDirsView
-			// 
-			this.checkBoxDirsView.Checked = true;
-			this.checkBoxDirsView.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxDirsView.Location = new System.Drawing.Point(3, 4);
-			this.checkBoxDirsView.Name = "checkBoxDirsView";
-			this.checkBoxDirsView.Size = new System.Drawing.Size(124, 24);
-			this.checkBoxDirsView.TabIndex = 1;
-			this.checkBoxDirsView.Text = "Отображать папки";
-			this.checkBoxDirsView.UseVisualStyleBackColor = true;
-			this.checkBoxDirsView.Click += new System.EventHandler(this.CheckBoxDirsViewClick);
+			this.buttonSortFilesTo.Click += new System.EventHandler(this.ButtonSortFilesToClick);
 			// 
 			// listViewSource
 			// 
@@ -382,10 +349,10 @@ namespace SharpFBTools.Tools
 			this.listViewSource.ContextMenuStrip = this.cmsItems;
 			this.listViewSource.FullRowSelect = true;
 			this.listViewSource.GridLines = true;
-			this.listViewSource.Location = new System.Drawing.Point(6, 124);
+			this.listViewSource.Location = new System.Drawing.Point(6, 98);
 			this.listViewSource.Name = "listViewSource";
 			this.listViewSource.ShowItemToolTips = true;
-			this.listViewSource.Size = new System.Drawing.Size(811, 57);
+			this.listViewSource.Size = new System.Drawing.Size(811, 83);
 			this.listViewSource.SmallImageList = this.imageListItems;
 			this.listViewSource.TabIndex = 35;
 			this.listViewSource.UseCompatibleStateImageBehavior = false;
@@ -580,9 +547,10 @@ namespace SharpFBTools.Tools
 			this.panelAddress.Controls.Add(this.buttonGo);
 			this.panelAddress.Controls.Add(this.textBoxAddress);
 			this.panelAddress.Controls.Add(this.labelAddress);
+			this.panelAddress.Controls.Add(this.checkBoxDirsView);
 			this.panelAddress.Controls.Add(this.buttonOpenSourceDir);
 			this.panelAddress.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panelAddress.Location = new System.Drawing.Point(3, 90);
+			this.panelAddress.Location = new System.Drawing.Point(3, 59);
 			this.panelAddress.Name = "panelAddress";
 			this.panelAddress.Size = new System.Drawing.Size(814, 33);
 			this.panelAddress.TabIndex = 33;
@@ -592,7 +560,7 @@ namespace SharpFBTools.Tools
 			this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.buttonGo.Location = new System.Drawing.Point(737, 3);
+			this.buttonGo.Location = new System.Drawing.Point(562, 2);
 			this.buttonGo.Name = "buttonGo";
 			this.buttonGo.Size = new System.Drawing.Size(74, 24);
 			this.buttonGo.TabIndex = 6;
@@ -607,7 +575,7 @@ namespace SharpFBTools.Tools
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxAddress.Location = new System.Drawing.Point(93, 5);
 			this.textBoxAddress.Name = "textBoxAddress";
-			this.textBoxAddress.Size = new System.Drawing.Size(638, 20);
+			this.textBoxAddress.Size = new System.Drawing.Size(458, 20);
 			this.textBoxAddress.TabIndex = 5;
 			this.textBoxAddress.TextChanged += new System.EventHandler(this.TextBoxAddressTextChanged);
 			this.textBoxAddress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAddressKeyPress);
@@ -622,6 +590,19 @@ namespace SharpFBTools.Tools
 			this.labelAddress.TabIndex = 4;
 			this.labelAddress.Text = "Адрес:";
 			this.labelAddress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// checkBoxDirsView
+			// 
+			this.checkBoxDirsView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBoxDirsView.Checked = true;
+			this.checkBoxDirsView.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxDirsView.Location = new System.Drawing.Point(660, 2);
+			this.checkBoxDirsView.Name = "checkBoxDirsView";
+			this.checkBoxDirsView.Size = new System.Drawing.Size(124, 24);
+			this.checkBoxDirsView.TabIndex = 1;
+			this.checkBoxDirsView.Text = "Отображать папки";
+			this.checkBoxDirsView.UseVisualStyleBackColor = true;
+			this.checkBoxDirsView.Click += new System.EventHandler(this.CheckBoxDirsViewClick);
 			// 
 			// buttonOpenSourceDir
 			// 
@@ -640,7 +621,7 @@ namespace SharpFBTools.Tools
 			this.gBoxFullSortRenameTemplates.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gBoxFullSortRenameTemplates.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gBoxFullSortRenameTemplates.ForeColor = System.Drawing.Color.Indigo;
-			this.gBoxFullSortRenameTemplates.Location = new System.Drawing.Point(3, 34);
+			this.gBoxFullSortRenameTemplates.Location = new System.Drawing.Point(3, 3);
 			this.gBoxFullSortRenameTemplates.Name = "gBoxFullSortRenameTemplates";
 			this.gBoxFullSortRenameTemplates.Size = new System.Drawing.Size(814, 56);
 			this.gBoxFullSortRenameTemplates.TabIndex = 32;
@@ -1073,11 +1054,8 @@ namespace SharpFBTools.Tools
 			this.Size = new System.Drawing.Size(828, 560);
 			this.ssProgress.ResumeLayout(false);
 			this.ssProgress.PerformLayout();
-			this.tsFullSort.ResumeLayout(false);
-			this.tsFullSort.PerformLayout();
 			this.tcSort.ResumeLayout(false);
 			this.tpFullSort.ResumeLayout(false);
-			this.tpFullSort.PerformLayout();
 			this.panelStart.ResumeLayout(false);
 			this.cmsItems.ResumeLayout(false);
 			this.panelAddress.ResumeLayout(false);
@@ -1099,6 +1077,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chBoxScanSubDir;
 		private System.Windows.Forms.ColumnHeader colHeaderFileName;
 		private System.Windows.Forms.ColumnHeader colHeaderNewFileName;
 		private System.Windows.Forms.ColumnHeader colHeaderBookName;
@@ -1144,7 +1123,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.SaveFileDialog sfdSaveXMLFile;
 		private System.Windows.Forms.Button btnSSDataListSave;
 		private System.Windows.Forms.ColumnHeader cHeaderBookTitle;
-		private System.Windows.Forms.ToolStripButton tsbtnFullSortStop;
 		private System.Windows.Forms.ToolStripButton tsbtnSSSortStop;
 		private System.Windows.Forms.ColumnHeader cHeaderExactFit;
 		private System.Windows.Forms.Panel pData;
@@ -1167,7 +1145,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.Label lbSSlDir;
 		private System.Windows.Forms.Label lblSSTargetDir;
 		private System.Windows.Forms.Panel pSelectedSortDirs;
-		private System.Windows.Forms.ToolStrip tsFullSort;
 		private System.Windows.Forms.ToolStripButton tsbtnSSSortFilesTo;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripButton tsbtnSSTargetDir;
@@ -1187,7 +1164,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.RichTextBox richTxtBoxDescTemplates;
 		private System.Windows.Forms.TextBox txtBoxTemplatesFromLine;
 		private System.Windows.Forms.FolderBrowserDialog fbdScanDir;
-		private System.Windows.Forms.ToolStripButton tsbtnSortFilesTo;
 		private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
 		private System.Windows.Forms.ToolStripStatusLabel tsslblProgress;
 		private System.Windows.Forms.StatusStrip ssProgress;
