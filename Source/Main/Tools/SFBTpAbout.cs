@@ -61,7 +61,7 @@ namespace SharpFBTools.Tools
 					if( File.Exists( sFileManagerHelpPath ) ) {
 						rtboxHelp.LoadFile( sFileManagerHelpPath );
 					} else {
-						rtboxHelp.Text = "Не найден файл Справки Менеджера Файлов: \""+sFileManagerHelpPath+"\"";
+						rtboxHelp.Text = "Не найден файл Справки Сортировщика Файлов: \""+sFileManagerHelpPath+"\"";
 					}
 					break;
 				case 2:

@@ -398,7 +398,7 @@ namespace SharpFBTools.Tools
 			this.cboxInstrument.FormattingEnabled = true;
 			this.cboxInstrument.Items.AddRange(new object[] {
 									"Валидатор fb2-файлов",
-									"Менеджер файлов",
+									"Сортировщик файлов",
 									"Менеджер архивов",
 									"FB2 Корректор",
 									"Дубликатор файлов"});

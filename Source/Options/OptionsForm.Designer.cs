@@ -446,7 +446,7 @@ namespace Options
 									"TextAboveImage",
 									"ImageBeforeText",
 									"TextBeforeImage"});
-			this.cboxTIRFB2Dup.Location = new System.Drawing.Point(273, 92);
+			this.cboxTIRFB2Dup.Location = new System.Drawing.Point(282, 92);
 			this.cboxTIRFB2Dup.Name = "cboxTIRFB2Dup";
 			this.cboxTIRFB2Dup.Size = new System.Drawing.Size(130, 21);
 			this.cboxTIRFB2Dup.TabIndex = 27;
@@ -459,7 +459,7 @@ namespace Options
 									"Text",
 									"Image",
 									"ImageAndText"});
-			this.cboxDSFB2Dup.Location = new System.Drawing.Point(138, 92);
+			this.cboxDSFB2Dup.Location = new System.Drawing.Point(147, 92);
 			this.cboxDSFB2Dup.Name = "cboxDSFB2Dup";
 			this.cboxDSFB2Dup.Size = new System.Drawing.Size(130, 21);
 			this.cboxDSFB2Dup.TabIndex = 26;
@@ -485,7 +485,7 @@ namespace Options
 									"TextAboveImage",
 									"ImageBeforeText",
 									"TextBeforeImage"});
-			this.cboxTIRArchiveManager.Location = new System.Drawing.Point(273, 66);
+			this.cboxTIRArchiveManager.Location = new System.Drawing.Point(282, 66);
 			this.cboxTIRArchiveManager.Name = "cboxTIRArchiveManager";
 			this.cboxTIRArchiveManager.Size = new System.Drawing.Size(130, 21);
 			this.cboxTIRArchiveManager.TabIndex = 24;
@@ -498,7 +498,7 @@ namespace Options
 									"Text",
 									"Image",
 									"ImageAndText"});
-			this.cboxDSArchiveManager.Location = new System.Drawing.Point(138, 66);
+			this.cboxDSArchiveManager.Location = new System.Drawing.Point(147, 66);
 			this.cboxDSArchiveManager.Name = "cboxDSArchiveManager";
 			this.cboxDSArchiveManager.Size = new System.Drawing.Size(130, 21);
 			this.cboxDSArchiveManager.TabIndex = 23;
@@ -524,7 +524,7 @@ namespace Options
 									"TextAboveImage",
 									"ImageBeforeText",
 									"TextBeforeImage"});
-			this.cboxTIRFileManager.Location = new System.Drawing.Point(273, 41);
+			this.cboxTIRFileManager.Location = new System.Drawing.Point(282, 41);
 			this.cboxTIRFileManager.Name = "cboxTIRFileManager";
 			this.cboxTIRFileManager.Size = new System.Drawing.Size(130, 21);
 			this.cboxTIRFileManager.TabIndex = 21;
@@ -537,7 +537,7 @@ namespace Options
 									"Text",
 									"Image",
 									"ImageAndText"});
-			this.cboxDSFileManager.Location = new System.Drawing.Point(138, 41);
+			this.cboxDSFileManager.Location = new System.Drawing.Point(147, 41);
 			this.cboxDSFileManager.Name = "cboxDSFileManager";
 			this.cboxDSFileManager.Size = new System.Drawing.Size(130, 21);
 			this.cboxDSFileManager.TabIndex = 20;
@@ -549,9 +549,9 @@ namespace Options
 			this.lblFileManager.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.lblFileManager.Location = new System.Drawing.Point(7, 44);
 			this.lblFileManager.Name = "lblFileManager";
-			this.lblFileManager.Size = new System.Drawing.Size(121, 13);
+			this.lblFileManager.Size = new System.Drawing.Size(134, 13);
 			this.lblFileManager.TabIndex = 19;
-			this.lblFileManager.Text = "Менеджер Файлов:";
+			this.lblFileManager.Text = "Сортировщик Файлов:";
 			// 
 			// cboxTIRValidator
 			// 
@@ -563,7 +563,7 @@ namespace Options
 									"TextAboveImage",
 									"ImageBeforeText",
 									"TextBeforeImage"});
-			this.cboxTIRValidator.Location = new System.Drawing.Point(273, 16);
+			this.cboxTIRValidator.Location = new System.Drawing.Point(282, 16);
 			this.cboxTIRValidator.Name = "cboxTIRValidator";
 			this.cboxTIRValidator.Size = new System.Drawing.Size(130, 21);
 			this.cboxTIRValidator.TabIndex = 18;
@@ -576,7 +576,7 @@ namespace Options
 									"Text",
 									"Image",
 									"ImageAndText"});
-			this.cboxDSValidator.Location = new System.Drawing.Point(138, 16);
+			this.cboxDSValidator.Location = new System.Drawing.Point(147, 16);
 			this.cboxDSValidator.Name = "cboxDSValidator";
 			this.cboxDSValidator.Size = new System.Drawing.Size(130, 21);
 			this.cboxDSValidator.TabIndex = 17;
