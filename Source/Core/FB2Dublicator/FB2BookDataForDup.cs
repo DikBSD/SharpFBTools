@@ -43,11 +43,11 @@ namespace Core.FB2Dublicator
 		#region Закрытые вспомогательные методы класса
 		
 		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
-		private string MakeAutorsString( IList<Author> Authors ) {
+		private string MakeAutorsString( IList<Author> Authors) {
 			if( Authors == null ) return ""; 
-			string sA = ""; int n = 0;
+			string sA = ""; //int n = 0;
 			foreach( Author a in Authors ) {
-				++n;
+//				++n;
 				if( a.LastName!=null && a.LastName.Value!=null )
 					sA += a.LastName.Value+" ";
 				if( a.FirstName!=null && a.FirstName.Value!=null )
@@ -56,10 +56,11 @@ namespace Core.FB2Dublicator
 					sA += a.MiddleName.Value+" ";
 				if( a.NickName!=null && a.NickName.Value!=null )
 					sA += a.NickName.Value;
+				sA = sA.Trim();
 				sA += "; ";
 			}
-			sA = Convert.ToString(n)+": " + sA;
-			return sA.Substring( 0, sA.LastIndexOf( ";" )-1 );
+//			sA = Convert.ToString(n)+": " + sA;
+			return sA.Substring( 0, sA.LastIndexOf( ";" ) ).Trim();
 		}
 		
 		// формирование строки с Датой Написания Книги или Датой Создания fb2-файла
@@ -74,30 +75,36 @@ namespace Core.FB2Dublicator
 		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
 		private string MakeGenresString( IList<Genre> Genres ) {
 			if( Genres == null ) return ""; 
-			string sG = ""; int n = 0;
+			string sG = ""; //int n = 0;
 			foreach( Genre g in Genres ) {
-				++n;
+//				++n;
 				if( g.Name!=null ) sG += g.Name;
 				sG += "; ";
 			}
-			sG = Convert.ToString(n)+": " + sG;
-			return sG.Substring( 0, sG.LastIndexOf( ";" )-1 );
+//			if(n>1) {
+//				sG = Convert.ToString(n)+": " + sG;
+//			}
+			
+			//sG = Convert.ToString(n)+": " + sG;
+			sG = sG.Trim();
+			return sG.Substring( 0, sG.LastIndexOf( ";" ) ).Trim();
 		}
 		
 		// формирование строки с Сериями Книги из списка всех Серий ЭТОЙ Книги
 		private string MakeSequencesString( IList<Sequence> Sequences ) {
 			if( Sequences == null ) return ""; 
-			string sSeq = ""; int n = 0;
+			string sSeq = ""; //int n = 0;
 			foreach( Sequence s in Sequences ) {
-				++n;
+//				++n;
 				if( s.Name!=null )	sSeq += s.Name;
 				else 				sSeq += "Нет";
 				if( s.Number!=null )	sSeq += " ("+s.Number+") ";
 				else					sSeq += " (Нет) ";
 				sSeq += "; ";
 			}
-			sSeq = Convert.ToString(n)+": " + sSeq;
-			return sSeq.Substring( 0, sSeq.LastIndexOf( ";" )-1 );
+//			sSeq = Convert.ToString(n)+": " + sSeq;
+			sSeq = sSeq.Trim();
+			return sSeq.Substring( 0, sSeq.LastIndexOf( ";" ) ).Trim();
 		}
 		
 		#endregion
@@ -105,6 +112,13 @@ namespace Core.FB2Dublicator
 		#region Свойства класса
 		
 		#region Разное
+		public virtual string Encoding {
+			get {
+				string sEncoding = filesWorker.GetFileEncoding( m_fb2bd.GetFB2Parser().XmlDoc.InnerXml.Split('>')[0] );
+				return sEncoding != null ? sEncoding : "?";
+			}
+        }
+		
 		public virtual string FileLength {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );

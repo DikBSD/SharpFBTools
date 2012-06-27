@@ -21,7 +21,7 @@ using fB2Parser = Core.FB2.FB2Parsers.FB2Parser;
 namespace Core.FB2BookData
 {
 	/// <summary>
-	/// Description of BookData.
+	/// FB2BookData: Данные описания fb2 файла
 	/// </summary>
 	public class FB2BookData
 	{
@@ -32,6 +32,11 @@ namespace Core.FB2BookData
 		public FB2BookData( string sFromFilePath )
 		{
 			m_fb2 = new fB2Parser( sFromFilePath );
+		}
+		
+		public fB2Parser GetFB2Parser()
+		{
+			return m_fb2;
 		}
 		
 		#region Свойства класса

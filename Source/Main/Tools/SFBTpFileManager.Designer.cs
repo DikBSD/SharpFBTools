@@ -38,49 +38,49 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFileManager));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2-файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные  Zip-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные  Rar-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные 7zip-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные BZip2-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные Gzip-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные Tar-пакеты с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2-файлы из архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Создано в папке-приемнике",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem43 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Нечитаемые fb2-файлы (архивы)",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem44 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Не валидные fb2-файлы (при вкл. опции)",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Битые архивы (не открылись)",
 									"0"}, -1);
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
@@ -101,10 +101,10 @@ namespace SharpFBTools.Tools
 			this.colHeaderNewFileName = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderBookName = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderSequence = new System.Windows.Forms.ColumnHeader();
-			this.colHeaderSequenceNumber = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderFIOBookAuthor = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderGenre = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderLang = new System.Windows.Forms.ColumnHeader();
+			this.colHeaderEncoding = new System.Windows.Forms.ColumnHeader();
 			this.cmsItems = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tsmi3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -126,10 +126,10 @@ namespace SharpFBTools.Tools
 			this.tsmiUnCheckedAllSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageListItems = new System.Windows.Forms.ImageList(this.components);
 			this.panelAddress = new System.Windows.Forms.Panel();
+			this.checkBoxArchivInfoView = new System.Windows.Forms.CheckBox();
 			this.buttonGo = new System.Windows.Forms.Button();
 			this.textBoxAddress = new System.Windows.Forms.TextBox();
 			this.labelAddress = new System.Windows.Forms.Label();
-			this.checkBoxDirsView = new System.Windows.Forms.CheckBox();
 			this.buttonOpenSourceDir = new System.Windows.Forms.Button();
 			this.gBoxFullSortRenameTemplates = new System.Windows.Forms.GroupBox();
 			this.tpSelectedSort = new System.Windows.Forms.TabPage();
@@ -292,9 +292,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.chBoxScanSubDir.Checked = true;
 			this.chBoxScanSubDir.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chBoxScanSubDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxScanSubDir.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.chBoxScanSubDir.ForeColor = System.Drawing.Color.Navy;
-			this.chBoxScanSubDir.Location = new System.Drawing.Point(3, 4);
+			this.chBoxScanSubDir.Location = new System.Drawing.Point(6, 6);
 			this.chBoxScanSubDir.Name = "chBoxScanSubDir";
 			this.chBoxScanSubDir.Size = new System.Drawing.Size(172, 24);
 			this.chBoxScanSubDir.TabIndex = 4;
@@ -305,13 +305,14 @@ namespace SharpFBTools.Tools
 			// 
 			this.buttonFullSortStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonFullSortStop.Enabled = false;
+			this.buttonFullSortStop.Font = new System.Drawing.Font("Tahoma", 10F);
 			this.buttonFullSortStop.Image = ((System.Drawing.Image)(resources.GetObject("buttonFullSortStop.Image")));
 			this.buttonFullSortStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonFullSortStop.Location = new System.Drawing.Point(688, 4);
+			this.buttonFullSortStop.Location = new System.Drawing.Point(486, 4);
 			this.buttonFullSortStop.Name = "buttonFullSortStop";
-			this.buttonFullSortStop.Size = new System.Drawing.Size(123, 49);
+			this.buttonFullSortStop.Size = new System.Drawing.Size(150, 49);
 			this.buttonFullSortStop.TabIndex = 3;
-			this.buttonFullSortStop.Text = "Остановить";
+			this.buttonFullSortStop.Text = "Остановить  ";
 			this.buttonFullSortStop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.buttonFullSortStop.UseVisualStyleBackColor = true;
 			this.buttonFullSortStop.Click += new System.EventHandler(this.ButtonFullSortStopClick);
@@ -319,13 +320,14 @@ namespace SharpFBTools.Tools
 			// buttonSortFilesTo
 			// 
 			this.buttonSortFilesTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonSortFilesTo.Font = new System.Drawing.Font("Tahoma", 10F);
 			this.buttonSortFilesTo.Image = ((System.Drawing.Image)(resources.GetObject("buttonSortFilesTo.Image")));
 			this.buttonSortFilesTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSortFilesTo.Location = new System.Drawing.Point(557, 4);
+			this.buttonSortFilesTo.Location = new System.Drawing.Point(644, 4);
 			this.buttonSortFilesTo.Name = "buttonSortFilesTo";
-			this.buttonSortFilesTo.Size = new System.Drawing.Size(125, 49);
+			this.buttonSortFilesTo.Size = new System.Drawing.Size(158, 49);
 			this.buttonSortFilesTo.TabIndex = 2;
-			this.buttonSortFilesTo.Text = "Сортировать";
+			this.buttonSortFilesTo.Text = "Сортировать  ";
 			this.buttonSortFilesTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.buttonSortFilesTo.UseVisualStyleBackColor = true;
 			this.buttonSortFilesTo.Click += new System.EventHandler(this.ButtonSortFilesToClick);
@@ -342,10 +344,10 @@ namespace SharpFBTools.Tools
 									this.colHeaderNewFileName,
 									this.colHeaderBookName,
 									this.colHeaderSequence,
-									this.colHeaderSequenceNumber,
 									this.colHeaderFIOBookAuthor,
 									this.colHeaderGenre,
-									this.colHeaderLang});
+									this.colHeaderLang,
+									this.colHeaderEncoding});
 			this.listViewSource.ContextMenuStrip = this.cmsItems;
 			this.listViewSource.FullRowSelect = true;
 			this.listViewSource.GridLines = true;
@@ -360,6 +362,7 @@ namespace SharpFBTools.Tools
 			this.listViewSource.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
 			this.listViewSource.DoubleClick += new System.EventHandler(this.ListViewSourceDoubleClick);
 			this.listViewSource.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
+			this.listViewSource.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ListViewSourceKeyPress);
 			// 
 			// colHeaderFileName
 			// 
@@ -375,11 +378,7 @@ namespace SharpFBTools.Tools
 			// 
 			// colHeaderSequence
 			// 
-			this.colHeaderSequence.Text = "Серия";
-			// 
-			// colHeaderSequenceNumber
-			// 
-			this.colHeaderSequenceNumber.Text = "№ Cерии";
+			this.colHeaderSequence.Text = "Серия (№)";
 			// 
 			// colHeaderFIOBookAuthor
 			// 
@@ -392,6 +391,10 @@ namespace SharpFBTools.Tools
 			// colHeaderLang
 			// 
 			this.colHeaderLang.Text = "Язык книги";
+			// 
+			// colHeaderEncoding
+			// 
+			this.colHeaderEncoding.Text = "Кодировка";
 			// 
 			// cmsItems
 			// 
@@ -544,10 +547,10 @@ namespace SharpFBTools.Tools
 			// 
 			// panelAddress
 			// 
+			this.panelAddress.Controls.Add(this.checkBoxArchivInfoView);
 			this.panelAddress.Controls.Add(this.buttonGo);
 			this.panelAddress.Controls.Add(this.textBoxAddress);
 			this.panelAddress.Controls.Add(this.labelAddress);
-			this.panelAddress.Controls.Add(this.checkBoxDirsView);
 			this.panelAddress.Controls.Add(this.buttonOpenSourceDir);
 			this.panelAddress.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panelAddress.Location = new System.Drawing.Point(3, 59);
@@ -555,16 +558,27 @@ namespace SharpFBTools.Tools
 			this.panelAddress.Size = new System.Drawing.Size(814, 33);
 			this.panelAddress.TabIndex = 33;
 			// 
+			// checkBoxArchivInfoView
+			// 
+			this.checkBoxArchivInfoView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBoxArchivInfoView.Location = new System.Drawing.Point(627, 5);
+			this.checkBoxArchivInfoView.Name = "checkBoxArchivInfoView";
+			this.checkBoxArchivInfoView.Size = new System.Drawing.Size(181, 24);
+			this.checkBoxArchivInfoView.TabIndex = 5;
+			this.checkBoxArchivInfoView.Text = "Показывать данные архивов";
+			this.checkBoxArchivInfoView.UseVisualStyleBackColor = true;
+			this.checkBoxArchivInfoView.Click += new System.EventHandler(this.CheckBoxArchivInfoViewClick);
+			// 
 			// buttonGo
 			// 
 			this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.buttonGo.Location = new System.Drawing.Point(562, 2);
+			this.buttonGo.Location = new System.Drawing.Point(464, 4);
 			this.buttonGo.Name = "buttonGo";
-			this.buttonGo.Size = new System.Drawing.Size(74, 24);
+			this.buttonGo.Size = new System.Drawing.Size(142, 24);
 			this.buttonGo.TabIndex = 6;
-			this.buttonGo.Text = "Перейти";
+			this.buttonGo.Text = "Перейти/Обновить";
 			this.buttonGo.UseVisualStyleBackColor = true;
 			this.buttonGo.Click += new System.EventHandler(this.ButtonGoClick);
 			// 
@@ -573,36 +587,22 @@ namespace SharpFBTools.Tools
 			this.textBoxAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxAddress.Location = new System.Drawing.Point(93, 5);
+			this.textBoxAddress.Location = new System.Drawing.Point(95, 5);
 			this.textBoxAddress.Name = "textBoxAddress";
-			this.textBoxAddress.Size = new System.Drawing.Size(458, 20);
+			this.textBoxAddress.Size = new System.Drawing.Size(352, 20);
 			this.textBoxAddress.TabIndex = 5;
 			this.textBoxAddress.TextChanged += new System.EventHandler(this.TextBoxAddressTextChanged);
 			this.textBoxAddress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAddressKeyPress);
 			// 
 			// labelAddress
 			// 
-			this.labelAddress.AutoSize = true;
 			this.labelAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.labelAddress.Location = new System.Drawing.Point(40, 9);
+			this.labelAddress.Location = new System.Drawing.Point(44, 7);
 			this.labelAddress.Name = "labelAddress";
-			this.labelAddress.Size = new System.Drawing.Size(47, 13);
+			this.labelAddress.Size = new System.Drawing.Size(47, 19);
 			this.labelAddress.TabIndex = 4;
 			this.labelAddress.Text = "Адрес:";
 			this.labelAddress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// checkBoxDirsView
-			// 
-			this.checkBoxDirsView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkBoxDirsView.Checked = true;
-			this.checkBoxDirsView.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxDirsView.Location = new System.Drawing.Point(660, 2);
-			this.checkBoxDirsView.Name = "checkBoxDirsView";
-			this.checkBoxDirsView.Size = new System.Drawing.Size(124, 24);
-			this.checkBoxDirsView.TabIndex = 1;
-			this.checkBoxDirsView.Text = "Отображать папки";
-			this.checkBoxDirsView.UseVisualStyleBackColor = true;
-			this.checkBoxDirsView.Click += new System.EventHandler(this.CheckBoxDirsViewClick);
 			// 
 			// buttonOpenSourceDir
 			// 
@@ -975,21 +975,21 @@ namespace SharpFBTools.Tools
 			this.lvFilesCount.FullRowSelect = true;
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4,
-									listViewItem5,
-									listViewItem6,
-									listViewItem7,
-									listViewItem8,
-									listViewItem9,
-									listViewItem10,
-									listViewItem11,
-									listViewItem12,
-									listViewItem13,
-									listViewItem14,
-									listViewItem15});
+									listViewItem31,
+									listViewItem32,
+									listViewItem33,
+									listViewItem34,
+									listViewItem35,
+									listViewItem36,
+									listViewItem37,
+									listViewItem38,
+									listViewItem39,
+									listViewItem40,
+									listViewItem41,
+									listViewItem42,
+									listViewItem43,
+									listViewItem44,
+									listViewItem45});
 			this.lvFilesCount.Location = new System.Drawing.Point(3, 30);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(309, 238);
@@ -1077,6 +1077,8 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox checkBoxArchivInfoView;
+		private System.Windows.Forms.ColumnHeader colHeaderEncoding;
 		private System.Windows.Forms.CheckBox chBoxScanSubDir;
 		private System.Windows.Forms.ColumnHeader colHeaderFileName;
 		private System.Windows.Forms.ColumnHeader colHeaderNewFileName;
@@ -1084,7 +1086,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.ColumnHeader colHeaderLang;
 		private System.Windows.Forms.ColumnHeader colHeaderGenre;
 		private System.Windows.Forms.ColumnHeader colHeaderFIOBookAuthor;
-		private System.Windows.Forms.ColumnHeader colHeaderSequenceNumber;
 		private System.Windows.Forms.ColumnHeader colHeaderSequence;
 		private System.Windows.Forms.Button buttonFullSortStop;
 		private System.Windows.Forms.ToolStripMenuItem tsmiUnCheckedAllSelected;
@@ -1114,7 +1115,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.Button buttonGo;
 		private System.Windows.Forms.Panel panelAddress;
 		private System.Windows.Forms.ListView listViewSource;
-		private System.Windows.Forms.CheckBox checkBoxDirsView;
 		private System.Windows.Forms.Panel panelStart;
 		private System.Windows.Forms.CheckBox chBoxViewProgress;
 		private System.Windows.Forms.Panel pSSData;

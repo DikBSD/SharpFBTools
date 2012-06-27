@@ -15,7 +15,7 @@ using Core.FB2.Description.TitleInfo;
 namespace Core.FB2Dublicator
 {
 	/// <summary>
-	/// Класс, хранящий данные по книге
+	/// Класс, хранящий данные по книге для Дубликатора
 	/// </summary>
 	public class BookData
 	{

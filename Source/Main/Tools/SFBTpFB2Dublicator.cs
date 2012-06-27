@@ -156,8 +156,8 @@ namespace SharpFBTools.Tools
            					lvg = new ListViewGroup( fb2f.Id );
            					ListViewItem lvi = new ListViewItem( bd.Path );
            					lvi.SubItems.Add( MakeBookTitleString( bd.BookTitle ) );
-							lvi.SubItems.Add( MakeAutorsString( bd.Authors, true ) );
-							lvi.SubItems.Add( MakeGenresString( bd.Genres, true ) );
+							lvi.SubItems.Add( MakeAutorsString( bd.Authors, false ) );
+							lvi.SubItems.Add( MakeGenresString( bd.Genres, false ) );
 							lvi.SubItems.Add( bd.Version );
 							lvi.SubItems.Add( bd.Encoding );
 							lvi.SubItems.Add( m_bCheckValid ? IsValid( bd.Path ) : "?" );
@@ -193,8 +193,8 @@ namespace SharpFBTools.Tools
 	       					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
 	       					lvg = new ListViewGroup( fb2f.BookTitleForKey );
 							ListViewItem lvi = new ListViewItem( bd.Path );
-							lvi.SubItems.Add( MakeAutorsString( bd.Authors, true ) );
-							lvi.SubItems.Add( MakeGenresString( bd.Genres, true ) );
+							lvi.SubItems.Add( MakeAutorsString( bd.Authors, false ) );
+							lvi.SubItems.Add( MakeGenresString( bd.Genres, false ) );
 							lvi.SubItems.Add( bd.Id );
 							lvi.SubItems.Add( bd.Version );
 							lvi.SubItems.Add( bd.Encoding );
@@ -234,8 +234,8 @@ namespace SharpFBTools.Tools
     		       					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
     		       					lvg = new ListViewGroup( fb2List.BookTitleForKey );
 									ListViewItem lvi = new ListViewItem( bd.Path );
-									lvi.SubItems.Add( MakeAutorsString( bd.Authors, true ) );
-									lvi.SubItems.Add( MakeGenresString( bd.Genres, true ) );
+									lvi.SubItems.Add( MakeAutorsString( bd.Authors, false ) );
+									lvi.SubItems.Add( MakeGenresString( bd.Genres, false ) );
 									lvi.SubItems.Add( bd.Id );
 									lvi.SubItems.Add( bd.Version );
 									lvi.SubItems.Add( bd.Encoding );
@@ -274,8 +274,8 @@ namespace SharpFBTools.Tools
            					BookData bd = fb2f[i];
 							lvg = new ListViewGroup( fb2f.BookTitleForKey );
 							ListViewItem lvi = new ListViewItem( bd.Path );
-							lvi.SubItems.Add( MakeAutorsString( bd.Authors, true ) );
-							lvi.SubItems.Add( MakeGenresString( bd.Genres, true ) );
+							lvi.SubItems.Add( MakeAutorsString( bd.Authors, false ) );
+							lvi.SubItems.Add( MakeGenresString( bd.Genres, false ) );
 							lvi.SubItems.Add( bd.Id );
 							lvi.SubItems.Add( bd.Version );
 							lvi.SubItems.Add( bd.Encoding );
@@ -295,6 +295,7 @@ namespace SharpFBTools.Tools
            		}
 			}
 			lDirList.Clear();
+			lvResult.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 		}
 		
 		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
@@ -911,10 +912,11 @@ namespace SharpFBTools.Tools
 					sA += a.MiddleName.Value+" ";
 				if( a.NickName!=null && a.NickName.Value!=null )
 					sA += a.NickName.Value;
+				sA = sA.Trim();
 				sA += "; ";
 			}
 			if( bNumber ) sA = Convert.ToString(n)+": " + sA;
-			return sA.Substring( 0, sA.LastIndexOf( ";" )-1 );
+			return sA.Substring( 0, sA.LastIndexOf( ";" ) ).Trim();
 		}
 		
 		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
@@ -926,8 +928,9 @@ namespace SharpFBTools.Tools
 				if( g.Name!=null ) sG += g.Name;
 				sG += "; ";
 			}
+			sG = sG.Trim();
 			if( bNumber ) sG = Convert.ToString(n)+": " + sG;
-			return sG.Substring( 0, sG.LastIndexOf( ";" )-1 );
+			return sG.Substring( 0, sG.LastIndexOf( ";" ) ).Trim();
 		}
 		
 		// изменение колонок просмотрщика найденного, взависимости от режима сравнения

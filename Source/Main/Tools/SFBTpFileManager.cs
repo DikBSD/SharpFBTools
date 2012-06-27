@@ -37,6 +37,8 @@ using templatesVerify			= Core.Templates.TemplatesVerify;
 using templatesLexemsSimple		= Core.Templates.Lexems.TPSimple;
 using selectedSortQueryCriteria	= Core.BookSorting.SelectedSortQueryCriteria;
 
+using Core.FB2Dublicator;
+
 namespace SharpFBTools.Tools
 {
 	/// <summary>
@@ -56,8 +58,9 @@ namespace SharpFBTools.Tools
 		private string m_sMessTitle		= "";
         private bool m_bFullSort		= true;
         private bool m_bScanSubDirs		= true;
-        private StatusView m_sv			= new StatusView();
-        private MiscListView m_mscLV	= new MiscListView(); // класс по работе с ListView
+        private Core.FileManager.StatusView m_sv	= new Core.FileManager.StatusView();
+        private MiscListView m_mscLV				= new MiscListView(); // класс по работе с ListView
+        private const string space		= " "; // для задания отступов данных от границ колонов в Списке
         #endregion
 		
 		public SFBTpFileManager()
@@ -79,6 +82,8 @@ namespace SharpFBTools.Tools
 			} else {
 				richTxtBoxDescTemplates.Text = "Не найден файл описания Шаблонов подстановки: \""+sTDPath+"\"";
 			}
+			
+			AutoResizeColumns();
 		}
 		
 		#region Открытые методы класса
@@ -319,75 +324,126 @@ namespace SharpFBTools.Tools
 				this.listViewSource.DoubleClick -= new System.EventHandler(this.ListViewSourceDoubleClick);
 				this.listViewSource.ItemChecked -= new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
 				this.listViewSource.ItemCheck -= new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
-				
+				this.listViewSource.KeyPress -= new System.Windows.Forms.KeyPressEventHandler(this.ListViewSourceKeyPress);
 			} else {
 				// подключаем обработчики событий для Списка
 				this.listViewSource.DoubleClick += new System.EventHandler(this.ListViewSourceDoubleClick);
 				this.listViewSource.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
 				this.listViewSource.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
+				this.listViewSource.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ListViewSourceKeyPress);
 			}
+		}
+		
+		private void AutoResizeColumns() {
+			// авторазмер колонок Списка
+			listViewSource.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+//			for(int i=0; i!=listViewSource.Columns.Count; ++i) {
+//				listViewSource.Columns[i].Width = listViewSource.Columns[i].Width + 2;
+//			}
 		}
 		
 		private void GenerateSourceList(string dirPath) {
         	// заполнение списка данными указанной папки
         	m_CurrentDir = dirPath;
+        	Cursor.Current = Cursors.WaitCursor;
+        	listViewSource.BeginUpdate();
         	listViewSource.Items.Clear();
-            DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
-			ListViewItem.ListViewSubItem[] subItems;
-			ListViewItem item = null;
-            if (dirInfo.Exists) {
-				if(dirInfo.Parent != null) {
-					item = new ListViewItem("..", 3);
-					subItems = new ListViewItem.ListViewSubItem[] {
-						new ListViewItem.ListViewSubItem(item, ""),
-						new ListViewItem.ListViewSubItem(item, "")
-					};
-					item.SubItems.AddRange(subItems);
-					item.Tag = new ListViewItemType("dUp", dirInfo.Parent.FullName);
-					listViewSource.Items.Add(item);
-					
-				}
-				int nItemCount = 0;
-				const string space = " ";
-				if(checkBoxDirsView.CheckState == CheckState.Checked) {
-					foreach (DirectoryInfo dir in dirInfo.GetDirectories()) {
-						item = new ListViewItem(space+dir.Name+space, 0);
-						subItems = new ListViewItem.ListViewSubItem[] {
-							new ListViewItem.ListViewSubItem(item, space+"Directory"+space),
-							new ListViewItem.ListViewSubItem(item, space+dir.LastAccessTime.ToShortDateString()+space)
-						};
-						item.SubItems.AddRange(subItems);
-						item.Checked = true;
-						item.Tag = new ListViewItemType("d", dir.FullName);
-						if(nItemCount%2 == 0) { // четное
-							item.BackColor = Color.Beige;
-						}
-						listViewSource.Items.Add(item);
-						++nItemCount;
-					}
-				}
-				foreach (FileInfo file in dirInfo.GetFiles()) {
-					if(file.Extension.ToLower()==".fb2" || file.Extension.ToLower()==".zip") {
-						item = new ListViewItem(" "+file.Name+" ", file.Extension.ToLower()==".fb2" ? 1 : 2);
-						subItems = new ListViewItem.ListViewSubItem[] {
-							new ListViewItem.ListViewSubItem(item, space+"File"+space),
-							new ListViewItem.ListViewSubItem(item, space+file.LastAccessTime.ToShortDateString()+space)
-						};
-						item.SubItems.AddRange(subItems);
-						item.Checked = true;
-						item.Tag = new ListViewItemType("f", file.FullName);
-						if(nItemCount%2 == 0) { // четное
-							item.BackColor = Color.AliceBlue;
-						}
-						listViewSource.Items.Add(item);
-						++nItemCount;
-					}
-				}
-				listViewSource.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-				for(int i=0; i!=listViewSource.Columns.Count; ++i) {
-					listViewSource.Columns[i].Width = listViewSource.Columns[i].Width + 2;
-				}
-            }
+        	try {
+        		Settings.DataFM dfm = new Settings.DataFM();
+        		DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
+        		ListViewItem.ListViewSubItem[] subItems;
+        		ListViewItem item = null;
+        		if (dirInfo.Exists) {
+        			if(dirInfo.Parent != null) {
+        				item = new ListViewItem("..", 3);
+        				item.Tag = new ListViewItemType("dUp", dirInfo.Parent.FullName);
+        				listViewSource.Items.Add(item);
+        			}
+        			int nItemCount = 0;
+        			foreach (DirectoryInfo dir in dirInfo.GetDirectories()) {
+        				item = new ListViewItem(space+dir.Name+space, 0);
+        				item.Checked = true;
+        				item.Tag = new ListViewItemType("d", dir.FullName);
+        				if(nItemCount%2 == 0) { // четное
+        					item.BackColor = Color.Beige;
+        				}
+        				listViewSource.Items.Add(item);
+        				++nItemCount;
+        			}
+        			FB2BookDataForDup bd = null;
+        			foreach (FileInfo file in dirInfo.GetFiles()) {
+        				if(file.Extension.ToLower()==".fb2" || file.Extension.ToLower()==".zip") {
+        					item = new ListViewItem(" "+file.Name+" ", file.Extension.ToLower()==".fb2" ? 1 : 2);
+        					if(file.Extension.ToLower()==".fb2") {
+        						try {
+        							bd = new FB2BookDataForDup( file.FullName );
+        							subItems = new ListViewItem.ListViewSubItem[] {
+        								new ListViewItem.ListViewSubItem(item, space+"?"+space),
+        								new ListViewItem.ListViewSubItem(item, space+bd.TIBookTitle+space),
+        								new ListViewItem.ListViewSubItem(item, space+bd.TISequences+space),
+        								new ListViewItem.ListViewSubItem(item, space+bd.TIAuthors+space),
+        								new ListViewItem.ListViewSubItem(item, space+bd.TIGenres+space),
+        								new ListViewItem.ListViewSubItem(item, space+bd.TILang+space),
+        								new ListViewItem.ListViewSubItem(item, space+bd.Encoding+space)
+        							};
+        							item.SubItems.AddRange(subItems);
+        						} catch(System.Exception) {
+        							item.ForeColor = Color.Blue;
+        						}
+        						
+        					} else {
+        						// для zip-архивов
+        						if(checkBoxArchivInfoView.Checked) {
+        							filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+        							try {
+        								archivesWorker.unzip(dfm.A7zaPath, file.FullName, Settings.Settings.GetTempDir(), ProcessPriorityClass.AboveNormal );
+        								string [] files = Directory.GetFiles( Settings.Settings.GetTempDir() );
+        								bd = new FB2BookDataForDup( files[0] );
+        								subItems = new ListViewItem.ListViewSubItem[] {
+        									new ListViewItem.ListViewSubItem(item, space+"?"+space),
+        									new ListViewItem.ListViewSubItem(item, space+bd.TIBookTitle+space),
+        									new ListViewItem.ListViewSubItem(item, space+bd.TISequences+space),
+        									new ListViewItem.ListViewSubItem(item, space+bd.TIAuthors+space),
+        									new ListViewItem.ListViewSubItem(item, space+bd.TIGenres+space),
+        									new ListViewItem.ListViewSubItem(item, space+bd.TILang+space),
+        									new ListViewItem.ListViewSubItem(item, space+bd.Encoding+space)
+        								};
+        								item.SubItems.AddRange(subItems);
+        							} catch(System.Exception) {
+        								item.ForeColor = Color.Blue;
+        							}
+        						} else {
+        							subItems = new ListViewItem.ListViewSubItem[] {
+        								new ListViewItem.ListViewSubItem(item, space+"?"+space),
+        								new ListViewItem.ListViewSubItem(item, ""),
+        								new ListViewItem.ListViewSubItem(item, ""),
+        								new ListViewItem.ListViewSubItem(item, ""),
+        								new ListViewItem.ListViewSubItem(item, ""),
+        								new ListViewItem.ListViewSubItem(item, ""),
+        								new ListViewItem.ListViewSubItem(item, "")
+        							};
+        							item.SubItems.AddRange(subItems);
+        						}
+        					}
+        					
+        					item.Checked = true;
+        					item.Tag = new ListViewItemType("f", file.FullName);
+        					if(nItemCount%2 == 0) { // четное
+        						item.BackColor = Color.AliceBlue;
+        					}
+        					listViewSource.Items.Add(item);
+        					++nItemCount;
+        				}
+        			}
+        			// авторазмер колонок Списка
+        			AutoResizeColumns();
+        		}
+        		
+        	} catch (System.Exception) {
+        	} finally {
+        		listViewSource.EndUpdate();
+        		Cursor.Current = Cursors.Default;
+        	}
         }
 		
 		// отметить все итемы ListView
@@ -511,7 +567,7 @@ namespace SharpFBTools.Tools
 			tpSelectedSort.Enabled		= bEnabled;
 			panelAddress.Enabled		= bEnabled;
 			listViewSource.Enabled		= bEnabled;
-			checkBoxDirsView.Enabled	= bEnabled;
+			checkBoxArchivInfoView.Enabled	= bEnabled;
 			chBoxScanSubDir.Enabled		= bEnabled;
 			buttonSortFilesTo.Enabled	= bEnabled;
 			buttonFullSortStop.Enabled	= !bEnabled;
@@ -592,7 +648,7 @@ namespace SharpFBTools.Tools
 				reader.ReadToFollowing("FMScanDir");
 				if (reader.HasAttributes ) {
 					textBoxAddress.Text = Settings.SettingsFM.FMDataScanDir = reader.GetAttribute("tboxSourceDir").Trim();
-					GenerateSourceList(Settings.SettingsFM.FMDataScanDir);
+//					GenerateSourceList(Settings.SettingsFM.FMDataScanDir); // жуткие тормоза...
 				}
 				reader.ReadToFollowing("FMTemplate");
 				if (reader.HasAttributes ) {
@@ -1152,6 +1208,53 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Обработчики событий
+		void CheckBoxArchivInfoViewClick(object sender, EventArgs e)
+		{
+			// отображать/скрывать данные архивов
+			if( listViewSource.Items.Count > 0 ) {
+				Cursor.Current = Cursors.WaitCursor;
+				listViewSource.BeginUpdate();
+				DirectoryInfo di = null;
+				FB2BookDataForDup bd = null;
+				Settings.DataFM dfm = new Settings.DataFM();
+				for(int i=0; i!= listViewSource.Items.Count; ++i) {
+					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
+					if(it.Type=="f") {
+						di = new DirectoryInfo(it.Value);
+						if(di.Extension.ToLower()==".zip") {
+							if(checkBoxArchivInfoView.Checked) {
+								// показать данные архивов
+								filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+								try {
+									archivesWorker.unzip(dfm.A7zaPath, it.Value, Settings.Settings.GetTempDir(), ProcessPriorityClass.AboveNormal );
+									string [] files = Directory.GetFiles( Settings.Settings.GetTempDir() );
+									bd = new FB2BookDataForDup( files[0] );
+									listViewSource.Items[i].SubItems[1].Text = space+"?"+space;
+									listViewSource.Items[i].SubItems[2].Text = space+bd.TIBookTitle+space;
+									listViewSource.Items[i].SubItems[3].Text = space+bd.TISequences+space;
+									listViewSource.Items[i].SubItems[4].Text = space+bd.TIAuthors+space;
+									listViewSource.Items[i].SubItems[5].Text = space+bd.TIGenres+space;
+									listViewSource.Items[i].SubItems[6].Text = space+bd.TILang+space;
+									listViewSource.Items[i].SubItems[7].Text = space+bd.Encoding+space;
+								} catch(System.Exception) {
+									listViewSource.Items[i].ForeColor = Color.Blue;
+								}
+							} else {
+								// скрыть данные архивов
+								for(int j=1; j!=listViewSource.Items[i].SubItems.Count; ++j) {
+									listViewSource.Items[i].SubItems[j].Text = "";
+								}
+							}
+						}
+					}
+				}
+				// авторазмер колонок Списка
+				AutoResizeColumns();
+				listViewSource.EndUpdate();
+				Cursor.Current = Cursors.Default;
+			}
+		}
+		
 		void ButtonOpenSourceDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования
@@ -1169,7 +1272,7 @@ namespace SharpFBTools.Tools
 				if(info.Exists) {
 					GenerateSourceList(info.FullName);
 				} else {
-					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ". Проверте правильности пути.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ". Проверте правильности пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error );
 				}
 			}
 		}
@@ -1196,11 +1299,17 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		void CheckBoxDirsViewClick(object sender, EventArgs e)
+		void ListViewSourceKeyPress(object sender, KeyPressEventArgs e)
 		{
-			// переключатель видимости папок
-			if(listViewSource.Items.Count > 0) {
-				GenerateSourceList(m_CurrentDir);
+			// обработка нажатия клавиш на списке папок и файлов
+			if ( e.KeyChar == (char)Keys.Return ) {
+				// переход в выбранную папку
+				ListViewSourceDoubleClick(sender, e);
+			} else if ( e.KeyChar == (char)Keys.Back ) {
+				// переход на каталог выше
+				ListViewItemType it = (ListViewItemType)listViewSource.Items[0].Tag;
+				textBoxAddress.Text = it.Value;
+				GenerateSourceList(it.Value);
 			}
 		}
 		
