@@ -342,6 +342,26 @@ namespace SharpFBTools.Tools
 //			}
 		}
 		
+		private string CyrillicGenreName(string GenreCode) {
+			Settings.DataFM dfm = new Settings.DataFM();
+			IFBGenres fb2g = null;
+			if( dfm.GenresFB21Scheme ) {
+				fb2g = new FB21Genres();
+			} else {
+				fb2g = new FB22Genres();
+			}
+			if(GenreCode.IndexOf(';') != -1) {
+				string ret = "";
+				string[] sG = GenreCode.Split(';');
+				foreach(string s in sG) {
+					ret += fb2g.GetFBGenreName(s.Trim()) + "; ";
+					ret.Trim();
+				}
+				return ret.Substring( 0, ret.LastIndexOf( ";" ) ).Trim();
+			}
+			return fb2g.GetFBGenreName(GenreCode);;
+		}
+		
 		private void GenerateSourceList(string dirPath) {
         	// заполнение списка данными указанной папки
         	m_CurrentDir = dirPath;
@@ -382,7 +402,7 @@ namespace SharpFBTools.Tools
         									new ListViewItem.ListViewSubItem(item, space+bd.TIBookTitle+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TISequences+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TIAuthors+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.TIGenres+space),
+        									new ListViewItem.ListViewSubItem(item, space+CyrillicGenreName(bd.TIGenres)+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TILang+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.Encoding+space)
         								};
@@ -407,7 +427,7 @@ namespace SharpFBTools.Tools
         									new ListViewItem.ListViewSubItem(item, space+bd.TIBookTitle+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TISequences+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TIAuthors+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.TIGenres+space),
+        									new ListViewItem.ListViewSubItem(item, space+CyrillicGenreName(bd.TIGenres)+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TILang+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.Encoding+space)
         								};
@@ -1258,7 +1278,7 @@ namespace SharpFBTools.Tools
 									listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
 									listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
 									listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-									listViewSource.Items[i].SubItems[4].Text = space+bd.TIGenres+space;
+									listViewSource.Items[i].SubItems[4].Text = space+CyrillicGenreName(bd.TIGenres)+space;
 									listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
 									listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
 								} else if(di.Extension.ToLower()==".zip") {
@@ -1271,7 +1291,7 @@ namespace SharpFBTools.Tools
 										listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
 										listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
 										listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-										listViewSource.Items[i].SubItems[4].Text = space+bd.TIGenres+space;
+										listViewSource.Items[i].SubItems[4].Text = space+CyrillicGenreName(bd.TIGenres)+space;
 										listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
 										listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
 									}

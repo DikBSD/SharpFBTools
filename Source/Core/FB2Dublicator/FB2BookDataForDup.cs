@@ -10,6 +10,8 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 using Core.FB2BookData;
 using Core.FB2.Description.Common;
