@@ -323,25 +323,6 @@ namespace Settings
 						writer.WriteFullEndElement();
 					writer.WriteEndElement();
 					
-					writer.WriteStartElement( "FileManager" );
-						writer.WriteStartElement( "FMScanDir" );
-							writer.WriteAttributeString( "tboxSourceDir", SettingsFM.FMDataScanDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "FMTemplate" );
-							writer.WriteAttributeString( "txtBoxTemplatesFromLine", SettingsFM.FMDataTemplate );
-						writer.WriteFullEndElement();
-
-						writer.WriteStartElement( "FMSSScanDir" );
-							writer.WriteAttributeString( "tboxSSSourceDir", SettingsFM.FMDataSSScanDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "FMSSTargetDir" );
-							writer.WriteAttributeString( "tboxSSToDir", SettingsFM.FMDataSSTargetDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "FMSSTemplate" );
-							writer.WriteAttributeString( "txtBoxSSTemplatesFromLine", SettingsFM.FMDataSSTemplate );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-					
 					writer.WriteStartElement( "FB2DuplicatesSearcher" );
 						writer.WriteStartElement( "FB2DupScanDir" );
 							writer.WriteAttributeString( "tboxSourceDir", SettingsFB2Dup.DupScanDir );

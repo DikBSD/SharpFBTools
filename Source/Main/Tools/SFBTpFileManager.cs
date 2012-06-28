@@ -640,36 +640,43 @@ namespace SharpFBTools.Tools
 		
 		private void ReadFMTempData() {
 			// чтение путей к данным Менеджера Файлов из xml-файла
-			string sSettings = Settings.Settings.WorksDataSettingsPath;
-			if( !File.Exists( sSettings ) ) return;
-			XmlReaderSettings settings = new XmlReaderSettings();
-			settings.IgnoreWhitespace = true;
-			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
+			XmlDocument doc = new XmlDocument() ;
+			XmlNode node = null;
+			try {
+				doc.Load(Settings.FileManagerSettings.FileManagerSettingsPath);
+				// Общие основные настройки
+				this.checkBoxTagsView.Click -= new System.EventHandler(this.CheckBoxTagsViewClick);
+				node = doc.SelectSingleNode("FileManager/General/BooksTagsView");
+				if(node != null)
+					checkBoxTagsView.Checked = Settings.FileManagerSettings.BooksTagsView = Convert.ToBoolean(node.InnerText);
+				this.checkBoxTagsView.Click += new System.EventHandler(this.CheckBoxTagsViewClick);
 				// Полная Сортировка
-				reader.ReadToFollowing("FMScanDir");
-				if (reader.HasAttributes ) {
-					textBoxAddress.Text = Settings.SettingsFM.FMDataScanDir = reader.GetAttribute("tboxSourceDir").Trim();
-					GenerateSourceList(Settings.SettingsFM.FMDataScanDir);
-				}
-				reader.ReadToFollowing("FMTemplate");
-				if (reader.HasAttributes ) {
-					txtBoxTemplatesFromLine.Text = Settings.SettingsFM.FMDataTemplate = reader.GetAttribute("txtBoxTemplatesFromLine").Trim();
-				}
+				node = doc.SelectSingleNode("FileManager/FullSorting/SourceDir");
+				if(node != null)
+					textBoxAddress.Text = Settings.FileManagerSettings.FullSortingSourceDir = node.InnerText.Trim();
+				node = doc.SelectSingleNode("FileManager/FullSorting/Template");
+				if(node != null)
+					txtBoxTemplatesFromLine.Text = Settings.FileManagerSettings.FullSortingTemplate = node.InnerText.Trim();
+				node = doc.SelectSingleNode("FileManager/FullSorting/SortingInSubDir");
+				if(node != null)
+					chBoxScanSubDir.Checked = Settings.FileManagerSettings.FullSortingInSubDir = Convert.ToBoolean(node.InnerText);
+				
 				// Избранная Сортировка
-				reader.ReadToFollowing("FMSSScanDir");
-				if (reader.HasAttributes ) {
-					tboxSSSourceDir.Text = Settings.SettingsFM.FMDataSSScanDir = reader.GetAttribute("tboxSSSourceDir").Trim();
-				}
-				reader.ReadToFollowing("FMSSTargetDir");
-				if (reader.HasAttributes ) {
-					tboxSSToDir.Text = Settings.SettingsFM.FMDataSSTargetDir = reader.GetAttribute("tboxSSToDir").Trim();
-				}
-				reader.ReadToFollowing("FMSSTemplate");
-				if (reader.HasAttributes ) {
-					txtBoxSSTemplatesFromLine.Text = Settings.SettingsFM.FMDataSSTemplate = reader.GetAttribute("txtBoxSSTemplatesFromLine").Trim();
-				}
-				reader.Close();
-			}
+				node = doc.SelectSingleNode("FileManager/SelectedSorting/SourceDir");
+				if(node != null)
+					tboxSSSourceDir.Text = Settings.FileManagerSettings.SelectedSortingSourceDir = node.InnerText.Trim();
+				node = doc.SelectSingleNode("FileManager/SelectedSorting/TargetDir");
+				if(node != null)
+					tboxSSToDir.Text = Settings.FileManagerSettings.SelectedSortingTargetDir = node.InnerText.Trim();
+				node = doc.SelectSingleNode("FileManager/SelectedSorting/Template");
+				if(node != null)
+					txtBoxSSTemplatesFromLine.Text = Settings.FileManagerSettings.SelectedSortingTemplate = node.InnerText.Trim();
+				node = doc.SelectSingleNode("FileManager/SelectedSorting/SortingInSubDir");
+				if(node != null)
+					chBoxSSScanSubDir.Checked = Settings.FileManagerSettings.SelectedSortingInSubDir = Convert.ToBoolean(node.InnerText);
+				
+				GenerateSourceList(Settings.FileManagerSettings.FullSortingSourceDir);
+			} catch {}
 		}
 		
 		private void IncArchiveInfo( string sExt ) {
@@ -1217,6 +1224,21 @@ namespace SharpFBTools.Tools
 		void CheckBoxTagsViewClick(object sender, EventArgs e)
 		{
 			// Отображать/скрывать описание книг
+			if(checkBoxTagsView.Checked) {
+				XmlDocument doc = new XmlDocument();
+				doc.Load(Settings.FileManagerSettings.FileManagerSettingsPath);
+				XmlNode node = doc.SelectSingleNode("FileManager/FullSorting/ViewMessageForLongTime");
+				bool viewMessage = true;
+				if(node != null)
+					viewMessage = Convert.ToBoolean(node.InnerText);
+				if(viewMessage) {
+					string sMess = "При включении этой опции для создания списка книг с их описанием может потребоваться очень много времени!\nБольше не показывать это сообщение?";
+					DialogResult result = MessageBox.Show( sMess, "Отображение описания книг", MessageBoxButtons.YesNo, MessageBoxIcon.Question );
+					Settings.FileManagerSettings.ViewMessageForLongTime = (result == DialogResult.Yes) ? false : true;
+				}
+			}
+			
+			Settings.FileManagerSettings.BooksTagsView = checkBoxTagsView.Checked;
 			if( listViewSource.Items.Count > 0 ) {
 				Cursor.Current = Cursors.WaitCursor;
 				listViewSource.BeginUpdate();
@@ -1462,7 +1484,7 @@ namespace SharpFBTools.Tools
 		{
 			// ********* Полная сортировка *************
 			// обработка заданных каталого
-			m_sSource = Settings.SettingsFM.FMDataScanDir = filesWorker.WorkingDirPath( textBoxAddress.Text.Trim() );
+			m_sSource = Settings.FileManagerSettings.FullSortingSourceDir = filesWorker.WorkingDirPath( textBoxAddress.Text.Trim() );
 			textBoxAddress.Text = m_sSource;
 			m_sTarget = m_sSource + "\\out"; // папка вывода out - внутри исходой
 			
@@ -1497,29 +1519,39 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
+		void ChBoxScanSubDirClick(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.FullSortingInSubDir = chBoxScanSubDir.Checked;
+		}
+		
+		void ChBoxSSScanSubDirClick(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.SelectedSortingInSubDir = chBoxSSScanSubDir.Checked;
+		}
+		
 		void TextBoxAddressTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsFM.FMDataScanDir = textBoxAddress.Text;
+			Settings.FileManagerSettings.FullSortingSourceDir = textBoxAddress.Text;
 		}
 		
 		void TxtBoxTemplatesFromLineTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsFM.FMDataTemplate = txtBoxTemplatesFromLine.Text;
+			Settings.FileManagerSettings.FullSortingTemplate = txtBoxTemplatesFromLine.Text;
 		}
 		
 		void TboxSSSourceDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsFM.FMDataSSScanDir = tboxSSSourceDir.Text;
+			Settings.FileManagerSettings.SelectedSortingSourceDir = tboxSSSourceDir.Text;
 		}
 		
 		void TboxSSToDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsFM.FMDataSSTargetDir = tboxSSToDir.Text;
+			Settings.FileManagerSettings.SelectedSortingTargetDir = tboxSSToDir.Text;
 		}
 		
 		void TxtBoxSSTemplatesFromLineTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsFM.FMDataSSTemplate = txtBoxSSTemplatesFromLine.Text;
+			Settings.FileManagerSettings.SelectedSortingTemplate = txtBoxSSTemplatesFromLine.Text;
 		}
 		
 		void BtnInsertTemplatesClick(object sender, EventArgs e)
@@ -1638,9 +1670,9 @@ namespace SharpFBTools.Tools
 			m_bFullSort = false;
 			
 			// обработка заданных каталогов
-			m_sSource = Settings.SettingsFM.FMDataSSScanDir = filesWorker.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
+			m_sSource = Settings.FileManagerSettings.SelectedSortingSourceDir = filesWorker.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
 			tboxSSSourceDir.Text	= m_sSource;
-			m_sTarget = Settings.SettingsFM.FMDataSSTargetDir = filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
+			m_sTarget = Settings.FileManagerSettings.SelectedSortingTargetDir = filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
 			tboxSSToDir.Text		= m_sTarget;
 			
 			m_bScanSubDirs = chBoxSSScanSubDir.Checked ? true : false;
@@ -1790,6 +1822,5 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
-
 	}
 }
