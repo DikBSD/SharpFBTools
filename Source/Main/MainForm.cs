@@ -151,6 +151,8 @@ namespace Main
 		{
 			// сохраняем пути к папкам и рабочие изменяющиеся данные всех инструменнов
 			Settings.Settings.WriteSharpFBToolsWorksData();
+			// Для Сортировщика
+			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
 		#endregion
 	}	

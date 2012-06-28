@@ -38,7 +38,7 @@ namespace Settings
 		private static string m_sLicensePath	= GetProgDir()+"\\License GPL 2.1.rtf";
 		private static string m_sChangeFilePath	= GetProgDir()+"\\Change.rtf";
 		//
-		private static string m_sWorksDataSettingsPath = Settings.GetProgDir()+"\\SharpFBToolsWorksData.xml";
+		private static string m_sWorksDataSettingsPath = GetProgDir()+"\\SharpFBToolsWorksData.xml";
 		#endregion
 		
 		#region Общие Сообщения
