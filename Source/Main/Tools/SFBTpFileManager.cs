@@ -279,7 +279,7 @@ namespace SharpFBTools.Tools
 				}
 			}
 			lDirList.Clear();
-			if(m_bFullSort && dfm.DelFB2FilesMode) {
+			if(m_bFullSort/* && dfm.DelFB2FilesMode*/) {
 				GenerateSourceList(m_sSource);
 			}
         }
@@ -773,7 +773,7 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		private void CopyBadArchiveToBadDir( string sFromFilePath, string sSource, string sToDir, int nFileExistMode )
+		private void CopyBadArchiveToBadDir( string sFromFilePath, string sSource, string sToDir, int nFileExistMode, bool bDeleteOriginal )
 		{
 			// копирование "битого" с сформированным именем (путь)
 			string sToFilePath = sToDir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
@@ -801,7 +801,11 @@ namespace SharpFBTools.Tools
 				}
 			}
 			if( File.Exists( sFromFilePath ) ) {
-				File.Copy( sFromFilePath, sToFilePath );
+				if( !bDeleteOriginal ) {
+					File.Copy( sFromFilePath, sToFilePath );
+				} else {
+					File.Move( sFromFilePath, sToFilePath );
+				}
 			}
 			//IncStatus( 14 ); // "битые" архивы - не открылись
 			++m_sv.BadArchive;
@@ -854,7 +858,7 @@ namespace SharpFBTools.Tools
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, dfm.DelFB2FilesMode );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -864,6 +868,12 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+					if( dfm.DelFB2FilesMode ) {
+						// удаляем исходный fb2-файл
+						if( File.Exists( sFromFilePath ) ) {
+							File.Delete( sFromFilePath );
+						}
+					}
 				}  else {
 					// пропускаем не fb2-файлы и архивы
 					//IncStatus( 10 ); // другие файлы
@@ -896,7 +906,7 @@ namespace SharpFBTools.Tools
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, dfm.DelFB2FilesMode );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -906,6 +916,12 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+					if( dfm.DelFB2FilesMode ) {
+						// удаляем исходный fb2-файл
+						if( File.Exists( sFromFilePath ) ) {
+							File.Delete( sFromFilePath );
+						}
+					}
 				}  else {
 					// пропускаем не fb2-файлы и архивы
 					//IncStatus( 10 ); // другие файлы
@@ -944,7 +960,7 @@ namespace SharpFBTools.Tools
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, dfm.DelFB2FilesMode );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -954,6 +970,12 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+					if( dfm.DelFB2FilesMode ) {
+						// удаляем исходный fb2-файл
+						if( File.Exists( sFromFilePath ) ) {
+							File.Delete( sFromFilePath );
+						}
+					}
 				} else {
 					// пропускаем не fb2-файлы и архивы
 					//IncStatus( 10 ); // другие файлы
@@ -992,7 +1014,7 @@ namespace SharpFBTools.Tools
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, dfm.DelFB2FilesMode );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -1002,6 +1024,12 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+					if( dfm.DelFB2FilesMode ) {
+						// удаляем исходный fb2-файл
+						if( File.Exists( sFromFilePath ) ) {
+							File.Delete( sFromFilePath );
+						}
+					}
 				}  else {
 					// пропускаем не fb2-файлы и архивы
 					//IncStatus( 10 ); // другие файлы

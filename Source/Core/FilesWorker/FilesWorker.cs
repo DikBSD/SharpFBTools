@@ -135,15 +135,19 @@ namespace Core.FilesWorker
 				string [] files = Directory.GetFiles( sFromDir );
 				if( files.Length != 0 ) {
 					lFilesList = new List<string>();
+					int nFB2 = 0;
 					foreach( string sFile in files ) {
 						if( bFB2Only ) {
 							if( Path.GetExtension( Path.GetFileName( sFile ) ).ToLower()==".fb2" ) {
 								lFilesList.Add( sFile );
+								++nFB2;
 							}
 						} else {
 							lFilesList.Add( sFile );
 						}
 					}
+					if( bFB2Only && nFB2 == 0 ) 
+						return null;
 					if( bSort ) {
 						lFilesList.Sort();
 					}

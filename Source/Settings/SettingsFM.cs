@@ -50,7 +50,7 @@ namespace Settings
 		private static string m_sFMFB2NotReadDir	= "_'Не читаемые' fb2 файлы";
 		private static string m_sFMFB2LongPathDir	= "_fb2 c длинными путями";
 		private static string m_sFMFB2NotValidDir	= "_Не валидные fb2 файлы";
-		private static string m_sFMArchNotOpenDir	= "_'Битые' архивы fb2 файлов";
+		private static string m_sFMArchNotOpenDir	= "_'Битые' fb2 архивы, не fb2 архивы";
 		// названия папок для шаблонных тэгов без данных
 		private static string m_sFMNoGenreGroup	= "Неизвестная Группа Жанров";
 		private static string m_sFMNoGenre		= "Жанра Нет";
