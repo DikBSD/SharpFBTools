@@ -586,6 +586,7 @@ namespace SharpFBTools.Tools
 		private void SetFullSortingStartEnabled( bool bEnabled ) {
 			// доступность контролов при Полной Сортировки
 			tpSelectedSort.Enabled		= bEnabled;
+			tpSettings.Enabled			= bEnabled;
 			panelAddress.Enabled		= bEnabled;
 			listViewSource.Enabled		= bEnabled;
 			checkBoxTagsView.Enabled	= bEnabled;
@@ -601,6 +602,7 @@ namespace SharpFBTools.Tools
 		private void SetSelectedSortingStartEnabled( bool bEnabled ) {
 			// доступность контролов при Избранной Сортировки
 			tpFullSort.Enabled			= bEnabled;
+			tpSettings.Enabled			= bEnabled;
 			tsbtnSSOpenDir.Enabled		= bEnabled;
 			tsbtnSSTargetDir.Enabled	= bEnabled;
 			tsbtnSSSortFilesTo.Enabled	= bEnabled;
@@ -659,44 +661,25 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void ReadFMTempData() {
-			// чтение путей к данным Менеджера Файлов из xml-файла
-			XmlDocument doc = new XmlDocument() ;
-			XmlNode node = null;
-			try {
-				doc.Load(Settings.FileManagerSettings.FileManagerSettingsPath);
-				// Общие основные настройки
-				this.checkBoxTagsView.Click -= new System.EventHandler(this.CheckBoxTagsViewClick);
-				node = doc.SelectSingleNode("FileManager/General/BooksTagsView");
-				if(node != null)
-					checkBoxTagsView.Checked = Settings.FileManagerSettings.BooksTagsView = Convert.ToBoolean(node.InnerText);
-				this.checkBoxTagsView.Click += new System.EventHandler(this.CheckBoxTagsViewClick);
-				// Полная Сортировка
-				node = doc.SelectSingleNode("FileManager/FullSorting/SourceDir");
-				if(node != null)
-					textBoxAddress.Text = Settings.FileManagerSettings.FullSortingSourceDir = node.InnerText.Trim();
-				node = doc.SelectSingleNode("FileManager/FullSorting/Template");
-				if(node != null)
-					txtBoxTemplatesFromLine.Text = Settings.FileManagerSettings.FullSortingTemplate = node.InnerText.Trim();
-				node = doc.SelectSingleNode("FileManager/FullSorting/SortingInSubDir");
-				if(node != null)
-					chBoxScanSubDir.Checked = Settings.FileManagerSettings.FullSortingInSubDir = Convert.ToBoolean(node.InnerText);
-				
-				// Избранная Сортировка
-				node = doc.SelectSingleNode("FileManager/SelectedSorting/SourceDir");
-				if(node != null)
-					tboxSSSourceDir.Text = Settings.FileManagerSettings.SelectedSortingSourceDir = node.InnerText.Trim();
-				node = doc.SelectSingleNode("FileManager/SelectedSorting/TargetDir");
-				if(node != null)
-					tboxSSToDir.Text = Settings.FileManagerSettings.SelectedSortingTargetDir = node.InnerText.Trim();
-				node = doc.SelectSingleNode("FileManager/SelectedSorting/Template");
-				if(node != null)
-					txtBoxSSTemplatesFromLine.Text = Settings.FileManagerSettings.SelectedSortingTemplate = node.InnerText.Trim();
-				node = doc.SelectSingleNode("FileManager/SelectedSorting/SortingInSubDir");
-				if(node != null)
-					chBoxSSScanSubDir.Checked = Settings.FileManagerSettings.SelectedSortingInSubDir = Convert.ToBoolean(node.InnerText);
-				
+			// чтение данных Полной Сортировки из xml-файла
+			this.checkBoxTagsView.Click -= new System.EventHandler(this.CheckBoxTagsViewClick);
+			checkBoxTagsView.Checked = Settings.FileManagerSettings.ReadXmlFullSortingBooksTagsView();
+			this.checkBoxTagsView.Click += new System.EventHandler(this.CheckBoxTagsViewClick);
+			
+			textBoxAddress.Text = Settings.FileManagerSettings.ReadXmlFullSortingSourceDir();
+			txtBoxTemplatesFromLine.Text = Settings.FileManagerSettings.ReadXmlFullSortingTemplate();
+			chBoxScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlFullSortingInSubDir();
+			
+			// чтение данных Избранной Сортировки из xml-файла
+			tboxSSSourceDir.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingSourceDir();
+			tboxSSToDir.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingTargetDir();
+			txtBoxSSTemplatesFromLine.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingTemplate();
+			chBoxSSScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingInSubDir();
+
+			FileInfo fi = new FileInfo(Settings.FileManagerSettings.FileManagerSettingsPath);
+			if(fi.Exists) {
 				GenerateSourceList(Settings.FileManagerSettings.FullSortingSourceDir);
-			} catch {}
+			}
 		}
 		
 		private void IncArchiveInfo( string sExt ) {
@@ -1245,16 +1228,13 @@ namespace SharpFBTools.Tools
 		{
 			// Отображать/скрывать описание книг
 			if(checkBoxTagsView.Checked) {
-				XmlDocument doc = new XmlDocument();
-				doc.Load(Settings.FileManagerSettings.FileManagerSettingsPath);
-				XmlNode node = doc.SelectSingleNode("FileManager/FullSorting/ViewMessageForLongTime");
-				bool viewMessage = true;
-				if(node != null)
-					viewMessage = Convert.ToBoolean(node.InnerText);
-				if(viewMessage) {
-					string sMess = "При включении этой опции для создания списка книг с их описанием может потребоваться очень много времени!\nБольше не показывать это сообщение?";
-					DialogResult result = MessageBox.Show( sMess, "Отображение описания книг", MessageBoxButtons.YesNo, MessageBoxIcon.Question );
-					Settings.FileManagerSettings.ViewMessageForLongTime = (result == DialogResult.Yes) ? false : true;
+				FileInfo fi = new FileInfo(Settings.FileManagerSettings.FileManagerSettingsPath);
+				if(fi.Exists) {
+					if(Settings.FileManagerSettings.ReadXmlFullSortingViewMessageForLongTime()) {
+						string sMess = "При включении этой опции для создания списка книг с их описанием может потребоваться очень много времени!\nБольше не показывать это сообщение?";
+						DialogResult result = MessageBox.Show( sMess, "Отображение описания книг", MessageBoxButtons.YesNo, MessageBoxIcon.Question );
+						Settings.FileManagerSettings.ViewMessageForLongTime = (result == DialogResult.Yes) ? false : true;
+					}
 				}
 			}
 			
@@ -1331,7 +1311,7 @@ namespace SharpFBTools.Tools
 				if(info.Exists) {
 					GenerateSourceList(info.FullName);
 				} else {
-					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ". Проверте правильности пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error );
 				}
 			}
 		}
