@@ -676,8 +676,7 @@ namespace SharpFBTools.Tools
 			txtBoxSSTemplatesFromLine.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingTemplate();
 			chBoxSSScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingInSubDir();
 
-			FileInfo fi = new FileInfo(Settings.FileManagerSettings.FileManagerSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
 				GenerateSourceList(Settings.FileManagerSettings.FullSortingSourceDir);
 			}
 		}
@@ -1228,8 +1227,7 @@ namespace SharpFBTools.Tools
 		{
 			// Отображать/скрывать описание книг
 			if(checkBoxTagsView.Checked) {
-				FileInfo fi = new FileInfo(Settings.FileManagerSettings.FileManagerSettingsPath);
-				if(fi.Exists) {
+				if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
 					if(Settings.FileManagerSettings.ReadXmlFullSortingViewMessageForLongTime()) {
 						string sMess = "При включении этой опции для создания списка книг с их описанием может потребоваться очень много времени!\nБольше не показывать это сообщение?";
 						DialogResult result = MessageBox.Show( sMess, "Отображение описания книг", MessageBoxButtons.YesNo, MessageBoxIcon.Question );

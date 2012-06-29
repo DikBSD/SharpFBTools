@@ -42,7 +42,6 @@ namespace Settings
 		
 		public static void WriteFileManagerSettings() {
 			XmlWriter writer = null;
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
 			try {
 				XmlWriterSettings settings = new XmlWriterSettings();
 				settings.Indent = true;
@@ -133,8 +132,7 @@ namespace Settings
 			/// <summary>
 			/// чтение FullSortingSourceDir из xml-файла
 			/// </summary>
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/SourceDir");
 				if(node != null)
@@ -145,8 +143,7 @@ namespace Settings
 		
 		public static string ReadXmlFullSortingTemplate() {
 			// чтение FullSortingTemplate из xml-файла
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/Template");
 				if(node != null)
@@ -157,8 +154,7 @@ namespace Settings
 		
 		public static bool ReadXmlFullSortingInSubDir() {
 			// чтение FullSortingInSubDir из xml-файла
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/SortingInSubDir");
 				if(node != null)
@@ -169,8 +165,7 @@ namespace Settings
 		
 		public static bool ReadXmlFullSortingBooksTagsView() {
 			// чтение BooksTagsView из xml-файла
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/BooksTagsView");
 				if(node != null)
@@ -181,8 +176,7 @@ namespace Settings
 		
 		public static bool ReadXmlFullSortingViewMessageForLongTime() {
 			// чтение ViewMessageForLongTime из xml-файла
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/ViewMessageForLongTime");
 				if(node != null)
@@ -195,8 +189,7 @@ namespace Settings
 		#region Открытые статические методы класса для чтения из xml настроек Избранной Сортировки
 		public static string ReadXmlSelectedSortingSourceDir() {
 			// чтение SelectedSortingSourceDir из xml-файла
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/SourceDir");
 				if(node != null)
@@ -207,8 +200,7 @@ namespace Settings
 		
 		public static string ReadXmlSelectedSortingTargetDir() {
 			// чтение SelectedSortingTargetDir из xml-файла
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/TargetDir");
 				if(node != null)
@@ -219,8 +211,7 @@ namespace Settings
 		
 		public static string ReadXmlSelectedSortingTemplate() {
 			// чтение SelectedSortingTemplate из xml-файла
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/Template");
 				if(node != null)
@@ -231,8 +222,7 @@ namespace Settings
 		
 		public static bool ReadXmlSelectedSortingInSubDir() {
 			// чтение SelectedSortingInSubDir из xml-файла
-			FileInfo fi = new FileInfo(m_FileSettingsPath);
-			if(fi.Exists) {
+			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/SortingInSubDir");
 				if(node != null)
