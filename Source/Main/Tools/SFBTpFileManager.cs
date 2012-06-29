@@ -279,6 +279,9 @@ namespace SharpFBTools.Tools
 				}
 			}
 			lDirList.Clear();
+			if(m_bFullSort && dfm.DelFB2FilesMode) {
+				GenerateSourceList(m_sSource);
+			}
         }
 
 		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
