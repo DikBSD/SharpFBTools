@@ -23,11 +23,12 @@ namespace Settings
 		// Общие
 		
 		// рабочие папки и данные для Полной Сортировки
-		private static string m_FullSortingSourceDir	= "";
-		private static string m_FullSortingTemplate		= "";
-		private static bool m_FullSortingInSubDir		= true;
-		private static bool m_ViewMessageForLongTime	= true;
-		private static bool m_BooksTagsView				= false;
+		private static string m_FullSortingSourceDir		= "";
+		private static string m_FullSortingTemplate			= "";
+		private static bool m_FullSortingInSubDir			= true;
+		private static bool m_ViewMessageForLongTime		= true;
+		private static bool m_BooksTagsView					= false;
+		private static bool m_StartExplorerColumnsAutoReize	= false;
 		
 		// рабочие папки и данные для Избранной Сортировки
 		private static string m_SelectedSortingSourceDir	= "";
@@ -60,6 +61,7 @@ namespace Settings
 				writer.WriteElementString( "SortingInSubDir", Convert.ToString(FullSortingInSubDir) );
 				writer.WriteElementString( "BooksTagsView", Convert.ToString(BooksTagsView) );
 				writer.WriteElementString( "ViewMessageForLongTime", Convert.ToString(ViewMessageForLongTime) );
+				writer.WriteElementString( "StartExplorerColumnsAutoReize", Convert.ToString(StartExplorerColumnsAutoReize) );
 
 				writer.WriteEndElement();
 
@@ -78,6 +80,7 @@ namespace Settings
 					writer.Close();
 			}
 		}
+		
 		#region Открытые статические общие свойства класса
 		public static string FileManagerSettingsPath {
 			get { return m_FileSettingsPath; }
@@ -106,6 +109,11 @@ namespace Settings
 		public static bool ViewMessageForLongTime {
 			get { return m_ViewMessageForLongTime; }
 			set { m_ViewMessageForLongTime = value; }
+		}
+		
+		public static bool StartExplorerColumnsAutoReize {
+			get { return m_StartExplorerColumnsAutoReize; }
+			set { m_StartExplorerColumnsAutoReize = value; }
 		}
 		
 		// Избранная Сортировка
@@ -183,6 +191,16 @@ namespace Settings
 					return ViewMessageForLongTime = Convert.ToBoolean(node.InnerText);
 			}
 			return ViewMessageForLongTime;
+		}
+		public static bool ReadXmlFullSortingStartExplorerColumnsAutoReize() {
+			// чтение StartExplorrerColumnsAutoResize из xml-файла
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/StartExplorerColumnsAutoReize");
+				if(node != null)
+					return StartExplorerColumnsAutoReize = Convert.ToBoolean(node.InnerText);
+			}
+			return StartExplorerColumnsAutoReize;
 		}
 		#endregion
 		

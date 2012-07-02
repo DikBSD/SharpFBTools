@@ -82,8 +82,7 @@ namespace SharpFBTools.Tools
 			} else {
 				richTxtBoxDescTemplates.Text = "Не найден файл описания Шаблонов подстановки: \""+sTDPath+"\"";
 			}
-			
-			AutoResizeColumns();
+
 		}
 		
 		#region Открытые методы класса
@@ -132,10 +131,6 @@ namespace SharpFBTools.Tools
 					}
 					m_sv.AllFiles += lCheckedFileList.Count;
 					m_sv.AllDirs = lDirList.Count;
-				}
-				// проверка папки-приемника и создание ее, если нужно
-				if( !filesWorker.CreateDirIfNeed( m_sTarget, m_sMessTitle ) ) {
-					return;
 				}
 			} else {
 				// Избранная Сортировка
@@ -279,7 +274,7 @@ namespace SharpFBTools.Tools
 				}
 			}
 			lDirList.Clear();
-			if(m_bFullSort/* && dfm.DelFB2FilesMode*/) {
+			if(m_bFullSort && dfm.DelFB2FilesMode) {
 				GenerateSourceList(m_sSource);
 			}
         }
@@ -460,7 +455,9 @@ namespace SharpFBTools.Tools
         				}
         			}
         			// авторазмер колонок Списка Проводника
-        			AutoResizeColumns();
+        			if(tsmiStartExplorerColumnsAutoReize.Checked) {
+        				AutoResizeColumns();
+        			}
         		}
         		
         	} catch (System.Exception) {
@@ -631,6 +628,10 @@ namespace SharpFBTools.Tools
 				MessageBox.Show( "Папка не найдена: " + m_sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
+			// проверка папки-приемника и создание ее, если нужно
+			if( !filesWorker.CreateDirIfNeed( m_sTarget, m_sMessTitle ) ) {
+				return false;
+			}
 
 			return true;
 		}
@@ -672,6 +673,7 @@ namespace SharpFBTools.Tools
 			textBoxAddress.Text = Settings.FileManagerSettings.ReadXmlFullSortingSourceDir();
 			txtBoxTemplatesFromLine.Text = Settings.FileManagerSettings.ReadXmlFullSortingTemplate();
 			chBoxScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlFullSortingInSubDir();
+			tsmiStartExplorerColumnsAutoReize.Checked = Settings.FileManagerSettings.ReadXmlFullSortingStartExplorerColumnsAutoReize();
 			
 			// чтение данных Избранной Сортировки из xml-файла
 			tboxSSSourceDir.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingSourceDir();
@@ -1254,6 +1256,14 @@ namespace SharpFBTools.Tools
 			AutoResizeColumns();
 		}
 		
+		void TsmiStartExplorerColumnsAutoReizeCheckedChanged(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.StartExplorerColumnsAutoReize = tsmiStartExplorerColumnsAutoReize.Checked;
+			if(tsmiStartExplorerColumnsAutoReize.Checked) {
+				AutoResizeColumns();
+			}
+		}
+		
 		void CheckBoxTagsViewClick(object sender, EventArgs e)
 		{
 			// Отображать/скрывать описание книг
@@ -1317,7 +1327,9 @@ namespace SharpFBTools.Tools
 					}
 				}
 				// авторазмер колонок Списка
-				AutoResizeColumns();
+				if(tsmiStartExplorerColumnsAutoReize.Checked) {
+					AutoResizeColumns();
+				}
 				listViewSource.EndUpdate();
 				Cursor.Current = Cursors.Default;
 			}
@@ -1515,7 +1527,7 @@ namespace SharpFBTools.Tools
 			// обработка заданных каталого
 			m_sSource = Settings.FileManagerSettings.FullSortingSourceDir = filesWorker.WorkingDirPath( textBoxAddress.Text.Trim() );
 			textBoxAddress.Text = m_sSource;
-			m_sTarget = m_sSource + "\\out"; // папка вывода out - внутри исходой
+			m_sTarget = m_sSource + " - OUT"; // папка вывода out - рядом с  исходой
 			
 			m_bFullSort = true;
 			m_bScanSubDirs = chBoxScanSubDir.Checked ? true : false;
@@ -1851,5 +1863,6 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
+
 	}
 }

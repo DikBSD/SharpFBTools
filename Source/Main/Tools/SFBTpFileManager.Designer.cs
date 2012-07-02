@@ -125,6 +125,7 @@ namespace SharpFBTools.Tools
 			this.tsmiUnCheckedAllSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiColumnsExplorerAutoReize = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiStartExplorerColumnsAutoReize = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageListItems = new System.Windows.Forms.ImageList(this.components);
 			this.panelAddress = new System.Windows.Forms.Panel();
 			this.checkBoxTagsView = new System.Windows.Forms.CheckBox();
@@ -418,20 +419,21 @@ namespace SharpFBTools.Tools
 									this.tsmiCheckedAllSelected,
 									this.tsmiUnCheckedAllSelected,
 									this.toolStripMenuItem6,
-									this.tsmiColumnsExplorerAutoReize});
+									this.tsmiColumnsExplorerAutoReize,
+									this.tsmiStartExplorerColumnsAutoReize});
 			this.cmsItems.Name = "cmsValidator";
-			this.cmsItems.Size = new System.Drawing.Size(285, 332);
+			this.cmsItems.Size = new System.Drawing.Size(308, 376);
 			// 
 			// tsmi3
 			// 
 			this.tsmi3.Name = "tsmi3";
-			this.tsmi3.Size = new System.Drawing.Size(281, 6);
+			this.tsmi3.Size = new System.Drawing.Size(304, 6);
 			// 
 			// tsmiCheckedAll
 			// 
 			this.tsmiCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiCheckedAll.Image")));
 			this.tsmiCheckedAll.Name = "tsmiCheckedAll";
-			this.tsmiCheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiCheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiCheckedAll.Text = "Пометить все файлы и папки";
 			this.tsmiCheckedAll.Click += new System.EventHandler(this.TsmiCheckedAllClick);
 			// 
@@ -439,116 +441,124 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiUnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiUnCheckedAll.Image")));
 			this.tsmiUnCheckedAll.Name = "tsmiUnCheckedAll";
-			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiUnCheckedAll.Text = "Снять пометки со всех файлов и папок";
 			this.tsmiUnCheckedAll.Click += new System.EventHandler(this.TsmiUnCheckedAllClick);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(281, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(304, 6);
 			// 
 			// tsmiFilesCheckedAll
 			// 
 			this.tsmiFilesCheckedAll.Name = "tsmiFilesCheckedAll";
-			this.tsmiFilesCheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiFilesCheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiFilesCheckedAll.Text = "Пометить все файлы";
 			this.tsmiFilesCheckedAll.Click += new System.EventHandler(this.TsmiFilesCheckedAllClick);
 			// 
 			// tsmiFilesUnCheckedAll
 			// 
 			this.tsmiFilesUnCheckedAll.Name = "tsmiFilesUnCheckedAll";
-			this.tsmiFilesUnCheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiFilesUnCheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiFilesUnCheckedAll.Text = "Снять пометки со всех файлов";
 			this.tsmiFilesUnCheckedAll.Click += new System.EventHandler(this.TsmiFilesUnCheckedAllClick);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(281, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(304, 6);
 			// 
 			// tsmiDirCheckedAll
 			// 
 			this.tsmiDirCheckedAll.Name = "tsmiDirCheckedAll";
-			this.tsmiDirCheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiDirCheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiDirCheckedAll.Text = "Пометить все папки";
 			this.tsmiDirCheckedAll.Click += new System.EventHandler(this.TsmiDirCheckedAllClick);
 			// 
 			// tsmiDirUnCheckedAll
 			// 
 			this.tsmiDirUnCheckedAll.Name = "tsmiDirUnCheckedAll";
-			this.tsmiDirUnCheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiDirUnCheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiDirUnCheckedAll.Text = "Снять пометки со всех папок";
 			this.tsmiDirUnCheckedAll.Click += new System.EventHandler(this.TsmiDirUnCheckedAllClick);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(281, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(304, 6);
 			// 
 			// tsmiFB2CheckedAll
 			// 
 			this.tsmiFB2CheckedAll.Name = "tsmiFB2CheckedAll";
-			this.tsmiFB2CheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiFB2CheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiFB2CheckedAll.Text = "Пометить все fb2 файлы";
 			this.tsmiFB2CheckedAll.Click += new System.EventHandler(this.TsmiFB2CheckedAllClick);
 			// 
 			// tsmiFB2UnCheckedAll
 			// 
 			this.tsmiFB2UnCheckedAll.Name = "tsmiFB2UnCheckedAll";
-			this.tsmiFB2UnCheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiFB2UnCheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiFB2UnCheckedAll.Text = "Снять пометки со всех fb2 файлов";
 			this.tsmiFB2UnCheckedAll.Click += new System.EventHandler(this.TsmiFB2UnCheckedAllClick);
 			// 
 			// toolStripMenuItem4
 			// 
 			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(281, 6);
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(304, 6);
 			// 
 			// tsmiZipCheckedAll
 			// 
 			this.tsmiZipCheckedAll.Name = "tsmiZipCheckedAll";
-			this.tsmiZipCheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiZipCheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiZipCheckedAll.Text = "Пометить все zip файлы";
 			this.tsmiZipCheckedAll.Click += new System.EventHandler(this.TsmiZipCheckedAllClick);
 			// 
 			// tsmiZipUnCheckedAll
 			// 
 			this.tsmiZipUnCheckedAll.Name = "tsmiZipUnCheckedAll";
-			this.tsmiZipUnCheckedAll.Size = new System.Drawing.Size(284, 22);
+			this.tsmiZipUnCheckedAll.Size = new System.Drawing.Size(307, 22);
 			this.tsmiZipUnCheckedAll.Text = "Снять пометки со всех zip файлов";
 			this.tsmiZipUnCheckedAll.Click += new System.EventHandler(this.TsmiZipUnCheckedAllClick);
 			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(281, 6);
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(304, 6);
 			// 
 			// tsmiCheckedAllSelected
 			// 
 			this.tsmiCheckedAllSelected.Name = "tsmiCheckedAllSelected";
-			this.tsmiCheckedAllSelected.Size = new System.Drawing.Size(284, 22);
+			this.tsmiCheckedAllSelected.Size = new System.Drawing.Size(307, 22);
 			this.tsmiCheckedAllSelected.Text = "Пометить всё выделенное";
 			this.tsmiCheckedAllSelected.Click += new System.EventHandler(this.TsmiCheckedAllSelectedClick);
 			// 
 			// tsmiUnCheckedAllSelected
 			// 
 			this.tsmiUnCheckedAllSelected.Name = "tsmiUnCheckedAllSelected";
-			this.tsmiUnCheckedAllSelected.Size = new System.Drawing.Size(284, 22);
+			this.tsmiUnCheckedAllSelected.Size = new System.Drawing.Size(307, 22);
 			this.tsmiUnCheckedAllSelected.Text = "Снять пометки со всего выделенного";
 			this.tsmiUnCheckedAllSelected.Click += new System.EventHandler(this.TsmiUnCheckedAllSelectedClick);
 			// 
 			// toolStripMenuItem6
 			// 
 			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-			this.toolStripMenuItem6.Size = new System.Drawing.Size(281, 6);
+			this.toolStripMenuItem6.Size = new System.Drawing.Size(304, 6);
 			// 
 			// tsmiColumnsExplorerAutoReize
 			// 
 			this.tsmiColumnsExplorerAutoReize.Name = "tsmiColumnsExplorerAutoReize";
-			this.tsmiColumnsExplorerAutoReize.Size = new System.Drawing.Size(284, 22);
-			this.tsmiColumnsExplorerAutoReize.Text = "Авторазмер колонок Проводника";
+			this.tsmiColumnsExplorerAutoReize.Size = new System.Drawing.Size(307, 22);
+			this.tsmiColumnsExplorerAutoReize.Text = "Обновить авторазмер колонок Проводника";
 			this.tsmiColumnsExplorerAutoReize.Click += new System.EventHandler(this.TsmiColumnsExplorerAutoReizeClick);
+			// 
+			// tsmiStartExplorerColumnsAutoReize
+			// 
+			this.tsmiStartExplorerColumnsAutoReize.CheckOnClick = true;
+			this.tsmiStartExplorerColumnsAutoReize.Name = "tsmiStartExplorerColumnsAutoReize";
+			this.tsmiStartExplorerColumnsAutoReize.Size = new System.Drawing.Size(307, 22);
+			this.tsmiStartExplorerColumnsAutoReize.Text = "Авторазмер колонок Проводника";
+			this.tsmiStartExplorerColumnsAutoReize.CheckedChanged += new System.EventHandler(this.TsmiStartExplorerColumnsAutoReizeCheckedChanged);
 			// 
 			// imageListItems
 			// 
@@ -1103,6 +1113,7 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripMenuItem tsmiStartExplorerColumnsAutoReize;
 		private System.Windows.Forms.TabPage tpSettings;
 		private System.Windows.Forms.CheckBox checkBoxTagsView;
 		private System.Windows.Forms.ToolStripMenuItem tsmiColumnsExplorerAutoReize;
