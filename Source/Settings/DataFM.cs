@@ -71,9 +71,8 @@ namespace Settings
 		private bool m_bAllFB2				= SettingsFM.ReadSortValidType();
 		private bool m_bAddToFileNameBookIDMode	= SettingsFM.ReadAddToFileNameBookIDMode();
 		private int	 m_nFileExistMode			= SettingsFM.ReadFileExistMode();
-		private bool m_bDelFB2FilesMode			= SettingsFM.ReadDelFB2FilesMode();
-		private bool m_bToArchiveMode			= SettingsFM.ReadToArchiveMode();
-		private string m_sArchiveTypeText		= SettingsFM.ReadArchiveTypeText();
+		private bool m_bFullSortingToZip		= FileManagerSettings.ReadXmlFullSortingToZip();
+		private bool m_bSelectedSortingToZip	= FileManagerSettings.ReadXmlSelectedSortingToZip();
 		#endregion
 		
 		public DataFM()
@@ -109,18 +108,6 @@ namespace Settings
 		public virtual bool AddToFileNameBookIDMode {
 			get { return m_bAddToFileNameBookIDMode; }
 			set { m_bAddToFileNameBookIDMode = value; }
-        }
-		public virtual bool DelFB2FilesMode {
-			get { return m_bDelFB2FilesMode; }
-			set { m_bDelFB2FilesMode = value; }
-        }
-		public virtual bool ToArchiveMode {
-			get { return m_bToArchiveMode; }
-			set { m_bToArchiveMode = value; }
-        }
-		public virtual string ArchiveTypeText {
-			get { return m_sArchiveTypeText; }
-			set { m_sArchiveTypeText = value; }
         }
 		// пути к архиваторам
 		public virtual string A7zaPath {

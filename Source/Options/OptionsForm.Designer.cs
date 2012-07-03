@@ -109,15 +109,12 @@ namespace Options
 			this.rbtnFMFB22 = new System.Windows.Forms.RadioButton();
 			this.rbtnFMFB21 = new System.Windows.Forms.RadioButton();
 			this.lblFMGenres = new System.Windows.Forms.Label();
-			this.chBoxDelFB2Files = new System.Windows.Forms.CheckBox();
 			this.chBoxAddToFileNameBookID = new System.Windows.Forms.CheckBox();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.cboxFileExist = new System.Windows.Forms.ComboBox();
 			this.lbFilelExist = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.cboxArchiveType = new System.Windows.Forms.ComboBox();
 			this.cboxSpace = new System.Windows.Forms.ComboBox();
-			this.chBoxToArchive = new System.Windows.Forms.CheckBox();
 			this.lblSpace = new System.Windows.Forms.Label();
 			this.chBoxStrict = new System.Windows.Forms.CheckBox();
 			this.chBoxTranslit = new System.Windows.Forms.CheckBox();
@@ -1103,7 +1100,6 @@ namespace Options
 			// 
 			this.gboxFMGeneral.Controls.Add(this.pSortFB2);
 			this.gboxFMGeneral.Controls.Add(this.pFMGenres);
-			this.gboxFMGeneral.Controls.Add(this.chBoxDelFB2Files);
 			this.gboxFMGeneral.Controls.Add(this.chBoxAddToFileNameBookID);
 			this.gboxFMGeneral.Controls.Add(this.panel2);
 			this.gboxFMGeneral.Controls.Add(this.panel1);
@@ -1126,7 +1122,7 @@ namespace Options
 			this.pSortFB2.Controls.Add(this.rbtnFMAllFB2);
 			this.pSortFB2.Controls.Add(this.label11);
 			this.pSortFB2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pSortFB2.Location = new System.Drawing.Point(3, 204);
+			this.pSortFB2.Location = new System.Drawing.Point(3, 186);
 			this.pSortFB2.Name = "pSortFB2";
 			this.pSortFB2.Size = new System.Drawing.Size(583, 23);
 			this.pSortFB2.TabIndex = 30;
@@ -1171,7 +1167,7 @@ namespace Options
 			this.pFMGenres.Controls.Add(this.rbtnFMFB21);
 			this.pFMGenres.Controls.Add(this.lblFMGenres);
 			this.pFMGenres.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pFMGenres.Location = new System.Drawing.Point(3, 181);
+			this.pFMGenres.Location = new System.Drawing.Point(3, 163);
 			this.pFMGenres.Name = "pFMGenres";
 			this.pFMGenres.Size = new System.Drawing.Size(583, 23);
 			this.pFMGenres.TabIndex = 26;
@@ -1206,18 +1202,6 @@ namespace Options
 			this.lblFMGenres.Size = new System.Drawing.Size(108, 16);
 			this.lblFMGenres.TabIndex = 0;
 			this.lblFMGenres.Text = "Схема Жанров:";
-			// 
-			// chBoxDelFB2Files
-			// 
-			this.chBoxDelFB2Files.Dock = System.Windows.Forms.DockStyle.Top;
-			this.chBoxDelFB2Files.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxDelFB2Files.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxDelFB2Files.Location = new System.Drawing.Point(3, 163);
-			this.chBoxDelFB2Files.Name = "chBoxDelFB2Files";
-			this.chBoxDelFB2Files.Size = new System.Drawing.Size(583, 18);
-			this.chBoxDelFB2Files.TabIndex = 25;
-			this.chBoxDelFB2Files.Text = " Удалить исходные файлы после сортировки";
-			this.chBoxDelFB2Files.UseVisualStyleBackColor = true;
 			// 
 			// chBoxAddToFileNameBookID
 			// 
@@ -1268,32 +1252,13 @@ namespace Options
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.cboxArchiveType);
 			this.panel1.Controls.Add(this.cboxSpace);
-			this.panel1.Controls.Add(this.chBoxToArchive);
 			this.panel1.Controls.Add(this.lblSpace);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(3, 91);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(583, 29);
 			this.panel1.TabIndex = 14;
-			// 
-			// cboxArchiveType
-			// 
-			this.cboxArchiveType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboxArchiveType.Enabled = false;
-			this.cboxArchiveType.FormattingEnabled = true;
-			this.cboxArchiveType.Items.AddRange(new object[] {
-									"Rar",
-									"Zip",
-									"7z",
-									"BZip2",
-									"GZip",
-									"Tar"});
-			this.cboxArchiveType.Location = new System.Drawing.Point(461, 4);
-			this.cboxArchiveType.Name = "cboxArchiveType";
-			this.cboxArchiveType.Size = new System.Drawing.Size(115, 21);
-			this.cboxArchiveType.TabIndex = 17;
 			// 
 			// cboxSpace
 			// 
@@ -1310,18 +1275,6 @@ namespace Options
 			this.cboxSpace.Name = "cboxSpace";
 			this.cboxSpace.Size = new System.Drawing.Size(123, 21);
 			this.cboxSpace.TabIndex = 24;
-			// 
-			// chBoxToArchive
-			// 
-			this.chBoxToArchive.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxToArchive.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxToArchive.Location = new System.Drawing.Point(307, 6);
-			this.chBoxToArchive.Name = "chBoxToArchive";
-			this.chBoxToArchive.Size = new System.Drawing.Size(153, 18);
-			this.chBoxToArchive.TabIndex = 16;
-			this.chBoxToArchive.Text = "Упаковывать файлы:";
-			this.chBoxToArchive.UseVisualStyleBackColor = true;
-			this.chBoxToArchive.CheckedChanged += new System.EventHandler(this.ChBoxToArchiveCheckedChanged);
 			// 
 			// lblSpace
 			// 
@@ -2956,12 +2909,9 @@ namespace Options
 		private System.Windows.Forms.TextBox tboxUnRarPath;
 		private System.Windows.Forms.Label lblUnRarPath;
 		private System.Windows.Forms.CheckBox chBoxAddToFileNameBookID;
-		private System.Windows.Forms.CheckBox chBoxDelFB2Files;
-		private System.Windows.Forms.CheckBox chBoxToArchive;
 		private System.Windows.Forms.ComboBox cboxSpace;
 		private System.Windows.Forms.ComboBox cboxFileExist;
 		private System.Windows.Forms.Label lbFilelExist;
-		private System.Windows.Forms.ComboBox cboxArchiveType;
 		private System.Windows.Forms.Label lblSpace;
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Panel panel1;

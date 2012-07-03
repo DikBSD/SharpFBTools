@@ -29,12 +29,16 @@ namespace Settings
 		private static bool m_ViewMessageForLongTime		= true;
 		private static bool m_BooksTagsView					= false;
 		private static bool m_StartExplorerColumnsAutoReize	= false;
+		private static bool m_FullSortingToZip				= false;
+		private static bool m_FullSortingDelFB2Files		= false;
 		
 		// рабочие папки и данные для Избранной Сортировки
 		private static string m_SelectedSortingSourceDir	= "";
 		private static string m_SelectedSortingTargetDir	= "";
 		private static string m_SelectedSortingTemplate		= "";
 		private static bool m_SelectedSortingInSubDir		= true;
+		private static bool m_SelectedSortingToZip			= false;
+		private static bool m_SelectedSortingDelFB2Files		= false;
 		#endregion
 		
 		public FileManagerSettings()
@@ -42,6 +46,7 @@ namespace Settings
 		}
 		
 		public static void WriteFileManagerSettings() {
+			#region Сохранение настроек в zml-файл
 			XmlWriter writer = null;
 			try {
 				XmlWriterSettings settings = new XmlWriterSettings();
@@ -62,7 +67,8 @@ namespace Settings
 				writer.WriteElementString( "BooksTagsView", Convert.ToString(BooksTagsView) );
 				writer.WriteElementString( "ViewMessageForLongTime", Convert.ToString(ViewMessageForLongTime) );
 				writer.WriteElementString( "StartExplorerColumnsAutoReize", Convert.ToString(StartExplorerColumnsAutoReize) );
-
+				writer.WriteElementString( "ToZip", Convert.ToString(FullSortingToZip) );
+				writer.WriteElementString( "DelFB2Files", Convert.ToString(FullSortingDelFB2Files) );
 				writer.WriteEndElement();
 
 				// Избранная Сортировка
@@ -71,6 +77,8 @@ namespace Settings
 				writer.WriteElementString( "TargetDir", SelectedSortingTargetDir );
 				writer.WriteElementString( "Template", SelectedSortingTemplate );
 				writer.WriteElementString( "SortingInSubDir", Convert.ToString(SelectedSortingInSubDir) );
+				writer.WriteElementString( "ToZip", Convert.ToString(SelectedSortingToZip) );
+				writer.WriteElementString( "DelFB2Files", Convert.ToString(SelectedSortingDelFB2Files) );
 				writer.WriteEndElement();
 				
 				writer.WriteEndElement();
@@ -79,6 +87,7 @@ namespace Settings
 				if (writer != null)
 					writer.Close();
 			}
+			#endregion
 		}
 		
 		#region Открытые статические общие свойства класса
@@ -115,6 +124,14 @@ namespace Settings
 			get { return m_StartExplorerColumnsAutoReize; }
 			set { m_StartExplorerColumnsAutoReize = value; }
 		}
+		public static bool FullSortingToZip {
+			get { return m_FullSortingToZip; }
+			set { m_FullSortingToZip = value; }
+		}
+		public static bool FullSortingDelFB2Files {
+			get { return m_FullSortingDelFB2Files; }
+			set { m_FullSortingDelFB2Files = value; }
+		}
 		
 		// Избранная Сортировка
 		public static string SelectedSortingSourceDir {
@@ -132,6 +149,14 @@ namespace Settings
 		public static bool SelectedSortingInSubDir {
 			get { return m_SelectedSortingInSubDir; }
 			set { m_SelectedSortingInSubDir = value; }
+		}
+		public static bool SelectedSortingToZip {
+			get { return m_SelectedSortingToZip; }
+			set { m_SelectedSortingToZip = value; }
+		}
+		public static bool SelectedSortingDelFB2Files {
+			get { return m_SelectedSortingDelFB2Files; }
+			set { m_SelectedSortingDelFB2Files = value; }
 		}
 		#endregion
 		
@@ -202,6 +227,26 @@ namespace Settings
 			}
 			return StartExplorerColumnsAutoReize;
 		}
+		public static bool ReadXmlFullSortingToZip() {
+			// чтение FullSortingToZip из xml-файла
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/ToZip");
+				if(node != null)
+					return FullSortingToZip = Convert.ToBoolean(node.InnerText);
+			}
+			return FullSortingToZip;
+		}
+		public static bool ReadXmlFullSortingDelFB2Files() {
+			// чтение FullSortingDelFB2Files из xml-файла
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/DelFB2Files");
+				if(node != null)
+					return FullSortingDelFB2Files = Convert.ToBoolean(node.InnerText);
+			}
+			return FullSortingDelFB2Files;
+		}
 		#endregion
 		
 		#region Открытые статические методы класса для чтения из xml настроек Избранной Сортировки
@@ -247,6 +292,27 @@ namespace Settings
 					return SelectedSortingInSubDir = Convert.ToBoolean(node.InnerText);
 			}
 			return SelectedSortingInSubDir;
+		}
+		
+		public static bool ReadXmlSelectedSortingToZip() {
+			// чтение SelectedSortingToZip из xml-файла
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/ToZip");
+				if(node != null)
+					return SelectedSortingToZip = Convert.ToBoolean(node.InnerText);
+			}
+			return SelectedSortingToZip;
+		}
+		public static bool ReadXmlSelectedSortingDelFB2Files() {
+			// чтение SelectedSortingDelFB2Files из xml-файла
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/DelFB2Files");
+				if(node != null)
+					return SelectedSortingDelFB2Files = Convert.ToBoolean(node.InnerText);
+			}
+			return SelectedSortingDelFB2Files;
 		}
 		#endregion
 	}

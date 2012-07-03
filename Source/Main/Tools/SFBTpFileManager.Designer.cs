@@ -93,6 +93,8 @@ namespace SharpFBTools.Tools
 			this.tcSort = new System.Windows.Forms.TabControl();
 			this.tpFullSort = new System.Windows.Forms.TabPage();
 			this.panelStart = new System.Windows.Forms.Panel();
+			this.chBoxFSDelFB2Files = new System.Windows.Forms.CheckBox();
+			this.chBoxFSToZip = new System.Windows.Forms.CheckBox();
 			this.chBoxScanSubDir = new System.Windows.Forms.CheckBox();
 			this.buttonFullSortStop = new System.Windows.Forms.Button();
 			this.buttonSortFilesTo = new System.Windows.Forms.Button();
@@ -149,12 +151,14 @@ namespace SharpFBTools.Tools
 			this.cHeaderExactFit = new System.Windows.Forms.ColumnHeader();
 			this.pSSData = new System.Windows.Forms.Panel();
 			this.btnSSDataListLoad = new System.Windows.Forms.Button();
+			this.chBoxSSDelFB2Files = new System.Windows.Forms.CheckBox();
 			this.btnSSDataListSave = new System.Windows.Forms.Button();
 			this.btnSSGetData = new System.Windows.Forms.Button();
 			this.gBoxSelectedlSortRenameTemplates = new System.Windows.Forms.GroupBox();
 			this.btnSSInsertTemplates = new System.Windows.Forms.Button();
 			this.txtBoxSSTemplatesFromLine = new System.Windows.Forms.TextBox();
 			this.pSelectedSortDirs = new System.Windows.Forms.Panel();
+			this.chBoxSSToZip = new System.Windows.Forms.CheckBox();
 			this.chBoxSSScanSubDir = new System.Windows.Forms.CheckBox();
 			this.lblSSTargetDir = new System.Windows.Forms.Label();
 			this.tboxSSToDir = new System.Windows.Forms.TextBox();
@@ -284,6 +288,8 @@ namespace SharpFBTools.Tools
 			// 
 			// panelStart
 			// 
+			this.panelStart.Controls.Add(this.chBoxFSDelFB2Files);
+			this.panelStart.Controls.Add(this.chBoxFSToZip);
 			this.panelStart.Controls.Add(this.chBoxScanSubDir);
 			this.panelStart.Controls.Add(this.buttonFullSortStop);
 			this.panelStart.Controls.Add(this.buttonSortFilesTo);
@@ -293,6 +299,26 @@ namespace SharpFBTools.Tools
 			this.panelStart.Size = new System.Drawing.Size(814, 58);
 			this.panelStart.TabIndex = 36;
 			// 
+			// chBoxFSDelFB2Files
+			// 
+			this.chBoxFSDelFB2Files.Location = new System.Drawing.Point(171, 31);
+			this.chBoxFSDelFB2Files.Name = "chBoxFSDelFB2Files";
+			this.chBoxFSDelFB2Files.Size = new System.Drawing.Size(259, 24);
+			this.chBoxFSDelFB2Files.TabIndex = 6;
+			this.chBoxFSDelFB2Files.Text = " Удалить исходные файлы после сортировки";
+			this.chBoxFSDelFB2Files.UseVisualStyleBackColor = true;
+			this.chBoxFSDelFB2Files.Click += new System.EventHandler(this.ChBoxFSDelFB2FilesClick);
+			// 
+			// chBoxFSToZip
+			// 
+			this.chBoxFSToZip.Location = new System.Drawing.Point(171, 4);
+			this.chBoxFSToZip.Name = "chBoxFSToZip";
+			this.chBoxFSToZip.Size = new System.Drawing.Size(130, 24);
+			this.chBoxFSToZip.TabIndex = 5;
+			this.chBoxFSToZip.Text = "Архивировать в zip";
+			this.chBoxFSToZip.UseVisualStyleBackColor = true;
+			this.chBoxFSToZip.Click += new System.EventHandler(this.ChBoxFSToZipClick);
+			// 
 			// chBoxScanSubDir
 			// 
 			this.chBoxScanSubDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -300,7 +326,7 @@ namespace SharpFBTools.Tools
 			this.chBoxScanSubDir.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxScanSubDir.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.chBoxScanSubDir.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxScanSubDir.Location = new System.Drawing.Point(464, 18);
+			this.chBoxScanSubDir.Location = new System.Drawing.Point(466, 4);
 			this.chBoxScanSubDir.Name = "chBoxScanSubDir";
 			this.chBoxScanSubDir.Size = new System.Drawing.Size(172, 24);
 			this.chBoxScanSubDir.TabIndex = 4;
@@ -422,7 +448,7 @@ namespace SharpFBTools.Tools
 									this.tsmiColumnsExplorerAutoReize,
 									this.tsmiStartExplorerColumnsAutoReize});
 			this.cmsItems.Name = "cmsValidator";
-			this.cmsItems.Size = new System.Drawing.Size(308, 376);
+			this.cmsItems.Size = new System.Drawing.Size(308, 354);
 			// 
 			// tsmi3
 			// 
@@ -753,6 +779,7 @@ namespace SharpFBTools.Tools
 			// pSSData
 			// 
 			this.pSSData.Controls.Add(this.btnSSDataListLoad);
+			this.pSSData.Controls.Add(this.chBoxSSDelFB2Files);
 			this.pSSData.Controls.Add(this.btnSSDataListSave);
 			this.pSSData.Controls.Add(this.btnSSGetData);
 			this.pSSData.Dock = System.Windows.Forms.DockStyle.Top;
@@ -775,12 +802,22 @@ namespace SharpFBTools.Tools
 			this.btnSSDataListLoad.UseVisualStyleBackColor = true;
 			this.btnSSDataListLoad.Click += new System.EventHandler(this.BtnSSDataListLoadClick);
 			// 
+			// chBoxSSDelFB2Files
+			// 
+			this.chBoxSSDelFB2Files.Location = new System.Drawing.Point(6, 5);
+			this.chBoxSSDelFB2Files.Name = "chBoxSSDelFB2Files";
+			this.chBoxSSDelFB2Files.Size = new System.Drawing.Size(175, 24);
+			this.chBoxSSDelFB2Files.TabIndex = 19;
+			this.chBoxSSDelFB2Files.Text = " Удалить исходные файлы после сортировки";
+			this.chBoxSSDelFB2Files.UseVisualStyleBackColor = true;
+			this.chBoxSSDelFB2Files.Click += new System.EventHandler(this.ChBoxSSDelFB2FilesClick);
+			// 
 			// btnSSDataListSave
 			// 
 			this.btnSSDataListSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSSDataListSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSSDataListSave.Image")));
 			this.btnSSDataListSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSSDataListSave.Location = new System.Drawing.Point(495, 4);
+			this.btnSSDataListSave.Location = new System.Drawing.Point(507, 4);
 			this.btnSSDataListSave.Name = "btnSSDataListSave";
 			this.btnSSDataListSave.Size = new System.Drawing.Size(141, 28);
 			this.btnSSDataListSave.TabIndex = 11;
@@ -791,17 +828,17 @@ namespace SharpFBTools.Tools
 			// 
 			// btnSSGetData
 			// 
-			this.btnSSGetData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
+			this.btnSSGetData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSSGetData.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.btnSSGetData.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.btnSSGetData.Image = ((System.Drawing.Image)(resources.GetObject("btnSSGetData.Image")));
 			this.btnSSGetData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSSGetData.Location = new System.Drawing.Point(23, 3);
+			this.btnSSGetData.Location = new System.Drawing.Point(187, 3);
 			this.btnSSGetData.Name = "btnSSGetData";
-			this.btnSSGetData.Size = new System.Drawing.Size(447, 28);
+			this.btnSSGetData.Size = new System.Drawing.Size(313, 28);
 			this.btnSSGetData.TabIndex = 10;
 			this.btnSSGetData.Text = "Собрать данные для Избранной Сортировки";
+			this.btnSSGetData.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnSSGetData.UseVisualStyleBackColor = true;
 			this.btnSSGetData.Click += new System.EventHandler(this.BtnSSGetDataClick);
 			// 
@@ -843,6 +880,7 @@ namespace SharpFBTools.Tools
 			// 
 			// pSelectedSortDirs
 			// 
+			this.pSelectedSortDirs.Controls.Add(this.chBoxSSToZip);
 			this.pSelectedSortDirs.Controls.Add(this.chBoxSSScanSubDir);
 			this.pSelectedSortDirs.Controls.Add(this.lblSSTargetDir);
 			this.pSelectedSortDirs.Controls.Add(this.tboxSSToDir);
@@ -853,6 +891,17 @@ namespace SharpFBTools.Tools
 			this.pSelectedSortDirs.Name = "pSelectedSortDirs";
 			this.pSelectedSortDirs.Size = new System.Drawing.Size(814, 55);
 			this.pSelectedSortDirs.TabIndex = 32;
+			// 
+			// chBoxSSToZip
+			// 
+			this.chBoxSSToZip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.chBoxSSToZip.Location = new System.Drawing.Point(641, 27);
+			this.chBoxSSToZip.Name = "chBoxSSToZip";
+			this.chBoxSSToZip.Size = new System.Drawing.Size(130, 24);
+			this.chBoxSSToZip.TabIndex = 13;
+			this.chBoxSSToZip.Text = "Архивировать в zip";
+			this.chBoxSSToZip.UseVisualStyleBackColor = true;
+			this.chBoxSSToZip.Click += new System.EventHandler(this.ChBoxSSToZipClick);
 			// 
 			// chBoxSSScanSubDir
 			// 
@@ -885,7 +934,7 @@ namespace SharpFBTools.Tools
 			this.tboxSSToDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.tboxSSToDir.Location = new System.Drawing.Point(166, 31);
 			this.tboxSSToDir.Name = "tboxSSToDir";
-			this.tboxSSToDir.Size = new System.Drawing.Size(634, 20);
+			this.tboxSSToDir.Size = new System.Drawing.Size(459, 20);
 			this.tboxSSToDir.TabIndex = 3;
 			this.tboxSSToDir.TextChanged += new System.EventHandler(this.TboxSSToDirTextChanged);
 			// 
@@ -1113,6 +1162,10 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chBoxSSDelFB2Files;
+		private System.Windows.Forms.CheckBox chBoxFSDelFB2Files;
+		private System.Windows.Forms.CheckBox chBoxSSToZip;
+		private System.Windows.Forms.CheckBox chBoxFSToZip;
 		private System.Windows.Forms.ToolStripMenuItem tsmiStartExplorerColumnsAutoReize;
 		private System.Windows.Forms.TabPage tpSettings;
 		private System.Windows.Forms.CheckBox checkBoxTagsView;

@@ -23,10 +23,7 @@ namespace Settings
 		private static bool m_bchBoxTranslitCheked	= false;
 		private static bool m_bchBoxStrictCheked	= false;
 		private static Int16 m_ncboxSpaceSelectedIndex	= 0;
-		private static bool m_bchBoxToArchiveCheked		= false;
-		private static Int16 m_ncboxArchiveTypeSelectedIndex	= 1;
-		private static Int16 m_ncboxFileExistSelectedIndex		= 1;
-		private static bool m_bchBoxDelFB2FilesCheked	= false;
+		private static Int16 m_ncboxFileExistSelectedIndex	= 1;
 		private static bool m_brbtnAsIsCheked	= true;
 		private static bool m_rbtnAsSentenceCheked	= false;
 		private static bool m_brbtnLowerCheked	= false;
@@ -159,22 +156,10 @@ namespace Settings
 			return m_ncboxSpaceSelectedIndex;
 		}
 		
-		public static bool GetDefFMchBoxToArchiveCheked() {
-			return m_bchBoxToArchiveCheked;
-		}
-		
-		public static Int16 GetDefFMcboxArchiveTypeSelectedIndex() {
-			return m_ncboxArchiveTypeSelectedIndex;
-		}
-		
 		public static Int16 GetDefFMcboxFileExistSelectedIndex() {
 			return m_ncboxFileExistSelectedIndex;
 		}
 				
-		public static bool GetDefFMchBoxDelFB2FilesCheked() {
-			return m_bchBoxDelFB2FilesCheked;
-		}
-		
 		public static bool GetDefFMrbtnAsIsCheked() {
 			return m_brbtnAsIsCheked;
 		}
@@ -267,19 +252,6 @@ namespace Settings
 			return Settings.ReadAttribute( "Space", "cboxSpaceText", "Оставить" );
 		}
 		
-		public static bool ReadToArchiveMode() {
-			// читаем режим упаковки в архив из настроек
-			return Settings.ReadAttribute( "Archive", "chBoxToArchiveChecked", GetDefFMchBoxToArchiveCheked() );
-		}
-		public static Int16 ReadArchiveTypeMode() {
-			// читаем режим типа архивации из настроек
-			return Settings.ReadAttribute( "Archive", "cboxArchiveTypeSelectedIndex", GetDefFMcboxArchiveTypeSelectedIndex() );
-		}
-		public static string ReadArchiveTypeText() {
-			// читаем вид архивации из настроек
-			return Settings.ReadAttribute( "Archive", "cboxArchiveTypeText", "Zip" );
-		}
-		
 		public static Int16 ReadFileExistMode() {
 			// читаем режим обработки файлов с одинаковыми именами из настроек
 			return Settings.ReadAttribute( "IsFileExist", "cboxFileExistSelectedIndex", GetDefFMcboxFileExistSelectedIndex() );
@@ -292,11 +264,6 @@ namespace Settings
 		public static bool ReadAddToFileNameBookIDMode() {
 			// читаем режим добавления ID книги к имени файла из настроек
 			return Settings.ReadAttribute( "AddToFileNameBookID", "chBoxAddToFileNameBookIDChecked", GetDefFMchBoxAddToFileNameBookIDChecked() );
-		}
-		
-		public static bool ReadDelFB2FilesMode() {
-			// читаем режим удаления файла после сортировки из настроек
-			return Settings.ReadAttribute( "FileDelete", "chBoxDelFB2FilesChecked", GetDefFMchBoxDelFB2FilesCheked() );
 		}
 		
 		public static bool ReadAuthorOneMode() {
@@ -542,8 +509,6 @@ namespace Settings
 			return Settings.ReadAttribute( "GenresGroups", "txtboxFMbusiness", GetDefFMGenresGroupBusiness() );
 		}
 		#endregion
-		
-		
 		
 	}
 }

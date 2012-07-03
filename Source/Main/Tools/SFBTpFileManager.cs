@@ -274,7 +274,7 @@ namespace SharpFBTools.Tools
 				}
 			}
 			lDirList.Clear();
-			if(m_bFullSort && dfm.DelFB2FilesMode) {
+			if(m_bFullSort && Settings.FileManagerSettings.FullSortingDelFB2Files) {
 				GenerateSourceList(m_sSource);
 			}
         }
@@ -592,8 +592,10 @@ namespace SharpFBTools.Tools
 			checkBoxTagsView.Enabled	= bEnabled;
 			chBoxScanSubDir.Enabled		= bEnabled;
 			buttonSortFilesTo.Enabled	= bEnabled;
-			buttonFullSortStop.Enabled	= !bEnabled;
+			chBoxFSToZip.Enabled		= bEnabled;
+			chBoxFSDelFB2Files.Enabled	= bEnabled;
 			gBoxFullSortRenameTemplates.Enabled	= bEnabled;
+			buttonFullSortStop.Enabled	= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
 			tcSort.Refresh();
 			ssProgress.Refresh();
@@ -609,6 +611,8 @@ namespace SharpFBTools.Tools
 			pSelectedSortDirs.Enabled	= bEnabled;
 			gBoxSelectedlSortRenameTemplates.Enabled	= bEnabled;
 			pSSData.Enabled				= bEnabled;
+			chBoxSSToZip.Enabled		= bEnabled;
+			chBoxSSDelFB2Files.Enabled	= bEnabled;
 			tsbtnSSSortStop.Enabled		= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
 			tcSort.Refresh();
@@ -674,12 +678,16 @@ namespace SharpFBTools.Tools
 			txtBoxTemplatesFromLine.Text = Settings.FileManagerSettings.ReadXmlFullSortingTemplate();
 			chBoxScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlFullSortingInSubDir();
 			tsmiStartExplorerColumnsAutoReize.Checked = Settings.FileManagerSettings.ReadXmlFullSortingStartExplorerColumnsAutoReize();
+			chBoxFSToZip.Checked = Settings.FileManagerSettings.ReadXmlFullSortingToZip();
+			chBoxFSDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlFullSortingDelFB2Files();
 			
 			// чтение данных Избранной Сортировки из xml-файла
 			tboxSSSourceDir.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingSourceDir();
 			tboxSSToDir.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingTargetDir();
 			txtBoxSSTemplatesFromLine.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingTemplate();
 			chBoxSSScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingInSubDir();
+			chBoxSSToZip.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingToZip();
+			chBoxSSDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingDelFB2Files();
 
 			if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
 				GenerateSourceList(Settings.FileManagerSettings.FullSortingSourceDir);
@@ -719,14 +727,14 @@ namespace SharpFBTools.Tools
 		private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode,
 		                          	bool bAddToFileNameBookIDMode, Settings.DataFM dfm ) {
 			// создание нового файла или архива
+			bool ToZip = m_bFullSort ? Settings.FileManagerSettings.FullSortingToZip
+					            	 : Settings.FileManagerSettings.SelectedSortingToZip;
 			try {
-				if( !dfm.ToArchiveMode ) {
+				if( !ToZip ) {
 					CopyFileToTargetDir( sFromFilePath, sToFilePath, false, nFileExistMode, bAddToFileNameBookIDMode );
 				} else {
 					// упаковка в архив
-					string sArchType = stringProcessing.GetArchiveExt( dfm.ArchiveTypeText );
-					CopyFileToArchive( dfm.A7zaPath, dfm.RarPath, sArchType, sFromFilePath, sToFilePath+"."+sArchType, 
-					                  nFileExistMode, bAddToFileNameBookIDMode );
+					CopyFileToArchive( dfm.A7zaPath, sFromFilePath, sToFilePath+".zip", nFileExistMode, bAddToFileNameBookIDMode );
 				}
 			} catch ( System.IO.PathTooLongException ) {
 				string sFileLongPathDir = dfm.FileLongPathDir;
@@ -736,8 +744,7 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		private void CopyFileToArchive( string s7zaPath, string sRarPath, string sArchType,
-		                               string sFromFilePath, string sToFilePath,
+		private void CopyFileToArchive( string s7zaPath, string sFromFilePath, string sToFilePath,
 		                               int nFileExistMode, bool bAddToFileNameBookIDMode ) {
 			// архивирование файла с сформированным именем (путь)
 			// обработка уже существующих файлов в папке
@@ -745,12 +752,8 @@ namespace SharpFBTools.Tools
 			sFromFilePath = rx.Replace( sFromFilePath, "\\" );
 			sToFilePath = rx.Replace( sToFilePath, "\\" );
 			
-			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, sArchType );
-			if( sArchType == "rar" ) {
-				archivesWorker.rar( sRarPath, sFromFilePath, sToFilePath, true, ProcessPriorityClass.AboveNormal );
-			} else {
-				archivesWorker.zip( s7zaPath, sArchType, sFromFilePath, sToFilePath, ProcessPriorityClass.AboveNormal );
-			}
+			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, "zip" );
+			archivesWorker.zip( s7zaPath, "zip", sFromFilePath, sToFilePath, ProcessPriorityClass.AboveNormal );
 			//IncStatus( 11 ); // всего создано
 			++m_sv.CreateInTarget;
 		}
@@ -857,10 +860,12 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
+					bool DelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
+					            	 				: Settings.FileManagerSettings.SelectedSortingDelFB2Files;
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, dfm.DelFB2FilesMode );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, DelFB2Files );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -870,7 +875,7 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( dfm.DelFB2FilesMode ) {
+					if( DelFB2Files ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFromFilePath ) ) {
 							File.Delete( sFromFilePath );
@@ -905,10 +910,12 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
+					bool DelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
+					            	 				: Settings.FileManagerSettings.SelectedSortingDelFB2Files;
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, dfm.DelFB2FilesMode );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, DelFB2Files);
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -918,7 +925,7 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( dfm.DelFB2FilesMode ) {
+					if( DelFB2Files ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFromFilePath ) ) {
 							File.Delete( sFromFilePath );
@@ -959,10 +966,12 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
+					bool DelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
+					            	 				: Settings.FileManagerSettings.SelectedSortingDelFB2Files;
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, dfm.DelFB2FilesMode );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, DelFB2Files );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -972,7 +981,7 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( dfm.DelFB2FilesMode ) {
+					if( DelFB2Files ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFromFilePath ) ) {
 							File.Delete( sFromFilePath );
@@ -1013,10 +1022,12 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
+					bool DelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
+					            	 				: Settings.FileManagerSettings.SelectedSortingDelFB2Files;
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, dfm.DelFB2FilesMode );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, DelFB2Files );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -1026,7 +1037,7 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( dfm.DelFB2FilesMode ) {
+					if( DelFB2Files ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFromFilePath ) ) {
 							File.Delete( sFromFilePath );
@@ -1111,8 +1122,9 @@ namespace SharpFBTools.Tools
 					// нечитаемый fb2-файл - копируем его в папку Bad
 					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotReadFB2Dir, dfm.FileExistMode );
 				}
-				
-				if( dfm.DelFB2FilesMode ) {
+
+				if( m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
+					            : Settings.FileManagerSettings.SelectedSortingDelFB2Files ) {
 					// удаляем исходный fb2-файл
 					if( File.Exists( sFromFilePath ) ) {
 						File.Delete( sFromFilePath );
@@ -1130,32 +1142,19 @@ namespace SharpFBTools.Tools
 			// проверка на наличие архиваторов
 			string s7zPath	= Settings.Settings.Read7zaPath();
 			string sRarPath	= Settings.Settings.ReadRarPath();
-			if( Settings.SettingsFM.ReadToArchiveMode() ) {
-				if( Settings.SettingsFM.ReadArchiveTypeText().ToLower()=="rar" ) {
-					if( sRarPath.Trim().Length==0 ) {
-						MessageBox.Show( "В Настройках выбрана rar-архивация отсортированных файлов.\nПри этом не указана папка с установленным консольным Rar-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
-						                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-						return false;
-					} else {
-						// проверка на наличие архиваторов
-						if( !File.Exists( sRarPath ) ) {
-							MessageBox.Show( "В Настройках выбрана rar-архивация отсортированных файлов.\nПри этом не найден файл консольного Rar-архиватора "+sRarPath+"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
-							                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-							return false;
-						}
-					}
-				}
-			}
-			
-			if( s7zPath.Trim().Length==0 ) {
-				MessageBox.Show( "В Настройках не указана папка с установленным консольным 7Zip-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
-				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return false;
-			} else {
-				if( !File.Exists( s7zPath ) ) {
-					MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+			bool ToZip = m_bFullSort ? Settings.FileManagerSettings.FullSortingToZip
+					            	 : Settings.FileManagerSettings.SelectedSortingToZip;
+			if( ToZip ) {
+				if( s7zPath.Trim().Length==0 ) {
+					MessageBox.Show( "В Настройках не указана папка с установленным консольным 7Zip-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
 					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return false;
+				} else {
+					if( !File.Exists( s7zPath ) ) {
+						MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
+						                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return false;
+					}
 				}
 			}
 			return true;
@@ -1278,6 +1277,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			Settings.FileManagerSettings.BooksTagsView = checkBoxTagsView.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
 			if( listViewSource.Items.Count > 0 ) {
 				Cursor.Current = Cursors.WaitCursor;
 				listViewSource.BeginUpdate();
@@ -1560,14 +1560,40 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
+		void ChBoxFSToZipClick(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.FullSortingToZip = chBoxFSToZip.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
+		}
+		
+		void ChBoxFSDelFB2FilesClick(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.FullSortingDelFB2Files = chBoxFSDelFB2Files.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
+		}
+		
+		void ChBoxSSToZipClick(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.SelectedSortingToZip = chBoxSSToZip.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
+		}
+		
+		void ChBoxSSDelFB2FilesClick(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.SelectedSortingDelFB2Files = chBoxSSDelFB2Files.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
+		}
+		
 		void ChBoxScanSubDirClick(object sender, EventArgs e)
 		{
 			Settings.FileManagerSettings.FullSortingInSubDir = chBoxScanSubDir.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
-		
+
 		void ChBoxSSScanSubDirClick(object sender, EventArgs e)
 		{
 			Settings.FileManagerSettings.SelectedSortingInSubDir = chBoxSSScanSubDir.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
 		
 		void TextBoxAddressTextChanged(object sender, EventArgs e)

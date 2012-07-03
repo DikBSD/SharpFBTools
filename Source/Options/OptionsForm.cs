@@ -81,10 +81,7 @@ namespace Options
 			chBoxTranslit.Checked = Settings.SettingsFM.GetDefFMchBoxTranslitCheked();
 			chBoxStrict.Checked = Settings.SettingsFM.GetDefFMchBoxStrictCheked();
 			cboxSpace.SelectedIndex = Settings.SettingsFM.GetDefFMcboxSpaceSelectedIndex();
-			chBoxToArchive.Checked = Settings.SettingsFM.GetDefFMchBoxToArchiveCheked();
-			cboxArchiveType.SelectedIndex = Settings.SettingsFM.GetDefFMcboxArchiveTypeSelectedIndex();
 			cboxFileExist.SelectedIndex = Settings.SettingsFM.GetDefFMcboxFileExistSelectedIndex();
-			chBoxDelFB2Files.Checked = Settings.SettingsFM.GetDefFMchBoxDelFB2FilesCheked();
 			rbtnAsIs.Checked = Settings.SettingsFM.GetDefFMrbtnAsIsCheked();
 			rbtnAsSentence.Checked = Settings.SettingsFM.GetDefFMrbtnAsSentenceCheked();
 			rbtnLower.Checked = Settings.SettingsFM.GetDefFMrbtnLowerCheked();
@@ -236,11 +233,6 @@ namespace Options
 					if( reader.HasAttributes ) {
 						cboxSpace.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxSpaceSelectedIndex") );
 					}
-					reader.ReadToFollowing("Archive");
-					if( reader.HasAttributes ) {
-						chBoxToArchive.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxToArchiveChecked") );
-						cboxArchiveType.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxArchiveTypeSelectedIndex") );
-					}
 					reader.ReadToFollowing("IsFileExist");
 					if( reader.HasAttributes ) {
 						cboxFileExist.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxFileExistSelectedIndex") );
@@ -248,10 +240,6 @@ namespace Options
 					reader.ReadToFollowing("AddToFileNameBookID");
 					if( reader.HasAttributes ) {
 						chBoxAddToFileNameBookID.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxAddToFileNameBookIDChecked") );
-					}
-					reader.ReadToFollowing("FileDelete");
-					if( reader.HasAttributes ) {
-						chBoxDelFB2Files.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxDelFB2FilesChecked") );
 					}
 					reader.ReadToFollowing("AuthorsToDirs");
 					if( reader.HasAttributes ) {
@@ -427,12 +415,6 @@ namespace Options
 							writer.WriteAttributeString( "cboxSpaceText", cboxSpace.Text.ToString() );
 						writer.WriteFullEndElement();
 						
-						writer.WriteStartElement( "Archive" );
-							writer.WriteAttributeString( "chBoxToArchiveChecked", chBoxToArchive.Checked.ToString() );
-							writer.WriteAttributeString( "cboxArchiveTypeSelectedIndex", cboxArchiveType.SelectedIndex.ToString() );
-							writer.WriteAttributeString( "cboxArchiveTypeText", cboxArchiveType.Text.ToString() );
-						writer.WriteFullEndElement();
-						
 						writer.WriteStartElement( "IsFileExist" );
 							writer.WriteAttributeString( "cboxFileExistSelectedIndex", cboxFileExist.SelectedIndex.ToString() );
 							writer.WriteAttributeString( "cboxFileExistText", cboxFileExist.Text.ToString() );
@@ -440,10 +422,6 @@ namespace Options
 						
 						writer.WriteStartElement( "AddToFileNameBookID" );
 							writer.WriteAttributeString( "chBoxAddToFileNameBookIDChecked", chBoxAddToFileNameBookID.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "FileDelete" );
-							writer.WriteAttributeString( "chBoxDelFB2FilesChecked", chBoxDelFB2Files.Checked.ToString() );
 						writer.WriteFullEndElement();
 						
 						writer.WriteStartElement( "AuthorsToDirs" );
@@ -693,11 +671,6 @@ namespace Options
 			if( cboxFileExist.SelectedIndex == 0 ) {
 				chBoxAddToFileNameBookID.Checked = false;
 			}
-		}
-		
-		void ChBoxToArchiveCheckedChanged(object sender, EventArgs e)
-		{
-			cboxArchiveType.Enabled = chBoxToArchive.Checked;
 		}
 		
 		#endregion
