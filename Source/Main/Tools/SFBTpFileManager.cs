@@ -274,7 +274,7 @@ namespace SharpFBTools.Tools
 				}
 			}
 			lDirList.Clear();
-			if(m_bFullSort && Settings.FileManagerSettings.FullSortingDelFB2Files) {
+			if(m_bFullSort && !Settings.FileManagerSettings.FullSortingNotDelFB2Files) {
 				GenerateSourceList(m_sSource);
 			}
         }
@@ -587,14 +587,9 @@ namespace SharpFBTools.Tools
 			// доступность контролов при Полной Сортировки
 			tpSelectedSort.Enabled		= bEnabled;
 			tpSettings.Enabled			= bEnabled;
+			panelTemplate.Enabled		= bEnabled;
 			panelAddress.Enabled		= bEnabled;
 			listViewSource.Enabled		= bEnabled;
-			checkBoxTagsView.Enabled	= bEnabled;
-			chBoxScanSubDir.Enabled		= bEnabled;
-			buttonSortFilesTo.Enabled	= bEnabled;
-			chBoxFSToZip.Enabled		= bEnabled;
-			chBoxFSDelFB2Files.Enabled	= bEnabled;
-			gBoxFullSortRenameTemplates.Enabled	= bEnabled;
 			buttonFullSortStop.Enabled	= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
 			tcSort.Refresh();
@@ -612,7 +607,7 @@ namespace SharpFBTools.Tools
 			gBoxSelectedlSortRenameTemplates.Enabled	= bEnabled;
 			pSSData.Enabled				= bEnabled;
 			chBoxSSToZip.Enabled		= bEnabled;
-			chBoxSSDelFB2Files.Enabled	= bEnabled;
+			chBoxSSNotDelFB2Files.Enabled	= bEnabled;
 			tsbtnSSSortStop.Enabled		= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
 			tcSort.Refresh();
@@ -679,7 +674,7 @@ namespace SharpFBTools.Tools
 			chBoxScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlFullSortingInSubDir();
 			tsmiStartExplorerColumnsAutoReize.Checked = Settings.FileManagerSettings.ReadXmlFullSortingStartExplorerColumnsAutoReize();
 			chBoxFSToZip.Checked = Settings.FileManagerSettings.ReadXmlFullSortingToZip();
-			chBoxFSDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlFullSortingDelFB2Files();
+			chBoxFSNotDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlFullSortingNotDelFB2Files();
 			
 			// чтение данных Избранной Сортировки из xml-файла
 			tboxSSSourceDir.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingSourceDir();
@@ -687,7 +682,7 @@ namespace SharpFBTools.Tools
 			txtBoxSSTemplatesFromLine.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingTemplate();
 			chBoxSSScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingInSubDir();
 			chBoxSSToZip.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingToZip();
-			chBoxSSDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingDelFB2Files();
+			chBoxSSNotDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingNotDelFB2Files();
 
 			if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
 				GenerateSourceList(Settings.FileManagerSettings.FullSortingSourceDir);
@@ -778,7 +773,7 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		private void CopyBadArchiveToBadDir( string sFromFilePath, string sSource, string sToDir, int nFileExistMode, bool bDeleteOriginal )
+		private void CopyBadArchiveToBadDir( string sFromFilePath, string sSource, string sToDir, int nFileExistMode, bool NotDeleteOriginal )
 		{
 			// копирование "битого" с сформированным именем (путь)
 			string sToFilePath = sToDir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
@@ -806,7 +801,7 @@ namespace SharpFBTools.Tools
 				}
 			}
 			if( File.Exists( sFromFilePath ) ) {
-				if( !bDeleteOriginal ) {
+				if( NotDeleteOriginal ) {
 					File.Copy( sFromFilePath, sToFilePath );
 				} else {
 					File.Move( sFromFilePath, sToFilePath );
@@ -860,12 +855,12 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
-					bool DelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
-					            	 				: Settings.FileManagerSettings.SelectedSortingDelFB2Files;
+					bool NotDelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
+					            	 				  : Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, DelFB2Files );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, NotDelFB2Files );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -875,7 +870,7 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( DelFB2Files ) {
+					if( !NotDelFB2Files ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFromFilePath ) ) {
 							File.Delete( sFromFilePath );
@@ -910,12 +905,12 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
-					bool DelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
-					            	 				: Settings.FileManagerSettings.SelectedSortingDelFB2Files;
+					bool NotDelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
+					            	 				: Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, DelFB2Files);
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, NotDelFB2Files);
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -925,7 +920,7 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( DelFB2Files ) {
+					if( !NotDelFB2Files ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFromFilePath ) ) {
 							File.Delete( sFromFilePath );
@@ -966,12 +961,12 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
-					bool DelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
-					            	 				: Settings.FileManagerSettings.SelectedSortingDelFB2Files;
+					bool NotDelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
+					            	 				: Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, DelFB2Files );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, NotDelFB2Files );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -981,7 +976,7 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( DelFB2Files ) {
+					if( !NotDelFB2Files ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFromFilePath ) ) {
 							File.Delete( sFromFilePath );
@@ -1022,12 +1017,12 @@ namespace SharpFBTools.Tools
 			} else {
 				// это архив?
 				if( archivesWorker.IsArchive( sExt ) ) {
-					bool DelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
-					            	 				: Settings.FileManagerSettings.SelectedSortingDelFB2Files;
+					bool NotDelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
+					            	 				: Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
 					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
 					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
 					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, DelFB2Files );
+						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, NotDelFB2Files );
 						return; // не получилось открыть архив - "битый"
 					}
 					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
@@ -1037,7 +1032,7 @@ namespace SharpFBTools.Tools
 						++m_sv.FB2FromArchives;
 					}
 					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( DelFB2Files ) {
+					if( !NotDelFB2Files ) {
 						// удаляем исходный fb2-файл
 						if( File.Exists( sFromFilePath ) ) {
 							File.Delete( sFromFilePath );
@@ -1123,8 +1118,8 @@ namespace SharpFBTools.Tools
 					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotReadFB2Dir, dfm.FileExistMode );
 				}
 
-				if( m_bFullSort ? Settings.FileManagerSettings.FullSortingDelFB2Files
-					            : Settings.FileManagerSettings.SelectedSortingDelFB2Files ) {
+				if( !(m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
+				     			 : Settings.FileManagerSettings.SelectedSortingNotDelFB2Files) ) {
 					// удаляем исходный fb2-файл
 					if( File.Exists( sFromFilePath ) ) {
 						File.Delete( sFromFilePath );
@@ -1566,9 +1561,9 @@ namespace SharpFBTools.Tools
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
 		
-		void ChBoxFSDelFB2FilesClick(object sender, EventArgs e)
+		void ChBoxFSNotDelFB2FilesClick(object sender, EventArgs e)
 		{
-			Settings.FileManagerSettings.FullSortingDelFB2Files = chBoxFSDelFB2Files.Checked;
+			Settings.FileManagerSettings.FullSortingNotDelFB2Files = chBoxFSNotDelFB2Files.Checked;
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
 		
@@ -1578,9 +1573,9 @@ namespace SharpFBTools.Tools
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
 		
-		void ChBoxSSDelFB2FilesClick(object sender, EventArgs e)
+		void ChBoxSSNotDelFB2FilesClick(object sender, EventArgs e)
 		{
-			Settings.FileManagerSettings.SelectedSortingDelFB2Files = chBoxSSDelFB2Files.Checked;
+			Settings.FileManagerSettings.SelectedSortingNotDelFB2Files = chBoxSSNotDelFB2Files.Checked;
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
 		

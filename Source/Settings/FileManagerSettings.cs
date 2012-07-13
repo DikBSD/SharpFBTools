@@ -30,7 +30,7 @@ namespace Settings
 		private static bool m_BooksTagsView					= false;
 		private static bool m_StartExplorerColumnsAutoReize	= false;
 		private static bool m_FullSortingToZip				= false;
-		private static bool m_FullSortingDelFB2Files		= false;
+		private static bool m_FullSortingNotDelFB2Files		= true;
 		
 		// рабочие папки и данные для Избранной Сортировки
 		private static string m_SelectedSortingSourceDir	= "";
@@ -38,7 +38,7 @@ namespace Settings
 		private static string m_SelectedSortingTemplate		= "";
 		private static bool m_SelectedSortingInSubDir		= true;
 		private static bool m_SelectedSortingToZip			= false;
-		private static bool m_SelectedSortingDelFB2Files		= false;
+		private static bool m_SelectedSortingNotDelFB2Files	= true;
 		#endregion
 		
 		public FileManagerSettings()
@@ -68,7 +68,7 @@ namespace Settings
 				writer.WriteElementString( "ViewMessageForLongTime", Convert.ToString(ViewMessageForLongTime) );
 				writer.WriteElementString( "StartExplorerColumnsAutoReize", Convert.ToString(StartExplorerColumnsAutoReize) );
 				writer.WriteElementString( "ToZip", Convert.ToString(FullSortingToZip) );
-				writer.WriteElementString( "DelFB2Files", Convert.ToString(FullSortingDelFB2Files) );
+				writer.WriteElementString( "NotDelFB2Files", Convert.ToString(FullSortingNotDelFB2Files) );
 				writer.WriteEndElement();
 
 				// Избранная Сортировка
@@ -78,7 +78,7 @@ namespace Settings
 				writer.WriteElementString( "Template", SelectedSortingTemplate );
 				writer.WriteElementString( "SortingInSubDir", Convert.ToString(SelectedSortingInSubDir) );
 				writer.WriteElementString( "ToZip", Convert.ToString(SelectedSortingToZip) );
-				writer.WriteElementString( "DelFB2Files", Convert.ToString(SelectedSortingDelFB2Files) );
+				writer.WriteElementString( "NotDelFB2Files", Convert.ToString(SelectedSortingNotDelFB2Files) );
 				writer.WriteEndElement();
 				
 				writer.WriteEndElement();
@@ -128,9 +128,9 @@ namespace Settings
 			get { return m_FullSortingToZip; }
 			set { m_FullSortingToZip = value; }
 		}
-		public static bool FullSortingDelFB2Files {
-			get { return m_FullSortingDelFB2Files; }
-			set { m_FullSortingDelFB2Files = value; }
+		public static bool FullSortingNotDelFB2Files {
+			get { return m_FullSortingNotDelFB2Files; }
+			set { m_FullSortingNotDelFB2Files = value; }
 		}
 		
 		// Избранная Сортировка
@@ -154,9 +154,9 @@ namespace Settings
 			get { return m_SelectedSortingToZip; }
 			set { m_SelectedSortingToZip = value; }
 		}
-		public static bool SelectedSortingDelFB2Files {
-			get { return m_SelectedSortingDelFB2Files; }
-			set { m_SelectedSortingDelFB2Files = value; }
+		public static bool SelectedSortingNotDelFB2Files {
+			get { return m_SelectedSortingNotDelFB2Files; }
+			set { m_SelectedSortingNotDelFB2Files = value; }
 		}
 		#endregion
 		
@@ -237,15 +237,15 @@ namespace Settings
 			}
 			return FullSortingToZip;
 		}
-		public static bool ReadXmlFullSortingDelFB2Files() {
-			// чтение FullSortingDelFB2Files из xml-файла
+		public static bool ReadXmlFullSortingNotDelFB2Files() {
+			// чтение FullSortingNotDelFB2Files из xml-файла
 			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/DelFB2Files");
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/NotDelFB2Files");
 				if(node != null)
-					return FullSortingDelFB2Files = Convert.ToBoolean(node.InnerText);
+					return FullSortingNotDelFB2Files = Convert.ToBoolean(node.InnerText);
 			}
-			return FullSortingDelFB2Files;
+			return FullSortingNotDelFB2Files;
 		}
 		#endregion
 		
@@ -304,15 +304,15 @@ namespace Settings
 			}
 			return SelectedSortingToZip;
 		}
-		public static bool ReadXmlSelectedSortingDelFB2Files() {
-			// чтение SelectedSortingDelFB2Files из xml-файла
+		public static bool ReadXmlSelectedSortingNotDelFB2Files() {
+			// чтение SelectedSortingNotDelFB2Files из xml-файла
 			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/DelFB2Files");
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/NotDelFB2Files");
 				if(node != null)
-					return SelectedSortingDelFB2Files = Convert.ToBoolean(node.InnerText);
+					return SelectedSortingNotDelFB2Files = Convert.ToBoolean(node.InnerText);
 			}
-			return SelectedSortingDelFB2Files;
+			return SelectedSortingNotDelFB2Files;
 		}
 		#endregion
 	}
