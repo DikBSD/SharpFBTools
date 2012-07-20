@@ -38,49 +38,49 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFileManager));
-			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2-файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные  Zip-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные  Rar-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные 7zip-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные BZip2-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные Gzip-архивы с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные Tar-пакеты с fb2",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2-файлы из архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Создано в папке-приемнике",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Нечитаемые fb2-файлы (архивы)",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Не валидные fb2-файлы (при вкл. опции)",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Битые архивы (не открылись)",
 									"0"}, -1);
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
@@ -139,14 +139,14 @@ namespace SharpFBTools.Tools
 			this.btnGroupGenre = new System.Windows.Forms.Button();
 			this.btnLang = new System.Windows.Forms.Button();
 			this.btnRightScobka = new System.Windows.Forms.Button();
+			this.btnBook = new System.Windows.Forms.Button();
+			this.btnFamily = new System.Windows.Forms.Button();
 			this.btnLeftScobka = new System.Windows.Forms.Button();
 			this.btnGenre = new System.Windows.Forms.Button();
 			this.btnSequenceNumber = new System.Windows.Forms.Button();
 			this.btnSequence = new System.Windows.Forms.Button();
-			this.btnBook = new System.Windows.Forms.Button();
 			this.btnPatronimic = new System.Windows.Forms.Button();
 			this.btnName = new System.Windows.Forms.Button();
-			this.btnFamily = new System.Windows.Forms.Button();
 			this.btnDir = new System.Windows.Forms.Button();
 			this.btnLetterFamily = new System.Windows.Forms.Button();
 			this.panelStart = new System.Windows.Forms.Panel();
@@ -734,6 +734,26 @@ namespace SharpFBTools.Tools
 			this.btnRightScobka.Text = "]";
 			this.btnRightScobka.UseVisualStyleBackColor = true;
 			// 
+			// btnBook
+			// 
+			this.btnBook.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.btnBook.Location = new System.Drawing.Point(195, 82);
+			this.btnBook.Name = "btnBook";
+			this.btnBook.Size = new System.Drawing.Size(80, 23);
+			this.btnBook.TabIndex = 15;
+			this.btnBook.Text = "Книга";
+			this.btnBook.UseVisualStyleBackColor = true;
+			// 
+			// btnFamily
+			// 
+			this.btnFamily.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.btnFamily.Location = new System.Drawing.Point(195, 54);
+			this.btnFamily.Name = "btnFamily";
+			this.btnFamily.Size = new System.Drawing.Size(80, 23);
+			this.btnFamily.TabIndex = 12;
+			this.btnFamily.Text = "Фамилия";
+			this.btnFamily.UseVisualStyleBackColor = true;
+			// 
 			// btnLeftScobka
 			// 
 			this.btnLeftScobka.Font = new System.Drawing.Font("Tahoma", 8F);
@@ -774,16 +794,6 @@ namespace SharpFBTools.Tools
 			this.btnSequence.Text = "Серия";
 			this.btnSequence.UseVisualStyleBackColor = true;
 			// 
-			// btnBook
-			// 
-			this.btnBook.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnBook.Location = new System.Drawing.Point(195, 82);
-			this.btnBook.Name = "btnBook";
-			this.btnBook.Size = new System.Drawing.Size(80, 23);
-			this.btnBook.TabIndex = 15;
-			this.btnBook.Text = "Книга";
-			this.btnBook.UseVisualStyleBackColor = true;
-			// 
 			// btnPatronimic
 			// 
 			this.btnPatronimic.Font = new System.Drawing.Font("Tahoma", 8F);
@@ -804,22 +814,12 @@ namespace SharpFBTools.Tools
 			this.btnName.Text = "Имя";
 			this.btnName.UseVisualStyleBackColor = true;
 			// 
-			// btnFamily
-			// 
-			this.btnFamily.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnFamily.Location = new System.Drawing.Point(195, 54);
-			this.btnFamily.Name = "btnFamily";
-			this.btnFamily.Size = new System.Drawing.Size(80, 23);
-			this.btnFamily.TabIndex = 12;
-			this.btnFamily.Text = "Фамилия";
-			this.btnFamily.UseVisualStyleBackColor = true;
-			// 
 			// btnDir
 			// 
 			this.btnDir.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnDir.Location = new System.Drawing.Point(453, 54);
 			this.btnDir.Name = "btnDir";
-			this.btnDir.Size = new System.Drawing.Size(23, 23);
+			this.btnDir.Size = new System.Drawing.Size(52, 23);
 			this.btnDir.TabIndex = 11;
 			this.btnDir.Text = "\\";
 			this.btnDir.UseVisualStyleBackColor = true;
@@ -1258,21 +1258,21 @@ namespace SharpFBTools.Tools
 			this.lvFilesCount.FullRowSelect = true;
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem16,
-									listViewItem17,
-									listViewItem18,
-									listViewItem19,
-									listViewItem20,
-									listViewItem21,
-									listViewItem22,
-									listViewItem23,
-									listViewItem24,
-									listViewItem25,
-									listViewItem26,
-									listViewItem27,
-									listViewItem28,
-									listViewItem29,
-									listViewItem30});
+									listViewItem1,
+									listViewItem2,
+									listViewItem3,
+									listViewItem4,
+									listViewItem5,
+									listViewItem6,
+									listViewItem7,
+									listViewItem8,
+									listViewItem9,
+									listViewItem10,
+									listViewItem11,
+									listViewItem12,
+									listViewItem13,
+									listViewItem14,
+									listViewItem15});
 			this.lvFilesCount.Location = new System.Drawing.Point(3, 30);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(309, 238);
