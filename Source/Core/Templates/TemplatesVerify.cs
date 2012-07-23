@@ -52,6 +52,22 @@ namespace Core.Templates
 		#endregion
 
 		#region Открытые методы
+		public static string ToOneTemplateType( string sString ) {
+			// приведение 2-х видов шаблонов к одному
+			string TemplateString = sString;
+			TemplateString = TemplateString.Replace(@"*Letter\Family*", "*LBAL*");
+			TemplateString = TemplateString.Replace(@"*Group\Genre*", "*GG*");
+			TemplateString = TemplateString.Replace("*Family*", "*BAL*");
+			TemplateString = TemplateString.Replace("*Language*", "*L*");
+			TemplateString = TemplateString.Replace("*Name*", "*BAF*");
+			TemplateString = TemplateString.Replace("*Patronimic*", "*BAM*");
+			TemplateString = TemplateString.Replace("*Genre*", "*G*");
+			TemplateString = TemplateString.Replace("*BookTitle*", "*BT*");
+			TemplateString = TemplateString.Replace("*Series*", "*SN*");
+			TemplateString = TemplateString.Replace("*SeriesNumber*", "*SII*");
+			return TemplateString;
+		}
+		
 		public static bool IsLineTemplatesCorrect( string sLine ) {
 			// проверка на корректность элементов строки шаблонов
 			return IsTemplateCorrect( GetLexemsToVerify( @sLine ) );

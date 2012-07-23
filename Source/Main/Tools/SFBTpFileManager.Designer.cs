@@ -138,10 +138,10 @@ namespace SharpFBTools.Tools
 			this.gBoxFullSortRenameTemplates = new System.Windows.Forms.GroupBox();
 			this.btnGroupGenre = new System.Windows.Forms.Button();
 			this.btnLang = new System.Windows.Forms.Button();
-			this.btnRightScobka = new System.Windows.Forms.Button();
+			this.btnRightBracket = new System.Windows.Forms.Button();
 			this.btnBook = new System.Windows.Forms.Button();
 			this.btnFamily = new System.Windows.Forms.Button();
-			this.btnLeftScobka = new System.Windows.Forms.Button();
+			this.btnLeftBracket = new System.Windows.Forms.Button();
 			this.btnGenre = new System.Windows.Forms.Button();
 			this.btnSequenceNumber = new System.Windows.Forms.Button();
 			this.btnSequence = new System.Windows.Forms.Button();
@@ -683,10 +683,10 @@ namespace SharpFBTools.Tools
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnGroupGenre);
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnLang);
-			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnRightScobka);
+			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnRightBracket);
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnBook);
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnFamily);
-			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnLeftScobka);
+			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnLeftBracket);
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnGenre);
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnSequenceNumber);
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnSequence);
@@ -713,6 +713,7 @@ namespace SharpFBTools.Tools
 			this.btnGroupGenre.TabIndex = 22;
 			this.btnGroupGenre.Text = "Группа\\Жанр";
 			this.btnGroupGenre.UseVisualStyleBackColor = true;
+			this.btnGroupGenre.Click += new System.EventHandler(this.BtnGroupGenreClick);
 			// 
 			// btnLang
 			// 
@@ -723,16 +724,18 @@ namespace SharpFBTools.Tools
 			this.btnLang.TabIndex = 21;
 			this.btnLang.Text = "Язык";
 			this.btnLang.UseVisualStyleBackColor = true;
+			this.btnLang.Click += new System.EventHandler(this.BtnLangClick);
 			// 
-			// btnRightScobka
+			// btnRightBracket
 			// 
-			this.btnRightScobka.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnRightScobka.Location = new System.Drawing.Point(482, 82);
-			this.btnRightScobka.Name = "btnRightScobka";
-			this.btnRightScobka.Size = new System.Drawing.Size(23, 23);
-			this.btnRightScobka.TabIndex = 20;
-			this.btnRightScobka.Text = "]";
-			this.btnRightScobka.UseVisualStyleBackColor = true;
+			this.btnRightBracket.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.btnRightBracket.Location = new System.Drawing.Point(482, 82);
+			this.btnRightBracket.Name = "btnRightBracket";
+			this.btnRightBracket.Size = new System.Drawing.Size(23, 23);
+			this.btnRightBracket.TabIndex = 20;
+			this.btnRightBracket.Text = "]";
+			this.btnRightBracket.UseVisualStyleBackColor = true;
+			this.btnRightBracket.Click += new System.EventHandler(this.BtnRightBracketClick);
 			// 
 			// btnBook
 			// 
@@ -743,6 +746,7 @@ namespace SharpFBTools.Tools
 			this.btnBook.TabIndex = 15;
 			this.btnBook.Text = "Книга";
 			this.btnBook.UseVisualStyleBackColor = true;
+			this.btnBook.Click += new System.EventHandler(this.BtnBookClick);
 			// 
 			// btnFamily
 			// 
@@ -753,16 +757,18 @@ namespace SharpFBTools.Tools
 			this.btnFamily.TabIndex = 12;
 			this.btnFamily.Text = "Фамилия";
 			this.btnFamily.UseVisualStyleBackColor = true;
+			this.btnFamily.Click += new System.EventHandler(this.BtnFamilyClick);
 			// 
-			// btnLeftScobka
+			// btnLeftBracket
 			// 
-			this.btnLeftScobka.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnLeftScobka.Location = new System.Drawing.Point(453, 82);
-			this.btnLeftScobka.Name = "btnLeftScobka";
-			this.btnLeftScobka.Size = new System.Drawing.Size(23, 23);
-			this.btnLeftScobka.TabIndex = 19;
-			this.btnLeftScobka.Text = "[";
-			this.btnLeftScobka.UseVisualStyleBackColor = true;
+			this.btnLeftBracket.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.btnLeftBracket.Location = new System.Drawing.Point(453, 82);
+			this.btnLeftBracket.Name = "btnLeftBracket";
+			this.btnLeftBracket.Size = new System.Drawing.Size(23, 23);
+			this.btnLeftBracket.TabIndex = 19;
+			this.btnLeftBracket.Text = "[";
+			this.btnLeftBracket.UseVisualStyleBackColor = true;
+			this.btnLeftBracket.Click += new System.EventHandler(this.BtnLeftBracketClick);
 			// 
 			// btnGenre
 			// 
@@ -773,6 +779,7 @@ namespace SharpFBTools.Tools
 			this.btnGenre.TabIndex = 18;
 			this.btnGenre.Text = "Жанр";
 			this.btnGenre.UseVisualStyleBackColor = true;
+			this.btnGenre.Click += new System.EventHandler(this.BtnGenreClick);
 			// 
 			// btnSequenceNumber
 			// 
@@ -783,6 +790,7 @@ namespace SharpFBTools.Tools
 			this.btnSequenceNumber.TabIndex = 17;
 			this.btnSequenceNumber.Text = "№ Серии";
 			this.btnSequenceNumber.UseVisualStyleBackColor = true;
+			this.btnSequenceNumber.Click += new System.EventHandler(this.BtnSequenceNumberClick);
 			// 
 			// btnSequence
 			// 
@@ -793,6 +801,7 @@ namespace SharpFBTools.Tools
 			this.btnSequence.TabIndex = 16;
 			this.btnSequence.Text = "Серия";
 			this.btnSequence.UseVisualStyleBackColor = true;
+			this.btnSequence.Click += new System.EventHandler(this.BtnSequenceClick);
 			// 
 			// btnPatronimic
 			// 
@@ -803,6 +812,7 @@ namespace SharpFBTools.Tools
 			this.btnPatronimic.TabIndex = 14;
 			this.btnPatronimic.Text = "Отчество";
 			this.btnPatronimic.UseVisualStyleBackColor = true;
+			this.btnPatronimic.Click += new System.EventHandler(this.BtnPatronimicClick);
 			// 
 			// btnName
 			// 
@@ -813,6 +823,7 @@ namespace SharpFBTools.Tools
 			this.btnName.TabIndex = 13;
 			this.btnName.Text = "Имя";
 			this.btnName.UseVisualStyleBackColor = true;
+			this.btnName.Click += new System.EventHandler(this.BtnNameClick);
 			// 
 			// btnDir
 			// 
@@ -823,6 +834,7 @@ namespace SharpFBTools.Tools
 			this.btnDir.TabIndex = 11;
 			this.btnDir.Text = "\\";
 			this.btnDir.UseVisualStyleBackColor = true;
+			this.btnDir.Click += new System.EventHandler(this.BtnDirClick);
 			// 
 			// btnLetterFamily
 			// 
@@ -833,6 +845,7 @@ namespace SharpFBTools.Tools
 			this.btnLetterFamily.TabIndex = 10;
 			this.btnLetterFamily.Text = "Буква\\Фамилия ";
 			this.btnLetterFamily.UseVisualStyleBackColor = true;
+			this.btnLetterFamily.Click += new System.EventHandler(this.BtnLetterFamilyClick);
 			// 
 			// panelStart
 			// 
@@ -1363,12 +1376,12 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Button btnLeftBracket;
+		private System.Windows.Forms.Button btnRightBracket;
 		private System.Windows.Forms.Button btnGroupGenre;
 		private System.Windows.Forms.CheckBox chBoxSSNotDelFB2Files;
 		private System.Windows.Forms.CheckBox chBoxFSNotDelFB2Files;
 		private System.Windows.Forms.Button btnLang;
-		private System.Windows.Forms.Button btnRightScobka;
-		private System.Windows.Forms.Button btnLeftScobka;
 		private System.Windows.Forms.Button btnBook;
 		private System.Windows.Forms.Button btnSequence;
 		private System.Windows.Forms.Button btnSequenceNumber;

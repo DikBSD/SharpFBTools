@@ -27,6 +27,8 @@ using Core.FileManager;
 using Core.Misc;
 using Settings;
 
+using Core.Templates.Lexems;
+
 using fB2Parser					= Core.FB2.FB2Parsers.FB2Parser;
 using filesWorker				= Core.FilesWorker.FilesWorker;
 using archivesWorker			= Core.FilesWorker.Archiver;
@@ -1242,9 +1244,93 @@ namespace SharpFBTools.Tools
 				}
 			}
 		}
+		private void SetTemplateInInputControl(string Template) {
+			int CursorPosition = txtBoxTemplatesFromLine.SelectionStart;
+			int NewPosition = CursorPosition + Template.Length;
+			string TextBeforeCursor = txtBoxTemplatesFromLine.Text.Substring(0, CursorPosition);
+			string TextAfterCursor = txtBoxTemplatesFromLine.Text.Substring(CursorPosition, txtBoxTemplatesFromLine.TextLength-CursorPosition);
+			txtBoxTemplatesFromLine.Text = TextBeforeCursor + Template + TextAfterCursor;
+			txtBoxTemplatesFromLine.Focus();
+			txtBoxTemplatesFromLine.Select(NewPosition, 0);
+		}
+		
 		#endregion
 		
 		#region Обработчики событий
+		void BtnLetterFamilyClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.LetterFamily);
+		}
+		
+		void BtnGroupGenreClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.GroupGenre);
+		}
+		
+		void BtnLangClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.Language);
+		}
+		
+		void BtnFamilyClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.Family);
+		}
+		
+		void BtnNameClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.Name);
+		}
+		
+		void BtnPatronimicClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.Patronimic);
+		}
+		
+		void BtnGenreClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.Genre);
+		}
+		
+		void BtnBookClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.BookTitle);
+		}
+		
+		void BtnSequenceClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.Series);
+		}
+		
+		void BtnSequenceNumberClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(fnt.SeriesNumber);
+		}
+		
+		void BtnDirClick(object sender, EventArgs e)
+		{
+			SetTemplateInInputControl(@"\");
+		}
+		
+		void BtnLeftBracketClick(object sender, EventArgs e)
+		{
+			SetTemplateInInputControl("[");
+		}
+		
+		void BtnRightBracketClick(object sender, EventArgs e)
+		{
+			SetTemplateInInputControl("]");
+		}
 		void TsmiColumnsExplorerAutoReizeClick(object sender, EventArgs e)
 		{
 			AutoResizeColumns();
@@ -1536,6 +1622,8 @@ namespace SharpFBTools.Tools
 			if( !IsArchivatorsExist() ) {
 				return;
 			}
+			// приведение к одному виду шаблонов
+			m_sLineTemplate = templatesVerify.ToOneTemplateType( @m_sLineTemplate );
 			// проверки на корректность шаблонных строк
 			if( !IsLineTemplateCorrect( m_sLineTemplate ) ) {
 				return;
@@ -1754,6 +1842,8 @@ namespace SharpFBTools.Tools
 			if( !IsArchivatorsExist() ) {
 				return;
 			}
+			// приведение к одному виду шаблонов
+			m_sLineTemplate = templatesVerify.ToOneTemplateType( @m_sLineTemplate );
 			// проверки на корректность шаблонных строк
 			if( !IsLineTemplateCorrect( m_sLineTemplate ) ) {
 				return;
@@ -1884,6 +1974,6 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
-
+		
 	}
 }
