@@ -1278,6 +1278,10 @@ namespace Core.Templates {
 			sFileName = rx.Replace( sFileName, "" );
 			rx = new Regex( @"\\+" );
 			sFileName = rx.Replace( sFileName, "\\" );
+			// если перед \ есть пробелы - убираем их (иначе архиваторы не архивируют файл)
+			rx = new Regex( @" +\\" );
+			sFileName = rx.Replace( sFileName, "\\" );
+			
 			return StringProcessing.StringProcessing.GetGeneralWorkedPath( sFileName );
 			#endregion
 		}

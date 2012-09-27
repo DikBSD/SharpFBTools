@@ -33,7 +33,6 @@ namespace Main
 		private SFBTpFB2Validator	sfbTpFB2Validator	= new SFBTpFB2Validator();	// панель Валидатора
 		private SFBTpFileManager	sfbTpFileManager	= new SFBTpFileManager();	// панель Менеджера файлов
 		private SFBTpArchiveManager	sfbTpArchiveManager	= new SFBTpArchiveManager();// панель Менеджера архивов
-		private SFBTpFB2Corrector	sfbTpFB2Corrector	= new SFBTpFB2Corrector();	// панель FB2 Корректора
 		private SFBTpFB2Dublicator	sfbTpFB2Dublicator	= new SFBTpFB2Dublicator();	// панель Дубликатора файлов
 		private SFBTpAbout			sfbTpAbout			= new SFBTpAbout();			// панель О программе
 		#endregion		
@@ -54,12 +53,10 @@ namespace Main
 			// список кнопок-переключателей панели инструментов и список список имплантируемых панелей-режимов работы
 			MainImpl.MakeGroupToggleLists( m_listToggleBtns,
 		    							tsbtnFB2Validator, tsbtnFileManager,
-										tsbtnArchiveManager, tsbtnFB2Corrector,
-										tsbtnFB2Dublicator, tsbtnAbout,
+										tsbtnArchiveManager, tsbtnFB2Dublicator, tsbtnAbout,
 										m_listImplPanels,
 		    							sfbTpFB2Validator, sfbTpFileManager,
-										sfbTpArchiveManager, sfbTpFB2Corrector,
-										sfbTpFB2Dublicator, sfbTpAbout );
+										sfbTpArchiveManager, sfbTpFB2Dublicator, sfbTpAbout );
 			// первоначальное задание режима работы - панель Валидатора
 			tsbtnFB2Validator.Checked = true;
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Validator );
@@ -110,21 +107,13 @@ namespace Main
 			                    tscMain );
 		}
 		
-		void TsbtnFB2CorrectorClick(object sender, EventArgs e)
-		{
-			// переключение состояния кнопки FB2 Корректора
-			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
-			                    tsbtnFB2Corrector, this.sfbTpFB2Corrector,
-			                    tscMain );
-		}
-		
 		void TsbtnFB2DublicatorClick(object sender, EventArgs e)
 		{
 			// переключение состояния кнопки Дубликатора файлов
 			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
 			                    tsbtnFB2Dublicator, this.sfbTpFB2Dublicator,
 			                    tscMain );
-			}
+		}
 		
 		void TsbtnAboutClick(object sender, EventArgs e)
 		{
@@ -141,7 +130,6 @@ namespace Main
 			ofrm.ShowDialog();
 			// задание для кнопок ToolStrip стиля и положения текста и картинки
 			sfbTpFB2Validator.SetToolButtonsSettings();
-			sfbTpFileManager.SetToolButtonsSettings();
 			sfbTpArchiveManager.SetToolButtonsSettings();
 			sfbTpFB2Dublicator.SetToolButtonsSettings();
 			ofrm.Dispose();

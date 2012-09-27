@@ -156,8 +156,48 @@ namespace Core.FilesWorker
 			return lFilesList;
 		}
 		
+		
 		// *********************************************************************************** //
-		// создание списка всех подпапок в заданной
+		// создание списка всех вложенных папок и их подпапок в заданной папке
+		// параметры:	sStartDir - папка для сканирования;
+		//				lAllDirsList - заполняемый список папок в папке сканирования и ее подпапках
+		//				lAllFilesList - заполняемый список файлов во всех подкапках
+		// возвращает: число всех папок и подпапках в папке для сканирования
+		public static int DirsFilesParser( BackgroundWorker bw, DoWorkEventArgs e, string sStartDir, ref List<string> lAllDirsList, ref List<string> lAllFilesList ) {
+			int nAllDirsCount = 0;
+			// рабочий список папок - по нему парсим вложенные папки и из него удаляем отработанные
+			List<string> lWorkDirList = new List<string>();
+			// начальное заполнение списков
+			lAllFilesList.AddRange( Directory.GetFiles( sStartDir ) );
+			nAllDirsCount = DirFilesListMaker( sStartDir, ref lWorkDirList, ref lAllFilesList );
+			lAllDirsList.Add( sStartDir );
+			lAllDirsList.AddRange( lWorkDirList );
+			while( lWorkDirList.Count != 0 ) {
+				// перебор папок в указанной папке s
+				int nWorkCount = lWorkDirList.Count;
+				for( int i=0; i!=nWorkCount; ++i ) {
+					if( ( bw.CancellationPending == true ) )  {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+						return nAllDirsCount;
+					}
+					// l - список найденных папок в указанной папке sWD
+					List<string> l = new List<string>();
+					nAllDirsCount += DirFilesListMaker( lWorkDirList[i], ref l, ref lAllFilesList );
+					// заносим найденные папки в рабочий и полный список папок
+					lWorkDirList.AddRange( l );
+					lAllDirsList.AddRange( l );
+				}
+				// удаляем из рабочего списка обработанные папки
+				lWorkDirList.RemoveRange( 0, nWorkCount );
+			}
+			return nAllDirsCount;
+		}
+		
+		
+		
+		
+		// *********************************************************************************** //
+		// создание списка всех вложенных папок и их подпапок в заданной папке
 		// параметры:	sStartDir - папка для сканирования;
 		//				lAllDirsList - заполняемый список папок в папке сканирования и ее подпапках
 		//				bSort = true - сортировать созданный список папок
@@ -171,7 +211,7 @@ namespace Core.FilesWorker
 			nAllFilesCount += DirListMaker( sStartDir, ref lWorkDirList );
 			lAllDirsList.Add( sStartDir );
 			lAllDirsList.AddRange( lWorkDirList );
-			lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
+			lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString(); // общее число папок
 			while( lWorkDirList.Count != 0 ) {
 				// перебор папок в указанной папке s
 				int nWorkCount = lWorkDirList.Count;
@@ -186,7 +226,7 @@ namespace Core.FilesWorker
 					// заносим найденные папки в рабочий и полный список папок
 					lWorkDirList.AddRange( l );
 					lAllDirsList.AddRange( l );
-					lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString();
+					lv.Items[0].SubItems[1].Text = lAllDirsList.Count.ToString(); // общее число папок
 //					lv.Refresh();
 				}
 				// удаляем из рабочего списка обработанные папки
@@ -251,7 +291,28 @@ namespace Core.FilesWorker
 		#endregion]
 		
 		#region Закрытые вспомогательные методы
-		// создание списка подпапок в заданной
+		// создание списка подпапок и файлов в заданной папке
+		// параметры:	sStartDir - папка для сканирования;
+		//				lDirList - заполняемый список папок в текущей папке
+		//				lFileList - заполняемый список файлов в текущей папке
+		// возвращает: число папок в текущем каталоге
+		private static int DirFilesListMaker( string sStartDir, ref List<string> lDirList, ref List<string> lFileList ) {
+			int nDirCount = 0;
+			// папки в текущей папке
+			try {
+				string[] dirs = Directory.GetDirectories( sStartDir );
+				foreach( string dir in dirs ) {
+					try {
+						lDirList.Add( dir );
+						lFileList.AddRange( Directory.GetFiles( dir ) );
+						nDirCount += lDirList.Count;
+					} catch { continue; }
+				}
+			} catch { lDirList.Remove( sStartDir ); }
+			return nDirCount; 
+		}
+		
+		// создание списка подпапок в заданной папке
 		// параметры:	sStartDir - папка для сканирования;
 		//				lDirList - заполняемый список папок в текущей папке
 		// возвращает: число файлов в текущем каталоге
@@ -259,7 +320,7 @@ namespace Core.FilesWorker
 			int nFilesCount = 0;
 			// папки в текущей папке
 			try {
-				string[] dirs = Directory.GetDirectories(sStartDir);
+				string[] dirs = Directory.GetDirectories( sStartDir );
 				foreach( string sDir in dirs ) {
 					try {
 						nFilesCount += Directory.GetFiles( sDir ).Length;

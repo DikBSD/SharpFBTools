@@ -8,7 +8,7 @@
  */
 namespace Core.BookSorting
 {
-	partial class BasiclTemplates
+	partial class BasicTemplates
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
@@ -2123,7 +2123,7 @@ namespace Core.BookSorting
 			this.pTemplates.Size = new System.Drawing.Size(650, 289);
 			this.pTemplates.TabIndex = 2;
 			// 
-			// BasiclTemplates
+			// BasicTemplates
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -2134,7 +2134,7 @@ namespace Core.BookSorting
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "BasiclTemplates";
+			this.Name = "BasicTemplates";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

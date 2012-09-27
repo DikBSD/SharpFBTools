@@ -15,12 +15,12 @@ namespace Core.BookSorting
 	/// <summary>
 	/// Description of BasiclTemplates.
 	/// </summary>
-	public partial class BasiclTemplates : Form
+	public partial class BasicTemplates : Form
 	{
 		// выбранная строка с шаблонами подстановки
 		private string m_sLine = null;
 		
-		public BasiclTemplates()
+		public BasicTemplates()
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();

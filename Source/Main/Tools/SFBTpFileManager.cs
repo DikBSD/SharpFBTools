@@ -69,29 +69,21 @@ namespace SharpFBTools.Tools
 		{
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
-			// задание для кнопок ToolStrip стиля и положения текста и картинки
-			SetToolButtonsSettings();
-			
 			InitializeBackgroundWorker();
-			
 			Init();
 			// читаем сохраненные пути к папкам и шаблон Менеджера Файлов, если они есть
 			ReadFMTempData();
-			//
+			lvFilesCount.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+			rtboxTemplatesList.Clear();
 			string sTDPath = Settings.SettingsFM.GetDefFMDescTemplatePath();
 			if( File.Exists( sTDPath ) ) {
-				richTxtBoxDescTemplates.LoadFile( sTDPath );
+				rtboxTemplatesList.LoadFile( sTDPath );
 			} else {
-				richTxtBoxDescTemplates.Text = "Не найден файл описания Шаблонов подстановки: \""+sTDPath+"\"";
+				rtboxTemplatesList.Text = "Не найден файл описания Шаблонов подстановки: \""+sTDPath+"\"";
 			}
-
 		}
 		
 		#region Открытые методы класса
-		// задание для кнопок ToolStrip стиля и положения текста и картинки
-		public void SetToolButtonsSettings() {
-			Settings.SettingsFM.SetToolButtonsSettings( tsSelectedSort );
-		}
 		#endregion
 		
 		#region Закрытые методы реализации BackgroundWorker
@@ -107,48 +99,53 @@ namespace SharpFBTools.Tools
 		
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			// сортировка файлов по папкам, согласно шаблонам подстановки
-			List<string> lDirList = new List<string>();
-			List<string> lCheckedDirList = new List<string>();
-			List<string> lCheckedFileList = new List<string>();
+			m_sv.Clear();
+			textBoxFiles.Clear();
+			List<string> lDirList	= new List<string>();
+			List<string> lFileList	= new List<string>();
+			List<string> lCheckedDirList	= new List<string>();
+			List<string> lCheckedFileList	= new List<string>();
+			
 			if(m_bFullSort) {
-				/* Полная Сортировка */
+				/* ============== Полная Сортировка ============= */
 				// формируем список помеченных папок
 				System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems = listViewSource.CheckedItems;
 				foreach( ListViewItem lvi in checkedItems ) {
 					ListViewItemType it = (ListViewItemType)lvi.Tag;
-					if(it.Type == "d") {
+					if(it.Type.Trim() == "d") {
 						lCheckedDirList.Add(it.Value.Trim());
-					} else if(it.Type == "f") {
+					} else if(it.Type.Trim() == "f") {
 						lCheckedFileList.Add(it.Value.Trim());
 					}
 				}
+				
+				lFileList.AddRange( lCheckedFileList ); // помеченные файлы
 				if( !m_bScanSubDirs ) {
-					// сканировать только указанную папку
-					lDirList.AddRange(lCheckedDirList);// Add( m_sSource );
-					lvFilesCount.Items[0].SubItems[1].Text = lDirList.Count.ToString();
+					// сканировать только указанную папку (ее папки, но не их подпапки)
+					lDirList.Add( m_sSource ); lDirList.AddRange( lCheckedDirList );
+					foreach(string dir in lCheckedDirList) {
+						lFileList.AddRange( Directory.GetFiles( dir ) );
+					}
 				} else {
 					// сканировать и все подпапки
-					foreach(string sIn in lCheckedDirList) {
-						m_sv.AllFiles += filesWorker.DirsParser( m_bw, e, sIn, lvFilesCount, ref lDirList, false );
+					lDirList.Add( m_sSource );
+					foreach(string dir in lCheckedDirList) {
+						filesWorker.DirsFilesParser( m_bw, e, dir, ref lDirList, ref lFileList );
 					}
-					m_sv.AllFiles += lCheckedFileList.Count;
-					m_sv.AllDirs = lDirList.Count;
 				}
 			} else {
-				// Избранная Сортировка
+				/* ================ Избранная Сортировка ====================== */
 				if( !m_bScanSubDirs ) {
 					// сканировать только указанную папку
 					lDirList.Add( m_sSource );
-					lvFilesCount.Items[0].SubItems[1].Text = "1";
+					lFileList.AddRange( Directory.GetFiles( m_sSource ) );
 				} else {
 					// сканировать и все подпапки
-					m_sv.AllFiles	= filesWorker.DirsParser( m_bw, e, m_sSource, lvFilesCount, ref lDirList, false );
-					m_sv.AllDirs	= lDirList.Count;
+					filesWorker.DirsFilesParser( m_bw, e, m_sSource, ref lDirList, ref lFileList );
 				}
 			}
-
-			// отобразим число всех файлов в папке сканирования
-			lvFilesCount.Items[1].SubItems[1].Text = m_sv.AllFiles.ToString();
+			lvFilesCount.Items[0].SubItems[1].Text = lDirList.Count.ToString();
+			lvFilesCount.Items[1].SubItems[1].Text = lFileList.Count.ToString();
 			
 			// Проверить флаг на остановку процесса 
 			if( ( m_bw.CancellationPending == true ) ) {
@@ -157,7 +154,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
-			if( m_sv.AllFiles == 0 ) {
+			if( lFileList.Count == 0 ) {
 				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				tsslblProgress.Text = Settings.Settings.GetReady();
 				SetSelectedSortingStartEnabled( true );
@@ -165,7 +162,7 @@ namespace SharpFBTools.Tools
 			}
 			
 			tsslblProgress.Text		= "Сортировка файлов:";
-			tsProgressBar.Maximum	= m_sv.AllFiles;
+			tsProgressBar.Maximum	= lFileList.Count;
 			tsProgressBar.Value		= 0;
 			
 			// данные настроек для сортировки по шаблонам
@@ -177,20 +174,30 @@ namespace SharpFBTools.Tools
 			dfm.NotValidFB2Dir	= m_sTarget + "\\" + dfm.NotValidFB2Dir;
 			dfm.NotOpenArchDir	= m_sTarget + "\\" + dfm.NotOpenArchDir;
 				
+			// Отображение папок для обработки
+			textBoxFiles.Text += "Папки для обрабатки:\r\n";
+			long lCount = 0;
+			foreach( string dir in lDirList ) {
+				textBoxFiles.Text += (++lCount).ToString() + ".\t" + dir + "\r\n";
+			}
+			textBoxFiles.Text += "\r\nФайлы для обработки:\r\n";
+			lDirList.Clear();
 			
 			// формируем лексемы шаблонной строки
 			List<templatesLexemsSimple> lSLexems = templatesParser.GemSimpleLexems( m_sLineTemplate );
 			// сортировка
+			lCount = 0;
 			if( m_bFullSort ) {
 				// Полная Сортировка
-				// для помеченных файлов
-				foreach(string filePath in lCheckedFileList) {
+				foreach( string filePath in lFileList ) {
 					// Проверить флаг на остановку процесса
 					if( ( m_bw.CancellationPending == true ) ) {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						return;
 					}
 					// создаем файл по заданному пути
+					textBoxFiles.Text += (++lCount).ToString() + ".\t" + filePath + "\r\n";
+					textBoxFiles.Select( textBoxFiles.TextLength, 0 ); textBoxFiles.ScrollToCaret();
 					if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
 						// по первому Жанру и первому Автору Книги
 						MakeFileFor1Genre1Author( filePath, m_sSource, m_sTarget, lSLexems, dfm );
@@ -207,75 +214,43 @@ namespace SharpFBTools.Tools
 
 					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
-				// для помеченных папок
-				string sFromFilePath = "";
-				foreach( string s in lDirList ) {
-					DirectoryInfo diFolder = new DirectoryInfo( s );
-					foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-						// Проверить флаг на остановку процесса 
-						if( ( m_bw.CancellationPending == true ) ) {
-							e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-							return;
-						} 
-						
-						sFromFilePath = s + "\\" + fiNextFile.Name;
-						// создаем файл по новому пути
-						if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
-							// по первому Жанру и первому Автору Книги
-							MakeFileFor1Genre1Author( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
-						} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
-							// по первому Жанру и всем Авторам Книги
-							MakeFileFor1GenreAllAuthor( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
-						} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
-							// по всем Жанрам и первому Автору Книги
-							MakeFileForAllGenre1Author( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
-						} else {
-							// по всем Жанрам и всем Авторам Книги
-							MakeFileForAllGenreAllAuthor( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
-						}
-
-						m_bw.ReportProgress( 0 ); // отобразим данные в контролах
-					}
-				}
 				lCheckedDirList.Clear();
 				lCheckedFileList.Clear();
 			} else {
 				// Избранная Сортировка
-				string sFromFilePath = "", sExt = "";
-				foreach( string s in lDirList ) {
-					DirectoryInfo diFolder = new DirectoryInfo( s );
-					foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-						// Проверить флаг на остановку процесса 
-						if( ( m_bw.CancellationPending == true ) ) {
-							e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-							return;
-						}
-						
-						sFromFilePath = s + "\\" + fiNextFile.Name;
-						sExt = Path.GetExtension( sFromFilePath ).ToLower();
-						// создаем файл по новому пути
-						if( sExt==".fb2" ) {
-							// Создание файла по критериям Избранной сортировки
-							MakeFileForSelectedSortingWorker( sFromFilePath, m_sSource, m_sTarget, lSLexems, dfm );
-						} else {
-							// это архив?
-							if( archivesWorker.IsArchive( sExt ) ) {
-								List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
-								IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
-								if( lFilesListFromArchive!=null ) {
-									foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
-										// Создание файла по критериям Избранной сортировки
-										MakeFileForSelectedSortingWorker( sFB2FromArchPath, m_sSource, m_sTarget, lSLexems, dfm );
-									}
-								}
-								filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-							}
-						}
-						m_bw.ReportProgress( 0 ); // отобразим данные в контролах
+				foreach( string filePath in lFileList ) {
+					// Проверить флаг на остановку процесса
+					if( ( m_bw.CancellationPending == true ) ) {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+						return;
 					}
+					
+					string sExt = Path.GetExtension( filePath ).ToLower();
+					textBoxFiles.Text += (++lCount).ToString() + ".\t" + filePath + "\r\n";
+					textBoxFiles.Select( textBoxFiles.TextLength, 0 ); textBoxFiles.ScrollToCaret();
+					// создаем файл по новому пути
+					if( sExt==".fb2" ) {
+						// Создание файла по критериям Избранной сортировки
+						MakeFileForSelectedSortingWorker( filePath, m_sSource, m_sTarget, lSLexems, dfm );
+					} else {
+						// это архив?
+						if( archivesWorker.IsArchive( sExt ) ) {
+							List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( filePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
+							IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
+							if( lFilesListFromArchive!=null ) {
+								foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
+									// Создание файла по критериям Избранной сортировки
+									MakeFileForSelectedSortingWorker( sFB2FromArchPath, m_sSource, m_sTarget, lSLexems, dfm );
+								}
+							}
+							filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+						}
+					}
+					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
 			}
-			lDirList.Clear();
+			
+			lFileList.Clear();
 			if(m_bFullSort && !Settings.FileManagerSettings.FullSortingNotDelFB2Files) {
 				GenerateSourceList(m_sSource);
 			}
@@ -588,7 +563,6 @@ namespace SharpFBTools.Tools
 		private void SetFullSortingStartEnabled( bool bEnabled ) {
 			// доступность контролов при Полной Сортировки
 			tpSelectedSort.Enabled		= bEnabled;
-			tpSettings.Enabled			= bEnabled;
 			panelTemplate.Enabled		= bEnabled;
 			panelAddress.Enabled		= bEnabled;
 			listViewSource.Enabled		= bEnabled;
@@ -601,16 +575,11 @@ namespace SharpFBTools.Tools
 		private void SetSelectedSortingStartEnabled( bool bEnabled ) {
 			// доступность контролов при Избранной Сортировки
 			tpFullSort.Enabled			= bEnabled;
-			tpSettings.Enabled			= bEnabled;
-			tsbtnSSOpenDir.Enabled		= bEnabled;
-			tsbtnSSTargetDir.Enabled	= bEnabled;
-			tsbtnSSSortFilesTo.Enabled	= bEnabled;
+			buttonSSortFilesTo.Enabled	= bEnabled;
 			pSelectedSortDirs.Enabled	= bEnabled;
-			gBoxSelectedlSortRenameTemplates.Enabled	= bEnabled;
+			pSSTemplate.Enabled			= bEnabled;
 			pSSData.Enabled				= bEnabled;
-			chBoxSSToZip.Enabled		= bEnabled;
-			chBoxSSNotDelFB2Files.Enabled	= bEnabled;
-			tsbtnSSSortStop.Enabled		= !bEnabled;
+			buttonSSortStop.Enabled		= !bEnabled;
 			tsProgressBar.Visible		= !bEnabled;
 			tcSort.Refresh();
 			ssProgress.Refresh();
@@ -1244,14 +1213,14 @@ namespace SharpFBTools.Tools
 				}
 			}
 		}
-		private void SetTemplateInInputControl(string Template) {
-			int CursorPosition = txtBoxTemplatesFromLine.SelectionStart;
+		private void SetTemplateInInputControl(System.Windows.Forms.TextBox textBox, string Template) {
+			int CursorPosition = textBox.SelectionStart;
 			int NewPosition = CursorPosition + Template.Length;
-			string TextBeforeCursor = txtBoxTemplatesFromLine.Text.Substring(0, CursorPosition);
-			string TextAfterCursor = txtBoxTemplatesFromLine.Text.Substring(CursorPosition, txtBoxTemplatesFromLine.TextLength-CursorPosition);
-			txtBoxTemplatesFromLine.Text = TextBeforeCursor + Template + TextAfterCursor;
-			txtBoxTemplatesFromLine.Focus();
-			txtBoxTemplatesFromLine.Select(NewPosition, 0);
+			string TextBeforeCursor = textBox.Text.Substring(0, CursorPosition);
+			string TextAfterCursor = textBox.Text.Substring(CursorPosition, textBox.TextLength-CursorPosition);
+			textBox.Text = TextBeforeCursor + Template + TextAfterCursor;
+			textBox.Focus();
+			textBox.Select(NewPosition, 0);
 		}
 		
 		#endregion
@@ -1260,77 +1229,153 @@ namespace SharpFBTools.Tools
 		void BtnLetterFamilyClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.LetterFamily);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.LetterFamily);
 		}
 		
 		void BtnGroupGenreClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.GroupGenre);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.GroupGenre);
 		}
 		
 		void BtnLangClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.Language);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Language);
 		}
 		
 		void BtnFamilyClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.Family);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Family);
 		}
 		
 		void BtnNameClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.Name);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Name);
 		}
 		
 		void BtnPatronimicClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.Patronimic);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Patronimic);
 		}
 		
 		void BtnGenreClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.Genre);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Genre);
 		}
 		
 		void BtnBookClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.BookTitle);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.BookTitle);
 		}
 		
 		void BtnSequenceClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.Series);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Series);
 		}
 		
 		void BtnSequenceNumberClick(object sender, EventArgs e)
 		{
 			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(fnt.SeriesNumber);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.SeriesNumber);
 		}
 		
 		void BtnDirClick(object sender, EventArgs e)
 		{
-			SetTemplateInInputControl(@"\");
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, @"\");
 		}
 		
 		void BtnLeftBracketClick(object sender, EventArgs e)
 		{
-			SetTemplateInInputControl("[");
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, "[");
 		}
 		
 		void BtnRightBracketClick(object sender, EventArgs e)
 		{
-			SetTemplateInInputControl("]");
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, "]");
 		}
+		
+		void BtnSSLetterFamilyClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.LetterFamily);
+		}
+		
+		void BtnSSGroupGenreClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.GroupGenre);
+		}
+		
+		void BtnSSLangClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Language);
+		}
+		
+		void BtnSSFamilyClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Family);
+		}
+		
+		void BtnSSNameClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Name);
+		}
+		
+		void BtnSSPatronimicClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Patronimic);
+		}
+		
+		void BtnSSGenreClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Genre);
+		}
+		
+		void BtnSSBookClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.BookTitle);
+		}
+		
+		void BtnSSSequenceClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Series);
+		}
+		
+		void BtnSSSequenceNumberClick(object sender, EventArgs e)
+		{
+			FullNameTemplates fnt = new FullNameTemplates();
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.SeriesNumber);
+		}
+
+		void BtnSSDirClick(object sender, EventArgs e)
+		{
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, @"\");
+		}
+		
+		void BtnSSLeftBracketClick(object sender, EventArgs e)
+		{
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, "[");
+		}
+		
+		void BtnSSRightBracketClick(object sender, EventArgs e)
+		{
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, "]");
+		}
+		
 		void TsmiColumnsExplorerAutoReizeClick(object sender, EventArgs e)
 		{
 			AutoResizeColumns();
@@ -1707,7 +1752,7 @@ namespace SharpFBTools.Tools
 		void BtnInsertTemplatesClick(object sender, EventArgs e)
 		{
 			// запуск диалога Вставки готовых шаблонов
-			Core.BookSorting.BasiclTemplates btfrm = new Core.BookSorting.BasiclTemplates();
+			Core.BookSorting.BasicTemplates btfrm = new Core.BookSorting.BasicTemplates();
 			btfrm.ShowDialog();
 			if( btfrm.GetTemplateLine()!=null ) {
 				txtBoxTemplatesFromLine.Text = btfrm.GetTemplateLine();
@@ -1786,7 +1831,7 @@ namespace SharpFBTools.Tools
 		void BtnSSInsertTemplatesClick(object sender, EventArgs e)
 		{
 			// запуск диалога Вставки готовых шаблонов
-			Core.BookSorting.BasiclTemplates btfrm = new Core.BookSorting.BasiclTemplates();
+			Core.BookSorting.BasicTemplates btfrm = new Core.BookSorting.BasicTemplates();
 			btfrm.ShowDialog();
 			if( btfrm.GetTemplateLine()!= null ) {
 				txtBoxSSTemplatesFromLine.Text = btfrm.GetTemplateLine();
@@ -1794,13 +1839,13 @@ namespace SharpFBTools.Tools
 			btfrm.Dispose();
 		}
 		
-		void TsbtnSSOpenDirClick(object sender, EventArgs e)
+		void BtnSSOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования (Избранная Сортировка)
 			filesWorker.OpenDirDlg( tboxSSSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами (Избранная Сортировка):" );
 		}
 		
-		void TsbtnSSTargetDirClick(object sender, EventArgs e)
+		void BtnSSTargetDirClick(object sender, EventArgs e)
 		{
 			// задание папки-приемника для размешения отсортированных файлов (Избранная Сортировка)
 			filesWorker.OpenDirDlg( tboxSSToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов (Избранная Сортировка):" );
@@ -1814,7 +1859,15 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		void TsbtnSSSortFilesToClick(object sender, EventArgs e)
+		void ButtonSSortStopClick(object sender, EventArgs e)
+		{
+			// Остановка выполнения процесса Избранной Сортировки
+			if( m_bw.WorkerSupportsCancellation == true ) {
+				m_bw.CancelAsync();
+			}
+		}
+		
+		void ButtonSSortFilesToClick(object sender, EventArgs e)
 		{
 			// ********* Избранная Сортировка ***********
 			m_bFullSort = false;
@@ -1860,14 +1913,6 @@ namespace SharpFBTools.Tools
 			if( m_bw.IsBusy != true ) {
 				//если не занят то запустить процесс
             	m_bw.RunWorkerAsync();
-			}
-		}
-		
-		void TsbtnSSSortStopClick(object sender, EventArgs e)
-		{
-			// Остановка выполнения процесса Избранной Сортировки
-			if( m_bw.WorkerSupportsCancellation == true ) {
-				m_bw.CancelAsync();
 			}
 		}
 		
@@ -1974,6 +2019,5 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
-		
 	}
 }

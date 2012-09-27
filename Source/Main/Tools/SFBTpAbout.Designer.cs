@@ -400,7 +400,6 @@ namespace SharpFBTools.Tools
 									"Валидатор fb2-файлов",
 									"Сортировщик файлов",
 									"Менеджер архивов",
-									"FB2 Корректор",
 									"Дубликатор файлов"});
 			this.cboxInstrument.Location = new System.Drawing.Point(89, 3);
 			this.cboxInstrument.Name = "cboxInstrument";

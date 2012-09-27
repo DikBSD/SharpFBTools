@@ -71,7 +71,7 @@ namespace SharpFBTools.Tools
 						rtboxHelp.Text = "Не найден файл Справки Менеджера Архивов: \""+sArchiveManagerHelpPath+"\"";
 					}
 					break;
-				case 4:
+				case 3:
 					if( File.Exists( sDuplicatorHelpPath ) ) {
 						rtboxHelp.LoadFile( sDuplicatorHelpPath );
 					} else {
