@@ -18,6 +18,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
 using Core.Misc;
 using Core.FB2Dublicator;
@@ -69,7 +70,7 @@ namespace SharpFBTools.Tools
 			// читаем сохраненные пути к папкам Поиска одинаковых fb2-файлов, если они есть
 			ReadFB2DupTempData();
 			m_sv = new StatusView();
-			cboxMode.SelectedIndex			= 0; // Условия для Сравнения fb2-файлов: Автор(ы) и Название Книги
+			cboxMode.SelectedIndex			= 0; // Условия для Сравнения fb2-файлов: md5 книги
 			cboxDupExistFile.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу очередного номера
 		}
 
@@ -131,8 +132,52 @@ namespace SharpFBTools.Tools
 			ListViewGroup lvg = null; // группа одинаковых книг
            	
 			string sProgress = "Создание Списка одинаковых fb2-файлов:";
+			// изменение колонок просмотрщика найденного, взависимости от режима сравнения
+			MakeColumns( cboxMode.SelectedIndex );
 			if( cboxMode.SelectedIndex == 0 ) {
-           		MakeColumns( 0 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
+				Hashtable htFB2ForMd5 = FilesHashForMd5Parser( m_bw, e, lDirList );
+				// Проверить флаг на остановку процесса
+				if( ( m_bw.CancellationPending == true ) ) {
+					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+					return;
+				}
+           		
+           		tsslblProgress.Text		= sProgress;
+           		tsProgressBar.Maximum	= htFB2ForMd5.Values.Count;
+           		tsProgressBar.Value		= 0;
+				foreach( FB2FilesDataMd5List fb2f in htFB2ForMd5.Values ) {
+           			// Проверить флаг на остановку процесса 
+					if( ( m_bw.CancellationPending == true ) ) {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+						return;
+					}
+	           		if( fb2f.Count > 1 ) {
+     	      			++m_sv.Group; // число групп одинаковых книг
+        	   			foreach( BookData bd in fb2f ) {
+           					++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
+           					lvg = new ListViewGroup( fb2f.Md5 );
+           					ListViewItem lvi = new ListViewItem( bd.Path );
+           					lvi.SubItems.Add( MakeBookTitleString( bd.BookTitle ) );
+							lvi.SubItems.Add( MakeAutorsString( bd.Authors, false ) );
+							lvi.SubItems.Add( MakeGenresString( bd.Genres, false ) );
+							lvi.SubItems.Add( bd.Version );
+							lvi.SubItems.Add( bd.Encoding );
+							lvi.SubItems.Add( m_bCheckValid ? IsValid( bd.Path ) : "?" );
+							lvi.SubItems.Add( GetFileLength( bd.Path ) );
+							lvi.SubItems.Add( GetFileCreationTime( bd.Path ) );
+							lvi.SubItems.Add( FileLastWriteTime( bd.Path ) );
+							// заносим группу в хеш, если она там отсутствует
+							AddBookGroupInHashTable( htBookGroups, lvg );
+							// присваиваем группу книге
+							lvResult.Groups.Add( (ListViewGroup)htBookGroups[fb2f.Md5] );
+							lvi.Group = (ListViewGroup)htBookGroups[fb2f.Md5];
+							lvResult.Items.Add( lvi );
+    	       			}
+        	   		}
+           			m_bw.ReportProgress( 0 );
+           		}
+				
+			} else if( cboxMode.SelectedIndex == 1 ) {
            		Hashtable htFB2ForID = FilesHashForIDParser( m_bw, e, lDirList );
            		// Проверить флаг на остановку процесса
 				if( ( m_bw.CancellationPending == true ) ) {
@@ -174,8 +219,7 @@ namespace SharpFBTools.Tools
         	   		}
            			m_bw.ReportProgress( 0 );
            		}
-           	} else if( cboxMode.SelectedIndex == 1 ) {
-				MakeColumns( 1 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
+           	} else if( cboxMode.SelectedIndex == 2 ) {
            		Hashtable htFB2ForABT = FilesHashForABTParser( m_bw, e, lDirList );
            		tsslblProgress.Text		= sProgress;
            		tsProgressBar.Maximum	= htFB2ForABT.Values.Count;
@@ -212,8 +256,7 @@ namespace SharpFBTools.Tools
            			}
            			m_bw.ReportProgress( 0 );
            		}
-			} else if( cboxMode.SelectedIndex == 2 ) {
-           		MakeColumns( 1 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
+			} else if( cboxMode.SelectedIndex == 3 ) {
            		Hashtable htFB2ForABT = FilesHashForABTParser( m_bw, e, lDirList );
            		tsslblProgress.Text		= sProgress;
            		tsProgressBar.Maximum	= htFB2ForABT.Values.Count;
@@ -256,7 +299,6 @@ namespace SharpFBTools.Tools
            			m_bw.ReportProgress( 0 );
            		}
 			} else {
-				MakeColumns( 1 ); // изменение колонок просмотрщика найденного, взависимости от режима сравнения
            		Hashtable htFB2ForABT	= FilesHashForABTFParser( m_bw, e, lDirList );
            		tsslblProgress.Text		= "Создание Списка одинаковых fb2-файлов:";
            		tsProgressBar.Maximum	= htFB2ForABT.Count;
@@ -433,6 +475,19 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые вспомогательные методы класса
+		private string ComputeMD5Checksum(string path)
+        {
+            using (FileStream fs = System.IO.File.OpenRead(path))
+            {
+                MD5 md5 = new MD5CryptoServiceProvider();
+                byte[] fileData = new byte[fs.Length];
+                fs.Read(fileData, 0, (int)fs.Length);
+                byte[] checkSum = md5.ComputeHash(fileData);
+                string result = BitConverter.ToString(checkSum).Replace("-", String.Empty);
+                return result;
+            }
+        }
+		
 		private void ConnectListViewResultEventHandlers( bool bConnect ) {
 			if( !bConnect ) {
 				// отключаем обработчики событий для lvResult (убираем "тормоза")
@@ -613,6 +668,74 @@ namespace SharpFBTools.Tools
 			return false;
 		}
 		
+		// хеширование файлов в контексте Md5 книг
+		// параметры: lsDirs - список папок для сканирования
+		private Hashtable FilesHashForMd5Parser( BackgroundWorker bw, DoWorkEventArgs e, List<string> lsDirs ) {
+			// список всех файлов - по cписку папок - замена рекурсии
+			Hashtable htFB2ForMd5 = new Hashtable();
+			foreach( string s in lsDirs ) {
+				DirectoryInfo diFolder = new DirectoryInfo( s );
+				FileInfo[] fi = diFolder.GetFiles();
+				foreach( FileInfo fiNextFile in fi) {
+					if( ( bw.CancellationPending == true ) )  {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+						return htFB2ForMd5;
+					}
+					
+					string sPath	= s + "\\" + fiNextFile.Name;
+					string sExt		= Path.GetExtension( sPath ).ToLower();
+					if( sExt==".fb2" ) {
+						++m_sv.FB2;
+						// заполнение хеш таблицы данными о fb2-книгах в контексте их md5
+						MakeFB2Md5HashTable( sPath, ref htFB2ForMd5 );
+					}  else {
+						// это архив?
+						if( archivesWorker.IsArchive( sExt ) ) {
+							++m_sv.Archive;	// пропускаем архивы
+						}  else {
+							++m_sv.Other;	// пропускаем не fb2-файлы
+						}
+					}
+					bw.ReportProgress( 0 ); // отобразим данные в контролах
+				}
+			}
+			return htFB2ForMd5;
+		}
+		
+		// заполнение хеш таблицы данными о fb2-книгах в контексте их md5
+		// параметры: sPath - путь к fb2-файлу; htFB2ForMd5 - хеш-таблица
+		private void MakeFB2Md5HashTable( string sPath, ref Hashtable htFB2ForMd5 ) {
+			try {
+				string md5 = ComputeMD5Checksum(sPath);
+				fB2Parser fb2 = new fB2Parser( sPath );
+				string sEncoding = filesWorker.GetFileEncoding( fb2.XmlDoc.InnerXml.Split('>')[0] );
+				if( sEncoding == null )  sEncoding = "?";
+				string sID = fb2.Id;
+				if( sID==null ) return;
+
+				if( sID.Length==0 ) sID = "Тег <id> в этих книгах \"пустой\"";
+				string sVersion = fb2.Version;;
+				BookTitle 		bookTitle	= fb2.BookTitle;
+				IList<Author>	authors		= fb2.Authors;
+				
+				// данные о книге
+				BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, sID, sVersion, sPath, sEncoding );
+				
+				if( !htFB2ForMd5.ContainsKey( md5 ) ) {
+					// такой книги в числе дублей еще нет
+					FB2FilesDataMd5List fb2f = new FB2FilesDataMd5List();
+					fb2f.AddBookData( fb2BookData );
+					fb2f.Md5 = md5;
+					htFB2ForMd5.Add( md5, fb2f );
+				} else {
+					// такая книга в числе дублей уже есть
+					FB2FilesDataMd5List fb2f = (FB2FilesDataMd5List)htFB2ForMd5[md5] ;
+					fb2f.AddBookData( fb2BookData );
+					//htFB2ForID[md5] = fb2f; //ИЗБЫТОЧНЫЙ КОД
+				}
+			} catch {} // пропускаем проблемные файлы
+		}
+		
 		// хеширование файлов в контексте Id книг
 		// параметры: lsDirs - список папок для сканирования
 		private Hashtable FilesHashForIDParser( BackgroundWorker bw, DoWorkEventArgs e, List<string> lsDirs ) {
@@ -620,7 +743,8 @@ namespace SharpFBTools.Tools
 			Hashtable htFB2ForID = new Hashtable();
 			foreach( string s in lsDirs ) {
 				DirectoryInfo diFolder = new DirectoryInfo( s );
-				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+				FileInfo[] fi = diFolder.GetFiles();
+				foreach( FileInfo fiNextFile in fi ) {
 					if( ( bw.CancellationPending == true ) )  {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						return htFB2ForID;
@@ -686,7 +810,8 @@ namespace SharpFBTools.Tools
 			Hashtable htFB2ForABT = new Hashtable();
 			foreach( string s in lsDirs ) {
 				DirectoryInfo diFolder = new DirectoryInfo( s );
-				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+				FileInfo[] fi = diFolder.GetFiles();
+				foreach( FileInfo fiNextFile in fi ) {
 					if( ( bw.CancellationPending == true ) )  {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						return htFB2ForABT;
@@ -800,7 +925,8 @@ namespace SharpFBTools.Tools
 			Hashtable htFB2ForABT = new Hashtable();
 			foreach( string s in lsDirs ) {
 				DirectoryInfo diFolder = new DirectoryInfo( s );
-				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+				FileInfo[] fi = diFolder.GetFiles();
+				foreach( FileInfo fiNextFile in fi) {
 					if( ( m_bw.CancellationPending == true ) )  {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						return htFB2ForABT;
@@ -938,13 +1064,19 @@ namespace SharpFBTools.Tools
 			lvResult.Columns.Clear();
 			if( nMode == 0 ) {
 				// по Id Книги
-				lvResult.Columns.Add( "Одинаковые ID (Путь к Книге)", 300 );
+				lvResult.Columns.Add( "Одинаковые md5 / Путь к Книге", 300 );
+				lvResult.Columns.Add( "Название Книги", 180 );
+				lvResult.Columns.Add( "Автор(ы) Книги", 180 );
+				lvResult.Columns.Add( "Жанр(ы) Книги", 180 );
+			} else if( nMode == 1 ) {
+				// по Id Книги
+				lvResult.Columns.Add( "Одинаковые ID / Путь к Книге", 300 );
 				lvResult.Columns.Add( "Название Книги", 180 );
 				lvResult.Columns.Add( "Автор(ы) Книги", 180 );
 				lvResult.Columns.Add( "Жанр(ы) Книги", 180 );
 			} else {
 				// по Автору(ам) и Названию Книги
-				lvResult.Columns.Add( "Книга (Путь к Книге)", 300 );
+				lvResult.Columns.Add( "Книга / Путь к Книге", 300 );
 				lvResult.Columns.Add( "Автор(ы) Книги", 180 );
 				lvResult.Columns.Add( "Жанр(ы) Книги", 180 );
 				lvResult.Columns.Add( "ID Книги", 200 );

@@ -646,6 +646,7 @@ namespace SharpFBTools.Tools
 			this.cboxMode.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.cboxMode.FormattingEnabled = true;
 			this.cboxMode.Items.AddRange(new object[] {
+									"0. Абсолютно одинаковые книги (md5)",
 									"1. Id Книги (копии и (или) разные версии правки одной и той же книги - одинаковый" +
 												" Id)",
 									"2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинако" +
@@ -1094,7 +1095,7 @@ namespace SharpFBTools.Tools
 			// 
 			// columnHeader1
 			// 
-			this.columnHeader1.Text = "Книга (путь к файлу)";
+			this.columnHeader1.Text = "Книга / путь к файлу";
 			this.columnHeader1.Width = 255;
 			// 
 			// columnHeader2
