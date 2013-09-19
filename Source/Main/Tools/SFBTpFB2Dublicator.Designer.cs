@@ -144,7 +144,7 @@ namespace SharpFBTools.Tools
 									"Всего файлов",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего fb2-файлы",
+									"Всего fb2 файлов",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Архивы",
@@ -717,9 +717,9 @@ namespace SharpFBTools.Tools
 			this.lblDupExistFile.Location = new System.Drawing.Point(4, 7);
 			this.lblDupExistFile.Name = "lblDupExistFile";
 			this.lblDupExistFile.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.lblDupExistFile.Size = new System.Drawing.Size(150, 13);
+			this.lblDupExistFile.Size = new System.Drawing.Size(148, 13);
 			this.lblDupExistFile.TabIndex = 15;
-			this.lblDupExistFile.Text = "Одинаковые fb2-файлы:";
+			this.lblDupExistFile.Text = "Одинаковые fb2 файлы:";
 			this.lblDupExistFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// sfdList

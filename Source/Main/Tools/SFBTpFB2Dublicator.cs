@@ -475,6 +475,19 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые вспомогательные методы класса
+		private string ComputeSHA1Checksum(string path)
+        {
+            using (FileStream fs = System.IO.File.OpenRead(path))
+            {
+				SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();  
+                byte[] fileData = new byte[fs.Length];
+                fs.Read(fileData, 0, (int)fs.Length);
+                byte[] checkSum = sha1.ComputeHash(fileData);
+                string hash = BitConverter.ToString(checkSum).Replace("-", String.Empty);
+				return hash;
+            }
+		}
+		
 		private string ComputeMD5Checksum(string path)
         {
             using (FileStream fs = System.IO.File.OpenRead(path))
@@ -725,7 +738,7 @@ namespace SharpFBTools.Tools
 					// такой книги в числе дублей еще нет
 					FB2FilesDataMd5List fb2f = new FB2FilesDataMd5List();
 					fb2f.AddBookData( fb2BookData );
-					fb2f.Md5 = md5;
+					fb2f.Md5 = "md5: " + md5;
 					htFB2ForMd5.Add( md5, fb2f );
 				} else {
 					// такая книга в числе дублей уже есть
@@ -792,7 +805,7 @@ namespace SharpFBTools.Tools
 					// такой книги в числе дублей еще нет
 					FB2FilesDataIDList fb2f = new FB2FilesDataIDList();
 					fb2f.AddBookData( fb2BookData );
-					fb2f.Id = sID;
+					fb2f.Id = "ID: " + sID;
 					htFB2ForID.Add( sID, fb2f );
 				} else {
 					// такая книга в числе дублей уже есть
@@ -854,7 +867,7 @@ namespace SharpFBTools.Tools
 					if( !htFB2ForABT.ContainsKey( sBT ) ) {
 						// такой книги в числе дублей еще нет
 						FB2FilesDataABTList fb2f = new FB2FilesDataABTList();
-						fb2f.BookTitleForKey = sBT;
+						fb2f.BookTitleForKey = "Книга: " + sBT;
 						fb2f.AddBookData( fb2BookData );
 						htFB2ForABT.Add( sBT, fb2f );
 					} else {
@@ -886,7 +899,7 @@ namespace SharpFBTools.Tools
 					FB2FilesDataABTList fb2NewGroup = MakeDupGroup( ref fb2Group, bd.Authors );
 					if( fb2NewGroup!=null ) {
 						// заносим группу в хэш
-						fb2NewGroup.BookTitleForKey = bd.BookTitle.Value+" ( " + MakeAutorsString( bd.Authors, false )+" )";
+						fb2NewGroup.BookTitleForKey = "Книга: " + bd.BookTitle.Value+" ( " + MakeAutorsString( bd.Authors, false )+" )";
 						ht.Add( htKey, fb2NewGroup );
 						// удаляем найденное из основной группы fb2Group, чтобы повторно их не проверять
 						foreach ( BookData b in fb2NewGroup ) {
@@ -975,7 +988,7 @@ namespace SharpFBTools.Tools
 					if( bookTitle!=null && bookTitle.Value!=null ) {
 						FB2FilesDataABTList fb2f = new FB2FilesDataABTList();
 						fb2f.AddBookData( fb2BookData );
-						fb2f.BookTitleForKey = bookTitle.Value;
+						fb2f.BookTitleForKey = "Книга: " + bookTitle.Value;
 						htFB2ForABT.Add( htKey, fb2f );
 					}
 				} else {
@@ -1062,24 +1075,22 @@ namespace SharpFBTools.Tools
 		// изменение колонок просмотрщика найденного, взависимости от режима сравнения
 		private void MakeColumns( int nMode ) {
 			lvResult.Columns.Clear();
+			lvResult.Columns.Add( "Путь к книге", 300 );
 			if( nMode == 0 ) {
-				// по Id Книги
-				lvResult.Columns.Add( "Одинаковые md5 / Путь к Книге", 300 );
-				lvResult.Columns.Add( "Название Книги", 180 );
-				lvResult.Columns.Add( "Автор(ы) Книги", 180 );
-				lvResult.Columns.Add( "Жанр(ы) Книги", 180 );
+				// по md5 Книги
+				lvResult.Columns.Add( "Название", 180 );
+				lvResult.Columns.Add( "Автор(ы)", 180 );
+				lvResult.Columns.Add( "Жанр(ы)", 180 );
 			} else if( nMode == 1 ) {
 				// по Id Книги
-				lvResult.Columns.Add( "Одинаковые ID / Путь к Книге", 300 );
-				lvResult.Columns.Add( "Название Книги", 180 );
-				lvResult.Columns.Add( "Автор(ы) Книги", 180 );
-				lvResult.Columns.Add( "Жанр(ы) Книги", 180 );
+				lvResult.Columns.Add( "Название", 180 );
+				lvResult.Columns.Add( "Автор(ы)", 180 );
+				lvResult.Columns.Add( "Жанр(ы)", 180 );
 			} else {
 				// по Автору(ам) и Названию Книги
-				lvResult.Columns.Add( "Книга / Путь к Книге", 300 );
-				lvResult.Columns.Add( "Автор(ы) Книги", 180 );
-				lvResult.Columns.Add( "Жанр(ы) Книги", 180 );
-				lvResult.Columns.Add( "ID Книги", 200 );
+				lvResult.Columns.Add( "Автор(ы)", 180 );
+				lvResult.Columns.Add( "Жанр(ы)", 180 );
+				lvResult.Columns.Add( "ID", 200 );
 			}
 			lvResult.Columns.Add( "Версия", 50 );
 			lvResult.Columns.Add( "Кодировка", 90, HorizontalAlignment.Center );
@@ -1288,7 +1299,7 @@ namespace SharpFBTools.Tools
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования
-			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" );
+			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2 файлами и архивами:" );
 		}
 		
 		void TsbtnToDirClick(object sender, EventArgs e)
@@ -1314,7 +1325,7 @@ namespace SharpFBTools.Tools
 				m_bScanSubDirs = false;
 			}
 			
-			m_sMessTitle = "SharpFBTools - Поиск одинаковых fb2-файлов";
+			m_sMessTitle = "SharpFBTools - Поиск одинаковых fb2 файлов";
 			// проверка на корректность данных папок источника и приемника файлов
 			if( !IsScanFolderDataCorrect( tboxSourceDir ) ) {
 				return;
@@ -1568,12 +1579,12 @@ namespace SharpFBTools.Tools
 				string			sFilePath	= si[0].SubItems[0].Text.Split('/')[0];
 				string sTitle = "SharpFBTools - Удаление файла с диска";
 				if( !File.Exists( sFilePath ) ) {
-					if( MessageBox.Show( "Файл: "+sFilePath+"\" не найден!\nУдалить путь к этому файлу из списка?",
+					if( MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!\nУдалить путь к этому файлу из списка?",
 					                    sTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes ) {
 						lvResult.Items[ lvResult.SelectedItems[0].Index ].Remove();
 					}
 				} else {
-					if( MessageBox.Show( "Вы действительно хотите удалить файл: "+sFilePath+"\" с диска?", sTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes ) {
+					if( MessageBox.Show( "Вы действительно хотите удалить файл: \""+sFilePath+"\" с диска?", sTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes ) {
 						File.Delete( sFilePath );
 						lvResult.Items[ lvResult.SelectedItems[0].Index ].Remove();
 					} else return;
@@ -1599,7 +1610,7 @@ namespace SharpFBTools.Tools
 				FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
 				string sDir = fi.Directory.ToString();
 				if( !Directory.Exists( sDir ) ) {
-					MessageBox.Show( "Папка: "+sDir+"\" не найдена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show( "Папка: \""+sDir+"\" не найдена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				filesWorker.ShowAsyncDir( sDir );
@@ -1622,7 +1633,7 @@ namespace SharpFBTools.Tools
 				ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
 				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
 				if( !File.Exists( sFilePath ) ) {
-					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				filesWorker.StartAsyncFile( sFBReaderPath, sFilePath );
@@ -1638,14 +1649,14 @@ namespace SharpFBTools.Tools
 			string sFBEPath = Settings.Settings.ReadFBEPath();
 			string sTitle = "SharpFBTools - Открытие файла в fb2-редакторе";
 			if( !File.Exists( sFBEPath ) ) {
-				MessageBox.Show( "Не могу найти fb2-редактор \""+sFBEPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				MessageBox.Show( "Не могу найти fb2 редактор \""+sFBEPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				return;
 			}
 			if( lvResult.Items.Count > 0 && lvResult.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
 				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
 				if( !File.Exists( sFilePath ) ) {
-					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				filesWorker.StartAsyncFile( sFBEPath, sFilePath );
@@ -1668,7 +1679,7 @@ namespace SharpFBTools.Tools
 				ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
 				string sFilePath = si[0].SubItems[0].Text.Split('/')[0];
 				if( !File.Exists( sFilePath ) ) {
-					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				filesWorker.StartAsyncFile( sTFB2Path, sFilePath );
@@ -1687,7 +1698,7 @@ namespace SharpFBTools.Tools
 				string sSelectedItemText = si[0].SubItems[0].Text;
 				string sFilePath = sSelectedItemText.Split('/')[0];
 				if( !File.Exists( sFilePath ) ) {
-					MessageBox.Show( "Файл: "+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				MessageBoxIcon mbi = MessageBoxIcon.Information;
