@@ -39,8 +39,6 @@ using templatesVerify			= Core.Templates.TemplatesVerify;
 using templatesLexemsSimple		= Core.Templates.Lexems.TPSimple;
 using selectedSortQueryCriteria	= Core.BookSorting.SelectedSortQueryCriteria;
 
-using Core.FB2Dublicator;
-
 namespace SharpFBTools.Tools
 {
 	/// <summary>
@@ -309,225 +307,14 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
-		private void AutoResizeColumns() {
-			// авторазмер колонок Списка
-			listViewSource.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-//			for(int i=0; i!=listViewSource.Columns.Count; ++i) {
-//				listViewSource.Columns[i].Width = listViewSource.Columns[i].Width + 2;
-//			}
-		}
-		
-		private string CyrillicGenreName(string GenreCode) {
-			Settings.DataFM dfm = new Settings.DataFM();
-			IFBGenres fb2g = null;
-			if( dfm.GenresFB21Scheme ) {
-				fb2g = new FB21Genres();
-			} else {
-				fb2g = new FB22Genres();
-			}
-			if(GenreCode.IndexOf(';') != -1) {
-				string ret = "";
-				string[] sG = GenreCode.Split(';');
-				foreach(string s in sG) {
-					ret += fb2g.GetFBGenreName(s.Trim()) + "; ";
-					ret.Trim();
-				}
-				return ret.Substring( 0, ret.LastIndexOf( ";" ) ).Trim();
-			}
-			return fb2g.GetFBGenreName(GenreCode);;
-		}
-		
 		private void GenerateSourceList(string dirPath) {
         	// заполнение списка данными указанной папки
         	m_CurrentDir = dirPath;
-        	Cursor.Current = Cursors.WaitCursor;
-        	listViewSource.BeginUpdate();
-        	listViewSource.Items.Clear();
-        	try {
-        		Settings.DataFM dfm = new Settings.DataFM();
-        		DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
-        		ListViewItem.ListViewSubItem[] subItems;
-        		ListViewItem item = null;
-        		if (dirInfo.Exists) {
-        			if(dirInfo.Parent != null) {
-        				item = new ListViewItem("..", 3);
-        				item.Tag = new ListViewItemType("dUp", dirInfo.Parent.FullName);
-        				listViewSource.Items.Add(item);
-        			}
-        			int nItemCount = 0;
-        			foreach (DirectoryInfo dir in dirInfo.GetDirectories()) {
-        				item = new ListViewItem(space+dir.Name+space, 0);
-        				item.Checked = true;
-        				item.Tag = new ListViewItemType("d", dir.FullName);
-        				if(nItemCount%2 == 0) { // четное
-        					item.BackColor = Color.Beige;
-        				}
-        				listViewSource.Items.Add(item);
-        				++nItemCount;
-        			}
-        			FB2BookDataForDup bd = null;
-        			foreach (FileInfo file in dirInfo.GetFiles()) {
-        				if(file.Extension.ToLower()==".fb2" || file.Extension.ToLower()==".zip") {
-        					item = new ListViewItem(" "+file.Name+" ", file.Extension.ToLower()==".fb2" ? 1 : 2);
-        					try {
-        						if(file.Extension.ToLower()==".fb2") {
-        							if(checkBoxTagsView.Checked) {
-        								bd = new FB2BookDataForDup( file.FullName );
-        								subItems = new ListViewItem.ListViewSubItem[] {
-        									new ListViewItem.ListViewSubItem(item, space+bd.TIBookTitle+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.TISequences+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.TIAuthors+space),
-        									new ListViewItem.ListViewSubItem(item, space+CyrillicGenreName(bd.TIGenres)+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.TILang+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.Encoding+space)
-        								};
-        							} else {
-        								subItems = new ListViewItem.ListViewSubItem[] {
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, "")
-        								};
-        							}
-        						} else {
-        							// для zip-архивов
-        							if(checkBoxTagsView.Checked) {
-        								filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-        								archivesWorker.unzip(dfm.A7zaPath, file.FullName, Settings.Settings.GetTempDir(), ProcessPriorityClass.AboveNormal );
-        								string [] files = Directory.GetFiles( Settings.Settings.GetTempDir() );
-        								bd = new FB2BookDataForDup( files[0] );
-        								subItems = new ListViewItem.ListViewSubItem[] {
-        									new ListViewItem.ListViewSubItem(item, space+bd.TIBookTitle+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.TISequences+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.TIAuthors+space),
-        									new ListViewItem.ListViewSubItem(item, space+CyrillicGenreName(bd.TIGenres)+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.TILang+space),
-        									new ListViewItem.ListViewSubItem(item, space+bd.Encoding+space)
-        								};
-        							} else {
-        								subItems = new ListViewItem.ListViewSubItem[] {
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, "")
-        								};
-        							}
-        						}
-        						item.SubItems.AddRange(subItems);
-        					} catch(System.Exception) {
-        						item.ForeColor = Color.Blue;
-        					}
-        					
-        					item.Checked = true;
-        					item.Tag = new ListViewItemType("f", file.FullName);
-        					if(nItemCount%2 == 0) { // четное
-        						item.BackColor = Color.AliceBlue;
-        					}
-        					listViewSource.Items.Add(item);
-        					++nItemCount;
-        				}
-        			}
-        			// авторазмер колонок Списка Проводника
-        			if(tsmiStartExplorerColumnsAutoReize.Checked) {
-        				AutoResizeColumns();
-        			}
-        		}
-        		
-        	} catch (System.Exception) {
-        	} finally {
-        		listViewSource.EndUpdate();
-        		Cursor.Current = Cursors.Default;
-        	}
+        	Core.FileManager.FileManagerWork.GenerateSourceList(
+        		dirPath, listViewSource, true, checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked
+        	);
         }
-		
-		// отметить все итемы ListView
-		private void CheckAll() {
-			m_mscLV.CheckdAllListViewItems( listViewSource, true );
-		}
-		
-		// снять отметки со всех итемов ListView
-		private void UnCheckAll() {
-			m_mscLV.UnCheckdAllListViewItems( listViewSource.CheckedItems );
-		}
-		
-		// пометить все файлы определенного типа
-		private void CheckTypeAllFiles(string sType, bool bCheck) {
-			if( listViewSource.Items.Count > 0  ) {
-				DirectoryInfo di = null;
-				for( int i=0; i!=listViewSource.Items.Count; ++i ) {
-					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
-					if(it.Type == "f") {
-						di = new DirectoryInfo(it.Value);
-						if(di.Extension.ToLower()=="."+sType.ToLower()) {
-							listViewSource.Items[i].Checked = bCheck;
-						}
-					}
-				}
-			}
-		}
-		
-		// снять пометку со всех файлов пределенного типа
-		private void UnCheckTypeAllFiles(string sType) {
-			DirectoryInfo di = null;
-			foreach( ListViewItem lvi in listViewSource.CheckedItems ) {
-				ListViewItemType it = (ListViewItemType)lvi.Tag;
-				if(it.Type == "f") {
-					di = new DirectoryInfo(it.Value);
-					if(di.Extension.ToLower()=="."+sType.ToLower()) {
-						lvi.Checked = false;
-					}
-				}
-			}
-		}
-		
-		// пометить все файлы
-		private void CheckAllFiles(bool bCheck) {
-			if( listViewSource.Items.Count > 0  ) {
-				for( int i=0; i!=listViewSource.Items.Count; ++i ) {
-					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
-					if(it.Type == "f") {
-						listViewSource.Items[i].Checked = bCheck;
-					}
-				}
-			}
-		}
-		
-		// снять пометку со всех файлов
-		private void UnCheckAllFiles() {
-			foreach( ListViewItem lvi in listViewSource.CheckedItems ) {
-				ListViewItemType it = (ListViewItemType)lvi.Tag;
-				if(it.Type == "f") {
-					lvi.Checked = false;
-				}
-			}
-		}
-	
-		// отметить все папки
-		private void CheckAllDirs(bool bCheck) {
-			if( listViewSource.Items.Count > 0  ) {
-				for( int i=0; i!=listViewSource.Items.Count; ++i ) {
-					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
-					if(it.Type == "d") {
-						listViewSource.Items[i].Checked = bCheck;
-					}
-				}
-			}
-		}
-		
-		// снять пометку со всех папок
-		private void UnCheckAllDirs() {
-			foreach( ListViewItem lvi in listViewSource.CheckedItems ) {
-				ListViewItemType it = (ListViewItemType)lvi.Tag;
-				if(it.Type == "d") {
-					lvi.Checked = false;
-				}
-			}
-		}
-		
+
 		private void SortingProgressData() {
             // Отобразим результат сортировки
             /*lvFilesCount.Items[0].SubItems[1].Text = Convert.ToString( m_sv.AllDirs );
@@ -643,7 +430,7 @@ namespace SharpFBTools.Tools
 			textBoxAddress.Text = Settings.FileManagerSettings.ReadXmlFullSortingSourceDir();
 			txtBoxTemplatesFromLine.Text = Settings.FileManagerSettings.ReadXmlFullSortingTemplate();
 			chBoxScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlFullSortingInSubDir();
-			tsmiStartExplorerColumnsAutoReize.Checked = Settings.FileManagerSettings.ReadXmlFullSortingStartExplorerColumnsAutoReize();
+			chBoxStartExplorerColumnsAutoReize.Checked = Settings.FileManagerSettings.ReadXmlFullSortingStartExplorerColumnsAutoReize();
 			chBoxFSToZip.Checked = Settings.FileManagerSettings.ReadXmlFullSortingToZip();
 			chBoxFSNotDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlFullSortingNotDelFB2Files();
 			
@@ -655,9 +442,9 @@ namespace SharpFBTools.Tools
 			chBoxSSToZip.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingToZip();
 			chBoxSSNotDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingNotDelFB2Files();
 
-			if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
-				GenerateSourceList(Settings.FileManagerSettings.FullSortingSourceDir);
-			}
+//			if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
+//				GenerateSourceList(Settings.FileManagerSettings.FullSortingSourceDir);
+//			}
 		}
 		
 		private void IncArchiveInfo( string sExt ) {
@@ -1378,15 +1165,7 @@ namespace SharpFBTools.Tools
 		
 		void TsmiColumnsExplorerAutoReizeClick(object sender, EventArgs e)
 		{
-			AutoResizeColumns();
-		}
-		
-		void TsmiStartExplorerColumnsAutoReizeCheckedChanged(object sender, EventArgs e)
-		{
-			Settings.FileManagerSettings.StartExplorerColumnsAutoReize = tsmiStartExplorerColumnsAutoReize.Checked;
-			if(tsmiStartExplorerColumnsAutoReize.Checked) {
-				AutoResizeColumns();
-			}
+			Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
 		}
 		
 		void CheckBoxTagsViewClick(object sender, EventArgs e)
@@ -1408,7 +1187,7 @@ namespace SharpFBTools.Tools
 				Cursor.Current = Cursors.WaitCursor;
 				listViewSource.BeginUpdate();
 				DirectoryInfo di = null;
-				FB2BookDataForDup bd = null;
+				FB2BookDescription bd = null;
 				Settings.DataFM dfm = new Settings.DataFM();
 				for(int i=0; i!= listViewSource.Items.Count; ++i) {
 					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
@@ -1419,11 +1198,11 @@ namespace SharpFBTools.Tools
 							try {
 								if(di.Extension.ToLower()==".fb2") {
 									// показать данные fb2 файлов
-									bd = new FB2BookDataForDup( it.Value );
+									bd = new FB2BookDescription( it.Value );
 									listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
 									listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
 									listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-									listViewSource.Items[i].SubItems[4].Text = space+CyrillicGenreName(bd.TIGenres)+space;
+									listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(bd.TIGenres)+space;
 									listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
 									listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
 								} else if(di.Extension.ToLower()==".zip") {
@@ -1432,11 +1211,11 @@ namespace SharpFBTools.Tools
 										filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 										archivesWorker.unzip(dfm.A7zaPath, it.Value, Settings.Settings.GetTempDir(), ProcessPriorityClass.AboveNormal );
 										string [] files = Directory.GetFiles( Settings.Settings.GetTempDir() );
-										bd = new FB2BookDataForDup( files[0] );
+										bd = new FB2BookDescription( files[0] );
 										listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
 										listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
 										listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-										listViewSource.Items[i].SubItems[4].Text = space+CyrillicGenreName(bd.TIGenres)+space;
+										listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(bd.TIGenres)+space;
 										listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
 										listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
 									}
@@ -1453,8 +1232,8 @@ namespace SharpFBTools.Tools
 					}
 				}
 				// авторазмер колонок Списка
-				if(tsmiStartExplorerColumnsAutoReize.Checked) {
-					AutoResizeColumns();
+				if(chBoxStartExplorerColumnsAutoReize.Checked) {
+					Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
 				}
 				listViewSource.EndUpdate();
 				Cursor.Current = Cursors.Default;
@@ -1523,7 +1302,7 @@ namespace SharpFBTools.Tools
 		{
 			// Пометить все файлы и папки
 			ConnectListsEventHandlers( false );
-			CheckAll();
+			m_mscLV.CheckdAllListViewItems( listViewSource, true );
 			if(listViewSource.Items.Count > 0) {
 				listViewSource.Items[0].Checked = false;
 			}
@@ -1534,7 +1313,7 @@ namespace SharpFBTools.Tools
 		{
 			// Снять отметки со всех файлов и папок
 			ConnectListsEventHandlers( false );
-			UnCheckAll();
+			m_mscLV.UnCheckdAllListViewItems( listViewSource.CheckedItems );
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -1542,7 +1321,7 @@ namespace SharpFBTools.Tools
 		{
 			// Пометить все файлы
 			ConnectListsEventHandlers( false );
-			CheckAllFiles(true);
+			m_mscLV.CheckAllFiles(listViewSource, true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -1550,7 +1329,7 @@ namespace SharpFBTools.Tools
 		{
 			// Снять пометки со всех файлов
 			ConnectListsEventHandlers( false );
-			UnCheckAllFiles();
+			m_mscLV.UnCheckAllFiles(listViewSource);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -1558,7 +1337,7 @@ namespace SharpFBTools.Tools
 		{
 			// Пометить все папки
 			ConnectListsEventHandlers( false );
-			CheckAllDirs(true);
+			m_mscLV.CheckAllDirs(listViewSource, true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -1566,7 +1345,7 @@ namespace SharpFBTools.Tools
 		{
 			// Снять пометки со всех папок
 			ConnectListsEventHandlers( false );
-			UnCheckAllDirs();
+			m_mscLV.UnCheckAllDirs(listViewSource);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -1574,7 +1353,7 @@ namespace SharpFBTools.Tools
 		{
 			// Пометить все fb2 файлы
 			ConnectListsEventHandlers( false );
-			CheckTypeAllFiles("fb2", true);
+			m_mscLV.CheckTypeAllFiles(listViewSource, "fb2", true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -1582,7 +1361,7 @@ namespace SharpFBTools.Tools
 		{
 			// Снять пометки со всех fb2 файлов
 			ConnectListsEventHandlers( false );
-			UnCheckTypeAllFiles("fb2");
+			m_mscLV.UnCheckTypeAllFiles(listViewSource, "fb2");
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -1590,7 +1369,7 @@ namespace SharpFBTools.Tools
 		{
 			// Пометить все zip файлы
 			ConnectListsEventHandlers( false );
-			CheckTypeAllFiles("zip", true);
+			m_mscLV.CheckTypeAllFiles(listViewSource, "zip", true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -1598,7 +1377,7 @@ namespace SharpFBTools.Tools
 		{
 			// Снять пометки со всех zip файлов
 			ConnectListsEventHandlers( false );
-			UnCheckTypeAllFiles("zip");
+			m_mscLV.UnCheckTypeAllFiles(listViewSource, "zip");
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -1638,9 +1417,9 @@ namespace SharpFBTools.Tools
 				if(it.Type=="dUp") {
 					ConnectListsEventHandlers( false );
 					if(e.Item.Checked) {
-						CheckAll();
+						m_mscLV.CheckdAllListViewItems( listViewSource, true );
 					} else {
-						UnCheckAll();
+						m_mscLV.UnCheckdAllListViewItems( listViewSource.CheckedItems );;
 					}
 					ConnectListsEventHandlers( true );
 				}
@@ -2016,6 +1795,14 @@ namespace SharpFBTools.Tools
 						reader.Close();
 					}
 				}
+			}
+		}
+		
+		void ChBoxStartExplorerColumnsAutoReizeCheckedChanged(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.StartExplorerColumnsAutoReize = chBoxStartExplorerColumnsAutoReize.Checked;
+			if(chBoxStartExplorerColumnsAutoReize.Checked) {
+				Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
 			}
 		}
 		#endregion

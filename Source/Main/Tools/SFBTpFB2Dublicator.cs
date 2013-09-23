@@ -1299,7 +1299,7 @@ namespace SharpFBTools.Tools
 		void TsbtnOpenDirClick(object sender, EventArgs e)
 		{
 			// задание папки с fb2-файлами и архивами для сканирования
-			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2 файлами и архивами:" );
+			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2 файлами:" );
 		}
 		
 		void TsbtnToDirClick(object sender, EventArgs e)
@@ -1359,7 +1359,7 @@ namespace SharpFBTools.Tools
 			// пропускаем ситуацию, когда курсор переходит от одной строки к другой - нет выбранного item'а
 			if( si.Count > 0 ) {
 				if( File.Exists( si[0].Text ) ) {
-					FB2BookDataForDup	bd	= new FB2BookDataForDup( si[0].Text );
+					FB2BookDescription	bd	= new FB2BookDescription( si[0].Text );
 					// считываем данные TitleInfo
 					m_mscLV.ListViewStatus( lvTitleInfo, 0, bd.TIBookTitle );
 					m_mscLV.ListViewStatus( lvTitleInfo, 1, bd.TIGenres );

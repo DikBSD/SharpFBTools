@@ -47,6 +47,8 @@ namespace Main
 			this.tsSep3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnFB2Dublicator = new System.Windows.Forms.ToolStripButton();
 			this.tsSep4 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbtnDescEditor = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnOptions = new System.Windows.Forms.ToolStripButton();
 			this.tsSep6 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnAbout = new System.Windows.Forms.ToolStripButton();
@@ -87,6 +89,8 @@ namespace Main
 									this.tsSep3,
 									this.tsbtnFB2Dublicator,
 									this.tsSep4,
+									this.tsbtnDescEditor,
+									this.toolStripSeparator1,
 									this.tsbtnOptions,
 									this.tsSep6,
 									this.tsbtnAbout,
@@ -94,7 +98,7 @@ namespace Main
 									this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(662, 52);
+			this.tsMain.Size = new System.Drawing.Size(825, 52);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnFB2Validator
@@ -163,6 +167,23 @@ namespace Main
 			this.tsSep4.Name = "tsSep4";
 			this.tsSep4.Size = new System.Drawing.Size(6, 52);
 			// 
+			// tsbtnDescEditor
+			// 
+			this.tsbtnDescEditor.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDescEditor.Image")));
+			this.tsbtnDescEditor.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnDescEditor.Name = "tsbtnDescEditor";
+			this.tsbtnDescEditor.Size = new System.Drawing.Size(142, 49);
+			this.tsbtnDescEditor.Tag = "tsbtnFB2Dublicator";
+			this.tsbtnDescEditor.Text = "Редактор описания книги";
+			this.tsbtnDescEditor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbtnDescEditor.ToolTipText = "Правка описания книги";
+			this.tsbtnDescEditor.Click += new System.EventHandler(this.TsbtnDescEditorClick);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 52);
+			// 
 			// tsbtnOptions
 			// 
 			this.tsbtnOptions.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnOptions.Image")));
@@ -228,6 +249,8 @@ namespace Main
 			this.tsMain.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton tsbtnDescEditor;
 		private System.Windows.Forms.ToolStripSeparator tsSep7;
 		private System.Windows.Forms.ToolStripButton tsbtnOptions;
 		private System.Windows.Forms.ToolStripButton tsbtnAbout;

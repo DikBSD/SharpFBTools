@@ -64,7 +64,6 @@
     <Compile Include="FB2Dublicator\BookDataABTKey.cs" />
     <Compile Include="FB2Dublicator\FB2ABTComparer.cs" />
     <Compile Include="FB2Dublicator\FB2AuthorsComparer.cs" />
-    <Compile Include="FB2Dublicator\FB2BookDataForDup.cs" />
     <Compile Include="FB2Dublicator\FB2FilesDataABTList.cs" />
     <Compile Include="FB2Dublicator\FB2FilesDataIDList.cs" />
     <Compile Include="FB2Dublicator\FB2FilesDataMd5List.cs" />
@@ -104,11 +103,13 @@
     <Compile Include="FB2\Genres\FB21Genres.cs" />
     <Compile Include="FB2\Genres\FB22Genres.cs" />
     <Compile Include="FB2\Genres\IFBGenres.cs" />
-    <Compile Include="FileManager\ListViewItemType.cs" />
+    <Compile Include="FileManager\FileManagerWork.cs" />
     <Compile Include="FileManager\StatusView.cs" />
     <Compile Include="FilesWorker\Archiver.cs" />
     <Compile Include="FilesWorker\CommandManager.cs" />
     <Compile Include="FilesWorker\FilesWorker.cs" />
+    <Compile Include="Misc\FB2BookDescription.cs" />
+    <Compile Include="Misc\ListViewItemType.cs" />
     <Compile Include="Misc\MiscListView.cs" />
     <Compile Include="Reports\ValidatorReports.cs" />
     <Compile Include="StringProcessing\StringProcessing.cs" />

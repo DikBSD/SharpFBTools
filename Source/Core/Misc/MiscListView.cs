@@ -71,6 +71,80 @@ namespace Core.Misc
 			}
 		}
 		
+		// пометить все файлы определенного типа
+		public void CheckTypeAllFiles(ListView lv, string sType, bool bCheck) {
+			if( lv.Items.Count > 0  ) {
+				DirectoryInfo di = null;
+				for( int i=0; i!=lv.Items.Count; ++i ) {
+					ListViewItemType it = (ListViewItemType)lv.Items[i].Tag;
+					if(it.Type == "f") {
+						di = new DirectoryInfo(it.Value);
+						if(di.Extension.ToLower()=="."+sType.ToLower()) {
+							lv.Items[i].Checked = bCheck;
+						}
+					}
+				}
+			}
+		}
+		
+		// снять пометку со всех файлов пределенного типа
+		public void UnCheckTypeAllFiles(ListView lv, string sType) {
+			DirectoryInfo di = null;
+			foreach( ListViewItem lvi in lv.CheckedItems ) {
+				ListViewItemType it = (ListViewItemType)lvi.Tag;
+				if(it.Type == "f") {
+					di = new DirectoryInfo(it.Value);
+					if(di.Extension.ToLower()=="."+sType.ToLower()) {
+						lvi.Checked = false;
+					}
+				}
+			}
+		}
+		
+		// пометить все файлы
+		public void CheckAllFiles(ListView lv, bool bCheck) {
+			if( lv.Items.Count > 0  ) {
+				for( int i=0; i!=lv.Items.Count; ++i ) {
+					ListViewItemType it = (ListViewItemType)lv.Items[i].Tag;
+					if(it.Type == "f") {
+						lv.Items[i].Checked = bCheck;
+					}
+				}
+			}
+		}
+		
+		// снять пометку со всех файлов
+		public void UnCheckAllFiles(ListView lv) {
+			foreach( ListViewItem lvi in lv.CheckedItems ) {
+				ListViewItemType it = (ListViewItemType)lvi.Tag;
+				if(it.Type == "f") {
+					lvi.Checked = false;
+				}
+			}
+		}
+	
+		// отметить все папки
+		public void CheckAllDirs(ListView lv, bool bCheck) {
+			if( lv.Items.Count > 0  ) {
+				for( int i=0; i!=lv.Items.Count; ++i ) {
+					ListViewItemType it = (ListViewItemType)lv.Items[i].Tag;
+					if(it.Type == "d") {
+						lv.Items[i].Checked = bCheck;
+					}
+				}
+			}
+		}
+		
+		// снять пометку со всех папок
+		public void UnCheckAllDirs(ListView lv) {
+			foreach( ListViewItem lvi in lv.CheckedItems ) {
+				ListViewItemType it = (ListViewItemType)lvi.Tag;
+				if(it.Type == "d") {
+					lvi.Checked = false;
+				}
+			}
+		}
+		
 		#endregion
 
 	}

@@ -60,6 +60,8 @@
     <Compile Include="Tools\SFBTpAbout.Designer.cs" />
     <Compile Include="Tools\SFBTpArchiveManager.cs" />
     <Compile Include="Tools\SFBTpArchiveManager.Designer.cs" />
+    <Compile Include="Tools\SFBTpFB2DescEditor.cs" />
+    <Compile Include="Tools\SFBTpFB2DescEditor.Designer.cs" />
     <Compile Include="Tools\SFBTpFB2Dublicator.cs" />
     <Compile Include="Tools\SFBTpFB2Dublicator.Designer.cs" />
     <Compile Include="Tools\SFBTpFileManager.cs" />
@@ -75,6 +77,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\SFBTpArchiveManager.resx">
       <DependentUpon>SFBTpArchiveManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\SFBTpFB2DescEditor.resx">
+      <DependentUpon>SFBTpFB2DescEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\SFBTpFB2Dublicator.resx">
       <DependentUpon>SFBTpFB2Dublicator.cs</DependentUpon>

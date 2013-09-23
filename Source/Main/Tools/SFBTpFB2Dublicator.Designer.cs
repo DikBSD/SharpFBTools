@@ -670,7 +670,7 @@ namespace SharpFBTools.Tools
 			// 
 			// fbdScanDir
 			// 
-			this.fbdScanDir.Description = "Укажите папку для сканирования с fb2-файлами и архивами";
+			this.fbdScanDir.Description = "Укажите папку для сканирования с fb2-файлами:";
 			// 
 			// pExistFile
 			// 

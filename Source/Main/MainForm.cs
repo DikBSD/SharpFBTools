@@ -34,6 +34,7 @@ namespace Main
 		private SFBTpFileManager	sfbTpFileManager	= new SFBTpFileManager();	// панель Менеджера файлов
 		private SFBTpArchiveManager	sfbTpArchiveManager	= new SFBTpArchiveManager();// панель Менеджера архивов
 		private SFBTpFB2Dublicator	sfbTpFB2Dublicator	= new SFBTpFB2Dublicator();	// панель Дубликатора файлов
+		private SFBTpFB2DescEditor	sfbTpFB2DescEditor	= new SFBTpFB2DescEditor();	// панель Редактора описания книг
 		private SFBTpAbout			sfbTpAbout			= new SFBTpAbout();			// панель О программе
 		#endregion		
 		
@@ -53,10 +54,10 @@ namespace Main
 			// список кнопок-переключателей панели инструментов и список список имплантируемых панелей-режимов работы
 			MainImpl.MakeGroupToggleLists( m_listToggleBtns,
 		    							tsbtnFB2Validator, tsbtnFileManager,
-										tsbtnArchiveManager, tsbtnFB2Dublicator, tsbtnAbout,
+										tsbtnArchiveManager, tsbtnFB2Dublicator, tsbtnDescEditor, tsbtnAbout,
 										m_listImplPanels,
 		    							sfbTpFB2Validator, sfbTpFileManager,
-										sfbTpArchiveManager, sfbTpFB2Dublicator, sfbTpAbout );
+										sfbTpArchiveManager, sfbTpFB2Dublicator, sfbTpFB2DescEditor, sfbTpAbout );
 			// первоначальное задание режима работы - панель Валидатора
 			tsbtnFB2Validator.Checked = true;
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Validator );
@@ -115,6 +116,14 @@ namespace Main
 			                    tscMain );
 		}
 		
+		void TsbtnDescEditorClick(object sender, EventArgs e)
+		{
+			// переключение состояния кнопки Редактора описания книги файлов
+			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
+			                    tsbtnDescEditor, this.sfbTpFB2DescEditor,
+			                    tscMain );
+		}
+		
 		void TsbtnAboutClick(object sender, EventArgs e)
 		{
 			// переключение состояния кнопки О программе
@@ -143,5 +152,6 @@ namespace Main
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
 		#endregion
+
 	}	
 }
