@@ -149,6 +149,9 @@ namespace SharpFBTools.Tools
 			this.btnDir = new System.Windows.Forms.Button();
 			this.btnLetterFamily = new System.Windows.Forms.Button();
 			this.panelStart = new System.Windows.Forms.Panel();
+			this.rbtnFMFSFB22 = new System.Windows.Forms.RadioButton();
+			this.rbtnFMFSFB2Librusec = new System.Windows.Forms.RadioButton();
+			this.lblFMFSGenres = new System.Windows.Forms.Label();
 			this.buttonFullSortStop = new System.Windows.Forms.Button();
 			this.buttonFullSortFilesTo = new System.Windows.Forms.Button();
 			this.tpSelectedSort = new System.Windows.Forms.TabPage();
@@ -197,6 +200,9 @@ namespace SharpFBTools.Tools
 			this.btnSSInsertTemplates = new System.Windows.Forms.Button();
 			this.txtBoxSSTemplatesFromLine = new System.Windows.Forms.TextBox();
 			this.paneSSProcess = new System.Windows.Forms.Panel();
+			this.rbtnFMSSFB22 = new System.Windows.Forms.RadioButton();
+			this.rbtnFMSSFB2Librusec = new System.Windows.Forms.RadioButton();
+			this.lblFMSSGenres = new System.Windows.Forms.Label();
 			this.buttonSSortStop = new System.Windows.Forms.Button();
 			this.buttonSSortFilesTo = new System.Windows.Forms.Button();
 			this.tcLog = new System.Windows.Forms.TabPage();
@@ -861,6 +867,9 @@ namespace SharpFBTools.Tools
 			// panelStart
 			// 
 			this.panelStart.BackColor = System.Drawing.SystemColors.Control;
+			this.panelStart.Controls.Add(this.rbtnFMFSFB22);
+			this.panelStart.Controls.Add(this.rbtnFMFSFB2Librusec);
+			this.panelStart.Controls.Add(this.lblFMFSGenres);
 			this.panelStart.Controls.Add(this.buttonFullSortStop);
 			this.panelStart.Controls.Add(this.buttonFullSortFilesTo);
 			this.panelStart.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -869,13 +878,47 @@ namespace SharpFBTools.Tools
 			this.panelStart.Size = new System.Drawing.Size(814, 58);
 			this.panelStart.TabIndex = 36;
 			// 
+			// rbtnFMFSFB22
+			// 
+			this.rbtnFMFSFB22.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMFSFB22.Location = new System.Drawing.Point(193, 7);
+			this.rbtnFMFSFB22.Name = "rbtnFMFSFB22";
+			this.rbtnFMFSFB22.Size = new System.Drawing.Size(54, 17);
+			this.rbtnFMFSFB22.TabIndex = 6;
+			this.rbtnFMFSFB22.Text = "fb2.2";
+			this.rbtnFMFSFB22.UseVisualStyleBackColor = true;
+			this.rbtnFMFSFB22.Click += new System.EventHandler(this.RbtnFMFSFB22Click);
+			// 
+			// rbtnFMFSFB2Librusec
+			// 
+			this.rbtnFMFSFB2Librusec.Checked = true;
+			this.rbtnFMFSFB2Librusec.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMFSFB2Librusec.Location = new System.Drawing.Point(92, 7);
+			this.rbtnFMFSFB2Librusec.Name = "rbtnFMFSFB2Librusec";
+			this.rbtnFMFSFB2Librusec.Size = new System.Drawing.Size(95, 17);
+			this.rbtnFMFSFB2Librusec.TabIndex = 5;
+			this.rbtnFMFSFB2Librusec.TabStop = true;
+			this.rbtnFMFSFB2Librusec.Text = "fb2 Либрусек";
+			this.rbtnFMFSFB2Librusec.UseVisualStyleBackColor = true;
+			this.rbtnFMFSFB2Librusec.Click += new System.EventHandler(this.RbtnFMFSFB2LibrusecClick);
+			// 
+			// lblFMFSGenres
+			// 
+			this.lblFMFSGenres.ForeColor = System.Drawing.Color.Navy;
+			this.lblFMFSGenres.Location = new System.Drawing.Point(6, 8);
+			this.lblFMFSGenres.Name = "lblFMFSGenres";
+			this.lblFMFSGenres.Size = new System.Drawing.Size(98, 16);
+			this.lblFMFSGenres.TabIndex = 4;
+			this.lblFMFSGenres.Text = "Схема Жанров:";
+			// 
 			// buttonFullSortStop
 			// 
+			this.buttonFullSortStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonFullSortStop.Enabled = false;
 			this.buttonFullSortStop.Font = new System.Drawing.Font("Tahoma", 11F);
 			this.buttonFullSortStop.Image = ((System.Drawing.Image)(resources.GetObject("buttonFullSortStop.Image")));
 			this.buttonFullSortStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonFullSortStop.Location = new System.Drawing.Point(3, 6);
+			this.buttonFullSortStop.Location = new System.Drawing.Point(490, 6);
 			this.buttonFullSortStop.Name = "buttonFullSortStop";
 			this.buttonFullSortStop.Size = new System.Drawing.Size(150, 49);
 			this.buttonFullSortStop.TabIndex = 3;
@@ -1401,6 +1444,9 @@ namespace SharpFBTools.Tools
 			// paneSSProcess
 			// 
 			this.paneSSProcess.BackColor = System.Drawing.SystemColors.Control;
+			this.paneSSProcess.Controls.Add(this.rbtnFMSSFB22);
+			this.paneSSProcess.Controls.Add(this.rbtnFMSSFB2Librusec);
+			this.paneSSProcess.Controls.Add(this.lblFMSSGenres);
 			this.paneSSProcess.Controls.Add(this.buttonSSortStop);
 			this.paneSSProcess.Controls.Add(this.buttonSSortFilesTo);
 			this.paneSSProcess.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -1409,13 +1455,47 @@ namespace SharpFBTools.Tools
 			this.paneSSProcess.Size = new System.Drawing.Size(814, 58);
 			this.paneSSProcess.TabIndex = 63;
 			// 
+			// rbtnFMSSFB22
+			// 
+			this.rbtnFMSSFB22.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMSSFB22.Location = new System.Drawing.Point(193, 6);
+			this.rbtnFMSSFB22.Name = "rbtnFMSSFB22";
+			this.rbtnFMSSFB22.Size = new System.Drawing.Size(54, 17);
+			this.rbtnFMSSFB22.TabIndex = 9;
+			this.rbtnFMSSFB22.Text = "fb2.2";
+			this.rbtnFMSSFB22.UseVisualStyleBackColor = true;
+			this.rbtnFMSSFB22.Click += new System.EventHandler(this.RbtnFMSSFB22Click);
+			// 
+			// rbtnFMSSFB2Librusec
+			// 
+			this.rbtnFMSSFB2Librusec.Checked = true;
+			this.rbtnFMSSFB2Librusec.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMSSFB2Librusec.Location = new System.Drawing.Point(92, 6);
+			this.rbtnFMSSFB2Librusec.Name = "rbtnFMSSFB2Librusec";
+			this.rbtnFMSSFB2Librusec.Size = new System.Drawing.Size(95, 17);
+			this.rbtnFMSSFB2Librusec.TabIndex = 8;
+			this.rbtnFMSSFB2Librusec.TabStop = true;
+			this.rbtnFMSSFB2Librusec.Text = "fb2 Либрусек";
+			this.rbtnFMSSFB2Librusec.UseVisualStyleBackColor = true;
+			this.rbtnFMSSFB2Librusec.Click += new System.EventHandler(this.RbtnFMSSFB2LibrusecClick);
+			// 
+			// lblFMSSGenres
+			// 
+			this.lblFMSSGenres.ForeColor = System.Drawing.Color.Navy;
+			this.lblFMSSGenres.Location = new System.Drawing.Point(6, 7);
+			this.lblFMSSGenres.Name = "lblFMSSGenres";
+			this.lblFMSSGenres.Size = new System.Drawing.Size(98, 16);
+			this.lblFMSSGenres.TabIndex = 7;
+			this.lblFMSSGenres.Text = "Схема Жанров:";
+			// 
 			// buttonSSortStop
 			// 
+			this.buttonSSortStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSSortStop.Enabled = false;
 			this.buttonSSortStop.Font = new System.Drawing.Font("Tahoma", 11F);
 			this.buttonSSortStop.Image = ((System.Drawing.Image)(resources.GetObject("buttonSSortStop.Image")));
 			this.buttonSSortStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSSortStop.Location = new System.Drawing.Point(3, 6);
+			this.buttonSSortStop.Location = new System.Drawing.Point(490, 6);
 			this.buttonSSortStop.Name = "buttonSSortStop";
 			this.buttonSSortStop.Size = new System.Drawing.Size(150, 49);
 			this.buttonSSortStop.TabIndex = 3;
@@ -1601,6 +1681,12 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Label lblFMSSGenres;
+		private System.Windows.Forms.RadioButton rbtnFMSSFB2Librusec;
+		private System.Windows.Forms.RadioButton rbtnFMSSFB22;
+		private System.Windows.Forms.Label lblFMFSGenres;
+		private System.Windows.Forms.RadioButton rbtnFMFSFB2Librusec;
+		private System.Windows.Forms.RadioButton rbtnFMFSFB22;
 		private System.Windows.Forms.CheckBox chBoxStartExplorerColumnsAutoReize;
 		private System.Windows.Forms.TextBox textBoxFiles;
 		private System.Windows.Forms.Panel panelData;

@@ -41,7 +41,7 @@ namespace Core.BookSorting
 		public List<SelectedSortQueryCriteria> MakeSelectedSortQuerysList(
 								string sLang, string sLast, string sFirst, string sMiddle, string sNick,
 								string sGGroup, string sGenre, string sSequence, string sBTitle, string sExactFit,
-								bool bGenresFB21Scheme ) {
+								bool bGenresFB2LibrusecScheme ) {
 			// заполняем список критериев поиска для Избранной Сортировки
 			List<SelectedSortQueryCriteria> lSSQCList = new List<SelectedSortQueryCriteria>();
 			List<string> lsGenres = null; // временный список Жанров по конкретной Группе Жанров
@@ -58,8 +58,8 @@ namespace Core.BookSorting
 			// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
 			if( sGGroup.Length!=0 ) {
 				IFBGenres fb2g = null;
-				if( bGenresFB21Scheme ) {
-					fb2g = new FB21Genres();
+				if( bGenresFB2LibrusecScheme ) {
+					fb2g = new FB2LibrusecGenres();
 				} else {
 					fb2g = new FB22Genres();
 				}

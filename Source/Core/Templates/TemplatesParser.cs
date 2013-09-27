@@ -616,8 +616,8 @@ namespace Core.Templates {
 			return lexems;
 		}
 		
-		public static string Parse( string sFB2FilePath, List<Core.Templates.Lexems.TPSimple> lSLexems, Settings.DataFM dfm,
-		                           int nGenreIndex, int nAuthorIndex ) {
+		public static string Parse( string sFB2FilePath, List<Core.Templates.Lexems.TPSimple> lSLexems, bool IsFB2LibrusecGenres,
+		                           Settings.DataFM dfm, int nGenreIndex, int nAuthorIndex ) {
 			// формирование имени файла на основе данных Description и шаблонов подстановки
 			#region Код
 			string sFileName = "";
@@ -630,8 +630,8 @@ namespace Core.Templates {
 			BookTitle btBookTitle		= ti.BookTitle;
 			IList<Sequence> lSequences = ti.Sequences;
 			IFBGenres fb2g = null;
-			if( dfm.GenresFB21Scheme ) {
-				fb2g = new FB21Genres();
+			if( IsFB2LibrusecGenres ) {
+				fb2g = new FB2LibrusecGenres();
 			} else {
 				fb2g = new FB22Genres();
 			}

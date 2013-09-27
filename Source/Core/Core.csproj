@@ -100,8 +100,8 @@
     <Compile Include="FB2\Description\TitleInfo\TitleInfo.cs" />
     <Compile Include="FB2\FB2Parsers\FB2Parser.cs" />
     <Compile Include="FB2\FB2Parsers\FB2Validator.cs" />
-    <Compile Include="FB2\Genres\FB21Genres.cs" />
     <Compile Include="FB2\Genres\FB22Genres.cs" />
+    <Compile Include="FB2\Genres\FB2LibRusEcGenres.cs" />
     <Compile Include="FB2\Genres\IFBGenres.cs" />
     <Compile Include="FileManager\FileManagerWork.cs" />
     <Compile Include="FileManager\StatusView.cs" />

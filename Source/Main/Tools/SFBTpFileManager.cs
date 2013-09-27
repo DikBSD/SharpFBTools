@@ -310,8 +310,10 @@ namespace SharpFBTools.Tools
 		private void GenerateSourceList(string dirPath) {
         	// заполнение списка данными указанной папки
         	m_CurrentDir = dirPath;
+        	bool IsFB2LibrusecGenres = m_bFullSort ? Settings.FileManagerSettings.FullSortingFB2LibrusecGenres
+					            	 				: Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres;
         	Core.FileManager.FileManagerWork.GenerateSourceList(
-        		dirPath, listViewSource, true, checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked
+        		dirPath, listViewSource, true, IsFB2LibrusecGenres, checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked
         	);
         }
 
@@ -433,6 +435,8 @@ namespace SharpFBTools.Tools
 			chBoxStartExplorerColumnsAutoReize.Checked = Settings.FileManagerSettings.ReadXmlFullSortingStartExplorerColumnsAutoReize();
 			chBoxFSToZip.Checked = Settings.FileManagerSettings.ReadXmlFullSortingToZip();
 			chBoxFSNotDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlFullSortingNotDelFB2Files();
+			rbtnFMFSFB2Librusec.Checked = Settings.FileManagerSettings.ReadXmlFullSortingFB2Librusec();
+			rbtnFMFSFB22.Checked = Settings.FileManagerSettings.ReadXmlFullSortingFB22();
 			
 			// чтение данных Избранной Сортировки из xml-файла
 			tboxSSSourceDir.Text = Settings.FileManagerSettings.ReadXmlSelectedSortingSourceDir();
@@ -441,6 +445,8 @@ namespace SharpFBTools.Tools
 			chBoxSSScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingInSubDir();
 			chBoxSSToZip.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingToZip();
 			chBoxSSNotDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingNotDelFB2Files();
+			rbtnFMSSFB2Librusec.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingFB2Librusec();
+			rbtnFMSSFB22.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingFB22();
 
 //			if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
 //				GenerateSourceList(Settings.FileManagerSettings.FullSortingSourceDir);
@@ -859,6 +865,9 @@ namespace SharpFBTools.Tools
 			string sTempDir = Settings.Settings.GetTempDir();
 			// смотрим, что это за файл
 			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
+			
+			bool IsFB2LibrusecGenres = m_bFullSort ? Settings.FileManagerSettings.FullSortingFB2LibrusecGenres
+					            	 				: Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres;
 			if( sExt == ".fb2" ) {
 				// обработка fb2-файла
 				// тип сортировки
@@ -869,7 +878,7 @@ namespace SharpFBTools.Tools
 				}
 				try {
 					string sToFilePath = sTarget + "\\" +
-							templatesParser.Parse( sFromFilePath, lSLexems, dfm, nGenreIndex, nAuthorIndex ) + ".fb2";
+							templatesParser.Parse( sFromFilePath, lSLexems, IsFB2LibrusecGenres, dfm, nGenreIndex, nAuthorIndex ) + ".fb2";
 					CreateFileTo( sFromFilePath, sToFilePath, dfm.FileExistMode, dfm.AddToFileNameBookIDMode, dfm );
 				} catch /*( System.IO.FileLoadException )*/ {
 					// нечитаемый fb2-файл - копируем его в папку Bad
@@ -1189,6 +1198,7 @@ namespace SharpFBTools.Tools
 				DirectoryInfo di = null;
 				FB2BookDescription bd = null;
 				Settings.DataFM dfm = new Settings.DataFM();
+				bool IsFB2LibrusecGenres = Settings.FileManagerSettings.FullSortingFB2LibrusecGenres;
 				for(int i=0; i!= listViewSource.Items.Count; ++i) {
 					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
 					if(it.Type=="f") {
@@ -1202,7 +1212,7 @@ namespace SharpFBTools.Tools
 									listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
 									listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
 									listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-									listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(bd.TIGenres)+space;
+									listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(IsFB2LibrusecGenres, bd.TIGenres)+space;
 									listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
 									listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
 								} else if(di.Extension.ToLower()==".zip") {
@@ -1215,7 +1225,7 @@ namespace SharpFBTools.Tools
 										listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
 										listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
 										listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-										listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(bd.TIGenres)+space;
+										listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(IsFB2LibrusecGenres, bd.TIGenres)+space;
 										listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
 										listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
 									}
@@ -1472,10 +1482,38 @@ namespace SharpFBTools.Tools
 			Settings.FileManagerSettings.FullSortingToZip = chBoxFSToZip.Checked;
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
-		
+	
 		void ChBoxFSNotDelFB2FilesClick(object sender, EventArgs e)
 		{
 			Settings.FileManagerSettings.FullSortingNotDelFB2Files = chBoxFSNotDelFB2Files.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
+		}
+		
+		void RbtnFMFSFB2LibrusecClick(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.FullSortingFB2LibrusecGenres = rbtnFMFSFB2Librusec.Checked;
+			Settings.FileManagerSettings.FullSortingFB22Genres = rbtnFMFSFB22.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
+		}
+		
+		void RbtnFMFSFB22Click(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.FullSortingFB2LibrusecGenres = rbtnFMFSFB2Librusec.Checked;
+			Settings.FileManagerSettings.FullSortingFB22Genres = rbtnFMFSFB22.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
+		}
+		
+		void RbtnFMSSFB2LibrusecClick(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres = rbtnFMSSFB2Librusec.Checked;
+			Settings.FileManagerSettings.SelectedSortingFB22Genres = rbtnFMSSFB22.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
+		}
+		
+		void RbtnFMSSFB22Click(object sender, EventArgs e)
+		{
+			Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres = rbtnFMSSFB2Librusec.Checked;
+			Settings.FileManagerSettings.SelectedSortingFB22Genres = rbtnFMSSFB22.Checked;
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
 		
@@ -1570,7 +1608,7 @@ namespace SharpFBTools.Tools
 					lvSSData.Items.Clear();
 					m_lSSQCList = new List<selectedSortQueryCriteria>();
 					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit;
-					DataFM dfm = new DataFM();
+					bool IsFB2LibrusecGenres = Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres;
 					FB2SelectedSorting fb2ss = new FB2SelectedSorting();
 					for( int i=0; i!=ssdfrm.lvSSData.Items.Count; ++i ) {
 						sLang	= ssdfrm.lvSSData.Items[i].Text;
@@ -1598,7 +1636,7 @@ namespace SharpFBTools.Tools
 						// заполняем список критериев поиска для Избранной Сортировки
 						m_lSSQCList.AddRange( fb2ss.MakeSelectedSortQuerysList( sLang, sLast, sFirst, sMiddle, sNick,
 																			sGGroup, sGenre, sSequence, sBTitle,
-																			sExactFit, dfm.GenresFB21Scheme ) );
+																			sExactFit, IsFB2LibrusecGenres ) );
 					}
 				}
 			}
@@ -1786,11 +1824,11 @@ namespace SharpFBTools.Tools
 								// заполняем список критериев поиска для Избранной Сортировки
 								m_lSSQCList.AddRange( fb2ss.MakeSelectedSortQuerysList( sLang, sLast, sFirst, sMiddle, sNick,
 																					sGGroup, sGenre, sSequence, sBTitle,
-																					sExactFit, dfm.GenresFB21Scheme ) );
+																					sExactFit, dfm.SSGenresFB2LibrusecScheme ) );
     						} while( reader.ReadToNextSibling("Item") );
 						}
 					} catch {
-						MessageBox.Show( "Поврежден списка данных для Избранной Сортировки:\n\""+sfdOpenXMLFile.FileName+"\".", "SharpFBTools - Избранная Сортировка", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						MessageBox.Show( "Поврежден список данных для Избранной Сортировки:\n\""+sfdOpenXMLFile.FileName+"\".", "SharpFBTools - Избранная Сортировка", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					} finally {
 						reader.Close();
 					}
@@ -1806,5 +1844,6 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
+
 	}
 }

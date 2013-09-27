@@ -76,8 +76,6 @@ namespace Options
 		}
 		private void DefFMGeneral() {
 			// основные для Менеджера Файлов
-			rbtnFMFB21.Checked = Settings.SettingsFM.GetDefFMrbtnGenreFB21Cheked();
-			rbtnFMFB22.Checked = Settings.SettingsFM.GetDefFMrbtnGenreFB22Cheked();
 			chBoxTranslit.Checked = Settings.SettingsFM.GetDefFMchBoxTranslitCheked();
 			chBoxStrict.Checked = Settings.SettingsFM.GetDefFMchBoxStrictCheked();
 			cboxSpace.SelectedIndex = Settings.SettingsFM.GetDefFMcboxSpaceSelectedIndex();
@@ -94,7 +92,7 @@ namespace Options
 			rbtnGenreText.Checked = Settings.SettingsFM.GetDefFMrbtnGenreTextCheked();
 			chBoxAddToFileNameBookID.Checked = Settings.SettingsFM.GetDefFMchBoxAddToFileNameBookIDChecked();
 			rbtnFMAllFB2.Checked		= Settings.SettingsFM.GetDefFMrbtnFMAllFB2Cheked();
-			rbtnFMOnleValidFB2.Checked	= Settings.SettingsFM.GetDefFMrbtnFMOnleValidFB2Cheked();
+			rbtnFMOnleValidFB2.Checked	= Settings.SettingsFM.GetDefFMrbtnFMOnlyValidFB2Cheked();
 		}
 		private void DefFMDirNameForTagNotData() {
 			// название папки шаблонного тэга без данных
@@ -143,6 +141,10 @@ namespace Options
 			txtboxFMhumor.Text		= Settings.SettingsFM.GetDefFMGenresGroupHumor();
 			txtboxFMhome.Text		= Settings.SettingsFM.GetDefFMGenresGroupHome();
 			txtboxFMbusiness.Text	= Settings.SettingsFM.GetDefFMGenresGroupBusiness();
+			txtboxFMtech.Text		= Settings.SettingsFM.GetDefFMGenresGroupTech();
+			txtboxFMmilitary.Text	= Settings.SettingsFM.GetDefFMGenresGroupMilitary();
+			txtboxFMfolklore.Text	= Settings.SettingsFM.GetDefFMGenresGroupFolklore();
+			txtboxFMother.Text		= Settings.SettingsFM.GetDefFMGenresGroupOther();
 		}
 
 		private void ReadSettings() {
@@ -157,9 +159,12 @@ namespace Options
 					// Общее 
 					reader.ReadToFollowing("WinRar");
 					if( reader.HasAttributes ) {
-						tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
-						tboxRarPath.Text = reader.GetAttribute("RarPath");
-						tboxUnRarPath.Text = reader.GetAttribute("UnRarPath");
+						if ( reader.GetAttribute("WinRarPath") != null )
+							tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
+						if ( reader.GetAttribute("RarPath") != null )
+							tboxRarPath.Text = reader.GetAttribute("RarPath");
+						if ( reader.GetAttribute("UnRarPath") != null )
+							tboxUnRarPath.Text = reader.GetAttribute("UnRarPath");
 					}
 					reader.ReadToFollowing("A7za");
 					if( reader.HasAttributes ) {
@@ -167,8 +172,10 @@ namespace Options
 					}
 					reader.ReadToFollowing("Editors");
 					if( reader.HasAttributes ) {
-						tboxFBEPath.Text = reader.GetAttribute("FBEPath");
-						tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
+						if ( reader.GetAttribute("FBEPath") != null )
+							tboxFBEPath.Text = reader.GetAttribute("FBEPath");
+						if ( reader.GetAttribute("TextFB2EPath") != null )
+							tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
 					}
 					reader.ReadToFollowing("Reader");
 					if( reader.HasAttributes ) {
@@ -180,23 +187,31 @@ namespace Options
 					}
 					reader.ReadToFollowing("ValidatorToolButtons");
 					if( reader.HasAttributes ) {
-						cboxDSValidator.Text = reader.GetAttribute("cboxDSValidatorText");
-						cboxTIRValidator.Text = reader.GetAttribute("cboxTIRValidatorText");
+						if ( reader.GetAttribute("cboxDSValidatorText") != null )
+							cboxDSValidator.Text = reader.GetAttribute("cboxDSValidatorText");
+						if ( reader.GetAttribute("cboxTIRValidatorText") != null )
+							cboxTIRValidator.Text = reader.GetAttribute("cboxTIRValidatorText");
 					}
 					reader.ReadToFollowing("FileManagerToolButtons");
 					if( reader.HasAttributes ) {
-						cboxDSFileManager.Text = reader.GetAttribute("cboxDSFileManagerText");
-						cboxTIRFileManager.Text = reader.GetAttribute("cboxTIRFileManagerText");
+						if ( reader.GetAttribute("cboxDSFileManagerText") != null )
+							cboxDSFileManager.Text = reader.GetAttribute("cboxDSFileManagerText");
+						if ( reader.GetAttribute("cboxTIRFileManagerText") != null )
+							cboxTIRFileManager.Text = reader.GetAttribute("cboxTIRFileManagerText");
 					}
 					reader.ReadToFollowing("ArchiveManagerToolButtons");
 					if( reader.HasAttributes ) {
-						cboxDSArchiveManager.Text = reader.GetAttribute("cboxDSArchiveManagerText");
-						cboxTIRArchiveManager.Text = reader.GetAttribute("cboxTIRArchiveManagerText");
+						if ( reader.GetAttribute("cboxDSArchiveManagerText") != null )
+							cboxDSArchiveManager.Text = reader.GetAttribute("cboxDSArchiveManagerText");
+						if ( reader.GetAttribute("cboxTIRArchiveManagerText") != null )
+							cboxTIRArchiveManager.Text = reader.GetAttribute("cboxTIRArchiveManagerText");
 					}
 					reader.ReadToFollowing("DupToolButtons");
 					if( reader.HasAttributes ) {
-						cboxDSFB2Dup.Text = reader.GetAttribute("cboxDSFB2DupText");
-						cboxTIRFB2Dup.Text = reader.GetAttribute("cboxTIRFB2DupText");
+						if ( reader.GetAttribute("cboxDSFB2DupText") != null )
+							cboxDSFB2Dup.Text = reader.GetAttribute("cboxDSFB2DupText");
+						if ( reader.GetAttribute("cboxTIRFB2DupText") != null )
+							cboxTIRFB2Dup.Text = reader.GetAttribute("cboxTIRFB2DupText");
 					}
 					reader.ReadToFollowing("ConfirmationForExit");
 					if( reader.HasAttributes ) {
@@ -205,13 +220,17 @@ namespace Options
 					// Валидатор
 					reader.ReadToFollowing("ValidatorDoubleClick");
 					if (reader.HasAttributes ) {
-						cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") );
-						cboxValidatorForFB2Archive.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") );
+						if ( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") != null )
+							cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") );
+						if ( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") != null )
+							cboxValidatorForFB2Archive.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") );
 					}
 					reader.ReadToFollowing("ValidatorPressEnter");
 					if (reader.HasAttributes ) {
-						cboxValidatorForFB2PE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE") );
-						cboxValidatorForFB2ArchivePE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE") );
+						if ( reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE") != null )
+							cboxValidatorForFB2PE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE") );
+						if ( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE") != null )
+							cboxValidatorForFB2ArchivePE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE") );
 					}
 					// Менеджер Файлов
 					reader.ReadToFollowing("Register");
@@ -256,11 +275,6 @@ namespace Options
 						rbtnGenreSchema.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreSchemaChecked") );
 						rbtnGenreText.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreTextChecked") );
 					}
-					reader.ReadToFollowing("FMGenresScheme");
-					if( reader.HasAttributes ) {
-						rbtnFMFB21.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnFMFB21Checked") );
-						rbtnFMFB22.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnFMFB22Checked") );
-					}
 					reader.ReadToFollowing("SortType");
 					if( reader.HasAttributes ) {
 						rbtnFMAllFB2.Checked		= Convert.ToBoolean( reader.GetAttribute("rbtnFMAllFB2Checked") );
@@ -268,44 +282,87 @@ namespace Options
 					}
 					reader.ReadToFollowing("TagsNoText");
 					if( reader.HasAttributes ) {
-						txtBoxFMNoGenreGroup.Text	= reader.GetAttribute("txtBoxFMNoGenreGroup");
-						txtBoxFMNoGenre.Text		= reader.GetAttribute("txtBoxFMNoGenre");
-						txtBoxFMNoLang.Text			= reader.GetAttribute("txtBoxFMNoLang");
-						txtBoxFMNoFirstName.Text	= reader.GetAttribute("txtBoxFMNoFirstName");
-						txtBoxFMNoMiddleName.Text	= reader.GetAttribute("txtBoxFMNoMiddleName");
-						txtBoxFMNoLastName.Text		= reader.GetAttribute("txtBoxFMNoLastName");
-						txtBoxFMNoNickName.Text 	= reader.GetAttribute("txtBoxFMNoNickName");
-						txtBoxFMNoBookTitle.Text 	= reader.GetAttribute("txtBoxFMNoBookTitle");
-						txtBoxFMNoSequence.Text 	= reader.GetAttribute("txtBoxFMNoSequence");
-						txtBoxFMNoNSequence.Text 	= reader.GetAttribute("txtBoxFMNoNSequence");
-						txtBoxFMNoDateText.Text 	= reader.GetAttribute("txtBoxFMNoDateText");
-						txtBoxFMNoDateValue.Text 	= reader.GetAttribute("txtBoxFMNoDateValue");
-						txtBoxFMNoYear.Text 		= reader.GetAttribute("txtBoxFMNoYear");
-						txtBoxFMNoPublisher.Text 	= reader.GetAttribute("txtBoxFMNoPublisher");
-						txtBoxFMNoCity.Text 		= reader.GetAttribute("txtBoxFMNoCity");
-						txtBoxFMNoFB2FirstName.Text 	= reader.GetAttribute("txtBoxFMNoFB2FirstName");
-						txtBoxFMNoFB2MiddleName.Text 	= reader.GetAttribute("txtBoxFMNoFB2MiddleName");
-						txtBoxFMNoFB2LastName.Text 		= reader.GetAttribute("txtBoxFMNoFB2LastName");
-						txtBoxFMNoFB2NickName.Text 		= reader.GetAttribute("txtBoxFMNoFB2NickName");
+						if ( reader.GetAttribute("txtBoxFMNoGenreGroup") != null )
+							txtBoxFMNoGenreGroup.Text = reader.GetAttribute("txtBoxFMNoGenreGroup");
+						if ( reader.GetAttribute("txtBoxFMNoGenre") != null )
+							txtBoxFMNoGenre.Text = reader.GetAttribute("txtBoxFMNoGenre");
+						if ( reader.GetAttribute("txtBoxFMNoLang") != null )
+							txtBoxFMNoLang.Text = reader.GetAttribute("txtBoxFMNoLang");
+						if ( reader.GetAttribute("txtBoxFMNoFirstName") != null )
+							txtBoxFMNoFirstName.Text = reader.GetAttribute("txtBoxFMNoFirstName");
+						if ( reader.GetAttribute("txtBoxFMNoMiddleName") != null )
+							txtBoxFMNoMiddleName.Text = reader.GetAttribute("txtBoxFMNoMiddleName");
+						if ( reader.GetAttribute("txtBoxFMNoLastName") != null )
+							txtBoxFMNoLastName.Text = reader.GetAttribute("txtBoxFMNoLastName");
+						if ( reader.GetAttribute("txtBoxFMNoNickName") != null )
+							txtBoxFMNoNickName.Text = reader.GetAttribute("txtBoxFMNoNickName");
+						if ( reader.GetAttribute("txtBoxFMNoBookTitle") != null )
+							txtBoxFMNoBookTitle.Text = reader.GetAttribute("txtBoxFMNoBookTitle");
+						if ( reader.GetAttribute("txtBoxFMNoSequence") != null )
+							txtBoxFMNoSequence.Text = reader.GetAttribute("txtBoxFMNoSequence");
+						if ( reader.GetAttribute("txtBoxFMNoNSequence") != null )
+							txtBoxFMNoNSequence.Text = reader.GetAttribute("txtBoxFMNoNSequence");
+						if ( reader.GetAttribute("txtBoxFMNoDateText") != null )
+							txtBoxFMNoDateText.Text = reader.GetAttribute("txtBoxFMNoDateText");
+						if ( reader.GetAttribute("txtBoxFMNoDateValue") != null )
+							txtBoxFMNoDateValue.Text = reader.GetAttribute("txtBoxFMNoDateValue");
+						if ( reader.GetAttribute("txtBoxFMNoYear") != null )
+							txtBoxFMNoYear.Text = reader.GetAttribute("txtBoxFMNoYear");
+						if ( reader.GetAttribute("txtBoxFMNoPublisher") != null )
+							txtBoxFMNoPublisher.Text = reader.GetAttribute("txtBoxFMNoPublisher");
+						if ( reader.GetAttribute("txtBoxFMNoCity") != null )
+							txtBoxFMNoCity.Text = reader.GetAttribute("txtBoxFMNoCity");
+						if ( reader.GetAttribute("txtBoxFMNoFB2FirstName") != null )
+							txtBoxFMNoFB2FirstName.Text = reader.GetAttribute("txtBoxFMNoFB2FirstName");
+						if ( reader.GetAttribute("txtBoxFMNoFB2MiddleName") != null )
+							txtBoxFMNoFB2MiddleName.Text = reader.GetAttribute("txtBoxFMNoFB2MiddleName");
+						if ( reader.GetAttribute("txtBoxFMNoFB2LastName") != null )
+							txtBoxFMNoFB2LastName.Text = reader.GetAttribute("txtBoxFMNoFB2LastName");
+						if ( reader.GetAttribute("txtBoxFMNoFB2NickName") != null )
+							txtBoxFMNoFB2NickName.Text = reader.GetAttribute("txtBoxFMNoFB2NickName");
 					}
 					reader.ReadToFollowing("GenresGroups");
 					if( reader.HasAttributes ) {
-						txtboxFMsf.Text			= reader.GetAttribute("txtboxFMsf");
-						txtboxFMdetective.Text	= reader.GetAttribute("txtboxFMdetective");
-						txtboxFMprose.Text		= reader.GetAttribute("txtboxFMprose");
-						txtboxFMlove.Text		= reader.GetAttribute("txtboxFMlove");
-						txtboxFMadventure.Text	= reader.GetAttribute("txtboxFMadventure");
-						txtboxFMchildren.Text	= reader.GetAttribute("txtboxFMchildren");
-						txtboxFMpoetry.Text		= reader.GetAttribute("txtboxFMpoetry");
-						txtboxFMantique.Text	= reader.GetAttribute("txtboxFMantique");
-						txtboxFMscience.Text	= reader.GetAttribute("txtboxFMscience");
-						txtboxFMcomputers.Text	= reader.GetAttribute("txtboxFMcomputers");
-						txtboxFMreference.Text	= reader.GetAttribute("txtboxFMreference");
-						txtboxFMnonfiction.Text	= reader.GetAttribute("txtboxFMnonfiction");
-						txtboxFMreligion.Text	= reader.GetAttribute("txtboxFMreligion");
-						txtboxFMhumor.Text		= reader.GetAttribute("txtboxFMhumor");
-						txtboxFMhome.Text		= reader.GetAttribute("txtboxFMhome");
-						txtboxFMbusiness.Text	= reader.GetAttribute("txtboxFMbusiness");
+						if ( reader.GetAttribute("txtboxFMsf") != null )
+							txtboxFMsf.Text = reader.GetAttribute("txtboxFMsf");
+						if ( reader.GetAttribute("txtboxFMdetective") != null )
+							txtboxFMdetective.Text = reader.GetAttribute("txtboxFMdetective");
+						if ( reader.GetAttribute("txtboxFMprose") != null )
+							txtboxFMprose.Text = reader.GetAttribute("txtboxFMprose");
+						if ( reader.GetAttribute("txtboxFMlove") != null )
+							txtboxFMlove.Text = reader.GetAttribute("txtboxFMlove");
+						if ( reader.GetAttribute("txtboxFMadventure") != null )
+							txtboxFMadventure.Text = reader.GetAttribute("txtboxFMadventure");
+						if ( reader.GetAttribute("txtboxFMchildren") != null )
+							txtboxFMchildren.Text = reader.GetAttribute("txtboxFMchildren");
+						if ( reader.GetAttribute("txtboxFMpoetry") != null )
+							txtboxFMpoetry.Text = reader.GetAttribute("txtboxFMpoetry");
+						if ( reader.GetAttribute("txtboxFMantique") != null )
+							txtboxFMantique.Text = reader.GetAttribute("txtboxFMantique");
+						if ( reader.GetAttribute("txtboxFMscience") != null )
+							txtboxFMscience.Text = reader.GetAttribute("txtboxFMscience");
+						if ( reader.GetAttribute("txtboxFMcomputers") != null )
+							txtboxFMcomputers.Text = reader.GetAttribute("txtboxFMcomputers");
+						if ( reader.GetAttribute("txtboxFMreference") != null )
+							txtboxFMreference.Text = reader.GetAttribute("txtboxFMreference");
+						if ( reader.GetAttribute("txtboxFMnonfiction") != null )
+							txtboxFMnonfiction.Text = reader.GetAttribute("txtboxFMnonfiction");
+						if ( reader.GetAttribute("txtboxFMreligion") != null )
+							txtboxFMreligion.Text = reader.GetAttribute("txtboxFMreligion");
+						if ( reader.GetAttribute("txtboxFMhumor") != null )
+							txtboxFMhumor.Text = reader.GetAttribute("txtboxFMhumor");
+						if ( reader.GetAttribute("txtboxFMhome") != null )
+							txtboxFMhome.Text = reader.GetAttribute("txtboxFMhome");
+						if ( reader.GetAttribute("txtboxFMbusiness") != null )
+							txtboxFMbusiness.Text = reader.GetAttribute("txtboxFMbusiness");
+						if ( reader.GetAttribute("txtboxFMtech") != null )
+							txtboxFMtech.Text = reader.GetAttribute("txtboxFMtech");
+						if ( reader.GetAttribute("txtboxFMmilitary") != null )
+							txtboxFMmilitary.Text = reader.GetAttribute("txtboxFMmilitary");
+						if ( reader.GetAttribute("txtboxFMfolklore") != null )
+							txtboxFMfolklore.Text = reader.GetAttribute("txtboxFMfolklore");
+						if ( reader.GetAttribute("txtboxFMother") != null )
+							txtboxFMother.Text = reader.GetAttribute("txtboxFMother");
 					}
 				} catch {
 					MessageBox.Show( "Поврежден файл настроек: \""+Settings.Settings.GetSettingsPath()+"\".\nУдалите его, он создастся автоматически при сохранении настроек", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -439,11 +496,6 @@ namespace Options
 							writer.WriteAttributeString( "rbtnGenreTextChecked", rbtnGenreText.Checked.ToString() );
 						writer.WriteFullEndElement();
 						
-						writer.WriteStartElement( "FMGenresScheme" );
-							writer.WriteAttributeString( "rbtnFMFB21Checked", rbtnFMFB21.Checked.ToString() );
-							writer.WriteAttributeString( "rbtnFMFB22Checked", rbtnFMFB22.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
 						writer.WriteStartElement( "SortType" );
 							writer.WriteAttributeString( "rbtnFMAllFB2Checked", rbtnFMAllFB2.Checked.ToString() );
 							writer.WriteAttributeString( "rbtnFMOnleValidFB2Checked", rbtnFMOnleValidFB2.Checked.ToString() );
@@ -489,6 +541,10 @@ namespace Options
 							writer.WriteAttributeString( "txtboxFMhumor", txtboxFMhumor.Text );
 							writer.WriteAttributeString( "txtboxFMhome", txtboxFMhome.Text );
 							writer.WriteAttributeString( "txtboxFMbusiness", txtboxFMbusiness.Text );
+							writer.WriteAttributeString( "txtboxFMtech", txtboxFMtech.Text );
+							writer.WriteAttributeString( "txtboxFMmilitary", txtboxFMmilitary.Text );
+							writer.WriteAttributeString( "txtboxFMfolklore", txtboxFMfolklore.Text );
+							writer.WriteAttributeString( "txtboxFMother", txtboxFMother.Text );
 						writer.WriteFullEndElement();
 						
 					writer.WriteEndElement();
@@ -536,7 +592,9 @@ namespace Options
 			          txtboxFMscience.Text.Trim().Length==0 || txtboxFMcomputers.Text.Trim().Length==0 || 
 			          txtboxFMreference.Text.Trim().Length==0 || txtboxFMnonfiction.Text.Trim().Length==0 || 
 			          txtboxFMreligion.Text.Trim().Length==0 || txtboxFMhumor.Text.Trim().Length==0 || 
-			          txtboxFMhome.Text.Trim().Length==0 || txtboxFMbusiness.Text.Trim().Length==0 ) {
+			          txtboxFMhome.Text.Trim().Length==0 || txtboxFMbusiness.Text.Trim().Length==0 ||
+			          txtboxFMtech.Text.Trim().Length==0 || txtboxFMmilitary.Text.Trim().Length==0 ||
+			          txtboxFMfolklore.Text.Trim().Length==0 || txtboxFMother.Text.Trim().Length==0) {
 							MessageBox.Show( "Вкладка 'Сортировщик', Вкладка 'Группы Жанров'\nНазвания папок должны иметь хотя бы 1 символ!",
 				                "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;

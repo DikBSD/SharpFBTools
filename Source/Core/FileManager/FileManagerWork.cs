@@ -35,11 +35,10 @@ namespace Core.FileManager
 		{
 		}
 		
-		static public string CyrillicGenreName(string GenreCode) {
-			Settings.DataFM dfm = new Settings.DataFM();
+		static public string CyrillicGenreName(bool IsFB2LibrusecGenres, string GenreCode) {
 			IFBGenres fb2g = null;
-			if( dfm.GenresFB21Scheme ) {
-				fb2g = new FB21Genres();
+			if( IsFB2LibrusecGenres ) {
+				fb2g = new FB2LibrusecGenres();
 			} else {
 				fb2g = new FB22Genres();
 			}
@@ -63,7 +62,7 @@ namespace Core.FileManager
 //			}
 		}
 		
-		static public void GenerateSourceList(string dirPath, ListView listView, bool itemChecked, bool isTagsView, bool isColumnsAutoReize) {
+		static public void GenerateSourceList(string dirPath, ListView listView, bool itemChecked, bool IsFB2LibrusecGenres, bool isTagsView, bool isColumnsAutoReize) {
         	// заполнение списка данными указанной папки
         	Cursor.Current = Cursors.WaitCursor;
         	listView.BeginUpdate();
@@ -102,7 +101,7 @@ namespace Core.FileManager
         									new ListViewItem.ListViewSubItem(item, space+bd.TIBookTitle+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TISequences+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TIAuthors+space),
-        									new ListViewItem.ListViewSubItem(item, space+CyrillicGenreName(bd.TIGenres)+space),
+        									new ListViewItem.ListViewSubItem(item, space+CyrillicGenreName(IsFB2LibrusecGenres, bd.TIGenres)+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TILang+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.Encoding+space)
         								};
@@ -127,7 +126,7 @@ namespace Core.FileManager
         									new ListViewItem.ListViewSubItem(item, space+bd.TIBookTitle+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TISequences+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TIAuthors+space),
-        									new ListViewItem.ListViewSubItem(item, space+CyrillicGenreName(bd.TIGenres)+space),
+        									new ListViewItem.ListViewSubItem(item, space+CyrillicGenreName(IsFB2LibrusecGenres, bd.TIGenres)+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.TILang+space),
         									new ListViewItem.ListViewSubItem(item, space+bd.Encoding+space)
         								};

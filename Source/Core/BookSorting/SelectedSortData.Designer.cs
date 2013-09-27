@@ -234,6 +234,7 @@ namespace Core.BookSorting
 			this.cmbBoxSSGenres.Location = new System.Drawing.Point(136, 41);
 			this.cmbBoxSSGenres.Name = "cmbBoxSSGenres";
 			this.cmbBoxSSGenres.Size = new System.Drawing.Size(336, 21);
+			this.cmbBoxSSGenres.Sorted = true;
 			this.cmbBoxSSGenres.TabIndex = 38;
 			// 
 			// cmbBoxSSGenresGroup

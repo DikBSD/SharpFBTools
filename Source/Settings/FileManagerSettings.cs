@@ -31,6 +31,8 @@ namespace Settings
 		private static bool m_StartExplorerColumnsAutoReize	= false;
 		private static bool m_FullSortingToZip				= false;
 		private static bool m_FullSortingNotDelFB2Files		= true;
+		private static bool m_FullSortingFB2LibrusecGenres	= true;
+		private static bool m_FullSortingFB22Genres			= false;
 		
 		// рабочие папки и данные для Избранной Сортировки
 		private static string m_SelectedSortingSourceDir	= "";
@@ -39,6 +41,8 @@ namespace Settings
 		private static bool m_SelectedSortingInSubDir		= true;
 		private static bool m_SelectedSortingToZip			= false;
 		private static bool m_SelectedSortingNotDelFB2Files	= true;
+		private static bool m_SelectedSortingFB2LibrusecGenres	= true;
+		private static bool m_SelectedSortingFB22Genres			= false;
 		#endregion
 		
 		public FileManagerSettings()
@@ -69,6 +73,8 @@ namespace Settings
 				writer.WriteElementString( "StartExplorerColumnsAutoReize", Convert.ToString(StartExplorerColumnsAutoReize) );
 				writer.WriteElementString( "ToZip", Convert.ToString(FullSortingToZip) );
 				writer.WriteElementString( "NotDelFB2Files", Convert.ToString(FullSortingNotDelFB2Files) );
+				writer.WriteElementString( "FB2LibrusecGenres", Convert.ToString(FullSortingFB2LibrusecGenres) );
+				writer.WriteElementString( "FB22Genres", Convert.ToString(FullSortingFB22Genres) );
 				writer.WriteEndElement();
 
 				// Избранная Сортировка
@@ -79,6 +85,8 @@ namespace Settings
 				writer.WriteElementString( "SortingInSubDir", Convert.ToString(SelectedSortingInSubDir) );
 				writer.WriteElementString( "ToZip", Convert.ToString(SelectedSortingToZip) );
 				writer.WriteElementString( "NotDelFB2Files", Convert.ToString(SelectedSortingNotDelFB2Files) );
+				writer.WriteElementString( "FB2LibrusecGenres", Convert.ToString(SelectedSortingFB2LibrusecGenres) );
+				writer.WriteElementString( "FB22Genres", Convert.ToString(SelectedSortingFB22Genres) );
 				writer.WriteEndElement();
 				
 				writer.WriteEndElement();
@@ -132,6 +140,14 @@ namespace Settings
 			get { return m_FullSortingNotDelFB2Files; }
 			set { m_FullSortingNotDelFB2Files = value; }
 		}
+		public static bool FullSortingFB2LibrusecGenres {
+			get { return m_FullSortingFB2LibrusecGenres; }
+			set { m_FullSortingFB2LibrusecGenres = value; }
+		}
+		public static bool FullSortingFB22Genres {
+			get { return m_FullSortingFB22Genres; }
+			set { m_FullSortingFB22Genres = value; }
+		}
 		
 		// Избранная Сортировка
 		public static string SelectedSortingSourceDir {
@@ -157,6 +173,14 @@ namespace Settings
 		public static bool SelectedSortingNotDelFB2Files {
 			get { return m_SelectedSortingNotDelFB2Files; }
 			set { m_SelectedSortingNotDelFB2Files = value; }
+		}
+		public static bool SelectedSortingFB2LibrusecGenres {
+			get { return m_SelectedSortingFB2LibrusecGenres; }
+			set { m_SelectedSortingFB2LibrusecGenres = value; }
+		}
+		public static bool SelectedSortingFB22Genres {
+			get { return m_SelectedSortingFB22Genres; }
+			set { m_SelectedSortingFB22Genres = value; }
 		}
 		#endregion
 		
@@ -247,6 +271,26 @@ namespace Settings
 			}
 			return FullSortingNotDelFB2Files;
 		}
+		public static bool ReadXmlFullSortingFB2Librusec() {
+			// чтение FullSortingFB2Librusec из xml-файла
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/FB2LibrusecGenres");
+				if(node != null)
+					return FullSortingFB2LibrusecGenres = Convert.ToBoolean(node.InnerText);
+			}
+			return FullSortingFB2LibrusecGenres;
+		}
+		public static bool ReadXmlFullSortingFB22() {
+			// чтение FullSortingFB22 из xml-файла
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/FB22Genres");
+				if(node != null)
+					return FullSortingFB22Genres = Convert.ToBoolean(node.InnerText);
+			}
+			return FullSortingFB22Genres;
+		}
 		#endregion
 		
 		#region Открытые статические методы класса для чтения из xml настроек Избранной Сортировки
@@ -313,6 +357,26 @@ namespace Settings
 					return SelectedSortingNotDelFB2Files = Convert.ToBoolean(node.InnerText);
 			}
 			return SelectedSortingNotDelFB2Files;
+		}
+		public static bool ReadXmlSelectedSortingFB2Librusec() {
+			// чтение SelectedSortingFB2Librusec из xml-файла
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/FB2LibrusecGenres");
+				if(node != null)
+					return SelectedSortingFB2LibrusecGenres = Convert.ToBoolean(node.InnerText);
+			}
+			return SelectedSortingFB2LibrusecGenres;
+		}
+		public static bool ReadXmlSelectedSortingFB22() {
+			// чтение SelectedSortingFB22 из xml-файла
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/SelectedSorting/FB22Genres");
+				if(node != null)
+					return SelectedSortingFB22Genres = Convert.ToBoolean(node.InnerText);
+			}
+			return SelectedSortingFB22Genres;
 		}
 		#endregion
 	}

@@ -54,6 +54,10 @@ namespace Settings
 		private string m_sHumor			= SettingsFM.ReadFMHumor();
 		private string m_sHome			= SettingsFM.ReadFMHome();
 		private string m_sBusiness		= SettingsFM.ReadFMBusiness();
+		private string m_sTech			= SettingsFM.ReadFMTech();
+		private string m_sMilitary		= SettingsFM.ReadFMMilitary();
+		private string m_sFolklore		= SettingsFM.ReadFMFolklore();
+		private string m_sOther			= SettingsFM.ReadFMOther();
 		// пути к архиваторам
 		private string m_s7zaPath	= Settings.Read7zaPath();
 		private string m_sUnRarPath	= Settings.ReadUnRarPath();
@@ -64,11 +68,12 @@ namespace Settings
 		private string m_sNotValidFB2Dir	= SettingsFM.GetDefFMFB2NotValidDir();
 		private string m_sNotOpenArchDir	= SettingsFM.GetDefFMArchNotOpenDir();
 		// основные настройки
-		private bool m_bGenreTypeMode		= SettingsFM.ReadGenreTypeMode();
-		private bool m_bGenresFB21Scheme	= SettingsFM.ReadFMGenresScheme();
-		private bool m_bAuthorOneMode		= SettingsFM.ReadAuthorOneMode();
-		private bool m_bGenreOneMode		= SettingsFM.ReadGenreOneMode();
-		private bool m_bAllFB2				= SettingsFM.ReadSortValidType();
+		private bool m_bGenreTypeMode			= SettingsFM.ReadGenreTypeMode();
+		private bool m_bFSGenresFB2LibrusecScheme	= FileManagerSettings.ReadXmlFullSortingFB2Librusec();
+		private bool m_bSSGenresFB2LibrusecScheme	= FileManagerSettings.ReadXmlSelectedSortingFB2Librusec();
+		private bool m_bAuthorOneMode			= SettingsFM.ReadAuthorOneMode();
+		private bool m_bGenreOneMode			= SettingsFM.ReadGenreOneMode();
+		private bool m_bAllFB2					= SettingsFM.ReadSortValidType();
 		private bool m_bAddToFileNameBookIDMode	= SettingsFM.ReadAddToFileNameBookIDMode();
 		private int	 m_nFileExistMode			= SettingsFM.ReadFileExistMode();
 		private bool m_bFullSortingToZip		= FileManagerSettings.ReadXmlFullSortingToZip();
@@ -85,9 +90,13 @@ namespace Settings
 			get { return m_bGenreTypeMode; }
 			set { m_bGenreTypeMode = value; }
         }
-		public virtual bool GenresFB21Scheme {
-			get { return m_bGenresFB21Scheme; }
-			set { m_bGenresFB21Scheme = value; }
+		public virtual bool FSGenresFB2LibrusecScheme {
+			get { return m_bFSGenresFB2LibrusecScheme; }
+			set { m_bFSGenresFB2LibrusecScheme = value; }
+        }
+		public virtual bool SSGenresFB2LibrusecScheme {
+			get { return m_bSSGenresFB2LibrusecScheme; }
+			set { m_bSSGenresFB2LibrusecScheme = value; }
         }
 		public virtual bool AuthorOneMode {
 			get { return m_bAuthorOneMode; }
@@ -280,6 +289,22 @@ namespace Settings
 		public virtual string GenresGroupBusiness {
 			get { return m_sBusiness; }
 			set { m_sBusiness = value; }
+        }
+		public virtual string GenresGroupTech {
+			get { return m_sTech; }
+			set { m_sTech = value; }
+        }
+		public virtual string GenresGroupMilitary {
+			get { return m_sMilitary; }
+			set { m_sMilitary = value; }
+        }
+		public virtual string GenresGroupFolklore {
+			get { return m_sFolklore; }
+			set { m_sFolklore = value; }
+        }
+		public virtual string GenresGroupOther {
+			get { return m_sOther; }
+			set { m_sOther = value; }
         }
 		#endregion
 	}

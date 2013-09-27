@@ -18,8 +18,6 @@ namespace Settings
 	public class SettingsFM
 	{
 		#region Закрытые статические данные класса
-		private static bool m_rbtnGenreFB21Cheked	= true;
-		private static bool m_rbtnGenreFB22Cheked	= false;
 		private static bool m_bchBoxTranslitCheked	= false;
 		private static bool m_bchBoxStrictCheked	= false;
 		private static Int16 m_ncboxSpaceSelectedIndex	= 0;
@@ -35,7 +33,7 @@ namespace Settings
 		private static bool m_brbtnGenreSchemaCheked	= true;
 		private static bool m_brbtnGenreTextCheked		= false;
 		private static bool m_brbtnFMAllFB2Cheked		= true;
-		private static bool m_brbtnFMOnleValidFB2Cheked	= false;
+		private static bool m_brbtnFMOnlyValidFB2Cheked	= false;
 		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
 		// внешний вид ToolButtons инструмента
 		private static string m_cboxDSFileManagerText	= "ImageAndText";
@@ -85,8 +83,10 @@ namespace Settings
 		private static string m_sFMhumor		= "Юмор";
 		private static string m_sFMhome			= "Дом, Семья";
 		private static string m_sFMbusiness		= "Бизнес";
-		
-		
+		private static string m_sFMtech			= "Техника";
+		private static string m_sFMmilitary		= "Военное дело";
+		private static string m_sFMfolklore		= "Фольклор";
+		private static string m_sFMother		= "Прочее";
 		#endregion
 		
 		public SettingsFM()
@@ -109,15 +109,8 @@ namespace Settings
 		public static bool GetDefFMrbtnFMAllFB2Cheked() {
 			return m_brbtnFMAllFB2Cheked;
 		}
-		public static bool GetDefFMrbtnFMOnleValidFB2Cheked() {
-			return m_brbtnFMOnleValidFB2Cheked;
-		}
-		
-		public static bool GetDefFMrbtnGenreFB21Cheked() {
-			return m_rbtnGenreFB21Cheked;
-		}
-		public static bool GetDefFMrbtnGenreFB22Cheked() {
-			return m_rbtnGenreFB22Cheked;
+		public static bool GetDefFMrbtnFMOnlyValidFB2Cheked() {
+			return m_brbtnFMOnlyValidFB2Cheked;
 		}
 		
 		public static string GetFileManagerHelpPath() {
@@ -200,10 +193,6 @@ namespace Settings
 		
 		public static bool ReadSortValidType() {
 			return Settings.ReadAttribute( "SortType", "rbtnFMAllFB2Checked", GetDefFMrbtnFMAllFB2Cheked() );
-		}
-		
-		public static bool ReadFMGenresScheme() {
-			return Settings.ReadAttribute( "FMGenresScheme", "rbtnFMFB21Checked", GetDefFMrbtnGenreFB21Cheked() );
 		}
 	
 		public static bool ReadRegisterAsIsChecked() {
@@ -459,6 +448,18 @@ namespace Settings
 		public static string GetDefFMGenresGroupBusiness() {
 			return m_sFMbusiness;
 		}
+		public static string GetDefFMGenresGroupTech() {
+			return m_sFMtech;
+		}
+		public static string GetDefFMGenresGroupMilitary() {
+			return m_sFMmilitary;
+		}
+		public static string GetDefFMGenresGroupFolklore() {
+			return m_sFMfolklore;
+		}
+		public static string GetDefFMGenresGroupOther() {
+			return m_sFMother;
+		}
 		// чтение названий Групп Жанров
 		public static string ReadFMSf() {
 			return Settings.ReadAttribute( "GenresGroups", "txtboxFMsf", GetDefFMGenresGroupSf() );
@@ -508,7 +509,18 @@ namespace Settings
 		public static string ReadFMBusiness() {
 			return Settings.ReadAttribute( "GenresGroups", "txtboxFMbusiness", GetDefFMGenresGroupBusiness() );
 		}
+		public static string ReadFMTech() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMtech", GetDefFMGenresGroupTech() );
+		}
+		public static string ReadFMMilitary() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMmilitary", GetDefFMGenresGroupMilitary() );
+		}
+		public static string ReadFMFolklore() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMfolklore", GetDefFMGenresGroupFolklore() );
+		}
+		public static string ReadFMOther() {
+			return Settings.ReadAttribute( "GenresGroups", "txtboxFMother", GetDefFMGenresGroupOther() );
+		}
 		#endregion
-		
 	}
 }

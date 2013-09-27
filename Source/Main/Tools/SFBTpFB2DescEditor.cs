@@ -77,9 +77,10 @@ namespace SharpFBTools.Tools
 		private void GenerateSourceList(string dirPath) {
         	// заполнение списка данными указанной папки
         	m_CurrentDir = dirPath;
-        	Core.FileManager.FileManagerWork.GenerateSourceList(
-        		dirPath, listViewSource, false, checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked
-        	);
+        	//TODO
+//        	Core.FileManager.FileManagerWork.GenerateSourceList(
+//        		dirPath, listViewSource, false, checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked
+//        	);
 		}
 		#endregion
 		
@@ -296,73 +297,73 @@ namespace SharpFBTools.Tools
 		void CheckBoxTagsViewClick(object sender, EventArgs e)
 		{
 			// Отображать/скрывать описание книг
-			if(checkBoxTagsView.Checked) {
-				if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
-					if(Settings.FileManagerSettings.ReadXmlFullSortingViewMessageForLongTime()) {
-						string sMess = "При включении этой опции для создания списка книг с их описанием может потребоваться очень много времени!\nБольше не показывать это сообщение?";
-						DialogResult result = MessageBox.Show( sMess, "Отображение описания книг", MessageBoxButtons.YesNo, MessageBoxIcon.Question );
-						Settings.FileManagerSettings.ViewMessageForLongTime = (result == DialogResult.Yes) ? false : true;
-					}
-				}
-			}
-			
-			Settings.FileManagerSettings.BooksTagsView = checkBoxTagsView.Checked;
-			Settings.FileManagerSettings.WriteFileManagerSettings();
-			if( listViewSource.Items.Count > 0 ) {
-				Cursor.Current = Cursors.WaitCursor;
-				listViewSource.BeginUpdate();
-				DirectoryInfo di = null;
-				FB2BookDescription bd = null;
-				Settings.DataFM dfm = new Settings.DataFM();
-				for(int i=0; i!= listViewSource.Items.Count; ++i) {
-					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
-					if(it.Type=="f") {
-						di = new DirectoryInfo(it.Value);
-						if(checkBoxTagsView.Checked) {
-							// показать данные книг
-							try {
-								if(di.Extension.ToLower()==".fb2") {
-									// показать данные fb2 файлов
-									bd = new FB2BookDescription( it.Value );
-									listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
-									listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
-									listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-									listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(bd.TIGenres)+space;
-									listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
-									listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
-								} else if(di.Extension.ToLower()==".zip") {
-									if(checkBoxTagsView.Checked) {
-										// показать данные архивов
-										filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-										archivesWorker.unzip(dfm.A7zaPath, it.Value, Settings.Settings.GetTempDir(), ProcessPriorityClass.AboveNormal );
-										string [] files = Directory.GetFiles( Settings.Settings.GetTempDir() );
-										bd = new FB2BookDescription( files[0] );
-										listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
-										listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
-										listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-										listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(bd.TIGenres)+space;
-										listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
-										listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
-									}
-								}
-							} catch(System.Exception) {
-								listViewSource.Items[i].ForeColor = Color.Blue;
-							}
-						} else {
-							// скрыть данные книг
-							for(int j=1; j!=listViewSource.Items[i].SubItems.Count; ++j) {
-								listViewSource.Items[i].SubItems[j].Text = "";
-							}
-						}
-					}
-				}
-				// авторазмер колонок Списка
-				if(chBoxStartExplorerColumnsAutoReize.Checked) {
-					Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
-				}
-				listViewSource.EndUpdate();
-				Cursor.Current = Cursors.Default;
-			}
+//			if(checkBoxTagsView.Checked) {
+//				if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
+//					if(Settings.FileManagerSettings.ReadXmlFullSortingViewMessageForLongTime()) {
+//						string sMess = "При включении этой опции для создания списка книг с их описанием может потребоваться очень много времени!\nБольше не показывать это сообщение?";
+//						DialogResult result = MessageBox.Show( sMess, "Отображение описания книг", MessageBoxButtons.YesNo, MessageBoxIcon.Question );
+//						Settings.FileManagerSettings.ViewMessageForLongTime = (result == DialogResult.Yes) ? false : true;
+//					}
+//				}
+//			}
+//			
+//			Settings.FileManagerSettings.BooksTagsView = checkBoxTagsView.Checked;
+//			Settings.FileManagerSettings.WriteFileManagerSettings();
+//			if( listViewSource.Items.Count > 0 ) {
+//				Cursor.Current = Cursors.WaitCursor;
+//				listViewSource.BeginUpdate();
+//				DirectoryInfo di = null;
+//				FB2BookDescription bd = null;
+//				Settings.DataFM dfm = new Settings.DataFM();
+//				for(int i=0; i!= listViewSource.Items.Count; ++i) {
+//					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
+//					if(it.Type=="f") {
+//						di = new DirectoryInfo(it.Value);
+//						if(checkBoxTagsView.Checked) {
+//							// показать данные книг
+//							try {
+//								if(di.Extension.ToLower()==".fb2") {
+//									// показать данные fb2 файлов
+//									bd = new FB2BookDescription( it.Value );
+//									listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
+//									listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
+//									listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
+//									listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(bd.TIGenres)+space;
+//									listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
+//									listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
+//								} else if(di.Extension.ToLower()==".zip") {
+//									if(checkBoxTagsView.Checked) {
+//										// показать данные архивов
+//										filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+//										archivesWorker.unzip(dfm.A7zaPath, it.Value, Settings.Settings.GetTempDir(), ProcessPriorityClass.AboveNormal );
+//										string [] files = Directory.GetFiles( Settings.Settings.GetTempDir() );
+//										bd = new FB2BookDescription( files[0] );
+//										listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
+//										listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
+//										listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
+//										listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(bd.TIGenres)+space;
+//										listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
+//										listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
+//									}
+//								}
+//							} catch(System.Exception) {
+//								listViewSource.Items[i].ForeColor = Color.Blue;
+//							}
+//						} else {
+//							// скрыть данные книг
+//							for(int j=1; j!=listViewSource.Items[i].SubItems.Count; ++j) {
+//								listViewSource.Items[i].SubItems[j].Text = "";
+//							}
+//						}
+//					}
+//				}
+//				// авторазмер колонок Списка
+//				if(chBoxStartExplorerColumnsAutoReize.Checked) {
+//					Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
+//				}
+//				listViewSource.EndUpdate();
+//				Cursor.Current = Cursors.Default;
+//			}
 		}
 	}
 }

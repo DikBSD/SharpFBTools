@@ -92,6 +92,13 @@ namespace Core.BookSorting
 			cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMHumor() );
 			cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMHome() );
 			cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMBusiness() );
+			DataFM dfm = new DataFM();
+			if( Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres ) {
+				cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMTech() );
+				cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMMilitary() );
+				cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMFolklore() );
+				cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMOther() );
+			}
 			
 			cmbBoxSSGenresGroup.SelectedIndex = 0;
 		}
@@ -100,8 +107,8 @@ namespace Core.BookSorting
 			// формирование Списка Жанров
 			DataFM dfm = new DataFM();
 			IFBGenres fb2g = null;
-			if( dfm.GenresFB21Scheme ) {
-				fb2g = new FB21Genres();
+			if( Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres ) {
+				fb2g = new FB2LibrusecGenres();
 			} else {
 				fb2g = new FB22Genres();
 			}
