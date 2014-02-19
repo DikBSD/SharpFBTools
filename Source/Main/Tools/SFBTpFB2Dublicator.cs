@@ -71,7 +71,6 @@ namespace SharpFBTools.Tools
 			BookID				= 1, // 1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)
 			BookTitle			= 2, // 2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)
 			AuthorAndTitle		= 3, // 3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
-			AuthorAndTitleExt	= 4, // 4. Автор(ы) и Название Книги ( интеллектуальный алгоритм, но ОЧЕНЬ МЕДЛЕННЫЙ )
 		}
 		
 		/// <summary>
@@ -473,13 +472,6 @@ namespace SharpFBTools.Tools
 					// Создание списка копий для режима "3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)"
 					makeBookCopiesForABT3( ref bw, ref e, ref htBookTitleAuthors );
 					break;
-				case SearchCompareMode.AuthorAndTitleExt:
-					// 4. Автор(ы) и Название Книги ( интеллектуальный алгоритм, но ОЧЕНЬ МЕДЛЕННЫЙ )
-					// Хэширование fb2-файлов
-					FilesHashForABTIParser( ref bw, ref e, ref FilesList, ref htWorkingBook );
-					// Создание списка копий для режима "4. Автор(ы) и Название Книги ( интеллектуальный алгоритм, но ОЧЕНЬ МЕДЛЕННЫЙ )"
-					makeBookCopiesForABTI( ref bw, ref e, ref htWorkingBook );
-					break;
 			}
 		}
 		
@@ -584,24 +576,6 @@ namespace SharpFBTools.Tools
 				++m_sv.Group; // число групп одинаковых книг
 				// формирование представления Групп с их книгами
 				makeBookCopiesView( (FB2FilesDataInGroup)htBookTitleAuthors[key] );
-				bw.ReportProgress( 0 );
-			}
-		}
-		
-		// Создание списка копий для режима "4. Автор(ы) и Название Книги ( интеллектуальный алгоритм, но ОЧЕНЬ МЕДЛЕННЫЙ )"
-		private void makeBookCopiesForABTI( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref Hashtable htFB2ForABTI ) {
-			tsslblProgress.Text		= "Создание списка одинаковых fb2-файлов:";
-			tsProgressBar.Maximum	= htFB2ForABTI.Values.Count;
-			tsProgressBar.Value		= 0;
-			
-			foreach( FB2FilesDataInGroup fb2BookList in htFB2ForABTI.Values ) {
-				if( ( bw.CancellationPending ) ) {
-					e.Cancel = true;
-					return;
-				}
-				++m_sv.Group; // число групп одинаковых книг
-				// формирование представления Групп с их книгами
-				makeBookCopiesView( fb2BookList );
 				bw.ReportProgress( 0 );
 			}
 		}
@@ -862,111 +836,6 @@ namespace SharpFBTools.Tools
 			}
 			return ht;
 		}
-
-		// хеширование файлов в контексте Авторов и Названия книг:
-		// 4. Автор(ы) и Название Книги ( интеллектуальный алгоритм, но ОЧЕНЬ МЕДЛЕННЫЙ )
-		// параметры: FilesList - список файлов для сканирования
-		private void FilesHashForABTIParser( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref List<string> FilesList, ref Hashtable htFB2ForABTI ) {
-			tsslblProgress.Text		= "Хэширование fb2-файлов:";
-			tsProgressBar.Maximum	= FilesList.Count;
-			tsProgressBar.Value		= 0;
-			
-			List<string> FinishedFilesList = new List<string>();
-			for( int i=0; i!=FilesList.Count; ++i ) {
-				if( ( bw.CancellationPending ) )  {
-					// удаление из списка всех файлов обработанные книги (файлы)
-					removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
-					e.Cancel = true;
-					return;
-				}
-				string Ext = Path.GetExtension( FilesList[i] ).ToLower();
-				if( Ext==".fb2" ) {
-					++m_sv.FB2;
-					// заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
-					MakeFB2ABTIHashTable( FilesList[i], ref htFB2ForABTI );
-					// обработанные файлы
-					FinishedFilesList.Add(FilesList[i]);
-				}  else {
-					if( Ext==".zip" )
-						++m_sv.Zip;	// пропускаем архивы
-					else
-						++m_sv.Other;	// пропускаем не fb2-файлы
-				}
-				bw.ReportProgress( 0 ); // отобразим данные в контролах
-			}
-			// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
-			removeNotCopiesEntryInHashTable( ref htFB2ForABTI );
-			// удаление из списка всех файлов обработанные книги (файлы)
-			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
-		}
-		
-		// заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
-		// параметры: sath - путь к fb2-файлу; htFB2ForABT - хеш-таблица
-		private void MakeFB2ABTIHashTable( string Path, ref Hashtable htFB2ForABT ) {
-			try {
-				fB2Parser fb2 = new fB2Parser( Path );
-				string Encoding	= filesWorker.GetFileEncoding( fb2.XmlDoc.InnerXml.Split('>')[0] );
-				if( Encoding == null )
-					Encoding = "?";
-
-				BookTitle bookTitle		= fb2.BookTitle;
-				IList<Author> authors	= fb2.Authors;
-				// ключ
-				BookDataABTKey htKey = new BookDataABTKey( authors, bookTitle );
-				// данные о книге
-				BookData fb2BookData = new BookData( bookTitle, authors, fb2.Genres, fb2.Id, fb2.Version, Path, Encoding );
-				// ищем в хеше дубли
-				BookDataABTKey keyDup = IsBookEqualityInHash( ref htFB2ForABT, authors, bookTitle );
-				if( keyDup==null ) {
-					// такой книги еще нет в хэше: заносим только те книги, где тэг названия - есть
-					if ( bookTitle!=null && bookTitle.Value!=null ) {
-						FB2FilesDataInGroup fb2f = new FB2FilesDataInGroup( fb2BookData, bookTitle.Value );
-						htFB2ForABT.Add( htKey, fb2f );
-					}
-				} else {
-					// такая книга уже есть
-					// обработка данных value хеша
-					BookDataABTKey aFromHash = (BookDataABTKey)keyDup;
-					// вытаскивает value из хэша по key
-					FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)htFB2ForABT[keyDup];
-					fb2f.AddBookData( fb2BookData );
-					// заменяем Название книги в хеше на самое длинное
-					bool bKeyNewBT = false;
-					bool bKeyNewA = false;
-					if ( bookTitle!=null && bookTitle.Value!=null ) {
-						if ( bookTitle.Value.Length > aFromHash.BookTitle.Value.Length ) {
-							// заменяем Название книги в данных хеша на самое длинное
-							fb2f.Group = bookTitle.Value;
-							// заменяем key в хеше на тот, где название - длиннее
-							htKey.BookTitle = bookTitle;
-							bKeyNewBT = true;
-						}
-					}
-					// обработка key хеша
-					if ( authors.Count > aFromHash.Authors.Count )
-						bKeyNewA = true;
-					// заменяем key в хеше на тот, где больше число авторов, и название - длиннее
-					if ( bKeyNewA || bKeyNewBT ) {
-						htFB2ForABT.Remove( keyDup );
-						htFB2ForABT.Add( htKey, fb2f );
-					}// else {
-					//	htFB2ForABT[keyDup] = fb2f; // ИЗБЫТОЧНЫЙ КОД
-					//}
-				}
-			} catch (Exception e) {MessageBox.Show( e.Message, "!!!!!!!!!!", MessageBoxButtons.OK, MessageBoxIcon.Information );} // пропускаем проблемные файлы
-		}
-		
-		// поиск дублей в хеше
-		// возвращает: пустой BookDataABTKey, если не нашли, или найденный ключ
-		private BookDataABTKey IsBookEqualityInHash( ref Hashtable htFB2ForABT, IList<Author> Authors, BookTitle bookTitle ) {
-			foreach ( BookDataABTKey abtkFromHash in htFB2ForABT.Keys ) {
-				FB2ABTComparer fb2c = new FB2ABTComparer( bookTitle, abtkFromHash.BookTitle, Authors, abtkFromHash.Authors );
-				if ( fb2c.IsBookTitleEquality() && fb2c.IsBookAuthorEquality() )
-					return abtkFromHash;
-			}
-			return null;
-		}
-		
 		#endregion
 
 		// =============================================================================================
@@ -1156,7 +1025,6 @@ namespace SharpFBTools.Tools
 			);
 			
 			// обработанные книги
-			XElement xeGroup = null;
 			List<string> keyList = null;
 			switch ( (SearchCompareMode)CompareMode ) {
 				case SearchCompareMode.Md5:
@@ -1183,19 +1051,6 @@ namespace SharpFBTools.Tools
 					groupNumber = 0;
 					keyList = sortKeys( ref m_htBookTitleAuthors );
 					saveFB2FilesInGroupToXML( ref m_htBookTitleAuthors, ref keyList, ref groupNumber, ref fileNumber, ref doc, "Groups" );
-					break;
-				case SearchCompareMode.AuthorAndTitleExt:
-					// 4. Автор(ы) и Название Книги ( интеллектуальный алгоритм, но ОЧЕНЬ МЕДЛЕННЫЙ )
-					foreach (DictionaryEntry entry in m_htWorkingBook) {
-						FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)entry.Value;
-						doc.Root.Element("Groups").Add(
-							xeGroup = new XElement("Group", new XAttribute("number", groupNumber++),
-							                       new XAttribute("count", fb2f.Count),
-							                       new XAttribute("name", fb2f.Group)
-							                      )
-						);
-						xmlSaveBookData( ref xeGroup, fb2f, ref fileNumber );
-					}
 					break;
 			}
 			
