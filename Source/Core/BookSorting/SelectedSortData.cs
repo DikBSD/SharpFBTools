@@ -30,6 +30,10 @@ namespace Core.BookSorting
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
 			
+			// задание состояния контролов в соответствии с сохраненными их настройками (или по умолчанию)
+			rbtnFMSSFB2Librusec.Checked	= Settings.FileManagerSettings.ReadXmlSelectedSortingFB2Librusec();
+			rbtnFMSSFB22.Checked		= Settings.FileManagerSettings.ReadXmlSelectedSortingFB22();
+			
 			// формирование Списка Языков
 			MakeListFMLangs();
 			// формирование Списка Групп Жанров
@@ -39,8 +43,8 @@ namespace Core.BookSorting
 		}
 		
 		#region Закрытые вспомогательные методы класса
-				private void MakeListFMLangs() {
-			// формирование Списка Языков
+		// формирование Списка Языков
+		private void MakeListFMLangs() {
 			string[] m_sLang = {
 				"Russian (ru)","English (en)",
 				"Abkhazian (ab)","Afar (aa)","Afrikaans (af)","Albanian (sq)","Amharic (am)","Arabic (ar)","Armenian (hy)","Assamese (as)","Aymara (ay)","Azerbaijani (az)", 
@@ -74,8 +78,9 @@ namespace Core.BookSorting
 			cmbBoxSSLang.SelectedIndex = 0;
 		}
 		
+		// формирование Списка Групп Жанров
 		private void MakeListFMGenresGroups() {
-			// формирование Списка Групп Жанров
+			cmbBoxSSGenresGroup.Items.Clear();
 			cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMSf() );
 			cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMDetective() );
 			cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMProse() );
@@ -92,8 +97,7 @@ namespace Core.BookSorting
 			cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMHumor() );
 			cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMHome() );
 			cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMBusiness() );
-			DataFM dfm = new DataFM();
-			if( Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres ) {
+			if( rbtnFMSSFB2Librusec.Checked ) {
 				cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMTech() );
 				cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMMilitary() );
 				cmbBoxSSGenresGroup.Items.Add( SettingsFM.ReadFMFolklore() );
@@ -103,15 +107,15 @@ namespace Core.BookSorting
 			cmbBoxSSGenresGroup.SelectedIndex = 0;
 		}
 		
+		// формирование Списка Жанров
 		private void MakeListFMGenres() {
-			// формирование Списка Жанров
-			DataFM dfm = new DataFM();
+			cmbBoxSSGenres.Items.Clear();
 			IFBGenres fb2g = null;
-			if( Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres ) {
+			if( rbtnFMSSFB2Librusec.Checked )
 				fb2g = new FB2LibrusecGenres();
-			} else {
+			else
 				fb2g = new FB22Genres();
-			}
+
 			string[] m_sGenresNames	= fb2g.GetFBGenreNamesArray();
 			string[] m_sCodes		= fb2g.GetFBGenreCodesArray();
 			for( int i=0; i!=m_sGenresNames.Length; ++i ) {
@@ -120,8 +124,20 @@ namespace Core.BookSorting
 			cmbBoxSSGenres.SelectedIndex = 0;
 		}
 		
+		// Смена схемы Жанров
+		private void GenresSchemeChange()
+		{
+			Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres = rbtnFMSSFB2Librusec.Checked;
+			Settings.FileManagerSettings.SelectedSortingFB22Genres = rbtnFMSSFB22.Checked;
+			Settings.FileManagerSettings.WriteFileManagerSettings();
+			// формирование Списка Групп Жанров
+			MakeListFMGenresGroups();
+			// формирование Списка Жанров
+			MakeListFMGenres();
+		}
+		
+		// есть ли такая запись в списке
 		private bool IsRecordExist() {
-			// есть ли такая запись в списке
 			if( lvSSData.Items.Count == 0 ) {
 				return false;
 			}
@@ -129,11 +145,10 @@ namespace Core.BookSorting
 			string sGG		= "";
 			string sGenre	= "";
 			if( chkBoxGenre.Checked ) {
-				if( rbtnSSGenresGroup.Checked ) {
+				if( rbtnSSGenresGroup.Checked )
 					sGG = cmbBoxSSGenresGroup.Text.Trim();
-				} else {
+				else
 					sGenre = cmbBoxSSGenres.Text.Trim();
-				}
 			}
 			string sLast	= textBoxSSLast.Text.Trim()		!= "" ? textBoxSSLast.Text.Trim()	: "";
 			string sFirst	= textBoxSSFirst.Text.Trim()	!= "" ? textBoxSSFirst.Text.Trim()	: "";
@@ -174,10 +189,7 @@ namespace Core.BookSorting
 		
 		void ChBoxAuthorCheckedChanged(object sender, EventArgs e)
 		{
-			textBoxSSLast.Enabled	= chBoxAuthor.Checked;
-			textBoxSSFirst.Enabled	= chBoxAuthor.Checked;
-			textBoxSSMiddle.Enabled	= chBoxAuthor.Checked;
-			textBoxSSNick.Enabled	= chBoxAuthor.Checked;
+			textBoxSSLast.Enabled = textBoxSSFirst.Enabled = textBoxSSMiddle.Enabled = textBoxSSNick.Enabled = chBoxAuthor.Checked;
 		}
 		
 		void ChBoxSSSequenceCheckedChanged(object sender, EventArgs e)
@@ -187,7 +199,7 @@ namespace Core.BookSorting
 		
 		void ChkBoxGanreCheckedChanged(object sender, EventArgs e)
 		{
-			gBoxGenre.Enabled = chkBoxGenre.Checked;
+			pGenresScheme.Enabled = gBoxGenre.Enabled = chkBoxGenre.Checked;
 		}
 		
 		void RbtnSSGenresGroupCheckedChanged(object sender, EventArgs e)
@@ -205,9 +217,19 @@ namespace Core.BookSorting
 			txtBoxSSBookTitle.Enabled = chkBoxBookTitle.Checked;
 		}
 		
+		void RbtnFMSSFB2LibrusecClick(object sender, EventArgs e)
+		{
+			GenresSchemeChange();
+		}
+		
+		void RbtnFMSSFB22Click(object sender, EventArgs e)
+		{
+			GenresSchemeChange();
+		}
+		
+		// Добавить данные сортировки в список
 		void BtnAddClick(object sender, EventArgs e)
 		{
-			// Добавить данные сортировки в список
 			// проверка, выбранали хоть одна опция сортировки
 			if( !chBoxSSLang.Checked && !chBoxAuthor.Checked &&
 			   	!chkBoxGenre.Checked && !chBoxSSSequence.Checked &&
@@ -250,11 +272,10 @@ namespace Core.BookSorting
 			
 			ListViewItem lvi = null;
 			// Язык Книги
-			if( chBoxSSLang.Checked ) {
+			if( chBoxSSLang.Checked )
 				lvi = new ListViewItem( cmbBoxSSLang.Text );
-			} else {
+			else
 				lvi = new ListViewItem( "" );
-			}
 			
 			// Жанр Книги
 			if( chkBoxGenre.Checked ) {
@@ -273,48 +294,61 @@ namespace Core.BookSorting
 			
 			// Автор Книги
 			if( chBoxAuthor.Checked ) {
-				if( textBoxSSLast.Text.Trim().Length!=0 ) {
+				if( textBoxSSLast.Text.Trim().Length!=0 )
 					lvi.SubItems.Add( textBoxSSLast.Text.Trim() );
-				} else lvi.SubItems.Add( "" );
-				if( textBoxSSFirst.Text.Trim().Length!=0 ) {
-					lvi.SubItems.Add( textBoxSSFirst.Text.Trim() );
-				} else lvi.SubItems.Add( "" );
-				if( textBoxSSMiddle.Text.Trim().Length!=0 ) {
-					lvi.SubItems.Add( textBoxSSMiddle.Text.Trim() );
-				} else lvi.SubItems.Add( "" );
-				if( textBoxSSNick.Text.Trim().Length!=0 ) {
-					lvi.SubItems.Add( textBoxSSNick.Text.Trim() );
-				} else lvi.SubItems.Add( "" );
-			} else {
-				for( int i=0; i!=4; ++i ) {
+				else
 					lvi.SubItems.Add( "" );
-				}
+				
+				if( textBoxSSFirst.Text.Trim().Length!=0 )
+					lvi.SubItems.Add( textBoxSSFirst.Text.Trim() );
+				else
+					lvi.SubItems.Add( "" );
+				
+				if( textBoxSSMiddle.Text.Trim().Length!=0 )
+					lvi.SubItems.Add( textBoxSSMiddle.Text.Trim() );
+				else
+					lvi.SubItems.Add( "" );
+				
+				if( textBoxSSNick.Text.Trim().Length!=0 )
+					lvi.SubItems.Add( textBoxSSNick.Text.Trim() );
+				else
+					lvi.SubItems.Add( "" );
+			} else {
+				for( int i=0; i!=4; ++i )
+					lvi.SubItems.Add( "" );
 			}
 
 			// Серия Книги
 			if( chBoxSSSequence.Checked ) {
-				if( txtBoxSSSequence.Text.Trim().Length!=0 ) {
+				if( txtBoxSSSequence.Text.Trim().Length!=0 )
 					lvi.SubItems.Add( txtBoxSSSequence.Text.Trim() );
-				} else lvi.SubItems.Add( "" );
+				else
+					lvi.SubItems.Add( "" );
 			} else {
 				lvi.SubItems.Add( "" );
 			}
 			
 			// Название Книги
 			if( chkBoxBookTitle.Checked ) {
-				if( txtBoxSSBookTitle.Text.Trim().Length!=0 ) {
+				if( txtBoxSSBookTitle.Text.Trim().Length!=0 )
 					lvi.SubItems.Add( txtBoxSSBookTitle.Text.Trim() );
-				} else lvi.SubItems.Add( "" );
+				else
+					lvi.SubItems.Add( "" );
 			} else {
 				lvi.SubItems.Add( "" );
 			}
 			
 			// Точное соответствие
-			if( chBoxExactFit.Checked ) {
+			if( chBoxExactFit.Checked )
 				lvi.SubItems.Add( "Да" );
-			} else {
+			else
 				lvi.SubItems.Add( "Нет" );
-			}
+			
+			// Схема Жанров
+			if( rbtnFMSSFB2Librusec.Checked )
+				lvi.SubItems.Add( "Либрусек" );
+			else
+				lvi.SubItems.Add( "FB2.2" );
 			
 			// добавление записи в список
 			lvSSData.Items.Add( lvi );
@@ -325,15 +359,9 @@ namespace Core.BookSorting
 			lvSSData.Items[ lvSSData.Items.Count-1 ].Focused	= true;
 			
 			// очищаем поля ввода
-			textBoxSSLast.Text		= "";
-			textBoxSSFirst.Text		= "";
-			textBoxSSMiddle.Text	= "";
-			textBoxSSNick.Text		= "";
-			txtBoxSSSequence.Text	= "";
-			txtBoxSSBookTitle.Text	= "";
-			
+			textBoxSSLast.Text = textBoxSSFirst.Text = textBoxSSMiddle.Text = textBoxSSNick.Text = 
+								txtBoxSSSequence.Text = txtBoxSSBookTitle.Text = "";
 			lblCount.Text = Convert.ToString( lvSSData.Items.Count );
-
 			btnOK.Enabled = true;
 		}
 		
@@ -347,9 +375,9 @@ namespace Core.BookSorting
 			}
 		}
 		
+		// удаление данных сортировки из списка
 		void BtnDeleteClick(object sender, EventArgs e)
 		{
-			// удаление данных сортировки из списка
 			string sMess = "Вы действительно хотите удалить выбранные данные из списка?";
 			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
@@ -375,9 +403,9 @@ namespace Core.BookSorting
 			}
 		}
 		
+		// удаление всех данных сортировки из списка
 		void BtnDeleteAllClick(object sender, EventArgs e)
 		{
-			// удаление всех данных сортировки из списка
 			string sMess = "Вы действительно хотите удалить ВСЕ данные из списка?";
 			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
@@ -395,9 +423,9 @@ namespace Core.BookSorting
 			lblCount.Text = Convert.ToString( lvSSData.Items.Count );
 		}
 		
+		// принять данные
 		void BtnOKClick(object sender, EventArgs e)
 		{
-			// принять данные
 			m_bOKClicked = true;
 			this.Close();
 		}
@@ -422,6 +450,5 @@ namespace Core.BookSorting
 			if( lvSSData.Items.Count > 0 )  btnDeleteAll.Enabled = true;
 		}
 		#endregion
-
 	}
 }

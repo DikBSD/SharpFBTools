@@ -49,5 +49,8 @@ namespace Core.Templates.Lexems
 		public string SeriesNumber {
             get { return "*SeriesNumber*"; }
         }
+		public string Group {
+            get { return "*Group*"; }
+        }
 	}
 }

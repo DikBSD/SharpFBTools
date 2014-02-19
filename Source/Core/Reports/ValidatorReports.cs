@@ -136,50 +136,6 @@ namespace Core.Reports
 			#endregion
 		}
 		
-		public static void MakeCSVReport( System.Windows.Forms.ListView lw, string sFilePath, string cDelem,
-		                                ToolStripProgressBar tsProgressBar, StatusStrip ssProgress) {
-			#region Код
-			if( lw.Items.Count < 1 ) return;
-			// генерация отчета
-			tsProgressBar.Maximum = lw.Items.Count+2;
-			tsProgressBar.Value = 1;
-			ssProgress.Refresh();
-			List<string> lCSVText = new List<string>();
-			// формируем заголовок
-			string s = "N";
-			for( int j=0; j!=lw.Columns.Count; ++j ) {
-				s += cDelem+lw.Columns[j].Text;
-			}
-			lCSVText.Add( s );
-			++tsProgressBar.Value;
-			ssProgress.Refresh();
-			// формируем строки данных
-			int n=0;
-			for( int i=0; i!=lw.Items.Count; ++i ) {
-				++n;
-				s = n.ToString();
-				for( int j=0; j!=lw.Columns.Count; ++j ) {
-					s += cDelem+lw.Items[i].SubItems[j].Text;
-				}
-				lCSVText.Add( s );
-				++tsProgressBar.Value;
-				ssProgress.Refresh();
-			}
-			
-			// сохранение отчета в файл
-			StreamWriter sw = new StreamWriter( @sFilePath, false, Encoding.UTF8 );
-			tsProgressBar.Maximum = lCSVText.Count+1;
-			tsProgressBar.Value = 1;
-			ssProgress.Refresh();
-			foreach( string sLine in lCSVText ) {
-				sw.WriteLine( sLine );
-				++tsProgressBar.Value;
-				ssProgress.Refresh();
-			}
-			sw.Close();
-			#endregion
-		}
-		
 		// 
 		public static bool SaveFilesList( ListView lw, SaveFileDialog sfd, string sTXTFilter,
 		                  	 StatusStrip ssProgress, ToolStripLabel tsslblProgress, ToolStripProgressBar tsProgressBar, 

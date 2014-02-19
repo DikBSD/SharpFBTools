@@ -166,12 +166,12 @@ namespace Core.Templates {
 			}
 		}
 		
+		// парсинг сложных условных групп
 		private static string ParseComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors,
 												BookTitle btBookTitle, IList<Sequence> lSequences, IFBGenres fb2g, Date dBookDate,
 												string sYear, Publisher pubPub, City cCity,
 												IList<Author> lfb2Authors,
 												Settings.DataFM dfm, int nGenreIndex, int nAuthorIndex ) {
-			// парсинг сложных условных групп
 			#region Код
 			string sFileName = "";
 			List<Lexems.TPComplex> lCLexems = GemComplexLexems( sLine );
@@ -188,6 +188,21 @@ namespace Core.Templates {
 									lexem.Lexem = "";
 								} else {
 									lexem.Lexem = sLang.Trim();
+								}
+								break;
+							case "*GROUP*": // Группа Жанров
+								string sNoGroup = dfm.NoGenreGroup;
+								if( lGenres == null ) {
+									sFileName += sNoGroup;
+								} else {
+									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
+										sFileName += sNoGroup;
+									} else {
+										// жанр есть
+										string sgg = fb2g.GetFBGenreGroup( lGenres[nGenreIndex].Name.Trim() );// группа жанров
+										// sgg.Length==0 для жанра, не соответствующего схеме
+										sFileName += ( sgg.Length==0 ? sNoGroup : sgg );
+									}
 								}
 								break;
 							case "*GG*": // Группа Жанров\Жанр Книги
@@ -616,9 +631,9 @@ namespace Core.Templates {
 			return lexems;
 		}
 		
+		// формирование имени файла на основе данных Description и шаблонов подстановки
 		public static string Parse( string sFB2FilePath, List<Core.Templates.Lexems.TPSimple> lSLexems, bool IsFB2LibrusecGenres,
 		                           Settings.DataFM dfm, int nGenreIndex, int nAuthorIndex ) {
-			// формирование имени файла на основе данных Description и шаблонов подстановки
 			#region Код
 			string sFileName = "";
 			fB2Parser fb2	= new fB2Parser( sFB2FilePath );
@@ -664,6 +679,21 @@ namespace Core.Templates {
 									sFileName += dfm.NoLang;
 								} else {
 									sFileName += sLang.Trim();
+								}
+								break;
+							case "*GROUP*": // Группа Жанров
+								string sNoGroup = dfm.NoGenreGroup;
+								if( lGenres == null ) {
+									sFileName += sNoGroup;
+								} else {
+									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
+										sFileName += sNoGroup;
+									} else {
+										// жанр есть
+										string sgg = fb2g.GetFBGenreGroup( lGenres[nGenreIndex].Name.Trim() );// группа жанров
+										// sgg.Length==0 для жанра, не соответствующего схеме
+										sFileName += ( sgg.Length==0 ? sNoGroup : sgg );
+									}
 								}
 								break;
 							case "*GG*": // Группа Жанров\Жанр Книги

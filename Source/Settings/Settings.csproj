@@ -44,6 +44,6 @@
     <Compile Include="SettingsAM.cs" />
     <Compile Include="SettingsFB2Dup.cs" />
     <Compile Include="SettingsFM.cs" />
-    <Compile Include="SettingsValidator.cs" />
+    <Compile Include="ValidatorSettings.cs" />
   </ItemGroup>
 </Project>

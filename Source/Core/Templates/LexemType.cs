@@ -17,7 +17,8 @@ namespace Core.Templates.Lexems {
 								"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*GG*","*SII*","*SIII*","*DT*","DV",
 								"*LF*","*LM*","*LL*","*LN*",
 								"*YEAR*","PUB","*CITY*",
-								"*FB2AF*","*FB2AM*","*FB2AL*","*FB2AN*"
+								"*FB2AF*","*FB2AM*","*FB2AL*","*FB2AN*",
+								"*GROUP*"
 								};
 		public AllTemplates() {
 			

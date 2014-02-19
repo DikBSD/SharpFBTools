@@ -26,31 +26,41 @@ namespace Core.FB2.Description.Common
 		public TextFieldType()
 		{
 			m_sValue	= null;
-        	m_sLang		= null;
+			m_sLang		= null;
 		}
 		public TextFieldType( string sValue, string sLang )
-        {
-            m_sValue	= sValue;
-        	m_sLang		= sLang;
-        }
-        public TextFieldType( string sValue )
-        {
-            m_sValue	= sValue;
-        }
+		{
+			m_sValue	= sValue;
+			m_sLang		= sLang;
+		}
+		public TextFieldType( string sValue )
+		{
+			m_sValue	= sValue;
+		}
 		#endregion
 		
-		#region Открытые свойства класса - атрибуты fb2-элементов
+		#region Открытые методы класса
+		// атрибут Lang не проверяется - в реальных книгах он не используется (или крайне редко)
+		public bool Equals(TextFieldType RightValue) {
+			if ( this==null && RightValue==null )
+				return true;
+			if ( ( this==null && RightValue!=null ) || ( this!=null && RightValue==null ) )
+				return false;
+
+			return this.Value==RightValue.Value;
+		}
+		#endregion
+		
+		#region Открытые свойства класса
 		public virtual string Lang {
-            get { return m_sLang; }
-            set { m_sLang = value; }
-        }
-		#endregion
+			get { return m_sLang; }
+			set { m_sLang = value; }
+		}
 		
-		#region Открытые свойства класса - элементы fb2-элементов
-        public virtual string Value {
-            get { return m_sValue; }
-            set { m_sValue = value; }
-        }
-        #endregion
+		public virtual string Value {
+			get { return m_sValue; }
+			set { m_sValue = value; }
+		}
+		#endregion
 	}
 }

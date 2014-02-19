@@ -15,6 +15,7 @@ using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.PublishInfo;
 using Core.FB2.Description.CustomInfo;
+using Core.FB2.Binary;
 
 using fB2Parser = Core.FB2.FB2Parsers.FB2Parser;
 
@@ -106,11 +107,15 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual Coverpage TICoverpage {
+		public virtual int TICoverpagesCount {
 			get {
-				return ( m_fb2.GetTitleInfo() != null )
-					? m_fb2.GetTitleInfo().Coverpage
-					: null;
+				int coverCount = 0;
+				if (m_fb2.GetTitleInfo() != null) {
+					if (m_fb2.GetTitleInfo().Coverpages != null) {
+						coverCount = m_fb2.GetTitleInfo().Coverpages.Count;
+					}
+				}
+				return coverCount;
 			}
         }
 		
@@ -197,11 +202,15 @@ namespace Core.FB2BookData
 			}
         }
 		
-		public virtual Coverpage STICoverpage {
+		public virtual int STICoverpagesCount {
 			get {
-				return ( m_fb2.GetSourceTitleInfo() != null )
-					? m_fb2.GetSourceTitleInfo().Coverpage
-					: null;
+				int coverCount = 0;
+				if (m_fb2.GetSourceTitleInfo() != null) {
+					if (m_fb2.GetSourceTitleInfo().Coverpages != null) {
+						coverCount = m_fb2.GetSourceTitleInfo().Coverpages.Count;
+					}
+				}
+				return coverCount;
 			}
         }
 		
@@ -348,6 +357,14 @@ namespace Core.FB2BookData
 			}
         }
 		
+		#endregion
+		
+		#region Binary
+		public virtual IList<BinaryBase64> CoversBase64 {
+			get {
+				return m_fb2.GetCoversBase64();
+			}
+        }
 		#endregion
 		
 		#endregion

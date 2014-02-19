@@ -49,7 +49,7 @@ namespace Core.Misc
 		
 		#region Пометить / Снять отметки
 		// отметить все итемы (снять все отметки)
-		public void CheckdAllListViewItems( ListView lv, bool bCheck ) {
+		public void CheckAllListViewItems( ListView lv, bool bCheck ) {
 			if( lv.Items.Count > 0  ) {
 				for( int i=0; i!=lv.Items.Count; ++i ) {
 					lv.Items[i].Checked = bCheck;
@@ -57,7 +57,7 @@ namespace Core.Misc
 			}
 		}
 		// снять отметки с помеченных итемов
-		public void UnCheckdAllListViewItems( System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems ) {
+		public void UnCheckAllListViewItems( System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems ) {
 			foreach( ListViewItem lvi in checkedItems ) {
 				lvi.Checked = false;
 			}
@@ -67,6 +67,14 @@ namespace Core.Misc
 		public void ChekAllSelectedItems(ListView lv, bool bCheck) {
 			System.Windows.Forms.ListView.SelectedListViewItemCollection selectedItems = lv.SelectedItems;
 			foreach( ListViewItem lvi in selectedItems ) {
+				lvi.Checked = bCheck;
+			}
+		}
+		
+		
+		// пометить/снять отметки с  итемов в выбранной группе
+		public void CheckAllListViewItemsInGroup( ListViewGroup Group, bool bCheck ) {
+			foreach( ListViewItem lvi in Group.Items ) {
 				lvi.Checked = bCheck;
 			}
 		}

@@ -35,7 +35,7 @@ namespace Core.FB2Dublicator
 			m_lFB2Authors1 = lFB2Authors1;
 			m_lFB2Authors2 = lFB2Authors2;
 		}
-						
+		
 		#region Закрытые вспомогательные методы класса
 		// сравнение 2-х строк на включение 2-й в 1-ю или 1-й во 2-ю
 		private bool IsStringsEquality( string str1, string str2 ) {
@@ -61,9 +61,10 @@ namespace Core.FB2Dublicator
 					if( ( afb2_2.LastName != null ) && ( afb2_2.FirstName != null ) ) {
 						// У Автора 2-й Книги есть И Фамилия И Имя : сравниваем по Фамилия И Имя
 						if( ( afb2_1.LastName.Value == afb2_2.LastName.Value ) &&
-						  	afb2_1.FirstName.Value == afb2_2.FirstName.Value ) return true;
+						   afb2_1.FirstName.Value == afb2_2.FirstName.Value )
+							return true;
 						if( IsStringsEquality( afb2_1.LastName.Value, afb2_2.LastName.Value ) &&
-						   	IsStringsEquality( afb2_1.FirstName.Value, afb2_2.FirstName.Value )	) {
+						   IsStringsEquality( afb2_1.FirstName.Value, afb2_2.FirstName.Value ) ) {
 							return true; // нашли соответствие одного Автора, можно завершать сравнение
 						}
 					}
@@ -71,7 +72,8 @@ namespace Core.FB2Dublicator
 					// У Автора 1-й Книги есть Фамилия, НО нет Имени : сравниваем только по Фамилия
 					if( afb2_2.LastName != null ) {
 						// У Автора 2-й Книги есть Фамилия
-						if( afb2_1.LastName.Value == afb2_2.LastName.Value ) return true;
+						if( afb2_1.LastName.Value == afb2_2.LastName.Value )
+							return true;
 						if( IsStringsEquality( afb2_1.LastName.Value, afb2_2.LastName.Value ) ) {
 							return true; // нашли соответствие одного Автора, можно завершать сравнение
 						}
@@ -84,7 +86,8 @@ namespace Core.FB2Dublicator
 		// включается ли Nick 2-го Автора в Nick 1-го и наоборот
 		private bool IsNickEquality( Author afb2_1, Author afb2_2 ) {
 			if( afb2_1.NickName != null && afb2_2.NickName != null ) {
-				if( afb2_1.NickName.Value == afb2_2.NickName.Value ) return true;
+				if( afb2_1.NickName.Value == afb2_2.NickName.Value )
+					return true;
 				if( IsStringsEquality( afb2_1.NickName.Value, afb2_2.NickName.Value ) ) {
 					return true;
 				}
@@ -108,10 +111,11 @@ namespace Core.FB2Dublicator
 			else if( ( m_BT1.Value == null && m_BT2.Value != null ) || ( m_BT1.Value != null && m_BT2.Value == null ) )
 				return false;
 			
-			if( m_BT1.Value == m_BT2.Value ) return true;
+			if( m_BT1.Value == m_BT2.Value )
+				return true;
 			
 			return IsStringsEquality( m_BT1.Value, m_BT2.Value );
-        }
+		}
 		
 		/* I. Алгоритм:
 		1. Сравнение - только по тегам: Имя, Фамилия и Ник Авторов (Отчество, e-mail и web игнорируются)
@@ -133,14 +137,12 @@ namespace Core.FB2Dublicator
 			foreach( Author afb2_1 in m_lFB2Authors1 ) {
 				foreach( Author afb2_2 in m_lFB2Authors2 ) {
 					// Сначала Сравниваем Фамилия И Имя (или только Фамилия) Авторов
-					if( IsLastFirsNameEquality( afb2_1, afb2_2 ) ) {
+					if( IsLastFirsNameEquality( afb2_1, afb2_2 ) )
 						return true; // нашли соответствие одного Автора, можно завершать сравнение
-					}
 					
 					// Теперь Сравниваем Авторов по их Никам
-					if( IsNickEquality( afb2_1, afb2_2 ) ) {
+					if( IsNickEquality( afb2_1, afb2_2 ) )
 						return true; // нашли соответствие одного Автора, можно завершать сравнение
-					}
 				}
 			}
 			

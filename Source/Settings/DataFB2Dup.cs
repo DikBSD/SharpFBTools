@@ -17,8 +17,8 @@ namespace Settings
 	{
 		#region Закрытые данные класса
 		// пути к архиваторам
+		//TODO Удалить
 		private string m_s7zaPath	= Settings.Read7zaPath();
-		private string m_sUnRarPath	= Settings.ReadUnRarPath();
 		private string m_sTempDir	= Settings.GetTempDir();
 		#endregion
 		
@@ -36,10 +36,6 @@ namespace Settings
 		public virtual string A7zaPath {
 			get { return m_s7zaPath; }
 			set { m_s7zaPath = value; }
-        }
-		public virtual string UnRarPath {
-			get { return m_sUnRarPath; }
-			set { m_sUnRarPath = value; }
         }
 		#endregion
 	}

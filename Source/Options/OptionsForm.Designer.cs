@@ -77,35 +77,14 @@ namespace Options
 			this.lbl7zaPath = new System.Windows.Forms.Label();
 			this.tbox7zaPath = new System.Windows.Forms.TextBox();
 			this.btn7zaPath = new System.Windows.Forms.Button();
-			this.lblUnRarPath = new System.Windows.Forms.Label();
-			this.tboxUnRarPath = new System.Windows.Forms.TextBox();
-			this.btnUnRarPath = new System.Windows.Forms.Button();
-			this.lblRarPath = new System.Windows.Forms.Label();
-			this.tboxRarPath = new System.Windows.Forms.TextBox();
-			this.btnRarPath = new System.Windows.Forms.Button();
-			this.lblWinRarPath = new System.Windows.Forms.Label();
-			this.tboxWinRarPath = new System.Windows.Forms.TextBox();
-			this.btnWinRarPath = new System.Windows.Forms.Button();
-			this.tpValidator = new System.Windows.Forms.TabPage();
-			this.gboxValidatorPE = new System.Windows.Forms.GroupBox();
-			this.cboxValidatorForFB2ArchivePE = new System.Windows.Forms.ComboBox();
-			this.cboxValidatorForFB2PE = new System.Windows.Forms.ComboBox();
-			this.lblValidatorForFB2ArchivePE = new System.Windows.Forms.Label();
-			this.lblValidatorForFB2PE = new System.Windows.Forms.Label();
-			this.gboxValidatorDoubleClick = new System.Windows.Forms.GroupBox();
-			this.cboxValidatorForFB2Archive = new System.Windows.Forms.ComboBox();
-			this.cboxValidatorForFB2 = new System.Windows.Forms.ComboBox();
-			this.lblValidatorForFB2Archive = new System.Windows.Forms.Label();
-			this.lblValidatorForFB2 = new System.Windows.Forms.Label();
 			this.tpFileManager = new System.Windows.Forms.TabPage();
 			this.tcFM = new System.Windows.Forms.TabControl();
 			this.tpFMGeneral = new System.Windows.Forms.TabPage();
 			this.gboxFMGeneral = new System.Windows.Forms.GroupBox();
 			this.pSortFB2 = new System.Windows.Forms.Panel();
-			this.rbtnFMOnleValidFB2 = new System.Windows.Forms.RadioButton();
+			this.rbtnFMOnlyValidFB2 = new System.Windows.Forms.RadioButton();
 			this.rbtnFMAllFB2 = new System.Windows.Forms.RadioButton();
 			this.label11 = new System.Windows.Forms.Label();
-			this.chBoxAddToFileNameBookID = new System.Windows.Forms.CheckBox();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.cboxFileExist = new System.Windows.Forms.ComboBox();
 			this.lbFilelExist = new System.Windows.Forms.Label();
@@ -261,9 +240,6 @@ namespace Options
 			this.gboxReader.SuspendLayout();
 			this.gboxEditors.SuspendLayout();
 			this.gboxRar.SuspendLayout();
-			this.tpValidator.SuspendLayout();
-			this.gboxValidatorPE.SuspendLayout();
-			this.gboxValidatorDoubleClick.SuspendLayout();
 			this.tpFileManager.SuspendLayout();
 			this.tcFM.SuspendLayout();
 			this.tpFMGeneral.SuspendLayout();
@@ -375,7 +351,6 @@ namespace Options
 			// tcOptions
 			// 
 			this.tcOptions.Controls.Add(this.tpGeneral);
-			this.tcOptions.Controls.Add(this.tpValidator);
 			this.tcOptions.Controls.Add(this.tpFileManager);
 			this.tcOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tcOptions.Location = new System.Drawing.Point(0, 0);
@@ -404,10 +379,11 @@ namespace Options
 			// 
 			this.chBoxConfirmationForExit.Checked = true;
 			this.chBoxConfirmationForExit.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chBoxConfirmationForExit.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxConfirmationForExit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(10, 424);
+			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(3, 343);
 			this.chBoxConfirmationForExit.Name = "chBoxConfirmationForExit";
-			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(338, 24);
+			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(601, 24);
 			this.chBoxConfirmationForExit.TabIndex = 18;
 			this.chBoxConfirmationForExit.Text = " Подтверждение для выхода из программы";
 			this.chBoxConfirmationForExit.UseVisualStyleBackColor = true;
@@ -429,7 +405,7 @@ namespace Options
 			this.gboxButtons.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxButtons.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxButtons.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxButtons.Location = new System.Drawing.Point(3, 294);
+			this.gboxButtons.Location = new System.Drawing.Point(3, 222);
 			this.gboxButtons.Name = "gboxButtons";
 			this.gboxButtons.Size = new System.Drawing.Size(601, 121);
 			this.gboxButtons.TabIndex = 17;
@@ -600,7 +576,7 @@ namespace Options
 			this.gboxDiff.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxDiff.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxDiff.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxDiff.Location = new System.Drawing.Point(3, 249);
+			this.gboxDiff.Location = new System.Drawing.Point(3, 177);
 			this.gboxDiff.Name = "gboxDiff";
 			this.gboxDiff.Size = new System.Drawing.Size(601, 45);
 			this.gboxDiff.TabIndex = 16;
@@ -648,7 +624,7 @@ namespace Options
 			this.gboxReader.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxReader.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxReader.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxReader.Location = new System.Drawing.Point(3, 204);
+			this.gboxReader.Location = new System.Drawing.Point(3, 132);
 			this.gboxReader.Name = "gboxReader";
 			this.gboxReader.Size = new System.Drawing.Size(601, 45);
 			this.gboxReader.TabIndex = 15;
@@ -699,7 +675,7 @@ namespace Options
 			this.gboxEditors.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxEditors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.gboxEditors.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxEditors.Location = new System.Drawing.Point(3, 130);
+			this.gboxEditors.Location = new System.Drawing.Point(3, 58);
 			this.gboxEditors.Name = "gboxEditors";
 			this.gboxEditors.Size = new System.Drawing.Size(601, 74);
 			this.gboxEditors.TabIndex = 14;
@@ -777,21 +753,12 @@ namespace Options
 			this.gboxRar.Controls.Add(this.lbl7zaPath);
 			this.gboxRar.Controls.Add(this.tbox7zaPath);
 			this.gboxRar.Controls.Add(this.btn7zaPath);
-			this.gboxRar.Controls.Add(this.lblUnRarPath);
-			this.gboxRar.Controls.Add(this.tboxUnRarPath);
-			this.gboxRar.Controls.Add(this.btnUnRarPath);
-			this.gboxRar.Controls.Add(this.lblRarPath);
-			this.gboxRar.Controls.Add(this.tboxRarPath);
-			this.gboxRar.Controls.Add(this.btnRarPath);
-			this.gboxRar.Controls.Add(this.lblWinRarPath);
-			this.gboxRar.Controls.Add(this.tboxWinRarPath);
-			this.gboxRar.Controls.Add(this.btnWinRarPath);
 			this.gboxRar.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxRar.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxRar.ForeColor = System.Drawing.Color.Maroon;
 			this.gboxRar.Location = new System.Drawing.Point(3, 3);
 			this.gboxRar.Name = "gboxRar";
-			this.gboxRar.Size = new System.Drawing.Size(601, 127);
+			this.gboxRar.Size = new System.Drawing.Size(601, 55);
 			this.gboxRar.TabIndex = 13;
 			this.gboxRar.TabStop = false;
 			this.gboxRar.Text = " Настройки для архиваторов ";
@@ -800,7 +767,7 @@ namespace Options
 			// 
 			this.lbl7zaPath.AutoSize = true;
 			this.lbl7zaPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lbl7zaPath.Location = new System.Drawing.Point(7, 103);
+			this.lbl7zaPath.Location = new System.Drawing.Point(7, 25);
 			this.lbl7zaPath.Name = "lbl7zaPath";
 			this.lbl7zaPath.Size = new System.Drawing.Size(166, 13);
 			this.lbl7zaPath.TabIndex = 19;
@@ -810,7 +777,7 @@ namespace Options
 			// 
 			this.tbox7zaPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tbox7zaPath.Location = new System.Drawing.Point(184, 99);
+			this.tbox7zaPath.Location = new System.Drawing.Point(184, 21);
 			this.tbox7zaPath.Name = "tbox7zaPath";
 			this.tbox7zaPath.ReadOnly = true;
 			this.tbox7zaPath.Size = new System.Drawing.Size(363, 20);
@@ -821,248 +788,13 @@ namespace Options
 			this.btn7zaPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn7zaPath.Image = ((System.Drawing.Image)(resources.GetObject("btn7zaPath.Image")));
 			this.btn7zaPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btn7zaPath.Location = new System.Drawing.Point(553, 97);
+			this.btn7zaPath.Location = new System.Drawing.Point(553, 19);
 			this.btn7zaPath.Name = "btn7zaPath";
 			this.btn7zaPath.Size = new System.Drawing.Size(37, 24);
 			this.btn7zaPath.TabIndex = 18;
 			this.btn7zaPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btn7zaPath.UseVisualStyleBackColor = true;
 			this.btn7zaPath.Click += new System.EventHandler(this.Btn7zaPathClick);
-			// 
-			// lblUnRarPath
-			// 
-			this.lblUnRarPath.AutoSize = true;
-			this.lblUnRarPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblUnRarPath.Location = new System.Drawing.Point(7, 77);
-			this.lblUnRarPath.Name = "lblUnRarPath";
-			this.lblUnRarPath.Size = new System.Drawing.Size(171, 13);
-			this.lblUnRarPath.TabIndex = 16;
-			this.lblUnRarPath.Text = "Путь к UnRar (консольный):";
-			// 
-			// tboxUnRarPath
-			// 
-			this.tboxUnRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxUnRarPath.Location = new System.Drawing.Point(184, 73);
-			this.tboxUnRarPath.Name = "tboxUnRarPath";
-			this.tboxUnRarPath.ReadOnly = true;
-			this.tboxUnRarPath.Size = new System.Drawing.Size(363, 20);
-			this.tboxUnRarPath.TabIndex = 14;
-			// 
-			// btnUnRarPath
-			// 
-			this.btnUnRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnUnRarPath.Image = ((System.Drawing.Image)(resources.GetObject("btnUnRarPath.Image")));
-			this.btnUnRarPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnUnRarPath.Location = new System.Drawing.Point(553, 71);
-			this.btnUnRarPath.Name = "btnUnRarPath";
-			this.btnUnRarPath.Size = new System.Drawing.Size(37, 24);
-			this.btnUnRarPath.TabIndex = 15;
-			this.btnUnRarPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnUnRarPath.UseVisualStyleBackColor = true;
-			this.btnUnRarPath.Click += new System.EventHandler(this.BtnUnRarPathClick);
-			// 
-			// lblRarPath
-			// 
-			this.lblRarPath.AutoSize = true;
-			this.lblRarPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblRarPath.Location = new System.Drawing.Point(7, 51);
-			this.lblRarPath.Name = "lblRarPath";
-			this.lblRarPath.Size = new System.Drawing.Size(156, 13);
-			this.lblRarPath.TabIndex = 13;
-			this.lblRarPath.Text = "Путь к Rar (консольный):";
-			// 
-			// tboxRarPath
-			// 
-			this.tboxRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxRarPath.Location = new System.Drawing.Point(184, 47);
-			this.tboxRarPath.Name = "tboxRarPath";
-			this.tboxRarPath.ReadOnly = true;
-			this.tboxRarPath.Size = new System.Drawing.Size(363, 20);
-			this.tboxRarPath.TabIndex = 11;
-			// 
-			// btnRarPath
-			// 
-			this.btnRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnRarPath.Image = ((System.Drawing.Image)(resources.GetObject("btnRarPath.Image")));
-			this.btnRarPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnRarPath.Location = new System.Drawing.Point(553, 45);
-			this.btnRarPath.Name = "btnRarPath";
-			this.btnRarPath.Size = new System.Drawing.Size(37, 24);
-			this.btnRarPath.TabIndex = 12;
-			this.btnRarPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnRarPath.UseVisualStyleBackColor = true;
-			this.btnRarPath.Click += new System.EventHandler(this.BtnRarPathClick);
-			// 
-			// lblWinRarPath
-			// 
-			this.lblWinRarPath.AutoSize = true;
-			this.lblWinRarPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblWinRarPath.Location = new System.Drawing.Point(7, 25);
-			this.lblWinRarPath.Name = "lblWinRarPath";
-			this.lblWinRarPath.Size = new System.Drawing.Size(93, 13);
-			this.lblWinRarPath.TabIndex = 10;
-			this.lblWinRarPath.Text = "Путь к WinRar:";
-			// 
-			// tboxWinRarPath
-			// 
-			this.tboxWinRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxWinRarPath.Location = new System.Drawing.Point(184, 21);
-			this.tboxWinRarPath.Name = "tboxWinRarPath";
-			this.tboxWinRarPath.ReadOnly = true;
-			this.tboxWinRarPath.Size = new System.Drawing.Size(363, 20);
-			this.tboxWinRarPath.TabIndex = 8;
-			// 
-			// btnWinRarPath
-			// 
-			this.btnWinRarPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnWinRarPath.Image = ((System.Drawing.Image)(resources.GetObject("btnWinRarPath.Image")));
-			this.btnWinRarPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnWinRarPath.Location = new System.Drawing.Point(553, 19);
-			this.btnWinRarPath.Name = "btnWinRarPath";
-			this.btnWinRarPath.Size = new System.Drawing.Size(37, 24);
-			this.btnWinRarPath.TabIndex = 9;
-			this.btnWinRarPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnWinRarPath.UseVisualStyleBackColor = true;
-			this.btnWinRarPath.Click += new System.EventHandler(this.BtnWinRarPathClick);
-			// 
-			// tpValidator
-			// 
-			this.tpValidator.Controls.Add(this.gboxValidatorPE);
-			this.tpValidator.Controls.Add(this.gboxValidatorDoubleClick);
-			this.tpValidator.Location = new System.Drawing.Point(4, 22);
-			this.tpValidator.Name = "tpValidator";
-			this.tpValidator.Padding = new System.Windows.Forms.Padding(3);
-			this.tpValidator.Size = new System.Drawing.Size(607, 470);
-			this.tpValidator.TabIndex = 1;
-			this.tpValidator.Text = " Валидатор ";
-			this.tpValidator.UseVisualStyleBackColor = true;
-			// 
-			// gboxValidatorPE
-			// 
-			this.gboxValidatorPE.Controls.Add(this.cboxValidatorForFB2ArchivePE);
-			this.gboxValidatorPE.Controls.Add(this.cboxValidatorForFB2PE);
-			this.gboxValidatorPE.Controls.Add(this.lblValidatorForFB2ArchivePE);
-			this.gboxValidatorPE.Controls.Add(this.lblValidatorForFB2PE);
-			this.gboxValidatorPE.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gboxValidatorPE.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gboxValidatorPE.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxValidatorPE.Location = new System.Drawing.Point(3, 78);
-			this.gboxValidatorPE.Name = "gboxValidatorPE";
-			this.gboxValidatorPE.Size = new System.Drawing.Size(601, 75);
-			this.gboxValidatorPE.TabIndex = 1;
-			this.gboxValidatorPE.TabStop = false;
-			this.gboxValidatorPE.Text = " Действие по нажатию клавиши Enter на Списках ";
-			// 
-			// cboxValidatorForFB2ArchivePE
-			// 
-			this.cboxValidatorForFB2ArchivePE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboxValidatorForFB2ArchivePE.FormattingEnabled = true;
-			this.cboxValidatorForFB2ArchivePE.Items.AddRange(new object[] {
-									"Проверить файл заново (валидация)",
-									"Открыть файл в архиваторе",
-									"Открыть папку для выделенного файла"});
-			this.cboxValidatorForFB2ArchivePE.Location = new System.Drawing.Point(173, 43);
-			this.cboxValidatorForFB2ArchivePE.Name = "cboxValidatorForFB2ArchivePE";
-			this.cboxValidatorForFB2ArchivePE.Size = new System.Drawing.Size(337, 21);
-			this.cboxValidatorForFB2ArchivePE.TabIndex = 3;
-			// 
-			// cboxValidatorForFB2PE
-			// 
-			this.cboxValidatorForFB2PE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboxValidatorForFB2PE.FormattingEnabled = true;
-			this.cboxValidatorForFB2PE.Items.AddRange(new object[] {
-									"Проверить файл заново (валидация)",
-									"Редактировать в текстовом редакторе",
-									"Редактировать в fb2-редакторе",
-									"Запустить в fb2-читалке (Просмотр)",
-									"Открыть папку для выделенного файла"});
-			this.cboxValidatorForFB2PE.Location = new System.Drawing.Point(173, 20);
-			this.cboxValidatorForFB2PE.Name = "cboxValidatorForFB2PE";
-			this.cboxValidatorForFB2PE.Size = new System.Drawing.Size(337, 21);
-			this.cboxValidatorForFB2PE.TabIndex = 2;
-			// 
-			// lblValidatorForFB2ArchivePE
-			// 
-			this.lblValidatorForFB2ArchivePE.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblValidatorForFB2ArchivePE.Location = new System.Drawing.Point(10, 46);
-			this.lblValidatorForFB2ArchivePE.Name = "lblValidatorForFB2ArchivePE";
-			this.lblValidatorForFB2ArchivePE.Size = new System.Drawing.Size(157, 18);
-			this.lblValidatorForFB2ArchivePE.TabIndex = 1;
-			this.lblValidatorForFB2ArchivePE.Text = "Для запакованных fb2:";
-			// 
-			// lblValidatorForFB2PE
-			// 
-			this.lblValidatorForFB2PE.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblValidatorForFB2PE.Location = new System.Drawing.Point(10, 24);
-			this.lblValidatorForFB2PE.Name = "lblValidatorForFB2PE";
-			this.lblValidatorForFB2PE.Size = new System.Drawing.Size(162, 18);
-			this.lblValidatorForFB2PE.TabIndex = 0;
-			this.lblValidatorForFB2PE.Text = "Для незапакованных fb2:";
-			// 
-			// gboxValidatorDoubleClick
-			// 
-			this.gboxValidatorDoubleClick.Controls.Add(this.cboxValidatorForFB2Archive);
-			this.gboxValidatorDoubleClick.Controls.Add(this.cboxValidatorForFB2);
-			this.gboxValidatorDoubleClick.Controls.Add(this.lblValidatorForFB2Archive);
-			this.gboxValidatorDoubleClick.Controls.Add(this.lblValidatorForFB2);
-			this.gboxValidatorDoubleClick.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gboxValidatorDoubleClick.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gboxValidatorDoubleClick.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxValidatorDoubleClick.Location = new System.Drawing.Point(3, 3);
-			this.gboxValidatorDoubleClick.Name = "gboxValidatorDoubleClick";
-			this.gboxValidatorDoubleClick.Size = new System.Drawing.Size(601, 75);
-			this.gboxValidatorDoubleClick.TabIndex = 0;
-			this.gboxValidatorDoubleClick.TabStop = false;
-			this.gboxValidatorDoubleClick.Text = " Действие по двойному щелчку мышки на Списках ";
-			// 
-			// cboxValidatorForFB2Archive
-			// 
-			this.cboxValidatorForFB2Archive.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboxValidatorForFB2Archive.FormattingEnabled = true;
-			this.cboxValidatorForFB2Archive.Items.AddRange(new object[] {
-									"Проверить файл заново (валидация)",
-									"Открыть файл в архиваторе",
-									"Открыть папку для выделенного файла"});
-			this.cboxValidatorForFB2Archive.Location = new System.Drawing.Point(173, 43);
-			this.cboxValidatorForFB2Archive.Name = "cboxValidatorForFB2Archive";
-			this.cboxValidatorForFB2Archive.Size = new System.Drawing.Size(337, 21);
-			this.cboxValidatorForFB2Archive.TabIndex = 3;
-			// 
-			// cboxValidatorForFB2
-			// 
-			this.cboxValidatorForFB2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboxValidatorForFB2.FormattingEnabled = true;
-			this.cboxValidatorForFB2.Items.AddRange(new object[] {
-									"Проверить файл заново (валидация)",
-									"Редактировать в текстовом редакторе",
-									"Редактировать в fb2-редакторе",
-									"Запустить в fb2-читалке (Просмотр)",
-									"Открыть папку для выделенного файла"});
-			this.cboxValidatorForFB2.Location = new System.Drawing.Point(173, 20);
-			this.cboxValidatorForFB2.Name = "cboxValidatorForFB2";
-			this.cboxValidatorForFB2.Size = new System.Drawing.Size(337, 21);
-			this.cboxValidatorForFB2.TabIndex = 2;
-			// 
-			// lblValidatorForFB2Archive
-			// 
-			this.lblValidatorForFB2Archive.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblValidatorForFB2Archive.Location = new System.Drawing.Point(10, 46);
-			this.lblValidatorForFB2Archive.Name = "lblValidatorForFB2Archive";
-			this.lblValidatorForFB2Archive.Size = new System.Drawing.Size(157, 18);
-			this.lblValidatorForFB2Archive.TabIndex = 1;
-			this.lblValidatorForFB2Archive.Text = "Для запакованных fb2:";
-			// 
-			// lblValidatorForFB2
-			// 
-			this.lblValidatorForFB2.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblValidatorForFB2.Location = new System.Drawing.Point(10, 24);
-			this.lblValidatorForFB2.Name = "lblValidatorForFB2";
-			this.lblValidatorForFB2.Size = new System.Drawing.Size(162, 18);
-			this.lblValidatorForFB2.TabIndex = 0;
-			this.lblValidatorForFB2.Text = "Для незапакованных fb2:";
 			// 
 			// tpFileManager
 			// 
@@ -1102,7 +834,6 @@ namespace Options
 			// gboxFMGeneral
 			// 
 			this.gboxFMGeneral.Controls.Add(this.pSortFB2);
-			this.gboxFMGeneral.Controls.Add(this.chBoxAddToFileNameBookID);
 			this.gboxFMGeneral.Controls.Add(this.panel2);
 			this.gboxFMGeneral.Controls.Add(this.panel1);
 			this.gboxFMGeneral.Controls.Add(this.chBoxStrict);
@@ -1120,25 +851,25 @@ namespace Options
 			// 
 			// pSortFB2
 			// 
-			this.pSortFB2.Controls.Add(this.rbtnFMOnleValidFB2);
+			this.pSortFB2.Controls.Add(this.rbtnFMOnlyValidFB2);
 			this.pSortFB2.Controls.Add(this.rbtnFMAllFB2);
 			this.pSortFB2.Controls.Add(this.label11);
 			this.pSortFB2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pSortFB2.Location = new System.Drawing.Point(3, 163);
+			this.pSortFB2.Location = new System.Drawing.Point(3, 145);
 			this.pSortFB2.Name = "pSortFB2";
 			this.pSortFB2.Size = new System.Drawing.Size(581, 23);
 			this.pSortFB2.TabIndex = 30;
 			// 
-			// rbtnFMOnleValidFB2
+			// rbtnFMOnlyValidFB2
 			// 
-			this.rbtnFMOnleValidFB2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.rbtnFMOnleValidFB2.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFMOnleValidFB2.Location = new System.Drawing.Point(292, 1);
-			this.rbtnFMOnleValidFB2.Name = "rbtnFMOnleValidFB2";
-			this.rbtnFMOnleValidFB2.Size = new System.Drawing.Size(182, 17);
-			this.rbtnFMOnleValidFB2.TabIndex = 2;
-			this.rbtnFMOnleValidFB2.Text = "Только Валидные файлы";
-			this.rbtnFMOnleValidFB2.UseVisualStyleBackColor = true;
+			this.rbtnFMOnlyValidFB2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.rbtnFMOnlyValidFB2.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMOnlyValidFB2.Location = new System.Drawing.Point(292, 1);
+			this.rbtnFMOnlyValidFB2.Name = "rbtnFMOnlyValidFB2";
+			this.rbtnFMOnlyValidFB2.Size = new System.Drawing.Size(182, 17);
+			this.rbtnFMOnlyValidFB2.TabIndex = 2;
+			this.rbtnFMOnlyValidFB2.Text = "Только Валидные файлы";
+			this.rbtnFMOnlyValidFB2.UseVisualStyleBackColor = true;
 			// 
 			// rbtnFMAllFB2
 			// 
@@ -1163,18 +894,6 @@ namespace Options
 			this.label11.TabIndex = 0;
 			this.label11.Text = "Сортировка файлов:";
 			// 
-			// chBoxAddToFileNameBookID
-			// 
-			this.chBoxAddToFileNameBookID.Dock = System.Windows.Forms.DockStyle.Top;
-			this.chBoxAddToFileNameBookID.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxAddToFileNameBookID.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxAddToFileNameBookID.Location = new System.Drawing.Point(3, 145);
-			this.chBoxAddToFileNameBookID.Name = "chBoxAddToFileNameBookID";
-			this.chBoxAddToFileNameBookID.Size = new System.Drawing.Size(581, 18);
-			this.chBoxAddToFileNameBookID.TabIndex = 24;
-			this.chBoxAddToFileNameBookID.Text = " Добавить к имени файла ID книги";
-			this.chBoxAddToFileNameBookID.UseVisualStyleBackColor = true;
-			// 
 			// panel2
 			// 
 			this.panel2.Controls.Add(this.cboxFileExist);
@@ -1197,7 +916,6 @@ namespace Options
 			this.cboxFileExist.Name = "cboxFileExist";
 			this.cboxFileExist.Size = new System.Drawing.Size(425, 21);
 			this.cboxFileExist.TabIndex = 20;
-			this.cboxFileExist.SelectedIndexChanged += new System.EventHandler(this.CboxFileExistSelectedIndexChanged);
 			// 
 			// lbFilelExist
 			// 
@@ -2712,9 +2430,6 @@ namespace Options
 			this.gboxEditors.PerformLayout();
 			this.gboxRar.ResumeLayout(false);
 			this.gboxRar.PerformLayout();
-			this.tpValidator.ResumeLayout(false);
-			this.gboxValidatorPE.ResumeLayout(false);
-			this.gboxValidatorDoubleClick.ResumeLayout(false);
 			this.tpFileManager.ResumeLayout(false);
 			this.tcFM.ResumeLayout(false);
 			this.tpFMGeneral.ResumeLayout(false);
@@ -2811,6 +2526,7 @@ namespace Options
 			this.panel13.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.RadioButton rbtnFMOnlyValidFB2;
 		private System.Windows.Forms.TextBox txtboxFMmilitary;
 		private System.Windows.Forms.TextBox txtboxFMfolklore;
 		private System.Windows.Forms.TextBox txtboxFMother;
@@ -2922,7 +2638,6 @@ namespace Options
 		private System.Windows.Forms.Panel panel13;
 		private System.Windows.Forms.TabPage tpFMGenreGroups;
 		private System.Windows.Forms.Button btnDefRestore;
-		private System.Windows.Forms.RadioButton rbtnFMOnleValidFB2;
 		private System.Windows.Forms.RadioButton rbtnFMAllFB2;
 		private System.Windows.Forms.Panel pSortFB2;
 		private System.Windows.Forms.Label label11;
@@ -2968,10 +2683,6 @@ namespace Options
 		private System.Windows.Forms.Button btn7zaPath;
 		private System.Windows.Forms.TextBox tbox7zaPath;
 		private System.Windows.Forms.Label lbl7zaPath;
-		private System.Windows.Forms.Button btnUnRarPath;
-		private System.Windows.Forms.TextBox tboxUnRarPath;
-		private System.Windows.Forms.Label lblUnRarPath;
-		private System.Windows.Forms.CheckBox chBoxAddToFileNameBookID;
 		private System.Windows.Forms.ComboBox cboxSpace;
 		private System.Windows.Forms.ComboBox cboxFileExist;
 		private System.Windows.Forms.Label lbFilelExist;
@@ -2992,25 +2703,10 @@ namespace Options
 		private System.Windows.Forms.RadioButton rbtnLower;
 		private System.Windows.Forms.RadioButton rbtnUpper;
 		private System.Windows.Forms.TabPage tpFileManager;
-		private System.Windows.Forms.Label lblValidatorForFB2PE;
-		private System.Windows.Forms.Label lblValidatorForFB2ArchivePE;
-		private System.Windows.Forms.ComboBox cboxValidatorForFB2PE;
-		private System.Windows.Forms.ComboBox cboxValidatorForFB2ArchivePE;
-		private System.Windows.Forms.GroupBox gboxValidatorPE;
-		private System.Windows.Forms.ComboBox cboxValidatorForFB2;
-		private System.Windows.Forms.ComboBox cboxValidatorForFB2Archive;
-		private System.Windows.Forms.Label lblValidatorForFB2;
-		private System.Windows.Forms.Label lblValidatorForFB2Archive;
-		private System.Windows.Forms.GroupBox gboxValidatorDoubleClick;
 		private System.Windows.Forms.Button btnReaderPath;
 		private System.Windows.Forms.TextBox tboxReaderPath;
 		private System.Windows.Forms.Label lblFBReaderPath;
 		private System.Windows.Forms.GroupBox gboxReader;
-		private System.Windows.Forms.TextBox tboxRarPath;
-		private System.Windows.Forms.Button btnRarPath;
-		private System.Windows.Forms.Label lblWinRarPath;
-		private System.Windows.Forms.Button btnWinRarPath;
-		private System.Windows.Forms.TextBox tboxWinRarPath;
 		private System.Windows.Forms.Button btnTextEPath;
 		private System.Windows.Forms.TextBox tboxTextEPath;
 		private System.Windows.Forms.Label lblTextEPath;
@@ -3018,9 +2714,7 @@ namespace Options
 		private System.Windows.Forms.TextBox tboxFBEPath;
 		private System.Windows.Forms.Label lblFBEPath;
 		private System.Windows.Forms.GroupBox gboxEditors;
-		private System.Windows.Forms.Label lblRarPath;
 		private System.Windows.Forms.GroupBox gboxRar;
-		private System.Windows.Forms.TabPage tpValidator;
 		private System.Windows.Forms.TabPage tpGeneral;
 		private System.Windows.Forms.TabControl tcOptions;
 		private System.Windows.Forms.Panel pBtn;

@@ -20,17 +20,14 @@ namespace Core.FileManager
 		private int m_nAllFiles			= 0;
 		private int m_nSourceFB2		= 0;
 		private int m_nZip				= 0;
-		private int m_nRar				= 0;
-		private int m_n7Zip				= 0;
-		private int m_nBZip2			= 0;
-		private int m_nGzip				= 0;
-		private int m_nTar				= 0;
-		private int m_nFB2FromArchives	= 0;
+		private int m_nFB2FromZips		= 0;
 		private int m_nOther			= 0;
 		private int m_nCreateInTarget	= 0;
 		private int m_nNotRead			= 0;
 		private int m_nNotValidFB2		= 0;
-		private int m_nBadArchive		= 0;
+		private int m_nBadZip			= 0;
+		private int m_nNotSort			= 0;
+		private int m_nLongPath			= 0;
 		#endregion
 		
 		public StatusView() {
@@ -44,17 +41,14 @@ namespace Core.FileManager
 			m_nAllFiles			= 0;
 			m_nSourceFB2		= 0;
 			m_nZip				= 0;
-			m_nRar				= 0;
-			m_n7Zip				= 0;
-			m_nBZip2			= 0;
-			m_nGzip				= 0;
-			m_nTar				= 0;
-			m_nFB2FromArchives	= 0;
+			m_nFB2FromZips		= 0;
 			m_nOther			= 0;
 			m_nCreateInTarget	= 0;
 			m_nNotRead			= 0;
 			m_nNotValidFB2		= 0;
-			m_nBadArchive		= 0;
+			m_nBadZip			= 0;
+			m_nNotSort			= 0;
+			m_nLongPath			= 0;
 		}
 		#endregion
 		
@@ -75,29 +69,9 @@ namespace Core.FileManager
 			get { return m_nZip; }
 			set { m_nZip = value; }
         }
-		public virtual int Rar {
-			get { return m_nRar; }
-			set { m_nRar = value; }
-        }
-		public virtual int A7Zip {
-			get { return m_n7Zip; }
-			set { m_n7Zip = value; }
-        }
-		public virtual int BZip2 {
-			get { return m_nBZip2; }
-			set { m_nBZip2 = value; }
-        }
-		public virtual int Gzip {
-			get { return m_nGzip; }
-			set { m_nGzip = value; }
-        }
-		public virtual int Tar {
-			get { return m_nTar; }
-			set { m_nTar = value; }
-        }
-		public virtual int FB2FromArchives {
-			get { return m_nFB2FromArchives; }
-			set { m_nFB2FromArchives = value; }
+		public virtual int FB2FromZips {
+			get { return m_nFB2FromZips; }
+			set { m_nFB2FromZips = value; }
         }
 		public virtual int Other {
 			get { return m_nOther; }
@@ -115,10 +89,18 @@ namespace Core.FileManager
 			get { return m_nNotValidFB2; }
 			set { m_nNotValidFB2 = value; }
         }
-		public virtual int BadArchive {
-			get { return m_nBadArchive; }
-			set { m_nBadArchive = value; }
+		public virtual int BadZip {
+			get { return m_nBadZip; }
+			set { m_nBadZip = value; }
         }
+		public virtual int NotSort {
+			get { return m_nNotSort; }
+			set { m_nNotSort = value; }
+		}
+		public virtual int LongPath {
+			get { return m_nLongPath; }
+			set { m_nLongPath = value; }
+		}
 		#endregion
 	}
 }

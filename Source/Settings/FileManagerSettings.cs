@@ -18,7 +18,10 @@ namespace Settings
 	public class FileManagerSettings
 	{
 		#region Закрытые статические данные класса
-		private static string m_FileSettingsPath = Settings.GetProgDir()+@"\FileManagerSettings.xml";
+		// пути к файлам-справкам
+		private static string m_sFileManagerHelpPath	= Settings.GetProgDir()+"\\Help\\FileManagerHelp.rtf";
+		private static string m_sDescTemplatePath		= Settings.GetProgDir()+"\\Help\\TemplatesDescription.rtf";
+		private static string m_FileSettingsPath		= Settings.GetProgDir()+@"\FileManagerSettings.xml";
 		private static XmlDocument m_xmlDoc = new XmlDocument();
 		// Общие
 		
@@ -185,10 +188,15 @@ namespace Settings
 		#endregion
 		
 		#region Открытые статические методы класса для чтения из xml настроек Полной Сортировки
+		public static string GetFileManagerHelpPath() {
+			return m_sFileManagerHelpPath;
+		}
+		public static string GetDefFMDescTemplatePath() {
+			return m_sDescTemplatePath;
+		}
+		
 		public static string ReadXmlFullSortingSourceDir() {
-			/// <summary>
-			/// чтение FullSortingSourceDir из xml-файла
-			/// </summary>
+			// чтение FullSortingSourceDir из xml-файла
 			if(File.Exists(m_FileSettingsPath)) {
 				m_xmlDoc.Load(m_FileSettingsPath);
 				XmlNode node = m_xmlDoc.SelectSingleNode("FileManager/FullSorting/SourceDir");

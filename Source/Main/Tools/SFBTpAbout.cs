@@ -45,8 +45,8 @@ namespace SharpFBTools.Tools
 		void CboxInstrumentSelectedIndexChanged(object sender, EventArgs e)
 		{
 			rtboxHelp.Clear();
-			string sFB2ValidatorHelpPath	= Settings.SettingsValidator.GetFB2ValidatorHelpPath();
-			string sFileManagerHelpPath		= Settings.SettingsFM.GetFileManagerHelpPath();
+			string sFB2ValidatorHelpPath	= Settings.ValidatorSettings.GetFB2ValidatorHelpPath();
+			string sFileManagerHelpPath		= Settings.FileManagerSettings.GetFileManagerHelpPath();
 			string sArchiveManagerHelpPath	= Settings.SettingsAM.GetArchiveManagerHelpPath();
 			string sDuplicatorHelpPath		= Settings.SettingsFB2Dup.GetDuplicatorHelpPath();
 			switch( cboxInstrument.SelectedIndex ) {

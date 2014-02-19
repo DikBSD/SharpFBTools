@@ -67,6 +67,7 @@ namespace Core.BookSorting
 			this.cHeaderSequence = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderBookTitle = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderExactFit = new System.Windows.Forms.ColumnHeader();
+			this.cHeaderGenreScheme = new System.Windows.Forms.ColumnHeader();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnDelete = new System.Windows.Forms.Button();
@@ -78,7 +79,12 @@ namespace Core.BookSorting
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.lblCount = new System.Windows.Forms.Label();
 			this.btnDeleteAll = new System.Windows.Forms.Button();
+			this.rbtnFMSSFB22 = new System.Windows.Forms.RadioButton();
+			this.rbtnFMSSFB2Librusec = new System.Windows.Forms.RadioButton();
+			this.lblFMSSGenres = new System.Windows.Forms.Label();
+			this.pGenresScheme = new System.Windows.Forms.Panel();
 			this.gBoxGenre.SuspendLayout();
+			this.pGenresScheme.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// cmbBoxSSLang
@@ -106,7 +112,7 @@ namespace Core.BookSorting
 			// txtBoxSSSequence
 			// 
 			this.txtBoxSSSequence.Enabled = false;
-			this.txtBoxSSSequence.Location = new System.Drawing.Point(99, 258);
+			this.txtBoxSSSequence.Location = new System.Drawing.Point(99, 283);
 			this.txtBoxSSSequence.Name = "txtBoxSSSequence";
 			this.txtBoxSSSequence.Size = new System.Drawing.Size(621, 20);
 			this.txtBoxSSSequence.TabIndex = 46;
@@ -114,7 +120,7 @@ namespace Core.BookSorting
 			// chBoxSSSequence
 			// 
 			this.chBoxSSSequence.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxSSSequence.Location = new System.Drawing.Point(12, 256);
+			this.chBoxSSSequence.Location = new System.Drawing.Point(12, 281);
 			this.chBoxSSSequence.Name = "chBoxSSSequence";
 			this.chBoxSSSequence.Size = new System.Drawing.Size(65, 24);
 			this.chBoxSSSequence.TabIndex = 45;
@@ -219,7 +225,7 @@ namespace Core.BookSorting
 			this.gBoxGenre.Controls.Add(this.rbtnSSGenresGroup);
 			this.gBoxGenre.Enabled = false;
 			this.gBoxGenre.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxGenre.Location = new System.Drawing.Point(99, 182);
+			this.gBoxGenre.Location = new System.Drawing.Point(99, 207);
 			this.gBoxGenre.Name = "gBoxGenre";
 			this.gBoxGenre.Size = new System.Drawing.Size(491, 71);
 			this.gBoxGenre.TabIndex = 58;
@@ -295,11 +301,12 @@ namespace Core.BookSorting
 									this.cHeaderNick,
 									this.cHeaderSequence,
 									this.cHeaderBookTitle,
-									this.cHeaderExactFit});
+									this.cHeaderExactFit,
+									this.cHeaderGenreScheme});
 			this.lvSSData.FullRowSelect = true;
 			this.lvSSData.GridLines = true;
 			this.lvSSData.HideSelection = false;
-			this.lvSSData.Location = new System.Drawing.Point(12, 288);
+			this.lvSSData.Location = new System.Drawing.Point(12, 313);
 			this.lvSSData.Name = "lvSSData";
 			this.lvSSData.Size = new System.Drawing.Size(708, 118);
 			this.lvSSData.TabIndex = 60;
@@ -356,11 +363,16 @@ namespace Core.BookSorting
 			// 
 			this.cHeaderExactFit.Text = "Точное соответствие";
 			// 
+			// cHeaderGenreScheme
+			// 
+			this.cHeaderGenreScheme.Text = "Схема Жанров";
+			this.cHeaderGenreScheme.Width = 100;
+			// 
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnCancel.Location = new System.Drawing.Point(457, 416);
+			this.btnCancel.Location = new System.Drawing.Point(457, 441);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(110, 26);
 			this.btnCancel.TabIndex = 62;
@@ -373,7 +385,7 @@ namespace Core.BookSorting
 			this.btnOK.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.btnOK.Image = ((System.Drawing.Image)(resources.GetObject("btnOK.Image")));
 			this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnOK.Location = new System.Drawing.Point(610, 416);
+			this.btnOK.Location = new System.Drawing.Point(610, 441);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(110, 26);
 			this.btnOK.TabIndex = 61;
@@ -457,7 +469,7 @@ namespace Core.BookSorting
 			// 
 			this.lblInfo.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.lblInfo.Location = new System.Drawing.Point(12, 416);
+			this.lblInfo.Location = new System.Drawing.Point(12, 441);
 			this.lblInfo.Name = "lblInfo";
 			this.lblInfo.Size = new System.Drawing.Size(185, 23);
 			this.lblInfo.TabIndex = 70;
@@ -467,7 +479,7 @@ namespace Core.BookSorting
 			// 
 			this.lblCount.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblCount.ForeColor = System.Drawing.Color.Navy;
-			this.lblCount.Location = new System.Drawing.Point(196, 416);
+			this.lblCount.Location = new System.Drawing.Point(196, 441);
 			this.lblCount.Name = "lblCount";
 			this.lblCount.Size = new System.Drawing.Size(62, 23);
 			this.lblCount.TabIndex = 71;
@@ -488,12 +500,58 @@ namespace Core.BookSorting
 			this.btnDeleteAll.UseVisualStyleBackColor = true;
 			this.btnDeleteAll.Click += new System.EventHandler(this.BtnDeleteAllClick);
 			// 
+			// rbtnFMSSFB22
+			// 
+			this.rbtnFMSSFB22.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMSSFB22.Location = new System.Drawing.Point(214, 7);
+			this.rbtnFMSSFB22.Name = "rbtnFMSSFB22";
+			this.rbtnFMSSFB22.Size = new System.Drawing.Size(54, 17);
+			this.rbtnFMSSFB22.TabIndex = 75;
+			this.rbtnFMSSFB22.Text = "fb2.2";
+			this.rbtnFMSSFB22.UseVisualStyleBackColor = true;
+			this.rbtnFMSSFB22.Click += new System.EventHandler(this.RbtnFMSSFB22Click);
+			// 
+			// rbtnFMSSFB2Librusec
+			// 
+			this.rbtnFMSSFB2Librusec.Checked = true;
+			this.rbtnFMSSFB2Librusec.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbtnFMSSFB2Librusec.Location = new System.Drawing.Point(113, 7);
+			this.rbtnFMSSFB2Librusec.Name = "rbtnFMSSFB2Librusec";
+			this.rbtnFMSSFB2Librusec.Size = new System.Drawing.Size(95, 17);
+			this.rbtnFMSSFB2Librusec.TabIndex = 74;
+			this.rbtnFMSSFB2Librusec.TabStop = true;
+			this.rbtnFMSSFB2Librusec.Text = "fb2 Либрусек";
+			this.rbtnFMSSFB2Librusec.UseVisualStyleBackColor = true;
+			this.rbtnFMSSFB2Librusec.Click += new System.EventHandler(this.RbtnFMSSFB2LibrusecClick);
+			// 
+			// lblFMSSGenres
+			// 
+			this.lblFMSSGenres.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblFMSSGenres.ForeColor = System.Drawing.Color.Navy;
+			this.lblFMSSGenres.Location = new System.Drawing.Point(3, 8);
+			this.lblFMSSGenres.Name = "lblFMSSGenres";
+			this.lblFMSSGenres.Size = new System.Drawing.Size(108, 16);
+			this.lblFMSSGenres.TabIndex = 73;
+			this.lblFMSSGenres.Text = "Схема Жанров:";
+			// 
+			// pGenresScheme
+			// 
+			this.pGenresScheme.Controls.Add(this.lblFMSSGenres);
+			this.pGenresScheme.Controls.Add(this.rbtnFMSSFB22);
+			this.pGenresScheme.Controls.Add(this.rbtnFMSSFB2Librusec);
+			this.pGenresScheme.Enabled = false;
+			this.pGenresScheme.Location = new System.Drawing.Point(99, 182);
+			this.pGenresScheme.Name = "pGenresScheme";
+			this.pGenresScheme.Size = new System.Drawing.Size(276, 28);
+			this.pGenresScheme.TabIndex = 76;
+			// 
 			// SelectedSortData
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(734, 455);
+			this.ClientSize = new System.Drawing.Size(734, 476);
+			this.Controls.Add(this.pGenresScheme);
 			this.Controls.Add(this.btnDeleteAll);
 			this.Controls.Add(this.lblCount);
 			this.Controls.Add(this.lblInfo);
@@ -530,9 +588,15 @@ namespace Core.BookSorting
 			this.Text = "Данные для Избранной Сортировки";
 			this.Shown += new System.EventHandler(this.SelectedSortDataShown);
 			this.gBoxGenre.ResumeLayout(false);
+			this.pGenresScheme.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ColumnHeader cHeaderGenreScheme;
+		private System.Windows.Forms.Panel pGenresScheme;
+		private System.Windows.Forms.Label lblFMSSGenres;
+		private System.Windows.Forms.RadioButton rbtnFMSSFB2Librusec;
+		private System.Windows.Forms.RadioButton rbtnFMSSFB22;
 		private System.Windows.Forms.Button btnDeleteAll;
 		public System.Windows.Forms.Label lblCount;
 		private System.Windows.Forms.Label lblInfo;

@@ -28,8 +28,6 @@ namespace Options
 			/* по-умолчанию */
 			// общие
 			DefGeneral();
-			// Валидатор
-			DefValidator();
 			// Менеджер Файлов
 			// основные для Менеджера Файлов
 			DefFMGeneral();
@@ -49,16 +47,14 @@ namespace Options
 		#region Закрытые Вспомогательные методы
 		private void DefGeneral() {
 			// общие настройки
-			tboxWinRarPath.Text	= Settings.Settings.GetDefWinRARPath();
-			tboxRarPath.Text	= Settings.Settings.GetDefRarPath();
-			tboxUnRarPath.Text	= Settings.Settings.GetDefUnRARPath();
+			//TODO Удалить
 			tbox7zaPath.Text	= Settings.Settings.GetDef7zaPath();
 			tboxFBEPath.Text	= Settings.Settings.GetDefFBEPath();
 			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
 			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
 			tboxDiffPath.Text 	= Settings.Settings.GetDiffPath();
-			cboxDSValidator.Text		= Settings.SettingsValidator.GetDefValidatorcboxDSValidatorText();
-			cboxTIRValidator.Text		= Settings.SettingsValidator.GetDefValidatorcboxTIRValidatorText();;
+			cboxDSValidator.Text		= Settings.ValidatorSettings.GetDefValidatorcboxDSValidatorText();
+			cboxTIRValidator.Text		= Settings.ValidatorSettings.GetDefValidatorcboxTIRValidatorText();;
 			cboxDSArchiveManager.Text	= Settings.SettingsAM.GetDefAMcboxDSArchiveManagerText();
 			cboxTIRArchiveManager.Text	= Settings.SettingsAM.GetDefAMcboxTIRArchiveManagerText();
 			cboxDSFileManager.Text		= Settings.SettingsFM.GetDefFMcboxDSFileManagerText();
@@ -67,13 +63,7 @@ namespace Options
 			cboxTIRFB2Dup.Text			= Settings.SettingsFB2Dup.GetDefDupcboxTIRFB2DupText();
 			chBoxConfirmationForExit.Checked = true;
 		}
-		private void DefValidator() {
-			// Валидатор
-			cboxValidatorForFB2.SelectedIndex			= Settings.SettingsValidator.GetDefValidatorFB2SelectedIndex();
-			cboxValidatorForFB2Archive.SelectedIndex	= Settings.SettingsValidator.GetDefValidatorFB2ArchiveSelectedIndex();
-			cboxValidatorForFB2PE.SelectedIndex			= Settings.SettingsValidator.GetDefValidatorFB2SelectedIndexPE();
-			cboxValidatorForFB2ArchivePE.SelectedIndex	= Settings.SettingsValidator.GetDefValidatorFB2ArchiveSelectedIndexPE();
-		}
+
 		private void DefFMGeneral() {
 			// основные для Менеджера Файлов
 			chBoxTranslit.Checked = Settings.SettingsFM.GetDefFMchBoxTranslitCheked();
@@ -90,9 +80,8 @@ namespace Options
 			rbtnAuthorAll.Checked = Settings.SettingsFM.GetDefFMrbtnAuthorAllCheked();
 			rbtnGenreSchema.Checked = Settings.SettingsFM.GetDefFMrbtnGenreSchemaCheked();
 			rbtnGenreText.Checked = Settings.SettingsFM.GetDefFMrbtnGenreTextCheked();
-			chBoxAddToFileNameBookID.Checked = Settings.SettingsFM.GetDefFMchBoxAddToFileNameBookIDChecked();
 			rbtnFMAllFB2.Checked		= Settings.SettingsFM.GetDefFMrbtnFMAllFB2Cheked();
-			rbtnFMOnleValidFB2.Checked	= Settings.SettingsFM.GetDefFMrbtnFMOnlyValidFB2Cheked();
+			rbtnFMOnlyValidFB2.Checked	= Settings.SettingsFM.GetDefFMrbtnFMOnlyValidFB2Cheked();
 		}
 		private void DefFMDirNameForTagNotData() {
 			// название папки шаблонного тэга без данных
@@ -157,15 +146,7 @@ namespace Options
 			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
 				try {
 					// Общее 
-					reader.ReadToFollowing("WinRar");
-					if( reader.HasAttributes ) {
-						if ( reader.GetAttribute("WinRarPath") != null )
-							tboxWinRarPath.Text = reader.GetAttribute("WinRarPath");
-						if ( reader.GetAttribute("RarPath") != null )
-							tboxRarPath.Text = reader.GetAttribute("RarPath");
-						if ( reader.GetAttribute("UnRarPath") != null )
-							tboxUnRarPath.Text = reader.GetAttribute("UnRarPath");
-					}
+					//TODO Убрать
 					reader.ReadToFollowing("A7za");
 					if( reader.HasAttributes ) {
 						tbox7zaPath.Text = reader.GetAttribute("A7zaPath");
@@ -217,21 +198,6 @@ namespace Options
 					if( reader.HasAttributes ) {
 						chBoxConfirmationForExit.Checked = Convert.ToBoolean( reader.GetAttribute("ConfirmationForExit") );
 					}
-					// Валидатор
-					reader.ReadToFollowing("ValidatorDoubleClick");
-					if (reader.HasAttributes ) {
-						if ( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") != null )
-							cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndex") );
-						if ( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") != null )
-							cboxValidatorForFB2Archive.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndex") );
-					}
-					reader.ReadToFollowing("ValidatorPressEnter");
-					if (reader.HasAttributes ) {
-						if ( reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE") != null )
-							cboxValidatorForFB2PE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2SelectedIndexPE") );
-						if ( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE") != null )
-							cboxValidatorForFB2ArchivePE.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxValidatorForFB2ArchiveSelectedIndexPE") );
-					}
 					// Менеджер Файлов
 					reader.ReadToFollowing("Register");
 					if (reader.HasAttributes ) {
@@ -256,10 +222,6 @@ namespace Options
 					if( reader.HasAttributes ) {
 						cboxFileExist.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxFileExistSelectedIndex") );
 					}
-					reader.ReadToFollowing("AddToFileNameBookID");
-					if( reader.HasAttributes ) {
-						chBoxAddToFileNameBookID.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxAddToFileNameBookIDChecked") );
-					}
 					reader.ReadToFollowing("AuthorsToDirs");
 					if( reader.HasAttributes ) {
 						rbtnAuthorOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorOneChecked") );
@@ -278,7 +240,7 @@ namespace Options
 					reader.ReadToFollowing("SortType");
 					if( reader.HasAttributes ) {
 						rbtnFMAllFB2.Checked		= Convert.ToBoolean( reader.GetAttribute("rbtnFMAllFB2Checked") );
-						rbtnFMOnleValidFB2.Checked	= Convert.ToBoolean( reader.GetAttribute("rbtnFMOnleValidFB2Checked") );
+						rbtnFMOnlyValidFB2.Checked	= Convert.ToBoolean( reader.GetAttribute("rbtnFMOnlyValidFB2Checked") );
 					}
 					reader.ReadToFollowing("TagsNoText");
 					if( reader.HasAttributes ) {
@@ -389,12 +351,7 @@ namespace Options
 				writer.WriteStartElement( "SharpFBTools" );
 					// Общие
 					writer.WriteStartElement( "General" );
-						writer.WriteStartElement( "WinRar" );
-							writer.WriteAttributeString( "WinRarPath", tboxWinRarPath.Text );
-							writer.WriteAttributeString( "RarPath", tboxRarPath.Text );
-							writer.WriteAttributeString( "UnRarPath", tboxUnRarPath.Text );
-						writer.WriteFullEndElement();
-						
+						//TODO Убрать
 						writer.WriteStartElement( "A7za" );
 							writer.WriteAttributeString( "A7zaPath", tbox7zaPath.Text );
 						writer.WriteFullEndElement();
@@ -436,20 +393,7 @@ namespace Options
 						writer.WriteFullEndElement();
 						
 					writer.WriteEndElement();
-					
-					// Валидатор
-					writer.WriteStartElement( "FB2Validator" );
-						writer.WriteStartElement( "ValidatorDoubleClick" );
-							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndex", cboxValidatorForFB2.SelectedIndex.ToString() );
-							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndex", cboxValidatorForFB2Archive.SelectedIndex.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "ValidatorPressEnter" );
-							writer.WriteAttributeString( "cboxValidatorForFB2SelectedIndexPE", cboxValidatorForFB2PE.SelectedIndex.ToString() );
-							writer.WriteAttributeString( "cboxValidatorForFB2ArchiveSelectedIndexPE", cboxValidatorForFB2ArchivePE.SelectedIndex.ToString() );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-					
+
 					// Менеджер Файлов
 					writer.WriteStartElement( "FileManager" );
 						writer.WriteStartElement( "Register" );
@@ -477,10 +421,6 @@ namespace Options
 							writer.WriteAttributeString( "cboxFileExistText", cboxFileExist.Text.ToString() );
 						writer.WriteFullEndElement();
 						
-						writer.WriteStartElement( "AddToFileNameBookID" );
-							writer.WriteAttributeString( "chBoxAddToFileNameBookIDChecked", chBoxAddToFileNameBookID.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
 						writer.WriteStartElement( "AuthorsToDirs" );
 							writer.WriteAttributeString( "rbtnAuthorOneChecked", rbtnAuthorOne.Checked.ToString() );
 							writer.WriteAttributeString( "rbtnAuthorAllChecked", rbtnAuthorAll.Checked.ToString() );
@@ -498,7 +438,7 @@ namespace Options
 						
 						writer.WriteStartElement( "SortType" );
 							writer.WriteAttributeString( "rbtnFMAllFB2Checked", rbtnFMAllFB2.Checked.ToString() );
-							writer.WriteAttributeString( "rbtnFMOnleValidFB2Checked", rbtnFMOnleValidFB2.Checked.ToString() );
+							writer.WriteAttributeString( "rbtnFMOnlyValidFB2Checked", rbtnFMOnlyValidFB2.Checked.ToString() );
 						writer.WriteFullEndElement();
 						
 						// для данных книги
@@ -605,42 +545,7 @@ namespace Options
 		}
 		
 		#region Общее
-		void BtnWinRarPathClick(object sender, EventArgs e)
-		{
-			// указание пути к WinRar
-			ofDlg.Title = "Укажите путь к WinRar:";
-			ofDlg.FileName = "";
-			ofDlg.Filter = "WinRAR.exe|*.exe|Все файлы (*.*)|*.*";
-			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
-                tboxWinRarPath.Text = ofDlg.FileName;
-            }
-		}
-
-		void BtnRarPathClick(object sender, EventArgs e)
-		{
-			// указание пути к Rar (консольному)
-			ofDlg.Title = "Укажите путь к Rar (консольному):";
-			ofDlg.FileName = "";
-			ofDlg.Filter = "Rar.exe|*.exe|Все файлы (*.*)|*.*";
-			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
-                tboxRarPath.Text = ofDlg.FileName;
-            }
-		}
-		
-		void BtnUnRarPathClick(object sender, EventArgs e)
-		{
-			// указание пути к UnRar (консольному)
-			ofDlg.Title = "Укажите путь к UnRar (консольному):";
-			ofDlg.FileName = "";
-			ofDlg.Filter = "UnRar.exe|*.exe|Все файлы (*.*)|*.*";
-			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
-                tboxUnRarPath.Text = ofDlg.FileName;
-            }
-		}
-		
+		//TODO Удалить
 		void Btn7zaPathClick(object sender, EventArgs e)
 		{
 			// указание пути к 7za (консольному)
@@ -721,17 +626,6 @@ namespace Options
 			cboxTIRFB2Dup.Enabled = cboxDSFB2Dup.SelectedIndex == 2;
 		}
 		#endregion
-
-		#region Менеджер Файлов
-		void CboxFileExistSelectedIndexChanged(object sender, EventArgs e)
-		{
-			chBoxAddToFileNameBookID.Visible = cboxFileExist.SelectedIndex != 0;
-			if( cboxFileExist.SelectedIndex == 0 ) {
-				chBoxAddToFileNameBookID.Checked = false;
-			}
-		}
-		
-		#endregion
 		
 		#region Восстановление по-умолчанию
 		void BtnDefRestoreClick(object sender, EventArgs e) {
@@ -739,10 +633,7 @@ namespace Options
 				case 0: // общие
 					DefGeneral();
 					break;
-				case 1: // Валидатор
-					DefValidator();
-					break;
-				case 2: // Менеджер Файлов
+				case 1: // Менеджер Файлов
 					switch( tcFM.SelectedIndex ) {
 						case 0: // основные - для Менеджера Файлов
 							DefFMGeneral();
@@ -770,6 +661,5 @@ namespace Options
 		#endregion
 		
 		#endregion
-
 	}
 }

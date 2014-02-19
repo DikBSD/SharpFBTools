@@ -17,8 +17,9 @@ using Settings;
 using Core.FB2.Genres;
 using Core.Misc;
 
-using archivesWorker	= Core.FilesWorker.Archiver;
-using filesWorker		= Core.FilesWorker.FilesWorker;
+using ICSharpCode.SharpZipLib.Zip;
+
+using filesWorker = Core.FilesWorker.FilesWorker;
 
 namespace Core.FileManager
 {
@@ -28,22 +29,22 @@ namespace Core.FileManager
 	public class FileManagerWork
 	{
 		#region Закрытые данные класса
-		private const string space		= " "; // для задания отступов данных от границ колонов в Списке
+		private const string space = " "; // для задания отступов данных от границ колонов в Списке
 		#endregion
 		
 		public FileManagerWork()
 		{
 		}
 		
-		static public string CyrillicGenreName(bool IsFB2LibrusecGenres, string GenreCode) {
+		public static string CyrillicGenreName(bool IsFB2LibrusecGenres, string GenreCode) {
 			IFBGenres fb2g = null;
-			if( IsFB2LibrusecGenres ) {
+			if( IsFB2LibrusecGenres )
 				fb2g = new FB2LibrusecGenres();
-			} else {
+			else
 				fb2g = new FB22Genres();
-			}
+
 			if(GenreCode.IndexOf(';') != -1) {
-				string ret = "";
+				string ret = string.Empty;
 				string[] sG = GenreCode.Split(';');
 				foreach(string s in sG) {
 					ret += fb2g.GetFBGenreName(s.Trim()) + "; ";
@@ -54,21 +55,19 @@ namespace Core.FileManager
 			return fb2g.GetFBGenreName(GenreCode);;
 		}
 		
-		static public void AutoResizeColumns(ListView listView) {
-			// авторазмер колонок Списка
+		// авторазмер колонок Списка
+		public static void AutoResizeColumns(ListView listView) {
 			listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-//			for(int i=0; i!=listView.Columns.Count; ++i) {
+//			for(int i=0; i!=listView.Columns.Count; ++i)
 //				listView.Columns[i].Width = listView.Columns[i].Width + 2;
-//			}
 		}
 		
-		static public void GenerateSourceList(string dirPath, ListView listView, bool itemChecked, bool IsFB2LibrusecGenres, bool isTagsView, bool isColumnsAutoReize) {
-        	// заполнение списка данными указанной папки
+		// заполнение списка данными указанной папки
+		public static void GenerateSourceList(string dirPath, ListView listView, bool itemChecked, bool IsFB2LibrusecGenres, bool isTagsView, bool isColumnsAutoReize) {
         	Cursor.Current = Cursors.WaitCursor;
         	listView.BeginUpdate();
         	listView.Items.Clear();
         	try {
-        		Settings.DataFM dfm = new Settings.DataFM();
         		DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
         		ListViewItem.ListViewSubItem[] subItems;
         		ListViewItem item = null;
@@ -90,6 +89,7 @@ namespace Core.FileManager
         				++nItemCount;
         			}
         			FB2BookDescription bd = null;
+        			Core.FilesWorker.SharpZipLibWorker sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
         			foreach (FileInfo file in dirInfo.GetFiles()) {
         				if(file.Extension.ToLower()==".fb2" || file.Extension.ToLower()==".zip") {
         					item = new ListViewItem(" "+file.Name+" ", file.Extension.ToLower()==".fb2" ? 1 : 2);
@@ -107,20 +107,21 @@ namespace Core.FileManager
         								};
         							} else {
         								subItems = new ListViewItem.ListViewSubItem[] {
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, "")
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty)
         								};
         							}
         						} else {
         							// для zip-архивов
         							if(isTagsView) {
-        								filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-        								archivesWorker.unzip(dfm.A7zaPath, file.FullName, Settings.Settings.GetTempDir(), ProcessPriorityClass.AboveNormal );
-        								string [] files = Directory.GetFiles( Settings.Settings.GetTempDir() );
+        								string TempDir = Settings.Settings.GetTempDir();
+        								filesWorker.RemoveDir( TempDir );
+        								sharpZipLib.UnZipFiles( file.FullName, TempDir, 0, false, null, 4096 );
+        								string [] files = Directory.GetFiles( TempDir );
         								bd = new FB2BookDescription( files[0] );
         								subItems = new ListViewItem.ListViewSubItem[] {
         									new ListViewItem.ListViewSubItem(item, space+bd.TIBookTitle+space),
@@ -132,12 +133,12 @@ namespace Core.FileManager
         								};
         							} else {
         								subItems = new ListViewItem.ListViewSubItem[] {
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, ""),
-        									new ListViewItem.ListViewSubItem(item, "")
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty),
+        									new ListViewItem.ListViewSubItem(item, string.Empty)
         								};
         							}
         						}
@@ -156,9 +157,8 @@ namespace Core.FileManager
         				}
         			}
         			// авторазмер колонок Списка Проводника
-        			if(isColumnsAutoReize) {
+        			if(isColumnsAutoReize)
         				AutoResizeColumns(listView);
-        			}
         		}
         		
         	} catch (System.Exception) {

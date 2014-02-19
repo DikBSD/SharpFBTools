@@ -19,6 +19,7 @@ using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.PublishInfo;
 using Core.FB2.Description.CustomInfo;
+using Core.FB2.Binary;
 
 using fb2BookData 	= Core.FB2BookData.FB2BookData;
 using FB2Validator	= Core.FB2Parser.FB2Validator;
@@ -144,10 +145,17 @@ namespace Core.Misc
 			}
         }
 		
-		public virtual string IsValid {
+		public virtual string IsValidFB22 {
 			get {
 				FB2Validator fv2Validator = new FB2Validator();
-				return fv2Validator.ValidatingFB2File( m_sFromFilePath );
+				return fv2Validator.ValidatingFB22File( m_sFromFilePath );
+			}
+        }
+		
+		public virtual string IsValidFB2Librusec {
+			get {
+				FB2Validator fv2Validator = new FB2Validator();
+				return fv2Validator.ValidatingFB2LibrusecFile( m_sFromFilePath );
 			}
         }
 		#endregion
@@ -207,11 +215,11 @@ namespace Core.Misc
 			}
         }
 		
-		public virtual string TICoverpage {
+		public virtual int TICoverpagesCount {
 			get {
-				return ( m_fb2bd.TICoverpage != null && m_fb2bd.TICoverpage.Value != null )
-					? m_fb2bd.TICoverpage.Value
-					: "";
+				return ( m_fb2bd.TICoverpagesCount != 0 )
+					? m_fb2bd.TICoverpagesCount
+					: 0;
 			}
         }
 		
@@ -284,11 +292,11 @@ namespace Core.Misc
 			}
         }
 		
-		public virtual string STICoverpage {
+		public virtual int STICoverpagesCount {
 			get {
-				return ( m_fb2bd.STICoverpage != null && m_fb2bd.STICoverpage.Value != null )
-					? m_fb2bd.STICoverpage.Value
-					: "";
+				return ( m_fb2bd.STICoverpagesCount != 0 )
+					? m_fb2bd.STICoverpagesCount
+					: 0;
 			}
         }
 		
@@ -423,6 +431,14 @@ namespace Core.Misc
 		public virtual IList<CustomInfo> CICustomInfo {
 			get {
 				return m_fb2bd.CICustomInfo;
+			}
+        }
+		#endregion
+		
+		#region Binary
+		public virtual IList<BinaryBase64> CoversBase64 {
+			get {
+				return m_fb2bd.CoversBase64;
 			}
         }
 		#endregion

@@ -40,6 +40,7 @@ namespace Core.Templates
 		private static string[] GetLexemsToVerify( string sString ) {
 			// разбивка строки на лексемы, согласно шаблонам переименовывания
 			string[] sAllTemplates = new string[] {
+					"*GROUP*",
 					"*LBAL*","*L*","*GG*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*SII*","*SIII*","*DT*","*DV*",
 					"*LF*","*LM*","*LL*","*LN*",
 					"*YEAR*","*PUB*","*CITY*",

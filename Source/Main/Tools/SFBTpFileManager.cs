@@ -31,9 +31,7 @@ using Core.Templates.Lexems;
 
 using fB2Parser					= Core.FB2.FB2Parsers.FB2Parser;
 using filesWorker				= Core.FilesWorker.FilesWorker;
-using archivesWorker			= Core.FilesWorker.Archiver;
 using fb2Validator				= Core.FB2Parser.FB2Validator;
-using stringProcessing			= Core.StringProcessing.StringProcessing;
 using templatesParser			= Core.Templates.TemplatesParser;
 using templatesVerify			= Core.Templates.TemplatesVerify;
 using templatesLexemsSimple		= Core.Templates.Lexems.TPSimple;
@@ -42,26 +40,35 @@ using selectedSortQueryCriteria	= Core.BookSorting.SelectedSortQueryCriteria;
 namespace SharpFBTools.Tools
 {
 	/// <summary>
-	/// Description of SFBTpFileManager.
+	/// Режим сортировки книг - по числу Авторов и Жанров
+	/// </summary>
+	public enum SortModeType {
+		_1Genre1Author,			// по первому Жанру и первому Автору Книги
+		_1GenreAllAuthor, 		// по первому Жанру и всем Авторам Книги
+		_AllGenre1Author,		// по всем Жанрам и первому Автору Книги
+		_AllGenreAllAuthor, 	// по всем Жанрам и всем Авторам Книги
+	}
+	
+	/// <summary>
+	/// Сортировщик fb2-файлов
 	/// </summary>
 	public partial class SFBTpFileManager : UserControl
 	{
 		#region Закрытые данные класса
-		private string m_CurrentDir = "";
 		private fb2Validator fv2V = new fb2Validator();
 		private List<selectedSortQueryCriteria> m_lSSQCList = null; // список критериев поиска для Избранной Сортировки
-        private DateTime m_dtStart;
-        private BackgroundWorker m_bw = null;
-		private string m_sSource		= "";
-		private string m_sTarget		= "";
-		private string m_sLineTemplate	= "";
-		private string m_sMessTitle		= "";
-        private bool m_bFullSort		= true;
-        private bool m_bScanSubDirs		= true;
-        private Core.FileManager.StatusView m_sv	= new Core.FileManager.StatusView();
-        private MiscListView m_mscLV				= new MiscListView(); // класс по работе с ListView
-        private const string space		= " "; // для задания отступов данных от границ колонов в Списке
-        #endregion
+		private DateTime m_dtStart;
+		private BackgroundWorker m_bw = null;
+		private string m_sLineTemplate	= string.Empty;
+		private string m_sMessTitle		= string.Empty;
+		private bool m_bFullSort		= true;
+		private bool m_bScanSubDirs		= true;
+		private Core.FileManager.StatusView m_sv	= new Core.FileManager.StatusView();
+		private MiscListView m_mscLV				= new MiscListView(); // класс по работе с ListView
+		private const string m_space		= " "; // для задания отступов данных от границ колонов в Списке
+		private Core.FilesWorker.SharpZipLibWorker sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
+		FullNameTemplates m_fnt = new FullNameTemplates();
+		#endregion
 		
 		public SFBTpFileManager()
 		{
@@ -73,79 +80,80 @@ namespace SharpFBTools.Tools
 			ReadFMTempData();
 			lvFilesCount.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 			rtboxTemplatesList.Clear();
-			string sTDPath = Settings.SettingsFM.GetDefFMDescTemplatePath();
-			if( File.Exists( sTDPath ) ) {
+			string sTDPath = Settings.FileManagerSettings.GetDefFMDescTemplatePath();
+			if( File.Exists( sTDPath ) )
 				rtboxTemplatesList.LoadFile( sTDPath );
-			} else {
+			else
 				rtboxTemplatesList.Text = "Не найден файл описания Шаблонов подстановки: \""+sTDPath+"\"";
-			}
 		}
-		
-		#region Открытые методы класса
-		#endregion
 		
 		#region Закрытые методы реализации BackgroundWorker
+		// Инициализация перед использование BackgroundWorker
 		private void InitializeBackgroundWorker() {
-			// Инициализация перед использование BackgroundWorker 
-            m_bw = new BackgroundWorker();
-            m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
-            m_bw.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-            m_bw.DoWork 			+= new DoWorkEventHandler( bw_DoWork );
-            m_bw.ProgressChanged 	+= new ProgressChangedEventHandler( bw_ProgressChanged );
-            m_bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
+			m_bw = new BackgroundWorker();
+			m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
+			m_bw.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
+			m_bw.DoWork 			+= new DoWorkEventHandler( bw_DoWork );
+			m_bw.ProgressChanged 	+= new ProgressChangedEventHandler( bw_ProgressChanged );
+			m_bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
 		}
 		
+		// сортировка файлов по папкам, согласно шаблонам подстановки
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
-			// сортировка файлов по папкам, согласно шаблонам подстановки
+			#region Код
 			m_sv.Clear();
 			textBoxFiles.Clear();
-			List<string> lDirList	= new List<string>();
-			List<string> lFileList	= new List<string>();
-			List<string> lCheckedDirList	= new List<string>();
-			List<string> lCheckedFileList	= new List<string>();
+			List<string> lDirList			= new List<string>();
+			List<string> lFileList			= new List<string>();
 			
 			if(m_bFullSort) {
-				/* ============== Полная Сортировка ============= */
+				// ========================================================================
+				//                              Полная Сортировка
+				// ========================================================================
 				// формируем список помеченных папок
+				List<string> lCheckedDirList	= new List<string>();
+				List<string> lCheckedFileList	= new List<string>();
 				System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems = listViewSource.CheckedItems;
 				foreach( ListViewItem lvi in checkedItems ) {
 					ListViewItemType it = (ListViewItemType)lvi.Tag;
-					if(it.Type.Trim() == "d") {
+					if(it.Type.Trim() == "d")
 						lCheckedDirList.Add(it.Value.Trim());
-					} else if(it.Type.Trim() == "f") {
+					else if(it.Type.Trim() == "f")
 						lCheckedFileList.Add(it.Value.Trim());
-					}
 				}
 				
 				lFileList.AddRange( lCheckedFileList ); // помеченные файлы
+				lDirList.Add( getSourceDir() );
 				if( !m_bScanSubDirs ) {
 					// сканировать только указанную папку (ее папки, но не их подпапки)
-					lDirList.Add( m_sSource ); lDirList.AddRange( lCheckedDirList );
-					foreach(string dir in lCheckedDirList) {
+					lDirList.AddRange( lCheckedDirList );
+					foreach(string dir in lCheckedDirList)
 						lFileList.AddRange( Directory.GetFiles( dir ) );
-					}
+
 				} else {
 					// сканировать и все подпапки
-					lDirList.Add( m_sSource );
-					foreach(string dir in lCheckedDirList) {
+					foreach(string dir in lCheckedDirList)
 						filesWorker.DirsFilesParser( m_bw, e, dir, ref lDirList, ref lFileList );
-					}
 				}
+				lCheckedDirList.Clear();
+				lCheckedFileList.Clear();
 			} else {
-				/* ================ Избранная Сортировка ====================== */
+				// ========================================================================
+				//                            Избранная Сортировка
+				// ========================================================================
 				if( !m_bScanSubDirs ) {
 					// сканировать только указанную папку
-					lDirList.Add( m_sSource );
-					lFileList.AddRange( Directory.GetFiles( m_sSource ) );
+					lDirList.Add( getSourceDir() );
+					lFileList.AddRange( Directory.GetFiles( getSourceDir() ) );
 				} else {
 					// сканировать и все подпапки
-					filesWorker.DirsFilesParser( m_bw, e, m_sSource, ref lDirList, ref lFileList );
+					filesWorker.DirsFilesParser( m_bw, e, getSourceDir(), ref lDirList, ref lFileList );
 				}
 			}
 			lvFilesCount.Items[0].SubItems[1].Text = lDirList.Count.ToString();
 			lvFilesCount.Items[1].SubItems[1].Text = lFileList.Count.ToString();
 			
-			// Проверить флаг на остановку процесса 
+			// Проверить флаг на остановку процесса
 			if( ( m_bw.CancellationPending == true ) ) {
 				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 				return;
@@ -167,17 +175,18 @@ namespace SharpFBTools.Tools
 			Settings.DataFM dfm = new Settings.DataFM();
 			
 			// папки для проблемных файлов
-			dfm.NotReadFB2Dir	= m_sTarget + "\\" + dfm.NotReadFB2Dir;
-			dfm.FileLongPathDir	= m_sTarget + "\\" + dfm.FileLongPathDir;
-			dfm.NotValidFB2Dir	= m_sTarget + "\\" + dfm.NotValidFB2Dir;
-			dfm.NotOpenArchDir	= m_sTarget + "\\" + dfm.NotOpenArchDir;
-				
+			string TargetDir = getTargetDir() + "\\";
+			dfm.NotReadFB2Dir	= TargetDir + dfm.NotReadFB2Dir;
+			dfm.FileLongPathDir	= TargetDir + dfm.FileLongPathDir;
+			dfm.NotValidFB2Dir	= TargetDir + dfm.NotValidFB2Dir;
+			dfm.NotOpenArchDir	= TargetDir + dfm.NotOpenArchDir;
+			
 			// Отображение папок для обработки
-			textBoxFiles.Text += "Папки для обрабатки:\r\n";
+			textBoxFiles.Text += "Папки для обработки:\r\n";
 			long lCount = 0;
-			foreach( string dir in lDirList ) {
+			foreach( string dir in lDirList )
 				textBoxFiles.Text += (++lCount).ToString() + ".\t" + dir + "\r\n";
-			}
+
 			textBoxFiles.Text += "\r\nФайлы для обработки:\r\n";
 			lDirList.Clear();
 			
@@ -186,7 +195,9 @@ namespace SharpFBTools.Tools
 			// сортировка
 			lCount = 0;
 			if( m_bFullSort ) {
-				// Полная Сортировка
+				// ========================================================================
+				//                              Полная Сортировка
+				// ========================================================================
 				foreach( string filePath in lFileList ) {
 					// Проверить флаг на остановку процесса
 					if( ( m_bw.CancellationPending == true ) ) {
@@ -194,103 +205,92 @@ namespace SharpFBTools.Tools
 						return;
 					}
 					// создаем файл по заданному пути
-					textBoxFiles.Text += (++lCount).ToString() + ".\t" + filePath + "\r\n";
-					textBoxFiles.Select( textBoxFiles.TextLength, 0 ); textBoxFiles.ScrollToCaret();
-					if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
-						// по первому Жанру и первому Автору Книги
-						MakeFileFor1Genre1Author( filePath, m_sSource, m_sTarget, lSLexems, dfm );
-					} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
-						// по первому Жанру и всем Авторам Книги
-						MakeFileFor1GenreAllAuthor( filePath, m_sSource, m_sTarget, lSLexems, dfm );
-					} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
-						// по всем Жанрам и первому Автору Книги
-						MakeFileForAllGenre1Author( filePath, m_sSource, m_sTarget, lSLexems, dfm );
-					} else {
-						// по всем Жанрам и всем Авторам Книги
-						MakeFileForAllGenreAllAuthor( filePath, m_sSource, m_sTarget, lSLexems, dfm );
+					if ( chBoxViewLogFiles.Checked ) {
+						textBoxFiles.Text += (++lCount).ToString() + ".\t" + filePath + "\r\n";
+						textBoxFiles.Select( textBoxFiles.TextLength, 0 ); textBoxFiles.ScrollToCaret();
 					}
-
+					// создание отсортированного fb2 по Жанру(ам) и Автору(ам)
+					FullSorting( filePath, getSourceDir(), getTargetDir(), lSLexems, dfm );
+					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
-				lCheckedDirList.Clear();
-				lCheckedFileList.Clear();
+				
+				if(!Settings.FileManagerSettings.FullSortingNotDelFB2Files)
+					GenerateSourceList(getSourceDir());
 			} else {
-				// Избранная Сортировка
+				// ========================================================================
+				//                            Избранная Сортировка
+				// ========================================================================
 				foreach( string filePath in lFileList ) {
 					// Проверить флаг на остановку процесса
 					if( ( m_bw.CancellationPending == true ) ) {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						return;
 					}
-					
-					string sExt = Path.GetExtension( filePath ).ToLower();
-					textBoxFiles.Text += (++lCount).ToString() + ".\t" + filePath + "\r\n";
-					textBoxFiles.Select( textBoxFiles.TextLength, 0 ); textBoxFiles.ScrollToCaret();
-					// создаем файл по новому пути
-					if( sExt==".fb2" ) {
-						// Создание файла по критериям Избранной сортировки
-						MakeFileForSelectedSortingWorker( filePath, m_sSource, m_sTarget, lSLexems, dfm );
-					} else {
-						// это архив?
-						if( archivesWorker.IsArchive( sExt ) ) {
-							List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( filePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
-							IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
-							if( lFilesListFromArchive!=null ) {
-								foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
-									// Создание файла по критериям Избранной сортировки
-									MakeFileForSelectedSortingWorker( sFB2FromArchPath, m_sSource, m_sTarget, lSLexems, dfm );
-								}
-							}
-							filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-						}
+					if ( chBoxViewLogFiles.Checked ) {
+						textBoxFiles.Text += (++lCount).ToString() + ".\t" + filePath + "\r\n";
+						textBoxFiles.Select( textBoxFiles.TextLength, 0 ); textBoxFiles.ScrollToCaret();
 					}
+					// создаем отсортированный fb2 файл по новому пути
+					SelectedSorting( filePath, getSourceDir(), getTargetDir(), lSLexems, dfm );
 					m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 				}
 			}
-			
 			lFileList.Clear();
-			if(m_bFullSort && !Settings.FileManagerSettings.FullSortingNotDelFB2Files) {
-				GenerateSourceList(m_sSource);
-			}
-        }
-
-		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-            // Отобразим результат сортировки
-            if( chBoxViewProgress.Checked ) SortingProgressData();
-            ++tsProgressBar.Value;
-        }
+			#endregion
+		}
 		
-        private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
-            // Проверяем это отмена, ошибка, или конец задачи и сообщить
-            SortingProgressData(); // Отобразим результат сортировки
-            DateTime dtEnd = DateTime.Now;
-            filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-            
-            string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
+		// Отобразим результат сортировки
+		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
+			if( chBoxViewProgress.Checked )
+				SortingProgressData();
+
+			++tsProgressBar.Value;
+		}
+		
+		// Проверяем это отмена, ошибка, или конец задачи и сообщить
+		private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
+			SortingProgressData(); // Отобразим результат сортировки
+			DateTime dtEnd = DateTime.Now;
+			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			
+			string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
 			string sMessCanceled	= "Сортировка остановлена!\nЗатрачено времени: "+sTime;
-			string sMessError		= "";
+			string sMessError		= string.Empty;
 			string sMessDone		= "Сортировка файлов в указанную папку завершена!\nЗатрачено времени: "+sTime;
-           
+			
 			if( ( e.Cancelled == true ) ) {
-                MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            } else if( e.Error != null ) {
-                sMessError = "Error!\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
-            	MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            } else {
-            	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            }
+				MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			} else if( e.Error != null ) {
+				sMessError = "Error!\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
+				MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			} else {
+				MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
 			
 			tsslblProgress.Text = Settings.Settings.GetReady();
 
-			if( m_bFullSort ) {
+			if( m_bFullSort )
 				SetFullSortingStartEnabled( true );
-			} else {
+			else
 				SetSelectedSortingStartEnabled( true );
-			}
-        }
+		}
 		#endregion
 		
 		#region Закрытые вспомогательные методы класса
+		// получение source папки
+		private string getSourceDir() {
+			return m_bFullSort
+				? filesWorker.WorkingDirPath( textBoxAddress.Text.Trim() )
+				: filesWorker.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
+		}
+		// получение target папки
+		private string getTargetDir() {
+			return m_bFullSort
+				? filesWorker.WorkingDirPath( textBoxAddress.Text.Trim() ) + " - OUT"
+				: filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
+		}
+		
 		private void ConnectListsEventHandlers( bool bConnect ) {
 			if( !bConnect ) {
 				// отключаем обработчики событий для Списка (убираем "тормоза")
@@ -307,40 +307,36 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
+		// заполнение списка данными указанной папки
 		private void GenerateSourceList(string dirPath) {
-        	// заполнение списка данными указанной папки
-        	m_CurrentDir = dirPath;
-        	bool IsFB2LibrusecGenres = m_bFullSort ? Settings.FileManagerSettings.FullSortingFB2LibrusecGenres
-					            	 				: Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres;
-        	Core.FileManager.FileManagerWork.GenerateSourceList(
-        		dirPath, listViewSource, true, IsFB2LibrusecGenres, checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked
-        	);
-        }
+			bool IsFB2LibrusecGenres = m_bFullSort ? Settings.FileManagerSettings.FullSortingFB2LibrusecGenres
+				: Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres;
+			Core.FileManager.FileManagerWork.GenerateSourceList(
+				dirPath, listViewSource, true, IsFB2LibrusecGenres, checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked
+			);
+		}
 
+		// Отобразим результат сортировки
 		private void SortingProgressData() {
-            // Отобразим результат сортировки
-            /*lvFilesCount.Items[0].SubItems[1].Text = Convert.ToString( m_sv.AllDirs );
+			/*lvFilesCount.Items[0].SubItems[1].Text = Convert.ToString( m_sv.AllDirs );
             lvFilesCount.Items[1].SubItems[1].Text = Convert.ToString( m_sv.AllFiles );*/
-            lvFilesCount.Items[2].SubItems[1].Text = Convert.ToString( m_sv.SourceFB2 );
-            lvFilesCount.Items[3].SubItems[1].Text = Convert.ToString( m_sv.Zip );
-            lvFilesCount.Items[4].SubItems[1].Text = Convert.ToString( m_sv.Rar );
-            lvFilesCount.Items[5].SubItems[1].Text = Convert.ToString( m_sv.A7Zip );
-            lvFilesCount.Items[6].SubItems[1].Text = Convert.ToString( m_sv.BZip2 );
-            lvFilesCount.Items[7].SubItems[1].Text = Convert.ToString( m_sv.Gzip );
-            lvFilesCount.Items[8].SubItems[1].Text = Convert.ToString( m_sv.Tar );
-            lvFilesCount.Items[9].SubItems[1].Text = Convert.ToString( m_sv.FB2FromArchives );
-            lvFilesCount.Items[10].SubItems[1].Text = Convert.ToString( m_sv.Other );
-            lvFilesCount.Items[11].SubItems[1].Text = Convert.ToString( m_sv.CreateInTarget );
-            lvFilesCount.Items[12].SubItems[1].Text = Convert.ToString( m_sv.NotRead );
-            lvFilesCount.Items[13].SubItems[1].Text = Convert.ToString( m_sv.NotValidFB2 );
-            lvFilesCount.Items[14].SubItems[1].Text = Convert.ToString( m_sv.BadArchive );
-        }
+			lvFilesCount.Items[2].SubItems[1].Text = Convert.ToString( m_sv.SourceFB2 );
+			lvFilesCount.Items[3].SubItems[1].Text = Convert.ToString( m_sv.Zip );
+			lvFilesCount.Items[4].SubItems[1].Text = Convert.ToString( m_sv.FB2FromZips );
+			lvFilesCount.Items[5].SubItems[1].Text = Convert.ToString( m_sv.Other );
+			lvFilesCount.Items[6].SubItems[1].Text = Convert.ToString( m_sv.CreateInTarget );
+			lvFilesCount.Items[7].SubItems[1].Text = Convert.ToString( m_sv.NotRead );
+			lvFilesCount.Items[8].SubItems[1].Text = Convert.ToString( m_sv.NotValidFB2 );
+			lvFilesCount.Items[9].SubItems[1].Text = Convert.ToString( m_sv.BadZip );
+			lvFilesCount.Items[10].SubItems[1].Text = Convert.ToString( m_sv.LongPath );
+			lvFilesCount.Items[11].SubItems[1].Text = Convert.ToString( m_sv.NotSort );
+		}
 		
+		// инициализация контролов и переменных
 		private void Init() {
-			// инициализация контролов и переменных
-			for( int i=0; i!=lvFilesCount.Items.Count; ++i ) {
+			for( int i=0; i!=lvFilesCount.Items.Count; ++i )
 				lvFilesCount.Items[i].SubItems[1].Text	= "0";
-			}
+
 			tsProgressBar.Value		= 0;
 			tsslblProgress.Text		= Settings.Settings.GetReady();
 			tsProgressBar.Visible	= false;
@@ -349,82 +345,72 @@ namespace SharpFBTools.Tools
 			m_sv.Clear();
 		}
 		
+		// доступность контролов при Полной Сортировки
 		private void SetFullSortingStartEnabled( bool bEnabled ) {
-			// доступность контролов при Полной Сортировки
-			tpSelectedSort.Enabled		= bEnabled;
-			panelTemplate.Enabled		= bEnabled;
-			panelAddress.Enabled		= bEnabled;
-			listViewSource.Enabled		= bEnabled;
-			buttonFullSortStop.Enabled	= !bEnabled;
-			tsProgressBar.Visible		= !bEnabled;
+			tpSelectedSort.Enabled = panelTemplate.Enabled = panelAddress.Enabled = listViewSource.Enabled = bEnabled;
+			buttonFullSortStop.Enabled = tsProgressBar.Visible = !bEnabled;
 			tcSort.Refresh();
 			ssProgress.Refresh();
 		}
 		
+		// доступность контролов при Избранной Сортировки
 		private void SetSelectedSortingStartEnabled( bool bEnabled ) {
-			// доступность контролов при Избранной Сортировки
-			tpFullSort.Enabled			= bEnabled;
-			buttonSSortFilesTo.Enabled	= bEnabled;
-			pSelectedSortDirs.Enabled	= bEnabled;
-			pSSTemplate.Enabled			= bEnabled;
-			pSSData.Enabled				= bEnabled;
-			buttonSSortStop.Enabled		= !bEnabled;
-			tsProgressBar.Visible		= !bEnabled;
+			tpFullSort.Enabled = buttonSSortFilesTo.Enabled = pSelectedSortDirs.Enabled = pSSTemplate.Enabled = pSSData.Enabled = bEnabled;
+			buttonSSortStop.Enabled = tsProgressBar.Visible = !bEnabled;
 			tcSort.Refresh();
 			ssProgress.Refresh();
 		}
 		
+		// Полная Сортировка: проверка на корректность данных папок источника и приемника файлов
 		private bool IsSourceDirDataCorrect()
 		{
-			// Полная Сортировка: проверка на корректность данных папок источника и приемника файлов
 			// проверки на корректность папок источника и приемника
-			if( m_sSource.Length == 0 ) {
+			if( getSourceDir().Length == 0 ) {
 				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
+			DirectoryInfo diFolder = new DirectoryInfo( getSourceDir() );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена: " + m_sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена: " + getSourceDir(), m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка папки-приемника и создание ее, если нужно
-			if( !filesWorker.CreateDirIfNeed( m_sTarget, m_sMessTitle ) ) {
+			if( !filesWorker.CreateDirIfNeed( getTargetDir(), m_sMessTitle ) )
 				return false;
-			}
 
 			return true;
 		}
 		
+		// Селективная Сортировка: проверка на корректность данных папок источника и приемника файлов
 		private bool IsFoldersDataCorrect()
 		{
-			// Селективная Сортировка: проверка на корректность данных папок источника и приемника файлов
 			// проверки на корректность папок источника и приемника
-			if( m_sSource.Length == 0 ) {
+			if( getSourceDir().Length == 0 ) {
 				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
-			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
+			DirectoryInfo diFolder = new DirectoryInfo( getSourceDir() );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена: " + m_sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена: " + getSourceDir(), m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
-			if( m_sTarget.Length == 0 ) {
+			if( getTargetDir().Length == 0 ) {
 				MessageBox.Show( "Не указана папка-приемник файлов!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
-			if( m_sSource == m_sTarget ) {
+			if( getSourceDir() == getTargetDir() ) {
 				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка папки-приемника и создание ее, если нужно
-			if( !filesWorker.CreateDirIfNeed( m_sTarget, m_sMessTitle ) ) {
+			if( !filesWorker.CreateDirIfNeed( getTargetDir(), m_sMessTitle ) )
 				return false;
-			}
+
 			return true;
 		}
 		
+		// чтение данных Полной Сортировки из xml-файла
 		private void ReadFMTempData() {
-			// чтение данных Полной Сортировки из xml-файла
 			this.checkBoxTagsView.Click -= new System.EventHandler(this.CheckBoxTagsViewClick);
 			checkBoxTagsView.Checked = Settings.FileManagerSettings.ReadXmlFullSortingBooksTagsView();
 			this.checkBoxTagsView.Click += new System.EventHandler(this.CheckBoxTagsViewClick);
@@ -445,399 +431,249 @@ namespace SharpFBTools.Tools
 			chBoxSSScanSubDir.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingInSubDir();
 			chBoxSSToZip.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingToZip();
 			chBoxSSNotDelFB2Files.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingNotDelFB2Files();
-			rbtnFMSSFB2Librusec.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingFB2Librusec();
-			rbtnFMSSFB22.Checked = Settings.FileManagerSettings.ReadXmlSelectedSortingFB22();
 
 //			if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
 //				GenerateSourceList(Settings.FileManagerSettings.FullSortingSourceDir);
 //			}
 		}
 		
-		private void IncArchiveInfo( string sExt ) {
-			// Увеличить число определенного файла-архива на 1
-			switch( sExt ) {
-				case ".rar":
-					//IncStatus( 4 );
-					++m_sv.Rar;
-					break;
-				case ".zip":
-					//IncStatus( 3 );
+		//=================================================================
+		//							Полная Сортировка
+		//=================================================================
+		private void FullSorting( string FromFilePath, string SourceDir, string TargetDir,
+		                         List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
+			#region Код
+			bool NotDelOriginalFiles = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
+					: Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
+			string SourceExt = Path.GetExtension( FromFilePath ).ToLower();
+			if( SourceExt==".fb2" ) {
+				// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
+				MakeFileForGenreAndAuthorFromFB2( FromFilePath, SourceDir, TargetDir, lSLexems, dfm );
+				++m_sv.SourceFB2;
+				
+				// удаляем исходный fb2-файл, если включена эта опция
+				if( !NotDelOriginalFiles ) {
+					if( File.Exists( FromFilePath ) )
+						File.Delete( FromFilePath );
+				}
+			} else if( SourceExt==".zip" ) {
+				string TempDir = Settings.Settings.GetTempDir();
+				long UnZipCount = sharpZipLib.UnZipFiles( FromFilePath, TempDir, 0, true, null, 4096 );
+				List<string> FilesListFromZip = filesWorker.MakeFileListFromDir( TempDir, false, false );
+				if (UnZipCount==-1) {
+					// не получилось открыть архив - "битый"
+					CopyBadZipToBadDir( FromFilePath, SourceDir, dfm.NotOpenArchDir, dfm.FileExistMode );
+					++m_sv.BadZip;
+					return;
+				} else {
 					++m_sv.Zip;
-					break;
-				case ".7z":
-					//IncStatus( 5 );
-					++m_sv.A7Zip;
-					break;
-				case ".bz2":
-					//IncStatus( 6 );
-					++m_sv.BZip2;
-					break;
-				case ".gz":
-					//IncStatus( 7 );
-					++m_sv.Gzip;
-					break;
-				case ".tar":
-					//IncStatus( 8 );
-					++m_sv.Tar;
-					break;
-			}
-		}
-		
-		private void CreateFileTo( string sFromFilePath, string sToFilePath, int nFileExistMode,
-		                          	bool bAddToFileNameBookIDMode, Settings.DataFM dfm ) {
-			// создание нового файла или архива
-			bool ToZip = m_bFullSort ? Settings.FileManagerSettings.FullSortingToZip
-					            	 : Settings.FileManagerSettings.SelectedSortingToZip;
-			try {
-				if( !ToZip ) {
-					CopyFileToTargetDir( sFromFilePath, sToFilePath, false, nFileExistMode, bAddToFileNameBookIDMode );
-				} else {
-					// упаковка в архив
-					CopyFileToArchive( dfm.A7zaPath, sFromFilePath, sToFilePath+".zip", nFileExistMode, bAddToFileNameBookIDMode );
-				}
-			} catch ( System.IO.PathTooLongException ) {
-				string sFileLongPathDir = dfm.FileLongPathDir;
-				Directory.CreateDirectory( sFileLongPathDir );
-				sToFilePath = sFileLongPathDir+"\\"+Path.GetFileName( sFromFilePath );
-				CopyFileToTargetDir( sFromFilePath, sToFilePath, true, nFileExistMode, false );	
-			}
-		}
-		
-		private void CopyFileToArchive( string s7zaPath, string sFromFilePath, string sToFilePath,
-		                               int nFileExistMode, bool bAddToFileNameBookIDMode ) {
-			// архивирование файла с сформированным именем (путь)
-			// обработка уже существующих файлов в папке
-			Regex rx = new Regex( @"\\+" );
-			sFromFilePath = rx.Replace( sFromFilePath, "\\" );
-			sToFilePath = rx.Replace( sToFilePath, "\\" );
-			
-			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, "zip" );
-			archivesWorker.zip( s7zaPath, "zip", sFromFilePath, sToFilePath, ProcessPriorityClass.AboveNormal );
-			//IncStatus( 11 ); // всего создано
-			++m_sv.CreateInTarget;
-		}
-		
-		private void CopyFileToTargetDir( string sFromFilePath, string sToFilePath, bool bBad,
-		                                 int nFileExistMode, bool bAddToFileNameBookIDMode )
-		{
-			// копирование файла с сформированным именем (путь)
-			Regex rx = new Regex( @"\\+" );
-			sFromFilePath = rx.Replace( sFromFilePath, "\\" );
-			sToFilePath = rx.Replace( sToFilePath, "\\" );
-			// обработка уже существующих файлов в папке
-			sToFilePath = FileExsistWorker( sFromFilePath, sToFilePath, nFileExistMode, bAddToFileNameBookIDMode, "" );
-			if( File.Exists( sFromFilePath ) ) {
-				File.Copy( sFromFilePath, sToFilePath );
-				if( !bBad ) {
-					if( File.Exists( sToFilePath ) ) {
-					   	//IncStatus( 11 ); // всего создано
-					   	++m_sv.CreateInTarget;
+					if( FilesListFromZip==null ) {
+						// в архиве нет fb2-файлов
+						CopyBadZipToBadDir( FromFilePath, SourceDir, dfm.NotOpenArchDir, dfm.FileExistMode );
+						++m_sv.BadZip;
+						return;
+					}
+					foreach( string FB2FromArchPath in FilesListFromZip ) {
+						// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
+						MakeFileForGenreAndAuthorFromFB2( FB2FromArchPath, TempDir, TargetDir, lSLexems, dfm );
+						++m_sv.FB2FromZips;
+					}
+					
+					// очистка временной папки
+					foreach( string FB2FromArchPath in FilesListFromZip ) {
+						if( File.Exists( FB2FromArchPath ) )
+							File.Delete( FB2FromArchPath );
 					}
 				}
-			}
-		}
-		
-		private void CopyBadArchiveToBadDir( string sFromFilePath, string sSource, string sToDir, int nFileExistMode, bool NotDeleteOriginal )
-		{
-			// копирование "битого" с сформированным именем (путь)
-			string sToFilePath = sToDir+"\\"+sFromFilePath.Remove( 0, sSource.Length );
-			Regex rx = new Regex( @"\\+" );
-			sFromFilePath = rx.Replace( sFromFilePath, "\\" );
-			sToFilePath = rx.Replace( sToFilePath, "\\" );
-			string sSufix = "";
-			FileInfo fi = new FileInfo( sToFilePath );
-			if( !fi.Directory.Exists ) {
-				Directory.CreateDirectory( fi.Directory.ToString() );
-			}
-			// обработка уже существующих файлов в папке
-			if( File.Exists( sToFilePath ) ) {
-				if( nFileExistMode == 0 ) {
-					File.Delete( sToFilePath );
-				} else {
-					if( nFileExistMode == 1 ) {
-						// Добавить к создаваемому архиву очередной номер
-						sSufix += "_" + stringProcessing.GetFileNewNumber( sToFilePath ).ToString();
-					} else {
-						// Добавить к создаваемому архиву дату и время
-						sSufix += "_" + stringProcessing.GetDateTimeExt();
-					}
-					sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + Path.GetExtension( sToFilePath );
+				
+				// удаляем исходный zip-файл, если включена эта опция
+				if( !NotDelOriginalFiles ) {
+					if( File.Exists( FromFilePath ) )
+						File.Delete( FromFilePath );
 				}
-			}
-			if( File.Exists( sFromFilePath ) ) {
-				if( NotDeleteOriginal ) {
-					File.Copy( sFromFilePath, sToFilePath );
-				} else {
-					File.Move( sFromFilePath, sToFilePath );
-				}
-			}
-			//IncStatus( 14 ); // "битые" архивы - не открылись
-			++m_sv.BadArchive;
-		}
-		
-		private string FileExsistWorker( string sFromFilePath, string sToFilePath, int nFileExistMode,
-		                                bool bAddToFileNameBookIDMode, string sArchType )
-		{
-			// обработка уже существующих файлов в папке
-			string sSufix = "";
-			FileInfo fi = new FileInfo( sToFilePath );
-			if( !fi.Directory.Exists ) {
-				Directory.CreateDirectory( fi.Directory.ToString() );
-			}
-			if( File.Exists( sToFilePath ) ) {
-				if( nFileExistMode == 0 ) {
-					File.Delete( sToFilePath );
-				} else {
-					if( bAddToFileNameBookIDMode ) {
-						sSufix = "_" + stringProcessing.GetFMBookID( sFromFilePath );
-					}
-					if( nFileExistMode == 1 ) {
-						// Добавить к создаваемому файлу очередной номер
-						sSufix += "_" + stringProcessing.GetFileNewNumber( sToFilePath ).ToString();
-					} else {
-						// Добавить к создаваемому файлу дату и время
-						sSufix += "_" + stringProcessing.GetDateTimeExt();
-					}
-					if( sArchType.Length==0 ) {
-						sToFilePath = sToFilePath.Remove( sToFilePath.Length-4 ) + sSufix + ".fb2";
-					} else {
-						sToFilePath = sToFilePath.Remove( sToFilePath.Length - (sArchType.Length+5) ) + sSufix + ".fb2." + sArchType;
-					}
-				}
-			}
-			return sToFilePath;
-		}
-		
-		private void MakeFileFor1Genre1Author( string sFromFilePath, string sSource, string sTarget,
-		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
-			// создаем файл по новому пути для первого Жанра и для первого Автора Книги
-			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
-			if( sExt==".fb2" ) {
-				MakeFileFor1Genre1AuthorWorker( sExt, sFromFilePath, sSource, sTarget, lSLexems, dfm, false );
-				//IncStatus( 2 ); // исходные fb2-файлы
-				++m_sv.SourceFB2;
 			} else {
-				// это архив?
-				if( archivesWorker.IsArchive( sExt ) ) {
-					bool NotDelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
-					            	 				  : Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
-					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
-					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
-					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, NotDelFB2Files );
-						return; // не получилось открыть архив - "битый"
-					}
-					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
-						MakeFileFor1Genre1AuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
-						                               sSource, sTarget, lSLexems, dfm, true );
-						//IncStatus( 9 ); // Исходные fb2-файлы из архивов
-						++m_sv.FB2FromArchives;
-					}
-					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( !NotDelFB2Files ) {
-						// удаляем исходный fb2-файл
-						if( File.Exists( sFromFilePath ) ) {
-							File.Delete( sFromFilePath );
-						}
-					}
-				}  else {
-					// пропускаем не fb2-файлы и архивы
-					//IncStatus( 10 ); // другие файлы
-					++m_sv.Other;
-				}
+				// пропускаем не fb2-файлы и не zip-архивы
+				++m_sv.Other;
 			}
-		}
-		private void MakeFileFor1Genre1AuthorWorker( string sExt, string sFromFilePath, string sSource, string sTarget,
-		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
-			try {
-				MakeFB2File( sFromFilePath, sSource, sTarget, lSLexems, dfm, bFromArchive, 0, 0 );
-			} catch {
-				if( sExt==".fb2" ) {
-					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotReadFB2Dir, dfm.FileExistMode );
-				}
-			}
+			#endregion
 		}
 		
-		private void MakeFileForAllGenre1Author( string sFromFilePath, string sSource, string sTarget,
-		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
-			// создаем файл по новому пути для всех Жанров и для первого Автора Книги
-			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
-			if( sExt==".fb2" ) {
-				MakeFileForAllGenre1AuthorWorker( sExt, sFromFilePath, sSource, sTarget, lSLexems, dfm, false ) ;
-				//IncStatus( 2 ); // исходные fb2-файлы
-				++m_sv.SourceFB2;
-			} else {
-				// это архив?
-				if( archivesWorker.IsArchive( sExt ) ) {
-					bool NotDelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
-					            	 				: Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
-					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
-					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
-					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, NotDelFB2Files);
-						return; // не получилось открыть архив - "битый"
-					}
-					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
-						MakeFileForAllGenre1AuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
-						                                 sSource, sTarget, lSLexems, dfm, true ) ;
-						//IncStatus( 9 ); // Исходные fb2-файлы из архивов
-						++m_sv.FB2FromArchives;
-					}
-					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( !NotDelFB2Files ) {
-						// удаляем исходный fb2-файл
-						if( File.Exists( sFromFilePath ) ) {
-							File.Delete( sFromFilePath );
-						}
-					}
-				}  else {
-					// пропускаем не fb2-файлы и архивы
-					//IncStatus( 10 ); // другие файлы
-					++m_sv.Other;
+		//=================================================================
+		// 							Избранная Сортировка
+		//=================================================================
+		private void SelectedSorting( string FromFilePath, string SourceDir, string TargetDir,
+		                             List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
+			#region Код
+			bool NotDelOriginalFiles = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
+					: Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
+			string TempDir = Settings.Settings.GetTempDir();
+			string SourceExt = Path.GetExtension( FromFilePath ).ToLower();
+			FB2SelectedSorting fb2ss = new FB2SelectedSorting();
+			bool IsNotRead = false;
+			if( SourceExt==".fb2" ) {
+				if( fb2ss.IsConformity( FromFilePath, m_lSSQCList, out IsNotRead ) ) {
+					// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
+					MakeFileForGenreAndAuthorFromFB2( FromFilePath, SourceDir, TargetDir, lSLexems, dfm );
+					++m_sv.SourceFB2;
+				} else {
+					if (IsNotRead)
+						CopyBadFileToDir( FromFilePath, SourceDir, dfm.NotReadFB2Dir, dfm.FileExistMode );
 				}
+				// удаляем исходный fb2-файл, если включена эта опция
+				if( !NotDelOriginalFiles ) {
+					if( File.Exists( FromFilePath ) )
+						File.Delete( FromFilePath );
+				}
+			} else if( SourceExt==".zip" ) {
+				long UnZipCount = sharpZipLib.UnZipFiles( FromFilePath, TempDir, 0, true, null, 4096 );
+				List<string> FilesListFromZip = filesWorker.MakeFileListFromDir( TempDir, false, false );
+				if (UnZipCount==-1) {
+					// не получилось открыть архив - "битый"
+					CopyBadZipToBadDir( FromFilePath, SourceDir, dfm.NotOpenArchDir, dfm.FileExistMode );
+					++m_sv.BadZip;
+					return;
+				} else {
+					++m_sv.Zip;
+					if( FilesListFromZip==null ) {
+						// в архиве нет fb2-файлов
+						CopyBadZipToBadDir( FromFilePath, SourceDir, dfm.NotOpenArchDir, dfm.FileExistMode );
+						++m_sv.BadZip;
+						return;
+					}
+				}
+				m_sv.FB2FromZips += FilesListFromZip.Count;
+				foreach( string FB2FromZipPath in FilesListFromZip ) {
+					// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
+					if( fb2ss.IsConformity( FB2FromZipPath, m_lSSQCList, out IsNotRead ) ) {
+						string FileFromZipExt = Path.GetExtension( FB2FromZipPath ).ToLower();
+						if( FileFromZipExt==".fb2" ) {
+							// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
+							MakeFileForGenreAndAuthorFromFB2( FB2FromZipPath, TempDir, TargetDir, lSLexems, dfm );
+							++m_sv.SourceFB2;
+							
+							// удаляем исходный fb2-файл, если включена эта опция
+							if( !NotDelOriginalFiles ) {
+								if( File.Exists( FromFilePath ) )
+									File.Delete( FromFilePath );
+							}
+						} else {
+							// пропускаем не fb2-файлы и не zip-архивы
+							++m_sv.Other;
+						}
+					} else {
+						// fb2-файл не соответствует критериям сортировки
+						++m_sv.NotSort;
+						if (IsNotRead) // к тому же еще и не читается
+							CopyBadFileToDir( FB2FromZipPath, TempDir, dfm.NotReadFB2Dir, dfm.FileExistMode );
+					}
+				}
+				// очистка временной папки
+				foreach( string FB2FromArchPath in FilesListFromZip ) {
+					if( File.Exists( FB2FromArchPath ) )
+						File.Delete( FB2FromArchPath );
+				}
+				
+				// удаляем исходный zip-файл, если включена эта опция
+				if( !NotDelOriginalFiles ) {
+					if( File.Exists( FromFilePath ) )
+						File.Delete( FromFilePath );
+				}
+			} else {
+				// пропускаем не fb2-файлы и не zip-архивы
+				++m_sv.Other;
+			}
+			#endregion
+		}
+		
+		// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
+		private void MakeFileForGenreAndAuthorFromFB2( string FromFilePath, string SourceDir, string TargetDir,
+		                                              List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
+			string Ext = Path.GetExtension( FromFilePath ).ToLower();
+			if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
+				// по первому Жанру и первому Автору Книги
+				MakeFileFor1Genre1AuthorWorker( Ext, FromFilePath, SourceDir, TargetDir, lSLexems, dfm );
+			} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
+				// по первому Жанру и всем Авторам Книги
+				MakeFileFor1GenreAllAuthorWorker( Ext, FromFilePath, SourceDir, TargetDir, lSLexems, dfm );
+			} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
+				// по всем Жанрам и первому Автору Книги
+				MakeFileForAllGenre1AuthorWorker( Ext, FromFilePath, SourceDir, TargetDir, lSLexems, dfm );
+			} else {
+				// по всем Жанрам и всем Авторам Книги
+				MakeFileForAllGenreAllAuthorWorker( Ext, FromFilePath, SourceDir, TargetDir, lSLexems, dfm );
 			}
 		}
-		private void MakeFileForAllGenre1AuthorWorker( string sExt, string sFromFilePath, string sSource, string sTarget,
-		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
+		//=================================================================
+
+		private void MakeFileFor1Genre1AuthorWorker( string Ext, string FromFilePath, string SourceDir, string TargetDir,
+		                                            List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
 			try {
-				fB2Parser fb2 = new fB2Parser( sFromFilePath );
-				TitleInfo ti = fb2.GetTitleInfo();
-				IList<Genre> lGenres = ti.Genres;
-				IList<Author> lAuthors = ti.Authors;
-				for( int i=0; i!=lGenres.Count; ++i ) {
-					MakeFB2File( sFromFilePath, sSource, sTarget, lSLexems, dfm, bFromArchive, i, 0 );
-				}
+				MakeFB2File( FromFilePath, SourceDir, TargetDir, lSLexems, dfm, 0, 0 );
 			} catch {
-				if( sExt==".fb2" ) {
-					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotReadFB2Dir, dfm.FileExistMode );
-				}
+				if( Ext==".fb2" )
+					CopyBadFileToDir( FromFilePath, SourceDir, dfm.NotReadFB2Dir, dfm.FileExistMode );
 			}
 		}
 
-		private void MakeFileFor1GenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
-		                                      	List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
-			// создаем файл по новому пути для первого Жанра и для всех Авторов Книги
-			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
-			if( sExt==".fb2" ) {
-				MakeFileFor1GenreAllAuthorWorker( sExt, sFromFilePath, sSource, sTarget, lSLexems, dfm, false );
-				//IncStatus( 2 ); // исходные fb2-файлы
-				++m_sv.SourceFB2;
-			} else {
-				// это архив?
-				if( archivesWorker.IsArchive( sExt ) ) {
-					bool NotDelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
-					            	 				: Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
-					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
-					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
-					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, NotDelFB2Files );
-						return; // не получилось открыть архив - "битый"
-					}
-					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
-						MakeFileFor1GenreAllAuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
-						                                 sSource, sTarget, lSLexems, dfm, true );
-						//IncStatus( 9 ); // Исходные fb2-файлы из архивов
-						++m_sv.FB2FromArchives;
-					}
-					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( !NotDelFB2Files ) {
-						// удаляем исходный fb2-файл
-						if( File.Exists( sFromFilePath ) ) {
-							File.Delete( sFromFilePath );
-						}
-					}
-				} else {
-					// пропускаем не fb2-файлы и архивы
-					//IncStatus( 10 ); // другие файлы
-					++m_sv.Other;
-				}
-			}
-		}
-		private void MakeFileFor1GenreAllAuthorWorker( string sExt, string sFromFilePath, string sSource, string sTarget,
-		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
+		private void MakeFileForAllGenre1AuthorWorker( string Ext, string FromFilePath, string SourceDir, string TargetDir,
+		                                              List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
 			try {
-				fB2Parser fb2 = new fB2Parser( sFromFilePath );
+				fB2Parser fb2 = new fB2Parser( FromFilePath );
 				TitleInfo ti = fb2.GetTitleInfo();
 				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
-				for( int i=0; i!=lAuthors.Count; ++i ) {
-					MakeFB2File( sFromFilePath, sSource, sTarget, lSLexems, dfm, bFromArchive, 0, i );
-				}
+				for( int i=0; i!=lGenres.Count; ++i )
+					MakeFB2File( FromFilePath, SourceDir, TargetDir, lSLexems, dfm, i, 0 );
 			} catch {
-				if( sExt==".fb2" ) {
-					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotReadFB2Dir, dfm.FileExistMode );
-				}
+				if( Ext==".fb2" )
+					CopyBadFileToDir( FromFilePath, SourceDir, dfm.NotReadFB2Dir, dfm.FileExistMode );
 			}
 		}
-		
-		private void MakeFileForAllGenreAllAuthor( string sFromFilePath, string sSource, string sTarget,
-		                                      		List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm) {
-			// создаем файл по новому пути для всех Жанров и для всех Авторов Книги
-			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
-			if( sExt==".fb2" ) {
-				MakeFileForAllGenreAllAuthorWorker( sExt, sFromFilePath, sSource, sTarget, lSLexems, dfm, false );
-				//IncStatus( 2 ); // исходные fb2-файлы
-				++m_sv.SourceFB2;
-			} else {
-				// это архив?
-				if( archivesWorker.IsArchive( sExt ) ) {
-					bool NotDelFB2Files = m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
-					            	 				: Settings.FileManagerSettings.SelectedSortingNotDelFB2Files;
-					List<string> lFilesListFromArchive = archivesWorker.GetFileListFromArchive( sFromFilePath, Settings.Settings.GetTempDir(), dfm.A7zaPath, dfm.UnRarPath );
-					IncArchiveInfo( sExt ); // Увеличить число определенного файла-архива на 1
-					if( lFilesListFromArchive==null ) {
-						CopyBadArchiveToBadDir( sFromFilePath, sSource, dfm.NotOpenArchDir, dfm.FileExistMode, NotDelFB2Files );
-						return; // не получилось открыть архив - "битый"
-					}
-					foreach( string sFB2FromArchPath in lFilesListFromArchive ) {
-						MakeFileForAllGenreAllAuthorWorker( Path.GetExtension( sFB2FromArchPath ).ToLower(), sFB2FromArchPath,
-						                                   sSource, sTarget, lSLexems, dfm, true );
-						//IncStatus( 9 ); // Исходные fb2-файлы из архивов
-						++m_sv.FB2FromArchives;
-					}
-					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-					if( !NotDelFB2Files ) {
-						// удаляем исходный fb2-файл
-						if( File.Exists( sFromFilePath ) ) {
-							File.Delete( sFromFilePath );
-						}
-					}
-				}  else {
-					// пропускаем не fb2-файлы и архивы
-					//IncStatus( 10 ); // другие файлы
-					++m_sv.Other;
-				}
-			}
-		}
-		private void MakeFileForAllGenreAllAuthorWorker( string sExt, string sFromFilePath, string sSource, string sTarget,
-		                                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm, bool bFromArchive ) {
+
+		private void MakeFileFor1GenreAllAuthorWorker( string Ext, string FromFilePath, string SourceDir, string TargetDir,
+		                                              List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
 			try {
-				fB2Parser fb2 = new fB2Parser( sFromFilePath );
+				fB2Parser fb2 = new fB2Parser( FromFilePath );
+				TitleInfo ti = fb2.GetTitleInfo();
+				IList<Genre> lGenres = ti.Genres;
+				IList<Author> lAuthors = ti.Authors;
+				for( int i=0; i!=lAuthors.Count; ++i )
+					MakeFB2File( FromFilePath, SourceDir, TargetDir, lSLexems, dfm, 0, i );
+			} catch {
+				if( Ext==".fb2" )
+					CopyBadFileToDir( FromFilePath, SourceDir, dfm.NotReadFB2Dir, dfm.FileExistMode );
+			}
+		}
+
+		private void MakeFileForAllGenreAllAuthorWorker( string Ext, string FromFilePath, string SourceDir, string TargetDir,
+		                                                List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
+			try {
+				fB2Parser fb2 = new fB2Parser( FromFilePath );
 				TitleInfo ti = fb2.GetTitleInfo();
 				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
 				for( int i=0; i!= lGenres.Count; ++i ) {
-					for( int j=0; j!=lAuthors.Count; ++j ) {
-						MakeFB2File( sFromFilePath, sSource, sTarget, lSLexems, dfm, bFromArchive, i, j );
-					}
+					for( int j=0; j!=lAuthors.Count; ++j )
+						MakeFB2File( FromFilePath, SourceDir, TargetDir, lSLexems, dfm, i, j );
 				}
 			} catch {
-				if( sExt==".fb2" ) {
-					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotReadFB2Dir, dfm.FileExistMode );
-				}
+				if( Ext==".fb2" )
+					CopyBadFileToDir( FromFilePath, SourceDir, dfm.NotReadFB2Dir, dfm.FileExistMode );
 			}
 		}
 		
-		private bool IsValid( string sFromFilePath, string sSource, Settings.DataFM dfm,
-		                     bool bFromArchive, int nGenreIndex, int nAuthorIndex ) {
-			// если режим сортировки - только валидные - то проверка и копирование невалидных в папку
-			string sResult = fv2V.ValidatingFB2File( sFromFilePath );
-			if ( sResult.Length != 0 ) {
+		// если режим сортировки "только валидные" - то проверка и копирование невалидных в папку
+		private bool IsValid( string FromFilePath, string SourceDir, Settings.DataFM dfm, int GenreIndex, int AuthorIndex ) {
+			
+			string Result = string.Empty;
+			bool IsFB2LibrusecGenres = m_bFullSort ? Settings.FileManagerSettings.FullSortingFB2LibrusecGenres
+				: Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres;
+			Result = IsFB2LibrusecGenres ? fv2V.ValidatingFB2LibrusecFile( FromFilePath ) : fv2V.ValidatingFB22File( FromFilePath );
+			if ( Result.Length != 0 ) {
 				// защита от многократного копирования невалимдного файла в папку для невалидных
-				if( nGenreIndex==0 && nAuthorIndex==0 ) {
+				if( GenreIndex==0 && AuthorIndex==0 ) {
 					// помещаем его в папку для невалидных файлов
-					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotValidFB2Dir, dfm.FileExistMode );
-					//IncStatus( 13 ); // не валидные fb2-файлы
+					CopyBadFileToDir( FromFilePath, SourceDir, dfm.NotValidFB2Dir, dfm.FileExistMode );
 					++m_sv.NotValidFB2;
 					return false; // файл невалидный - пропускаем его, сортируем дальше
 				} else {
@@ -847,86 +683,139 @@ namespace SharpFBTools.Tools
 			return true;
 		}
 		
-		private void CopyBadFileToDir( string sFromFilePath, string sSource, bool bFromArchive,
-		                              string sBadDir, int nFileExistMode ) {
-			// нечитаемый fb2-файл или архив - копируем его в папку Bad
-			Directory.CreateDirectory( sBadDir );
-			string sFrom = ( !bFromArchive ? sSource : Settings.Settings.GetTempDir() );
-			string sToFilePath = sBadDir+"\\"+sFromFilePath.Remove( 0, sFrom.Length );
-			CopyFileToTargetDir( sFromFilePath, sToFilePath, true, nFileExistMode, false );
-			//IncStatus( 12 ); // нечитаемые fb2-файлы или архивы
+		// нечитаемый fb2-файл или архив - копируем его в папку Bad
+		private void CopyBadFileToDir( string FromFilePath, string SourceDir, string BadDir, int FileExistMode ) {
+			Directory.CreateDirectory( BadDir );
+			string FileName = FromFilePath.Remove( 0, SourceDir.Length );
+			string ToFilePath = BadDir + (FileName.Substring(0,1)=="\\" ? string.Empty : "\\") + FileName;
+			CopyFileToTargetDir( FromFilePath, ToFilePath, FileExistMode );
 			++m_sv.NotRead;
 		}
-			
-		private void MakeFB2File( string sFromFilePath, string sSource, string sTarget,
-		                      List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm,
-		                      bool bFromArchive, int nGenreIndex, int nAuthorIndex ) {
-			// создаем файл по новому пути
-			string sTempDir = Settings.Settings.GetTempDir();
+		
+		// создаем файл по новому пути
+		private void MakeFB2File( string FromFilePath, string SourceDir, string TargetDir, List<templatesLexemsSimple> lSLexems,
+		                         Settings.DataFM dfm, int nGenreIndex, int AuthorIndex ) {
+			string TempDir = Settings.Settings.GetTempDir();
 			// смотрим, что это за файл
-			string sExt = Path.GetExtension( sFromFilePath ).ToLower();
+			string Ext = Path.GetExtension( FromFilePath ).ToLower();
 			
 			bool IsFB2LibrusecGenres = m_bFullSort ? Settings.FileManagerSettings.FullSortingFB2LibrusecGenres
-					            	 				: Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres;
-			if( sExt == ".fb2" ) {
-				// обработка fb2-файла
-				// тип сортировки
+				: Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres;
+			if( Ext == ".fb2" ) {
 				if( !dfm.SortValidType  ) {
-					if( !IsValid( sFromFilePath, sSource, dfm, bFromArchive, nGenreIndex, nAuthorIndex ) ) {
+					// тип сортировки
+					if( !IsValid( FromFilePath, SourceDir, dfm, nGenreIndex, AuthorIndex ) )
 						return;
-					}
 				}
 				try {
-					string sToFilePath = sTarget + "\\" +
-							templatesParser.Parse( sFromFilePath, lSLexems, IsFB2LibrusecGenres, dfm, nGenreIndex, nAuthorIndex ) + ".fb2";
-					CreateFileTo( sFromFilePath, sToFilePath, dfm.FileExistMode, dfm.AddToFileNameBookIDMode, dfm );
+					string ToFilePath = TargetDir + "\\" +
+						templatesParser.Parse( FromFilePath, lSLexems, IsFB2LibrusecGenres, dfm, nGenreIndex, AuthorIndex ) + ".fb2";
+					CreateFileTo( FromFilePath, ToFilePath, dfm.FileExistMode, dfm );
 				} catch /*( System.IO.FileLoadException )*/ {
 					// нечитаемый fb2-файл - копируем его в папку Bad
-					CopyBadFileToDir( sFromFilePath, sSource, bFromArchive, dfm.NotReadFB2Dir, dfm.FileExistMode );
-				}
-
-				if( !(m_bFullSort ? Settings.FileManagerSettings.FullSortingNotDelFB2Files
-				     			 : Settings.FileManagerSettings.SelectedSortingNotDelFB2Files) ) {
-					// удаляем исходный fb2-файл
-					if( File.Exists( sFromFilePath ) ) {
-						File.Delete( sFromFilePath );
-					}
+					CopyBadFileToDir( FromFilePath, SourceDir, dfm.NotReadFB2Dir, dfm.FileExistMode );
 				}
 			}
 		}
 		
-		private void IncStatus( int nItem ) {
-			lvFilesCount.Items[nItem].SubItems[1].Text	=
-					Convert.ToString( 1+Convert.ToInt32( lvFilesCount.Items[nItem].SubItems[1].Text ) );
+		// архивирование файла с сформированным именем (путь)
+		private void CopyFileToArchive( string FromFilePath, string ToFilePath, int FileExistMode ) {
+			// обработка уже существующих файлов в папке
+			ToFilePath = FileExsistWorker( FromFilePath, ToFilePath, FileExistMode, true );
+			sharpZipLib.ZipFile( FromFilePath, ToFilePath, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
 		}
-
-		private bool IsArchivatorsExist() {
-			// проверка на наличие архиваторов
-			string s7zPath	= Settings.Settings.Read7zaPath();
-			string sRarPath	= Settings.Settings.ReadRarPath();
+		
+		// копирование файла с сформированным именем (путь)
+		private void CopyFileToTargetDir( string FromFilePath, string ToFilePath, int FileExistMode )
+		{
+			// обработка уже существующих файлов в папке
+			ToFilePath = FileExsistWorker( FromFilePath, ToFilePath, FileExistMode, false );
+			if( File.Exists( FromFilePath ) )
+				File.Copy( FromFilePath, ToFilePath );
+		}
+		
+		// создание нового файла или архива
+		private void CreateFileTo( string FromFilePath, string ToFilePath, int FileExistMode, Settings.DataFM dfm ) {
 			bool ToZip = m_bFullSort ? Settings.FileManagerSettings.FullSortingToZip
-					            	 : Settings.FileManagerSettings.SelectedSortingToZip;
-			if( ToZip ) {
-				if( s7zPath.Trim().Length==0 ) {
-					MessageBox.Show( "В Настройках не указана папка с установленным консольным 7Zip-архиватором!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
-					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-					return false;
-				} else {
-					if( !File.Exists( s7zPath ) ) {
-						MessageBox.Show( "Не найден файл Zip-архиватора \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
-						                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-						return false;
-					}
+				: Settings.FileManagerSettings.SelectedSortingToZip;
+			string ToPath = ToFilePath;
+			try {
+				if( !ToZip )
+					CopyFileToTargetDir( FromFilePath, ToPath, FileExistMode );
+				else {
+					// упаковка в архив
+					ToPath += ".zip";
+					CopyFileToArchive( FromFilePath, ToPath, FileExistMode );
 				}
+				if( File.Exists( ToPath ) )
+					++m_sv.CreateInTarget;
+
+			} catch ( System.IO.PathTooLongException ) {
+				// файл с длинным путем (название книги слишком длинное...)
+				string FileLongPathDir = dfm.FileLongPathDir;
+				Directory.CreateDirectory( FileLongPathDir );
+				ToFilePath = FileLongPathDir+"\\"+Path.GetFileName( FromFilePath );
+				CopyFileToTargetDir( FromFilePath, ToFilePath, FileExistMode );
+				++m_sv.LongPath;
 			}
-			return true;
 		}
 		
+		// обработка уже существующих файлов в папке
+		private string FileExsistWorker( string FromFilePath, string ToFilePath, int FileExistMode, bool ToZip )
+		{
+			FileInfo fi = new FileInfo( ToFilePath );
+			if( !fi.Directory.Exists )
+				Directory.CreateDirectory( fi.Directory.ToString() );
+
+			if( File.Exists( ToFilePath ) ) {
+				if( FileExistMode == 0 )
+					File.Delete( ToFilePath );
+				else {
+					string Sufix = filesWorker.createSufix( ToFilePath, FileExistMode );
+					if( ToZip )
+						ToFilePath = ToFilePath.Remove( ToFilePath.Length - 8 ) + Sufix + ".fb2.zip";
+					else
+						ToFilePath = ToFilePath.Remove( ToFilePath.Length - 4 ) + Sufix + ".fb2";
+				}
+			}
+			return ToFilePath;
+		}
+		
+		// копирование "битого" архива с сформированным именем (путь)
+		private void CopyBadZipToBadDir( string FromFilePath, string SourceDir, string TargetDir, int FileExistMode )
+		{
+			string ToFilePath = TargetDir+"\\"+FromFilePath.Remove( 0, SourceDir.Length );
+			FileInfo fi = new FileInfo( ToFilePath );
+			if( !fi.Directory.Exists )
+				Directory.CreateDirectory( fi.Directory.ToString() );
+
+			// обработка уже существующих файлов в папке
+			if( File.Exists( ToFilePath ) ) {
+				if( FileExistMode == 0 )
+					File.Delete( ToFilePath );
+				else {
+					ToFilePath = ToFilePath.Remove( ToFilePath.Length-4 )
+						+ filesWorker.createSufix( ToFilePath, FileExistMode ) //Sufix
+						+ Path.GetExtension( ToFilePath );
+				}
+			}
+			if( File.Exists( FromFilePath ) ) {
+				File.Copy( FromFilePath, ToFilePath );
+			}
+		}
+		//------------------------------------------------------------------------------------------
+		
+		// проверки на корректность шаблонных строк
 		private bool IsLineTemplateCorrect( string sLineTemplate ) {
-			// проверки на корректность шаблонных строк
 			// проверка "пустоту" строки с шаблонами
 			if( sLineTemplate.Length == 0 ) {
 				MessageBox.Show( "Строка шаблонов не может быть пустой!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			// проверка на наличие недопустимого условного шаблона [*GROUP*]
+			if( sLineTemplate.IndexOf("[*GROUP*]")!=-1 ) {
+				MessageBox.Show( "Шаблон для Группы Жанров *GROUP* не миожет буть условным [*GROUP*]!\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на корректность строки с шаблонами
@@ -988,27 +877,6 @@ namespace SharpFBTools.Tools
 			return true;
 		}
 		
-		private void MakeFileForSelectedSortingWorker( string sFromFilePath, string sSource, string sTarget,
-		                                             List<templatesLexemsSimple> lSLexems, Settings.DataFM dfm ) {
-			// Создание файла по критериям Избранной сортировки
-			// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
-			FB2SelectedSorting fb2ss = new FB2SelectedSorting();
-			if( fb2ss.IsConformity( sFromFilePath, m_lSSQCList ) ) {
-				if( dfm.GenreOneMode && dfm.AuthorOneMode ) {
-					// по первому Жанру и первому Автору Книги
-					MakeFileFor1Genre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-				} else if( dfm.GenreOneMode && !dfm.AuthorOneMode ) {
-					// по первому Жанру и всем Авторам Книги
-					MakeFileFor1GenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-				} else if( !dfm.GenreOneMode && dfm.AuthorOneMode ) {
-					// по всем Жанрам и первому Автору Книги
-					MakeFileForAllGenre1Author( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-				} else {
-					// по всем Жанрам и всем Авторам Книги
-					MakeFileForAllGenreAllAuthor( sFromFilePath, sSource, sTarget, lSLexems, dfm );
-				}
-			}
-		}
 		private void SetTemplateInInputControl(System.Windows.Forms.TextBox textBox, string Template) {
 			int CursorPosition = textBox.SelectionStart;
 			int NewPosition = CursorPosition + Template.Length;
@@ -1022,64 +890,59 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Обработчики событий
+		void BtnGroupClick(object sender, EventArgs e)
+		{
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.Group);
+		}
+		
 		void BtnLetterFamilyClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.LetterFamily);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.LetterFamily);
 		}
 		
 		void BtnGroupGenreClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.GroupGenre);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.GroupGenre);
 		}
 		
 		void BtnLangClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Language);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.Language);
 		}
 		
 		void BtnFamilyClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Family);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.Family);
 		}
 		
 		void BtnNameClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Name);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.Name);
 		}
 		
 		void BtnPatronimicClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Patronimic);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.Patronimic);
 		}
 		
 		void BtnGenreClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Genre);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.Genre);
 		}
 		
 		void BtnBookClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.BookTitle);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.BookTitle);
 		}
 		
 		void BtnSequenceClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.Series);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.Series);
 		}
 		
 		void BtnSequenceNumberClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxTemplatesFromLine, fnt.SeriesNumber);
+			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.SeriesNumber);
 		}
 		
 		void BtnDirClick(object sender, EventArgs e)
@@ -1099,62 +962,57 @@ namespace SharpFBTools.Tools
 		
 		void BtnSSLetterFamilyClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.LetterFamily);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.LetterFamily);
 		}
 		
 		void BtnSSGroupGenreClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.GroupGenre);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.GroupGenre);
+		}
+		
+		void BtnSSGroupClick(object sender, EventArgs e)
+		{
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.Group);
 		}
 		
 		void BtnSSLangClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Language);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.Language);
 		}
 		
 		void BtnSSFamilyClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Family);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.Family);
 		}
 		
 		void BtnSSNameClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Name);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.Name);
 		}
 		
 		void BtnSSPatronimicClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Patronimic);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.Patronimic);
 		}
 		
 		void BtnSSGenreClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Genre);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.Genre);
 		}
 		
 		void BtnSSBookClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.BookTitle);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.BookTitle);
 		}
 		
 		void BtnSSSequenceClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.Series);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.Series);
 		}
 		
 		void BtnSSSequenceNumberClick(object sender, EventArgs e)
 		{
-			FullNameTemplates fnt = new FullNameTemplates();
-			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, fnt.SeriesNumber);
+			SetTemplateInInputControl(txtBoxSSTemplatesFromLine, m_fnt.SeriesNumber);
 		}
 
 		void BtnSSDirClick(object sender, EventArgs e)
@@ -1177,14 +1035,14 @@ namespace SharpFBTools.Tools
 			Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
 		}
 		
+		// Отображать/скрывать описание книг
 		void CheckBoxTagsViewClick(object sender, EventArgs e)
 		{
-			// Отображать/скрывать описание книг
 			if(checkBoxTagsView.Checked) {
 				if(File.Exists(Settings.FileManagerSettings.FileManagerSettingsPath)) {
 					if(Settings.FileManagerSettings.ReadXmlFullSortingViewMessageForLongTime()) {
-						string sMess = "При включении этой опции для создания списка книг с их описанием может потребоваться очень много времени!\nБольше не показывать это сообщение?";
-						DialogResult result = MessageBox.Show( sMess, "Отображение описания книг", MessageBoxButtons.YesNo, MessageBoxIcon.Question );
+						string Mess = "При включении этой опции для создания списка книг с их описанием может потребоваться очень много времени!\nБольше не показывать это сообщение?";
+						DialogResult result = MessageBox.Show( Mess, "Отображение описания книг", MessageBoxButtons.YesNo, MessageBoxIcon.Question );
 						Settings.FileManagerSettings.ViewMessageForLongTime = (result == DialogResult.Yes) ? false : true;
 					}
 				}
@@ -1199,6 +1057,7 @@ namespace SharpFBTools.Tools
 				FB2BookDescription bd = null;
 				Settings.DataFM dfm = new Settings.DataFM();
 				bool IsFB2LibrusecGenres = Settings.FileManagerSettings.FullSortingFB2LibrusecGenres;
+				string TempDir = Settings.Settings.GetTempDir();
 				for(int i=0; i!= listViewSource.Items.Count; ++i) {
 					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
 					if(it.Type=="f") {
@@ -1209,25 +1068,25 @@ namespace SharpFBTools.Tools
 								if(di.Extension.ToLower()==".fb2") {
 									// показать данные fb2 файлов
 									bd = new FB2BookDescription( it.Value );
-									listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
-									listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
-									listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-									listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(IsFB2LibrusecGenres, bd.TIGenres)+space;
-									listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
-									listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
+									listViewSource.Items[i].SubItems[1].Text = m_space+bd.TIBookTitle+m_space;
+									listViewSource.Items[i].SubItems[2].Text = m_space+bd.TISequences+m_space;
+									listViewSource.Items[i].SubItems[3].Text = m_space+bd.TIAuthors+m_space;
+									listViewSource.Items[i].SubItems[4].Text = m_space+Core.FileManager.FileManagerWork.CyrillicGenreName(IsFB2LibrusecGenres, bd.TIGenres)+m_space;
+									listViewSource.Items[i].SubItems[5].Text = m_space+bd.TILang+m_space;
+									listViewSource.Items[i].SubItems[6].Text = m_space+bd.Encoding+m_space;
 								} else if(di.Extension.ToLower()==".zip") {
 									if(checkBoxTagsView.Checked) {
 										// показать данные архивов
-										filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-										archivesWorker.unzip(dfm.A7zaPath, it.Value, Settings.Settings.GetTempDir(), ProcessPriorityClass.AboveNormal );
-										string [] files = Directory.GetFiles( Settings.Settings.GetTempDir() );
+										filesWorker.RemoveDir( TempDir );
+										sharpZipLib.UnZipFiles(it.Value, TempDir, 0, true, null, 4096);
+										string [] files = Directory.GetFiles( TempDir );
 										bd = new FB2BookDescription( files[0] );
-										listViewSource.Items[i].SubItems[1].Text = space+bd.TIBookTitle+space;
-										listViewSource.Items[i].SubItems[2].Text = space+bd.TISequences+space;
-										listViewSource.Items[i].SubItems[3].Text = space+bd.TIAuthors+space;
-										listViewSource.Items[i].SubItems[4].Text = space+Core.FileManager.FileManagerWork.CyrillicGenreName(IsFB2LibrusecGenres, bd.TIGenres)+space;
-										listViewSource.Items[i].SubItems[5].Text = space+bd.TILang+space;
-										listViewSource.Items[i].SubItems[6].Text = space+bd.Encoding+space;
+										listViewSource.Items[i].SubItems[1].Text = m_space+bd.TIBookTitle+m_space;
+										listViewSource.Items[i].SubItems[2].Text = m_space+bd.TISequences+m_space;
+										listViewSource.Items[i].SubItems[3].Text = m_space+bd.TIAuthors+m_space;
+										listViewSource.Items[i].SubItems[4].Text = m_space+Core.FileManager.FileManagerWork.CyrillicGenreName(IsFB2LibrusecGenres, bd.TIGenres)+m_space;
+										listViewSource.Items[i].SubItems[5].Text = m_space+bd.TILang+m_space;
+										listViewSource.Items[i].SubItems[6].Text = m_space+bd.Encoding+m_space;
 									}
 								}
 							} catch(System.Exception) {
@@ -1241,6 +1100,8 @@ namespace SharpFBTools.Tools
 						}
 					}
 				}
+				// очистка временной папки
+				filesWorker.RemoveDir( TempDir );
 				// авторазмер колонок Списка
 				if(chBoxStartExplorerColumnsAutoReize.Checked) {
 					Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
@@ -1250,40 +1111,39 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
+		// задание папки с fb2-файлами и архивами для сканирования
 		void ButtonOpenSourceDirClick(object sender, EventArgs e)
 		{
-			// задание папки с fb2-файлами и архивами для сканирования
 			if(filesWorker.OpenDirDlg( textBoxAddress, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" )) {
 				ButtonGoClick(sender, e);
 			}
 		}
 		
+		// переход на заданную папку-источник fb2-файлов
 		void ButtonGoClick(object sender, EventArgs e)
 		{
-			// переход на заданную папку-источник fb2-файлов
 			string s = textBoxAddress.Text.Trim();
-			if(s != "") {
+			if(s != string.Empty) {
 				DirectoryInfo info = new DirectoryInfo(s);
-				if(info.Exists) {
+				if(info.Exists)
 					GenerateSourceList(info.FullName);
-				} else {
+				else
 					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				}
 			}
 		}
 		
+		// обработка нажатия клавиш в поле ввода пути к папке-источнику
 		void TextBoxAddressKeyPress(object sender, KeyPressEventArgs e)
 		{
-			// обработка нажатия клавиш в поле ввода пути к папке-источнику
 			if ( e.KeyChar == (char)Keys.Return ) {
 				// отображение папок и/или фалов в заданной папке
 				ButtonGoClick( sender, e );
 			}
 		}
 		
+		// переход в выбранную папку
 		void ListViewSourceDoubleClick(object sender, EventArgs e)
 		{
-			// переход в выбранную папку
 			if( listViewSource.Items.Count > 0 && listViewSource.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = listViewSource.SelectedItems;
 				ListViewItemType it = (ListViewItemType)si[0].Tag;
@@ -1294,9 +1154,9 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
+		// обработка нажатия клавиш на списке папок и файлов
 		void ListViewSourceKeyPress(object sender, KeyPressEventArgs e)
 		{
-			// обработка нажатия клавиш на списке папок и файлов
 			if ( e.KeyChar == (char)Keys.Return ) {
 				// переход в выбранную папку
 				ListViewSourceDoubleClick(sender, e);
@@ -1308,101 +1168,101 @@ namespace SharpFBTools.Tools
 			}
 		}
 		
+		// Пометить все файлы и папки
 		void TsmiCheckedAllClick(object sender, EventArgs e)
 		{
-			// Пометить все файлы и папки
 			ConnectListsEventHandlers( false );
-			m_mscLV.CheckdAllListViewItems( listViewSource, true );
+			m_mscLV.CheckAllListViewItems( listViewSource, true );
 			if(listViewSource.Items.Count > 0) {
 				listViewSource.Items[0].Checked = false;
 			}
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Снять отметки со всех файлов и папок
 		void TsmiUnCheckedAllClick(object sender, EventArgs e)
 		{
-			// Снять отметки со всех файлов и папок
 			ConnectListsEventHandlers( false );
-			m_mscLV.UnCheckdAllListViewItems( listViewSource.CheckedItems );
+			m_mscLV.UnCheckAllListViewItems( listViewSource.CheckedItems );
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Пометить все файлы
 		void TsmiFilesCheckedAllClick(object sender, EventArgs e)
 		{
-			// Пометить все файлы
 			ConnectListsEventHandlers( false );
 			m_mscLV.CheckAllFiles(listViewSource, true);
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Снять пометки со всех файлов
 		void TsmiFilesUnCheckedAllClick(object sender, EventArgs e)
 		{
-			// Снять пометки со всех файлов
 			ConnectListsEventHandlers( false );
 			m_mscLV.UnCheckAllFiles(listViewSource);
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Пометить все папки
 		void TsmiDirCheckedAllClick(object sender, EventArgs e)
 		{
-			// Пометить все папки
 			ConnectListsEventHandlers( false );
 			m_mscLV.CheckAllDirs(listViewSource, true);
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Снять пометки со всех папок
 		void TsmiDirUnCheckedAllClick(object sender, EventArgs e)
 		{
-			// Снять пометки со всех папок
 			ConnectListsEventHandlers( false );
 			m_mscLV.UnCheckAllDirs(listViewSource);
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Пометить все fb2 файлы
 		void TsmiFB2CheckedAllClick(object sender, EventArgs e)
 		{
-			// Пометить все fb2 файлы
 			ConnectListsEventHandlers( false );
 			m_mscLV.CheckTypeAllFiles(listViewSource, "fb2", true);
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Снять пометки со всех fb2 файлов
 		void TsmiFB2UnCheckedAllClick(object sender, EventArgs e)
 		{
-			// Снять пометки со всех fb2 файлов
 			ConnectListsEventHandlers( false );
 			m_mscLV.UnCheckTypeAllFiles(listViewSource, "fb2");
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Пометить все zip файлы
 		void TsmiZipCheckedAllClick(object sender, EventArgs e)
 		{
-			// Пометить все zip файлы
 			ConnectListsEventHandlers( false );
 			m_mscLV.CheckTypeAllFiles(listViewSource, "zip", true);
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Снять пометки со всех zip файлов
 		void TsmiZipUnCheckedAllClick(object sender, EventArgs e)
 		{
-			// Снять пометки со всех zip файлов
 			ConnectListsEventHandlers( false );
 			m_mscLV.UnCheckTypeAllFiles(listViewSource, "zip");
 			ConnectListsEventHandlers( true );
 		}
 		
+		// Пометить всё выделенное
 		void TsmiCheckedAllSelectedClick(object sender, EventArgs e)
 		{
-			// Пометить всё выделенное
 			ConnectListsEventHandlers( false );
 			m_mscLV.ChekAllSelectedItems(listViewSource, true);
 			ConnectListsEventHandlers( true );
 			listViewSource.Focus();
 		}
 		
+		// Снять пометки со всего выделенного
 		void TsmiUnCheckedAllSelectedClick(object sender, EventArgs e)
 		{
-			// Снять пометки со всего выделенного
 			ConnectListsEventHandlers( false );
 			m_mscLV.ChekAllSelectedItems(listViewSource, false);
 			ConnectListsEventHandlers( true );
@@ -1413,55 +1273,46 @@ namespace SharpFBTools.Tools
 		{
 			if( listViewSource.Items.Count > 0 && listViewSource.SelectedItems.Count != 0 ) {
 				// при двойном клике на папке ".." пометку не ставим
-				if(e.Index == 0) { // ".."
+				if(e.Index == 0) // ".."
 					e.NewValue = CheckState.Unchecked;
-				}
 			}
 		}
 		
+		// пометка/снятие пометки по check на 0-й item - папка ".."
 		void ListViewSourceItemChecked(object sender, ItemCheckedEventArgs e)
 		{
-			// пометка/снятие пометки по check на 0-й item - папка ".."
 			if( listViewSource.Items.Count > 0 ) {
 				ListViewItemType it = (ListViewItemType)e.Item.Tag;
 				if(it.Type=="dUp") {
 					ConnectListsEventHandlers( false );
-					if(e.Item.Checked) {
-						m_mscLV.CheckdAllListViewItems( listViewSource, true );
-					} else {
-						m_mscLV.UnCheckdAllListViewItems( listViewSource.CheckedItems );;
-					}
+					if(e.Item.Checked)
+						m_mscLV.CheckAllListViewItems( listViewSource, true );
+					else
+						m_mscLV.UnCheckAllListViewItems( listViewSource.CheckedItems );;
 					ConnectListsEventHandlers( true );
 				}
 			}
 		}
 		
+		// ********* Полная сортировка *************
 		void ButtonSortFilesToClick(object sender, EventArgs e)
 		{
-			// ********* Полная сортировка *************
 			// обработка заданных каталого
-			m_sSource = Settings.FileManagerSettings.FullSortingSourceDir = filesWorker.WorkingDirPath( textBoxAddress.Text.Trim() );
-			textBoxAddress.Text = m_sSource;
-			m_sTarget = m_sSource + " - OUT"; // папка вывода out - рядом с  исходой
+			Settings.FileManagerSettings.FullSortingSourceDir = getSourceDir();
 			
 			m_bFullSort = true;
 			m_bScanSubDirs = chBoxScanSubDir.Checked ? true : false;
 			m_sLineTemplate	= txtBoxTemplatesFromLine.Text.Trim();
 			m_sMessTitle	= "SharpFBTools - Полная Сортировка";
 			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsSourceDirDataCorrect() ) {
+			if( !IsSourceDirDataCorrect() )
 				return;
-			}
-			// проверка на наличие архиваторов
-			if( !IsArchivatorsExist() ) {
-				return;
-			}
+
 			// приведение к одному виду шаблонов
 			m_sLineTemplate = templatesVerify.ToOneTemplateType( @m_sLineTemplate );
 			// проверки на корректность шаблонных строк
-			if( !IsLineTemplateCorrect( m_sLineTemplate ) ) {
+			if( !IsLineTemplateCorrect( m_sLineTemplate ) )
 				return;
-			}
 			
 			// инициализация контролов
 			Init();
@@ -1471,10 +1322,8 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text = "Создание списка файлов:";
 			
 			// Запуск процесса DoWork от Бекграунд Воркера
-			if( m_bw.IsBusy != true ) {
-				//если не занят то запустить процесс
-            	m_bw.RunWorkerAsync();
-			}
+			if( m_bw.IsBusy != true )
+				m_bw.RunWorkerAsync(); //если не занят то запустить процесс
 		}
 		
 		void ChBoxFSToZipClick(object sender, EventArgs e)
@@ -1482,7 +1331,7 @@ namespace SharpFBTools.Tools
 			Settings.FileManagerSettings.FullSortingToZip = chBoxFSToZip.Checked;
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
-	
+		
 		void ChBoxFSNotDelFB2FilesClick(object sender, EventArgs e)
 		{
 			Settings.FileManagerSettings.FullSortingNotDelFB2Files = chBoxFSNotDelFB2Files.Checked;
@@ -1500,20 +1349,6 @@ namespace SharpFBTools.Tools
 		{
 			Settings.FileManagerSettings.FullSortingFB2LibrusecGenres = rbtnFMFSFB2Librusec.Checked;
 			Settings.FileManagerSettings.FullSortingFB22Genres = rbtnFMFSFB22.Checked;
-			Settings.FileManagerSettings.WriteFileManagerSettings();
-		}
-		
-		void RbtnFMSSFB2LibrusecClick(object sender, EventArgs e)
-		{
-			Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres = rbtnFMSSFB2Librusec.Checked;
-			Settings.FileManagerSettings.SelectedSortingFB22Genres = rbtnFMSSFB22.Checked;
-			Settings.FileManagerSettings.WriteFileManagerSettings();
-		}
-		
-		void RbtnFMSSFB22Click(object sender, EventArgs e)
-		{
-			Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres = rbtnFMSSFB2Librusec.Checked;
-			Settings.FileManagerSettings.SelectedSortingFB22Genres = rbtnFMSSFB22.Checked;
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}
 		
@@ -1566,35 +1401,36 @@ namespace SharpFBTools.Tools
 			Settings.FileManagerSettings.SelectedSortingTemplate = txtBoxSSTemplatesFromLine.Text;
 		}
 		
+		// запуск диалога Вставки готовых шаблонов
 		void BtnInsertTemplatesClick(object sender, EventArgs e)
 		{
-			// запуск диалога Вставки готовых шаблонов
 			Core.BookSorting.BasicTemplates btfrm = new Core.BookSorting.BasicTemplates();
 			btfrm.ShowDialog();
-			if( btfrm.GetTemplateLine()!=null ) {
+			if( btfrm.GetTemplateLine()!=null )
 				txtBoxTemplatesFromLine.Text = btfrm.GetTemplateLine();
-			}
+
 			btfrm.Dispose();
 		}
 		
+		// запуск диалога Сбора данных для Избранной Сортировки
 		void BtnSSGetDataClick(object sender, EventArgs e)
 		{
-			// запуск диалога Сбора данных для Избранной Сортировки
 			#region Код
 			Core.BookSorting.SelectedSortData ssdfrm = new Core.BookSorting.SelectedSortData();
 			// если в основном списке критериев поиска уже есть записи, то копируем их в форму сбора данных
 			if( lvSSData.Items.Count > 0 ) {
 				for( int i=0; i!=lvSSData.Items.Count; ++i ) {
 					ListViewItem lvi = new ListViewItem( lvSSData.Items[i].Text );
-								lvi.SubItems.Add( lvSSData.Items[i].SubItems[1].Text );
-								lvi.SubItems.Add( lvSSData.Items[i].SubItems[2].Text );
-								lvi.SubItems.Add( lvSSData.Items[i].SubItems[3].Text );
-								lvi.SubItems.Add( lvSSData.Items[i].SubItems[4].Text );
-								lvi.SubItems.Add( lvSSData.Items[i].SubItems[5].Text );
-								lvi.SubItems.Add( lvSSData.Items[i].SubItems[6].Text );
-								lvi.SubItems.Add( lvSSData.Items[i].SubItems[7].Text );
-								lvi.SubItems.Add( lvSSData.Items[i].SubItems[8].Text );
-								lvi.SubItems.Add( lvSSData.Items[i].SubItems[9].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[1].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[2].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[3].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[4].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[5].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[6].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[7].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[8].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[9].Text );
+					lvi.SubItems.Add( lvSSData.Items[i].SubItems[10].Text );
 					ssdfrm.lvSSData.Items.Add( lvi );
 				}
 				ssdfrm.lblCount.Text = Convert.ToString( lvSSData.Items.Count );
@@ -1607,7 +1443,7 @@ namespace SharpFBTools.Tools
 					// удаляем записи в списке, если они есть
 					lvSSData.Items.Clear();
 					m_lSSQCList = new List<selectedSortQueryCriteria>();
-					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit;
+					string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit, sGenreScheme;
 					bool IsFB2LibrusecGenres = Settings.FileManagerSettings.SelectedSortingFB2LibrusecGenres;
 					FB2SelectedSorting fb2ss = new FB2SelectedSorting();
 					for( int i=0; i!=ssdfrm.lvSSData.Items.Count; ++i ) {
@@ -1621,22 +1457,24 @@ namespace SharpFBTools.Tools
 						sSequence	= ssdfrm.lvSSData.Items[i].SubItems[7].Text;
 						sBTitle		= ssdfrm.lvSSData.Items[i].SubItems[8].Text;
 						sExactFit	= ssdfrm.lvSSData.Items[i].SubItems[9].Text;
+						sGenreScheme = ssdfrm.lvSSData.Items[i].SubItems[10].Text;
 						ListViewItem lvi = new ListViewItem( sLang );
-									lvi.SubItems.Add( sGGroup );
-									lvi.SubItems.Add( sGenre );
-									lvi.SubItems.Add( sLast );
-									lvi.SubItems.Add( sFirst );
-									lvi.SubItems.Add( sMiddle );
-									lvi.SubItems.Add( sNick );
-									lvi.SubItems.Add( sSequence );
-									lvi.SubItems.Add( sBTitle );
-									lvi.SubItems.Add( sExactFit );
+						lvi.SubItems.Add( sGGroup );
+						lvi.SubItems.Add( sGenre );
+						lvi.SubItems.Add( sLast );
+						lvi.SubItems.Add( sFirst );
+						lvi.SubItems.Add( sMiddle );
+						lvi.SubItems.Add( sNick );
+						lvi.SubItems.Add( sSequence );
+						lvi.SubItems.Add( sBTitle );
+						lvi.SubItems.Add( sExactFit );
+						lvi.SubItems.Add( sGenreScheme );
 						// добавление записи в список
 						lvSSData.Items.Add( lvi );
 						// заполняем список критериев поиска для Избранной Сортировки
 						m_lSSQCList.AddRange( fb2ss.MakeSelectedSortQuerysList( sLang, sLast, sFirst, sMiddle, sNick,
-																			sGGroup, sGenre, sSequence, sBTitle,
-																			sExactFit, IsFB2LibrusecGenres ) );
+						                                                       sGGroup, sGenre, sSequence, sBTitle,
+						                                                       sExactFit, IsFB2LibrusecGenres ) );
 					}
 				}
 			}
@@ -1645,55 +1483,50 @@ namespace SharpFBTools.Tools
 			#endregion
 		}
 		
+		// запуск диалога Вставки готовых шаблонов
 		void BtnSSInsertTemplatesClick(object sender, EventArgs e)
 		{
-			// запуск диалога Вставки готовых шаблонов
 			Core.BookSorting.BasicTemplates btfrm = new Core.BookSorting.BasicTemplates();
 			btfrm.ShowDialog();
-			if( btfrm.GetTemplateLine()!= null ) {
+			if( btfrm.GetTemplateLine()!= null )
 				txtBoxSSTemplatesFromLine.Text = btfrm.GetTemplateLine();
-			}
+
 			btfrm.Dispose();
 		}
 		
+		// задание папки с fb2-файлами и архивами для сканирования (Избранная Сортировка)
 		void BtnSSOpenDirClick(object sender, EventArgs e)
 		{
-			// задание папки с fb2-файлами и архивами для сканирования (Избранная Сортировка)
 			filesWorker.OpenDirDlg( tboxSSSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами (Избранная Сортировка):" );
 		}
 		
+		// задание папки-приемника для размешения отсортированных файлов (Избранная Сортировка)
 		void BtnSSTargetDirClick(object sender, EventArgs e)
 		{
-			// задание папки-приемника для размешения отсортированных файлов (Избранная Сортировка)
 			filesWorker.OpenDirDlg( tboxSSToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов (Избранная Сортировка):" );
 		}
-	
+		
+		// Остановка выполнения процесса Полной Сортировки
 		void ButtonFullSortStopClick(object sender, EventArgs e)
 		{
-			// Остановка выполнения процесса Полной Сортировки
-			if( m_bw.WorkerSupportsCancellation == true ) {
+			if( m_bw.WorkerSupportsCancellation == true )
 				m_bw.CancelAsync();
-			}
 		}
 		
+		// Остановка выполнения процесса Избранной Сортировки
 		void ButtonSSortStopClick(object sender, EventArgs e)
 		{
-			// Остановка выполнения процесса Избранной Сортировки
-			if( m_bw.WorkerSupportsCancellation == true ) {
+			if( m_bw.WorkerSupportsCancellation == true )
 				m_bw.CancelAsync();
-			}
 		}
 		
+		// ********* Избранная Сортировка ***********
 		void ButtonSSortFilesToClick(object sender, EventArgs e)
 		{
-			// ********* Избранная Сортировка ***********
 			m_bFullSort = false;
 			
 			// обработка заданных каталогов
-			m_sSource = Settings.FileManagerSettings.SelectedSortingSourceDir = filesWorker.WorkingDirPath( tboxSSSourceDir.Text.Trim() );
-			tboxSSSourceDir.Text	= m_sSource;
-			m_sTarget = Settings.FileManagerSettings.SelectedSortingTargetDir = filesWorker.WorkingDirPath( tboxSSToDir.Text.Trim() );
-			tboxSSToDir.Text		= m_sTarget;
+			Settings.FileManagerSettings.SelectedSortingSourceDir = getSourceDir();
 			
 			m_bScanSubDirs = chBoxSSScanSubDir.Checked ? true : false;
 			m_sLineTemplate = txtBoxSSTemplatesFromLine.Text.Trim();
@@ -1708,16 +1541,12 @@ namespace SharpFBTools.Tools
 				btnSSGetData.Focus();
 				return;
 			}
-			// проверка на наличие архиваторов
-			if( !IsArchivatorsExist() ) {
-				return;
-			}
+
 			// приведение к одному виду шаблонов
 			m_sLineTemplate = templatesVerify.ToOneTemplateType( @m_sLineTemplate );
 			// проверки на корректность шаблонных строк
-			if( !IsLineTemplateCorrect( m_sLineTemplate ) ) {
+			if( !IsLineTemplateCorrect( m_sLineTemplate ) )
 				return;
-			}
 			
 			// инициализация контролов
 			Init();
@@ -1727,22 +1556,20 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text = "Создание списка файлов:";
 			
 			// Запуск процесса DoWork от Бекграунд Воркера
-			if( m_bw.IsBusy != true ) {
-				//если не занят то запустить процесс
-            	m_bw.RunWorkerAsync();
-			}
+			if( m_bw.IsBusy != true )
+				m_bw.RunWorkerAsync(); //если не занят то запустить процесс
 		}
 		
+		// сохранить список критериев Избранной Сортировки в файл
 		void BtnSSDataListSaveClick(object sender, EventArgs e)
 		{
-			// сохранить список критериев Избранной Сортировки в файл
 			string sMessTitle = "SharpFBTools - Избранная Сортировка";
 			if( lvSSData.Items.Count == 0 ) {
 				MessageBox.Show( "Список данных для Избранной Сортировки пуст.\nЗадайте хоть один критерий Сортировки (кнопка 'Собрать данные для Избранной Сортировки').",
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				return;
 			}
-			sfdSaveXMLFile.Filter = "SharpFBTools файлы (*.qss)|*.qss|Все файлы (*.*)|*.*";;
+			sfdSaveXMLFile.Filter = "SharpFBTools файлы (*.xml)|*.xml|Все файлы (*.*)|*.*";;
 			sfdSaveXMLFile.FileName = "";
 			DialogResult result = sfdSaveXMLFile.ShowDialog();
 			if( result == DialogResult.OK ) {
@@ -1756,16 +1583,16 @@ namespace SharpFBTools.Tools
 					writer.WriteStartElement( "SelectedSortingData" );
 					for( int i=0; i!=lvSSData.Items.Count; ++i ) {
 						writer.WriteStartElement( "Item" );
-							writer.WriteAttributeString( "Lang", lvSSData.Items[i].Text );
-							writer.WriteAttributeString( "GGroup", lvSSData.Items[i].SubItems[1].Text );
-							writer.WriteAttributeString( "Genre", lvSSData.Items[i].SubItems[2].Text );
-							writer.WriteAttributeString( "Last", lvSSData.Items[i].SubItems[3].Text );
-							writer.WriteAttributeString( "First", lvSSData.Items[i].SubItems[4].Text );
-							writer.WriteAttributeString( "Middle", lvSSData.Items[i].SubItems[5].Text );
-							writer.WriteAttributeString( "Nick", lvSSData.Items[i].SubItems[6].Text );
-							writer.WriteAttributeString( "Sequence", lvSSData.Items[i].SubItems[7].Text );
-							writer.WriteAttributeString( "BookTitle", lvSSData.Items[i].SubItems[8].Text );
-							writer.WriteAttributeString( "ExactFit", lvSSData.Items[i].SubItems[9].Text );
+						writer.WriteAttributeString( "Lang", lvSSData.Items[i].Text );
+						writer.WriteAttributeString( "GGroup", lvSSData.Items[i].SubItems[1].Text );
+						writer.WriteAttributeString( "Genre", lvSSData.Items[i].SubItems[2].Text );
+						writer.WriteAttributeString( "Last", lvSSData.Items[i].SubItems[3].Text );
+						writer.WriteAttributeString( "First", lvSSData.Items[i].SubItems[4].Text );
+						writer.WriteAttributeString( "Middle", lvSSData.Items[i].SubItems[5].Text );
+						writer.WriteAttributeString( "Nick", lvSSData.Items[i].SubItems[6].Text );
+						writer.WriteAttributeString( "Sequence", lvSSData.Items[i].SubItems[7].Text );
+						writer.WriteAttributeString( "BookTitle", lvSSData.Items[i].SubItems[8].Text );
+						writer.WriteAttributeString( "ExactFit", lvSSData.Items[i].SubItems[9].Text );
 						writer.WriteEndElement();
 					}
 					writer.WriteEndElement();
@@ -1773,15 +1600,15 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Список данных для Избранной Сортировки сохранен в файл!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}  finally  {
 					if (writer != null)
-					writer.Close();
+						writer.Close();
 				}
-	         }
+			}
 		}
 		
+		// загрузить список критериев Избранной Сортировки из файла
 		void BtnSSDataListLoadClick(object sender, EventArgs e)
 		{
-			// загрузить список критериев Избранной Сортировки из файла
-			sfdOpenXMLFile.Filter = "SharpFBTools файлы (*.qss)|*.qss|Все файлы (*.*)|*.*";
+			sfdOpenXMLFile.Filter = "SharpFBTools файлы (*.xml)|*.xml|Все файлы (*.*)|*.*";
 			sfdOpenXMLFile.FileName = "";
 			DialogResult result = sfdOpenXMLFile.ShowDialog();
 			if( result == DialogResult.OK ) {
@@ -1798,34 +1625,34 @@ namespace SharpFBTools.Tools
 							m_lSSQCList = new List<selectedSortQueryCriteria>();
 							string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit;
 							do {
-       							sLang		= reader.GetAttribute("Lang");
-       							sLast		= reader.GetAttribute("Last");
-       							sFirst		= reader.GetAttribute("First");
-       							sMiddle		= reader.GetAttribute("Middle");
-       							sNick		= reader.GetAttribute("Nick");
-       							sGGroup		= reader.GetAttribute("GGroup");
-       							sGenre		= reader.GetAttribute("Genre");
-       							sSequence	= reader.GetAttribute("Sequence");
-       							sBTitle		= reader.GetAttribute("BookTitle");
-       							sExactFit	= reader.GetAttribute("ExactFit");
-       							
-       							ListViewItem lvi = new ListViewItem( sLang );
-											lvi.SubItems.Add( sGGroup );
-											lvi.SubItems.Add( sGenre );
-											lvi.SubItems.Add( sLast );
-											lvi.SubItems.Add( sFirst );
-											lvi.SubItems.Add( sMiddle );
-											lvi.SubItems.Add( sNick );
-											lvi.SubItems.Add( sSequence );
-											lvi.SubItems.Add( sBTitle );
-											lvi.SubItems.Add( sExactFit );
+								sLang		= reader.GetAttribute("Lang");
+								sLast		= reader.GetAttribute("Last");
+								sFirst		= reader.GetAttribute("First");
+								sMiddle		= reader.GetAttribute("Middle");
+								sNick		= reader.GetAttribute("Nick");
+								sGGroup		= reader.GetAttribute("GGroup");
+								sGenre		= reader.GetAttribute("Genre");
+								sSequence	= reader.GetAttribute("Sequence");
+								sBTitle		= reader.GetAttribute("BookTitle");
+								sExactFit	= reader.GetAttribute("ExactFit");
+								
+								ListViewItem lvi = new ListViewItem( sLang );
+								lvi.SubItems.Add( sGGroup );
+								lvi.SubItems.Add( sGenre );
+								lvi.SubItems.Add( sLast );
+								lvi.SubItems.Add( sFirst );
+								lvi.SubItems.Add( sMiddle );
+								lvi.SubItems.Add( sNick );
+								lvi.SubItems.Add( sSequence );
+								lvi.SubItems.Add( sBTitle );
+								lvi.SubItems.Add( sExactFit );
 								// добавление записи в список
 								lvSSData.Items.Add( lvi );
 								// заполняем список критериев поиска для Избранной Сортировки
 								m_lSSQCList.AddRange( fb2ss.MakeSelectedSortQuerysList( sLang, sLast, sFirst, sMiddle, sNick,
-																					sGGroup, sGenre, sSequence, sBTitle,
-																					sExactFit, dfm.SSGenresFB2LibrusecScheme ) );
-    						} while( reader.ReadToNextSibling("Item") );
+								                                                       sGGroup, sGenre, sSequence, sBTitle,
+								                                                       sExactFit, dfm.SSGenresFB2LibrusecScheme ) );
+							} while( reader.ReadToNextSibling("Item") );
 						}
 					} catch {
 						MessageBox.Show( "Поврежден список данных для Избранной Сортировки:\n\""+sfdOpenXMLFile.FileName+"\".", "SharpFBTools - Избранная Сортировка", MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1839,11 +1666,9 @@ namespace SharpFBTools.Tools
 		void ChBoxStartExplorerColumnsAutoReizeCheckedChanged(object sender, EventArgs e)
 		{
 			Settings.FileManagerSettings.StartExplorerColumnsAutoReize = chBoxStartExplorerColumnsAutoReize.Checked;
-			if(chBoxStartExplorerColumnsAutoReize.Checked) {
+			if(chBoxStartExplorerColumnsAutoReize.Checked)
 				Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
-			}
 		}
 		#endregion
-
 	}
 }

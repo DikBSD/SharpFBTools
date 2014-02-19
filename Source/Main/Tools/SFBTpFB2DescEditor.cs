@@ -142,9 +142,9 @@ namespace SharpFBTools.Tools
 				if(it.Type=="dUp") {
 					ConnectListsEventHandlers( false );
 					if(e.Item.Checked) {
-						m_mscLV.CheckdAllListViewItems( listViewSource, true );
+						m_mscLV.CheckAllListViewItems( listViewSource, true );
 					} else {
-						m_mscLV.UnCheckdAllListViewItems( listViewSource.CheckedItems );
+						m_mscLV.UnCheckAllListViewItems( listViewSource.CheckedItems );
 					}
 					ConnectListsEventHandlers( true );
 				}
@@ -191,7 +191,7 @@ namespace SharpFBTools.Tools
 		{
 			// Пометить все файлы и папки
 			ConnectListsEventHandlers( false );
-			m_mscLV.CheckdAllListViewItems( listViewSource, true );
+			m_mscLV.CheckAllListViewItems( listViewSource, true );
 			if(listViewSource.Items.Count > 0) {
 				listViewSource.Items[0].Checked = false;
 			}
@@ -202,7 +202,7 @@ namespace SharpFBTools.Tools
 		{
 			// Снять отметки со всех файлов и папок
 			ConnectListsEventHandlers( false );
-			m_mscLV.UnCheckdAllListViewItems( listViewSource.CheckedItems );
+			m_mscLV.UnCheckAllListViewItems( listViewSource.CheckedItems );
 			ConnectListsEventHandlers( true );
 		}
 		

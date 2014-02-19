@@ -24,7 +24,7 @@ namespace Core.FB2.Description.TitleInfo
         Annotation Annotation { get; set; }
         Keywords Keywords { get; set; }
         Date Date { get; set; }
-        Coverpage Coverpage { get; set; }
+        IList<Coverpage> Coverpages { get; set; }
         string Lang { get; set; }
         string SrcLang { get; set; }
         IList<Author> Translators { get; set; }

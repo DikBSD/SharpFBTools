@@ -16,6 +16,7 @@ using Core.FB2.Description;
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.Common;
+using Core.FB2.Binary;
 
 namespace Core.FB2Dublicator
 {

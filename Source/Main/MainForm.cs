@@ -148,6 +148,8 @@ namespace Main
 		{
 			// сохраняем пути к папкам и рабочие изменяющиеся данные всех инструменнов
 			Settings.Settings.WriteSharpFBToolsWorksData();
+			// Для Валидатора
+			Settings.ValidatorSettings.WriteValidatorSettings();
 			// Для Сортировщика
 			Settings.FileManagerSettings.WriteFileManagerSettings();
 		}

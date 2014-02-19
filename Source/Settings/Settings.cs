@@ -25,12 +25,11 @@ namespace Settings
 		private static string m_sProgDir = Environment.CurrentDirectory;
 		private static string m_sTempDir = GetProgDir()+"\\Temp"; // временный каталог
 		private static string m_settings = GetProgDir()+"\\settings.xml";
-		private static string m_sFB21SchemePath = GetProgDir()+"\\FictionBook.xsd";
+		private static string m_sFB22SchemePath			= GetProgDir()+"\\FB22FictionBook.xsd";
+		private static string m_sFB2LibrusecSchemePath	= GetProgDir()+"\\LibrusecFictionBook.xsd";
 		private static string m_sTFB2Path	= "c:\\WINDOWS\\NOTEPAD.EXE";
-		private static string m_sWinRarPath	= "c:\\Program Files\\WinRAR\\WinRAR.exe";
-		private static string m_sRarPath	= "c:\\Program Files\\WinRAR\\Rar.exe";
-		private static string m_sUnRARPath	= GetProgDir()+"\\UnRAR.exe";
-		private static string m_s7zaPath	= GetProgDir()+"\\7za.exe";		
+		//TODO Удалить m_s7zaPath
+		private static string m_s7zaPath	= GetProgDir()+"\\7za.exe";
 		private static string m_sFBEPath	= "c:\\Program Files\\FictionBook Editor\\FBE.exe";
 		private static string m_sFBReaderPath	= "c:\\Program Files\\AlReader 2\\AlReader2.exe";
 		private static string m_sDiffPath		= "";
@@ -173,9 +172,16 @@ namespace Settings
 			return m_sTempDir;
 		}
 		
-		public static string GetFB21SchemePath() {
-			// возвращает путь к схеме fb2.1
-			return m_sFB21SchemePath;
+		// возвращает путь к схеме fb2.2
+		public static string GetFB22SchemePath() {
+			
+			return m_sFB22SchemePath;
+		}
+		
+		// возвращает путь к схеме fb2 Librusec
+		public static string GetFB2LibrusecSchemePath() {
+			
+			return m_sFB2LibrusecSchemePath;
 		}
 		
 		public static string GetSettingsPath() {
@@ -185,18 +191,6 @@ namespace Settings
 		public static string GetDefTFB2Path() {
 			return m_sTFB2Path;
 		}
-		
-		public static string GetDefWinRARPath() {
-			return m_sWinRarPath;
-		}
-		
-		public static string GetDefRarPath() {
-			return m_sRarPath;
-		}
-		
-		public static string GetDefUnRARPath() {
-			return m_sUnRARPath;
-		}		
 		
 		public static string GetDef7zaPath() {
 			return m_s7zaPath;
@@ -222,20 +216,8 @@ namespace Settings
 			return m_sChangeFilePath;
 		}
 
-		////// Чтение из файла настроек данных по конкретному параметру //
-		
-		public static string ReadWinRARPath() {
-			// читаем путь к WinRar из настроек
-			return ReadAttribute( "WinRar", "WinRarPath", GetDefWinRARPath() );
-		}
-		public static string ReadRarPath() {
-			// читаем путь к консольному Rar из настроек
-			return ReadAttribute( "WinRar", "RarPath", GetDefRarPath() );
-		}
-		public static string ReadUnRarPath() {
-			// читаем путь к консольному UnRar из настроек
-			return ReadAttribute( "WinRar", "UnRarPath", GetDefUnRARPath() );
-		}
+		// =================== Чтение из файла настроек данных по конкретному параметру ===============
+		//TODO Убрать
 		public static string Read7zaPath() {
 			// читаем путь к консольному 7za из настроек
 			return ReadAttribute( "A7za", "A7zaPath", GetDef7zaPath() );
@@ -289,24 +271,6 @@ namespace Settings
 				
 				writer = XmlWriter.Create( WorksDataSettingsPath, settings );
 				writer.WriteStartElement( "SharpFBTools" );
-					writer.WriteStartElement( "FB2Validator" );
-						writer.WriteStartElement( "VScanDir" );
-							writer.WriteAttributeString( "tboxSourceDir", SettingsValidator.ScanDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "VNotValidFB2Files" );
-							writer.WriteAttributeString( "tboxFB2NotValidDirCopyTo", SettingsValidator.FB2NotValidDirCopyTo );
-							writer.WriteAttributeString( "tboxFB2NotValidDirMoveTo", SettingsValidator.FB2NotValidDirMoveTo );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "VValidFB2Files" );
-							writer.WriteAttributeString( "tboxFB2ValidDirCopyTo", SettingsValidator.FB2ValidDirCopyTo );
-							writer.WriteAttributeString( "tboxFB2ValidDirMoveTo", SettingsValidator.FB2ValidDirMoveTo );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "VNotFB2Files" );
-							writer.WriteAttributeString( "tboxNotFB2DirCopyTo", SettingsValidator.NotFB2DirCopyTo );
-							writer.WriteAttributeString( "tboxNotFB2DirMoveTo", SettingsValidator.NotFB2DirMoveTo );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-					
 					writer.WriteStartElement( "ArchiveManager" );
 						writer.WriteStartElement( "AMScanDirForArchive" );
 							writer.WriteAttributeString( "tboxSourceDir", SettingsAM.AMAScanDir );

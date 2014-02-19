@@ -54,10 +54,10 @@ namespace Core.FilesWorker
 			return true;
 		}
 		
-		public static bool IsArchive( string sExt ) {
-			// архив ли это - по расширению
-			return ( sExt==".zip" || sExt==".rar" || sExt==".7z" || sExt==".bz2" || sExt==".gz" || sExt==".tar" );
-		}
+//		public static bool IsArchive( string sExt ) {
+//			// архив ли это - по расширению
+//			return ( sExt==".zip" || sExt==".rar" || sExt==".7z" || sExt==".bz2" || sExt==".gz" || sExt==".tar" );
+//		}
 		
 /*		public static void unzip( string sZipPath, string sFilePath, string sTempDir ) {
 			// распаковка zip-фрхива
@@ -243,32 +243,32 @@ namespace Core.FilesWorker
 		}
 		
 		// получить список всех файлов из архива во временной папке
-		public static List<string> GetFileListFromArchive( string sFromFile, string sTempDir, string sA7zaPath, string sUnRarPath ) {
-			string sExt	= Path.GetExtension( sFromFile ).ToLower();
-			filesWorker.RemoveDir( sTempDir );
-			switch( sExt ) {
-				case ".rar":
-					unrar( sUnRarPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
-					break;
-				case ".zip":
-					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
-					break;
-				case ".7z":
-					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
-					break;
-				case ".bz2":
-					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
-					break;
-				case ".gz":
-					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
-					break;
-				case ".tar":
-					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
-					break;
-			}
-			// составляем список файлов (или одного) из архива
-			return filesWorker.MakeFileListFromDir( sTempDir, false, true );
-		}
+//		public static List<string> GetFileListFromArchive( string sFromFile, string sTempDir, string sA7zaPath, string sUnRarPath ) {
+//			string sExt	= Path.GetExtension( sFromFile ).ToLower();
+//			filesWorker.RemoveDir( sTempDir );
+//			switch( sExt ) {
+//				case ".rar":
+//					unrar( sUnRarPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+//					break;
+//				case ".zip":
+//					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+//					break;
+//				case ".7z":
+//					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+//					break;
+//				case ".bz2":
+//					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+//					break;
+//				case ".gz":
+//					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+//					break;
+//				case ".tar":
+//					unzip( sA7zaPath, sFromFile, sTempDir, ProcessPriorityClass.AboveNormal );
+//					break;
+//			}
+//			// составляем список файлов (или одного) из архива
+//			return filesWorker.MakeFileListFromDir( sTempDir, false, true );
+//		}
 		
 	}
 }

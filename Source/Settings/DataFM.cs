@@ -58,23 +58,19 @@ namespace Settings
 		private string m_sMilitary		= SettingsFM.ReadFMMilitary();
 		private string m_sFolklore		= SettingsFM.ReadFMFolklore();
 		private string m_sOther			= SettingsFM.ReadFMOther();
-		// пути к архиваторам
-		private string m_s7zaPath	= Settings.Read7zaPath();
-		private string m_sUnRarPath	= Settings.ReadUnRarPath();
-		private string m_sRarPath	= Settings.ReadRarPath();
+
 		// папки для "проблемных" файлов
 		private string m_sNotReadFB2Dir		= SettingsFM.GetDefFMFB2NotReadDir();
 		private string m_sFileLongPathDir	= SettingsFM.GetDefFMFB2LongPathDir();
 		private string m_sNotValidFB2Dir	= SettingsFM.GetDefFMFB2NotValidDir();
 		private string m_sNotOpenArchDir	= SettingsFM.GetDefFMArchNotOpenDir();
 		// основные настройки
-		private bool m_bGenreTypeMode			= SettingsFM.ReadGenreTypeMode();
+		private bool m_bGenreTypeMode				= SettingsFM.ReadGenreTypeMode();
 		private bool m_bFSGenresFB2LibrusecScheme	= FileManagerSettings.ReadXmlFullSortingFB2Librusec();
 		private bool m_bSSGenresFB2LibrusecScheme	= FileManagerSettings.ReadXmlSelectedSortingFB2Librusec();
 		private bool m_bAuthorOneMode			= SettingsFM.ReadAuthorOneMode();
 		private bool m_bGenreOneMode			= SettingsFM.ReadGenreOneMode();
 		private bool m_bAllFB2					= SettingsFM.ReadSortValidType();
-		private bool m_bAddToFileNameBookIDMode	= SettingsFM.ReadAddToFileNameBookIDMode();
 		private int	 m_nFileExistMode			= SettingsFM.ReadFileExistMode();
 		private bool m_bFullSortingToZip		= FileManagerSettings.ReadXmlFullSortingToZip();
 		private bool m_bSelectedSortingToZip	= FileManagerSettings.ReadXmlSelectedSortingToZip();
@@ -113,23 +109,6 @@ namespace Settings
 		public virtual int FileExistMode {
 			get { return m_nFileExistMode; }
 			set { m_nFileExistMode = value; }
-        }
-		public virtual bool AddToFileNameBookIDMode {
-			get { return m_bAddToFileNameBookIDMode; }
-			set { m_bAddToFileNameBookIDMode = value; }
-        }
-		// пути к архиваторам
-		public virtual string A7zaPath {
-			get { return m_s7zaPath; }
-			set { m_s7zaPath = value; }
-        }
-		public virtual string UnRarPath {
-			get { return m_sUnRarPath; }
-			set { m_sUnRarPath = value; }
-        }
-		public virtual string RarPath {
-			get { return m_sRarPath; }
-			set { m_sRarPath = value; }
         }
 		// папки для "проблемных" файлов
 		public virtual string NotReadFB2Dir {

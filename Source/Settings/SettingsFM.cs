@@ -34,20 +34,16 @@ namespace Settings
 		private static bool m_brbtnGenreTextCheked		= false;
 		private static bool m_brbtnFMAllFB2Cheked		= true;
 		private static bool m_brbtnFMOnlyValidFB2Cheked	= false;
-		private static bool m_bchBoxAddToFileNameBookIDChecked = false;
 		// внешний вид ToolButtons инструмента
 		private static string m_cboxDSFileManagerText	= "ImageAndText";
 		private static string m_cboxTIRFileManagerText	= "ImageBeforeText";
-		// пути к файлам-справкам
-		private static string m_sFileManagerHelpPath	= Settings.GetProgDir()+"\\Help\\FileManagerHelp.rtf";
-		private static string m_sDescTemplatePath		= Settings.GetProgDir()+"\\Help\\TemplatesDescription.rtf";
 		// папки для "проблемных" файлов
 		private static string m_sFMFB2NotReadDir	= "_'Не читаемые' fb2 файлы";
 		private static string m_sFMFB2LongPathDir	= "_fb2 c длинными путями";
 		private static string m_sFMFB2NotValidDir	= "_Не валидные fb2 файлы";
 		private static string m_sFMArchNotOpenDir	= "_'Битые' fb2 архивы, не fb2 архивы";
 		// названия папок для шаблонных тэгов без данных
-		private static string m_sFMNoGenreGroup	= "Неизвестная Группа Жанров";
+		private static string m_sFMNoGenreGroup	= "_Нестандартные Жанры";
 		private static string m_sFMNoGenre		= "Жанра Нет";
 		private static string m_sFMNoLang		= "Языка Книги Нет";
 		private static string m_sFMNoFirstName	= "Имени Автора Нет";
@@ -113,10 +109,6 @@ namespace Settings
 			return m_brbtnFMOnlyValidFB2Cheked;
 		}
 		
-		public static string GetFileManagerHelpPath() {
-			return m_sFileManagerHelpPath;
-		}
-		
 		public static string GetDefFMFB2NotReadDir() {
 			return m_sFMFB2NotReadDir;
 		}
@@ -131,10 +123,6 @@ namespace Settings
 		
 		public static string GetDefFMArchNotOpenDir() {
 			return m_sFMArchNotOpenDir;
-		}
-		
-		public static string GetDefFMDescTemplatePath() {
-			return m_sDescTemplatePath;
 		}
 		
 		public static bool GetDefFMchBoxTranslitCheked() {
@@ -185,10 +173,6 @@ namespace Settings
 		}
 		public static bool GetDefFMrbtnGenreTextCheked() {
 			return m_brbtnGenreTextCheked;
-		}
-		
-		public static bool GetDefFMchBoxAddToFileNameBookIDChecked() {
-			return m_bchBoxAddToFileNameBookIDChecked;
 		}
 		
 		public static bool ReadSortValidType() {
@@ -248,11 +232,6 @@ namespace Settings
 		public static string ReadFileExistText() {
 			// читаем режим обработки файлов с одинаковыми именами (текст) из настроек
 			return Settings.ReadAttribute( "IsFileExist", "cboxFileExistText", "Добавить к создаваемому файлу дату и время" );
-		}
-		
-		public static bool ReadAddToFileNameBookIDMode() {
-			// читаем режим добавления ID книги к имени файла из настроек
-			return Settings.ReadAttribute( "AddToFileNameBookID", "chBoxAddToFileNameBookIDChecked", GetDefFMchBoxAddToFileNameBookIDChecked() );
 		}
 		
 		public static bool ReadAuthorOneMode() {

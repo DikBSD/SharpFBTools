@@ -41,11 +41,11 @@ namespace Main
 			this.tsMain = new System.Windows.Forms.ToolStrip();
 			this.tsbtnFB2Validator = new System.Windows.Forms.ToolStripButton();
 			this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbtnFileManager = new System.Windows.Forms.ToolStripButton();
-			this.tsSep2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbtnArchiveManager = new System.Windows.Forms.ToolStripButton();
-			this.tsSep3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnFB2Dublicator = new System.Windows.Forms.ToolStripButton();
+			this.tsSep2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbtnFileManager = new System.Windows.Forms.ToolStripButton();
+			this.tsSep3 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbtnArchiveManager = new System.Windows.Forms.ToolStripButton();
 			this.tsSep4 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnDescEditor = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -83,11 +83,11 @@ namespace Main
 			this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.tsbtnFB2Validator,
 									this.tsSep1,
-									this.tsbtnFileManager,
-									this.tsSep2,
-									this.tsbtnArchiveManager,
-									this.tsSep3,
 									this.tsbtnFB2Dublicator,
+									this.tsSep2,
+									this.tsbtnFileManager,
+									this.tsSep3,
+									this.tsbtnArchiveManager,
 									this.tsSep4,
 									this.tsbtnDescEditor,
 									this.toolStripSeparator1,
@@ -118,38 +118,6 @@ namespace Main
 			this.tsSep1.Name = "tsSep1";
 			this.tsSep1.Size = new System.Drawing.Size(6, 52);
 			// 
-			// tsbtnFileManager
-			// 
-			this.tsbtnFileManager.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFileManager.Image")));
-			this.tsbtnFileManager.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnFileManager.Name = "tsbtnFileManager";
-			this.tsbtnFileManager.Size = new System.Drawing.Size(122, 49);
-			this.tsbtnFileManager.Tag = "tsbtnFileManager";
-			this.tsbtnFileManager.Text = "Сортировщик файлов";
-			this.tsbtnFileManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.tsbtnFileManager.Click += new System.EventHandler(this.TsbtnFileManagerClick);
-			// 
-			// tsSep2
-			// 
-			this.tsSep2.Name = "tsSep2";
-			this.tsSep2.Size = new System.Drawing.Size(6, 52);
-			// 
-			// tsbtnArchiveManager
-			// 
-			this.tsbtnArchiveManager.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnArchiveManager.Image")));
-			this.tsbtnArchiveManager.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnArchiveManager.Name = "tsbtnArchiveManager";
-			this.tsbtnArchiveManager.Size = new System.Drawing.Size(109, 49);
-			this.tsbtnArchiveManager.Tag = "tsbtnArchiveManager";
-			this.tsbtnArchiveManager.Text = "Менеджер архивов";
-			this.tsbtnArchiveManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.tsbtnArchiveManager.Click += new System.EventHandler(this.TsbtnArchiveManagerClick);
-			// 
-			// tsSep3
-			// 
-			this.tsSep3.Name = "tsSep3";
-			this.tsSep3.Size = new System.Drawing.Size(6, 52);
-			// 
 			// tsbtnFB2Dublicator
 			// 
 			this.tsbtnFB2Dublicator.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFB2Dublicator.Image")));
@@ -162,6 +130,38 @@ namespace Main
 			this.tsbtnFB2Dublicator.ToolTipText = "Поиск одинаковых книг";
 			this.tsbtnFB2Dublicator.Click += new System.EventHandler(this.TsbtnFB2DublicatorClick);
 			// 
+			// tsSep2
+			// 
+			this.tsSep2.Name = "tsSep2";
+			this.tsSep2.Size = new System.Drawing.Size(6, 52);
+			// 
+			// tsbtnFileManager
+			// 
+			this.tsbtnFileManager.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFileManager.Image")));
+			this.tsbtnFileManager.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnFileManager.Name = "tsbtnFileManager";
+			this.tsbtnFileManager.Size = new System.Drawing.Size(122, 49);
+			this.tsbtnFileManager.Tag = "tsbtnFileManager";
+			this.tsbtnFileManager.Text = "Сортировщик файлов";
+			this.tsbtnFileManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbtnFileManager.Click += new System.EventHandler(this.TsbtnFileManagerClick);
+			// 
+			// tsSep3
+			// 
+			this.tsSep3.Name = "tsSep3";
+			this.tsSep3.Size = new System.Drawing.Size(6, 52);
+			// 
+			// tsbtnArchiveManager
+			// 
+			this.tsbtnArchiveManager.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnArchiveManager.Image")));
+			this.tsbtnArchiveManager.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnArchiveManager.Name = "tsbtnArchiveManager";
+			this.tsbtnArchiveManager.Size = new System.Drawing.Size(109, 49);
+			this.tsbtnArchiveManager.Tag = "tsbtnArchiveManager";
+			this.tsbtnArchiveManager.Text = "Менеджер архивов";
+			this.tsbtnArchiveManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbtnArchiveManager.Click += new System.EventHandler(this.TsbtnArchiveManagerClick);
+			// 
 			// tsSep4
 			// 
 			this.tsSep4.Name = "tsSep4";
@@ -172,9 +172,9 @@ namespace Main
 			this.tsbtnDescEditor.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDescEditor.Image")));
 			this.tsbtnDescEditor.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnDescEditor.Name = "tsbtnDescEditor";
-			this.tsbtnDescEditor.Size = new System.Drawing.Size(142, 49);
+			this.tsbtnDescEditor.Size = new System.Drawing.Size(126, 49);
 			this.tsbtnDescEditor.Tag = "tsbtnFB2Dublicator";
-			this.tsbtnDescEditor.Text = "Редактор описания книги";
+			this.tsbtnDescEditor.Text = "Редактор метаданных";
 			this.tsbtnDescEditor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnDescEditor.ToolTipText = "Правка описания книги";
 			this.tsbtnDescEditor.Click += new System.EventHandler(this.TsbtnDescEditorClick);

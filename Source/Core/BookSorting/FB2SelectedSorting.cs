@@ -37,12 +37,13 @@ namespace Core.BookSorting
 		public FB2SelectedSorting()
 		{
 		}
+		
 		#region Открытые методы
+		// заполняем список критериев поиска для Избранной Сортировки
 		public List<SelectedSortQueryCriteria> MakeSelectedSortQuerysList(
 								string sLang, string sLast, string sFirst, string sMiddle, string sNick,
 								string sGGroup, string sGenre, string sSequence, string sBTitle, string sExactFit,
 								bool bGenresFB2LibrusecScheme ) {
-			// заполняем список критериев поиска для Избранной Сортировки
 			List<SelectedSortQueryCriteria> lSSQCList = new List<SelectedSortQueryCriteria>();
 			List<string> lsGenres = null; // временный список Жанров по конкретной Группе Жанров
 			// "вычленяем" язык книги
@@ -58,17 +59,17 @@ namespace Core.BookSorting
 			// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
 			if( sGGroup.Length!=0 ) {
 				IFBGenres fb2g = null;
-				if( bGenresFB2LibrusecScheme ) {
+				if( bGenresFB2LibrusecScheme )
 					fb2g = new FB2LibrusecGenres();
-				} else {
+				else
 					fb2g = new FB22Genres();
-				}
+
 				lsGenres = fb2g.GetFBGenresForGroup( sGGroup );
 			}
 			// формируем список критериев поиска в зависимости от наличия Групп Жанров
 			if( lsGenres==null ) {
 				lSSQCList.Add( new SelectedSortQueryCriteria(
-				sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
+					sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
 			} else {
 				foreach( string sG in lsGenres ) {
 					lSSQCList.Add( new SelectedSortQueryCriteria(
@@ -78,8 +79,9 @@ namespace Core.BookSorting
 			return lSSQCList;
 		}
 		
-		public bool IsConformity( string sFromFilePath, List<SelectedSortQueryCriteria> lSSQCList ) {
-			// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
+		// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
+		public bool IsConformity( string sFromFilePath, List<SelectedSortQueryCriteria> lSSQCList, out bool IsNotRead ) {
+			IsNotRead = false;
 			fB2Parser fb2	= null;
 			TitleInfo ti	= null;
 			try {
@@ -87,8 +89,10 @@ namespace Core.BookSorting
 				ti	= fb2.GetTitleInfo();
 				if( ti==null ) return false;
 			} catch {
+				IsNotRead = true;
 				return false;
 			}
+			
 			bool bRet = true; // флаг, нашли ли соответствие
 			string			sFB2Lang		= ti.Lang;
 			BookTitle		sFB2BookTitle	= ti.BookTitle;

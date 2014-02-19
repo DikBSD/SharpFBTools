@@ -18,7 +18,7 @@ namespace Core.FB2Dublicator
 		#region Закрытые данные класса
 		private int m_nAllFiles			= 0;
 		private int m_nFB2				= 0;
-		private int m_nArchive			= 0;
+		private int m_nZip				= 0;
 		private int m_nOther			= 0;
 		private int m_nGroup			= 0;
 		private int m_nAllFB2InGroups	= 0;
@@ -33,7 +33,7 @@ namespace Core.FB2Dublicator
 			// сброс всех данных
 			m_nAllFiles			= 0;
 			m_nFB2				= 0;
-			m_nArchive			= 0;
+			m_nZip				= 0;
 			m_nOther			= 0;
 			m_nGroup			= 0;
 			m_nAllFB2InGroups	= 0;
@@ -51,9 +51,9 @@ namespace Core.FB2Dublicator
 			set { m_nFB2 = value; }
         }
 		
-		public virtual int Archive {
-			get { return m_nArchive; }
-			set { m_nArchive = value; }
+		public virtual int Zip {
+			get { return m_nZip; }
+			set { m_nZip = value; }
         }
 		
 		public virtual int Other {

@@ -51,37 +51,28 @@ namespace SharpFBTools.Tools
 									"Исходные  Zip-архивы с fb2",
 									"0"}, -1);
 			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные  Rar-архивы с fb2",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные 7zip-архивы с fb2",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные BZip2-архивы с fb2",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные Gzip-архивы с fb2",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Исходные Tar-пакеты с fb2",
-									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Исходные fb2-файлы из архивов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Создано в папке-приемнике",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Нечитаемые fb2-файлы (архивы)",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Не валидные fb2-файлы (при вкл. опции)",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Битые архивы (не открылись)",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Длинный путь к создаваемому файлу",
+									"0"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+									"Не удовлетворяющие условиям сортировки",
 									"0"}, -1);
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
 			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
@@ -135,6 +126,7 @@ namespace SharpFBTools.Tools
 			this.chBoxFSNotDelFB2Files = new System.Windows.Forms.CheckBox();
 			this.chBoxFSToZip = new System.Windows.Forms.CheckBox();
 			this.gBoxFullSortRenameTemplates = new System.Windows.Forms.GroupBox();
+			this.btnGroup = new System.Windows.Forms.Button();
 			this.btnGroupGenre = new System.Windows.Forms.Button();
 			this.btnLang = new System.Windows.Forms.Button();
 			this.btnRightBracket = new System.Windows.Forms.Button();
@@ -167,6 +159,7 @@ namespace SharpFBTools.Tools
 			this.cHeaderSequence = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderBookTitle = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderExactFit = new System.Windows.Forms.ColumnHeader();
+			this.cHeaderGenreScheme = new System.Windows.Forms.ColumnHeader();
 			this.pSSData = new System.Windows.Forms.Panel();
 			this.btnSSDataListLoad = new System.Windows.Forms.Button();
 			this.btnSSDataListSave = new System.Windows.Forms.Button();
@@ -184,6 +177,7 @@ namespace SharpFBTools.Tools
 			this.chBoxSSNotDelFB2Files = new System.Windows.Forms.CheckBox();
 			this.chBoxSSToZip = new System.Windows.Forms.CheckBox();
 			this.gBoxSelectedlSortRenameTemplates = new System.Windows.Forms.GroupBox();
+			this.btnSSGroup = new System.Windows.Forms.Button();
 			this.btnSSGroupGenre = new System.Windows.Forms.Button();
 			this.btnSSLang = new System.Windows.Forms.Button();
 			this.btnSSRightBracket = new System.Windows.Forms.Button();
@@ -200,14 +194,12 @@ namespace SharpFBTools.Tools
 			this.btnSSInsertTemplates = new System.Windows.Forms.Button();
 			this.txtBoxSSTemplatesFromLine = new System.Windows.Forms.TextBox();
 			this.paneSSProcess = new System.Windows.Forms.Panel();
-			this.rbtnFMSSFB22 = new System.Windows.Forms.RadioButton();
-			this.rbtnFMSSFB2Librusec = new System.Windows.Forms.RadioButton();
-			this.lblFMSSGenres = new System.Windows.Forms.Label();
 			this.buttonSSortStop = new System.Windows.Forms.Button();
 			this.buttonSSortFilesTo = new System.Windows.Forms.Button();
 			this.tcLog = new System.Windows.Forms.TabPage();
 			this.rtboxTemplatesList = new System.Windows.Forms.RichTextBox();
 			this.pProgress = new System.Windows.Forms.Panel();
+			this.chBoxViewLogFiles = new System.Windows.Forms.CheckBox();
 			this.textBoxFiles = new System.Windows.Forms.TextBox();
 			this.panelData = new System.Windows.Forms.Panel();
 			this.chBoxViewProgress = new System.Windows.Forms.CheckBox();
@@ -246,7 +238,7 @@ namespace SharpFBTools.Tools
 									this.tsProgressBar});
 			this.ssProgress.Location = new System.Drawing.Point(0, 628);
 			this.ssProgress.Name = "ssProgress";
-			this.ssProgress.Size = new System.Drawing.Size(828, 22);
+			this.ssProgress.Size = new System.Drawing.Size(978, 22);
 			this.ssProgress.TabIndex = 18;
 			this.ssProgress.Text = "statusStrip1";
 			// 
@@ -270,9 +262,9 @@ namespace SharpFBTools.Tools
 			this.btnInsertTemplates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnInsertTemplates.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnInsertTemplates.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnInsertTemplates.Location = new System.Drawing.Point(364, 17);
+			this.btnInsertTemplates.Location = new System.Drawing.Point(536, 17);
 			this.btnInsertTemplates.Name = "btnInsertTemplates";
-			this.btnInsertTemplates.Size = new System.Drawing.Size(142, 28);
+			this.btnInsertTemplates.Size = new System.Drawing.Size(120, 28);
 			this.btnInsertTemplates.TabIndex = 9;
 			this.btnInsertTemplates.Text = "Вставить готовый";
 			this.btnInsertTemplates.UseVisualStyleBackColor = true;
@@ -284,7 +276,7 @@ namespace SharpFBTools.Tools
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtBoxTemplatesFromLine.Location = new System.Drawing.Point(6, 20);
 			this.txtBoxTemplatesFromLine.Name = "txtBoxTemplatesFromLine";
-			this.txtBoxTemplatesFromLine.Size = new System.Drawing.Size(352, 20);
+			this.txtBoxTemplatesFromLine.Size = new System.Drawing.Size(524, 20);
 			this.txtBoxTemplatesFromLine.TabIndex = 8;
 			this.txtBoxTemplatesFromLine.TextChanged += new System.EventHandler(this.TxtBoxTemplatesFromLineTextChanged);
 			// 
@@ -299,7 +291,7 @@ namespace SharpFBTools.Tools
 			this.tcSort.Location = new System.Drawing.Point(0, 0);
 			this.tcSort.Name = "tcSort";
 			this.tcSort.SelectedIndex = 0;
-			this.tcSort.Size = new System.Drawing.Size(828, 628);
+			this.tcSort.Size = new System.Drawing.Size(978, 628);
 			this.tcSort.TabIndex = 31;
 			// 
 			// tpFullSort
@@ -312,7 +304,7 @@ namespace SharpFBTools.Tools
 			this.tpFullSort.Location = new System.Drawing.Point(4, 23);
 			this.tpFullSort.Name = "tpFullSort";
 			this.tpFullSort.Padding = new System.Windows.Forms.Padding(3);
-			this.tpFullSort.Size = new System.Drawing.Size(820, 601);
+			this.tpFullSort.Size = new System.Drawing.Size(970, 601);
 			this.tpFullSort.TabIndex = 0;
 			this.tpFullSort.Text = " Полная Сортировка ";
 			this.tpFullSort.UseVisualStyleBackColor = true;
@@ -336,7 +328,7 @@ namespace SharpFBTools.Tools
 			this.listViewSource.Location = new System.Drawing.Point(3, 166);
 			this.listViewSource.Name = "listViewSource";
 			this.listViewSource.ShowItemToolTips = true;
-			this.listViewSource.Size = new System.Drawing.Size(814, 374);
+			this.listViewSource.Size = new System.Drawing.Size(964, 374);
 			this.listViewSource.SmallImageList = this.imageListItems;
 			this.listViewSource.TabIndex = 35;
 			this.listViewSource.UseCompatibleStateImageBehavior = false;
@@ -544,7 +536,7 @@ namespace SharpFBTools.Tools
 			this.panelExplorer.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panelExplorer.Location = new System.Drawing.Point(3, 130);
 			this.panelExplorer.Name = "panelExplorer";
-			this.panelExplorer.Size = new System.Drawing.Size(814, 36);
+			this.panelExplorer.Size = new System.Drawing.Size(964, 36);
 			this.panelExplorer.TabIndex = 37;
 			// 
 			// panelAddress
@@ -556,7 +548,7 @@ namespace SharpFBTools.Tools
 			this.panelAddress.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panelAddress.Location = new System.Drawing.Point(0, 0);
 			this.panelAddress.Name = "panelAddress";
-			this.panelAddress.Size = new System.Drawing.Size(814, 33);
+			this.panelAddress.Size = new System.Drawing.Size(964, 33);
 			this.panelAddress.TabIndex = 38;
 			// 
 			// buttonGo
@@ -564,7 +556,7 @@ namespace SharpFBTools.Tools
 			this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.buttonGo.Location = new System.Drawing.Point(665, 4);
+			this.buttonGo.Location = new System.Drawing.Point(815, 4);
 			this.buttonGo.Name = "buttonGo";
 			this.buttonGo.Size = new System.Drawing.Size(142, 24);
 			this.buttonGo.TabIndex = 6;
@@ -579,7 +571,7 @@ namespace SharpFBTools.Tools
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxAddress.Location = new System.Drawing.Point(95, 5);
 			this.textBoxAddress.Name = "textBoxAddress";
-			this.textBoxAddress.Size = new System.Drawing.Size(564, 20);
+			this.textBoxAddress.Size = new System.Drawing.Size(714, 20);
 			this.textBoxAddress.TabIndex = 5;
 			this.textBoxAddress.TextChanged += new System.EventHandler(this.TextBoxAddressTextChanged);
 			this.textBoxAddress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAddressKeyPress);
@@ -587,7 +579,7 @@ namespace SharpFBTools.Tools
 			// labelAddress
 			// 
 			this.labelAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.labelAddress.Location = new System.Drawing.Point(44, 7);
+			this.labelAddress.Location = new System.Drawing.Point(11, 7);
 			this.labelAddress.Name = "labelAddress";
 			this.labelAddress.Size = new System.Drawing.Size(47, 19);
 			this.labelAddress.TabIndex = 4;
@@ -597,7 +589,7 @@ namespace SharpFBTools.Tools
 			// buttonOpenSourceDir
 			// 
 			this.buttonOpenSourceDir.Image = ((System.Drawing.Image)(resources.GetObject("buttonOpenSourceDir.Image")));
-			this.buttonOpenSourceDir.Location = new System.Drawing.Point(3, 3);
+			this.buttonOpenSourceDir.Location = new System.Drawing.Point(61, 3);
 			this.buttonOpenSourceDir.Name = "buttonOpenSourceDir";
 			this.buttonOpenSourceDir.Size = new System.Drawing.Size(31, 27);
 			this.buttonOpenSourceDir.TabIndex = 7;
@@ -611,7 +603,7 @@ namespace SharpFBTools.Tools
 			this.panelTemplate.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panelTemplate.Location = new System.Drawing.Point(3, 3);
 			this.panelTemplate.Name = "panelTemplate";
-			this.panelTemplate.Size = new System.Drawing.Size(814, 127);
+			this.panelTemplate.Size = new System.Drawing.Size(964, 127);
 			this.panelTemplate.TabIndex = 34;
 			// 
 			// gBoxFullSortOptions
@@ -623,7 +615,7 @@ namespace SharpFBTools.Tools
 			this.gBoxFullSortOptions.Controls.Add(this.chBoxFSNotDelFB2Files);
 			this.gBoxFullSortOptions.Controls.Add(this.chBoxFSToZip);
 			this.gBoxFullSortOptions.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxFullSortOptions.Location = new System.Drawing.Point(527, 3);
+			this.gBoxFullSortOptions.Location = new System.Drawing.Point(677, 3);
 			this.gBoxFullSortOptions.Name = "gBoxFullSortOptions";
 			this.gBoxFullSortOptions.Size = new System.Drawing.Size(280, 117);
 			this.gBoxFullSortOptions.TabIndex = 33;
@@ -698,6 +690,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.gBoxFullSortRenameTemplates.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnGroup);
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnGroupGenre);
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnLang);
 			this.gBoxFullSortRenameTemplates.Controls.Add(this.btnRightBracket);
@@ -716,15 +709,26 @@ namespace SharpFBTools.Tools
 			this.gBoxFullSortRenameTemplates.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gBoxFullSortRenameTemplates.Location = new System.Drawing.Point(3, 3);
 			this.gBoxFullSortRenameTemplates.Name = "gBoxFullSortRenameTemplates";
-			this.gBoxFullSortRenameTemplates.Size = new System.Drawing.Size(516, 117);
+			this.gBoxFullSortRenameTemplates.Size = new System.Drawing.Size(666, 117);
 			this.gBoxFullSortRenameTemplates.TabIndex = 32;
 			this.gBoxFullSortRenameTemplates.TabStop = false;
 			this.gBoxFullSortRenameTemplates.Text = " Шаблоны подстановки ";
 			// 
+			// btnGroup
+			// 
+			this.btnGroup.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.btnGroup.Location = new System.Drawing.Point(7, 82);
+			this.btnGroup.Name = "btnGroup";
+			this.btnGroup.Size = new System.Drawing.Size(80, 23);
+			this.btnGroup.TabIndex = 23;
+			this.btnGroup.Text = "Группа";
+			this.btnGroup.UseVisualStyleBackColor = true;
+			this.btnGroup.Click += new System.EventHandler(this.BtnGroupClick);
+			// 
 			// btnGroupGenre
 			// 
 			this.btnGroupGenre.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnGroupGenre.Location = new System.Drawing.Point(7, 82);
+			this.btnGroupGenre.Location = new System.Drawing.Point(93, 82);
 			this.btnGroupGenre.Name = "btnGroupGenre";
 			this.btnGroupGenre.Size = new System.Drawing.Size(96, 23);
 			this.btnGroupGenre.TabIndex = 22;
@@ -735,7 +739,7 @@ namespace SharpFBTools.Tools
 			// btnLang
 			// 
 			this.btnLang.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnLang.Location = new System.Drawing.Point(109, 54);
+			this.btnLang.Location = new System.Drawing.Point(7, 54);
 			this.btnLang.Name = "btnLang";
 			this.btnLang.Size = new System.Drawing.Size(80, 23);
 			this.btnLang.TabIndex = 21;
@@ -746,7 +750,7 @@ namespace SharpFBTools.Tools
 			// btnRightBracket
 			// 
 			this.btnRightBracket.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnRightBracket.Location = new System.Drawing.Point(482, 82);
+			this.btnRightBracket.Location = new System.Drawing.Point(508, 54);
 			this.btnRightBracket.Name = "btnRightBracket";
 			this.btnRightBracket.Size = new System.Drawing.Size(23, 23);
 			this.btnRightBracket.TabIndex = 20;
@@ -757,7 +761,7 @@ namespace SharpFBTools.Tools
 			// btnBook
 			// 
 			this.btnBook.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnBook.Location = new System.Drawing.Point(195, 82);
+			this.btnBook.Location = new System.Drawing.Point(279, 82);
 			this.btnBook.Name = "btnBook";
 			this.btnBook.Size = new System.Drawing.Size(80, 23);
 			this.btnBook.TabIndex = 15;
@@ -779,7 +783,7 @@ namespace SharpFBTools.Tools
 			// btnLeftBracket
 			// 
 			this.btnLeftBracket.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnLeftBracket.Location = new System.Drawing.Point(453, 82);
+			this.btnLeftBracket.Location = new System.Drawing.Point(482, 54);
 			this.btnLeftBracket.Name = "btnLeftBracket";
 			this.btnLeftBracket.Size = new System.Drawing.Size(23, 23);
 			this.btnLeftBracket.TabIndex = 19;
@@ -790,7 +794,7 @@ namespace SharpFBTools.Tools
 			// btnGenre
 			// 
 			this.btnGenre.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnGenre.Location = new System.Drawing.Point(109, 82);
+			this.btnGenre.Location = new System.Drawing.Point(193, 82);
 			this.btnGenre.Name = "btnGenre";
 			this.btnGenre.Size = new System.Drawing.Size(80, 23);
 			this.btnGenre.TabIndex = 18;
@@ -801,7 +805,7 @@ namespace SharpFBTools.Tools
 			// btnSequenceNumber
 			// 
 			this.btnSequenceNumber.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnSequenceNumber.Location = new System.Drawing.Point(366, 82);
+			this.btnSequenceNumber.Location = new System.Drawing.Point(450, 82);
 			this.btnSequenceNumber.Name = "btnSequenceNumber";
 			this.btnSequenceNumber.Size = new System.Drawing.Size(80, 23);
 			this.btnSequenceNumber.TabIndex = 17;
@@ -812,7 +816,7 @@ namespace SharpFBTools.Tools
 			// btnSequence
 			// 
 			this.btnSequence.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnSequence.Location = new System.Drawing.Point(281, 82);
+			this.btnSequence.Location = new System.Drawing.Point(365, 82);
 			this.btnSequence.Name = "btnSequence";
 			this.btnSequence.Size = new System.Drawing.Size(80, 23);
 			this.btnSequence.TabIndex = 16;
@@ -847,7 +851,7 @@ namespace SharpFBTools.Tools
 			this.btnDir.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnDir.Location = new System.Drawing.Point(453, 54);
 			this.btnDir.Name = "btnDir";
-			this.btnDir.Size = new System.Drawing.Size(52, 23);
+			this.btnDir.Size = new System.Drawing.Size(23, 23);
 			this.btnDir.TabIndex = 11;
 			this.btnDir.Text = "\\";
 			this.btnDir.UseVisualStyleBackColor = true;
@@ -856,7 +860,7 @@ namespace SharpFBTools.Tools
 			// btnLetterFamily
 			// 
 			this.btnLetterFamily.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.btnLetterFamily.Location = new System.Drawing.Point(7, 54);
+			this.btnLetterFamily.Location = new System.Drawing.Point(93, 54);
 			this.btnLetterFamily.Name = "btnLetterFamily";
 			this.btnLetterFamily.Size = new System.Drawing.Size(96, 23);
 			this.btnLetterFamily.TabIndex = 10;
@@ -875,13 +879,13 @@ namespace SharpFBTools.Tools
 			this.panelStart.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.panelStart.Location = new System.Drawing.Point(3, 540);
 			this.panelStart.Name = "panelStart";
-			this.panelStart.Size = new System.Drawing.Size(814, 58);
+			this.panelStart.Size = new System.Drawing.Size(964, 58);
 			this.panelStart.TabIndex = 36;
 			// 
 			// rbtnFMFSFB22
 			// 
 			this.rbtnFMFSFB22.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFMFSFB22.Location = new System.Drawing.Point(193, 7);
+			this.rbtnFMFSFB22.Location = new System.Drawing.Point(203, 7);
 			this.rbtnFMFSFB22.Name = "rbtnFMFSFB22";
 			this.rbtnFMFSFB22.Size = new System.Drawing.Size(54, 17);
 			this.rbtnFMFSFB22.TabIndex = 6;
@@ -893,7 +897,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.rbtnFMFSFB2Librusec.Checked = true;
 			this.rbtnFMFSFB2Librusec.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFMFSFB2Librusec.Location = new System.Drawing.Point(92, 7);
+			this.rbtnFMFSFB2Librusec.Location = new System.Drawing.Point(102, 7);
 			this.rbtnFMFSFB2Librusec.Name = "rbtnFMFSFB2Librusec";
 			this.rbtnFMFSFB2Librusec.Size = new System.Drawing.Size(95, 17);
 			this.rbtnFMFSFB2Librusec.TabIndex = 5;
@@ -907,7 +911,7 @@ namespace SharpFBTools.Tools
 			this.lblFMFSGenres.ForeColor = System.Drawing.Color.Navy;
 			this.lblFMFSGenres.Location = new System.Drawing.Point(6, 8);
 			this.lblFMFSGenres.Name = "lblFMFSGenres";
-			this.lblFMFSGenres.Size = new System.Drawing.Size(98, 16);
+			this.lblFMFSGenres.Size = new System.Drawing.Size(100, 16);
 			this.lblFMFSGenres.TabIndex = 4;
 			this.lblFMFSGenres.Text = "Схема Жанров:";
 			// 
@@ -918,7 +922,7 @@ namespace SharpFBTools.Tools
 			this.buttonFullSortStop.Font = new System.Drawing.Font("Tahoma", 11F);
 			this.buttonFullSortStop.Image = ((System.Drawing.Image)(resources.GetObject("buttonFullSortStop.Image")));
 			this.buttonFullSortStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonFullSortStop.Location = new System.Drawing.Point(490, 6);
+			this.buttonFullSortStop.Location = new System.Drawing.Point(640, 6);
 			this.buttonFullSortStop.Name = "buttonFullSortStop";
 			this.buttonFullSortStop.Size = new System.Drawing.Size(150, 49);
 			this.buttonFullSortStop.TabIndex = 3;
@@ -933,7 +937,7 @@ namespace SharpFBTools.Tools
 			this.buttonFullSortFilesTo.Font = new System.Drawing.Font("Tahoma", 11F);
 			this.buttonFullSortFilesTo.Image = ((System.Drawing.Image)(resources.GetObject("buttonFullSortFilesTo.Image")));
 			this.buttonFullSortFilesTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonFullSortFilesTo.Location = new System.Drawing.Point(649, 6);
+			this.buttonFullSortFilesTo.Location = new System.Drawing.Point(799, 6);
 			this.buttonFullSortFilesTo.Name = "buttonFullSortFilesTo";
 			this.buttonFullSortFilesTo.Size = new System.Drawing.Size(158, 49);
 			this.buttonFullSortFilesTo.TabIndex = 2;
@@ -953,7 +957,7 @@ namespace SharpFBTools.Tools
 			this.tpSelectedSort.Location = new System.Drawing.Point(4, 23);
 			this.tpSelectedSort.Name = "tpSelectedSort";
 			this.tpSelectedSort.Padding = new System.Windows.Forms.Padding(3);
-			this.tpSelectedSort.Size = new System.Drawing.Size(820, 601);
+			this.tpSelectedSort.Size = new System.Drawing.Size(970, 601);
 			this.tpSelectedSort.TabIndex = 1;
 			this.tpSelectedSort.Text = " Избранная Сортировка ";
 			this.tpSelectedSort.UseVisualStyleBackColor = true;
@@ -964,7 +968,7 @@ namespace SharpFBTools.Tools
 			this.panelLV.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panelLV.Location = new System.Drawing.Point(3, 256);
 			this.panelLV.Name = "panelLV";
-			this.panelLV.Size = new System.Drawing.Size(814, 284);
+			this.panelLV.Size = new System.Drawing.Size(964, 284);
 			this.panelLV.TabIndex = 66;
 			// 
 			// lvSSData
@@ -979,13 +983,14 @@ namespace SharpFBTools.Tools
 									this.cHeaderNick,
 									this.cHeaderSequence,
 									this.cHeaderBookTitle,
-									this.cHeaderExactFit});
+									this.cHeaderExactFit,
+									this.cHeaderGenreScheme});
 			this.lvSSData.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSSData.FullRowSelect = true;
 			this.lvSSData.GridLines = true;
 			this.lvSSData.Location = new System.Drawing.Point(0, 0);
 			this.lvSSData.Name = "lvSSData";
-			this.lvSSData.Size = new System.Drawing.Size(814, 284);
+			this.lvSSData.Size = new System.Drawing.Size(964, 284);
 			this.lvSSData.TabIndex = 61;
 			this.lvSSData.UseCompatibleStateImageBehavior = false;
 			this.lvSSData.View = System.Windows.Forms.View.Details;
@@ -1039,6 +1044,11 @@ namespace SharpFBTools.Tools
 			// 
 			this.cHeaderExactFit.Text = "Точное соответствие";
 			// 
+			// cHeaderGenreScheme
+			// 
+			this.cHeaderGenreScheme.Text = "Схема Жанров";
+			this.cHeaderGenreScheme.Width = 100;
+			// 
 			// pSSData
 			// 
 			this.pSSData.Controls.Add(this.btnSSDataListLoad);
@@ -1047,7 +1057,7 @@ namespace SharpFBTools.Tools
 			this.pSSData.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pSSData.Location = new System.Drawing.Point(3, 204);
 			this.pSSData.Name = "pSSData";
-			this.pSSData.Size = new System.Drawing.Size(814, 52);
+			this.pSSData.Size = new System.Drawing.Size(964, 52);
 			this.pSSData.TabIndex = 62;
 			// 
 			// btnSSDataListLoad
@@ -1055,7 +1065,7 @@ namespace SharpFBTools.Tools
 			this.btnSSDataListLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSSDataListLoad.Image = ((System.Drawing.Image)(resources.GetObject("btnSSDataListLoad.Image")));
 			this.btnSSDataListLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSSDataListLoad.Location = new System.Drawing.Point(660, 5);
+			this.btnSSDataListLoad.Location = new System.Drawing.Point(810, 5);
 			this.btnSSDataListLoad.Name = "btnSSDataListLoad";
 			this.btnSSDataListLoad.Size = new System.Drawing.Size(142, 40);
 			this.btnSSDataListLoad.TabIndex = 12;
@@ -1069,7 +1079,7 @@ namespace SharpFBTools.Tools
 			this.btnSSDataListSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSSDataListSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSSDataListSave.Image")));
 			this.btnSSDataListSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSSDataListSave.Location = new System.Drawing.Point(507, 5);
+			this.btnSSDataListSave.Location = new System.Drawing.Point(657, 5);
 			this.btnSSDataListSave.Name = "btnSSDataListSave";
 			this.btnSSDataListSave.Size = new System.Drawing.Size(141, 40);
 			this.btnSSDataListSave.TabIndex = 11;
@@ -1104,14 +1114,13 @@ namespace SharpFBTools.Tools
 			this.pSelectedSortDirs.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pSelectedSortDirs.Location = new System.Drawing.Point(3, 132);
 			this.pSelectedSortDirs.Name = "pSelectedSortDirs";
-			this.pSelectedSortDirs.Size = new System.Drawing.Size(814, 72);
+			this.pSelectedSortDirs.Size = new System.Drawing.Size(964, 72);
 			this.pSelectedSortDirs.TabIndex = 65;
 			// 
 			// btnSSTargetDir
 			// 
-			this.btnSSTargetDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSSTargetDir.Image = ((System.Drawing.Image)(resources.GetObject("btnSSTargetDir.Image")));
-			this.btnSSTargetDir.Location = new System.Drawing.Point(766, 38);
+			this.btnSSTargetDir.Location = new System.Drawing.Point(164, 38);
 			this.btnSSTargetDir.Name = "btnSSTargetDir";
 			this.btnSSTargetDir.Size = new System.Drawing.Size(31, 27);
 			this.btnSSTargetDir.TabIndex = 4;
@@ -1120,9 +1129,8 @@ namespace SharpFBTools.Tools
 			// 
 			// btnSSOpenDir
 			// 
-			this.btnSSOpenDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSSOpenDir.Image = ((System.Drawing.Image)(resources.GetObject("btnSSOpenDir.Image")));
-			this.btnSSOpenDir.Location = new System.Drawing.Point(766, 6);
+			this.btnSSOpenDir.Location = new System.Drawing.Point(164, 6);
 			this.btnSSOpenDir.Name = "btnSSOpenDir";
 			this.btnSSOpenDir.Size = new System.Drawing.Size(31, 27);
 			this.btnSSOpenDir.TabIndex = 2;
@@ -1144,9 +1152,9 @@ namespace SharpFBTools.Tools
 			this.tboxSSToDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxSSToDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.tboxSSToDir.Location = new System.Drawing.Point(166, 41);
+			this.tboxSSToDir.Location = new System.Drawing.Point(202, 41);
 			this.tboxSSToDir.Name = "tboxSSToDir";
-			this.tboxSSToDir.Size = new System.Drawing.Size(591, 20);
+			this.tboxSSToDir.Size = new System.Drawing.Size(741, 20);
 			this.tboxSSToDir.TabIndex = 3;
 			this.tboxSSToDir.TextChanged += new System.EventHandler(this.TboxSSToDirTextChanged);
 			// 
@@ -1155,9 +1163,9 @@ namespace SharpFBTools.Tools
 			this.tboxSSSourceDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxSSSourceDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.tboxSSSourceDir.Location = new System.Drawing.Point(166, 7);
+			this.tboxSSSourceDir.Location = new System.Drawing.Point(202, 7);
 			this.tboxSSSourceDir.Name = "tboxSSSourceDir";
-			this.tboxSSSourceDir.Size = new System.Drawing.Size(591, 21);
+			this.tboxSSSourceDir.Size = new System.Drawing.Size(741, 21);
 			this.tboxSSSourceDir.TabIndex = 1;
 			this.tboxSSSourceDir.TextChanged += new System.EventHandler(this.TboxSSSourceDirTextChanged);
 			// 
@@ -1177,7 +1185,7 @@ namespace SharpFBTools.Tools
 			this.pSSTemplate.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pSSTemplate.Location = new System.Drawing.Point(3, 3);
 			this.pSSTemplate.Name = "pSSTemplate";
-			this.pSSTemplate.Size = new System.Drawing.Size(814, 129);
+			this.pSSTemplate.Size = new System.Drawing.Size(964, 129);
 			this.pSSTemplate.TabIndex = 64;
 			// 
 			// gBoxSelectedlSortOptions
@@ -1187,7 +1195,7 @@ namespace SharpFBTools.Tools
 			this.gBoxSelectedlSortOptions.Controls.Add(this.chBoxSSNotDelFB2Files);
 			this.gBoxSelectedlSortOptions.Controls.Add(this.chBoxSSToZip);
 			this.gBoxSelectedlSortOptions.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gBoxSelectedlSortOptions.Location = new System.Drawing.Point(527, 3);
+			this.gBoxSelectedlSortOptions.Location = new System.Drawing.Point(677, 3);
 			this.gBoxSelectedlSortOptions.Name = "gBoxSelectedlSortOptions";
 			this.gBoxSelectedlSortOptions.Size = new System.Drawing.Size(280, 117);
 			this.gBoxSelectedlSortOptions.TabIndex = 64;
@@ -1238,6 +1246,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.gBoxSelectedlSortRenameTemplates.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.gBoxSelectedlSortRenameTemplates.Controls.Add(this.btnSSGroup);
 			this.gBoxSelectedlSortRenameTemplates.Controls.Add(this.btnSSGroupGenre);
 			this.gBoxSelectedlSortRenameTemplates.Controls.Add(this.btnSSLang);
 			this.gBoxSelectedlSortRenameTemplates.Controls.Add(this.btnSSRightBracket);
@@ -1257,16 +1266,27 @@ namespace SharpFBTools.Tools
 			this.gBoxSelectedlSortRenameTemplates.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.gBoxSelectedlSortRenameTemplates.Location = new System.Drawing.Point(3, 3);
 			this.gBoxSelectedlSortRenameTemplates.Name = "gBoxSelectedlSortRenameTemplates";
-			this.gBoxSelectedlSortRenameTemplates.Size = new System.Drawing.Size(516, 117);
+			this.gBoxSelectedlSortRenameTemplates.Size = new System.Drawing.Size(666, 117);
 			this.gBoxSelectedlSortRenameTemplates.TabIndex = 63;
 			this.gBoxSelectedlSortRenameTemplates.TabStop = false;
 			this.gBoxSelectedlSortRenameTemplates.Text = " Шаблоны подстановки ";
+			// 
+			// btnSSGroup
+			// 
+			this.btnSSGroup.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.btnSSGroup.Location = new System.Drawing.Point(7, 82);
+			this.btnSSGroup.Name = "btnSSGroup";
+			this.btnSSGroup.Size = new System.Drawing.Size(80, 23);
+			this.btnSSGroup.TabIndex = 36;
+			this.btnSSGroup.Text = "Группа";
+			this.btnSSGroup.UseVisualStyleBackColor = true;
+			this.btnSSGroup.Click += new System.EventHandler(this.BtnSSGroupClick);
 			// 
 			// btnSSGroupGenre
 			// 
 			this.btnSSGroupGenre.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSGroupGenre.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSGroupGenre.Location = new System.Drawing.Point(8, 82);
+			this.btnSSGroupGenre.Location = new System.Drawing.Point(93, 82);
 			this.btnSSGroupGenre.Name = "btnSSGroupGenre";
 			this.btnSSGroupGenre.Size = new System.Drawing.Size(96, 23);
 			this.btnSSGroupGenre.TabIndex = 35;
@@ -1278,7 +1298,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSLang.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSLang.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSLang.Location = new System.Drawing.Point(110, 54);
+			this.btnSSLang.Location = new System.Drawing.Point(7, 54);
 			this.btnSSLang.Name = "btnSSLang";
 			this.btnSSLang.Size = new System.Drawing.Size(80, 23);
 			this.btnSSLang.TabIndex = 34;
@@ -1290,7 +1310,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSRightBracket.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSRightBracket.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSRightBracket.Location = new System.Drawing.Point(483, 82);
+			this.btnSSRightBracket.Location = new System.Drawing.Point(508, 54);
 			this.btnSSRightBracket.Name = "btnSSRightBracket";
 			this.btnSSRightBracket.Size = new System.Drawing.Size(23, 23);
 			this.btnSSRightBracket.TabIndex = 33;
@@ -1302,7 +1322,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSBook.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSBook.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSBook.Location = new System.Drawing.Point(196, 82);
+			this.btnSSBook.Location = new System.Drawing.Point(279, 82);
 			this.btnSSBook.Name = "btnSSBook";
 			this.btnSSBook.Size = new System.Drawing.Size(80, 23);
 			this.btnSSBook.TabIndex = 28;
@@ -1314,7 +1334,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSFamily.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSFamily.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSFamily.Location = new System.Drawing.Point(196, 54);
+			this.btnSSFamily.Location = new System.Drawing.Point(195, 54);
 			this.btnSSFamily.Name = "btnSSFamily";
 			this.btnSSFamily.Size = new System.Drawing.Size(80, 23);
 			this.btnSSFamily.TabIndex = 25;
@@ -1326,7 +1346,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSLeftBracket.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSLeftBracket.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSLeftBracket.Location = new System.Drawing.Point(454, 82);
+			this.btnSSLeftBracket.Location = new System.Drawing.Point(482, 54);
 			this.btnSSLeftBracket.Name = "btnSSLeftBracket";
 			this.btnSSLeftBracket.Size = new System.Drawing.Size(23, 23);
 			this.btnSSLeftBracket.TabIndex = 32;
@@ -1338,7 +1358,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSGenre.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSGenre.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSGenre.Location = new System.Drawing.Point(110, 82);
+			this.btnSSGenre.Location = new System.Drawing.Point(193, 82);
 			this.btnSSGenre.Name = "btnSSGenre";
 			this.btnSSGenre.Size = new System.Drawing.Size(80, 23);
 			this.btnSSGenre.TabIndex = 31;
@@ -1350,7 +1370,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSSequenceNumber.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSSequenceNumber.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSSequenceNumber.Location = new System.Drawing.Point(367, 82);
+			this.btnSSSequenceNumber.Location = new System.Drawing.Point(450, 82);
 			this.btnSSSequenceNumber.Name = "btnSSSequenceNumber";
 			this.btnSSSequenceNumber.Size = new System.Drawing.Size(80, 23);
 			this.btnSSSequenceNumber.TabIndex = 30;
@@ -1362,7 +1382,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSSequence.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSSequence.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSSequence.Location = new System.Drawing.Point(282, 82);
+			this.btnSSSequence.Location = new System.Drawing.Point(365, 82);
 			this.btnSSSequence.Name = "btnSSSequence";
 			this.btnSSSequence.Size = new System.Drawing.Size(80, 23);
 			this.btnSSSequence.TabIndex = 29;
@@ -1374,7 +1394,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSPatronimic.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSPatronimic.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSPatronimic.Location = new System.Drawing.Point(367, 54);
+			this.btnSSPatronimic.Location = new System.Drawing.Point(366, 54);
 			this.btnSSPatronimic.Name = "btnSSPatronimic";
 			this.btnSSPatronimic.Size = new System.Drawing.Size(80, 23);
 			this.btnSSPatronimic.TabIndex = 27;
@@ -1386,7 +1406,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSName.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSName.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSName.Location = new System.Drawing.Point(282, 54);
+			this.btnSSName.Location = new System.Drawing.Point(281, 54);
 			this.btnSSName.Name = "btnSSName";
 			this.btnSSName.Size = new System.Drawing.Size(80, 23);
 			this.btnSSName.TabIndex = 26;
@@ -1398,9 +1418,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSDir.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSDir.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSDir.Location = new System.Drawing.Point(454, 54);
+			this.btnSSDir.Location = new System.Drawing.Point(453, 54);
 			this.btnSSDir.Name = "btnSSDir";
-			this.btnSSDir.Size = new System.Drawing.Size(52, 23);
+			this.btnSSDir.Size = new System.Drawing.Size(23, 23);
 			this.btnSSDir.TabIndex = 24;
 			this.btnSSDir.Text = "\\";
 			this.btnSSDir.UseVisualStyleBackColor = true;
@@ -1410,7 +1430,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.btnSSLetterFamily.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSLetterFamily.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSLetterFamily.Location = new System.Drawing.Point(8, 54);
+			this.btnSSLetterFamily.Location = new System.Drawing.Point(93, 54);
 			this.btnSSLetterFamily.Name = "btnSSLetterFamily";
 			this.btnSSLetterFamily.Size = new System.Drawing.Size(96, 23);
 			this.btnSSLetterFamily.TabIndex = 23;
@@ -1423,9 +1443,9 @@ namespace SharpFBTools.Tools
 			this.btnSSInsertTemplates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSSInsertTemplates.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.btnSSInsertTemplates.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.btnSSInsertTemplates.Location = new System.Drawing.Point(364, 17);
+			this.btnSSInsertTemplates.Location = new System.Drawing.Point(536, 17);
 			this.btnSSInsertTemplates.Name = "btnSSInsertTemplates";
-			this.btnSSInsertTemplates.Size = new System.Drawing.Size(142, 28);
+			this.btnSSInsertTemplates.Size = new System.Drawing.Size(120, 28);
 			this.btnSSInsertTemplates.TabIndex = 9;
 			this.btnSSInsertTemplates.Text = "Вставить готовый";
 			this.btnSSInsertTemplates.UseVisualStyleBackColor = true;
@@ -1437,56 +1457,20 @@ namespace SharpFBTools.Tools
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtBoxSSTemplatesFromLine.Location = new System.Drawing.Point(6, 20);
 			this.txtBoxSSTemplatesFromLine.Name = "txtBoxSSTemplatesFromLine";
-			this.txtBoxSSTemplatesFromLine.Size = new System.Drawing.Size(352, 20);
+			this.txtBoxSSTemplatesFromLine.Size = new System.Drawing.Size(524, 20);
 			this.txtBoxSSTemplatesFromLine.TabIndex = 8;
 			this.txtBoxSSTemplatesFromLine.TextChanged += new System.EventHandler(this.TxtBoxSSTemplatesFromLineTextChanged);
 			// 
 			// paneSSProcess
 			// 
 			this.paneSSProcess.BackColor = System.Drawing.SystemColors.Control;
-			this.paneSSProcess.Controls.Add(this.rbtnFMSSFB22);
-			this.paneSSProcess.Controls.Add(this.rbtnFMSSFB2Librusec);
-			this.paneSSProcess.Controls.Add(this.lblFMSSGenres);
 			this.paneSSProcess.Controls.Add(this.buttonSSortStop);
 			this.paneSSProcess.Controls.Add(this.buttonSSortFilesTo);
 			this.paneSSProcess.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.paneSSProcess.Location = new System.Drawing.Point(3, 540);
 			this.paneSSProcess.Name = "paneSSProcess";
-			this.paneSSProcess.Size = new System.Drawing.Size(814, 58);
+			this.paneSSProcess.Size = new System.Drawing.Size(964, 58);
 			this.paneSSProcess.TabIndex = 63;
-			// 
-			// rbtnFMSSFB22
-			// 
-			this.rbtnFMSSFB22.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFMSSFB22.Location = new System.Drawing.Point(193, 6);
-			this.rbtnFMSSFB22.Name = "rbtnFMSSFB22";
-			this.rbtnFMSSFB22.Size = new System.Drawing.Size(54, 17);
-			this.rbtnFMSSFB22.TabIndex = 9;
-			this.rbtnFMSSFB22.Text = "fb2.2";
-			this.rbtnFMSSFB22.UseVisualStyleBackColor = true;
-			this.rbtnFMSSFB22.Click += new System.EventHandler(this.RbtnFMSSFB22Click);
-			// 
-			// rbtnFMSSFB2Librusec
-			// 
-			this.rbtnFMSSFB2Librusec.Checked = true;
-			this.rbtnFMSSFB2Librusec.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFMSSFB2Librusec.Location = new System.Drawing.Point(92, 6);
-			this.rbtnFMSSFB2Librusec.Name = "rbtnFMSSFB2Librusec";
-			this.rbtnFMSSFB2Librusec.Size = new System.Drawing.Size(95, 17);
-			this.rbtnFMSSFB2Librusec.TabIndex = 8;
-			this.rbtnFMSSFB2Librusec.TabStop = true;
-			this.rbtnFMSSFB2Librusec.Text = "fb2 Либрусек";
-			this.rbtnFMSSFB2Librusec.UseVisualStyleBackColor = true;
-			this.rbtnFMSSFB2Librusec.Click += new System.EventHandler(this.RbtnFMSSFB2LibrusecClick);
-			// 
-			// lblFMSSGenres
-			// 
-			this.lblFMSSGenres.ForeColor = System.Drawing.Color.Navy;
-			this.lblFMSSGenres.Location = new System.Drawing.Point(6, 7);
-			this.lblFMSSGenres.Name = "lblFMSSGenres";
-			this.lblFMSSGenres.Size = new System.Drawing.Size(98, 16);
-			this.lblFMSSGenres.TabIndex = 7;
-			this.lblFMSSGenres.Text = "Схема Жанров:";
 			// 
 			// buttonSSortStop
 			// 
@@ -1495,7 +1479,7 @@ namespace SharpFBTools.Tools
 			this.buttonSSortStop.Font = new System.Drawing.Font("Tahoma", 11F);
 			this.buttonSSortStop.Image = ((System.Drawing.Image)(resources.GetObject("buttonSSortStop.Image")));
 			this.buttonSSortStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSSortStop.Location = new System.Drawing.Point(490, 6);
+			this.buttonSSortStop.Location = new System.Drawing.Point(640, 6);
 			this.buttonSSortStop.Name = "buttonSSortStop";
 			this.buttonSSortStop.Size = new System.Drawing.Size(150, 49);
 			this.buttonSSortStop.TabIndex = 3;
@@ -1510,7 +1494,7 @@ namespace SharpFBTools.Tools
 			this.buttonSSortFilesTo.Font = new System.Drawing.Font("Tahoma", 11F);
 			this.buttonSSortFilesTo.Image = ((System.Drawing.Image)(resources.GetObject("buttonSSortFilesTo.Image")));
 			this.buttonSSortFilesTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSSortFilesTo.Location = new System.Drawing.Point(649, 6);
+			this.buttonSSortFilesTo.Location = new System.Drawing.Point(799, 6);
 			this.buttonSSortFilesTo.Name = "buttonSSortFilesTo";
 			this.buttonSSortFilesTo.Size = new System.Drawing.Size(158, 49);
 			this.buttonSSortFilesTo.TabIndex = 2;
@@ -1526,7 +1510,7 @@ namespace SharpFBTools.Tools
 			this.tcLog.Location = new System.Drawing.Point(4, 23);
 			this.tcLog.Name = "tcLog";
 			this.tcLog.Padding = new System.Windows.Forms.Padding(3);
-			this.tcLog.Size = new System.Drawing.Size(820, 601);
+			this.tcLog.Size = new System.Drawing.Size(970, 601);
 			this.tcLog.TabIndex = 2;
 			this.tcLog.Text = "Статистика";
 			this.tcLog.UseVisualStyleBackColor = true;
@@ -1539,19 +1523,29 @@ namespace SharpFBTools.Tools
 			this.rtboxTemplatesList.Location = new System.Drawing.Point(3, 3);
 			this.rtboxTemplatesList.Name = "rtboxTemplatesList";
 			this.rtboxTemplatesList.ReadOnly = true;
-			this.rtboxTemplatesList.Size = new System.Drawing.Size(814, 327);
+			this.rtboxTemplatesList.Size = new System.Drawing.Size(964, 377);
 			this.rtboxTemplatesList.TabIndex = 35;
 			this.rtboxTemplatesList.Text = "";
 			// 
 			// pProgress
 			// 
+			this.pProgress.Controls.Add(this.chBoxViewLogFiles);
 			this.pProgress.Controls.Add(this.textBoxFiles);
 			this.pProgress.Controls.Add(this.panelData);
 			this.pProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pProgress.Location = new System.Drawing.Point(3, 330);
+			this.pProgress.Location = new System.Drawing.Point(3, 380);
 			this.pProgress.Name = "pProgress";
-			this.pProgress.Size = new System.Drawing.Size(814, 268);
+			this.pProgress.Size = new System.Drawing.Size(964, 218);
 			this.pProgress.TabIndex = 34;
+			// 
+			// chBoxViewLogFiles
+			// 
+			this.chBoxViewLogFiles.Location = new System.Drawing.Point(366, 3);
+			this.chBoxViewLogFiles.Name = "chBoxViewLogFiles";
+			this.chBoxViewLogFiles.Size = new System.Drawing.Size(445, 24);
+			this.chBoxViewLogFiles.TabIndex = 2;
+			this.chBoxViewLogFiles.Text = "Отображать найденные файлы";
+			this.chBoxViewLogFiles.UseVisualStyleBackColor = true;
 			// 
 			// textBoxFiles
 			// 
@@ -1560,12 +1554,12 @@ namespace SharpFBTools.Tools
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxFiles.BackColor = System.Drawing.SystemColors.Window;
 			this.textBoxFiles.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.textBoxFiles.Location = new System.Drawing.Point(366, 6);
+			this.textBoxFiles.Location = new System.Drawing.Point(366, 27);
 			this.textBoxFiles.Multiline = true;
 			this.textBoxFiles.Name = "textBoxFiles";
 			this.textBoxFiles.ReadOnly = true;
 			this.textBoxFiles.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBoxFiles.Size = new System.Drawing.Size(448, 268);
+			this.textBoxFiles.Size = new System.Drawing.Size(598, 197);
 			this.textBoxFiles.TabIndex = 1;
 			// 
 			// panelData
@@ -1579,8 +1573,6 @@ namespace SharpFBTools.Tools
 			// 
 			// chBoxViewProgress
 			// 
-			this.chBoxViewProgress.Checked = true;
-			this.chBoxViewProgress.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxViewProgress.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxViewProgress.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxViewProgress.Location = new System.Drawing.Point(0, 0);
@@ -1611,10 +1603,7 @@ namespace SharpFBTools.Tools
 									listViewItem9,
 									listViewItem10,
 									listViewItem11,
-									listViewItem12,
-									listViewItem13,
-									listViewItem14,
-									listViewItem15});
+									listViewItem12});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 24);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(357, 238);
@@ -1625,7 +1614,7 @@ namespace SharpFBTools.Tools
 			// columnHeader6
 			// 
 			this.columnHeader6.Text = "Папки и файлы";
-			this.columnHeader6.Width = 220;
+			this.columnHeader6.Width = 264;
 			// 
 			// columnHeader7
 			// 
@@ -1650,7 +1639,7 @@ namespace SharpFBTools.Tools
 			this.Controls.Add(this.tcSort);
 			this.Controls.Add(this.ssProgress);
 			this.Name = "SFBTpFileManager";
-			this.Size = new System.Drawing.Size(828, 650);
+			this.Size = new System.Drawing.Size(978, 650);
 			this.ssProgress.ResumeLayout(false);
 			this.ssProgress.PerformLayout();
 			this.tcSort.ResumeLayout(false);
@@ -1681,9 +1670,10 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
-		private System.Windows.Forms.Label lblFMSSGenres;
-		private System.Windows.Forms.RadioButton rbtnFMSSFB2Librusec;
-		private System.Windows.Forms.RadioButton rbtnFMSSFB22;
+		private System.Windows.Forms.Button btnSSGroup;
+		private System.Windows.Forms.Button btnGroup;
+		private System.Windows.Forms.CheckBox chBoxViewLogFiles;
+		private System.Windows.Forms.ColumnHeader cHeaderGenreScheme;
 		private System.Windows.Forms.Label lblFMFSGenres;
 		private System.Windows.Forms.RadioButton rbtnFMFSFB2Librusec;
 		private System.Windows.Forms.RadioButton rbtnFMFSFB22;

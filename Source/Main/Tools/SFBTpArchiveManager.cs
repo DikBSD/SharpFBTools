@@ -20,13 +20,11 @@ using System.Diagnostics;
 using System.Text;
 
 using Core.FB2.Description.DocumentInfo;
-using Core.StringProcessing;
 using Core.FilesWorker;
 
-using filesWorker		= Core.FilesWorker.FilesWorker;
-using archivesWorker	= Core.FilesWorker.Archiver;
-using stringProcessing	= Core.StringProcessing.StringProcessing;
-using priority			= Core.FilesWorker.Priority;
+using filesWorker = Core.FilesWorker.FilesWorker;
+
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace SharpFBTools.Tools
 {
@@ -36,39 +34,19 @@ namespace SharpFBTools.Tools
 	public partial class SFBTpArchiveManager : UserControl
 	{
 		#region Закрытые члены-данные класса
+		private Core.FilesWorker.SharpZipLibWorker sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
 		// Общие
-		private string m_s7zPath	= Settings.Settings.Read7zaPath().Trim();
-		private string m_sRarPath	= Settings.Settings.ReadRarPath().Trim();
-		private string m_sUnRarPath	= Settings.Settings.ReadUnRarPath().Trim();
 		private DateTime m_dtStart;
-		private string	m_sMessTitle	= "";
-		private string	m_sSource		= "";
-		private string	m_sTarget		= "";
-		private bool	m_bScanSubDirs	= true;
+		private string	m_sMessTitle	= string.Empty;
 		// Для Упаковки
-		private BackgroundWorker m_bwa = null;
-		private int	m_nFB2FtA		= 0;
-		private int	m_nAnotherFtA	= 0;
-		// Для Анализа
-		private BackgroundWorker m_bwt = null;
-		private int	m_nRar 		= 0;
-		private int	m_nZip 		= 0;
-		private int	m_n7Z 		= 0;
-		private int	m_nBZip2 	= 0;
-		private int	m_nGZip 	= 0;
-		private int	m_nTar 		= 0;
+		private BackgroundWorker m_bwa	= null;
+		private int	m_nFB2A				= 0;
 		// Для Распаковки
-		private BackgroundWorker m_bwu = null;
-		private int	m_nUnpackCount	= 0;
-		private int	m_nCountU 	= 0;
-		private int	m_nFB2U 	= 0;
-		private int	m_nAnotherU = 0;
-		private int	m_nRarU 	= 0;
-		private int	m_nZipU 	= 0;
-		private int	m_n7ZU		= 0;
-		private int	m_nBZip2U 	= 0;
-		private int	m_nGZipU 	= 0;
-		private int	m_nTarU 	= 0;
+		private BackgroundWorker m_bwu	= null;
+		private int	m_nUnpackCount		= 0;
+		private int	m_nCountU 			= 0;
+		private long m_nFB2U 			= 0;
+		private int	m_nZipU 			= 0;
 		#endregion
 		
 		public SFBTpArchiveManager()
@@ -80,17 +58,12 @@ namespace SharpFBTools.Tools
 			
 			InitializeArchiveBackgroundWorker();
 			InitializeUnPackBackgroundWorker();
-			InitializeAnalyzeBackgroundWorker();
 			InitA();	// инициализация контролов (Упаковка)
 			InitUA();	// инициализация контролов (Распаковка
 			// читаем сохраненные пути к папкам Менеджера Архивов, если они есть
 			ReadMADirs();
 			cboxExistArchive.SelectedIndex		= 1; // добавление к создаваемому fb2-архиву очередного номера
-			cboxArchiveType.SelectedIndex		= 1; // Zip
 			cboxUAExistArchive.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу очередного номера
-			cboxUAType.SelectedIndex			= 6; // Все архивы
-			cboxPriorityA.SelectedIndex			= 2; // Приоритет Упаковки Средний
-			cboxPriorityU.SelectedIndex			= 2; // Приоритет Распаковки Средний
 		}
 		
 		#region Открытые методы класса
@@ -101,585 +74,18 @@ namespace SharpFBTools.Tools
 		}
 		#endregion
 		
-		#region Закрытые методы реализации BackgroundWorker
-		private void InitializeArchiveBackgroundWorker() {
-			// Инициализация перед использование BackgroundWorker Упаковщика
-			m_bwa = new BackgroundWorker();
-			m_bwa.WorkerReportsProgress			= true; // Позволить выводить прогресс процесса
-			m_bwa.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-			m_bwa.DoWork 				+= new DoWorkEventHandler( bwa_DoWork );
-			m_bwa.ProgressChanged 		+= new ProgressChangedEventHandler( bwa_ProgressChanged );
-			m_bwa.RunWorkerCompleted 	+= new RunWorkerCompletedEventHandler( bwa_RunWorkerCompleted );
-		}
-		
-		private void InitializeUnPackBackgroundWorker() {
-			// Инициализация перед использование BackgroundWorker Распаковщика
-			m_bwu = new BackgroundWorker();
-			m_bwu.WorkerReportsProgress			= true; // Позволить выводить прогресс процесса
-			m_bwu.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-			m_bwu.DoWork 				+= new DoWorkEventHandler( bwu_DoWork );
-			m_bwu.ProgressChanged 		+= new ProgressChangedEventHandler( bwu_ProgressChanged );
-			m_bwu.RunWorkerCompleted 	+= new RunWorkerCompletedEventHandler( bwu_RunWorkerCompleted );
-		}
-		
-		private void InitializeAnalyzeBackgroundWorker() {
-			// Инициализация перед использование BackgroundWorker Анализатора
-			m_bwt = new BackgroundWorker();
-			m_bwt.WorkerReportsProgress			= true; // Позволить выводить прогресс процесса
-			m_bwt.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-			m_bwt.DoWork 				+= new DoWorkEventHandler( bwt_DoWork );
-			m_bwt.ProgressChanged 		+= new ProgressChangedEventHandler( bwt_ProgressChanged );
-			m_bwt.RunWorkerCompleted 	+= new RunWorkerCompletedEventHandler( bwt_RunWorkerCompleted );
-		}
-
-		private void bwa_DoWork( object sender, DoWorkEventArgs e ) {
-			// упаковка файлов в архивы
-			int nAllFiles = 0;
-			List<string> lDirList = new List<string>();
-			if( !m_bScanSubDirs ) {
-				// сканировать только указанную папку
-				lDirList.Add( m_sSource );
-				lvGeneralCount.Items[0].SubItems[1].Text = "1";
-			} else {
-				// сканировать и все подпапки
-				nAllFiles = filesWorker.DirsParser( m_bwa, e, m_sSource, lvGeneralCount, ref lDirList, false );
-			}
-			
-			// отобразим число всех файлов в папке сканирования
-			lvGeneralCount.Items[1].SubItems[1].Text = nAllFiles.ToString();
-
-			// проверка остановки процесса
-			if( ( m_bwa.CancellationPending == true ) )  {
-				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
-				return;
-			}
-			
-			// проверка, есть ли хоть один файл в папке для сканирования
-			if( nAllFiles == 0 ) {
-				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				InitA();
-				return;
-			}
-
-			tsslblProgress.Text = "Упаковка найденных файлов в " + cboxArchiveType.Text + ":";
-			tsProgressBar.Maximum		= nAllFiles;
-			tsProgressBar.Value 		= 0;
-			m_nFB2FtA = m_nAnotherFtA	= 0;
-			int n = 0;
-			string sFile = "";
-			foreach( string s in lDirList ) {
-				DirectoryInfo diFolder = new DirectoryInfo( s );
-				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-					if( ( m_bwa.CancellationPending == true ) )  {
-						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
-						return;
-					}
-					sFile = s + "\\" + fiNextFile.Name;
-					if( cboxArchiveType.SelectedIndex == 0 ) {
-						FileToArchive( m_sRarPath, sFile, rbFB2.Checked, false ); // rar
-					} else {
-						FileToArchive( m_s7zPath, sFile, rbFB2.Checked, true );   // zip, 7z...
-					}
-					m_bwa.ReportProgress( ++n ); // отобразим данные в контролах
-				}
-			}
-			lDirList.Clear();
-        }
-		
-		private void bwa_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-            // Отобразим результат Упаковки
-            if( chBoxViewProgressA.Checked ) ArchiveProgressData();
-            tsProgressBar.Value	= e.ProgressPercentage;
-        }
-		
-        private void bwa_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
-            // Проверяем это отмена, ошибка, или конец задачи и сообщить
-            ArchiveProgressData(); // Отобразим результат Упаковки
-            DateTime dtEnd = DateTime.Now;
-			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-            
-            tsslblProgress.Text = Settings.Settings.GetReady();
-			SetArhivingStartEnabled( true );
-			
-            string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
-			string sMessCanceled	= "Упаковка fb2-файлов остановлена!\nЗатрачено времени: "+sTime;
-			string sMessError		= "";
-			string sMessDone		= "Упаковка fb2-файлов завершена!\nЗатрачено времени: "+sTime;
-           
-			if( ( e.Cancelled == true ) ) {
-                MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            } else if( e.Error != null ) {
-                sMessError = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
-            	MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            } else {
-            	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            }
-        }
-		
-		private void bwu_DoWork( object sender, DoWorkEventArgs e ) {
-			// распаковка архивов в файлы
-			int nAllFiles = 0;
-			List<string> lDirList = new List<string>();
-			if( !m_bScanSubDirs ) {
-				// сканировать только указанную папку
-				lDirList.Add( m_sSource );
-				lvUAGeneralCount.Items[0].SubItems[1].Text = "1";
-			} else {
-				// сканировать и все подпапки
-				nAllFiles = filesWorker.DirsParser( m_bwu, e, m_sSource, lvUAGeneralCount, ref lDirList, false );
-			}
-			
-			// отобразим число всех файлов в папке сканирования
-			lvUAGeneralCount.Items[1].SubItems[1].Text = nAllFiles.ToString();
-
-			// проверка остановки процесса
-			if( ( m_bwu.CancellationPending == true ) )  {
-				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwu_RunWorkerCompleted
-				return;
-			}
-			
-			// проверка, есть ли хоть один файл в папке для сканирования
-			if( nAllFiles == 0 ) {
-				MessageBox.Show( "В указанной папке не найдено ни одного файла!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				InitUA();
-				return;
-			}
-			
-			tsslblProgress.Text 	= "Распаковка архивов:";
-			tsProgressBar.Maximum 	= nAllFiles;
-			tsProgressBar.Value 	= 0;
-			m_nCountU = m_nFB2U = m_nAnotherU = m_nRarU = m_nZipU = m_n7ZU = m_nBZip2U = m_nGZipU = m_nTarU = 0;
-			
-			string sArchType	= stringProcessing.GetArchiveExt( cboxUAType.Text );
-			string sTempDir		= Settings.Settings.GetTempDir();
-			filesWorker.RemoveDir( sTempDir );
-			
-			string sExt = "", sFile = "";
-			BackgroundWorker bw = sender as BackgroundWorker;
-			switch( sArchType.ToLower() ) {
-				case "":
-					m_nUnpackCount = AllArchivesToFile( bw, e, lDirList, m_sTarget, rbFB2U.Checked );
-					break;
-				case "rar":
-					int n = 0;
-					foreach( string s in lDirList ) {
-						DirectoryInfo diFolder = new DirectoryInfo( s );
-						foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-							if( ( m_bwu.CancellationPending == true ) ) {
-								e.Cancel = true; // Выставить окончание - по отмене, сработает событие m_bwu_RunWorkerCompleted
-								return;
-							}
-							
-							sFile	= s + "\\" + fiNextFile.Name;
-							sExt	= Path.GetExtension( sFile );
-							if( sExt.ToLower() == ".rar" ) {
-								//TODO: заменить все unrar на unzip
-								archivesWorker.unrar( m_sUnRarPath, sFile, sTempDir,
-								                           priority.GetPriority( cboxPriorityU.Text ) );
-								++m_nCountU; ++m_nRarU;
-								if( Directory.Exists( sTempDir ) ) {
-									string [] files = Directory.GetFiles( sTempDir );
-									foreach( string sFB2File in files ) {
-										string sFileName = Path.GetFileName( sFB2File );
-										if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_nFB2U;
-										else {
-											if( !rbFB2U.Checked ) ++m_nAnotherU;
-										}
-										
-										if( FileToDir( sFileName, sFile, m_sTarget, rbFB2U.Checked ) ) {
-										}  else {
-											File.Delete( sFileName );
-										}
-									}
-								}
-								// удаление исходного архива, если включена опция
-								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
-							}
-							m_bwu.ReportProgress( ++n ); // отобразим данные в контролах
-							m_nUnpackCount = m_nRarU;
-						}
-					}
-					break;
-				case "zip":
-					m_nUnpackCount = TypeArchToFile( bw, e, lDirList, m_sTarget, ".zip", rbFB2U.Checked );
-					break;
-				case "7z":
-					m_nUnpackCount = TypeArchToFile( bw, e, lDirList, m_sTarget, ".7z", rbFB2U.Checked );
-					break;
-				case "bz2":
-					m_nUnpackCount = TypeArchToFile( bw, e, lDirList, m_sTarget, ".bz2", rbFB2U.Checked );
-					break;
-				case "gz":
-					m_nUnpackCount = TypeArchToFile( bw, e, lDirList, m_sTarget, ".gz", rbFB2U.Checked );
-					break;
-				case "tar":
-					m_nUnpackCount = TypeArchToFile( bw, e, lDirList, m_sTarget, ".tar", rbFB2U.Checked );
-					break;
-			}
-			lDirList.Clear();
-		}
-		
-		private void bwu_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-            // Отобразим результат Распаковки
-			if( chBoxViewProgressU.Checked ) UnArchiveProgressData();
-			tsProgressBar.Value	= e.ProgressPercentage;
-        }
-		
-		private void bwu_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
-			// Проверяем это отмена, ошибка, или конец задачи и сообщить
-			UnArchiveProgressData(); // Отобразим результат Распаковки
-			DateTime dtEnd = DateTime.Now;
-			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-			
-            tsslblProgress.Text = Settings.Settings.GetReady();
-			SetUnPackingStartEnabled( true );
-			
-            string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
-			string sMessCanceled	= "Распаковка архивов в fb2-файлы остановлена!\nЗатрачено времени: "+sTime;
-			string sMessError		= "";
-			string sMessDone		= "";
-			if( m_nUnpackCount > 0 ) {
-				sMessDone	= "Распаковка архивов в fb2-файлы завершена!\nЗатрачено времени: "+sTime;
-			} else {
-				sMessDone	= "В папке для сканирования не найдено ни одного архива указанного типа!\nРаспаковка не произведена."+sTime;
-			}
-			
-			if( ( e.Cancelled == true ) ) {
-                MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            } else if( e.Error != null ) {
-                sMessError = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
-            	MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            } else {
-            	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            }
-		}
-		
-		private void bwt_DoWork( object sender, DoWorkEventArgs e ) {
-			// Анализ файлов в папке на определение числа и типа архивов
-			int nAllFiles = 0;
-			List<string> lDirList = new List<string>();
-			if( !m_bScanSubDirs ) {
-				// сканировать только указанную папку
-				lDirList.Add( m_sSource );
-				lvUAGeneralCount.Items[0].SubItems[1].Text = "1";
-			} else {
-				// сканировать и все подпапки
-				nAllFiles = filesWorker.DirsParser( m_bwt, e, m_sSource, lvUAGeneralCount, ref lDirList, false );
-			}
-			
-			// отобразим число всех файлов в папке сканирования
-			lvUAGeneralCount.Items[1].SubItems[1].Text = nAllFiles.ToString();
-			
-			// проверка, есть ли хоть один файл в папке для сканирования
-			if( nAllFiles == 0 ) {
-				MessageBox.Show( "В указанной папке не найдено ни одного файла!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				InitUA();
-				return;
-			}
-
-			tsslblProgress.Text		= "Анализ файлов на наличие архивов:";
-			tsProgressBar.Maximum	= nAllFiles;
-			m_nRar = m_nZip = m_n7Z = m_nBZip2 = m_nGZip = m_nTar = 0;
-			int n = 0;
-			string sExt = "", sFile = "";
-			foreach( string s in lDirList ) {
-				DirectoryInfo diFolder = new DirectoryInfo( s );
-				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-					// Проверить флаг на остановку процесса 
-					if( ( m_bwt.CancellationPending == true ) ) {
-						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwt_RunWorkerCompleted
-						return;
-					}
-					sFile	= s + "\\" + fiNextFile.Name;
-					sExt	= Path.GetExtension( sFile ).ToLower();
-					if( sExt == ".rar" )
-						++m_nRar;
-					else if( sExt == ".zip" )
-						++m_nZip;
-					else if( sExt == ".7z" )	
-						++m_n7Z;
-					else if( sExt == ".bz2" )	
-						++m_nBZip2;
-					else if( sExt == ".gz" )	
-						++m_nGZip;
-					else if( sExt == ".tar" )
-						++m_nTar;
-					m_bwt.ReportProgress( ++n ); // отобразим данные в контролах
-				}
-			}
-			lDirList.Clear();
-		}
-		
-		private void bwt_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-            // Отобразим результат Анализа
-			if( chBoxViewProgressU.Checked ) TestArchiveProgressData();
-			tsProgressBar.Value	= e.ProgressPercentage;
-        }
-		
-		private void bwt_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {   
-			// Проверяем это отмена, ошибка, или конец задачи и сообщить
-			TestArchiveProgressData(); // Отобразим результат Анализа
-			DateTime dtEnd = DateTime.Now;
-            
-            tsslblProgress.Text = Settings.Settings.GetReady();
-			SetAnalyzingStartEnabled( true );
-			
-            string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
-			string sMessCanceled	= "Анализ имеющихся файлов основлен!\nЗатрачено времени: "+sTime;
-			string sMessError		= "";
-			string sMessDone		= "Анализ имеющихся файлов завершена!\nЗатрачено времени: "+sTime;
-			
-			if( ( e.Cancelled == true ) ) {
-                MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            } else if( e.Error != null ) {
-                sMessError = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
-            	MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            } else {
-            	MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-            }
-		}
-		#endregion
-		
 		#region Закрытые Общие Вспомогательны методы класса
-		private void ArchiveProgressData() {
-            // Отобразим результат Упаковки
-            lvGeneralCount.Items[2].SubItems[1].Text = (m_nFB2FtA).ToString();
-            lvGeneralCount.Items[3].SubItems[1].Text = (m_nAnotherFtA).ToString();
-        }
-		
-		private void TestArchiveProgressData() {
-            // Отобразим результат Анализа
-			lvUACount.Items[0].SubItems[1].Text = (m_nRar).ToString();
-			lvUACount.Items[1].SubItems[1].Text = (m_nZip).ToString();
-			lvUACount.Items[2].SubItems[1].Text = (m_n7Z).ToString();
-			lvUACount.Items[3].SubItems[1].Text = (m_nBZip2).ToString();
-			lvUACount.Items[4].SubItems[1].Text = (m_nGZip).ToString();
-			lvUACount.Items[5].SubItems[1].Text = (m_nTar).ToString();
-        }
-		
-		private void UnArchiveProgressData() {
-            // Отобразим результат Распаковки
-			lvUACount.Items[0].SubItems[1].Text = (m_nRarU).ToString();
-			lvUACount.Items[1].SubItems[1].Text = (m_nZipU).ToString();
-			lvUACount.Items[2].SubItems[1].Text = (m_n7ZU).ToString();
-			lvUACount.Items[3].SubItems[1].Text = (m_nBZip2U).ToString();
-			lvUACount.Items[4].SubItems[1].Text = (m_nGZipU).ToString();
-			lvUACount.Items[5].SubItems[1].Text = (m_nTarU).ToString();
-
-			lvUAGeneralCount.Items[2].SubItems[1].Text = (m_nCountU).ToString();
-			lvUAGeneralCount.Items[3].SubItems[1].Text = (m_nFB2U).ToString();
-			lvUAGeneralCount.Items[4].SubItems[1].Text = (m_nAnotherU).ToString();
-        }
-		
-		private void InitA() {
-			// инициализация контролов и переменных  (Упаковка)
-			for( int i=0; i!=lvGeneralCount.Items.Count; ++i ) {
-				lvGeneralCount.Items[i].SubItems[1].Text = "0";
-			}
-			tsProgressBar.Value		= 0;
-			tsslblProgress.Text		= Settings.Settings.GetReady();
-			tsProgressBar.Visible	= false;
-		}
-		
-		private void InitUA() {
-			// инициализация контролов и переменных  (Распаковка)
-			for( int i=0; i!=lvUAGeneralCount.Items.Count; ++i ) {
-				lvUAGeneralCount.Items[i].SubItems[1].Text = "0";
-			}
-			for( int i=0; i!=lvUACount.Items.Count; ++i ) {
-				lvUACount.Items[i].SubItems[1].Text = "0";
-			}
-			tsProgressBar.Value		= 0;
-			tsslblProgress.Text		= Settings.Settings.GetReady();
-			tsProgressBar.Visible	= false;
-			m_nUnpackCount			= 0;
-		}
-		
-		private void SetArhivingStartEnabled( bool bEnabled ) {
-			// доступность контролов при Упаковке
-			tsbtnOpenDir.Enabled	= bEnabled;
-			tsbtnArchive.Enabled	= bEnabled;
-			pScanDir.Enabled		= bEnabled;
-			pType.Enabled			= bEnabled;
-			rbtnToSomeDir.Enabled	= bEnabled;
-			rbtnToAnotherDir.Enabled	= bEnabled;
-			pToAnotherDir.Enabled		= bEnabled;
-			lblFilesType.Enabled		= bEnabled;
-			rbFB2.Enabled	= bEnabled;
-			rbAny.Enabled	= bEnabled;
-			cboxDelFB2Files.Enabled		= bEnabled;
-			cboxAddRestoreInfo.Enabled	= bEnabled;
-			tpUnArchive.Enabled			= bEnabled;
-
-			tsbtnArchiveStop.Enabled	= !bEnabled;
-			tsProgressBar.Visible		= !bEnabled;
-			tcArchiver.Refresh();
-			ssProgress.Refresh();
-		}
-		private void SetUnPackingStartEnabled( bool bEnabled ) {
-			// доступность контролов при Распаковке
-			tsbtnUAOpenDir.Enabled	= bEnabled;
-			tsbtnUAAnalyze.Enabled	= bEnabled;
-			tsbtnUnArchive.Enabled	= bEnabled;
-			pUAScanDir.Enabled		= bEnabled;
-			pUAType.Enabled			= bEnabled;
-			rbtnUAToSomeDir.Enabled	= bEnabled;
-			rbtnUAToAnotherDir.Enabled	= bEnabled;
-			pUAToAnotherDir.Enabled		= bEnabled;
-			lblFilesUType.Enabled		= bEnabled;
-			rbFB2U.Enabled	= bEnabled;
-			rbAnyU.Enabled	= bEnabled;
-			cboxUADelFB2Files.Enabled	= bEnabled;
-			tpArchive.Enabled			= bEnabled;
-			
-			tsbtnUnArchiveStop.Enabled	= !bEnabled;
-			tsProgressBar.Visible		= !bEnabled;
-			tcArchiver.Refresh();
-			ssProgress.Refresh();
-		}
-		
-		private void SetAnalyzingStartEnabled( bool bEnabled ) {
-			// доступность контролов при Анализе
-			tsbtnUAOpenDir.Enabled	= bEnabled;
-			tsbtnUAAnalyze.Enabled	= bEnabled;
-			tsbtnUnArchive.Enabled	= bEnabled;
-			pUAScanDir.Enabled		= bEnabled;
-			pUAType.Enabled			= bEnabled;
-			gboxUAOptions.Enabled	= bEnabled;
-			tpArchive.Enabled		= bEnabled;
-
-			tsbtnUAAnalyzeStop.Enabled	= !bEnabled;
-			tsProgressBar.Visible		= !bEnabled;
-			tcArchiver.Refresh();
-			ssProgress.Refresh();
-		}
-		
-		private bool IsSourceDirCorrect( string sSource, string sMessTitle ) {
-			// проверки папки для сканирования
-			DirectoryInfo diFolder = new DirectoryInfo( m_sSource );
-			if( sSource.Length == 0 ) {
-				MessageBox.Show( "Выберите папку для сканирования!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return false;
-			}
-			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка для сканирования не найдена: " + sSource, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return false;
-			}
-			return true;
-		}
-		
-		private bool IsTargetDirCorrect( string sTarget, bool bToAnotherDir, string sMessTitle ) {
-			// проверки папки-приемника
-			if( bToAnotherDir ) {
-				// папка-приемник - отличная от источника
-				if( sTarget.Length == 0 ) {
-					MessageBox.Show( "Не задана папка-приемник архивов!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-					return false;
-				} else {
-					// проверка папки-приемника и создание ее, если нужно
-					if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) ) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-		
-		private bool IsArchivatorsPathCorrectForArchive( string s7zPath, string sRarPath ) {
-			// проверка на наличие архиваторов и корректность путей к ним
-			if( cboxArchiveType.SelectedIndex==0 && sRarPath.Length==0 ) {
-				MessageBox.Show( "В Настройках не указана папка с установленным консольным Rar-архиватором!\nРабота остановлена!",
-				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return false;
-			}
-			// проверка на наличие архиваторов
-			if( cboxArchiveType.SelectedIndex == 0 ) {
-				if( !File.Exists( sRarPath ) ) {
-					MessageBox.Show( "Не найден файл консольного Rar-архиватора "+sRarPath+"!\nУкажите путь к нему в Настройках.\nРабота остановлена!",
-					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-					return false;
-				}
-			} else {
-				if( !File.Exists( s7zPath ) ) {
-					MessageBox.Show( "Не найден файл консольного Zip-архиватора 7z(a).exe \""+s7zPath+"\"!\nУкажите путь к нему в Настройках.\nРабота остановлена.",
-					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-					return false;
-				}
-			}
-			
-			return true;
-		}
-		
-		private string ExistsFile_FileToDirWorker( string sFromFile, string sNewFile, string sSufix ) {
-			// Обработка существующих в папке-приемнике файлов при копировании
-			if( File.Exists( sNewFile ) ) {
-				if( cboxUAExistArchive.SelectedIndex==0 ) {
-					File.Delete( sNewFile );
-				} else {
-					if( chBoxAddFileNameBookID.Checked ) {
-						try {
-							sSufix = "_" + stringProcessing.GetBookID( sFromFile );
-						} catch { }
-					}
-					if( cboxUAExistArchive.SelectedIndex == 1 ) {
-						// Добавить к создаваемому файлу очередной номер
-						sSufix += "_" + stringProcessing.GetFileNewNumber( sNewFile ).ToString();
-					} else {
-						// Добавить к создаваемому файлу дату и время
-						sSufix += "_" + stringProcessing.GetDateTimeExt();
-					}
-					sNewFile = sNewFile.Remove( sNewFile.Length-4 ) + sSufix + Path.GetExtension( sFromFile ).ToLower();
-				}
-			}
-			return sNewFile;
-		}
-		
-		private bool FileToDir( string sFile, string sArchiveFile, string sTargetDir, bool bFB2 ) {
-			// Переместить в папку
-			// bFB2=true - копировать только fb2-файлы. false - любые
-			if( bFB2 && Path.GetExtension( sFile ).ToLower() != ".fb2" ) return false;
-			
-			Regex rx = new Regex( @"\\+" );
-			sFile = rx.Replace( sFile, "\\" );
-			sArchiveFile = rx.Replace( sArchiveFile, "\\" );
-			
-			string sFileSourceDir = tboxUASourceDir.Text.Trim();
-			string sNewDir = Path.GetDirectoryName( sTargetDir+"\\"+sArchiveFile.Remove( 0, sFileSourceDir.Length ) );
-			string sNewFile = "";
-			string sSufix = ""; // для добавления к имени нового файла суфикса
-			string sFromFile = Settings.Settings.GetTempDir() + "\\" + sFile;
-			if( rbtnUAToSomeDir.Checked ) {
-				// файл - в ту же папку, где и исходный архив
-				sNewFile = Path.GetDirectoryName( sArchiveFile )+"\\"+sFile;
-				// Обработка существующих в папке-приемнике файлов при копировании
-				sNewFile = ExistsFile_FileToDirWorker( sFromFile, sNewFile, sSufix );
-			} else {
-				// файл - в другую папку
-				sNewFile = sNewDir + "\\" + sFile;
-				FileInfo fi = new FileInfo( sNewFile );
-				if( !fi.Directory.Exists ) {
-					Directory.CreateDirectory( fi.Directory.ToString() );
-				}
-				// Обработка существующих в папке-приемнике файлов при копировании
-				sNewFile = ExistsFile_FileToDirWorker( sFromFile, sNewFile, sSufix );
-			}
-			File.Move( Settings.Settings.GetTempDir()+"\\"+sFile, sNewFile );
-			return true;
-		}
-		
-		private bool DeleteSourceFileIsNeeds( string sFile, bool bIsDelete ) {
-			if( bIsDelete ) {
-				// удаляем исходный файл, если задана опция
-				if( File.Exists( sFile ) ) {
-					File.Delete( sFile );
-					return true;
-				}
+		// удаляем исходный файл
+		private bool DeleteFileIsNeeds( string sFile ) {
+			if( File.Exists( sFile ) ) {
+				File.Delete( sFile );
+				return true;
 			}
 			return false;
 		}
 		
+		// чтение путей к папкам Менеджера Архивов из xml-файла
 		private void ReadMADirs() {
-			// чтение путей к папкам Менеджера Архивов из xml-файла
 			string sSettings = Settings.Settings.WorksDataSettingsPath;
 			if( !File.Exists( sSettings ) ) return;
 			XmlReaderSettings settings = new XmlReaderSettings();
@@ -711,436 +117,266 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Архивация
-		private string MakeNewArchivePathToSomeDirWithSufix( string sFilePath, string sArchiveExt ) {
-			// создание уникального пути создаваемого архива, помещаемого в ту же папку, где лежит и исхлжный файл
-			string sSufix = ""; // для добавления к имени нового архива суфикса
-			string sFileExt = Path.GetExtension( sFilePath ).ToLower();
-			string sArchiveFile = sFilePath + sArchiveExt;
-			if( File.Exists( sArchiveFile ) ) {
-				if( cboxExistArchive.SelectedIndex == 0 ) {
-					File.Delete( sArchiveFile );
-				} else {
-					if( chBoxAddArchiveNameBookID.Checked ) {
-						// Добавить к создаваемому файлу Id Книги, если есть
-						try {
-							sSufix = "_" + stringProcessing.GetBookID( sFilePath );
-						} catch { }
-					}
-					if( cboxExistArchive.SelectedIndex == 1 ) {
-						// Добавить к создаваемому файлу очередной номер
-						sSufix += "_" + stringProcessing.GetFileNewNumber( sFilePath ).ToString();
-					} else {
-						// Добавить к создаваемому файлу дату и время
-						sSufix += "_" + stringProcessing.GetDateTimeExt();
-					}
-					sArchiveFile = sFilePath.Remove( sFilePath.Length-4 ) + sSufix + sFileExt + sArchiveExt;
-				}
-			}
-			return sArchiveFile;
+		// Инициализация перед использование BackgroundWorker Упаковщика
+		private void InitializeArchiveBackgroundWorker() {
+			m_bwa = new BackgroundWorker();
+			m_bwa.WorkerReportsProgress			= true; // Позволить выводить прогресс процесса
+			m_bwa.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
+			m_bwa.DoWork 				+= new DoWorkEventHandler( bwa_DoWork );
+			m_bwa.ProgressChanged 		+= new ProgressChangedEventHandler( bwa_ProgressChanged );
+			m_bwa.RunWorkerCompleted 	+= new RunWorkerCompletedEventHandler( bwa_RunWorkerCompleted );
 		}
 		
-		private string MakeNewArchivePathToAnotherDirWithSufix( string sSourceDir, string sTargetDir, string sFilePath, string sArchiveExt ) {
-			// создание уникального пути создаваемого архива, помещаемого в другую папку
-			string sSufix = ""; // для добавления к имени нового архива суфикса
-			string sFileExt = Path.GetExtension( sFilePath ).ToLower();
-			string sNewFilePath = sFilePath.Remove( 0, sSourceDir.Length );
-			string sArchiveFile = sTargetDir + sNewFilePath + sArchiveExt;
-			FileInfo fi = new FileInfo( sArchiveFile );
-			if( !fi.Directory.Exists ) {
-				Directory.CreateDirectory( fi.Directory.ToString() );
-			}
-			if( File.Exists( sArchiveFile ) ) {
-				if( cboxExistArchive.SelectedIndex == 0 ) {
-					File.Delete( sArchiveFile );
-				} else {
-					if( chBoxAddArchiveNameBookID.Checked ) {
-						// Добавить к создаваемому файлу Id Книги, если есть
-						try {
-							sSufix = "_" + stringProcessing.GetBookID( sFilePath );
-						} catch { }
-					}
-					if( cboxExistArchive.SelectedIndex == 1 ) {
-						// Добавить к создаваемому файлу очередной номер
-						sSufix += "_" + stringProcessing.GetFileNewNumber( sArchiveFile ).ToString();
-					} else {
-						// Добавить к создаваемому файлу дату и время
-						sSufix += "_" + stringProcessing.GetDateTimeExt();
-					}
-					sArchiveFile = sTargetDir + sNewFilePath.Remove( sNewFilePath.Length-4 ) + sSufix + sFileExt + sArchiveExt;
-				}
-			}
-			return sArchiveFile;
-		}
-		
-		private void FileToArchive( string sArchPath, string sFile, bool bFB2, bool bZip ) {
-			// упаковка fb2-файлов в .fb2.??? - где ??? - тип архива (задается в cboxArchiveType)
-			// bFB2=true - упаковываем только fb2-файлы; bFB2=false - упаковываем любые файлы
-			#region Код
-			string sArchiveFile	= "";
-			string sArchiveExt	= "."+stringProcessing.GetArchiveExt( cboxArchiveType.Text );
-			if( bFB2 ) {
-				// упаковываем только fb2-файлы
-				if( Path.GetExtension( sFile ).ToLower() == ".fb2" ) {
-					++m_nFB2FtA;
-					// упаковываем
-					if( rbtnToSomeDir.Checked ) {
-						// создаем архив в той же папке, где и исходный fb2-файл
-						sArchiveFile = MakeNewArchivePathToSomeDirWithSufix( sFile, sArchiveExt );
-					} else {
-						// создаем архив в другой папке
-						sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
-					}
-					if( bZip ) {
-						archivesWorker.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile,
-						                         priority.GetPriority( cboxPriorityA.Text ) );
-					} else {
-						archivesWorker.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked,
-												priority.GetPriority( cboxPriorityA.Text ) );
-					}
-				} else {
-					++m_nAnotherFtA;
-				}
+	
+		// упаковка файлов в архивы
+		private void bwa_DoWork( object sender, DoWorkEventArgs e ) {
+			int nAllFiles = 0;
+			List<string> lDirList = new List<string>();
+			string SourceDir = getSourceDirForZip();
+			if( !getScanSubDirsForZip() ) {
+				// сканировать только указанную папку
+				lDirList.Add( SourceDir );
+				lvGeneralCount.Items[0].SubItems[1].Text = "1";
 			} else {
-				// упаковываем любые файлы
-				if( Path.GetExtension( sFile ).ToLower() == ".fb2" ) ++m_nFB2FtA;
-				else ++m_nAnotherFtA;
-				// упаковываем
-				if( rbtnToSomeDir.Checked ) {
-					// создаем архив в той же папке, где и исходный файл
-					sArchiveFile = MakeNewArchivePathToSomeDirWithSufix( sFile, sArchiveExt );
+				// сканировать и все подпапки
+				nAllFiles = filesWorker.DirsParser( m_bwa, e, SourceDir, ref lvGeneralCount, ref lDirList, false );
+			}
+			
+			// отобразим число всех файлов в папке сканирования
+			lvGeneralCount.Items[1].SubItems[1].Text = nAllFiles.ToString();
+
+			// проверка остановки процесса
+			if( ( m_bwa.CancellationPending == true ) )  {
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
+				return;
+			}
+			
+			// проверка, есть ли хоть один файл в папке для сканирования
+			if( nAllFiles == 0 ) {
+				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				InitA();
+				return;
+			}
+
+			tsslblProgress.Text = "Упаковка найденных файлов в zip:";
+			tsProgressBar.Maximum	= nAllFiles;
+			tsProgressBar.Value		= 0;
+			m_nFB2A = 0;
+			string sFile = string.Empty;
+			string TargetDir = getTargetDirForZip();
+			int n = 0;
+			foreach( string s in lDirList ) {
+				DirectoryInfo diFolder = new DirectoryInfo( s );
+				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+					if( ( m_bwa.CancellationPending == true ) )  {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
+						return;
+					}
+					sFile = s + "\\" + fiNextFile.Name;
+					FileToZip( sFile, SourceDir, TargetDir ); // zip
+					m_bwa.ReportProgress( ++n ); // отобразим данные в контролах
+				}
+			}
+			lDirList.Clear();
+		}
+		
+		// Отобразим результат Упаковки
+		private void bwa_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
+			if( chBoxViewProgressA.Checked )
+				ArchiveProgressData();
+			tsProgressBar.Value	= e.ProgressPercentage;
+		}
+		
+		// Проверяем это отмена, ошибка, или конец задачи и сообщить
+		private void bwa_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
+			ArchiveProgressData(); // Отобразим результат Упаковки
+			DateTime dtEnd = DateTime.Now;
+			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			
+			tsslblProgress.Text = Settings.Settings.GetReady();
+			SetPackingStartEnabled( true );
+			
+			string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sMessCanceled	= "Упаковка fb2-файлов остановлена!\nЗатрачено времени: "+sTime;
+			string sMessError		= string.Empty;
+			string sMessDone		= "Упаковка fb2-файлов завершена!\nЗатрачено времени: "+sTime;
+			
+			if( ( e.Cancelled == true ) )
+				MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			else if( e.Error != null ) {
+				sMessError = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
+				MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			} else {
+				MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
+		}
+		
+		// создание уникального пути создаваемого архива, помещаемого в ту же папку, где лежит и исхлжный файл
+		private string MakeNewArchivePathToSomeDirWithSufix( string FilePath ) {
+			string FileExt = Path.GetExtension( FilePath ).ToLower();
+			string ArchiveFile = FilePath + ".zip";
+			if( File.Exists( ArchiveFile ) ) {
+				if( cboxExistArchive.SelectedIndex == 0 )
+					File.Delete( ArchiveFile );
+				else {
+					// или FilePath вместо sArchiveFile
+					ArchiveFile = FilePath.Remove( FilePath.Length-4 )
+								+ filesWorker.createSufix( ArchiveFile, cboxExistArchive.SelectedIndex )//Sufix
+								+ FileExt + ".zip";
+				}
+			}
+			return ArchiveFile;
+		}
+		
+		// создание уникального пути создаваемого архива, помещаемого в другую папку
+		private string MakeNewArchivePathToAnotherDirWithSufix( string SourceDir, string TargetDir, string FilePath ) {
+			string FileExt = Path.GetExtension( FilePath ).ToLower();
+			string NewFilePath = FilePath.Remove( 0, SourceDir.Length );
+			string ArchiveFile = TargetDir + NewFilePath + ".zip";
+			FileInfo fi = new FileInfo( ArchiveFile );
+			if( !fi.Directory.Exists )
+				Directory.CreateDirectory( fi.Directory.ToString() );
+
+			if( File.Exists( ArchiveFile ) ) {
+				if( cboxExistArchive.SelectedIndex == 0 )
+					File.Delete( ArchiveFile );
+				else {
+					ArchiveFile = TargetDir + NewFilePath.Remove( NewFilePath.Length-4 )
+						+ filesWorker.createSufix( ArchiveFile, cboxExistArchive.SelectedIndex )//Sufix
+						+ FileExt + ".zip";
+				}
+			}
+			return ArchiveFile;
+		}
+		
+		// упаковка fb2-файлов в .fb2.zip
+		private void FileToZip( string FilePath, string SourceDir, string TargetDir ) {
+			// упаковываем только fb2-файлы
+			if( Path.GetExtension( FilePath ).ToLower() == ".fb2" ) {
+				++m_nFB2A;
+				string ArchiveFile = string.Empty;
+				if( cboxToSomeDir.Checked ) {
+					// создаем архив в тот же папке, где и исходный fb2-файл
+					ArchiveFile = MakeNewArchivePathToSomeDirWithSufix( FilePath );
 				} else {
 					// создаем архив в другой папке
-					sArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( m_sSource, m_sTarget, sFile, sArchiveExt );
+					ArchiveFile = MakeNewArchivePathToAnotherDirWithSufix( SourceDir, TargetDir, FilePath );
 				}
-				if( bZip ) {
-					archivesWorker.zip( sArchPath, cboxArchiveType.Text.ToLower(), sFile, sArchiveFile,
-													priority.GetPriority( cboxPriorityA.Text ) );
-				} else {
-					archivesWorker.rar( sArchPath, sFile, sArchiveFile, cboxAddRestoreInfo.Checked,
-													priority.GetPriority( cboxPriorityA.Text ) );
-				}
-			}
-			// удаляем исходный файл, если задана опция
-			DeleteSourceFileIsNeeds( sFile, cboxDelFB2Files.Checked );
-			
-			#endregion
-		}
-		#endregion
+				sharpZipLib.ZipFile( FilePath, ArchiveFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
 				
-		#region Распаковка
-		private int AllArchivesToFile( BackgroundWorker bw, DoWorkEventArgs e,
-		                               List<string> lDirList, string sMoveToDir, bool bFB2 ) {
-			// Распаковать все архивы
-			string sTempDir	= Settings.Settings.GetTempDir();
-			string sExt = "", sFile = "";
-			int n = 0;
-			foreach( string s in lDirList ) {
-				DirectoryInfo diFolder = new DirectoryInfo( s );
-				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-					if( ( bw.CancellationPending == true ) ) {
-						e.Cancel = true; // Выставить окончание - по отмене, сработает событие Bw_RunWorkerCompleted
-						break;
-					}
-					
-					sFile	= s + "\\" + fiNextFile.Name;
-					sExt	= Path.GetExtension( sFile ).ToLower();
-					if( sExt != "" ) {
-						filesWorker.RemoveDir( sTempDir );
-						//TODO: заменить все unrar на unzip
-						switch( sExt ) {
-							case ".rar":
-								archivesWorker.unrar( m_sUnRarPath, sFile, sTempDir,
-								                           priority.GetPriority( cboxPriorityU.Text ) );
-								++m_nCountU; ++m_nRarU;
-								// удаление исходного архива, если включена опция
-								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
-								break;
-							case ".zip":
-								archivesWorker.unzip( m_s7zPath, sFile, sTempDir,
-															priority.GetPriority( cboxPriorityU.Text ) );
-								++m_nCountU; ++m_nZipU;
-								// удаление исходного архива, если включена опция
-								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
-								break;
-							case ".7z":
-								archivesWorker.unzip( m_s7zPath, sFile, sTempDir,
-								                           priority.GetPriority( cboxPriorityU.Text ) );
-								++m_nCountU; ++m_n7ZU;
-								// удаление исходного архива, если включена опция
-								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
-								break;
-							case ".bz2":
-								archivesWorker.unzip( m_s7zPath, sFile, sTempDir,
-								                           priority.GetPriority( cboxPriorityU.Text ) );
-								++m_nCountU; ++m_nBZip2U;
-								// удаление исходного архива, если включена опция
-								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
-								break;
-							case ".gz":
-								archivesWorker.unzip( m_s7zPath, sFile, sTempDir,
-								                           priority.GetPriority( cboxPriorityU.Text ) );
-								++m_nCountU; ++m_nGZipU;
-								// удаление исходного архива, если включена опция
-								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
-								break;
-							case ".tar":
-								archivesWorker.unzip( m_s7zPath, sFile, sTempDir,
-								                           priority.GetPriority( cboxPriorityU.Text ) );
-								++m_nCountU; ++m_nTarU;
-								// удаление исходного архива, если включена опция
-								DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
-								break;
-						}
-						if( Directory.Exists( sTempDir ) ) {
-							string [] files = Directory.GetFiles( sTempDir );
-							foreach( string sFB2File in files ) {
-								string sFileName = Path.GetFileName( sFB2File );
-								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_nFB2U;
-								else {
-									if( !bFB2 ) ++m_nAnotherU;
-								}
-								
-								if( FileToDir( sFileName, sFile, sMoveToDir, bFB2 ) ) {
-								} else {
-									File.Delete( sFileName );
-								}
-							}
-						}
-					}
-					bw.ReportProgress( ++n ); // отобразим данные в контролах
-				}
+				// удаляем исходный файл, если задана опция
+				if ( cboxDelFB2Files.Checked )
+					DeleteFileIsNeeds( FilePath );
 			}
-			return m_nCountU;
 		}
 		
-		private int TypeArchToFile( BackgroundWorker bw, DoWorkEventArgs e,
-		                            List<string> lDirList, string sMoveToDir, string sExt, bool bFB2 ) {
-			// Распаковать выбранный тип ахрива
-			string sTempDir = Settings.Settings.GetTempDir();
-			int nCount = 0;
-			int n = 0;
-			string sFile = "";
-			foreach( string s in lDirList ) {
-				DirectoryInfo diFolder = new DirectoryInfo( s );
-				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-					if( ( bw.CancellationPending == true ) ) {
-						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-						return nCount;
-					}
-					sFile	= s + "\\" + fiNextFile.Name;
-					if( Path.GetExtension( sFile.ToLower() ) == sExt ) {
-						archivesWorker.unzip( m_s7zPath, sFile, sTempDir, priority.GetPriority( cboxPriorityU.Text ) );
-						++m_nCountU; ++nCount;
-						switch( sExt ) {
-							case ".zip":
-								++m_nZipU;
-								break;
-							case ".7z":
-								++m_n7ZU;
-								break;
-							case ".bz2":
-								++m_nBZip2U;
-								break;
-							case ".gz":
-								++m_nGZipU;
-								break;
-							case ".tar":
-								++m_nTarU;
-								break;
-						}
-						if( Directory.Exists( sTempDir ) ) {
-							string [] files = Directory.GetFiles( sTempDir );
-							foreach( string sFB2File in files ) {
-								string sFileName = Path.GetFileName( sFB2File );
-								if( Path.GetExtension( sFileName ).ToLower()==".fb2" ) ++m_nFB2U;
-								else {
-									if( !bFB2 ) ++m_nAnotherU;
-								}
-								
-								if( FileToDir( sFileName, sFile, sMoveToDir, bFB2 ) ) {
-								} else {
-									File.Delete( sFileName );
-								}
-							}
-						}
-						// удаление исходного архива, если включена опция
-						DeleteSourceFileIsNeeds( sFile, cboxUADelFB2Files.Checked );
-					}
-					bw.ReportProgress( ++n ); // отобразим данные в контролах
-				}
-			}
-			return nCount;
+		// доступность контролов при Упаковке
+		private void SetPackingStartEnabled( bool bEnabled ) {
+			tsbtnArchive.Enabled	= bEnabled;
+			pScanDir.Enabled		= bEnabled;
+			pType.Enabled			= bEnabled;
+			pToAnotherDir.Enabled	= bEnabled;
+			cboxToSomeDir.Enabled	= bEnabled;
+			tpUnArchive.Enabled		= bEnabled;
+
+			tsbtnArchiveStop.Enabled	= !bEnabled;
+			tsProgressBar.Visible		= !bEnabled;
+			tcArchiver.Refresh();
+			ssProgress.Refresh();
 		}
-		#endregion
+		
+		// сканировать ли подпапки для режима упаковки
+		private bool getScanSubDirsForZip() {
+			return cboxScanSubDirToArchive.Checked;
+		}
+		
+		// получение source папки для режима упаковки
+		private string getSourceDirForZip() {
+			return filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
+		}
+		
+		// получение target папки для режима упаковки
+		private string getTargetDirForZip() {
+			if (cboxToSomeDir.Checked)
+				return filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
+			else
+				return filesWorker.WorkingDirPath( tboxToAnotherDir.Text.Trim() );
+		}
+		
+		// Отобразим результат Упаковки
+		private void ArchiveProgressData() {
+			lvGeneralCount.Items[2].SubItems[1].Text = (m_nFB2A).ToString();
+		}
+		
+		// инициализация контролов и переменных (Упаковка)
+		private void InitA() {
+			for( int i=0; i!=lvGeneralCount.Items.Count; ++i ) {
+				lvGeneralCount.Items[i].SubItems[1].Text = "0";
+			}
+			tsProgressBar.Value		= 0;
+			tsslblProgress.Text		= Settings.Settings.GetReady();
+			tsProgressBar.Visible	= false;
+		}
+		
+		// проверки папки для сканирования
+		private bool IsSourceDirCorrect( string SourceDir, string sMessTitle ) {
+			DirectoryInfo diFolder = new DirectoryInfo( SourceDir );
+			if( SourceDir.Length == 0 ) {
+				MessageBox.Show( "Выберите папку для сканирования!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			if( !diFolder.Exists ) {
+				MessageBox.Show( "Папка для сканирования не найдена: " + SourceDir, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			return true;
+		}
 		
 		#region Обработчики событий
-		void TsbtnOpenDirClick(object sender, EventArgs e)
+		void CboxToAnotherDirCheckedChanged(object sender, EventArgs e)
 		{
-			// задание папки с fb2-файлами для сканирования (Архивация)
-			if( filesWorker.OpenDirDlg( tboxSourceDir, fbdDir, "Укажите папку с fb2-файлами для Упаковки" ) ) {
-				InitA();
-			}
+			pToAnotherDir.Enabled = !cboxToSomeDir.Checked;
+			if( !cboxToSomeDir.Checked )
+				tboxToAnotherDir.Focus();
 		}
+		
+		// задание папки для копирования запакованных fb2-файлов
 		void BtnToAnotherDirClick(object sender, EventArgs e)
 		{
-			// задание папки для копирования запакованных fb2-файлов
 			filesWorker.OpenDirDlg( tboxToAnotherDir, fbdDir, "Укажите папку для размещения упакованных fb2-файлов" );
 		}
-		void TsbtnUAOpenDirClick(object sender, EventArgs e)
+		
+		// задание папки с fb2-файлами для сканирования (Архивация)
+		void BtnOpenDirClick(object sender, EventArgs e)
 		{
-			// задание папки с fb2-архивами для сканирования (Распаковка)
-			if( filesWorker.OpenDirDlg( tboxUASourceDir, fbdDir, "Укажите папку с fb2-архивами для Распаковки" ) ) {
-				InitUA();
-			}
-		}
-		void BtnUAToAnotherDirClick(object sender, EventArgs e)
-		{
-			// задание папки для копирования распакованных файлов
-			filesWorker.OpenDirDlg( tboxUAToAnotherDir, fbdDir, "Укажите папку для размещения распакованных файлов" );
+			if( filesWorker.OpenDirDlg( tboxSourceDir, fbdDir, "Укажите папку с fb2-файлами для Упаковки" ) )
+				InitA();
 		}
 		
-		void RbtnToAnotherDirCheckedChanged(object sender, EventArgs e)
-		{
-			btnToAnotherDir.Enabled = rbtnToAnotherDir.Checked;
-			tboxToAnotherDir.ReadOnly = !rbtnToAnotherDir.Checked;
-			if( rbtnToAnotherDir.Checked ) {
-				tboxToAnotherDir.Focus();
-			}
-		}
-		
-		void CboxArchiveTypeSelectedIndexChanged(object sender, EventArgs e)
-		{
-			cboxAddRestoreInfo.Visible = cboxArchiveType.SelectedIndex == 0;
-		}
-		
+		// Упаковка fb2-файлов
 		void TsbtnArchiveClick(object sender, EventArgs e)
 		{
-			// Запаковка fb2-файлов
 			m_sMessTitle = "SharpFBTools - Упаковка в архивы";
-			
-			m_sSource			= filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
-			tboxSourceDir.Text	= m_sSource;
-			// проверки папки для сканирования
-			if( !IsSourceDirCorrect( m_sSource, m_sMessTitle ) ) {
-				return;
-			}
-			
-			m_sTarget				= filesWorker.WorkingDirPath( tboxToAnotherDir.Text.Trim() );
-			tboxToAnotherDir.Text	= m_sTarget;
-			// проверки папки-приемника
-			if( !IsTargetDirCorrect( m_sTarget, rbtnToAnotherDir.Checked, m_sMessTitle ) ) {
-				return;
-			}
-			
-			// читаем путь к архиваторам из настроек
-			m_s7zPath	= Settings.Settings.Read7zaPath().Trim();
-			m_sRarPath	= Settings.Settings.ReadRarPath().Trim();
 
-			// проверка на наличие архиваторов и корректность путей к ним
-			if( !IsArchivatorsPathCorrectForArchive( m_s7zPath, m_sRarPath ) ) {
-			   	return;
-			}
-	
+			// проверки папки для сканирования
+			if( !IsSourceDirCorrect( getSourceDirForZip(), m_sMessTitle ) )
+				return;
+			
+			// проверки папки-приемника
+			if( !IsTargetDirCorrect( getTargetDirForZip(), cboxToSomeDir.Checked, m_sMessTitle ) )
+				return;
+
 			// инициализация контролов
 			InitA();
-			SetArhivingStartEnabled( false );
+			SetPackingStartEnabled( false );
 			
 			m_dtStart = DateTime.Now;
 			tsslblProgress.Text = "Создание списка папок:";
-			m_bScanSubDirs = cboxScanSubDirToArchive.Checked;
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if( m_bwa.IsBusy != true ) {
 				//если не занят то запустить процесс
-            	m_bwa.RunWorkerAsync();
+				m_bwa.RunWorkerAsync();
 			}
-		}
-
-		void RbtnUAToAnotherDirCheckedChanged(object sender, EventArgs e)
-		{
-			btnUAToAnotherDir.Enabled	= rbtnUAToAnotherDir.Checked;
-			tboxUAToAnotherDir.ReadOnly	= !rbtnUAToAnotherDir.Checked;
-			if( rbtnUAToAnotherDir.Checked ) {
-				tboxUAToAnotherDir.Focus();
-			}
-		}
-		
-		void TsbtnUAAnalyzeClick(object sender, EventArgs e)
-		{
-			// анализ файлов - какие архивы есть в папке сканирования
-			m_sMessTitle = "SharpFBTools - Анализ файлов";
-
-			m_sSource				= filesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
-			tboxUASourceDir.Text	= m_sSource;
-			// проверки папки для сканирования перед запуском Анализа
-			if( !IsSourceDirCorrect( m_sSource, m_sMessTitle ) ) {
-				return;
-			}
-
-			// инициализация контролов
-			InitUA();
-			SetAnalyzingStartEnabled( false );
-			
-			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка папок:";
-			m_bScanSubDirs = cboxScanSubDirToUnArchive.Checked;
-			
-			// Запуск процесса DoWork от Бекграунд Воркера
-			if( m_bwt.IsBusy != true ) {
-				//если не занят то запустить процесс
-            	m_bwt.RunWorkerAsync();
-			}
-		}
-		
-		void TsbtnUnArchiveClick(object sender, EventArgs e)
-		{
-			// Распаковка архивов
-			m_sMessTitle = "SharpFBTools - Распаковка архивов";
-
-			m_sSource				= filesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
-			tboxUASourceDir.Text	= m_sSource;
-			// проверки папки для сканирования
-			if( !IsSourceDirCorrect( m_sSource, m_sMessTitle ) ) {
-				return;
-			}
-			
-			m_sTarget				= filesWorker.WorkingDirPath( tboxUAToAnotherDir.Text.Trim() );
-			tboxUAToAnotherDir.Text	= m_sTarget;
-			// проверки папки-приемника
-			if( !IsTargetDirCorrect( m_sTarget, rbtnUAToAnotherDir.Checked, m_sMessTitle ) ) {
-				return;
-			}
-			
-			// читаем путь к UnRar и к 7z из настроек
-			m_s7zPath		= Settings.Settings.Read7zaPath().Trim();
-			m_sUnRarPath	= Settings.Settings.ReadUnRarPath().Trim();
-			// проверка на наличие архиваторов и корректность путей к ним
-			if( !archivesWorker.IsArchivatorsPathCorrectForUnArchive( m_s7zPath, m_sUnRarPath, m_sMessTitle ) ) {
-				return;
-			}
-
-			// инициализация контролов
-			InitUA();
-			SetUnPackingStartEnabled( false );
-			
-			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка папок:";
-			m_bScanSubDirs = cboxScanSubDirToUnArchive.Checked;
-			
-			// Запуск процесса DoWork от Бекграунд Воркера
-			if( m_bwu.IsBusy != true ) {
-				//если не занят то запустить процесс
-            	m_bwu.RunWorkerAsync();
-			}
-		}
-		
-		void CboxExistArchiveSelectedIndexChanged(object sender, EventArgs e)
-		{
-			chBoxAddArchiveNameBookID.Enabled = ( cboxExistArchive.SelectedIndex != 0 );
-		}
-		
-		void CboxUAExistArchiveSelectedIndexChanged(object sender, EventArgs e)
-		{
-			chBoxAddFileNameBookID.Enabled = ( cboxUAExistArchive.SelectedIndex != 0 );
 		}
 		
 		void TboxSourceDirTextChanged(object sender, EventArgs e)
@@ -1153,6 +389,247 @@ namespace SharpFBTools.Tools
 			Settings.SettingsAM.AMATargetDir = tboxToAnotherDir.Text;
 		}
 		
+		// Остановка выполнения процесса Архивации
+		void TsbtnArchiveStopClick(object sender, EventArgs e)
+		{
+			if( m_bwa.WorkerSupportsCancellation == true )
+				m_bwa.CancelAsync();
+		}
+		
+		#endregion
+		
+		#endregion
+		
+		#region Распаковка
+		// Инициализация перед использование BackgroundWorker Распаковщика
+		private void InitializeUnPackBackgroundWorker() {
+			m_bwu = new BackgroundWorker();
+			m_bwu.WorkerReportsProgress			= true; // Позволить выводить прогресс процесса
+			m_bwu.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
+			m_bwu.DoWork 				+= new DoWorkEventHandler( bwu_DoWork );
+			m_bwu.ProgressChanged 		+= new ProgressChangedEventHandler( bwu_ProgressChanged );
+			m_bwu.RunWorkerCompleted 	+= new RunWorkerCompletedEventHandler( bwu_RunWorkerCompleted );
+		}
+		
+		// распаковка архивов в файлы
+		private void bwu_DoWork( object sender, DoWorkEventArgs e ) {
+			int nAllFiles = 0;
+			List<string> lDirList = new List<string>();
+			string SourceDir = getSourceDirForUnZip();
+			if( !getScanSubDirsForUnZip() ) {
+				// сканировать только указанную папку
+				lDirList.Add( SourceDir );
+				lvUAGeneralCount.Items[0].SubItems[1].Text = "1";
+			} else {
+				// сканировать и все подпапки
+				nAllFiles = filesWorker.DirsParser( m_bwu, e, SourceDir, ref lvUAGeneralCount, ref lDirList, false );
+			}
+			
+			// отобразим число всех файлов в папке сканирования
+			lvUAGeneralCount.Items[1].SubItems[1].Text = nAllFiles.ToString();
+
+			// проверка остановки процесса
+			if( ( m_bwu.CancellationPending == true ) )  {
+				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwu_RunWorkerCompleted
+				return;
+			}
+			
+			// проверка, есть ли хоть один файл в папке для сканирования
+			if( nAllFiles == 0 ) {
+				MessageBox.Show( "В указанной папке не найдено ни одного файла!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				InitUA();
+				return;
+			}
+			
+			tsslblProgress.Text 	= "Распаковка архивов:";
+			tsProgressBar.Maximum 	= nAllFiles;
+			tsProgressBar.Value 	= 0;
+			m_nCountU = m_nZipU		= 0;
+			m_nFB2U = 0;
+
+			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			
+			BackgroundWorker bw = sender as BackgroundWorker;
+			m_nUnpackCount = UnZipToFile( bw, e, SourceDir, lDirList, getTargetDirForUnZip() );
+			lDirList.Clear();
+		}
+		
+		// Отобразим результат Распаковки
+		private void bwu_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
+			if( chBoxViewProgressU.Checked ) UnArchiveProgressData();
+			tsProgressBar.Value	= e.ProgressPercentage;
+		}
+		
+		// Проверяем это отмена, ошибка, или конец задачи и сообщить
+		private void bwu_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
+			UnArchiveProgressData(); // Отобразим результат Распаковки
+			DateTime dtEnd = DateTime.Now;
+			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			
+			tsslblProgress.Text = Settings.Settings.GetReady();
+			SetUnPackingStartEnabled( true );
+			
+			string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sMessCanceled	= "Распаковка архивов в fb2-файлы остановлена!\nЗатрачено времени: "+sTime;
+			string sMessError		= string.Empty;
+			string sMessDone		= string.Empty;
+			if( m_nUnpackCount > 0 ) {
+				sMessDone	= "Распаковка архивов в fb2-файлы завершена!\nЗатрачено времени: "+sTime;
+			} else {
+				sMessDone	= "В папке для сканирования не найдено ни одного архива указанного типа!\nРаспаковка не произведена."+sTime;
+			}
+			
+			if( ( e.Cancelled == true ) ) {
+				MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			} else if( e.Error != null ) {
+				sMessError = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
+				MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			} else {
+				MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
+		}
+		
+		// Распаковать архива
+		private int UnZipToFile( BackgroundWorker bw, DoWorkEventArgs e, string FileSourceDir, List<string> lDirList, string TargetDir ) {
+			int nCount = 0;
+			int n = 0;
+			foreach( string dir in lDirList ) {
+				DirectoryInfo diFolder = new DirectoryInfo( dir );
+				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+					if( ( bw.CancellationPending == true ) ) {
+						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
+						return nCount;
+					}
+					string sFile = dir + "\\" + fiNextFile.Name;
+					if( Path.GetExtension( sFile.ToLower() ) == ".zip" ) {
+						//string sNewDir = Path.GetDirectoryName( sMoveToDir+"\\"+sFile.Remove( 0, sFileSourceDir.Length ) );
+						m_nFB2U += sharpZipLib.UnZipFiles(sFile, filesWorker.buildTargetDir(sFile, FileSourceDir, TargetDir),
+						                                  cboxUAExistArchive.SelectedIndex, true, null, 4096);
+						++m_nZipU; ++m_nCountU; ++nCount;
+						// удаление исходного архива, если включена опция
+						if ( cboxUADelFB2Files.Checked )
+							DeleteFileIsNeeds( sFile );
+					}
+					bw.ReportProgress( ++n ); // отобразим данные в контролах
+				}
+			}
+			return nCount;
+		}
+		
+		// инициализация контролов и переменных (Распаковка)
+		private void InitUA() {
+			for( int i=0; i!=lvUAGeneralCount.Items.Count; ++i ) {
+				lvUAGeneralCount.Items[i].SubItems[1].Text = "0";
+			}
+			tsProgressBar.Value		= 0;
+			tsslblProgress.Text		= Settings.Settings.GetReady();
+			tsProgressBar.Visible	= false;
+			m_nUnpackCount			= 0;
+		}
+		
+		// проверки папки-приемника
+		private bool IsTargetDirCorrect( string sTarget, bool bToAnotherDir, string sMessTitle ) {
+			if( bToAnotherDir ) {
+				// папка-приемник - отличная от источника
+				if( sTarget.Length == 0 ) {
+					MessageBox.Show( "Не задана папка-приемник архивов!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return false;
+				} else {
+					// проверка папки-приемника и создание ее, если нужно
+					if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) )
+						return false;
+				}
+			}
+			return true;
+		}
+		
+		// доступность контролов при Распаковке
+		private void SetUnPackingStartEnabled( bool bEnabled ) {
+			tsbtnUnArchive.Enabled	= bEnabled;
+			pUAScanDir.Enabled		= bEnabled;
+			pUAType.Enabled			= bEnabled;
+			pUAToAnotherDir.Enabled		= bEnabled;
+			cboxUADelFB2Files.Enabled	= bEnabled;
+			tpArchive.Enabled			= bEnabled;
+			
+			tsbtnUnArchiveStop.Enabled	= !bEnabled;
+			tsProgressBar.Visible		= !bEnabled;
+			tcArchiver.Refresh();
+			ssProgress.Refresh();
+		}
+		
+		// сканировать ли подпапки для режима распаковки
+		private bool getScanSubDirsForUnZip() {
+			return cboxScanSubDirToUnArchive.Checked;
+		}
+		
+		// получение source папки для режима распаковки
+		private string getSourceDirForUnZip() {
+			return filesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
+		}
+		
+		// получение target папки для режима распаковки
+		private string getTargetDirForUnZip() {
+			if (cboxUAToSomeDir.Checked)
+				return filesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
+			else
+				return filesWorker.WorkingDirPath( tboxUAToAnotherDir.Text.Trim() );
+		}
+		
+		// Отобразим результат Распаковки
+		private void UnArchiveProgressData() {
+			lvUAGeneralCount.Items[2].SubItems[1].Text = (m_nCountU).ToString();
+			lvUAGeneralCount.Items[3].SubItems[1].Text = (m_nFB2U).ToString();
+		}
+		
+		#region Обработчики событий
+		// задание папки с fb2-архивами для сканирования (Распаковка)
+		void BtnUAOpenDirClick(object sender, EventArgs e)
+		{
+			if( filesWorker.OpenDirDlg( tboxUASourceDir, fbdDir, "Укажите папку с fb2-архивами для Распаковки" ) )
+				InitUA();
+		}
+		
+		// задание папки для копирования распакованных файлов
+		void BtnUAToAnotherDirClick(object sender, EventArgs e)
+		{
+			filesWorker.OpenDirDlg( tboxUAToAnotherDir, fbdDir, "Укажите папку для размещения распакованных файлов" );
+		}
+		
+		void CboxUAToSomeDirCheckedChanged(object sender, EventArgs e)
+		{
+			pUAToAnotherDir.Enabled = !cboxUAToSomeDir.Checked;
+			if( !cboxUAToSomeDir.Checked )
+				tboxUAToAnotherDir.Focus();
+		}
+		
+		// Распаковка архивов
+		void TsbtnUnArchiveClick(object sender, EventArgs e)
+		{
+			m_sMessTitle = "SharpFBTools - Распаковка архивов";
+
+			// проверки папки для сканирования
+			if( !IsSourceDirCorrect( getSourceDirForUnZip(), m_sMessTitle ) )
+				return;
+
+			// проверки папки-приемника
+			if( !IsTargetDirCorrect( getTargetDirForUnZip(), cboxUAToSomeDir.Checked, m_sMessTitle ) )
+				return;
+
+			// инициализация контролов
+			InitUA();
+			SetUnPackingStartEnabled( false );
+			
+			m_dtStart = DateTime.Now;
+			tsslblProgress.Text = "Создание списка папок:";
+
+			// Запуск процесса DoWork от Бекграунд Воркера
+			if( m_bwu.IsBusy != true ) {
+				//если не занят то запустить процесс
+				m_bwu.RunWorkerAsync();
+			}
+		}
+		
 		void TboxUASourceDirTextChanged(object sender, EventArgs e)
 		{
 			Settings.SettingsAM.AMUAScanDir = tboxUASourceDir.Text;
@@ -1163,68 +640,15 @@ namespace SharpFBTools.Tools
 			Settings.SettingsAM.AMAUATargetDir = tboxUAToAnotherDir.Text;
 		}
 		
-		void RbFB2CheckedChanged(object sender, EventArgs e)
-		{
-			chBoxAddArchiveNameBookID.Visible = rbFB2.Checked;
-			int n = cboxExistArchive.SelectedIndex;
-			cboxExistArchive.Items.Clear();
-			if( rbFB2.Checked ) {
-				lblExistArchive.Text = "Одинаковые fb2-архивы:";
-				cboxExistArchive.Items.Add( "Заменить существующий fb2-архив создаваемым" );
-				cboxExistArchive.Items.Add( "Добавить к создаваемому fb2-архиву очередной номер" );
-				cboxExistArchive.Items.Add( "Добавить к создаваемому fb2-архиву дату и время" );
-			} else {
-				lblExistArchive.Text = "Одинаковые архивы:";
-				cboxExistArchive.Items.Add( "Заменить существующий архив создаваемым" );
-				cboxExistArchive.Items.Add( "Добавить к создаваемому архиву очередной номер" );
-				cboxExistArchive.Items.Add( "Добавить к создаваемому архиву дату и время" );
-			}
-			cboxExistArchive.SelectedIndex = n;
-		}
-		
-		void RbFB2UCheckedChanged(object sender, EventArgs e)
-		{
-			chBoxAddFileNameBookID.Visible = rbFB2U.Checked;
-			int n = cboxUAExistArchive.SelectedIndex;
-			cboxUAExistArchive.Items.Clear();
-			if( rbFB2U.Checked ) {
-				lblUAExistArchive.Text = "Одинаковые fb2-файлы:";
-				cboxUAExistArchive.Items.Add( "Заменить существующий fb2-файл создаваемым" );
-				cboxUAExistArchive.Items.Add( "Добавить к создаваемому fb2-файлу очередной номер" );
-				cboxUAExistArchive.Items.Add( "Добавить к создаваемому fb2-файлу дату и время" );
-			} else {
-				lblUAExistArchive.Text = "Одинаковые файлы:";
-				cboxUAExistArchive.Items.Add( "Заменить существующий файл создаваемым" );
-				cboxUAExistArchive.Items.Add( "Добавить к создаваемому файлу очередной номер" );
-				cboxUAExistArchive.Items.Add( "Добавить к создаваемому файлу дату и время" );
-			}
-			cboxUAExistArchive.SelectedIndex = n;
-		}
-		
-		void TsbtnArchiveStopClick(object sender, EventArgs e)
-		{
-			// Остановка выполнения процесса Архивации
-			if( m_bwa.WorkerSupportsCancellation == true ) {
-				m_bwa.CancelAsync();
-			}
-		}
-		
+		// Остановка выполнения процесса Распаковки
 		void TsbtnUnArchiveStopClick(object sender, EventArgs e)
 		{
-			// Остановка выполнения процесса Распаковки
-			if( m_bwu.WorkerSupportsCancellation == true ) {
+			if( m_bwu.WorkerSupportsCancellation == true )
 				m_bwu.CancelAsync();
-			}
 		}
-		
-		void TsbtnUAAnalyzeStopClick(object sender, EventArgs e)
-		{
-			// Остановка выполнения процесса Анализа
-			if( m_bwt.WorkerSupportsCancellation == true ) {
-				m_bwt.CancelAsync();
-			}
-		}
+		#endregion
 		
 		#endregion
+
 	}
 }

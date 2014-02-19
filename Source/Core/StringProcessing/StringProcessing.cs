@@ -1,6 +1,6 @@
-/*
+п»ї/*
  * Created by SharpDevelop.
- * User: Кузнецов Вадим [DikBSD]
+ * User: РљСѓР·РЅРµС†РѕРІ Р’Р°РґРёРј [DikBSD]
  * Date: 24.04.2009
  * Time: 10:26
  * 
@@ -17,6 +17,8 @@ using Core.FB2.Description.DocumentInfo;
 
 using fB2Parser	= Core.FB2.FB2Parsers.FB2Parser;
 
+using System.Windows.Forms;
+
 namespace Core.StringProcessing
 {
 	/// <summary>
@@ -24,79 +26,78 @@ namespace Core.StringProcessing
 	/// </summary>
 	public class StringProcessing
 	{
-		private static ulong m_ulDateCount = 0;
 		
-		#region Закрытые вспомогательные методы класса
+		#region Р—Р°РєСЂС‹С‚С‹Рµ РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РјРµС‚РѕРґС‹ РєР»Р°СЃСЃР°
 		private static string[] MakeTranslitLettersArray() {
-			// массив замены русских символов латинскими
-			#region Код
+			// РјР°СЃСЃРёРІ Р·Р°РјРµРЅС‹ СЂСѓСЃСЃРєРёС… СЃРёРјРІРѕР»РѕРІ Р»Р°С‚РёРЅСЃРєРёРјРё
+			#region РљРѕРґ
 			string[] saTranslitLetters = new string[153];
-			saTranslitLetters[0]="a";	// а
-			saTranslitLetters[1]="b";	// б
-			saTranslitLetters[2]="v";	// в
-			saTranslitLetters[3]="g";	// г
-			saTranslitLetters[4]="d";	// д
-			saTranslitLetters[5]="e";	// е
-			saTranslitLetters[6]="yo";	// ё
-			saTranslitLetters[7]="zh";	// ж
-			saTranslitLetters[8]="z";	// з
-			saTranslitLetters[9]="i";	// и
-			saTranslitLetters[10]="y";	// й
-			saTranslitLetters[11]="k";	// к
-			saTranslitLetters[12]="l";	// л
-			saTranslitLetters[13]="m";	// м
-			saTranslitLetters[14]="n";	// н
-			saTranslitLetters[15]="o";	// о
-			saTranslitLetters[16]="p";	// п
-			saTranslitLetters[17]="r";	// р
-			saTranslitLetters[18]="s";	// с
-			saTranslitLetters[19]="t";	// т
-			saTranslitLetters[20]="u";	// у
-			saTranslitLetters[21]="f";	// ф
-			saTranslitLetters[22]="h";	// х
-			saTranslitLetters[23]="ts";	// ц
-			saTranslitLetters[24]="ch";	// ч
-			saTranslitLetters[25]="sh";	// ш
-			saTranslitLetters[26]="sch";// щ
-			saTranslitLetters[27]="'";	// ъ
-			saTranslitLetters[28]="y";	// ы
-			saTranslitLetters[29]="'";	// ь
-			saTranslitLetters[30]="e";	// э
-			saTranslitLetters[31]="yu";	// ю
-			saTranslitLetters[32]="ya";	// я
-			saTranslitLetters[33]="A";	// А
-			saTranslitLetters[34]="B";	// Б
-			saTranslitLetters[35]="V";	// В
-			saTranslitLetters[36]="G";	// Г
-			saTranslitLetters[37]="D";	// Д
-			saTranslitLetters[38]="E";	// Е
-			saTranslitLetters[39]="YO";	// Ё
-			saTranslitLetters[40]="ZH";	// Ж
-			saTranslitLetters[41]="Z";	// З
-			saTranslitLetters[42]="I";	// И
-			saTranslitLetters[43]="Y";	// Й
-			saTranslitLetters[44]="K";	// К
-			saTranslitLetters[45]="L";	// Л
-			saTranslitLetters[46]="M";	// М
-			saTranslitLetters[47]="N";	// Н
-			saTranslitLetters[48]="O";	// О
-			saTranslitLetters[49]="P";	// П
-			saTranslitLetters[50]="R";	// Р
-			saTranslitLetters[51]="S";	// С
-			saTranslitLetters[52]="T";	// Т
-			saTranslitLetters[53]="U";	// У
-			saTranslitLetters[54]="F";	// Ф
-			saTranslitLetters[55]="H";	// Х
-			saTranslitLetters[56]="TS";	// Ц
-			saTranslitLetters[57]="CH";	// Ч
-			saTranslitLetters[58]="SH";	// Ш
-			saTranslitLetters[59]="SCH";// Щ
-			saTranslitLetters[60]="'";	// Ъ
-			saTranslitLetters[61]="Y";	// Ы
-			saTranslitLetters[62]="'";	// Ь
-			saTranslitLetters[63]="E";	// Э
-			saTranslitLetters[64]="YU";	// Ю
-			saTranslitLetters[65]="YA";	// Я
+			saTranslitLetters[0]="a";	// Р°
+			saTranslitLetters[1]="b";	// Р±
+			saTranslitLetters[2]="v";	// РІ
+			saTranslitLetters[3]="g";	// Рі
+			saTranslitLetters[4]="d";	// Рґ
+			saTranslitLetters[5]="e";	// Рµ
+			saTranslitLetters[6]="yo";	// С‘
+			saTranslitLetters[7]="zh";	// Р¶
+			saTranslitLetters[8]="z";	// Р·
+			saTranslitLetters[9]="i";	// Рё
+			saTranslitLetters[10]="y";	// Р№
+			saTranslitLetters[11]="k";	// Рє
+			saTranslitLetters[12]="l";	// Р»
+			saTranslitLetters[13]="m";	// Рј
+			saTranslitLetters[14]="n";	// РЅ
+			saTranslitLetters[15]="o";	// Рѕ
+			saTranslitLetters[16]="p";	// Рї
+			saTranslitLetters[17]="r";	// СЂ
+			saTranslitLetters[18]="s";	// СЃ
+			saTranslitLetters[19]="t";	// С‚
+			saTranslitLetters[20]="u";	// Сѓ
+			saTranslitLetters[21]="f";	// С„
+			saTranslitLetters[22]="h";	// С…
+			saTranslitLetters[23]="ts";	// С†
+			saTranslitLetters[24]="ch";	// С‡
+			saTranslitLetters[25]="sh";	// С€
+			saTranslitLetters[26]="sch";// С‰
+			saTranslitLetters[27]="'";	// СЉ
+			saTranslitLetters[28]="y";	// С‹
+			saTranslitLetters[29]="'";	// СЊ
+			saTranslitLetters[30]="e";	// СЌ
+			saTranslitLetters[31]="yu";	// СЋ
+			saTranslitLetters[32]="ya";	// СЏ
+			saTranslitLetters[33]="A";	// Рђ
+			saTranslitLetters[34]="B";	// Р‘
+			saTranslitLetters[35]="V";	// Р’
+			saTranslitLetters[36]="G";	// Р“
+			saTranslitLetters[37]="D";	// Р”
+			saTranslitLetters[38]="E";	// Р•
+			saTranslitLetters[39]="YO";	// РЃ
+			saTranslitLetters[40]="ZH";	// Р–
+			saTranslitLetters[41]="Z";	// Р—
+			saTranslitLetters[42]="I";	// Р
+			saTranslitLetters[43]="Y";	// Р™
+			saTranslitLetters[44]="K";	// Рљ
+			saTranslitLetters[45]="L";	// Р›
+			saTranslitLetters[46]="M";	// Рњ
+			saTranslitLetters[47]="N";	// Рќ
+			saTranslitLetters[48]="O";	// Рћ
+			saTranslitLetters[49]="P";	// Рџ
+			saTranslitLetters[50]="R";	// Р 
+			saTranslitLetters[51]="S";	// РЎ
+			saTranslitLetters[52]="T";	// Рў
+			saTranslitLetters[53]="U";	// РЈ
+			saTranslitLetters[54]="F";	// Р¤
+			saTranslitLetters[55]="H";	// РҐ
+			saTranslitLetters[56]="TS";	// Р¦
+			saTranslitLetters[57]="CH";	// Р§
+			saTranslitLetters[58]="SH";	// РЁ
+			saTranslitLetters[59]="SCH";// Р©
+			saTranslitLetters[60]="'";	// РЄ
+			saTranslitLetters[61]="Y";	// Р«
+			saTranslitLetters[62]="'";	// Р¬
+			saTranslitLetters[63]="E";	// Р­
+			saTranslitLetters[64]="YU";	// Р®
+			saTranslitLetters[65]="YA";	// РЇ
 			
 			saTranslitLetters[66]="a";
 			saTranslitLetters[67]="b";
@@ -168,7 +169,7 @@ namespace Core.StringProcessing
 			saTranslitLetters[132]="!";
 			saTranslitLetters[133]="@";
 			saTranslitLetters[134]="#";
-			saTranslitLetters[135]="№";
+			saTranslitLetters[135]="в„–";
 			saTranslitLetters[136]="$";
 			saTranslitLetters[137]="%";
 			saTranslitLetters[138]="^";
@@ -196,117 +197,9 @@ namespace Core.StringProcessing
 		{
 		}
 		
-		#region Открытые методы класса
-		public static string GetArchiveExt( string sArchiveType ) {
-			string sExt = "";
-			switch( sArchiveType ) {
-				case "Rar":
-					sExt = "rar";
-					break;
-				case "Zip":
-					sExt = "zip";
-					break;
-				case "7z":
-					sExt = "7z";
-					break;
-				case "BZip2":
-					sExt = "bz2";
-					break;
-				case "GZip":
-					sExt = "gz";
-					break;
-				case "Tar":
-					sExt = "tar";
-					break;
-			}
-			return sExt;
-		}
-		
-		public static string GetDateTimeExt()
-		{
-			++m_ulDateCount;
-			DateTime dt = DateTime.Now;
-			return	dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-				dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+
-				Convert.ToString( m_ulDateCount );
-		}
-		
-		public static string RemoveComaBeforeSlash( string sFilePath ){
-			// обработка последней "." перед \
-			string [] sSlash = sFilePath.Split('\\');
-			sFilePath = "";
-			foreach( string sI in sSlash ) {
-				string sNew = "";
-				if( sI.Substring( sI.Length-1, 1  ) == "." ) {
-					sNew = sI.Remove( sI.Length-1, 1  );
-				} else {
-					sNew = sI;
-				}
-				sFilePath += sNew+"\\";
-			}
-			return sFilePath = sFilePath.Remove( sFilePath.Length-1, 1 );
-		}
-		
-		public static long GetFileNewNumber( string sFilePath ) {
-			// номер для нового файла, если уже есть несколько таких же
-			Regex rx = new Regex( @"\\+" );
-			sFilePath = rx.Replace( sFilePath, "\\" );
-			
-			string [] files = Directory.GetFiles( Path.GetDirectoryName( sFilePath ) );
-			string sFilePathLower = sFilePath.ToLower();
-			
-			// обработка последней "." перед \
-			sFilePathLower = RemoveComaBeforeSlash( sFilePathLower );
-
-			string sFilePathNotExtLower = "";
-			
-			if( sFilePathLower.IndexOf( ".fb2" )!=-1 ) {
-				sFilePathNotExtLower = sFilePathLower.Substring( 0, sFilePathLower.IndexOf( ".fb2" ) );
-			} else {
-				sFilePathNotExtLower = sFilePathLower.Substring( 0, sFilePathLower.IndexOf(
-																	Path.GetExtension( sFilePathLower ) ) );
-			}
-			string s = sFilePathLower.Substring( 0, sFilePathNotExtLower.Length );
-			s = s.Replace( '.', '_' );
-			
-			long lCount = 0;
-			foreach( string sFile in files ) {
-				string sIter = sFile.ToLower().Replace( '.', '_' );
-				if( sIter.IndexOf( s )!=-1) {
-					++lCount;
-				}
-			}
-			return lCount;
-		}
-			
-		public static string GetBookID( string sFB2FilePath )
-		{
-			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID
-			Regex rx = new Regex( @"\\+" );
-			sFB2FilePath = rx.Replace( sFB2FilePath, "\\" );
-			
-			fB2Parser fb2p = new fB2Parser( sFB2FilePath );
-			DocumentInfo di = fb2p.GetDocumentInfo();
-			
-			string sID = OnlyCorrectSymbolsForString( di.ID );
-			return ( sID != null ? sID : Settings.Settings.GetNoID() );
-		}
-		
-		public static string GetFMBookID( string sFB2FilePath )
-		{
-			// возвращает либо _ID книги, либо _ID_Нет, если в книге нет тега ID (транслитерация и регистр при включенных опциях) - для Менеджера Файлов
-			Regex rx = new Regex( @"\\+" );
-			sFB2FilePath = rx.Replace( sFB2FilePath, "\\" );
-			
-			fB2Parser fb2p = new fB2Parser( sFB2FilePath );
-			DocumentInfo di = fb2p.GetDocumentInfo();
-			
-			string sID = OnlyCorrectSymbolsForString( di.ID );
-			return ( sID != null ? sID : GetGeneralWorkedString( Settings.Settings.GetNoID() ) );
-		}
-
+		#region РћС‚РєСЂС‹С‚С‹Рµ РјРµС‚РѕРґС‹ РєР»Р°СЃСЃР°
+		// РѕР±СЂР°Р±РѕС‚РєР° РїСЂРѕР±РµР»РѕРІ РІ СЃС‚СЂРѕРєРµ
 		public static string SpaceString( string sString, int nMode ) {
-			// обработка пробелов в строке
 			if( sString==null || sString.Length==0 ) {
 				return sString;
 			}
@@ -314,21 +207,21 @@ namespace Core.StringProcessing
 			for( int i=0; i!=sString.Length; ++i ) {
 				if( sString[i]==' ' ) {
 					switch( nMode ) {
-						case 0: // оставить пробел
+						case 0: // РѕСЃС‚Р°РІРёС‚СЊ РїСЂРѕР±РµР»
 							s += sString[i];
 							break;
-						case 1: // удалить пробел
+						case 1: // СѓРґР°Р»РёС‚СЊ РїСЂРѕР±РµР»
 							break;
-						case 2: // заменить пробел на '_'
+						case 2: // Р·Р°РјРµРЅРёС‚СЊ РїСЂРѕР±РµР» РЅР° '_'
 							s += '_';
 							break;
-						case 3: // заменить пробел на '-'
+						case 3: // Р·Р°РјРµРЅРёС‚СЊ РїСЂРѕР±РµР» РЅР° '-'
 							s += '-';
 							break;
-						case 4: // заменить пробел на '+'
+						case 4: // Р·Р°РјРµРЅРёС‚СЊ РїСЂРѕР±РµР» РЅР° '+'
 							s += '+';
 							break;
-						case 5: // заменить пробел на '~'
+						case 5: // Р·Р°РјРµРЅРёС‚СЊ РїСЂРѕР±РµР» РЅР° '~'
 							s += '~';
 							break;
 					}
@@ -339,8 +232,8 @@ namespace Core.StringProcessing
 			return s;
 		}
 
+		// Р’СЃРµ РЎР»РѕРІР° РЎС‚СЂРѕРєРё РќР°С‡Р°С‚СЊ СЃ Р‘РѕР»СЊС€РѕР№ Р‘СѓРєРІС‹
 		public static string ToUpperFirstLetterAnyWord( string sString, char c ) {
-			// Все Слова Строки Начать с Большой Буквы
 			if( sString.IndexOf( c ) !=-1 ) {
 				StringBuilder sb = new StringBuilder();
 				for( int i=0; i!=sString.Length; ++i ) {
@@ -351,7 +244,7 @@ namespace Core.StringProcessing
 							sb.Append( sString[i] );
 						} else {
 							if( i >= sString.Length-1 ) {
-								sb.Append( sString[i] ); // c - это последний символ в строке
+								sb.Append( sString[i] ); // c - СЌС‚Рѕ РїРѕСЃР»РµРґРЅРёР№ СЃРёРјРІРѕР» РІ СЃС‚СЂРѕРєРµ
 								break;
 							}
 							sb.Append( sString[i]+sString[i+1].ToString().ToUpper() );
@@ -365,21 +258,21 @@ namespace Core.StringProcessing
 			return sString;
 		}
 		
+		// Р·Р°РґР°РЅРёРµ СЂРµРіРёСЃС‚СЂР° СЃС‚СЂРѕРєРµ
 		public static string RegisterString( string sString, int nMode ) {
-			// задание регистра строке
 			if( sString==null || sString.Length==0 ) {
 				return "";
 			}
 			switch( nMode ) {
-				case 0: // Как есть
+				case 0: // РљР°Рє РµСЃС‚СЊ
 					return sString;
-				case 1: // строчные
+				case 1: // СЃС‚СЂРѕС‡РЅС‹Рµ
 					return sString.ToLower();
-				case 2: // ПРОПИСНЫЕ
+				case 2: // РџР РћРџРРЎРќР«Р•
 					return sString.ToUpper();
-				case 3: // Все Слова С Большой Буквы
+				case 3: // Р’СЃРµ РЎР»РѕРІР° РЎ Р‘РѕР»СЊС€РѕР№ Р‘СѓРєРІС‹
 					string sRet = sString.ToLower();
-					// Символ справа от '' делаем Прописным
+					// РЎРёРјРІРѕР» СЃРїСЂР°РІР° РѕС‚ '' РґРµР»Р°РµРј РџСЂРѕРїРёСЃРЅС‹Рј
 					sRet = ToUpperFirstLetterAnyWord( sRet, ' ' );
 					sRet = ToUpperFirstLetterAnyWord( sRet, '_' );
 					sRet = ToUpperFirstLetterAnyWord( sRet, '[' );
@@ -393,13 +286,13 @@ namespace Core.StringProcessing
 			}
 		}
 		
+		// С‚СЂР°РЅСЃР»РёС‚РµСЂР°С†РёСЏ СЃС‚СЂРѕРєРё
 		public static string TransliterationString( string sString ) {
-			// транслитерация строки
 			string sStr = sString;
 			if( sString==null || sString.Length==0 ) {
 				return sString;
 			}
-			const string sTemplate = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#№$%^[](){}-+=_;.,\\";
+			const string sTemplate = "Р°Р±РІРіРґРµС‘Р¶Р·РёР№РєР»РјРЅРѕРїСЂСЃС‚СѓС„С…С†С‡С€С‰СЉС‹СЊСЌСЋСЏРђР‘Р’Р“Р”Р•РЃР–Р—РР™РљР›РњРќРћРџР РЎРўРЈР¤РҐР¦Р§РЁР©РЄР«Р¬Р­Р®РЇabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#в„–$%^[](){}-+=_;.,\\";
 			string[] saTranslitLetters = MakeTranslitLettersArray();
 			string sTranslit = "";
 			for( int i=0; i!=sStr.Length; ++i ) {
@@ -413,13 +306,13 @@ namespace Core.StringProcessing
 			return sTranslit;
 		}
 		
+		// "СЃС‚СЂРѕРіРѕРµ" Р·РЅР°С‡РµРЅРёРµ СЃС‚СЂРѕРєРё
 		public static string StrictString( string sString ) {
-			// "строгое" значение строки
 			string s = sString;
 			if( sString==null || sString.Length==0 ) {
 				return sString;
 			}
-			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
+			const string sStrictLetters = "Р°Р±РІРіРґРµС‘Р¶Р·РёР№РєР»РјРЅРѕРїСЂСЃС‚СѓС„С…С†С‡С€С‰СЉС‹СЊСЌСЋСЏРђР‘Р’Р“Р”Р•РЃР–Р—РР™РљР›РњРќРћРџР РЎРўРЈР¤РҐР¦Р§РЁР©РЄР«Р¬Р­Р®РЇabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
 			string sStrict = "";
 			for( int i=0; i!=s.Length; ++i ) {
 				int nInd = sStrictLetters.IndexOf( s[i] );
@@ -430,13 +323,178 @@ namespace Core.StringProcessing
 			return sStrict;
 		}
 		
+		// "СЃС‚СЂРѕРіРѕРµ" Р·РЅР°С‡РµРЅРёРµ Р®РЅРёРєРѕРґРЅРѕР№ СЃС‚СЂРѕРєРё - РїСЃРµРІРґРѕ-С‚СЂР°РЅСЃР»РёС‚РµСЂР°С†РёСЏ
+		public static string TranslateUnicodeString( string sString ) {
+			// СЂР°СЃС€РёСЂРµРЅРЅР°СЏ Р»Р°С‚РёРЅРёС†Р°
+			string s = string.Empty;
+			Regex rx = new Regex( "[ГЂГЃГ‚ГѓГ„Г…Г†ДЂД‚Д„ЗЌЗєЗјбє бєўбє¤бє¦бєЁбєЄбє¬бє®бє°бєІбєґбє¶]" );
+			s = rx.Replace( sString, "A" );
+			rx = new Regex( "[Г€Г‰ГЉГ‹Д’Д”Д–ДДљЖЏбєёбєєбєјбєѕб»Ђб»‚б»„б»†]" );
+			s = rx.Replace( s, "E" );
+			rx = new Regex( "[ГЊГЌГЋГЏДЄД¬Д®Д°ЗЏб»€б»Љ]" );
+			s = rx.Replace( s, "I" );
+			rx = new Regex( "[Г’Г“Г”Г•Г–ГЕЊЕЋЕђЗ‘Зѕб»Њб»Ћб»ђб»’б»”б»–б»б»љб»њб»ћб» б»ў]" );
+			s = rx.Replace( s, "O" );
+			rx = new Regex( "[Г™ГљГ›ГњЕЁЕЄЕ¬Е®Е°ЕІЖЇЗ“З•З—З™З›б»¤б»¦б»Ёб»Єб»¬б»®б»°]" );
+			s = rx.Replace( s, "U" );
+			rx = new Regex( "[ГќЕ¶Еёб»Іб»ґб»¶б»ё]" );
+			s = rx.Replace( s, "Y" );
+			rx = new Regex( "[Г‡Д†Д€ДЉДЊЕ’Ж З‘]" );
+			s = rx.Replace( s, "C" );
+			rx = new Regex( "[ГђДЋДђ]" );
+			s = rx.Replace( s, "D" );
+			rx = new Regex( "[Г‘ЕѓЕ…Е‡]" );
+			s = rx.Replace( s, "N" );
+			rx = new Regex( "[Гџ]" );
+			s = rx.Replace( s, "B" );
+			rx = new Regex( "[Гћ]" );
+			s = rx.Replace( s, "P" );
+			rx = new Regex( "[ДњДћД Дў]" );
+			s = rx.Replace( s, "G" );
+			rx = new Regex( "[Д¤Д¦]" );
+			s = rx.Replace( s, "H" );
+			rx = new Regex( "[Дґ]" );
+			s = rx.Replace( s, "J" );
+			rx = new Regex( "[Д¶]" );
+			s = rx.Replace( s, "K" );
+			rx = new Regex( "[Д№Д»ДЅДїЕЃ]" );
+			s = rx.Replace( s, "L" );
+			rx = new Regex( "[Е”Е–Е]" );
+			s = rx.Replace( s, "R" );
+			rx = new Regex( "[ЕљЕњЕћЕ ]" );
+			s = rx.Replace( s, "S" );
+			rx = new Regex( "[ЕўЕ¤Е¦]" );
+			s = rx.Replace( s, "T" );
+			rx = new Regex( "[ЕґбєЂбє‚бє„]" );
+			s = rx.Replace( s, "W" );
+			rx = new Regex( "[Е№Е»ЕЅ]" );
+			s = rx.Replace( s, "Z" );
+			
+			rx = new Regex( "[Г ГЎГўГЈГ¤ГҐГ¦ДЃДѓД…ЗЋЗ»ЗЅбєЎбєЈбєҐбє§бє©бє«бє­бєЇбє±бєібєµбє·]" );
+			s = rx.Replace( s, "a" );
+			rx = new Regex( "[ГЁГ©ГЄГ«Д“Д•Д—Д™Д›Й™бє№бє»бєїб»Ѓб»ѓб»…б»‡]" );
+			s = rx.Replace( s, "e" );
+			rx = new Regex( "[Г¬Г­Г®ГЇД©Д«Д­ДЇД±Зђб»‰б»‹]" );
+			s = rx.Replace( s, "i" );
+			rx = new Regex( "[ГІГіГґГµГ¶ГёЕЌЕЏЕ‘ЖЎЗ’З’Зїб»Ќб»Џб»‘б»“б»•б»—б»™б»›б»ќб»џб»Ўб»Ј]" );
+			s = rx.Replace( s, "o" );
+			rx = new Regex( "[Г№ГєГ»ГјЕ©Е«Е­ЕЇЕ±ЕіЖ°З”З–ЗЗљЗњб»Ґб»§б»©б»«б»­б»Їб»±]" );
+			s = rx.Replace( s, "u" );
+			rx = new Regex( "[ГЅГїЕ·б»іб»µб»№]" );
+			s = rx.Replace( s, "y" );
+			rx = new Regex( "[Г§Д‡Д‰Д‹ДЌЕ“]" );
+			s = rx.Replace( s, "c" );
+			rx = new Regex( "[Г°ДЏДЏД‘]" );
+			s = rx.Replace( s, "d" );
+			rx = new Regex( "[Г±Е„Е†Е€Е‰]" );
+			s = rx.Replace( s, "n" );
+			rx = new Regex( "[Гѕ]" );
+			s = rx.Replace( s, "p" );
+			rx = new Regex( "[ДќДџДЎДЈ]" );
+			s = rx.Replace( s, "g" );
+			rx = new Regex( "[ДҐД§]" );
+			s = rx.Replace( s, "h" );
+			rx = new Regex( "[Дµ]" );
+			s = rx.Replace( s, "j" );
+			rx = new Regex( "[Д·Дё]" );
+			s = rx.Replace( s, "k" );
+			rx = new Regex( "[ДєДјДѕЕЂЕ‚]" );
+			s = rx.Replace( s, "l" );
+			rx = new Regex( "[Е•Е—Е™]" );
+			s = rx.Replace( s, "r" );
+			rx = new Regex( "[Е›ЕќЕџЕЎ]" );
+			s = rx.Replace( s, "s" );
+			rx = new Regex( "[ЕЈЕҐЕ§]" );
+			s = rx.Replace( s, "t" );
+			rx = new Regex( "[ЕµбєЃбєѓбє…]" );
+			s = rx.Replace( s, "w" );
+			rx = new Regex( "[ЕєЕјЕѕ]" );
+			s = rx.Replace( s, "z" );
+			
+			// РґСЂРµРІРЅСЏСЏ РєРёСЂРёР»РёС†Р°
+			rx = new Regex( "[ТђТ’Рѓ]" );
+			s = rx.Replace( s, "Р“" );
+			rx = new Regex( "[Т–]" );
+			s = rx.Replace( s, "Р–" );
+			rx = new Regex( "[ТљТњРЊ]" );
+			s = rx.Replace( s, "Рљ" );
+			rx = new Regex( "[Тў]" );
+			s = rx.Replace( s, "Рќ" );
+			rx = new Regex( "[Т®Т°]" );
+			s = rx.Replace( s, "Y" );
+			rx = new Regex( "[ТІ]" );
+			s = rx.Replace( s, "РҐ" );
+			rx = new Regex( "[Тё]" );
+			s = rx.Replace( s, "Р§" );
+			rx = new Regex( "[УР„]" );
+			s = rx.Replace( s, "Р­" );
+			rx = new Regex( "[УЁ]" );
+			s = rx.Replace( s, "Рћ" );
+			rx = new Regex( "[Р…]" );
+			s = rx.Replace( s, "S" );
+			rx = new Regex( "[Р†Р‡]" );
+			s = rx.Replace( s, "I" );
+			rx = new Regex( "[Р€]" );
+			s = rx.Replace( s, "J" );
+			rx = new Regex( "[Р‰]" );
+			s = rx.Replace( s, "Р›Р¬" );
+			rx = new Regex( "[РЉ]" );
+			s = rx.Replace( s, "РќР¬" );
+			rx = new Regex( "[Р‹]" );
+			s = rx.Replace( s, "h" );
+			rx = new Regex( "[РЋ]" );
+			s = rx.Replace( s, "РЈ" );
+			rx = new Regex( "[РЏ]" );
+			s = rx.Replace( s, "Р¦" );
+			
+			rx = new Regex( "[СћТЇТ±]" );
+			s = rx.Replace( s, "Сѓ" );
+			rx = new Regex( "[Т—]" );
+			s = rx.Replace( s, "Р¶" );
+			rx = new Regex( "[С“Т‘Т“]" );
+			s = rx.Replace( s, "Рі" );
+			rx = new Regex( "[С”]" );
+			s = rx.Replace( s, "СЌ" );
+			rx = new Regex( "[С’С›ТєТ»]" );
+			s = rx.Replace( s, "h" );
+			rx = new Regex( "[С•]" );
+			s = rx.Replace( s, "s" );
+			rx = new Regex( "[С–С—]" );
+			s = rx.Replace( s, "i" );
+			rx = new Regex( "[С]" );
+			s = rx.Replace( s, "j" );
+			rx = new Regex( "[Сљ]" );
+			s = rx.Replace( s, "Р»" );
+			rx = new Regex( "[Сљ]" );
+			s = rx.Replace( s, "РЅ" );
+			rx = new Regex( "[СњТ›Тќ]" );
+			s = rx.Replace( s, "Рє" );
+			rx = new Regex( "[Сџ]" );
+			s = rx.Replace( s, "С†" );
+			rx = new Regex( "[ТЈ]" );
+			s = rx.Replace( s, "РЅ" );
+			rx = new Regex( "[Ті]" );
+			s = rx.Replace( s, "С…" );
+			rx = new Regex( "[Т№]" );
+			s = rx.Replace( s, "С‡" );
+			rx = new Regex( "[У™]" );
+			s = rx.Replace( s, "СЌ" );
+			rx = new Regex( "[У©]" );
+			s = rx.Replace( s, "Рѕ" );
+			
+			return s;
+		}
+		
+		// "СЃС‚СЂРѕРіРѕРµ" Р·РЅР°С‡РµРЅРёРµ СЃС‚СЂРѕРєРё
 		public static string StrictPath( string sPath ) {
-			// "строгое" значение строки
-			string s = sPath;
 			if( sPath==null || sPath.Length==0 ) {
 				return sPath;
 			}
-			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}-_";
+			
+			// "СЃС‚СЂРѕРіРѕРµ" Р·РЅР°С‡РµРЅРёРµ Р®РЅРёРєРѕРґРЅРѕР№ СЃС‚СЂРѕРєРё - РїСЃРµРІРґРѕ-С‚СЂР°РЅСЃР»РёС‚РµСЂР°С†РёСЏ
+			string s = TranslateUnicodeString(sPath);
+			
+			const string sStrictLetters = "Р°Р±РІРіРґРµС‘Р¶Р·РёР№РєР»РјРЅРѕРїСЂСЃС‚СѓС„С…С†С‡С€С‰СЉС‹СЊСЌСЋСЏРђР‘Р’Р“Р”Р•РЃР–Р—РР™РљР›РњРќРћРџР РЎРўРЈР¤РҐР¦Р§РЁР©РЄР«Р¬Р­Р®РЇabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}-_";
 			string sStrict = "";
 			for( int i=0; i!=s.Length; ++i ) {
 				int nInd = sStrictLetters.IndexOf( s[i] );
@@ -447,8 +505,8 @@ namespace Core.StringProcessing
 			return sStrict;
 		}
 		
+		// С‚РѕР»СЊРєРѕ РєРѕСЂСЂРµРєС‚РЅС‹Рµ СЃРёРјРІРѕР»С‹ РґР»СЏ РёРјРµРЅ С„Р°Р№Р»РѕРІ
 		public static string OnlyCorrectSymbolsForString( string sString ) {
-			// только корректные символы для имен файлов
 			string s = sString;
 			if( sString==null || sString.Length==0 ) {
 				return sString;
@@ -472,8 +530,8 @@ namespace Core.StringProcessing
 			return sCorrect;
 		}
 		
+		// С‚РѕР»СЊРєРѕ РєРѕСЂСЂРµРєС‚РЅС‹Рµ СЃРёРјРІРѕР»С‹ РґР»СЏ РїСѓС‚РµР№ С„Р°Р№Р»РѕРІ
 		public static string OnlyCorrectSymbolsForPath( string sString ) {
-			// только корректные символы для путей файлов
 			string s = sString;
 			if( sString==null || sString.Length==0 ) {
 				return sString;
@@ -500,17 +558,17 @@ namespace Core.StringProcessing
 		public static string GetGeneralWorkedString( string sString )
 		{
 			string s = "";
-			// регистр
+			// СЂРµРіРёСЃС‚СЂ
 			s = RegisterString( sString, Settings.SettingsFM.ReadRegisterMode() );
-			// пробелы
+			// РїСЂРѕР±РµР»С‹
 			s = SpaceString( s, Settings.SettingsFM.ReadSpaceProcessMode() );
-			// "строгие" символы
+			// "СЃС‚СЂРѕРіРёРµ" СЃРёРјРІРѕР»С‹
 			if( Settings.SettingsFM.ReadStrictMode() ) {
 				s = StrictString( s );
 			} else {
 				s = OnlyCorrectSymbolsForString( s );
 			}
-			// транслитерация
+			// С‚СЂР°РЅСЃР»РёС‚РµСЂР°С†РёСЏ
 			if( Settings.SettingsFM.ReadTranslitMode() ) {
 				s = TransliterationString( s );
 			}
@@ -520,15 +578,15 @@ namespace Core.StringProcessing
 		public static string GetGeneralWorkedPath( string sFB2FilePath )
 		{
 			string s = "";
-			// регистр
+			// СЂРµРіРёСЃС‚СЂ
 			s = RegisterString( sFB2FilePath, Settings.SettingsFM.ReadRegisterMode() );
-			// пробелы
+			// РїСЂРѕР±РµР»С‹
 			s = SpaceString( s, Settings.SettingsFM.ReadSpaceProcessMode() );
-			// транслитерация
+			// С‚СЂР°РЅСЃР»РёС‚РµСЂР°С†РёСЏ
 			if( Settings.SettingsFM.ReadTranslitMode() ) {
 				s = TransliterationString( s );
 			}
-			// "строгие" символы
+			// "СЃС‚СЂРѕРіРёРµ" СЃРёРјРІРѕР»С‹
 			if( Settings.SettingsFM.ReadStrictMode() ) {
 				s = StrictPath( s );
 			} else {
@@ -537,8 +595,8 @@ namespace Core.StringProcessing
 			return s;
 		}
 		
+		// РµСЃР»Рё РІ СЃС‚СЂРѕРєРµ sNumber - С‡РёСЃР»Рѕ (1, 01, 34 ...), С‚Рѕ РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ true, РµСЃР»Рё РЅРµС‚ (0x3, 2v ...) - false
 		public static bool IsNumberInString( string sNumber ) {
-			// если в строке sNumber - число (1, 01, 34 ...), то возвращается true, если нет (0x3, 2v ...) - false
 			try {
 				Convert.ToInt32( sNumber );
 			} catch {
@@ -546,22 +604,22 @@ namespace Core.StringProcessing
 			}
 			return true;
 		}
-		
+
 		#endregion
 		
-		#region Поиск одинаковых строк в списке List
-		private static string m_sForFind = ""; // для предиката поска в списке
+		#region РџРѕРёСЃРє РѕРґРёРЅР°РєРѕРІС‹С… СЃС‚СЂРѕРє РІ СЃРїРёСЃРєРµ List
+		private static string m_sForFind = ""; // РґР»СЏ РїСЂРµРґРёРєР°С‚Р° РїРѕСЃРєР° РІ СЃРїРёСЃРєРµ
 		private static bool IsFileNameExsist( String s ) {
-			// предикат для поиска в List всех одинаковых фафлов m_sForFind
+			// РїСЂРµРґРёРєР°С‚ РґР»СЏ РїРѕРёСЃРєР° РІ List РІСЃРµС… РѕРґРёРЅР°РєРѕРІС‹С… С„Р°С„Р»РѕРІ m_sForFind
 			return ( s == m_sForFind ) ? false : true;
         }
 		public static List<string> GetFilesWithNames( List<string> lFilesList, string sFileName ) {
-			// предикат для поиска в List lFilesList всех одинаковых фафлов sFileName
+			// РїСЂРµРґРёРєР°С‚ РґР»СЏ РїРѕРёСЃРєР° РІ List lFilesList РІСЃРµС… РѕРґРёРЅР°РєРѕРІС‹С… С„Р°С„Р»РѕРІ sFileName
 			m_sForFind = sFileName;
 			return lFilesList.FindAll( IsFileNameExsist );
 		}
 		public static long GetFilesCount( List<string> lFilesList, string sFileName ) {
-			// число одинаковыъх файлов sFileName в списке lFilesList
+			// С‡РёСЃР»Рѕ РѕРґРёРЅР°РєРѕРІС‹СЉС… С„Р°Р№Р»РѕРІ sFileName РІ СЃРїРёСЃРєРµ lFilesList
 			return GetFilesWithNames( lFilesList, sFileName ).Count;
 		}
 		#endregion
