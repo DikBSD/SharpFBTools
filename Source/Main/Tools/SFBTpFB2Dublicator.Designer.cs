@@ -162,10 +162,7 @@ namespace SharpFBTools.Tools
 			this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.pSearchFBDup2Dirs = new System.Windows.Forms.Panel();
-			this.btnToAnotherDir = new System.Windows.Forms.Button();
 			this.btnOpenDir = new System.Windows.Forms.Button();
-			this.lblDupToDir = new System.Windows.Forms.Label();
-			this.tboxDupToDir = new System.Windows.Forms.TextBox();
 			this.chBoxScanSubDir = new System.Windows.Forms.CheckBox();
 			this.tboxSourceDir = new System.Windows.Forms.TextBox();
 			this.lblScanDir = new System.Windows.Forms.Label();
@@ -292,30 +289,15 @@ namespace SharpFBTools.Tools
 			// pSearchFBDup2Dirs
 			// 
 			this.pSearchFBDup2Dirs.AutoSize = true;
-			this.pSearchFBDup2Dirs.Controls.Add(this.btnToAnotherDir);
 			this.pSearchFBDup2Dirs.Controls.Add(this.btnOpenDir);
-			this.pSearchFBDup2Dirs.Controls.Add(this.lblDupToDir);
-			this.pSearchFBDup2Dirs.Controls.Add(this.tboxDupToDir);
 			this.pSearchFBDup2Dirs.Controls.Add(this.chBoxScanSubDir);
 			this.pSearchFBDup2Dirs.Controls.Add(this.tboxSourceDir);
 			this.pSearchFBDup2Dirs.Controls.Add(this.lblScanDir);
 			this.pSearchFBDup2Dirs.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pSearchFBDup2Dirs.Location = new System.Drawing.Point(0, 31);
 			this.pSearchFBDup2Dirs.Name = "pSearchFBDup2Dirs";
-			this.pSearchFBDup2Dirs.Size = new System.Drawing.Size(1123, 62);
+			this.pSearchFBDup2Dirs.Size = new System.Drawing.Size(1123, 33);
 			this.pSearchFBDup2Dirs.TabIndex = 36;
-			// 
-			// btnToAnotherDir
-			// 
-			this.btnToAnotherDir.Image = ((System.Drawing.Image)(resources.GetObject("btnToAnotherDir.Image")));
-			this.btnToAnotherDir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnToAnotherDir.Location = new System.Drawing.Point(158, 35);
-			this.btnToAnotherDir.Name = "btnToAnotherDir";
-			this.btnToAnotherDir.Size = new System.Drawing.Size(37, 24);
-			this.btnToAnotherDir.TabIndex = 22;
-			this.btnToAnotherDir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnToAnotherDir.UseVisualStyleBackColor = true;
-			this.btnToAnotherDir.Click += new System.EventHandler(this.BtnToAnotherDirClick);
 			// 
 			// btnOpenDir
 			// 
@@ -326,27 +308,6 @@ namespace SharpFBTools.Tools
 			this.btnOpenDir.TabIndex = 21;
 			this.btnOpenDir.UseVisualStyleBackColor = true;
 			this.btnOpenDir.Click += new System.EventHandler(this.BtnOpenDirClick);
-			// 
-			// lblDupToDir
-			// 
-			this.lblDupToDir.AutoSize = true;
-			this.lblDupToDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.lblDupToDir.Location = new System.Drawing.Point(3, 37);
-			this.lblDupToDir.Name = "lblDupToDir";
-			this.lblDupToDir.Size = new System.Drawing.Size(152, 13);
-			this.lblDupToDir.TabIndex = 20;
-			this.lblDupToDir.Text = "Папка-приемник файлов:";
-			// 
-			// tboxDupToDir
-			// 
-			this.tboxDupToDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxDupToDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.tboxDupToDir.Location = new System.Drawing.Point(200, 35);
-			this.tboxDupToDir.Name = "tboxDupToDir";
-			this.tboxDupToDir.Size = new System.Drawing.Size(745, 20);
-			this.tboxDupToDir.TabIndex = 19;
-			this.tboxDupToDir.TextChanged += new System.EventHandler(this.TboxDupToDirTextChanged);
 			// 
 			// chBoxScanSubDir
 			// 
@@ -679,7 +640,7 @@ namespace SharpFBTools.Tools
 			this.tsmiDeleteFileFromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteFileFromDisk.Image")));
 			this.tsmiDeleteFileFromDisk.Name = "tsmiDeleteFileFromDisk";
 			this.tsmiDeleteFileFromDisk.Size = new System.Drawing.Size(321, 22);
-			this.tsmiDeleteFileFromDisk.Text = "Удалить файл с диска";
+			this.tsmiDeleteFileFromDisk.Text = "Удалить выделенный файл с диска";
 			this.tsmiDeleteFileFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
 			// toolStripSeparator4
@@ -709,7 +670,7 @@ namespace SharpFBTools.Tools
 			this.pMode.Controls.Add(this.cboxMode);
 			this.pMode.Controls.Add(this.lblMode);
 			this.pMode.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pMode.Location = new System.Drawing.Point(0, 93);
+			this.pMode.Location = new System.Drawing.Point(0, 64);
 			this.pMode.Name = "pMode";
 			this.pMode.Size = new System.Drawing.Size(1123, 26);
 			this.pMode.TabIndex = 37;
@@ -763,7 +724,7 @@ namespace SharpFBTools.Tools
 			this.pExistFile.Controls.Add(this.cboxDupExistFile);
 			this.pExistFile.Controls.Add(this.lblDupExistFile);
 			this.pExistFile.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pExistFile.Location = new System.Drawing.Point(0, 119);
+			this.pExistFile.Location = new System.Drawing.Point(0, 90);
 			this.pExistFile.Name = "pExistFile";
 			this.pExistFile.Size = new System.Drawing.Size(1123, 28);
 			this.pExistFile.TabIndex = 39;
@@ -1156,11 +1117,11 @@ namespace SharpFBTools.Tools
 			this.lvResult.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvResult.FullRowSelect = true;
 			this.lvResult.HideSelection = false;
-			this.lvResult.Location = new System.Drawing.Point(0, 147);
+			this.lvResult.Location = new System.Drawing.Point(0, 118);
 			this.lvResult.MultiSelect = false;
 			this.lvResult.Name = "lvResult";
 			this.lvResult.ShowItemToolTips = true;
-			this.lvResult.Size = new System.Drawing.Size(1123, 165);
+			this.lvResult.Size = new System.Drawing.Size(1123, 194);
 			this.lvResult.TabIndex = 45;
 			this.lvResult.UseCompatibleStateImageBehavior = false;
 			this.lvResult.View = System.Windows.Forms.View.Details;
@@ -1211,7 +1172,6 @@ namespace SharpFBTools.Tools
 		}
 		private System.Windows.Forms.ToolStripButton tsbtnSearchFb2DupRenew;
 		private System.Windows.Forms.ToolStripButton tsbtnSearchFb2DupStopSave;
-		private System.Windows.Forms.Button btnToAnotherDir;
 		private System.Windows.Forms.Button btnOpenDir;
 		private System.Windows.Forms.ToolStripMenuItem tsmiAnalyzeForAllGroups;
 		private System.Windows.Forms.ToolStripMenuItem tsmiAllOldBooksLastWriteTimeInGroup;
@@ -1243,8 +1203,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.Panel pExistFile;
 		private System.Windows.Forms.ComboBox cboxDupExistFile;
 		private System.Windows.Forms.Label lblDupExistFile;
-		private System.Windows.Forms.TextBox tboxDupToDir;
-		private System.Windows.Forms.Label lblDupToDir;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem tsmiDiffFB2;
 		private System.Windows.Forms.ToolStripMenuItem tsmiDeleteFileFromDisk;

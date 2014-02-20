@@ -114,9 +114,12 @@ namespace Core.FilesWorker
 				return (f/(1024*1024)).ToString()+" Мб";
 		}
 		
-		// задание папки черед диалог открытия папки
+		/// <summary>
+		/// задание папки через диалог открытия папки
+		/// возвращает: true, если путь к папке выбран; false - если была нажата кнопка отмены
+		/// </summary>
 		public static bool OpenDirDlg( TextBox tb, FolderBrowserDialog fbd, string sTitle ) {
-			if( tb.Text.Trim() != "" )
+			if( tb.Text.Trim() != string.Empty )
 				fbd.SelectedPath = tb.Text.Trim();
 
 			fbd.Description = sTitle;
@@ -127,6 +130,21 @@ namespace Core.FilesWorker
 				return true;
 			}
 			return false;
+		}
+		
+		/// <summary>
+		/// задание папки через диалог открытия папки
+		/// возвращает: путь к выбранной папке, если нажата кнопка OK; null - если была нажата кнопка отмены
+		/// </summary>
+		public static string OpenDirDlg( string InitDir, FolderBrowserDialog fbd, string sTitle ) {
+			if( InitDir != null && InitDir.Trim() != string.Empty )
+				fbd.SelectedPath = InitDir.Trim();
+			
+			fbd.Description = sTitle;
+			DialogResult result = fbd.ShowDialog();
+			if (result == DialogResult.OK)
+				return fbd.SelectedPath;
+			return null;
 		}
 		
 		/// <summary>

@@ -289,10 +289,10 @@ namespace Settings
 					
 					writer.WriteStartElement( "FB2DuplicatesSearcher" );
 						writer.WriteStartElement( "FB2DupScanDir" );
-							writer.WriteAttributeString( "tboxSourceDir", SettingsFB2Dup.DupScanDir );
+							writer.WriteAttributeString( "SourceDir", SettingsFB2Dup.DupScanDir );
 						writer.WriteFullEndElement();
 						writer.WriteStartElement( "FB2DupToDir" );
-							writer.WriteAttributeString( "tboxDupToDir", SettingsFB2Dup.DupToDir );
+							writer.WriteAttributeString( "TargetDir", SettingsFB2Dup.DupToDir );
 						writer.WriteFullEndElement();
 					writer.WriteEndElement();
 					
