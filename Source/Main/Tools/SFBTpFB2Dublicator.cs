@@ -1248,12 +1248,16 @@ namespace SharpFBTools.Tools
 					bw.ReportProgress( ++i ); // отобразим данные в контролах
 				}
 			}
+			
 			// Если в обрабатываемой группе осталась только 1 книга, то ее и группу удаляем
-			foreach( ListViewGroup g in listLVG ) {
-				// удаление оставшейся книги в группе и самой группы с контрола отображения (1 книга - это уже не копия)
-				workingGroupItemAfterBookDelete( lvResult, g );
-				// обновление числа групп и книг во всех группах
-				newGroupItemsCount( lvResult, lvFilesCount );
+			if( !IsCopy ) {
+				// только для перемещения книг
+				foreach( ListViewGroup g in listLVG ) {
+					// удаление оставшейся книги в группе и самой группы с контрола отображения (1 книга - это уже не копия)
+					workingGroupItemAfterBookDelete( lvResult, g );
+					// обновление числа групп и книг во всех группах
+					newGroupItemsCount( lvResult, lvFilesCount );
+				}
 			}
 			#endregion
 		}
