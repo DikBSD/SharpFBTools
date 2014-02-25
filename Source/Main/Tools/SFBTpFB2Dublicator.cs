@@ -31,11 +31,8 @@ using Core.FB2.Description.TitleInfo;
 using Core.FB2Dublicator;
 using Core.Misc;
 
-using fB2Parser = Core.FB2Dublicator.FB2ParserForDup;
 using FB2Validator = Core.FB2Parser.FB2Validator;
 using filesWorker = Core.FilesWorker.FilesWorker;
-
-//using fB2Parser 		= Core.FB2.FB2Parsers.FB2Parser;
 
 namespace SharpFBTools.Tools
 {
@@ -47,33 +44,11 @@ namespace SharpFBTools.Tools
 	{
 		#region Закрытые данные класса
 		private StatusView	m_sv 			= new StatusView();
-		private DateTime	m_dtStart;
-		private BackgroundWorker m_bw		= null;
-		private BackgroundWorker m_bwcmd	= null;
-		private BackgroundWorker m_bwRenew	= null;
 		private string	m_sSource			= string.Empty;
 		private string	m_TargetDir			= string.Empty;
-		private bool	m_bScanSubDirs		= true;
 		private string	m_sMessTitle		= string.Empty;
-		private bool	m_bCheckValid		= false;	// проверять или нет fb2-файл на валидность
-		private string	m_sFileWorkerMode	= string.Empty;
 		private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
-		private List<string> m_FilesList	= new List<string>();
-		private bool	m_bFilesWorked		= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
-		private bool	m_StopToSave		= false; // флаг = true, если остановка с сохранением необработанного списка книг в файл.
-		private Hashtable m_htWorkingBook		= new Hashtable();  // таблица обработанные файлов - копии.
-		private Hashtable m_htBookTitleAuthors	= new Hashtable();  // таблица для обработанных данных копий для режима группировки по Авторам.
-		
-		/// <summary>
-		/// режимы сравнения книг
-		/// </summary>
-		private enum SearchCompareMode {
-			Md5					= 0, // 0. Абсолютно одинаковые книги (md5)
-			BookID				= 1, // 1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)
-			BookTitle			= 2, // 2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)
-			AuthorAndTitle		= 3, // 3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
-		}
-		
+
 		/// <summary>
 		/// Номера колонок контрола просмотра групп одинаковых книг
 		/// </summary>
@@ -148,17 +123,12 @@ namespace SharpFBTools.Tools
 			InitializeComponent();
 			// задание для кнопок ToolStrip стиля и положения текста и картинки
 			SetToolButtonsSettings();
-			
-			InitializeBackgroundWorker();
-			InitializeFilesWorkerBackgroundWorker();
-			InitializeRenewBackgroundWorker();
-			
 			// создание колонок просмотрщика найденных книг
 			MakeColumns();
 			Init();
 			// читаем сохраненные пути к папкам Поиска одинаковых fb2-файлов, если они есть
 			ReadFB2DupTempData();
-			cboxMode.SelectedIndex			= (int)SearchCompareMode.Md5; // Условия для Сравнения fb2-файлов: md5 книги
+			cboxMode.SelectedIndex			= 0; // Условия для Сравнения fb2-файлов: md5 книги
 			cboxDupExistFile.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу очередного номера
 		}
 		// =============================================================================================
@@ -172,132 +142,14 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		// =============================================================================================
-		// 				BACKGROUNDWORKER ДЛЯ НЕПРЕРЫВНОГО СРАВНЕНИЯ и ПРЕРЫВАНИЯ / ВОЗОБНОВЛЕНИЯ
+		// 							ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ И АЛГОРИТМЫ КЛАССА
 		// =============================================================================================
-		#region BackgroundWorker для Непрерывного сравнения и прерывания / возобновления
+		#region Вспомогательные методы и алгоритмы класса
 		
 		// =============================================================================================
-		//			BackgroundWorker: Непрерывное Сравнение
+		// 			Сохранение в xml и Загрузка из xml списка копий fb2 книг
 		// =============================================================================================
-		#region BackgroundWorker: Непрерывное Сравнение
-		private void InitializeBackgroundWorker() {
-			// Инициализация перед использование BackgroundWorker
-			m_bw = new BackgroundWorker();
-			m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
-			m_bw.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-			m_bw.DoWork 			+= new DoWorkEventHandler( bw_DoWork );
-			m_bw.ProgressChanged 	+= new ProgressChangedEventHandler( bw_ProgressChanged );
-			m_bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
-		}
-		
-		// поиск одинаковых fb2-файлов
-		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
-			#region Код
-			List<string> lDirList = new List<string>();
-			m_FilesList.Clear();
-			if( !m_bScanSubDirs ) {
-				// сканировать только указанную папку
-				filesWorker.makeFilesListFromDir( m_sSource, ref m_FilesList, true );
-				lvFilesCount.Items[0].SubItems[1].Text = "1";
-			} else {
-				// сканировать и все подпапки
-				lvFilesCount.Items[0].SubItems[1].Text =
-					filesWorker.recursionDirsSearch( m_sSource, ref lDirList, true ).ToString();
-				m_sv.AllFiles = filesWorker.makeFilesListFromDirs( ref m_bw, ref e, ref lDirList, ref m_FilesList, true );
-				lvFilesCount.Items[1].SubItems[1].Text = m_sv.AllFiles.ToString();
-			}
-			lDirList.Clear();
-			m_bw.ReportProgress( 0 ); // отобразим данные в контролах
-
-			if( ( m_bw.CancellationPending ) ) {
-				e.Cancel = true;
-				return;
-			}
-			
-			// проверка, есть ли хоть один файл в папке для сканирования
-			if( m_sv.AllFiles == 0 ) {
-				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-				tsslblProgress.Text = Settings.Settings.GetReady();
-				setSearchFB2DupStartEnabled( true );
-				return;
-			}
-			
-			// очистка контролов вывода данных по книге по ее выбору
-			ClearDataFields();
-			
-			// Сравнение fb2-файлов
-			ConnectListViewResultEventHandlers( false );
-			m_htWorkingBook.Clear();
-			m_htBookTitleAuthors.Clear();
-			
-			// Создание списка копий fb2-книг по Группам
-			makeBookCopiesGroups( ref m_bw, ref e, (SearchCompareMode) cboxMode.SelectedIndex,
-			                     ref m_FilesList, ref m_htWorkingBook, ref m_htBookTitleAuthors );
-			lvResult.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-			#endregion
-		}
-		
-		// Отображение результата
-		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-			if( chBoxViewProgress.Checked )
-				ViewDupProgressData();
-			++tsProgressBar.Value;
-		}
-		
-		// Проверяем - это отмена, ошибка, или конец задачи и сообщить
-		private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
-			DateTime dtEnd = DateTime.Now;
-			ViewDupProgressData(); // отображение данных прогресса
-			ConnectListViewResultEventHandlers( true );
-			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
-
-			string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
-			string sMessDone = "Поиск одинаковых fb2-файлов завершен!\nЗатрачено времени: "+sTime;
-			string sMessError = string.Empty;
-			string sMessCanceled = string.Empty;
-			
-			if (m_StopToSave) {
-				// остановка поиска копий с сохранением списка необработанных книг в файл
-				m_StopToSave = false;
-				// сохранение в xml-файл списка данных о копиях и необработанных книг
-				sfdList.Title = "Укажите файл для возобновления поиска копий книг:";
-				sfdList.Filter = "SharpFBTools Файлы хода работы Дубликатора (*.dup_break)|*.dup_break";
-				sMessCanceled = "Поиск одинаковых fb2 файлов прерван!\nДанные поиска и список оставшихся для обработки книг будут сохранены в xml-файл:\n"+sfdList.FileName+"\nЗатрачено времени: "+sTime;
-				sfdList.FileName = string.Empty;
-				sfdList.InitialDirectory = Settings.Settings.GetProgDir();
-				DialogResult result = sfdList.ShowDialog();
-				if( result == DialogResult.OK )
-					saveSearchDataToXmlFile( sfdList.FileName, cboxMode.SelectedIndex, cboxMode.Text, ref m_FilesList);
-			} else {
-				// просто остановка поиска
-				sMessCanceled = "Поиск одинаковых fb2-файлов остановлен!\nСписок Групп копий fb2-файлов не сформирован полностью!\nЗатрачено времени: "+sTime;
-			}
-			
-			if ( lvResult.Items.Count == 0 )
-				sMessDone += "\n\nНе найдено НИ ОДНОЙ копии книг!";
-			
-			tsslblProgress.Text = Settings.Settings.GetReady();
-			setSearchFB2DupStartEnabled( true );
-			
-			if ( ( e.Cancelled ) ) {
-				MessageBox.Show( sMessCanceled, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-			} else if( e.Error != null ) {
-				sMessError = "Error!\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
-				MessageBox.Show( sMessError, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-			} else {
-				MessageBox.Show( sMessDone, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-			}
-			m_sv.Clear();
-			m_FilesList.Clear();
-			m_htWorkingBook.Clear();
-			m_htBookTitleAuthors.Clear();
-		}
-		#endregion
-
-		// =============================================================================================
-		// 			Сравнение завершено: Сохранение в xml и Загрузка из xml списка копий fb2 книг
-		// =============================================================================================
-		#region Сравнение завершено: Сохранение в xml и Загрузка из xml списка копий fb2 книг
+		#region Сохранение в xml и Загрузка из xml списка копий fb2 книг
 		// сохранение списка копий книг в xml-файл
 		private void saveCopiesListToXml(string ToFileName, int CompareMode, string CompareModeName) {
 			#region Код
@@ -366,6 +218,7 @@ namespace SharpFBTools.Tools
 		
 		// загрузка из xml-файла в хэш таблицу данных о копиях книг
 		private void loadCopiesListFromXML( string FromXML ) {
+			#region Код
 			XElement xmlTree = XElement.Load( FromXML );
 			
 			// выставляем режим сравнения
@@ -374,8 +227,8 @@ namespace SharpFBTools.Tools
 			
 			// устанавливаем данные настройки поиска-сравнения
 			m_sSource = tboxSourceDir.Text = xmlTree.Element("SourceDir").Value;
-			m_bScanSubDirs = chBoxScanSubDir.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("ScanSubDirs").Value );
-			m_bCheckValid = chBoxIsValid.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("CheckValidate").Value );
+			chBoxScanSubDir.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("ScanSubDirs").Value );
+			chBoxIsValid.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("CheckValidate").Value );
 			
 			//загрузка данных о ходе сравнения
 			XElement compareData = xmlTree.Element("CompareData");
@@ -420,6 +273,7 @@ namespace SharpFBTools.Tools
 					lvResult.Items.Add( lvi );
 				}
 			}
+			#endregion
 		}
 		
 		// создание хеш-таблицы для групп одинаковых книг
@@ -433,879 +287,6 @@ namespace SharpFBTools.Tools
 			return false;
 		}
 		#endregion
-		
-		// =============================================================================================
-		//	Общие для Полного и Прерванного сканирования Алгоритмы создания списков копий книг по Группам
-		// =============================================================================================
-		#region Общие для Полного и Прерванного сканирования Алгоритмы создания списков копий книг по Группам
-		
-		// Создание списка копий fb2-книг по Группам
-		private void makeBookCopiesGroups( ref BackgroundWorker bw, ref DoWorkEventArgs e,
-		                                  SearchCompareMode CompareMode, ref List<string> FilesList,
-		                                  ref Hashtable htWorkingBook, ref Hashtable htBookTitleAuthors ) {
-			switch ( CompareMode ) {
-				case SearchCompareMode.Md5:
-					// 0. Абсолютно одинаковые книги (md5)
-					// Хэширование fb2-файлов
-					FilesHashForMd5Parser( ref bw, ref e, ref FilesList, ref htWorkingBook );
-					// Создание списка копий для режима "0. Абсолютно одинаковые книги (md5)"
-					makeTreeOfBookCopies( ref bw, ref e, ref htWorkingBook );
-					break;
-				case SearchCompareMode.BookID:
-					// 1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)
-					// Хэширование fb2-файлов
-					FilesHashForIDParser( ref bw, ref e, ref FilesList, ref htWorkingBook );
-					// Создание списка копий для режима "1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)"
-					makeTreeOfBookCopies( ref bw, ref e, ref htWorkingBook );
-					break;
-				case SearchCompareMode.BookTitle:
-					// 2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)
-					// Хэширование fb2-файлов
-					FilesHashForBTParser( ref bw, ref e, ref FilesList, ref htWorkingBook );
-					// Создание списка копий для режима "2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)"
-					makeTreeOfBookCopies( ref bw, ref e, ref htWorkingBook );
-					break;
-				case SearchCompareMode.AuthorAndTitle:
-					// 3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
-					// Хэширование fb2-файлов
-					FilesHashForBTParser( ref bw, ref e, ref FilesList, ref htWorkingBook );
-					// Хэширование по одинаковым Авторам в пределах сгенерированных групп книг по одинаковым названиям
-					FilesHashForAuthorsParser( ref bw, ref e, ref htWorkingBook, ref htBookTitleAuthors );
-					// Создание списка копий для режима "3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)"
-					makeTreeOfBookCopies( ref bw, ref e, ref htBookTitleAuthors );
-					break;
-			}
-		}
-		
-		// Создание дерева списка копий для всех режимов сравнения
-		private void makeTreeOfBookCopies( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref Hashtable ht ) {
-			tsslblProgress.Text		= "Создание списка одинаковых fb2-файлов:";
-			tsProgressBar.Maximum	= ht.Values.Count;
-			tsProgressBar.Value		= 0;
-			// сортировка ключей (групп)
-			List<string> keyList = makeSortedKeysForGroups( ref ht );
-			foreach( string key in keyList ) {
-				if( ( bw.CancellationPending ) ) {
-					e.Cancel = true;
-					return;
-				}
-				++m_sv.Group; // число групп одинаковых книг
-				// формирование представления Групп с их книгами
-				makeBookCopiesView( (FB2FilesDataInGroup)ht[key] );
-				bw.ReportProgress( 0 );
-			}
-		}
-		
-		
-		// Хэширование по одинаковым Авторам в пределах сгенерированных групп книг по одинаковым названиям
-		private void FilesHashForAuthorsParser( ref BackgroundWorker bw, ref DoWorkEventArgs e,
-		                                       ref Hashtable htFB2ForABT, ref Hashtable htBookTitleAuthors ) {
-			tsslblProgress.Text		= "Хеширование по Авторам:";
-			tsProgressBar.Maximum	= htFB2ForABT.Values.Count;
-			tsProgressBar.Value		= 0;
-			// генерация списка ключей хеш-таблицы (для удаления обработанного элемента таблицы)
-			List<string> keyList = makeSortedKeysForGroups( ref htFB2ForABT );
-			// группировка книг по одинаковым Авторам в пределах сгенерированных Групп книг по одинаковым Названиям
-			foreach( string key in keyList ) {
-				// разбивка на группы для одинакового Названия по Авторам
-				Hashtable htGroupAuthors = FindDupForAuthors( ref bw, ref e, (FB2FilesDataInGroup)htFB2ForABT[key], false );
-				if( ( bw.CancellationPending ) ) {
-					e.Cancel = true;
-					return;
-				}
-				foreach( FB2FilesDataInGroup fb2List in htGroupAuthors.Values )
-					htBookTitleAuthors.Add(fb2List.Group, fb2List);
-				// удаление обработанной группы книг, сгруппированных по одинаковому названию
-				htFB2ForABT.Remove(key);
-				bw.ReportProgress( 0 );
-			}
-		}
-		
-		// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
-		private void removeNotCopiesEntryInHashTable( ref Hashtable ht ) {
-			List<DictionaryEntry> notCopies = new List<DictionaryEntry>();
-			foreach (DictionaryEntry entry in ht) {
-				FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)entry.Value;
-				if (fb2f.Count==1)
-					notCopies.Add(entry);
-			}
-			foreach (var ent in notCopies)
-				ht.Remove(ent.Key);
-		}
-		
-		// удаление из списка всех файлов обработанные книги (файлы)
-		private void removeFinishedFilesInFilesList( ref List<string> FilesList, ref List<string> FinishedFilesList) {
-			List<string> FilesToWorkingList = new List<string>();
-			foreach (var file in FilesList.Except(FinishedFilesList))
-				FilesToWorkingList.Add(file);
-			
-			FilesList.Clear();
-			FilesList.AddRange(FilesToWorkingList);
-		}
-		
-		// хеширование файлов в контексте Md5 книг:
-		// 0. Абсолютно одинаковые книги (md5)
-		// параметры: FilesList - список файлов для сканирования
-		private void FilesHashForMd5Parser( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref List<string> FilesList, ref Hashtable htFB2ForMd5 ) {
-			tsslblProgress.Text		= "Хэширование fb2-файлов:";
-			tsProgressBar.Maximum	= FilesList.Count;
-			tsProgressBar.Value		= 0;
-			
-			List<string> FinishedFilesList = new List<string>();
-			for( int i=0; i!=FilesList.Count; ++i ) {
-				if( ( bw.CancellationPending ) )  {
-					// удаление из списка всех файлов обработанные книги (файлы)
-					removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-					return;
-				}
-				string sExt = Path.GetExtension( FilesList[i] ).ToLower();
-				if( sExt==".fb2" ) {
-					++m_sv.FB2;
-					// заполнение хеш таблицы данными о fb2-книгах в контексте их md5
-					MakeFB2Md5HashTable( FilesList[i], ref htFB2ForMd5 );
-					// обработанные файлы
-					FinishedFilesList.Add(FilesList[i]);
-				}  else {
-					if( sExt==".zip" )
-						++m_sv.Zip;		// пропускаем архивы
-					else
-						++m_sv.Other;	// пропускаем не fb2-файлы
-				}
-				bw.ReportProgress( 0 ); // отобразим данные в контролах
-			}
-			// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
-			removeNotCopiesEntryInHashTable( ref htFB2ForMd5 );
-			// удаление из списка всех файлов обработанные книги (файлы)
-			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
-		}
-		
-		// заполнение хеш таблицы данными о fb2-книгах в контексте их md5
-		// параметры: Path - путь к fb2-файлу; htFB2ForMd5 - хеш-таблица
-		private void MakeFB2Md5HashTable( string Path, ref Hashtable htFB2ForMd5 ) {
-			try {
-				string md5 = ComputeMD5Checksum( Path );
-				fB2Parser fb2 = new fB2Parser( Path );
-				string Encoding = filesWorker.GetFileEncoding( fb2.XmlDoc.InnerXml.Split('>')[0] );
-				if( Encoding == null )
-					Encoding = "?";
-				string ID = fb2.Id;
-				if( ID == null )
-					return;
-
-				if( ID.Length == 0 )
-					ID = "Тег <id> в этих книгах \"пустой\"";
-				
-				// данные о книге
-				BookData fb2BookData = new BookData( fb2.BookTitle, fb2.Authors, fb2.Genres, ID, fb2.Version, Path, Encoding );
-				
-				if( !htFB2ForMd5.ContainsKey( md5 ) ) {
-					// такой книги в числе дублей еще нет
-					FB2FilesDataInGroup fb2f = new FB2FilesDataInGroup( fb2BookData, md5 );
-					htFB2ForMd5.Add( md5, fb2f );
-				} else {
-					// такая книга в числе дублей уже есть
-					FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)htFB2ForMd5[md5] ;
-					fb2f.AddBookData( fb2BookData );
-					//htFB2ForMd5[md5] = fb2f; //ИЗБЫТОЧНЫЙ КОД
-				}
-			} catch {} // пропускаем проблемные файлы
-			// TODO В catch для всех парсеров добавить код сохранения списка проблемных файлов
-		}
-		
-		// хеширование файлов в контексте Id книг:
-		// 1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)
-		// параметры: FilesList - список файлов для сканирования
-		private void FilesHashForIDParser( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref List<string> FilesList, ref Hashtable htFB2ForID ) {
-			tsslblProgress.Text		= "Хэширование fb2-файлов:";
-			tsProgressBar.Maximum	= FilesList.Count;
-			tsProgressBar.Value		= 0;
-			
-			List<string> FinishedFilesList = new List<string>();
-			for( int i=0; i!=FilesList.Count; ++i ) {
-				if( ( bw.CancellationPending ) )  {
-					// удаление из списка всех файлов обработанные книги (файлы)
-					removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
-					e.Cancel = true;
-					return;
-				}
-				string Ext = Path.GetExtension( FilesList[i] ).ToLower();
-				if( Ext==".fb2" ) {
-					++m_sv.FB2;
-					// заполнение хеш таблицы данными о fb2-книгах в контексте их ID
-					MakeFB2IDHashTable( FilesList[i], ref htFB2ForID );
-					// обработанные файлы
-					FinishedFilesList.Add(FilesList[i]);
-				}  else {
-					if( Ext==".zip" )
-						++m_sv.Zip;	// пропускаем архивы
-					else
-						++m_sv.Other;	// пропускаем не fb2-файлы
-				}
-				bw.ReportProgress( 0 ); // отобразим данные в контролах
-			}
-			// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
-			removeNotCopiesEntryInHashTable( ref htFB2ForID );
-			// удаление из списка всех файлов обработанные книги (файлы)
-			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
-		}
-		
-		// заполнение хеш таблицы данными о fb2-книгах в контексте их ID
-		// параметры: Path - путь к fb2-файлу; htFB2ForID - хеш-таблица
-		private void MakeFB2IDHashTable( string Path, ref Hashtable htFB2ForID ) {
-			try {
-				fB2Parser fb2 = new fB2Parser( Path );
-				string Encoding = filesWorker.GetFileEncoding( fb2.XmlDoc.InnerXml.Split('>')[0] );
-				if( Encoding == null )
-					Encoding = "?";
-				string ID = fb2.Id;
-				if( ID==null )
-					return;
-
-				if( ID.Length==0 )
-					ID = "Тег <id> в этих книгах \"пустой\"";
-				
-				// данные о книге
-				BookData fb2BookData = new BookData( fb2.BookTitle, fb2.Authors, fb2.Genres, ID, fb2.Version, Path, Encoding );
-				
-				if( !htFB2ForID.ContainsKey( ID ) ) {
-					// такой книги в числе дублей еще нет
-					FB2FilesDataInGroup fb2f = new FB2FilesDataInGroup( fb2BookData, ID );
-					htFB2ForID.Add( ID, fb2f );
-				} else {
-					// такая книга в числе дублей уже есть
-					FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)htFB2ForID[ID] ;
-					fb2f.AddBookData( fb2BookData );
-					//htFB2ForID[sID] = fb2f; //ИЗБЫТОЧНЫЙ КОД
-				}
-			} catch {} // пропускаем проблемные файлы
-		}
-		
-		// хеширование файлов в контексте Авторов и Названия книг:
-		// 2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)
-		// 3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
-		// параметры: FilesList - список файлов для сканирования
-		private void FilesHashForBTParser( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref List<string> FilesList, ref Hashtable htFB2ForBT ) {
-			tsslblProgress.Text		= "Хэширование fb2-файлов:";
-			tsProgressBar.Maximum	= FilesList.Count;
-			tsProgressBar.Value		= 0;
-			
-			List<string> FinishedFilesList = new List<string>();
-			for( int i=0; i!=FilesList.Count; ++i ) {
-				if( ( bw.CancellationPending ) )  {
-					// удаление из списка всех файлов обработанные книги (файлы)
-					removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-					return;
-				}
-				string Ext = Path.GetExtension( FilesList[i] ).ToLower();
-				if( Ext==".fb2" ) {
-					++m_sv.FB2;
-					// заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
-					MakeFB2BTHashTable( FilesList[i], ref htFB2ForBT );
-					// обработанные файлы
-					FinishedFilesList.Add(FilesList[i]);
-				} else {
-					if( Ext==".zip" )
-						++m_sv.Zip;	// пропускаем архивы
-					else
-						++m_sv.Other;	// пропускаем не fb2-файлы
-				}
-				bw.ReportProgress( 0 ); // отобразим данные в контролах
-			}
-			// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
-			removeNotCopiesEntryInHashTable( ref htFB2ForBT );
-			// удаление из списка всех файлов обработанные книги (файлы)
-			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
-		}
-		
-		// заполнение хеш таблицы данными о fb2-книгах в контексте их Названия
-		// параметры: Path - путь к fb2-файлу; htFB2ForABT - хеш-таблица
-		private void MakeFB2BTHashTable( string Path, ref Hashtable htFB2ForBT ) {
-			try {
-				fB2Parser fb2 = new fB2Parser( Path );
-				BookTitle bookTitle	= fb2.BookTitle;
-				if( bookTitle!=null && bookTitle.Value!=null ) {
-					string Encoding = filesWorker.GetFileEncoding( fb2.XmlDoc.InnerXml.Split('>')[0] );
-					if( Encoding == null )
-						Encoding = "?";
-					// данные о книге
-					BookData fb2BookData = new BookData( bookTitle, fb2.Authors, fb2.Genres, fb2.Id, fb2.Version, Path, Encoding );
-					string BT = bookTitle.Value.Trim();
-					if( !htFB2ForBT.ContainsKey( BT ) ) {
-						// такой книги в числе дублей еще нет
-						FB2FilesDataInGroup fb2f = new FB2FilesDataInGroup( fb2BookData, BT );
-						htFB2ForBT.Add( BT, fb2f );
-					} else {
-						// такая книга в числе дублей уже есть
-						FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)htFB2ForBT[BT];
-						fb2f.AddBookData( fb2BookData );
-						//htFB2ForID[sBT] = fb2f; //ИЗБЫТОЧНЫЙ КОД
-					}
-				}
-			} catch {} // пропускаем проблемные файлы
-		}
-
-		// создание групп копий по Авторам, относительно найденного Названия Книги
-		private Hashtable FindDupForAuthors( ref BackgroundWorker bw, ref DoWorkEventArgs e, FB2FilesDataInGroup fb2Group, bool WithMiddleName ) {
-			// в fb2Group.Group - название группы (название книги у всех книг одинаковое, а пути - разные )
-			// внутри fb2Group в BookData - данные на каждую книгу группы
-			Hashtable ht = new Hashtable();
-			// 2 итератора для перебора всех книг группы. 1-й - только на текущий элемент группы, 2-й - скользящий на все последующие. т.е. iter2 = iter1+1
-			for( int iter1=0; iter1!=fb2Group.Count; ++iter1 ) {
-				if( ( bw.CancellationPending ) )  {
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
-					return null;
-				}
-				BookData bd1 = fb2Group[iter1]; // текущая книга
-				FB2FilesDataInGroup fb2NewGroup = new FB2FilesDataInGroup();
-				// перебор всех книг в группе, за исключением текущей
-				for( int iter2=iter1+1; iter2!=fb2Group.Count; ++iter2 ) {
-					// сравнение текущей книги со всеми последующими
-					BookData bd2 = fb2Group[iter2];
-					if ( bd1.isSameBook(bd2, WithMiddleName) ) {
-						if (!fb2NewGroup.isBookExists(bd2.Path))
-							fb2NewGroup.Add( bd2 );
-					}
-				}
-				if( fb2NewGroup.Count >= 1 ) {
-					// только для копий, а не для единичных книг
-					fb2NewGroup.Group = bd1.BookTitle.Value + " ( " + fb2NewGroup.makeAutorsString(WithMiddleName) + " )";
-					fb2NewGroup.Insert( 0, bd1 );
-					if ( !ht.ContainsKey(fb2NewGroup.Group) )
-						ht.Add( fb2NewGroup.Group, fb2NewGroup );
-				}
-			}
-			return ht;
-		}
-		#endregion
-
-		// =============================================================================================
-		//					BackgroundWorker: Возобновления поиска копий книг
-		// =============================================================================================
-		#region BackgroundWorker: Возобновления поиска копий книг
-		private void InitializeRenewBackgroundWorker() {
-			m_bwRenew = new BackgroundWorker();
-			m_bwRenew.WorkerReportsProgress			= true; // Позволить выводить прогресс процесса
-			m_bwRenew.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-			m_bwRenew.DoWork 			+= new DoWorkEventHandler( m_bwRenew_renewSearchDataFromFile_DoWork );
-			m_bwRenew.ProgressChanged 	+= new ProgressChangedEventHandler( bw_ProgressChanged );
-			m_bwRenew.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
-		}
-		
-		// возобновление проверки - загрузка отчета о найденных копиях и о необработанных книгах из xml-файла
-		private void m_bwRenew_renewSearchDataFromFile_DoWork( object sender, DoWorkEventArgs e ) {
-			// загрузка данных из xml
-			sfdLoadList.InitialDirectory = Settings.Settings.GetProgDir();
-			sfdLoadList.Title		= "Укажите файл для возобновления поиска копий книг:";
-			sfdLoadList.Filter		= "SharpFBTools Файлы хода работы Дубликатора (*.dup_break)|*.dup_break";
-			sfdLoadList.FileName	= string.Empty;
-			string FromXML = string.Empty;
-			DialogResult result = sfdLoadList.ShowDialog();
-			XElement xmlTree = null;
-			if( result == DialogResult.OK )
-				xmlTree = XElement.Load( sfdLoadList.FileName );
-			else {
-				tsslblProgress.Text = Settings.Settings.GetReady();
-				setSearchFB2DupStartEnabled( true );
-				return;
-			}
-			
-			// выставляем режим сравнения
-			int CompareMode = Convert.ToInt16( xmlTree.Element("CompareMode").Attribute("index").Value );
-			cboxMode.SelectedIndex = CompareMode;
-			
-			// устанавливаем данные настройки поиска-сравнения
-			m_sSource = tboxSourceDir.Text = xmlTree.Element("SourceDir").Value;
-			m_bScanSubDirs = chBoxScanSubDir.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("ScanSubDirs").Value );
-			m_bCheckValid = chBoxIsValid.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("CheckValidate").Value );
-			
-			//загрузка данных о ходе сравнения
-			XElement compareData = xmlTree.Element("CompareData");
-			m_sv.AllFiles = Convert.ToInt32( compareData.Element("AllFiles").Value );
-			m_sv.FB2 = Convert.ToInt32( compareData.Element("FB2Files").Value );
-			lvFilesCount.Items[0].SubItems[1].Text = compareData.Element("AllDirs").Value;
-			
-			ViewDupProgressData();
-			
-			// заполнение списка необработанных файлов
-			m_FilesList.Clear();
-			IEnumerable<XElement> files = xmlTree.Element("NotWorkingFiles").Elements("File");
-			foreach (XElement element in files)
-				m_FilesList.Add(element.Value);
-			
-			// заполнение хэш-таблицы
-			m_htWorkingBook.Clear();
-			m_htBookTitleAuthors.Clear();
-			
-			ConnectListViewResultEventHandlers( false );
-
-			// загрузка из xml-файла в хэш таблицу данных о копиях книг
-			loadFromXMLToHashtable( ref m_bwRenew, (SearchCompareMode) CompareMode, ref xmlTree, ref m_htWorkingBook );
-			// Создание списка копий fb2-книг по Группам
-			makeBookCopiesGroups( ref m_bwRenew, ref e, (SearchCompareMode) CompareMode,
-			                     ref m_FilesList, ref m_htWorkingBook, ref m_htBookTitleAuthors );
-			lvResult.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-		}
-		
-		// загрузка из xml-файла в хэш таблицу данных о копиях книг для всех режимов
-		private void loadFromXMLToHashtable( ref BackgroundWorker bw, SearchCompareMode CompareMode, ref XElement xmlTree, ref Hashtable ht ) {
-			tsslblProgress.Text = "Загрузка групп fb2-файлов:";
-			tsProgressBar.Maximum	= Convert.ToUInt16( xmlTree.Element("Groups").Attribute("count").Value );
-			if( CompareMode == SearchCompareMode.AuthorAndTitle )
-				tsProgressBar.Maximum += Convert.ToUInt16( xmlTree.Element("BookTitleGroup").Attribute("count").Value );
-			tsProgressBar.Value	= 0;
-			
-			_loadFromXMLToHashtable( ref bw, ref xmlTree, "Groups", ref ht );
-			if( CompareMode == SearchCompareMode.AuthorAndTitle )
-				_loadFromXMLToHashtable( ref bw, ref xmlTree, "BookTitleGroup", ref ht );
-		}
-		
-		// загрузка из xml-файла в хэш таблицу данных о копиях книг для всех режимов
-		private void _loadFromXMLToHashtable( ref BackgroundWorker bw, ref XElement xmlTree, string Element, ref Hashtable ht ) {
-			IEnumerable<XElement> groups = xmlTree.Element(Element).Elements("Group");
-			// перебор всех групп копий
-			foreach( XElement group in groups ) {
-				// перебор всех книг в группе
-				IEnumerable<XElement> books = group.Elements("Book");
-				foreach( XElement book in books ) {
-					string Group = book.Element("Group").Value;
-					BookTitle bookTitle = new BookTitle(book.Element("BookTitle").Value);
-					// загрузка авторов книги
-					IList<Author> authors = null;
-					XElement xeAuthors = book.Element("Authors");
-					if (xeAuthors != null) {
-						authors = new List<Author>();
-						IEnumerable<XElement> iexeAuthors = from el in book.Descendants("Author") select el;
-						foreach (XElement a in iexeAuthors) {
-							XElement xeFirstName = a.Element("FirstName");
-							XElement xeMiddleName = a.Element("MiddleName");
-							XElement xeLastName = a.Element("LastName");
-							XElement xeNickName = a.Element("NickName");
-							Author author = new Author( xeFirstName!= null ? transformToTextFieldType(xeFirstName.Value) : null,
-							                           xeMiddleName != null ? transformToTextFieldType(xeMiddleName.Value) : null,
-							                           xeLastName != null ? transformToTextFieldType(xeLastName.Value) : null,
-							                           xeNickName != null ? transformToTextFieldType(xeNickName.Value) : null
-							                          );
-							authors.Add(author);
-						}
-					}
-					// загрузка жанров книги
-					IList<Genre> genres = null;
-					XElement xeGenres = book.Element("Genres");
-					if (xeGenres != null) {
-						genres = new List<Genre>();
-						IEnumerable<XElement> iexeGenre = from el in book.Descendants("Genre") select el;
-						foreach( XElement g in iexeGenre ) {
-							Genre genre = new Genre( g.Value );
-							genre.Math = Convert.ToUInt32( g.Attribute("match").Value );
-							genres.Add( genre );
-						}
-					}
-					// данные о книге
-					BookData fb2BookData = new BookData( bookTitle, authors, genres, book.Element("BookID").Value,
-					                                    book.Element("Version").Value, book.Element("Path").Value,
-					                                    book.Element("Encoding").Value );
-					//заполнение хеш таблицы данными о fb2-книгах
-					if( !ht.ContainsKey( Group ) ) {
-						// такой книги в числе дублей еще нет
-						FB2FilesDataInGroup fb2f = new FB2FilesDataInGroup( fb2BookData, Group );
-						ht.Add( Group, fb2f );
-					} else {
-						// такая книга в числе дублей уже есть
-						FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)ht[Group] ;
-						fb2f.AddBookData( fb2BookData );
-						//ht[Group] = fb2f; //ИЗБЫТОЧНЫЙ КОД
-					}
-				}
-				bw.ReportProgress( 0 );
-			}
-		}
-		#endregion
-		
-		// =============================================================================================
-		// 						Прерывание сравнения: Сохранение данных в xml
-		// =============================================================================================
-		#region Прерывание сравнения: Сохранение данных в xml
-		// сохранение данных о найденных копиях и о необработанных книгах при прерывании проверки для записи
-		private void saveSearchDataToXmlFile(string ToFileName, int CompareMode, string CompareModeName, ref List<string> FilesList) {
-			int fileNumber = 0;
-			int groupNumber = 0;
-			XDocument doc = new XDocument(
-				new XDeclaration("1.0", "utf-8", "yes"),
-				new XElement("Files",
-				             new XComment("Папка для поиска копий книг"),
-				             new XElement("SourceDir", m_sSource),
-				             new XComment("Настройки поиска-сравнения"),
-				             new XElement("Settings",
-				                          new XElement("ScanSubDirs", chBoxScanSubDir.Checked),
-				                          new XElement("CheckValidate", chBoxIsValid.Checked)),
-				             new XComment("Режим поиска-сравнения"),
-				             new XElement("CompareMode",
-				                          new XAttribute("index", CompareMode),
-				                          new XElement("Name", CompareModeName)),
-				             new XComment("Данные о ходе сравнения"),
-				             new XElement("CompareData",
-				                          new XElement("AllDirs", lvFilesCount.Items[0].SubItems[1].Text),
-				                          new XElement("AllFiles", m_sv.AllFiles),
-				                          new XElement("FB2Files", m_sv.FB2),
-				                          new XElement("Zip", m_sv.Zip),
-				                          new XElement("Other", m_sv.Other),
-				                          new XElement("Groups", m_sv.Group),
-				                          new XElement("AllFB2InGroups", m_sv.AllFB2InGroups)
-				                         ),
-				             new XComment("Обработанные файлы"),
-				             new XElement("Groups", new XAttribute("count",
-				                                                   (SearchCompareMode)CompareMode == SearchCompareMode.AuthorAndTitle
-				                                                   ? m_htBookTitleAuthors.Count : m_htWorkingBook.Count)),
-				             new XComment("Не обработанные файлы"),
-				             (SearchCompareMode)CompareMode == SearchCompareMode.AuthorAndTitle
-				             ? new XElement("BookTitleGroup", new XAttribute("count", m_htWorkingBook.Count))
-				             : null,
-				             new XElement("NotWorkingFiles", new XAttribute("count", m_FilesList.Count))
-				            )
-			);
-			
-			// обработанные книги
-			List<string> keyList = null;
-			switch ( (SearchCompareMode)CompareMode ) {
-				case SearchCompareMode.Md5:
-					// 0. Абсолютно одинаковые книги (md5)
-					keyList = sortKeys( ref m_htWorkingBook );
-					saveFB2FilesInGroupToXML( ref m_htWorkingBook, ref keyList, ref groupNumber, ref fileNumber, ref doc, "Groups" );
-					break;
-				case SearchCompareMode.BookID:
-					// 1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)
-					keyList = sortKeys( ref m_htWorkingBook );
-					saveFB2FilesInGroupToXML( ref m_htWorkingBook, ref keyList, ref groupNumber, ref fileNumber, ref doc, "Groups" );
-					break;
-				case SearchCompareMode.BookTitle:
-					// 2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)
-					keyList = sortKeys( ref m_htWorkingBook );
-					saveFB2FilesInGroupToXML( ref m_htWorkingBook, ref keyList, ref groupNumber, ref fileNumber, ref doc, "Groups" );
-					break;
-				case SearchCompareMode.AuthorAndTitle:
-					// 3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
-					// список необработанных файлов по группам
-					keyList = sortKeys( ref m_htWorkingBook );
-					saveFB2FilesInGroupToXML( ref m_htWorkingBook, ref keyList, ref groupNumber, ref fileNumber, ref doc, "BookTitleGroup" );
-					// список Групп с копиями
-					groupNumber = 0;
-					keyList = sortKeys( ref m_htBookTitleAuthors );
-					saveFB2FilesInGroupToXML( ref m_htBookTitleAuthors, ref keyList, ref groupNumber, ref fileNumber, ref doc, "Groups" );
-					break;
-			}
-			
-			// необработанные книги
-			if ( FilesList.Count > 0 ) {
-				fileNumber = 0;
-				for (int i=0; i!=FilesList.Count; ++i)
-					doc.Root.Element("NotWorkingFiles").Add(
-						new XElement("File", new XAttribute("number", fileNumber++),
-						             new XElement("Path", FilesList[i])
-						            )
-					);
-			}
-			doc.Save(ToFileName);
-		}
-		
-		// сохранение групп копий fb2 файлов в xml файл
-		private void saveFB2FilesInGroupToXML( ref Hashtable htFB2InGroup, ref List<string> keyList, ref int groupNumber, ref int fileNumber,
-		                                      ref XDocument doc, string ToElement ) {
-			if ( keyList.Count > 0 ) {
-				XElement xeGroup = null;
-				foreach( string key in keyList ) {
-					FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)htFB2InGroup[key];
-					doc.Root.Element(ToElement).Add(
-						xeGroup = new XElement("Group",
-						                       new XAttribute("number", groupNumber++),
-						                       new XAttribute("count", fb2f.Count),
-						                       new XAttribute("name", fb2f.Group)
-						                      )
-					);
-					xmlSaveBookData( ref xeGroup, fb2f, ref fileNumber );
-				}
-			}
-		}
-		
-		// сортировка ключей (названия групп)
-		private List<string> sortKeys( ref Hashtable hash ) {
-			List<string> keyList = new List<string>();
-			foreach( string key in hash.Keys )
-				keyList.Add(key);
-			keyList.Sort();
-			return keyList;
-		}
-		
-		// сохранение данных о книге в xml-файл
-		private void xmlSaveBookData( ref XElement xeGroup, FB2FilesDataInGroup fb2f, ref int fileNumber ) {
-			XElement xeAuthors;
-			XElement xeGenres;
-			foreach ( BookData bd in fb2f ) {
-				xeGroup.Add(new XElement("Book", new XAttribute("number", fileNumber++),
-				                         new XElement("Group", fb2f.Group),
-				                         new XElement("Path", bd.Path),
-				                         new XElement("BookID", bd.Id),
-				                         new XElement("Encoding", bd.Encoding),
-				                         new XElement("Version", bd.Version),
-				                         new XElement("BookTitle", MakeBookTitleString( bd.BookTitle )),
-				                         xeAuthors = new XElement("Authors"),
-				                         xeGenres = new XElement("Genres")
-				                        )
-				           );
-				// сохранение данных об авторах конкретной книги в xml-файл
-				if( bd.Authors!=null ) {
-					xeAuthors.Add(new XElement("Author"));
-					XElement xeAuthor = xeAuthors.Element("Author");
-					foreach( Author a in bd.Authors ) {
-						if( a.LastName!=null && a.LastName.Value!=null )
-							xeAuthor.Add(new XElement("LastName", a.LastName.Value));
-						if( a.FirstName!=null && a.FirstName.Value!=null )
-							xeAuthor.Add(new XElement("FirstName", a.FirstName.Value));
-						if( a.MiddleName!=null && a.MiddleName.Value!=null )
-							xeAuthor.Add(new XElement("MiddleName", a.MiddleName.Value));
-						if( a.NickName!=null && a.NickName.Value!=null )
-							xeAuthor.Add(new XElement("NickName", a.NickName.Value));
-					}
-				}
-				// сохранение данных о жанрах конкретной книги в xml-файл
-				if( bd.Genres==null )
-					xeGenres.Add(new XElement("Genre", "?"));
-				else {
-					foreach( Genre g in bd.Genres )
-						if( g.Name!=null )
-						xeGenres.Add( new XElement("Genre", new XAttribute("match", g.Math), g.Name) );
-				}
-			}
-		}
-
-		private TextFieldType transformToTextFieldType(string Value) {
-			TextFieldType textField = new TextFieldType();
-			textField.Value = Value;
-			return textField;
-		}
-		#endregion
-
-		#endregion
-		
-		
-		// =============================================================================================
-		// 						BACKGROUNDWORKER: КОПИРОВАНИЕ / ПЕРЕМИЕЩЕНИЕ / УДАЛЕНИЕ
-		// =============================================================================================
-		#region BackgroundWorker: Копирование / Перемещение / Удаление
-		
-		// =============================================================================================
-		//			BackgroundWorker: Копирование / Перемещение / Удаление
-		// =============================================================================================
-		#region BackgroundWorker: Копирование / Перемещение / Удаление
-		private void InitializeFilesWorkerBackgroundWorker() {
-			// Инициализация перед использование BackgroundWorker Копирование / Перемещение / Удаление
-			m_bwcmd = new BackgroundWorker();
-			m_bwcmd.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
-			m_bwcmd.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-			m_bwcmd.DoWork				+= new DoWorkEventHandler( bwcmd_DoWork );
-			m_bwcmd.ProgressChanged 	+= new ProgressChangedEventHandler( bwcmd_ProgressChanged );
-			m_bwcmd.RunWorkerCompleted	+= new RunWorkerCompletedEventHandler( bwcmd_RunWorkerCompleted );
-		}
-		
-		// Обработка файлов
-		private void bwcmd_DoWork( object sender, DoWorkEventArgs e ) {
-			m_bFilesWorked = false;
-			ConnectListViewResultEventHandlers( false );
-			switch( m_sFileWorkerMode ) {
-				case "Copy":
-					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, true,
-					                         m_sSource, m_TargetDir, lvResult,
-					                         cboxDupExistFile.SelectedIndex,
-					                         tsslblProgress, "Копирование помеченных копий книг:" );
-					break;
-				case "Move":
-					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, false,
-					                         m_sSource, m_TargetDir, lvResult,
-					                         cboxDupExistFile.SelectedIndex,
-					                         tsslblProgress, "Перемещение помеченных копий книг:" );
-					break;
-				case "Delete":
-					DeleteCheckedFiles( ref m_bwcmd, ref e, lvResult, tsslblProgress, "Удаление помеченных копий книг:" );
-					break;
-				default:
-					return;
-			}
-		}
-		
-		// Отобразим результат Копирования / Перемещения / Удаление
-		private void bwcmd_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-			// обновление числа групп и книг во всех группах
-			newGroupItemsCount( lvResult, lvFilesCount );
-			++tsProgressBar.Value;
-		}
-		
-		// Завершение работы Обработчика Файлов
-		private void bwcmd_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
-			ConnectListViewResultEventHandlers( true );
-			string sMessCanceled, sMessError, sMessDone, sTabPageDefText, sMessTitle;
-			sMessCanceled = sMessError = sMessDone = sTabPageDefText = sMessTitle = string.Empty;
-			switch( m_sFileWorkerMode ) {
-				case "Copy":
-					sMessTitle		= "SharpFBTools - Копирование копий книг";
-					sMessDone 		= "Копирование файлов в указанную папку завершено!";
-					sMessCanceled	= "Копирование файлов в указанную папку остановлено!";
-					break;
-				case "Move":
-					sMessTitle		= "SharpFBTools - Перемещение копий книг";
-					sMessDone 		= "Перемещение файлов в указанную папку завершено!";
-					sMessCanceled	= "Перемещение файлов в указанную папку остановлено!";
-					break;
-				case "Delete":
-					sMessTitle		= "SharpFBTools - Удаление копий книг";
-					sMessDone 		= "Удаление файлов из папки-источника завершено!";
-					sMessCanceled	= "Удаление файлов из папки-источника остановлено!";
-					break;
-			}
-			
-			if( !m_bFilesWorked ) {
-				string s = "На диске не найдено ни одного файла из помеченных!\n";
-				switch( m_sFileWorkerMode ) {
-					case "Copy":
-						sMessDone = s + "Копирование файлов в указанную папку не произведено!";
-						break;
-					case "Move":
-						sMessDone = s + "Перемещение файлов в указанную папку не произведено!";
-						break;
-					case "Delete":
-						sMessDone = s + "Удаление файлов из папки-источника не произведено!";
-						break;
-				}
-			}
-
-			tsslblProgress.Text = Settings.Settings.GetReady();
-			setFilesWorkerStartEnabled( true );
-			tsProgressBar.Visible = false;
-			
-			// Проверяем это отмена, ошибка, или конец задачи и сообщить
-			if( ( e.Cancelled ) ) {
-				MessageBox.Show( sMessCanceled, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-			} else if( e.Error != null ) {
-				sMessError = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace;
-				MessageBox.Show( sMessError, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-			} else {
-				MessageBox.Show( sMessDone, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
-			}
-		}
-		#endregion
-
-		// =============================================================================================
-		// 					Реализация Copy/Move/Delete помеченных книг
-		// =============================================================================================
-		#region Реализация Copy/Move/Delete помеченных книг
-		// копировать или переместить файлы в...
-		public void CopyOrMoveCheckedFilesTo( ref BackgroundWorker bw, ref DoWorkEventArgs e,
-		                                     bool IsCopy, string SourceDir, string TargetDir,
-		                                     ListView lvResult, int nFileExistMode,
-		                                     ToolStripStatusLabel tsslblProgress, string ProgressText ) {
-			#region Код
-			tsslblProgress.Text = ProgressText;
-			List<ListViewGroup> listLVG = new List<ListViewGroup>();
-			System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems = lvResult.CheckedItems;
-			int i=0;
-			foreach( ListViewItem lvi in checkedItems ) {
-				// Проверить флаг на остановку процесса
-				if( ( bw.CancellationPending ) ) {
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
-					return;
-				} else {
-					string FilePath = lvi.Text;
-					// есть ли такая книга на диске? Если нет - то смотрим следующую
-					if( !File.Exists( FilePath ) ) {
-						bw.ReportProgress( ++i ); // отобразим данные в контролах
-						break;
-					}
-					string NewPath = TargetDir + FilePath.Remove( 0, SourceDir.Length );
-					FileInfo fi = new FileInfo( NewPath );
-					if( !fi.Directory.Exists )
-						Directory.CreateDirectory( fi.Directory.ToString() );
-
-					if( File.Exists( NewPath ) ) {
-						if( nFileExistMode==0 )
-							File.Delete( NewPath );
-						else
-							NewPath = filesWorker.createFilePathWithSufix( NewPath, nFileExistMode );
-					}
-					
-					Regex rx = new Regex( @"\\+" );
-					FilePath = rx.Replace( FilePath, "\\" );
-					if( File.Exists( FilePath ) ) {
-						if( IsCopy )
-							File.Copy( FilePath, NewPath );
-						else {
-							File.Move( FilePath, NewPath );
-							ListViewGroup lvg = lvi.Group;
-							lvResult.Items.Remove( lvi );
-							listLVG.Add( lvg );
-						}
-						m_bFilesWorked |= true;
-					}
-					bw.ReportProgress( ++i ); // отобразим данные в контролах
-				}
-			}
-			
-			// Если в обрабатываемой группе осталась только 1 книга, то ее и группу удаляем
-			if( !IsCopy ) {
-				// только для перемещения книг
-				foreach( ListViewGroup g in listLVG ) {
-					// удаление оставшейся книги в группе и самой группы с контрола отображения (1 книга - это уже не копия)
-					workingGroupItemAfterBookDelete( lvResult, g );
-					// обновление числа групп и книг во всех группах
-					newGroupItemsCount( lvResult, lvFilesCount );
-				}
-			}
-			#endregion
-		}
-		
-		// удалить помеченные файлы...
-		public void DeleteCheckedFiles( ref BackgroundWorker bw, ref DoWorkEventArgs e,
-		                               ListView lvResult,
-		                               ToolStripStatusLabel tsslblProgress, string sProgressText ) {
-			#region Код
-			tsslblProgress.Text = sProgressText;
-			List<ListViewGroup> listLVG = new List<ListViewGroup>();
-			System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems = lvResult.CheckedItems;
-			int i=0;
-			foreach( ListViewItem lvi in checkedItems ) {
-				// Проверить флаг на остановку процесса
-				if( ( bw.CancellationPending ) ) {
-					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
-					return;
-				} else {
-					string sFilePath = lvi.Text;
-					if( File.Exists( sFilePath) ) {
-						File.Delete( sFilePath );
-						ListViewGroup lvg = lvi.Group;
-						lvResult.Items.Remove( lvi );
-						listLVG.Add( lvg );
-						m_bFilesWorked |= true;
-					}
-					bw.ReportProgress( ++i ); // отобразим данные в контролах
-				}
-			}
-			// Если в обрабатываемой группе осталась только 1 книга, то ее и группу удаляем
-			foreach( ListViewGroup g in listLVG ) {
-				// удаление оставшейся книги в группе и самой группы с контрола отображения (1 книга - это уже не копия)
-				workingGroupItemAfterBookDelete( lvResult, g );
-				// обновление числа групп и книг во всех группах
-				newGroupItemsCount( lvResult, lvFilesCount );
-			}
-			#endregion
-		}
-		#endregion
-		
-		#endregion
-
-		
-		// =============================================================================================
-		// 							ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ И АЛГОРИТМЫ КЛАССА
-		// =============================================================================================
-		#region Вспомогательные методы и алгоритмы класса
 
 		// =============================================================================================
 		// 										Анализатор копий книг
@@ -1424,104 +405,7 @@ namespace SharpFBTools.Tools
 			lvResult.Columns.Add( "Дата создания", 120 );
 			lvResult.Columns.Add( "Последнее изменение", 120 );
 		}
-		
-		// формирование представления Групп с их книгами
-		private void makeBookCopiesView( FB2FilesDataInGroup fb2BookList ) {
-			Hashtable htBookGroups = new Hashtable(); // хеш-таблица групп одинаковых книг
-			ListViewGroup lvGroup = null; // группа одинаковых книг
-			foreach( BookData bd in fb2BookList ) {
-				++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
-				lvGroup = new ListViewGroup( fb2BookList.Group );
-				ListViewItem lvi = new ListViewItem( bd.Path );
-				lvi.SubItems.Add( MakeBookTitleString( bd.BookTitle ) );
-				lvi.SubItems.Add( MakeAutorsString( bd.Authors, false ) );
-				lvi.SubItems.Add( MakeGenresString( bd.Genres, false ) );
-				lvi.SubItems.Add( bd.Id );
-				lvi.SubItems.Add( bd.Version );
-				lvi.SubItems.Add( bd.Encoding );
-				lvi.SubItems.Add( m_bCheckValid ? IsValid( bd.Path ) : "?" );
-				lvi.SubItems.Add( GetFileLength( bd.Path ) );
-				lvi.SubItems.Add( GetFileCreationTime( bd.Path ) );
-				lvi.SubItems.Add( FileLastWriteTime( bd.Path ) );
-				// заносим группу в хеш, если она там отсутствует
-				AddBookGroupInHashTable( ref htBookGroups, ref lvGroup );
-				// присваиваем группу книге
-				lvResult.Groups.Add( (ListViewGroup)htBookGroups[fb2BookList.Group] );
-				lvi.Group = (ListViewGroup)htBookGroups[fb2BookList.Group];
-				lvResult.Items.Add( lvi );
-			}
-		}
-		
-		// формирование строки с Названием Книги
-		private string MakeBookTitleString( BookTitle bookTitle ) {
-			if ( bookTitle==null )
-				return "?";
-			return bookTitle.Value!=null ? bookTitle.Value : "?";
-		}
-		
-		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
-		private string MakeAutorsString( IList<Author> Authors, bool bNumber ) {
-			if( Authors==null )
-				return "Тег <authors> в книге отсутствует";
-			string sA = string.Empty; int n = 0;
-			foreach( Author a in Authors ) {
-				++n;
-				if( a.LastName!=null && a.LastName.Value!=null )
-					sA += a.LastName.Value+" ";
-				if( a.FirstName!=null && a.FirstName.Value!=null )
-					sA += a.FirstName.Value+" ";
-				if( a.MiddleName!=null && a.MiddleName.Value!=null )
-					sA += a.MiddleName.Value+" ";
-				if( a.NickName!=null && a.NickName.Value!=null )
-					sA += a.NickName.Value;
-				sA = sA.Trim();
-				sA += "; ";
-			}
-			if( bNumber )
-				sA = Convert.ToString(n)+": " + sA;
-			return sA.Substring( 0, sA.LastIndexOf( ";" ) ).Trim();
-		}
-		
-		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
-		private string MakeGenresString( IList<Genre> Genres, bool bNumber ) {
-			if( Genres==null )
-				return "?";
-			string sG = string.Empty; int n = 0;
-			foreach( Genre g in Genres ) {
-				++n;
-				if( g.Name!=null )
-					sG += g.Name;
-				sG += "; ";
-			}
-			sG = sG.Trim();
-			if( bNumber )
-				sG = Convert.ToString(n)+": " + sG;
-			return sG.Substring( 0, sG.LastIndexOf( ";" ) ).Trim();
-		}
-		
-		// сортировка ключей (групп)
-		private List<string> makeSortedKeysForGroups( ref Hashtable htBookGroups ) {
-			List<string> keyList = new List<string>();
-			foreach( string key in htBookGroups.Keys )
-				keyList.Add(key);
-			keyList.Sort();
-			return keyList;
-		}
-		
-		// Преобразование картинки в base64
-		private string ImageToBase64(Image image, System.Drawing.Imaging.ImageFormat format) {
-			using (MemoryStream ms = new MemoryStream())
-			{
-				// Convert Image to byte[]
-				image.Save(ms, format);
-				byte[] imageBytes = ms.ToArray();
 
-				// Convert byte[] to Base64 String
-				string base64String = Convert.ToBase64String(imageBytes);
-				return base64String;
-			}
-		}
-		
 		// Получение картинки из base64
 		private Image Base64ToImage(string base64String) {
 			// Convert Base64 String to byte[]
@@ -1532,32 +416,6 @@ namespace SharpFBTools.Tools
 			ms.Write(imageBytes, 0, imageBytes.Length);
 			Image image = Image.FromStream(ms, true);
 			return image;
-		}
-		
-		// Вычисление SHA1 файла
-		private string ComputeSHA1Checksum(string path) {
-			using (FileStream fs = System.IO.File.OpenRead(path))
-			{
-				SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
-				byte[] fileData = new byte[fs.Length];
-				fs.Read(fileData, 0, (int)fs.Length);
-				byte[] checkSum = sha1.ComputeHash(fileData);
-				string hash = BitConverter.ToString(checkSum).Replace("-", String.Empty);
-				return hash;
-			}
-		}
-		
-		// Вычисление MD5 файла
-		private string ComputeMD5Checksum(string path) {
-			using (FileStream fs = System.IO.File.OpenRead(path))
-			{
-				MD5 md5 = new MD5CryptoServiceProvider();
-				byte[] fileData = new byte[fs.Length];
-				fs.Read(fileData, 0, (int)fs.Length);
-				byte[] checkSum = md5.ComputeHash(fileData);
-				string result = BitConverter.ToString(checkSum).Replace("-", String.Empty);
-				return result;
-			}
 		}
 		
 		// отключение/включение обработчиков событий для lvResult (убираем "тормоза")
@@ -1599,10 +457,6 @@ namespace SharpFBTools.Tools
 			lvResult.Items.Clear();
 			lvResult.Groups.Clear();
 			ConnectListViewResultEventHandlers( true );
-			m_StopToSave = false;
-			
-			m_htWorkingBook.Clear();
-			m_htBookTitleAuthors.Clear();
 		}
 		
 		// очистка контролов вывода данных по книге по ее выбору
@@ -1644,97 +498,37 @@ namespace SharpFBTools.Tools
 				reader.Close();
 			}
 		}
-
-		// доступность контролов при Поиске (Возобновлении Поиска) одинаковых fb2-файлов
-		private void setSearchFB2DupStartEnabled( bool bEnabled ) {
-			lvResult.Enabled				= bEnabled;
-			pSearchFBDup2Dirs.Enabled		= bEnabled;
-			pMode.Enabled					= bEnabled;
-			pExistFile.Enabled				= bEnabled;
-			tsbtnSearchDubls.Enabled		= bEnabled;
-			tsbtnSearchFb2DupRenew.Enabled	= bEnabled;
-			tsbtnDupSaveList.Enabled		= bEnabled;
-			tsbtnDupOpenList.Enabled		= bEnabled;
-			tsbtnSearchFb2DupStop.Enabled		= !bEnabled;
-			tsbtnSearchFb2DupStopSave.Enabled	= !bEnabled;
-			tsProgressBar.Visible				= !bEnabled;
-			ssProgress.Refresh();
-		}
-		
-		// доступность контролов при Обработке файлов
-		private void setFilesWorkerStartEnabled( bool bEnabled ) {
-			lvResult.Enabled			= bEnabled;
-			tsbtnSearchDubls.Enabled	= bEnabled;
-			if( lvResult.Items.Count==0 ) {
-				tsbtnDupCopy.Enabled	= !bEnabled;
-				tsbtnDupMove.Enabled	= !bEnabled;
-				tsbtnDupDelete.Enabled	= !bEnabled;
-			} else {
-				tsbtnDupCopy.Enabled	= bEnabled;
-				tsbtnDupMove.Enabled	= bEnabled;
-				tsbtnDupDelete.Enabled	= bEnabled;
-			}
-			pSearchFBDup2Dirs.Enabled	= bEnabled;
-			pMode.Enabled				= bEnabled;
-			pExistFile.Enabled			= bEnabled;
-			tsbtnDupWorkStop.Enabled	= !bEnabled;
-			tsProgressBar.Visible		= !bEnabled;
-			ssProgress.Refresh();
-		}
 		
 		// доступность / недоступность кнопок групповой обработки помеченных книг
 		private void groupWorkingChekedItemsEnabled( int checkedItemsCount ) {
 			if( checkedItemsCount > 0 ) {
-				tsbtnDupCopy.Enabled	= true;
-				tsbtnDupMove.Enabled	= true;
-				tsbtnDupDelete.Enabled	= true;
+				tsmiCopyCheckedFb2To.Enabled	= true;
+				tsmiMoveCheckedFb2To.Enabled	= true;
+				tsmiDeleteCheckedFb2.Enabled	= true;
 			} else {
-				tsbtnDupCopy.Enabled	= false;
-				tsbtnDupMove.Enabled	= false;
-				tsbtnDupDelete.Enabled	= false;
+				tsmiCopyCheckedFb2To.Enabled	= false;
+				tsmiMoveCheckedFb2To.Enabled	= false;
+				tsmiDeleteCheckedFb2.Enabled	= false;
 			}
 		}
 		
 		// проверка на наличие папки сканирования копий книг
-		private bool IsScanFolderDataCorrect( TextBox tbSource ) {
+		private bool IsScanFolderDataCorrect( TextBox tbSource, ref string MessTitle ) {
 			// проверка на корректность данных папок источника
 			string sSource	= filesWorker.WorkingDirPath( tbSource.Text.Trim() );
 			tbSource.Text	= sSource;
 			
 			// проверки на корректность папок источника
 			if( sSource.Length == 0 ) {
-				MessageBox.Show( "Выберите папку для сканирования!", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Выберите папку для сканирования!", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			DirectoryInfo diFolder = new DirectoryInfo( sSource );
 			if( !diFolder.Exists ) {
-				MessageBox.Show( "Папка не найдена: " + sSource, m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show( "Папка не найдена: " + sSource, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			return true;
-		}
-		
-		private string GetFileLength( string sFilePath ) {
-			FileInfo fi = new FileInfo( sFilePath );
-			return filesWorker.FormatFileLength( fi.Length );
-		}
-		
-		// время создания файла
-		private  string GetFileCreationTime( string sFilePath ) {
-			FileInfo fi = new FileInfo( sFilePath );
-			return fi.CreationTime.ToString();
-		}
-		
-		// время последней записи в файл
-		private  string FileLastWriteTime( string sFilePath ) {
-			FileInfo fi = new FileInfo( sFilePath );
-			return fi.LastWriteTime.ToString();
-		}
-		
-		// TODO Librusec
-		private string IsValid( string sFilePath ) {
-			FB2Validator fv2Validator = new FB2Validator();
-			return fv2Validator.ValidatingFB22File( sFilePath ) == string.Empty ? "Да" : "Нет";
 		}
 		
 		private string GetSubtring( string sP, string sStart, string sEnd ) {
@@ -1787,73 +581,56 @@ namespace SharpFBTools.Tools
 			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2 файлами:" );
 		}
 		
-		// Остановка выполнения процесса Поиска (Возобновления Поиска) одинаковых fb2-файлов
-		void TsbtnSearchFb2DupStopClick(object sender, EventArgs e)
-		{
-			m_StopToSave = false;
-			// TODO вынести в отдельную ф-ю вместе с  таким же кодом из TsbtnSearchFb2DupStopSaveClick
-			if ( m_bw.IsBusy ) {
-				if( m_bw.WorkerSupportsCancellation )
-					m_bw.CancelAsync();
-			} else {
-				if( m_bwRenew.WorkerSupportsCancellation )
-					m_bwRenew.CancelAsync();
-			}
-		}
-		
-		// остановка Поиска (Возобновления Поиска) и сохранение списка необработанных книг в файл
-		void TsbtnSearchFb2DupStopSaveClick(object sender, EventArgs e)
-		{
-			m_StopToSave = true;
-			if ( m_bw.IsBusy ) {
-				if( m_bw.WorkerSupportsCancellation )
-					m_bw.CancelAsync();
-			} else {
-				if( m_bwRenew.WorkerSupportsCancellation )
-					m_bwRenew.CancelAsync();
-			}
-		}
-		
 		// Поиск одинаковых fb2-файлов
 		void TsbtnSearchDublsClick(object sender, EventArgs e)
 		{
 			m_sMessTitle = "SharpFBTools - Поиск одинаковых fb2 файлов";
 			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsScanFolderDataCorrect( tboxSourceDir ) )
+			if( !IsScanFolderDataCorrect( tboxSourceDir, ref m_sMessTitle ) )
 				return;
 			
-			m_bScanSubDirs = chBoxScanSubDir.Checked ? true : false;
-			m_sSource = tboxSourceDir.Text;
 			// инициализация контролов
 			Init();
-			setSearchFB2DupStartEnabled( false );
-
-			m_bCheckValid = chBoxIsValid.Checked;
-			m_dtStart = DateTime.Now;
-			tsslblProgress.Text = "Создание списка файлов:";
-			
-			// Запуск процесса DoWork от RunWorker
-			if( m_bw.IsBusy != true )
-				m_bw.RunWorkerAsync(); //если не занят то запустить процесс
+			ConnectListViewResultEventHandlers( false );
+			Core.Duplicator.ComrareForm comrareForm = new Core.Duplicator.ComrareForm(
+				null, tboxSourceDir, chBoxScanSubDir, chBoxIsValid,
+				cboxMode, lvFilesCount, lvResult, chBoxViewProgress.Checked
+			);
+			comrareForm.ShowDialog();
+			comrareForm.Dispose();
+			ConnectListViewResultEventHandlers( true );
 		}
 		
 		// возобновить сравнение и поиск копий по данным из файла, созданного после прерывания обработки
 		void TsbtnSearchFb2DupRenewClick(object sender, EventArgs e)
 		{
 			m_sMessTitle = "SharpFBTools - Поиск одинаковых fb2 файлов";
-			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsScanFolderDataCorrect( tboxSourceDir ) )
+			// загрузка данных из xml
+			sfdLoadList.InitialDirectory = Settings.Settings.GetProgDir();
+			sfdLoadList.Title		= "Укажите файл для возобновления поиска копий книг:";
+			sfdLoadList.Filter		= "SharpFBTools Файлы хода работы Дубликатора (*.dup_break)|*.dup_break";
+			sfdLoadList.FileName	= string.Empty;
+			string FromXML = string.Empty;
+			DialogResult result = sfdLoadList.ShowDialog();
+			XElement xmlTree = null;
+			if( result == DialogResult.OK )
+				xmlTree = XElement.Load( sfdLoadList.FileName );
+			else {
+				tsslblProgress.Text = Settings.Settings.GetReady();
 				return;
+			}
 			
 			// инициализация контролов
 			Init();
-			setSearchFB2DupStartEnabled( false );
-			tsslblProgress.Text = "Возобновление поиска копий fb2 книг:";
-			m_dtStart = DateTime.Now;
-			
-			// Запуск процесса DoWork от RunWorker
-			if( m_bwRenew.IsBusy != true )
-				m_bwRenew.RunWorkerAsync(); //если не занят то запустить процесс
+			ConnectListViewResultEventHandlers( false );
+			Core.Duplicator.ComrareForm comrareForm = new Core.Duplicator.ComrareForm(
+				sfdLoadList.FileName, tboxSourceDir, chBoxScanSubDir, chBoxIsValid,
+				cboxMode, lvFilesCount, lvResult, chBoxViewProgress.Checked
+			);
+			comrareForm.ShowDialog();
+			m_sSource = comrareForm.getSourceDirFromRenew();
+			comrareForm.Dispose();
+			ConnectListViewResultEventHandlers( true );
 		}
 		
 		// занесение данных книги в контролы для просмотра
@@ -1938,84 +715,6 @@ namespace SharpFBTools.Tools
 		void LvResultItemChecked(object sender, ItemCheckedEventArgs e)
 		{
 			groupWorkingChekedItemsEnabled( lvResult.CheckedItems.Count );
-		}
-		
-		// копировать помеченные файлы в папку-приемник
-		void TsbtnDupCopyClick(object sender, EventArgs e)
-		{
-			string sTarget = filesWorker.OpenDirDlg( m_TargetDir, fbdScanDir, "Укажите папку-приемник для размешения копий книг:" );
-			if( sTarget == null )
-				return;
-			else
-				Settings.SettingsFB2Dup.DupToDir = m_TargetDir = sTarget;
-
-			if( m_sSource == sTarget ) {
-				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.",
-				                "SharpFBTools - Копирование копий книг", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			}
-
-			m_sFileWorkerMode = "Copy";
-			// инициализация контролов
-			tsProgressBar.Maximum 	= lvResult.CheckedItems.Count;
-			tsProgressBar.Value		= 0;
-			setFilesWorkerStartEnabled( false );
-			
-			// Запуск процесса DoWork
-			if( m_bwcmd.IsBusy != true )
-				m_bwcmd.RunWorkerAsync(); // если не занят то запустить процесс
-		}
-		
-		// переместить помеченные файлы в папку-приемник
-		void TsbtnDupMoveClick(object sender, EventArgs e)
-		{
-			string sTarget = filesWorker.OpenDirDlg( m_TargetDir, fbdScanDir, "Укажите папку-приемник для размешения копий книг:" );
-			if( sTarget == null )
-				return;
-			else
-				Settings.SettingsFB2Dup.DupToDir = m_TargetDir = sTarget;
-			
-			if( m_sSource == sTarget ) {
-				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.",
-				                "SharpFBTools - Перемещение копий книг", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			}
-			
-			m_sFileWorkerMode = "Move";
-			// инициализация контролов
-			tsProgressBar.Maximum 	= lvResult.CheckedItems.Count;
-			tsProgressBar.Value		= 0;
-			setFilesWorkerStartEnabled( false );
-			
-			// Запуск процесса DoWork
-			if( m_bwcmd.IsBusy != true )
-				m_bwcmd.RunWorkerAsync(); // если не занят то запустить процесс
-		}
-		
-		// удалить помеченные файлы
-		void TsbtnDupDeleteClick(object sender, EventArgs e)
-		{
-			string sMessTitle = "SharpFBTools - Удаление копий книг";
-			int nCount = lvResult.CheckedItems.Count;
-			string sMess = "Вы действительно хотите удалить "+nCount.ToString()+" помеченных копии книг?";
-			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-			if( MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
-				m_sFileWorkerMode = "Delete";
-				// инициализация контролов
-				tsProgressBar.Maximum 	= nCount;
-				tsProgressBar.Value		= 0;
-				setFilesWorkerStartEnabled( false );
-				// Запуск процесса DoWork
-				if( m_bwcmd.IsBusy != true )
-					m_bwcmd.RunWorkerAsync(); // если не занят то запустить процесс
-			}
-		}
-		
-		// Остановка выполнения процесса копирования(перемещения, удаления) fb2-файлов
-		void TsbtnDupWorkStopClick(object sender, EventArgs e)
-		{
-			if( m_bwcmd.WorkerSupportsCancellation )
-				m_bwcmd.CancelAsync();
 		}
 		
 		// сохранение списка найденных копий
@@ -2364,7 +1063,73 @@ namespace SharpFBTools.Tools
 			CheckAllOldBooksInGroup(CompareMode.LastWriteTime);
 			ConnectListViewResultEventHandlers( true );
 		}
-		#endregion
+		
+		// копировать помеченные файлы в папку-приемник
+		void TsmiCopyCheckedFb2ToClick(object sender, EventArgs e)
+		{
+			string sTarget = filesWorker.OpenDirDlg( m_TargetDir, fbdScanDir, "Укажите папку-приемник для размешения копий книг:" );
+			if( sTarget == null )
+				return;
+			else
+				Settings.SettingsFB2Dup.DupToDir = m_TargetDir = sTarget;
 
+			if( m_sSource == sTarget ) {
+				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.",
+				                "SharpFBTools - Копирование копий книг", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			
+			ConnectListViewResultEventHandlers( false );
+			Core.Duplicator.CopyMoveDeleteForm comrareForm = new Core.Duplicator.CopyMoveDeleteForm(
+				"Copy", m_sSource, sTarget, cboxDupExistFile.SelectedIndex, lvFilesCount, lvResult
+			);
+			comrareForm.ShowDialog();
+			comrareForm.Dispose();
+			ConnectListViewResultEventHandlers( true );
+		}
+		
+		// переместить помеченные файлы в папку-приемник
+		void TsmiMoveCheckedFb2ToClick(object sender, EventArgs e)
+		{
+			string sTarget = filesWorker.OpenDirDlg( m_TargetDir, fbdScanDir, "Укажите папку-приемник для размешения копий книг:" );
+			if( sTarget == null )
+				return;
+			else
+				Settings.SettingsFB2Dup.DupToDir = m_TargetDir = sTarget;
+			
+			if( m_sSource == sTarget ) {
+				MessageBox.Show( "Папка-приемник файлов совпадает с папкой сканирования!\nРабота прекращена.",
+				                "SharpFBTools - Перемещение копий книг", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return;
+			}
+			
+			ConnectListViewResultEventHandlers( false );
+			Core.Duplicator.CopyMoveDeleteForm comrareForm = new Core.Duplicator.CopyMoveDeleteForm(
+				"Move", m_sSource, sTarget, cboxDupExistFile.SelectedIndex, lvFilesCount, lvResult
+			);
+			comrareForm.ShowDialog();
+			comrareForm.Dispose();
+			ConnectListViewResultEventHandlers( true );
+		}
+		
+		// удалить помеченные файлы
+		void TsmiDeleteCheckedFb2Click(object sender, EventArgs e)
+		{
+			string sMessTitle = "SharpFBTools - Удаление копий книг";
+			int nCount = lvResult.CheckedItems.Count;
+			string sMess = "Вы действительно хотите удалить "+nCount.ToString()+" помеченных копии книг?";
+			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+			if( MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
+				ConnectListViewResultEventHandlers( false );
+				Core.Duplicator.CopyMoveDeleteForm comrareForm = new Core.Duplicator.CopyMoveDeleteForm(
+					"Delete", m_sSource, null, cboxDupExistFile.SelectedIndex, lvFilesCount, lvResult
+				);
+				comrareForm.ShowDialog();
+				comrareForm.Dispose();
+				ConnectListViewResultEventHandlers( true );
+			}
+		}
+		#endregion
+		
 	}
 }

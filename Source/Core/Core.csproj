@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Duplicator" />
     <Folder Include="FB2" />
     <Folder Include="FB2BookData" />
     <Folder Include="FB2\binary" />
@@ -73,6 +74,12 @@
     <Compile Include="BookSorting\SelectedSortData.cs" />
     <Compile Include="BookSorting\SelectedSortData.Designer.cs" />
     <Compile Include="BookSorting\SelectedSortQueryCriteria.cs" />
+    <Compile Include="Duplicator\ComrareForm.cs" />
+    <Compile Include="Duplicator\ComrareForm.Designer.cs" />
+    <Compile Include="Duplicator\CopyMoveDeleteForm.cs" />
+    <Compile Include="Duplicator\CopyMoveDeleteForm.Designer.cs">
+      <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FB2BookData\FB2BookData.cs" />
     <Compile Include="FB2Dublicator\BookData.cs" />
     <Compile Include="FB2Dublicator\FB2FilesDataInGroupList.cs" />
@@ -138,6 +145,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BookSorting\SelectedSortData.resx">
       <DependentUpon>SelectedSortData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\ComrareForm.resx">
+      <DependentUpon>ComrareForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\CopyMoveDeleteForm.resx">
+      <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
