@@ -21,7 +21,7 @@ using filesWorker = Core.FilesWorker.FilesWorker;
 namespace Core.Duplicator
 {
 	/// <summary>
-	/// Description of CopyMoveDeleteForm.
+	/// Обработка помеченных fb2-файлов: Copy / Move / Delete
 	/// </summary>
 	public partial class CopyMoveDeleteForm : Form
 	{
@@ -35,8 +35,8 @@ namespace Core.Duplicator
 		private BackgroundWorker m_bwcmd	= null;
 		private bool m_bFilesWorked			= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
 		
-		System.Windows.Forms.ListView m_lvFilesCount	= new System.Windows.Forms.ListView();
-		System.Windows.Forms.ListView m_lvResult		= new System.Windows.Forms.ListView();
+		private System.Windows.Forms.ListView m_lvFilesCount	= new System.Windows.Forms.ListView();
+		private System.Windows.Forms.ListView m_lvResult		= new System.Windows.Forms.ListView();
 		#endregion
 		
 		public CopyMoveDeleteForm( string FileWorkerMode, string Source, string TargetDir, int FileExistMode,
@@ -51,8 +51,8 @@ namespace Core.Duplicator
 			m_TargetDir		= TargetDir;
 			m_FileExistMode = FileExistMode;
 			
-			ProgressBar.Maximum 	= m_lvResult.CheckedItems.Count;
-			ProgressBar.Value		= 0;
+			ProgressBar.Maximum = m_lvResult.CheckedItems.Count;
+			ProgressBar.Value	= 0;
 			
 			InitializeCopyMovedeleteWorkerBackgroundWorker();
 			if( m_bwcmd.IsBusy != true )

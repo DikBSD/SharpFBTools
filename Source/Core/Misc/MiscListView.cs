@@ -71,7 +71,6 @@ namespace Core.Misc
 			}
 		}
 		
-		
 		// пометить/снять отметки с  итемов в выбранной группе
 		public void CheckAllListViewItemsInGroup( ListViewGroup Group, bool bCheck ) {
 			foreach( ListViewItem lvi in Group.Items ) {

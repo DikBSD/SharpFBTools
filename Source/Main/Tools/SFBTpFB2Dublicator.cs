@@ -43,11 +43,12 @@ namespace SharpFBTools.Tools
 	public partial class SFBTpFB2Dublicator : UserControl
 	{
 		#region Закрытые данные класса
-		private StatusView	m_sv 			= new StatusView();
-		private string	m_sSource			= string.Empty;
-		private string	m_TargetDir			= string.Empty;
-		private string	m_sMessTitle		= string.Empty;
-		private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
+		private StatusView	m_sv 		= new StatusView();
+		private string	m_sSource		= string.Empty;
+		private string	m_TargetDir		= string.Empty;
+		private string	m_sMessTitle	= string.Empty;
+		private MiscListView m_mscLV	= new MiscListView(); // класс по работе с ListView
+		FB2Validator m_fv2Validator		= new FB2Validator();
 
 		/// <summary>
 		/// Номера колонок контрола просмотра групп одинаковых книг
@@ -448,9 +449,6 @@ namespace SharpFBTools.Tools
 			for( int i=0; i!=lvFilesCount.Items.Count; ++i )
 				lvFilesCount.Items[i].SubItems[1].Text	= "0";
 
-			tsProgressBar.Value		= 0;
-			tsslblProgress.Text		= Settings.Settings.GetReady();
-			tsProgressBar.Visible	= false;
 			// очистка временной папки
 			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
 			m_sv.Clear(); // сброс данных класса для отображения прогресса
@@ -584,17 +582,18 @@ namespace SharpFBTools.Tools
 		// Поиск одинаковых fb2-файлов
 		void TsbtnSearchDublsClick(object sender, EventArgs e)
 		{
-			m_sMessTitle = "SharpFBTools - Поиск одинаковых fb2 файлов";
+			string sMessTitle = "SharpFBTools - Поиск одинаковых fb2 файлов";
 			// проверка на корректность данных папок источника и приемника файлов
-			if( !IsScanFolderDataCorrect( tboxSourceDir, ref m_sMessTitle ) )
+			if( !IsScanFolderDataCorrect( tboxSourceDir, ref sMessTitle ) )
 				return;
 			
 			// инициализация контролов
 			Init();
 			ConnectListViewResultEventHandlers( false );
 			Core.Duplicator.ComrareForm comrareForm = new Core.Duplicator.ComrareForm(
-				null, tboxSourceDir, chBoxScanSubDir, chBoxIsValid,
-				cboxMode, lvFilesCount, lvResult, chBoxViewProgress.Checked
+				null, chBoxIsValid.Checked, rbtnFB2Librusec.Checked,
+				tboxSourceDir, chBoxScanSubDir, chBoxIsValid, cboxMode,
+				lvFilesCount, lvResult, chBoxViewProgress.Checked
 			);
 			comrareForm.ShowDialog();
 			comrareForm.Dispose();
@@ -604,28 +603,26 @@ namespace SharpFBTools.Tools
 		// возобновить сравнение и поиск копий по данным из файла, созданного после прерывания обработки
 		void TsbtnSearchFb2DupRenewClick(object sender, EventArgs e)
 		{
-			m_sMessTitle = "SharpFBTools - Поиск одинаковых fb2 файлов";
 			// загрузка данных из xml
 			sfdLoadList.InitialDirectory = Settings.Settings.GetProgDir();
 			sfdLoadList.Title		= "Укажите файл для возобновления поиска копий книг:";
 			sfdLoadList.Filter		= "SharpFBTools Файлы хода работы Дубликатора (*.dup_break)|*.dup_break";
 			sfdLoadList.FileName	= string.Empty;
-			string FromXML = string.Empty;
+			string FromXML			= string.Empty;
 			DialogResult result = sfdLoadList.ShowDialog();
 			XElement xmlTree = null;
 			if( result == DialogResult.OK )
 				xmlTree = XElement.Load( sfdLoadList.FileName );
-			else {
-				tsslblProgress.Text = Settings.Settings.GetReady();
+			else
 				return;
-			}
 			
 			// инициализация контролов
 			Init();
 			ConnectListViewResultEventHandlers( false );
 			Core.Duplicator.ComrareForm comrareForm = new Core.Duplicator.ComrareForm(
-				sfdLoadList.FileName, tboxSourceDir, chBoxScanSubDir, chBoxIsValid,
-				cboxMode, lvFilesCount, lvResult, chBoxViewProgress.Checked
+				sfdLoadList.FileName, chBoxIsValid.Checked, rbtnFB2Librusec.Checked,
+				tboxSourceDir, chBoxScanSubDir, chBoxIsValid, cboxMode,
+				lvFilesCount, lvResult, chBoxViewProgress.Checked
 			);
 			comrareForm.ShowDialog();
 			m_sSource = comrareForm.getSourceDirFromRenew();
@@ -698,6 +695,21 @@ namespace SharpFBTools.Tools
 						picBoxCover.Image = Base64ToImage(bd.CoversBase64[0].base64String);
 					} else {
 						picBoxCover.Image = imageListDup.Images[0];
+					}
+					// Валидность файла
+					tbValidate.Clear();
+					if( si[0].SubItems[7].Text == "Нет" ) {
+						string sResult	= rbtnFB2Librusec.Checked
+							? m_fv2Validator.ValidatingFB2LibrusecFile( si[0].Text )
+							: m_fv2Validator.ValidatingFB22File( si[0].Text );
+						tbValidate.Text = "Файл невалидный. Ошибка:";
+						tbValidate.AppendText( Environment.NewLine );
+						tbValidate.AppendText( Environment.NewLine );
+						tbValidate.AppendText( sResult );
+					} else if( si[0].SubItems[7].Text == "Да" ) {
+						tbValidate.Text = "Все в порядке - файл валидный!";
+					} else {
+						tbValidate.Text = "Валидация файла не производилась.";
 					}
 				}
 			}
@@ -909,15 +921,14 @@ namespace SharpFBTools.Tools
 			#endregion
 		}
 		
-		// Повторная Проверка выбранного fb2-файла или архива (Валидация)
+		// Повторная Проверка выбранного fb2-файла (Валидация)
 		void TsmiFileReValidateClick(object sender, EventArgs e)
 		{
 			#region Код
 			if( lvResult.Items.Count > 0 && lvResult.SelectedItems.Count != 0 ) {
 				DateTime dtStart = DateTime.Now;
-				string sTempDir = Settings.Settings.GetTempDir();
 				ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
-				string sSelectedItemText = si[0].SubItems[0].Text;
+				string sSelectedItemText = si[0].SubItems[(int)ResultViewCollumn.Path].Text;
 				string sFilePath = sSelectedItemText.Split('/')[0];
 				if( !File.Exists( sFilePath ) ) {
 					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -927,24 +938,51 @@ namespace SharpFBTools.Tools
 				string sMsg			= string.Empty;
 				string sErrorMsg	= "СООБЩЕНИЕ ОБ ОШИБКЕ:";
 				string sOkMsg		= "ОШИБОК НЕТ - ФАЙЛ ВАЛИДЕН";
-				FB2Validator fv2V = new FB2Validator();
 				// для несжатого fb2-файла
-				sMsg = fv2V.ValidatingFB22File( sFilePath );
+				sMsg = rbtnFB2Librusec.Checked ? m_fv2Validator.ValidatingFB2LibrusecFile( sFilePath ) : m_fv2Validator.ValidatingFB22File( sFilePath );
 				if ( sMsg == string.Empty ) {
 					// файл валидный
 					mbi = MessageBoxIcon.Information;
 					sErrorMsg = sOkMsg;
-					si[0].SubItems[6].Text = "Да";
+					si[0].SubItems[(int)ResultViewCollumn.Validate].Text = "Да";
 				} else {
 					// файл не валидный
 					mbi = MessageBoxIcon.Error;
-					si[0].SubItems[6].Text = "Нет";
+					si[0].SubItems[(int)ResultViewCollumn.Validate].Text = "Нет";
 				}
 				DateTime dtEnd = DateTime.Now;
 				string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
 				MessageBox.Show( "Проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+sErrorMsg+"\n"+sMsg, "SharpFBTools - "+sErrorMsg, MessageBoxButtons.OK, mbi );
 			}
 			#endregion
+		}
+		
+		// Повторная Проверка всех fb2-файлов одной Группы (Валидация)
+		void TsmiAllFilesInGroupReValidateClick(object sender, EventArgs e)
+		{
+			if( lvResult.Items.Count > 0 ) {
+				ConnectListViewResultEventHandlers( false );
+				Core.Duplicator.ValidatorForm validatorForm = new Core.Duplicator.ValidatorForm(
+					false, rbtnFB2Librusec.Checked, lvResult
+				);
+				validatorForm.ShowDialog();
+				validatorForm.Dispose();
+				ConnectListViewResultEventHandlers( true );
+			}
+		}
+		
+		// Повторная Проверка всех fb2-файлов всех Групп (Валидация)
+		void TsmiAllGroupsReValidateClick(object sender, EventArgs e)
+		{
+			if( lvResult.Items.Count > 0 ) {
+				ConnectListViewResultEventHandlers( false );
+				Core.Duplicator.ValidatorForm validatorForm = new Core.Duplicator.ValidatorForm(
+					true, rbtnFB2Librusec.Checked, lvResult
+				);
+				validatorForm.ShowDialog();
+				validatorForm.Dispose();
+				ConnectListViewResultEventHandlers( true );
+			}
 		}
 		
 		// diff - две помеченные fb2-книги
@@ -998,7 +1036,21 @@ namespace SharpFBTools.Tools
 			#endregion
 		}
 		
-		// отметить все книги
+		// отметить все книги выбранной Группы
+		void TsmiCheckedAllInGroupClick(object sender, EventArgs e)
+		{
+			ConnectListViewResultEventHandlers( false );
+			ListView.SelectedListViewItemCollection si = lvResult.SelectedItems;
+			if (si.Count > 0) {
+				// группа для выделенной книги
+				ListViewGroup lvg = si[0].Group;
+				m_mscLV.CheckAllListViewItemsInGroup( lvg, true );
+			}
+			ConnectListViewResultEventHandlers( true );
+			groupWorkingChekedItemsEnabled( lvResult.CheckedItems.Count );
+		}
+		
+		// отметить все книги всех Групп
 		void TsmiCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListViewResultEventHandlers( false );
@@ -1130,6 +1182,5 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
-		
 	}
 }

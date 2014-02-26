@@ -80,6 +80,10 @@
     <Compile Include="Duplicator\CopyMoveDeleteForm.Designer.cs">
       <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Duplicator\ValidatorForm.cs" />
+    <Compile Include="Duplicator\ValidatorForm.Designer.cs">
+      <DependentUpon>ValidatorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FB2BookData\FB2BookData.cs" />
     <Compile Include="FB2Dublicator\BookData.cs" />
     <Compile Include="FB2Dublicator\FB2FilesDataInGroupList.cs" />
@@ -151,6 +155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Duplicator\CopyMoveDeleteForm.resx">
       <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\ValidatorForm.resx">
+      <DependentUpon>ValidatorForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

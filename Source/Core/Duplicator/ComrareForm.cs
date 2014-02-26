@@ -52,14 +52,15 @@ namespace Core.Duplicator
 		private bool m_StopToSave			= false;	// true, если остановка с сохранением необработанного списка книг в файл.
 		private StatusView	m_sv 			= new StatusView();
 		private List<string> m_FilesList	= new List<string>();
+		private bool m_FB2Librusec			= true; // список Жанров Либрусек
 		
-		System.Windows.Forms.TextBox m_tboxSourceDir	= new System.Windows.Forms.TextBox();
-		System.Windows.Forms.CheckBox m_chBoxScanSubDir	= new System.Windows.Forms.CheckBox();
-		System.Windows.Forms.CheckBox m_chBoxIsValid	= new System.Windows.Forms.CheckBox();
-		System.Windows.Forms.ComboBox m_cboxMode		= new System.Windows.Forms.ComboBox();
-		System.Windows.Forms.ListView m_lvFilesCount	= new System.Windows.Forms.ListView();
-		System.Windows.Forms.ListView m_lvResult		= new System.Windows.Forms.ListView();
-		private MiscListView m_mscLV					= new MiscListView(); // класс по работе с ListView
+		private System.Windows.Forms.TextBox m_tboxSourceDir	= new System.Windows.Forms.TextBox();
+		private System.Windows.Forms.CheckBox m_chBoxScanSubDir	= new System.Windows.Forms.CheckBox();
+		private System.Windows.Forms.CheckBox m_chBoxIsValid	= new System.Windows.Forms.CheckBox();
+		private System.Windows.Forms.ComboBox m_cboxMode		= new System.Windows.Forms.ComboBox();
+		private System.Windows.Forms.ListView m_lvFilesCount	= new System.Windows.Forms.ListView();
+		private System.Windows.Forms.ListView m_lvResult		= new System.Windows.Forms.ListView();
+		private MiscListView m_mscLV							= new MiscListView(); // класс по работе с ListView
 		
 		private Hashtable m_htWorkingBook		= new Hashtable();  // таблица обработанные файлов - копии.
 		private Hashtable m_htBookTitleAuthors	= new Hashtable();  // таблица для обработанных данных копий для режима группировки по Авторам.
@@ -80,7 +81,7 @@ namespace Core.Duplicator
 		}
 		#endregion
 		
-		public ComrareForm( string fromXmlPath,
+		public ComrareForm( string fromXmlPath, bool CheckValid, bool FB2Librusec,
 		                   System.Windows.Forms.TextBox tboxSourceDir, System.Windows.Forms.CheckBox chBoxScanSubDir,
 		                   System.Windows.Forms.CheckBox chBoxIsValid, System.Windows.Forms.ComboBox cboxMode,
 		                   System.Windows.Forms.ListView lvFilesCount, System.Windows.Forms.ListView lvResult,
@@ -93,6 +94,8 @@ namespace Core.Duplicator
 			m_cboxMode			= cboxMode;
 			m_lvFilesCount		= lvFilesCount;
 			m_lvResult			= lvResult;
+			m_bCheckValid		= CheckValid;
+			m_FB2Librusec		= FB2Librusec;
 			m_viewProgressStatus = viewProgressStatus;
 			
 			m_sSource		= m_tboxSourceDir.Text.Trim();
@@ -1106,7 +1109,8 @@ namespace Core.Duplicator
 		// TODO Librusec
 		private string IsValid( string sFilePath ) {
 			FB2Validator fv2Validator = new FB2Validator();
-			return fv2Validator.ValidatingFB22File( sFilePath ) == string.Empty ? "Да" : "Нет";
+			string sResult = m_FB2Librusec ? fv2Validator.ValidatingFB2LibrusecFile( sFilePath ) : fv2Validator.ValidatingFB22File( sFilePath );
+			return sResult == string.Empty ? "Да" : "Нет";
 		}
 		
 		#endregion
