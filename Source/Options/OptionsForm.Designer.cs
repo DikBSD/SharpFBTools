@@ -73,10 +73,6 @@ namespace Options
 			this.lblFBEPath = new System.Windows.Forms.Label();
 			this.tboxFBEPath = new System.Windows.Forms.TextBox();
 			this.btnFBEPath = new System.Windows.Forms.Button();
-			this.gboxRar = new System.Windows.Forms.GroupBox();
-			this.lbl7zaPath = new System.Windows.Forms.Label();
-			this.tbox7zaPath = new System.Windows.Forms.TextBox();
-			this.btn7zaPath = new System.Windows.Forms.Button();
 			this.tpFileManager = new System.Windows.Forms.TabPage();
 			this.tcFM = new System.Windows.Forms.TabControl();
 			this.tpFMGeneral = new System.Windows.Forms.TabPage();
@@ -239,7 +235,6 @@ namespace Options
 			this.gboxDiff.SuspendLayout();
 			this.gboxReader.SuspendLayout();
 			this.gboxEditors.SuspendLayout();
-			this.gboxRar.SuspendLayout();
 			this.tpFileManager.SuspendLayout();
 			this.tcFM.SuspendLayout();
 			this.tpFMGeneral.SuspendLayout();
@@ -366,7 +361,6 @@ namespace Options
 			this.tpGeneral.Controls.Add(this.gboxDiff);
 			this.tpGeneral.Controls.Add(this.gboxReader);
 			this.tpGeneral.Controls.Add(this.gboxEditors);
-			this.tpGeneral.Controls.Add(this.gboxRar);
 			this.tpGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tpGeneral.Name = "tpGeneral";
 			this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
@@ -381,7 +375,7 @@ namespace Options
 			this.chBoxConfirmationForExit.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxConfirmationForExit.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxConfirmationForExit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(3, 343);
+			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(3, 288);
 			this.chBoxConfirmationForExit.Name = "chBoxConfirmationForExit";
 			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(601, 24);
 			this.chBoxConfirmationForExit.TabIndex = 18;
@@ -405,7 +399,7 @@ namespace Options
 			this.gboxButtons.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxButtons.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxButtons.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxButtons.Location = new System.Drawing.Point(3, 222);
+			this.gboxButtons.Location = new System.Drawing.Point(3, 167);
 			this.gboxButtons.Name = "gboxButtons";
 			this.gboxButtons.Size = new System.Drawing.Size(601, 121);
 			this.gboxButtons.TabIndex = 17;
@@ -576,7 +570,7 @@ namespace Options
 			this.gboxDiff.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxDiff.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxDiff.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxDiff.Location = new System.Drawing.Point(3, 177);
+			this.gboxDiff.Location = new System.Drawing.Point(3, 122);
 			this.gboxDiff.Name = "gboxDiff";
 			this.gboxDiff.Size = new System.Drawing.Size(601, 45);
 			this.gboxDiff.TabIndex = 16;
@@ -624,7 +618,7 @@ namespace Options
 			this.gboxReader.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxReader.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxReader.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxReader.Location = new System.Drawing.Point(3, 132);
+			this.gboxReader.Location = new System.Drawing.Point(3, 77);
 			this.gboxReader.Name = "gboxReader";
 			this.gboxReader.Size = new System.Drawing.Size(601, 45);
 			this.gboxReader.TabIndex = 15;
@@ -675,7 +669,7 @@ namespace Options
 			this.gboxEditors.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxEditors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.gboxEditors.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxEditors.Location = new System.Drawing.Point(3, 58);
+			this.gboxEditors.Location = new System.Drawing.Point(3, 3);
 			this.gboxEditors.Name = "gboxEditors";
 			this.gboxEditors.Size = new System.Drawing.Size(601, 74);
 			this.gboxEditors.TabIndex = 14;
@@ -747,54 +741,6 @@ namespace Options
 			this.btnFBEPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnFBEPath.UseVisualStyleBackColor = true;
 			this.btnFBEPath.Click += new System.EventHandler(this.BtnFBEPathClick);
-			// 
-			// gboxRar
-			// 
-			this.gboxRar.Controls.Add(this.lbl7zaPath);
-			this.gboxRar.Controls.Add(this.tbox7zaPath);
-			this.gboxRar.Controls.Add(this.btn7zaPath);
-			this.gboxRar.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gboxRar.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.gboxRar.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxRar.Location = new System.Drawing.Point(3, 3);
-			this.gboxRar.Name = "gboxRar";
-			this.gboxRar.Size = new System.Drawing.Size(601, 55);
-			this.gboxRar.TabIndex = 13;
-			this.gboxRar.TabStop = false;
-			this.gboxRar.Text = " Настройки для архиваторов ";
-			// 
-			// lbl7zaPath
-			// 
-			this.lbl7zaPath.AutoSize = true;
-			this.lbl7zaPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lbl7zaPath.Location = new System.Drawing.Point(7, 25);
-			this.lbl7zaPath.Name = "lbl7zaPath";
-			this.lbl7zaPath.Size = new System.Drawing.Size(166, 13);
-			this.lbl7zaPath.TabIndex = 19;
-			this.lbl7zaPath.Text = "Путь к 7z(a) (консольный):";
-			// 
-			// tbox7zaPath
-			// 
-			this.tbox7zaPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tbox7zaPath.Location = new System.Drawing.Point(184, 21);
-			this.tbox7zaPath.Name = "tbox7zaPath";
-			this.tbox7zaPath.ReadOnly = true;
-			this.tbox7zaPath.Size = new System.Drawing.Size(363, 20);
-			this.tbox7zaPath.TabIndex = 17;
-			// 
-			// btn7zaPath
-			// 
-			this.btn7zaPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btn7zaPath.Image = ((System.Drawing.Image)(resources.GetObject("btn7zaPath.Image")));
-			this.btn7zaPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btn7zaPath.Location = new System.Drawing.Point(553, 19);
-			this.btn7zaPath.Name = "btn7zaPath";
-			this.btn7zaPath.Size = new System.Drawing.Size(37, 24);
-			this.btn7zaPath.TabIndex = 18;
-			this.btn7zaPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btn7zaPath.UseVisualStyleBackColor = true;
-			this.btn7zaPath.Click += new System.EventHandler(this.Btn7zaPathClick);
 			// 
 			// tpFileManager
 			// 
@@ -2428,8 +2374,6 @@ namespace Options
 			this.gboxReader.PerformLayout();
 			this.gboxEditors.ResumeLayout(false);
 			this.gboxEditors.PerformLayout();
-			this.gboxRar.ResumeLayout(false);
-			this.gboxRar.PerformLayout();
 			this.tpFileManager.ResumeLayout(false);
 			this.tcFM.ResumeLayout(false);
 			this.tpFMGeneral.ResumeLayout(false);
@@ -2680,9 +2624,6 @@ namespace Options
 		private System.Windows.Forms.RadioButton rbtnGenreText;
 		private System.Windows.Forms.GroupBox gBoxGenresType;
 		private System.Windows.Forms.GroupBox gBoxGenresCount;
-		private System.Windows.Forms.Button btn7zaPath;
-		private System.Windows.Forms.TextBox tbox7zaPath;
-		private System.Windows.Forms.Label lbl7zaPath;
 		private System.Windows.Forms.ComboBox cboxSpace;
 		private System.Windows.Forms.ComboBox cboxFileExist;
 		private System.Windows.Forms.Label lbFilelExist;
@@ -2714,7 +2655,6 @@ namespace Options
 		private System.Windows.Forms.TextBox tboxFBEPath;
 		private System.Windows.Forms.Label lblFBEPath;
 		private System.Windows.Forms.GroupBox gboxEditors;
-		private System.Windows.Forms.GroupBox gboxRar;
 		private System.Windows.Forms.TabPage tpGeneral;
 		private System.Windows.Forms.TabControl tcOptions;
 		private System.Windows.Forms.Panel pBtn;

@@ -374,6 +374,12 @@ namespace SharpFBTools.Tools
 		// 											Разное
 		// =============================================================================================
 		#region Разное
+		// Смена схемы Жанров
+		private void GenresSchemeChange() {
+			Settings.SettingsFB2Dup.FB2LibrusecGenres	= rbtnFB2Librusec.Checked;
+			Settings.SettingsFB2Dup.FB22Genres			= rbtnFB22.Checked;
+		}
+		
 		// удаление оставшейся книги в группе и самой группы с контрола отображения (1 книга - это уже не копия)
 		private void workingGroupItemAfterBookDelete( System.Windows.Forms.ListView listView, ListViewGroup lvg ) {
 			if( lvg.Items.Count <= 1 ) {
@@ -493,6 +499,16 @@ namespace SharpFBTools.Tools
 					m_TargetDir = reader.GetAttribute("TargetDir");
 					Settings.SettingsFB2Dup.DupToDir = m_TargetDir;
 				}
+				reader.ReadToFollowing("FB2LibrusecGenres");
+				if (reader.HasAttributes ) {
+					rbtnFB2Librusec.Checked = Convert.ToBoolean( reader.GetAttribute("FB2LibrusecGenres") );
+					Settings.SettingsFB2Dup.FB2LibrusecGenres = rbtnFB2Librusec.Checked;
+				}
+				reader.ReadToFollowing("FB22Genres");
+				if (reader.HasAttributes ) {
+					rbtnFB22.Checked = Convert.ToBoolean( reader.GetAttribute("FB22Genres") );
+					Settings.SettingsFB2Dup.FB22Genres = rbtnFB22.Checked;
+				}
 				reader.Close();
 			}
 		}
@@ -569,6 +585,16 @@ namespace SharpFBTools.Tools
 		// 									ОБРАБОТЧИКИ событий контролов
 		// =============================================================================================
 		#region Обработчики событий контролов
+		void RbtnFB2LibrusecClick(object sender, EventArgs e)
+		{
+			GenresSchemeChange();
+		}
+		
+		void RbtnFB22Click(object sender, EventArgs e)
+		{
+			GenresSchemeChange();
+		}
+		
 		void TboxSourceDirTextChanged(object sender, EventArgs e)
 		{
 			Settings.SettingsFB2Dup.DupScanDir = tboxSourceDir.Text;
@@ -1182,5 +1208,6 @@ namespace SharpFBTools.Tools
 			}
 		}
 		#endregion
+		
 	}
 }

@@ -419,7 +419,7 @@ namespace SharpFBTools.Tools
 									this.tsmiOpenFileDir,
 									this.tsmiDeleteFileFromDisk});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(343, 442);
+			this.cmsFB2.Size = new System.Drawing.Size(343, 420);
 			// 
 			// tsmiAnalyzeForAllGroups
 			// 
@@ -719,6 +719,7 @@ namespace SharpFBTools.Tools
 			this.rbtnFB22.TabIndex = 31;
 			this.rbtnFB22.Text = "fb2.2";
 			this.rbtnFB22.UseVisualStyleBackColor = true;
+			this.rbtnFB22.Click += new System.EventHandler(this.RbtnFB22Click);
 			// 
 			// rbtnFB2Librusec
 			// 
@@ -732,6 +733,7 @@ namespace SharpFBTools.Tools
 			this.rbtnFB2Librusec.TabStop = true;
 			this.rbtnFB2Librusec.Text = "fb2 Либрусек";
 			this.rbtnFB2Librusec.UseVisualStyleBackColor = true;
+			this.rbtnFB2Librusec.Click += new System.EventHandler(this.RbtnFB2LibrusecClick);
 			// 
 			// lblFMFSGenres
 			// 

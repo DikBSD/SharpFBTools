@@ -28,8 +28,6 @@ namespace Settings
 		private static string m_sFB22SchemePath			= GetProgDir()+"\\FB22FictionBook.xsd";
 		private static string m_sFB2LibrusecSchemePath	= GetProgDir()+"\\LibrusecFictionBook.xsd";
 		private static string m_sTFB2Path	= "c:\\WINDOWS\\NOTEPAD.EXE";
-		//TODO Удалить m_s7zaPath
-		private static string m_s7zaPath	= GetProgDir()+"\\7za.exe";
 		private static string m_sFBEPath	= "c:\\Program Files\\FictionBook Editor\\FBE.exe";
 		private static string m_sFBReaderPath	= "c:\\Program Files\\AlReader 2\\AlReader2.exe";
 		private static string m_sDiffPath		= "";
@@ -167,20 +165,18 @@ namespace Settings
 			return m_sProgDir;
 		}
 		
+		// возвращает временную папку
 		public static string GetTempDir() {
-			// возвращает временную папку
 			return m_sTempDir;
 		}
 		
 		// возвращает путь к схеме fb2.2
 		public static string GetFB22SchemePath() {
-			
 			return m_sFB22SchemePath;
 		}
 		
 		// возвращает путь к схеме fb2 Librusec
 		public static string GetFB2LibrusecSchemePath() {
-			
 			return m_sFB2LibrusecSchemePath;
 		}
 		
@@ -190,10 +186,6 @@ namespace Settings
 		
 		public static string GetDefTFB2Path() {
 			return m_sTFB2Path;
-		}
-		
-		public static string GetDef7zaPath() {
-			return m_s7zaPath;
 		}
 		
 		public static string GetDefFBEPath() {
@@ -217,11 +209,6 @@ namespace Settings
 		}
 
 		// =================== Чтение из файла настроек данных по конкретному параметру ===============
-		//TODO Убрать
-		public static string Read7zaPath() {
-			// читаем путь к консольному 7za из настроек
-			return ReadAttribute( "A7za", "A7zaPath", GetDef7zaPath() );
-		}
 		public static string ReadTextFB2EPath() {
 			// читаем путь к текстовому редактору из настроек
 			return ReadAttribute( "Editors", "TextFB2EPath", GetDefTFB2Path() );
@@ -294,13 +281,20 @@ namespace Settings
 						writer.WriteStartElement( "FB2DupToDir" );
 							writer.WriteAttributeString( "TargetDir", SettingsFB2Dup.DupToDir );
 						writer.WriteFullEndElement();
+						
+						writer.WriteStartElement( "FB2LibrusecGenres" );
+							writer.WriteAttributeString( "FB2LibrusecGenres", Convert.ToString( SettingsFB2Dup.FB2LibrusecGenres ) );
+						writer.WriteFullEndElement();
+						writer.WriteStartElement( "FB22Genres" );
+							writer.WriteAttributeString( "FB22Genres", Convert.ToString( SettingsFB2Dup.FB22Genres ) );
+						writer.WriteFullEndElement();
 					writer.WriteEndElement();
 					
 				writer.WriteEndElement();
 				writer.Flush();
 			}  finally  {
 				if (writer != null)
-				writer.Close();
+					writer.Close();
 			}
 		}
 		#endregion

@@ -55,7 +55,7 @@ namespace Core.Duplicator
 			this.ProgressPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.ProgressPanel.Location = new System.Drawing.Point(0, 0);
 			this.ProgressPanel.Name = "ProgressPanel";
-			this.ProgressPanel.Size = new System.Drawing.Size(516, 147);
+			this.ProgressPanel.Size = new System.Drawing.Size(516, 178);
 			this.ProgressPanel.TabIndex = 0;
 			// 
 			// StatusTextBox
@@ -65,7 +65,7 @@ namespace Core.Duplicator
 			this.StatusTextBox.Name = "StatusTextBox";
 			this.StatusTextBox.ReadOnly = true;
 			this.StatusTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.StatusTextBox.Size = new System.Drawing.Size(491, 93);
+			this.StatusTextBox.Size = new System.Drawing.Size(491, 124);
 			this.StatusTextBox.TabIndex = 1;
 			// 
 			// ProgressBar
@@ -82,15 +82,15 @@ namespace Core.Duplicator
 			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.ControlPanel.Location = new System.Drawing.Point(513, 0);
 			this.ControlPanel.Name = "ControlPanel";
-			this.ControlPanel.Size = new System.Drawing.Size(156, 147);
+			this.ControlPanel.Size = new System.Drawing.Size(156, 178);
 			this.ControlPanel.TabIndex = 1;
 			// 
 			// btnSaveToXml
 			// 
-			this.btnSaveToXml.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.btnSaveToXml.Dock = System.Windows.Forms.DockStyle.Top;
 			this.btnSaveToXml.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnSaveToXml.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveToXml.Image")));
-			this.btnSaveToXml.Location = new System.Drawing.Point(0, 89);
+			this.btnSaveToXml.Location = new System.Drawing.Point(0, 58);
 			this.btnSaveToXml.Name = "btnSaveToXml";
 			this.btnSaveToXml.Size = new System.Drawing.Size(156, 58);
 			this.btnSaveToXml.TabIndex = 1;
@@ -124,7 +124,7 @@ namespace Core.Duplicator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(669, 147);
+			this.ClientSize = new System.Drawing.Size(669, 178);
 			this.ControlBox = false;
 			this.Controls.Add(this.ControlPanel);
 			this.Controls.Add(this.ProgressPanel);

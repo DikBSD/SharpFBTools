@@ -18,8 +18,10 @@ namespace Settings
 	{
 		#region Закрытые статические данные класса
 		private static string m_sDuplicatorHelpPath = Settings.GetProgDir()+"\\Help\\FB2DuplicatorHelp.rtf";
-		private static string m_sFB2DupScanDir	= ""; // папка сканирования
-		private static string m_sFB2DupToDir 	= ""; // папка приемник
+		private static string m_sFB2DupScanDir	= string.Empty; // папка сканирования
+		private static string m_sFB2DupToDir 	= string.Empty; // папка приемник
+		private static bool m_FB2LibrusecGenres	= true;
+		private static bool m_FB22Genres		= false;
 		// вид ToolButtons инструмента
 		private static string m_cboxDSFB2DupText	= "ImageAndText";
 		private static string m_cboxTIRFB2DupText	= "ImageBeforeText";
@@ -53,6 +55,16 @@ namespace Settings
 		public static string DupToDir {
 			get { return m_sFB2DupToDir; }
 			set { m_sFB2DupToDir = value; }
+		}
+		
+		// схема жанров
+		public static bool FB2LibrusecGenres {
+			get { return m_FB2LibrusecGenres; }
+			set { m_FB2LibrusecGenres = value; }
+		}
+		public static bool FB22Genres {
+			get { return m_FB22Genres; }
+			set { m_FB22Genres = value; }
 		}
 		#endregion
 	}

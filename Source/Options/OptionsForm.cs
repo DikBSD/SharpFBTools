@@ -47,12 +47,10 @@ namespace Options
 		#region Закрытые Вспомогательные методы
 		private void DefGeneral() {
 			// общие настройки
-			//TODO Удалить
-			tbox7zaPath.Text	= Settings.Settings.GetDef7zaPath();
-			tboxFBEPath.Text	= Settings.Settings.GetDefFBEPath();
-			tboxTextEPath.Text	= Settings.Settings.GetDefTFB2Path();
-			tboxReaderPath.Text = Settings.Settings.GetDefFBReaderPath();
-			tboxDiffPath.Text 	= Settings.Settings.GetDiffPath();
+			tboxFBEPath.Text			= Settings.Settings.GetDefFBEPath();
+			tboxTextEPath.Text			= Settings.Settings.GetDefTFB2Path();
+			tboxReaderPath.Text 		= Settings.Settings.GetDefFBReaderPath();
+			tboxDiffPath.Text 			= Settings.Settings.GetDiffPath();
 			cboxDSValidator.Text		= Settings.ValidatorSettings.GetDefValidatorcboxDSValidatorText();
 			cboxTIRValidator.Text		= Settings.ValidatorSettings.GetDefValidatorcboxTIRValidatorText();;
 			cboxDSArchiveManager.Text	= Settings.SettingsAM.GetDefAMcboxDSArchiveManagerText();
@@ -146,11 +144,6 @@ namespace Options
 			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
 				try {
 					// Общее 
-					//TODO Убрать
-					reader.ReadToFollowing("A7za");
-					if( reader.HasAttributes ) {
-						tbox7zaPath.Text = reader.GetAttribute("A7zaPath");
-					}
 					reader.ReadToFollowing("Editors");
 					if( reader.HasAttributes ) {
 						if ( reader.GetAttribute("FBEPath") != null )
@@ -351,11 +344,6 @@ namespace Options
 				writer.WriteStartElement( "SharpFBTools" );
 					// Общие
 					writer.WriteStartElement( "General" );
-						//TODO Убрать
-						writer.WriteStartElement( "A7za" );
-							writer.WriteAttributeString( "A7zaPath", tbox7zaPath.Text );
-						writer.WriteFullEndElement();
-						
 						writer.WriteStartElement( "Editors" );
 							writer.WriteAttributeString( "FBEPath", tboxFBEPath.Text );
 							writer.WriteAttributeString( "TextFB2EPath", tboxTextEPath.Text );
@@ -545,19 +533,6 @@ namespace Options
 		}
 		
 		#region Общее
-		//TODO Удалить
-		void Btn7zaPathClick(object sender, EventArgs e)
-		{
-			// указание пути к 7za (консольному)
-			ofDlg.Title = "Укажите путь к 7z(a) (консольному):";
-			ofDlg.FileName = "";
-			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
-			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
-                tbox7zaPath.Text = ofDlg.FileName;
-            }
-		}
-		
 		void BtnFBEPathClick(object sender, EventArgs e)
 		{
 			// указание пути к fb2-редактору

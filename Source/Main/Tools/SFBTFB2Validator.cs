@@ -61,7 +61,7 @@ namespace SharpFBTools.Tools
 			InitializeValidateBackgroundWorker();
 			InitializeFilesWorkerBackgroundWorker();
 			
-			// первоначальная установка значений по умолчанию
+			#region первоначальная установка значений по умолчанию
 			this.cboxExistFile.SelectedIndexChanged -= new System.EventHandler(this.CboxExistFileSelectedIndexChanged);
 			cboxExistFile.SelectedIndex = 1;
 			this.cboxExistFile.SelectedIndexChanged += new System.EventHandler(this.CboxExistFileSelectedIndexChanged);
@@ -81,6 +81,7 @@ namespace SharpFBTools.Tools
 			this.cboxValidatorForZipPE.SelectedIndexChanged -= new System.EventHandler(this.CboxValidatorForZipPESelectedIndexChanged);
 			cboxValidatorForZipPE.SelectedIndex = 0;
 			this.cboxValidatorForZipPE.SelectedIndexChanged += new System.EventHandler(this.CboxValidatorForZipPESelectedIndexChanged);
+			#endregion
 			
 			// инициализация контролов
 			Init();
@@ -471,7 +472,7 @@ namespace SharpFBTools.Tools
 			tboxNotFB2DirCopyTo.Text = Settings.ValidatorSettings.ReadXmlNotFB2DirCopyTo();
 			tboxNotFB2DirMoveTo.Text = Settings.ValidatorSettings.ReadXmlNotFB2DirMoveTo();
 			
-			// обработка подкаталдогов
+			// обработка подкаталогов
 			chBoxScanSubDir.Checked = Settings.ValidatorSettings.ReadXmlScanSubDir();
 			// что делать, если такой файл уже есть
 			cboxExistFile.SelectedIndex = Settings.ValidatorSettings.ReadXmlExistFileWorker();

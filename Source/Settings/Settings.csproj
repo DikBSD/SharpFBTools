@@ -36,7 +36,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataFB2Dup.cs" />
     <Compile Include="DataFM.cs" />
     <Compile Include="FileManagerSettings.cs" />
     <Compile Include="Settings.cs" />
