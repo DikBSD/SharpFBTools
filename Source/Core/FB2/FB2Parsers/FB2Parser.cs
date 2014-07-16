@@ -43,7 +43,7 @@ namespace Core.FB2.FB2Parsers
 				m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
 				m_NsManager.AddNamespace( "fb", m_aFBNamespace );
 			} catch {
-				throw new System.IO.FileLoadException( "Bad File!" );
+				throw new System.IO.FileLoadException( "Bad File: " + sFB2Path );
 			}
 			
 		}

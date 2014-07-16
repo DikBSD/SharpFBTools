@@ -9,38 +9,36 @@
 using System;
 using System.IO;
 using System.Xml;
+using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
 namespace Settings
 {
 	/// <summary>
-	/// Description of Settings.
+	/// Класс по работе с общими настройками всех инструментов
 	/// </summary>
 	public class Settings
 	{
 		#region Закрытые статические члены-данные класса
+		private static XmlDocument m_xmlDoc	= new XmlDocument();
 		
 		#region Общее Настройки
-		private static string m_sProgDir = Environment.CurrentDirectory;
-		private static string m_sTempDir = GetProgDir()+"\\Temp"; // временный каталог
-		private static string m_settings = GetProgDir()+"\\settings.xml";
-		private static string m_sFB22SchemePath			= GetProgDir()+"\\FB22FictionBook.xsd";
-		private static string m_sFB2LibrusecSchemePath	= GetProgDir()+"\\LibrusecFictionBook.xsd";
-		private static string m_sTFB2Path	= "c:\\WINDOWS\\NOTEPAD.EXE";
-		private static string m_sFBEPath	= "c:\\Program Files\\FictionBook Editor\\FBE.exe";
+		private static string m_sProgDir 				= Environment.CurrentDirectory;
+		private static string m_sTempDir 				= ProgDir + "\\Temp"; // временный каталог
+		private static string m_settings 				= ProgDir + "\\settings.xml";
+		private static string m_sLicensePath			= ProgDir + "\\License GPL 2.1.rtf";
+		private static string m_sChangeFilePath			= ProgDir + "\\Change.rtf";
+		private static string m_sFB22SchemePath			= ProgDir + "\\FB22FictionBook.xsd";
+		private static string m_sFB2LibrusecSchemePath	= ProgDir + "\\LibrusecFictionBook.xsd";
+		private static string m_sTFB2Path		= "c:\\WINDOWS\\NOTEPAD.EXE";
+		private static string m_sFBEPath		= "c:\\Program Files\\FictionBook Editor\\FBE.exe";
 		private static string m_sFBReaderPath	= "c:\\Program Files\\AlReader 2\\AlReader2.exe";
-		private static string m_sDiffPath		= "";
-		
-		private static string m_sLicensePath	= GetProgDir()+"\\License GPL 2.1.rtf";
-		private static string m_sChangeFilePath	= GetProgDir()+"\\Change.rtf";
-		//
-		private static string m_sWorksDataSettingsPath = GetProgDir()+"\\SharpFBToolsWorksData.xml";
+		private static string m_sDiffPath		= string.Empty;
 		#endregion
 		
 		#region Общие Сообщения
 		private static string m_sReady	= "Готово.";
-		private static string m_sNoID	= "Id_Нет";
 		#endregion
 		
 		#region Стили ToolButtons
@@ -81,153 +79,106 @@ namespace Settings
 
 		#region Открытые статические методы класса
 		
-		#region Чтение Атрибутов xml-файла
-		public static string ReadAttribute( string sTag, string sAttr, string sAttrDefValue ) {
-			// читаем атрибут тега из настроек
-			string sAttrValue = sAttrDefValue;
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					try {
-						reader.ReadToFollowing(sTag);
-						if ( reader.HasAttributes ) {
-							string s = reader.GetAttribute( sAttr );
-							if( s != null ) {
-								sAttrValue = s;
-							}
-						}
-					} catch {
-						
-					} finally {
-						reader.Close();
-					}
-				}
-			}
-			return sAttrValue;
-		}
-		public static Int16 ReadAttribute( string sTag, string sAttr, Int16 nAttrDefValue ) {
-			// читаем атрибут тега из настроек
-			Int16 nAttrValue = nAttrDefValue;
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					try {
-						reader.ReadToFollowing(sTag);
-						if ( reader.HasAttributes ) {
-							string s = reader.GetAttribute( sAttr );
-							if( s != null ) {
-								nAttrValue = Convert.ToInt16( s );
-							}
-						}
-					} catch {
-						
-					} finally {
-						reader.Close();
-					}
-				}
-			}
-			return nAttrValue;
-		}
-		public static bool ReadAttribute( string sTag, string sAttr, bool bAttrDefValue ) {
-			// читаем атрибут тега из настроек
-			bool bAttrValue = bAttrDefValue;
-			if( File.Exists( GetSettingsPath() ) ) {
-				XmlReaderSettings settings = new XmlReaderSettings();
-				settings.IgnoreWhitespace = true;
-				using ( XmlReader reader = XmlReader.Create( GetSettingsPath(), settings ) ) {
-					try {
-						reader.ReadToFollowing(sTag);
-						if ( reader.HasAttributes ) {
-							string s = reader.GetAttribute( sAttr );
-							if( s != null ) {
-								bAttrValue = Convert.ToBoolean( s );
-							}
-						}
-					} catch {
-						
-					} finally {
-						reader.Close();
-					}
-				}
-			}
-			return bAttrValue;
-		}
-		#endregion		
-		
 		#region Общее Настройки
-		public static void SetProgDir( string sProgDir ) {
-			m_sProgDir = sProgDir;
-		}
-
-		public static string GetProgDir() {
-			return m_sProgDir;
+		public static string ProgDir {
+			get { return m_sProgDir; }
+			set { m_sProgDir = value; }
 		}
 		
 		// возвращает временную папку
-		public static string GetTempDir() {
-			return m_sTempDir;
+		public static string TempDir {
+			get { return m_sTempDir; }
 		}
 		
 		// возвращает путь к схеме fb2.2
-		public static string GetFB22SchemePath() {
-			return m_sFB22SchemePath;
+		public static string FB22SchemePath {
+			get { return m_sFB22SchemePath; }
 		}
 		
 		// возвращает путь к схеме fb2 Librusec
-		public static string GetFB2LibrusecSchemePath() {
-			return m_sFB2LibrusecSchemePath;
+		public static string FB2LibrusecSchemePath {
+			get { return m_sFB2LibrusecSchemePath; }
 		}
 		
-		public static string GetSettingsPath() {
-			return m_settings;
+		public static string SettingsPath {
+			get { return m_settings; }
 		}
 		
-		public static string GetDefTFB2Path() {
-			return m_sTFB2Path;
-		}
-		
-		public static string GetDefFBEPath() {
-			return m_sFBEPath;
-		}
-		
-		public static string GetDefFBReaderPath() {
-			return m_sFBReaderPath;
-		}
-		
-		public static string GetDiffPath() {
-			return m_sDiffPath;
-		}
-		
-		public static string GetLicensePath() {
-			return m_sLicensePath;
+		public static string DefTFB2Path {
+			get { return m_sTFB2Path; }
 		}
 
-		public static string GetChangeFilePath() {
-			return m_sChangeFilePath;
+		public static string DefFBEPath {
+			get { return m_sFBEPath; }
 		}
 
-		// =================== Чтение из файла настроек данных по конкретному параметру ===============
-		public static string ReadTextFB2EPath() {
-			// читаем путь к текстовому редактору из настроек
-			return ReadAttribute( "Editors", "TextFB2EPath", GetDefTFB2Path() );
+		public static string DefFBReaderPath {
+			get { return m_sFBReaderPath; }
 		}
+		
+		public static string DiffPath {
+			get { return m_sDiffPath; }
+		}
+		
+		public static string LicensePath {
+			get { return m_sLicensePath; }
+		}
+
+		public static string ChangeFilePath {
+			get { return m_sChangeFilePath; }
+		}
+
+		// =============================================================================================
+		// 				Чтение из файла настроек данных по конкретному параметру
+		// =============================================================================================
 		public static string ReadFBEPath() {
-			// читаем путь к FBE из настроек
-			return ReadAttribute( "Editors", "FBEPath", GetDefFBEPath() );
+			if( File.Exists( m_settings ) ) {
+				m_xmlDoc.Load( m_settings );
+				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/FBEPath");
+				if(node != null)
+					return node.InnerText;
+			}
+			return DefFBEPath;
 		}
+		
+		public static string ReadTextFB2EPath() {
+			if( File.Exists( m_settings ) ) {
+				m_xmlDoc.Load( m_settings );
+				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/TextFB2EPath");
+				if(node != null)
+					return node.InnerText;
+			}
+			return DefTFB2Path;
+		}
+
 		public static string ReadFBReaderPath() {
-			// читаем путь к читалке из настроек
-			return ReadAttribute( "Reader", "FBReaderPath", GetDefFBReaderPath() );
+			if( File.Exists( m_settings ) ) {
+				m_xmlDoc.Load( m_settings );
+				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/FBReaderPath");
+				if(node != null)
+					return node.InnerText;
+			}
+			return DefFBReaderPath;
 		}
+
 		public static string ReadDiffPath() {
-			// читаем путь к читалке из настроек
-			return ReadAttribute( "Diff", "DiffPath", GetDiffPath() );
+			if( File.Exists( m_settings ) ) {
+				m_xmlDoc.Load( m_settings );
+				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/DiffPath");
+				if(node != null)
+					return node.InnerText;
+			}
+			return DiffPath;
 		}
+
 		public static bool ReadConfirmationForExit() {
-			// читаем путь для подтверждения выхода из программы
-			return ReadAttribute( "ConfirmationForExit", "ConfirmationForExit", true );
+			if( File.Exists( m_settings ) ) {
+				m_xmlDoc.Load( m_settings );
+				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/ConfirmationForAppExit");
+				if(node != null)
+					return Convert.ToBoolean( node.InnerText );
+			}
+			return true;
 		}
 		#endregion
 		
@@ -235,97 +186,28 @@ namespace Settings
 		public static string GetReady() {
 			return m_sReady;
 		}
-		
-		public static string GetNoID() {
-			return m_sNoID;
-		}
-		#endregion
-
-		#region Открытые статические общие свойства класса
-		public static string WorksDataSettingsPath {
-			get { return m_sWorksDataSettingsPath; }
-		}
 		#endregion
 		
-		#region Сохранение рабочих настроек (папки...) всех инструментов в xml-файл
-		public static void WriteSharpFBToolsWorksData() {
-			XmlWriter writer = null;
-			try {
-				XmlWriterSettings settings = new XmlWriterSettings();
-				settings.Indent = true;
-				settings.IndentChars = ("\t");
-				settings.OmitXmlDeclaration = true;
-				
-				writer = XmlWriter.Create( WorksDataSettingsPath, settings );
-				writer.WriteStartElement( "SharpFBTools" );
-					writer.WriteStartElement( "ArchiveManager" );
-						writer.WriteStartElement( "AMScanDirForArchive" );
-							writer.WriteAttributeString( "tboxSourceDir", SettingsAM.AMAScanDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "AMTargetDirForArchive" );
-							writer.WriteAttributeString( "tboxToAnotherDir", SettingsAM.AMATargetDir );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "AMScanDirForUnArchive" );
-							writer.WriteAttributeString( "tboxUASourceDir", SettingsAM.AMUAScanDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "AMTargetDirForUnArchive" );
-							writer.WriteAttributeString( "tboxUAToAnotherDir", SettingsAM.AMAUATargetDir );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-					
-					writer.WriteStartElement( "FB2DuplicatesSearcher" );
-						writer.WriteStartElement( "FB2DupScanDir" );
-							writer.WriteAttributeString( "SourceDir", SettingsFB2Dup.DupScanDir );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "FB2DupToDir" );
-							writer.WriteAttributeString( "TargetDir", SettingsFB2Dup.DupToDir );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "FB2LibrusecGenres" );
-							writer.WriteAttributeString( "FB2LibrusecGenres", Convert.ToString( SettingsFB2Dup.FB2LibrusecGenres ) );
-						writer.WriteFullEndElement();
-						writer.WriteStartElement( "FB22Genres" );
-							writer.WriteAttributeString( "FB22Genres", Convert.ToString( SettingsFB2Dup.FB22Genres ) );
-						writer.WriteFullEndElement();
-					writer.WriteEndElement();
-					
-				writer.WriteEndElement();
-				writer.Flush();
-			}  finally  {
-				if (writer != null)
-					writer.Close();
-			}
-		}
-		#endregion
-	
 		#region Стили ToolButtons
 		// задание для кнопок ToolStrip стиля и положения текста и картинки
 		public static void SetToolButtonsSettings( string sNodeName, string sAttrDS, string sAttrTIR, ToolStrip ts ) {
 			// чтение настроек для ToolButtons из xml-файла
-			string sSettings = GetSettingsPath();
-			if( !File.Exists( sSettings ) ) return;
-			XmlReaderSettings settings = new XmlReaderSettings();
-			settings.IgnoreWhitespace = true;
-			string sDS = "", sTIR = "";
-			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
-				try {
-					reader.ReadToFollowing( sNodeName );
-					if (reader.HasAttributes ) {
-						sDS = reader.GetAttribute( sAttrDS );
-						sTIR = reader.GetAttribute( sAttrTIR );
+			if( File.Exists( SettingsPath ) ) {
+				m_xmlDoc.Load( SettingsPath );
+				XmlNode node = m_xmlDoc.SelectSingleNode(sNodeName);
+				if(node != null) {
+					string sDS = string.Empty, sTIR = string.Empty;
+					XmlAttributeCollection attrs = node.Attributes;
+					sDS = attrs.GetNamedItem(sAttrDS).InnerText;
+					sTIR = attrs.GetNamedItem(sAttrTIR).InnerText;
+					if( sDS.Length!=0 ) {
+						for( int i=0; i!=ts.Items.Count; ++i ) {
+							ts.Items[i].DisplayStyle		= (ToolStripItemDisplayStyle)GetToolButtonDisplayStyle( sDS );
+							ts.Items[i].TextImageRelation	= (TextImageRelation)GetToolButtonTextImageRelation( sTIR );
+						}
 					}
-				} catch {
-					MessageBox.Show( "Поврежден файл настроек: \""+GetSettingsPath()+"\".\nУдалите его, он создастся автоматически при сохранении настроек", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				} finally {
-					reader.Close();
-				}
-			}
-			if( sDS.Length!=0 ) {
-				for( int i=0; i!=ts.Items.Count; ++i ) {
-					ts.Items[i].DisplayStyle		= (ToolStripItemDisplayStyle)GetToolButtonDisplayStyle( sDS );
-					ts.Items[i].TextImageRelation	= (TextImageRelation)GetToolButtonTextImageRelation( sTIR );
-				}
+				} /*else
+					MessageBox.Show( "Поврежден файл настроек: \""+SettingsPath+"\".\nУдалите его, он создастся автоматически при сохранении настроек", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );*/
 			}
 		}
 

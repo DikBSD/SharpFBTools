@@ -38,19 +38,19 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Validator));
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего папок",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Всего файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2-файлов",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
 									"fb2 в .zip-архивах",
 									"0"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
 									"Другие файлы",
 									"0"}, -1);
 			this.tsValidator = new System.Windows.Forms.ToolStrip();
@@ -1105,6 +1105,7 @@ namespace SharpFBTools.Tools
 			this.tboxArchivatorPath.ReadOnly = true;
 			this.tboxArchivatorPath.Size = new System.Drawing.Size(616, 20);
 			this.tboxArchivatorPath.TabIndex = 11;
+			this.tboxArchivatorPath.TextChanged += new System.EventHandler(this.TboxArchivatorPathTextChanged);
 			// 
 			// btnArchivatorPath
 			// 
@@ -1353,6 +1354,7 @@ namespace SharpFBTools.Tools
 			this.rbtnFB22.Text = "fb2.2";
 			this.rbtnFB22.UseVisualStyleBackColor = true;
 			this.rbtnFB22.Click += new System.EventHandler(this.RbtnFB22Click);
+			this.rbtnFB22.CheckedChanged += new System.EventHandler(this.RbtnFB22CheckedChanged);
 			// 
 			// rbtnFB2Librusec
 			// 
@@ -1367,6 +1369,7 @@ namespace SharpFBTools.Tools
 			this.rbtnFB2Librusec.Text = "fb2 Либрусек";
 			this.rbtnFB2Librusec.UseVisualStyleBackColor = true;
 			this.rbtnFB2Librusec.Click += new System.EventHandler(this.RbtnFB2LibrusecClick);
+			this.rbtnFB2Librusec.CheckedChanged += new System.EventHandler(this.RbtnFB2LibrusecCheckedChanged);
 			// 
 			// lblFMFSGenres
 			// 
@@ -1396,11 +1399,11 @@ namespace SharpFBTools.Tools
 			this.lvFilesCount.FullRowSelect = true;
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem6,
-									listViewItem7,
-									listViewItem8,
-									listViewItem9,
-									listViewItem10});
+									listViewItem1,
+									listViewItem2,
+									listViewItem3,
+									listViewItem4,
+									listViewItem5});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 24);
 			this.lvFilesCount.Name = "lvFilesCount";
 			this.lvFilesCount.Size = new System.Drawing.Size(223, 426);
@@ -1440,6 +1443,7 @@ namespace SharpFBTools.Tools
 			this.chBoxViewProgress.TabIndex = 22;
 			this.chBoxViewProgress.Text = "Отображать ход работы";
 			this.chBoxViewProgress.UseVisualStyleBackColor = true;
+			this.chBoxViewProgress.CheckStateChanged += new System.EventHandler(this.ChBoxViewProgressCheckStateChanged);
 			// 
 			// pCentral
 			// 

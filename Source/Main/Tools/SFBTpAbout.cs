@@ -26,13 +26,13 @@ namespace SharpFBTools.Tools
 		{
 			InitializeComponent();
 			// загрузка файла Лицензии
-			string sLicensePath = Settings.Settings.GetLicensePath();
+			string sLicensePath = Settings.Settings.LicensePath;
 			if( File.Exists( sLicensePath ) ) {
 				rtboxLicense.LoadFile( sLicensePath );
 			} else {
 				rtboxLicense.Text = "Не найден файл лицензии: \""+sLicensePath+"\"";
 			}
-			string sChangeFilePath = Settings.Settings.GetChangeFilePath();
+			string sChangeFilePath = Settings.Settings.ChangeFilePath;
 			if( File.Exists( sChangeFilePath ) ) {
 				rtboxLog.LoadFile( sChangeFilePath );
 			} else {
@@ -46,9 +46,9 @@ namespace SharpFBTools.Tools
 		{
 			rtboxHelp.Clear();
 			string sFB2ValidatorHelpPath	= Settings.ValidatorSettings.GetFB2ValidatorHelpPath();
-			string sFileManagerHelpPath		= Settings.FileManagerSettings.GetFileManagerHelpPath();
-			string sArchiveManagerHelpPath	= Settings.SettingsAM.GetArchiveManagerHelpPath();
-			string sDuplicatorHelpPath		= Settings.SettingsFB2Dup.GetDuplicatorHelpPath();
+			string sFileManagerHelpPath		= Settings.FileManagerSettings.FileManagerHelpPath;
+			string sArchiveManagerHelpPath	= Settings.ArchiveManagerSettings.GetArchiveManagerHelpPath();
+			string sDuplicatorHelpPath		= Settings.FB2DublicatorSettings.GetDuplicatorHelpPath();
 			switch( cboxInstrument.SelectedIndex ) {
 				case 0:
 					if( File.Exists( sFB2ValidatorHelpPath ) ) {

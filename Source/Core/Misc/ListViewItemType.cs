@@ -11,7 +11,7 @@ using System;
 namespace Core.Misc
 {
 	/// <summary>
-	/// Description of ListViewItemType.
+	/// Данные ListViewItemType.
 	/// </summary>
 	public class ListViewItemType
 	{

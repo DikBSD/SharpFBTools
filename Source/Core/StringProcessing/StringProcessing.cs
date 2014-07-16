@@ -22,7 +22,7 @@ using System.Windows.Forms;
 namespace Core.StringProcessing
 {
 	/// <summary>
-	/// Description of StringProcessing.
+	/// StringProcessing: обработка строк и путей файлов
 	/// </summary>
 	public class StringProcessing
 	{
@@ -200,10 +200,10 @@ namespace Core.StringProcessing
 		#region Открытые методы класса
 		// обработка пробелов в строке
 		public static string SpaceString( string sString, int nMode ) {
-			if( sString==null || sString.Length==0 ) {
+			if( sString==null || sString.Length==0 )
 				return sString;
-			}
-			string s = "";
+
+			string s = string.Empty;
 			for( int i=0; i!=sString.Length; ++i ) {
 				if( sString[i]==' ' ) {
 					switch( nMode ) {
@@ -224,6 +224,9 @@ namespace Core.StringProcessing
 						case 5: // заменить пробел на '~'
 							s += '~';
 							break;
+						case 6: // заменить пробел на '.'
+							s += '.';
+							break;
 					}
 				} else {
 					s += sString[i];
@@ -237,12 +240,12 @@ namespace Core.StringProcessing
 			if( sString.IndexOf( c ) !=-1 ) {
 				StringBuilder sb = new StringBuilder();
 				for( int i=0; i!=sString.Length; ++i ) {
-					if( i >= sString.Length ) {
+					if( i >= sString.Length )
 						break;
-					} else {
-						if( sString[i] != c ) {
+					else {
+						if( sString[i] != c )
 							sb.Append( sString[i] );
-						} else {
+						else {
 							if( i >= sString.Length-1 ) {
 								sb.Append( sString[i] ); // c - это последний символ в строке
 								break;
@@ -260,9 +263,9 @@ namespace Core.StringProcessing
 		
 		// задание регистра строке
 		public static string RegisterString( string sString, int nMode ) {
-			if( sString==null || sString.Length==0 ) {
-				return "";
-			}
+			if( sString==null || sString.Length==0 )
+				return string.Empty;
+
 			switch( nMode ) {
 				case 0: // Как есть
 					return sString;
@@ -289,19 +292,18 @@ namespace Core.StringProcessing
 		// транслитерация строки
 		public static string TransliterationString( string sString ) {
 			string sStr = sString;
-			if( sString==null || sString.Length==0 ) {
+			if( sString==null || sString.Length==0 )
 				return sString;
-			}
+
 			const string sTemplate = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#№$%^[](){}-+=_;.,\\";
 			string[] saTranslitLetters = MakeTranslitLettersArray();
-			string sTranslit = "";
+			string sTranslit = string.Empty;
 			for( int i=0; i!=sStr.Length; ++i ) {
 				int nInd = sTemplate.IndexOf( sStr[i] );
-				if( nInd!=-1 ) {
+				if( nInd!=-1 )
 					sTranslit += saTranslitLetters[nInd];
-				} else {
+				else
 					sTranslit += "_";
-				}
 			}
 			return sTranslit;
 		}
@@ -309,16 +311,15 @@ namespace Core.StringProcessing
 		// "строгое" значение строки
 		public static string StrictString( string sString ) {
 			string s = sString;
-			if( sString==null || sString.Length==0 ) {
+			if( sString==null || sString.Length==0 )
 				return sString;
-			}
-			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}-_";
-			string sStrict = "";
+
+			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}~-+=_.,!@#$%^&№`';«»";
+			string sStrict = string.Empty;
 			for( int i=0; i!=s.Length; ++i ) {
 				int nInd = sStrictLetters.IndexOf( s[i] );
-				if( nInd!=-1 ) {
+				if( nInd!=-1 )
 					sStrict += s[i];
-				}
 			}
 			return sStrict;
 		}
@@ -487,15 +488,14 @@ namespace Core.StringProcessing
 		
 		// "строгое" значение строки
 		public static string StrictPath( string sPath ) {
-			if( sPath==null || sPath.Length==0 ) {
+			if( sPath==null || sPath.Length==0 )
 				return sPath;
-			}
 			
 			// "строгое" значение Юникодной строки - псевдо-транслитерация
-			string s = TranslateUnicodeString(sPath);
+			string s = TranslateUnicodeString( sPath );
 			
-			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}-_";
-			string sStrict = "";
+			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}~-+=_.,!@#$%^&№`';«»";
+			string sStrict = string.Empty;
 			for( int i=0; i!=s.Length; ++i ) {
 				int nInd = sStrictLetters.IndexOf( s[i] );
 				if( nInd!=-1 ) {
@@ -508,11 +508,11 @@ namespace Core.StringProcessing
 		// только корректные символы для имен файлов
 		public static string OnlyCorrectSymbolsForString( string sString ) {
 			string s = sString;
-			if( sString==null || sString.Length==0 ) {
+			if( sString==null || sString.Length==0 )
 				return sString;
-			}
+
 			const string sBad = "*/|?\\<>\"&:\t\r\n";
-			string sCorrect = "";
+			string sCorrect = string.Empty;
 			for( int i=0; i!=s.Length; ++i ) {
 				int nInd = sBad.IndexOf( s[i] );
 				if( nInd==-1 ) {
@@ -533,11 +533,11 @@ namespace Core.StringProcessing
 		// только корректные символы для путей файлов
 		public static string OnlyCorrectSymbolsForPath( string sString ) {
 			string s = sString;
-			if( sString==null || sString.Length==0 ) {
+			if( sString==null || sString.Length==0 )
 				return sString;
-			}
+
 			const string sBad = "*/|?<>\"&:\t\r\n";
-			string sCorrect = "";
+			string sCorrect = string.Empty;
 			for( int i=0; i!=s.Length; ++i ) {
 				int nInd = sBad.IndexOf( s[i] );
 				if( nInd==-1 ) {
@@ -555,43 +555,40 @@ namespace Core.StringProcessing
 			return sCorrect;
 		}
 		
-		public static string GetGeneralWorkedString( string sString )
+		public static string MakeGeneralWorkedString( string sString, int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode )
 		{
-			string s = "";
+			string s = string.Empty;
 			// регистр
-			s = RegisterString( sString, Settings.SettingsFM.ReadRegisterMode() );
+			s = RegisterString( sString, RegisterMode );
 			// пробелы
-			s = SpaceString( s, Settings.SettingsFM.ReadSpaceProcessMode() );
+			s = SpaceString( s, SpaceProcessMode );
 			// "строгие" символы
-			if( Settings.SettingsFM.ReadStrictMode() ) {
+			if( StrictMode )
 				s = StrictString( s );
-			} else {
+			else
 				s = OnlyCorrectSymbolsForString( s );
-			}
 			// транслитерация
-			if( Settings.SettingsFM.ReadTranslitMode() ) {
+			if( TranslitMode )
 				s = TransliterationString( s );
-			}
 			return s;
 		}
 		
-		public static string GetGeneralWorkedPath( string sFB2FilePath )
+		public static string MakeGeneralWorkedPath( string sFB2FilePath, int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode )
 		{
-			string s = "";
+			string s = string.Empty;
 			// регистр
-			s = RegisterString( sFB2FilePath, Settings.SettingsFM.ReadRegisterMode() );
+			s = RegisterString( sFB2FilePath, RegisterMode );
 			// пробелы
-			s = SpaceString( s, Settings.SettingsFM.ReadSpaceProcessMode() );
+			s = SpaceString( s, SpaceProcessMode );
 			// транслитерация
-			if( Settings.SettingsFM.ReadTranslitMode() ) {
+			if( TranslitMode ) {
 				s = TransliterationString( s );
 			}
 			// "строгие" символы
-			if( Settings.SettingsFM.ReadStrictMode() ) {
+			if( StrictMode )
 				s = StrictPath( s );
-			} else {
+			else
 				s = OnlyCorrectSymbolsForPath( s );
-			}
 			return s;
 		}
 		
@@ -608,7 +605,7 @@ namespace Core.StringProcessing
 		#endregion
 		
 		#region Поиск одинаковых строк в списке List
-		private static string m_sForFind = ""; // для предиката поска в списке
+		private static string m_sForFind = string.Empty; // для предиката поска в списке
 		private static bool IsFileNameExsist( String s ) {
 			// предикат для поиска в List всех одинаковых фафлов m_sForFind
 			return ( s == m_sForFind ) ? false : true;

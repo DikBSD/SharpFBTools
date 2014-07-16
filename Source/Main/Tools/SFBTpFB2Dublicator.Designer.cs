@@ -170,6 +170,9 @@ namespace SharpFBTools.Tools
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnDupSaveList = new System.Windows.Forms.ToolStripButton();
 			this.tsbtnDupOpenList = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbtnMakeLibraryBookList = new System.Windows.Forms.ToolStripButton();
+			this.tsbtnCompareWithLibList = new System.Windows.Forms.ToolStripButton();
 			this.cmsFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tsmiAnalyzeForAllGroups = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiAllOldBooksForAllGroups = new System.Windows.Forms.ToolStripMenuItem();
@@ -311,6 +314,7 @@ namespace SharpFBTools.Tools
 			this.chBoxScanSubDir.TabIndex = 2;
 			this.chBoxScanSubDir.Text = "Сканировать и подпапки";
 			this.chBoxScanSubDir.UseVisualStyleBackColor = true;
+			this.chBoxScanSubDir.CheckStateChanged += new System.EventHandler(this.ChBoxScanSubDirCheckStateChanged);
 			// 
 			// tboxSourceDir
 			// 
@@ -341,7 +345,10 @@ namespace SharpFBTools.Tools
 									this.tsbtnSearchFb2DupRenew,
 									this.toolStripSeparator3,
 									this.tsbtnDupSaveList,
-									this.tsbtnDupOpenList});
+									this.tsbtnDupOpenList,
+									this.toolStripSeparator2,
+									this.tsbtnMakeLibraryBookList,
+									this.tsbtnCompareWithLibList});
 			this.tsDup.Location = new System.Drawing.Point(0, 0);
 			this.tsDup.Name = "tsDup";
 			this.tsDup.Size = new System.Drawing.Size(1123, 31);
@@ -362,8 +369,8 @@ namespace SharpFBTools.Tools
 			this.tsbtnSearchFb2DupRenew.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSearchFb2DupRenew.Image")));
 			this.tsbtnSearchFb2DupRenew.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnSearchFb2DupRenew.Name = "tsbtnSearchFb2DupRenew";
-			this.tsbtnSearchFb2DupRenew.Size = new System.Drawing.Size(149, 28);
-			this.tsbtnSearchFb2DupRenew.Text = "Возобновить из файла";
+			this.tsbtnSearchFb2DupRenew.Size = new System.Drawing.Size(161, 28);
+			this.tsbtnSearchFb2DupRenew.Text = "Возобновить из файла...";
 			this.tsbtnSearchFb2DupRenew.Click += new System.EventHandler(this.TsbtnSearchFb2DupRenewClick);
 			// 
 			// toolStripSeparator3
@@ -376,8 +383,8 @@ namespace SharpFBTools.Tools
 			this.tsbtnDupSaveList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDupSaveList.Image")));
 			this.tsbtnDupSaveList.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnDupSaveList.Name = "tsbtnDupSaveList";
-			this.tsbtnDupSaveList.Size = new System.Drawing.Size(90, 28);
-			this.tsbtnDupSaveList.Text = "Сохранить";
+			this.tsbtnDupSaveList.Size = new System.Drawing.Size(102, 28);
+			this.tsbtnDupSaveList.Text = "Сохранить...";
 			this.tsbtnDupSaveList.ToolTipText = "Сохранить список копий книг в файл";
 			this.tsbtnDupSaveList.Click += new System.EventHandler(this.TsbtnDupSaveListClick);
 			// 
@@ -386,10 +393,33 @@ namespace SharpFBTools.Tools
 			this.tsbtnDupOpenList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDupOpenList.Image")));
 			this.tsbtnDupOpenList.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnDupOpenList.Name = "tsbtnDupOpenList";
-			this.tsbtnDupOpenList.Size = new System.Drawing.Size(87, 28);
-			this.tsbtnDupOpenList.Text = "Загрузить";
+			this.tsbtnDupOpenList.Size = new System.Drawing.Size(99, 28);
+			this.tsbtnDupOpenList.Text = "Загрузить...";
 			this.tsbtnDupOpenList.ToolTipText = "Загрузить список копий книг из файла";
 			this.tsbtnDupOpenList.Click += new System.EventHandler(this.TsbtnDupOpenListClick);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+			// 
+			// tsbtnMakeLibraryBookList
+			// 
+			this.tsbtnMakeLibraryBookList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnMakeLibraryBookList.Image")));
+			this.tsbtnMakeLibraryBookList.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnMakeLibraryBookList.Name = "tsbtnMakeLibraryBookList";
+			this.tsbtnMakeLibraryBookList.Size = new System.Drawing.Size(216, 28);
+			this.tsbtnMakeLibraryBookList.Text = "Создать список книг библиотеки...";
+			this.tsbtnMakeLibraryBookList.Click += new System.EventHandler(this.TsbtnMakeLibraryBookListClick);
+			// 
+			// tsbtnCompareWithLibList
+			// 
+			this.tsbtnCompareWithLibList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnCompareWithLibList.Image")));
+			this.tsbtnCompareWithLibList.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbtnCompareWithLibList.Name = "tsbtnCompareWithLibList";
+			this.tsbtnCompareWithLibList.Size = new System.Drawing.Size(242, 28);
+			this.tsbtnCompareWithLibList.Text = "Сравнить со списком книг библиотеки...";
+			this.tsbtnCompareWithLibList.Click += new System.EventHandler(this.TsbtnCompareWithLibListClick);
 			// 
 			// cmsFB2
 			// 
@@ -663,6 +693,7 @@ namespace SharpFBTools.Tools
 			this.chBoxIsValid.TabIndex = 18;
 			this.chBoxIsValid.Text = "Проверять на валидность";
 			this.chBoxIsValid.UseVisualStyleBackColor = true;
+			this.chBoxIsValid.CheckStateChanged += new System.EventHandler(this.ChBoxIsValidCheckStateChanged);
 			// 
 			// cboxMode
 			// 
@@ -682,6 +713,7 @@ namespace SharpFBTools.Tools
 			this.cboxMode.Name = "cboxMode";
 			this.cboxMode.Size = new System.Drawing.Size(787, 21);
 			this.cboxMode.TabIndex = 17;
+			this.cboxMode.SelectedIndexChanged += new System.EventHandler(this.CboxModeSelectedIndexChanged);
 			// 
 			// lblMode
 			// 
@@ -757,6 +789,7 @@ namespace SharpFBTools.Tools
 			this.cboxDupExistFile.Name = "cboxDupExistFile";
 			this.cboxDupExistFile.Size = new System.Drawing.Size(377, 21);
 			this.cboxDupExistFile.TabIndex = 16;
+			this.cboxDupExistFile.SelectedIndexChanged += new System.EventHandler(this.CboxDupExistFileSelectedIndexChanged);
 			// 
 			// lblDupExistFile
 			// 
@@ -1145,6 +1178,7 @@ namespace SharpFBTools.Tools
 			this.chBoxViewProgress.TabIndex = 41;
 			this.chBoxViewProgress.Text = "Отображать изменение хода работы";
 			this.chBoxViewProgress.UseVisualStyleBackColor = true;
+			this.chBoxViewProgress.CheckedChanged += new System.EventHandler(this.ChBoxViewProgressCheckedChanged);
 			// 
 			// lvResult
 			// 
@@ -1206,6 +1240,9 @@ namespace SharpFBTools.Tools
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripButton tsbtnMakeLibraryBookList;
+		private System.Windows.Forms.ToolStripButton tsbtnCompareWithLibList;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.TextBox tbValidate;
 		private System.Windows.Forms.TabPage tpValidate;
 		private System.Windows.Forms.ToolStripMenuItem tsmiCheckedAllInGroup;

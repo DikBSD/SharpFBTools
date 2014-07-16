@@ -88,7 +88,7 @@ namespace Core.FB2.Description.Common
 		#endregion
 		
 		#region Открытые методы класса
-		// сравниваются только Имени и Фамилия (во многих fb2 Отчество не указано)
+		// сравниваются только Имя и Фамилия (во многих fb2 Отчество не указано)
 		public bool isSameAuthor(Author RightValue, bool CompareAndMiddleName) {
 			if ( this==null && RightValue==null )
 				return true;

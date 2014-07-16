@@ -35,8 +35,10 @@ namespace Core.Duplicator
 		private BackgroundWorker m_bwcmd	= null;
 		private bool m_bFilesWorked			= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
 		
-		private System.Windows.Forms.ListView m_lvFilesCount	= new System.Windows.Forms.ListView();
-		private System.Windows.Forms.ListView m_lvResult		= new System.Windows.Forms.ListView();
+		private System.Windows.Forms.ListView m_lvFilesCount = new System.Windows.Forms.ListView();
+		private System.Windows.Forms.ListView m_lvResult	 = new System.Windows.Forms.ListView();
+		
+		private Core.Misc.EndWorkMode m_EndMode = new Core.Misc.EndWorkMode();
 		#endregion
 		
 		public CopyMoveDeleteForm( string FileWorkerMode, string Source, string TargetDir, int FileExistMode,
@@ -58,6 +60,15 @@ namespace Core.Duplicator
 			if( m_bwcmd.IsBusy != true )
 				m_bwcmd.RunWorkerAsync(); //если не занят, то запустить процесс
 		}
+		
+		// =============================================================================================
+		// 								ОТКРЫТЫЕ СВОЙСТВА
+		// =============================================================================================
+		#region Открытые свойства
+		public virtual Core.Misc.EndWorkMode EndMode {
+			get { return m_EndMode; }
+		}
+		#endregion
 		
 		// =============================================================================================
 		// 						BACKGROUNDWORKER: КОПИРОВАНИЕ / ПЕРЕМИЕЩЕНИЕ / УДАЛЕНИЕ
@@ -112,21 +123,18 @@ namespace Core.Duplicator
 		
 		// Завершение работы Обработчика Файлов
 		private void bwcmd_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
-			string sMessCanceled, sMessError, sMessDone, sTabPageDefText, sMessTitle;
-			sMessCanceled = sMessError = sMessDone = sTabPageDefText = sMessTitle = string.Empty;
+			string sMessCanceled, sMessError, sMessDone, sTabPageDefText;
+			sMessCanceled = sMessError = sMessDone = sTabPageDefText = string.Empty;
 			switch( m_FileWorkerMode ) {
 				case "Copy":
-					sMessTitle		= "SharpFBTools - Копирование копий книг";
 					sMessDone 		= "Копирование файлов в указанную папку завершено!";
 					sMessCanceled	= "Копирование файлов в указанную папку остановлено!";
 					break;
 				case "Move":
-					sMessTitle		= "SharpFBTools - Перемещение копий книг";
 					sMessDone 		= "Перемещение файлов в указанную папку завершено!";
 					sMessCanceled	= "Перемещение файлов в указанную папку остановлено!";
 					break;
 				case "Delete":
-					sMessTitle		= "SharpFBTools - Удаление копий книг";
 					sMessDone 		= "Удаление файлов из папки-источника завершено!";
 					sMessCanceled	= "Удаление файлов из папки-источника остановлено!";
 					break;
@@ -149,12 +157,14 @@ namespace Core.Duplicator
 
 			// Проверяем это отмена, ошибка, или конец задачи и сообщить
 			if( ( e.Cancelled ) ) {
-				MessageBox.Show( sMessCanceled, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				m_EndMode.EndMode = Core.Misc.EndWorkMode.EndWorkModeEnum.Cancelled;
+				m_EndMode.Message = sMessCanceled;
 			} else if( e.Error != null ) {
-				sMessError = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace;
-				MessageBox.Show( sMessError, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				m_EndMode.EndMode = Core.Misc.EndWorkMode.EndWorkModeEnum.Error;
+				m_EndMode.Message = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace;
 			} else {
-				MessageBox.Show( sMessDone, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				m_EndMode.EndMode = Core.Misc.EndWorkMode.EndWorkModeEnum.Done;
+				m_EndMode.Message = sMessDone;
 			}
 			this.Close();
 		}

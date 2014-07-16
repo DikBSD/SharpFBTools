@@ -9,14 +9,14 @@
 using System;
 using System.Collections.Generic;
 
-using System.Windows.Forms;
+using Core.BookSorting;
 
 using stringProcessing = Core.StringProcessing.StringProcessing;
 
 namespace Core.FB2.Genres
 {
 	/// <summary>
-	/// Description of FB2LibRusEcGenres.
+	/// FB2LibRusEcGenres: Жанры Либрусек
 	/// </summary>
 	public class FB2LibrusecGenres : IFBGenres
 	{
@@ -112,74 +112,73 @@ namespace Core.FB2.Genres
 		};
 		#endregion
 		
-		public FB2LibrusecGenres()
+		public FB2LibrusecGenres( ref SortingFB2Tags sortTags )
 		{
 			#region Код
 			// инициализация словаря
 			for( int i=0; i!= m_sFB2LibRusEcGenreCode.Length; ++i ) {
-				m_dFB2LibRusEcGenres.Add(m_sFB2LibRusEcGenreCode[i], m_sFB2LibRusEcGenreNames[i] );
+				m_dFB2LibRusEcGenres.Add( m_sFB2LibRusEcGenreCode[i], m_sFB2LibRusEcGenreNames[i] );
 			}
 			/* инициализация словаря групп жанров */
-			Settings.DataFM dfm = new Settings.DataFM();
 			for( int i=0; i!= 27; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupSf );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupSf );
 			}
 			for( int i=27; i!= 48; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupProse );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupProse );
 			}
 			for( int i=48; i!= 88; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupScience );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupScience );
 			}
 			for( int i=88; i!= 104; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupDetective );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupDetective );
 			}
 			for( int i=104; i!= 109; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupNonfiction );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupNonfiction );
 			}
 			for( int i=109; i!= 117; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupLove );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupLove );
 			}
 			for( int i=117; i!= 128; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupChildren );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupChildren );
 			}
 			for( int i=128; i!= 137; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupOther );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupOther );
 			}
 			for( int i=137; i!= 148; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupHome );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupHome );
 			}
 			for( int i=148; i!= 163; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupReligion );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupReligion );
 			}
 			for( int i=163; i!= 170; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupAdventure );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupAdventure );
 			}
 			for( int i=170; i!= 175; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupHumor );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupHumor );
 			}
 			for( int i=175; i!= 193; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupPoetry );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupPoetry );
 			}
 			for( int i=193; i!= 199; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupTech );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupTech );
 			}
 			for( int i=199; i!= 206; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupReference );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupReference );
 			}
 			for( int i=206; i!= 212; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupMilitary );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupMilitary );
 			}
 			for( int i=212; i!= 220; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupComputers );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupComputers );
 			}
 			for( int i=220; i!= 226; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupAntique );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupAntique );
 			}
 			for( int i=226; i!= 242; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupBusiness );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupBusiness );
 			}
 			for( int i=242; i!= m_sFB2LibRusEcGenreCode.Length; ++i ) {
-				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], dfm.GenresGroupFolklore );
+				m_dFB2LibRusEcGenresGroup.Add( m_sFB2LibRusEcGenreCode[i], sortTags.GenresGroupFolklore );
 			}
 			#endregion
 		}
@@ -187,13 +186,15 @@ namespace Core.FB2.Genres
 		#region Открытые методы класса
 		public string GetFBGenreName( string sGenreCode ) {
 			// возвращает расшифрованное значение Жанра
-			if( !m_dFB2LibRusEcGenres.ContainsKey( sGenreCode ) ) return "";
+			if( !m_dFB2LibRusEcGenres.ContainsKey( sGenreCode ) )
+				return string.Empty;
 			return stringProcessing.OnlyCorrectSymbolsForString( m_dFB2LibRusEcGenres[sGenreCode] );
 		}
 		
 		public string GetFBGenreGroup( string sGenreCode ) {
 			// возвращает Группу для указанного Жанра
-			if( !m_dFB2LibRusEcGenresGroup.ContainsKey( sGenreCode ) ) return "";
+			if( !m_dFB2LibRusEcGenresGroup.ContainsKey( sGenreCode ) )
+				return string.Empty;
 			return stringProcessing.OnlyCorrectSymbolsForString( m_dFB2LibRusEcGenresGroup[sGenreCode] );
 		}
 		
@@ -209,9 +210,8 @@ namespace Core.FB2.Genres
 				m_lsGenresForGroup = new List<string>();
 				foreach( string g in m_dFB2LibRusEcGenresGroup.Keys ) {
 					// m_dFB2LibRusEcGenresGroup.Values - Группы; m_dFB2LibRusEcGenresGroup.Keys - Жанры
-					if( m_dFB2LibRusEcGenresGroup[g] == sGGroup ) {
+					if( m_dFB2LibRusEcGenresGroup[g] == sGGroup )
 						m_lsGenresForGroup.Add( g );
-					}
 				}
 				return m_lsGenresForGroup;
 			}

@@ -71,11 +71,20 @@
     <Compile Include="BookSorting\BasiclTemplates.cs" />
     <Compile Include="BookSorting\BasiclTemplates.Designer.cs" />
     <Compile Include="BookSorting\FB2SelectedSorting.cs" />
-    <Compile Include="BookSorting\SelectedSortData.cs" />
-    <Compile Include="BookSorting\SelectedSortData.Designer.cs" />
-    <Compile Include="BookSorting\SelectedSortQueryCriteria.cs" />
-    <Compile Include="Duplicator\ComrareForm.cs" />
-    <Compile Include="Duplicator\ComrareForm.Designer.cs" />
+    <Compile Include="BookSorting\ISortOptions.cs" />
+    <Compile Include="BookSorting\ISortFB2Tags.cs" />
+    <Compile Include="BookSorting\ISortProblemDirs.cs" />
+    <Compile Include="BookSorting\SortingFB2Tags.cs" />
+    <Compile Include="BookSorting\SortingOptions.cs" />
+    <Compile Include="BookSorting\SelectedSortDataForm.cs" />
+    <Compile Include="BookSorting\SelectedSortDataForm.Designer.cs" />
+    <Compile Include="BookSorting\SortingForm.cs" />
+    <Compile Include="BookSorting\SortingForm.Designer.cs">
+      <DependentUpon>SortingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BookSorting\SortQueryCriteria.cs" />
+    <Compile Include="Duplicator\CompareForm.cs" />
+    <Compile Include="Duplicator\CompareForm.Designer.cs" />
     <Compile Include="Duplicator\CopyMoveDeleteForm.cs" />
     <Compile Include="Duplicator\CopyMoveDeleteForm.Designer.cs">
       <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
@@ -124,15 +133,16 @@
     <Compile Include="FB2\Genres\FB22Genres.cs" />
     <Compile Include="FB2\Genres\FB2LibRusEcGenres.cs" />
     <Compile Include="FB2\Genres\IFBGenres.cs" />
-    <Compile Include="FileManager\FileManagerWork.cs" />
     <Compile Include="FileManager\StatusView.cs" />
     <Compile Include="FilesWorker\Archiver.cs" />
     <Compile Include="FilesWorker\CommandManager.cs" />
     <Compile Include="FilesWorker\FilesWorker.cs" />
     <Compile Include="FilesWorker\SharpZipLibWorker.cs" />
+    <Compile Include="Misc\EndWorkMode.cs" />
     <Compile Include="Misc\FB2BookDescription.cs" />
     <Compile Include="Misc\ListViewItemType.cs" />
     <Compile Include="Misc\MiscListView.cs" />
+    <Compile Include="Misc\ZipFB2Validation.cs" />
     <Compile Include="Reports\ValidatorReports.cs" />
     <Compile Include="StringProcessing\StringProcessing.cs" />
     <Compile Include="Templates\FullNameTemplates.cs" />
@@ -147,11 +157,14 @@
     <EmbeddedResource Include="BookSorting\BasiclTemplates.resx">
       <DependentUpon>BasiclTemplates.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BookSorting\SelectedSortData.resx">
-      <DependentUpon>SelectedSortData.cs</DependentUpon>
+    <EmbeddedResource Include="BookSorting\SelectedSortDataForm.resx">
+      <DependentUpon>SelectedSortDataForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Duplicator\ComrareForm.resx">
-      <DependentUpon>ComrareForm.cs</DependentUpon>
+    <EmbeddedResource Include="BookSorting\SortingForm.resx">
+      <DependentUpon>SortingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\CompareForm.resx">
+      <DependentUpon>CompareForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Duplicator\CopyMoveDeleteForm.resx">
       <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>

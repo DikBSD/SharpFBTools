@@ -314,6 +314,24 @@ namespace Test
 			return "Авторы: \n"+fio+"\nПуть: "+bd.Path;
 		}
 		
+		// формирование строки с Автором Книги
+		public static string MakeAutorString( Author a ) {
+			if( a==null )
+				return "Тег <author> в книге отсутствует";
+			string sA = string.Empty; int n = 0;
+			if( a.LastName!=null && a.LastName.Value!=null )
+				sA += a.LastName.Value+" ";
+			if( a.FirstName!=null && a.FirstName.Value!=null )
+				sA += a.FirstName.Value+" ";
+			if( a.MiddleName!=null && a.MiddleName.Value!=null )
+				sA += a.MiddleName.Value+" ";
+			if( a.NickName!=null && a.NickName.Value!=null )
+				sA += a.NickName.Value;
+			sA = sA.Trim();
+
+			return sA;
+		}
+		
 		// формирование списка строк с ФИО Авторов, которые есть в обоих списках Авторов (Intersection)
 		// WithMiddleName = true - учитывать Отчество Автора
 		public static List<string> listIntersection(IList<Author> Authors1, IList<Author> Authors2, bool WithMiddleName) {

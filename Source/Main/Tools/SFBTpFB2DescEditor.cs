@@ -30,11 +30,11 @@ namespace SharpFBTools.Tools
 		private string m_CurrentDir = "";
 		//private StatusView	m_sv 			= null;
 		private DateTime	m_dtStart;
-        private BackgroundWorker m_bw		= null;
-        //private BackgroundWorker m_bwcmd	= null;
-        private string	m_sSource			= "";
-        private bool	m_bScanSubDirs		= true;
-        private string	m_sMessTitle		= "";
+		private BackgroundWorker m_bw		= null;
+		//private BackgroundWorker m_bwcmd	= null;
+		private string	m_sSource			= "";
+		private bool	m_bScanSubDirs		= true;
+		private string	m_sMessTitle		= "";
 		private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
 		private const string space		= " "; // для задания отступов данных от границ колонов в Списке
 		#endregion
@@ -47,13 +47,13 @@ namespace SharpFBTools.Tools
 		
 		#region Закрытые методы реализации BackgroundWorker
 		private void InitializeBackgroundWorker() {
-			// Инициализация перед использование BackgroundWorker 
-//            m_bw = new BackgroundWorker();
-//            m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
-//            m_bw.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
-//            m_bw.DoWork 			+= new DoWorkEventHandler( bw_DoWork );
-//            m_bw.ProgressChanged 	+= new ProgressChangedEventHandler( bw_ProgressChanged );
-//            m_bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
+			// Инициализация перед использование BackgroundWorker
+			//            m_bw = new BackgroundWorker();
+			//            m_bw.WorkerReportsProgress		= true; // Позволить выводить прогресс процесса
+			//            m_bw.WorkerSupportsCancellation	= true; // Позволить отменить выполнение работы процесса
+			//            m_bw.DoWork 			+= new DoWorkEventHandler( bw_DoWork );
+			//            m_bw.ProgressChanged 	+= new ProgressChangedEventHandler( bw_ProgressChanged );
+			//            m_bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler( bw_RunWorkerCompleted );
 		}
 		#endregion
 		
@@ -75,12 +75,12 @@ namespace SharpFBTools.Tools
 		}
 		
 		private void GenerateSourceList(string dirPath) {
-        	// заполнение списка данными указанной папки
-        	m_CurrentDir = dirPath;
-        	//TODO
-//        	Core.FileManager.FileManagerWork.GenerateSourceList(
-//        		dirPath, listViewSource, false, checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked
-//        	);
+			// заполнение списка данными указанной папки
+			m_CurrentDir = dirPath;
+			//TODO
+			//        	Core.FileManager.FileManagerWork.GenerateSourceList(
+			//        		dirPath, listViewSource, false, checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked
+			//        	);
 		}
 		#endregion
 		
@@ -176,10 +176,9 @@ namespace SharpFBTools.Tools
 		
 		void ChBoxStartExplorerColumnsAutoReizeCheckedChanged(object sender, EventArgs e)
 		{
-			Settings.FileManagerSettings.StartExplorerColumnsAutoReize = chBoxStartExplorerColumnsAutoReize.Checked;
-			if(chBoxStartExplorerColumnsAutoReize.Checked) {
-				Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
-			}
+//			Settings.FileManagerSettings.StartExplorerColumnsAutoReize = chBoxStartExplorerColumnsAutoReize.Checked;
+			if(chBoxStartExplorerColumnsAutoReize.Checked)
+				m_mscLV.AutoResizeColumns(listViewSource);
 		}
 		
 		void TextBoxAddressTextChanged(object sender, EventArgs e)
@@ -256,7 +255,7 @@ namespace SharpFBTools.Tools
 		
 		void TsmiColumnsExplorerAutoReizeClick(object sender, EventArgs e)
 		{
-			Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
+			m_mscLV.AutoResizeColumns(listViewSource);
 		}
 		
 		void TsmiZipCheckedAllClick(object sender, EventArgs e)
@@ -306,7 +305,7 @@ namespace SharpFBTools.Tools
 //					}
 //				}
 //			}
-//			
+//
 //			Settings.FileManagerSettings.BooksTagsView = checkBoxTagsView.Checked;
 //			Settings.FileManagerSettings.WriteFileManagerSettings();
 //			if( listViewSource.Items.Count > 0 ) {
@@ -359,7 +358,7 @@ namespace SharpFBTools.Tools
 //				}
 //				// авторазмер колонок Списка
 //				if(chBoxStartExplorerColumnsAutoReize.Checked) {
-//					Core.FileManager.FileManagerWork.AutoResizeColumns(listViewSource);
+//					m_mscLV.AutoResizeColumns(listViewSource);
 //				}
 //				listViewSource.EndUpdate();
 //				Cursor.Current = Cursors.Default;

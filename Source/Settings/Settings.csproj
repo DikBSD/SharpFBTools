@@ -34,15 +34,16 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataFM.cs" />
     <Compile Include="FileManagerSettings.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingsAM.cs" />
-    <Compile Include="SettingsFB2Dup.cs" />
-    <Compile Include="SettingsFM.cs" />
+    <Compile Include="ArchiveManagerSettings.cs" />
+    <Compile Include="FB2DublicatorSettings.cs" />
     <Compile Include="ValidatorSettings.cs" />
   </ItemGroup>
 </Project>

@@ -21,7 +21,7 @@ using Core.FB2.Binary;
 namespace Core.FB2Dublicator
 {
 	/// <summary>
-	/// Description of FB2Parser.
+	/// Парсер для Дубликатора
 	/// </summary>
 	public class FB2ParserForDup
 	{

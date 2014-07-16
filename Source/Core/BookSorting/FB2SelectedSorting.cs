@@ -10,27 +10,19 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+using System.Windows.Forms;
+
 using Core.FB2.FB2Parsers;
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.Common;
 using Core.FB2.Genres;
-//using FB2.Common;
-//using FB2.Description;
-//using FB2.Description.DocumentInfo;
-//using FB2.Description.PublishInfo;
-//using FB2.Description.CustomInfo;
-//using Templates.Lexems;
-//using Templates;
-//using StringProcessing;
-//using FilesWorker;
-
 
 using fB2Parser = Core.FB2.FB2Parsers.FB2Parser;
 
 namespace Core.BookSorting
 {
 	/// <summary>
-	/// Description of FB2SelectedSorting.
+	/// FB2SelectedSorting: проверка файла по критериям Избранной сортировки
 	/// </summary>
 	public class FB2SelectedSorting
 	{
@@ -40,60 +32,57 @@ namespace Core.BookSorting
 		
 		#region Открытые методы
 		// заполняем список критериев поиска для Избранной Сортировки
-		public List<SelectedSortQueryCriteria> MakeSelectedSortQuerysList(
-								string sLang, string sLast, string sFirst, string sMiddle, string sNick,
-								string sGGroup, string sGenre, string sSequence, string sBTitle, string sExactFit,
-								bool bGenresFB2LibrusecScheme ) {
-			List<SelectedSortQueryCriteria> lSSQCList = new List<SelectedSortQueryCriteria>();
+		public List<SortQueryCriteria> MakeSelectedSortQuerysList( ref SortingFB2Tags sortTags, ref SortQueryCriteria criteria ) {
+			#region Код
 			List<string> lsGenres = null; // временный список Жанров по конкретной Группе Жанров
-			// "вычленяем" язык книги
-			if( sLang.Length!=0 ) {
-				sLang = sLang.Substring( sLang.IndexOf( "(" )+1 );
-				sLang = sLang.Remove( sLang.IndexOf( ")" ) );
-			}
-			// если есть Жанр, то "вычленяем" его из строки
-			if( sGenre.Length!=0 ) {
-				sGenre = sGenre.Substring( sGenre.IndexOf( "(" )+1 );
-				sGenre = sGenre.Remove( sGenre.IndexOf( ")" ) );
-			}
 			// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
-			if( sGGroup.Length!=0 ) {
+			if( criteria.GenresGroup!=null && criteria.GenresGroup.Length!=0 ) {
 				IFBGenres fb2g = null;
-				if( bGenresFB2LibrusecScheme )
-					fb2g = new FB2LibrusecGenres();
+				if( criteria.GenresFB2Librusec )
+					fb2g = new FB2LibrusecGenres( ref sortTags );
 				else
-					fb2g = new FB22Genres();
+					fb2g = new FB22Genres( ref sortTags );
 
-				lsGenres = fb2g.GetFBGenresForGroup( sGGroup );
+				lsGenres = fb2g.GetFBGenresForGroup( criteria.GenresGroup );
 			}
 			// формируем список критериев поиска в зависимости от наличия Групп Жанров
+			List<SortQueryCriteria> lSSQCList = new List<SortQueryCriteria>();
 			if( lsGenres==null ) {
-				lSSQCList.Add( new SelectedSortQueryCriteria(
-					sLang,sGGroup,sGenre,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
+				lSSQCList.Add( new SortQueryCriteria(
+					criteria.Lang, criteria.GenresGroup, criteria.Genre,
+					criteria.LastName, criteria.FirstName, criteria.MiddleName, criteria.NickName,
+					criteria.Sequence, criteria.BookTitle, criteria.ExactFit, criteria.GenresFB2Librusec )
+				);
 			} else {
-				foreach( string sG in lsGenres ) {
-					lSSQCList.Add( new SelectedSortQueryCriteria(
-							sLang,"",sG,sLast,sFirst,sMiddle,sNick,sSequence,sBTitle,sExactFit=="Да"?true:false ) );
+				foreach( string sGenre in lsGenres ) {
+					lSSQCList.Add( new SortQueryCriteria(
+						criteria.Lang, string.Empty, sGenre,
+						criteria.LastName, criteria.FirstName, criteria.MiddleName, criteria.NickName,
+						criteria.Sequence, criteria.BookTitle, criteria.ExactFit, criteria.GenresFB2Librusec )
+					);
 				}
 			}
 			return lSSQCList;
+			#endregion
 		}
-		
+
 		// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
-		public bool IsConformity( string sFromFilePath, List<SelectedSortQueryCriteria> lSSQCList, out bool IsNotRead ) {
-			IsNotRead = false;
-			fB2Parser fb2	= null;
+		// возвращает null, если книга не соответствует ни одному критерию поиска; или найденный критерий SelectedSortQueryCriteria
+		public SortQueryCriteria IsConformity( string sFromFilePath, List<SortQueryCriteria> lSSQCList, out bool IsNotRead ) {
+			#region Код
+			SortQueryCriteria currentCriteria = null;
+			IsNotRead		= false;
+			fB2Parser fb2 	= null;
 			TitleInfo ti	= null;
 			try {
 				fb2	= new fB2Parser( sFromFilePath );
 				ti	= fb2.GetTitleInfo();
-				if( ti==null ) return false;
+				if( ti==null ) return null;
 			} catch {
 				IsNotRead = true;
-				return false;
+				return null;
 			}
 			
-			bool bRet = true; // флаг, нашли ли соответствие
 			string			sFB2Lang		= ti.Lang;
 			BookTitle		sFB2BookTitle	= ti.BookTitle;
 			IList<Genre>	lFB2Genres		= ti.Genres;
@@ -102,9 +91,21 @@ namespace Core.BookSorting
 			string sLang, sFirstName, sGenre, sMiddleName, sLastName, sNickName, sSequence, sBookTitle;
 			bool bExactFit;
 			Regex re = null;
-			foreach( SelectedSortQueryCriteria ssqc in lSSQCList ) {
-				sLang		= ssqc.Lang;
-				sGenre		= ssqc.Genre;
+			foreach( SortQueryCriteria ssqc in lSSQCList ) {
+				// "вычленяем" язык книги
+				sLang	= ssqc.Lang;
+				sGenre	= ssqc.Genre;
+				if( sLang.Length!=0 ) {
+					sLang = sLang.Substring( sLang.IndexOf( "(" )+1 );
+					sLang = sLang.Remove( sLang.IndexOf( ")" ) );
+				}
+				// если есть Жанр, то "вычленяем" его из строки
+				if( sGenre.Length!=0 ) {
+					if( sGenre.IndexOf( "(" ) >= 0 )
+						sGenre = sGenre.Substring( sGenre.IndexOf( "(" )+1 );
+					if( sGenre.IndexOf( ")" ) >= 0 )
+						sGenre = sGenre.Remove( sGenre.IndexOf( ")" ) );
+				}
 				sFirstName	= ssqc.FirstName;
 				sMiddleName	= ssqc.MiddleName;
 				sLastName	= ssqc.LastName;
@@ -115,15 +116,13 @@ namespace Core.BookSorting
 				// проверка языка книги
 				if( sFB2Lang != null ) {
 					if( sLang.Length != 0 ) {
-						if( sFB2Lang != sLang ) {
-							bRet = false; continue;
-						}
+						if( sFB2Lang != sLang )
+							continue;
 					}
 				} else {
 					// в книге тега языка нет
-					if( sLang.Length != 0 ) {
-						bRet = false; continue;
-					}
+					if( sLang.Length != 0 ) 
+						continue;
 				}
 				// проверка жанра книги
 				bool b = false;
@@ -134,19 +133,16 @@ namespace Core.BookSorting
 								if( gfb2.Name == sGenre ) {
 									b = true; break;
 								}
-							} else {
-								bRet = false; continue;
-							}
+							} else
+								continue;
 						}
-						if( !b ) {
-							bRet = false; continue;
-						}
+						if( !b )
+							continue;
 					}
 				} else {
 					// в книге тега жанра нет
-					if( sGenre.Length != 0 ) {
-						bRet = false; continue;
-					}
+					if( sGenre.Length != 0 )
+						continue;
 				}
 				// проверка серии книги
 				b = false;
@@ -165,19 +161,16 @@ namespace Core.BookSorting
 										b = true; break;
 									}
 								}
-							} else {
-								bRet = false; continue;
-							}
+							} else
+								continue;
 						}
-						if( !b ) {
-							bRet = false; continue;
-						}
+						if( !b )
+							continue;
 					}
 				} else {
 					// в книге тега серии нет
-					if( sSequence.Length != 0 ) {
-						bRet = false; continue;
-					}
+					if( sSequence.Length != 0 )
+						continue;
 				}
 				// проверка автора книги
 				if( lFB2Authors != null ) {
@@ -196,13 +189,11 @@ namespace Core.BookSorting
 										b = true; break;
 									}
 								}
-							} else {
-								bRet = false; continue;
-							}
+							} else
+								continue;
 						}
-						if( !b ) {
-							bRet = false; continue;
-						}
+						if( !b )
+							continue;
 					}
 					b = false;
 					if( sMiddleName.Length != 0 ) {
@@ -219,13 +210,11 @@ namespace Core.BookSorting
 										b = true; break;
 									}
 								}
-							} else {
-								bRet = false; continue;
-							}
+							} else
+								continue;
 						}
-						if( !b ) {
-							bRet = false; continue;
-						}
+						if( !b )
+							continue;
 					}
 					b = false;
 					if( sLastName.Length != 0 ) {
@@ -242,13 +231,11 @@ namespace Core.BookSorting
 										b = true; break;
 									}
 								}
-							} else {
-								bRet = false; continue;
-							}
+							} else
+								continue;
 						}
-						if( !b ) {
-							bRet = false; continue;
-						}
+						if( !b )
+							continue;
 					}
 					b = false;
 					if( sNickName.Length != 0 ) {
@@ -265,13 +252,11 @@ namespace Core.BookSorting
 										b = true; break;
 									}
 								}
-							} else {
-								bRet = false; continue;
-							}
+							} else
+								continue;
 						}
-						if( !b ) {
-							bRet = false; continue;
-						}
+						if( !b )
+							continue;
 					}
 				} else {
 					// в книге тегов автора нет
@@ -284,31 +269,28 @@ namespace Core.BookSorting
 						if( sFB2BookTitle.Value != null ) {
 							if( bExactFit ) {
 								// точное соответствие
-								if( sFB2BookTitle.Value != sBookTitle ) {
-									bRet = false; continue;
-								}
+								if( sFB2BookTitle.Value != sBookTitle )
+									continue;
 							} else {
 								re = new Regex( sBookTitle, RegexOptions.IgnoreCase );
-								if( !re.IsMatch( sFB2BookTitle.Value ) ) {
-									bRet = false; continue;
-								}
+								if( !re.IsMatch( sFB2BookTitle.Value ) )
+									continue;
 							}
-						} else {
-							// пустой тэг <book-title>
-							bRet = false; continue;
-						}
+						} else
+							continue; // пустой тэг <book-title>
 					}
 				} else {
 					// в книге тега названия нет
-					if( sBookTitle.Length != 0 ) {
-						bRet = false; continue;
-					}
+					if( sBookTitle.Length != 0 )
+						continue;
 				}
-				
-				bRet = true; break;
+				currentCriteria = ssqc;
+				break;
 			}
-			return bRet;
+			return currentCriteria;
+			#endregion
 		}
+		
 		#endregion
 	}
 }

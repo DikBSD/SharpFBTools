@@ -246,6 +246,7 @@ namespace SharpFBTools.Tools
 			this.cboxScanSubDirToArchive.TabIndex = 6;
 			this.cboxScanSubDirToArchive.Text = "Сканировать и подпапки";
 			this.cboxScanSubDirToArchive.UseVisualStyleBackColor = true;
+			this.cboxScanSubDirToArchive.CheckStateChanged += new System.EventHandler(this.CboxScanSubDirToArchiveCheckStateChanged);
 			// 
 			// tboxSourceDir
 			// 
@@ -355,6 +356,7 @@ namespace SharpFBTools.Tools
 			this.chBoxViewProgressA.TabIndex = 24;
 			this.chBoxViewProgressA.Text = "Отображать изменение хода работы";
 			this.chBoxViewProgressA.UseVisualStyleBackColor = true;
+			this.chBoxViewProgressA.CheckStateChanged += new System.EventHandler(this.ChBoxViewProgressACheckStateChanged);
 			// 
 			// pOptions
 			// 
@@ -377,6 +379,7 @@ namespace SharpFBTools.Tools
 			this.cboxDelFB2Files.TabIndex = 12;
 			this.cboxDelFB2Files.Text = " Удалить fb2-файлы после упаковки";
 			this.cboxDelFB2Files.UseVisualStyleBackColor = true;
+			this.cboxDelFB2Files.CheckStateChanged += new System.EventHandler(this.CboxDelFB2FilesCheckStateChanged);
 			// 
 			// pType
 			// 
@@ -401,6 +404,7 @@ namespace SharpFBTools.Tools
 			this.cboxExistArchive.Name = "cboxExistArchive";
 			this.cboxExistArchive.Size = new System.Drawing.Size(405, 21);
 			this.cboxExistArchive.TabIndex = 16;
+			this.cboxExistArchive.SelectedIndexChanged += new System.EventHandler(this.CboxExistArchiveSelectedIndexChanged);
 			// 
 			// lblExistArchive
 			// 
@@ -532,6 +536,7 @@ namespace SharpFBTools.Tools
 			this.chBoxViewProgressU.TabIndex = 25;
 			this.chBoxViewProgressU.Text = "Отображать изменение хода работы";
 			this.chBoxViewProgressU.UseVisualStyleBackColor = true;
+			this.chBoxViewProgressU.CheckStateChanged += new System.EventHandler(this.ChBoxViewProgressUCheckStateChanged);
 			// 
 			// pUAOptions
 			// 
@@ -554,6 +559,7 @@ namespace SharpFBTools.Tools
 			this.cboxUADelFB2Files.TabIndex = 30;
 			this.cboxUADelFB2Files.Text = " Удалить архивы после распаковки";
 			this.cboxUADelFB2Files.UseVisualStyleBackColor = true;
+			this.cboxUADelFB2Files.CheckStateChanged += new System.EventHandler(this.CboxUADelFB2FilesCheckStateChanged);
 			// 
 			// pUAType
 			// 
@@ -578,6 +584,7 @@ namespace SharpFBTools.Tools
 			this.cboxUAExistArchive.Name = "cboxUAExistArchive";
 			this.cboxUAExistArchive.Size = new System.Drawing.Size(405, 21);
 			this.cboxUAExistArchive.TabIndex = 16;
+			this.cboxUAExistArchive.SelectedIndexChanged += new System.EventHandler(this.CboxUAExistArchiveSelectedIndexChanged);
 			// 
 			// lblUAExistArchive
 			// 
@@ -682,6 +689,7 @@ namespace SharpFBTools.Tools
 			this.cboxScanSubDirToUnArchive.TabIndex = 7;
 			this.cboxScanSubDirToUnArchive.Text = "Сканировать и подпапки";
 			this.cboxScanSubDirToUnArchive.UseVisualStyleBackColor = true;
+			this.cboxScanSubDirToUnArchive.CheckStateChanged += new System.EventHandler(this.CboxScanSubDirToUnArchiveCheckStateChanged);
 			// 
 			// tboxUASourceDir
 			// 

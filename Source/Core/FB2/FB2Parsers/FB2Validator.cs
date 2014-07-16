@@ -28,7 +28,7 @@ namespace Core.FB2Parser
 		public string ValidatingFB22File( string sFB2Path )
         {
 			#region Код
-			using (Stream xmlSchemeFile = new FileStream( Settings.Settings.GetFB22SchemePath(), FileMode.Open ) )
+			using (Stream xmlSchemeFile = new FileStream( Settings.Settings.FB22SchemePath, FileMode.Open ) )
             {
 				XmlSchemaSet sc = new XmlSchemaSet();
 
@@ -59,7 +59,7 @@ namespace Core.FB2Parser
 		public string ValidatingFB2LibrusecFile( string sFB2Path )
         {
 			#region Код
-			using (Stream xmlSchemeFile = new FileStream( Settings.Settings.GetFB2LibrusecSchemePath(), FileMode.Open ) )
+			using (Stream xmlSchemeFile = new FileStream( Settings.Settings.FB2LibrusecSchemePath, FileMode.Open ) )
             {
 				XmlSchemaSet sc = new XmlSchemaSet();
 

@@ -15,6 +15,8 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Linq;
+using System.Xml.Linq;
 using System.Threading;
 using System.Diagnostics;
 using System.Text;
@@ -34,7 +36,10 @@ namespace SharpFBTools.Tools
 	public partial class SFBTpArchiveManager : UserControl
 	{
 		#region Закрытые члены-данные класса
+		private string m_FileSettingsPath = Settings.Settings.ProgDir + @"\ArchiveManagerSettings.xml";
+		private bool m_isSettingsLoaded	= false; // Только при true все изменения настроек сохраняются в файл.
 		private Core.FilesWorker.SharpZipLibWorker sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
+		private string m_TempDir = Settings.Settings.TempDir;
 		// Общие
 		private DateTime m_dtStart;
 		private string	m_sMessTitle	= string.Empty;
@@ -60,17 +65,19 @@ namespace SharpFBTools.Tools
 			InitializeUnPackBackgroundWorker();
 			InitA();	// инициализация контролов (Упаковка)
 			InitUA();	// инициализация контролов (Распаковка
-			// читаем сохраненные пути к папкам Менеджера Архивов, если они есть
-			ReadMADirs();
+
 			cboxExistArchive.SelectedIndex		= 1; // добавление к создаваемому fb2-архиву очередного номера
 			cboxUAExistArchive.SelectedIndex	= 1; // добавление к создаваемому fb2-файлу очередного номера
+			// чтение настроек из xml-файла
+			readSettingsFromXML();
+			m_isSettingsLoaded = true; // все настройки запгружены
 		}
 		
 		#region Открытые методы класса
 		// задание для кнопок ToolStrip стиля и положения текста и картинки
 		public void SetToolButtonsSettings() {
-			Settings.SettingsAM.SetToolButtonsSettings( tsArchiver );
-			Settings.SettingsAM.SetToolButtonsSettings( tsUnArchiver );
+			Settings.ArchiveManagerSettings.SetToolButtonsSettings( tsArchiver );
+			Settings.ArchiveManagerSettings.SetToolButtonsSettings( tsUnArchiver );
 		}
 		#endregion
 		
@@ -84,35 +91,136 @@ namespace SharpFBTools.Tools
 			return false;
 		}
 		
-		// чтение путей к папкам Менеджера Архивов из xml-файла
-		private void ReadMADirs() {
-			string sSettings = Settings.Settings.WorksDataSettingsPath;
-			if( !File.Exists( sSettings ) ) return;
-			XmlReaderSettings settings = new XmlReaderSettings();
-			settings.IgnoreWhitespace = true;
-			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
-				reader.ReadToFollowing("AMScanDirForArchive");
-				if (reader.HasAttributes ) {
-					tboxSourceDir.Text = reader.GetAttribute("tboxSourceDir");
-					Settings.SettingsAM.AMAScanDir =  tboxSourceDir.Text.Trim();
-				}
-				reader.ReadToFollowing("AMTargetDirForArchive");
-				if (reader.HasAttributes ) {
-					tboxToAnotherDir.Text = reader.GetAttribute("tboxToAnotherDir");
-					Settings.SettingsAM.AMATargetDir = tboxToAnotherDir.Text.Trim();
-				}
-				reader.ReadToFollowing("AMScanDirForUnArchive");
-				if (reader.HasAttributes ) {
-					tboxUASourceDir.Text = reader.GetAttribute("tboxUASourceDir");
-					Settings.SettingsAM.AMUAScanDir = tboxUASourceDir.Text.Trim();
-				}
-				reader.ReadToFollowing("AMTargetDirForUnArchive");
-				if (reader.HasAttributes ) {
-					tboxUAToAnotherDir.Text = reader.GetAttribute("tboxUAToAnotherDir");
-					Settings.SettingsAM.AMAUATargetDir = tboxUAToAnotherDir.Text.Trim();
-				}
-				reader.Close();
+		// сохранение настроек в xml-файл
+		private void saveSettingsToXml() {
+			#region Код
+			if( m_isSettingsLoaded ) {
+				// защита от "затирания" настроек в файле, когда в некоторые контролы данные еще не загрузились
+				XDocument doc = new XDocument(
+					new XDeclaration("1.0", "utf-8", "yes"),
+					new XElement("Settings",
+					             new XElement("Zip",
+					                          new XComment("Папка исходных fb2-файлов"),
+					                          new XElement("SourceDir", tboxSourceDir.Text.Trim()),
+					                          new XComment("Папка для размещения архивов"),
+					                          new XElement("TargetDir", tboxToAnotherDir.Text.Trim()),
+					                          new XComment("Операции с одинаковыми zip-архивами"),
+					                          new XElement("ZipExsistMode",
+					                                       new XAttribute("Index", cboxExistArchive.SelectedIndex),
+					                                       new XAttribute("Name", cboxExistArchive.Text)
+					                                      ),
+					                          new XComment("Настройки архивации"),
+					                          new XElement("Options",
+					                                       new XComment("Сканировать и подпапки"),
+					                                       new XElement("ScanSubDirs", cboxScanSubDirToArchive.Checked),
+					                                       new XComment("Поместить zip-архив в ту же папку, где находится исходный fb2-файл"),
+					                                       new XElement("ToSomeDir", cboxToSomeDir.Checked),
+					                                       new XComment("Удалить fb2-файлы после упаковки"),
+					                                       new XElement("DeleteFB2Files", cboxDelFB2Files.Checked)
+					                                      ),
+					                          new XComment("Отображать изменения хода работы"),
+					                          new XElement("Progress", chBoxViewProgressA.Checked)
+					                         ),
+					             new XElement("UnZip",
+					                          new XComment("Папка для исходных zip-архивов"),
+					                          new XElement("SourceDir", tboxUASourceDir.Text.Trim()),
+					                          new XComment("Папка для размещения распакованных fb2-файлов"),
+					                          new XElement("TargetDir", tboxUAToAnotherDir.Text.Trim()),
+					                          new XComment("Операции с одинаковыми fb2-файлами"),
+					                          new XElement("FB2ExsistMode",
+					                                       new XAttribute("Index", cboxUAExistArchive.SelectedIndex),
+					                                       new XAttribute("Name", cboxUAExistArchive.Text)
+					                                      ),
+					                          new XComment("Настройки распаковки"),
+					                          new XElement("Options",
+					                                       new XComment("Сканировать и подпапки"),
+					                                       new XElement("ScanSubDirs", cboxScanSubDirToUnArchive.Checked),
+					                                       new XComment("Поместить fb2-файл в ту же папку, где находится исходный архив"),
+					                                       new XElement("ToSomeDir", cboxUAToSomeDir.Checked),
+					                                       new XComment("Удалить zip-архивы после распаковки"),
+					                                       new XElement("DeleteZip", cboxUADelFB2Files.Checked)
+					                                      ),
+					                          new XComment("Отображать изменения хода работы"),
+					                          new XElement("Progress", chBoxViewProgressU.Checked)
+					                         )
+					            )
+				);
+				doc.Save(m_FileSettingsPath);
 			}
+			
+			#endregion
+		}
+		
+		// загрузка настроек из xml-файла
+		private void readSettingsFromXML() {
+			#region Код
+			if( File.Exists( m_FileSettingsPath ) ) {
+				XElement xmlTree = XElement.Load( m_FileSettingsPath );
+				/* Zip */
+				if( xmlTree.Element("Zip") != null ) {
+					XElement xmlZip = xmlTree.Element("Zip");
+					// Папка исходных fb2-файлов
+					if( xmlZip.Element("SourceDir") != null )
+						tboxSourceDir.Text = xmlZip.Element("SourceDir").Value;
+					// Папка для размещения архивов
+					if( xmlZip.Element("TargetDir") != null )
+						tboxToAnotherDir.Text = xmlZip.Element("TargetDir").Value;
+					// Операции с одинаковыми zip-архивами
+					if( xmlZip.Element("ZipExsistMode") != null ) {
+						if( xmlZip.Element("ZipExsistMode").Attribute("Index") != null )
+							cboxExistArchive.SelectedIndex = Convert.ToInt16( xmlZip.Element("ZipExsistMode").Attribute("Index").Value );
+					}
+					// Настройки архивации:
+					if( xmlZip.Element("Options") != null ) {
+						XElement xmlOptions = xmlZip.Element("Options");
+						// Сканировать и подпапки
+						if( xmlOptions.Element("ScanSubDirs") != null )
+							cboxScanSubDirToArchive.Checked	= Convert.ToBoolean( xmlOptions.Element("ScanSubDirs").Value );
+						// Поместить zip-архив в ту же папку, где находится исходный fb2-файл"
+						if( xmlOptions.Element("ToSomeDir") != null )
+							cboxToSomeDir.Checked	= Convert.ToBoolean( xmlOptions.Element("ToSomeDir").Value );
+						// Удалить fb2-файлы после упаковки"
+						if( xmlOptions.Element("DeleteFB2Files") != null )
+							cboxDelFB2Files.Checked	= Convert.ToBoolean( xmlOptions.Element("DeleteFB2Files").Value );
+					}
+					// Отображать изменения хода работы
+					if( xmlZip.Element("Progress") != null )
+						chBoxViewProgressA.Checked = Convert.ToBoolean( xmlZip.Element("Progress").Value );
+				}
+				
+				/* UnZip */
+				if( xmlTree.Element("UnZip") != null ) {
+					XElement xmlUnZip = xmlTree.Element("UnZip");
+					// Папка исходных zip-файлов
+					if( xmlUnZip.Element("SourceDir") != null )
+						tboxUASourceDir.Text = xmlUnZip.Element("SourceDir").Value;
+					// Папка для размещения архивов
+					if( xmlUnZip.Element("TargetDir") != null )
+						tboxUAToAnotherDir.Text = xmlUnZip.Element("TargetDir").Value;
+					// Операции с одинаковыми fb2-архивами
+					if( xmlUnZip.Element("FB2ExsistMode") != null ) {
+						if( xmlUnZip.Element("FB2ExsistMode").Attribute("Index") != null )
+							cboxUAExistArchive.SelectedIndex = Convert.ToInt16( xmlUnZip.Element("FB2ExsistMode").Attribute("Index").Value );
+					}
+					// Настройки распаковки:
+					if( xmlUnZip.Element("Options") != null ) {
+						XElement xmlOptions = xmlUnZip.Element("Options");
+						// Сканировать и подпапки
+						if( xmlOptions.Element("ScanSubDirs") != null )
+							cboxScanSubDirToUnArchive.Checked = Convert.ToBoolean( xmlOptions.Element("ScanSubDirs").Value );
+						// Поместить fb2-архив в ту же папку, где находится исходный архив"
+						if( xmlOptions.Element("ToSomeDir") != null )
+							cboxUAToSomeDir.Checked	= Convert.ToBoolean( xmlOptions.Element("ToSomeDir").Value );
+						// Удалить zip-архивы после упаковки"
+						if( xmlOptions.Element("DeleteZip") != null )
+							cboxUADelFB2Files.Checked	= Convert.ToBoolean( xmlOptions.Element("DeleteZip").Value );
+					}
+					// Отображать изменения хода работы
+					if( xmlUnZip.Element("Progress") != null )
+						chBoxViewProgressU.Checked = Convert.ToBoolean( xmlUnZip.Element("Progress").Value );
+				}
+			}
+			#endregion
 		}
 		#endregion
 		
@@ -127,7 +235,7 @@ namespace SharpFBTools.Tools
 			m_bwa.RunWorkerCompleted 	+= new RunWorkerCompletedEventHandler( bwa_RunWorkerCompleted );
 		}
 		
-	
+		
 		// упаковка файлов в архивы
 		private void bwa_DoWork( object sender, DoWorkEventArgs e ) {
 			int nAllFiles = 0;
@@ -191,7 +299,7 @@ namespace SharpFBTools.Tools
 		private void bwa_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
 			ArchiveProgressData(); // Отобразим результат Упаковки
 			DateTime dtEnd = DateTime.Now;
-			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			filesWorker.RemoveDir( m_TempDir );
 			
 			tsslblProgress.Text = Settings.Settings.GetReady();
 			SetPackingStartEnabled( true );
@@ -221,8 +329,8 @@ namespace SharpFBTools.Tools
 				else {
 					// или FilePath вместо sArchiveFile
 					ArchiveFile = FilePath.Remove( FilePath.Length-4 )
-								+ filesWorker.createSufix( ArchiveFile, cboxExistArchive.SelectedIndex )//Sufix
-								+ FileExt + ".zip";
+						+ filesWorker.createSufix( ArchiveFile, cboxExistArchive.SelectedIndex )//Sufix
+						+ FileExt + ".zip";
 				}
 			}
 			return ArchiveFile;
@@ -338,6 +446,7 @@ namespace SharpFBTools.Tools
 			pToAnotherDir.Enabled = !cboxToSomeDir.Checked;
 			if( !cboxToSomeDir.Checked )
 				tboxToAnotherDir.Focus();
+			saveSettingsToXml();
 		}
 		
 		// задание папки для копирования запакованных fb2-файлов
@@ -381,12 +490,32 @@ namespace SharpFBTools.Tools
 		
 		void TboxSourceDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsAM.AMAScanDir = tboxSourceDir.Text;
+			saveSettingsToXml();
 		}
 		
 		void TboxToAnotherDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsAM.AMATargetDir = tboxToAnotherDir.Text;
+			saveSettingsToXml();
+		}
+		
+		void CboxScanSubDirToArchiveCheckStateChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
+		void CboxExistArchiveSelectedIndexChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
+		void CboxDelFB2FilesCheckStateChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
+		void ChBoxViewProgressACheckStateChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
 		}
 		
 		// Остановка выполнения процесса Архивации
@@ -447,7 +576,7 @@ namespace SharpFBTools.Tools
 			m_nCountU = m_nZipU		= 0;
 			m_nFB2U = 0;
 
-			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			filesWorker.RemoveDir( m_TempDir );
 			
 			BackgroundWorker bw = sender as BackgroundWorker;
 			m_nUnpackCount = UnZipToFile( bw, e, SourceDir, lDirList, getTargetDirForUnZip() );
@@ -464,7 +593,7 @@ namespace SharpFBTools.Tools
 		private void bwu_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
 			UnArchiveProgressData(); // Отобразим результат Распаковки
 			DateTime dtEnd = DateTime.Now;
-			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			filesWorker.RemoveDir( m_TempDir );
 			
 			tsslblProgress.Text = Settings.Settings.GetReady();
 			SetUnPackingStartEnabled( true );
@@ -545,9 +674,9 @@ namespace SharpFBTools.Tools
 		
 		// доступность контролов при Распаковке
 		private void SetUnPackingStartEnabled( bool bEnabled ) {
-			tsbtnUnArchive.Enabled	= bEnabled;
-			pUAScanDir.Enabled		= bEnabled;
-			pUAType.Enabled			= bEnabled;
+			tsbtnUnArchive.Enabled		= bEnabled;
+			pUAScanDir.Enabled			= bEnabled;
+			pUAType.Enabled				= bEnabled;
 			pUAToAnotherDir.Enabled		= bEnabled;
 			cboxUADelFB2Files.Enabled	= bEnabled;
 			tpArchive.Enabled			= bEnabled;
@@ -601,6 +730,7 @@ namespace SharpFBTools.Tools
 			pUAToAnotherDir.Enabled = !cboxUAToSomeDir.Checked;
 			if( !cboxUAToSomeDir.Checked )
 				tboxUAToAnotherDir.Focus();
+			saveSettingsToXml();
 		}
 		
 		// Распаковка архивов
@@ -632,12 +762,32 @@ namespace SharpFBTools.Tools
 		
 		void TboxUASourceDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsAM.AMUAScanDir = tboxUASourceDir.Text;
+			saveSettingsToXml();
 		}
 		
 		void TboxUAToAnotherDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.SettingsAM.AMAUATargetDir = tboxUAToAnotherDir.Text;
+			saveSettingsToXml();
+		}
+		
+		void CboxScanSubDirToUnArchiveCheckStateChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
+		void CboxUAExistArchiveSelectedIndexChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
+		void CboxUADelFB2FilesCheckStateChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
+		void ChBoxViewProgressUCheckStateChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
 		}
 		
 		// Остановка выполнения процесса Распаковки

@@ -43,7 +43,7 @@ namespace Main
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
 			// Запоминаем папку программы
-			Settings.Settings.SetProgDir( Environment.CurrentDirectory );
+			Settings.Settings.ProgDir = Environment.CurrentDirectory;
 			// задаем данные о программе Assembly
 			SharpFBTools_AssemblyInfo.SetAssemblyTitle( AppAssembly.AssemblyTitle );
 			SharpFBTools_AssemblyInfo.SetAssemblyProduct( AppAssembly.AssemblyProduct );
@@ -68,16 +68,17 @@ namespace Main
 		void TsbtnExitClick(object sender, EventArgs e)
 		{
 			// выход из программы
+			string TempDir = Settings.Settings.TempDir;
 			if( ! Settings.Settings.ReadConfirmationForExit() ) {
 				// очистка временной папки
-				filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+				filesWorker.RemoveDir( TempDir );
 				this.Close();
 			} else {
 				DialogResult result = MessageBox.Show( "Вы действительно хотите выйти из программы?", "SharpFBTools",
 			                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question );
 	      	  	if( result == DialogResult.Yes ) {
 					// очистка временной папки
-					filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+					filesWorker.RemoveDir( TempDir );
 					this.Close();
 				}
 				return;
@@ -143,17 +144,6 @@ namespace Main
 			sfbTpFB2Dublicator.SetToolButtonsSettings();
 			ofrm.Dispose();
 		}
-		
-		void MainFormFormClosed(object sender, FormClosedEventArgs e)
-		{
-			// сохраняем пути к папкам и рабочие изменяющиеся данные всех инструменнов
-			Settings.Settings.WriteSharpFBToolsWorksData();
-			// Для Валидатора
-			Settings.ValidatorSettings.WriteValidatorSettings();
-			// Для Сортировщика
-			Settings.FileManagerSettings.WriteFileManagerSettings();
-		}
 		#endregion
-
 	}	
 }

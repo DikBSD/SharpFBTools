@@ -28,13 +28,13 @@ using filesWorker	= Core.FilesWorker.FilesWorker;
 namespace Core.Misc
 {
 	/// <summary>
-	/// Description of BookData.
+	/// Все данные на книгу и fb2 файл
 	/// </summary>
 	public class FB2BookDescription
 	{
 		#region Закрытые данные класса
 		private fb2BookData m_fb2bd		= null; // fb2-данные о книге
-		private string m_sFromFilePath	= "";	// путь к анализируемой книге
+		private string m_sFromFilePath	= string.Empty;	// путь к анализируемой книге
 		#endregion
 		
 		public FB2BookDescription( string sFromFilePath )
@@ -44,19 +44,18 @@ namespace Core.Misc
 		}
 		
 		#region Закрытые вспомогательные методы класса
-		
 		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
 		private string MakeAutorsString( IList<Author> Authors) {
-			if( Authors == null ) return ""; 
-			string sA = ""; //int n = 0;
+			if( Authors == null ) return string.Empty; 
+			string sA = string.Empty; //int n = 0;
 			foreach( Author a in Authors ) {
 //				++n;
 				if( a.LastName!=null && a.LastName.Value!=null )
-					sA += a.LastName.Value+" ";
+					sA += a.LastName.Value + " ";
 				if( a.FirstName!=null && a.FirstName.Value!=null )
-					sA += a.FirstName.Value+" ";
+					sA += a.FirstName.Value + " ";
 				if( a.MiddleName!=null && a.FirstName.Value!=null )
-					sA += a.MiddleName.Value+" ";
+					sA += a.MiddleName.Value + " ";
 				if( a.NickName!=null && a.NickName.Value!=null )
 					sA += a.NickName.Value;
 				sA = sA.Trim();
@@ -68,8 +67,8 @@ namespace Core.Misc
 		
 		// формирование строки с Датой Написания Книги или Датой Создания fb2-файла
 		private string MakeDateString( Date Date ) {
-			if( Date == null ) return ""; 
-			string sDate = "";
+			if( Date == null ) return string.Empty; 
+			string sDate = string.Empty;
 			if( Date.Text!=null )	sDate += Date.Text;
 			if( Date.Value!=null )	sDate += " ("+Date.Value+")";
 			return sDate;
@@ -77,8 +76,8 @@ namespace Core.Misc
 		
 		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
 		private string MakeGenresString( IList<Genre> Genres ) {
-			if( Genres == null ) return ""; 
-			string sG = ""; //int n = 0;
+			if( Genres == null ) return string.Empty; 
+			string sG = string.Empty; //int n = 0;
 			foreach( Genre g in Genres ) {
 //				++n;
 				if( g.Name!=null ) sG += g.Name;
@@ -95,8 +94,8 @@ namespace Core.Misc
 		
 		// формирование строки с Сериями Книги из списка всех Серий ЭТОЙ Книги
 		private string MakeSequencesString( IList<Sequence> Sequences ) {
-			if( Sequences == null ) return ""; 
-			string sSeq = ""; //int n = 0;
+			if( Sequences == null ) return string.Empty; 
+			string sSeq = string.Empty; //int n = 0;
 			foreach( Sequence s in Sequences ) {
 //				++n;
 				if( s.Name!=null )	sSeq += s.Name;
@@ -198,6 +197,18 @@ namespace Core.Misc
 		public virtual string TIAuthors {
 			get {
 				return MakeAutorsString( m_fb2bd.TIAuthors );
+			}
+        }
+		
+		public virtual IList<Genre> Genres {
+			get {
+				return m_fb2bd.TIGenres;
+			}
+        }
+		
+		public virtual IList<Author> Authors {
+			get {
+				return m_fb2bd.TIAuthors;
 			}
         }
 		

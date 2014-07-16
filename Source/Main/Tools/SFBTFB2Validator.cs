@@ -15,6 +15,8 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Linq;
+using System.Xml.Linq;
 using System.Threading;
 using System.Diagnostics;
 
@@ -38,59 +40,21 @@ namespace SharpFBTools.Tools
 	public partial class SFBTpFB2Validator : UserControl
 	{
 		#region Закрытые данные класса
+		private string m_FileSettingsPath = Settings.Settings.ProgDir + @"\ValidatorSettings.xml";
+		private bool m_isSettingsLoaded	= false; // Только при true все изменения настроек сохраняются в файл.
 		private DateTime m_dtStart;
 		private BackgroundWorker m_bwv		= null;
 		private BackgroundWorker m_bwcmd	= null;
-		private string	m_sMessTitle		= "";
-		private string	m_sScan				= "";
-		private string	m_sFileWorkerMode	= "";
+		private string	m_sMessTitle		= string.Empty;
+		private string	m_sScan				= string.Empty;
+		private string	m_sFileWorkerMode	= string.Empty;
 		private bool	m_bScanSubDirs		= true;
 		private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
 		private bool	m_bFilesWorked		= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
+		private string m_TempDir = Settings.Settings.TempDir;
 		
-		private Core.FilesWorker.SharpZipLibWorker sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
-		#endregion
-		
-		public SFBTpFB2Validator()
-		{
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			InitializeComponent();
-			// задание для кнопок ToolStrip стиля и положения текста и картинки
-			SetToolButtonsSettings();
-			
-			InitializeValidateBackgroundWorker();
-			InitializeFilesWorkerBackgroundWorker();
-			
-			#region первоначальная установка значений по умолчанию
-			this.cboxExistFile.SelectedIndexChanged -= new System.EventHandler(this.CboxExistFileSelectedIndexChanged);
-			cboxExistFile.SelectedIndex = 1;
-			this.cboxExistFile.SelectedIndexChanged += new System.EventHandler(this.CboxExistFileSelectedIndexChanged);
+		private Core.FilesWorker.SharpZipLibWorker m_sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
 
-			this.cboxValidatorForFB2.SelectedIndexChanged -= new System.EventHandler(this.CboxValidatorForFB2SelectedIndexChanged);
-			cboxValidatorForFB2.SelectedIndex = 1;
-			this.cboxValidatorForFB2.SelectedIndexChanged += new System.EventHandler(this.CboxValidatorForFB2SelectedIndexChanged);
-			
-			this.cboxValidatorForZip.SelectedIndexChanged -= new System.EventHandler(this.CboxValidatorForZipSelectedIndexChanged);
-			cboxValidatorForZip.SelectedIndex = 1;
-			this.cboxValidatorForZip.SelectedIndexChanged += new System.EventHandler(this.CboxValidatorForZipSelectedIndexChanged);
-			
-			this.cboxValidatorForFB2PE.SelectedIndexChanged -= new System.EventHandler(this.CboxValidatorForFB2PESelectedIndexChanged);
-			cboxValidatorForFB2PE.SelectedIndex = 0;
-			this.cboxValidatorForFB2PE.SelectedIndexChanged += new System.EventHandler(this.CboxValidatorForFB2PESelectedIndexChanged);
-			
-			this.cboxValidatorForZipPE.SelectedIndexChanged -= new System.EventHandler(this.CboxValidatorForZipPESelectedIndexChanged);
-			cboxValidatorForZipPE.SelectedIndex = 0;
-			this.cboxValidatorForZipPE.SelectedIndexChanged += new System.EventHandler(this.CboxValidatorForZipPESelectedIndexChanged);
-			#endregion
-			
-			// инициализация контролов
-			Init();
-			// чтение настроек Валидатора
-			ReadValidatorSettings();
-			
-		}
-		
-		#region Закрытые данные класса
 		// Color
 		private Color	m_FB2ValidFontColor			= Color.Black;		// цвет для несжатых валидных fb2
 		private Color	m_FB2NotValidFontColor		= Color.Black;		// цвет для несжатых не валидных fb2
@@ -122,6 +86,30 @@ namespace SharpFBTools.Tools
 		private string	m_TXTFilter 		= "TXT файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
 		#endregion
 		
+		public SFBTpFB2Validator()
+		{
+			// The InitializeComponent() call is required for Windows Forms designer support.
+			InitializeComponent();
+			// задание для кнопок ToolStrip стиля и положения текста и картинки
+			SetToolButtonsSettings();
+			
+			InitializeValidateBackgroundWorker();
+			InitializeFilesWorkerBackgroundWorker();
+			
+			#region первоначальная установка значений по умолчанию
+			cboxExistFile.SelectedIndex			= 1;
+			cboxValidatorForFB2.SelectedIndex	= 1;
+			cboxValidatorForZip.SelectedIndex	= 1;
+			cboxValidatorForFB2PE.SelectedIndex	= 0;
+			cboxValidatorForZipPE.SelectedIndex	= 0;
+			#endregion
+			
+			// инициализация контролов
+			Init();
+			// чтение настроек из xml-файла
+			readSettingsFromXML();
+			m_isSettingsLoaded = true;
+		}
 		#region Закрытые методы
 		
 		#region Закрытые общие вспомогательные методы
@@ -158,14 +146,6 @@ namespace SharpFBTools.Tools
 				listViewNotFB2.EndUpdate();
 				this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
 			}
-		}
-		
-		// Смена схемы Жанров
-		private void GenresSchemeChange()
-		{
-			Settings.ValidatorSettings.FB2LibrusecGenres	= rbtnFB2Librusec.Checked;
-			Settings.ValidatorSettings.FB22Genres			= rbtnFB22.Checked;
-			Settings.ValidatorSettings.WriteValidatorSettings();
 		}
 		#endregion
 		
@@ -215,7 +195,6 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Value		= 0;
 
 			FB2Validator fv2Validator = new FB2Validator();
-			string sTempDir = Settings.Settings.GetTempDir();
 			ConnectListsEventHandlers( false );
 			string sExt = "", sFile = "";
 			foreach( string s in lDirList ) {
@@ -233,9 +212,9 @@ namespace SharpFBTools.Tools
 						ParseFB2File( sFile, fv2Validator );
 					} else if( sExt == ".zip" ) {
 						// очистка временной папки
-						filesWorker.RemoveDir( sTempDir );
-						Directory.CreateDirectory( sTempDir );
-						ParseArchiveFile( sFile, fv2Validator, sTempDir );
+						filesWorker.RemoveDir( m_TempDir );
+						Directory.CreateDirectory( m_TempDir );
+						ParseArchiveFile( sFile, fv2Validator, m_TempDir );
 					} else {
 						// разные файлы
 						++m_nNotFB2Files;
@@ -266,12 +245,12 @@ namespace SharpFBTools.Tools
 			ConnectListsEventHandlers( true );
 			
 			DateTime dtEnd = DateTime.Now;
-			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			filesWorker.RemoveDir( m_TempDir );
 			
 			// авторазмер колонок списков
-			Core.FileManager.FileManagerWork.AutoResizeColumns(listViewNotValid);
-			Core.FileManager.FileManagerWork.AutoResizeColumns(listViewValid);
-			Core.FileManager.FileManagerWork.AutoResizeColumns(listViewNotFB2);
+			m_mscLV.AutoResizeColumns(listViewNotValid);
+			m_mscLV.AutoResizeColumns(listViewValid);
+			m_mscLV.AutoResizeColumns(listViewNotFB2);
 			
 			tsslblProgress.Text = Settings.Settings.GetReady();
 			SetValidingStartEnabled( true );
@@ -461,33 +440,168 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые вспомогательные методы класса
-		// чтение настроек Валидатора
-		private void ReadValidatorSettings() {
-			// чтение путей к папкам Валидатора из xml-файла
-			tboxSourceDir.Text = Settings.ValidatorSettings.ReadXmlSourceDir();
-			tboxFB2NotValidDirCopyTo.Text = Settings.ValidatorSettings.ReadXmlFB2NotValidDirCopyTo();
-			tboxFB2NotValidDirMoveTo.Text = Settings.ValidatorSettings.ReadXmlFB2NotValidDirMoveTo();
-			tboxFB2ValidDirCopyTo.Text = Settings.ValidatorSettings.ReadXmlFB2ValidDirCopyTo();
-			tboxFB2ValidDirMoveTo.Text = Settings.ValidatorSettings.ReadXmlFB2ValidDirMoveTo();
-			tboxNotFB2DirCopyTo.Text = Settings.ValidatorSettings.ReadXmlNotFB2DirCopyTo();
-			tboxNotFB2DirMoveTo.Text = Settings.ValidatorSettings.ReadXmlNotFB2DirMoveTo();
-			
-			// обработка подкаталогов
-			chBoxScanSubDir.Checked = Settings.ValidatorSettings.ReadXmlScanSubDir();
-			// что делать, если такой файл уже есть
-			cboxExistFile.SelectedIndex = Settings.ValidatorSettings.ReadXmlExistFileWorker();
-			// чтение схемы жанров
-			rbtnFB2Librusec.Checked = Settings.ValidatorSettings.ReadXmlFB2Librusec();
-			rbtnFB22.Checked = Settings.ValidatorSettings.ReadXmlFB22();
-			
-			// настройки действий мышки и Enter
-			cboxValidatorForFB2.SelectedIndex	= Settings.ValidatorSettings.ReadXmlMouseDoubleClickForFB2Mode();
-			cboxValidatorForZip.SelectedIndex	= Settings.ValidatorSettings.ReadXmlMouseDoubleClickForZipMode();
-			cboxValidatorForFB2PE.SelectedIndex	= Settings.ValidatorSettings.ReadXmlEnterPressForFB2Mode();
-			cboxValidatorForZipPE.SelectedIndex	= Settings.ValidatorSettings.ReadXmlEnterPressForZipMode();
-			
-			// путь к GUI Архиватора
-			tboxArchivatorPath.Text	= Settings.ValidatorSettings.ReadXmlArchivatorPath();
+		// сохранение настроек в xml-файл
+		private void saveSettingsToXml() {
+			#region Код
+			if( m_isSettingsLoaded ) {
+				// защита от "затирания" настроек в файле, когда в некоторые контролы данные еще не загрузились
+				XDocument doc = new XDocument(
+					new XDeclaration("1.0", "utf-8", "yes"),
+					new XElement("Settings",
+					             new XComment("Папка для проверяемых fb2-файлов"),
+					             new XElement("SourceDir", tboxSourceDir.Text.Trim()),
+					             new XComment("Невалидные файлы"),
+					             new XElement("NotValidFB2Files",
+					                          new XElement("CopyTo", tboxFB2NotValidDirCopyTo.Text),
+					                          new XElement("MoveTo", tboxFB2NotValidDirMoveTo.Text)
+					                         ),
+					             new XComment("Валидные файлы"),
+					             new XElement("ValidFB2Files",
+					                          new XElement("CopyTo", tboxFB2ValidDirCopyTo.Text),
+					                          new XElement("MoveTo", tboxFB2ValidDirMoveTo.Text)
+					                         ),
+					             new XComment("Не fb2-файлы"),
+					             new XElement("NotFB2Files",
+					                          new XElement("CopyTo", tboxNotFB2DirCopyTo.Text),
+					                          new XElement("MoveTo", tboxNotFB2DirMoveTo.Text)
+					                         ),
+					             new XComment("Активная Схема Жанров"),
+					             new XElement("FB2Genres",
+					                          new XAttribute("Librusec", rbtnFB2Librusec.Checked),
+					                          new XAttribute("FB22", rbtnFB22.Checked)
+					                         ),
+					             new XComment("Операции с одинаковыми файлами в папке-приемнике"),
+					             new XElement("FileExsistMode",
+					                          new XAttribute("Index", cboxExistFile.SelectedIndex),
+					                          new XAttribute("Name", cboxExistFile.Text)
+					                         ),
+					             new XComment("Обрабатывать подкаталоги"),
+					             new XElement("ScanSubDirs", chBoxScanSubDir.Checked),
+					             new XComment("Действие по двойному щелчку мышки на Списках"),
+					             new XElement("DoubleClick",
+					                          new XComment("Для незапакованных fb2"),
+					                          new XElement("FB2",
+					                                       new XAttribute("Index", cboxValidatorForFB2.SelectedIndex),
+					                                       new XAttribute("Name", cboxValidatorForFB2.Text)
+					                                      ),
+					                          new XComment("Для запакованных fb2"),
+					                          new XElement("Zip",
+					                                       new XAttribute("Index", cboxValidatorForZip.SelectedIndex),
+					                                       new XAttribute("Name", cboxValidatorForZip.Text)
+					                                      )
+					                         ),
+					             new XComment("Действие по нажатию клавиши Enter на Списках"),
+					             new XElement("EnterPress",
+					                          new XComment("Для незапакованных fb2"),
+					                          new XElement("FB2",
+					                                       new XAttribute("Index", cboxValidatorForFB2PE.SelectedIndex),
+					                                       new XAttribute("Name", cboxValidatorForFB2PE.Text)
+					                                      ),
+					                          new XComment("Для запакованных fb2"),
+					                          new XElement("Zip",
+					                                       new XAttribute("Index", cboxValidatorForZipPE.SelectedIndex),
+					                                       new XAttribute("Name", cboxValidatorForZipPE.Text)
+					                                      )
+					                         ),
+					             
+					             new XComment("Путь к Архиватору (GUI)"),
+					             new XElement("ArchivatorGUIPath", tboxArchivatorPath.Text),
+					             new XComment("Отображать изменения хода работы"),
+					             new XElement("Progress", chBoxViewProgress.Checked)
+					            )
+				);
+				doc.Save(m_FileSettingsPath);
+			}
+			#endregion
+		}
+		
+		// загрузка настроек из xml-файла
+		private void readSettingsFromXML() {
+			#region Код
+			if( File.Exists( m_FileSettingsPath ) ) {
+				XElement xmlTree = XElement.Load( m_FileSettingsPath );
+				// Папка для проверяемых fb2-файлов
+				if( xmlTree.Element("SourceDir") != null )
+					tboxSourceDir.Text = xmlTree.Element("SourceDir").Value;
+				// Невалидные файлы
+				if( xmlTree.Element("NotValidFB2Files") != null ) {
+					XElement xmlNotValidFB2Files = xmlTree.Element("NotValidFB2Files");
+					if( xmlNotValidFB2Files.Element("CopyTo") != null )
+						tboxFB2NotValidDirCopyTo.Text = xmlNotValidFB2Files.Element("CopyTo").Value;
+					if( xmlNotValidFB2Files.Element("MoveTo") != null )
+						tboxFB2NotValidDirMoveTo.Text = xmlNotValidFB2Files.Element("MoveTo").Value;
+				}
+				// Валидные файлы
+				if( xmlTree.Element("ValidFB2Files") != null ) {
+					XElement xmlValidFB2Files = xmlTree.Element("ValidFB2Files");
+					if( xmlValidFB2Files.Element("CopyTo") != null )
+						tboxFB2ValidDirCopyTo.Text = xmlValidFB2Files.Element("CopyTo").Value;
+					if( xmlValidFB2Files.Element("MoveTo") != null )
+						tboxFB2ValidDirMoveTo.Text = xmlValidFB2Files.Element("MoveTo").Value;
+				}
+				// Не fb2-файлы
+				if( xmlTree.Element("NotFB2Files") != null ) {
+					XElement xmlNotFB2Files = xmlTree.Element("NotFB2Files");
+					if( xmlNotFB2Files.Element("CopyTo") != null )
+						tboxNotFB2DirCopyTo.Text = xmlNotFB2Files.Element("CopyTo").Value;
+					if( xmlNotFB2Files.Element("MoveTo") != null )
+						tboxNotFB2DirMoveTo.Text = xmlNotFB2Files.Element("MoveTo").Value;
+				}
+				// Активная Схема Жанров
+				if( xmlTree.Element("FB2Genres") != null ) {
+					XElement xmlFB2Genres = xmlTree.Element("FB2Genres");
+					if( xmlFB2Genres.Attribute("Librusec") != null )
+						rbtnFB2Librusec.Checked = Convert.ToBoolean( xmlFB2Genres.Attribute("Librusec").Value );
+					if( xmlFB2Genres.Attribute("FB22") != null )
+						rbtnFB22.Checked = Convert.ToBoolean( xmlFB2Genres.Attribute("FB22").Value );
+				}
+				// Операции с одинаковыми файлами в папке-приемнике
+				if( xmlTree.Element("FileExsistMode") != null ) {
+					if( xmlTree.Element("FileExsistMode").Attribute("Index") != null )
+						cboxExistFile.SelectedIndex = Convert.ToInt16( xmlTree.Element("FileExsistMode").Attribute("Index").Value );
+				}
+				// Обрабатывать подкаталоги
+				if( xmlTree.Element("ScanSubDirs") != null )
+					chBoxScanSubDir.Checked = Convert.ToBoolean( xmlTree.Element("ScanSubDirs").Value );
+				
+				/* Действие по двойному щелчку мышки на Списках */
+				if( xmlTree.Element("DoubleClick") != null ) {
+					XElement xmlDoubleClick = xmlTree.Element("DoubleClick");
+					// Для незапакованных fb2
+					if( xmlDoubleClick.Element("FB2") != null ) {
+						if( xmlDoubleClick.Element("FB2").Attribute("Index") != null )
+							cboxValidatorForFB2.SelectedIndex = Convert.ToInt16( xmlDoubleClick.Element("FB2").Attribute("Index").Value );
+					}
+					// Для запакованных fb2
+					if( xmlDoubleClick.Element("Zip") != null ) {
+						if( xmlDoubleClick.Element("Zip").Attribute("Index") != null )
+							cboxValidatorForZip.SelectedIndex = Convert.ToInt16( xmlDoubleClick.Element("Zip").Attribute("Index").Value );
+					}
+				}
+				
+				/* Действие по нажатию клавиши Enter на Списках */
+				if( xmlTree.Element("EnterPress") != null ) {
+					XElement xmlEnterPress = xmlTree.Element("EnterPress");
+					// Для незапакованных fb2
+					if( xmlEnterPress.Element("FB2") != null ) {
+						if( xmlEnterPress.Element("FB2").Attribute("Index") != null )
+							cboxValidatorForFB2PE.SelectedIndex = Convert.ToInt16( xmlEnterPress.Element("FB2").Attribute("Index").Value );
+					}
+					// Для запакованных fb2
+					if( xmlEnterPress.Element("Zip") != null ) {
+						if( xmlEnterPress.Element("Zip").Attribute("Index") != null )
+							cboxValidatorForZipPE.SelectedIndex = Convert.ToInt16( xmlEnterPress.Element("Zip").Attribute("Index").Value );
+					}
+				}
+				
+				// Путь к Архиватору (GUI)
+				if( xmlTree.Element("ArchivatorGUIPath") != null )
+					tboxArchivatorPath.Text = xmlTree.Element("ArchivatorGUIPath").Value;
+				// Отображать изменения хода работы
+				if( xmlTree.Element("Progress") != null )
+					chBoxViewProgress.Checked = Convert.ToBoolean( xmlTree.Element("Progress").Value );
+			}
+			#endregion
 		}
 		
 		// Отобразим результат Валидации
@@ -518,7 +632,7 @@ namespace SharpFBTools.Tools
 			tsProgressBar.Visible	= false;
 			m_nFB2Valid	= m_nFB2NotValid = m_nFB2Files = m_nFB2ZipFiles = m_nNotFB2Files = 0;
 			// очистка временной папки
-			filesWorker.RemoveDir( Settings.Settings.GetTempDir() );
+			filesWorker.RemoveDir( m_TempDir );
 		}
 		
 		// доступность контролов при Валидации
@@ -604,57 +718,57 @@ namespace SharpFBTools.Tools
 		// парсер архива
 		private void ParseArchiveFile( string sArchiveFile, FB2Validator fv2Validator, string sTempDir ) {
 			string sExt = Path.GetExtension( sArchiveFile ).ToLower();
-			sharpZipLib.UnZipFiles(sArchiveFile, sTempDir, 0, false, null, 4096);
+			m_sharpZipLib.UnZipFiles(sArchiveFile, sTempDir, 0, false, null, 4096);
 
 			string [] files = Directory.GetFiles( sTempDir );
-			if( files.Length <= 0 ) return;
-			
-			string sMsg = string.Empty;
-			string sFileName = string.Empty;
-			foreach (string file in files) {
-				// валидация
-				sMsg = rbtnFB2Librusec.Checked ? fv2Validator.ValidatingFB2LibrusecFile( file ) : fv2Validator.ValidatingFB22File( file );
-				sFileName = Path.GetFileName( file );
-				if ( sMsg == "" ) {
-					// файл валидный - это fb2
-					++m_nFB2Valid;
-					++m_nFB2ZipFiles;
-					//listViewValid.Items.Add( sArchiveFile + "/" + sFileName );
-					ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
-					item.ForeColor = m_ZipFB2ValidFontColor;
-					FileInfo fi = new FileInfo( sArchiveFile );
-					string s = filesWorker.FormatFileLength( fi.Length );
-					fi = new FileInfo( sTempDir+"\\"+sFileName );
-					s += " / "+filesWorker.FormatFileLength( fi.Length );
-					item.SubItems.Add( s );
-					listViewValid.Items.AddRange( new ListViewItem[]{ item } );
-				} else {
-					// файл в архиве не валидный - посмотрим, что это
-					sExt = Path.GetExtension( sFileName ).ToLower();
-					if( sExt != ".fb2" ) {
-						sMsg = "Тип файла: " + sExt;
-						++m_nNotFB2Files;
-						ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
-						item.ForeColor = m_ZipFontColor;
-						item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
-						FileInfo fi = new FileInfo( sArchiveFile );
-						string s = filesWorker.FormatFileLength( fi.Length );
-						fi = new FileInfo( sTempDir+"\\"+sFileName );
-						s += " / "+filesWorker.FormatFileLength( fi.Length );
-						item.SubItems.Add( s );
-						listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
-					} else {
+			if( files.Length > 0 ) {
+				string sMsg = string.Empty;
+				string sFileName = string.Empty;
+				foreach (string file in files) {
+					// валидация
+					sMsg = rbtnFB2Librusec.Checked ? fv2Validator.ValidatingFB2LibrusecFile( file ) : fv2Validator.ValidatingFB22File( file );
+					sFileName = Path.GetFileName( file );
+					if ( sMsg == "" ) {
+						// файл валидный - это fb2
+						++m_nFB2Valid;
 						++m_nFB2ZipFiles;
-						++m_nFB2NotValid;
+						//listViewValid.Items.Add( sArchiveFile + "/" + sFileName );
 						ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
-						item.ForeColor = m_ZipFB2NotValidFontColor;
-						item.SubItems.Add( sMsg );
+						item.ForeColor = m_ZipFB2ValidFontColor;
 						FileInfo fi = new FileInfo( sArchiveFile );
 						string s = filesWorker.FormatFileLength( fi.Length );
 						fi = new FileInfo( sTempDir+"\\"+sFileName );
 						s += " / "+filesWorker.FormatFileLength( fi.Length );
 						item.SubItems.Add( s );
-						listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
+						listViewValid.Items.AddRange( new ListViewItem[]{ item } );
+					} else {
+						// файл в архиве не валидный - посмотрим, что это
+						sExt = Path.GetExtension( sFileName ).ToLower();
+						if( sExt != ".fb2" ) {
+							sMsg = "Тип файла: " + sExt;
+							++m_nNotFB2Files;
+							ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
+							item.ForeColor = m_ZipFontColor;
+							item.SubItems.Add( Path.GetExtension( sArchiveFile + "/" + sFileName ) );
+							FileInfo fi = new FileInfo( sArchiveFile );
+							string s = filesWorker.FormatFileLength( fi.Length );
+							fi = new FileInfo( sTempDir+"\\"+sFileName );
+							s += " / "+filesWorker.FormatFileLength( fi.Length );
+							item.SubItems.Add( s );
+							listViewNotFB2.Items.AddRange( new ListViewItem[]{ item } );
+						} else {
+							++m_nFB2ZipFiles;
+							++m_nFB2NotValid;
+							ListViewItem item = new ListViewItem( sArchiveFile + "/" + sFileName, 0 );
+							item.ForeColor = m_ZipFB2NotValidFontColor;
+							item.SubItems.Add( sMsg );
+							FileInfo fi = new FileInfo( sArchiveFile );
+							string s = filesWorker.FormatFileLength( fi.Length );
+							fi = new FileInfo( sTempDir+"\\"+sFileName );
+							s += " / "+filesWorker.FormatFileLength( fi.Length );
+							item.SubItems.Add( s );
+							listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
+						}
 					}
 				}
 			}
@@ -690,12 +804,12 @@ namespace SharpFBTools.Tools
 						string FileFromZip = lvi.Text.Split('/')[1];
 						if( File.Exists( FilePath ) ) {
 							// Copy
-							sharpZipLib.UnZipSelectedFile( FilePath, FileFromZip,
-							                               filesWorker.buildTargetDir(FilePath, SourceDir, TargetDir),
-							                               cboxExistFile.SelectedIndex, null, 4096 );
+							m_sharpZipLib.UnZipSelectedFile( FilePath, FileFromZip,
+							                                filesWorker.buildTargetDir(FilePath, SourceDir, TargetDir),
+							                                cboxExistFile.SelectedIndex, null, 4096 );
 							if( !IsCopy ) {
 								// Move
-								if (sharpZipLib.DeleteSelectedFile( FilePath, FileFromZip, null ) ) {
+								if (m_sharpZipLib.DeleteSelectedFile( FilePath, FileFromZip, null ) ) {
 									lv.Items.Remove( lvi );
 									tp.Text = TabPageDefText + "( " + lv.Items.Count.ToString() +" )";
 								}
@@ -754,7 +868,7 @@ namespace SharpFBTools.Tools
 						// обработка файлов из архивов
 						string fileFromZip = lvi.Text.Split('/')[1];
 						if( File.Exists( sFilePath ) ) {
-							if ( sharpZipLib.DeleteSelectedFile(sFilePath, fileFromZip, null) ) {
+							if ( m_sharpZipLib.DeleteSelectedFile(sFilePath, fileFromZip, null) ) {
 								lv.Items.Remove( lvi );
 								tp.Text = sTabPageDefText + "( " + lv.Items.Count.ToString() +" )";
 								m_bFilesWorked |= true;
@@ -853,18 +967,17 @@ namespace SharpFBTools.Tools
 		#region Обработчики событий
 		void ChBoxScanSubDirClick(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.ScanSubDir = chBoxScanSubDir.Checked;
-			Settings.ValidatorSettings.WriteValidatorSettings();
+			saveSettingsToXml();
 		}
 		
 		void RbtnFB2LibrusecClick(object sender, EventArgs e)
 		{
-			GenresSchemeChange();
+			saveSettingsToXml();
 		}
 		
 		void RbtnFB22Click(object sender, EventArgs e)
 		{
-			GenresSchemeChange();
+			saveSettingsToXml();
 		}
 		
 		// Ввлидация fb2-файлов в выбранной папке
@@ -1295,7 +1408,7 @@ namespace SharpFBTools.Tools
 		void TsmiOpenFileInArchivatorClick(object sender, EventArgs e)
 		{
 			// читаем путь к архиватору из настроек
-			string sArchPath = Settings.ValidatorSettings.ReadXmlArchivatorPath();
+			string sArchPath = tboxArchivatorPath.Text;
 			string sTitle = "SharpFBTools - Запуск файла в Архиваторе";
 			if( !File.Exists( sArchPath ) ) {
 				MessageBox.Show( "Не могу найти Архиватор \""+sArchPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -1320,7 +1433,6 @@ namespace SharpFBTools.Tools
 			ListView l = GetCurrentListWiew();
 			if( l.Items.Count > 0 && l.SelectedItems.Count != 0 ) {
 				DateTime dtStart = DateTime.Now;
-				string sTempDir = Settings.Settings.GetTempDir();
 				ListView.SelectedListViewItemCollection si = l.SelectedItems;
 				string sSelectedItemText = si[0].SubItems[0].Text;
 				bool isZip = sSelectedItemText.IndexOf('/') != -1 ? true : false;
@@ -1381,12 +1493,12 @@ namespace SharpFBTools.Tools
 					}
 				} else {
 					// zip архив
-					filesWorker.RemoveDir( sTempDir ); // очистка временной папки
-					sharpZipLib.UnZipFiles(sFilePath, sTempDir, 0, false, null, 4096);
-					string [] files = Directory.GetFiles( sTempDir );
+					filesWorker.RemoveDir( m_TempDir ); // очистка временной папки
+					m_sharpZipLib.UnZipFiles(sFilePath, m_TempDir, 0, false, null, 4096);
+					string [] files = Directory.GetFiles( m_TempDir );
 					if( files.Length > 0 ) {
 						// ищем проверяемый файл среди всех распакованных во временную папку
-						string sUnzipedFilePath = sTempDir + "\\" + sSelectedItemText.Split('/')[1];
+						string sUnzipedFilePath = m_TempDir + "\\" + sSelectedItemText.Split('/')[1];
 						sMsg = rbtnFB2Librusec.Checked ? fv2Validator.ValidatingFB2LibrusecFile( sUnzipedFilePath ) : fv2Validator.ValidatingFB22File( sUnzipedFilePath );
 						if ( sMsg == "" ) {
 							mbi = MessageBoxIcon.Information;
@@ -1402,7 +1514,7 @@ namespace SharpFBTools.Tools
 								item.ForeColor = m_ZipFB2ValidFontColor;
 								FileInfo fi = new FileInfo( sFilePath );
 								string s = filesWorker.FormatFileLength( fi.Length );
-								fi = new FileInfo( sTempDir+"\\"+sFB2FileName );
+								fi = new FileInfo( m_TempDir+"\\"+sFB2FileName );
 								s += " / "+filesWorker.FormatFileLength( fi.Length );
 								item.SubItems.Add( s );
 								listViewValid.Items.AddRange( new ListViewItem[]{ item } );
@@ -1426,7 +1538,7 @@ namespace SharpFBTools.Tools
 								item.SubItems.Add( sMsg );
 								FileInfo fi = new FileInfo( sFilePath );
 								string s = filesWorker.FormatFileLength( fi.Length );
-								fi = new FileInfo( sTempDir+"\\"+sFB2FileName );
+								fi = new FileInfo( m_TempDir+"\\"+sFB2FileName );
 								s += " / "+filesWorker.FormatFileLength( fi.Length );
 								item.SubItems.Add( s );
 								listViewNotValid.Items.AddRange( new ListViewItem[]{ item } );
@@ -1438,7 +1550,7 @@ namespace SharpFBTools.Tools
 				}
 				DateTime dtEnd = DateTime.Now;
 				string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
-				filesWorker.RemoveDir( sTempDir ); // очистка временной папки
+				filesWorker.RemoveDir( m_TempDir ); // очистка временной папки
 				MessageBox.Show( "Повторная проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sSelectedItemText+"\"\n\n"+sErrorMsg+"\n"+sMsg, "SharpFBTools - "+sErrorMsg, MessageBoxButtons.OK, mbi );
 			}
 			#endregion
@@ -1503,7 +1615,7 @@ namespace SharpFBTools.Tools
 				string sFilePath = sSelectedItemText.Split('/')[0];
 				string sExt = Path.GetExtension( sFilePath ).ToLower();
 				if( sExt == ".fb2" ) {
-					switch ( Settings.ValidatorSettings.ReadXmlMouseDoubleClickForFB2Mode() ) {
+					switch ( cboxValidatorForFB2.SelectedIndex ) {
 						case 0: // Повторная Валидация
 							TsmiFileReValidateClick( sender, e );
 							break;
@@ -1521,7 +1633,7 @@ namespace SharpFBTools.Tools
 							break;
 					}
 				} else if( sExt == ".zip") {
-					switch ( Settings.ValidatorSettings.ReadXmlMouseDoubleClickForZipMode() ) {
+					switch ( cboxValidatorForZip.SelectedIndex ) {
 						case 0: // Повторная Валидация
 							TsmiFileReValidateClick( sender, e );
 							break;
@@ -1548,7 +1660,7 @@ namespace SharpFBTools.Tools
 					string sFilePath = sSelectedItemText.Split('/')[0];
 					string sExt = Path.GetExtension( sFilePath ).ToLower();
 					if( sExt == ".fb2" ) {
-						switch ( Settings.ValidatorSettings.ReadXmlEnterPressForFB2Mode() ) {
+						switch ( cboxValidatorForFB2PE.SelectedIndex ) {
 							case 0: // Повторная Валидация
 								TsmiFileReValidateClick( sender, e );
 								break;
@@ -1566,7 +1678,7 @@ namespace SharpFBTools.Tools
 								break;
 						}
 					} else if( sExt == ".zip" ) {
-						switch ( Settings.ValidatorSettings.ReadXmlEnterPressForZipMode() ) {
+						switch ( cboxValidatorForZipPE.SelectedIndex ) {
 							case 0: // Повторная Валидация
 								TsmiFileReValidateClick( sender, e );
 								break;
@@ -1598,34 +1710,49 @@ namespace SharpFBTools.Tools
 			                               "Нет ни одного Валидного файла!", "Создание списка Валидных файлов завершено.", Settings.Settings.GetReady() );
 		}
 		
+		void RbtnFB2LibrusecCheckedChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
+		void RbtnFB22CheckedChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
+		void ChBoxViewProgressCheckStateChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
 		void CboxExistFileSelectedIndexChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.ExistFileWorker = cboxExistFile.SelectedIndex;
-			Settings.ValidatorSettings.WriteValidatorSettings();
+			saveSettingsToXml();
 		}
 		
 		void CboxValidatorForFB2SelectedIndexChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.MouseDoubleClickForFB2Mode = cboxValidatorForFB2.SelectedIndex;
-			Settings.ValidatorSettings.WriteValidatorSettings();
+			saveSettingsToXml();
 		}
 		
 		void CboxValidatorForZipSelectedIndexChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.MouseDoubleClickForZipMode = cboxValidatorForZip.SelectedIndex;
-			Settings.ValidatorSettings.WriteValidatorSettings();
+			saveSettingsToXml();
 		}
 		
 		void CboxValidatorForFB2PESelectedIndexChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.EnterPressForFB2Mode = cboxValidatorForFB2PE.SelectedIndex;
-			Settings.ValidatorSettings.WriteValidatorSettings();
+			saveSettingsToXml();
 		}
 		
 		void CboxValidatorForZipPESelectedIndexChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.EnterPressForZipMode = cboxValidatorForZipPE.SelectedIndex;
-			Settings.ValidatorSettings.WriteValidatorSettings();
+			saveSettingsToXml();
+		}
+		
+		void TboxArchivatorPathTextChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
 		}
 		
 		void BtnArchivatorPathClick(object sender, EventArgs e)
@@ -1635,62 +1762,57 @@ namespace SharpFBTools.Tools
 			ofDlg.FileName = "";
 			ofDlg.Filter = "Файлы .exe|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
+			if (result == DialogResult.OK)
 				tboxArchivatorPath.Text = ofDlg.FileName;
-				Settings.ValidatorSettings.ArchivatorPath = ofDlg.FileName;
-				Settings.ValidatorSettings.WriteValidatorSettings();
-			}
 		}
 		
 		void TboxSourceDirTextChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.SourceDir = tboxSourceDir.Text;
+			saveSettingsToXml();
 		}
 		
 		void TboxFB2NotValidDirCopyToTextChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.FB2NotValidDirCopyTo = tboxFB2NotValidDirCopyTo.Text;
+			saveSettingsToXml();
 		}
 		
 		void TboxFB2NotValidDirMoveToTextChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.FB2NotValidDirMoveTo = tboxFB2NotValidDirMoveTo.Text;
+			saveSettingsToXml();
 		}
 		
 		void TboxFB2ValidDirCopyToTextChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.FB2ValidDirCopyTo = tboxFB2ValidDirCopyTo.Text;
+			saveSettingsToXml();
 		}
 		
 		void TboxFB2ValidDirMoveToTextChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.FB2ValidDirMoveTo = tboxFB2ValidDirMoveTo.Text;
+			saveSettingsToXml();
 		}
 		
 		void TboxNotFB2DirCopyToTextChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.NotFB2DirCopyTo = tboxNotFB2DirCopyTo.Text;
+			saveSettingsToXml();
 		}
 		
 		void TboxNotFB2DirMoveToTextChanged(object sender, EventArgs e)
 		{
-			Settings.ValidatorSettings.NotFB2DirMoveTo = tboxNotFB2DirMoveTo.Text;
+			saveSettingsToXml();
 		}
 		
 		// Остановка выполнения процесса Копирование / Перемещение / Удаление
 		void TsbtnFilesWorkStopClick(object sender, EventArgs e)
 		{
-			if( m_bwcmd.WorkerSupportsCancellation == true ) {
+			if( m_bwcmd.WorkerSupportsCancellation == true )
 				m_bwcmd.CancelAsync();
-			}
 		}
 		
 		// запуск Валидации по нажатию Enter на поле ввода папки для сканирования
 		void TboxSourceDirKeyPress(object sender, KeyPressEventArgs e)
 		{
-			if ( e.KeyChar == (char)Keys.Return ) {
+			if ( e.KeyChar == (char)Keys.Return )
 				TsbtnValidateClick( sender, e );
-			}
 		}
 		
 		// отметить все FB2 книги
@@ -1753,11 +1875,11 @@ namespace SharpFBTools.Tools
 			string sPath = "";
 			sfdReport.Filter = "SharpFBTools файлы списков (*.xml)|*.xml|Все файлы (*.*)|*.*";
 			sfdReport.FileName = "";
-			sfdReport.InitialDirectory = Settings.Settings.GetProgDir();
+			sfdReport.InitialDirectory = Settings.Settings.ProgDir;
 			DialogResult result = sfdReport.ShowDialog();
 			if( result == DialogResult.OK ) {
 				sPath = sfdReport.FileName;
-				Environment.CurrentDirectory = Settings.Settings.GetProgDir();
+				Environment.CurrentDirectory = Settings.Settings.ProgDir;
 				XmlWriter writer = null;
 				try {
 					XmlWriterSettings data = new XmlWriterSettings();
@@ -1803,7 +1925,7 @@ namespace SharpFBTools.Tools
 		void BtnLoadListClick(object sender, EventArgs e)
 		{
 			#region Код
-			sfdLoadList.InitialDirectory = Settings.Settings.GetProgDir();
+			sfdLoadList.InitialDirectory = Settings.Settings.ProgDir;
 			sfdLoadList.Filter		= "SharpFBTools файлы списков (*.xml)|*.xml|Все файлы (*.*)|*.*";
 			sfdLoadList.FileName	= "";
 			string sPath = "";
@@ -1867,6 +1989,6 @@ namespace SharpFBTools.Tools
 			tsValidator.Enabled = tcResult.SelectedIndex != 3 ? true : false;
 		}
 		#endregion
-		
+
 	}
 }

@@ -10,6 +10,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 using System.IO;
 
 using filesWorker = Core.FilesWorker.FilesWorker;
@@ -28,507 +29,130 @@ namespace Options
 			/* по-умолчанию */
 			// общие
 			DefGeneral();
-			// Менеджер Файлов
-			// основные для Менеджера Файлов
-			DefFMGeneral();
-			// название папки шаблонного тэга без данных
-			DefFMDirNameForTagNotData();
-			// название для данных Издательства из Description когда нет данных тэга
-			DefFMDirNameForPublisherTagNotData();
-			// название для данных fb2-файла из Description когда нет данных тэга
-			DefFMDirNameForFB2TagNotData();
-			// название Групп Жанров
-			DefFMGenresGroups();
 			/* читаем сохраненные настройки, если они есть */
-			ReadSettings();
+			readSettingsFromXML();
 			#endregion
 		}
 		
 		#region Закрытые Вспомогательные методы
 		private void DefGeneral() {
 			// общие настройки
-			tboxFBEPath.Text			= Settings.Settings.GetDefFBEPath();
-			tboxTextEPath.Text			= Settings.Settings.GetDefTFB2Path();
-			tboxReaderPath.Text 		= Settings.Settings.GetDefFBReaderPath();
-			tboxDiffPath.Text 			= Settings.Settings.GetDiffPath();
+			tboxFBEPath.Text			= Settings.Settings.DefFBEPath;
+			tboxTextEPath.Text			= Settings.Settings.DefTFB2Path;
+			tboxReaderPath.Text 		= Settings.Settings.DefFBReaderPath;
+			tboxDiffPath.Text 			= Settings.Settings.DiffPath;
 			cboxDSValidator.Text		= Settings.ValidatorSettings.GetDefValidatorcboxDSValidatorText();
 			cboxTIRValidator.Text		= Settings.ValidatorSettings.GetDefValidatorcboxTIRValidatorText();;
-			cboxDSArchiveManager.Text	= Settings.SettingsAM.GetDefAMcboxDSArchiveManagerText();
-			cboxTIRArchiveManager.Text	= Settings.SettingsAM.GetDefAMcboxTIRArchiveManagerText();
-			cboxDSFileManager.Text		= Settings.SettingsFM.GetDefFMcboxDSFileManagerText();
-			cboxTIRFileManager.Text 	= Settings.SettingsFM.GetDefFMcboxTIRFileManagerText();
-			cboxDSFB2Dup.Text			= Settings.SettingsFB2Dup.GetDefDupcboxDSFB2DupText();
-			cboxTIRFB2Dup.Text			= Settings.SettingsFB2Dup.GetDefDupcboxTIRFB2DupText();
+			cboxDSArchiveManager.Text	= Settings.ArchiveManagerSettings.GetDefAMcboxDSArchiveManagerText();
+			cboxTIRArchiveManager.Text	= Settings.ArchiveManagerSettings.GetDefAMcboxTIRArchiveManagerText();
+			cboxDSFB2Dup.Text			= Settings.FB2DublicatorSettings.GetDefDupcboxDSFB2DupText();
+			cboxTIRFB2Dup.Text			= Settings.FB2DublicatorSettings.GetDefDupcboxTIRFB2DupText();
 			chBoxConfirmationForExit.Checked = true;
 		}
-
-		private void DefFMGeneral() {
-			// основные для Менеджера Файлов
-			chBoxTranslit.Checked = Settings.SettingsFM.GetDefFMchBoxTranslitCheked();
-			chBoxStrict.Checked = Settings.SettingsFM.GetDefFMchBoxStrictCheked();
-			cboxSpace.SelectedIndex = Settings.SettingsFM.GetDefFMcboxSpaceSelectedIndex();
-			cboxFileExist.SelectedIndex = Settings.SettingsFM.GetDefFMcboxFileExistSelectedIndex();
-			rbtnAsIs.Checked = Settings.SettingsFM.GetDefFMrbtnAsIsCheked();
-			rbtnAsSentence.Checked = Settings.SettingsFM.GetDefFMrbtnAsSentenceCheked();
-			rbtnLower.Checked = Settings.SettingsFM.GetDefFMrbtnLowerCheked();
-			rbtnUpper.Checked = Settings.SettingsFM.GetDefFMrbtnUpperCheked();
-			rbtnGenreOne.Checked = Settings.SettingsFM.GetDefFMrbtnGenreOneCheked();
-			rbtnGenreAll.Checked = Settings.SettingsFM.GetDefFMrbtnGenreAllCheked();
-			rbtnAuthorOne.Checked = Settings.SettingsFM.GetDefFMrbtnAuthorOneCheked();
-			rbtnAuthorAll.Checked = Settings.SettingsFM.GetDefFMrbtnAuthorAllCheked();
-			rbtnGenreSchema.Checked = Settings.SettingsFM.GetDefFMrbtnGenreSchemaCheked();
-			rbtnGenreText.Checked = Settings.SettingsFM.GetDefFMrbtnGenreTextCheked();
-			rbtnFMAllFB2.Checked		= Settings.SettingsFM.GetDefFMrbtnFMAllFB2Cheked();
-			rbtnFMOnlyValidFB2.Checked	= Settings.SettingsFM.GetDefFMrbtnFMOnlyValidFB2Cheked();
-		}
-		private void DefFMDirNameForTagNotData() {
-			// название папки шаблонного тэга без данных
-			txtBoxFMNoGenreGroup.Text	= Settings.SettingsFM.GetDefFMNoGenreGroup();
-			txtBoxFMNoGenre.Text		= Settings.SettingsFM.GetDefFMNoGenre();
-			txtBoxFMNoLang.Text			= Settings.SettingsFM.GetDefFMNoLang();
-			txtBoxFMNoFirstName.Text	= Settings.SettingsFM.GetDefFMNoFirstName();
-			txtBoxFMNoMiddleName.Text	= Settings.SettingsFM.GetDefFMNoMiddleName();
-			txtBoxFMNoLastName.Text		= Settings.SettingsFM.GetDefFMNoLastName();
-			txtBoxFMNoNickName.Text		= Settings.SettingsFM.GetDefFMNoNickName();
-			txtBoxFMNoBookTitle.Text	= Settings.SettingsFM.GetDefFMNoBookTitle();
-			txtBoxFMNoSequence.Text		= Settings.SettingsFM.GetDefFMNoSequence();
-			txtBoxFMNoNSequence.Text	= Settings.SettingsFM.GetDefFMNoNSequence();
-			txtBoxFMNoDateText.Text		= Settings.SettingsFM.GetDefFMNoDateText();
-			txtBoxFMNoDateValue.Text	= Settings.SettingsFM.GetDefFMNoDateValue();
-		}
-		private void DefFMDirNameForPublisherTagNotData() {
-			// название для данных Издательства из Description когда нет данных тэга
-			txtBoxFMNoYear.Text			= Settings.SettingsFM.GetDefFMNoYear();
-			txtBoxFMNoPublisher.Text	= Settings.SettingsFM.GetDefFMNoPublisher();
-			txtBoxFMNoCity.Text			= Settings.SettingsFM.GetDefFMNoCity();
-		}
-		private void DefFMDirNameForFB2TagNotData() {
-			// название для данных fb2-файла из Description когда нет данных тэга
-			txtBoxFMNoFB2FirstName.Text		= Settings.SettingsFM.GetDefFMNoFB2FirstName();
-			txtBoxFMNoFB2MiddleName.Text	= Settings.SettingsFM.GetDefFMNoFB2MiddleName();
-			txtBoxFMNoFB2LastName.Text		= Settings.SettingsFM.GetDefFMNoFB2LastName();
-			txtBoxFMNoFB2NickName.Text		= Settings.SettingsFM.GetDefFMNoFB2NickName();
-		}
 		
-		private void DefFMGenresGroups() {
-			// название Групп Жанров
-			txtboxFMsf.Text			= Settings.SettingsFM.GetDefFMGenresGroupSf();
-			txtboxFMdetective.Text	= Settings.SettingsFM.GetDefFMGenresGroupDetective();
-			txtboxFMprose.Text		= Settings.SettingsFM.GetDefFMGenresGroupProse();
-			txtboxFMlove.Text		= Settings.SettingsFM.GetDefFMGenresGroupLove();
-			txtboxFMadventure.Text	= Settings.SettingsFM.GetDefFMGenresGroupAdventure();
-			txtboxFMchildren.Text	= Settings.SettingsFM.GetDefFMGenresGroupChildren();
-			txtboxFMpoetry.Text		= Settings.SettingsFM.GetDefFMGenresGroupPoetry();
-			txtboxFMantique.Text	= Settings.SettingsFM.GetDefFMGenresGroupAntique();
-			txtboxFMscience.Text	= Settings.SettingsFM.GetDefFMGenresGroupScience();
-			txtboxFMcomputers.Text	= Settings.SettingsFM.GetDefFMGenresGroupComputers();
-			txtboxFMreference.Text	= Settings.SettingsFM.GetDefFMGenresGroupReference();
-			txtboxFMnonfiction.Text	= Settings.SettingsFM.GetDefFMGenresGroupNonfiction();
-			txtboxFMreligion.Text	= Settings.SettingsFM.GetDefFMGenresGroupReligion();
-			txtboxFMhumor.Text		= Settings.SettingsFM.GetDefFMGenresGroupHumor();
-			txtboxFMhome.Text		= Settings.SettingsFM.GetDefFMGenresGroupHome();
-			txtboxFMbusiness.Text	= Settings.SettingsFM.GetDefFMGenresGroupBusiness();
-			txtboxFMtech.Text		= Settings.SettingsFM.GetDefFMGenresGroupTech();
-			txtboxFMmilitary.Text	= Settings.SettingsFM.GetDefFMGenresGroupMilitary();
-			txtboxFMfolklore.Text	= Settings.SettingsFM.GetDefFMGenresGroupFolklore();
-			txtboxFMother.Text		= Settings.SettingsFM.GetDefFMGenresGroupOther();
-		}
-
-		private void ReadSettings() {
-			// чтение настроек из xml-файла
+		// загрузка настроек из xml-файла
+		private void readSettingsFromXML() {
 			#region Код
-			string sSettings = Settings.Settings.GetSettingsPath();
-			if( !File.Exists( sSettings ) ) return;
-			XmlReaderSettings settings = new XmlReaderSettings();
-			settings.IgnoreWhitespace = true;
-			using ( XmlReader reader = XmlReader.Create( sSettings, settings ) ) {
-				try {
-					// Общее 
-					reader.ReadToFollowing("Editors");
-					if( reader.HasAttributes ) {
-						if ( reader.GetAttribute("FBEPath") != null )
-							tboxFBEPath.Text = reader.GetAttribute("FBEPath");
-						if ( reader.GetAttribute("TextFB2EPath") != null )
-							tboxTextEPath.Text = reader.GetAttribute("TextFB2EPath");
+			if( File.Exists( Settings.Settings.SettingsPath ) ) {
+				XElement xmlTree = XElement.Load( Settings.Settings.SettingsPath );
+				/* Основные настройки для всех инструментов */
+				if( xmlTree.Element("General") != null ) {
+					XElement xmlGeneral = xmlTree.Element("General");
+					// FBE Редактор
+					if( xmlGeneral.Element("FBEPath") != null )
+						tboxFBEPath.Text = xmlGeneral.Element("FBEPath").Value;
+					// Text Редактор
+					if( xmlGeneral.Element("TextFB2EPath") != null )
+						tboxTextEPath.Text = xmlGeneral.Element("TextFB2EPath").Value;
+					// FB2 Reader
+					if( xmlGeneral.Element("FBReaderPath") != null )
+						tboxReaderPath.Text = xmlGeneral.Element("FBReaderPath").Value;
+					// Diff инструмент
+					if( xmlGeneral.Element("DiffPath") != null )
+						tboxDiffPath.Text = xmlGeneral.Element("DiffPath").Value;
+					// Подтверждение выхода из программы
+					if( xmlGeneral.Element("ConfirmationForAppExit") != null )
+						chBoxConfirmationForExit.Checked = Convert.ToBoolean( xmlGeneral.Element("ConfirmationForAppExit").Value );
+					// Стиль кнопок инструментов
+					if( xmlGeneral.Element("ToolButtons") != null ) {
+						XElement xmlToolButtons = xmlGeneral.Element("ToolButtons");
+						// Валидатор
+						if( xmlToolButtons.Element("ValidatorToolButtons") != null ) {
+							XElement xmlValidatorToolButtons = xmlToolButtons.Element("ValidatorToolButtons");
+							if( xmlValidatorToolButtons.Attribute("DSValidatorText") != null )
+								cboxDSValidator.Text = xmlValidatorToolButtons.Attribute("DSValidatorText").Value;
+							if( xmlValidatorToolButtons.Attribute("TIRValidatorText") != null )
+								cboxTIRValidator.Text = xmlValidatorToolButtons.Attribute("TIRValidatorText").Value;
+						}
+						// Менеджер Архивов
+						if( xmlToolButtons.Element("ArchiveManagerToolButtons") != null ) {
+							XElement xmlArchiveManagerToolButtons = xmlToolButtons.Element("ArchiveManagerToolButtons");
+							if( xmlArchiveManagerToolButtons.Attribute("DSArchiveManagerText") != null )
+								cboxDSArchiveManager.Text = xmlArchiveManagerToolButtons.Attribute("DSArchiveManagerText").Value;
+							if( xmlArchiveManagerToolButtons.Attribute("TIRArchiveManagerText") != null )
+								cboxTIRArchiveManager.Text = xmlArchiveManagerToolButtons.Attribute("TIRArchiveManagerText").Value;
+						}
+						// Дубликатор
+						if( xmlToolButtons.Element("DupToolButtons") != null ) {
+							XElement xmlDupToolButtons = xmlToolButtons.Element("ArchiveManagerToolButtons");
+							if( xmlDupToolButtons.Attribute("DSFB2DupText") != null )
+								cboxDSFB2Dup.Text = xmlDupToolButtons.Attribute("DSFB2DupText").Value;
+							if( xmlDupToolButtons.Attribute("TIRFB2DupText") != null )
+								cboxTIRFB2Dup.Text = xmlDupToolButtons.Attribute("TIRFB2DupText").Value;
+						}
 					}
-					reader.ReadToFollowing("Reader");
-					if( reader.HasAttributes ) {
-						tboxReaderPath.Text = reader.GetAttribute("FBReaderPath");
-					}
-					reader.ReadToFollowing("Diff");
-					if( reader.HasAttributes ) {
-						tboxDiffPath.Text = reader.GetAttribute("DiffPath");
-					}
-					reader.ReadToFollowing("ValidatorToolButtons");
-					if( reader.HasAttributes ) {
-						if ( reader.GetAttribute("cboxDSValidatorText") != null )
-							cboxDSValidator.Text = reader.GetAttribute("cboxDSValidatorText");
-						if ( reader.GetAttribute("cboxTIRValidatorText") != null )
-							cboxTIRValidator.Text = reader.GetAttribute("cboxTIRValidatorText");
-					}
-					reader.ReadToFollowing("FileManagerToolButtons");
-					if( reader.HasAttributes ) {
-						if ( reader.GetAttribute("cboxDSFileManagerText") != null )
-							cboxDSFileManager.Text = reader.GetAttribute("cboxDSFileManagerText");
-						if ( reader.GetAttribute("cboxTIRFileManagerText") != null )
-							cboxTIRFileManager.Text = reader.GetAttribute("cboxTIRFileManagerText");
-					}
-					reader.ReadToFollowing("ArchiveManagerToolButtons");
-					if( reader.HasAttributes ) {
-						if ( reader.GetAttribute("cboxDSArchiveManagerText") != null )
-							cboxDSArchiveManager.Text = reader.GetAttribute("cboxDSArchiveManagerText");
-						if ( reader.GetAttribute("cboxTIRArchiveManagerText") != null )
-							cboxTIRArchiveManager.Text = reader.GetAttribute("cboxTIRArchiveManagerText");
-					}
-					reader.ReadToFollowing("DupToolButtons");
-					if( reader.HasAttributes ) {
-						if ( reader.GetAttribute("cboxDSFB2DupText") != null )
-							cboxDSFB2Dup.Text = reader.GetAttribute("cboxDSFB2DupText");
-						if ( reader.GetAttribute("cboxTIRFB2DupText") != null )
-							cboxTIRFB2Dup.Text = reader.GetAttribute("cboxTIRFB2DupText");
-					}
-					reader.ReadToFollowing("ConfirmationForExit");
-					if( reader.HasAttributes ) {
-						chBoxConfirmationForExit.Checked = Convert.ToBoolean( reader.GetAttribute("ConfirmationForExit") );
-					}
-					// Менеджер Файлов
-					reader.ReadToFollowing("Register");
-					if (reader.HasAttributes ) {
-						rbtnAsIs.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAsIsChecked") );
-						rbtnAsSentence.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAsSentenceChecked") );
-						rbtnLower.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnLowerChecked") );
-						rbtnUpper.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnUpperChecked") );
-					}
-					reader.ReadToFollowing("Translit");
-					if( reader.HasAttributes ) {
-						chBoxTranslit.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxTranslitChecked") );
-					}
-					reader.ReadToFollowing("Strict");
-					if( reader.HasAttributes ) {
-						chBoxStrict.Checked = Convert.ToBoolean( reader.GetAttribute("chBoxStrictChecked") );
-					}
-					reader.ReadToFollowing("Space");
-					if( reader.HasAttributes ) {
-						cboxSpace.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxSpaceSelectedIndex") );
-					}
-					reader.ReadToFollowing("IsFileExist");
-					if( reader.HasAttributes ) {
-						cboxFileExist.SelectedIndex = Convert.ToInt16( reader.GetAttribute("cboxFileExistSelectedIndex") );
-					}
-					reader.ReadToFollowing("AuthorsToDirs");
-					if( reader.HasAttributes ) {
-						rbtnAuthorOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorOneChecked") );
-						rbtnAuthorAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnAuthorAllChecked") );
-					}
-					reader.ReadToFollowing("GenresToDirs");
-					if( reader.HasAttributes ) {
-						rbtnGenreOne.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreOneChecked") );
-						rbtnGenreAll.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreAllChecked") );
-					}
-					reader.ReadToFollowing("GenresType");
-					if( reader.HasAttributes ) {
-						rbtnGenreSchema.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreSchemaChecked") );
-						rbtnGenreText.Checked = Convert.ToBoolean( reader.GetAttribute("rbtnGenreTextChecked") );
-					}
-					reader.ReadToFollowing("SortType");
-					if( reader.HasAttributes ) {
-						rbtnFMAllFB2.Checked		= Convert.ToBoolean( reader.GetAttribute("rbtnFMAllFB2Checked") );
-						rbtnFMOnlyValidFB2.Checked	= Convert.ToBoolean( reader.GetAttribute("rbtnFMOnlyValidFB2Checked") );
-					}
-					reader.ReadToFollowing("TagsNoText");
-					if( reader.HasAttributes ) {
-						if ( reader.GetAttribute("txtBoxFMNoGenreGroup") != null )
-							txtBoxFMNoGenreGroup.Text = reader.GetAttribute("txtBoxFMNoGenreGroup");
-						if ( reader.GetAttribute("txtBoxFMNoGenre") != null )
-							txtBoxFMNoGenre.Text = reader.GetAttribute("txtBoxFMNoGenre");
-						if ( reader.GetAttribute("txtBoxFMNoLang") != null )
-							txtBoxFMNoLang.Text = reader.GetAttribute("txtBoxFMNoLang");
-						if ( reader.GetAttribute("txtBoxFMNoFirstName") != null )
-							txtBoxFMNoFirstName.Text = reader.GetAttribute("txtBoxFMNoFirstName");
-						if ( reader.GetAttribute("txtBoxFMNoMiddleName") != null )
-							txtBoxFMNoMiddleName.Text = reader.GetAttribute("txtBoxFMNoMiddleName");
-						if ( reader.GetAttribute("txtBoxFMNoLastName") != null )
-							txtBoxFMNoLastName.Text = reader.GetAttribute("txtBoxFMNoLastName");
-						if ( reader.GetAttribute("txtBoxFMNoNickName") != null )
-							txtBoxFMNoNickName.Text = reader.GetAttribute("txtBoxFMNoNickName");
-						if ( reader.GetAttribute("txtBoxFMNoBookTitle") != null )
-							txtBoxFMNoBookTitle.Text = reader.GetAttribute("txtBoxFMNoBookTitle");
-						if ( reader.GetAttribute("txtBoxFMNoSequence") != null )
-							txtBoxFMNoSequence.Text = reader.GetAttribute("txtBoxFMNoSequence");
-						if ( reader.GetAttribute("txtBoxFMNoNSequence") != null )
-							txtBoxFMNoNSequence.Text = reader.GetAttribute("txtBoxFMNoNSequence");
-						if ( reader.GetAttribute("txtBoxFMNoDateText") != null )
-							txtBoxFMNoDateText.Text = reader.GetAttribute("txtBoxFMNoDateText");
-						if ( reader.GetAttribute("txtBoxFMNoDateValue") != null )
-							txtBoxFMNoDateValue.Text = reader.GetAttribute("txtBoxFMNoDateValue");
-						if ( reader.GetAttribute("txtBoxFMNoYear") != null )
-							txtBoxFMNoYear.Text = reader.GetAttribute("txtBoxFMNoYear");
-						if ( reader.GetAttribute("txtBoxFMNoPublisher") != null )
-							txtBoxFMNoPublisher.Text = reader.GetAttribute("txtBoxFMNoPublisher");
-						if ( reader.GetAttribute("txtBoxFMNoCity") != null )
-							txtBoxFMNoCity.Text = reader.GetAttribute("txtBoxFMNoCity");
-						if ( reader.GetAttribute("txtBoxFMNoFB2FirstName") != null )
-							txtBoxFMNoFB2FirstName.Text = reader.GetAttribute("txtBoxFMNoFB2FirstName");
-						if ( reader.GetAttribute("txtBoxFMNoFB2MiddleName") != null )
-							txtBoxFMNoFB2MiddleName.Text = reader.GetAttribute("txtBoxFMNoFB2MiddleName");
-						if ( reader.GetAttribute("txtBoxFMNoFB2LastName") != null )
-							txtBoxFMNoFB2LastName.Text = reader.GetAttribute("txtBoxFMNoFB2LastName");
-						if ( reader.GetAttribute("txtBoxFMNoFB2NickName") != null )
-							txtBoxFMNoFB2NickName.Text = reader.GetAttribute("txtBoxFMNoFB2NickName");
-					}
-					reader.ReadToFollowing("GenresGroups");
-					if( reader.HasAttributes ) {
-						if ( reader.GetAttribute("txtboxFMsf") != null )
-							txtboxFMsf.Text = reader.GetAttribute("txtboxFMsf");
-						if ( reader.GetAttribute("txtboxFMdetective") != null )
-							txtboxFMdetective.Text = reader.GetAttribute("txtboxFMdetective");
-						if ( reader.GetAttribute("txtboxFMprose") != null )
-							txtboxFMprose.Text = reader.GetAttribute("txtboxFMprose");
-						if ( reader.GetAttribute("txtboxFMlove") != null )
-							txtboxFMlove.Text = reader.GetAttribute("txtboxFMlove");
-						if ( reader.GetAttribute("txtboxFMadventure") != null )
-							txtboxFMadventure.Text = reader.GetAttribute("txtboxFMadventure");
-						if ( reader.GetAttribute("txtboxFMchildren") != null )
-							txtboxFMchildren.Text = reader.GetAttribute("txtboxFMchildren");
-						if ( reader.GetAttribute("txtboxFMpoetry") != null )
-							txtboxFMpoetry.Text = reader.GetAttribute("txtboxFMpoetry");
-						if ( reader.GetAttribute("txtboxFMantique") != null )
-							txtboxFMantique.Text = reader.GetAttribute("txtboxFMantique");
-						if ( reader.GetAttribute("txtboxFMscience") != null )
-							txtboxFMscience.Text = reader.GetAttribute("txtboxFMscience");
-						if ( reader.GetAttribute("txtboxFMcomputers") != null )
-							txtboxFMcomputers.Text = reader.GetAttribute("txtboxFMcomputers");
-						if ( reader.GetAttribute("txtboxFMreference") != null )
-							txtboxFMreference.Text = reader.GetAttribute("txtboxFMreference");
-						if ( reader.GetAttribute("txtboxFMnonfiction") != null )
-							txtboxFMnonfiction.Text = reader.GetAttribute("txtboxFMnonfiction");
-						if ( reader.GetAttribute("txtboxFMreligion") != null )
-							txtboxFMreligion.Text = reader.GetAttribute("txtboxFMreligion");
-						if ( reader.GetAttribute("txtboxFMhumor") != null )
-							txtboxFMhumor.Text = reader.GetAttribute("txtboxFMhumor");
-						if ( reader.GetAttribute("txtboxFMhome") != null )
-							txtboxFMhome.Text = reader.GetAttribute("txtboxFMhome");
-						if ( reader.GetAttribute("txtboxFMbusiness") != null )
-							txtboxFMbusiness.Text = reader.GetAttribute("txtboxFMbusiness");
-						if ( reader.GetAttribute("txtboxFMtech") != null )
-							txtboxFMtech.Text = reader.GetAttribute("txtboxFMtech");
-						if ( reader.GetAttribute("txtboxFMmilitary") != null )
-							txtboxFMmilitary.Text = reader.GetAttribute("txtboxFMmilitary");
-						if ( reader.GetAttribute("txtboxFMfolklore") != null )
-							txtboxFMfolklore.Text = reader.GetAttribute("txtboxFMfolklore");
-						if ( reader.GetAttribute("txtboxFMother") != null )
-							txtboxFMother.Text = reader.GetAttribute("txtboxFMother");
-					}
-				} catch {
-					MessageBox.Show( "Поврежден файл настроек: \""+Settings.Settings.GetSettingsPath()+"\".\nУдалите его, он создастся автоматически при сохранении настроек", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				} finally {
-					reader.Close();
 				}
 			}
 			#endregion
 		}
 		
-		private void WriteSettings() {
-			// сохранение настроек в ini
+		// сохранение настроек в xml-файл
+		private void saveSettingsToXml() {
 			#region Код
-			// устанавливаем текущую папку - папка программы
-			Environment.CurrentDirectory = Settings.Settings.GetProgDir();
-			XmlWriter writer = null;
-			try {
-				XmlWriterSettings settings = new XmlWriterSettings();
-				settings.Indent = true;
-				settings.IndentChars = ("\t");
-				settings.OmitXmlDeclaration = true;
-				
-				writer = XmlWriter.Create( Settings.Settings.GetSettingsPath(), settings );
-				writer.WriteStartElement( "SharpFBTools" );
-					// Общие
-					writer.WriteStartElement( "General" );
-						writer.WriteStartElement( "Editors" );
-							writer.WriteAttributeString( "FBEPath", tboxFBEPath.Text );
-							writer.WriteAttributeString( "TextFB2EPath", tboxTextEPath.Text );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "Reader" );
-							writer.WriteAttributeString( "FBReaderPath", tboxReaderPath.Text );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "Diff" );
-							writer.WriteAttributeString( "DiffPath", tboxDiffPath.Text );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "ToolButtons" );
-							writer.WriteStartElement( "ValidatorToolButtons" );
-								writer.WriteAttributeString( "cboxDSValidatorText", cboxDSValidator.Text );
-								writer.WriteAttributeString( "cboxTIRValidatorText", cboxTIRValidator.Text );
-							writer.WriteFullEndElement();
-							writer.WriteStartElement( "FileManagerToolButtons" );
-								writer.WriteAttributeString( "cboxDSFileManagerText", cboxDSFileManager.Text );
-								writer.WriteAttributeString( "cboxTIRFileManagerText", cboxTIRFileManager.Text );
-							writer.WriteFullEndElement();
-							writer.WriteStartElement( "ArchiveManagerToolButtons" );
-								writer.WriteAttributeString( "cboxDSArchiveManagerText", cboxDSArchiveManager.Text );
-								writer.WriteAttributeString( "cboxTIRArchiveManagerText", cboxTIRArchiveManager.Text );
-							writer.WriteFullEndElement();
-							writer.WriteStartElement( "DupToolButtons" );
-								writer.WriteAttributeString( "cboxDSFB2DupText", cboxDSFB2Dup.Text );
-								writer.WriteAttributeString( "cboxTIRFB2DupText", cboxTIRFB2Dup.Text );
-							writer.WriteFullEndElement();
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "ConfirmationForExit" );
-						writer.WriteAttributeString( "ConfirmationForExit", Convert.ToString( chBoxConfirmationForExit.Checked ) );
-						writer.WriteFullEndElement();
-						
-					writer.WriteEndElement();
-
-					// Менеджер Файлов
-					writer.WriteStartElement( "FileManager" );
-						writer.WriteStartElement( "Register" );
-							writer.WriteAttributeString( "rbtnAsIsChecked", rbtnAsIs.Checked.ToString() );
-							writer.WriteAttributeString( "rbtnAsSentenceChecked", rbtnAsSentence.Checked.ToString() );
-							writer.WriteAttributeString( "rbtnLowerChecked", rbtnLower.Checked.ToString() );
-							writer.WriteAttributeString( "rbtnUpperChecked", rbtnUpper.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "Translit" );
-							writer.WriteAttributeString( "chBoxTranslitChecked", chBoxTranslit.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "Strict" );
-							writer.WriteAttributeString( "chBoxStrictChecked", chBoxStrict.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "Space" );
-							writer.WriteAttributeString( "cboxSpaceSelectedIndex", cboxSpace.SelectedIndex.ToString() );
-							writer.WriteAttributeString( "cboxSpaceText", cboxSpace.Text.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "IsFileExist" );
-							writer.WriteAttributeString( "cboxFileExistSelectedIndex", cboxFileExist.SelectedIndex.ToString() );
-							writer.WriteAttributeString( "cboxFileExistText", cboxFileExist.Text.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "AuthorsToDirs" );
-							writer.WriteAttributeString( "rbtnAuthorOneChecked", rbtnAuthorOne.Checked.ToString() );
-							writer.WriteAttributeString( "rbtnAuthorAllChecked", rbtnAuthorAll.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "GenresToDirs" );
-							writer.WriteAttributeString( "rbtnGenreOneChecked", rbtnGenreOne.Checked.ToString() );
-							writer.WriteAttributeString( "rbtnGenreAllChecked", rbtnGenreAll.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "GenresType" );
-							writer.WriteAttributeString( "rbtnGenreSchemaChecked", rbtnGenreSchema.Checked.ToString() );
-							writer.WriteAttributeString( "rbtnGenreTextChecked", rbtnGenreText.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "SortType" );
-							writer.WriteAttributeString( "rbtnFMAllFB2Checked", rbtnFMAllFB2.Checked.ToString() );
-							writer.WriteAttributeString( "rbtnFMOnlyValidFB2Checked", rbtnFMOnlyValidFB2.Checked.ToString() );
-						writer.WriteFullEndElement();
-						
-						// для данных книги
-						writer.WriteStartElement( "TagsNoText" );
-							writer.WriteAttributeString( "txtBoxFMNoGenreGroup", txtBoxFMNoGenreGroup.Text );
-							writer.WriteAttributeString( "txtBoxFMNoGenre", txtBoxFMNoGenre.Text );
-							writer.WriteAttributeString( "txtBoxFMNoLang", txtBoxFMNoLang.Text );
-							writer.WriteAttributeString( "txtBoxFMNoFirstName", txtBoxFMNoFirstName.Text );
-							writer.WriteAttributeString( "txtBoxFMNoMiddleName", txtBoxFMNoMiddleName.Text );
-							writer.WriteAttributeString( "txtBoxFMNoLastName", txtBoxFMNoLastName.Text );
-							writer.WriteAttributeString( "txtBoxFMNoNickName", txtBoxFMNoNickName.Text );
-							writer.WriteAttributeString( "txtBoxFMNoBookTitle", txtBoxFMNoBookTitle.Text );
-							writer.WriteAttributeString( "txtBoxFMNoSequence", txtBoxFMNoSequence.Text );
-							writer.WriteAttributeString( "txtBoxFMNoNSequence", txtBoxFMNoNSequence.Text );
-							writer.WriteAttributeString( "txtBoxFMNoDateText", txtBoxFMNoDateText.Text );
-							writer.WriteAttributeString( "txtBoxFMNoDateValue", txtBoxFMNoDateValue.Text );
-							writer.WriteAttributeString( "txtBoxFMNoYear", txtBoxFMNoYear.Text );
-							writer.WriteAttributeString( "txtBoxFMNoPublisher", txtBoxFMNoPublisher.Text );
-							writer.WriteAttributeString( "txtBoxFMNoCity", txtBoxFMNoCity.Text );
-							writer.WriteAttributeString( "txtBoxFMNoFB2FirstName", txtBoxFMNoFB2FirstName.Text );
-							writer.WriteAttributeString( "txtBoxFMNoFB2MiddleName", txtBoxFMNoFB2MiddleName.Text );
-							writer.WriteAttributeString( "txtBoxFMNoFB2LastName", txtBoxFMNoFB2LastName.Text );
-							writer.WriteAttributeString( "txtBoxFMNoFB2NickName", txtBoxFMNoFB2NickName.Text );
-						writer.WriteFullEndElement();
-						
-						writer.WriteStartElement( "GenresGroups" );
-							writer.WriteAttributeString( "txtboxFMsf", txtboxFMsf.Text );
-							writer.WriteAttributeString( "txtboxFMdetective", txtboxFMdetective.Text );
-							writer.WriteAttributeString( "txtboxFMprose", txtboxFMprose.Text );
-							writer.WriteAttributeString( "txtboxFMlove", txtboxFMlove.Text );
-							writer.WriteAttributeString( "txtboxFMadventure", txtboxFMadventure.Text );
-							writer.WriteAttributeString( "txtboxFMchildren", txtboxFMchildren.Text );
-							writer.WriteAttributeString( "txtboxFMpoetry", txtboxFMpoetry.Text );
-							writer.WriteAttributeString( "txtboxFMantique", txtboxFMantique.Text );
-							writer.WriteAttributeString( "txtboxFMscience", txtboxFMscience.Text );
-							writer.WriteAttributeString( "txtboxFMcomputers", txtboxFMcomputers.Text );
-							writer.WriteAttributeString( "txtboxFMreference", txtboxFMreference.Text );
-							writer.WriteAttributeString( "txtboxFMnonfiction", txtboxFMnonfiction.Text );
-							writer.WriteAttributeString( "txtboxFMreligion", txtboxFMreligion.Text );
-							writer.WriteAttributeString( "txtboxFMhumor", txtboxFMhumor.Text );
-							writer.WriteAttributeString( "txtboxFMhome", txtboxFMhome.Text );
-							writer.WriteAttributeString( "txtboxFMbusiness", txtboxFMbusiness.Text );
-							writer.WriteAttributeString( "txtboxFMtech", txtboxFMtech.Text );
-							writer.WriteAttributeString( "txtboxFMmilitary", txtboxFMmilitary.Text );
-							writer.WriteAttributeString( "txtboxFMfolklore", txtboxFMfolklore.Text );
-							writer.WriteAttributeString( "txtboxFMother", txtboxFMother.Text );
-						writer.WriteFullEndElement();
-						
-					writer.WriteEndElement();
-					
-				writer.WriteEndElement();
-				writer.Flush();
-			}  finally  {
-				if (writer != null)
-				writer.Close();
-			}
+			// защита от "затирания" настроек в файле, когда в некоторые контролы данные еще не загрузились
+			XDocument doc = new XDocument(
+				new XDeclaration("1.0", "utf-8", "yes"),
+				new XElement("Settings",
+				             new XComment("Основные настройки для всех инструментов"),
+				             new XElement("General",
+				                          new XComment("FBE Редактор"),
+				                          new XElement("FBEPath", tboxFBEPath.Text),
+				                          new XComment("Text Редактор"),
+				                          new XElement("TextFB2EPath", tboxTextEPath.Text),
+				                          new XComment("FB2 Reader"),
+				                          new XElement("FBReaderPath", tboxReaderPath.Text),
+				                          new XComment("Diff инструмент"),
+				                          new XElement("DiffPath", tboxDiffPath.Text),
+				                          new XComment("Подтверждение выхода из программы"),
+				                          new XElement("ConfirmationForAppExit", chBoxConfirmationForExit.Checked),
+				                          new XComment("Стиль кнопок инструментов"),
+				                          new XElement("ToolButtons",
+				                                       new XElement("ValidatorToolButtons",
+				                                                    new XAttribute("DSValidatorText", cboxDSValidator.Text),
+				                                                    new XAttribute("TIRValidatorText", cboxTIRValidator.Text)
+				                                                   ),
+				                                       new XElement("ArchiveManagerToolButtons",
+				                                                    new XAttribute("DSArchiveManagerText", cboxDSArchiveManager.Text),
+				                                                    new XAttribute("TIRArchiveManagerText", cboxTIRArchiveManager.Text)
+				                                                   ),
+				                                       new XElement("DupToolButtons",
+				                                                    new XAttribute("DSFB2DupText", cboxDSFB2Dup.Text),
+				                                                    new XAttribute("TIRFB2DupText", cboxTIRFB2Dup.Text)
+				                                                   )
+				                                      )
+				                         )
+				            )
+			);
+			doc.Save( Settings.Settings.SettingsPath );
 			#endregion
 		}
-		
 		#endregion
 		
 		#region Обработчики
-				
 		void BtnOKClick(object sender, EventArgs e)
 		{
-			// проверка на названия папок
-			if( txtBoxFMNoGenreGroup.Text.Trim().Length==0 || txtBoxFMNoGenre.Text.Trim().Length==0 ||
-				txtBoxFMNoLang.Text.Trim().Length==0 || txtBoxFMNoFirstName.Text.Trim().Length==0 ||
-				txtBoxFMNoMiddleName.Text.Trim().Length==0 || txtBoxFMNoLastName.Text.Trim().Length==0 ||
-				txtBoxFMNoNickName.Text.Trim().Length==0 || txtBoxFMNoBookTitle.Text.Trim().Length==0 ||
-				txtBoxFMNoSequence.Text.Trim().Length==0 || txtBoxFMNoNSequence.Text.Trim().Length==0 ||
-				txtBoxFMNoDateText.Text.Trim().Length==0 || txtBoxFMNoDateValue.Text.Trim().Length==0 ) {
-					MessageBox.Show( "Вкладка 'Сортировщик' -> Вкладка 'Папки шаблонного тэга без данных' -> Вкладка 'Книга'\nНазвания папок должны иметь хотя бы 1 символ!",
-				                "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			} else if ( txtBoxFMNoYear.Text.Trim().Length==0 || txtBoxFMNoPublisher.Text.Trim().Length==0 ||
-			          txtBoxFMNoCity.Text.Trim().Length==0 ) {
-				MessageBox.Show( "Вкладка 'Сортировщик' -> Вкладка 'Папки шаблонного тэга без данных' -> Вкладка 'Издательство'\nНазвания папок должны иметь хотя бы 1 символ!",
-				                "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			} else if ( txtBoxFMNoFB2FirstName.Text.Trim().Length==0 || txtBoxFMNoFB2MiddleName.Text.Trim().Length==0 ||
-						txtBoxFMNoFB2LastName.Text.Trim().Length==0 || txtBoxFMNoFB2NickName.Text.Trim().Length==0 ) {
-				MessageBox.Show( "Вкладка 'Сортировщик' -> Вкладка 'Папки шаблонного тэга без данных' -> Вкладка 'FB2-файл'\nНазвания папок должны иметь хотя бы 1 символ!",
-				                "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-				
-			} else if( txtboxFMsf.Text.Trim().Length==0 || txtboxFMdetective.Text.Trim().Length==0 ||
-			          txtboxFMprose.Text.Trim().Length==0 || txtboxFMlove.Text.Trim().Length==0 || 
-			          txtboxFMadventure.Text.Trim().Length==0 || txtboxFMchildren.Text.Trim().Length==0 || 
-			          txtboxFMpoetry.Text.Trim().Length==0 || txtboxFMantique.Text.Trim().Length==0 || 
-			          txtboxFMscience.Text.Trim().Length==0 || txtboxFMcomputers.Text.Trim().Length==0 || 
-			          txtboxFMreference.Text.Trim().Length==0 || txtboxFMnonfiction.Text.Trim().Length==0 || 
-			          txtboxFMreligion.Text.Trim().Length==0 || txtboxFMhumor.Text.Trim().Length==0 || 
-			          txtboxFMhome.Text.Trim().Length==0 || txtboxFMbusiness.Text.Trim().Length==0 ||
-			          txtboxFMtech.Text.Trim().Length==0 || txtboxFMmilitary.Text.Trim().Length==0 ||
-			          txtboxFMfolklore.Text.Trim().Length==0 || txtboxFMother.Text.Trim().Length==0) {
-							MessageBox.Show( "Вкладка 'Сортировщик', Вкладка 'Группы Жанров'\nНазвания папок должны иметь хотя бы 1 символ!",
-				                "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			}
-			// сохранение настроек в ini
-			WriteSettings();
+			// сохранение настроек в xml
+			saveSettingsToXml();
 			this.Close();
 		}
 		
@@ -541,8 +165,8 @@ namespace Options
 			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
 			if (result == DialogResult.OK) {
-                tboxFBEPath.Text = ofDlg.FileName;
-            }
+				tboxFBEPath.Text = ofDlg.FileName;
+			}
 		}
 		
 		void BtnTextEPathClick(object sender, EventArgs e)
@@ -553,8 +177,8 @@ namespace Options
 			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
 			if (result == DialogResult.OK) {
-                tboxTextEPath.Text = ofDlg.FileName;
-            }
+				tboxTextEPath.Text = ofDlg.FileName;
+			}
 		}
 		
 		void BtnReaderPathClick(object sender, EventArgs e)
@@ -565,8 +189,8 @@ namespace Options
 			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
 			if (result == DialogResult.OK) {
-                tboxReaderPath.Text = ofDlg.FileName;
-            }
+				tboxReaderPath.Text = ofDlg.FileName;
+			}
 		}
 		
 		void BtnDiffPathClick(object sender, EventArgs e)
@@ -577,18 +201,13 @@ namespace Options
 			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
 			if (result == DialogResult.OK) {
-                tboxDiffPath.Text = ofDlg.FileName;
-            }
+				tboxDiffPath.Text = ofDlg.FileName;
+			}
 		}
 		
 		void CboxDSValidatorSelectedIndexChanged(object sender, EventArgs e)
 		{
 			cboxTIRValidator.Enabled = cboxDSValidator.SelectedIndex == 2;
-		}
-		
-		void CboxDSFileManagerSelectedIndexChanged(object sender, EventArgs e)
-		{
-			cboxTIRFileManager.Enabled = cboxDSFileManager.SelectedIndex == 2;
 		}
 		
 		void CboxDSArchiveManagerSelectedIndexChanged(object sender, EventArgs e)
@@ -604,34 +223,7 @@ namespace Options
 		
 		#region Восстановление по-умолчанию
 		void BtnDefRestoreClick(object sender, EventArgs e) {
-			switch( tcOptions.SelectedIndex ) {
-				case 0: // общие
-					DefGeneral();
-					break;
-				case 1: // Менеджер Файлов
-					switch( tcFM.SelectedIndex ) {
-						case 0: // основные - для Менеджера Файлов
-							DefFMGeneral();
-							break;
-						case 1: // название папки шаблонного тэга без данных
-							switch( tcDesc.SelectedIndex ) {
-								case 0: // название для данных Книги из Description когда нет данных тэга
-									DefFMDirNameForTagNotData();
-									break;
-								case 1: // название для данных Издательства из Description когда нет данных тэга
-									DefFMDirNameForPublisherTagNotData();
-									break;
-								case 2: // название для данных fb2-файла из Description когда нет данных тэга
-									DefFMDirNameForFB2TagNotData();
-									break;
-							}
-							break;
-						case 2: // название Групп Жанров
-							DefFMGenresGroups();
-							break;
-					}
-					break;
-			}
+			DefGeneral();
 		}
 		#endregion
 		

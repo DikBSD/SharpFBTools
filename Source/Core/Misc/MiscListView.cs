@@ -21,7 +21,7 @@ using stringProcessing	= Core.StringProcessing.StringProcessing;
 namespace Core.Misc
 {
 	/// <summary>
-	/// Description of Misc.
+	/// Работа с ListView
 	/// </summary>
 	public class MiscListView
 	{
@@ -154,5 +154,13 @@ namespace Core.Misc
 		
 		#endregion
 
+		#region Разное
+		// авторазмер колонок Списка ListView
+		public void AutoResizeColumns(ListView listView) {
+			listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+//			for(int i=0; i!=listView.Columns.Count; ++i)
+//				listView.Columns[i].Width = listView.Columns[i].Width + 2;
+		}
+		#endregion
 	}
 }
