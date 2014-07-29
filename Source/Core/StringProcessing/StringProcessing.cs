@@ -488,7 +488,7 @@ namespace Core.StringProcessing
 		
 		// "строгое" значение строки
 		public static string StrictPath( string sPath ) {
-			if( sPath==null || sPath.Length==0 )
+			if( sPath == null || sPath.Length == 0 )
 				return sPath;
 			
 			// "строгое" значение Юникодной строки - псевдо-транслитерация
@@ -496,9 +496,10 @@ namespace Core.StringProcessing
 			
 			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}~-+=_.,!@#$%^&№`';«»";
 			string sStrict = string.Empty;
-			for( int i=0; i!=s.Length; ++i ) {
+			s = s.Replace( ' ', ' ' ); // неразрывный пробел зпменяем на простой
+			for( int i = 0; i != s.Length; ++i ) {
 				int nInd = sStrictLetters.IndexOf( s[i] );
-				if( nInd!=-1 ) {
+				if( nInd != -1 ) {
 					sStrict += s[i];
 				}
 			}
@@ -508,14 +509,14 @@ namespace Core.StringProcessing
 		// только корректные символы для имен файлов
 		public static string OnlyCorrectSymbolsForString( string sString ) {
 			string s = sString;
-			if( sString==null || sString.Length==0 )
+			if( sString == null || sString.Length == 0 )
 				return sString;
 
 			const string sBad = "*/|?\\<>\"&:\t\r\n";
 			string sCorrect = string.Empty;
-			for( int i=0; i!=s.Length; ++i ) {
+			for( int i = 0; i != s.Length; ++i ) {
 				int nInd = sBad.IndexOf( s[i] );
-				if( nInd==-1 ) {
+				if( nInd == -1 ) {
 					sCorrect += s[i];
 				} else {
 					if( s[i]=='\t' ) {
@@ -533,14 +534,14 @@ namespace Core.StringProcessing
 		// только корректные символы для путей файлов
 		public static string OnlyCorrectSymbolsForPath( string sString ) {
 			string s = sString;
-			if( sString==null || sString.Length==0 )
+			if( sString == null || sString.Length == 0 )
 				return sString;
 
 			const string sBad = "*/|?<>\"&:\t\r\n";
 			string sCorrect = string.Empty;
-			for( int i=0; i!=s.Length; ++i ) {
+			for( int i = 0; i != s.Length; ++i ) {
 				int nInd = sBad.IndexOf( s[i] );
-				if( nInd==-1 ) {
+				if( nInd == -1 ) {
 					sCorrect += s[i];
 				} else {
 					if( s[i]=='\t' ) {
