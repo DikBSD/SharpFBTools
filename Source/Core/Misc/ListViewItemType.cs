@@ -15,8 +15,8 @@ namespace Core.Misc
 	/// </summary>
 	public class ListViewItemType
 	{
-		private string m_sItemType		= "";
-		private string m_sItemTypeValue	= "";
+		private string m_sItemType		= string.Empty;
+		private string m_sItemTypeValue	= string.Empty;
 		
 		public ListViewItemType(string Type, string Value)
 		{

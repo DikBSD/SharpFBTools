@@ -30,7 +30,7 @@ using ICSharpCode.SharpZipLib.Zip;
 
 using filesWorker		= Core.FilesWorker.FilesWorker;
 using FB2Validator		= Core.FB2Parser.FB2Validator;
-using ValidatorReports	= Core.Reports.ValidatorReports;
+using ValidatorReports	= Core.Validator.ValidatorReports;
 
 namespace SharpFBTools.Tools
 {

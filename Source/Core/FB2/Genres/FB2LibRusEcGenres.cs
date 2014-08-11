@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 using Core.BookSorting;
 
-using stringProcessing = Core.StringProcessing.StringProcessing;
+using stringProcessing = Core.Misc.StringProcessing;
 
 namespace Core.FB2.Genres
 {

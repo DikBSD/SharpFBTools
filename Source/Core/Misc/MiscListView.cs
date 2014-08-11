@@ -16,7 +16,6 @@ using System.Text.RegularExpressions;
 
 using filesWorker		= Core.FilesWorker.FilesWorker;
 using archivesWorker	= Core.FilesWorker.Archiver;
-using stringProcessing	= Core.StringProcessing.StringProcessing;
 
 namespace Core.Misc
 {

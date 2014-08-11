@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Core.FB2BookData;
 using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.DocumentInfo;
@@ -21,7 +20,6 @@ using Core.FB2.Description.PublishInfo;
 using Core.FB2.Description.CustomInfo;
 using Core.FB2.Binary;
 
-using fb2BookData 	= Core.FB2BookData.FB2BookData;
 using FB2Validator	= Core.FB2Parser.FB2Validator;
 using filesWorker	= Core.FilesWorker.FilesWorker;
 
@@ -33,14 +31,14 @@ namespace Core.Misc
 	public class FB2BookDescription
 	{
 		#region Закрытые данные класса
-		private fb2BookData m_fb2bd		= null; // fb2-данные о книге
+		private FB2BookData m_fb2bd		= null; // fb2-данные о книге
 		private string m_sFromFilePath	= string.Empty;	// путь к анализируемой книге
 		#endregion
 		
 		public FB2BookDescription( string sFromFilePath )
 		{
 			m_sFromFilePath = sFromFilePath;
-			m_fb2bd = new fb2BookData( sFromFilePath );
+			m_fb2bd = new FB2BookData( sFromFilePath );
 		}
 		
 		#region Закрытые вспомогательные методы класса
@@ -62,7 +60,7 @@ namespace Core.Misc
 				sA += "; ";
 			}
 //			sA = Convert.ToString(n)+": " + sA;
-			return sA.Substring( 0, sA.LastIndexOf( ";" ) ).Trim();
+			return sA.Substring( 0, sA.LastIndexOf( ';' ) ).Trim();
 		}
 		
 		// формирование строки с Датой Написания Книги или Датой Создания fb2-файла
@@ -70,7 +68,7 @@ namespace Core.Misc
 			if( Date == null ) return string.Empty; 
 			string sDate = string.Empty;
 			if( Date.Text!=null )	sDate += Date.Text;
-			if( Date.Value!=null )	sDate += " ("+Date.Value+")";
+			if( Date.Value!=null )	sDate += " (" + Date.Value + ")";
 			return sDate;
 		}
 		
@@ -89,7 +87,7 @@ namespace Core.Misc
 			
 			//sG = Convert.ToString(n)+": " + sG;
 			sG = sG.Trim();
-			return sG.Substring( 0, sG.LastIndexOf( ";" ) ).Trim();
+			return sG.Substring( 0, sG.LastIndexOf( ';' ) ).Trim();
 		}
 		
 		// формирование строки с Сериями Книги из списка всех Серий ЭТОЙ Книги
@@ -106,7 +104,7 @@ namespace Core.Misc
 			}
 //			sSeq = Convert.ToString(n)+": " + sSeq;
 			sSeq = sSeq.Trim();
-			return sSeq.Substring( 0, sSeq.LastIndexOf( ";" ) ).Trim();
+			return sSeq.Substring( 0, sSeq.LastIndexOf( ';' ) ).Trim();
 		}
 		
 		#endregion

@@ -72,125 +72,125 @@ namespace SharpFBTools.Tools
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Dublicator));
 			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Название Книги",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
+			"Название Книги",
+			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Жанр(ы) Книги (Math %)",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
+			"Жанр(ы) Книги (Math %)",
+			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Язык",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
+			"Язык",
+			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Язык оригинала",
-									""}, -1);
+			"Язык оригинала",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Автор(ы) Книги",
-									""}, -1, System.Drawing.Color.Navy, System.Drawing.Color.Empty, null);
+			"Автор(ы) Книги",
+			""}, 0, System.Drawing.Color.Navy, System.Drawing.Color.Empty, null);
 			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Дата написания: Текст (Значение)",
-									""}, -1);
+			"Дата написания: Текст (Значение)",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Ключевые слова",
-									""}, -1);
+			"Ключевые слова",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Переводчик(и)",
-									""}, -1);
+			"Переводчик(и)",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Серия(и) (Номер)",
-									""}, -1, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
+			"Серия(и) (Номер)",
+			""}, 0, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
 			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Число Обложек",
-									""}, -1);
+			"Число Обложек",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Название Книги",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
+			"Название Книги",
+			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Жанр(ы) Книги (Math %)",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
+			"Жанр(ы) Книги (Math %)",
+			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Язык",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
+			"Язык",
+			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Язык оригинала",
-									""}, -1);
+			"Язык оригинала",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Автор(ы) Книги",
-									""}, -1, System.Drawing.Color.Navy, System.Drawing.Color.Empty, null);
+			"Автор(ы) Книги",
+			""}, 0, System.Drawing.Color.Navy, System.Drawing.Color.Empty, null);
 			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Дата написания: Текст (Значение)",
-									""}, -1);
+			"Дата написания: Текст (Значение)",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Ключевые слова",
-									""}, -1);
+			"Ключевые слова",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Переводчик(и)",
-									""}, -1);
+			"Переводчик(и)",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Серия(и) (Номер)",
-									""}, -1, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
+			"Серия(и) (Номер)",
+			""}, 0, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
 			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Число Обложек",
-									""}, -1);
+			"Число Обложек",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
-									"ID Книги",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
+			"ID Книги",
+			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Версия fb2-файла",
-									""}, -1, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
+			"Версия fb2-файла",
+			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
 			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Дата создания: Текст (Значение)",
-									""}, -1);
+			"Дата создания: Текст (Значение)",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Программы",
-									""}, -1);
+			"Программы",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Источник OCR",
-									""}, -1);
+			"Источник OCR",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Источник URL",
-									""}, -1);
+			"Источник URL",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Автор fb2-файла",
-									""}, -1);
+			"Автор fb2-файла",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Заголовок Книги",
-									""}, -1, System.Drawing.SystemColors.WindowText, System.Drawing.Color.Empty, null);
+			"Заголовок Книги",
+			""}, 0, System.Drawing.SystemColors.WindowText, System.Drawing.Color.Empty, null);
 			System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Издатель",
-									""}, -1);
+			"Издатель",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Город",
-									""}, -1);
+			"Город",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Год издания",
-									""}, -1);
+			"Год издания",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
-									"ISBN",
-									""}, -1);
+			"ISBN",
+			""}, 0);
 			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Серия(и) (Номер)",
-									""}, -1, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
+			"Серия(и) (Номер)",
+			""}, 0, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
 			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего папок",
-									"0"}, -1);
+			"Всего папок",
+			"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего файлов",
-									"0"}, -1);
+			"Всего файлов",
+			"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего fb2 файлов",
-									"0"}, -1);
+			"Всего fb2 файлов",
+			"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Архивы",
-									"0"}, -1);
+			"Архивы",
+			"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Другие файлы",
-									"0"}, -1);
+			"Другие файлы",
+			"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Всего групп одинаковых книг",
-									"0"}, -1);
+			"Всего групп одинаковых книг",
+			"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
-									"Книг во всех группах одинаковых книг",
-									"0"}, -1);
+			"Книг во всех группах одинаковых книг",
+			"0"}, 0);
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
 			this.pSearchFBDup2Dirs = new System.Windows.Forms.Panel();
 			this.btnOpenDir = new System.Windows.Forms.Button();
@@ -203,9 +203,6 @@ namespace SharpFBTools.Tools
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbtnDupSaveList = new System.Windows.Forms.ToolStripButton();
 			this.tsbtnDupOpenList = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbtnMakeLibraryBookList = new System.Windows.Forms.ToolStripButton();
-			this.tsbtnCompareWithLibList = new System.Windows.Forms.ToolStripButton();
 			this.cmsFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tsmiAnalyzeForAllGroups = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiAllOldBooksForAllGroups = new System.Windows.Forms.ToolStripMenuItem();
@@ -305,9 +302,11 @@ namespace SharpFBTools.Tools
 			// 
 			// ssProgress
 			// 
-			this.ssProgress.Location = new System.Drawing.Point(0, 538);
+			this.ssProgress.ImageScalingSize = new System.Drawing.Size(20, 20);
+			this.ssProgress.Location = new System.Drawing.Point(0, 667);
 			this.ssProgress.Name = "ssProgress";
-			this.ssProgress.Size = new System.Drawing.Size(1123, 22);
+			this.ssProgress.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+			this.ssProgress.Size = new System.Drawing.Size(1497, 22);
 			this.ssProgress.TabIndex = 19;
 			this.ssProgress.Text = "statusStrip1";
 			// 
@@ -320,16 +319,18 @@ namespace SharpFBTools.Tools
 			this.pSearchFBDup2Dirs.Controls.Add(this.lblScanDir);
 			this.pSearchFBDup2Dirs.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pSearchFBDup2Dirs.Location = new System.Drawing.Point(0, 31);
+			this.pSearchFBDup2Dirs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.pSearchFBDup2Dirs.Name = "pSearchFBDup2Dirs";
-			this.pSearchFBDup2Dirs.Size = new System.Drawing.Size(1123, 33);
+			this.pSearchFBDup2Dirs.Size = new System.Drawing.Size(1497, 41);
 			this.pSearchFBDup2Dirs.TabIndex = 36;
 			// 
 			// btnOpenDir
 			// 
 			this.btnOpenDir.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenDir.Image")));
-			this.btnOpenDir.Location = new System.Drawing.Point(158, 3);
+			this.btnOpenDir.Location = new System.Drawing.Point(211, 4);
+			this.btnOpenDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.btnOpenDir.Name = "btnOpenDir";
-			this.btnOpenDir.Size = new System.Drawing.Size(37, 27);
+			this.btnOpenDir.Size = new System.Drawing.Size(49, 33);
 			this.btnOpenDir.TabIndex = 21;
 			this.btnOpenDir.UseVisualStyleBackColor = true;
 			this.btnOpenDir.Click += new System.EventHandler(this.BtnOpenDirClick);
@@ -341,9 +342,10 @@ namespace SharpFBTools.Tools
 			this.chBoxScanSubDir.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxScanSubDir.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxScanSubDir.ForeColor = System.Drawing.Color.Navy;
-			this.chBoxScanSubDir.Location = new System.Drawing.Point(951, 4);
+			this.chBoxScanSubDir.Location = new System.Drawing.Point(1268, 5);
+			this.chBoxScanSubDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.chBoxScanSubDir.Name = "chBoxScanSubDir";
-			this.chBoxScanSubDir.Size = new System.Drawing.Size(172, 24);
+			this.chBoxScanSubDir.Size = new System.Drawing.Size(229, 30);
 			this.chBoxScanSubDir.TabIndex = 2;
 			this.chBoxScanSubDir.Text = "Сканировать и подпапки";
 			this.chBoxScanSubDir.UseVisualStyleBackColor = true;
@@ -352,11 +354,12 @@ namespace SharpFBTools.Tools
 			// tboxSourceDir
 			// 
 			this.tboxSourceDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxSourceDir.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.tboxSourceDir.Location = new System.Drawing.Point(200, 6);
+			this.tboxSourceDir.Location = new System.Drawing.Point(267, 7);
+			this.tboxSourceDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tboxSourceDir.Name = "tboxSourceDir";
-			this.tboxSourceDir.Size = new System.Drawing.Size(745, 21);
+			this.tboxSourceDir.Size = new System.Drawing.Size(992, 24);
 			this.tboxSourceDir.TabIndex = 1;
 			this.tboxSourceDir.TextChanged += new System.EventHandler(this.TboxSourceDirTextChanged);
 			this.tboxSourceDir.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TboxSourceDirKeyPress);
@@ -364,9 +367,10 @@ namespace SharpFBTools.Tools
 			// lblScanDir
 			// 
 			this.lblScanDir.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
-			this.lblScanDir.Location = new System.Drawing.Point(3, 8);
+			this.lblScanDir.Location = new System.Drawing.Point(4, 10);
+			this.lblScanDir.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblScanDir.Name = "lblScanDir";
-			this.lblScanDir.Size = new System.Drawing.Size(162, 19);
+			this.lblScanDir.Size = new System.Drawing.Size(216, 23);
 			this.lblScanDir.TabIndex = 6;
 			this.lblScanDir.Text = "Папка для сканирования:";
 			// 
@@ -374,17 +378,14 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsDup.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.tsDup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsbtnSearchDubls,
-									this.tsbtnSearchFb2DupRenew,
-									this.toolStripSeparator3,
-									this.tsbtnDupSaveList,
-									this.tsbtnDupOpenList,
-									this.toolStripSeparator2,
-									this.tsbtnMakeLibraryBookList,
-									this.tsbtnCompareWithLibList});
+			this.tsbtnSearchDubls,
+			this.tsbtnSearchFb2DupRenew,
+			this.toolStripSeparator3,
+			this.tsbtnDupSaveList,
+			this.tsbtnDupOpenList});
 			this.tsDup.Location = new System.Drawing.Point(0, 0);
 			this.tsDup.Name = "tsDup";
-			this.tsDup.Size = new System.Drawing.Size(1123, 31);
+			this.tsDup.Size = new System.Drawing.Size(1497, 31);
 			this.tsDup.TabIndex = 35;
 			// 
 			// tsbtnSearchDubls
@@ -393,7 +394,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnSearchDubls.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSearchDubls.Image")));
 			this.tsbtnSearchDubls.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnSearchDubls.Name = "tsbtnSearchDubls";
-			this.tsbtnSearchDubls.Size = new System.Drawing.Size(98, 28);
+			this.tsbtnSearchDubls.Size = new System.Drawing.Size(127, 28);
 			this.tsbtnSearchDubls.Text = "Поиск копий";
 			this.tsbtnSearchDubls.Click += new System.EventHandler(this.TsbtnSearchDublsClick);
 			// 
@@ -402,7 +403,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnSearchFb2DupRenew.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSearchFb2DupRenew.Image")));
 			this.tsbtnSearchFb2DupRenew.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnSearchFb2DupRenew.Name = "tsbtnSearchFb2DupRenew";
-			this.tsbtnSearchFb2DupRenew.Size = new System.Drawing.Size(161, 28);
+			this.tsbtnSearchFb2DupRenew.Size = new System.Drawing.Size(205, 28);
 			this.tsbtnSearchFb2DupRenew.Text = "Возобновить из файла...";
 			this.tsbtnSearchFb2DupRenew.Click += new System.EventHandler(this.TsbtnSearchFb2DupRenewClick);
 			// 
@@ -416,7 +417,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnDupSaveList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDupSaveList.Image")));
 			this.tsbtnDupSaveList.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnDupSaveList.Name = "tsbtnDupSaveList";
-			this.tsbtnDupSaveList.Size = new System.Drawing.Size(102, 28);
+			this.tsbtnDupSaveList.Size = new System.Drawing.Size(120, 28);
 			this.tsbtnDupSaveList.Text = "Сохранить...";
 			this.tsbtnDupSaveList.ToolTipText = "Сохранить список копий книг в файл";
 			this.tsbtnDupSaveList.Click += new System.EventHandler(this.TsbtnDupSaveListClick);
@@ -426,149 +427,127 @@ namespace SharpFBTools.Tools
 			this.tsbtnDupOpenList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnDupOpenList.Image")));
 			this.tsbtnDupOpenList.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnDupOpenList.Name = "tsbtnDupOpenList";
-			this.tsbtnDupOpenList.Size = new System.Drawing.Size(99, 28);
+			this.tsbtnDupOpenList.Size = new System.Drawing.Size(114, 28);
 			this.tsbtnDupOpenList.Text = "Загрузить...";
 			this.tsbtnDupOpenList.ToolTipText = "Загрузить список копий книг из файла";
 			this.tsbtnDupOpenList.Click += new System.EventHandler(this.TsbtnDupOpenListClick);
 			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
-			// 
-			// tsbtnMakeLibraryBookList
-			// 
-			this.tsbtnMakeLibraryBookList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnMakeLibraryBookList.Image")));
-			this.tsbtnMakeLibraryBookList.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnMakeLibraryBookList.Name = "tsbtnMakeLibraryBookList";
-			this.tsbtnMakeLibraryBookList.Size = new System.Drawing.Size(216, 28);
-			this.tsbtnMakeLibraryBookList.Text = "Создать список книг библиотеки...";
-			this.tsbtnMakeLibraryBookList.Click += new System.EventHandler(this.TsbtnMakeLibraryBookListClick);
-			// 
-			// tsbtnCompareWithLibList
-			// 
-			this.tsbtnCompareWithLibList.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnCompareWithLibList.Image")));
-			this.tsbtnCompareWithLibList.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbtnCompareWithLibList.Name = "tsbtnCompareWithLibList";
-			this.tsbtnCompareWithLibList.Size = new System.Drawing.Size(242, 28);
-			this.tsbtnCompareWithLibList.Text = "Сравнить со списком книг библиотеки...";
-			this.tsbtnCompareWithLibList.Click += new System.EventHandler(this.TsbtnCompareWithLibListClick);
-			// 
 			// cmsFB2
 			// 
+			this.cmsFB2.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.cmsFB2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsmiAnalyzeForAllGroups,
-									this.tsmiAnalyzeForSelectedGroup,
-									this.toolStripMenuItem1,
-									this.tsmiDiffFB2,
-									this.toolStripSeparator1,
-									this.tsmiFileReValidate,
-									this.tsmiAllFilesInGroupReValidate,
-									this.tsmiAllGroupsReValidate,
-									this.tsmi3,
-									this.tsmiEditInTextEditor,
-									this.tsmiEditInFB2Editor,
-									this.tsmi1,
-									this.tsmiViewInReader,
-									this.tsmi2,
-									this.tsmiCopyCheckedFb2To,
-									this.tsmiMoveCheckedFb2To,
-									this.tsmiDeleteCheckedFb2,
-									this.toolStripSeparator4,
-									this.tsmiCheckedAllInGroup,
-									this.tsmiCheckedAll,
-									this.tsmiUnCheckedAll,
-									this.toolStripMenuItem2,
-									this.tsmiOpenFileDir,
-									this.tsmiDeleteFileFromDisk});
+			this.tsmiAnalyzeForAllGroups,
+			this.tsmiAnalyzeForSelectedGroup,
+			this.toolStripMenuItem1,
+			this.tsmiDiffFB2,
+			this.toolStripSeparator1,
+			this.tsmiFileReValidate,
+			this.tsmiAllFilesInGroupReValidate,
+			this.tsmiAllGroupsReValidate,
+			this.tsmi3,
+			this.tsmiEditInTextEditor,
+			this.tsmiEditInFB2Editor,
+			this.tsmi1,
+			this.tsmiViewInReader,
+			this.tsmi2,
+			this.tsmiCopyCheckedFb2To,
+			this.tsmiMoveCheckedFb2To,
+			this.tsmiDeleteCheckedFb2,
+			this.toolStripSeparator4,
+			this.tsmiCheckedAllInGroup,
+			this.tsmiCheckedAll,
+			this.tsmiUnCheckedAll,
+			this.toolStripMenuItem2,
+			this.tsmiOpenFileDir,
+			this.tsmiDeleteFileFromDisk});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(343, 420);
+			this.cmsFB2.Size = new System.Drawing.Size(432, 488);
 			// 
 			// tsmiAnalyzeForAllGroups
 			// 
 			this.tsmiAnalyzeForAllGroups.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsmiAllOldBooksForAllGroups,
-									this.tsmiAllOldBooksCreationTimeForAllGroups,
-									this.tsmiAllOldBooksLastWriteTimeForAllGroups});
+			this.tsmiAllOldBooksForAllGroups,
+			this.tsmiAllOldBooksCreationTimeForAllGroups,
+			this.tsmiAllOldBooksLastWriteTimeForAllGroups});
 			this.tsmiAnalyzeForAllGroups.Name = "tsmiAnalyzeForAllGroups";
-			this.tsmiAnalyzeForAllGroups.Size = new System.Drawing.Size(342, 22);
+			this.tsmiAnalyzeForAllGroups.Size = new System.Drawing.Size(431, 26);
 			this.tsmiAnalyzeForAllGroups.Text = "Анализ для всех групп";
 			// 
 			// tsmiAllOldBooksForAllGroups
 			// 
 			this.tsmiAllOldBooksForAllGroups.Name = "tsmiAllOldBooksForAllGroups";
-			this.tsmiAllOldBooksForAllGroups.Size = new System.Drawing.Size(378, 22);
+			this.tsmiAllOldBooksForAllGroups.Size = new System.Drawing.Size(488, 24);
 			this.tsmiAllOldBooksForAllGroups.Text = "Все \"старые\" fb2 (по версии книги)";
 			this.tsmiAllOldBooksForAllGroups.Click += new System.EventHandler(this.TsmiAllOldBooksForAllGroupsClick);
 			// 
 			// tsmiAllOldBooksCreationTimeForAllGroups
 			// 
 			this.tsmiAllOldBooksCreationTimeForAllGroups.Name = "tsmiAllOldBooksCreationTimeForAllGroups";
-			this.tsmiAllOldBooksCreationTimeForAllGroups.Size = new System.Drawing.Size(378, 22);
+			this.tsmiAllOldBooksCreationTimeForAllGroups.Size = new System.Drawing.Size(488, 24);
 			this.tsmiAllOldBooksCreationTimeForAllGroups.Text = "Все \"старые\" fb2 (по времени создания файла)";
 			this.tsmiAllOldBooksCreationTimeForAllGroups.Click += new System.EventHandler(this.TsmiAllOldBooksCreationTimeForAllGroupsClick);
 			// 
 			// tsmiAllOldBooksLastWriteTimeForAllGroups
 			// 
 			this.tsmiAllOldBooksLastWriteTimeForAllGroups.Name = "tsmiAllOldBooksLastWriteTimeForAllGroups";
-			this.tsmiAllOldBooksLastWriteTimeForAllGroups.Size = new System.Drawing.Size(378, 22);
+			this.tsmiAllOldBooksLastWriteTimeForAllGroups.Size = new System.Drawing.Size(488, 24);
 			this.tsmiAllOldBooksLastWriteTimeForAllGroups.Text = "Все \"старые\" fb2 (по времени последнего измения файла)";
 			this.tsmiAllOldBooksLastWriteTimeForAllGroups.Click += new System.EventHandler(this.TsmiAllOldBooksLastWriteTimeForAllGroupsClick);
 			// 
 			// tsmiAnalyzeForSelectedGroup
 			// 
 			this.tsmiAnalyzeForSelectedGroup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.tsmiAnalyzeInGroup,
-									this.tsmiAllOldBooksCreationTimeInGroup,
-									this.tsmiAllOldBooksLastWriteTimeInGroup});
+			this.tsmiAnalyzeInGroup,
+			this.tsmiAllOldBooksCreationTimeInGroup,
+			this.tsmiAllOldBooksLastWriteTimeInGroup});
 			this.tsmiAnalyzeForSelectedGroup.Name = "tsmiAnalyzeForSelectedGroup";
-			this.tsmiAnalyzeForSelectedGroup.Size = new System.Drawing.Size(342, 22);
+			this.tsmiAnalyzeForSelectedGroup.Size = new System.Drawing.Size(431, 26);
 			this.tsmiAnalyzeForSelectedGroup.Text = "Анализ для выбранной группы";
 			// 
 			// tsmiAnalyzeInGroup
 			// 
 			this.tsmiAnalyzeInGroup.Name = "tsmiAnalyzeInGroup";
-			this.tsmiAnalyzeInGroup.Size = new System.Drawing.Size(378, 22);
+			this.tsmiAnalyzeInGroup.Size = new System.Drawing.Size(488, 24);
 			this.tsmiAnalyzeInGroup.Text = "Все \"старые\" fb2 (по версии книги)";
 			this.tsmiAnalyzeInGroup.Click += new System.EventHandler(this.TsmiAnalyzeInGroupClick);
 			// 
 			// tsmiAllOldBooksCreationTimeInGroup
 			// 
 			this.tsmiAllOldBooksCreationTimeInGroup.Name = "tsmiAllOldBooksCreationTimeInGroup";
-			this.tsmiAllOldBooksCreationTimeInGroup.Size = new System.Drawing.Size(378, 22);
+			this.tsmiAllOldBooksCreationTimeInGroup.Size = new System.Drawing.Size(488, 24);
 			this.tsmiAllOldBooksCreationTimeInGroup.Text = "Все \"старые\" fb2 (по времени создания файла)";
 			this.tsmiAllOldBooksCreationTimeInGroup.Click += new System.EventHandler(this.TsmiAllOldBooksCreationTimeInGroupClick);
 			// 
 			// tsmiAllOldBooksLastWriteTimeInGroup
 			// 
 			this.tsmiAllOldBooksLastWriteTimeInGroup.Name = "tsmiAllOldBooksLastWriteTimeInGroup";
-			this.tsmiAllOldBooksLastWriteTimeInGroup.Size = new System.Drawing.Size(378, 22);
+			this.tsmiAllOldBooksLastWriteTimeInGroup.Size = new System.Drawing.Size(488, 24);
 			this.tsmiAllOldBooksLastWriteTimeInGroup.Text = "Все \"старые\" fb2 (по времени последнего измения файла)";
 			this.tsmiAllOldBooksLastWriteTimeInGroup.Click += new System.EventHandler(this.TsmiAllOldBooksLastWriteTimeInGroupClick);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(339, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(428, 6);
 			// 
 			// tsmiDiffFB2
 			// 
 			this.tsmiDiffFB2.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDiffFB2.Image")));
 			this.tsmiDiffFB2.Name = "tsmiDiffFB2";
-			this.tsmiDiffFB2.Size = new System.Drawing.Size(342, 22);
+			this.tsmiDiffFB2.Size = new System.Drawing.Size(431, 26);
 			this.tsmiDiffFB2.Text = "diff два помеченных (checked) файла в Группе";
 			this.tsmiDiffFB2.Click += new System.EventHandler(this.TsmiDiffFB2Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(339, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(428, 6);
 			// 
 			// tsmiFileReValidate
 			// 
 			this.tsmiFileReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFileReValidate.Image")));
 			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
-			this.tsmiFileReValidate.Size = new System.Drawing.Size(342, 22);
+			this.tsmiFileReValidate.Size = new System.Drawing.Size(431, 26);
 			this.tsmiFileReValidate.Text = "Проверить выделенный файл на валидность";
 			this.tsmiFileReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
 			// 
@@ -576,7 +555,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiAllFilesInGroupReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiAllFilesInGroupReValidate.Image")));
 			this.tsmiAllFilesInGroupReValidate.Name = "tsmiAllFilesInGroupReValidate";
-			this.tsmiAllFilesInGroupReValidate.Size = new System.Drawing.Size(342, 22);
+			this.tsmiAllFilesInGroupReValidate.Size = new System.Drawing.Size(431, 26);
 			this.tsmiAllFilesInGroupReValidate.Text = "Проверить все файлы Группы на валидность";
 			this.tsmiAllFilesInGroupReValidate.Click += new System.EventHandler(this.TsmiAllFilesInGroupReValidateClick);
 			// 
@@ -584,20 +563,20 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiAllGroupsReValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiAllGroupsReValidate.Image")));
 			this.tsmiAllGroupsReValidate.Name = "tsmiAllGroupsReValidate";
-			this.tsmiAllGroupsReValidate.Size = new System.Drawing.Size(342, 22);
+			this.tsmiAllGroupsReValidate.Size = new System.Drawing.Size(431, 26);
 			this.tsmiAllGroupsReValidate.Text = "Проверить все файлы всех Группы на валидность";
 			this.tsmiAllGroupsReValidate.Click += new System.EventHandler(this.TsmiAllGroupsReValidateClick);
 			// 
 			// tsmi3
 			// 
 			this.tsmi3.Name = "tsmi3";
-			this.tsmi3.Size = new System.Drawing.Size(339, 6);
+			this.tsmi3.Size = new System.Drawing.Size(428, 6);
 			// 
 			// tsmiEditInTextEditor
 			// 
 			this.tsmiEditInTextEditor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInTextEditor.Image")));
 			this.tsmiEditInTextEditor.Name = "tsmiEditInTextEditor";
-			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(342, 22);
+			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(431, 26);
 			this.tsmiEditInTextEditor.Text = "Редактировать в текстовом редакторе";
 			this.tsmiEditInTextEditor.Click += new System.EventHandler(this.TsmiEditInTextEditorClick);
 			// 
@@ -605,34 +584,34 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiEditInFB2Editor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInFB2Editor.Image")));
 			this.tsmiEditInFB2Editor.Name = "tsmiEditInFB2Editor";
-			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(342, 22);
+			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(431, 26);
 			this.tsmiEditInFB2Editor.Text = "Редактировать в fb2-редакторе";
 			this.tsmiEditInFB2Editor.Click += new System.EventHandler(this.TsmiEditInFB2EditorClick);
 			// 
 			// tsmi1
 			// 
 			this.tsmi1.Name = "tsmi1";
-			this.tsmi1.Size = new System.Drawing.Size(339, 6);
+			this.tsmi1.Size = new System.Drawing.Size(428, 6);
 			// 
 			// tsmiViewInReader
 			// 
 			this.tsmiViewInReader.Image = ((System.Drawing.Image)(resources.GetObject("tsmiViewInReader.Image")));
 			this.tsmiViewInReader.Name = "tsmiViewInReader";
-			this.tsmiViewInReader.Size = new System.Drawing.Size(342, 22);
+			this.tsmiViewInReader.Size = new System.Drawing.Size(431, 26);
 			this.tsmiViewInReader.Text = "Запустить в fb2-читалке (Просмотр)";
 			this.tsmiViewInReader.Click += new System.EventHandler(this.TsmiViewInReaderClick);
 			// 
 			// tsmi2
 			// 
 			this.tsmi2.Name = "tsmi2";
-			this.tsmi2.Size = new System.Drawing.Size(339, 6);
+			this.tsmi2.Size = new System.Drawing.Size(428, 6);
 			// 
 			// tsmiCopyCheckedFb2To
 			// 
 			this.tsmiCopyCheckedFb2To.Enabled = false;
 			this.tsmiCopyCheckedFb2To.Image = ((System.Drawing.Image)(resources.GetObject("tsmiCopyCheckedFb2To.Image")));
 			this.tsmiCopyCheckedFb2To.Name = "tsmiCopyCheckedFb2To";
-			this.tsmiCopyCheckedFb2To.Size = new System.Drawing.Size(342, 22);
+			this.tsmiCopyCheckedFb2To.Size = new System.Drawing.Size(431, 26);
 			this.tsmiCopyCheckedFb2To.Text = "Копировать помеченные книги...";
 			this.tsmiCopyCheckedFb2To.Click += new System.EventHandler(this.TsmiCopyCheckedFb2ToClick);
 			// 
@@ -641,7 +620,7 @@ namespace SharpFBTools.Tools
 			this.tsmiMoveCheckedFb2To.Enabled = false;
 			this.tsmiMoveCheckedFb2To.Image = ((System.Drawing.Image)(resources.GetObject("tsmiMoveCheckedFb2To.Image")));
 			this.tsmiMoveCheckedFb2To.Name = "tsmiMoveCheckedFb2To";
-			this.tsmiMoveCheckedFb2To.Size = new System.Drawing.Size(342, 22);
+			this.tsmiMoveCheckedFb2To.Size = new System.Drawing.Size(431, 26);
 			this.tsmiMoveCheckedFb2To.Text = "Переместить помеченные книги...";
 			this.tsmiMoveCheckedFb2To.Click += new System.EventHandler(this.TsmiMoveCheckedFb2ToClick);
 			// 
@@ -650,20 +629,20 @@ namespace SharpFBTools.Tools
 			this.tsmiDeleteCheckedFb2.Enabled = false;
 			this.tsmiDeleteCheckedFb2.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteCheckedFb2.Image")));
 			this.tsmiDeleteCheckedFb2.Name = "tsmiDeleteCheckedFb2";
-			this.tsmiDeleteCheckedFb2.Size = new System.Drawing.Size(342, 22);
+			this.tsmiDeleteCheckedFb2.Size = new System.Drawing.Size(431, 26);
 			this.tsmiDeleteCheckedFb2.Text = "Удалить помеченные книги...";
 			this.tsmiDeleteCheckedFb2.Click += new System.EventHandler(this.TsmiDeleteCheckedFb2Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(339, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(428, 6);
 			// 
 			// tsmiCheckedAllInGroup
 			// 
 			this.tsmiCheckedAllInGroup.Image = ((System.Drawing.Image)(resources.GetObject("tsmiCheckedAllInGroup.Image")));
 			this.tsmiCheckedAllInGroup.Name = "tsmiCheckedAllInGroup";
-			this.tsmiCheckedAllInGroup.Size = new System.Drawing.Size(342, 22);
+			this.tsmiCheckedAllInGroup.Size = new System.Drawing.Size(431, 26);
 			this.tsmiCheckedAllInGroup.Text = "Пометить все книги выбранной Группы";
 			this.tsmiCheckedAllInGroup.Click += new System.EventHandler(this.TsmiCheckedAllInGroupClick);
 			// 
@@ -671,7 +650,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiCheckedAll.Image")));
 			this.tsmiCheckedAll.Name = "tsmiCheckedAll";
-			this.tsmiCheckedAll.Size = new System.Drawing.Size(342, 22);
+			this.tsmiCheckedAll.Size = new System.Drawing.Size(431, 26);
 			this.tsmiCheckedAll.Text = "Пометить все книги всех Групп";
 			this.tsmiCheckedAll.Click += new System.EventHandler(this.TsmiCheckedAllClick);
 			// 
@@ -679,20 +658,20 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiUnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiUnCheckedAll.Image")));
 			this.tsmiUnCheckedAll.Name = "tsmiUnCheckedAll";
-			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(342, 22);
+			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(431, 26);
 			this.tsmiUnCheckedAll.Text = "Снять все отметки";
 			this.tsmiUnCheckedAll.Click += new System.EventHandler(this.TsmiUnCheckedAllClick);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(339, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(428, 6);
 			// 
 			// tsmiOpenFileDir
 			// 
 			this.tsmiOpenFileDir.Image = ((System.Drawing.Image)(resources.GetObject("tsmiOpenFileDir.Image")));
 			this.tsmiOpenFileDir.Name = "tsmiOpenFileDir";
-			this.tsmiOpenFileDir.Size = new System.Drawing.Size(342, 22);
+			this.tsmiOpenFileDir.Size = new System.Drawing.Size(431, 26);
 			this.tsmiOpenFileDir.Text = "Открыть папку для выделенного файла";
 			this.tsmiOpenFileDir.Click += new System.EventHandler(this.TsmiOpenFileDirClick);
 			// 
@@ -700,7 +679,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiDeleteFileFromDisk.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteFileFromDisk.Image")));
 			this.tsmiDeleteFileFromDisk.Name = "tsmiDeleteFileFromDisk";
-			this.tsmiDeleteFileFromDisk.Size = new System.Drawing.Size(342, 22);
+			this.tsmiDeleteFileFromDisk.Size = new System.Drawing.Size(431, 26);
 			this.tsmiDeleteFileFromDisk.Text = "Удалить выделенный файл с диска";
 			this.tsmiDeleteFileFromDisk.Click += new System.EventHandler(this.TsmiDeleteFileFromDiskClick);
 			// 
@@ -710,9 +689,10 @@ namespace SharpFBTools.Tools
 			this.pMode.Controls.Add(this.cboxMode);
 			this.pMode.Controls.Add(this.lblMode);
 			this.pMode.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pMode.Location = new System.Drawing.Point(0, 64);
+			this.pMode.Location = new System.Drawing.Point(0, 72);
+			this.pMode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.pMode.Name = "pMode";
-			this.pMode.Size = new System.Drawing.Size(1123, 26);
+			this.pMode.Size = new System.Drawing.Size(1497, 32);
 			this.pMode.TabIndex = 37;
 			// 
 			// chBoxIsValid
@@ -720,9 +700,10 @@ namespace SharpFBTools.Tools
 			this.chBoxIsValid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.chBoxIsValid.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.chBoxIsValid.ForeColor = System.Drawing.Color.Navy;
-			this.chBoxIsValid.Location = new System.Drawing.Point(951, 1);
+			this.chBoxIsValid.Location = new System.Drawing.Point(1268, 1);
+			this.chBoxIsValid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.chBoxIsValid.Name = "chBoxIsValid";
-			this.chBoxIsValid.Size = new System.Drawing.Size(168, 24);
+			this.chBoxIsValid.Size = new System.Drawing.Size(224, 30);
 			this.chBoxIsValid.TabIndex = 18;
 			this.chBoxIsValid.Text = "Проверять на валидность";
 			this.chBoxIsValid.UseVisualStyleBackColor = true;
@@ -731,29 +712,31 @@ namespace SharpFBTools.Tools
 			// cboxMode
 			// 
 			this.cboxMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.cboxMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxMode.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.cboxMode.FormattingEnabled = true;
 			this.cboxMode.Items.AddRange(new object[] {
-									"0. Абсолютно одинаковые книги (md5)",
-									"1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)",
-									"2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинако" +
-												"вым Названием)",
-									"3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разн" +
-												"ые Id, но Автор и Название - одинаковые)"});
-			this.cboxMode.Location = new System.Drawing.Point(158, 1);
+			"0. Абсолютно одинаковые книги (md5)",
+			"1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)",
+			"2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинако" +
+				"вым Названием)",
+			"3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разн" +
+				"ые Id, но Автор и Название - одинаковые)"});
+			this.cboxMode.Location = new System.Drawing.Point(211, 1);
+			this.cboxMode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.cboxMode.Name = "cboxMode";
-			this.cboxMode.Size = new System.Drawing.Size(787, 21);
+			this.cboxMode.Size = new System.Drawing.Size(1048, 24);
 			this.cboxMode.TabIndex = 17;
 			this.cboxMode.SelectedIndexChanged += new System.EventHandler(this.CboxModeSelectedIndexChanged);
 			// 
 			// lblMode
 			// 
 			this.lblMode.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.lblMode.Location = new System.Drawing.Point(4, 4);
+			this.lblMode.Location = new System.Drawing.Point(5, 5);
+			this.lblMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblMode.Name = "lblMode";
-			this.lblMode.Size = new System.Drawing.Size(161, 18);
+			this.lblMode.Size = new System.Drawing.Size(215, 22);
 			this.lblMode.TabIndex = 0;
 			this.lblMode.Text = "Данные для Сравнения:";
 			// 
@@ -769,18 +752,20 @@ namespace SharpFBTools.Tools
 			this.pExistFile.Controls.Add(this.cboxDupExistFile);
 			this.pExistFile.Controls.Add(this.lblDupExistFile);
 			this.pExistFile.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pExistFile.Location = new System.Drawing.Point(0, 90);
+			this.pExistFile.Location = new System.Drawing.Point(0, 104);
+			this.pExistFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.pExistFile.Name = "pExistFile";
-			this.pExistFile.Size = new System.Drawing.Size(1123, 28);
+			this.pExistFile.Size = new System.Drawing.Size(1497, 34);
 			this.pExistFile.TabIndex = 39;
 			// 
 			// rbtnFB22
 			// 
 			this.rbtnFB22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.rbtnFB22.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFB22.Location = new System.Drawing.Point(755, 4);
+			this.rbtnFB22.Location = new System.Drawing.Point(1007, 5);
+			this.rbtnFB22.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.rbtnFB22.Name = "rbtnFB22";
-			this.rbtnFB22.Size = new System.Drawing.Size(54, 21);
+			this.rbtnFB22.Size = new System.Drawing.Size(72, 26);
 			this.rbtnFB22.TabIndex = 31;
 			this.rbtnFB22.Text = "fb2.2";
 			this.rbtnFB22.UseVisualStyleBackColor = true;
@@ -791,9 +776,10 @@ namespace SharpFBTools.Tools
 			this.rbtnFB2Librusec.Checked = true;
 			this.rbtnFB2Librusec.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.rbtnFB2Librusec.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFB2Librusec.Location = new System.Drawing.Point(651, 4);
+			this.rbtnFB2Librusec.Location = new System.Drawing.Point(868, 5);
+			this.rbtnFB2Librusec.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.rbtnFB2Librusec.Name = "rbtnFB2Librusec";
-			this.rbtnFB2Librusec.Size = new System.Drawing.Size(95, 21);
+			this.rbtnFB2Librusec.Size = new System.Drawing.Size(127, 26);
 			this.rbtnFB2Librusec.TabIndex = 32;
 			this.rbtnFB2Librusec.TabStop = true;
 			this.rbtnFB2Librusec.Text = "fb2 Либрусек";
@@ -803,9 +789,10 @@ namespace SharpFBTools.Tools
 			// lblFMFSGenres
 			// 
 			this.lblFMFSGenres.ForeColor = System.Drawing.Color.Navy;
-			this.lblFMFSGenres.Location = new System.Drawing.Point(549, 7);
+			this.lblFMFSGenres.Location = new System.Drawing.Point(732, 9);
+			this.lblFMFSGenres.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblFMFSGenres.Name = "lblFMFSGenres";
-			this.lblFMFSGenres.Size = new System.Drawing.Size(96, 16);
+			this.lblFMFSGenres.Size = new System.Drawing.Size(128, 20);
 			this.lblFMFSGenres.TabIndex = 30;
 			this.lblFMFSGenres.Text = "Схема Жанров:";
 			// 
@@ -815,12 +802,13 @@ namespace SharpFBTools.Tools
 			this.cboxDupExistFile.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.cboxDupExistFile.FormattingEnabled = true;
 			this.cboxDupExistFile.Items.AddRange(new object[] {
-									"Заменить существующий fb2-файл создаваемым",
-									"Добавить к создаваемому fb2-файлу очередной номер",
-									"Добавить к создаваемому fb2-файлу дату и время"});
-			this.cboxDupExistFile.Location = new System.Drawing.Point(158, 3);
+			"Заменить существующий fb2-файл создаваемым",
+			"Добавить к создаваемому fb2-файлу очередной номер",
+			"Добавить к создаваемому fb2-файлу дату и время"});
+			this.cboxDupExistFile.Location = new System.Drawing.Point(211, 4);
+			this.cboxDupExistFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.cboxDupExistFile.Name = "cboxDupExistFile";
-			this.cboxDupExistFile.Size = new System.Drawing.Size(377, 21);
+			this.cboxDupExistFile.Size = new System.Drawing.Size(501, 24);
 			this.cboxDupExistFile.TabIndex = 16;
 			this.cboxDupExistFile.SelectedIndexChanged += new System.EventHandler(this.CboxDupExistFileSelectedIndexChanged);
 			// 
@@ -828,10 +816,11 @@ namespace SharpFBTools.Tools
 			// 
 			this.lblDupExistFile.AutoSize = true;
 			this.lblDupExistFile.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.lblDupExistFile.Location = new System.Drawing.Point(4, 7);
+			this.lblDupExistFile.Location = new System.Drawing.Point(5, 9);
+			this.lblDupExistFile.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblDupExistFile.Name = "lblDupExistFile";
 			this.lblDupExistFile.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.lblDupExistFile.Size = new System.Drawing.Size(148, 13);
+			this.lblDupExistFile.Size = new System.Drawing.Size(190, 17);
 			this.lblDupExistFile.TabIndex = 15;
 			this.lblDupExistFile.Text = "Одинаковые fb2 файлы:";
 			this.lblDupExistFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -853,9 +842,10 @@ namespace SharpFBTools.Tools
 			this.pInfo.Controls.Add(this.lvFilesCount);
 			this.pInfo.Controls.Add(this.chBoxViewProgress);
 			this.pInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pInfo.Location = new System.Drawing.Point(0, 312);
+			this.pInfo.Location = new System.Drawing.Point(0, 389);
+			this.pInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.pInfo.Name = "pInfo";
-			this.pInfo.Size = new System.Drawing.Size(1123, 226);
+			this.pInfo.Size = new System.Drawing.Size(1497, 278);
 			this.pInfo.TabIndex = 44;
 			// 
 			// tcViewFB2Desc
@@ -869,18 +859,20 @@ namespace SharpFBTools.Tools
 			this.tcViewFB2Desc.Controls.Add(this.tpAnnotation);
 			this.tcViewFB2Desc.Controls.Add(this.tpValidate);
 			this.tcViewFB2Desc.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tcViewFB2Desc.Location = new System.Drawing.Point(476, 24);
+			this.tcViewFB2Desc.Location = new System.Drawing.Point(632, 30);
+			this.tcViewFB2Desc.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tcViewFB2Desc.Name = "tcViewFB2Desc";
 			this.tcViewFB2Desc.SelectedIndex = 0;
-			this.tcViewFB2Desc.Size = new System.Drawing.Size(647, 202);
+			this.tcViewFB2Desc.Size = new System.Drawing.Size(865, 248);
 			this.tcViewFB2Desc.TabIndex = 43;
 			// 
 			// tpTitleInfo
 			// 
 			this.tpTitleInfo.Controls.Add(this.lvTitleInfo);
-			this.tpTitleInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpTitleInfo.Location = new System.Drawing.Point(4, 25);
+			this.tpTitleInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tpTitleInfo.Name = "tpTitleInfo";
-			this.tpTitleInfo.Size = new System.Drawing.Size(639, 176);
+			this.tpTitleInfo.Size = new System.Drawing.Size(857, 219);
 			this.tpTitleInfo.TabIndex = 0;
 			this.tpTitleInfo.Text = "Title Info";
 			this.tpTitleInfo.UseVisualStyleBackColor = true;
@@ -888,26 +880,27 @@ namespace SharpFBTools.Tools
 			// lvTitleInfo
 			// 
 			this.lvTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader9,
-									this.columnHeader10});
+			this.columnHeader9,
+			this.columnHeader10});
 			this.lvTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvTitleInfo.FullRowSelect = true;
 			this.lvTitleInfo.GridLines = true;
 			this.lvTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem1,
-									listViewItem2,
-									listViewItem3,
-									listViewItem4,
-									listViewItem5,
-									listViewItem6,
-									listViewItem7,
-									listViewItem8,
-									listViewItem9,
-									listViewItem10});
+			listViewItem1,
+			listViewItem2,
+			listViewItem3,
+			listViewItem4,
+			listViewItem5,
+			listViewItem6,
+			listViewItem7,
+			listViewItem8,
+			listViewItem9,
+			listViewItem10});
 			this.lvTitleInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvTitleInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lvTitleInfo.Name = "lvTitleInfo";
 			this.lvTitleInfo.ShowItemToolTips = true;
-			this.lvTitleInfo.Size = new System.Drawing.Size(639, 176);
+			this.lvTitleInfo.Size = new System.Drawing.Size(857, 219);
 			this.lvTitleInfo.TabIndex = 11;
 			this.lvTitleInfo.UseCompatibleStateImageBehavior = false;
 			this.lvTitleInfo.View = System.Windows.Forms.View.Details;
@@ -925,9 +918,10 @@ namespace SharpFBTools.Tools
 			// tpSourceTitleInfo
 			// 
 			this.tpSourceTitleInfo.Controls.Add(this.lvSourceTitleInfo);
-			this.tpSourceTitleInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpSourceTitleInfo.Location = new System.Drawing.Point(4, 25);
+			this.tpSourceTitleInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tpSourceTitleInfo.Name = "tpSourceTitleInfo";
-			this.tpSourceTitleInfo.Size = new System.Drawing.Size(639, 176);
+			this.tpSourceTitleInfo.Size = new System.Drawing.Size(855, 220);
 			this.tpSourceTitleInfo.TabIndex = 1;
 			this.tpSourceTitleInfo.Text = "Source Title Info";
 			this.tpSourceTitleInfo.UseVisualStyleBackColor = true;
@@ -935,26 +929,27 @@ namespace SharpFBTools.Tools
 			// lvSourceTitleInfo
 			// 
 			this.lvSourceTitleInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader17,
-									this.columnHeader18});
+			this.columnHeader17,
+			this.columnHeader18});
 			this.lvSourceTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSourceTitleInfo.FullRowSelect = true;
 			this.lvSourceTitleInfo.GridLines = true;
 			this.lvSourceTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem11,
-									listViewItem12,
-									listViewItem13,
-									listViewItem14,
-									listViewItem15,
-									listViewItem16,
-									listViewItem17,
-									listViewItem18,
-									listViewItem19,
-									listViewItem20});
+			listViewItem11,
+			listViewItem12,
+			listViewItem13,
+			listViewItem14,
+			listViewItem15,
+			listViewItem16,
+			listViewItem17,
+			listViewItem18,
+			listViewItem19,
+			listViewItem20});
 			this.lvSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvSourceTitleInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lvSourceTitleInfo.Name = "lvSourceTitleInfo";
 			this.lvSourceTitleInfo.ShowItemToolTips = true;
-			this.lvSourceTitleInfo.Size = new System.Drawing.Size(639, 176);
+			this.lvSourceTitleInfo.Size = new System.Drawing.Size(855, 220);
 			this.lvSourceTitleInfo.TabIndex = 12;
 			this.lvSourceTitleInfo.UseCompatibleStateImageBehavior = false;
 			this.lvSourceTitleInfo.View = System.Windows.Forms.View.Details;
@@ -972,9 +967,10 @@ namespace SharpFBTools.Tools
 			// tpDocumentInfo
 			// 
 			this.tpDocumentInfo.Controls.Add(this.lvDocumentInfo);
-			this.tpDocumentInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpDocumentInfo.Location = new System.Drawing.Point(4, 25);
+			this.tpDocumentInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tpDocumentInfo.Name = "tpDocumentInfo";
-			this.tpDocumentInfo.Size = new System.Drawing.Size(639, 176);
+			this.tpDocumentInfo.Size = new System.Drawing.Size(855, 220);
 			this.tpDocumentInfo.TabIndex = 2;
 			this.tpDocumentInfo.Text = "Document Info";
 			this.tpDocumentInfo.UseVisualStyleBackColor = true;
@@ -982,23 +978,24 @@ namespace SharpFBTools.Tools
 			// lvDocumentInfo
 			// 
 			this.lvDocumentInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader15,
-									this.columnHeader16});
+			this.columnHeader15,
+			this.columnHeader16});
 			this.lvDocumentInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvDocumentInfo.FullRowSelect = true;
 			this.lvDocumentInfo.GridLines = true;
 			this.lvDocumentInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem21,
-									listViewItem22,
-									listViewItem23,
-									listViewItem24,
-									listViewItem25,
-									listViewItem26,
-									listViewItem27});
+			listViewItem21,
+			listViewItem22,
+			listViewItem23,
+			listViewItem24,
+			listViewItem25,
+			listViewItem26,
+			listViewItem27});
 			this.lvDocumentInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvDocumentInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lvDocumentInfo.Name = "lvDocumentInfo";
 			this.lvDocumentInfo.ShowItemToolTips = true;
-			this.lvDocumentInfo.Size = new System.Drawing.Size(639, 176);
+			this.lvDocumentInfo.Size = new System.Drawing.Size(855, 220);
 			this.lvDocumentInfo.TabIndex = 12;
 			this.lvDocumentInfo.UseCompatibleStateImageBehavior = false;
 			this.lvDocumentInfo.View = System.Windows.Forms.View.Details;
@@ -1016,9 +1013,10 @@ namespace SharpFBTools.Tools
 			// tpPublishInfo
 			// 
 			this.tpPublishInfo.Controls.Add(this.lvPublishInfo);
-			this.tpPublishInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpPublishInfo.Location = new System.Drawing.Point(4, 25);
+			this.tpPublishInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tpPublishInfo.Name = "tpPublishInfo";
-			this.tpPublishInfo.Size = new System.Drawing.Size(639, 176);
+			this.tpPublishInfo.Size = new System.Drawing.Size(855, 220);
 			this.tpPublishInfo.TabIndex = 3;
 			this.tpPublishInfo.Text = "Publish Info";
 			this.tpPublishInfo.UseVisualStyleBackColor = true;
@@ -1026,22 +1024,23 @@ namespace SharpFBTools.Tools
 			// lvPublishInfo
 			// 
 			this.lvPublishInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader13,
-									this.columnHeader14});
+			this.columnHeader13,
+			this.columnHeader14});
 			this.lvPublishInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvPublishInfo.FullRowSelect = true;
 			this.lvPublishInfo.GridLines = true;
 			this.lvPublishInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem28,
-									listViewItem29,
-									listViewItem30,
-									listViewItem31,
-									listViewItem32,
-									listViewItem33});
+			listViewItem28,
+			listViewItem29,
+			listViewItem30,
+			listViewItem31,
+			listViewItem32,
+			listViewItem33});
 			this.lvPublishInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvPublishInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lvPublishInfo.Name = "lvPublishInfo";
 			this.lvPublishInfo.ShowItemToolTips = true;
-			this.lvPublishInfo.Size = new System.Drawing.Size(639, 176);
+			this.lvPublishInfo.Size = new System.Drawing.Size(855, 220);
 			this.lvPublishInfo.TabIndex = 12;
 			this.lvPublishInfo.UseCompatibleStateImageBehavior = false;
 			this.lvPublishInfo.View = System.Windows.Forms.View.Details;
@@ -1059,9 +1058,10 @@ namespace SharpFBTools.Tools
 			// tpCustomInfo
 			// 
 			this.tpCustomInfo.Controls.Add(this.lvCustomInfo);
-			this.tpCustomInfo.Location = new System.Drawing.Point(4, 22);
+			this.tpCustomInfo.Location = new System.Drawing.Point(4, 25);
+			this.tpCustomInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tpCustomInfo.Name = "tpCustomInfo";
-			this.tpCustomInfo.Size = new System.Drawing.Size(639, 176);
+			this.tpCustomInfo.Size = new System.Drawing.Size(855, 220);
 			this.tpCustomInfo.TabIndex = 4;
 			this.tpCustomInfo.Text = "Custom Info";
 			this.tpCustomInfo.UseVisualStyleBackColor = true;
@@ -1069,15 +1069,16 @@ namespace SharpFBTools.Tools
 			// lvCustomInfo
 			// 
 			this.lvCustomInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader11,
-									this.columnHeader12});
+			this.columnHeader11,
+			this.columnHeader12});
 			this.lvCustomInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvCustomInfo.FullRowSelect = true;
 			this.lvCustomInfo.GridLines = true;
 			this.lvCustomInfo.Location = new System.Drawing.Point(0, 0);
+			this.lvCustomInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lvCustomInfo.Name = "lvCustomInfo";
 			this.lvCustomInfo.ShowItemToolTips = true;
-			this.lvCustomInfo.Size = new System.Drawing.Size(639, 176);
+			this.lvCustomInfo.Size = new System.Drawing.Size(855, 220);
 			this.lvCustomInfo.TabIndex = 12;
 			this.lvCustomInfo.UseCompatibleStateImageBehavior = false;
 			this.lvCustomInfo.View = System.Windows.Forms.View.Details;
@@ -1095,9 +1096,10 @@ namespace SharpFBTools.Tools
 			// tpHistory
 			// 
 			this.tpHistory.Controls.Add(this.rtbHistory);
-			this.tpHistory.Location = new System.Drawing.Point(4, 22);
+			this.tpHistory.Location = new System.Drawing.Point(4, 25);
+			this.tpHistory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tpHistory.Name = "tpHistory";
-			this.tpHistory.Size = new System.Drawing.Size(639, 176);
+			this.tpHistory.Size = new System.Drawing.Size(855, 220);
 			this.tpHistory.TabIndex = 5;
 			this.tpHistory.Text = "History";
 			this.tpHistory.UseVisualStyleBackColor = true;
@@ -1107,18 +1109,20 @@ namespace SharpFBTools.Tools
 			this.rtbHistory.BackColor = System.Drawing.SystemColors.Window;
 			this.rtbHistory.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.rtbHistory.Location = new System.Drawing.Point(0, 0);
+			this.rtbHistory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.rtbHistory.Name = "rtbHistory";
 			this.rtbHistory.ReadOnly = true;
-			this.rtbHistory.Size = new System.Drawing.Size(639, 176);
+			this.rtbHistory.Size = new System.Drawing.Size(855, 220);
 			this.rtbHistory.TabIndex = 0;
 			this.rtbHistory.Text = "";
 			// 
 			// tpAnnotation
 			// 
 			this.tpAnnotation.Controls.Add(this.rtbAnnotation);
-			this.tpAnnotation.Location = new System.Drawing.Point(4, 22);
+			this.tpAnnotation.Location = new System.Drawing.Point(4, 25);
+			this.tpAnnotation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tpAnnotation.Name = "tpAnnotation";
-			this.tpAnnotation.Size = new System.Drawing.Size(639, 176);
+			this.tpAnnotation.Size = new System.Drawing.Size(855, 220);
 			this.tpAnnotation.TabIndex = 6;
 			this.tpAnnotation.Text = "Annotation";
 			this.tpAnnotation.UseVisualStyleBackColor = true;
@@ -1128,18 +1132,20 @@ namespace SharpFBTools.Tools
 			this.rtbAnnotation.BackColor = System.Drawing.SystemColors.Window;
 			this.rtbAnnotation.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.rtbAnnotation.Location = new System.Drawing.Point(0, 0);
+			this.rtbAnnotation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.rtbAnnotation.Name = "rtbAnnotation";
 			this.rtbAnnotation.ReadOnly = true;
-			this.rtbAnnotation.Size = new System.Drawing.Size(639, 176);
+			this.rtbAnnotation.Size = new System.Drawing.Size(855, 220);
 			this.rtbAnnotation.TabIndex = 0;
 			this.rtbAnnotation.Text = "";
 			// 
 			// tpValidate
 			// 
 			this.tpValidate.Controls.Add(this.tbValidate);
-			this.tpValidate.Location = new System.Drawing.Point(4, 22);
+			this.tpValidate.Location = new System.Drawing.Point(4, 25);
+			this.tpValidate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tpValidate.Name = "tpValidate";
-			this.tpValidate.Size = new System.Drawing.Size(639, 176);
+			this.tpValidate.Size = new System.Drawing.Size(855, 220);
 			this.tpValidate.TabIndex = 7;
 			this.tpValidate.Text = "Валидность";
 			this.tpValidate.UseVisualStyleBackColor = true;
@@ -1148,10 +1154,11 @@ namespace SharpFBTools.Tools
 			// 
 			this.tbValidate.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tbValidate.Location = new System.Drawing.Point(0, 0);
+			this.tbValidate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tbValidate.Multiline = true;
 			this.tbValidate.Name = "tbValidate";
 			this.tbValidate.ReadOnly = true;
-			this.tbValidate.Size = new System.Drawing.Size(639, 176);
+			this.tbValidate.Size = new System.Drawing.Size(855, 220);
 			this.tbValidate.TabIndex = 0;
 			// 
 			// picBoxCover
@@ -1159,9 +1166,10 @@ namespace SharpFBTools.Tools
 			this.picBoxCover.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.picBoxCover.Dock = System.Windows.Forms.DockStyle.Left;
 			this.picBoxCover.ErrorImage = ((System.Drawing.Image)(resources.GetObject("picBoxCover.ErrorImage")));
-			this.picBoxCover.Location = new System.Drawing.Point(296, 24);
+			this.picBoxCover.Location = new System.Drawing.Point(393, 30);
+			this.picBoxCover.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.picBoxCover.Name = "picBoxCover";
-			this.picBoxCover.Size = new System.Drawing.Size(180, 202);
+			this.picBoxCover.Size = new System.Drawing.Size(239, 248);
 			this.picBoxCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.picBoxCover.TabIndex = 44;
 			this.picBoxCover.TabStop = false;
@@ -1169,22 +1177,23 @@ namespace SharpFBTools.Tools
 			// lvFilesCount
 			// 
 			this.lvFilesCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-									this.columnHeader6,
-									this.columnHeader7});
+			this.columnHeader6,
+			this.columnHeader7});
 			this.lvFilesCount.Dock = System.Windows.Forms.DockStyle.Left;
 			this.lvFilesCount.FullRowSelect = true;
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-									listViewItem34,
-									listViewItem35,
-									listViewItem36,
-									listViewItem37,
-									listViewItem38,
-									listViewItem39,
-									listViewItem40});
-			this.lvFilesCount.Location = new System.Drawing.Point(0, 24);
+			listViewItem34,
+			listViewItem35,
+			listViewItem36,
+			listViewItem37,
+			listViewItem38,
+			listViewItem39,
+			listViewItem40});
+			this.lvFilesCount.Location = new System.Drawing.Point(0, 30);
+			this.lvFilesCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lvFilesCount.Name = "lvFilesCount";
-			this.lvFilesCount.Size = new System.Drawing.Size(296, 202);
+			this.lvFilesCount.Size = new System.Drawing.Size(393, 248);
 			this.lvFilesCount.TabIndex = 42;
 			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
 			this.lvFilesCount.View = System.Windows.Forms.View.Details;
@@ -1205,9 +1214,10 @@ namespace SharpFBTools.Tools
 			this.chBoxViewProgress.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxViewProgress.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.chBoxViewProgress.Location = new System.Drawing.Point(0, 0);
+			this.chBoxViewProgress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.chBoxViewProgress.Name = "chBoxViewProgress";
-			this.chBoxViewProgress.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-			this.chBoxViewProgress.Size = new System.Drawing.Size(1123, 24);
+			this.chBoxViewProgress.Padding = new System.Windows.Forms.Padding(7, 0, 0, 0);
+			this.chBoxViewProgress.Size = new System.Drawing.Size(1497, 30);
 			this.chBoxViewProgress.TabIndex = 41;
 			this.chBoxViewProgress.Text = "Отображать изменение хода работы";
 			this.chBoxViewProgress.UseVisualStyleBackColor = true;
@@ -1220,11 +1230,12 @@ namespace SharpFBTools.Tools
 			this.lvResult.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvResult.FullRowSelect = true;
 			this.lvResult.HideSelection = false;
-			this.lvResult.Location = new System.Drawing.Point(0, 118);
+			this.lvResult.Location = new System.Drawing.Point(0, 138);
+			this.lvResult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lvResult.MultiSelect = false;
 			this.lvResult.Name = "lvResult";
 			this.lvResult.ShowItemToolTips = true;
-			this.lvResult.Size = new System.Drawing.Size(1123, 194);
+			this.lvResult.Size = new System.Drawing.Size(1497, 251);
 			this.lvResult.TabIndex = 45;
 			this.lvResult.UseCompatibleStateImageBehavior = false;
 			this.lvResult.View = System.Windows.Forms.View.Details;
@@ -1239,7 +1250,7 @@ namespace SharpFBTools.Tools
 			// 
 			// SFBTpFB2Dublicator
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.lvResult);
 			this.Controls.Add(this.pInfo);
@@ -1248,8 +1259,9 @@ namespace SharpFBTools.Tools
 			this.Controls.Add(this.pSearchFBDup2Dirs);
 			this.Controls.Add(this.tsDup);
 			this.Controls.Add(this.ssProgress);
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.Name = "SFBTpFB2Dublicator";
-			this.Size = new System.Drawing.Size(1123, 560);
+			this.Size = new System.Drawing.Size(1497, 689);
 			this.pSearchFBDup2Dirs.ResumeLayout(false);
 			this.pSearchFBDup2Dirs.PerformLayout();
 			this.tsDup.ResumeLayout(false);
@@ -1272,10 +1284,8 @@ namespace SharpFBTools.Tools
 			((System.ComponentModel.ISupportInitialize)(this.picBoxCover)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
+
 		}
-		private System.Windows.Forms.ToolStripButton tsbtnMakeLibraryBookList;
-		private System.Windows.Forms.ToolStripButton tsbtnCompareWithLibList;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.TextBox tbValidate;
 		private System.Windows.Forms.TabPage tpValidate;
 		private System.Windows.Forms.ToolStripMenuItem tsmiCheckedAllInGroup;
@@ -2255,65 +2265,6 @@ namespace SharpFBTools.Tools
 			saveSettingsToXml();
 		}
 		
-		void TsbtnMakeLibraryBookListClick(object sender, EventArgs e)
-		{
-			// Сохранение списка книг для библиотеки
-			fbdScanDir.Description = "Укажите папку библиотеки (хранилища) fb2, fbz и fb2.zip книг:";
-			DialogResult result = fbdScanDir.ShowDialog();
-			if (result == DialogResult.OK) {
-				string libFolderPath = fbdScanDir.SelectedPath;
-				string libFilePath = Settings.Settings.ProgDir + @"\LibraryBooks.fb2lib";
-				// генерация списка файлов библиотеки
-				List<string> lDirList	= new List<string>();
-				List<string> FilesList	= new List<string>();
-				DirsFilesParser( libFolderPath, ref lDirList, ref FilesList );
-				saveLibraryToXmlFile( libFilePath, ref FilesList, libFolderPath);
-				MessageBox.Show( "Файл-список fb2, fbz и fb2.zip книг Хранилища " + libFilePath + " создан.", "SharpFBTools - Создание файла-списка книг Хранилища", MessageBoxButtons.OK, MessageBoxIcon.Information );
-			}
-		}
-		
-		// Сравнение файлов заданной папки со списком файлов Хранилища
-		void TsbtnCompareWithLibListClick(object sender, EventArgs e)
-		{
-			sfdLoadList.InitialDirectory = Settings.Settings.ProgDir;
-			sfdLoadList.Title		= "Укажите файл списка книг в Хранилище для сравнения копий книг:";
-			sfdLoadList.Filter		= "SharpFBTools Файлы хода работы Дубликатора (*.fb2lib)|*.fb2lib";
-			sfdLoadList.FileName	= string.Empty;
-			DialogResult result		= sfdLoadList.ShowDialog();
-			XElement xmlTree = null;
-			if( result == DialogResult.OK )
-				xmlTree = XElement.Load( sfdLoadList.FileName );
-			else
-				return;
-			
-			// инициализация контролов
-			Init();
-			if( xmlTree != null ) {
-				if( xmlTree.Element("Files").Element("LibraryDir").Value.Trim() == tboxSourceDir.Text.Trim()) {
-					MessageBox.Show( "Папка расположения библиотеки (хранилища) совпадает с папкой для сканирпования книг.\rПоиск копий прекращен.", "SharpFBTools - Сравнение книг в папке с книгами Хранилища", MessageBoxButtons.OK, MessageBoxIcon.Information );
-					return;
-				}
-				// выставляем режим сравнения
-				cboxMode.SelectedIndex = Convert.ToInt16( xmlTree.Element("CompareMode").Attribute("index").Value );
-				// устанавливаем данные настройки поиска-сравнения
-//				tboxSourceDir.Text = xmlTree.Element("SourceDir").Value;
-				chBoxScanSubDir.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("ScanSubDirs").Value );
-				chBoxIsValid.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("CheckValidate").Value );
-				rbtnFB2Librusec.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("GenresFB2Librusec").Value );
-			}
-			ConnectListViewResultEventHandlers( false );
-			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
-				sfdLoadList.FileName, tboxSourceDir.Text.Trim(), cboxMode.SelectedIndex,
-				chBoxScanSubDir.Checked, chBoxIsValid.Checked, rbtnFB2Librusec.Checked,
-				lvFilesCount, lvResult, chBoxViewProgress.Checked
-			);
-			comrareForm.ShowDialog();
-			tboxSourceDir.Text = comrareForm.getSourceDirFromRenew();
-			Core.Misc.EndWorkMode EndWorkMode = comrareForm.EndMode;
-			comrareForm.Dispose();
-			ConnectListViewResultEventHandlers( true );
-			MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Поиск одинаковых fb2 файлов", MessageBoxButtons.OK, MessageBoxIcon.Information );
-		}
 		#endregion
 		
 		// =============================================================================================
@@ -2725,206 +2676,5 @@ namespace SharpFBTools.Tools
 		}
 		#endregion
 		
-		
-		
-		#region Работа с Хранилищем
-		// сохранение данных о найденных копиях и о необработанных книгах при прерывании проверки для записи
-		void saveLibraryToXmlFile(string ToFileName, ref List<string> FilesList, string libFolderPath) {
-			#region Код
-			XElement xeLib = null;
-			int fileNumber = 0;
-			XDocument doc = new XDocument(
-				new XDeclaration("1.0", "utf-8", "yes"),
-				new XComment("Файл копий fb2 книг, сохраненный после прерывания работы Дубликатора. Используется для возобновления поиска/сравнения"),
-				new XElement("Files", new XAttribute("type", "fb2lib"),
-				             new XComment("Папка книг библиотеки (хранилище)"),
-				             new XElement("LibraryDir", libFolderPath),
-				             new XComment("Книги в библиотеке"),
-				             xeLib = new XElement("Library", new XAttribute("count", FilesList.Count))
-				            )
-			);
-			
-			if ( FilesList.Count > 0 ) {
-				fileNumber = 0;
-				for (int i=0; i!=FilesList.Count; ++i) {
-					string filePath = FilesList[i];
-					string Ext = Path.GetExtension( filePath ).ToLower();
-					if( Ext == ".fb2" ) {
-						getLibraryData( null, ref xeLib, filePath, ref fileNumber );
-					}  else {
-						if( Ext == ".zip" || Ext == ".fbz" ) {
-							m_sharpZipLib.UnZipFiles(filePath, m_TempDir, 0, false, null, 4096);
-							string [] files = Directory.GetFiles( m_TempDir );
-							if( files.Length > 0 ) {
-								if( Path.GetExtension( files[0] ).ToLower() == ".fb2") {
-									getLibraryData( filePath, ref xeLib, files[0], ref fileNumber );
-								}
-							}
-							filesWorker.RemoveDir( m_TempDir );
-						}
-					}
-				}
-			}
-			doc.Save(ToFileName);
-			#endregion
-		}
-		
-		// сбор данных по всем книгам библиотеки (хранилища)
-		void getLibraryData( string ZipPath, ref XElement xeLib, string filePath, ref int fileNumber ) {
-			#region Код
-			XElement xeAuthors, xeGenres, xeBook;
-			FB2BookDescription fb2bd = new FB2BookDescription( filePath );
-			xeLib.Add( xeBook = new XElement("Book", new XAttribute("number", fileNumber++),
-			                                 new XElement("Path", (ZipPath != null ? ZipPath : filePath)),
-			                                 new XElement("BookID", fb2bd.DIID),
-			                                 new XElement("Encoding", fb2bd.Encoding),
-			                                 new XElement("Version", fb2bd.DIVersion),
-			                                 new XElement("BookTitle", fb2bd.TIBookTitle ),
-			                                 xeAuthors = new XElement("Authors"),
-			                                 xeGenres = new XElement("Genres"),
-			                                 new XElement("md5", ComputeMD5Checksum( filePath ))
-			                                )
-			         );
-			xeBook.Add(new XElement("BookTitleAuthors", fb2bd.TIBookTitle + " ( " + makeAutorsString( fb2bd.Authors, false ) + " )"));
-			// сохранение данных об авторах конкретной книги в xml-файл
-			if( fb2bd.TIAuthors != null ) {
-				XElement xeAuthor = null;
-				foreach( Author a in fb2bd.Authors ) {
-					xeAuthors.Add( xeAuthor = new XElement("Author") );
-					if( a.LastName != null && a.LastName.Value != null )
-						xeAuthor.Add(new XElement("LastName", a.LastName.Value));
-					if( a.FirstName != null && a.FirstName.Value != null )
-						xeAuthor.Add(new XElement("FirstName", a.FirstName.Value));
-					if( a.MiddleName != null && a.MiddleName.Value != null )
-						xeAuthor.Add(new XElement("MiddleName", a.MiddleName.Value));
-					if( a.NickName != null && a.NickName.Value != null )
-						xeAuthor.Add(new XElement("NickName", a.NickName.Value));
-				}
-			}
-			// сохранение данных о жанрах конкретной книги в xml-файл
-			if( fb2bd.Genres == null )
-				xeGenres.Add(new XElement("Genre", "?"));
-			else {
-				foreach( Genre g in fb2bd.Genres ) {
-					if( g.Name != null )
-						xeGenres.Add( new XElement("Genre", new XAttribute("match", g.Math), g.Name) );
-				}
-			}
-			#endregion
-		}
-
-		//TODO сделать в общем классе, чтобы использовать и в FB2FilesDataInGroupю.makeAutorsString()
-		// формирование списка строк из ФИО всех Авторов книги
-		string makeAutorsString(IList<Author> authors, bool WithMiddleName) {
-			if( authors == null )
-				return "Тег <authors> в книге отсутствует";
-			
-			if (authors.Count > 0) {
-				List<string> list = new List<string>();
-				foreach( Author a in authors ) {
-					if( a == null )
-						return "Тег <authors в книге отсутствует";
-					List<string> fioList = makeListFOIAuthors(authors, WithMiddleName);
-					foreach( string fio in fioList ) {
-						if (!list.Contains(fio)) {
-							list.Add(fio);
-							list.Add("; ");
-						}
-					}
-				}
-				
-				StringBuilder sb = new StringBuilder(list.Count);
-				foreach( string s in list )
-					sb.Append(s);
-				
-				string sA = sb.ToString().Trim();
-				return sA.Substring( 0, sA.LastIndexOf( ';' ) ).Trim();
-			} else
-				return string.Empty;
-		}
-		
-		//TODO сделать в общем классе, чтобы использовать и в BookData.makeListFOIAuthors()
-		// формирование списка из строк ФИО каждого Автора из Authors
-		// WithMiddleName = true - учитывать Отчество Автора
-		List<string> makeListFOIAuthors(IList<Author> Authors, bool WithMiddleName) {
-			List<string> list = new List<string>();
-			for ( int i=0; i!=Authors.Count; ++i ) {
-				StringBuilder fio = new StringBuilder();
-				if (Authors[i].LastName != null && !string.IsNullOrEmpty(Authors[i].LastName.Value ) )
-					fio.Append(Authors[i].LastName.Value.Trim());
-				if (Authors[i].FirstName != null && !string.IsNullOrEmpty( Authors[i].FirstName.Value ) ) {
-					fio.Append(" ");
-					fio.Append(Authors[i].FirstName.Value.Trim());
-				}
-				if (WithMiddleName) {
-					if (Authors[i].MiddleName != null && !string.IsNullOrEmpty( Authors[i].MiddleName.Value ) ) {
-						fio.Append(" ");
-						fio.Append(Authors[i].MiddleName.Value.Trim());
-					}
-				}
-				string s = fio.ToString();
-				if (!list.Contains(s))
-					list.Add(s);
-			}
-			return list;
-		}
-		
-		// ======================
-		int DirsFilesParser( string sStartDir, ref List<string> lAllDirsList, ref List<string> lAllFilesList ) {
-			int nAllDirsCount = 0;
-			// рабочий список папок - по нему парсим вложенные папки и из него удаляем обработанные
-			List<string> lWorkDirList = new List<string>();
-			// начальное заполнение списков
-			lAllFilesList.AddRange( Directory.GetFiles( sStartDir ) );
-			nAllDirsCount = DirFilesListMaker( sStartDir, ref lWorkDirList, ref lAllFilesList );
-			lAllDirsList.Add( sStartDir );
-			lAllDirsList.AddRange( lWorkDirList );
-			while( lWorkDirList.Count != 0 ) {
-				// перебор папок в указанной папке s
-				int nWorkCount = lWorkDirList.Count;
-				for( int i=0; i!=nWorkCount; ++i ) {
-					// l - список найденных папок в указанной папке s
-					List<string> l = new List<string>();
-					nAllDirsCount += DirFilesListMaker( lWorkDirList[i], ref l, ref lAllFilesList );
-					// заносим найденные папки в рабочий и полный список папок
-					lWorkDirList.AddRange( l );
-					lAllDirsList.AddRange( l );
-				}
-				// удаляем из рабочего списка обработанные папки
-				lWorkDirList.RemoveRange( 0, nWorkCount );
-			}
-			return nAllDirsCount;
-		}
-		
-		int DirFilesListMaker( string sStartDir, ref List<string> lDirList, ref List<string> lFileList ) {
-			int nDirCount = 0;
-			// папки в текущей папке
-			try {
-				string[] dirs = Directory.GetDirectories( sStartDir );
-				foreach( string dir in dirs ) {
-					try {
-						lDirList.Add( dir );
-						lFileList.AddRange( Directory.GetFiles( dir ) );
-						nDirCount += lDirList.Count;
-					} catch { continue; }
-				}
-			} catch { lDirList.Remove( sStartDir ); }
-			return nDirCount;
-		}
-		
-		// Вычисление MD5 файла
-		private string ComputeMD5Checksum(string path) {
-			using (FileStream fs = System.IO.File.OpenRead(path))
-			{
-				MD5 md5 = new MD5CryptoServiceProvider();
-				byte[] fileData = new byte[fs.Length];
-				fs.Read(fileData, 0, (int)fs.Length);
-				byte[] checkSum = md5.ComputeHash(fileData);
-				string result = BitConverter.ToString(checkSum).Replace("-", String.Empty);
-				return result;
-			}
-		}
-		// =====================
-		#endregion
 	}
 }

@@ -77,24 +77,24 @@ namespace Settings
 		
 		// названия папок для шаблонных тэгов без данных
 		private static string m_NoGenreGroup	= "_Нестандартные Жанры";
-		private static string m_NoGenre			= "Жанра Нет";
-		private static string m_NoLang			= "Языка Книги Нет";
-		private static string m_NoFirstName		= "Имени Автора Нет";
-		private static string m_NoMiddleName	= "Отчества Автора Нет";
-		private static string m_NoLastName		= "Фамилия Автора Нет";
-		private static string m_NoNickName		= "Ника Автора Нет";
-		private static string m_NoBookTitle		= "Названия Книги Нет";
-		private static string m_NoSequence		= "Серии Нет";
-		private static string m_NoNSequence		= "Номера Серии Нет";
-		private static string m_NoDateText		= "Даты (Текст) Нет";
-		private static string m_NoDateValue		= "Даты (Значение) Нет";
-		private static string m_NoYear			= "Года издания Нет";
-		private static string m_NoPublisher		= "Издательства Нет";
-		private static string m_NoCity			= "Города Издания Нет";
-		private static string m_NoFB2FirstName	= "Имени fb2-создателя Нет";
-		private static string m_NoFB2MiddleName	= "Отчества fb2-создателя Нет";
-		private static string m_NoFB2LastName	= "Фамилия fb2-создателя Нет";
-		private static string m_NoFB2NickName	= "Ника fb2-создателя Нет";
+		private static string m_NoGenre			= "Без Жанра";
+		private static string m_NoLang			= "Без Языка Книги";
+		private static string m_NoFirstName		= "Без Имени";
+		private static string m_NoMiddleName	= "Без Отчества";
+		private static string m_NoLastName		= "Без Фамилия";
+		private static string m_NoNickName		= "Без Ника";
+		private static string m_NoBookTitle		= "Без Названия Книги";
+		private static string m_NoSequence		= "Без Серии";
+		private static string m_NoNSequence		= "Без Номера Серии";
+		private static string m_NoDateText		= "Без Даты (Текст)";
+		private static string m_NoDateValue		= "Без Даты (Значение)";
+		private static string m_NoYear			= "Без Года издания";
+		private static string m_NoPublisher		= "Без Издательства";
+		private static string m_NoCity			= "Без Города Издания";
+		private static string m_NoFB2FirstName	= "Без Имени fb2-создателя";
+		private static string m_NoFB2MiddleName	= "Без Отчества fb2-создателя";
+		private static string m_NoFB2LastName	= "Без Фамилия fb2-создателя";
+		private static string m_NoFB2NickName	= "Без Ника fb2-создателя";
 		
 		// название Групп Жанров
 		private static string m_sf			= "ФАНТАСТИКА, ФЭНТЕЗИ";

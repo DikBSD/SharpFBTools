@@ -46,7 +46,7 @@ namespace Core.FB2.Description.TitleInfo
             m_Annotation 	= annotation;
             m_Keywords 		= keywords;
             m_Date 			= date;
-            m_Coverpages		= coverpages;
+            m_Coverpages	= coverpages;
             m_Lang 			= lang;
             m_SrcLang 		= srcLang;
             m_Translators 	= translators;

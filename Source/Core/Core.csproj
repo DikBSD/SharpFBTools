@@ -48,7 +48,6 @@
   <ItemGroup>
     <Folder Include="Duplicator" />
     <Folder Include="FB2" />
-    <Folder Include="FB2BookData" />
     <Folder Include="FB2\binary" />
     <Folder Include="FB2\Common" />
     <Folder Include="FB2\Description" />
@@ -64,8 +63,7 @@
     <Folder Include="FB2Dublicator" />
     <Folder Include="Misc" />
     <Folder Include="FileManager" />
-    <Folder Include="Reports" />
-    <Folder Include="StringProcessing" />
+    <Folder Include="Validator" />
     <Folder Include="Templates" />
     <Folder Include="Test" />
     <Compile Include="AssemblyInfo.cs" />
@@ -82,7 +80,6 @@
     <Compile Include="Duplicator\CompareForm.cs" />
     <Compile Include="Duplicator\CopyMoveDeleteForm.cs" />
     <Compile Include="Duplicator\ValidatorForm.cs" />
-    <Compile Include="FB2BookData\FB2BookData.cs" />
     <Compile Include="FB2Dublicator\BookData.cs" />
     <Compile Include="FB2Dublicator\FB2FilesDataInGroupList.cs" />
     <Compile Include="FB2Dublicator\FB2ParserForDup.cs" />
@@ -128,12 +125,13 @@
     <Compile Include="FilesWorker\FilesWorker.cs" />
     <Compile Include="FilesWorker\SharpZipLibWorker.cs" />
     <Compile Include="Misc\EndWorkMode.cs" />
+    <Compile Include="Misc\FB2BookData.cs" />
     <Compile Include="Misc\FB2BookDescription.cs" />
     <Compile Include="Misc\ListViewItemType.cs" />
     <Compile Include="Misc\MiscListView.cs" />
+    <Compile Include="Misc\StringProcessing.cs" />
     <Compile Include="Misc\ZipFB2Validation.cs" />
-    <Compile Include="Reports\ValidatorReports.cs" />
-    <Compile Include="StringProcessing\StringProcessing.cs" />
+    <Compile Include="Validator\ValidatorReports.cs" />
     <Compile Include="Templates\FullNameTemplates.cs" />
     <Compile Include="Templates\LexemType.cs" />
     <Compile Include="Templates\TemplatesParser.cs" />

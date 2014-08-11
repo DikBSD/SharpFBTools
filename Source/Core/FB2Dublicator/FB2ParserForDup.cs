@@ -26,9 +26,11 @@ namespace Core.FB2Dublicator
 	public class FB2ParserForDup
 	{
 		#region Закрытые данные класса
-		private XmlNamespaceManager m_NsManager		= null;
-        private XmlDocument			m_xmlDoc		= null;
-        private string				m_aFBNamespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
+		private readonly XmlNamespaceManager	m_NsManager	= null;
+        private readonly XmlDocument			m_xmlDoc	= null;
+        private const string m_aFB20Namespace = "http://www.gribuser.ru/xml/fictionbook/2.0";
+        private const string m_aFB21Namespace = "http://www.gribuser.ru/xml/fictionbook/2.1";
+        private string m_ns = "/fb20:";
         #endregion
 
 		#region Конструкторы класса
@@ -39,7 +41,14 @@ namespace Core.FB2Dublicator
 				m_xmlDoc = new XmlDocument();
         		m_xmlDoc.Load( sFB2Path );
 				m_NsManager = new XmlNamespaceManager( m_xmlDoc.NameTable );
-				m_NsManager.AddNamespace( "fb", m_aFBNamespace );
+				string fb2FileNamespaceURI = m_xmlDoc.DocumentElement.NamespaceURI;
+				if( fb2FileNamespaceURI.Equals( m_aFB21Namespace ) ) {
+					m_NsManager.AddNamespace( "fb21", m_aFB21Namespace );
+					m_ns = "/fb21:";
+				} else {
+					m_NsManager.AddNamespace( "fb20", m_aFB20Namespace );
+					m_ns = "/fb20:";
+				}
         	} catch {
         		throw new System.IO.FileLoadException( "Bad File!" );
         	}
@@ -74,13 +83,13 @@ namespace Core.FB2Dublicator
             }
 
             Author Author = null;
-            XmlNode		fn = xn.SelectSingleNode("./fb:first-name", m_NsManager);
-            XmlNode		mn = xn.SelectSingleNode("./fb:middle-name", m_NsManager);
-            XmlNode		ln = xn.SelectSingleNode("./fb:last-name", m_NsManager);
-            XmlNode		nn = xn.SelectSingleNode("./fb:nickname", m_NsManager);
-            XmlNodeList	hp = xn.SelectNodes("./fb:home-page", m_NsManager);
-            XmlNodeList	em = xn.SelectNodes("./fb:email", m_NsManager);
-            XmlNode		id = xn.SelectSingleNode("./fb:id", m_NsManager);
+            XmlNode		fn = xn.SelectSingleNode("." + m_ns + "first-name", m_NsManager);
+            XmlNode		mn = xn.SelectSingleNode("." + m_ns + "middle-name", m_NsManager);
+            XmlNode		ln = xn.SelectSingleNode("." + m_ns + "last-name", m_NsManager);
+            XmlNode		nn = xn.SelectSingleNode("." + m_ns + "nickname", m_NsManager);
+            XmlNodeList	hp = xn.SelectNodes("." + m_ns + "home-page", m_NsManager);
+            XmlNodeList	em = xn.SelectNodes("." + m_ns + "email", m_NsManager);
+            XmlNode		id = xn.SelectSingleNode("." + m_ns + "id", m_NsManager);
 
             if( fn != null || mn != null || ln != null || nn != null || hp != null || em != null || id != null ) {
             	Author = new Author();
@@ -140,12 +149,12 @@ namespace Core.FB2Dublicator
 		
 		public virtual string Id {
         	get {
-        		XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:document-info", m_NsManager );
+        		XmlNode xn = m_xmlDoc.SelectSingleNode( m_ns + "FictionBook" + m_ns + "description" + m_ns + "document-info", m_NsManager );
             	if( xn == null ) {
 					return null;
            		}
 				string id = null;
-				XmlNode xmlNode = xn.SelectSingleNode("./fb:id", m_NsManager);
+				XmlNode xmlNode = xn.SelectSingleNode("." + m_ns + "id", m_NsManager);
 				if( xmlNode != null ) {
 					id = xmlNode.InnerText;
 				}
@@ -155,12 +164,12 @@ namespace Core.FB2Dublicator
 		
 		public virtual string Version {
         	get {
-        		XmlNode xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:document-info", m_NsManager );
+        		XmlNode xn = m_xmlDoc.SelectSingleNode( m_ns + "FictionBook" + m_ns + "description" + m_ns + "document-info", m_NsManager );
             	if( xn == null ) {
 					return null;
            		}
 				string version = null;
-				XmlNode xmlNode = xn.SelectSingleNode("./fb:version", m_NsManager);
+				XmlNode xmlNode = xn.SelectSingleNode("." + m_ns + "version", m_NsManager);
 				if( xmlNode != null ) {
 					version = xmlNode.InnerText;
 				}
@@ -171,23 +180,23 @@ namespace Core.FB2Dublicator
 		public virtual BookTitle BookTitle {
         	get {
 				XmlNode xn = null;
-				xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:title-info", m_NsManager );
+				xn = m_xmlDoc.SelectSingleNode( m_ns + "FictionBook" + m_ns + "description" + m_ns + "title-info", m_NsManager );
 				if( xn == null ) {
 					return null;
 				}
-				return TextFieldType<BookTitle>( xn.SelectSingleNode("./fb:book-title", m_NsManager) );
+				return TextFieldType<BookTitle>( xn.SelectSingleNode("." + m_ns + "book-title", m_NsManager) );
 			}
         }
 		
 		public virtual IList<Author> Authors {
         	get {
         		XmlNode xn = null;
-				xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:title-info", m_NsManager );
+				xn = m_xmlDoc.SelectSingleNode( m_ns + "FictionBook" + m_ns + "description" + m_ns + "title-info", m_NsManager );
 				if( xn == null ) {
 					return null;
 				}
 				IList<Author> ilAuthors = null;
-				XmlNodeList xmlNodes = xn.SelectNodes("./fb:author", m_NsManager);
+				XmlNodeList xmlNodes = xn.SelectNodes("." + m_ns + "author", m_NsManager);
 				if( xmlNodes.Count > 0  ) {
 					ilAuthors = new List<Author>();
 					foreach( XmlNode node in xmlNodes ) {
@@ -202,12 +211,12 @@ namespace Core.FB2Dublicator
 		public virtual IList<Genre> Genres {
         	get {
         		XmlNode xn = null;
-				xn = m_xmlDoc.SelectSingleNode( "/fb:FictionBook/fb:description/fb:title-info", m_NsManager );
+				xn = m_xmlDoc.SelectSingleNode( m_ns + "FictionBook" + m_ns + "description" + m_ns + "title-info", m_NsManager );
 				if( xn == null ) {
 					return null;
 				}
 				IList<Genre> ilGenres = null;
-				XmlNodeList xmlNodes = xn.SelectNodes("./fb:genre", m_NsManager);
+				XmlNodeList xmlNodes = xn.SelectNodes("." + m_ns + "genre", m_NsManager);
 				if( xmlNodes.Count > 0  ) {
 					ilGenres = new List<Genre>();
 					foreach( XmlNode node in xmlNodes ) {
