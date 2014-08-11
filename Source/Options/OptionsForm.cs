@@ -7,13 +7,9 @@
  * License: GPL 2.1
  */
 using System;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Linq;
 using System.IO;
-
-using filesWorker = Core.FilesWorker.FilesWorker;
 
 namespace Options
 {

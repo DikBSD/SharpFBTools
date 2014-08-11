@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 
 using Core.FB2.Description.Common;
-using Core.FB2.Description.TitleInfo;
 
 namespace Core.FB2.Description.PublishInfo
 {

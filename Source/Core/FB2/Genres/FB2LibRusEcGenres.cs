@@ -9,8 +9,6 @@
 using System;
 using System.Collections.Generic;
 
-using Core.BookSorting;
-
 using stringProcessing = Core.Misc.StringProcessing;
 
 namespace Core.FB2.Genres
@@ -21,8 +19,8 @@ namespace Core.FB2.Genres
 	public class FB2LibrusecGenres : IFBGenres
 	{
 		#region Закрытые данные класса
-		private Dictionary<string, string> m_dFB2LibRusEcGenres			= new Dictionary<string, string>();
-		private Dictionary<string, string> m_dFB2LibRusEcGenresGroup	= new Dictionary<string, string>();
+		private readonly Dictionary<string, string> m_dFB2LibRusEcGenres		= new Dictionary<string, string>();
+		private readonly Dictionary<string, string> m_dFB2LibRusEcGenresGroup	= new Dictionary<string, string>();
 		private List<string> m_lsGenresForGroup = null;
 		
 		private string[] m_sFB2LibRusEcGenreCode = {
@@ -112,7 +110,7 @@ namespace Core.FB2.Genres
 		};
 		#endregion
 		
-		public FB2LibrusecGenres( ref SortingFB2Tags sortTags )
+		public FB2LibrusecGenres( ref Core.FileManager.SortingFB2Tags sortTags )
 		{
 			#region Код
 			// инициализация словаря

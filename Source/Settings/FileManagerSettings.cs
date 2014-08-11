@@ -9,7 +9,6 @@
 using System;
 using System.Xml;
 using System.IO;
-using System.Xml.Linq;
 
 namespace Settings
 {
@@ -20,103 +19,103 @@ namespace Settings
 	{
 		#region Закрытые статические данные класса ПО-УМОЛЧАНИЮ
 		// пути к файлам-справкам
-		private static string m_FileManagerHelpPath	= Settings.ProgDir + "\\Help\\FileManagerHelp.rtf";
-		private static string m_DescTemplatePath	= Settings.ProgDir + "\\Help\\TemplatesDescription.rtf";
-		private static string m_FileSettingsPath	= Settings.ProgDir + @"\FileManagerSettings.xml";
-		private static XmlDocument m_xmlDoc			= new XmlDocument();
+		private readonly static string m_FileManagerHelpPath	= Settings.ProgDir + "\\Help\\FileManagerHelp.rtf";
+		private readonly static string m_DescTemplatePath		= Settings.ProgDir + "\\Help\\TemplatesDescription.rtf";
+		private readonly static string m_FileSettingsPath		= Settings.ProgDir + @"\FileManagerSettings.xml";
+		private readonly static XmlDocument m_xmlDoc			= new XmlDocument();
 		private static bool m_FullSortingFB2LibrusecGenres		= true;
 		private static bool m_SelectedSortingFB2LibrusecGenres	= true;
 
 		// Настройки Полной сортировки
-		private static bool m_FullSortScanSubDirs		= true;
-		private static bool m_FullSortToZip				= false;
-		private static bool m_FullSortNotDelFB2Files	= true;
-		private static string m_FullSortTemplate = @"*GROUP*\*LBAL*[ *BAF*][ *BAM*]\*G*\[# *SN*]\[#*SII* - ]*BT*";
-		private static string m_FullSortSourceDir = string.Empty;
-		private static string m_FullSortTargetDir = string.Empty;
-		private static bool m_FullSortFB2GenresLibrusec	= true;
-		private static bool m_FullSortFB2GenresFB22		= false;
+		private readonly static string m_FullSortTemplate			= @"*GROUP*\*LBAL*[ *BAF*][ *BAM*]\*G*\[# *SN*]\[#*SII* - ]*BT*";
+		private readonly static bool m_FullSortScanSubDirs			= true;
+		private readonly static bool m_FullSortToZip				= false;
+		private readonly static bool m_FullSortNotDelFB2Files		= true;
+		private readonly static string m_FullSortSourceDir 			= string.Empty;
+		private readonly static string m_FullSortTargetDir			= string.Empty;
+		private readonly static bool m_FullSortFB2GenresLibrusec	= true;
+		private readonly static bool m_FullSortFB2GenresFB22		= false;
 		
 		// Настройки Избранной сортировки
-		private static bool m_SelSortScanSubDirs	= true;
-		private static bool m_SelSortToZip			= false;
-		private static bool m_SelSortNotDelFB2Files	= true;
-		private static string m_SelSortTemplate = @"*GROUP*\*LBAL*[ *BAF*][ *BAM*]\*G*\[# *SN*]\[#*SII* - ]*BT*";
-		private static string m_SelSortSourceDir = string.Empty;
-		private static string m_SelSortTargetDir = string.Empty;
-		private static bool m_SelSortFB2GenresLibrusec	= true;
-		private static bool m_SelSortFB2GenresFB22		= false;
+		private readonly static string m_SelSortTemplate 		= @"*GROUP*\*LBAL*[ *BAF*][ *BAM*]\*G*\[# *SN*]\[#*SII* - ]*BT*";
+		private readonly static bool m_SelSortScanSubDirs		= true;
+		private readonly static bool m_SelSortToZip				= false;
+		private readonly static bool m_SelSortNotDelFB2Files	= true;
+		private readonly static string m_SelSortSourceDir 		= string.Empty;
+		private readonly static string m_SelSortTargetDir 		= string.Empty;
+		private readonly static bool m_SelSortFB2GenresLibrusec	= true;
+		private readonly static bool m_SelSortFB2GenresFB22		= false;
 
 		// прогресс
-		private static bool m_Progress				= false;
+		private readonly static bool m_Progress				= false;
 		
 		// основные опции Сортировщиков
-		private static bool m_RegisterAsIs			= true;
-		private static bool m_RegisterAsSentence	= false;
-		private static bool m_RegisterLower			= false;
-		private static bool m_RegisterUpper			= false;
-		private static bool m_Translit				= false;
-		private static bool m_Strict				= false;
-		private static Int16 m_Space		= 0;
-		private static Int16 m_FileExist	= 1;
+		private readonly static bool m_RegisterAsIs			= true;
+		private readonly static bool m_RegisterAsSentence	= false;
+		private readonly static bool m_RegisterLower		= false;
+		private readonly static bool m_RegisterUpper		= false;
+		private readonly static bool m_Translit				= false;
+		private readonly static bool m_Strict				= false;
+		private readonly static Int16 m_Space				= 0;
+		private readonly static Int16 m_FileExist			= 1;
 		
-		private static bool m_GenreOne		= true;
-		private static bool m_GenreAll		= false;
-		private static bool m_AuthorOne		= true;
-		private static bool m_AuthorAll		= false;
-		private static bool m_GenreSchema	= true;
-		private static bool m_GenreText		= false;
-		private static bool m_AllFB2		= true;
-		private static bool m_OnlyValidFB2	= false;
+		private readonly static bool m_GenreOne		= true;
+		private readonly static bool m_GenreAll		= false;
+		private readonly static bool m_AuthorOne	= true;
+		private readonly static bool m_AuthorAll	= false;
+		private readonly static bool m_GenreSchema	= true;
+		private readonly static bool m_GenreText	= false;
+		private readonly static bool m_AllFB2		= true;
+		private readonly static bool m_OnlyValidFB2	= false;
 		
 		// папки для "проблемных" файлов
-		private static string m_NotReadDir		= "_'Не читаемые' fb2 файлы";
-		private static string m_LongPathDir		= "_fb2 c длинными путями";
-		private static string m_NotValidDir		= "_Не валидные fb2 файлы";
-		private static string m_ArchNotOpenDir	= "_'Битые' fb2 архивы, не fb2 архивы";
+		private readonly static string m_NotReadDir		= "_'Не читаемые' fb2 файлы";
+		private readonly static string m_LongPathDir	= "_fb2 c длинными путями";
+		private readonly static string m_NotValidDir	= "_Не валидные fb2 файлы";
+		private readonly static string m_ArchNotOpenDir	= "_'Битые' fb2 архивы, не fb2 архивы";
 		
 		// названия папок для шаблонных тэгов без данных
-		private static string m_NoGenreGroup	= "_Нестандартные Жанры";
-		private static string m_NoGenre			= "Без Жанра";
-		private static string m_NoLang			= "Без Языка Книги";
-		private static string m_NoFirstName		= "Без Имени";
-		private static string m_NoMiddleName	= "Без Отчества";
-		private static string m_NoLastName		= "Без Фамилия";
-		private static string m_NoNickName		= "Без Ника";
-		private static string m_NoBookTitle		= "Без Названия Книги";
-		private static string m_NoSequence		= "Без Серии";
-		private static string m_NoNSequence		= "Без Номера Серии";
-		private static string m_NoDateText		= "Без Даты (Текст)";
-		private static string m_NoDateValue		= "Без Даты (Значение)";
-		private static string m_NoYear			= "Без Года издания";
-		private static string m_NoPublisher		= "Без Издательства";
-		private static string m_NoCity			= "Без Города Издания";
-		private static string m_NoFB2FirstName	= "Без Имени fb2-создателя";
-		private static string m_NoFB2MiddleName	= "Без Отчества fb2-создателя";
-		private static string m_NoFB2LastName	= "Без Фамилия fb2-создателя";
-		private static string m_NoFB2NickName	= "Без Ника fb2-создателя";
+		private readonly static string m_NoGenreGroup		= "_Нестандартные Жанры";
+		private readonly static string m_NoGenre			= "Без Жанра";
+		private readonly static string m_NoLang				= "Без Языка Книги";
+		private readonly static string m_NoFirstName		= "Без Имени";
+		private readonly static string m_NoMiddleName		= "Без Отчества";
+		private readonly static string m_NoLastName			= "Без Фамилия";
+		private readonly static string m_NoNickName			= "Без Ника";
+		private readonly static string m_NoBookTitle		= "Без Названия Книги";
+		private readonly static string m_NoSequence			= "Без Серии";
+		private readonly static string m_NoNSequence		= "Без Номера Серии";
+		private readonly static string m_NoDateText			= "Без Даты (Текст)";
+		private readonly static string m_NoDateValue		= "Без Даты (Значение)";
+		private readonly static string m_NoYear				= "Без Года издания";
+		private readonly static string m_NoPublisher		= "Без Издательства";
+		private readonly static string m_NoCity				= "Без Города Издания";
+		private readonly static string m_NoFB2FirstName		= "Без Имени fb2-создателя";
+		private readonly static string m_NoFB2MiddleName	= "Без Отчества fb2-создателя";
+		private readonly static string m_NoFB2LastName		= "Без Фамилия fb2-создателя";
+		private readonly static string m_NoFB2NickName		= "Без Ника fb2-создателя";
 		
 		// название Групп Жанров
-		private static string m_sf			= "ФАНТАСТИКА, ФЭНТЕЗИ";
-		private static string m_detective	= "ДЕТЕКТИВЫ, БОЕВИКИ";
-		private static string m_prose		= "ПРОЗА";
-		private static string m_love		= "ЛЮБОВНЫЕ РОМАНЫ";
-		private static string m_adventure	= "ПРИКЛЮЧЕНИЯ";
-		private static string m_children	= "ДЕТСКОЕ";
-		private static string m_poetry		= "ПОЭЗИЯ, ДРАМАТУРГИЯ";
-		private static string m_antique		= "СТАРИННОЕ";
-		private static string m_science		= "НАУКА, ОБРАЗОВАНИЕ";
-		private static string m_computers	= "КОМПЬЮТЕРЫ";
-		private static string m_reference	= "СПРАВОЧНИКИ";
-		private static string m_nonfiction	= "ДОКУМЕНТАЛЬНОЕ";
-		private static string m_religion	= "РЕЛИГИЯ";
-		private static string m_humor		= "ЮМОР";
-		private static string m_home		= "ДОМ, СЕМЬЯ";
-		private static string m_business	= "БИЗНЕС";
-		private static string m_tech		= "ТЕХНИКА";
-		private static string m_military	= "ВОЕННОЕ ДЕЛО";
-		private static string m_folklore	= "ФОЛЬКЛЕР";
-		private static string m_other		= "ПРОЧЕЕ";
+		private readonly static string m_sf			= "ФАНТАСТИКА, ФЭНТЕЗИ";
+		private readonly static string m_detective	= "ДЕТЕКТИВЫ, БОЕВИКИ";
+		private readonly static string m_prose		= "ПРОЗА";
+		private readonly static string m_love		= "ЛЮБОВНЫЕ РОМАНЫ";
+		private readonly static string m_adventure	= "ПРИКЛЮЧЕНИЯ";
+		private readonly static string m_children	= "ДЕТСКОЕ";
+		private readonly static string m_poetry		= "ПОЭЗИЯ, ДРАМАТУРГИЯ";
+		private readonly static string m_antique	= "СТАРИННОЕ";
+		private readonly static string m_science	= "НАУКА, ОБРАЗОВАНИЕ";
+		private readonly static string m_computers	= "КОМПЬЮТЕРЫ";
+		private readonly static string m_reference	= "СПРАВОЧНИКИ";
+		private readonly static string m_nonfiction	= "ДОКУМЕНТАЛЬНОЕ";
+		private readonly static string m_religion	= "РЕЛИГИЯ";
+		private readonly static string m_humor		= "ЮМОР";
+		private readonly static string m_home		= "ДОМ, СЕМЬЯ";
+		private readonly static string m_business	= "БИЗНЕС";
+		private readonly static string m_tech		= "ТЕХНИКА";
+		private readonly static string m_military	= "ВОЕННОЕ ДЕЛО";
+		private readonly static string m_folklore	= "ФОЛЬКЛЕР";
+		private readonly static string m_other		= "ПРОЧЕЕ";
 		#endregion
 		
 		public FileManagerSettings()

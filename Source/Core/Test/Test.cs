@@ -24,7 +24,7 @@ using Core.FB2.Description.Common;
 using Core.FB2.Description.CustomInfo;
 using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.TitleInfo;
-using Core.FB2Dublicator;
+using Core.Duplicator;
 
 namespace Test
 {

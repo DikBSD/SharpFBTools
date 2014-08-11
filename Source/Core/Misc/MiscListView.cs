@@ -8,14 +8,7 @@
  */
 using System;
 using System.IO;
-using System.Threading;
-using System.Diagnostics;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
-
-using filesWorker		= Core.FilesWorker.FilesWorker;
-using archivesWorker	= Core.FilesWorker.Archiver;
 
 namespace Core.Misc
 {

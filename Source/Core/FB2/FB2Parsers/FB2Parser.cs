@@ -9,10 +9,8 @@
 using System;
 using System.Xml;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 using Core.FB2.Common;
-using Core.FB2.Description;
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.PublishInfo;

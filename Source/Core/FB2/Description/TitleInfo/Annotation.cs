@@ -7,8 +7,6 @@
  * License: GPL 2.1
  */
 using System;
-using Core.FB2.Common;
-using Core.FB2.Description.Common;
 
 namespace Core.FB2.Description.TitleInfo
 {

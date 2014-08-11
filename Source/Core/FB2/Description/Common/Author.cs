@@ -9,11 +9,6 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-
-using System.Windows.Forms;
-
-using Core.FB2.Common;
 
 namespace Core.FB2.Description.Common
 {

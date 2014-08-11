@@ -9,11 +9,6 @@
 using System;
 using System.Collections.Generic;
 
-using Core.FB2.Description.TitleInfo;
-using Core.FB2.Description.DocumentInfo;
-using Core.FB2.Description.PublishInfo;
-using Core.FB2.Description.CustomInfo;
-
 namespace Core.FB2.Description
 {
 	/// <summary>

@@ -8,36 +8,23 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Xml;
 using System.Linq;
 using System.Xml.Linq;
-using System.Threading;
-using System.Diagnostics;
 
-using Core.FB2.FB2Parsers;
-using Core.FB2.Description.TitleInfo;
-using Core.FB2.Description.Common;
+using Core.FileManager.Templates.Lexems;
 using Core.FB2.Genres;
-using Core.BookSorting;
 using Core.FileManager;
 using Core.Misc;
-using Settings;
 
-using Core.Templates.Lexems;
-
-using fB2Parser					= Core.FB2.FB2Parsers.FB2Parser;
-using filesWorker				= Core.FilesWorker.FilesWorker;
-using fb2Validator				= Core.FB2Parser.FB2Validator;
-using templatesParser			= Core.Templates.TemplatesParser;
-using templatesVerify			= Core.Templates.TemplatesVerify;
-using templatesLexemsSimple		= Core.Templates.Lexems.TPSimple;
-using selectedSortQueryCriteria	= Core.BookSorting.SortQueryCriteria;
+using SelectedSortQueryCriteria	= Core.FileManager.SortQueryCriteria;
+using SharpZipLibWorker 		= Core.Misc.SharpZipLibWorker;
+using StatusView 				= Core.FileManager.StatusView;
+using templatesVerify			= Core.FileManager.Templates.TemplatesVerify;
+using filesWorker				= Core.Misc.FilesWorker;
 
 namespace SharpFBTools.Tools
 {
@@ -4332,17 +4319,16 @@ namespace SharpFBTools.Tools
 		#region Закрытые данные класса
 		private bool m_isSettingsLoaded			= false; // Только при true все изменения настроек сохраняются в файл.
 		private bool m_ViewMessageForLongTime	= true; // показывать предупреждение о том, что вкл. опции отображения метаданных потребует много времени...
-		private fb2Validator fv2V				= new fb2Validator();
-		private SortingOptions	 				m_sortOptions	= null; // индивидуальные настройки обоих Сортировщиков, взависимости от режима (непрерывная сортировка или возобновление сортировки)
+		private SortingOptions m_sortOptions	= null; // индивидуальные настройки обоих Сортировщиков, взависимости от режима (непрерывная сортировка или возобновление сортировки)
 		
-		private string m_sMessTitle	 = string.Empty;
-		private bool m_SSFB2Librusec = true; // схема Жанров для Избранной сортировки - Либрусек
-		private Core.FileManager.StatusView m_sv	= new Core.FileManager.StatusView();
-		private MiscListView m_mscLV				= new MiscListView(); // класс по работе с ListView
-		private const string m_space				= " "; // для задания отступов данных от границ колонов в Списке
-		private Core.FilesWorker.SharpZipLibWorker sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
-		private FullNameTemplates m_fnt = new FullNameTemplates();
-		private string m_TempDir = Settings.Settings.TempDir;
+		private string				m_sMessTitle	= string.Empty;
+		private bool				m_SSFB2Librusec = true; // схема Жанров для Избранной сортировки - Либрусек
+		private StatusView			m_sv			= new StatusView();
+		private MiscListView		m_mscLV			= new MiscListView(); // класс по работе с ListView
+		private SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
+		private FullNameTemplates	m_fnt			= new FullNameTemplates();
+		private readonly string		m_TempDir		= Settings.Settings.TempDir;
+		private const string		m_space			= " "; // для задания отступов данных от границ колонов в Списке
 		
 		private IFBGenres m_fb2FullSortGenres = null; // спиок жанров для Полной Сортировки для режима отображения метаданных для файлов Проводника
 		#endregion
@@ -5119,7 +5105,6 @@ namespace SharpFBTools.Tools
 						++nItemCount;
 					}
 					FB2BookDescription bd = null;
-					Core.FilesWorker.SharpZipLibWorker sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
 					foreach (FileInfo file in dirInfo.GetFiles()) {
 						if(file.Extension.ToLower() == ".fb2"
 						   || file.Extension.ToLower() == ".zip" || file.Extension.ToLower() == ".fbz") {
@@ -5150,7 +5135,7 @@ namespace SharpFBTools.Tools
 									// для zip-архивов
 									if(isTagsView) {
 										filesWorker.RemoveDir( TempDir );
-										sharpZipLib.UnZipFiles( file.FullName, TempDir, 0, false, null, 4096 );
+										m_sharpZipLib.UnZipFiles( file.FullName, TempDir, 0, false, null, 4096 );
 										string [] files = Directory.GetFiles( TempDir );
 										bd = new FB2BookDescription( files[0] );
 										subItems = new ListViewItem.ListViewSubItem[] {
@@ -5203,10 +5188,10 @@ namespace SharpFBTools.Tools
 		// 													Для Полной Сортировки
 		// ========================================================================================================================
 		// заполнение списка критериев поиска для Избранной Сортировки
-		List<selectedSortQueryCriteria> makeCriteriasList()
+		List<SelectedSortQueryCriteria> makeCriteriasList()
 		{
 			#region Код
-			List<selectedSortQueryCriteria> list = new List<SortQueryCriteria>();
+			List<SelectedSortQueryCriteria> list = new List<SortQueryCriteria>();
 			if( lvSSData.Items.Count > 0 ) {
 				string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit, sFB2Genres;
 				FB2SelectedSorting fb2ss = new FB2SelectedSorting();
@@ -5224,7 +5209,7 @@ namespace SharpFBTools.Tools
 					sExactFit = lvSSData.Items[i].SubItems[9].Text;
 					sFB2Genres = lvSSData.Items[i].SubItems[10].Text;
 					// заполняем список критериев поиска для Избранной Сортировки
-					SortQueryCriteria SelSortQuery = new selectedSortQueryCriteria( sLang, sGGroup, sGenre,
+					SortQueryCriteria SelSortQuery = new SelectedSortQueryCriteria( sLang, sGGroup, sGenre,
 					                                                               sLast, sFirst, sMiddle, sNick, sSequence, sBTitle,
 					                                                               sExactFit=="Да"?true:false,
 					                                                               sFB2Genres == "Либрусек"?true:false);
@@ -5446,7 +5431,7 @@ namespace SharpFBTools.Tools
 									if( checkBoxTagsView.Checked ) {
 										// показать данные архивов
 										filesWorker.RemoveDir( m_TempDir );
-										sharpZipLib.UnZipFiles(it.Value, m_TempDir, 0, true, null, 4096);
+										m_sharpZipLib.UnZipFiles(it.Value, m_TempDir, 0, true, null, 4096);
 										string [] files = Directory.GetFiles( m_TempDir );
 										bd = new FB2BookDescription( files[0] );
 										listViewSource.Items[i].SubItems[1].Text = m_space+bd.TIBookTitle+m_space;
@@ -5724,7 +5709,7 @@ namespace SharpFBTools.Tools
 			chBoxScanSubDir.Checked = m_sortOptions.ScanSubDirs;
 			chBoxFSToZip.Checked = m_sortOptions.ToZip;
 			chBoxFSNotDelFB2Files.Checked = m_sortOptions.NotDelOriginalFiles;
-			List<selectedSortQueryCriteria> cl = m_sortOptions.getCriterias();
+			List<SelectedSortQueryCriteria> cl = m_sortOptions.getCriterias();
 			rbtnFMFSFB2Librusec.Checked = cl[0].GenresFB2Librusec;
 			SortingForm sortingForm = new SortingForm( ref m_sortOptions, listViewSource, lvFilesCount );
 			sortingForm.ShowDialog();
@@ -5822,7 +5807,7 @@ namespace SharpFBTools.Tools
 		// запуск диалога Вставки готовых шаблонов
 		void BtnInsertTemplatesClick(object sender, EventArgs e)
 		{
-			Core.BookSorting.BasicTemplates btfrm = new Core.BookSorting.BasicTemplates();
+			Core.FileManager.BasicTemplates btfrm = new Core.FileManager.BasicTemplates();
 			btfrm.ShowDialog();
 			if( btfrm.GetTemplateLine()!=null )
 				txtBoxTemplatesFromLine.Text = btfrm.GetTemplateLine();
@@ -5902,7 +5887,7 @@ namespace SharpFBTools.Tools
 		// запуск диалога Вставки готовых шаблонов
 		void BtnSSInsertTemplatesClick(object sender, EventArgs e)
 		{
-			Core.BookSorting.BasicTemplates btfrm = new Core.BookSorting.BasicTemplates();
+			Core.FileManager.BasicTemplates btfrm = new Core.FileManager.BasicTemplates();
 			btfrm.ShowDialog();
 			if( btfrm.GetTemplateLine()!= null )
 				txtBoxSSTemplatesFromLine.Text = btfrm.GetTemplateLine();
@@ -5952,7 +5937,7 @@ namespace SharpFBTools.Tools
 			
 			// инициализация контролов
 			Init();
-			Core.BookSorting.SortingForm sortingForm = new Core.BookSorting.SortingForm( ref m_sortOptions, lvFilesCount );
+			Core.FileManager.SortingForm sortingForm = new Core.FileManager.SortingForm( ref m_sortOptions, lvFilesCount );
 			sortingForm.ShowDialog();
 			Core.Misc.EndWorkMode EndWorkMode = sortingForm.EndMode;
 			sortingForm.Dispose();
@@ -5988,8 +5973,8 @@ namespace SharpFBTools.Tools
 			// загрузка критериев для Избранной сортировки
 			// удаляем записи в списке, если они есть
 			lvSSData.Items.Clear();
-			List<selectedSortQueryCriteria> lSSQCList = m_sortOptions.getCriterias();
-			foreach( selectedSortQueryCriteria c in lSSQCList ) {
+			List<SelectedSortQueryCriteria> lSSQCList = m_sortOptions.getCriterias();
+			foreach( SelectedSortQueryCriteria c in lSSQCList ) {
 				ListViewItem lvi = new ListViewItem( c.Lang );
 				lvi.SubItems.Add( c.GenresGroup );
 				lvi.SubItems.Add( c.Genre );

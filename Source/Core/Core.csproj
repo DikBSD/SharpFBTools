@@ -46,6 +46,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FileManager\BasiclTemplates.resx">
+      <DependentUpon>BasiclTemplates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileManager\SelectedSortDataForm.resx">
+      <DependentUpon>SelectedSortDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileManager\SortingForm.resx">
+      <DependentUpon>SortingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <Folder Include="Duplicator" />
     <Folder Include="FB2" />
     <Folder Include="FB2\binary" />
@@ -58,32 +67,19 @@
     <Folder Include="FB2\Description\PublishInfo" />
     <Folder Include="FB2\FB2Parsers" />
     <Folder Include="FB2\Genres" />
-    <Folder Include="FilesWorker" />
-    <Folder Include="BookSorting" />
-    <Folder Include="FB2Dublicator" />
+    <Folder Include="FileManager\Templates" />
     <Folder Include="Misc" />
     <Folder Include="FileManager" />
     <Folder Include="Validator" />
-    <Folder Include="Templates" />
     <Folder Include="Test" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="BookSorting\BasiclTemplates.cs" />
-    <Compile Include="BookSorting\FB2SelectedSorting.cs" />
-    <Compile Include="BookSorting\ISortOptions.cs" />
-    <Compile Include="BookSorting\ISortFB2Tags.cs" />
-    <Compile Include="BookSorting\ISortProblemDirs.cs" />
-    <Compile Include="BookSorting\SortingFB2Tags.cs" />
-    <Compile Include="BookSorting\SortingOptions.cs" />
-    <Compile Include="BookSorting\SelectedSortDataForm.cs" />
-    <Compile Include="BookSorting\SortingForm.cs" />
-    <Compile Include="BookSorting\SortQueryCriteria.cs" />
+    <Compile Include="Duplicator\BookData.cs" />
     <Compile Include="Duplicator\CompareForm.cs" />
     <Compile Include="Duplicator\CopyMoveDeleteForm.cs" />
+    <Compile Include="Duplicator\FB2FilesDataInGroupList.cs" />
+    <Compile Include="Duplicator\FB2ParserForDup.cs" />
+    <Compile Include="Duplicator\StatusView.cs" />
     <Compile Include="Duplicator\ValidatorForm.cs" />
-    <Compile Include="FB2Dublicator\BookData.cs" />
-    <Compile Include="FB2Dublicator\FB2FilesDataInGroupList.cs" />
-    <Compile Include="FB2Dublicator\FB2ParserForDup.cs" />
-    <Compile Include="FB2Dublicator\StatusView.cs" />
     <Compile Include="FB2\binary\Binary.cs" />
     <Compile Include="FB2\Common\IInlineImageType.cs" />
     <Compile Include="FB2\Common\InlineImage.cs" />
@@ -119,37 +115,37 @@
     <Compile Include="FB2\Genres\FB22Genres.cs" />
     <Compile Include="FB2\Genres\FB2LibRusEcGenres.cs" />
     <Compile Include="FB2\Genres\IFBGenres.cs" />
+    <Compile Include="FileManager\BasiclTemplates.cs" />
+    <Compile Include="FileManager\FB2SelectedSorting.cs" />
+    <Compile Include="FileManager\ISortFB2Tags.cs" />
+    <Compile Include="FileManager\ISortOptions.cs" />
+    <Compile Include="FileManager\ISortProblemDirs.cs" />
+    <Compile Include="FileManager\SelectedSortDataForm.cs" />
+    <Compile Include="FileManager\SortingFB2Tags.cs" />
+    <Compile Include="FileManager\SortingForm.cs" />
+    <Compile Include="FileManager\SortingOptions.cs" />
+    <Compile Include="FileManager\SortQueryCriteria.cs" />
     <Compile Include="FileManager\StatusView.cs" />
-    <Compile Include="FilesWorker\Archiver.cs" />
-    <Compile Include="FilesWorker\CommandManager.cs" />
-    <Compile Include="FilesWorker\FilesWorker.cs" />
-    <Compile Include="FilesWorker\SharpZipLibWorker.cs" />
+    <Compile Include="FileManager\Templates\FullNameTemplates.cs" />
+    <Compile Include="FileManager\Templates\LexemType.cs" />
+    <Compile Include="FileManager\Templates\TemplatesParser.cs" />
+    <Compile Include="FileManager\Templates\TemplatesVerify.cs" />
+    <Compile Include="Misc\CommandManager.cs" />
     <Compile Include="Misc\EndWorkMode.cs" />
     <Compile Include="Misc\FB2BookData.cs" />
     <Compile Include="Misc\FB2BookDescription.cs" />
+    <Compile Include="Misc\FilesWorker.cs" />
     <Compile Include="Misc\ListViewItemType.cs" />
     <Compile Include="Misc\MiscListView.cs" />
+    <Compile Include="Misc\SharpZipLibWorker.cs" />
     <Compile Include="Misc\StringProcessing.cs" />
     <Compile Include="Misc\ZipFB2Validation.cs" />
     <Compile Include="Validator\ValidatorReports.cs" />
-    <Compile Include="Templates\FullNameTemplates.cs" />
-    <Compile Include="Templates\LexemType.cs" />
-    <Compile Include="Templates\TemplatesParser.cs" />
-    <Compile Include="Templates\TemplatesVerify.cs" />
     <Compile Include="Test\Test.cs" />
     <ProjectReference Include="..\Settings\Settings.csproj">
       <Project>{6B89BF4B-6D6C-4948-AA21-53A61D22052F}</Project>
       <Name>Settings</Name>
     </ProjectReference>
-    <EmbeddedResource Include="BookSorting\BasiclTemplates.resx">
-      <DependentUpon>BasiclTemplates.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BookSorting\SelectedSortDataForm.resx">
-      <DependentUpon>SelectedSortDataForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BookSorting\SortingForm.resx">
-      <DependentUpon>SortingForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Duplicator\CompareForm.resx">
       <DependentUpon>CompareForm.cs</DependentUpon>
     </EmbeddedResource>

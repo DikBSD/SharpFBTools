@@ -8,20 +8,15 @@
  */
 using System;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 
 using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
-using Core.FB2.Description.DocumentInfo;
-using Core.FB2.Description.PublishInfo;
 using Core.FB2.Description.CustomInfo;
 using Core.FB2.Binary;
 
 using FB2Validator	= Core.FB2Parser.FB2Validator;
-using filesWorker	= Core.FilesWorker.FilesWorker;
+using filesWorker	= Core.Misc.FilesWorker;
 
 namespace Core.Misc
 {
@@ -31,8 +26,8 @@ namespace Core.Misc
 	public class FB2BookDescription
 	{
 		#region Закрытые данные класса
-		private FB2BookData m_fb2bd		= null; // fb2-данные о книге
-		private string m_sFromFilePath	= string.Empty;	// путь к анализируемой книге
+		private readonly FB2BookData m_fb2bd		= null; // fb2-данные о книге
+		private string m_sFromFilePath				= string.Empty;	// путь к анализируемой книге
 		#endregion
 		
 		public FB2BookDescription( string sFromFilePath )
@@ -43,10 +38,10 @@ namespace Core.Misc
 		
 		#region Закрытые вспомогательные методы класса
 		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
-		private string MakeAutorsString( IList<Author> Authors) {
+		private string MakeAutorsString( IList<Author> AuthorsList) {
 			if( Authors == null ) return string.Empty; 
 			string sA = string.Empty; //int n = 0;
-			foreach( Author a in Authors ) {
+			foreach( Author a in AuthorsList ) {
 //				++n;
 				if( a.LastName!=null && a.LastName.Value!=null )
 					sA += a.LastName.Value + " ";
@@ -73,10 +68,10 @@ namespace Core.Misc
 		}
 		
 		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
-		private string MakeGenresString( IList<Genre> Genres ) {
+		private string MakeGenresString( IList<Genre> GenresList ) {
 			if( Genres == null ) return string.Empty; 
 			string sG = string.Empty; //int n = 0;
-			foreach( Genre g in Genres ) {
+			foreach( Genre g in GenresList ) {
 //				++n;
 				if( g.Name!=null ) sG += g.Name;
 				sG += "; ";

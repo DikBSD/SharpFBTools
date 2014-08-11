@@ -9,15 +9,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using Options;
-using Settings;
 using SharpFBTools;
 using SharpFBTools.AssemblyInfo;
 using SharpFBTools.Tools;
 
-using filesWorker = Core.FilesWorker.FilesWorker;
+using filesWorker = Core.Misc.FilesWorker;
 
 namespace Main
 {
@@ -288,12 +286,12 @@ namespace Main
 		private List<ToolStripButton>	m_listToggleBtns = new List<ToolStripButton>();	// список кнопок-переключателей панели инструментов
 		private List<UserControl>		m_listImplPanels = new List<UserControl>();		// список имплантируемых панелей-режимов работы
 
-		private SFBTpFB2Validator	sfbTpFB2Validator	= new SFBTpFB2Validator();	// панель Валидатора
-		private SFBTpFileManager	sfbTpFileManager	= new SFBTpFileManager();	// панель Менеджера файлов
-		private SFBTpArchiveManager	sfbTpArchiveManager	= new SFBTpArchiveManager();// панель Менеджера архивов
-		private SFBTpFB2Dublicator	sfbTpFB2Dublicator	= new SFBTpFB2Dublicator();	// панель Дубликатора файлов
-		private SFBTpFB2DescEditor	sfbTpFB2DescEditor	= new SFBTpFB2DescEditor();	// панель Редактора описания книг
-		private SFBTpAbout			sfbTpAbout			= new SFBTpAbout();			// панель О программе
+		private readonly SFBTpFB2Validator		sfbTpFB2Validator	= new SFBTpFB2Validator();	// панель Валидатора
+		private readonly SFBTpFileManager		sfbTpFileManager	= new SFBTpFileManager();	// панель Менеджера файлов
+		private readonly SFBTpArchiveManager	sfbTpArchiveManager	= new SFBTpArchiveManager();// панель Менеджера архивов
+		private readonly SFBTpFB2Dublicator		sfbTpFB2Dublicator	= new SFBTpFB2Dublicator();	// панель Дубликатора файлов
+		private readonly SFBTpFB2DescEditor		sfbTpFB2DescEditor	= new SFBTpFB2DescEditor();	// панель Редактора описания книг
+		private readonly SFBTpAbout				sfbTpAbout			= new SFBTpAbout();			// панель О программе
 		#endregion		
 		
 		public MainForm()

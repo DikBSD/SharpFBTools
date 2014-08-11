@@ -9,9 +9,7 @@
 using System;
 using System.IO;
 using System.Xml;
-using System.Xml.Linq;
 using System.Windows.Forms;
-using System.Collections.Generic;
 
 namespace Settings
 {
@@ -21,20 +19,20 @@ namespace Settings
 	public class Settings
 	{
 		#region Закрытые статические члены-данные класса
-		private static XmlDocument m_xmlDoc	= new XmlDocument();
+		private readonly static XmlDocument m_xmlDoc = new XmlDocument();
 		
 		#region Общее Настройки
-		private static string m_sProgDir 				= Environment.CurrentDirectory;
-		private static string m_sTempDir 				= ProgDir + "\\Temp"; // временный каталог
-		private static string m_settings 				= ProgDir + "\\settings.xml";
-		private static string m_sLicensePath			= ProgDir + "\\License GPL 2.1.rtf";
-		private static string m_sChangeFilePath			= ProgDir + "\\Change.rtf";
-		private static string m_sFB22SchemePath			= ProgDir + "\\FB22FictionBook.xsd";
-		private static string m_sFB2LibrusecSchemePath	= ProgDir + "\\LibrusecFictionBook.xsd";
-		private static string m_sTFB2Path		= "c:\\WINDOWS\\NOTEPAD.EXE";
-		private static string m_sFBEPath		= "c:\\Program Files\\FictionBook Editor\\FBE.exe";
-		private static string m_sFBReaderPath	= "c:\\Program Files\\AlReader 2\\AlReader2.exe";
-		private static string m_sDiffPath		= string.Empty;
+		private 		 static string m_sProgDir 				= Environment.CurrentDirectory;
+		private readonly static string m_sTempDir 				= ProgDir + "\\Temp"; // временный каталог
+		private readonly static string m_settings 				= ProgDir + "\\settings.xml";
+		private readonly static string m_sLicensePath			= ProgDir + "\\License GPL 2.1.rtf";
+		private readonly static string m_sChangeFilePath		= ProgDir + "\\Change.rtf";
+		private readonly static string m_sFB22SchemePath		= ProgDir + "\\FB22FictionBook.xsd";
+		private readonly static string m_sFB2LibrusecSchemePath	= ProgDir + "\\LibrusecFictionBook.xsd";
+		private readonly static string m_sTFB2Path				= "c:\\WINDOWS\\NOTEPAD.EXE";
+		private readonly static string m_sFBEPath				= "c:\\Program Files\\FictionBook Editor\\FBE.exe";
+		private readonly static string m_sFBReaderPath			= "c:\\Program Files\\AlReader 2\\AlReader2.exe";
+		private static string m_sDiffPath				= string.Empty;
 		#endregion
 		
 		#region Общие Сообщения

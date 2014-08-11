@@ -7,17 +7,12 @@
  * License: GPL 2.1
  */
 using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using System.Diagnostics;
 
-using Core.FileManager;
 using Core.Misc;
 
-using filesWorker		= Core.FilesWorker.FilesWorker;
-using archivesWorker	= Core.FilesWorker.Archiver;
+using filesWorker = Core.Misc.FilesWorker;
 
 namespace SharpFBTools.Tools
 {

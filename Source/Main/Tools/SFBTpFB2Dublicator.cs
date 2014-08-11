@@ -7,33 +7,22 @@
  * License: GPL 2.1
  */
 
-using Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using Core.FB2.Common;
-using Core.FB2.Description;
-using Core.FB2.Description.Common;
 using Core.FB2.Description.CustomInfo;
-using Core.FB2.Description.DocumentInfo;
-using Core.FB2.Description.TitleInfo;
-using Core.FB2Dublicator;
 using Core.Misc;
-using System.Text;
 
-using FB2Validator = Core.FB2Parser.FB2Validator;
-using filesWorker = Core.FilesWorker.FilesWorker;
+using FB2Validator		= Core.FB2Parser.FB2Validator;
+using SharpZipLibWorker = Core.Misc.SharpZipLibWorker;
+using StatusView 		= Core.Duplicator.StatusView;
+using filesWorker		= Core.Misc.FilesWorker;
 
 namespace SharpFBTools.Tools
 {
@@ -1380,15 +1369,15 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые данные класса
-		private string m_FileSettingsPath = Settings.Settings.ProgDir + @"\DuplicatorSettings.xml";
-		private bool m_isSettingsLoaded	= false; // Только при true все изменения настроек сохраняются в файл.
-		private StatusView	m_sv 		= new StatusView();
-		private string	m_TargetDir		= string.Empty;
-		private string	m_sMessTitle	= string.Empty;
-		private MiscListView m_mscLV	= new MiscListView(); // класс по работе с ListView
-		FB2Validator m_fv2Validator		= new FB2Validator();
-		private string m_TempDir		= Settings.Settings.TempDir;
-		private Core.FilesWorker.SharpZipLibWorker m_sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
+		private readonly string	m_FileSettingsPath	= Settings.Settings.ProgDir + @"\DuplicatorSettings.xml";
+		private bool			m_isSettingsLoaded	= false; // Только при true все изменения настроек сохраняются в файл.
+		private StatusView			m_sv			= new StatusView();
+		private string				m_TargetDir		= string.Empty;
+		private string				m_sMessTitle	= string.Empty;
+		private MiscListView		m_mscLV			= new MiscListView(); // класс по работе с ListView
+		private FB2Validator		m_fv2Validator	= new FB2Validator();
+		private readonly string		m_TempDir		= Settings.Settings.TempDir;
+		private SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
 
 		/// <summary>
 		/// Номера колонок контрола просмотра групп одинаковых книг

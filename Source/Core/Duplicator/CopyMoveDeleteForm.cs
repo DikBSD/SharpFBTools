@@ -7,7 +7,6 @@
  * License: GPL 2.1
  */
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -16,7 +15,8 @@ using System.IO;
 
 using Core.Misc;
 
-using filesWorker = Core.FilesWorker.FilesWorker;
+using EndWorkMode = Core.Misc.EndWorkMode;
+using filesWorker = Core.Misc.FilesWorker;
 
 namespace Core.Duplicator
 {
@@ -127,19 +127,17 @@ namespace Core.Duplicator
 		#endregion
 		
 		#region Закрытые данные класса
+		private System.Windows.Forms.ListView m_lvFilesCount = new System.Windows.Forms.ListView();
+		private System.Windows.Forms.ListView m_lvResult	 = new System.Windows.Forms.ListView();
+		
 		private string	m_Source			= string.Empty;
 		private string	m_TargetDir			= string.Empty;
 		private string	m_FileWorkerMode	= string.Empty;
 		private int m_FileExistMode			= 1; // добавить к созхдаваемому fb2-файлу очередной номер
 		private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
-		
+		private EndWorkMode m_EndMode		= new EndWorkMode();
 		private BackgroundWorker m_bwcmd	= null;
 		private bool m_bFilesWorked			= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
-		
-		private System.Windows.Forms.ListView m_lvFilesCount = new System.Windows.Forms.ListView();
-		private System.Windows.Forms.ListView m_lvResult	 = new System.Windows.Forms.ListView();
-		
-		private Core.Misc.EndWorkMode m_EndMode = new Core.Misc.EndWorkMode();
 		#endregion
 		
 		public CopyMoveDeleteForm( string FileWorkerMode, string Source, string TargetDir, int FileExistMode,

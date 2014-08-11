@@ -7,8 +7,6 @@
  * License: GPL 2.1
  */
 using System;
-using System.Xml;
-using System.IO;
 using System.Windows.Forms;
 
 namespace Settings
@@ -19,11 +17,11 @@ namespace Settings
 	public class ValidatorSettings
 	{
 		#region Закрытые статические члены-данные класса
-		private static string m_FileSettingsPath		= Settings.ProgDir + @"\ValidatorSettings.xml";
-		private static string m_sFB2ValidatorHelpPath	= Settings.ProgDir + @"\Help\FB2ValidatorHelp.rtf";
+		private readonly static string m_FileSettingsPath		= Settings.ProgDir + @"\ValidatorSettings.xml";
+		private readonly static string m_sFB2ValidatorHelpPath	= Settings.ProgDir + @"\Help\FB2ValidatorHelp.rtf";
 		// вид ToolButtons инструмента
-		private static string m_cboxDSValidatorText		= "ImageAndText";
-		private static string m_cboxTIRValidatorText	= "ImageBeforeText";
+		private readonly static string m_cboxDSValidatorText	= "ImageAndText";
+		private readonly static string m_cboxTIRValidatorText	= "ImageBeforeText";
 		#endregion
 		
 		public ValidatorSettings()

@@ -13,24 +13,16 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Xml;
 using System.Linq;
 using System.Xml.Linq;
-using System.Threading;
-using System.Diagnostics;
 
-using Settings;
 using Core.Misc;
-using Core.FilesWorker;
-using Core.FB2.FB2Parsers;
-using Core.FB2.Description.DocumentInfo;
 
-using ICSharpCode.SharpZipLib.Zip;
-
-using filesWorker		= Core.FilesWorker.FilesWorker;
 using FB2Validator		= Core.FB2Parser.FB2Validator;
 using ValidatorReports	= Core.Validator.ValidatorReports;
+using SharpZipLibWorker = Core.Misc.SharpZipLibWorker;
+using filesWorker		= Core.Misc.FilesWorker;
 
 namespace SharpFBTools.Tools
 {
@@ -1754,20 +1746,20 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые данные класса
-		private string m_FileSettingsPath = Settings.Settings.ProgDir + @"\ValidatorSettings.xml";
-		private bool m_isSettingsLoaded	= false; // Только при true все изменения настроек сохраняются в файл.
+		private readonly string m_FileSettingsPath	= Settings.Settings.ProgDir + @"\ValidatorSettings.xml";
+		private bool			m_isSettingsLoaded	= false; // Только при true все изменения настроек сохраняются в файл.
 		private DateTime m_dtStart;
-		private BackgroundWorker m_bwv		= null;
-		private BackgroundWorker m_bwcmd	= null;
-		private string	m_sMessTitle		= string.Empty;
-		private string	m_sScan				= string.Empty;
-		private string	m_sFileWorkerMode	= string.Empty;
-		private bool	m_bScanSubDirs		= true;
-		private MiscListView m_mscLV		= new MiscListView(); // класс по работе с ListView
-		private bool	m_bFilesWorked		= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
-		private string m_TempDir = Settings.Settings.TempDir;
+		private BackgroundWorker m_bwv			= null;
+		private BackgroundWorker m_bwcmd		= null;
+		private string		m_sMessTitle		= string.Empty;
+		private string		m_sScan				= string.Empty;
+		private string		m_sFileWorkerMode	= string.Empty;
+		private bool		m_bScanSubDirs		= true;
+		private MiscListView m_mscLV			= new MiscListView(); // класс по работе с ListView
+		private bool		m_bFilesWorked		= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
+		private string		m_TempDir			= Settings.Settings.TempDir;
 		
-		private Core.FilesWorker.SharpZipLibWorker m_sharpZipLib = new Core.FilesWorker.SharpZipLibWorker();
+		private SharpZipLibWorker m_sharpZipLib = new SharpZipLibWorker();
 
 		// Color
 		private Color	m_FB2ValidFontColor			= Color.Black;		// цвет для несжатых валидных fb2
@@ -1783,21 +1775,21 @@ namespace SharpFBTools.Tools
 		private int	m_nFB2ZipFiles	= 0; // число fb2.zip файлов
 		private int	m_nNotFB2Files	= 0; // число других (не fb2) файлов
 		//
-		private string	m_sNotValid		= " Не валидные fb2-файлы ";
-		private	string	m_sValid		= " Валидные fb2-файлы ";
-		private string	m_sNotFB2Files	= " Не fb2-файлы ";
+		private const string	m_sNotValid		= " Не валидные fb2-файлы ";
+		private	const string	m_sValid		= " Валидные fb2-файлы ";
+		private const string	m_sNotFB2Files	= " Не fb2-файлы ";
 		// Report
-		private string	m_FB2NotValidReportEmpty		= "Список не валидных fb2-файлов пуст!\nОтчет не сохранен.";
-		private string	m_FB2ValidReportEmpty			= "Список валидных fb2-файлов пуст!\nОтчет не сохранен.";
-		private string	m_NotFB2FileReportEmpty			= "Список не fb2-файлов пуст!\nОтчет не сохранен.";
-		private string	m_FB2NotValidFilesListReport	= "Список не валидных fb2-файлов";
-		private string	m_FB2ValidFilesListReport	 	= "Список валидных fb2-файлов";
-		private string	m_NotFB2FilesListReport 		= "Список не fb2-файлов";
-		private string	m_GeneratingReport				= "Генерация отчета";
-		private string	m_ReportSaveOk 		= "Отчет сохранен в файл:\n";
-		private string	m_HTMLFilter 		= "HTML файлы (*.html)|*.html|Все файлы (*.*)|*.*";
-		private string	m_FB2Filter 		= "fb2 файлы (*.fb2)|*.fb2|Все файлы (*.*)|*.*";
-		private string	m_TXTFilter 		= "TXT файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
+		private const string	m_FB2NotValidReportEmpty		= "Список не валидных fb2-файлов пуст!\nОтчет не сохранен.";
+		private const string	m_FB2ValidReportEmpty			= "Список валидных fb2-файлов пуст!\nОтчет не сохранен.";
+		private const string	m_NotFB2FileReportEmpty			= "Список не fb2-файлов пуст!\nОтчет не сохранен.";
+		private const string	m_FB2NotValidFilesListReport	= "Список не валидных fb2-файлов";
+		private const string	m_FB2ValidFilesListReport	 	= "Список валидных fb2-файлов";
+		private const string	m_NotFB2FilesListReport 		= "Список не fb2-файлов";
+		private const string	m_GeneratingReport				= "Генерация отчета";
+		private const string	m_ReportSaveOk 					= "Отчет сохранен в файл:\n";
+		private const string	m_HTMLFilter 					= "HTML файлы (*.html)|*.html|Все файлы (*.*)|*.*";
+		private const string	m_FB2Filter 					= "fb2 файлы (*.fb2)|*.fb2|Все файлы (*.*)|*.*";
+		private const string	m_TXTFilter 					= "TXT файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
 		#endregion
 		
 		public SFBTpFB2Validator()

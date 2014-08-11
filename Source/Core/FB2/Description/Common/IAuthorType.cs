@@ -9,8 +9,6 @@
 using System;
 using System.Collections.Generic;
 
-using Core.FB2.Common;
-
 namespace Core.FB2.Description.Common
 {
 	/// <summary>
