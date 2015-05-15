@@ -4317,20 +4317,19 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые данные класса
+		private string				m_sMessTitle	= string.Empty;
+		private bool				m_SSFB2Librusec = true; // схема Жанров для Избранной сортировки - Либрусек
+		private readonly StatusView			m_sv			= new StatusView();
+		private readonly MiscListView		m_mscLV			= new MiscListView(); // класс по работе с ListView
+		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
+		private readonly FullNameTemplates	m_fnt			= new FullNameTemplates();
+		private readonly string	m_TempDir	= Settings.Settings.TempDir;
+		private const	 string	m_space		= " "; // для задания отступов данных от границ колонов в Списке
+		
+		private IFBGenres m_fb2FullSortGenres	= null; // спиок жанров для Полной Сортировки для режима отображения метаданных для файлов Проводника
 		private bool m_isSettingsLoaded			= false; // Только при true все изменения настроек сохраняются в файл.
 		private bool m_ViewMessageForLongTime	= true; // показывать предупреждение о том, что вкл. опции отображения метаданных потребует много времени...
 		private SortingOptions m_sortOptions	= null; // индивидуальные настройки обоих Сортировщиков, взависимости от режима (непрерывная сортировка или возобновление сортировки)
-		
-		private string				m_sMessTitle	= string.Empty;
-		private bool				m_SSFB2Librusec = true; // схема Жанров для Избранной сортировки - Либрусек
-		private StatusView			m_sv			= new StatusView();
-		private MiscListView		m_mscLV			= new MiscListView(); // класс по работе с ListView
-		private SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
-		private FullNameTemplates	m_fnt			= new FullNameTemplates();
-		private readonly string		m_TempDir		= Settings.Settings.TempDir;
-		private const string		m_space			= " "; // для задания отступов данных от границ колонов в Списке
-		
-		private IFBGenres m_fb2FullSortGenres = null; // спиок жанров для Полной Сортировки для режима отображения метаданных для файлов Проводника
 		#endregion
 		
 		public SFBTpFileManager()
@@ -4359,6 +4358,7 @@ namespace SharpFBTools.Tools
 			
 			// спиок жанров для Полной Сортировки для режима отображения метаданных для файлов Проводника
 			SortingFB2Tags	sortTags = new SortingFB2Tags(null);
+			
 			if( rbtnFMFSFB2Librusec.Checked )
 				m_fb2FullSortGenres = new FB2LibrusecGenres( ref sortTags );
 			else
@@ -5411,7 +5411,7 @@ namespace SharpFBTools.Tools
 				FB2BookDescription bd	= null;
 				for(int i=0; i!= listViewSource.Items.Count; ++i) {
 					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
-					if(it.Type=="f") {
+					if(it.Type == "f") {
 						di = new DirectoryInfo(it.Value);
 						if(checkBoxTagsView.Checked) {
 							// показать данные книг
@@ -5449,7 +5449,7 @@ namespace SharpFBTools.Tools
 							}
 						} else {
 							// скрыть данные книг
-							for( int j=1; j!=listViewSource.Items[i].SubItems.Count; ++j )
+							for( int j = 1; j != listViewSource.Items[i].SubItems.Count; ++j )
 								listViewSource.Items[i].SubItems[j].Text = string.Empty;
 						}
 					}
@@ -5639,7 +5639,7 @@ namespace SharpFBTools.Tools
 		{
 			if( listViewSource.Items.Count > 0 ) {
 				ListViewItemType it = (ListViewItemType)e.Item.Tag;
-				if(it.Type=="dUp") {
+				if(it.Type == "dUp") {
 					ConnectListsEventHandlers( false );
 					if(e.Item.Checked)
 						m_mscLV.CheckAllListViewItems( listViewSource, true );
@@ -6003,7 +6003,7 @@ namespace SharpFBTools.Tools
 		void BtnSSDataListSaveClick(object sender, EventArgs e)
 		{
 			#region Код
-			string sMessTitle = "SharpFBTools - Избранная Сортировка";
+			const string sMessTitle = "SharpFBTools - Избранная Сортировка";
 			if( lvSSData.Items.Count == 0 ) {
 				MessageBox.Show( "Список данных для Избранной Сортировки пуст.\nЗадайте хоть один критерий Сортировки (кнопка 'Собрать данные для Избранной Сортировки').",
 				                sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -6173,13 +6173,4 @@ namespace SharpFBTools.Tools
 		#endregion
 	}
 	
-	/// <summary>
-	/// Режим сортировки книг - по числу Авторов и Жанров
-	/// </summary>
-//	public enum SortModeType {
-//		_1Genre1Author,			// по первому Жанру и первому Автору Книги
-//		_1GenreAllAuthor, 		// по первому Жанру и всем Авторам Книги
-//		_AllGenre1Author,		// по всем Жанрам и первому Автору Книги
-//		_AllGenreAllAuthor, 	// по всем Жанрам и всем Авторам Книги
-//	}
 }

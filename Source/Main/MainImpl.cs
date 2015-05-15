@@ -26,26 +26,26 @@ namespace Main
 		#region Закрытые члены-методы класса
 		private static void MakeGroupToggleButtonsList( List<ToolStripButton> l,
 		    ToolStripButton tsbtnFB2Validator, ToolStripButton tsbtnFileManager,
-			ToolStripButton tsbtnArchiveManager, ToolStripButton tsbtnFB2Dublicator, ToolStripButton tsbtnDescEditor, ToolStripButton tsbtnAbout ) {
+			ToolStripButton tsbtnArchiveManager, ToolStripButton tsbtnFB2Dublicator, /*ToolStripButton tsbtnDescEditor,*/ ToolStripButton tsbtnAbout ) {
 			// список кнопок-переключателей панели инструментов
 			l.Add( tsbtnFB2Validator );
 			l.Add( tsbtnFileManager );
 			l.Add( tsbtnArchiveManager );
 			l.Add( tsbtnFB2Dublicator );
-			l.Add( tsbtnDescEditor );
+			//l.Add( tsbtnDescEditor );
 			l.Add( tsbtnAbout );
 		}		
 		
 		private static void MakeImplPanelsList( List<UserControl> l,
 		    SFBTpFB2Validator sfbTpFB2Validator, SFBTpFileManager sfbTpFileManager,
-			SFBTpArchiveManager sfbTpArchiveManager, SFBTpFB2Dublicator sfbTpFB2Dublicator, SFBTpFB2DescEditor sfbTpFB2DescEditor,
+			SFBTpArchiveManager sfbTpArchiveManager, SFBTpFB2Dublicator sfbTpFB2Dublicator, /*SFBTpFB2DescEditor sfbTpFB2DescEditor,*/
 			SFBTpAbout sfbTpAbout ) {
 			// список список имплантируемых панелей-режимов работы
 			l.Add( sfbTpFB2Validator );
 			l.Add( sfbTpFileManager );
 			l.Add( sfbTpArchiveManager );
 			l.Add( sfbTpFB2Dublicator );
-			l.Add( sfbTpFB2DescEditor );
+			//l.Add( sfbTpFB2DescEditor );
 			l.Add( sfbTpAbout );
 		}	
 		#endregion
@@ -58,15 +58,15 @@ namespace Main
 			List<UserControl> ucl,
 		    SFBTpFB2Validator sfbTpFB2Validator, SFBTpFileManager sfbTpFileManager,
 			SFBTpArchiveManager sfbTpArchiveManager, SFBTpFB2Dublicator sfbTpFB2Dublicator,
-			SFBTpFB2DescEditor sfbTpFB2DescEditor, SFBTpAbout sfbTpAbout ) {
+			/*SFBTpFB2DescEditor sfbTpFB2DescEditor,*/ SFBTpAbout sfbTpAbout ) {
 			// список кнопок-переключателей панели инструментов и список список имплантируемых панелей-режимов работы
 			MakeGroupToggleButtonsList( tsbl,
 		    							tsbtnFB2Validator, tsbtnFileManager,
-										tsbtnArchiveManager, tsbtnFB2Dublicator, tsbtnDescEditor, tsbtnAbout );
+										tsbtnArchiveManager, tsbtnFB2Dublicator, /*tsbtnDescEditor,*/ tsbtnAbout );
 			// список кнопок-переключателей панели инструментов
 			MakeImplPanelsList( ucl,
 		    					sfbTpFB2Validator, sfbTpFileManager,
-								sfbTpArchiveManager, sfbTpFB2Dublicator, sfbTpFB2DescEditor, sfbTpAbout ) ;
+								sfbTpArchiveManager, sfbTpFB2Dublicator, /*sfbTpFB2DescEditor,*/ sfbTpAbout ) ;
 		}
 		
 		public static void ToggleMode( List<ToolStripButton> tsbl, List<UserControl> ucl,

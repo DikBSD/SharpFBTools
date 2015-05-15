@@ -290,7 +290,7 @@ namespace Main
 		private readonly SFBTpFileManager		sfbTpFileManager	= new SFBTpFileManager();	// панель Менеджера файлов
 		private readonly SFBTpArchiveManager	sfbTpArchiveManager	= new SFBTpArchiveManager();// панель Менеджера архивов
 		private readonly SFBTpFB2Dublicator		sfbTpFB2Dublicator	= new SFBTpFB2Dublicator();	// панель Дубликатора файлов
-		private readonly SFBTpFB2DescEditor		sfbTpFB2DescEditor	= new SFBTpFB2DescEditor();	// панель Редактора описания книг
+		//private readonly SFBTpFB2DescEditor		sfbTpFB2DescEditor	= new SFBTpFB2DescEditor();	// панель Редактора описания книг
 		private readonly SFBTpAbout				sfbTpAbout			= new SFBTpAbout();			// панель О программе
 		#endregion		
 		
@@ -313,7 +313,7 @@ namespace Main
 										tsbtnArchiveManager, tsbtnFB2Dublicator, tsbtnDescEditor, tsbtnAbout,
 										m_listImplPanels,
 		    							sfbTpFB2Validator, sfbTpFileManager,
-										sfbTpArchiveManager, sfbTpFB2Dublicator, sfbTpFB2DescEditor, sfbTpAbout );
+										sfbTpArchiveManager, sfbTpFB2Dublicator, /*sfbTpFB2DescEditor,*/ sfbTpAbout );
 			// первоначальное задание режима работы - панель Валидатора
 			tsbtnFB2Validator.Checked = true;
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Validator );
@@ -376,9 +376,9 @@ namespace Main
 		void TsbtnDescEditorClick(object sender, EventArgs e)
 		{
 			// переключение состояния кнопки Редактора описания книги файлов
-			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
+			/*MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
 			                    tsbtnDescEditor, this.sfbTpFB2DescEditor,
-			                    tscMain );
+			                    tscMain );*/
 		}
 		
 		void TsbtnAboutClick(object sender, EventArgs e)

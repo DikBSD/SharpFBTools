@@ -74,7 +74,7 @@ namespace Test
 			TextFieldType MiddleName2 = new TextFieldType("Петрович");
 			TextFieldType LastName2 = new TextFieldType("Кузнецов");
 			TextFieldType NickName2 = new TextFieldType("NNNnnNNN");
-			string			m_sID2 = "HGFYTF7HJGJGJHKJ";
+//			string			m_sID2 = "HGFYTF7HJGJGJHKJ";
 			IList<string>	lsHomePages2 = new List<string>();
 			lsHomePages2.Add("111");
 			lsHomePages2.Add("222");
@@ -107,7 +107,7 @@ namespace Test
 			TextFieldType MiddleName2 = new TextFieldType("Петрович");
 			TextFieldType LastName2 = new TextFieldType("Кузнецов");
 			TextFieldType NickName2 = new TextFieldType("NNNnnNNN");
-			string			m_sID2 = "HGFYTF7HJGJGJHKJ";
+//			string			m_sID2 = "HGFYTF7HJGJGJHKJ";
 			IList<string>	lsHomePages2 = new List<string>();
 			lsHomePages2.Add("111");
 			lsHomePages2.Add("222");
@@ -318,7 +318,7 @@ namespace Test
 		public static string MakeAutorString( Author a ) {
 			if( a==null )
 				return "Тег <author> в книге отсутствует";
-			string sA = string.Empty; int n = 0;
+			string sA = string.Empty;
 			if( a.LastName!=null && a.LastName.Value!=null )
 				sA += a.LastName.Value+" ";
 			if( a.FirstName!=null && a.FirstName.Value!=null )

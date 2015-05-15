@@ -28,9 +28,9 @@ namespace Core.FB2.FB2Parsers
 		#region Закрытые данные класса
 		private readonly XmlNamespaceManager	m_NsManager	= null;
 		private readonly XmlDocument			m_xmlDoc	= null;
-		private const string m_aFB20Namespace = "http://www.gribuser.ru/xml/fictionbook/2.0";
-		private const string m_aFB21Namespace = "http://www.gribuser.ru/xml/fictionbook/2.1";
-		private string m_ns = "/fb20:";
+		private const string m_aFB20Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
+		private const string m_aFB21Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.1";
+		private readonly string m_ns			= "/fb20:";
 		#endregion
 
 		#region Конструкторы класса
@@ -515,26 +515,22 @@ namespace Core.FB2.FB2Parsers
 			// Обложка
 			IList<Coverpage> ilCoverpages = new List<Coverpage>();
 			makeCoverPageNameList( ref ilCoverpages );
-			
 			if( ilCoverpages != null && ilCoverpages.Count > 0) {
 				XmlNodeList xmlNodes = xn.SelectNodes(m_ns + "FictionBook" + m_ns + "binary", m_NsManager);
 				covers = new List<BinaryBase64>();
-				int count = 0;
-				foreach( XmlNode node in xmlNodes ) {
-					if( node.Attributes["id"] != null ) {
-						if( node.Attributes["id"].Value == ilCoverpages[count].Value ) {
-							coverBase64 = new BinaryBase64();
-							try {
-								coverBase64.id = ilCoverpages[count].Value;
+				for( int i = 0; i != ilCoverpages.Count; ++i ) {
+					foreach( XmlNode node in xmlNodes ) {
+						if( node.Attributes["id"] != null ) {
+							if( ilCoverpages[i].Value == node.Attributes["id"].Value ) {
+								coverBase64 = new BinaryBase64();
+								coverBase64.id = ilCoverpages[i].Value;
 								coverBase64.base64String = node.InnerText;
-								++count;
-							} catch( Exception ) {
-								coverBase64.base64String = null;
-								break;
 							}
-							covers.Add(coverBase64);
 						}
 					}
+					covers.Add(coverBase64);
+					if( covers.Count == ilCoverpages.Count )
+						break;
 				}
 			}
 			return covers;

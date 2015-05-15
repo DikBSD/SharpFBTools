@@ -26,8 +26,8 @@ namespace Core.Misc
 	public class FB2BookDescription
 	{
 		#region Закрытые данные класса
-		private readonly FB2BookData m_fb2bd		= null; // fb2-данные о книге
-		private string m_sFromFilePath				= string.Empty;	// путь к анализируемой книге
+		private readonly FB2BookData m_fb2bd	= null; // fb2-данные о книге
+		private string m_sFromFilePath			= string.Empty;	// путь к анализируемой книге
 		#endregion
 		
 		public FB2BookDescription( string sFromFilePath )
@@ -39,7 +39,7 @@ namespace Core.Misc
 		#region Закрытые вспомогательные методы класса
 		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
 		private string MakeAutorsString( IList<Author> AuthorsList) {
-			if( Authors == null ) return string.Empty; 
+			if( AuthorsList == null ) return string.Empty; 
 			string sA = string.Empty; //int n = 0;
 			foreach( Author a in AuthorsList ) {
 //				++n;
@@ -69,11 +69,12 @@ namespace Core.Misc
 		
 		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
 		private string MakeGenresString( IList<Genre> GenresList ) {
-			if( Genres == null ) return string.Empty; 
+			if( GenresList == null ) return string.Empty;
 			string sG = string.Empty; //int n = 0;
 			foreach( Genre g in GenresList ) {
 //				++n;
-				if( g.Name!=null ) sG += g.Name;
+				if( g.Name != null )
+					sG += g.Name;
 				sG += "; ";
 			}
 //			if(n>1) {
@@ -157,7 +158,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.TIAnnotation != null && m_fb2bd.TIAnnotation.Value != null )
 					? m_fb2bd.TIAnnotation.Value
-					: "";
+					: string.Empty;
 			}
         }
 		
@@ -165,7 +166,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.TIBookTitle != null && m_fb2bd.TIBookTitle.Value != null )
 					? m_fb2bd.TIBookTitle.Value
-					: "";
+					: string.Empty;
 			}
         }
 		
@@ -215,7 +216,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.TIKeywords != null && m_fb2bd.TIKeywords.Value != null )
 					? m_fb2bd.TIKeywords.Value
-					: "";
+					: string.Empty;
 			}
         }
 		
@@ -254,7 +255,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.STIBookTitle != null && m_fb2bd.STIBookTitle.Value != null )
 					? m_fb2bd.STIBookTitle.Value
-					: "";
+					: string.Empty;
 			}
         }
 		
@@ -292,7 +293,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.STIKeywords != null && m_fb2bd.STIKeywords.Value != null )
 					? m_fb2bd.STIKeywords.Value
-					: "";
+					: string.Empty;
 			}
         }
 		
@@ -341,7 +342,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.DIProgramUsed != null && m_fb2bd.DIProgramUsed.Value != null )
 					? m_fb2bd.DIProgramUsed.Value
-					: "";
+					: string.Empty;
 			}
         }
 		
@@ -349,18 +350,25 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.DISrcOcr != null && m_fb2bd.DISrcOcr.Value != null )
 					? m_fb2bd.DISrcOcr.Value
-					: "";
+					: string.Empty;
 			}
         }
 
 		public virtual string DISrcUrls {
 			get {
-				if( m_fb2bd.DISrcUrls == null ) return ""; 
-				string sURLs = ""; int n = 0;
+				if( m_fb2bd.DISrcUrls == null )
+					return string.Empty;
+				
+				string sURLs = string.Empty;
+				int n = 0;
 				foreach( string s in m_fb2bd.DISrcUrls ) {
-					sURLs += Convert.ToString(++n)+": ";
-					if( s!=null || s.Length!=0 ) sURLs += s;
-					sURLs += "; ";
+					if( s != null ) {
+						if( s.Length > 0 ) {
+							sURLs += Convert.ToString(++n) + ": ";
+							sURLs += s;
+							sURLs += "; ";
+						}
+					}
 				}
 				return sURLs;
 			}
@@ -376,7 +384,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.DIHistory != null && m_fb2bd.DIHistory.Value != null )
 					? m_fb2bd.DIHistory.Value
-					: "";
+					: string.Empty;
 			}
         }
 		
@@ -388,7 +396,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.PIBookName != null && m_fb2bd.PIBookName.Value != null )
 					? m_fb2bd.PIBookName.Value
-					: "";
+					: string.Empty;
 			}
         }
 		// Издатель
@@ -396,7 +404,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.PIPublisher != null && m_fb2bd.PIPublisher.Value != null )
 					? m_fb2bd.PIPublisher.Value
-					: "";
+					: string.Empty;
 			}
         }
 		// Город
@@ -404,7 +412,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.PICity != null && m_fb2bd.PICity.Value != null )
 					? m_fb2bd.PICity.Value
-					: "";
+					: string.Empty;
 			}
         }
 		// Год издания
@@ -412,7 +420,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.PIYear != null )
 					? m_fb2bd.PIYear
-					: "";
+					: string.Empty;
 			}
         }
 		// ISBN
@@ -420,7 +428,7 @@ namespace Core.Misc
 			get {
 				return ( m_fb2bd.PIISBN != null && m_fb2bd.PIISBN.Value != null )
 					? m_fb2bd.PIISBN.Value
-					: "";
+					: string.Empty;
 			}
         }
 		// Серии

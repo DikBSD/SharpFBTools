@@ -71,6 +71,9 @@
     <Compile Include="Tools\SFBTpAbout.cs" />
     <Compile Include="Tools\SFBTpArchiveManager.cs" />
     <Compile Include="Tools\SFBTpFB2DescEditor.cs" />
+    <Compile Include="Tools\SFBTpFB2DescEditor.Designer.cs">
+      <DependentUpon>SFBTpFB2DescEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\SFBTpFB2Dublicator.cs" />
     <Compile Include="Tools\SFBTpFileManager.cs" />
     <EmbeddedResource Include="MainForm.resx">

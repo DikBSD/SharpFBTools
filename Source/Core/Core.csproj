@@ -46,6 +46,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Duplicator\CheckedBooksPathToXMLForm.cs" />
+    <Compile Include="Duplicator\CheckedBooksPathToXMLForm.Designer.cs">
+      <DependentUpon>CheckedBooksPathToXMLForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Duplicator\CopiesAnalyzeForm.cs" />
+    <Compile Include="Duplicator\CopiesAnalyzeForm.Designer.cs">
+      <DependentUpon>CopiesAnalyzeForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Duplicator\CheckedBooksPathToXMLForm.resx">
+      <DependentUpon>CheckedBooksPathToXMLForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\CopiesAnalyzeForm.resx">
+      <DependentUpon>CopiesAnalyzeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\CopiesListWorkerForm.resx">
+      <DependentUpon>CopiesListWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FileManager\BasiclTemplates.resx">
       <DependentUpon>BasiclTemplates.cs</DependentUpon>
     </EmbeddedResource>
@@ -75,6 +92,10 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Duplicator\BookData.cs" />
     <Compile Include="Duplicator\CompareForm.cs" />
+    <Compile Include="Duplicator\CopiesListWorkerForm.cs" />
+    <Compile Include="Duplicator\CopiesListWorkerForm.Designer.cs">
+      <DependentUpon>CopiesListWorkerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Duplicator\CopyMoveDeleteForm.cs" />
     <Compile Include="Duplicator\FB2FilesDataInGroupList.cs" />
     <Compile Include="Duplicator\FB2ParserForDup.cs" />
@@ -131,6 +152,7 @@
     <Compile Include="FileManager\Templates\TemplatesParser.cs" />
     <Compile Include="FileManager\Templates\TemplatesVerify.cs" />
     <Compile Include="Misc\CommandManager.cs" />
+    <Compile Include="Misc\Enums.cs" />
     <Compile Include="Misc\EndWorkMode.cs" />
     <Compile Include="Misc\FB2BookData.cs" />
     <Compile Include="Misc\FB2BookDescription.cs" />
