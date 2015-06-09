@@ -43,6 +43,8 @@ namespace Core.Duplicator
 		private readonly StatusView		m_sv				= new StatusView();
 		private readonly EndWorkMode	m_EndMode			= new EndWorkMode();
 		
+		private readonly int			m_LastSelectedItem	= -1; // выделенный итем, на котором закончилась обработка списка...
+		
 		private readonly DateTime		m_dtStart;
 		private BackgroundWorker		m_bw = null; // фоновый обработчик
 		#endregion
@@ -50,7 +52,7 @@ namespace Core.Duplicator
 		public CopiesListWorkerForm( DuplWorkMode WorkMode, string FromFilePath, ComboBox cboxMode,
 		                            ListView lvResult, ListView lvFilesCount, TextBox tboxSourceDir,
 		                            CheckBox chBoxScanSubDir, CheckBox chBoxIsValid, RadioButton rbtnFB2Librusec,
-		                            bool viewProgressStatus
+		                            bool viewProgressStatus, int LastSelectedItem
 		                           )
 		{
 			InitializeComponent();
@@ -65,6 +67,8 @@ namespace Core.Duplicator
 			m_lvFilesCount		= lvFilesCount;
 			m_viewProgressStatus = viewProgressStatus;
 			m_WorkMode			= WorkMode;
+			
+			m_LastSelectedItem = LastSelectedItem;
 			
 			InitializeBackgroundWorker();
 			m_dtStart = DateTime.Now;
@@ -192,7 +196,9 @@ namespace Core.Duplicator
 				             new XElement("Groups",
 				                          new XAttribute("count", GroupsCount.ToString()),
 				                          new XAttribute("books", AllBookInAllGroups.ToString())
-				                         )
+				                         ),
+				             new XComment("Выделенный элемент списка, на котором завершили обработку книг"),
+				             new XElement("SelectedItem", m_lvResult.SelectedItems[0].Index.ToString() )
 				            )
 			);
 			
@@ -330,6 +336,7 @@ namespace Core.Duplicator
 					bw.ReportProgress( ++i );
 				}
 			}
+			m_mscLV.SelectedItemEnsureVisible(m_lvResult, Convert.ToInt16( xmlTree.Element("SelectedItem").Value ) );
 			#endregion
 		}
 		

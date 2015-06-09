@@ -153,6 +153,12 @@ namespace Core.Misc
 //			for(int i=0; i!=listView.Columns.Count; ++i)
 //				listView.Columns[i].Width = listView.Columns[i].Width + 2;
 		}
+		// переход на указанный итем
+		public void SelectedItemEnsureVisible(ListView listView, int Index) {
+			listView.Select();
+			listView.Items[Index].Selected = true;
+			listView.EnsureVisible(Index);
+		}
 		#endregion
 	}
 }
