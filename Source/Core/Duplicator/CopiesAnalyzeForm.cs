@@ -16,6 +16,7 @@ using CompareMode		= Core.Misc.Enums.CompareMode;
 using EndWorkModeEnum	= Core.Misc.Enums.EndWorkModeEnum;
 using ResultViewCollumn = Core.Misc.Enums.ResultViewCollumn;
 using GroupAnalyzeMode	= Core.Misc.Enums.GroupAnalyzeMode;
+using MiscListView		= Core.Misc.MiscListView;
 
 namespace Core.Duplicator
 {
@@ -210,7 +211,7 @@ namespace Core.Duplicator
 			if (si.Count > 0) {
 				// группа для выделенной книги
 				ListViewGroup lvg = si[0].Group;
-				m_mscLV.CheckAllListViewItemsInGroup( lvg, false );
+				MiscListView.CheckAllListViewItemsInGroup( lvg, false );
 				_CheckAllOldBooksInGroup(mode, lvg, false, ref bw, ref e);
 			}
 		}
@@ -220,7 +221,7 @@ namespace Core.Duplicator
 		{
 			int iter = 0;
 			ProgressBar.Maximum	= m_lvResult.Groups.Count;
-			m_mscLV.UnCheckAllListViewItems( m_lvResult.CheckedItems );
+			MiscListView.UnCheckAllListViewItems( m_lvResult.CheckedItems );
 			// перебор всех групп
 			foreach( ListViewGroup lvg in m_lvResult.Groups ) {
 				if( ( bw.CancellationPending ) )  {

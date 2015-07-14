@@ -1,10 +1,9 @@
 ﻿/*
  * Сделано в SharpDevelop.
- * Пользователь: VadimK
+ * Пользователь: DikBSD
  * Дата: 27.08.2014
  * Время: 14:19
  * 
- * Для изменения этого шаблона используйте Сервис | Настройка | Кодирование | Правка стандартных заголовков.
  */
  
 using System;
@@ -22,6 +21,31 @@ namespace Core.Misc
 	/// </summary>
 	public class Enums
 	{
+		/// <summary>
+		/// Вид TitleInfo: TitleInfo или SourceTitleInfo  
+		/// </summary>
+		public enum TitleInfoEnum {
+			TitleInfo,		
+			SourceTitleInfo
+		}
+		
+		/// <summary>
+		/// Обрабатываемый author: Автор книги, Автор fb2-файла или Переводчик  
+		/// </summary>
+		public enum AuthorEnum {
+			AuthorOfBook,		
+			AuthorOfFB2,
+			Translator
+		}
+		
+		/// <summary>
+		/// Обрабатываемый sequence: Серия Электронной или Бумажной книги  
+		/// </summary>
+		public enum SequenceEnum {
+			Ebook,		
+			PaperBook
+		}
+		
 		/// <summary>
 		/// Варианты завершения групповой обработки
 		/// </summary>

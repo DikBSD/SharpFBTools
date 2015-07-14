@@ -14,6 +14,7 @@ using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.CustomInfo;
 using Core.FB2.Binary;
+using Core.FB2.FB2Parsers;
 
 using FB2Validator	= Core.FB2Parser.FB2Validator;
 using filesWorker	= Core.Misc.FilesWorker;
@@ -26,14 +27,14 @@ namespace Core.Misc
 	public class FB2BookDescription
 	{
 		#region Закрытые данные класса
-		private readonly FB2BookData m_fb2bd	= null; // fb2-данные о книге
-		private string m_sFromFilePath			= string.Empty;	// путь к анализируемой книге
+		private readonly FictionBook m_fb2	= null; // fb2-данные о книге
+		private string m_sFromFilePath		= string.Empty;	// путь к анализируемой книге
 		#endregion
 		
 		public FB2BookDescription( string sFromFilePath )
 		{
 			m_sFromFilePath = sFromFilePath;
-			m_fb2bd = new FB2BookData( sFromFilePath );
+			m_fb2 = new FictionBook( sFromFilePath );
 		}
 		
 		#region Закрытые вспомогательные методы класса
@@ -110,8 +111,8 @@ namespace Core.Misc
 		#region Разное
 		public virtual string Encoding {
 			get {
-				string sEncoding = filesWorker.GetFileEncoding( m_fb2bd.GetFB2Parser().XmlDoc.InnerXml.Split('>')[0] );
-				return sEncoding != null ? sEncoding : "?";
+				string sEncoding = m_fb2.getEncoding();
+				return !string.IsNullOrEmpty( sEncoding ) ? sEncoding : "?";
 			}
         }
 		
@@ -156,212 +157,206 @@ namespace Core.Misc
 		#region TitleInfo
 		public virtual string TIAnnotation {
 			get {
-				return ( m_fb2bd.TIAnnotation != null && m_fb2bd.TIAnnotation.Value != null )
-					? m_fb2bd.TIAnnotation.Value
+				return ( m_fb2.TIAnnotation != null && m_fb2.TIAnnotation.Value != null )
+					? m_fb2.TIAnnotation.Value
 					: string.Empty;
 			}
         }
 		
 		public virtual string TIBookTitle {
 			get {
-				return ( m_fb2bd.TIBookTitle != null && m_fb2bd.TIBookTitle.Value != null )
-					? m_fb2bd.TIBookTitle.Value
+				return ( m_fb2.TIBookTitle != null && m_fb2.TIBookTitle.Value != null )
+					? m_fb2.TIBookTitle.Value
 					: string.Empty;
 			}
         }
 		
 		public virtual string TILang {
 			get {
-				return m_fb2bd.TILang;
+				return m_fb2.TILang;
 			}
         }
 		
 		public virtual string TISrcLang {
 			get {
-				return m_fb2bd.TISrcLang;
+				return m_fb2.TISrcLang;
 			}
         }
 		
 		public virtual string TIGenres {
 			get {
-				return MakeGenresString( m_fb2bd.TIGenres );
+				return MakeGenresString( m_fb2.TIGenres );
 			}
         }
 		
 		public virtual string TIAuthors {
 			get {
-				return MakeAutorsString( m_fb2bd.TIAuthors );
+				return MakeAutorsString( m_fb2.TIAuthors );
 			}
         }
 		
 		public virtual IList<Genre> Genres {
 			get {
-				return m_fb2bd.TIGenres;
+				return m_fb2.TIGenres;
 			}
         }
 		
 		public virtual IList<Author> Authors {
 			get {
-				return m_fb2bd.TIAuthors;
+				return m_fb2.TIAuthors;
 			}
         }
 		
 		public virtual string TIDate {
 			get {
-				return MakeDateString( m_fb2bd.TIDate );
+				return MakeDateString( m_fb2.TIDate );
 			}
         }
 		
 		public virtual string TIKeywords {
 			get {
-				return ( m_fb2bd.TIKeywords != null && m_fb2bd.TIKeywords.Value != null )
-					? m_fb2bd.TIKeywords.Value
+				return ( m_fb2.TIKeywords != null && m_fb2.TIKeywords.Value != null )
+					? m_fb2.TIKeywords.Value
 					: string.Empty;
 			}
         }
-		
-		public virtual int TICoverpagesCount {
-			get {
-				return ( m_fb2bd.TICoverpagesCount != 0 )
-					? m_fb2bd.TICoverpagesCount
-					: 0;
-			}
-        }
-		
+				
 		public virtual string TITranslators {
 			get {
-				return MakeAutorsString( m_fb2bd.TITranslators );
+				return MakeAutorsString( m_fb2.TITranslators );
 			}
         }
 		
 		public virtual string TISequences {
 			get {
-				return MakeSequencesString( m_fb2bd.TISequences );
+				return MakeSequencesString( m_fb2.TISequences );
 			}
         }
 		
+		public virtual IList<BinaryBase64> TICoversBase64 {
+			get {
+				return m_fb2.getCoversBase64( Core.Misc.Enums.TitleInfoEnum.TitleInfo );
+			}
+        }
 		#endregion
 		
 		#region SourceTitleInfo
 		public virtual string STIAnnotation {
 			get {
-				return ( m_fb2bd.STIAnnotation != null && m_fb2bd.STIAnnotation.Value != null )
-					? m_fb2bd.TIAnnotation.Value
+				return ( m_fb2.STIAnnotation != null && m_fb2.STIAnnotation.Value != null )
+					? m_fb2.TIAnnotation.Value
 					: "";
 			}
         }
 		
 		public virtual string STIBookTitle {
 			get {
-				return ( m_fb2bd.STIBookTitle != null && m_fb2bd.STIBookTitle.Value != null )
-					? m_fb2bd.STIBookTitle.Value
+				return ( m_fb2.STIBookTitle != null && m_fb2.STIBookTitle.Value != null )
+					? m_fb2.STIBookTitle.Value
 					: string.Empty;
 			}
         }
 		
 		public virtual string STILang {
 			get {
-				return m_fb2bd.STILang;
+				return m_fb2.STILang;
 			}
         }
 		
 		public virtual string STISrcLang {
 			get {
-				return m_fb2bd.STISrcLang;
+				return m_fb2.STISrcLang;
 			}
         }
 		
 		public virtual string STIGenres {
 			get {
-				return MakeGenresString( m_fb2bd.STIGenres );
+				return MakeGenresString( m_fb2.STIGenres );
 			}
         }
 		
 		public virtual string STIAuthors {
 			get {
-				return MakeAutorsString( m_fb2bd.STIAuthors );
+				return MakeAutorsString( m_fb2.STIAuthors );
 			}
         }
 		
 		public virtual string STIDate {
 			get {
-				return MakeDateString( m_fb2bd.STIDate );
+				return MakeDateString( m_fb2.STIDate );
 			}
         }
 		
 		public virtual string STIKeywords {
 			get {
-				return ( m_fb2bd.STIKeywords != null && m_fb2bd.STIKeywords.Value != null )
-					? m_fb2bd.STIKeywords.Value
+				return ( m_fb2.STIKeywords != null && m_fb2.STIKeywords.Value != null )
+					? m_fb2.STIKeywords.Value
 					: string.Empty;
-			}
-        }
-		
-		public virtual int STICoverpagesCount {
-			get {
-				return ( m_fb2bd.STICoverpagesCount != 0 )
-					? m_fb2bd.STICoverpagesCount
-					: 0;
 			}
         }
 		
 		public virtual string STITranslators {
 			get {
-				return MakeAutorsString( m_fb2bd.STITranslators );
+				return MakeAutorsString( m_fb2.STITranslators );
 			}
         }
 		
 		public virtual string STISequences {
 			get {
-				return MakeSequencesString( m_fb2bd.STISequences );
+				return MakeSequencesString( m_fb2.STISequences );
 			}
         }
 		
+		public virtual IList<BinaryBase64> STICoversBase64 {
+			get {
+				return m_fb2.getCoversBase64( Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo );
+			}
+        }
 		#endregion
 		
 		#region DocumentInfo
 		public virtual string DIID {
 			get {
-				return m_fb2bd.DIID;
+				return m_fb2.DIID;
 			}
         }
 		
 		public virtual string DIVersion {
 			get {
-				return m_fb2bd.DIVersion;
+				return m_fb2.DIVersion;
 			}
         }
 		
 		public virtual string DIFB2Date {
 			get {
-				return MakeDateString( m_fb2bd.DIFB2Date );
+				return MakeDateString( m_fb2.DIDate );
 			}
         }
 		
 		public virtual string DIProgramUsed {
 			get {
-				return ( m_fb2bd.DIProgramUsed != null && m_fb2bd.DIProgramUsed.Value != null )
-					? m_fb2bd.DIProgramUsed.Value
+				return ( m_fb2.DIProgramUsed != null && m_fb2.DIProgramUsed.Value != null )
+					? m_fb2.DIProgramUsed.Value
 					: string.Empty;
 			}
         }
 		
 		public virtual string DISrcOcr {
 			get {
-				return ( m_fb2bd.DISrcOcr != null && m_fb2bd.DISrcOcr.Value != null )
-					? m_fb2bd.DISrcOcr.Value
+				return ( m_fb2.DISrcOCR != null && m_fb2.DISrcOCR.Value != null )
+					? m_fb2.DISrcOCR.Value
 					: string.Empty;
 			}
         }
 
 		public virtual string DISrcUrls {
 			get {
-				if( m_fb2bd.DISrcUrls == null )
+				if( m_fb2.DISrcUrls == null )
 					return string.Empty;
 				
 				string sURLs = string.Empty;
 				int n = 0;
-				foreach( string s in m_fb2bd.DISrcUrls ) {
+				foreach( string s in m_fb2.DISrcUrls ) {
 					if( s != null ) {
 						if( s.Length > 0 ) {
 							sURLs += Convert.ToString(++n) + ": ";
@@ -376,14 +371,14 @@ namespace Core.Misc
 		
 		public virtual string DIFB2Authors {
 			get {
-				return MakeAutorsString( m_fb2bd.DIFB2Authors );
+				return MakeAutorsString( m_fb2.DIAuthors );
 			}
         }
 		
 		public virtual string DIHistory {
 			get {
-				return ( m_fb2bd.DIHistory != null && m_fb2bd.DIHistory.Value != null )
-					? m_fb2bd.DIHistory.Value
+				return ( m_fb2.DIHistory != null && m_fb2.DIHistory.Value != null )
+					? m_fb2.DIHistory.Value
 					: string.Empty;
 			}
         }
@@ -394,47 +389,47 @@ namespace Core.Misc
 		// Заголовок Книги
 		public virtual string PIBookName {
 			get {
-				return ( m_fb2bd.PIBookName != null && m_fb2bd.PIBookName.Value != null )
-					? m_fb2bd.PIBookName.Value
+				return ( m_fb2.PIBookName != null && m_fb2.PIBookName.Value != null )
+					? m_fb2.PIBookName.Value
 					: string.Empty;
 			}
         }
 		// Издатель
 		public virtual string PIPublisher {
 			get {
-				return ( m_fb2bd.PIPublisher != null && m_fb2bd.PIPublisher.Value != null )
-					? m_fb2bd.PIPublisher.Value
+				return ( m_fb2.PIPublisher != null && m_fb2.PIPublisher.Value != null )
+					? m_fb2.PIPublisher.Value
 					: string.Empty;
 			}
         }
 		// Город
 		public virtual string PICity {
 			get {
-				return ( m_fb2bd.PICity != null && m_fb2bd.PICity.Value != null )
-					? m_fb2bd.PICity.Value
+				return ( m_fb2.PICity != null && m_fb2.PICity.Value != null )
+					? m_fb2.PICity.Value
 					: string.Empty;
 			}
         }
 		// Год издания
 		public virtual string PIYear {
 			get {
-				return ( m_fb2bd.PIYear != null )
-					? m_fb2bd.PIYear
+				return ( m_fb2.PIYear != null )
+					? m_fb2.PIYear
 					: string.Empty;
 			}
         }
 		// ISBN
 		public virtual string PIISBN {
 			get {
-				return ( m_fb2bd.PIISBN != null && m_fb2bd.PIISBN.Value != null )
-					? m_fb2bd.PIISBN.Value
+				return ( m_fb2.PIISBN != null && m_fb2.PIISBN.Value != null )
+					? m_fb2.PIISBN.Value
 					: string.Empty;
 			}
         }
 		// Серии
 		public virtual string PISequences {
 			get {
-				return MakeSequencesString( m_fb2bd.PISequences );
+				return MakeSequencesString( m_fb2.PISequences );
 			}
         }
 		#endregion
@@ -442,15 +437,7 @@ namespace Core.Misc
 		#region CustomInfo
 		public virtual IList<CustomInfo> CICustomInfo {
 			get {
-				return m_fb2bd.CICustomInfo;
-			}
-        }
-		#endregion
-		
-		#region Binary
-		public virtual IList<BinaryBase64> CoversBase64 {
-			get {
-				return m_fb2bd.CoversBase64;
+				return m_fb2.CICustomInfo;
 			}
         }
 		#endregion

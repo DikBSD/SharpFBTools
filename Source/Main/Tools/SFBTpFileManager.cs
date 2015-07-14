@@ -25,6 +25,7 @@ using SharpZipLibWorker 		= Core.Misc.SharpZipLibWorker;
 using StatusView 				= Core.FileManager.StatusView;
 using templatesVerify			= Core.FileManager.Templates.TemplatesVerify;
 using filesWorker				= Core.Misc.FilesWorker;
+using MiscListView				= Core.Misc.MiscListView;
 
 namespace SharpFBTools.Tools
 {
@@ -5177,7 +5178,7 @@ namespace SharpFBTools.Tools
 					}
 					// авторазмер колонок Списка Проводника
 					if(isColumnsAutoReize)
-						m_mscLV.AutoResizeColumns(listView);
+						MiscListView.AutoResizeColumns(listView);
 				}
 				
 			} catch (System.Exception) {
@@ -5392,7 +5393,7 @@ namespace SharpFBTools.Tools
 		
 		void TsmiColumnsExplorerAutoReizeClick(object sender, EventArgs e)
 		{
-			m_mscLV.AutoResizeColumns(listViewSource);
+			MiscListView.AutoResizeColumns(listViewSource);
 		}
 		
 		// Отображать/скрывать описание книг
@@ -5462,7 +5463,7 @@ namespace SharpFBTools.Tools
 				filesWorker.RemoveDir( m_TempDir );
 				// авторазмер колонок Списка
 				if(chBoxStartExplorerColumnsAutoReize.Checked)
-					m_mscLV.AutoResizeColumns(listViewSource);
+					MiscListView.AutoResizeColumns(listViewSource);
 
 				listViewSource.EndUpdate();
 				Cursor.Current = Cursors.Default;
@@ -5532,7 +5533,7 @@ namespace SharpFBTools.Tools
 		void TsmiCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.CheckAllListViewItems( listViewSource, true );
+			MiscListView.CheckAllListViewItems( listViewSource, true );
 			if(listViewSource.Items.Count > 0) {
 				listViewSource.Items[0].Checked = false;
 			}
@@ -5543,7 +5544,7 @@ namespace SharpFBTools.Tools
 		void TsmiUnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.UnCheckAllListViewItems( listViewSource.CheckedItems );
+			MiscListView.UnCheckAllListViewItems( listViewSource.CheckedItems );
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5551,7 +5552,7 @@ namespace SharpFBTools.Tools
 		void TsmiFilesCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.CheckAllFiles(listViewSource, true);
+			MiscListView.CheckAllFiles(listViewSource, true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5559,7 +5560,7 @@ namespace SharpFBTools.Tools
 		void TsmiFilesUnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.UnCheckAllFiles(listViewSource);
+			MiscListView.UnCheckAllFiles(listViewSource);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5567,7 +5568,7 @@ namespace SharpFBTools.Tools
 		void TsmiDirCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.CheckAllDirs(listViewSource, true);
+			MiscListView.CheckAllDirs(listViewSource, true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5575,7 +5576,7 @@ namespace SharpFBTools.Tools
 		void TsmiDirUnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.UnCheckAllDirs(listViewSource);
+			MiscListView.UnCheckAllDirs(listViewSource);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5583,7 +5584,7 @@ namespace SharpFBTools.Tools
 		void TsmiFB2CheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.CheckTypeAllFiles(listViewSource, "fb2", true);
+			MiscListView.CheckTypeAllFiles(listViewSource, "fb2", true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5591,7 +5592,7 @@ namespace SharpFBTools.Tools
 		void TsmiFB2UnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.UnCheckTypeAllFiles(listViewSource, "fb2");
+			MiscListView.UnCheckTypeAllFiles(listViewSource, "fb2");
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5599,7 +5600,7 @@ namespace SharpFBTools.Tools
 		void TsmiZipCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.CheckTypeAllFiles(listViewSource, "zip", true);
+			MiscListView.CheckTypeAllFiles(listViewSource, "zip", true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5607,7 +5608,7 @@ namespace SharpFBTools.Tools
 		void TsmiZipUnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.UnCheckTypeAllFiles(listViewSource, "zip");
+			MiscListView.UnCheckTypeAllFiles(listViewSource, "zip");
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5615,7 +5616,7 @@ namespace SharpFBTools.Tools
 		void TsmiCheckedAllSelectedClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.ChekAllSelectedItems(listViewSource, true);
+			MiscListView.ChekAllSelectedItems(listViewSource, true);
 			ConnectListsEventHandlers( true );
 			listViewSource.Focus();
 		}
@@ -5624,7 +5625,7 @@ namespace SharpFBTools.Tools
 		void TsmiUnCheckedAllSelectedClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			m_mscLV.ChekAllSelectedItems(listViewSource, false);
+			MiscListView.ChekAllSelectedItems(listViewSource, false);
 			ConnectListsEventHandlers( true );
 			listViewSource.Focus();
 		}
@@ -5646,9 +5647,9 @@ namespace SharpFBTools.Tools
 				if(it.Type == "dUp") {
 					ConnectListsEventHandlers( false );
 					if(e.Item.Checked)
-						m_mscLV.CheckAllListViewItems( listViewSource, true );
+						MiscListView.CheckAllListViewItems( listViewSource, true );
 					else
-						m_mscLV.UnCheckAllListViewItems( listViewSource.CheckedItems );;
+						MiscListView.UnCheckAllListViewItems( listViewSource.CheckedItems );;
 					ConnectListsEventHandlers( true );
 				}
 			}
@@ -6082,7 +6083,7 @@ namespace SharpFBTools.Tools
 		void ChBoxStartExplorerColumnsAutoReizeCheckedChanged(object sender, EventArgs e)
 		{
 			if(chBoxStartExplorerColumnsAutoReize.Checked)
-				m_mscLV.AutoResizeColumns(listViewSource);
+				MiscListView.AutoResizeColumns(listViewSource);
 			saveSettingsToXml();
 		}
 		

@@ -83,9 +83,10 @@ namespace Options
 			// btnOK
 			// 
 			this.btnOK.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnOK.Location = new System.Drawing.Point(511, 6);
+			this.btnOK.Location = new System.Drawing.Point(681, 7);
+			this.btnOK.Margin = new System.Windows.Forms.Padding(4);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(99, 26);
+			this.btnOK.Size = new System.Drawing.Size(132, 32);
 			this.btnOK.TabIndex = 0;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -95,9 +96,10 @@ namespace Options
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnCancel.Location = new System.Drawing.Point(405, 6);
+			this.btnCancel.Location = new System.Drawing.Point(540, 7);
+			this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(93, 26);
+			this.btnCancel.Size = new System.Drawing.Size(124, 32);
 			this.btnCancel.TabIndex = 1;
 			this.btnCancel.Text = "Отмена";
 			this.btnCancel.UseVisualStyleBackColor = true;
@@ -112,18 +114,20 @@ namespace Options
 			this.pBtn.Controls.Add(this.btnOK);
 			this.pBtn.Controls.Add(this.btnCancel);
 			this.pBtn.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pBtn.Location = new System.Drawing.Point(0, 496);
+			this.pBtn.Location = new System.Drawing.Point(0, 610);
+			this.pBtn.Margin = new System.Windows.Forms.Padding(4);
 			this.pBtn.Name = "pBtn";
-			this.pBtn.Size = new System.Drawing.Size(615, 42);
+			this.pBtn.Size = new System.Drawing.Size(820, 52);
 			this.pBtn.TabIndex = 2;
 			// 
 			// btnDefRestore
 			// 
 			this.btnDefRestore.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.btnDefRestore.ForeColor = System.Drawing.Color.Navy;
-			this.btnDefRestore.Location = new System.Drawing.Point(8, 6);
+			this.btnDefRestore.Location = new System.Drawing.Point(11, 7);
+			this.btnDefRestore.Margin = new System.Windows.Forms.Padding(4);
 			this.btnDefRestore.Name = "btnDefRestore";
-			this.btnDefRestore.Size = new System.Drawing.Size(386, 26);
+			this.btnDefRestore.Size = new System.Drawing.Size(515, 32);
 			this.btnDefRestore.TabIndex = 2;
 			this.btnDefRestore.Text = "Восстановить по-умолчанию";
 			this.btnDefRestore.UseVisualStyleBackColor = true;
@@ -134,9 +138,10 @@ namespace Options
 			this.tcOptions.Controls.Add(this.tpGeneral);
 			this.tcOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tcOptions.Location = new System.Drawing.Point(0, 0);
+			this.tcOptions.Margin = new System.Windows.Forms.Padding(4);
 			this.tcOptions.Name = "tcOptions";
 			this.tcOptions.SelectedIndex = 0;
-			this.tcOptions.Size = new System.Drawing.Size(615, 496);
+			this.tcOptions.Size = new System.Drawing.Size(820, 610);
 			this.tcOptions.TabIndex = 3;
 			// 
 			// tpGeneral
@@ -146,10 +151,11 @@ namespace Options
 			this.tpGeneral.Controls.Add(this.gboxDiff);
 			this.tpGeneral.Controls.Add(this.gboxReader);
 			this.tpGeneral.Controls.Add(this.gboxEditors);
-			this.tpGeneral.Location = new System.Drawing.Point(4, 22);
+			this.tpGeneral.Location = new System.Drawing.Point(4, 25);
+			this.tpGeneral.Margin = new System.Windows.Forms.Padding(4);
 			this.tpGeneral.Name = "tpGeneral";
-			this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpGeneral.Size = new System.Drawing.Size(607, 470);
+			this.tpGeneral.Padding = new System.Windows.Forms.Padding(4);
+			this.tpGeneral.Size = new System.Drawing.Size(812, 581);
 			this.tpGeneral.TabIndex = 0;
 			this.tpGeneral.Text = " Основные ";
 			this.tpGeneral.UseVisualStyleBackColor = true;
@@ -160,10 +166,11 @@ namespace Options
 			this.chBoxConfirmationForExit.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxConfirmationForExit.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxConfirmationForExit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(3, 266);
+			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(4, 327);
+			this.chBoxConfirmationForExit.Margin = new System.Windows.Forms.Padding(4);
 			this.chBoxConfirmationForExit.Name = "chBoxConfirmationForExit";
-			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(601, 24);
-			this.chBoxConfirmationForExit.TabIndex = 18;
+			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(804, 30);
+			this.chBoxConfirmationForExit.TabIndex = 36;
 			this.chBoxConfirmationForExit.Text = " Подтверждение для выхода из программы";
 			this.chBoxConfirmationForExit.UseVisualStyleBackColor = true;
 			// 
@@ -181,9 +188,11 @@ namespace Options
 			this.gboxButtons.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxButtons.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxButtons.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxButtons.Location = new System.Drawing.Point(3, 167);
+			this.gboxButtons.Location = new System.Drawing.Point(4, 205);
+			this.gboxButtons.Margin = new System.Windows.Forms.Padding(4);
 			this.gboxButtons.Name = "gboxButtons";
-			this.gboxButtons.Size = new System.Drawing.Size(601, 99);
+			this.gboxButtons.Padding = new System.Windows.Forms.Padding(4);
+			this.gboxButtons.Size = new System.Drawing.Size(804, 122);
 			this.gboxButtons.TabIndex = 17;
 			this.gboxButtons.TabStop = false;
 			this.gboxButtons.Text = " Внешний вид кнопок инструментов (иконка и текст) ";
@@ -193,14 +202,15 @@ namespace Options
 			this.cboxTIRFB2Dup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxTIRFB2Dup.FormattingEnabled = true;
 			this.cboxTIRFB2Dup.Items.AddRange(new object[] {
-									"Overlay",
-									"ImageAboveText",
-									"TextAboveImage",
-									"ImageBeforeText",
-									"TextBeforeImage"});
-			this.cboxTIRFB2Dup.Location = new System.Drawing.Point(282, 68);
+			"Overlay",
+			"ImageAboveText",
+			"TextAboveImage",
+			"ImageBeforeText",
+			"TextBeforeImage"});
+			this.cboxTIRFB2Dup.Location = new System.Drawing.Point(376, 84);
+			this.cboxTIRFB2Dup.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxTIRFB2Dup.Name = "cboxTIRFB2Dup";
-			this.cboxTIRFB2Dup.Size = new System.Drawing.Size(130, 21);
+			this.cboxTIRFB2Dup.Size = new System.Drawing.Size(172, 24);
 			this.cboxTIRFB2Dup.TabIndex = 27;
 			// 
 			// cboxDSFB2Dup
@@ -208,12 +218,13 @@ namespace Options
 			this.cboxDSFB2Dup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxDSFB2Dup.FormattingEnabled = true;
 			this.cboxDSFB2Dup.Items.AddRange(new object[] {
-									"Text",
-									"Image",
-									"ImageAndText"});
-			this.cboxDSFB2Dup.Location = new System.Drawing.Point(147, 68);
+			"Text",
+			"Image",
+			"ImageAndText"});
+			this.cboxDSFB2Dup.Location = new System.Drawing.Point(196, 84);
+			this.cboxDSFB2Dup.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxDSFB2Dup.Name = "cboxDSFB2Dup";
-			this.cboxDSFB2Dup.Size = new System.Drawing.Size(130, 21);
+			this.cboxDSFB2Dup.Size = new System.Drawing.Size(172, 24);
 			this.cboxDSFB2Dup.TabIndex = 26;
 			this.cboxDSFB2Dup.SelectedIndexChanged += new System.EventHandler(this.CboxDSFB2DupSelectedIndexChanged);
 			// 
@@ -221,9 +232,10 @@ namespace Options
 			// 
 			this.lblFB2Dup.AutoSize = true;
 			this.lblFB2Dup.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblFB2Dup.Location = new System.Drawing.Point(7, 71);
+			this.lblFB2Dup.Location = new System.Drawing.Point(9, 87);
+			this.lblFB2Dup.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblFB2Dup.Name = "lblFB2Dup";
-			this.lblFB2Dup.Size = new System.Drawing.Size(128, 13);
+			this.lblFB2Dup.Size = new System.Drawing.Size(163, 17);
 			this.lblFB2Dup.TabIndex = 25;
 			this.lblFB2Dup.Text = "Дубликатор файлов:";
 			// 
@@ -232,14 +244,15 @@ namespace Options
 			this.cboxTIRArchiveManager.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxTIRArchiveManager.FormattingEnabled = true;
 			this.cboxTIRArchiveManager.Items.AddRange(new object[] {
-									"Overlay",
-									"ImageAboveText",
-									"TextAboveImage",
-									"ImageBeforeText",
-									"TextBeforeImage"});
-			this.cboxTIRArchiveManager.Location = new System.Drawing.Point(282, 42);
+			"Overlay",
+			"ImageAboveText",
+			"TextAboveImage",
+			"ImageBeforeText",
+			"TextBeforeImage"});
+			this.cboxTIRArchiveManager.Location = new System.Drawing.Point(376, 52);
+			this.cboxTIRArchiveManager.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxTIRArchiveManager.Name = "cboxTIRArchiveManager";
-			this.cboxTIRArchiveManager.Size = new System.Drawing.Size(130, 21);
+			this.cboxTIRArchiveManager.Size = new System.Drawing.Size(172, 24);
 			this.cboxTIRArchiveManager.TabIndex = 24;
 			// 
 			// cboxDSArchiveManager
@@ -247,12 +260,13 @@ namespace Options
 			this.cboxDSArchiveManager.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxDSArchiveManager.FormattingEnabled = true;
 			this.cboxDSArchiveManager.Items.AddRange(new object[] {
-									"Text",
-									"Image",
-									"ImageAndText"});
-			this.cboxDSArchiveManager.Location = new System.Drawing.Point(147, 42);
+			"Text",
+			"Image",
+			"ImageAndText"});
+			this.cboxDSArchiveManager.Location = new System.Drawing.Point(196, 52);
+			this.cboxDSArchiveManager.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxDSArchiveManager.Name = "cboxDSArchiveManager";
-			this.cboxDSArchiveManager.Size = new System.Drawing.Size(130, 21);
+			this.cboxDSArchiveManager.Size = new System.Drawing.Size(172, 24);
 			this.cboxDSArchiveManager.TabIndex = 23;
 			this.cboxDSArchiveManager.SelectedIndexChanged += new System.EventHandler(this.CboxDSArchiveManagerSelectedIndexChanged);
 			// 
@@ -260,9 +274,10 @@ namespace Options
 			// 
 			this.lblArchiveManager.AutoSize = true;
 			this.lblArchiveManager.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblArchiveManager.Location = new System.Drawing.Point(7, 45);
+			this.lblArchiveManager.Location = new System.Drawing.Point(9, 55);
+			this.lblArchiveManager.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblArchiveManager.Name = "lblArchiveManager";
-			this.lblArchiveManager.Size = new System.Drawing.Size(127, 13);
+			this.lblArchiveManager.Size = new System.Drawing.Size(158, 17);
 			this.lblArchiveManager.TabIndex = 22;
 			this.lblArchiveManager.Text = "Менеджер Архивов:";
 			// 
@@ -271,14 +286,15 @@ namespace Options
 			this.cboxTIRValidator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxTIRValidator.FormattingEnabled = true;
 			this.cboxTIRValidator.Items.AddRange(new object[] {
-									"Overlay",
-									"ImageAboveText",
-									"TextAboveImage",
-									"ImageBeforeText",
-									"TextBeforeImage"});
-			this.cboxTIRValidator.Location = new System.Drawing.Point(282, 16);
+			"Overlay",
+			"ImageAboveText",
+			"TextAboveImage",
+			"ImageBeforeText",
+			"TextBeforeImage"});
+			this.cboxTIRValidator.Location = new System.Drawing.Point(376, 20);
+			this.cboxTIRValidator.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxTIRValidator.Name = "cboxTIRValidator";
-			this.cboxTIRValidator.Size = new System.Drawing.Size(130, 21);
+			this.cboxTIRValidator.Size = new System.Drawing.Size(172, 24);
 			this.cboxTIRValidator.TabIndex = 18;
 			// 
 			// cboxDSValidator
@@ -286,12 +302,13 @@ namespace Options
 			this.cboxDSValidator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxDSValidator.FormattingEnabled = true;
 			this.cboxDSValidator.Items.AddRange(new object[] {
-									"Text",
-									"Image",
-									"ImageAndText"});
-			this.cboxDSValidator.Location = new System.Drawing.Point(147, 16);
+			"Text",
+			"Image",
+			"ImageAndText"});
+			this.cboxDSValidator.Location = new System.Drawing.Point(196, 20);
+			this.cboxDSValidator.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxDSValidator.Name = "cboxDSValidator";
-			this.cboxDSValidator.Size = new System.Drawing.Size(130, 21);
+			this.cboxDSValidator.Size = new System.Drawing.Size(172, 24);
 			this.cboxDSValidator.TabIndex = 17;
 			this.cboxDSValidator.SelectedIndexChanged += new System.EventHandler(this.CboxDSValidatorSelectedIndexChanged);
 			// 
@@ -299,9 +316,10 @@ namespace Options
 			// 
 			this.lblValidator.AutoSize = true;
 			this.lblValidator.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblValidator.Location = new System.Drawing.Point(7, 19);
+			this.lblValidator.Location = new System.Drawing.Point(9, 23);
+			this.lblValidator.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblValidator.Name = "lblValidator";
-			this.lblValidator.Size = new System.Drawing.Size(74, 13);
+			this.lblValidator.Size = new System.Drawing.Size(94, 17);
 			this.lblValidator.TabIndex = 16;
 			this.lblValidator.Text = "Валидатор:";
 			// 
@@ -313,9 +331,11 @@ namespace Options
 			this.gboxDiff.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxDiff.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxDiff.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxDiff.Location = new System.Drawing.Point(3, 122);
+			this.gboxDiff.Location = new System.Drawing.Point(4, 150);
+			this.gboxDiff.Margin = new System.Windows.Forms.Padding(4);
 			this.gboxDiff.Name = "gboxDiff";
-			this.gboxDiff.Size = new System.Drawing.Size(601, 45);
+			this.gboxDiff.Padding = new System.Windows.Forms.Padding(4);
+			this.gboxDiff.Size = new System.Drawing.Size(804, 55);
 			this.gboxDiff.TabIndex = 16;
 			this.gboxDiff.TabStop = false;
 			this.gboxDiff.Text = " Diff-программа визуального сравнения ";
@@ -324,20 +344,22 @@ namespace Options
 			// 
 			this.lblDiffPath.AutoSize = true;
 			this.lblDiffPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblDiffPath.Location = new System.Drawing.Point(7, 19);
+			this.lblDiffPath.Location = new System.Drawing.Point(9, 23);
+			this.lblDiffPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblDiffPath.Name = "lblDiffPath";
-			this.lblDiffPath.Size = new System.Drawing.Size(139, 13);
+			this.lblDiffPath.Size = new System.Drawing.Size(172, 17);
 			this.lblDiffPath.TabIndex = 16;
 			this.lblDiffPath.Text = "Путь к diff-программе:";
 			// 
 			// tboxDiffPath
 			// 
 			this.tboxDiffPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxDiffPath.Location = new System.Drawing.Point(184, 16);
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxDiffPath.Location = new System.Drawing.Point(245, 20);
+			this.tboxDiffPath.Margin = new System.Windows.Forms.Padding(4);
 			this.tboxDiffPath.Name = "tboxDiffPath";
 			this.tboxDiffPath.ReadOnly = true;
-			this.tboxDiffPath.Size = new System.Drawing.Size(366, 20);
+			this.tboxDiffPath.Size = new System.Drawing.Size(490, 24);
 			this.tboxDiffPath.TabIndex = 14;
 			// 
 			// btnDiffPath
@@ -345,9 +367,10 @@ namespace Options
 			this.btnDiffPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnDiffPath.Image = ((System.Drawing.Image)(resources.GetObject("btnDiffPath.Image")));
 			this.btnDiffPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnDiffPath.Location = new System.Drawing.Point(556, 13);
+			this.btnDiffPath.Location = new System.Drawing.Point(744, 16);
+			this.btnDiffPath.Margin = new System.Windows.Forms.Padding(4);
 			this.btnDiffPath.Name = "btnDiffPath";
-			this.btnDiffPath.Size = new System.Drawing.Size(37, 24);
+			this.btnDiffPath.Size = new System.Drawing.Size(49, 30);
 			this.btnDiffPath.TabIndex = 15;
 			this.btnDiffPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnDiffPath.UseVisualStyleBackColor = true;
@@ -361,9 +384,11 @@ namespace Options
 			this.gboxReader.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxReader.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxReader.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxReader.Location = new System.Drawing.Point(3, 77);
+			this.gboxReader.Location = new System.Drawing.Point(4, 95);
+			this.gboxReader.Margin = new System.Windows.Forms.Padding(4);
 			this.gboxReader.Name = "gboxReader";
-			this.gboxReader.Size = new System.Drawing.Size(601, 45);
+			this.gboxReader.Padding = new System.Windows.Forms.Padding(4);
+			this.gboxReader.Size = new System.Drawing.Size(804, 55);
 			this.gboxReader.TabIndex = 15;
 			this.gboxReader.TabStop = false;
 			this.gboxReader.Text = " Читалка fb2-файлов ";
@@ -372,20 +397,22 @@ namespace Options
 			// 
 			this.lblFBReaderPath.AutoSize = true;
 			this.lblFBReaderPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblFBReaderPath.Location = new System.Drawing.Point(7, 16);
+			this.lblFBReaderPath.Location = new System.Drawing.Point(9, 20);
+			this.lblFBReaderPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblFBReaderPath.Name = "lblFBReaderPath";
-			this.lblFBReaderPath.Size = new System.Drawing.Size(123, 13);
+			this.lblFBReaderPath.Size = new System.Drawing.Size(151, 17);
 			this.lblFBReaderPath.TabIndex = 16;
 			this.lblFBReaderPath.Text = "Путь к fb2-читалке:";
 			// 
 			// tboxReaderPath
 			// 
 			this.tboxReaderPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxReaderPath.Location = new System.Drawing.Point(184, 15);
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxReaderPath.Location = new System.Drawing.Point(245, 18);
+			this.tboxReaderPath.Margin = new System.Windows.Forms.Padding(4);
 			this.tboxReaderPath.Name = "tboxReaderPath";
 			this.tboxReaderPath.ReadOnly = true;
-			this.tboxReaderPath.Size = new System.Drawing.Size(366, 20);
+			this.tboxReaderPath.Size = new System.Drawing.Size(490, 24);
 			this.tboxReaderPath.TabIndex = 14;
 			// 
 			// btnReaderPath
@@ -393,9 +420,10 @@ namespace Options
 			this.btnReaderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnReaderPath.Image = ((System.Drawing.Image)(resources.GetObject("btnReaderPath.Image")));
 			this.btnReaderPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnReaderPath.Location = new System.Drawing.Point(556, 13);
+			this.btnReaderPath.Location = new System.Drawing.Point(744, 16);
+			this.btnReaderPath.Margin = new System.Windows.Forms.Padding(4);
 			this.btnReaderPath.Name = "btnReaderPath";
-			this.btnReaderPath.Size = new System.Drawing.Size(37, 24);
+			this.btnReaderPath.Size = new System.Drawing.Size(49, 30);
 			this.btnReaderPath.TabIndex = 15;
 			this.btnReaderPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnReaderPath.UseVisualStyleBackColor = true;
@@ -412,9 +440,11 @@ namespace Options
 			this.gboxEditors.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxEditors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.gboxEditors.ForeColor = System.Drawing.Color.Maroon;
-			this.gboxEditors.Location = new System.Drawing.Point(3, 3);
+			this.gboxEditors.Location = new System.Drawing.Point(4, 4);
+			this.gboxEditors.Margin = new System.Windows.Forms.Padding(4);
 			this.gboxEditors.Name = "gboxEditors";
-			this.gboxEditors.Size = new System.Drawing.Size(601, 74);
+			this.gboxEditors.Padding = new System.Windows.Forms.Padding(4);
+			this.gboxEditors.Size = new System.Drawing.Size(804, 91);
 			this.gboxEditors.TabIndex = 14;
 			this.gboxEditors.TabStop = false;
 			this.gboxEditors.Text = "fb2-Редакторы ";
@@ -423,20 +453,22 @@ namespace Options
 			// 
 			this.lblTextEPath.AutoSize = true;
 			this.lblTextEPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblTextEPath.Location = new System.Drawing.Point(7, 46);
+			this.lblTextEPath.Location = new System.Drawing.Point(9, 57);
+			this.lblTextEPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblTextEPath.Name = "lblTextEPath";
-			this.lblTextEPath.Size = new System.Drawing.Size(158, 13);
+			this.lblTextEPath.Size = new System.Drawing.Size(197, 17);
 			this.lblTextEPath.TabIndex = 16;
 			this.lblTextEPath.Text = "Текстовый Редактор fb2:";
 			// 
 			// tboxTextEPath
 			// 
 			this.tboxTextEPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxTextEPath.Location = new System.Drawing.Point(184, 42);
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxTextEPath.Location = new System.Drawing.Point(245, 52);
+			this.tboxTextEPath.Margin = new System.Windows.Forms.Padding(4);
 			this.tboxTextEPath.Name = "tboxTextEPath";
 			this.tboxTextEPath.ReadOnly = true;
-			this.tboxTextEPath.Size = new System.Drawing.Size(366, 20);
+			this.tboxTextEPath.Size = new System.Drawing.Size(490, 23);
 			this.tboxTextEPath.TabIndex = 14;
 			// 
 			// btnTextEPath
@@ -444,9 +476,10 @@ namespace Options
 			this.btnTextEPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnTextEPath.Image = ((System.Drawing.Image)(resources.GetObject("btnTextEPath.Image")));
 			this.btnTextEPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnTextEPath.Location = new System.Drawing.Point(556, 40);
+			this.btnTextEPath.Location = new System.Drawing.Point(744, 49);
+			this.btnTextEPath.Margin = new System.Windows.Forms.Padding(4);
 			this.btnTextEPath.Name = "btnTextEPath";
-			this.btnTextEPath.Size = new System.Drawing.Size(37, 24);
+			this.btnTextEPath.Size = new System.Drawing.Size(49, 30);
 			this.btnTextEPath.TabIndex = 15;
 			this.btnTextEPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnTextEPath.UseVisualStyleBackColor = true;
@@ -456,20 +489,22 @@ namespace Options
 			// 
 			this.lblFBEPath.AutoSize = true;
 			this.lblFBEPath.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblFBEPath.Location = new System.Drawing.Point(7, 20);
+			this.lblFBEPath.Location = new System.Drawing.Point(9, 25);
+			this.lblFBEPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblFBEPath.Name = "lblFBEPath";
-			this.lblFBEPath.Size = new System.Drawing.Size(137, 13);
+			this.lblFBEPath.Size = new System.Drawing.Size(174, 17);
 			this.lblFBEPath.TabIndex = 13;
 			this.lblFBEPath.Text = "Редактор fb2-файлов:";
 			// 
 			// tboxFBEPath
 			// 
 			this.tboxFBEPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.tboxFBEPath.Location = new System.Drawing.Point(184, 16);
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxFBEPath.Location = new System.Drawing.Point(245, 20);
+			this.tboxFBEPath.Margin = new System.Windows.Forms.Padding(4);
 			this.tboxFBEPath.Name = "tboxFBEPath";
 			this.tboxFBEPath.ReadOnly = true;
-			this.tboxFBEPath.Size = new System.Drawing.Size(366, 20);
+			this.tboxFBEPath.Size = new System.Drawing.Size(490, 23);
 			this.tboxFBEPath.TabIndex = 11;
 			// 
 			// btnFBEPath
@@ -477,9 +512,10 @@ namespace Options
 			this.btnFBEPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnFBEPath.Image = ((System.Drawing.Image)(resources.GetObject("btnFBEPath.Image")));
 			this.btnFBEPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnFBEPath.Location = new System.Drawing.Point(556, 14);
+			this.btnFBEPath.Location = new System.Drawing.Point(744, 17);
+			this.btnFBEPath.Margin = new System.Windows.Forms.Padding(4);
 			this.btnFBEPath.Name = "btnFBEPath";
-			this.btnFBEPath.Size = new System.Drawing.Size(37, 24);
+			this.btnFBEPath.Size = new System.Drawing.Size(49, 30);
 			this.btnFBEPath.TabIndex = 12;
 			this.btnFBEPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnFBEPath.UseVisualStyleBackColor = true;
@@ -487,14 +523,15 @@ namespace Options
 			// 
 			// OptionsForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(615, 538);
+			this.ClientSize = new System.Drawing.Size(820, 662);
 			this.Controls.Add(this.tcOptions);
 			this.Controls.Add(this.pBtn);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
@@ -513,6 +550,7 @@ namespace Options
 			this.gboxEditors.ResumeLayout(false);
 			this.gboxEditors.PerformLayout();
 			this.ResumeLayout(false);
+
 		}
 		private System.Windows.Forms.CheckBox chBoxConfirmationForExit;
 		private System.Windows.Forms.Label lblFB2Dup;

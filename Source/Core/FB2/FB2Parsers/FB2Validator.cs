@@ -21,71 +21,57 @@ namespace Core.FB2Parser
 	/// </summary>
 	public class FB2Validator
 	{
+		#region Закрытые данные класса
+		private XmlDocument m_xmlDoc			= null;
+		private const string m_aFB20Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
+		private const string m_aFB21Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.1";
+		#endregion
+		
 		public FB2Validator()
 		{
 		}
 
-		public string ValidatingFB22File( string sFB2Path )
-        {
+		private string validate( string sFB2Path, string SchemePath ) {
 			#region Код
-			using (Stream xmlSchemeFile = new FileStream( Settings.Settings.FB22SchemePath, FileMode.Open ) )
-            {
+			m_xmlDoc = new XmlDocument();
+			m_xmlDoc.Load( sFB2Path );
+			string fb2FileNamespaceURI = m_xmlDoc.DocumentElement.NamespaceURI;
+			using (Stream xmlSchemeFile = new FileStream( SchemePath, FileMode.Open ) )
+			{
 				XmlSchemaSet sc = new XmlSchemaSet();
+				if( fb2FileNamespaceURI.Equals( m_aFB21Namespace ) )
+					sc.Add( m_aFB21Namespace, XmlReader.Create( xmlSchemeFile ) );
+				else
+					sc.Add( m_aFB20Namespace, XmlReader.Create( xmlSchemeFile ) );
 
-                sc.Add( "http://www.gribuser.ru/xml/fictionbook/2.0",
-                       XmlReader.Create( xmlSchemeFile ) );
+				XmlReaderSettings settings = new XmlReaderSettings();
+				settings.ValidationType = ValidationType.Schema;
+				settings.Schemas = sc;
+				XmlReader reader = XmlReader.Create( sFB2Path, settings );
 
-                XmlReaderSettings settings = new XmlReaderSettings();
-                settings.ValidationType = ValidationType.Schema;
-                settings.Schemas = sc;
-                XmlReader reader = XmlReader.Create( sFB2Path, settings );
-
-                try {
-                	// Parse the file.
-                	while ( reader.Read() );
-                	reader.Close();
-                	return string.Empty;
-                } catch (System.Xml.Schema.XmlSchemaException e) {
-            		reader.Close();
-            		return e.Message + "\r\nСтрока: " + e.LineNumber + "; Позиция: " + e.LinePosition;
-                } catch ( System.Exception e ) {
-                	reader.Close();
-                	return e.Message;
-                }
-            }
+				try {
+					while ( reader.Read() ) {;}
+					reader.Close();
+					return string.Empty;
+				} catch (System.Xml.Schema.XmlSchemaException e) {
+					reader.Close();
+					return e.Message + "\r\nСтрока: " + e.LineNumber + "; Позиция: " + e.LinePosition;
+				} catch ( System.Exception e ) {
+					reader.Close();
+					return e.Message;
+				}
+			}
 			#endregion
-        }
+		}
+		public string ValidatingFB22File( string sFB2Path )
+		{
+			return validate( sFB2Path, Settings.Settings.FB22SchemePath );
+		}
 		
 		public string ValidatingFB2LibrusecFile( string sFB2Path )
-        {
-			#region Код
-			using (Stream xmlSchemeFile = new FileStream( Settings.Settings.FB2LibrusecSchemePath, FileMode.Open ) )
-            {
-				XmlSchemaSet sc = new XmlSchemaSet();
-
-                sc.Add( "http://www.gribuser.ru/xml/fictionbook/2.0",
-                       XmlReader.Create( xmlSchemeFile ) );
-
-                XmlReaderSettings settings = new XmlReaderSettings();
-                settings.ValidationType = ValidationType.Schema;
-                settings.Schemas = sc;
-                XmlReader reader = XmlReader.Create( sFB2Path, settings );
-
-                try {
-                	// Parse the file.
-                	while ( reader.Read() );
-                	reader.Close();
-                	return string.Empty;
-                } catch (System.Xml.Schema.XmlSchemaException e) {
-            		reader.Close();
-            		return e.Message + "\r\nСтрока: " + e.LineNumber + "; Позиция: " + e.LinePosition;
-                } catch ( System.Exception e ) {
-                	reader.Close();
-                	return e.Message;
-                }
-            }
-			#endregion
-        }
+		{
+			return validate( sFB2Path, Settings.Settings.FB2LibrusecSchemePath );
+		}
 		
 	}
 }

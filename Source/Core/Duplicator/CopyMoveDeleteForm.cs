@@ -21,6 +21,7 @@ using filesWorker = Core.Misc.FilesWorker;
 // enums
 using EndWorkModeEnum	= Core.Misc.Enums.EndWorkModeEnum;
 using DuplWorkMode		= Core.Misc.Enums.DuplWorkMode;
+using MiscListView		= Core.Misc.MiscListView;
 
 namespace Core.Duplicator
 {
@@ -409,15 +410,15 @@ namespace Core.Duplicator
 		// обновление числа групп и книг во всех группах
 		private void newGroupItemsCount( ListView lvResult, ListView lvFilesCount ) {
 			// новое число групп
-			m_mscLV.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count.ToString() );
 			// число книг во всех группах
-			m_mscLV.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count.ToString() );
 			// реальное число всех файлов
-			m_mscLV.ListViewStatus( lvFilesCount, 1, m_AllFiles.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 1, m_AllFiles.ToString() );
 			// реальное число всех fb2 файлов
-			m_mscLV.ListViewStatus( lvFilesCount, 2, m_AllFB2Files.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 2, m_AllFB2Files.ToString() );
 			// реальное число всех архивов
-			m_mscLV.ListViewStatus( lvFilesCount, 3, m_AllArchives.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 3, m_AllArchives.ToString() );
 		}
 		// реальное значение всех Групп и всех копий книг в этих Группах
 		private void RealGroupsAndBooks( ListView lvResult, ListView lvFilesCount ) {
@@ -437,15 +438,15 @@ namespace Core.Duplicator
 				}
 			}
 			// реальное число групп копий
-			m_mscLV.ListViewStatus( lvFilesCount, 5, AllGroups.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 5, AllGroups.ToString() );
 			// реальное число копий книг во всех группах
-			m_mscLV.ListViewStatus( lvFilesCount, 6, AllBooks.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 6, AllBooks.ToString() );
 			// реальное число всех файлов
-			m_mscLV.ListViewStatus( lvFilesCount, 1, m_AllFiles.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 1, m_AllFiles.ToString() );
 			// реальное число всех fb2 файлов
-			m_mscLV.ListViewStatus( lvFilesCount, 2, m_AllFB2Files.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 2, m_AllFB2Files.ToString() );
 			// реальное число всех архивов
-			m_mscLV.ListViewStatus( lvFilesCount, 3, m_AllArchives.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, 3, m_AllArchives.ToString() );
 		}
 		
 		// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)

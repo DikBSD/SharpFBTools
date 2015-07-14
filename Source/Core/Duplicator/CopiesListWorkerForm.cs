@@ -19,6 +19,7 @@ using resultViewCollumn = Core.Misc.Enums.ResultViewCollumn;
 // enums
 using EndWorkModeEnum	= Core.Misc.Enums.EndWorkModeEnum;
 using DuplWorkMode		= Core.Misc.Enums.DuplWorkMode;
+using MiscListView		= Core.Misc.MiscListView;
 
 namespace Core.Duplicator
 {
@@ -336,7 +337,7 @@ namespace Core.Duplicator
 					bw.ReportProgress( ++i );
 				}
 			}
-			m_mscLV.SelectedItemEnsureVisible(m_lvResult, Convert.ToInt16( xmlTree.Element("SelectedItem").Value ) );
+			MiscListView.SelectedItemEnsureVisible(m_lvResult, Convert.ToInt16( xmlTree.Element("SelectedItem").Value ) );
 			#endregion
 		}
 		
@@ -354,12 +355,12 @@ namespace Core.Duplicator
 		
 		// Отображение результата поиска сравнения
 		private void ViewDupProgressData() {
-			m_mscLV.ListViewStatus( m_lvFilesCount, 1, m_sv.AllFiles );
-			m_mscLV.ListViewStatus( m_lvFilesCount, 2, m_sv.FB2 );
-			m_mscLV.ListViewStatus( m_lvFilesCount, 3, m_sv.Zip );
-			m_mscLV.ListViewStatus( m_lvFilesCount, 4, m_sv.Other );
-			m_mscLV.ListViewStatus( m_lvFilesCount, 5, m_sv.Group );
-			m_mscLV.ListViewStatus( m_lvFilesCount, 6, m_sv.AllFB2InGroups );
+			MiscListView.ListViewStatus( m_lvFilesCount, 1, m_sv.AllFiles );
+			MiscListView.ListViewStatus( m_lvFilesCount, 2, m_sv.FB2 );
+			MiscListView.ListViewStatus( m_lvFilesCount, 3, m_sv.Zip );
+			MiscListView.ListViewStatus( m_lvFilesCount, 4, m_sv.Other );
+			MiscListView.ListViewStatus( m_lvFilesCount, 5, m_sv.Group );
+			MiscListView.ListViewStatus( m_lvFilesCount, 6, m_sv.AllFB2InGroups );
 		}
 		#endregion
 		

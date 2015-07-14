@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectGuid>{6C84B4EA-9903-494D-BB93-91E192B9FB22}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,8 @@
     <NoStdLib>False</NoStdLib>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>..\..\bin\Debug\</OutputPath>
@@ -42,6 +43,9 @@
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -75,6 +79,10 @@
       <DependentUpon>SFBTpFB2DescEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\SFBTpFB2Dublicator.cs" />
+    <Compile Include="Tools\SFBTpFB2Dublicator.Designer.cs">
+      <DependentUpon>SFBTpFB2Dublicator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="Tools\SFBTpFileManager.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -93,6 +101,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\SFBTpFB2Dublicator.resx">
       <DependentUpon>SFBTpFB2Dublicator.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SFBTpFB2Dublicator.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\SFBTpFileManager.resx">
       <DependentUpon>SFBTpFileManager.cs</DependentUpon>
@@ -112,5 +122,8 @@
       <Name>Settings</Name>
     </ProjectReference>
     <Folder Include="Tools" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
 </Project>
