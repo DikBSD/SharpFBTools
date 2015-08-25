@@ -25,6 +25,7 @@ using Core.FB2.Description.CustomInfo;
 using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.TitleInfo;
 using Core.Duplicator;
+using Core.FB2.FB2Parsers;
 
 namespace Test
 {
@@ -135,8 +136,8 @@ namespace Test
 			BookTitle bt1 = new BookTitle("1");
 			BookTitle bt2 = new BookTitle("1");
 			
-			BookData bd1 = new BookData( bt1, authors1, genres1, "efewtgerger", "1.0", "Path", "UTF-8");
-			BookData bd2 = new BookData( bt2, authors2, genres2, "efewtgerger", "1.0", "Path", "UTF-8");
+			BookData bd1 = new BookData( bt1, authors1, genres1, "ru", "efewtgerger", "1.0", "Path", "UTF-8");
+			BookData bd2 = new BookData( bt2, authors2, genres2, "ru", "efewtgerger", "1.0", "Path", "UTF-8");
 			
 			if (bd1.isSameBook(bd2, CompareAndMiddleName))
 				MessageBox.Show( "Одинаковые:\n"+"bd1: "+bd1.BookTitle.Value+"\n"+"bd2: "+bd2.BookTitle.Value,
@@ -146,7 +147,43 @@ namespace Test
 				                "Test - BookData", MessageBoxButtons.OK, MessageBoxIcon.Information );
 		}
 		
+		public static void _gebugTestIsSameBookData(bool CompareAndMiddleName) {
+			FictionBook fb2_1 = new FictionBook("1.fb2");
+			FictionBook fb2_2 = new FictionBook("2.fb2");
+			
+			BookData bd1 = new BookData(
+				fb2_1.TIBookTitle, fb2_1.TIAuthors, fb2_1.TIGenres, fb2_1.TILang, fb2_1.DIID, fb2_1.DIVersion,
+				fb2_1.getFilePath(), fb2_1.getEncoding()
+			);
+			BookData bd2 = new BookData(
+				fb2_2.TIBookTitle, fb2_2.TIAuthors, fb2_2.TIGenres, fb2_2.TILang, fb2_2.DIID, fb2_2.DIVersion,
+				fb2_2.getFilePath(), fb2_2.getEncoding()
+			);
+			
+			if (bd1.isSameBook(bd2, CompareAndMiddleName))
+				MessageBox.Show( "Одинаковые:\n"+"bd1: "+bd1.BookTitle.Value+"\n"+"bd2: "+bd2.BookTitle.Value,
+				                "Test - BookData", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			else
+				MessageBox.Show( "Нет:\n"+"bd1: "+bd1.BookTitle.Value+"\n"+"bd2: "+bd2.BookTitle.Value,
+				                "Test - BookData", MessageBoxButtons.OK, MessageBoxIcon.Information );
+		}
 		
+		public static void debugTestIsSameBookData( ref IList<BookData> BookDataList, bool CompareAndMiddleName) {
+			for( int i = 0; i != BookDataList.Count; ++i ) {
+				BookData bd1 = BookDataList[i]; // текущая книга
+				// перебор всех книг в группе, за исключением текущей
+				for( int j = i+1; j != BookDataList.Count; ++j ) {
+					// сравнение текущей книги со всеми последующими
+					BookData bd2 = BookDataList[j];
+					if (bd1.isSameBook(bd2, CompareAndMiddleName))
+						MessageBox.Show( "Одинаковые:\n"+"bd1: "+bd1.Path+"\n"+"bd2: "+bd2.Path,
+						                "Test - BookData", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					else
+						MessageBox.Show( "Нет:\n"+"bd1: "+bd1.Path+"\n"+"bd2: "+bd2.Path,
+						                "Test - BookData", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				}
+			}
+		}
 		
 		// ===================================================================================================
 		public static string isSameBookTitle(BookTitle bt1, BookTitle bt2) {
@@ -280,7 +317,7 @@ namespace Test
 		
 		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
 		public static string MakeAutorsString( IList<Author> Authors, bool bNumber ) {
-			if( Authors==null )
+			if( Authors == null )
 				return "Тег <authors> в книге отсутствует";
 			string sA = string.Empty; int n = 0;
 			foreach( Author a in Authors ) {
@@ -316,7 +353,7 @@ namespace Test
 		
 		// формирование строки с Автором Книги
 		public static string MakeAutorString( Author a ) {
-			if( a==null )
+			if( a == null )
 				return "Тег <author> в книге отсутствует";
 			string sA = string.Empty;
 			if( a.LastName!=null && a.LastName.Value!=null )
@@ -334,33 +371,65 @@ namespace Test
 		
 		// формирование списка строк с ФИО Авторов, которые есть в обоих списках Авторов (Intersection)
 		// WithMiddleName = true - учитывать Отчество Автора
-		public static List<string> listIntersection(IList<Author> Authors1, IList<Author> Authors2, bool WithMiddleName) {
-			if ( Authors1.Count != Authors2.Count )
-				return new List<string>();
+		private List<string> listIntersection(IList<Author> Authors1, IList<Author> Authors2, bool WithMiddleName) {
+			if ( Authors1 != null && Authors2 != null )
+				if ( Authors1.Count != Authors2.Count )
+					return null;
+			MessageBox.Show("!!!");
 			List<string> list1 = makeListFOIAuthors(Authors1, WithMiddleName);
 			List<string> list2 = makeListFOIAuthors(Authors2, WithMiddleName);
 			return list1.Intersect(list2).ToList();
 		}
 		// формирование списка из строк ФИО каждого Автора из Authors
 		// WithMiddleName = true - учитывать Отчество Автора
-		private static List<string> makeListFOIAuthors(IList<Author> Authors, bool WithMiddleName) {
+		public static List<string> makeListFOIAuthors(IList<Author> Authors, bool WithMiddleName) {
 			List<string> list = new List<string>();
-			for ( int i=0; i!=Authors.Count; ++i ) {
+			const string Ret = "<Автор книги отсутствует>";
+			if ( Authors == null ) {
+				list.Add(Ret);
+				return list;
+			}
+			
+			for ( int i = 0; i != Authors.Count; ++i ) {
+				bool AuthorExist = true;
 				StringBuilder fio = new StringBuilder();
-				if (Authors[i].LastName != null && Authors[i].LastName.Value != null)
+				if ( Authors[i].LastName != null && !string.IsNullOrWhiteSpace(Authors[i].LastName.Value ) )
 					fio.Append(Authors[i].LastName.Value.Trim());
-				if (Authors[i].FirstName != null && Authors[i].FirstName.Value != null) {
+				if ( Authors[i].FirstName != null && !string.IsNullOrWhiteSpace( Authors[i].FirstName.Value ) ) {
 					fio.Append(" ");
 					fio.Append(Authors[i].FirstName.Value.Trim());
 				}
-				if (WithMiddleName) {
-					if (Authors[i].MiddleName != null && Authors[i].MiddleName.Value != null) {
+				if ( WithMiddleName ) {
+					if (Authors[i].MiddleName != null && !string.IsNullOrWhiteSpace( Authors[i].MiddleName.Value ) ) {
 						fio.Append(" ");
 						fio.Append(Authors[i].MiddleName.Value.Trim());
 					}
 				}
+				
+				bool MiddleNameExist = false;
+				if ( WithMiddleName ) {
+					if ( Authors[i].MiddleName != null && !string.IsNullOrWhiteSpace( Authors[i].MiddleName.Value ) )
+						MiddleNameExist = true;
+				}
+				bool LastNameExist = false;
+				if ( Authors[i].LastName != null && !string.IsNullOrWhiteSpace( Authors[i].LastName.Value ) )
+					LastNameExist = true;
+				bool FirstNameExist = false;
+				if ( Authors[i].FirstName != null && !string.IsNullOrWhiteSpace( Authors[i].FirstName.Value ) )
+					FirstNameExist = true;
+				
+				if ( WithMiddleName ) {
+					if ( !LastNameExist && !FirstNameExist && !MiddleNameExist )
+						AuthorExist = false;
+				} else {
+					if ( !LastNameExist && !FirstNameExist )
+						AuthorExist = false;
+				}
+				
 				string s = fio.ToString();
-				if (!list.Contains(s))
+				if ( !AuthorExist )
+					s = Ret;
+				if ( !list.Contains(s) )
 					list.Add(s);
 			}
 			return list;

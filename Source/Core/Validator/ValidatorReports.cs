@@ -72,7 +72,7 @@ namespace Core.Validator
 			
 			// сохранение отчета в файл
 			StreamWriter sw = new StreamWriter( @sFilePath, false, Encoding.UTF8 );
-			tsProgressBar.Maximum = lFB2Text.Count+1;
+			tsProgressBar.Maximum = lFB2Text.Count + 1;
 			tsProgressBar.Value = 1;
 			ssProgress.Refresh();
 			foreach( string sLine in lFB2Text ) {
@@ -152,13 +152,13 @@ namespace Core.Validator
 				if (result == DialogResult.OK) {
     	       		tsslblProgress.Text = tsslblProgressText;
     	    		tsProgressBar.Visible = true;
-					tsProgressBar.Maximum = lw.Items.Count+1;
+					tsProgressBar.Maximum = lw.Items.Count + 1;
 					tsProgressBar.Value = 1;
 					ssProgress.Refresh();
 					// сохранение списка в файл
 					string sFilePath = sfd.FileName;
 					StreamWriter sw = new StreamWriter( @sFilePath, false, Encoding.UTF8 );
-					for( int i=0; i!=lw.Items.Count; ++i ) {
+					for( int i = 0; i != lw.Items.Count; ++i ) {
 						string s = lw.Items[i].SubItems[0].Text.Split('/')[0];
 						if( File.Exists( s ) ) {
 							sw.WriteLine( s );

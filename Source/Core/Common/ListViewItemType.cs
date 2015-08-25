@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace Core.Misc
+namespace Core.Common
 {
 	/// <summary>
 	/// Данные ListViewItemType.

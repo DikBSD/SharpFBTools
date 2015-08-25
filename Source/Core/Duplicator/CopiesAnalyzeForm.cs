@@ -1,22 +1,23 @@
 ﻿/*
  * Сделано в SharpDevelop.
- * Пользователь: VadimK
+ * Пользователь: Кузнецов Вадим (DikBSD)
  * Дата: 28.08.2014
  * Время: 13:15
  * 
- * Для изменения этого шаблона используйте Сервис | Настройка | Кодирование | Правка стандартных заголовков.
+ * License: GPL 2.1
  */
 using System;
 using System.Windows.Forms;
 using System.ComponentModel;
 
-using Core.Misc;
+using Core.Common;
 
-using CompareMode		= Core.Misc.Enums.CompareMode;
-using EndWorkModeEnum	= Core.Misc.Enums.EndWorkModeEnum;
-using ResultViewCollumn = Core.Misc.Enums.ResultViewCollumn;
-using GroupAnalyzeMode	= Core.Misc.Enums.GroupAnalyzeMode;
-using MiscListView		= Core.Misc.MiscListView;
+using MiscListView			= Core.Common.MiscListView;
+
+using CompareMode			= Core.Common.Enums.CompareMode;
+using EndWorkModeEnum		= Core.Common.Enums.EndWorkModeEnum;
+using GroupAnalyzeMode		= Core.Common.Enums.GroupAnalyzeMode;
+using ResultViewDupCollumn	= Core.Common.Enums.ResultViewDupCollumn;
 
 namespace Core.Duplicator
 {
@@ -41,12 +42,12 @@ namespace Core.Duplicator
 		/// </summary>
 		private class FB2BookInfo {
 			private int m_IndexVersion = 0;
-			private int m_IndexCreationTime= 0;
+			private int m_IndexCreationTime = 0;
 			private int m_IndexLastWriteTime = 0;
-			private string m_Version			= string.Empty;
-			private DateTime  m_CreationTime	= Convert.ToDateTime("01/01/1900");
-			private DateTime  m_LastWriteTime	= Convert.ToDateTime("01/01/1900");
-			
+			private string		m_Version		= string.Empty;
+			private DateTime	m_CreationTime	= Convert.ToDateTime("01/01/1900");
+			private DateTime	m_LastWriteTime	= Convert.ToDateTime("01/01/1900");
+
 			public virtual int IndexVersion {
 				get { return m_IndexVersion; }
 				set { m_IndexVersion = value; }
@@ -94,7 +95,7 @@ namespace Core.Duplicator
 		// 								ОТКРЫТЫЕ СВОЙСТВА
 		// =============================================================================================
 		#region Открытые свойства
-		public virtual Core.Misc.EndWorkMode EndMode {
+		public virtual EndWorkMode EndMode {
 			get { return m_EndMode; }
 		}
 		#endregion
@@ -136,6 +137,11 @@ namespace Core.Duplicator
 							this.Text += " (по времени последнего изменения)";
 							CheckAllOldBooksInAllGroups(CompareMode.LastWriteTime, ref m_bw, ref e);
 							break;
+						case CompareMode.Validate:
+							// пометить в каждой группе все невалидные книги
+							this.Text += " (все невалидные книги)";
+							CheckAllOldBooksInAllGroups(CompareMode.Validate, ref m_bw, ref e);
+							break;
 						default:
 							return;
 					}
@@ -157,6 +163,11 @@ namespace Core.Duplicator
 							// пометить в выбранной группе все "старые" книги (по времени последнего изменения файла)
 							this.Text += " (по времени последнего изменения)";
 							CheckAllOldBooksInGroup(CompareMode.LastWriteTime, ref m_bw, ref e);
+							break;
+						case CompareMode.Validate:
+							// пометить в выбранной группе все все невалидные книги
+							this.Text += " (все невалидные книги)";
+							CheckAllOldBooksInGroup(CompareMode.Validate, ref m_bw, ref e);
 							break;
 						default:
 							return;
@@ -240,8 +251,13 @@ namespace Core.Duplicator
 		{
 			#region Код
 			int iter = 0;
-			if( !InAllGroups )
-				ProgressBar.Maximum	= 2 * lvGroup.Items.Count;
+			if( !InAllGroups ) {
+				if ( mode == CompareMode.Validate )
+					ProgressBar.Maximum	= lvGroup.Items.Count;
+				else
+					ProgressBar.Maximum	= 2 * lvGroup.Items.Count;
+			}
+			
 			// перебор всех книг в выбранной группе
 			FB2BookInfo bookInfo = new FB2BookInfo();
 			DateTime dt;
@@ -250,19 +266,19 @@ namespace Core.Duplicator
 					e.Cancel = true;
 					return;
 				}
-				if (lvi.SubItems[(int)ResultViewCollumn.Version].Text != string.Empty) {
+				if (lvi.SubItems[(int)ResultViewDupCollumn.Version].Text != string.Empty) {
 					switch( mode) {
 						case CompareMode.Version:
 							// у какой книги версия более поздняя
-							if ( bookInfo.Version.Replace('.', ',').CompareTo(lvi.SubItems[(int)ResultViewCollumn.Version].Text.Replace('.', ',')) < 0 ) {
+							if ( bookInfo.Version.Replace('.', ',').CompareTo(lvi.SubItems[(int)ResultViewDupCollumn.Version].Text.Replace('.', ',')) < 0 ) {
 								// если текущая книга более новая
-								bookInfo.Version = lvi.SubItems[(int)ResultViewCollumn.Version].Text;
+								bookInfo.Version = lvi.SubItems[(int)ResultViewDupCollumn.Version].Text;
 								bookInfo.IndexVersion = lvi.Index;
 							}
 							break;
 						case CompareMode.CreationTime:
 							// какой файл позднее создан
-							dt = Convert.ToDateTime(lvi.SubItems[(int)ResultViewCollumn.CreationTime].Text);
+							dt = Convert.ToDateTime(lvi.SubItems[(int)ResultViewDupCollumn.CreationTime].Text);
 							if ( bookInfo.CreationTime.CompareTo(dt) < 0 ) {
 								bookInfo.CreationTime = dt;
 								bookInfo.IndexCreationTime = lvi.Index;
@@ -270,11 +286,16 @@ namespace Core.Duplicator
 							break;
 						case CompareMode.LastWriteTime:
 							// какой файл позднее правился
-							dt = Convert.ToDateTime(lvi.SubItems[(int)ResultViewCollumn.LastWriteTime].Text);
+							dt = Convert.ToDateTime(lvi.SubItems[(int)ResultViewDupCollumn.LastWriteTime].Text);
 							if ( bookInfo.LastWriteTime.CompareTo(dt) < 0 ) {
 								bookInfo.LastWriteTime = dt;
 								bookInfo.IndexLastWriteTime = lvi.Index;
 							}
+							break;
+						case CompareMode.Validate:
+							// по валидности файла
+							if ( lvi.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Нет" )
+								m_lvResult.Items[lvi.Index].Checked = true;
 							break;
 					}
 				}
@@ -282,32 +303,33 @@ namespace Core.Duplicator
 					bw.ReportProgress( ++iter );
 			}
 			
-			// помечаем все книги в группе, кроме самой "новой"
-			foreach (ListViewItem item in lvGroup.Items ) {
-				if( ( bw.CancellationPending ) )  {
-					e.Cancel = true;
-					return;
+			if ( mode != CompareMode.Validate ) {
+				// помечаем все книги в группе, кроме самой "новой"
+				foreach ( ListViewItem item in lvGroup.Items ) {
+					if( ( bw.CancellationPending ) )  {
+						e.Cancel = true;
+						return;
+					}
+					switch( mode) {
+						case CompareMode.Version:
+							if (item.Index != bookInfo.IndexVersion)
+								m_lvResult.Items[item.Index].Checked = true;
+							break;
+						case CompareMode.CreationTime:
+							if (item.Index != bookInfo.IndexCreationTime)
+								m_lvResult.Items[item.Index].Checked = true;
+							break;
+						case CompareMode.LastWriteTime:
+							if (item.Index != bookInfo.IndexLastWriteTime)
+								m_lvResult.Items[item.Index].Checked = true;
+							break;
+					}
+					if( !InAllGroups )
+						bw.ReportProgress( ++iter );
 				}
-				switch( mode) {
-					case CompareMode.Version:
-						if (item.Index != bookInfo.IndexVersion)
-							m_lvResult.Items[item.Index].Checked = true;
-						break;
-					case CompareMode.CreationTime:
-						if (item.Index != bookInfo.IndexCreationTime)
-							m_lvResult.Items[item.Index].Checked = true;
-						break;
-					case CompareMode.LastWriteTime:
-						if (item.Index != bookInfo.IndexLastWriteTime)
-							m_lvResult.Items[item.Index].Checked = true;
-						break;
-				}
-				if( !InAllGroups )
-					bw.ReportProgress( ++iter );
 			}
 			#endregion
 		}
-
 		#endregion
 		
 		// =============================================================================================

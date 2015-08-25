@@ -9,7 +9,9 @@
 using System;
 using System.Collections.Generic;
 
-using stringProcessing = Core.Misc.StringProcessing;
+using Core.Common;
+
+using stringProcessing = Core.Common.StringProcessing;
 
 namespace Core.FB2.Genres
 {
@@ -21,7 +23,6 @@ namespace Core.FB2.Genres
 		#region Закрытые данные класса
 		private readonly Dictionary<string, string> m_dFB22Genres		= new Dictionary<string, string>();
 		private readonly Dictionary<string, string> m_dFB22GenresGroup	= new Dictionary<string, string>();
-		private List<string> m_lsGenresForGroup = null;
 		
 		private string[] m_sFB22GenreCode = {
 			/*0*/"sf_history","sf_action","sf_epic","sf_heroic","sf_detective","sf_cyberpunk","sf_space","sf_social","sf_horror","sf_humor",
@@ -105,7 +106,7 @@ namespace Core.FB2.Genres
 		};
 		#endregion
 		
-		public FB22Genres( ref Core.FileManager.SortingFB2Tags sortTags )
+		public FB22Genres( ref IGenresGroup GenresGroup )
 		{
 			#region Код
 			// инициализация словаря
@@ -114,52 +115,52 @@ namespace Core.FB2.Genres
 			}
 			/* инициализация словаря групп жанров */
 			for( int i=0; i!= 13; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupSf );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupSf );
 			}
 			for( int i=13; i!= 25; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupDetective );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupDetective );
 			}
 			for( int i=25; i!= 32; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupProse );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupProse );
 			}
 			for( int i=32; i!= 37; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupLove );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupLove );
 			}
 			for( int i=37; i!= 44; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupAdventure );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupAdventure );
 			}
 			for( int i=44; i!= 52; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupChildren );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupChildren );
 			}
 			for( int i=52; i!= 54; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupPoetry );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupPoetry );
 			}
 			for( int i=54; i!= 60; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupAntique );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupAntique );
 			}
 			for( int i=60; i!= 74; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupScience );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupScience );
 			}
 			for( int i=74; i!= 81; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupComputers );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupComputers );
 			}
 			for( int i=81; i!= 86; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupReference );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupReference );
 			}
 			for( int i=86; i!= 91; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupNonfiction );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupNonfiction );
 			}
 			for( int i=91; i!= 96; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupReligion );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupReligion );
 			}
 			for( int i=96; i!= 100; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupHumor );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupHumor );
 			}
 			for( int i=100; i!= 110; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupHome );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupHome );
 			}
 			for( int i=110; i!= m_sFB22GenreCode.Length; ++i ) {
-				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], sortTags.GenresGroupBusiness );
+				m_dFB22GenresGroup.Add( m_sFB22GenreCode[i], GenresGroup.GenresGroupBusiness );
 			}
 			#endregion
 		}
@@ -186,15 +187,15 @@ namespace Core.FB2.Genres
 			return m_sFB22GenreCode;
 		}
 		
-		public List<string> GetFBGenresForGroup( string sGGroup ) {
-			if( m_dFB22GenresGroup.ContainsValue( sGGroup ) ) {
-				m_lsGenresForGroup = new List<string>();
+		public List<string> GetFBGenresForGroup( string Group ) {
+			if( m_dFB22GenresGroup.ContainsValue( Group ) ) {
+				List<string> lsGenresForGroup = new List<string>();
 				foreach( string g in m_dFB22GenresGroup.Keys ) {
 					// m_dFB22GenresGroup.Values - Группы; m_dFB22GenresGroup.Keys - Жанры
-					if( m_dFB22GenresGroup[g] == sGGroup )
-						m_lsGenresForGroup.Add( g );
+					if( m_dFB22GenresGroup[g] == Group )
+						lsGenresForGroup.Add( g );
 				}
-				return m_lsGenresForGroup;
+				return lsGenresForGroup;
 			}
 			return null;
 		}

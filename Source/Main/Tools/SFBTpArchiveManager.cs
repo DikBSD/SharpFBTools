@@ -15,8 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-using SharpZipLibWorker	= Core.Misc.SharpZipLibWorker;
-using filesWorker 		= Core.Misc.FilesWorker;
+using SharpZipLibWorker	= Core.Common.SharpZipLibWorker;
+using filesWorker 		= Core.Common.FilesWorker;
 
 namespace SharpFBTools.Tools
 {

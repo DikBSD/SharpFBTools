@@ -6,11 +6,9 @@
  * 
  */
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 using Core.FB2.FB2Parsers;
@@ -20,11 +18,11 @@ using Core.FB2.Description.PublishInfo;
 using Core.FB2.Description.CustomInfo;
 using Core.FB2.Description.Common;
 using Core.FB2.Binary;
-using Core.Misc;
+using Core.FB2.Genres;
 
-using StringProcessing = Core.Misc.StringProcessing;
-using ImageWorker = Core.Misc.ImageWorker;
-using MiscListView = Core.Misc.MiscListView;
+using StringProcessing = Core.Common.StringProcessing;
+using ImageWorker = Core.Common.ImageWorker;
+using MiscListView = Core.Common.MiscListView;
 
 namespace Core.Common
 {
@@ -33,222 +31,23 @@ namespace Core.Common
 	/// </summary>
 	public partial class EditDescriptionForm : Form
 	{
-		#region Вспомогательные классы
-		#region AuthorInfo
-		/// <summary>
-		/// AuthorInfo: Класс хранения данных редактируемого Автора/Переводчика, для передачи в форму редактирования EditDescriptionForm
-		/// </summary>
-		public class AuthorInfo {
-			#region Закрытые данные класса
-			private readonly bool m_IsCreate = true;
-			private readonly Core.Misc.Enums.AuthorEnum m_AuthorEnumType;
-			private string m_LastName = string.Empty;
-			private string m_FirstName = string.Empty;
-			private string m_MiddleName = string.Empty;
-			private string m_NickName = string.Empty;
-			private string m_HomePage = string.Empty;
-			private string m_Email = string.Empty;
-			private string m_ID = string.Empty;
-			#endregion
-			public AuthorInfo( Core.Misc.Enums.AuthorEnum AuthorEnumType, bool IsCreate,
-			                  string LastName = "", string FirstName = "", string MiddleName = "",
-			                  string NickName = "", string HomePage = "", string Email = "", string ID = "" ) {
-				m_IsCreate = IsCreate;
-				m_AuthorEnumType = AuthorEnumType;
-				
-				m_LastName = LastName;
-				m_FirstName = FirstName;
-				m_MiddleName = MiddleName;
-				m_NickName = NickName;
-				m_HomePage = HomePage;
-				m_Email = Email;
-				m_ID = ID;
-			}
-			
-			#region Открытые свойства
-			public virtual bool IsCreate {
-				get {
-					return m_IsCreate;
-				}
-			}
-			public virtual Core.Misc.Enums.AuthorEnum AuthorType {
-				get {
-					return m_AuthorEnumType;
-				}
-			}
-			public virtual string LastName {
-				get {
-					return m_LastName;
-				}
-				set {
-					m_LastName = value;
-				}
-			}
-			public virtual string FirstName {
-				get {
-					return m_FirstName;
-				}
-				set {
-					m_FirstName = value;
-				}
-			}
-			public virtual string MiddleName {
-				get {
-					return m_MiddleName;
-				}
-				set {
-					m_MiddleName = value;
-				}
-			}
-			public virtual string NickName {
-				get {
-					return m_NickName;
-				}
-				set {
-					m_NickName = value;
-				}
-			}
-			public virtual string HomePage {
-				get {
-					return m_HomePage;
-				}
-				set {
-					m_HomePage = value;
-				}
-			}
-			public virtual string Email {
-				get {
-					return m_Email;
-				}
-				set {
-					m_Email = value;
-				}
-			}
-			public virtual string ID {
-				get {
-					return m_ID;
-				}
-				set {
-					m_ID = value;
-				}
-			}
-			#endregion
-		}
-		#endregion
-		
-		#region SequenceInfo
-		/// <summary>
-		/// SequenceInfo: Класс хранения данных редактируемой Серии, для передачи в форму редактирования EditDescriptionForm
-		/// </summary>
-		public class SequenceInfo {
-			#region Закрытые данные класса
-			private readonly bool m_IsCreate = true;
-			private readonly Core.Misc.Enums.SequenceEnum m_SequenceEnumType;
-			private string m_Name = string.Empty;
-			private string m_Number = string.Empty;
-			#endregion
-			public SequenceInfo( Core.Misc.Enums.SequenceEnum SequenceEnumType, bool IsCreate,
-			                    string Name = "", string Number = "" ) {
-				m_IsCreate = IsCreate;
-				m_SequenceEnumType = SequenceEnumType;
-				m_Name = Name;
-				m_Number = Number;
-			}
-			
-			#region Открытые свойства
-			public virtual bool IsCreate {
-				get {
-					return m_IsCreate;
-				}
-			}
-			public virtual Core.Misc.Enums.SequenceEnum SequenceType {
-				get {
-					return m_SequenceEnumType;
-				}
-			}
-			public virtual string Name {
-				get {
-					return m_Name;
-				}
-				set {
-					m_Name = value;
-				}
-			}
-			public virtual string Number {
-				get {
-					return m_Number;
-				}
-				set {
-					m_Number = value;
-				}
-			}
-			#endregion
-		}
-		#endregion
-		
-		#region CustomInfoInfo
-		/// <summary>
-		/// CustomInfoInfo: Класс хранения данных редактируемой Дополнительной информации, для передачи в форму редактирования EditDescriptionForm
-		/// </summary>
-		public class CustomInfoInfo {
-			#region Закрытые данные класса
-			private readonly bool m_IsCreate = true;
-			private string m_Type = string.Empty;
-			private string m_Value = string.Empty;
-			#endregion
-			public CustomInfoInfo( bool IsCreate, string Type = "", string Value = "" ) {
-				m_IsCreate = IsCreate;
-				m_Type = Type;
-				m_Value = Value;
-			}
-			
-			#region Открытые свойства
-			public virtual bool IsCreate {
-				get {
-					return m_IsCreate;
-				}
-			}
-			public virtual string Type {
-				get {
-					return m_Type;
-				}
-				set {
-					m_Type = value;
-				}
-			}
-			public virtual string Value {
-				get {
-					return m_Value;
-				}
-				set {
-					m_Value = value;
-				}
-			}
-			#endregion
-		}
-		#endregion
-		
-		#endregion
-		
 		#region Закрытые данные класса
-		private readonly string m_FilePath = string.Empty;
-		private readonly FictionBook m_fb2 = null;
+		private FictionBook m_fb2 = null;
 		private bool m_ApplyData = false;
 		private const string m_sTitle = "Правка метаданных описания fb2 книги";
 		#endregion
 		
-		public EditDescriptionForm( string FilePath )
+		public EditDescriptionForm( FictionBook fb2 )
 		{
 			#region Код Конструктора
 			InitializeComponent();
-			m_FilePath = FilePath;
-			m_fb2 = new FictionBook( FilePath );
+			m_fb2 = fb2;
 			// первоначальное заполнение контролов
 			init();
 			// загрузка метаданных TitleInfo книги
-			loadFB2TitleInfo( ref m_fb2, Core.Misc.Enums.TitleInfoEnum.TitleInfo );
+			loadFB2TitleInfo( ref m_fb2, Enums.TitleInfoEnum.TitleInfo );
 			// загрузка метаданных SourceTitleInfo книги
-			loadFB2TitleInfo( ref m_fb2, Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo );
+			loadFB2TitleInfo( ref m_fb2, Enums.TitleInfoEnum.SourceTitleInfo );
 			if ( m_fb2.STIAuthors != null || m_fb2.STIBookTitle != null || m_fb2.STILang != null ||
 			    m_fb2.STISrcLang != null || m_fb2.STIDate != null || m_fb2.STITranslators != null ||
 			    m_fb2.STIGenres != null || m_fb2.STISequences != null || m_fb2.STIKeywords != null ||
@@ -266,24 +65,24 @@ namespace Core.Common
 			History his = m_fb2.DIHistory;
 			if( his != null )
 				DIHistoryRichTextEdit.Text =
-					Core.Misc.StringProcessing.getDeleteAllTags( his.Value != null ? his.Value : string.Empty );
+					StringProcessing.getDeleteAllTags( his.Value != null ? his.Value : string.Empty );
 			// загрузка Аннатации на книгу
 			Annotation ann = m_fb2.TIAnnotation;
 			if( ann != null )
 				TIAnnotationRichTextEdit.Text =
-					Core.Misc.StringProcessing.getDeleteAllTags( ann.Value != null ? ann.Value : string.Empty );
+					StringProcessing.getDeleteAllTags( ann.Value != null ? ann.Value : string.Empty );
 			// загрузка Аннатации на Оригинал книги
 			Annotation annOrig = m_fb2.STIAnnotation;
 			if( annOrig != null )
 				STIAnnotationRichTextEdit.Text =
-					Core.Misc.StringProcessing.getDeleteAllTags( annOrig.Value != null ? annOrig.Value : string.Empty );
+					StringProcessing.getDeleteAllTags( annOrig.Value != null ? annOrig.Value : string.Empty );
 			
 			// загрузка обложек книги
-			IList<BinaryBase64> Covers = m_fb2.getCoversBase64( Core.Misc.Enums.TitleInfoEnum.TitleInfo );
+			IList<BinaryBase64> Covers = m_fb2.getCoversBase64( Enums.TitleInfoEnum.TitleInfo );
 			ImageWorker.makeListViewCoverNameItems( TICoverListView, ref Covers );
 			
 			// загрузка обложек оригинала книги
-			Covers = m_fb2.getCoversBase64( Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo );
+			Covers = m_fb2.getCoversBase64( Enums.TitleInfoEnum.SourceTitleInfo );
 			ImageWorker.makeListViewCoverNameItems( STICoverListView, ref Covers );
 			#endregion
 		}
@@ -300,64 +99,56 @@ namespace Core.Common
 		#region Закрытые вспомогательные методы
 		// первоначальное заполнение контролов
 		private void init() {
-			#region Код
 			// создание списков языков
-			TILangComboBox.Items.AddRange( Core.Common.LangList.LangsList );
-			TISrcLangComboBox.Items.AddRange( Core.Common.LangList.LangsList );
-			STILangComboBox.Items.AddRange( Core.Common.LangList.LangsList );
-			STISrcLangComboBox.Items.AddRange( Core.Common.LangList.LangsList );
+			TILangComboBox.Items.AddRange( LangList.LangsList );
+			TISrcLangComboBox.Items.AddRange( LangList.LangsList );
+			STILangComboBox.Items.AddRange( LangList.LangsList );
+			STISrcLangComboBox.Items.AddRange( LangList.LangsList );
 			// формирование Списка Жанров
-			makeListGenres( Core.Misc.Enums.TitleInfoEnum.TitleInfo );
-			makeListGenres( Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo );
-			#endregion
+			makeListGenres( Enums.TitleInfoEnum.TitleInfo );
+			makeListGenres( Enums.TitleInfoEnum.SourceTitleInfo );
 		}
 		
 		#region Вспомогательные методы для ЗАГРУЗКИ метаданных в контролы
+		private IFBGenres getGenresListOfGenreSheme( bool IsFB2Librusec ) {
+			IGenresGroup GenresGroup = new GenresGroup();
+			return GenresWorker.genresListOfGenreSheme( IsFB2Librusec, ref GenresGroup );
+		}
+		
 		// формирование Списка Жанров в контролы
-		private void makeListGenres( Core.Misc.Enums.TitleInfoEnum TitleInfoType ) {
-			#region Код
-			ComboBox cBox = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+		private void makeListGenres( Enums.TitleInfoEnum TitleInfoType ) {
+			ComboBox cBox = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? TIGenresComboBox : STIGenresComboBox;
 			cBox.Items.Clear();
-			RadioButton rb = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+			RadioButton rb = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? rbtnTIFB2Librusec : rbtnSTIFB2Librusec;
 			
-			Core.FileManager.SortingFB2Tags sortTags = new Core.FileManager.SortingFB2Tags( null );
-			Core.FB2.Genres.IFBGenres fb2g = null;
-			if( rb.Checked )
-				fb2g = new Core.FB2.Genres.FB2LibrusecGenres( ref sortTags );
-			else
-				fb2g = new Core.FB2.Genres.FB22Genres( ref sortTags );
-
+			IFBGenres fb2g = getGenresListOfGenreSheme( rb.Checked );
 			string[] sGenresNames	= fb2g.GetFBGenreNamesArray();
 			string[] sCodes			= fb2g.GetFBGenreCodesArray();
 			
 			for( int i = 0; i != sGenresNames.Length; ++i )
 				cBox.Items.Add( sGenresNames[i] + " (" + sCodes[i] + ")" );
 			cBox.SelectedIndex = 0;
-			#endregion
 		}
 		// загрузка Названия книги в зависимости от типа TitleInfo
-		private void loadBookTitle( ref FictionBook fb2, Core.Misc.Enums.TitleInfoEnum TitleInfoType ) {
-			#region Код
-			BookTitle bookTitle = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+		private void loadBookTitle( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
+			BookTitle bookTitle = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? fb2.TIBookTitle : fb2.STIBookTitle;
 			if( bookTitle != null ) {
-				if( TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo )
+				if( TitleInfoType == Enums.TitleInfoEnum.TitleInfo )
 					TIBookTitleTextBox.Text = bookTitle.Value;
 				else
 					STIBookTitleTextBox.Text = bookTitle.Value;
 			}
-			#endregion
 		}
 		// загрузка Языков книги в зависимости от типа TitleInfo
-		private void loadFB2Langs( ref FictionBook fb2, Core.Misc.Enums.TitleInfoEnum TitleInfoType ) {
-			#region Код
-			ComboBox cbLang = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo ? TILangComboBox : STILangComboBox;
-			ComboBox cbSrcLang = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo ? TISrcLangComboBox : STISrcLangComboBox;
-			string Lang = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+		private void loadFB2Langs( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
+			ComboBox cbLang = TitleInfoType == Enums.TitleInfoEnum.TitleInfo ? TILangComboBox : STILangComboBox;
+			ComboBox cbSrcLang = TitleInfoType == Enums.TitleInfoEnum.TitleInfo ? TISrcLangComboBox : STISrcLangComboBox;
+			string Lang = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? "(" + fb2.TILang + ")" : "(" + fb2.STILang + ")";
-			string SrcLang = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+			string SrcLang = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? "(" + fb2.TISrcLang + ")" : "(" + fb2.STISrcLang + ")";
 			if( !string.IsNullOrEmpty(Lang) ) {
 				for( int i = 0; i != cbLang.Items.Count; ++i ) {
@@ -377,77 +168,68 @@ namespace Core.Common
 					}
 				}
 			}
-			#endregion
 		}
 		// загрузка Жанров взависимости от типа TitleInfo
-		private void loadGenres( ref FictionBook fb2, Core.Misc.Enums.TitleInfoEnum TitleInfoType ) {
-			#region Код
-			RadioButton rbFB2Librusec = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+		private void loadGenres( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
+			RadioButton rbFB2Librusec = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? rbtnTIFB2Librusec : rbtnSTIFB2Librusec;
-			ListView lv = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+			ListView lv = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? TIGenresListView : STIGenresListView;
 			
-			Core.FileManager.SortingFB2Tags sortTags = new Core.FileManager.SortingFB2Tags( null );
-			Core.FB2.Genres.IFBGenres fb2g = null;
-			if( rbFB2Librusec.Checked )
-				fb2g = new Core.FB2.Genres.FB2LibrusecGenres( ref sortTags );
-			else
-				fb2g = new Core.FB2.Genres.FB22Genres( ref sortTags );
+			IFBGenres fb2g = getGenresListOfGenreSheme( rbFB2Librusec.Checked );
 			
-			IList<Genre> Genres = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+			IList<Genre> Genres = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? fb2.TIGenres : fb2.STIGenres;
 			
 			if( Genres != null ) {
 				foreach( Genre g in Genres ) {
-					ListViewItem lvi = new ListViewItem( fb2g.GetFBGenreName(g.Name) + " (" + g.Name + ")");
-					lvi.SubItems.Add( g.Math.ToString() );
-					lv.Items.Add( lvi );
+					if ( !WorksWithBooks.genreIsExist( lv, g, fb2g ) ) {
+						ListViewItem lvi = new ListViewItem( fb2g.GetFBGenreName(g.Name) + " (" + g.Name + ")");
+						lvi.SubItems.Add( g.Math.ToString() );
+						lv.Items.Add( lvi );
+					}
 				}
 			}
-			#endregion
 		}
 		// загрузка Даты создания книги в зависимости от типа TitleInfo
-		private void loadDate( ref FictionBook fb2, Core.Misc.Enums.TitleInfoEnum TitleInfoType ) {
-			#region Код
-			Date date = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo ? fb2.TIDate : fb2.STIDate;
+		private void loadDate( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
+			Date date = TitleInfoType == Enums.TitleInfoEnum.TitleInfo ? fb2.TIDate : fb2.STIDate;
 			if( date != null ) {
-				TextBox mtbDate = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+				TextBox mtbDate = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 					? TIDateTextBox : STIDateTextBox;
-				MaskedTextBox mtbValue = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+				MaskedTextBox mtbValue = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 					? TIDateValueMaskedTextBox : STIDateValueMaskedTextBox;
 				mtbDate.Text = date.Text;
 				mtbValue.Text = date.Value;
 			}
-			#endregion
 		}
 		// загрузка метаданных автора/переводчика книги / создателя fb2 файла
-		private void loadAuthors( ref FictionBook fb2, Core.Misc.Enums.TitleInfoEnum TitleInfoType,
-		                         Core.Misc.Enums.AuthorEnum AuthorType ) {
-			#region Код
+		private void loadAuthors( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType,
+		                         Enums.AuthorEnum AuthorType ) {
 			IList<Author> Authors = null;
 			ListView lv = null;
-			if( TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo ) {
-				if( AuthorType == Core.Misc.Enums.AuthorEnum.AuthorOfBook ) {
+			if( TitleInfoType == Enums.TitleInfoEnum.TitleInfo ) {
+				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = fb2.TIAuthors;
 					lv = TIAuthorsListView;
-				} else if( AuthorType == Core.Misc.Enums.AuthorEnum.Translator ) {
+				} else if( AuthorType == Enums.AuthorEnum.Translator ) {
 					Authors = fb2.TITranslators;
 					lv = TITranslatorListView;
 				} else {
-					//AuthorType == Core.Misc.Enums.AuthorEnum.AuthorOfFB2
+					//AuthorType == Enums.AuthorEnum.AuthorOfFB2
 					Authors = fb2.DIAuthors;
 					lv = DIFB2AuthorListView;
 				}
 			} else {
-				// TitleInfoType == Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo
-				if( AuthorType == Core.Misc.Enums.AuthorEnum.AuthorOfBook ) {
+				// TitleInfoType == Enums.TitleInfoEnum.SourceTitleInfo
+				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = fb2.STIAuthors;
 					lv = STIAuthorsListView;
-				} else if( AuthorType == Core.Misc.Enums.AuthorEnum.Translator ) {
+				} else if( AuthorType == Enums.AuthorEnum.Translator ) {
 					Authors = fb2.STITranslators;
 					lv = STITranslatorListView;
 				} else {
-					//AuthorType == Core.Misc.Enums.AuthorEnum.AuthorOfFB2
+					//AuthorType == Enums.AuthorEnum.AuthorOfFB2
 					Authors = fb2.DIAuthors;
 					lv = DIFB2AuthorListView;
 				}
@@ -456,61 +238,47 @@ namespace Core.Common
 			if( Authors != null ) {
 				foreach( Author a in Authors ) {
 					if( a != null ) {
-						ListViewItem lvi = null;
-						if( a.LastName != null )
-							lvi = new ListViewItem( !string.IsNullOrEmpty( a.LastName.Value ) ? a.LastName.Value : string.Empty );
-						else
-							lvi = new ListViewItem( "" );
-						if( a.FirstName != null )
-							lvi.SubItems.Add( !string.IsNullOrEmpty( a.FirstName.Value ) ? a.FirstName.Value : string.Empty );
-						else
-							lvi.SubItems.Add( string.Empty );
-						if( a.MiddleName != null )
-							lvi.SubItems.Add( !string.IsNullOrEmpty( a.MiddleName.Value ) ? a.MiddleName.Value : string.Empty );
-						else
-							lvi.SubItems.Add( string.Empty );
-						if( a.NickName != null )
-							lvi.SubItems.Add( !string.IsNullOrEmpty( a.NickName.Value ) ? a.NickName.Value : string.Empty );
-						else
-							lvi.SubItems.Add( string.Empty );
-						
-						IList<string> HPs = a.HomePages;
-						string sHomePages = string.Empty;
-						if( HPs != null && HPs.Count > 0 ) {
-							foreach( string hp in HPs )
-								sHomePages += hp + "; ";
+						if ( !WorksWithBooks.authorIsExist( lv, a ) ) {
+							ListViewItem lvi = null;
+							if( a.LastName != null )
+								lvi = new ListViewItem( !string.IsNullOrEmpty( a.LastName.Value ) ? a.LastName.Value : string.Empty );
+							else
+								lvi = new ListViewItem( "" );
+							if( a.FirstName != null )
+								lvi.SubItems.Add( !string.IsNullOrEmpty( a.FirstName.Value ) ? a.FirstName.Value : string.Empty );
+							else
+								lvi.SubItems.Add( string.Empty );
+							if( a.MiddleName != null )
+								lvi.SubItems.Add( !string.IsNullOrEmpty( a.MiddleName.Value ) ? a.MiddleName.Value : string.Empty );
+							else
+								lvi.SubItems.Add( string.Empty );
+							if( a.NickName != null )
+								lvi.SubItems.Add( !string.IsNullOrEmpty( a.NickName.Value ) ? a.NickName.Value : string.Empty );
+							else
+								lvi.SubItems.Add( string.Empty );
+							lvi.SubItems.Add( StringProcessing.makeStringFromListItems( a.HomePages ) );
+							lvi.SubItems.Add( StringProcessing.makeStringFromListItems( a.Emails ) );
+							
+							lvi.SubItems.Add( a.ID != null ? a.ID : string.Empty );
+							
+							lv.Items.Add( lvi );
 						}
-						lvi.SubItems.Add( sHomePages );
-						
-						IList<string> Emails = a.Emails;
-						string sEmails = string.Empty;
-						if( Emails != null && Emails.Count > 0 ) {
-							foreach( string e in Emails )
-								sEmails += e + "; ";
-						}
-						lvi.SubItems.Add( sEmails );
-						
-						lvi.SubItems.Add( a.ID != null ? a.ID : string.Empty );
-						
-						lv.Items.Add( lvi );
 					}
 				}
 			}
-			#endregion
 		}
 		// загрузка метаданных Серий книги / Серий Бумажной книги
-		private void loadSequences( ref FictionBook fb2, Core.Misc.Enums.TitleInfoEnum TitleInfoType,
-		                           Core.Misc.Enums.SequenceEnum SequenceType ) {
-			#region Код
+		private void loadSequences( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType,
+		                           Enums.SequenceEnum SequenceType ) {
 			IList<Sequence> Sequences = null;
 			ListView lv = null;
-			if( SequenceType == Core.Misc.Enums.SequenceEnum.Ebook ) {
-				Sequences = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+			if( SequenceType == Enums.SequenceEnum.Ebook ) {
+				Sequences = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 					? fb2.TISequences : fb2.STISequences;
-				lv = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+				lv = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 					? TISequenceListView : STISequenceListView;
 			} else {
-				// SequenceType == Core.Misc.Enums.SequenceEnum.PaperBook
+				// SequenceType == Enums.SequenceEnum.PaperBook
 				Sequences = fb2.PISequences;
 				lv = PISequenceListView;
 			}
@@ -525,20 +293,16 @@ namespace Core.Common
 					}
 				}
 			}
-			#endregion
 		}
 		// загрузка ключевых слов
-		private void loadKeyWords( ref FictionBook fb2, Core.Misc.Enums.TitleInfoEnum TitleInfoType ) {
-			#region Код
-			TextBox tbKey = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo ? TIKeyTextBox : STIKeyTextBox;
-			Keywords keys = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo ? fb2.TIKeywords : fb2.STIKeywords;
+		private void loadKeyWords( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
+			TextBox tbKey = TitleInfoType == Enums.TitleInfoEnum.TitleInfo ? TIKeyTextBox : STIKeyTextBox;
+			Keywords keys = TitleInfoType == Enums.TitleInfoEnum.TitleInfo ? fb2.TIKeywords : fb2.STIKeywords;
 			if( keys != null )
 				tbKey.Text = keys.Value;
-			#endregion
 		}
 		// загрузка метаданных TitleInfo книги
-		private void loadFB2TitleInfo( ref FictionBook fb2, Core.Misc.Enums.TitleInfoEnum TitleInfoType ) {
-			#region Код
+		private void loadFB2TitleInfo( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
 			// book-info
 			loadBookTitle( ref fb2, TitleInfoType );
 			// языки
@@ -548,18 +312,16 @@ namespace Core.Common
 			// date
 			loadDate( ref fb2, TitleInfoType );
 			// Авторы книги
-			loadAuthors( ref fb2, TitleInfoType, Core.Misc.Enums.AuthorEnum.AuthorOfBook );
+			loadAuthors( ref fb2, TitleInfoType, Enums.AuthorEnum.AuthorOfBook );
 			// Переводчики книги
-			loadAuthors( ref fb2, TitleInfoType, Core.Misc.Enums.AuthorEnum.Translator );
+			loadAuthors( ref fb2, TitleInfoType, Enums.AuthorEnum.Translator );
 			// ключевые слова
 			loadKeyWords( ref fb2, TitleInfoType );
 			// Серии
-			loadSequences( ref fb2, TitleInfoType, Core.Misc.Enums.SequenceEnum.Ebook );
-			#endregion
+			loadSequences( ref fb2, TitleInfoType, Enums.SequenceEnum.Ebook );
 		}
 		// загрузка метаданных DocumentInfo
 		private void loadDocumentInfo( ref FictionBook fb2 ) {
-			#region Код
 			DIIDTextBox.Text = !string.IsNullOrEmpty( fb2.DIID ) ? fb2.DIID : string.Empty;
 			DIVersionTextBox.Text = !string.IsNullOrEmpty( fb2.DIVersion ) ? fb2.DIVersion : string.Empty;
 			DIOCRTextBox.Text = fb2.DISrcOCR != null ? fb2.DISrcOCR.Value : string.Empty;
@@ -583,12 +345,10 @@ namespace Core.Common
 				DIDateValueMaskedTextBox.Text = date.Value;
 			}
 			// Создатели fb2 файла
-			loadAuthors( ref fb2, Core.Misc.Enums.TitleInfoEnum.TitleInfo, Core.Misc.Enums.AuthorEnum.AuthorOfFB2 );
-			#endregion
+			loadAuthors( ref fb2, Enums.TitleInfoEnum.TitleInfo, Enums.AuthorEnum.AuthorOfFB2 );
 		}
 		// загрузка метаданных PublisherInfo
 		private void loadPublisherInfo( ref FictionBook fb2 ) {
-			#region Код
 			// BookName
 			BookName bn = fb2.PIBookName;
 			if( bn != null )
@@ -608,14 +368,10 @@ namespace Core.Common
 			if( city != null )
 				DIISBNTextBox.Text = !string.IsNullOrEmpty( isbn.Value ) ? isbn.Value : string.Empty;
 			// Sequence
-			loadSequences( ref fb2, Core.Misc.Enums.TitleInfoEnum.TitleInfo, Core.Misc.Enums.SequenceEnum.PaperBook );
-			
-			
-			#endregion
+			loadSequences( ref fb2, Enums.TitleInfoEnum.TitleInfo, Enums.SequenceEnum.PaperBook );
 		}
 		// загрузка метаданных CustomInfo
 		private void loadCustomInfo( ref FictionBook fb2 ) {
-			#region Код
 			IList<CustomInfo> lCI = fb2.getCustomInfo();
 			if( lCI != null ) {
 				if( lCI.Count > 0 ) {
@@ -629,7 +385,6 @@ namespace Core.Common
 					}
 				}
 			}
-			#endregion
 		}
 		#endregion
 		
@@ -644,7 +399,7 @@ namespace Core.Common
 			return false;
 		}
 		// удаление Imsge тэга Cover по Href
-		private void deleteCoverImageForHref( Core.Misc.Enums.TitleInfoEnum TitleInfoType, string Href ) {
+		private void deleteCoverImageForHref( Enums.TitleInfoEnum TitleInfoType, string Href ) {
 			XmlNode xmlCover = m_fb2.getCoverNode( TitleInfoType );
 			if( xmlCover != null ) {
 				XmlNode xmlImageNode = m_fb2.getCoverImageNodeForHref( TitleInfoType, "#" + Href );
@@ -662,21 +417,21 @@ namespace Core.Common
 			}
 		}
 		// удаление Обложк (cover и binary) по Href (ID)
-		private void deleteCoverForHref( Core.Misc.Enums.TitleInfoEnum TitleInfoType, string Href ) {
+		private void deleteCoverForHref( Enums.TitleInfoEnum TitleInfoType, string Href ) {
 			deleteCoverImageForHref( TitleInfoType, Href );
 			if( ! isImageExsistInBody( Href ) )
 				deleteCoverBinaryForID( Href );
 		}
 		
 		// удаление тэга cover - т.е. удаление всех Обложек
-		private void deleteCoverTag( Core.Misc.Enums.TitleInfoEnum TitleInfoType ) {
+		private void deleteCoverTag( Enums.TitleInfoEnum TitleInfoType ) {
 			XmlNode xmlCover = m_fb2.getCoverNode( TitleInfoType );
 			if( xmlCover != null )
 				m_fb2.getTitleInfoNode( TitleInfoType ).RemoveChild( xmlCover );
 		}
 		// удаление всех binary тэга cover - т.е. удаление всех Обложек
 		private void deleteAllBinaryTagsOfCover( ref IList<string> lIDList ) {
-			#region Код
+
 			XmlNode xmlFB = m_fb2.getFictionBookNode();
 			XmlNodeList xmlBinaryNodes = m_fb2.getBinaryNodes();
 			if( xmlBinaryNodes != null && xmlBinaryNodes.Count > 0 ) {
@@ -685,18 +440,16 @@ namespace Core.Common
 						deleteCoverBinaryForID( ID );
 				}
 			}
-			#endregion
 		}
 		// удаление всех Обложек (cover и binary)
-		private void deleteAllCover( Core.Misc.Enums.TitleInfoEnum TitleInfoType, ref IList<string> lIDList ) {
+		private void deleteAllCover( Enums.TitleInfoEnum TitleInfoType, ref IList<string> lIDList ) {
 			deleteCoverTag( TitleInfoType );
 			deleteAllBinaryTagsOfCover( ref lIDList );
 		}
 		#endregion
 		
 		#region Вспомогательные методы СОЗДАНИЯ структур метаданных
-		private IList<XmlNode> makeAuthorNode( Core.Misc.Enums.AuthorEnum AuthorType, ListView lv ) {
-			#region Код
+		private IList<XmlNode> makeAuthorNode( Enums.AuthorEnum AuthorType, ref FictionBook fb2, ListView lv ) {
 			IList<XmlNode> Authors = null;
 			XmlNode xmlAuthor = null;
 			if( lv.Items.Count > 0 ) {
@@ -706,7 +459,7 @@ namespace Core.Common
 					IList<string> lHPs = HPs.Split( new Char [] { ',',';' } );
 					string Emails = StringProcessing.trimLastTemplateSymbol( item.SubItems[5].Text.Trim(), new Char [] { ',',';' } );
 					IList<string> lEmails = Emails.Split( new Char [] { ',',';' } );
-					xmlAuthor = m_fb2.makeAuthor(
+					xmlAuthor = fb2.makeAuthor(
 						AuthorType,
 						item.SubItems[1].Text, item.SubItems[2].Text, item.Text, item.SubItems[3].Text,
 						lHPs, lEmails, item.SubItems[6].Text
@@ -714,18 +467,16 @@ namespace Core.Common
 					Authors.Add(xmlAuthor);
 				}
 			} else {
-				if( AuthorType == Core.Misc.Enums.AuthorEnum.AuthorOfBook ) {
+				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = new List<XmlNode>();
-					xmlAuthor = m_fb2.makeAuthor( AuthorType, null, null, null, null, null, null, null );
+					xmlAuthor = fb2.makeAuthor( AuthorType, null, null, null, null, null, null, null );
 					Authors.Add(xmlAuthor);
 				}
 			}
 			return Authors;
-			#endregion
 		}
-		private XmlNode makeTitleInfoNode( ref XmlDocument xmlDoc, Core.Misc.Enums.TitleInfoEnum TitleInfoType ) {
-			#region Код
-			if( TitleInfoType == Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo && !STIEnableCheckBox.Checked )
+		private XmlNode makeTitleInfoNode( ref XmlDocument xmlDoc, Enums.TitleInfoEnum TitleInfoType ) {
+			if( TitleInfoType == Enums.TitleInfoEnum.SourceTitleInfo && !STIEnableCheckBox.Checked )
 				return null;
 			
 			string TitleInfoNode = string.Empty;
@@ -742,7 +493,7 @@ namespace Core.Common
 			ListView SequenceListView;
 			ListView CoverListView;
 			
-			if( TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo ) {
+			if( TitleInfoType == Enums.TitleInfoEnum.TitleInfo ) {
 				TitleInfoNode = "title-info";
 				GenresListView = TIGenresListView;
 				AuthorsListView = TIAuthorsListView;
@@ -787,7 +538,7 @@ namespace Core.Common
 			}
 			
 			// Авторы
-			IList<XmlNode> Authors = makeAuthorNode( Core.Misc.Enums.AuthorEnum.AuthorOfBook, AuthorsListView );
+			IList<XmlNode> Authors = makeAuthorNode( Enums.AuthorEnum.AuthorOfBook, ref m_fb2, AuthorsListView );
 			foreach( XmlNode Author in Authors )
 				xmlTI.AppendChild( Author );
 			
@@ -864,7 +615,7 @@ namespace Core.Common
 			}
 			
 			// translator
-			IList<XmlNode> Translators = makeAuthorNode( Core.Misc.Enums.AuthorEnum.Translator, TranslatorListView ) ;
+			IList<XmlNode> Translators = makeAuthorNode( Enums.AuthorEnum.Translator, ref m_fb2, TranslatorListView ) ;
 			if( Translators != null ) {
 				foreach( XmlNode Translator in Translators )
 					xmlTI.AppendChild( Translator );
@@ -876,10 +627,8 @@ namespace Core.Common
 					xmlTI.AppendChild( m_fb2.makeSequence( item.Text, item.SubItems[1].Text ) );
 			}
 			return xmlTI;
-			#endregion
 		}
 		private bool processTitleInfoNode( ref XmlDocument xmlDoc, XmlNode xmlTINew ) {
-			#region Код
 			string ns = m_fb2.getNamespace();
 			XmlNode xmlTIOld = xmlDoc.SelectSingleNode( ns + "FictionBook" + ns + "description" + ns + "title-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
@@ -890,10 +639,8 @@ namespace Core.Common
 				}
 			}
 			return false;
-			#endregion
 		}
 		private bool processSourceTitleInfoNode( ref XmlDocument xmlDoc, XmlNode xmlSTINew ) {
-			#region Код
 			string ns = m_fb2.getNamespace();
 			XmlNode xmlSTIOld = xmlDoc.SelectSingleNode( ns + "FictionBook" + ns + "description" + ns + "src-title-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
@@ -903,7 +650,7 @@ namespace Core.Common
 						xmlDesc.ReplaceChild( xmlSTINew, xmlSTIOld );
 						return true;
 					} else {
-						XmlNode xmlTI = m_fb2.getTitleInfoNode( Core.Misc.Enums.TitleInfoEnum.TitleInfo );
+						XmlNode xmlTI = m_fb2.getTitleInfoNode( Enums.TitleInfoEnum.TitleInfo );
 						if( xmlTI != null ) {
 							xmlDesc.InsertAfter( xmlSTINew, xmlTI );
 							return true;
@@ -917,14 +664,12 @@ namespace Core.Common
 				}
 			}
 			return false;
-			#endregion
 		}
 		private XmlNode makeDocumentInfoNode( ref XmlDocument xmlDoc ) {
-			#region Код
 			XmlNode xmlDI = xmlDoc.CreateElement( m_fb2.getPrefix(), "document-info", m_fb2.getNamespaceURI() );
 			
 			// Авторы
-			IList<XmlNode> Authors = makeAuthorNode( Core.Misc.Enums.AuthorEnum.AuthorOfFB2, DIFB2AuthorListView ) ;
+			IList<XmlNode> Authors = makeAuthorNode( Enums.AuthorEnum.AuthorOfFB2, ref m_fb2, DIFB2AuthorListView ) ;
 			foreach( XmlNode Author in Authors )
 				xmlDI.AppendChild( Author );
 			
@@ -974,10 +719,8 @@ namespace Core.Common
 				if( !string.IsNullOrWhiteSpace( History.InnerText ) )
 					xmlDI.AppendChild( History );
 			return xmlDI;
-			#endregion
 		}
 		private bool processDocumentInfoNode( ref XmlDocument xmlDoc, XmlNode xmlDINew ) {
-			#region Код
 			string ns = m_fb2.getNamespace();
 			XmlNode xmlDIOld = xmlDoc.SelectSingleNode( ns + "FictionBook" + ns + "description" + ns + "document-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
@@ -988,10 +731,8 @@ namespace Core.Common
 				}
 			}
 			return false;
-			#endregion
 		}
 		private XmlNode makePublishInfoNode( ref XmlDocument xmlDoc ) {
-			#region Код
 			bool PIExists = false;
 			XmlNode xmlPI = xmlDoc.CreateElement( m_fb2.getPrefix(), "publish-info", m_fb2.getNamespaceURI() );
 			
@@ -1041,10 +782,8 @@ namespace Core.Common
 			}
 			
 			return PIExists ? xmlPI : null;
-			#endregion
 		}
 		private bool processPublishInfoNode( ref XmlDocument xmlDoc, XmlNode xmlPINew ) {
-			#region Код
 			string ns = m_fb2.getNamespace();
 			XmlNode xmlPIOld = xmlDoc.SelectSingleNode( ns + "FictionBook" + ns + "description" + ns + "publish-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
@@ -1062,10 +801,8 @@ namespace Core.Common
 				}
 			}
 			return false;
-			#endregion
 		}
 		private bool processCustomInfoNode( ref XmlDocument xmlDoc ) {
-			#region Код
 			string ns = m_fb2.getNamespace();
 			XmlNodeList xmlCIOldList = xmlDoc.SelectNodes( ns + "FictionBook" + ns + "description" + ns + "custom-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
@@ -1083,16 +820,14 @@ namespace Core.Common
 				}
 			}
 			return false;
-			#endregion
 		}
 		#endregion
 		
 		#region Вспомогательные методы ДЛЯ РАБОТЫ КОНТРОЛОВ
 		// создание нового Автора книги / Переводчика книги / Создателя fb2-файла
-		private void createNewAuthor( ListView lv, Core.Misc.Enums.AuthorEnum AuthorType ) {
-			#region Код
+		private void createNewAuthor( ListView lv, Enums.AuthorEnum AuthorType ) {
 			AuthorInfo ai = new AuthorInfo( AuthorType, true );
-			Core.Common.AuthorInfoForm authorInfoForm = new Core.Common.AuthorInfoForm( ref ai );
+			AuthorInfoForm authorInfoForm = new AuthorInfoForm( ref ai );
 			authorInfoForm.ShowDialog();
 			AuthorInfo NewAuthorInfo = authorInfoForm.AuthorInfo;
 			ListViewItem lvi = new ListViewItem( NewAuthorInfo.LastName );
@@ -1104,11 +839,9 @@ namespace Core.Common
 			lvi.SubItems.Add( NewAuthorInfo.ID );
 			lv.Items.Add( lvi );
 			authorInfoForm.Dispose();
-			#endregion
 		}
 		// редактирование Автора книги / Переводчика книги / Создателя fb2-файла
-		private void editSelectedAuthor( ListView lv, Core.Misc.Enums.AuthorEnum AuthorType ) {
-			#region Код
+		private void editSelectedAuthor( ListView lv, Enums.AuthorEnum AuthorType ) {
 			if( lv.SelectedItems.Count > 0 ) {
 				ListViewItem lvi = lv.SelectedItems[0];
 				AuthorInfo ai = new AuthorInfo( AuthorType, false,
@@ -1127,11 +860,9 @@ namespace Core.Common
 				authorInfoForm.Dispose();
 			}
 			lv.Focus();
-			#endregion
 		}
 		// создание новой Серии для Электронной / Бумажной книги
-		private void createNewSequence( ListView lv, Core.Misc.Enums.SequenceEnum SequenceType ) {
-			#region Код
+		private void createNewSequence( ListView lv, Enums.SequenceEnum SequenceType ) {
 			SequenceInfo si = new SequenceInfo( SequenceType, true );
 			Core.Common.SequenceInfoForm sequenceInfoForm = new Core.Common.SequenceInfoForm( ref si );
 			sequenceInfoForm.ShowDialog();
@@ -1140,11 +871,9 @@ namespace Core.Common
 			lvi.SubItems.Add( NewSequenceInfo.Number );
 			lv.Items.Add( lvi );
 			sequenceInfoForm.Dispose();
-			#endregion
 		}
 		// редактирование Серии для Электронной / Бумажной книги
-		private void editSelectedSequence( ListView lv, Core.Misc.Enums.SequenceEnum SequenceType ) {
-			#region Код
+		private void editSelectedSequence( ListView lv, Enums.SequenceEnum SequenceType ) {
 			if( lv.SelectedItems.Count > 0 ) {
 				ListViewItem lvi = lv.SelectedItems[0];
 				SequenceInfo si = new SequenceInfo( SequenceType, false, lvi.Text, lvi.SubItems[1].Text );
@@ -1156,11 +885,9 @@ namespace Core.Common
 				sequenceInfoForm.Dispose();
 			}
 			lv.Focus();
-			#endregion
 		}
 		// поиск максимально номера обложки
 		private int getMaxCoverNumber( ListView lv ) {
-			#region Код
 			int MaxNumber = -1;
 			foreach( ListViewItem item in lv.Items ) {
 				int ind = item.Text.IndexOf("cover");
@@ -1174,13 +901,11 @@ namespace Core.Common
 				}
 			}
 			return MaxNumber;
-			#endregion
 		}
 		// добавление обложек в спиок
-		private void addCoverToList( Core.Misc.Enums.TitleInfoEnum TitleInfoType )
+		private void addCoverToList( Enums.TitleInfoEnum TitleInfoType )
 		{
-			#region Код
-			ListView CoverListView = TitleInfoType == Core.Misc.Enums.TitleInfoEnum.TitleInfo
+			ListView CoverListView = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? TICoverListView : STICoverListView;
 			CoverOpenFileDialog.InitialDirectory = Settings.Settings.ProgDir;
 			CoverOpenFileDialog.Title		= "Выберите изображение/изображения для Обложки/Обложек";
@@ -1204,28 +929,28 @@ namespace Core.Common
 					CoverListView.Items.Add( lvi );
 				}
 			}
-			#endregion
 		}
 		#endregion
 		#endregion
 		
 		#region Обработчики событий
-		/* Source Title Info */
+		/* Title Info */
 		// Жанры
 		void RbtnTIFB2LibrusecClick(object sender, EventArgs e)
 		{
-			makeListGenres( Core.Misc.Enums.TitleInfoEnum.TitleInfo );
+			makeListGenres( Enums.TitleInfoEnum.TitleInfo );
 		}
 		void RbtnTIFB22Click(object sender, EventArgs e)
 		{
-			makeListGenres( Core.Misc.Enums.TitleInfoEnum.TitleInfo );
+			makeListGenres( Enums.TitleInfoEnum.TitleInfo );
 		}
 		void TIGenreAddButtonClick(object sender, EventArgs e)
 		{
 			if( !MiscListView.isExistListViewItem( TIGenresListView, TIGenresComboBox.Text ) ) {
 				ListViewItem lvi = new ListViewItem( TIGenresComboBox.Text );
-				lvi.SubItems.Add( TIMatchMaskedTextBox.Text );
+				lvi.SubItems.Add( TIMatchMaskedTextBox.Text.Trim() );
 				TIGenresListView.Items.Add( lvi );
+				TIMatchMaskedTextBox.Clear();
 			}
 		}
 		void TIGenreDeleteButtonClick(object sender, EventArgs e)
@@ -1236,16 +961,38 @@ namespace Core.Common
 		{
 			MiscListView.deleteAllItems( TIGenresListView, m_sTitle, "Жанров" );
 		}
+		void TIGenreUpButtonClick(object sender, EventArgs e)
+		{
+			if( TIGenresListView.Items.Count > 0 && TIGenresListView.SelectedItems.Count > 0 ) {
+				if( TIGenresListView.SelectedItems.Count == 1 ) {
+					MiscListView.moveUpSelectedItem( TIGenresListView );
+				} else {
+					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				}
+			}
+			TIGenresListView.Select();
+		}
+		void TIGenreDownButtonClick(object sender, EventArgs e)
+		{
+			if( TIGenresListView.Items.Count > 0 && TIGenresListView.SelectedItems.Count > 0 ) {
+				if( TIGenresListView.SelectedItems.Count == 1 ) {
+					MiscListView.moveDownSelectedItem( TIGenresListView );
+				} else {
+					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				}
+			}
+			TIGenresListView.Select();
+		}
 		// Авторы Книги
 		void TIAuthorAddButtonClick(object sender, EventArgs e)
 		{
 			// создание нового Автора книги
-			createNewAuthor( TIAuthorsListView, Core.Misc.Enums.AuthorEnum.AuthorOfBook );
+			createNewAuthor( TIAuthorsListView, Enums.AuthorEnum.AuthorOfBook );
 		}
 		void TIAuthorEditButtonClick(object sender, EventArgs e)
 		{
 			// редактирование Автора книги
-			editSelectedAuthor( TIAuthorsListView, Core.Misc.Enums.AuthorEnum.AuthorOfBook );
+			editSelectedAuthor( TIAuthorsListView, Enums.AuthorEnum.AuthorOfBook );
 		}
 		void TIAuthorDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1255,16 +1002,36 @@ namespace Core.Common
 		{
 			MiscListView.deleteAllItems( TIAuthorsListView, m_sTitle, "Авторов Книги" );
 		}
+		void TIAuthorUpButtonClick(object sender, EventArgs e)
+		{
+			if( TIAuthorsListView.Items.Count > 0 && TIAuthorsListView.SelectedItems.Count > 0 ) {
+				if( TIAuthorsListView.SelectedItems.Count == 1 )
+					MiscListView.moveUpSelectedItem( TIAuthorsListView );
+				else
+					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			TIAuthorsListView.Select();
+		}
+		void TIAuthorDownButtonClick(object sender, EventArgs e)
+		{
+			if( TIAuthorsListView.Items.Count > 0 && TIAuthorsListView.SelectedItems.Count > 0 ) {
+				if( TIAuthorsListView.SelectedItems.Count == 1 )
+					MiscListView.moveDownSelectedItem( TIAuthorsListView );
+				else
+					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			TIAuthorsListView.Select();
+		}
 		// Переводчики
 		void TITranslatorAddButtonClick(object sender, EventArgs e)
 		{
 			// создание нового Переводчика книги
-			createNewAuthor( TITranslatorListView, Core.Misc.Enums.AuthorEnum.Translator );
+			createNewAuthor( TITranslatorListView, Enums.AuthorEnum.Translator );
 		}
 		void TITranslatorEditButtonClick(object sender, EventArgs e)
 		{
 			// редактирование Переводчика книги
-			editSelectedAuthor( TITranslatorListView, Core.Misc.Enums.AuthorEnum.Translator );
+			editSelectedAuthor( TITranslatorListView, Enums.AuthorEnum.Translator );
 		}
 		void TITranslatorDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1278,12 +1045,12 @@ namespace Core.Common
 		void TISequenceAddButtonClick(object sender, EventArgs e)
 		{
 			// создание новой Серии для Электронной книги
-			createNewSequence( TISequenceListView, Core.Misc.Enums.SequenceEnum.Ebook );
+			createNewSequence( TISequenceListView, Enums.SequenceEnum.Ebook );
 		}
 		void TISequenceEditButtonClick(object sender, EventArgs e)
 		{
 			// редактирование Серии для Электронной книги
-			editSelectedSequence( TISequenceListView, Core.Misc.Enums.SequenceEnum.Ebook );
+			editSelectedSequence( TISequenceListView, Enums.SequenceEnum.Ebook );
 		}
 		void TISequenceDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1292,6 +1059,26 @@ namespace Core.Common
 		void TISequenceDeleteAllButtonClick(object sender, EventArgs e)
 		{
 			MiscListView.deleteAllItems( TISequenceListView, m_sTitle, "Серий Книги" );
+		}
+		void TISequenceUpButtonClick(object sender, EventArgs e)
+		{
+			if( TISequenceListView.Items.Count > 0 && TISequenceListView.SelectedItems.Count > 0 ) {
+				if( TISequenceListView.SelectedItems.Count == 1 )
+					MiscListView.moveUpSelectedItem( TISequenceListView );
+				else
+					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			TISequenceListView.Select();
+		}
+		void TISequenceDownButtonClick(object sender, EventArgs e)
+		{
+			if( TISequenceListView.Items.Count > 0 && TISequenceListView.SelectedItems.Count > 0 ) {
+				if( TISequenceListView.SelectedItems.Count == 1 )
+					MiscListView.moveDownSelectedItem( TISequenceListView );
+				else
+					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			TISequenceListView.Select();
 		}
 		
 		/* Source Title Info */
@@ -1302,18 +1089,19 @@ namespace Core.Common
 		// Жанры
 		void RbtnSTIFB2LibrusecClick(object sender, EventArgs e)
 		{
-			makeListGenres( Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo );
+			makeListGenres( Enums.TitleInfoEnum.SourceTitleInfo );
 		}
 		void RbtnSTIFB22Click(object sender, EventArgs e)
 		{
-			makeListGenres( Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo );
+			makeListGenres( Enums.TitleInfoEnum.SourceTitleInfo );
 		}
 		void STIGenreAddButtonClick(object sender, EventArgs e)
 		{
 			if( !MiscListView.isExistListViewItem( STIGenresListView, STIGenresComboBox.Text ) ) {
 				ListViewItem lvi = new ListViewItem( STIGenresComboBox.Text );
-				lvi.SubItems.Add( STIMatchMaskedTextBox.Text );
+				lvi.SubItems.Add( STIMatchMaskedTextBox.Text.Trim() );
 				STIGenresListView.Items.Add( lvi );
+				STIMatchMaskedTextBox.Clear();
 			}
 		}
 		void STIGenreDeleteButtonClick(object sender, EventArgs e)
@@ -1324,16 +1112,38 @@ namespace Core.Common
 		{
 			MiscListView.deleteAllItems( STIGenresListView, m_sTitle, "Жанров" );
 		}
+		void STIGenreUpButtonClick(object sender, EventArgs e)
+		{
+			if( STIGenresListView.Items.Count > 0 && STIGenresListView.SelectedItems.Count > 0 ) {
+				if( STIGenresListView.SelectedItems.Count == 1 ) {
+					MiscListView.moveUpSelectedItem( STIGenresListView );
+				} else {
+					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				}
+			}
+			STIGenresListView.Select();
+		}
+		void STIGenreDownButtonClick(object sender, EventArgs e)
+		{
+			if( STIGenresListView.Items.Count > 0 && STIGenresListView.SelectedItems.Count > 0 ) {
+				if( STIGenresListView.SelectedItems.Count == 1 ) {
+					MiscListView.moveDownSelectedItem( STIGenresListView );
+				} else {
+					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				}
+			}
+			STIGenresListView.Select();
+		}
 		// Авторы книги
 		void STIAuthorAddButtonClick(object sender, EventArgs e)
 		{
 			// создание нового Автора книги
-			createNewAuthor( STIAuthorsListView, Core.Misc.Enums.AuthorEnum.AuthorOfBook );
+			createNewAuthor( STIAuthorsListView, Enums.AuthorEnum.AuthorOfBook );
 		}
 		void STIAuthorEditButtonClick(object sender, EventArgs e)
 		{
 			// редактирование Автора книги
-			editSelectedAuthor( STIAuthorsListView, Core.Misc.Enums.AuthorEnum.AuthorOfBook );
+			editSelectedAuthor( STIAuthorsListView, Enums.AuthorEnum.AuthorOfBook );
 		}
 		void STIAuthorDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1343,16 +1153,36 @@ namespace Core.Common
 		{
 			MiscListView.deleteAllItems( STIAuthorsListView, m_sTitle, "Авторов Книги" );
 		}
+		void STIAuthorUpButtonClick(object sender, EventArgs e)
+		{
+			if( STIAuthorsListView.Items.Count > 0 && STIAuthorsListView.SelectedItems.Count > 0 ) {
+				if( STIAuthorsListView.SelectedItems.Count == 1 )
+					MiscListView.moveUpSelectedItem( STIAuthorsListView );
+				else
+					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			STIAuthorsListView.Select();
+		}
+		void STIAuthorDownButtonClick(object sender, EventArgs e)
+		{
+			if( STIAuthorsListView.Items.Count > 0 && STIAuthorsListView.SelectedItems.Count > 0 ) {
+				if( STIAuthorsListView.SelectedItems.Count == 1 )
+					MiscListView.moveDownSelectedItem( STIAuthorsListView );
+				else
+					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			STIAuthorsListView.Select();
+		}
 		// Переводчики
 		void STITranslatorAddButtonClick(object sender, EventArgs e)
 		{
 			// создание нового Переводчика книги
-			createNewAuthor( STITranslatorListView, Core.Misc.Enums.AuthorEnum.Translator );
+			createNewAuthor( STITranslatorListView, Enums.AuthorEnum.Translator );
 		}
 		void STITranslatorEditButtonClick(object sender, EventArgs e)
 		{
 			// редактирование Переводчика книги
-			editSelectedAuthor( STITranslatorListView, Core.Misc.Enums.AuthorEnum.Translator );
+			editSelectedAuthor( STITranslatorListView, Enums.AuthorEnum.Translator );
 		}
 		void STITranslatorDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1366,12 +1196,12 @@ namespace Core.Common
 		void STISequenceAddButtonClick(object sender, EventArgs e)
 		{
 			// создание новой Серии для Электронной книги
-			createNewSequence( STISequenceListView, Core.Misc.Enums.SequenceEnum.Ebook );
+			createNewSequence( STISequenceListView, Enums.SequenceEnum.Ebook );
 		}
 		void STISequenceEditButtonClick(object sender, EventArgs e)
 		{
 			// редактирование Серии для Электронной книги
-			editSelectedSequence( STISequenceListView, Core.Misc.Enums.SequenceEnum.Ebook );
+			editSelectedSequence( STISequenceListView, Enums.SequenceEnum.Ebook );
 		}
 		void STISequenceDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1380,6 +1210,26 @@ namespace Core.Common
 		void STISequenceDeleteAllButtonClick(object sender, EventArgs e)
 		{
 			MiscListView.deleteAllItems( STISequenceListView, m_sTitle, "Серий Книги" );
+		}
+		void STISequenceUpButtonClick(object sender, EventArgs e)
+		{
+			if( STISequenceListView.Items.Count > 0 && STISequenceListView.SelectedItems.Count > 0 ) {
+				if( STISequenceListView.SelectedItems.Count == 1 )
+					MiscListView.moveUpSelectedItem( STISequenceListView );
+				else
+					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			STISequenceListView.Select();
+		}
+		void STISequenceDownButtonClick(object sender, EventArgs e)
+		{
+			if( STISequenceListView.Items.Count > 0 && STISequenceListView.SelectedItems.Count > 0 ) {
+				if( STISequenceListView.SelectedItems.Count == 1 )
+					MiscListView.moveDownSelectedItem( STISequenceListView );
+				else
+					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			STISequenceListView.Select();
 		}
 		
 		/* Document Info */
@@ -1394,12 +1244,12 @@ namespace Core.Common
 		void DIFB2AuthorAddButtonClick(object sender, EventArgs e)
 		{
 			// создание нового Создателя fb2 файла
-			createNewAuthor( DIFB2AuthorListView, Core.Misc.Enums.AuthorEnum.AuthorOfFB2 );
+			createNewAuthor( DIFB2AuthorListView, Enums.AuthorEnum.AuthorOfFB2 );
 		}
 		void DIFB2AuthorEditButtonClick(object sender, EventArgs e)
 		{
 			// редактирование Создателя fb2 файла
-			editSelectedAuthor( DIFB2AuthorListView, Core.Misc.Enums.AuthorEnum.AuthorOfFB2 );
+			editSelectedAuthor( DIFB2AuthorListView, Enums.AuthorEnum.AuthorOfFB2 );
 		}
 		void DIFB2AuthorDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1409,17 +1259,37 @@ namespace Core.Common
 		{
 			MiscListView.deleteAllItems( DIFB2AuthorListView, m_sTitle, "Создателей fb2 файла" );
 		}
+		void DIFB2AuthorUpButtonClick(object sender, EventArgs e)
+		{
+			if( DIFB2AuthorListView.Items.Count > 0 && DIFB2AuthorListView.SelectedItems.Count > 0 ) {
+				if( DIFB2AuthorListView.SelectedItems.Count == 1 )
+					MiscListView.moveUpSelectedItem( DIFB2AuthorListView );
+				else
+					MessageBox.Show( "Выберите только одного Автора fb2-файла для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			DIFB2AuthorListView.Select();
+		}
+		void DIFB2AuthorDownButtonClick(object sender, EventArgs e)
+		{
+			if( DIFB2AuthorListView.Items.Count > 0 && DIFB2AuthorListView.SelectedItems.Count > 0 ) {
+				if( DIFB2AuthorListView.SelectedItems.Count == 1 )
+					MiscListView.moveDownSelectedItem( DIFB2AuthorListView );
+				else
+					MessageBox.Show( "Выберите только одного Автора fb2-файла для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			DIFB2AuthorListView.Select();
+		}
 		
 		/* Publish Info */
 		void PISequenceAddButtonClick(object sender, EventArgs e)
 		{
 			// создание новой Серии для Бумажной книги
-			createNewSequence( PISequenceListView, Core.Misc.Enums.SequenceEnum.PaperBook );
+			createNewSequence( PISequenceListView, Enums.SequenceEnum.PaperBook );
 		}
 		void PISequenceEditButtonClick(object sender, EventArgs e)
 		{
 			// редактирование Серии для Бумажной книги
-			editSelectedSequence( PISequenceListView, Core.Misc.Enums.SequenceEnum.PaperBook );
+			editSelectedSequence( PISequenceListView, Enums.SequenceEnum.PaperBook );
 		}
 		void PISequenceDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1428,6 +1298,26 @@ namespace Core.Common
 		void PISequenceDeleteAllButtonClick(object sender, EventArgs e)
 		{
 			MiscListView.deleteAllItems( PISequenceListView, m_sTitle, "Бумажной книги" );
+		}
+		void PISequenceUpButtonClick(object sender, EventArgs e)
+		{
+			if( PISequenceListView.Items.Count > 0 && PISequenceListView.SelectedItems.Count > 0 ) {
+				if( PISequenceListView.SelectedItems.Count == 1 )
+					MiscListView.moveUpSelectedItem( PISequenceListView );
+				else
+					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			PISequenceListView.Select();
+		}
+		void PISequenceDownButtonClick(object sender, EventArgs e)
+		{
+			if( PISequenceListView.Items.Count > 0 && PISequenceListView.SelectedItems.Count > 0 ) {
+				if( PISequenceListView.SelectedItems.Count == 1 )
+					MiscListView.moveDownSelectedItem( PISequenceListView );
+				else
+					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			PISequenceListView.Select();
 		}
 		
 		/* CustomInfo */
@@ -1466,6 +1356,26 @@ namespace Core.Common
 		{
 			MiscListView.deleteAllItems( CICustomInfoListView, m_sTitle, "Дополнительных данных" );
 		}
+		void CICustomInfoUpButtonClick(object sender, EventArgs e)
+		{
+			if( CICustomInfoListView.Items.Count > 0 && CICustomInfoListView.SelectedItems.Count > 0 ) {
+				if( CICustomInfoListView.SelectedItems.Count == 1 )
+					MiscListView.moveUpSelectedItem( CICustomInfoListView );
+				else
+					MessageBox.Show( "Выберите только один элемент для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			CICustomInfoListView.Select();
+		}
+		void CICustomInfoDownButtonClick(object sender, EventArgs e)
+		{
+			if( CICustomInfoListView.Items.Count > 0 && CICustomInfoListView.SelectedItems.Count > 0 ) {
+				if( CICustomInfoListView.SelectedItems.Count == 1 )
+					MiscListView.moveDownSelectedItem( CICustomInfoListView );
+				else
+					MessageBox.Show( "Выберите только один элемент для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			CICustomInfoListView.Select();
+		}
 		
 		/* Обложки */
 		void TICoverListViewClick(object sender, EventArgs e)
@@ -1475,7 +1385,7 @@ namespace Core.Common
 		}
 		void TICoverAddButtonClick(object sender, EventArgs e)
 		{
-			addCoverToList( Core.Misc.Enums.TitleInfoEnum.TitleInfo );
+			addCoverToList( Enums.TitleInfoEnum.TitleInfo );
 		}
 		void TICoverDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1483,7 +1393,7 @@ namespace Core.Common
 			if( TICoverListView.SelectedItems.Count > 0 ) {
 				string Href = TICoverListView.SelectedItems[0].Text;
 				if( MiscListView.deleteSelectedItem( TICoverListView, m_sTitle, "Обложек" ) )
-					deleteCoverForHref( Core.Misc.Enums.TitleInfoEnum.TitleInfo, Href );
+					deleteCoverForHref( Enums.TitleInfoEnum.TitleInfo, Href );
 			}
 		}
 		void TICoverDeleteAllButtonClick(object sender, EventArgs e)
@@ -1493,7 +1403,27 @@ namespace Core.Common
 				lIDList.Add( item.Text );
 			if( MiscListView.deleteAllItems( TICoverListView, m_sTitle, "Обложек" ) )
 				// удаление тэга cover и всех binary Обложек
-				deleteAllCover( Core.Misc.Enums.TitleInfoEnum.TitleInfo, ref lIDList );
+				deleteAllCover( Enums.TitleInfoEnum.TitleInfo, ref lIDList );
+		}
+		void TICoverUpButtonClick(object sender, EventArgs e)
+		{
+			if( TICoverListView.Items.Count > 0 && TICoverListView.SelectedItems.Count > 0 ) {
+				if( TICoverListView.SelectedItems.Count == 1 )
+					MiscListView.moveUpSelectedItem( TICoverListView );
+				else
+					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			TICoverListView.Select();
+		}
+		void TICoverDownButtonClick(object sender, EventArgs e)
+		{
+			if( TICoverListView.Items.Count > 0 && TICoverListView.SelectedItems.Count > 0 ) {
+				if( TICoverListView.SelectedItems.Count == 1 )
+					MiscListView.moveDownSelectedItem( TICoverListView );
+				else
+					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			TICoverListView.Select();
 		}
 		
 		void STICoverListViewClick(object sender, EventArgs e)
@@ -1503,7 +1433,7 @@ namespace Core.Common
 		}
 		void STICoverAddButtonClick(object sender, EventArgs e)
 		{
-			addCoverToList( Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo );
+			addCoverToList( Enums.TitleInfoEnum.SourceTitleInfo );
 		}
 		void STICoverDeleteButtonClick(object sender, EventArgs e)
 		{
@@ -1511,7 +1441,7 @@ namespace Core.Common
 			if( STICoverListView.SelectedItems.Count > 0 ) {
 				string Href = STICoverListView.SelectedItems[0].Text;
 				if( MiscListView.deleteSelectedItem( STICoverListView, m_sTitle, "Обложек" ) )
-					deleteCoverForHref( Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo, Href );
+					deleteCoverForHref( Enums.TitleInfoEnum.SourceTitleInfo, Href );
 			}
 		}
 		void STICoverDeleteAllButtonClick(object sender, EventArgs e)
@@ -1521,7 +1451,27 @@ namespace Core.Common
 				lIDList.Add( item.Text );
 			if( MiscListView.deleteAllItems( STICoverListView, m_sTitle, "Обложек" ) )
 				// удаление тэга cover и всех binary Обложек Оригинала
-				deleteAllCover( Core.Misc.Enums.TitleInfoEnum.TitleInfo, ref lIDList );
+				deleteAllCover( Enums.TitleInfoEnum.TitleInfo, ref lIDList );
+		}
+		void STICoverUpButtonClick(object sender, EventArgs e)
+		{
+			if( STICoverListView.Items.Count > 0 && STICoverListView.SelectedItems.Count > 0 ) {
+				if( STICoverListView.SelectedItems.Count == 1 )
+					MiscListView.moveUpSelectedItem( STICoverListView );
+				else
+					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			STICoverListView.Select();
+		}
+		void STICoverDownButtonClick(object sender, EventArgs e)
+		{
+			if( STICoverListView.Items.Count > 0 && STICoverListView.SelectedItems.Count > 0 ) {
+				if( STICoverListView.SelectedItems.Count == 1 )
+					MiscListView.moveDownSelectedItem( STICoverListView );
+				else
+					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
+			STICoverListView.Select();
 		}
 		
 		void CancelBtnClick(object sender, EventArgs e)
@@ -1582,15 +1532,14 @@ namespace Core.Common
 				}
 			}
 			
-			XmlNode fb = m_fb2.getFictionBookNode();
-			if( fb != null ) {
+			if( m_fb2.getFictionBookNode() != null ) {
 				XmlDocument xmlDoc = m_fb2.getXmlDoc();
 				// создаем ВСЕ разделя description, заполняем их и потом МЕНЯЕМ с существующими разделами,
 				// а если таких разделов нет - то ВСТАВЛЯЕМ созданные
 				/* Title Info */
-				processTitleInfoNode( ref xmlDoc, makeTitleInfoNode( ref xmlDoc, Core.Misc.Enums.TitleInfoEnum.TitleInfo ) );
+				processTitleInfoNode( ref xmlDoc, makeTitleInfoNode( ref xmlDoc, Enums.TitleInfoEnum.TitleInfo ) );
 				/* Source Title Info */
-				processSourceTitleInfoNode( ref xmlDoc, makeTitleInfoNode( ref xmlDoc, Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo ) );
+				processSourceTitleInfoNode( ref xmlDoc, makeTitleInfoNode( ref xmlDoc, Enums.TitleInfoEnum.SourceTitleInfo ) );
 				/* Document Info */
 				processDocumentInfoNode( ref xmlDoc, makeDocumentInfoNode( ref xmlDoc ) );
 				/* Publish Info */

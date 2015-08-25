@@ -437,7 +437,6 @@ namespace SharpFBTools.Tools
 			this.cboxInstrument.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxInstrument.FormattingEnabled = true;
 			this.cboxInstrument.Items.AddRange(new object[] {
-			"Валидатор fb2-файлов",
 			"Сортировщик файлов",
 			"Менеджер архивов",
 			"Дубликатор файлов"});
@@ -520,33 +519,25 @@ namespace SharpFBTools.Tools
 		void CboxInstrumentSelectedIndexChanged(object sender, EventArgs e)
 		{
 			rtboxHelp.Clear();
-			string sFB2ValidatorHelpPath	= Settings.ValidatorSettings.GetFB2ValidatorHelpPath();
 			string sFileManagerHelpPath		= Settings.FileManagerSettings.FileManagerHelpPath;
 			string sArchiveManagerHelpPath	= Settings.ArchiveManagerSettings.GetArchiveManagerHelpPath();
 			string sDuplicatorHelpPath		= Settings.FB2DublicatorSettings.GetDuplicatorHelpPath();
 			switch( cboxInstrument.SelectedIndex ) {
 				case 0:
-					if( File.Exists( sFB2ValidatorHelpPath ) ) {
-						rtboxHelp.LoadFile( sFB2ValidatorHelpPath );
-					} else {
-						rtboxHelp.Text = "Не найден файл Справки Валидатор: \""+sFB2ValidatorHelpPath+"\"";
-					}
-					break;
-				case 1:
 					if( File.Exists( sFileManagerHelpPath ) ) {
 						rtboxHelp.LoadFile( sFileManagerHelpPath );
 					} else {
 						rtboxHelp.Text = "Не найден файл Справки Сортировщика Файлов: \""+sFileManagerHelpPath+"\"";
 					}
 					break;
-				case 2:
+				case 1:
 					if( File.Exists( sArchiveManagerHelpPath ) ) {
 						rtboxHelp.LoadFile( sArchiveManagerHelpPath );
 					} else {
 						rtboxHelp.Text = "Не найден файл Справки Менеджера Архивов: \""+sArchiveManagerHelpPath+"\"";
 					}
 					break;
-				case 3:
+				case 2:
 					if( File.Exists( sDuplicatorHelpPath ) ) {
 						rtboxHelp.LoadFile( sDuplicatorHelpPath );
 					} else {

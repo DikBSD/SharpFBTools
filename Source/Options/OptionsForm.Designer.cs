@@ -52,9 +52,6 @@ namespace Options
 			this.cboxTIRArchiveManager = new System.Windows.Forms.ComboBox();
 			this.cboxDSArchiveManager = new System.Windows.Forms.ComboBox();
 			this.lblArchiveManager = new System.Windows.Forms.Label();
-			this.cboxTIRValidator = new System.Windows.Forms.ComboBox();
-			this.cboxDSValidator = new System.Windows.Forms.ComboBox();
-			this.lblValidator = new System.Windows.Forms.Label();
 			this.gboxDiff = new System.Windows.Forms.GroupBox();
 			this.lblDiffPath = new System.Windows.Forms.Label();
 			this.tboxDiffPath = new System.Windows.Forms.TextBox();
@@ -110,6 +107,7 @@ namespace Options
 			// 
 			// pBtn
 			// 
+			this.pBtn.BackColor = System.Drawing.Color.DarkGray;
 			this.pBtn.Controls.Add(this.btnDefRestore);
 			this.pBtn.Controls.Add(this.btnOK);
 			this.pBtn.Controls.Add(this.btnCancel);
@@ -166,7 +164,7 @@ namespace Options
 			this.chBoxConfirmationForExit.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxConfirmationForExit.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxConfirmationForExit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(4, 327);
+			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(4, 298);
 			this.chBoxConfirmationForExit.Margin = new System.Windows.Forms.Padding(4);
 			this.chBoxConfirmationForExit.Name = "chBoxConfirmationForExit";
 			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(804, 30);
@@ -182,9 +180,6 @@ namespace Options
 			this.gboxButtons.Controls.Add(this.cboxTIRArchiveManager);
 			this.gboxButtons.Controls.Add(this.cboxDSArchiveManager);
 			this.gboxButtons.Controls.Add(this.lblArchiveManager);
-			this.gboxButtons.Controls.Add(this.cboxTIRValidator);
-			this.gboxButtons.Controls.Add(this.cboxDSValidator);
-			this.gboxButtons.Controls.Add(this.lblValidator);
 			this.gboxButtons.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxButtons.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxButtons.ForeColor = System.Drawing.Color.Maroon;
@@ -192,7 +187,7 @@ namespace Options
 			this.gboxButtons.Margin = new System.Windows.Forms.Padding(4);
 			this.gboxButtons.Name = "gboxButtons";
 			this.gboxButtons.Padding = new System.Windows.Forms.Padding(4);
-			this.gboxButtons.Size = new System.Drawing.Size(804, 122);
+			this.gboxButtons.Size = new System.Drawing.Size(804, 93);
 			this.gboxButtons.TabIndex = 17;
 			this.gboxButtons.TabStop = false;
 			this.gboxButtons.Text = " Внешний вид кнопок инструментов (иконка и текст) ";
@@ -207,7 +202,7 @@ namespace Options
 			"TextAboveImage",
 			"ImageBeforeText",
 			"TextBeforeImage"});
-			this.cboxTIRFB2Dup.Location = new System.Drawing.Point(376, 84);
+			this.cboxTIRFB2Dup.Location = new System.Drawing.Point(376, 56);
 			this.cboxTIRFB2Dup.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxTIRFB2Dup.Name = "cboxTIRFB2Dup";
 			this.cboxTIRFB2Dup.Size = new System.Drawing.Size(172, 24);
@@ -221,7 +216,7 @@ namespace Options
 			"Text",
 			"Image",
 			"ImageAndText"});
-			this.cboxDSFB2Dup.Location = new System.Drawing.Point(196, 84);
+			this.cboxDSFB2Dup.Location = new System.Drawing.Point(196, 56);
 			this.cboxDSFB2Dup.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxDSFB2Dup.Name = "cboxDSFB2Dup";
 			this.cboxDSFB2Dup.Size = new System.Drawing.Size(172, 24);
@@ -232,7 +227,7 @@ namespace Options
 			// 
 			this.lblFB2Dup.AutoSize = true;
 			this.lblFB2Dup.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblFB2Dup.Location = new System.Drawing.Point(9, 87);
+			this.lblFB2Dup.Location = new System.Drawing.Point(9, 59);
 			this.lblFB2Dup.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblFB2Dup.Name = "lblFB2Dup";
 			this.lblFB2Dup.Size = new System.Drawing.Size(163, 17);
@@ -249,7 +244,7 @@ namespace Options
 			"TextAboveImage",
 			"ImageBeforeText",
 			"TextBeforeImage"});
-			this.cboxTIRArchiveManager.Location = new System.Drawing.Point(376, 52);
+			this.cboxTIRArchiveManager.Location = new System.Drawing.Point(376, 24);
 			this.cboxTIRArchiveManager.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxTIRArchiveManager.Name = "cboxTIRArchiveManager";
 			this.cboxTIRArchiveManager.Size = new System.Drawing.Size(172, 24);
@@ -263,7 +258,7 @@ namespace Options
 			"Text",
 			"Image",
 			"ImageAndText"});
-			this.cboxDSArchiveManager.Location = new System.Drawing.Point(196, 52);
+			this.cboxDSArchiveManager.Location = new System.Drawing.Point(196, 24);
 			this.cboxDSArchiveManager.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxDSArchiveManager.Name = "cboxDSArchiveManager";
 			this.cboxDSArchiveManager.Size = new System.Drawing.Size(172, 24);
@@ -274,54 +269,12 @@ namespace Options
 			// 
 			this.lblArchiveManager.AutoSize = true;
 			this.lblArchiveManager.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblArchiveManager.Location = new System.Drawing.Point(9, 55);
+			this.lblArchiveManager.Location = new System.Drawing.Point(9, 27);
 			this.lblArchiveManager.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblArchiveManager.Name = "lblArchiveManager";
 			this.lblArchiveManager.Size = new System.Drawing.Size(158, 17);
 			this.lblArchiveManager.TabIndex = 22;
 			this.lblArchiveManager.Text = "Менеджер Архивов:";
-			// 
-			// cboxTIRValidator
-			// 
-			this.cboxTIRValidator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboxTIRValidator.FormattingEnabled = true;
-			this.cboxTIRValidator.Items.AddRange(new object[] {
-			"Overlay",
-			"ImageAboveText",
-			"TextAboveImage",
-			"ImageBeforeText",
-			"TextBeforeImage"});
-			this.cboxTIRValidator.Location = new System.Drawing.Point(376, 20);
-			this.cboxTIRValidator.Margin = new System.Windows.Forms.Padding(4);
-			this.cboxTIRValidator.Name = "cboxTIRValidator";
-			this.cboxTIRValidator.Size = new System.Drawing.Size(172, 24);
-			this.cboxTIRValidator.TabIndex = 18;
-			// 
-			// cboxDSValidator
-			// 
-			this.cboxDSValidator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboxDSValidator.FormattingEnabled = true;
-			this.cboxDSValidator.Items.AddRange(new object[] {
-			"Text",
-			"Image",
-			"ImageAndText"});
-			this.cboxDSValidator.Location = new System.Drawing.Point(196, 20);
-			this.cboxDSValidator.Margin = new System.Windows.Forms.Padding(4);
-			this.cboxDSValidator.Name = "cboxDSValidator";
-			this.cboxDSValidator.Size = new System.Drawing.Size(172, 24);
-			this.cboxDSValidator.TabIndex = 17;
-			this.cboxDSValidator.SelectedIndexChanged += new System.EventHandler(this.CboxDSValidatorSelectedIndexChanged);
-			// 
-			// lblValidator
-			// 
-			this.lblValidator.AutoSize = true;
-			this.lblValidator.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lblValidator.Location = new System.Drawing.Point(9, 23);
-			this.lblValidator.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.lblValidator.Name = "lblValidator";
-			this.lblValidator.Size = new System.Drawing.Size(94, 17);
-			this.lblValidator.TabIndex = 16;
-			this.lblValidator.Text = "Валидатор:";
 			// 
 			// gboxDiff
 			// 
@@ -559,9 +512,6 @@ namespace Options
 		private System.Windows.Forms.ComboBox cboxTIRArchiveManager;
 		private System.Windows.Forms.Label lblArchiveManager;
 		private System.Windows.Forms.ComboBox cboxDSArchiveManager;
-		private System.Windows.Forms.ComboBox cboxTIRValidator;
-		private System.Windows.Forms.ComboBox cboxDSValidator;
-		private System.Windows.Forms.Label lblValidator;
 		private System.Windows.Forms.GroupBox gboxButtons;
 		private System.Windows.Forms.Button btnDiffPath;
 		private System.Windows.Forms.TextBox tboxDiffPath;

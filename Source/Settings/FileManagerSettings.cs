@@ -35,6 +35,7 @@ namespace Settings
 		private readonly static string m_FullSortTargetDir			= string.Empty;
 		private readonly static bool m_FullSortFB2GenresLibrusec	= true;
 		private readonly static bool m_FullSortFB2GenresFB22		= false;
+		private readonly static Int16 m_MaxFileForProgressIndex	= 11;
 		
 		// Настройки Избранной сортировки
 		private readonly static string m_SelSortTemplate 		= @"*GROUP*\*LBAL*[ *BAF*][ *BAM*]\*G*\[# *SN*]\[#*SII* - ]*BT*";
@@ -237,6 +238,10 @@ namespace Settings
 		// Папка приемник
 		public static string DefSelSortTargetDir {
 			get { return m_SelSortTargetDir; }
+		}
+		// Если число файлов в сканируемом каталоге превышает заданное, то появляется панель прогресса
+		public static Int16 DefMaxFileForProgressIndex {
+			get { return m_MaxFileForProgressIndex; }
 		}
 		// Жанр Либрусек?
 		public static bool DefSelSortFB2GenresLibrusec {
@@ -612,6 +617,17 @@ namespace Settings
 			}
 			return DefFullSortNotDelFB2Files;
 		}
+		
+		// Если число файлов в сканируемом каталоге превышает заданное, то появляется панель прогресса
+		public static Int16 ReadMaxFileForProgressIndex() {
+			if(File.Exists(m_FileSettingsPath)) {
+				m_xmlDoc.Load(m_FileSettingsPath);
+				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/FullSorting/Options/MaxFileForProgressIndex");
+				if(node != null)
+					return Convert.ToInt16( node.InnerText );
+			}
+			return DefMaxFileForProgressIndex;
+		}
 		#endregion
 		// =====================================================================================================
 		// 									Настройки Избранной сортировки
@@ -847,7 +863,7 @@ namespace Settings
 			}
 			return DefOnlyValidFB2;
 		}
-		
+	
 		// Раскладка файлов по папкам: По 1-му Автору
 		public static bool ReadAuthorOne() {
 			if(File.Exists(m_FileSettingsPath)) {

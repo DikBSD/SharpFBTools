@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Xml;
 
 using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
@@ -17,9 +18,9 @@ using Core.FB2.Binary;
 using Core.FB2.FB2Parsers;
 
 using FB2Validator	= Core.FB2Parser.FB2Validator;
-using filesWorker	= Core.Misc.FilesWorker;
+using filesWorker	= Core.Common.FilesWorker;
 
-namespace Core.Misc
+namespace Core.Common
 {
 	/// <summary>
 	/// Все данные на книгу и fb2 файл
@@ -31,7 +32,7 @@ namespace Core.Misc
 		private string m_sFromFilePath		= string.Empty;	// путь к анализируемой книге
 		#endregion
 		
-		public FB2BookDescription( string sFromFilePath )
+		public FB2BookDescription( string sFromFilePath)
 		{
 			m_sFromFilePath = sFromFilePath;
 			m_fb2 = new FictionBook( sFromFilePath );
@@ -40,88 +41,91 @@ namespace Core.Misc
 		#region Закрытые вспомогательные методы класса
 		// формирование строки с Авторами Книги из списка всех Авторов ЭТОЙ Книги
 		private string MakeAutorsString( IList<Author> AuthorsList) {
-			if( AuthorsList == null ) return string.Empty; 
-			string sA = string.Empty; //int n = 0;
+			if( AuthorsList == null )
+				return string.Empty;
+			string sA = string.Empty;
 			foreach( Author a in AuthorsList ) {
-//				++n;
-				if( a.LastName!=null && a.LastName.Value!=null )
-					sA += a.LastName.Value + " ";
-				if( a.FirstName!=null && a.FirstName.Value!=null )
-					sA += a.FirstName.Value + " ";
-				if( a.MiddleName!=null && a.FirstName.Value!=null )
-					sA += a.MiddleName.Value + " ";
-				if( a.NickName!=null && a.NickName.Value!=null )
-					sA += a.NickName.Value;
-				sA = sA.Trim();
-				sA += "; ";
+				if ( a != null ) {
+					if( a.LastName!=null && a.LastName.Value!=null )
+						sA += a.LastName.Value + " ";
+					if( a.FirstName!=null && a.FirstName.Value!=null )
+						sA += a.FirstName.Value + " ";
+					if( a.MiddleName!=null && a.MiddleName.Value!=null )
+						sA += a.MiddleName.Value + " ";
+					if( a.NickName!=null && a.NickName.Value!=null )
+						sA += a.NickName.Value;
+					sA = sA.Trim();
+					sA += "; ";
+				}
 			}
-//			sA = Convert.ToString(n)+": " + sA;
 			return sA.Substring( 0, sA.LastIndexOf( ';' ) ).Trim();
 		}
 		
 		// формирование строки с Датой Написания Книги или Датой Создания fb2-файла
 		private string MakeDateString( Date Date ) {
-			if( Date == null ) return string.Empty; 
+			if( Date == null )
+				return string.Empty;
+			
 			string sDate = string.Empty;
-			if( Date.Text!=null )	sDate += Date.Text;
-			if( Date.Value!=null )	sDate += " (" + Date.Value + ")";
+			if( Date.Text != null )
+				sDate += Date.Text;
+			if( Date.Value!=null )
+				sDate += " (" + Date.Value + ")";
 			return sDate;
 		}
 		
 		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
 		private string MakeGenresString( IList<Genre> GenresList ) {
-			if( GenresList == null ) return string.Empty;
-			string sG = string.Empty; //int n = 0;
-			foreach( Genre g in GenresList ) {
-//				++n;
-				if( g.Name != null )
-					sG += g.Name;
-				sG += "; ";
-			}
-//			if(n>1) {
-//				sG = Convert.ToString(n)+": " + sG;
-//			}
+			if( GenresList == null )
+				return string.Empty;
 			
-			//sG = Convert.ToString(n)+": " + sG;
+			string sG = string.Empty;
+			foreach( Genre g in GenresList ) {
+				if ( g != null ) {
+					if( g.Name != null )
+						sG += g.Name;
+					sG += "; ";
+				}
+			}
 			sG = sG.Trim();
 			return sG.Substring( 0, sG.LastIndexOf( ';' ) ).Trim();
 		}
 		
 		// формирование строки с Сериями Книги из списка всех Серий ЭТОЙ Книги
 		private string MakeSequencesString( IList<Sequence> Sequences ) {
-			if( Sequences == null ) return string.Empty; 
-			string sSeq = string.Empty; //int n = 0;
+			if( Sequences == null ) return string.Empty;
+			string sSeq = string.Empty;
 			foreach( Sequence s in Sequences ) {
-//				++n;
-				if( s.Name!=null )	sSeq += s.Name;
-				else 				sSeq += "Нет";
-				if( s.Number!=null )	sSeq += " ("+s.Number+") ";
-				else					sSeq += " (Нет) ";
-				sSeq += "; ";
+				if ( s != null ) {
+					if( s.Name != null )
+						sSeq += s.Name;
+					else
+						sSeq += "Нет";
+					if( s.Number != null )
+						sSeq += " ("+s.Number+") ";
+					sSeq += "; ";
+				}
 			}
-//			sSeq = Convert.ToString(n)+": " + sSeq;
 			sSeq = sSeq.Trim();
 			return sSeq.Substring( 0, sSeq.LastIndexOf( ';' ) ).Trim();
 		}
-		
 		#endregion
 		
 		#region Свойства класса
-		
 		#region Разное
 		public virtual string Encoding {
 			get {
 				string sEncoding = m_fb2.getEncoding();
 				return !string.IsNullOrEmpty( sEncoding ) ? sEncoding : "?";
 			}
-        }
+		}
 		
 		public virtual string FileLength {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );
 				return filesWorker.FormatFileLength( fi.Length );
 			}
-        }
+		}
 		
 		// время создания файла
 		public virtual string FileCreationTime {
@@ -129,29 +133,35 @@ namespace Core.Misc
 				FileInfo fi = new FileInfo( m_sFromFilePath );
 				return fi.CreationTime.ToString();
 			}
-        }
-		
+		}
 		// время последней записи в файл
 		public virtual string FileLastWriteTime {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );
 				return fi.LastWriteTime.ToString();
 			}
-        }
+		}
 		
 		public virtual string IsValidFB22 {
 			get {
 				FB2Validator fv2Validator = new FB2Validator();
 				return fv2Validator.ValidatingFB22File( m_sFromFilePath );
 			}
-        }
+		}
 		
 		public virtual string IsValidFB2Librusec {
 			get {
 				FB2Validator fv2Validator = new FB2Validator();
 				return fv2Validator.ValidatingFB2LibrusecFile( m_sFromFilePath );
 			}
-        }
+		}
+		
+		public virtual string FilePath {
+			get {
+				return m_sFromFilePath;
+			}
+		}
+		
 		#endregion
 		
 		#region TitleInfo
@@ -161,7 +171,7 @@ namespace Core.Misc
 					? m_fb2.TIAnnotation.Value
 					: string.Empty;
 			}
-        }
+		}
 		
 		public virtual string TIBookTitle {
 			get {
@@ -169,49 +179,49 @@ namespace Core.Misc
 					? m_fb2.TIBookTitle.Value
 					: string.Empty;
 			}
-        }
+		}
 		
 		public virtual string TILang {
 			get {
 				return m_fb2.TILang;
 			}
-        }
+		}
 		
 		public virtual string TISrcLang {
 			get {
 				return m_fb2.TISrcLang;
 			}
-        }
+		}
 		
 		public virtual string TIGenres {
 			get {
 				return MakeGenresString( m_fb2.TIGenres );
 			}
-        }
+		}
 		
 		public virtual string TIAuthors {
 			get {
 				return MakeAutorsString( m_fb2.TIAuthors );
 			}
-        }
+		}
 		
 		public virtual IList<Genre> Genres {
 			get {
 				return m_fb2.TIGenres;
 			}
-        }
+		}
 		
 		public virtual IList<Author> Authors {
 			get {
 				return m_fb2.TIAuthors;
 			}
-        }
+		}
 		
 		public virtual string TIDate {
 			get {
 				return MakeDateString( m_fb2.TIDate );
 			}
-        }
+		}
 		
 		public virtual string TIKeywords {
 			get {
@@ -219,25 +229,25 @@ namespace Core.Misc
 					? m_fb2.TIKeywords.Value
 					: string.Empty;
 			}
-        }
-				
+		}
+		
 		public virtual string TITranslators {
 			get {
 				return MakeAutorsString( m_fb2.TITranslators );
 			}
-        }
+		}
 		
 		public virtual string TISequences {
 			get {
 				return MakeSequencesString( m_fb2.TISequences );
 			}
-        }
+		}
 		
 		public virtual IList<BinaryBase64> TICoversBase64 {
 			get {
-				return m_fb2.getCoversBase64( Core.Misc.Enums.TitleInfoEnum.TitleInfo );
+				return m_fb2.getCoversBase64( Enums.TitleInfoEnum.TitleInfo );
 			}
-        }
+		}
 		#endregion
 		
 		#region SourceTitleInfo
@@ -247,7 +257,7 @@ namespace Core.Misc
 					? m_fb2.TIAnnotation.Value
 					: "";
 			}
-        }
+		}
 		
 		public virtual string STIBookTitle {
 			get {
@@ -255,37 +265,37 @@ namespace Core.Misc
 					? m_fb2.STIBookTitle.Value
 					: string.Empty;
 			}
-        }
+		}
 		
 		public virtual string STILang {
 			get {
 				return m_fb2.STILang;
 			}
-        }
+		}
 		
 		public virtual string STISrcLang {
 			get {
 				return m_fb2.STISrcLang;
 			}
-        }
+		}
 		
 		public virtual string STIGenres {
 			get {
 				return MakeGenresString( m_fb2.STIGenres );
 			}
-        }
+		}
 		
 		public virtual string STIAuthors {
 			get {
 				return MakeAutorsString( m_fb2.STIAuthors );
 			}
-        }
+		}
 		
 		public virtual string STIDate {
 			get {
 				return MakeDateString( m_fb2.STIDate );
 			}
-        }
+		}
 		
 		public virtual string STIKeywords {
 			get {
@@ -293,25 +303,25 @@ namespace Core.Misc
 					? m_fb2.STIKeywords.Value
 					: string.Empty;
 			}
-        }
+		}
 		
 		public virtual string STITranslators {
 			get {
 				return MakeAutorsString( m_fb2.STITranslators );
 			}
-        }
+		}
 		
 		public virtual string STISequences {
 			get {
 				return MakeSequencesString( m_fb2.STISequences );
 			}
-        }
+		}
 		
 		public virtual IList<BinaryBase64> STICoversBase64 {
 			get {
-				return m_fb2.getCoversBase64( Core.Misc.Enums.TitleInfoEnum.SourceTitleInfo );
+				return m_fb2.getCoversBase64( Enums.TitleInfoEnum.SourceTitleInfo );
 			}
-        }
+		}
 		#endregion
 		
 		#region DocumentInfo
@@ -319,19 +329,19 @@ namespace Core.Misc
 			get {
 				return m_fb2.DIID;
 			}
-        }
+		}
 		
 		public virtual string DIVersion {
 			get {
 				return m_fb2.DIVersion;
 			}
-        }
+		}
 		
 		public virtual string DIFB2Date {
 			get {
 				return MakeDateString( m_fb2.DIDate );
 			}
-        }
+		}
 		
 		public virtual string DIProgramUsed {
 			get {
@@ -339,7 +349,7 @@ namespace Core.Misc
 					? m_fb2.DIProgramUsed.Value
 					: string.Empty;
 			}
-        }
+		}
 		
 		public virtual string DISrcOcr {
 			get {
@@ -347,7 +357,7 @@ namespace Core.Misc
 					? m_fb2.DISrcOCR.Value
 					: string.Empty;
 			}
-        }
+		}
 
 		public virtual string DISrcUrls {
 			get {
@@ -367,13 +377,13 @@ namespace Core.Misc
 				}
 				return sURLs;
 			}
-        }
+		}
 		
 		public virtual string DIFB2Authors {
 			get {
 				return MakeAutorsString( m_fb2.DIAuthors );
 			}
-        }
+		}
 		
 		public virtual string DIHistory {
 			get {
@@ -381,7 +391,7 @@ namespace Core.Misc
 					? m_fb2.DIHistory.Value
 					: string.Empty;
 			}
-        }
+		}
 		
 		#endregion
 		
@@ -393,7 +403,7 @@ namespace Core.Misc
 					? m_fb2.PIBookName.Value
 					: string.Empty;
 			}
-        }
+		}
 		// Издатель
 		public virtual string PIPublisher {
 			get {
@@ -401,7 +411,7 @@ namespace Core.Misc
 					? m_fb2.PIPublisher.Value
 					: string.Empty;
 			}
-        }
+		}
 		// Город
 		public virtual string PICity {
 			get {
@@ -409,7 +419,7 @@ namespace Core.Misc
 					? m_fb2.PICity.Value
 					: string.Empty;
 			}
-        }
+		}
 		// Год издания
 		public virtual string PIYear {
 			get {
@@ -417,7 +427,7 @@ namespace Core.Misc
 					? m_fb2.PIYear
 					: string.Empty;
 			}
-        }
+		}
 		// ISBN
 		public virtual string PIISBN {
 			get {
@@ -425,13 +435,13 @@ namespace Core.Misc
 					? m_fb2.PIISBN.Value
 					: string.Empty;
 			}
-        }
+		}
 		// Серии
 		public virtual string PISequences {
 			get {
 				return MakeSequencesString( m_fb2.PISequences );
 			}
-        }
+		}
 		#endregion
 		
 		#region CustomInfo
@@ -439,9 +449,18 @@ namespace Core.Misc
 			get {
 				return m_fb2.CICustomInfo;
 			}
-        }
+		}
 		#endregion
 		
+		#endregion
+		
+		#region Открытые методы класса
+		public XmlDocument getXmlDoc() {
+			return m_fb2.getXmlDoc();
+		}
+		public FictionBook getFictionBook() {
+			return m_fb2;
+		}
 		#endregion
 	}
 }

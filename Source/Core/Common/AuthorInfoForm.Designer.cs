@@ -183,6 +183,7 @@ namespace Core.Common
 			// 
 			// ControlPanel
 			// 
+			this.ControlPanel.BackColor = System.Drawing.Color.DarkGray;
 			this.ControlPanel.Controls.Add(this.CancelBtn);
 			this.ControlPanel.Controls.Add(this.ApplyBtn);
 			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;

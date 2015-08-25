@@ -24,71 +24,74 @@ namespace Main
 		}
 		
 		#region Закрытые члены-методы класса
-		private static void MakeGroupToggleButtonsList( List<ToolStripButton> l,
-		    ToolStripButton tsbtnFB2Validator, ToolStripButton tsbtnFileManager,
-			ToolStripButton tsbtnArchiveManager, ToolStripButton tsbtnFB2Dublicator, /*ToolStripButton tsbtnDescEditor,*/ ToolStripButton tsbtnAbout ) {
+		private static void MakeGroupToggleButtonsList(
+			List<ToolStripButton> l,
+			ToolStripButton tsbtnDescEditor, ToolStripButton tsbtnFB2Dublicator,
+			ToolStripButton tsbtnFileManager, ToolStripButton tsbtnArchiveManager,
+			ToolStripButton tsbtnAbout
+		) {
 			// список кнопок-переключателей панели инструментов
-			l.Add( tsbtnFB2Validator );
+			l.Add( tsbtnDescEditor );
+			l.Add( tsbtnFB2Dublicator );
 			l.Add( tsbtnFileManager );
 			l.Add( tsbtnArchiveManager );
-			l.Add( tsbtnFB2Dublicator );
-			//l.Add( tsbtnDescEditor );
 			l.Add( tsbtnAbout );
-		}		
+		}
 		
-		private static void MakeImplPanelsList( List<UserControl> l,
-		    SFBTpFB2Validator sfbTpFB2Validator, SFBTpFileManager sfbTpFileManager,
-			SFBTpArchiveManager sfbTpArchiveManager, SFBTpFB2Dublicator sfbTpFB2Dublicator, /*SFBTpFB2DescEditor sfbTpFB2DescEditor,*/
-			SFBTpAbout sfbTpAbout ) {
+		private static void MakeImplPanelsList(
+			List<UserControl> l,
+			SFBTpFB2Corrector sfbTpFB2Corrector, SFBTpFB2Dublicator sfbTpFB2Dublicator,
+			SFBTpFileManager sfbTpFileManager, SFBTpArchiveManager sfbTpArchiveManager,
+			SFBTpAbout sfbTpAbout
+		) {
 			// список список имплантируемых панелей-режимов работы
-			l.Add( sfbTpFB2Validator );
+			l.Add( sfbTpFB2Corrector );
+			l.Add( sfbTpFB2Dublicator );
 			l.Add( sfbTpFileManager );
 			l.Add( sfbTpArchiveManager );
-			l.Add( sfbTpFB2Dublicator );
-			//l.Add( sfbTpFB2DescEditor );
 			l.Add( sfbTpAbout );
-		}	
+		}
 		#endregion
 		
 		#region Открытые члены-методы класса
-		public static void MakeGroupToggleLists( List<ToolStripButton> tsbl,
-		    ToolStripButton tsbtnFB2Validator, ToolStripButton tsbtnFileManager,
-			ToolStripButton tsbtnArchiveManager, ToolStripButton tsbtnFB2Dublicator, 
-			ToolStripButton tsbtnDescEditor, ToolStripButton tsbtnAbout,
+		public static void MakeGroupToggleLists(
+			List<ToolStripButton> tsbl,
+			ToolStripButton tsbtnDescEditor, ToolStripButton tsbtnFB2Dublicator,
+			ToolStripButton tsbtnFileManager, ToolStripButton tsbtnArchiveManager,
+			ToolStripButton tsbtnAbout,
 			List<UserControl> ucl,
-		    SFBTpFB2Validator sfbTpFB2Validator, SFBTpFileManager sfbTpFileManager,
-			SFBTpArchiveManager sfbTpArchiveManager, SFBTpFB2Dublicator sfbTpFB2Dublicator,
-			/*SFBTpFB2DescEditor sfbTpFB2DescEditor,*/ SFBTpAbout sfbTpAbout ) {
+			SFBTpFB2Corrector sfbTpFB2Corrector, SFBTpFB2Dublicator sfbTpFB2Dublicator,
+			SFBTpFileManager sfbTpFileManager, SFBTpArchiveManager sfbTpArchiveManager,
+			SFBTpAbout sfbTpAbout
+		) {
 			// список кнопок-переключателей панели инструментов и список список имплантируемых панелей-режимов работы
-			MakeGroupToggleButtonsList( tsbl,
-		    							tsbtnFB2Validator, tsbtnFileManager,
-										tsbtnArchiveManager, tsbtnFB2Dublicator, /*tsbtnDescEditor,*/ tsbtnAbout );
+			MakeGroupToggleButtonsList( tsbl, tsbtnDescEditor,  tsbtnFB2Dublicator,
+			                           tsbtnFileManager, tsbtnArchiveManager,
+			                           tsbtnAbout );
 			// список кнопок-переключателей панели инструментов
-			MakeImplPanelsList( ucl,
-		    					sfbTpFB2Validator, sfbTpFileManager,
-								sfbTpArchiveManager, sfbTpFB2Dublicator, /*sfbTpFB2DescEditor,*/ sfbTpAbout ) ;
+			MakeImplPanelsList( ucl, sfbTpFB2Corrector, sfbTpFB2Dublicator, sfbTpFileManager, sfbTpArchiveManager, sfbTpAbout ) ;
 		}
 		
 		public static void ToggleMode( List<ToolStripButton> tsbl, List<UserControl> ucl,
-				ToolStripButton Btn, UserControl Uc, ToolStripContainer tscMain ) {
+		                              ToolStripButton Btn, UserControl Uc, ToolStripContainer tscMain ) {
 			// переключение состояния кнопки btn
-			if( Btn.Checked!=true ) {
+			if( Btn.Checked != true ) {
 				Btn.Checked = true;
 				// отключаем все кнопки, кроме btn
 				foreach( ToolStripButton btn in tsbl ) {
-					if( btn!=Btn ) {
+					if( btn != Btn ) {
 						btn.Checked = false;
 					}
 				}
 				// отключаем видимость всех имплантированных панелей, кроме uc
 				foreach( UserControl uc in ucl ) {
-					if( uc!=Uc ) {
+					if( uc != Uc ) {
 						uc.Visible = false;
 					}
 				}
 				// панель Uc делаем видимой
 				tscMain.ContentPanel.Controls.Add( Uc );
-				Uc.Dock = System.Windows.Forms.DockStyle.Fill;
+				Uc.Dock = DockStyle.Fill;
 				Uc.Visible = true;
 			}
 		}

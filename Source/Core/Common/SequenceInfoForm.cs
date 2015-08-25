@@ -18,16 +18,16 @@ namespace Core.Common
 	public partial class SequenceInfoForm : Form
 	{
 		#region Закрытые данные класса
-		private readonly EditDescriptionForm.SequenceInfo m_si = new EditDescriptionForm.SequenceInfo( Core.Misc.Enums.SequenceEnum.Ebook, true );
+		private readonly SequenceInfo m_si = new SequenceInfo( Enums.SequenceEnum.Ebook, true );
 		#endregion
 		
-		public SequenceInfoForm( ref EditDescriptionForm.SequenceInfo si )
+		public SequenceInfoForm( ref SequenceInfo si )
 		{
 
 			InitializeComponent();
 			m_si = si;
 			string sSequence = string.Empty;
-			if( si.SequenceType == Core.Misc.Enums.SequenceEnum.Ebook )
+			if( si.SequenceType == Enums.SequenceEnum.Ebook )
 				sSequence = "Электронной книги";
 			else
 				sSequence = "Бумажной книги";
@@ -40,7 +40,7 @@ namespace Core.Common
 		}
 		
 		#region Открытые свойства
-		public virtual EditDescriptionForm.SequenceInfo SequenceInfo {
+		public virtual SequenceInfo SequenceInfo {
 			get {
 				return m_si;
 			}

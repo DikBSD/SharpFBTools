@@ -37,8 +37,6 @@ namespace Options
 			tboxTextEPath.Text			= Settings.Settings.DefTFB2Path;
 			tboxReaderPath.Text 		= Settings.Settings.DefFBReaderPath;
 			tboxDiffPath.Text 			= Settings.Settings.DiffPath;
-			cboxDSValidator.Text		= Settings.ValidatorSettings.GetDefValidatorcboxDSValidatorText();
-			cboxTIRValidator.Text		= Settings.ValidatorSettings.GetDefValidatorcboxTIRValidatorText();;
 			cboxDSArchiveManager.Text	= Settings.ArchiveManagerSettings.GetDefAMcboxDSArchiveManagerText();
 			cboxTIRArchiveManager.Text	= Settings.ArchiveManagerSettings.GetDefAMcboxTIRArchiveManagerText();
 			cboxDSFB2Dup.Text			= Settings.FB2DublicatorSettings.GetDefDupcboxDSFB2DupText();
@@ -72,14 +70,6 @@ namespace Options
 					// Стиль кнопок инструментов
 					if( xmlGeneral.Element("ToolButtons") != null ) {
 						XElement xmlToolButtons = xmlGeneral.Element("ToolButtons");
-						// Валидатор
-						if( xmlToolButtons.Element("ValidatorToolButtons") != null ) {
-							XElement xmlValidatorToolButtons = xmlToolButtons.Element("ValidatorToolButtons");
-							if( xmlValidatorToolButtons.Attribute("DSValidatorText") != null )
-								cboxDSValidator.Text = xmlValidatorToolButtons.Attribute("DSValidatorText").Value;
-							if( xmlValidatorToolButtons.Attribute("TIRValidatorText") != null )
-								cboxTIRValidator.Text = xmlValidatorToolButtons.Attribute("TIRValidatorText").Value;
-						}
 						// Менеджер Архивов
 						if( xmlToolButtons.Element("ArchiveManagerToolButtons") != null ) {
 							XElement xmlArchiveManagerToolButtons = xmlToolButtons.Element("ArchiveManagerToolButtons");
@@ -123,10 +113,6 @@ namespace Options
 				                          new XElement("ConfirmationForAppExit", chBoxConfirmationForExit.Checked),
 				                          new XComment("Стиль кнопок инструментов"),
 				                          new XElement("ToolButtons",
-				                                       new XElement("ValidatorToolButtons",
-				                                                    new XAttribute("DSValidatorText", cboxDSValidator.Text),
-				                                                    new XAttribute("TIRValidatorText", cboxTIRValidator.Text)
-				                                                   ),
 				                                       new XElement("ArchiveManagerToolButtons",
 				                                                    new XAttribute("DSArchiveManagerText", cboxDSArchiveManager.Text),
 				                                                    new XAttribute("TIRArchiveManagerText", cboxTIRArchiveManager.Text)
@@ -199,11 +185,6 @@ namespace Options
 			if (result == DialogResult.OK) {
 				tboxDiffPath.Text = ofDlg.FileName;
 			}
-		}
-		
-		void CboxDSValidatorSelectedIndexChanged(object sender, EventArgs e)
-		{
-			cboxTIRValidator.Enabled = cboxDSValidator.SelectedIndex == 2;
 		}
 		
 		void CboxDSArchiveManagerSelectedIndexChanged(object sender, EventArgs e)

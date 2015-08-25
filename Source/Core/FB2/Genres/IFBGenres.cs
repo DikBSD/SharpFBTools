@@ -16,10 +16,10 @@ namespace Core.FB2.Genres
 	/// </summary>
 	public interface IFBGenres
 	{
-		string GetFBGenreName( string sGenreCode );
-		string GetFBGenreGroup( string sGenreCode );
+		string GetFBGenreName( string GenreCode );
+		string GetFBGenreGroup( string GenreCode );
 		string[] GetFBGenreNamesArray();
 		string[] GetFBGenreCodesArray();
-		List<string> GetFBGenresForGroup( string sGGroup );
+		List<string> GetFBGenresForGroup( string GenreGroup );
 	}
 }

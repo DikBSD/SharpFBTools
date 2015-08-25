@@ -46,6 +46,8 @@ namespace Core.Common
 			this.columnHeader17 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader18 = new System.Windows.Forms.ColumnHeader();
 			this.TISequenceWorkPanel = new System.Windows.Forms.Panel();
+			this.TISequenceUpButton = new System.Windows.Forms.Button();
+			this.TISequenceDownButton = new System.Windows.Forms.Button();
 			this.TISequenceDeleteAllButton = new System.Windows.Forms.Button();
 			this.TISequenceDeleteButton = new System.Windows.Forms.Button();
 			this.TISequenceEditButton = new System.Windows.Forms.Button();
@@ -88,6 +90,8 @@ namespace Core.Common
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
 			this.TIAuthorsWorkPanel = new System.Windows.Forms.Panel();
+			this.TIAuthorUpButton = new System.Windows.Forms.Button();
+			this.TIAuthorDownButton = new System.Windows.Forms.Button();
 			this.TIAuthorDeleteAllButton = new System.Windows.Forms.Button();
 			this.TIAuthorDeleteButton = new System.Windows.Forms.Button();
 			this.TIAuthorEditButton = new System.Windows.Forms.Button();
@@ -99,6 +103,8 @@ namespace Core.Common
 			this.columnHeaderGenre = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderMath = new System.Windows.Forms.ColumnHeader();
 			this.TIGenreWorkPanel = new System.Windows.Forms.Panel();
+			this.TIGenreUpButton = new System.Windows.Forms.Button();
+			this.TIGenreDownButton = new System.Windows.Forms.Button();
 			this.TIGenreDeleteAllButton = new System.Windows.Forms.Button();
 			this.TIGenreDeleteButton = new System.Windows.Forms.Button();
 			this.TIGenresSchemePanel = new System.Windows.Forms.Panel();
@@ -127,6 +133,8 @@ namespace Core.Common
 			this.columnHeader46 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader47 = new System.Windows.Forms.ColumnHeader();
 			this.TICoverWorkPanel = new System.Windows.Forms.Panel();
+			this.TICoverUpButton = new System.Windows.Forms.Button();
+			this.TICoverDownButton = new System.Windows.Forms.Button();
 			this.TICoverDeleteAllButton = new System.Windows.Forms.Button();
 			this.TICoverDeleteButton = new System.Windows.Forms.Button();
 			this.TICoverLabelPanel = new System.Windows.Forms.Panel();
@@ -140,6 +148,8 @@ namespace Core.Common
 			this.columnHeader35 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader36 = new System.Windows.Forms.ColumnHeader();
 			this.STISequenceWorkPanel = new System.Windows.Forms.Panel();
+			this.STISequenceUpButton = new System.Windows.Forms.Button();
+			this.STISequenceDownButton = new System.Windows.Forms.Button();
 			this.STISequenceDeleteAllButton = new System.Windows.Forms.Button();
 			this.STISequenceDeleteButton = new System.Windows.Forms.Button();
 			this.STISequenceEditButton = new System.Windows.Forms.Button();
@@ -182,6 +192,8 @@ namespace Core.Common
 			this.columnHeader26 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader27 = new System.Windows.Forms.ColumnHeader();
 			this.STIAuthorsWorkPanel = new System.Windows.Forms.Panel();
+			this.STIAuthorUpButton = new System.Windows.Forms.Button();
+			this.STIAuthorDownButton = new System.Windows.Forms.Button();
 			this.STIAuthorDeleteAllButton = new System.Windows.Forms.Button();
 			this.STIAuthorDeleteButton = new System.Windows.Forms.Button();
 			this.STIAuthorEditButton = new System.Windows.Forms.Button();
@@ -193,6 +205,8 @@ namespace Core.Common
 			this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
 			this.STIGenreWorkPanel = new System.Windows.Forms.Panel();
+			this.STIGenreUpButton = new System.Windows.Forms.Button();
+			this.STIGenreDownButton = new System.Windows.Forms.Button();
 			this.STIGenreDeleteAllButton = new System.Windows.Forms.Button();
 			this.STIGenreDeleteButton = new System.Windows.Forms.Button();
 			this.STIGenresSchemePanel = new System.Windows.Forms.Panel();
@@ -221,6 +235,8 @@ namespace Core.Common
 			this.columnHeader48 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader49 = new System.Windows.Forms.ColumnHeader();
 			this.STICoverWorkPanel = new System.Windows.Forms.Panel();
+			this.STICoverUpButton = new System.Windows.Forms.Button();
+			this.STICoverDownButton = new System.Windows.Forms.Button();
 			this.STICoverDeleteAllButton = new System.Windows.Forms.Button();
 			this.STICoverDeleteButton = new System.Windows.Forms.Button();
 			this.STICoverLabelPanel = new System.Windows.Forms.Panel();
@@ -248,6 +264,8 @@ namespace Core.Common
 			this.columnHeader42 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader43 = new System.Windows.Forms.ColumnHeader();
 			this.DIFB2AuthorWorkPanel = new System.Windows.Forms.Panel();
+			this.DIFB2AuthorUpButton = new System.Windows.Forms.Button();
+			this.DIFB2AuthorDownButton = new System.Windows.Forms.Button();
 			this.DIFB2AuthorDeleteAllButton = new System.Windows.Forms.Button();
 			this.DIFB2AuthorDeleteButton = new System.Windows.Forms.Button();
 			this.DIFB2AuthorEditButton = new System.Windows.Forms.Button();
@@ -277,6 +295,8 @@ namespace Core.Common
 			this.columnHeader44 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader45 = new System.Windows.Forms.ColumnHeader();
 			this.PISequenceWorkPanel = new System.Windows.Forms.Panel();
+			this.PISequenceUpButton = new System.Windows.Forms.Button();
+			this.PISequenceDownButton = new System.Windows.Forms.Button();
 			this.PISequenceDeleteAllButton = new System.Windows.Forms.Button();
 			this.PISequenceDeleteButton = new System.Windows.Forms.Button();
 			this.PISequenceEditButton = new System.Windows.Forms.Button();
@@ -304,6 +324,8 @@ namespace Core.Common
 			this.columnHeader11 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader12 = new System.Windows.Forms.ColumnHeader();
 			this.CICustomInfoWorkPanel = new System.Windows.Forms.Panel();
+			this.CICustomInfoUpButton = new System.Windows.Forms.Button();
+			this.CICustomInfoDownButton = new System.Windows.Forms.Button();
 			this.CICustomInfoDeleteAllButton = new System.Windows.Forms.Button();
 			this.CICustomInfoDeleteButton = new System.Windows.Forms.Button();
 			this.CICustomInfoEditButton = new System.Windows.Forms.Button();
@@ -399,7 +421,7 @@ namespace Core.Common
 			this.DescriptionPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.DescriptionPanel.Location = new System.Drawing.Point(0, 0);
 			this.DescriptionPanel.Name = "DescriptionPanel";
-			this.DescriptionPanel.Size = new System.Drawing.Size(810, 771);
+			this.DescriptionPanel.Size = new System.Drawing.Size(810, 829);
 			this.DescriptionPanel.TabIndex = 0;
 			// 
 			// tcViewFB2Desc
@@ -414,7 +436,7 @@ namespace Core.Common
 			this.tcViewFB2Desc.Margin = new System.Windows.Forms.Padding(4);
 			this.tcViewFB2Desc.Name = "tcViewFB2Desc";
 			this.tcViewFB2Desc.SelectedIndex = 0;
-			this.tcViewFB2Desc.Size = new System.Drawing.Size(810, 771);
+			this.tcViewFB2Desc.Size = new System.Drawing.Size(810, 829);
 			this.tcViewFB2Desc.TabIndex = 45;
 			// 
 			// tpTitleInfo
@@ -423,7 +445,7 @@ namespace Core.Common
 			this.tpTitleInfo.Location = new System.Drawing.Point(4, 25);
 			this.tpTitleInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.tpTitleInfo.Name = "tpTitleInfo";
-			this.tpTitleInfo.Size = new System.Drawing.Size(802, 742);
+			this.tpTitleInfo.Size = new System.Drawing.Size(802, 800);
 			this.tpTitleInfo.TabIndex = 0;
 			this.tpTitleInfo.Text = "Книга";
 			this.tpTitleInfo.UseVisualStyleBackColor = true;
@@ -437,7 +459,7 @@ namespace Core.Common
 			this.TITabControl.Location = new System.Drawing.Point(0, 0);
 			this.TITabControl.Name = "TITabControl";
 			this.TITabControl.SelectedIndex = 0;
-			this.TITabControl.Size = new System.Drawing.Size(802, 742);
+			this.TITabControl.Size = new System.Drawing.Size(802, 800);
 			this.TITabControl.TabIndex = 10;
 			// 
 			// tpTittleInfoGeneral
@@ -453,7 +475,7 @@ namespace Core.Common
 			this.tpTittleInfoGeneral.Location = new System.Drawing.Point(4, 25);
 			this.tpTittleInfoGeneral.Name = "tpTittleInfoGeneral";
 			this.tpTittleInfoGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpTittleInfoGeneral.Size = new System.Drawing.Size(794, 713);
+			this.tpTittleInfoGeneral.Size = new System.Drawing.Size(794, 771);
 			this.tpTittleInfoGeneral.TabIndex = 0;
 			this.tpTittleInfoGeneral.Text = "Основные данные";
 			this.tpTittleInfoGeneral.UseVisualStyleBackColor = true;
@@ -464,9 +486,9 @@ namespace Core.Common
 			this.TISequencePanel.Controls.Add(this.TISequenceWorkPanel);
 			this.TISequencePanel.Controls.Add(this.TISequenceLabelPanel);
 			this.TISequencePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TISequencePanel.Location = new System.Drawing.Point(3, 579);
+			this.TISequencePanel.Location = new System.Drawing.Point(3, 607);
 			this.TISequencePanel.Name = "TISequencePanel";
-			this.TISequencePanel.Size = new System.Drawing.Size(788, 132);
+			this.TISequencePanel.Size = new System.Drawing.Size(788, 160);
 			this.TISequencePanel.TabIndex = 10;
 			// 
 			// TISequenceListView
@@ -479,7 +501,7 @@ namespace Core.Common
 			this.TISequenceListView.GridLines = true;
 			this.TISequenceListView.Location = new System.Drawing.Point(0, 25);
 			this.TISequenceListView.Name = "TISequenceListView";
-			this.TISequenceListView.Size = new System.Drawing.Size(713, 107);
+			this.TISequenceListView.Size = new System.Drawing.Size(713, 135);
 			this.TISequenceListView.TabIndex = 87;
 			this.TISequenceListView.UseCompatibleStateImageBehavior = false;
 			this.TISequenceListView.View = System.Windows.Forms.View.Details;
@@ -495,14 +517,38 @@ namespace Core.Common
 			// 
 			// TISequenceWorkPanel
 			// 
+			this.TISequenceWorkPanel.Controls.Add(this.TISequenceUpButton);
+			this.TISequenceWorkPanel.Controls.Add(this.TISequenceDownButton);
 			this.TISequenceWorkPanel.Controls.Add(this.TISequenceDeleteAllButton);
 			this.TISequenceWorkPanel.Controls.Add(this.TISequenceDeleteButton);
 			this.TISequenceWorkPanel.Controls.Add(this.TISequenceEditButton);
 			this.TISequenceWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.TISequenceWorkPanel.Location = new System.Drawing.Point(713, 25);
 			this.TISequenceWorkPanel.Name = "TISequenceWorkPanel";
-			this.TISequenceWorkPanel.Size = new System.Drawing.Size(75, 107);
+			this.TISequenceWorkPanel.Size = new System.Drawing.Size(75, 135);
 			this.TISequenceWorkPanel.TabIndex = 86;
+			// 
+			// TISequenceUpButton
+			// 
+			this.TISequenceUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TISequenceUpButton.Image = ((System.Drawing.Image)(resources.GetObject("TISequenceUpButton.Image")));
+			this.TISequenceUpButton.Location = new System.Drawing.Point(0, 89);
+			this.TISequenceUpButton.Name = "TISequenceUpButton";
+			this.TISequenceUpButton.Size = new System.Drawing.Size(75, 23);
+			this.TISequenceUpButton.TabIndex = 13;
+			this.TISequenceUpButton.UseVisualStyleBackColor = true;
+			this.TISequenceUpButton.Click += new System.EventHandler(this.TISequenceUpButtonClick);
+			// 
+			// TISequenceDownButton
+			// 
+			this.TISequenceDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TISequenceDownButton.Image = ((System.Drawing.Image)(resources.GetObject("TISequenceDownButton.Image")));
+			this.TISequenceDownButton.Location = new System.Drawing.Point(0, 112);
+			this.TISequenceDownButton.Name = "TISequenceDownButton";
+			this.TISequenceDownButton.Size = new System.Drawing.Size(75, 23);
+			this.TISequenceDownButton.TabIndex = 12;
+			this.TISequenceDownButton.UseVisualStyleBackColor = true;
+			this.TISequenceDownButton.Click += new System.EventHandler(this.TISequenceDownButtonClick);
 			// 
 			// TISequenceDeleteAllButton
 			// 
@@ -576,7 +622,7 @@ namespace Core.Common
 			this.TIKeyPanel.Controls.Add(this.TIKeyTextBox);
 			this.TIKeyPanel.Controls.Add(this.TIKeyLabel);
 			this.TIKeyPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TIKeyPanel.Location = new System.Drawing.Point(3, 550);
+			this.TIKeyPanel.Location = new System.Drawing.Point(3, 578);
 			this.TIKeyPanel.Name = "TIKeyPanel";
 			this.TIKeyPanel.Size = new System.Drawing.Size(788, 29);
 			this.TIKeyPanel.TabIndex = 9;
@@ -604,7 +650,7 @@ namespace Core.Common
 			this.TITranslatorPanel.Controls.Add(this.TITranslatorWorkPanel);
 			this.TITranslatorPanel.Controls.Add(this.TITranslatorLabelPanel);
 			this.TITranslatorPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TITranslatorPanel.Location = new System.Drawing.Point(3, 418);
+			this.TITranslatorPanel.Location = new System.Drawing.Point(3, 446);
 			this.TITranslatorPanel.Name = "TITranslatorPanel";
 			this.TITranslatorPanel.Size = new System.Drawing.Size(788, 132);
 			this.TITranslatorPanel.TabIndex = 8;
@@ -750,7 +796,7 @@ namespace Core.Common
 			this.TIDatePanel.Controls.Add(this.TIDateValueLabel);
 			this.TIDatePanel.Controls.Add(this.TIDateLabel);
 			this.TIDatePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TIDatePanel.Location = new System.Drawing.Point(3, 388);
+			this.TIDatePanel.Location = new System.Drawing.Point(3, 416);
 			this.TIDatePanel.Name = "TIDatePanel";
 			this.TIDatePanel.Size = new System.Drawing.Size(788, 30);
 			this.TIDatePanel.TabIndex = 7;
@@ -818,7 +864,7 @@ namespace Core.Common
 			this.TIAuthorsPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.TIAuthorsPanel.Location = new System.Drawing.Point(3, 256);
 			this.TIAuthorsPanel.Name = "TIAuthorsPanel";
-			this.TIAuthorsPanel.Size = new System.Drawing.Size(788, 132);
+			this.TIAuthorsPanel.Size = new System.Drawing.Size(788, 160);
 			this.TIAuthorsPanel.TabIndex = 6;
 			// 
 			// TIAuthorsListView
@@ -836,7 +882,7 @@ namespace Core.Common
 			this.TIAuthorsListView.GridLines = true;
 			this.TIAuthorsListView.Location = new System.Drawing.Point(0, 25);
 			this.TIAuthorsListView.Name = "TIAuthorsListView";
-			this.TIAuthorsListView.Size = new System.Drawing.Size(713, 107);
+			this.TIAuthorsListView.Size = new System.Drawing.Size(713, 135);
 			this.TIAuthorsListView.TabIndex = 87;
 			this.TIAuthorsListView.UseCompatibleStateImageBehavior = false;
 			this.TIAuthorsListView.View = System.Windows.Forms.View.Details;
@@ -877,14 +923,38 @@ namespace Core.Common
 			// 
 			// TIAuthorsWorkPanel
 			// 
+			this.TIAuthorsWorkPanel.Controls.Add(this.TIAuthorUpButton);
+			this.TIAuthorsWorkPanel.Controls.Add(this.TIAuthorDownButton);
 			this.TIAuthorsWorkPanel.Controls.Add(this.TIAuthorDeleteAllButton);
 			this.TIAuthorsWorkPanel.Controls.Add(this.TIAuthorDeleteButton);
 			this.TIAuthorsWorkPanel.Controls.Add(this.TIAuthorEditButton);
 			this.TIAuthorsWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.TIAuthorsWorkPanel.Location = new System.Drawing.Point(713, 25);
 			this.TIAuthorsWorkPanel.Name = "TIAuthorsWorkPanel";
-			this.TIAuthorsWorkPanel.Size = new System.Drawing.Size(75, 107);
+			this.TIAuthorsWorkPanel.Size = new System.Drawing.Size(75, 135);
 			this.TIAuthorsWorkPanel.TabIndex = 86;
+			// 
+			// TIAuthorUpButton
+			// 
+			this.TIAuthorUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TIAuthorUpButton.Image = ((System.Drawing.Image)(resources.GetObject("TIAuthorUpButton.Image")));
+			this.TIAuthorUpButton.Location = new System.Drawing.Point(0, 89);
+			this.TIAuthorUpButton.Name = "TIAuthorUpButton";
+			this.TIAuthorUpButton.Size = new System.Drawing.Size(75, 23);
+			this.TIAuthorUpButton.TabIndex = 11;
+			this.TIAuthorUpButton.UseVisualStyleBackColor = true;
+			this.TIAuthorUpButton.Click += new System.EventHandler(this.TIAuthorUpButtonClick);
+			// 
+			// TIAuthorDownButton
+			// 
+			this.TIAuthorDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TIAuthorDownButton.Image = ((System.Drawing.Image)(resources.GetObject("TIAuthorDownButton.Image")));
+			this.TIAuthorDownButton.Location = new System.Drawing.Point(0, 112);
+			this.TIAuthorDownButton.Name = "TIAuthorDownButton";
+			this.TIAuthorDownButton.Size = new System.Drawing.Size(75, 23);
+			this.TIAuthorDownButton.TabIndex = 10;
+			this.TIAuthorDownButton.UseVisualStyleBackColor = true;
+			this.TIAuthorDownButton.Click += new System.EventHandler(this.TIAuthorDownButtonClick);
 			// 
 			// TIAuthorDeleteAllButton
 			// 
@@ -986,11 +1056,13 @@ namespace Core.Common
 			// 
 			// columnHeaderMath
 			// 
-			this.columnHeaderMath.Text = "Соответствие";
+			this.columnHeaderMath.Text = "Соответствие, %";
 			this.columnHeaderMath.Width = 129;
 			// 
 			// TIGenreWorkPanel
 			// 
+			this.TIGenreWorkPanel.Controls.Add(this.TIGenreUpButton);
+			this.TIGenreWorkPanel.Controls.Add(this.TIGenreDownButton);
 			this.TIGenreWorkPanel.Controls.Add(this.TIGenreDeleteAllButton);
 			this.TIGenreWorkPanel.Controls.Add(this.TIGenreDeleteButton);
 			this.TIGenreWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
@@ -998,6 +1070,28 @@ namespace Core.Common
 			this.TIGenreWorkPanel.Name = "TIGenreWorkPanel";
 			this.TIGenreWorkPanel.Size = new System.Drawing.Size(75, 100);
 			this.TIGenreWorkPanel.TabIndex = 84;
+			// 
+			// TIGenreUpButton
+			// 
+			this.TIGenreUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TIGenreUpButton.Image = ((System.Drawing.Image)(resources.GetObject("TIGenreUpButton.Image")));
+			this.TIGenreUpButton.Location = new System.Drawing.Point(0, 54);
+			this.TIGenreUpButton.Name = "TIGenreUpButton";
+			this.TIGenreUpButton.Size = new System.Drawing.Size(75, 23);
+			this.TIGenreUpButton.TabIndex = 9;
+			this.TIGenreUpButton.UseVisualStyleBackColor = true;
+			this.TIGenreUpButton.Click += new System.EventHandler(this.TIGenreUpButtonClick);
+			// 
+			// TIGenreDownButton
+			// 
+			this.TIGenreDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TIGenreDownButton.Image = ((System.Drawing.Image)(resources.GetObject("TIGenreDownButton.Image")));
+			this.TIGenreDownButton.Location = new System.Drawing.Point(0, 77);
+			this.TIGenreDownButton.Name = "TIGenreDownButton";
+			this.TIGenreDownButton.Size = new System.Drawing.Size(75, 23);
+			this.TIGenreDownButton.TabIndex = 8;
+			this.TIGenreDownButton.UseVisualStyleBackColor = true;
+			this.TIGenreDownButton.Click += new System.EventHandler(this.TIGenreDownButtonClick);
 			// 
 			// TIGenreDeleteAllButton
 			// 
@@ -1208,7 +1302,7 @@ namespace Core.Common
 			this.tpTittleInfoAnnotation.Location = new System.Drawing.Point(4, 25);
 			this.tpTittleInfoAnnotation.Name = "tpTittleInfoAnnotation";
 			this.tpTittleInfoAnnotation.Padding = new System.Windows.Forms.Padding(3);
-			this.tpTittleInfoAnnotation.Size = new System.Drawing.Size(794, 713);
+			this.tpTittleInfoAnnotation.Size = new System.Drawing.Size(794, 771);
 			this.tpTittleInfoAnnotation.TabIndex = 1;
 			this.tpTittleInfoAnnotation.Text = "Аннотация на книгу";
 			this.tpTittleInfoAnnotation.UseVisualStyleBackColor = true;
@@ -1220,7 +1314,7 @@ namespace Core.Common
 			this.TIAnnotationRichTextEdit.Location = new System.Drawing.Point(3, 3);
 			this.TIAnnotationRichTextEdit.Margin = new System.Windows.Forms.Padding(4);
 			this.TIAnnotationRichTextEdit.Name = "TIAnnotationRichTextEdit";
-			this.TIAnnotationRichTextEdit.Size = new System.Drawing.Size(788, 707);
+			this.TIAnnotationRichTextEdit.Size = new System.Drawing.Size(788, 765);
 			this.TIAnnotationRichTextEdit.TabIndex = 1;
 			this.TIAnnotationRichTextEdit.Text = "";
 			// 
@@ -1231,7 +1325,7 @@ namespace Core.Common
 			this.tpTittleInfoCovers.Location = new System.Drawing.Point(4, 25);
 			this.tpTittleInfoCovers.Name = "tpTittleInfoCovers";
 			this.tpTittleInfoCovers.Padding = new System.Windows.Forms.Padding(3);
-			this.tpTittleInfoCovers.Size = new System.Drawing.Size(794, 713);
+			this.tpTittleInfoCovers.Size = new System.Drawing.Size(794, 771);
 			this.tpTittleInfoCovers.TabIndex = 2;
 			this.tpTittleInfoCovers.Text = "Обложки";
 			this.tpTittleInfoCovers.UseVisualStyleBackColor = true;
@@ -1244,7 +1338,7 @@ namespace Core.Common
 			this.TICoverPictureBox.Location = new System.Drawing.Point(3, 257);
 			this.TICoverPictureBox.Margin = new System.Windows.Forms.Padding(4);
 			this.TICoverPictureBox.Name = "TICoverPictureBox";
-			this.TICoverPictureBox.Size = new System.Drawing.Size(788, 453);
+			this.TICoverPictureBox.Size = new System.Drawing.Size(788, 511);
 			this.TICoverPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.TICoverPictureBox.TabIndex = 48;
 			this.TICoverPictureBox.TabStop = false;
@@ -1288,6 +1382,8 @@ namespace Core.Common
 			// 
 			// TICoverWorkPanel
 			// 
+			this.TICoverWorkPanel.Controls.Add(this.TICoverUpButton);
+			this.TICoverWorkPanel.Controls.Add(this.TICoverDownButton);
 			this.TICoverWorkPanel.Controls.Add(this.TICoverDeleteAllButton);
 			this.TICoverWorkPanel.Controls.Add(this.TICoverDeleteButton);
 			this.TICoverWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
@@ -1295,6 +1391,28 @@ namespace Core.Common
 			this.TICoverWorkPanel.Name = "TICoverWorkPanel";
 			this.TICoverWorkPanel.Size = new System.Drawing.Size(75, 229);
 			this.TICoverWorkPanel.TabIndex = 86;
+			// 
+			// TICoverUpButton
+			// 
+			this.TICoverUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TICoverUpButton.Image = ((System.Drawing.Image)(resources.GetObject("TICoverUpButton.Image")));
+			this.TICoverUpButton.Location = new System.Drawing.Point(0, 183);
+			this.TICoverUpButton.Name = "TICoverUpButton";
+			this.TICoverUpButton.Size = new System.Drawing.Size(75, 23);
+			this.TICoverUpButton.TabIndex = 11;
+			this.TICoverUpButton.UseVisualStyleBackColor = true;
+			this.TICoverUpButton.Click += new System.EventHandler(this.TICoverUpButtonClick);
+			// 
+			// TICoverDownButton
+			// 
+			this.TICoverDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TICoverDownButton.Image = ((System.Drawing.Image)(resources.GetObject("TICoverDownButton.Image")));
+			this.TICoverDownButton.Location = new System.Drawing.Point(0, 206);
+			this.TICoverDownButton.Name = "TICoverDownButton";
+			this.TICoverDownButton.Size = new System.Drawing.Size(75, 23);
+			this.TICoverDownButton.TabIndex = 10;
+			this.TICoverDownButton.UseVisualStyleBackColor = true;
+			this.TICoverDownButton.Click += new System.EventHandler(this.TICoverDownButtonClick);
 			// 
 			// TICoverDeleteAllButton
 			// 
@@ -1359,7 +1477,7 @@ namespace Core.Common
 			this.tpSourceTitleInfo.Location = new System.Drawing.Point(4, 25);
 			this.tpSourceTitleInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.tpSourceTitleInfo.Name = "tpSourceTitleInfo";
-			this.tpSourceTitleInfo.Size = new System.Drawing.Size(802, 742);
+			this.tpSourceTitleInfo.Size = new System.Drawing.Size(802, 800);
 			this.tpSourceTitleInfo.TabIndex = 1;
 			this.tpSourceTitleInfo.Text = "Оригинал";
 			this.tpSourceTitleInfo.UseVisualStyleBackColor = true;
@@ -1374,7 +1492,7 @@ namespace Core.Common
 			this.STITabControl.Location = new System.Drawing.Point(0, 24);
 			this.STITabControl.Name = "STITabControl";
 			this.STITabControl.SelectedIndex = 0;
-			this.STITabControl.Size = new System.Drawing.Size(802, 718);
+			this.STITabControl.Size = new System.Drawing.Size(802, 776);
 			this.STITabControl.TabIndex = 21;
 			// 
 			// tpSTittleInfoGeneral
@@ -1390,7 +1508,7 @@ namespace Core.Common
 			this.tpSTittleInfoGeneral.Location = new System.Drawing.Point(4, 25);
 			this.tpSTittleInfoGeneral.Name = "tpSTittleInfoGeneral";
 			this.tpSTittleInfoGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpSTittleInfoGeneral.Size = new System.Drawing.Size(794, 689);
+			this.tpSTittleInfoGeneral.Size = new System.Drawing.Size(794, 747);
 			this.tpSTittleInfoGeneral.TabIndex = 0;
 			this.tpSTittleInfoGeneral.Text = "Основные данные";
 			this.tpSTittleInfoGeneral.UseVisualStyleBackColor = true;
@@ -1401,9 +1519,9 @@ namespace Core.Common
 			this.STISequencePanel.Controls.Add(this.STISequenceWorkPanel);
 			this.STISequencePanel.Controls.Add(this.STISequenceLabelPanel);
 			this.STISequencePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STISequencePanel.Location = new System.Drawing.Point(3, 555);
+			this.STISequencePanel.Location = new System.Drawing.Point(3, 583);
 			this.STISequencePanel.Name = "STISequencePanel";
-			this.STISequencePanel.Size = new System.Drawing.Size(788, 132);
+			this.STISequencePanel.Size = new System.Drawing.Size(788, 160);
 			this.STISequencePanel.TabIndex = 21;
 			// 
 			// STISequenceListView
@@ -1416,7 +1534,7 @@ namespace Core.Common
 			this.STISequenceListView.GridLines = true;
 			this.STISequenceListView.Location = new System.Drawing.Point(0, 25);
 			this.STISequenceListView.Name = "STISequenceListView";
-			this.STISequenceListView.Size = new System.Drawing.Size(713, 107);
+			this.STISequenceListView.Size = new System.Drawing.Size(713, 135);
 			this.STISequenceListView.TabIndex = 87;
 			this.STISequenceListView.UseCompatibleStateImageBehavior = false;
 			this.STISequenceListView.View = System.Windows.Forms.View.Details;
@@ -1432,14 +1550,38 @@ namespace Core.Common
 			// 
 			// STISequenceWorkPanel
 			// 
+			this.STISequenceWorkPanel.Controls.Add(this.STISequenceUpButton);
+			this.STISequenceWorkPanel.Controls.Add(this.STISequenceDownButton);
 			this.STISequenceWorkPanel.Controls.Add(this.STISequenceDeleteAllButton);
 			this.STISequenceWorkPanel.Controls.Add(this.STISequenceDeleteButton);
 			this.STISequenceWorkPanel.Controls.Add(this.STISequenceEditButton);
 			this.STISequenceWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.STISequenceWorkPanel.Location = new System.Drawing.Point(713, 25);
 			this.STISequenceWorkPanel.Name = "STISequenceWorkPanel";
-			this.STISequenceWorkPanel.Size = new System.Drawing.Size(75, 107);
+			this.STISequenceWorkPanel.Size = new System.Drawing.Size(75, 135);
 			this.STISequenceWorkPanel.TabIndex = 86;
+			// 
+			// STISequenceUpButton
+			// 
+			this.STISequenceUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STISequenceUpButton.Image = ((System.Drawing.Image)(resources.GetObject("STISequenceUpButton.Image")));
+			this.STISequenceUpButton.Location = new System.Drawing.Point(0, 89);
+			this.STISequenceUpButton.Name = "STISequenceUpButton";
+			this.STISequenceUpButton.Size = new System.Drawing.Size(75, 23);
+			this.STISequenceUpButton.TabIndex = 13;
+			this.STISequenceUpButton.UseVisualStyleBackColor = true;
+			this.STISequenceUpButton.Click += new System.EventHandler(this.STISequenceUpButtonClick);
+			// 
+			// STISequenceDownButton
+			// 
+			this.STISequenceDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STISequenceDownButton.Image = ((System.Drawing.Image)(resources.GetObject("STISequenceDownButton.Image")));
+			this.STISequenceDownButton.Location = new System.Drawing.Point(0, 112);
+			this.STISequenceDownButton.Name = "STISequenceDownButton";
+			this.STISequenceDownButton.Size = new System.Drawing.Size(75, 23);
+			this.STISequenceDownButton.TabIndex = 12;
+			this.STISequenceDownButton.UseVisualStyleBackColor = true;
+			this.STISequenceDownButton.Click += new System.EventHandler(this.STISequenceDownButtonClick);
 			// 
 			// STISequenceDeleteAllButton
 			// 
@@ -1513,7 +1655,7 @@ namespace Core.Common
 			this.STIKeyPanel.Controls.Add(this.STIKeyTextBox);
 			this.STIKeyPanel.Controls.Add(this.STIKeyLabel);
 			this.STIKeyPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STIKeyPanel.Location = new System.Drawing.Point(3, 526);
+			this.STIKeyPanel.Location = new System.Drawing.Point(3, 554);
 			this.STIKeyPanel.Name = "STIKeyPanel";
 			this.STIKeyPanel.Size = new System.Drawing.Size(788, 29);
 			this.STIKeyPanel.TabIndex = 20;
@@ -1541,7 +1683,7 @@ namespace Core.Common
 			this.STITranslatorPanel.Controls.Add(this.STITranslatorWorkPanel);
 			this.STITranslatorPanel.Controls.Add(this.STITranslatorLabelPanel);
 			this.STITranslatorPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STITranslatorPanel.Location = new System.Drawing.Point(3, 394);
+			this.STITranslatorPanel.Location = new System.Drawing.Point(3, 422);
 			this.STITranslatorPanel.Name = "STITranslatorPanel";
 			this.STITranslatorPanel.Size = new System.Drawing.Size(788, 132);
 			this.STITranslatorPanel.TabIndex = 19;
@@ -1687,7 +1829,7 @@ namespace Core.Common
 			this.STIDatePanel.Controls.Add(this.STIDateValueLabel);
 			this.STIDatePanel.Controls.Add(this.STIDateLabel);
 			this.STIDatePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STIDatePanel.Location = new System.Drawing.Point(3, 364);
+			this.STIDatePanel.Location = new System.Drawing.Point(3, 392);
 			this.STIDatePanel.Name = "STIDatePanel";
 			this.STIDatePanel.Size = new System.Drawing.Size(788, 30);
 			this.STIDatePanel.TabIndex = 18;
@@ -1755,7 +1897,7 @@ namespace Core.Common
 			this.STIAuthorsPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.STIAuthorsPanel.Location = new System.Drawing.Point(3, 232);
 			this.STIAuthorsPanel.Name = "STIAuthorsPanel";
-			this.STIAuthorsPanel.Size = new System.Drawing.Size(788, 132);
+			this.STIAuthorsPanel.Size = new System.Drawing.Size(788, 160);
 			this.STIAuthorsPanel.TabIndex = 17;
 			// 
 			// STIAuthorsListView
@@ -1773,7 +1915,7 @@ namespace Core.Common
 			this.STIAuthorsListView.GridLines = true;
 			this.STIAuthorsListView.Location = new System.Drawing.Point(0, 25);
 			this.STIAuthorsListView.Name = "STIAuthorsListView";
-			this.STIAuthorsListView.Size = new System.Drawing.Size(713, 107);
+			this.STIAuthorsListView.Size = new System.Drawing.Size(713, 135);
 			this.STIAuthorsListView.TabIndex = 87;
 			this.STIAuthorsListView.UseCompatibleStateImageBehavior = false;
 			this.STIAuthorsListView.View = System.Windows.Forms.View.Details;
@@ -1814,14 +1956,38 @@ namespace Core.Common
 			// 
 			// STIAuthorsWorkPanel
 			// 
+			this.STIAuthorsWorkPanel.Controls.Add(this.STIAuthorUpButton);
+			this.STIAuthorsWorkPanel.Controls.Add(this.STIAuthorDownButton);
 			this.STIAuthorsWorkPanel.Controls.Add(this.STIAuthorDeleteAllButton);
 			this.STIAuthorsWorkPanel.Controls.Add(this.STIAuthorDeleteButton);
 			this.STIAuthorsWorkPanel.Controls.Add(this.STIAuthorEditButton);
 			this.STIAuthorsWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.STIAuthorsWorkPanel.Location = new System.Drawing.Point(713, 25);
 			this.STIAuthorsWorkPanel.Name = "STIAuthorsWorkPanel";
-			this.STIAuthorsWorkPanel.Size = new System.Drawing.Size(75, 107);
+			this.STIAuthorsWorkPanel.Size = new System.Drawing.Size(75, 135);
 			this.STIAuthorsWorkPanel.TabIndex = 86;
+			// 
+			// STIAuthorUpButton
+			// 
+			this.STIAuthorUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STIAuthorUpButton.Image = ((System.Drawing.Image)(resources.GetObject("STIAuthorUpButton.Image")));
+			this.STIAuthorUpButton.Location = new System.Drawing.Point(0, 89);
+			this.STIAuthorUpButton.Name = "STIAuthorUpButton";
+			this.STIAuthorUpButton.Size = new System.Drawing.Size(75, 23);
+			this.STIAuthorUpButton.TabIndex = 13;
+			this.STIAuthorUpButton.UseVisualStyleBackColor = true;
+			this.STIAuthorUpButton.Click += new System.EventHandler(this.STIAuthorUpButtonClick);
+			// 
+			// STIAuthorDownButton
+			// 
+			this.STIAuthorDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STIAuthorDownButton.Image = ((System.Drawing.Image)(resources.GetObject("STIAuthorDownButton.Image")));
+			this.STIAuthorDownButton.Location = new System.Drawing.Point(0, 112);
+			this.STIAuthorDownButton.Name = "STIAuthorDownButton";
+			this.STIAuthorDownButton.Size = new System.Drawing.Size(75, 23);
+			this.STIAuthorDownButton.TabIndex = 12;
+			this.STIAuthorDownButton.UseVisualStyleBackColor = true;
+			this.STIAuthorDownButton.Click += new System.EventHandler(this.STIAuthorDownButtonClick);
 			// 
 			// STIAuthorDeleteAllButton
 			// 
@@ -1923,11 +2089,13 @@ namespace Core.Common
 			// 
 			// columnHeader20
 			// 
-			this.columnHeader20.Text = "Соответствие";
+			this.columnHeader20.Text = "Соответствие, %";
 			this.columnHeader20.Width = 129;
 			// 
 			// STIGenreWorkPanel
 			// 
+			this.STIGenreWorkPanel.Controls.Add(this.STIGenreUpButton);
+			this.STIGenreWorkPanel.Controls.Add(this.STIGenreDownButton);
 			this.STIGenreWorkPanel.Controls.Add(this.STIGenreDeleteAllButton);
 			this.STIGenreWorkPanel.Controls.Add(this.STIGenreDeleteButton);
 			this.STIGenreWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
@@ -1935,6 +2103,28 @@ namespace Core.Common
 			this.STIGenreWorkPanel.Name = "STIGenreWorkPanel";
 			this.STIGenreWorkPanel.Size = new System.Drawing.Size(75, 100);
 			this.STIGenreWorkPanel.TabIndex = 84;
+			// 
+			// STIGenreUpButton
+			// 
+			this.STIGenreUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STIGenreUpButton.Image = ((System.Drawing.Image)(resources.GetObject("STIGenreUpButton.Image")));
+			this.STIGenreUpButton.Location = new System.Drawing.Point(0, 54);
+			this.STIGenreUpButton.Name = "STIGenreUpButton";
+			this.STIGenreUpButton.Size = new System.Drawing.Size(75, 23);
+			this.STIGenreUpButton.TabIndex = 11;
+			this.STIGenreUpButton.UseVisualStyleBackColor = true;
+			this.STIGenreUpButton.Click += new System.EventHandler(this.STIGenreUpButtonClick);
+			// 
+			// STIGenreDownButton
+			// 
+			this.STIGenreDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STIGenreDownButton.Image = ((System.Drawing.Image)(resources.GetObject("STIGenreDownButton.Image")));
+			this.STIGenreDownButton.Location = new System.Drawing.Point(0, 77);
+			this.STIGenreDownButton.Name = "STIGenreDownButton";
+			this.STIGenreDownButton.Size = new System.Drawing.Size(75, 23);
+			this.STIGenreDownButton.TabIndex = 10;
+			this.STIGenreDownButton.UseVisualStyleBackColor = true;
+			this.STIGenreDownButton.Click += new System.EventHandler(this.STIGenreDownButtonClick);
 			// 
 			// STIGenreDeleteAllButton
 			// 
@@ -2145,7 +2335,7 @@ namespace Core.Common
 			this.tpSTittleInfoAnnotation.Location = new System.Drawing.Point(4, 25);
 			this.tpSTittleInfoAnnotation.Name = "tpSTittleInfoAnnotation";
 			this.tpSTittleInfoAnnotation.Padding = new System.Windows.Forms.Padding(3);
-			this.tpSTittleInfoAnnotation.Size = new System.Drawing.Size(794, 689);
+			this.tpSTittleInfoAnnotation.Size = new System.Drawing.Size(794, 747);
 			this.tpSTittleInfoAnnotation.TabIndex = 1;
 			this.tpSTittleInfoAnnotation.Text = "Аннотация на книгу";
 			this.tpSTittleInfoAnnotation.UseVisualStyleBackColor = true;
@@ -2157,7 +2347,7 @@ namespace Core.Common
 			this.STIAnnotationRichTextEdit.Location = new System.Drawing.Point(3, 3);
 			this.STIAnnotationRichTextEdit.Margin = new System.Windows.Forms.Padding(4);
 			this.STIAnnotationRichTextEdit.Name = "STIAnnotationRichTextEdit";
-			this.STIAnnotationRichTextEdit.Size = new System.Drawing.Size(788, 683);
+			this.STIAnnotationRichTextEdit.Size = new System.Drawing.Size(788, 741);
 			this.STIAnnotationRichTextEdit.TabIndex = 2;
 			this.STIAnnotationRichTextEdit.Text = "";
 			// 
@@ -2168,7 +2358,7 @@ namespace Core.Common
 			this.tpSTittleInfoCovers.Location = new System.Drawing.Point(4, 25);
 			this.tpSTittleInfoCovers.Name = "tpSTittleInfoCovers";
 			this.tpSTittleInfoCovers.Padding = new System.Windows.Forms.Padding(3);
-			this.tpSTittleInfoCovers.Size = new System.Drawing.Size(794, 689);
+			this.tpSTittleInfoCovers.Size = new System.Drawing.Size(794, 747);
 			this.tpSTittleInfoCovers.TabIndex = 2;
 			this.tpSTittleInfoCovers.Text = "Обложки";
 			this.tpSTittleInfoCovers.UseVisualStyleBackColor = true;
@@ -2181,7 +2371,7 @@ namespace Core.Common
 			this.STICoverPictureBox.Location = new System.Drawing.Point(3, 257);
 			this.STICoverPictureBox.Margin = new System.Windows.Forms.Padding(4);
 			this.STICoverPictureBox.Name = "STICoverPictureBox";
-			this.STICoverPictureBox.Size = new System.Drawing.Size(788, 429);
+			this.STICoverPictureBox.Size = new System.Drawing.Size(788, 487);
 			this.STICoverPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.STICoverPictureBox.TabIndex = 49;
 			this.STICoverPictureBox.TabStop = false;
@@ -2225,6 +2415,8 @@ namespace Core.Common
 			// 
 			// STICoverWorkPanel
 			// 
+			this.STICoverWorkPanel.Controls.Add(this.STICoverUpButton);
+			this.STICoverWorkPanel.Controls.Add(this.STICoverDownButton);
 			this.STICoverWorkPanel.Controls.Add(this.STICoverDeleteAllButton);
 			this.STICoverWorkPanel.Controls.Add(this.STICoverDeleteButton);
 			this.STICoverWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
@@ -2232,6 +2424,28 @@ namespace Core.Common
 			this.STICoverWorkPanel.Name = "STICoverWorkPanel";
 			this.STICoverWorkPanel.Size = new System.Drawing.Size(75, 229);
 			this.STICoverWorkPanel.TabIndex = 86;
+			// 
+			// STICoverUpButton
+			// 
+			this.STICoverUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STICoverUpButton.Image = ((System.Drawing.Image)(resources.GetObject("STICoverUpButton.Image")));
+			this.STICoverUpButton.Location = new System.Drawing.Point(0, 183);
+			this.STICoverUpButton.Name = "STICoverUpButton";
+			this.STICoverUpButton.Size = new System.Drawing.Size(75, 23);
+			this.STICoverUpButton.TabIndex = 13;
+			this.STICoverUpButton.UseVisualStyleBackColor = true;
+			this.STICoverUpButton.Click += new System.EventHandler(this.STICoverUpButtonClick);
+			// 
+			// STICoverDownButton
+			// 
+			this.STICoverDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STICoverDownButton.Image = ((System.Drawing.Image)(resources.GetObject("STICoverDownButton.Image")));
+			this.STICoverDownButton.Location = new System.Drawing.Point(0, 206);
+			this.STICoverDownButton.Name = "STICoverDownButton";
+			this.STICoverDownButton.Size = new System.Drawing.Size(75, 23);
+			this.STICoverDownButton.TabIndex = 12;
+			this.STICoverDownButton.UseVisualStyleBackColor = true;
+			this.STICoverDownButton.Click += new System.EventHandler(this.STICoverDownButtonClick);
 			// 
 			// STICoverDeleteAllButton
 			// 
@@ -2315,7 +2529,7 @@ namespace Core.Common
 			this.tpDocumentInfo.Location = new System.Drawing.Point(4, 25);
 			this.tpDocumentInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.tpDocumentInfo.Name = "tpDocumentInfo";
-			this.tpDocumentInfo.Size = new System.Drawing.Size(802, 742);
+			this.tpDocumentInfo.Size = new System.Drawing.Size(802, 800);
 			this.tpDocumentInfo.TabIndex = 2;
 			this.tpDocumentInfo.Text = "FB2 документ";
 			this.tpDocumentInfo.UseVisualStyleBackColor = true;
@@ -2324,7 +2538,7 @@ namespace Core.Common
 			// 
 			this.DIHistoryRichTextEdit.BackColor = System.Drawing.SystemColors.Window;
 			this.DIHistoryRichTextEdit.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.DIHistoryRichTextEdit.Location = new System.Drawing.Point(0, 386);
+			this.DIHistoryRichTextEdit.Location = new System.Drawing.Point(0, 444);
 			this.DIHistoryRichTextEdit.Margin = new System.Windows.Forms.Padding(4);
 			this.DIHistoryRichTextEdit.Name = "DIHistoryRichTextEdit";
 			this.DIHistoryRichTextEdit.Size = new System.Drawing.Size(802, 356);
@@ -2335,13 +2549,14 @@ namespace Core.Common
 			// 
 			this.DIHistoryPanel.Controls.Add(this.DIHistoryLabel);
 			this.DIHistoryPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.DIHistoryPanel.Location = new System.Drawing.Point(0, 357);
+			this.DIHistoryPanel.Location = new System.Drawing.Point(0, 415);
 			this.DIHistoryPanel.Name = "DIHistoryPanel";
 			this.DIHistoryPanel.Size = new System.Drawing.Size(802, 29);
 			this.DIHistoryPanel.TabIndex = 25;
 			// 
 			// DIHistoryLabel
 			// 
+			this.DIHistoryLabel.BackColor = System.Drawing.Color.LightGray;
 			this.DIHistoryLabel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.DIHistoryLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.DIHistoryLabel.Location = new System.Drawing.Point(0, 0);
@@ -2354,7 +2569,7 @@ namespace Core.Common
 			// DIHelpLabel
 			// 
 			this.DIHelpLabel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.DIHelpLabel.Location = new System.Drawing.Point(0, 312);
+			this.DIHelpLabel.Location = new System.Drawing.Point(0, 370);
 			this.DIHelpLabel.Name = "DIHelpLabel";
 			this.DIHelpLabel.Size = new System.Drawing.Size(802, 45);
 			this.DIHelpLabel.TabIndex = 24;
@@ -2366,7 +2581,7 @@ namespace Core.Common
 			this.DIURLPanel.Controls.Add(this.DIURLTextBox);
 			this.DIURLPanel.Controls.Add(this.DIURLLabel);
 			this.DIURLPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.DIURLPanel.Location = new System.Drawing.Point(0, 283);
+			this.DIURLPanel.Location = new System.Drawing.Point(0, 341);
 			this.DIURLPanel.Name = "DIURLPanel";
 			this.DIURLPanel.Size = new System.Drawing.Size(802, 29);
 			this.DIURLPanel.TabIndex = 20;
@@ -2393,7 +2608,7 @@ namespace Core.Common
 			this.DIOCRPanel.Controls.Add(this.DIOCRTextBox);
 			this.DIOCRPanel.Controls.Add(this.DIOCRLabel);
 			this.DIOCRPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.DIOCRPanel.Location = new System.Drawing.Point(0, 254);
+			this.DIOCRPanel.Location = new System.Drawing.Point(0, 312);
 			this.DIOCRPanel.Name = "DIOCRPanel";
 			this.DIOCRPanel.Size = new System.Drawing.Size(802, 29);
 			this.DIOCRPanel.TabIndex = 19;
@@ -2423,7 +2638,7 @@ namespace Core.Common
 			this.DIFB2AuthorPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.DIFB2AuthorPanel.Location = new System.Drawing.Point(0, 122);
 			this.DIFB2AuthorPanel.Name = "DIFB2AuthorPanel";
-			this.DIFB2AuthorPanel.Size = new System.Drawing.Size(802, 132);
+			this.DIFB2AuthorPanel.Size = new System.Drawing.Size(802, 190);
 			this.DIFB2AuthorPanel.TabIndex = 18;
 			// 
 			// DIFB2AuthorListView
@@ -2441,7 +2656,7 @@ namespace Core.Common
 			this.DIFB2AuthorListView.GridLines = true;
 			this.DIFB2AuthorListView.Location = new System.Drawing.Point(0, 25);
 			this.DIFB2AuthorListView.Name = "DIFB2AuthorListView";
-			this.DIFB2AuthorListView.Size = new System.Drawing.Size(727, 107);
+			this.DIFB2AuthorListView.Size = new System.Drawing.Size(727, 165);
 			this.DIFB2AuthorListView.TabIndex = 87;
 			this.DIFB2AuthorListView.UseCompatibleStateImageBehavior = false;
 			this.DIFB2AuthorListView.View = System.Windows.Forms.View.Details;
@@ -2482,14 +2697,38 @@ namespace Core.Common
 			// 
 			// DIFB2AuthorWorkPanel
 			// 
+			this.DIFB2AuthorWorkPanel.Controls.Add(this.DIFB2AuthorUpButton);
+			this.DIFB2AuthorWorkPanel.Controls.Add(this.DIFB2AuthorDownButton);
 			this.DIFB2AuthorWorkPanel.Controls.Add(this.DIFB2AuthorDeleteAllButton);
 			this.DIFB2AuthorWorkPanel.Controls.Add(this.DIFB2AuthorDeleteButton);
 			this.DIFB2AuthorWorkPanel.Controls.Add(this.DIFB2AuthorEditButton);
 			this.DIFB2AuthorWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.DIFB2AuthorWorkPanel.Location = new System.Drawing.Point(727, 25);
 			this.DIFB2AuthorWorkPanel.Name = "DIFB2AuthorWorkPanel";
-			this.DIFB2AuthorWorkPanel.Size = new System.Drawing.Size(75, 107);
+			this.DIFB2AuthorWorkPanel.Size = new System.Drawing.Size(75, 165);
 			this.DIFB2AuthorWorkPanel.TabIndex = 86;
+			// 
+			// DIFB2AuthorUpButton
+			// 
+			this.DIFB2AuthorUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.DIFB2AuthorUpButton.Image = ((System.Drawing.Image)(resources.GetObject("DIFB2AuthorUpButton.Image")));
+			this.DIFB2AuthorUpButton.Location = new System.Drawing.Point(0, 119);
+			this.DIFB2AuthorUpButton.Name = "DIFB2AuthorUpButton";
+			this.DIFB2AuthorUpButton.Size = new System.Drawing.Size(75, 23);
+			this.DIFB2AuthorUpButton.TabIndex = 11;
+			this.DIFB2AuthorUpButton.UseVisualStyleBackColor = true;
+			this.DIFB2AuthorUpButton.Click += new System.EventHandler(this.DIFB2AuthorUpButtonClick);
+			// 
+			// DIFB2AuthorDownButton
+			// 
+			this.DIFB2AuthorDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.DIFB2AuthorDownButton.Image = ((System.Drawing.Image)(resources.GetObject("DIFB2AuthorDownButton.Image")));
+			this.DIFB2AuthorDownButton.Location = new System.Drawing.Point(0, 142);
+			this.DIFB2AuthorDownButton.Name = "DIFB2AuthorDownButton";
+			this.DIFB2AuthorDownButton.Size = new System.Drawing.Size(75, 23);
+			this.DIFB2AuthorDownButton.TabIndex = 10;
+			this.DIFB2AuthorDownButton.UseVisualStyleBackColor = true;
+			this.DIFB2AuthorDownButton.Click += new System.EventHandler(this.DIFB2AuthorDownButtonClick);
 			// 
 			// DIFB2AuthorDeleteAllButton
 			// 
@@ -2730,7 +2969,7 @@ namespace Core.Common
 			this.tpPublishInfo.Location = new System.Drawing.Point(4, 25);
 			this.tpPublishInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.tpPublishInfo.Name = "tpPublishInfo";
-			this.tpPublishInfo.Size = new System.Drawing.Size(802, 742);
+			this.tpPublishInfo.Size = new System.Drawing.Size(802, 800);
 			this.tpPublishInfo.TabIndex = 3;
 			this.tpPublishInfo.Text = "Бумажная книга";
 			this.tpPublishInfo.UseVisualStyleBackColor = true;
@@ -2772,6 +3011,8 @@ namespace Core.Common
 			// 
 			// PISequenceWorkPanel
 			// 
+			this.PISequenceWorkPanel.Controls.Add(this.PISequenceUpButton);
+			this.PISequenceWorkPanel.Controls.Add(this.PISequenceDownButton);
 			this.PISequenceWorkPanel.Controls.Add(this.PISequenceDeleteAllButton);
 			this.PISequenceWorkPanel.Controls.Add(this.PISequenceDeleteButton);
 			this.PISequenceWorkPanel.Controls.Add(this.PISequenceEditButton);
@@ -2780,6 +3021,28 @@ namespace Core.Common
 			this.PISequenceWorkPanel.Name = "PISequenceWorkPanel";
 			this.PISequenceWorkPanel.Size = new System.Drawing.Size(75, 229);
 			this.PISequenceWorkPanel.TabIndex = 86;
+			// 
+			// PISequenceUpButton
+			// 
+			this.PISequenceUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.PISequenceUpButton.Image = ((System.Drawing.Image)(resources.GetObject("PISequenceUpButton.Image")));
+			this.PISequenceUpButton.Location = new System.Drawing.Point(0, 183);
+			this.PISequenceUpButton.Name = "PISequenceUpButton";
+			this.PISequenceUpButton.Size = new System.Drawing.Size(75, 23);
+			this.PISequenceUpButton.TabIndex = 11;
+			this.PISequenceUpButton.UseVisualStyleBackColor = true;
+			this.PISequenceUpButton.Click += new System.EventHandler(this.PISequenceUpButtonClick);
+			// 
+			// PISequenceDownButton
+			// 
+			this.PISequenceDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.PISequenceDownButton.Image = ((System.Drawing.Image)(resources.GetObject("PISequenceDownButton.Image")));
+			this.PISequenceDownButton.Location = new System.Drawing.Point(0, 206);
+			this.PISequenceDownButton.Name = "PISequenceDownButton";
+			this.PISequenceDownButton.Size = new System.Drawing.Size(75, 23);
+			this.PISequenceDownButton.TabIndex = 10;
+			this.PISequenceDownButton.UseVisualStyleBackColor = true;
+			this.PISequenceDownButton.Click += new System.EventHandler(this.PISequenceDownButtonClick);
 			// 
 			// PISequenceDeleteAllButton
 			// 
@@ -2838,6 +3101,7 @@ namespace Core.Common
 			// 
 			// PISequenceLabel
 			// 
+			this.PISequenceLabel.BackColor = System.Drawing.Color.LightGray;
 			this.PISequenceLabel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.PISequenceLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.PISequenceLabel.Location = new System.Drawing.Point(0, 0);
@@ -2988,7 +3252,7 @@ namespace Core.Common
 			this.tpCustomInfo.Location = new System.Drawing.Point(4, 25);
 			this.tpCustomInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.tpCustomInfo.Name = "tpCustomInfo";
-			this.tpCustomInfo.Size = new System.Drawing.Size(802, 742);
+			this.tpCustomInfo.Size = new System.Drawing.Size(802, 800);
 			this.tpCustomInfo.TabIndex = 4;
 			this.tpCustomInfo.Text = "Дополнительные данные";
 			this.tpCustomInfo.UseVisualStyleBackColor = true;
@@ -3001,7 +3265,7 @@ namespace Core.Common
 			this.CICustomInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.CICustomInfoPanel.Location = new System.Drawing.Point(0, 0);
 			this.CICustomInfoPanel.Name = "CICustomInfoPanel";
-			this.CICustomInfoPanel.Size = new System.Drawing.Size(802, 742);
+			this.CICustomInfoPanel.Size = new System.Drawing.Size(802, 800);
 			this.CICustomInfoPanel.TabIndex = 15;
 			// 
 			// CICustomInfoListView
@@ -3014,7 +3278,7 @@ namespace Core.Common
 			this.CICustomInfoListView.GridLines = true;
 			this.CICustomInfoListView.Location = new System.Drawing.Point(0, 25);
 			this.CICustomInfoListView.Name = "CICustomInfoListView";
-			this.CICustomInfoListView.Size = new System.Drawing.Size(727, 717);
+			this.CICustomInfoListView.Size = new System.Drawing.Size(727, 775);
 			this.CICustomInfoListView.TabIndex = 87;
 			this.CICustomInfoListView.UseCompatibleStateImageBehavior = false;
 			this.CICustomInfoListView.View = System.Windows.Forms.View.Details;
@@ -3031,14 +3295,38 @@ namespace Core.Common
 			// 
 			// CICustomInfoWorkPanel
 			// 
+			this.CICustomInfoWorkPanel.Controls.Add(this.CICustomInfoUpButton);
+			this.CICustomInfoWorkPanel.Controls.Add(this.CICustomInfoDownButton);
 			this.CICustomInfoWorkPanel.Controls.Add(this.CICustomInfoDeleteAllButton);
 			this.CICustomInfoWorkPanel.Controls.Add(this.CICustomInfoDeleteButton);
 			this.CICustomInfoWorkPanel.Controls.Add(this.CICustomInfoEditButton);
 			this.CICustomInfoWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.CICustomInfoWorkPanel.Location = new System.Drawing.Point(727, 25);
 			this.CICustomInfoWorkPanel.Name = "CICustomInfoWorkPanel";
-			this.CICustomInfoWorkPanel.Size = new System.Drawing.Size(75, 717);
+			this.CICustomInfoWorkPanel.Size = new System.Drawing.Size(75, 775);
 			this.CICustomInfoWorkPanel.TabIndex = 86;
+			// 
+			// CICustomInfoUpButton
+			// 
+			this.CICustomInfoUpButton.Dock = System.Windows.Forms.DockStyle.Top;
+			this.CICustomInfoUpButton.Image = ((System.Drawing.Image)(resources.GetObject("CICustomInfoUpButton.Image")));
+			this.CICustomInfoUpButton.Location = new System.Drawing.Point(0, 109);
+			this.CICustomInfoUpButton.Name = "CICustomInfoUpButton";
+			this.CICustomInfoUpButton.Size = new System.Drawing.Size(75, 23);
+			this.CICustomInfoUpButton.TabIndex = 11;
+			this.CICustomInfoUpButton.UseVisualStyleBackColor = true;
+			this.CICustomInfoUpButton.Click += new System.EventHandler(this.CICustomInfoUpButtonClick);
+			// 
+			// CICustomInfoDownButton
+			// 
+			this.CICustomInfoDownButton.Dock = System.Windows.Forms.DockStyle.Top;
+			this.CICustomInfoDownButton.Image = ((System.Drawing.Image)(resources.GetObject("CICustomInfoDownButton.Image")));
+			this.CICustomInfoDownButton.Location = new System.Drawing.Point(0, 86);
+			this.CICustomInfoDownButton.Name = "CICustomInfoDownButton";
+			this.CICustomInfoDownButton.Size = new System.Drawing.Size(75, 23);
+			this.CICustomInfoDownButton.TabIndex = 10;
+			this.CICustomInfoDownButton.UseVisualStyleBackColor = true;
+			this.CICustomInfoDownButton.Click += new System.EventHandler(this.CICustomInfoDownButtonClick);
 			// 
 			// CICustomInfoDeleteAllButton
 			// 
@@ -3097,6 +3385,7 @@ namespace Core.Common
 			// 
 			// CICustomInfoLabel
 			// 
+			this.CICustomInfoLabel.BackColor = System.Drawing.Color.LightGray;
 			this.CICustomInfoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.CICustomInfoLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.CICustomInfoLabel.Location = new System.Drawing.Point(0, 0);
@@ -3108,12 +3397,13 @@ namespace Core.Common
 			// 
 			// ControlPanel
 			// 
+			this.ControlPanel.BackColor = System.Drawing.Color.DarkGray;
 			this.ControlPanel.Controls.Add(this.CancelBtn);
 			this.ControlPanel.Controls.Add(this.ApplyBtn);
 			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.ControlPanel.Location = new System.Drawing.Point(813, 0);
 			this.ControlPanel.Name = "ControlPanel";
-			this.ControlPanel.Size = new System.Drawing.Size(127, 771);
+			this.ControlPanel.Size = new System.Drawing.Size(127, 829);
 			this.ControlPanel.TabIndex = 1;
 			// 
 			// CancelBtn
@@ -3152,7 +3442,7 @@ namespace Core.Common
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(940, 771);
+			this.ClientSize = new System.Drawing.Size(940, 829);
 			this.ControlBox = false;
 			this.Controls.Add(this.ControlPanel);
 			this.Controls.Add(this.DescriptionPanel);
@@ -3258,6 +3548,28 @@ namespace Core.Common
 			this.ResumeLayout(false);
 
 		}
+		private System.Windows.Forms.Button TISequenceUpButton;
+		private System.Windows.Forms.Button TISequenceDownButton;
+		private System.Windows.Forms.Button STISequenceUpButton;
+		private System.Windows.Forms.Button STISequenceDownButton;
+		private System.Windows.Forms.Button TIAuthorUpButton;
+		private System.Windows.Forms.Button TIAuthorDownButton;
+		private System.Windows.Forms.Button STIAuthorUpButton;
+		private System.Windows.Forms.Button STIAuthorDownButton;
+		private System.Windows.Forms.Button DIFB2AuthorUpButton;
+		private System.Windows.Forms.Button DIFB2AuthorDownButton;
+		private System.Windows.Forms.Button PISequenceUpButton;
+		private System.Windows.Forms.Button PISequenceDownButton;
+		private System.Windows.Forms.Button CICustomInfoUpButton;
+		private System.Windows.Forms.Button CICustomInfoDownButton;
+		private System.Windows.Forms.Button TICoverUpButton;
+		private System.Windows.Forms.Button TICoverDownButton;
+		private System.Windows.Forms.Button STICoverUpButton;
+		private System.Windows.Forms.Button STICoverDownButton;
+		private System.Windows.Forms.Button TIGenreUpButton;
+		private System.Windows.Forms.Button TIGenreDownButton;
+		private System.Windows.Forms.Button STIGenreUpButton;
+		private System.Windows.Forms.Button STIGenreDownButton;
 		private System.Windows.Forms.TabControl STITabControl;
 		private System.Windows.Forms.TabPage tpSTittleInfoGeneral;
 		private System.Windows.Forms.TabPage tpSTittleInfoAnnotation;

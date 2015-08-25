@@ -71,12 +71,11 @@
     <Compile Include="MainImpl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SharpFBTools.AssemblyInfo.cs" />
-    <Compile Include="Tools\SFBTFB2Validator.cs" />
     <Compile Include="Tools\SFBTpAbout.cs" />
     <Compile Include="Tools\SFBTpArchiveManager.cs" />
-    <Compile Include="Tools\SFBTpFB2DescEditor.cs" />
-    <Compile Include="Tools\SFBTpFB2DescEditor.Designer.cs">
-      <DependentUpon>SFBTpFB2DescEditor.cs</DependentUpon>
+    <Compile Include="Tools\SFBTpFB2Corrector.cs" />
+    <Compile Include="Tools\SFBTpFB2Corrector.Designer.cs">
+      <DependentUpon>SFBTpFB2Corrector.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\SFBTpFB2Dublicator.cs" />
     <Compile Include="Tools\SFBTpFB2Dublicator.Designer.cs">
@@ -87,17 +86,14 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\SFBTFB2Validator.resx">
-      <DependentUpon>SFBTFB2Validator.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Tools\SFBTpAbout.resx">
       <DependentUpon>SFBTpAbout.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\SFBTpArchiveManager.resx">
       <DependentUpon>SFBTpArchiveManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\SFBTpFB2DescEditor.resx">
-      <DependentUpon>SFBTpFB2DescEditor.cs</DependentUpon>
+    <EmbeddedResource Include="Tools\SFBTpFB2Corrector.resx">
+      <DependentUpon>SFBTpFB2Corrector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\SFBTpFB2Dublicator.resx">
       <DependentUpon>SFBTpFB2Dublicator.cs</DependentUpon>

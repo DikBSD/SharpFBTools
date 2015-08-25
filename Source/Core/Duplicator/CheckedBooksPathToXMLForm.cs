@@ -1,20 +1,20 @@
 ﻿/*
  * Сделано в SharpDevelop.
- * Пользователь: VadimK
+ * Пользователь: Кузнецов Вадим (DikBSD)
  * Дата: 01.09.2014
  * Время: 10:37
  * 
- * Для изменения этого шаблона используйте Сервис | Настройка | Кодирование | Правка стандартных заголовков.
+ * License: GPL 2.1
  */
 using System;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Xml.Linq;
 
-using EndWorkMode = Core.Misc.EndWorkMode;
+using EndWorkMode = Core.Common.EndWorkMode;
 
 // enums
-using EndWorkModeEnum = Core.Misc.Enums.EndWorkModeEnum;
+using EndWorkModeEnum = Core.Common.Enums.EndWorkModeEnum;
 
 namespace Core.Duplicator
 {
@@ -53,7 +53,7 @@ namespace Core.Duplicator
 		// 								ОТКРЫТЫЕ СВОЙСТВА
 		// =============================================================================================
 		#region Открытые свойства
-		public virtual Core.Misc.EndWorkMode EndMode {
+		public virtual Core.Common.EndWorkMode EndMode {
 			get { return m_EndMode; }
 		}
 		#endregion

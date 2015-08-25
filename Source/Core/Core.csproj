@@ -54,18 +54,66 @@
     <Compile Include="Common\AuthorInfoForm.Designer.cs">
       <DependentUpon>AuthorInfoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Common\Colors.cs" />
+    <Compile Include="Common\CommandManager.cs" />
     <Compile Include="Common\CustomInfoForm.cs" />
     <Compile Include="Common\CustomInfoForm.Designer.cs">
       <DependentUpon>CustomInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EditAuthorInfoForm.cs" />
+    <Compile Include="Common\EditAuthorInfoForm.Designer.cs">
+      <DependentUpon>EditAuthorInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\EditDescriptionForm.cs" />
     <Compile Include="Common\EditDescriptionForm.Designer.cs">
       <DependentUpon>EditDescriptionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Common\EditGenreInfoForm.cs" />
+    <Compile Include="Common\EditGenreInfoForm.Designer.cs">
+      <DependentUpon>EditGenreInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EditLangForm.cs" />
+    <Compile Include="Common\EditLangForm.Designer.cs">
+      <DependentUpon>EditLangForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EndWorkMode.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\FB2BookDescription.cs" />
+    <Compile Include="Common\FilesWorker.cs" />
+    <Compile Include="Common\GenresGroup.cs" />
+    <Compile Include="Common\GenresWorker.cs" />
+    <Compile Include="Common\IFB2TagsNotExsist.cs" />
+    <Compile Include="Common\IGenresGroup.cs" />
+    <Compile Include="Common\ImageWorker.cs" />
+    <Compile Include="Common\IProblemDirs.cs" />
     <Compile Include="Common\LangList.cs" />
+    <Compile Include="Common\ListViewItemType.cs" />
+    <Compile Include="Common\MetaEditClasses.cs" />
+    <Compile Include="Common\MiscListView.cs" />
     <Compile Include="Common\SequenceInfoForm.cs" />
     <Compile Include="Common\SequenceInfoForm.Designer.cs">
       <DependentUpon>SequenceInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\SharpZipLibWorker.cs" />
+    <Compile Include="Common\StringProcessing.cs" />
+    <Compile Include="Common\WorksWithBooks.cs" />
+    <Compile Include="Common\ZipFB2Worker.cs" />
+    <Compile Include="Corrector\BooksListWorkerForm.cs" />
+    <Compile Include="Corrector\BooksListWorkerForm.Designer.cs">
+      <DependentUpon>BooksListWorkerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Corrector\CopyMoveDeleteForm.cs" />
+    <Compile Include="Corrector\CopyMoveDeleteForm.Designer.cs">
+      <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Corrector\CorrectorrSettings.cs" />
+    <Compile Include="Corrector\FB2TagsListGenerateForm.cs" />
+    <Compile Include="Corrector\FB2TagsListGenerateForm.Designer.cs">
+      <DependentUpon>FB2TagsListGenerateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Corrector\ValidatorForm.cs" />
+    <Compile Include="Corrector\ValidatorForm.Designer.cs">
+      <DependentUpon>ValidatorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Duplicator\CheckedBooksPathToXMLForm.cs" />
     <Compile Include="Duplicator\CheckedBooksPathToXMLForm.Designer.cs">
@@ -75,17 +123,42 @@
     <Compile Include="Duplicator\CopiesAnalyzeForm.Designer.cs">
       <DependentUpon>CopiesAnalyzeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FileManager\FB2TagsViewForm.cs" />
+    <Compile Include="FileManager\FB2TagsViewForm.Designer.cs">
+      <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Common\AuthorInfoForm.resx">
       <DependentUpon>AuthorInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Common\CustomInfoForm.resx">
       <DependentUpon>CustomInfoForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditAuthorInfoForm.resx">
+      <DependentUpon>EditAuthorInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Common\EditDescriptionForm.resx">
       <DependentUpon>EditDescriptionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditGenreInfoForm.resx">
+      <DependentUpon>EditGenreInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditLangForm.resx">
+      <DependentUpon>EditLangForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Common\SequenceInfoForm.resx">
       <DependentUpon>SequenceInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\BooksListWorkerForm.resx">
+      <DependentUpon>BooksListWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\CopyMoveDeleteForm.resx">
+      <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\FB2TagsListGenerateForm.resx">
+      <DependentUpon>FB2TagsListGenerateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\ValidatorForm.resx">
+      <DependentUpon>ValidatorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Duplicator\CheckedBooksPathToXMLForm.resx">
       <DependentUpon>CheckedBooksPathToXMLForm.cs</DependentUpon>
@@ -98,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FileManager\BasiclTemplates.resx">
       <DependentUpon>BasiclTemplates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileManager\FB2TagsViewForm.resx">
+      <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FileManager\SelectedSortDataForm.resx">
       <DependentUpon>SelectedSortDataForm.cs</DependentUpon>
@@ -118,7 +194,6 @@
     <Folder Include="FB2\FB2Parsers" />
     <Folder Include="FB2\Genres" />
     <Folder Include="FileManager\Templates" />
-    <Folder Include="Misc" />
     <Folder Include="FileManager" />
     <Folder Include="Validator" />
     <Folder Include="Test" />
@@ -131,7 +206,6 @@
     </Compile>
     <Compile Include="Duplicator\CopyMoveDeleteForm.cs" />
     <Compile Include="Duplicator\FB2FilesDataInGroupList.cs" />
-    <Compile Include="Duplicator\FB2ParserForDup.cs" />
     <Compile Include="Duplicator\StatusView.cs" />
     <Compile Include="Duplicator\ValidatorForm.cs" />
     <Compile Include="FB2\binary\Binary.cs" />
@@ -171,11 +245,9 @@
     <Compile Include="FB2\Genres\IFBGenres.cs" />
     <Compile Include="FileManager\BasiclTemplates.cs" />
     <Compile Include="FileManager\FB2SelectedSorting.cs" />
-    <Compile Include="FileManager\ISortFB2Tags.cs" />
+    <Compile Include="FileManager\GenresGroupForSorting.cs" />
     <Compile Include="FileManager\ISortOptions.cs" />
-    <Compile Include="FileManager\ISortProblemDirs.cs" />
     <Compile Include="FileManager\SelectedSortDataForm.cs" />
-    <Compile Include="FileManager\SortingFB2Tags.cs" />
     <Compile Include="FileManager\SortingForm.cs" />
     <Compile Include="FileManager\SortingOptions.cs" />
     <Compile Include="FileManager\SortQueryCriteria.cs" />
@@ -184,20 +256,10 @@
     <Compile Include="FileManager\Templates\LexemType.cs" />
     <Compile Include="FileManager\Templates\TemplatesParser.cs" />
     <Compile Include="FileManager\Templates\TemplatesVerify.cs" />
-    <Compile Include="Misc\CommandManager.cs" />
-    <Compile Include="Misc\Enums.cs" />
-    <Compile Include="Misc\EndWorkMode.cs" />
-    <Compile Include="Misc\FB2BookDescription.cs" />
-    <Compile Include="Misc\FilesWorker.cs" />
-    <Compile Include="Misc\ImageWorker.cs" />
-    <Compile Include="Misc\ListViewItemType.cs" />
-    <Compile Include="Misc\MiscListView.cs" />
-    <Compile Include="Misc\SharpZipLibWorker.cs" />
-    <Compile Include="Misc\StringProcessing.cs" />
-    <Compile Include="Misc\ZipFB2Worker.cs" />
     <Compile Include="Validator\ValidatorReports.cs" />
     <Compile Include="Test\Test.cs" />
     <Folder Include="Common" />
+    <Folder Include="Corrector" />
     <ProjectReference Include="..\Settings\Settings.csproj">
       <Project>{6B89BF4B-6D6C-4948-AA21-53A61D22052F}</Project>
       <Name>Settings</Name>

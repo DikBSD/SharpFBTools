@@ -17,10 +17,10 @@ namespace Core.Common
 	public partial class CustomInfoForm : Form
 	{
 		#region Закрытые данные класса
-		private readonly EditDescriptionForm.CustomInfoInfo m_ci = new EditDescriptionForm.CustomInfoInfo( true );
+		private readonly CustomInfoInfo m_ci = new CustomInfoInfo( true );
 		#endregion
 		
-		public CustomInfoForm( ref EditDescriptionForm.CustomInfoInfo ci )
+		public CustomInfoForm( ref CustomInfoInfo ci )
 		{
 			InitializeComponent();
 			m_ci = ci;
@@ -34,7 +34,7 @@ namespace Core.Common
 		}
 		
 		#region Открытые свойства
-		public virtual EditDescriptionForm.CustomInfoInfo CustomInfoInfo {
+		public virtual CustomInfoInfo CustomInfoInfo {
 			get {
 				return m_ci;
 			}

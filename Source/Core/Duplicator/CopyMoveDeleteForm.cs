@@ -13,15 +13,15 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.IO;
 
-using Core.Misc;
-
-using EndWorkMode = Core.Misc.EndWorkMode;
-using filesWorker = Core.Misc.FilesWorker;
+using EndWorkMode	= Core.Common.EndWorkMode;
+using filesWorker	= Core.Common.FilesWorker;
+using BooksWorkMode	= Core.Common.Enums.BooksWorkMode;
+using MiscListView	= Core.Common.MiscListView;
+using WorksWithBooks = Core.Common.WorksWithBooks;
 
 // enums
-using EndWorkModeEnum	= Core.Misc.Enums.EndWorkModeEnum;
-using DuplWorkMode		= Core.Misc.Enums.DuplWorkMode;
-using MiscListView		= Core.Misc.MiscListView;
+using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
+using FilesCountViewDupCollumn	= Core.Common.Enums.FilesCountViewDupCollumn;
 
 namespace Core.Duplicator
 {
@@ -104,10 +104,10 @@ namespace Core.Duplicator
 			// 
 			// ProgressBar
 			// 
-			this.ProgressBar.Location = new System.Drawing.Point(16, 25);
+			this.ProgressBar.Location = new System.Drawing.Point(16, 15);
 			this.ProgressBar.Margin = new System.Windows.Forms.Padding(4);
 			this.ProgressBar.Name = "ProgressBar";
-			this.ProgressBar.Size = new System.Drawing.Size(653, 28);
+			this.ProgressBar.Size = new System.Drawing.Size(653, 44);
 			this.ProgressBar.TabIndex = 0;
 			// 
 			// CopyMoveDeleteForm
@@ -146,22 +146,17 @@ namespace Core.Duplicator
 		
 		
 		private int	m_AllFiles		= 0;
-		private int	m_AllFB2Files	= 0;
-		private int	m_AllArchives	= 0;
-		
 		private readonly string	m_SourceDir			= string.Empty;
 		private readonly string	m_TargetDir			= string.Empty;
-		private readonly bool	m_viewProgressStatus = false;
 		private readonly int	m_FileExistMode		= 1; // добавить к создаваемому fb2-файлу очередной номер
-		private readonly MiscListView	m_mscLV		= new MiscListView(); // класс по работе с ListView
 		private readonly EndWorkMode	m_EndMode	= new EndWorkMode();
-		private readonly DuplWorkMode	m_WorkMode;  // режим обработки книг
+		private readonly BooksWorkMode	m_WorkMode;  // режим обработки книг
 		private bool m_bFilesWorked			= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
 		private BackgroundWorker m_bwcmd	= null;  // фоновый обработчик
 		#endregion
 		
-		public CopyMoveDeleteForm( bool Fast, DuplWorkMode WorkMode, string Source, string TargetDir, int FileExistMode,
-		                          ListView lvFilesCount, ListView lvResult, bool viewProgressStatus )
+		public CopyMoveDeleteForm( bool Fast, BooksWorkMode WorkMode, string Source, string TargetDir, int FileExistMode,
+		                          ListView lvFilesCount, ListView lvResult )
 		{
 			InitializeComponent();
 			
@@ -172,11 +167,8 @@ namespace Core.Duplicator
 			m_TargetDir		= TargetDir;
 			m_FileExistMode = FileExistMode;
 			m_WorkMode		= WorkMode;
-			m_viewProgressStatus = viewProgressStatus;
 			
-			m_AllFiles = Convert.ToInt16( m_lvFilesCount.Items[1].SubItems[1].Text );
-			m_AllFB2Files = Convert.ToInt16( m_lvFilesCount.Items[2].SubItems[1].Text );
-			m_AllArchives = Convert.ToInt16( m_lvFilesCount.Items[3].SubItems[1].Text );
+			m_AllFiles = Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBooks].SubItems[1].Text );
 			
 			ProgressBar.Maximum = m_lvResult.CheckedItems.Count;
 			ProgressBar.Value	= 0;
@@ -190,7 +182,7 @@ namespace Core.Duplicator
 		// 								ОТКРЫТЫЕ СВОЙСТВА
 		// =============================================================================================
 		#region Открытые свойства
-		public virtual Core.Misc.EndWorkMode EndMode {
+		public virtual EndWorkMode EndMode {
 			get { return m_EndMode; }
 		}
 		#endregion
@@ -217,33 +209,38 @@ namespace Core.Duplicator
 		// Обработка файлов
 		private void bwcmd_DoWork( object sender, DoWorkEventArgs e ) {
 			m_bFilesWorked = false;
+			if( m_Fast )
+				m_lvResult.BeginUpdate();
+			
 			switch( m_WorkMode ) {
-				case DuplWorkMode.CopyCheckedBooks:
+				case BooksWorkMode.CopyCheckedBooks:
 					this.Text = "Копирование помеченных копий книг в папку " + m_TargetDir;
+					this.Text += String.Format( ": Файлов: {0}", m_lvResult.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, true,
 					                         m_SourceDir, m_TargetDir, m_lvResult,
 					                         m_FileExistMode );
 					break;
-				case DuplWorkMode.MoveCheckedBooks:
+				case BooksWorkMode.MoveCheckedBooks:
 					this.Text = "Перемещение помеченных копий книг в папку " + m_TargetDir;
+					this.Text += String.Format( ": Файлов: {0}", m_lvResult.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, false,
 					                         m_SourceDir, m_TargetDir, m_lvResult,
 					                         m_FileExistMode );
 					break;
-				case DuplWorkMode.DeleteCheckedBooks:
+				case BooksWorkMode.DeleteCheckedBooks:
 					this.Text = "Удаление помеченных копий книг";
+					this.Text += String.Format( ": Файлов: {0}", m_lvResult.CheckedItems.Count );
 					DeleteCheckedFiles( ref m_bwcmd, ref e, m_lvResult );
 					break;
 				default:
 					return;
 			}
+			if( m_Fast )
+				m_lvResult.EndUpdate();
 		}
 		
 		// Отобразим результат Копирования / Перемещения / Удаление
 		private void bwcmd_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-			// обновление числа групп и книг во всех группах
-			if( m_viewProgressStatus )
-				newGroupItemsCount( m_lvResult, m_lvFilesCount );
 			++ProgressBar.Value;
 		}
 		
@@ -252,15 +249,15 @@ namespace Core.Duplicator
 			string sMessCanceled, sMessError, sMessDone;
 			sMessCanceled = sMessError = sMessDone = string.Empty;
 			switch( m_WorkMode ) {
-				case DuplWorkMode.CopyCheckedBooks:
+				case BooksWorkMode.CopyCheckedBooks:
 					sMessDone 		= "Копирование файлов в указанную папку завершено!";
 					sMessCanceled	= "Копирование файлов в указанную папку остановлено!";
 					break;
-				case DuplWorkMode.MoveCheckedBooks:
+				case BooksWorkMode.MoveCheckedBooks:
 					sMessDone 		= "Перемещение файлов в указанную папку завершено!";
 					sMessCanceled	= "Перемещение файлов в указанную папку остановлено!";
 					break;
-				case DuplWorkMode.DeleteCheckedBooks:
+				case BooksWorkMode.DeleteCheckedBooks:
 					sMessDone 		= "Удаление файлов из папки-источника завершено!";
 					sMessCanceled	= "Удаление файлов из папки-источника остановлено!";
 					break;
@@ -269,13 +266,13 @@ namespace Core.Duplicator
 			if( !m_bFilesWorked ) {
 				const string s = "На диске не найдено ни одного файла из помеченных!\n";
 				switch( m_WorkMode ) {
-					case DuplWorkMode.CopyCheckedBooks:
+					case BooksWorkMode.CopyCheckedBooks:
 						sMessDone = s + "Копирование файлов в указанную папку не произведено!";
 						break;
-					case DuplWorkMode.MoveCheckedBooks:
+					case BooksWorkMode.MoveCheckedBooks:
 						sMessDone = s + "Перемещение файлов в указанную папку не произведено!";
 						break;
-					case DuplWorkMode.DeleteCheckedBooks:
+					case BooksWorkMode.DeleteCheckedBooks:
 						sMessDone = s + "Удаление файлов из папки-источника не произведено!";
 						break;
 				}
@@ -306,8 +303,6 @@ namespace Core.Duplicator
 		public void CopyOrMoveCheckedFilesTo( ref BackgroundWorker bw, ref DoWorkEventArgs e,
 		                                     bool IsCopy, string SourceDir, string TargetDir,
 		                                     ListView lvResult, int nFileExistMode ) {
-			#region Код
-			string Ext = string.Empty;
 			int i = 0;
 			ListView.CheckedListViewItemCollection checkedItems = lvResult.CheckedItems;
 			foreach( ListViewItem lvi in checkedItems ) {
@@ -317,11 +312,13 @@ namespace Core.Duplicator
 					return;
 				} else {
 					string FilePath = lvi.Text;
+					// для отображения числа файлов на диске
+					string Ext = Path.GetExtension( FilePath ).ToLower();
 					// есть ли такая книга на диске? Если нет - то смотрим следующую
 					Regex rx = new Regex( @"\\+" );
 					FilePath = rx.Replace( FilePath, "\\" );
 					if( File.Exists( FilePath ) ) {
-						string NewPath = TargetDir + FilePath.Remove( 0, SourceDir.Length );
+						string NewPath = Path.Combine( TargetDir, FilePath.Substring( SourceDir.Length+1 ));
 						FileInfo fi = new FileInfo( NewPath );
 						if( !fi.Directory.Exists )
 							Directory.CreateDirectory( fi.Directory.ToString() );
@@ -332,39 +329,24 @@ namespace Core.Duplicator
 							else
 								NewPath = filesWorker.createFilePathWithSufix( NewPath, nFileExistMode );
 						}
-
+						
 						if( IsCopy )
 							File.Copy( FilePath, NewPath );
 						else {
 							File.Move( FilePath, NewPath );
-							
-							// для отображения числа файлов на диске
-							Ext = Path.GetExtension( FilePath ).ToLower();
-							if( Ext == ".fb2" )
-								--m_AllFB2Files;
-							else if( Ext == ".zip" || Ext == ".fbz" )
-								--m_AllArchives;
 							--m_AllFiles;
-							
-							if( !m_Fast ) 
-								lvResult.Items.Remove( lvi );
-							else {
-								// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
-								MarkRemoverFileInCopyesList( lvi );
-							}
+							MiscListView.deleteAllItemForNonExistFileWithCounter( lvResult, lvi, m_Fast, ref m_AllFiles );
 						}
+						
 						m_bFilesWorked |= true;
 						bw.ReportProgress( ++i ); // отобразим данные в контролах
 					}
 				}
 			}
-			#endregion
 		}
 		
 		// удалить помеченные файлы...
 		public void DeleteCheckedFiles( ref BackgroundWorker bw, ref DoWorkEventArgs e, ListView lvResult ) {
-			#region Код
-			string Ext = string.Empty;
 			int i = 0;
 			ListView.CheckedListViewItemCollection checkedItems = lvResult.CheckedItems;
 			foreach( ListViewItem lvi in checkedItems ) {
@@ -374,30 +356,17 @@ namespace Core.Duplicator
 					return;
 				} else {
 					string sFilePath = lvi.Text;
+					// для отображения числа файлов на диске
+					string Ext = Path.GetExtension( sFilePath ).ToLower();
 					if( File.Exists( sFilePath) ) {
 						File.Delete( sFilePath );
-						
-						// для отображения числа файлов на диске
-						Ext = Path.GetExtension( sFilePath ).ToLower();
-						if( Ext == ".fb2" )
-							--m_AllFB2Files;
-						else if( Ext == ".zip" || Ext == ".fbz" )
-							--m_AllArchives;
 						--m_AllFiles;
-						
-						if( !m_Fast ) {
-							if( lvResult.Items.Count > 0 )
-								lvResult.Items.Remove( lvi );
-						} else {
-							// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
-							MarkRemoverFileInCopyesList( lvi );
-						}
+						MiscListView.deleteAllItemForNonExistFileWithCounter( lvResult, lvi, m_Fast, ref m_AllFiles );
 						m_bFilesWorked |= true;
 					}
-					bw.ReportProgress( ++i ); // отобразим данные в контролах
+					bw.ReportProgress( ++i );
 				}
 			}
-			#endregion
 		}
 		#endregion
 		
@@ -407,19 +376,6 @@ namespace Core.Duplicator
 		// 							ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ И АЛГОРИТМЫ КЛАССА
 		// =============================================================================================
 		#region Вспомогательные методы и алгоритмы класса
-		// обновление числа групп и книг во всех группах
-		private void newGroupItemsCount( ListView lvResult, ListView lvFilesCount ) {
-			// новое число групп
-			MiscListView.ListViewStatus( lvFilesCount, 5, lvResult.Groups.Count.ToString() );
-			// число книг во всех группах
-			MiscListView.ListViewStatus( lvFilesCount, 6, lvResult.Items.Count.ToString() );
-			// реальное число всех файлов
-			MiscListView.ListViewStatus( lvFilesCount, 1, m_AllFiles.ToString() );
-			// реальное число всех fb2 файлов
-			MiscListView.ListViewStatus( lvFilesCount, 2, m_AllFB2Files.ToString() );
-			// реальное число всех архивов
-			MiscListView.ListViewStatus( lvFilesCount, 3, m_AllArchives.ToString() );
-		}
 		// реальное значение всех Групп и всех копий книг в этих Группах
 		private void RealGroupsAndBooks( ListView lvResult, ListView lvFilesCount ) {
 			int AllGroups = 0;
@@ -437,23 +393,12 @@ namespace Core.Duplicator
 					++AllGroups;
 				}
 			}
-			// реальное число групп копий
-			MiscListView.ListViewStatus( lvFilesCount, 5, AllGroups.ToString() );
-			// реальное число копий книг во всех группах
-			MiscListView.ListViewStatus( lvFilesCount, 6, AllBooks.ToString() );
 			// реальное число всех файлов
-			MiscListView.ListViewStatus( lvFilesCount, 1, m_AllFiles.ToString() );
-			// реальное число всех fb2 файлов
-			MiscListView.ListViewStatus( lvFilesCount, 2, m_AllFB2Files.ToString() );
-			// реальное число всех архивов
-			MiscListView.ListViewStatus( lvFilesCount, 3, m_AllArchives.ToString() );
-		}
-		
-		// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
-		private void MarkRemoverFileInCopyesList( ListViewItem lvi ) {
-			lvi.BackColor = Color.LightGray;
-			lvi.Font = new Font(lvi.Font.Name, lvi.Font.Size, FontStyle.Strikeout);
-			lvi.Checked = false;
+			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumn.AllBooks, m_AllFiles.ToString() );
+			// реальное число групп копий
+			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumn.AllGroups, AllGroups.ToString() );
+			// реальное число копий книг во всех группах
+			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumn.AllBoolsInAllGroups, AllBooks.ToString() );
 		}
 		#endregion
 		

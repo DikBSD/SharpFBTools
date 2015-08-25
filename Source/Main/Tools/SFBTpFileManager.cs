@@ -15,17 +15,24 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-using Core.FileManager.Templates.Lexems;
 using Core.FB2.Genres;
 using Core.FileManager;
-using Core.Misc;
+using Core.Common;
+using Core.FileManager.Templates.Lexems;
 
-using SelectedSortQueryCriteria	= Core.FileManager.SortQueryCriteria;
-using SharpZipLibWorker 		= Core.Misc.SharpZipLibWorker;
+using TemplatesVerify			= Core.FileManager.Templates.TemplatesVerify;
+using SharpZipLibWorker 		= Core.Common.SharpZipLibWorker;
 using StatusView 				= Core.FileManager.StatusView;
-using templatesVerify			= Core.FileManager.Templates.TemplatesVerify;
-using filesWorker				= Core.Misc.FilesWorker;
-using MiscListView				= Core.Misc.MiscListView;
+using filesWorker				= Core.Common.FilesWorker;
+using MiscListView				= Core.Common.MiscListView;
+using GenresWorker				= Core.Common.GenresWorker;
+using SelectedSortQueryCriteria	= Core.FileManager.SortQueryCriteria;
+using WorksWithBooks			= Core.Common.WorksWithBooks;
+using Colors					= Core.Common.Colors;
+
+// enums
+using EndWorkModeEnum	= Core.Common.Enums.EndWorkModeEnum;
+using ResultViewCollumn	= Core.Common.Enums.ResultViewCollumn;
 
 namespace SharpFBTools.Tools
 {
@@ -105,14 +112,21 @@ namespace SharpFBTools.Tools
 			this.txtBoxTemplatesFromLine = new System.Windows.Forms.TextBox();
 			this.tcSort = new System.Windows.Forms.TabControl();
 			this.tpFullSort = new System.Windows.Forms.TabPage();
-			this.listViewSource = new System.Windows.Forms.ListView();
+			this.listViewFB2Files = new System.Windows.Forms.ListView();
 			this.colHeaderFileName = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderBookName = new System.Windows.Forms.ColumnHeader();
-			this.colHeaderSequence = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderFIOBookAuthor = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderGenre = new System.Windows.Forms.ColumnHeader();
+			this.colHeaderSequence = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderLang = new System.Windows.Forms.ColumnHeader();
+			this.colHeaderID = new System.Windows.Forms.ColumnHeader();
+			this.colHeaderVersion = new System.Windows.Forms.ColumnHeader();
 			this.colHeaderEncoding = new System.Windows.Forms.ColumnHeader();
+			this.colHeaderIValidate = new System.Windows.Forms.ColumnHeader();
+			this.colHeaderIFormat = new System.Windows.Forms.ColumnHeader();
+			this.colHeaderFileSize = new System.Windows.Forms.ColumnHeader();
+			this.colHeaderFileCreate = new System.Windows.Forms.ColumnHeader();
+			this.colHeaderFileModify = new System.Windows.Forms.ColumnHeader();
 			this.cmsItems = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tsmi3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiCheckedAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -132,7 +146,9 @@ namespace SharpFBTools.Tools
 			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiCheckedAllSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiUnCheckedAllSelected = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmi1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiViewInReader = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiColumnsExplorerAutoReize = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageListItems = new System.Windows.Forms.ImageList(this.components);
 			this.panelExplorer = new System.Windows.Forms.Panel();
@@ -146,8 +162,10 @@ namespace SharpFBTools.Tools
 			this.panelTemplate = new System.Windows.Forms.Panel();
 			this.buttonFullSortRenew = new System.Windows.Forms.Button();
 			this.gBoxFullSortOptions = new System.Windows.Forms.GroupBox();
+			this.comboBoxMaxFileForProgress = new System.Windows.Forms.ComboBox();
+			this.lblMaxFileForProgress = new System.Windows.Forms.Label();
+			this.checkBoxNeedValid = new System.Windows.Forms.CheckBox();
 			this.rbtnFMFSFB22 = new System.Windows.Forms.RadioButton();
-			this.chBoxStartExplorerColumnsAutoReize = new System.Windows.Forms.CheckBox();
 			this.rbtnFMFSFB2Librusec = new System.Windows.Forms.RadioButton();
 			this.checkBoxTagsView = new System.Windows.Forms.CheckBox();
 			this.lblFMFSGenres = new System.Windows.Forms.Label();
@@ -388,7 +406,6 @@ namespace SharpFBTools.Tools
 			this.lvFilesCount = new System.Windows.Forms.ListView();
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
-			this.chBoxViewProgress = new System.Windows.Forms.CheckBox();
 			this.tcSort.SuspendLayout();
 			this.tpFullSort.SuspendLayout();
 			this.cmsItems.SuspendLayout();
@@ -529,7 +546,7 @@ namespace SharpFBTools.Tools
 			// 
 			// tpFullSort
 			// 
-			this.tpFullSort.Controls.Add(this.listViewSource);
+			this.tpFullSort.Controls.Add(this.listViewFB2Files);
 			this.tpFullSort.Controls.Add(this.panelExplorer);
 			this.tpFullSort.Controls.Add(this.panelTemplate);
 			this.tpFullSort.Font = new System.Drawing.Font("Tahoma", 8F);
@@ -542,35 +559,43 @@ namespace SharpFBTools.Tools
 			this.tpFullSort.Text = " Полная Сортировка ";
 			this.tpFullSort.UseVisualStyleBackColor = true;
 			// 
-			// listViewSource
+			// listViewFB2Files
 			// 
-			this.listViewSource.AllowColumnReorder = true;
-			this.listViewSource.CheckBoxes = true;
-			this.listViewSource.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.listViewFB2Files.AllowColumnReorder = true;
+			this.listViewFB2Files.CheckBoxes = true;
+			this.listViewFB2Files.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.colHeaderFileName,
 			this.colHeaderBookName,
-			this.colHeaderSequence,
 			this.colHeaderFIOBookAuthor,
 			this.colHeaderGenre,
+			this.colHeaderSequence,
 			this.colHeaderLang,
-			this.colHeaderEncoding});
-			this.listViewSource.ContextMenuStrip = this.cmsItems;
-			this.listViewSource.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listViewSource.FullRowSelect = true;
-			this.listViewSource.GridLines = true;
-			this.listViewSource.Location = new System.Drawing.Point(4, 292);
-			this.listViewSource.Margin = new System.Windows.Forms.Padding(4);
-			this.listViewSource.Name = "listViewSource";
-			this.listViewSource.ShowItemToolTips = true;
-			this.listViewSource.Size = new System.Drawing.Size(1209, 448);
-			this.listViewSource.SmallImageList = this.imageListItems;
-			this.listViewSource.TabIndex = 35;
-			this.listViewSource.UseCompatibleStateImageBehavior = false;
-			this.listViewSource.View = System.Windows.Forms.View.Details;
-			this.listViewSource.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
-			this.listViewSource.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
-			this.listViewSource.DoubleClick += new System.EventHandler(this.ListViewSourceDoubleClick);
-			this.listViewSource.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ListViewSourceKeyPress);
+			this.colHeaderID,
+			this.colHeaderVersion,
+			this.colHeaderEncoding,
+			this.colHeaderIValidate,
+			this.colHeaderIFormat,
+			this.colHeaderFileSize,
+			this.colHeaderFileCreate,
+			this.colHeaderFileModify});
+			this.listViewFB2Files.ContextMenuStrip = this.cmsItems;
+			this.listViewFB2Files.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listViewFB2Files.FullRowSelect = true;
+			this.listViewFB2Files.GridLines = true;
+			this.listViewFB2Files.Location = new System.Drawing.Point(4, 292);
+			this.listViewFB2Files.Margin = new System.Windows.Forms.Padding(4);
+			this.listViewFB2Files.Name = "listViewFB2Files";
+			this.listViewFB2Files.ShowItemToolTips = true;
+			this.listViewFB2Files.Size = new System.Drawing.Size(1209, 448);
+			this.listViewFB2Files.SmallImageList = this.imageListItems;
+			this.listViewFB2Files.TabIndex = 35;
+			this.listViewFB2Files.UseCompatibleStateImageBehavior = false;
+			this.listViewFB2Files.View = System.Windows.Forms.View.Details;
+			this.listViewFB2Files.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewSourceColumnClick);
+			this.listViewFB2Files.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
+			this.listViewFB2Files.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
+			this.listViewFB2Files.DoubleClick += new System.EventHandler(this.ListViewSourceDoubleClick);
+			this.listViewFB2Files.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ListViewSourceKeyPress);
 			// 
 			// colHeaderFileName
 			// 
@@ -580,10 +605,6 @@ namespace SharpFBTools.Tools
 			// 
 			this.colHeaderBookName.Text = "Книга";
 			// 
-			// colHeaderSequence
-			// 
-			this.colHeaderSequence.Text = "Серия (№)";
-			// 
 			// colHeaderFIOBookAuthor
 			// 
 			this.colHeaderFIOBookAuthor.Text = "Автор(ы)";
@@ -592,13 +613,53 @@ namespace SharpFBTools.Tools
 			// 
 			this.colHeaderGenre.Text = "Жанр(ы)";
 			// 
+			// colHeaderSequence
+			// 
+			this.colHeaderSequence.Text = "Серия (№)";
+			// 
 			// colHeaderLang
 			// 
 			this.colHeaderLang.Text = "Язык";
+			this.colHeaderLang.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// colHeaderID
+			// 
+			this.colHeaderID.Text = "ID";
+			// 
+			// colHeaderVersion
+			// 
+			this.colHeaderVersion.Text = "Версия";
+			this.colHeaderVersion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// colHeaderEncoding
 			// 
 			this.colHeaderEncoding.Text = "Кодировка";
+			this.colHeaderEncoding.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// colHeaderIValidate
+			// 
+			this.colHeaderIValidate.Text = "Валидность";
+			this.colHeaderIValidate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.colHeaderIValidate.Width = 50;
+			// 
+			// colHeaderIFormat
+			// 
+			this.colHeaderIFormat.Text = "Формат";
+			// 
+			// colHeaderFileSize
+			// 
+			this.colHeaderFileSize.Text = "Размер";
+			this.colHeaderFileSize.Width = 90;
+			// 
+			// colHeaderFileCreate
+			// 
+			this.colHeaderFileCreate.Text = "Дата создания";
+			this.colHeaderFileCreate.Width = 120;
+			// 
+			// colHeaderFileModify
+			// 
+			this.colHeaderFileModify.Text = "Последнее изменение";
+			this.colHeaderFileModify.Width = 120;
 			// 
 			// cmsItems
 			// 
@@ -622,15 +683,17 @@ namespace SharpFBTools.Tools
 			this.toolStripMenuItem5,
 			this.tsmiCheckedAllSelected,
 			this.tsmiUnCheckedAllSelected,
-			this.toolStripMenuItem6,
+			this.tsmi1,
+			this.tsmiViewInReader,
+			this.toolStripMenuItem7,
 			this.tsmiColumnsExplorerAutoReize});
 			this.cmsItems.Name = "cmsValidator";
-			this.cmsItems.Size = new System.Drawing.Size(447, 384);
+			this.cmsItems.Size = new System.Drawing.Size(449, 444);
 			// 
 			// tsmi3
 			// 
 			this.tsmi3.Name = "tsmi3";
-			this.tsmi3.Size = new System.Drawing.Size(443, 6);
+			this.tsmi3.Size = new System.Drawing.Size(445, 6);
 			// 
 			// tsmiCheckedAll
 			// 
@@ -638,7 +701,7 @@ namespace SharpFBTools.Tools
 			this.tsmiCheckedAll.Name = "tsmiCheckedAll";
 			this.tsmiCheckedAll.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
 			| System.Windows.Forms.Keys.C)));
-			this.tsmiCheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiCheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiCheckedAll.Text = "Пометить все файлы и папки";
 			this.tsmiCheckedAll.Click += new System.EventHandler(this.TsmiCheckedAllClick);
 			// 
@@ -648,114 +711,129 @@ namespace SharpFBTools.Tools
 			this.tsmiUnCheckedAll.Name = "tsmiUnCheckedAll";
 			this.tsmiUnCheckedAll.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
 			| System.Windows.Forms.Keys.U)));
-			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiUnCheckedAll.Text = "Снять пометки со всех файлов и папок";
 			this.tsmiUnCheckedAll.Click += new System.EventHandler(this.TsmiUnCheckedAllClick);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(443, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(445, 6);
 			// 
 			// tsmiFilesCheckedAll
 			// 
 			this.tsmiFilesCheckedAll.Name = "tsmiFilesCheckedAll";
-			this.tsmiFilesCheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiFilesCheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiFilesCheckedAll.Text = "Пометить все файлы";
 			this.tsmiFilesCheckedAll.Click += new System.EventHandler(this.TsmiFilesCheckedAllClick);
 			// 
 			// tsmiFilesUnCheckedAll
 			// 
 			this.tsmiFilesUnCheckedAll.Name = "tsmiFilesUnCheckedAll";
-			this.tsmiFilesUnCheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiFilesUnCheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiFilesUnCheckedAll.Text = "Снять пометки со всех файлов";
 			this.tsmiFilesUnCheckedAll.Click += new System.EventHandler(this.TsmiFilesUnCheckedAllClick);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(443, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(445, 6);
 			// 
 			// tsmiDirCheckedAll
 			// 
 			this.tsmiDirCheckedAll.Name = "tsmiDirCheckedAll";
-			this.tsmiDirCheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiDirCheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiDirCheckedAll.Text = "Пометить все папки";
 			this.tsmiDirCheckedAll.Click += new System.EventHandler(this.TsmiDirCheckedAllClick);
 			// 
 			// tsmiDirUnCheckedAll
 			// 
 			this.tsmiDirUnCheckedAll.Name = "tsmiDirUnCheckedAll";
-			this.tsmiDirUnCheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiDirUnCheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiDirUnCheckedAll.Text = "Снять пометки со всех папок";
 			this.tsmiDirUnCheckedAll.Click += new System.EventHandler(this.TsmiDirUnCheckedAllClick);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(443, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(445, 6);
 			// 
 			// tsmiFB2CheckedAll
 			// 
 			this.tsmiFB2CheckedAll.Name = "tsmiFB2CheckedAll";
-			this.tsmiFB2CheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiFB2CheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiFB2CheckedAll.Text = "Пометить все fb2 файлы";
 			this.tsmiFB2CheckedAll.Click += new System.EventHandler(this.TsmiFB2CheckedAllClick);
 			// 
 			// tsmiFB2UnCheckedAll
 			// 
 			this.tsmiFB2UnCheckedAll.Name = "tsmiFB2UnCheckedAll";
-			this.tsmiFB2UnCheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiFB2UnCheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiFB2UnCheckedAll.Text = "Снять пометки со всех fb2 файлов";
 			this.tsmiFB2UnCheckedAll.Click += new System.EventHandler(this.TsmiFB2UnCheckedAllClick);
 			// 
 			// toolStripMenuItem4
 			// 
 			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(443, 6);
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(445, 6);
 			// 
 			// tsmiZipCheckedAll
 			// 
 			this.tsmiZipCheckedAll.Name = "tsmiZipCheckedAll";
-			this.tsmiZipCheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiZipCheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiZipCheckedAll.Text = "Пометить все zip файлы";
 			this.tsmiZipCheckedAll.Click += new System.EventHandler(this.TsmiZipCheckedAllClick);
 			// 
 			// tsmiZipUnCheckedAll
 			// 
 			this.tsmiZipUnCheckedAll.Name = "tsmiZipUnCheckedAll";
-			this.tsmiZipUnCheckedAll.Size = new System.Drawing.Size(446, 26);
+			this.tsmiZipUnCheckedAll.Size = new System.Drawing.Size(448, 26);
 			this.tsmiZipUnCheckedAll.Text = "Снять пометки со всех zip файлов";
 			this.tsmiZipUnCheckedAll.Click += new System.EventHandler(this.TsmiZipUnCheckedAllClick);
 			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(443, 6);
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(445, 6);
 			// 
 			// tsmiCheckedAllSelected
 			// 
 			this.tsmiCheckedAllSelected.Name = "tsmiCheckedAllSelected";
-			this.tsmiCheckedAllSelected.Size = new System.Drawing.Size(446, 26);
+			this.tsmiCheckedAllSelected.Size = new System.Drawing.Size(448, 26);
 			this.tsmiCheckedAllSelected.Text = "Пометить всё выделенное";
 			this.tsmiCheckedAllSelected.Click += new System.EventHandler(this.TsmiCheckedAllSelectedClick);
 			// 
 			// tsmiUnCheckedAllSelected
 			// 
 			this.tsmiUnCheckedAllSelected.Name = "tsmiUnCheckedAllSelected";
-			this.tsmiUnCheckedAllSelected.Size = new System.Drawing.Size(446, 26);
+			this.tsmiUnCheckedAllSelected.Size = new System.Drawing.Size(448, 26);
 			this.tsmiUnCheckedAllSelected.Text = "Снять пометки со всего выделенного";
 			this.tsmiUnCheckedAllSelected.Click += new System.EventHandler(this.TsmiUnCheckedAllSelectedClick);
 			// 
-			// toolStripMenuItem6
+			// tsmi1
 			// 
-			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-			this.toolStripMenuItem6.Size = new System.Drawing.Size(443, 6);
+			this.tsmi1.Name = "tsmi1";
+			this.tsmi1.Size = new System.Drawing.Size(445, 6);
+			// 
+			// tsmiViewInReader
+			// 
+			this.tsmiViewInReader.Image = ((System.Drawing.Image)(resources.GetObject("tsmiViewInReader.Image")));
+			this.tsmiViewInReader.Name = "tsmiViewInReader";
+			this.tsmiViewInReader.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+			this.tsmiViewInReader.Size = new System.Drawing.Size(448, 26);
+			this.tsmiViewInReader.Text = "Запустить в fb2-читалке (Просмотр)";
+			this.tsmiViewInReader.Click += new System.EventHandler(this.TsmiViewInReaderClick);
+			// 
+			// toolStripMenuItem7
+			// 
+			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+			this.toolStripMenuItem7.Size = new System.Drawing.Size(445, 6);
 			// 
 			// tsmiColumnsExplorerAutoReize
 			// 
 			this.tsmiColumnsExplorerAutoReize.Name = "tsmiColumnsExplorerAutoReize";
-			this.tsmiColumnsExplorerAutoReize.Size = new System.Drawing.Size(446, 26);
+			this.tsmiColumnsExplorerAutoReize.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+			this.tsmiColumnsExplorerAutoReize.Size = new System.Drawing.Size(448, 26);
 			this.tsmiColumnsExplorerAutoReize.Text = "Обновить авторазмер колонок Проводника";
 			this.tsmiColumnsExplorerAutoReize.Click += new System.EventHandler(this.TsmiColumnsExplorerAutoReizeClick);
 			// 
@@ -823,7 +901,7 @@ namespace SharpFBTools.Tools
 			this.buttonGo.Location = new System.Drawing.Point(1010, 5);
 			this.buttonGo.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonGo.Name = "buttonGo";
-			this.buttonGo.Size = new System.Drawing.Size(189, 32);
+			this.buttonGo.Size = new System.Drawing.Size(189, 53);
 			this.buttonGo.TabIndex = 6;
 			this.buttonGo.Text = "Перейти/Обновить";
 			this.buttonGo.UseVisualStyleBackColor = true;
@@ -895,8 +973,10 @@ namespace SharpFBTools.Tools
 			// gBoxFullSortOptions
 			// 
 			this.gBoxFullSortOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.gBoxFullSortOptions.Controls.Add(this.comboBoxMaxFileForProgress);
+			this.gBoxFullSortOptions.Controls.Add(this.lblMaxFileForProgress);
+			this.gBoxFullSortOptions.Controls.Add(this.checkBoxNeedValid);
 			this.gBoxFullSortOptions.Controls.Add(this.rbtnFMFSFB22);
-			this.gBoxFullSortOptions.Controls.Add(this.chBoxStartExplorerColumnsAutoReize);
 			this.gBoxFullSortOptions.Controls.Add(this.rbtnFMFSFB2Librusec);
 			this.gBoxFullSortOptions.Controls.Add(this.checkBoxTagsView);
 			this.gBoxFullSortOptions.Controls.Add(this.lblFMFSGenres);
@@ -913,6 +993,68 @@ namespace SharpFBTools.Tools
 			this.gBoxFullSortOptions.TabStop = false;
 			this.gBoxFullSortOptions.Text = " Настройки ";
 			// 
+			// comboBoxMaxFileForProgress
+			// 
+			this.comboBoxMaxFileForProgress.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxMaxFileForProgress.FormattingEnabled = true;
+			this.comboBoxMaxFileForProgress.Items.AddRange(new object[] {
+			"100",
+			"150",
+			"200",
+			"250",
+			"300",
+			"350",
+			"400",
+			"450",
+			"500",
+			"550",
+			"600",
+			"650",
+			"700",
+			"750",
+			"800",
+			"850",
+			"900",
+			"950",
+			"1000",
+			"1500",
+			"2000",
+			"2500",
+			"3000",
+			"3500",
+			"4000",
+			"4500",
+			"5000"});
+			this.comboBoxMaxFileForProgress.Location = new System.Drawing.Point(247, 144);
+			this.comboBoxMaxFileForProgress.Name = "comboBoxMaxFileForProgress";
+			this.comboBoxMaxFileForProgress.Size = new System.Drawing.Size(118, 24);
+			this.comboBoxMaxFileForProgress.TabIndex = 11;
+			this.comboBoxMaxFileForProgress.SelectedIndexChanged += new System.EventHandler(this.ComboBoxMaxFileForProgressSelectedIndexChanged);
+			// 
+			// lblMaxFileForProgress
+			// 
+			this.lblMaxFileForProgress.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblMaxFileForProgress.Location = new System.Drawing.Point(4, 147);
+			this.lblMaxFileForProgress.Name = "lblMaxFileForProgress";
+			this.lblMaxFileForProgress.Size = new System.Drawing.Size(250, 23);
+			this.lblMaxFileForProgress.TabIndex = 10;
+			this.lblMaxFileForProgress.Text = "Прогресс, начиная с числа файлов:";
+			// 
+			// checkBoxNeedValid
+			// 
+			this.checkBoxNeedValid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBoxNeedValid.Enabled = false;
+			this.checkBoxNeedValid.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.checkBoxNeedValid.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.checkBoxNeedValid.Location = new System.Drawing.Point(30, 113);
+			this.checkBoxNeedValid.Margin = new System.Windows.Forms.Padding(4);
+			this.checkBoxNeedValid.Name = "checkBoxNeedValid";
+			this.checkBoxNeedValid.Size = new System.Drawing.Size(224, 30);
+			this.checkBoxNeedValid.TabIndex = 9;
+			this.checkBoxNeedValid.Text = "Проверять на валидность";
+			this.checkBoxNeedValid.UseVisualStyleBackColor = true;
+			this.checkBoxNeedValid.Click += new System.EventHandler(this.CheckBoxNeedValidClick);
+			// 
 			// rbtnFMFSFB22
 			// 
 			this.rbtnFMFSFB22.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -924,20 +1066,6 @@ namespace SharpFBTools.Tools
 			this.rbtnFMFSFB22.Text = "fb2.2";
 			this.rbtnFMFSFB22.UseVisualStyleBackColor = true;
 			this.rbtnFMFSFB22.Click += new System.EventHandler(this.RbtnFMFSFB22Click);
-			// 
-			// chBoxStartExplorerColumnsAutoReize
-			// 
-			this.chBoxStartExplorerColumnsAutoReize.Checked = true;
-			this.chBoxStartExplorerColumnsAutoReize.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chBoxStartExplorerColumnsAutoReize.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.chBoxStartExplorerColumnsAutoReize.Location = new System.Drawing.Point(8, 92);
-			this.chBoxStartExplorerColumnsAutoReize.Margin = new System.Windows.Forms.Padding(4);
-			this.chBoxStartExplorerColumnsAutoReize.Name = "chBoxStartExplorerColumnsAutoReize";
-			this.chBoxStartExplorerColumnsAutoReize.Size = new System.Drawing.Size(359, 30);
-			this.chBoxStartExplorerColumnsAutoReize.TabIndex = 7;
-			this.chBoxStartExplorerColumnsAutoReize.Text = "Авторазмер колонок Проводника";
-			this.chBoxStartExplorerColumnsAutoReize.UseVisualStyleBackColor = true;
-			this.chBoxStartExplorerColumnsAutoReize.CheckedChanged += new System.EventHandler(this.ChBoxStartExplorerColumnsAutoReizeCheckedChanged);
 			// 
 			// rbtnFMFSFB2Librusec
 			// 
@@ -957,11 +1085,12 @@ namespace SharpFBTools.Tools
 			// 
 			this.checkBoxTagsView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkBoxTagsView.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.checkBoxTagsView.Location = new System.Drawing.Point(8, 116);
+			this.checkBoxTagsView.ForeColor = System.Drawing.Color.Navy;
+			this.checkBoxTagsView.Location = new System.Drawing.Point(8, 88);
 			this.checkBoxTagsView.Margin = new System.Windows.Forms.Padding(4);
 			this.checkBoxTagsView.Name = "checkBoxTagsView";
 			this.checkBoxTagsView.Size = new System.Drawing.Size(357, 30);
-			this.checkBoxTagsView.TabIndex = 5;
+			this.checkBoxTagsView.TabIndex = 8;
 			this.checkBoxTagsView.Text = "Показывать описание книг в Проводнике";
 			this.checkBoxTagsView.UseVisualStyleBackColor = true;
 			this.checkBoxTagsView.Click += new System.EventHandler(this.CheckBoxTagsViewClick);
@@ -3829,7 +3958,6 @@ namespace SharpFBTools.Tools
 			// panelProgress
 			// 
 			this.panelProgress.Controls.Add(this.lvFilesCount);
-			this.panelProgress.Controls.Add(this.chBoxViewProgress);
 			this.panelProgress.Dock = System.Windows.Forms.DockStyle.Right;
 			this.panelProgress.Location = new System.Drawing.Point(1234, 0);
 			this.panelProgress.Margin = new System.Windows.Forms.Padding(4);
@@ -3858,10 +3986,10 @@ namespace SharpFBTools.Tools
 			listViewItem10,
 			listViewItem11,
 			listViewItem12});
-			this.lvFilesCount.Location = new System.Drawing.Point(0, 30);
+			this.lvFilesCount.Location = new System.Drawing.Point(0, 0);
 			this.lvFilesCount.Margin = new System.Windows.Forms.Padding(4);
 			this.lvFilesCount.Name = "lvFilesCount";
-			this.lvFilesCount.Size = new System.Drawing.Size(441, 748);
+			this.lvFilesCount.Size = new System.Drawing.Size(441, 778);
 			this.lvFilesCount.TabIndex = 27;
 			this.lvFilesCount.UseCompatibleStateImageBehavior = false;
 			this.lvFilesCount.View = System.Windows.Forms.View.Details;
@@ -3876,20 +4004,6 @@ namespace SharpFBTools.Tools
 			this.columnHeader7.Text = "Количество";
 			this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader7.Width = 72;
-			// 
-			// chBoxViewProgress
-			// 
-			this.chBoxViewProgress.Dock = System.Windows.Forms.DockStyle.Top;
-			this.chBoxViewProgress.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxViewProgress.Location = new System.Drawing.Point(0, 0);
-			this.chBoxViewProgress.Margin = new System.Windows.Forms.Padding(4);
-			this.chBoxViewProgress.Name = "chBoxViewProgress";
-			this.chBoxViewProgress.Padding = new System.Windows.Forms.Padding(7, 0, 0, 0);
-			this.chBoxViewProgress.Size = new System.Drawing.Size(441, 30);
-			this.chBoxViewProgress.TabIndex = 26;
-			this.chBoxViewProgress.Text = "Отображать изменение хода работы";
-			this.chBoxViewProgress.UseVisualStyleBackColor = true;
-			this.chBoxViewProgress.Click += new System.EventHandler(this.ChBoxViewProgressClick);
 			// 
 			// SFBTpFileManager
 			// 
@@ -4029,6 +4143,19 @@ namespace SharpFBTools.Tools
 			this.PerformLayout();
 
 		}
+		private System.Windows.Forms.ComboBox comboBoxMaxFileForProgress;
+		private System.Windows.Forms.Label lblMaxFileForProgress;
+		private System.Windows.Forms.ColumnHeader colHeaderIFormat;
+		private System.Windows.Forms.CheckBox checkBoxNeedValid;
+		private System.Windows.Forms.ColumnHeader colHeaderVersion;
+		private System.Windows.Forms.ColumnHeader colHeaderEncoding;
+		private System.Windows.Forms.ColumnHeader colHeaderIValidate;
+		private System.Windows.Forms.ColumnHeader colHeaderFileSize;
+		private System.Windows.Forms.ColumnHeader colHeaderFileCreate;
+		private System.Windows.Forms.ColumnHeader colHeaderFileModify;
+		private System.Windows.Forms.ToolStripSeparator tsmi1;
+		private System.Windows.Forms.ToolStripMenuItem tsmiViewInReader;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 		private System.Windows.Forms.Label labelTarget;
 		private System.Windows.Forms.Label labelTargetPath;
 		private System.Windows.Forms.TabPage tcTemplates;
@@ -4202,7 +4329,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.Label lblFMFSGenres;
 		private System.Windows.Forms.RadioButton rbtnFMFSFB2Librusec;
 		private System.Windows.Forms.RadioButton rbtnFMFSFB22;
-		private System.Windows.Forms.CheckBox chBoxStartExplorerColumnsAutoReize;
 		private System.Windows.Forms.Panel panelLV;
 		private System.Windows.Forms.GroupBox gBoxSelectedlSortOptions;
 		private System.Windows.Forms.Panel pSSTemplate;
@@ -4246,8 +4372,7 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.CheckBox chBoxFSToZip;
 		private System.Windows.Forms.CheckBox checkBoxTagsView;
 		private System.Windows.Forms.ToolStripMenuItem tsmiColumnsExplorerAutoReize;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
-		private System.Windows.Forms.ColumnHeader colHeaderEncoding;
+		private System.Windows.Forms.ColumnHeader colHeaderID;
 		private System.Windows.Forms.CheckBox chBoxScanSubDir;
 		private System.Windows.Forms.ColumnHeader colHeaderFileName;
 		private System.Windows.Forms.ColumnHeader colHeaderBookName;
@@ -4280,8 +4405,7 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.TextBox textBoxAddress;
 		private System.Windows.Forms.Button buttonGo;
 		private System.Windows.Forms.Panel panelAddress;
-		private System.Windows.Forms.ListView listViewSource;
-		private System.Windows.Forms.CheckBox chBoxViewProgress;
+		private System.Windows.Forms.ListView listViewFB2Files;
 		private System.Windows.Forms.Panel pSSData;
 		private System.Windows.Forms.OpenFileDialog sfdOpenXMLFile;
 		private System.Windows.Forms.Button btnSSDataListLoad;
@@ -4322,26 +4446,26 @@ namespace SharpFBTools.Tools
 		#endregion
 		
 		#region Закрытые данные класса
-		private string				m_sMessTitle	= string.Empty;
-		private bool				m_SSFB2Librusec = true; // схема Жанров для Избранной сортировки - Либрусек
+		private string						m_sMessTitle	= string.Empty;
+		private bool						m_SSFB2Librusec = true; // схема Жанров для Избранной сортировки - Либрусек
 		private readonly StatusView			m_sv			= new StatusView();
 		private readonly MiscListView		m_mscLV			= new MiscListView(); // класс по работе с ListView
 		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
 		private readonly FullNameTemplates	m_fnt			= new FullNameTemplates();
-		private readonly string	m_TempDir	= Settings.Settings.TempDir;
-		private const	 string	m_space		= " "; // для задания отступов данных от границ колонов в Списке
+		private readonly string				m_TempDir		= Settings.Settings.TempDir;
 		
-		private IFBGenres m_fb2FullSortGenres	= null; // спиок жанров для Полной Сортировки для режима отображения метаданных для файлов Проводника
 		private bool m_isSettingsLoaded			= false; // Только при true все изменения настроек сохраняются в файл.
 		private bool m_ViewMessageForLongTime	= true; // показывать предупреждение о том, что вкл. опции отображения метаданных потребует много времени...
 		private SortingOptions m_sortOptions	= null; // индивидуальные настройки обоих Сортировщиков, взависимости от режима (непрерывная сортировка или возобновление сортировки)
+		private readonly MiscListView.FilemanagerColumnSorter m_lvwColumnSorter = new MiscListView.FilemanagerColumnSorter();
 		#endregion
 		
 		public SFBTpFileManager()
 		{
-			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
 			Init();
+			
+			comboBoxMaxFileForProgress.SelectedIndex = 10;
 
 			/* Настройки Менеджера Файлов по-умолчанию*/
 			// основные настройки
@@ -4358,22 +4482,14 @@ namespace SharpFBTools.Tools
 			/* читаем сохраненные пути к папкам и шаблон Менеджера Файлов, если они есть */
 			readSettingsFromXML();
 			m_isSettingsLoaded = true;
-			lvFilesCount.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+			lvFilesCount.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
 			rtboxTemplatesList.Clear();
-			
-			// спиок жанров для Полной Сортировки для режима отображения метаданных для файлов Проводника
-			SortingFB2Tags	sortTags = new SortingFB2Tags(null);
-			
-			if( rbtnFMFSFB2Librusec.Checked )
-				m_fb2FullSortGenres = new FB2LibrusecGenres( ref sortTags );
-			else
-				m_fb2FullSortGenres = new FB22Genres( ref sortTags );
-			
+
 			string sTDPath = Settings.FileManagerSettings.DefFMDescTemplatePath;
 			if( File.Exists( sTDPath ) )
 				rtboxTemplatesList.LoadFile( sTDPath );
 			else
-				rtboxTemplatesList.Text = "Не найден файл описания Шаблонов подстановки: \""+sTDPath+"\"";
+				rtboxTemplatesList.Text = "Не найден файл описания Шаблонов подстановки: \"" + sTDPath + "\"";
 		}
 		
 		#region Настройки по-умолчанию для вкладок
@@ -4424,7 +4540,6 @@ namespace SharpFBTools.Tools
 			txtBoxFMNoFB2LastName.Text		= Settings.FileManagerSettings.DefNoFB2LastName;
 			txtBoxFMNoFB2NickName.Text		= Settings.FileManagerSettings.DefNoFB2NickName;
 		}
-		
 		private void DefFMGenresGroups() {
 			// название Групп Жанров
 			txtboxFMsf.Text			= Settings.FileManagerSettings.DefGenresGroupSf;
@@ -4454,22 +4569,24 @@ namespace SharpFBTools.Tools
 		private void ConnectListsEventHandlers( bool bConnect ) {
 			if( !bConnect ) {
 				// отключаем обработчики событий для Списка (убираем "тормоза")
-				this.listViewSource.DoubleClick -= new System.EventHandler(this.ListViewSourceDoubleClick);
-				this.listViewSource.ItemChecked -= new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
-				this.listViewSource.ItemCheck -= new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
-				this.listViewSource.KeyPress -= new System.Windows.Forms.KeyPressEventHandler(this.ListViewSourceKeyPress);
+				this.listViewFB2Files.DoubleClick -= new System.EventHandler(this.ListViewSourceDoubleClick);
+				this.listViewFB2Files.ItemChecked -= new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
+				this.listViewFB2Files.ItemCheck -= new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
+				this.listViewFB2Files.KeyPress -= new System.Windows.Forms.KeyPressEventHandler(this.ListViewSourceKeyPress);
+				this.listViewFB2Files.ColumnClick -= new System.Windows.Forms.ColumnClickEventHandler(this.ListViewSourceColumnClick);
 			} else {
 				// подключаем обработчики событий для Списка
-				this.listViewSource.DoubleClick += new System.EventHandler(this.ListViewSourceDoubleClick);
-				this.listViewSource.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
-				this.listViewSource.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
-				this.listViewSource.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ListViewSourceKeyPress);
+				this.listViewFB2Files.DoubleClick += new System.EventHandler(this.ListViewSourceDoubleClick);
+				this.listViewFB2Files.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewSourceItemChecked);
+				this.listViewFB2Files.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ListViewSourceItemCheck);
+				this.listViewFB2Files.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ListViewSourceKeyPress);
+				this.listViewFB2Files.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewSourceColumnClick);
 			}
 		}
 
 		// инициализация контролов и переменных
 		private void Init() {
-			for( int i=0; i!=lvFilesCount.Items.Count; ++i )
+			for( int i = 0; i != lvFilesCount.Items.Count; ++i )
 				lvFilesCount.Items[i].SubItems[1].Text	= "0";
 
 			// очистка временной папки
@@ -4527,7 +4644,6 @@ namespace SharpFBTools.Tools
 		
 		// сохранение настроек в xml-файл
 		private void saveSettingsToXml() {
-			#region Код
 			// защита от "затирания" настроек в файле, когда в некоторые контролы данные еще не загрузились
 			if( m_isSettingsLoaded ) {
 				XDocument doc = new XDocument(
@@ -4555,12 +4671,13 @@ namespace SharpFBTools.Tools
 					                                       new XElement("ToZip", chBoxFSToZip.Checked),
 					                                       new XComment("Сохранять оригиналы"),
 					                                       new XElement("NotDelFB2Files", chBoxFSNotDelFB2Files.Checked),
-					                                       new XComment("Авторазмер колонок Проводника"),
-					                                       new XElement("StartExplorerColumnsAutoReize", chBoxStartExplorerColumnsAutoReize.Checked),
 					                                       new XComment("Показывать описание книг в Проводнике"),
 					                                       new XElement("BooksTagsView", checkBoxTagsView.Checked),
+					                                       new XComment("Проверять на валидность"),
+					                                       new XElement("NeedValid", checkBoxNeedValid.Checked),
 					                                       new XComment("Показывать сообщение о том, что требуется много времени на генерацию метаданных"),
-					                                       new XElement("ViewMessageForLongTime", m_ViewMessageForLongTime)
+					                                       new XElement("ViewMessageForLongTime", m_ViewMessageForLongTime),
+					                                       new XElement("MaxFileForProgressIndex", comboBoxMaxFileForProgress.SelectedIndex)
 					                                      )
 					                         ),
 					             new XComment("Избранная Сортировка"),
@@ -4585,10 +4702,6 @@ namespace SharpFBTools.Tools
 					                                       new XComment("Сохранять оригиналы"),
 					                                       new XElement("NotDelFB2Files", chBoxSSNotDelFB2Files.Checked)
 					                                      )
-					                         ),
-					             new XElement("Log",
-					                          new XComment("Отображать изменения хода работы"),
-					                          new XElement("Progress", chBoxViewProgress.Checked)
 					                         ),
 					             new XComment("Общие настройки для обоих режимов Сортировки"),
 					             new XElement("CommonOptions",
@@ -4698,12 +4811,10 @@ namespace SharpFBTools.Tools
 				);
 				doc.Save( Settings.FileManagerSettings.FileManagerSettingsPath );
 			}
-			#endregion
 		}
 		
 		// загрузка настроек из xml-файла
 		private void readSettingsFromXML() {
-			#region Код
 			if( File.Exists( Settings.FileManagerSettings.FileManagerSettingsPath ) ) {
 				XElement xmlTree = XElement.Load( Settings.FileManagerSettings.FileManagerSettingsPath );
 				/* FullSorting */
@@ -4738,18 +4849,23 @@ namespace SharpFBTools.Tools
 						// Сохранять оригиналы
 						if( xmlOptions.Element("NotDelFB2Files") != null )
 							chBoxFSNotDelFB2Files.Checked = Convert.ToBoolean( xmlOptions.Element("NotDelFB2Files").Value );
-						// Авторазмер колонок Проводника
-						if( xmlOptions.Element("StartExplorerColumnsAutoReize") != null )
-							chBoxStartExplorerColumnsAutoReize.Checked	= Convert.ToBoolean( xmlOptions.Element("StartExplorerColumnsAutoReize").Value );
 						// Показывать описание книг в Проводнике
 						if( xmlOptions.Element("BooksTagsView") != null ) {
 							this.checkBoxTagsView.Click -= new System.EventHandler(this.CheckBoxTagsViewClick);
 							checkBoxTagsView.Checked = Convert.ToBoolean( xmlOptions.Element("BooksTagsView").Value );
+							checkBoxNeedValid.Enabled = checkBoxTagsView.Checked;
 							this.checkBoxTagsView.Click += new System.EventHandler(this.CheckBoxTagsViewClick);
 						}
+						// Проверять на валидность
+						if( xmlOptions.Element("NeedValid") != null )
+							checkBoxNeedValid.Checked = Convert.ToBoolean( xmlOptions.Element("NeedValid").Value );
 						// Показывать сообщение о том, что требуется много времени на генерацию метаданных"
 						if( xmlOptions.Element("ViewMessageForLongTime") != null )
 							m_ViewMessageForLongTime = Convert.ToBoolean( xmlOptions.Element("ViewMessageForLongTime").Value );
+						
+						// Если число файлов в сканируемом каталоге превышает заданное, то появляется панель прогресса
+						if( xmlOptions.Element("MaxFileForProgressIndex") != null )
+							comboBoxMaxFileForProgress.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxFileForProgressIndex").Value );
 					}
 				}
 				
@@ -4784,14 +4900,6 @@ namespace SharpFBTools.Tools
 						if( xmlOptions.Element("NotDelFB2Files") != null )
 							chBoxSSNotDelFB2Files.Checked = Convert.ToBoolean( xmlOptions.Element("NotDelFB2Files").Value );
 					}
-				}
-				
-				/* Log */
-				if( xmlTree.Element("Log") != null ) {
-					XElement xmlLog = xmlTree.Element("Log");
-					// Отображать изменения хода работы
-					if( xmlLog.Element("Progress") != null )
-						chBoxViewProgress.Checked = Convert.ToBoolean( xmlLog.Element("Progress").Value );
 				}
 				
 				/* Общие настройки для обоих режимов Сортировки */
@@ -4966,14 +5074,12 @@ namespace SharpFBTools.Tools
 					}
 				}
 			}
-			#endregion
 		}
-		
+
 		//------------------------------------------------------------------------------------------
 		
 		// проверки на корректность шаблонных строк
 		private bool IsLineTemplateCorrect( string sLineTemplate ) {
-			#region Код
 			// проверка "пустоту" строки с шаблонами
 			if( sLineTemplate.Length == 0 ) {
 				MessageBox.Show( "Строка шаблонов не может быть пустой!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -4986,13 +5092,13 @@ namespace SharpFBTools.Tools
 				return false;
 			}
 			// проверка на корректность строки с шаблонами
-			if( !templatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
+			if( !TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&\\t\\r\\n между шаблонами!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на четность * в строке с шаблонами
-			if( !templatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
+			if( !TemplatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
 				MessageBox.Show( "Строка с шаблонами подстановки содержит нечетное число *!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
@@ -5006,13 +5112,13 @@ namespace SharpFBTools.Tools
 				}
 			}
 			// проверка на соответствие [ ] в строке с шаблонами
-			if( !templatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
+			if( !TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
 				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками [ ]!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на соответствие ( ) в строке с шаблонами
-			if( !templatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
+			if( !TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
 				MessageBox.Show( "В строке с шаблонами нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
@@ -5030,7 +5136,7 @@ namespace SharpFBTools.Tools
 				return false;
 			}
 			// проверка условных шаблонов на наличие в них вспом. символов без самих шаблонов
-			if( !templatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
+			if( !TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Условные шаблоны [] в строке с шаблонами не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
@@ -5042,10 +5148,9 @@ namespace SharpFBTools.Tools
 				return false;
 			}
 			return true;
-			#endregion
 		}
 		
-		private void SetTemplateInInputControl(System.Windows.Forms.TextBox textBox, string Template) {
+		private void SetTemplateInInputControl( TextBox textBox, string Template ) {
 			int CursorPosition = textBox.SelectionStart;
 			int NewPosition = CursorPosition + Template.Length;
 			string TextBeforeCursor = textBox.Text.Substring(0, CursorPosition);
@@ -5055,153 +5160,59 @@ namespace SharpFBTools.Tools
 			textBox.Select(NewPosition, 0);
 		}
 		
-		// название жанра по его коду
-		private string CyrillicGenreName( bool IsFB2LibrusecGenres, string GenreCode, ref IFBGenres fb2g ) {
-			if( GenreCode.IndexOf(';') != -1 ) {
-				string ret = string.Empty;
-				string[] sG = GenreCode.Split(';');
-				foreach(string s in sG) {
-					ret += fb2g.GetFBGenreName( s.Trim() ) + "; ";
-					ret.Trim();
-				}
-				return ret.Substring( 0, ret.LastIndexOf( ";" ) ).Trim();
-			}
-			return fb2g.GetFBGenreName( GenreCode );
-		}
-		
 		// ========================================================================================================================
 		// 													Для Полной Сортировки
 		// ========================================================================================================================
 		// заполнение списка данными указанной папки
-		private void FuulSortingGenerateSourceList( string dirPath ) {
-			FullSortingGenerateSourceList(
-				dirPath, listViewSource, true, rbtnFMFSFB2Librusec.Checked,
-				checkBoxTagsView.Checked, chBoxStartExplorerColumnsAutoReize.Checked, ref m_fb2FullSortGenres
-			);
-		}
-		
-		// заполнение списка данными указанной папки (Полная Сортировка)
-		private void FullSortingGenerateSourceList( string dirPath, ListView listView, bool itemChecked,
-		                                           bool IsFB2LibrusecGenres, bool isTagsView, bool isColumnsAutoReize, ref IFBGenres fb2g ) {
-			#region Код
-			Cursor.Current = Cursors.WaitCursor;
-			listView.BeginUpdate();
-			listView.Items.Clear();
-			string TempDir = Settings.Settings.TempDir;
-			try {
-				DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
-				ListViewItem.ListViewSubItem[] subItems;
-				ListViewItem item = null;
-				if (dirInfo.Exists) {
-					if(dirInfo.Parent != null) {
-						item = new ListViewItem("..", 3);
-						item.Tag = new ListViewItemType("dUp", dirInfo.Parent.FullName);
-						listView.Items.Add(item);
-					}
-					int nItemCount = 0;
-					foreach (DirectoryInfo dir in dirInfo.GetDirectories()) {
-						item = new ListViewItem( m_space + dir.Name + m_space, 0);
-						item.Checked = itemChecked;
-						item.Tag = new ListViewItemType("d", dir.FullName);
-						if(nItemCount%2 == 0)  // четное
-							item.BackColor = Color.Beige;
-
-						listView.Items.Add(item);
-						++nItemCount;
-					}
-					FB2BookDescription bd = null;
-					foreach (FileInfo file in dirInfo.GetFiles()) {
-						if(file.Extension.ToLower() == ".fb2"
-						   || file.Extension.ToLower() == ".zip" || file.Extension.ToLower() == ".fbz") {
-							item = new ListViewItem(" "+file.Name+" ", file.Extension.ToLower() == ".fb2" ? 1 : 2);
-							try {
-								if(file.Extension.ToLower() == ".fb2") {
-									if(isTagsView) {
-										bd = new FB2BookDescription( file.FullName );
-										subItems = new ListViewItem.ListViewSubItem[] {
-											new ListViewItem.ListViewSubItem(item, m_space + bd.TIBookTitle + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + bd.TISequences + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + bd.TIAuthors + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + CyrillicGenreName( IsFB2LibrusecGenres, bd.TIGenres, ref fb2g ) + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + bd.TILang + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + bd.Encoding + m_space)
-										};
-									} else {
-										subItems = new ListViewItem.ListViewSubItem[] {
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty)
-										};
-									}
-								} else {
-									// для zip-архивов
-									if(isTagsView) {
-										filesWorker.RemoveDir( TempDir );
-										m_sharpZipLib.UnZipFiles( file.FullName, TempDir, 0, false, null, 4096 );
-										string [] files = Directory.GetFiles( TempDir );
-										bd = new FB2BookDescription( files[0] );
-										subItems = new ListViewItem.ListViewSubItem[] {
-											new ListViewItem.ListViewSubItem(item, m_space + bd.TIBookTitle + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + bd.TISequences + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + bd.TIAuthors + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + CyrillicGenreName( IsFB2LibrusecGenres, bd.TIGenres, ref fb2g ) + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + bd.TILang + m_space),
-											new ListViewItem.ListViewSubItem(item, m_space + bd.Encoding + m_space)
-										};
-									} else {
-										subItems = new ListViewItem.ListViewSubItem[] {
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty),
-											new ListViewItem.ListViewSubItem(item, string.Empty)
-										};
-									}
-								}
-								item.SubItems.AddRange(subItems);
-							} catch(System.Exception) {
-								item.ForeColor = Color.Blue;
-							}
-							
-							item.Checked = itemChecked;
-							item.Tag = new ListViewItemType("f", file.FullName);
-							if(nItemCount%2 == 0) { // четное
-								item.BackColor = Color.AliceBlue;
-							}
-							listView.Items.Add(item);
-							++nItemCount;
-						}
-					}
-					// авторазмер колонок Списка Проводника
-					if(isColumnsAutoReize)
-						MiscListView.AutoResizeColumns(listView);
+		private void FullSortingGenerateSourceList( string dirPath ) {
+			// спиок жанров для Полной Сортировки для режима отображения метаданных для файлов Проводника
+			IGenresGroup GenresGroup = new GenresGroupForSorting( null );
+			IFBGenres fb2Genres = GenresWorker.genresListOfGenreSheme( rbtnFMFSFB2Librusec.Checked, ref GenresGroup );
+			if( checkBoxTagsView.Checked ) {
+				// отображение метаданных книг
+				DirectoryInfo dirInfo = new DirectoryInfo( dirPath );
+				if( ( dirInfo.GetDirectories().Length + dirInfo.GetFiles().Length ) > Convert.ToInt16( comboBoxMaxFileForProgress.Text ) ) {
+					// запуск формы прогресса отображения метаданных книг
+					Cursor.Current = Cursors.WaitCursor;
+					listViewFB2Files.BeginUpdate();
+					FB2TagsViewForm fb2TagsViewForm = new FB2TagsViewForm(
+						true, checkBoxTagsView.Checked, rbtnFMFSFB2Librusec.Checked, checkBoxNeedValid.Checked,
+						fb2Genres, listViewFB2Files, dirPath
+					);
+					fb2TagsViewForm.ShowDialog();
+					EndWorkMode EndWorkMode = fb2TagsViewForm.EndMode;
+					fb2TagsViewForm.Dispose();
+					if( EndWorkMode.EndMode != EndWorkModeEnum.Done )
+						MessageBox.Show( EndWorkMode.Message, "Отображение метаданных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					listViewFB2Files.EndUpdate();
+					Cursor.Current = Cursors.Default;
+				} else {
+					// просто отображаем метаданные книг без прогресса
+					WorksWithBooks.generateBooksListWithMetaData(
+						listViewFB2Files, dirPath, ref fb2Genres, rbtnFMFSFB2Librusec.Checked, checkBoxTagsView.Checked, true,
+						checkBoxNeedValid.Checked, true, null, null, null, null
+					);
 				}
-				
-			} catch (System.Exception) {
-			} finally {
-				listView.EndUpdate();
-				Cursor.Current = Cursors.Default;
+			} else {
+				// просто отображаем метаданные книг без прогресса
+				WorksWithBooks.generateBooksListWithMetaData(
+					listViewFB2Files, dirPath, ref fb2Genres, rbtnFMFSFB2Librusec.Checked, checkBoxTagsView.Checked, true,
+					checkBoxNeedValid.Checked, true, null, null, null, null
+				);
 			}
-			#endregion
 		}
 		
 		// ========================================================================================================================
-		// 													Для Полной Сортировки
+		// 													Для Избранной Сортировки
 		// ========================================================================================================================
 		// заполнение списка критериев поиска для Избранной Сортировки
 		List<SelectedSortQueryCriteria> makeCriteriasList()
 		{
-			#region Код
 			List<SelectedSortQueryCriteria> list = new List<SortQueryCriteria>();
 			if( lvSSData.Items.Count > 0 ) {
 				string sLang, sLast, sFirst, sMiddle, sNick, sGGroup, sGenre, sSequence, sBTitle, sExactFit, sFB2Genres;
-				FB2SelectedSorting fb2ss = new FB2SelectedSorting();
-				SortingFB2Tags sortTags = new SortingFB2Tags( null );
-				for( int i=0; i!=lvSSData.Items.Count; ++i ) {
+				IGenresGroup GenresGroup = new GenresGroupForSorting( null );
+				for( int i = 0; i != lvSSData.Items.Count; ++i ) {
 					sLang = lvSSData.Items[i].Text;
 					sGGroup = lvSSData.Items[i].SubItems[1].Text;
 					sGenre = lvSSData.Items[i].SubItems[2].Text;
@@ -5218,11 +5229,10 @@ namespace SharpFBTools.Tools
 					                                                               sLast, sFirst, sMiddle, sNick, sSequence, sBTitle,
 					                                                               sExactFit=="Да"?true:false,
 					                                                               sFB2Genres == "Либрусек"?true:false);
-					list.AddRange( fb2ss.MakeSelectedSortQuerysList( ref sortTags, ref SelSortQuery ) );
+					list.AddRange( FB2SelectedSorting.makeSelectedSortQuerysList( ref GenresGroup, ref SelSortQuery ) );
 				}
 			}
 			return list;
-			#endregion
 		}
 		#endregion
 		
@@ -5251,6 +5261,7 @@ namespace SharpFBTools.Tools
 					break;
 			}
 		}
+		
 		void BtnGroupClick(object sender, EventArgs e)
 		{
 			SetTemplateInInputControl(txtBoxTemplatesFromLine, m_fnt.Group);
@@ -5393,15 +5404,15 @@ namespace SharpFBTools.Tools
 		
 		void TsmiColumnsExplorerAutoReizeClick(object sender, EventArgs e)
 		{
-			MiscListView.AutoResizeColumns(listViewSource);
+			MiscListView.AutoResizeColumns( listViewFB2Files );
 		}
 		
 		// Отображать/скрывать описание книг
 		void CheckBoxTagsViewClick(object sender, EventArgs e)
 		{
-			#region Код
-			if(checkBoxTagsView.Checked) {
-				if(m_ViewMessageForLongTime) {
+			checkBoxNeedValid.Enabled = checkBoxTagsView.Checked;
+			if( checkBoxTagsView.Checked ) {
+				if( m_ViewMessageForLongTime ) {
 					string Mess = "При включении этой опции для создания списка книг с их описанием может потребоваться очень много времени!\nБольше не показывать это сообщение?";
 					DialogResult result = MessageBox.Show( Mess, "Отображение описания книг", MessageBoxButtons.YesNo, MessageBoxIcon.Question );
 					m_ViewMessageForLongTime = (result == DialogResult.Yes) ? false : true;
@@ -5409,86 +5420,59 @@ namespace SharpFBTools.Tools
 			}
 			saveSettingsToXml();
 			
-			if( listViewSource.Items.Count > 0 ) {
+			if( listViewFB2Files.Items.Count > 0 ) {
 				Cursor.Current = Cursors.WaitCursor;
-				listViewSource.BeginUpdate();
-				DirectoryInfo di		= null;
-				FB2BookDescription bd	= null;
-				for(int i=0; i!= listViewSource.Items.Count; ++i) {
-					ListViewItemType it = (ListViewItemType)listViewSource.Items[i].Tag;
-					if(it.Type == "f") {
-						di = new DirectoryInfo(it.Value);
-						if(checkBoxTagsView.Checked) {
-							// показать данные книг
-							try {
-								if(di.Extension.ToLower() == ".fb2") {
-									// показать данные fb2 файлов
-									bd = new FB2BookDescription( it.Value );
-									listViewSource.Items[i].SubItems[1].Text = m_space+bd.TIBookTitle+m_space;
-									listViewSource.Items[i].SubItems[2].Text = m_space+bd.TISequences+m_space;
-									listViewSource.Items[i].SubItems[3].Text = m_space+bd.TIAuthors+m_space;
-									listViewSource.Items[i].SubItems[4].Text = m_space + CyrillicGenreName(
-										rbtnFMFSFB2Librusec.Checked, bd.TIGenres, ref m_fb2FullSortGenres
-									) + m_space;
-									listViewSource.Items[i].SubItems[5].Text = m_space+bd.TILang+m_space;
-									listViewSource.Items[i].SubItems[6].Text = m_space+bd.Encoding+m_space;
-								} else if(di.Extension.ToLower() == ".zip" || di.Extension.ToLower() == ".fbz") {
-									if( checkBoxTagsView.Checked ) {
-										// показать данные архивов
-										filesWorker.RemoveDir( m_TempDir );
-										m_sharpZipLib.UnZipFiles(it.Value, m_TempDir, 0, true, null, 4096);
-										string [] files = Directory.GetFiles( m_TempDir );
-										bd = new FB2BookDescription( files[0] );
-										listViewSource.Items[i].SubItems[1].Text = m_space+bd.TIBookTitle+m_space;
-										listViewSource.Items[i].SubItems[2].Text = m_space+bd.TISequences+m_space;
-										listViewSource.Items[i].SubItems[3].Text = m_space+bd.TIAuthors+m_space;
-										listViewSource.Items[i].SubItems[4].Text = CyrillicGenreName(
-											rbtnFMFSFB2Librusec.Checked, bd.TIGenres, ref m_fb2FullSortGenres
-										) + m_space;
-										listViewSource.Items[i].SubItems[5].Text = m_space+bd.TILang+m_space;
-										listViewSource.Items[i].SubItems[6].Text = m_space+bd.Encoding+m_space;
-									}
-								}
-							} catch( System.Exception ) {
-								listViewSource.Items[i].ForeColor = Color.Blue;
-							}
-						} else {
-							// скрыть данные книг
-							for( int j = 1; j != listViewSource.Items[i].SubItems.Count; ++j )
-								listViewSource.Items[i].SubItems[j].Text = string.Empty;
-						}
-					}
+				listViewFB2Files.BeginUpdate();
+				DirectoryInfo dirInfo = new DirectoryInfo( textBoxAddress.Text.Trim() );
+				// спиок жанров для Полной Сортировки для режима отображения метаданных для файлов Проводника
+				IGenresGroup GenresGroup = new GenresGroupForSorting( null );
+				IFBGenres fb2Genres = GenresWorker.genresListOfGenreSheme( rbtnFMFSFB2Librusec.Checked, ref GenresGroup );
+				if( ( dirInfo.GetDirectories().Length + dirInfo.GetFiles().Length ) > Convert.ToInt16( comboBoxMaxFileForProgress.Text ) ) {
+					// запуск прогресса отображения метаданных книг
+					FB2TagsViewForm fb2TagsViewForm = new FB2TagsViewForm(
+						false, checkBoxTagsView.Checked, rbtnFMFSFB2Librusec.Checked, checkBoxNeedValid.Checked,
+						fb2Genres, listViewFB2Files, null
+					);
+					fb2TagsViewForm.ShowDialog();
+					EndWorkMode EndWorkMode = fb2TagsViewForm.EndMode;
+					fb2TagsViewForm.Dispose();
+					if( EndWorkMode.EndMode != EndWorkModeEnum.Done )
+						MessageBox.Show( EndWorkMode.Message, "Отображение метаданных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				} else {
+					// просто отображаем данные без прогресса
+					WorksWithBooks.viewOrHideBookMetaDataLocal(
+						listViewFB2Files, ref fb2Genres, checkBoxTagsView.Checked,
+						checkBoxTagsView.Checked, checkBoxNeedValid.Checked, null, null
+					);
 				}
-				// очистка временной папки
-				filesWorker.RemoveDir( m_TempDir );
-				// авторазмер колонок Списка
-				if(chBoxStartExplorerColumnsAutoReize.Checked)
-					MiscListView.AutoResizeColumns(listViewSource);
-
-				listViewSource.EndUpdate();
+				MiscListView.AutoResizeColumns( listViewFB2Files );
+				listViewFB2Files.EndUpdate();
 				Cursor.Current = Cursors.Default;
 			}
-			#endregion
 		}
 		
 		// задание папки с fb2-файлами и архивами для сканирования
 		void ButtonOpenSourceDirClick(object sender, EventArgs e)
 		{
 			if(filesWorker.OpenDirDlg( textBoxAddress, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" ))
-				ButtonGoClick(sender, e);
+				ButtonGoClick( sender, e );
 		}
 		
 		// переход на заданную папку-источник fb2-файлов
 		void ButtonGoClick(object sender, EventArgs e)
 		{
+			ConnectListsEventHandlers( false );
 			string s = textBoxAddress.Text.Trim();
-			if(s != string.Empty) {
+			if( s != string.Empty ) {
+				if ( s.Substring(s.Length-1, 1) != "\\" )
+					s = textBoxAddress.Text = textBoxAddress.Text + "\\";
 				DirectoryInfo info = new DirectoryInfo(s);
-				if(info.Exists)
-					FuulSortingGenerateSourceList( info.FullName );
+				if( info.Exists )
+					FullSortingGenerateSourceList( info.FullName );
 				else
 					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error );
 			}
+			ConnectListsEventHandlers( true );
 		}
 		
 		// обработка нажатия клавиш в поле ввода пути к папке-источнику
@@ -5505,12 +5489,40 @@ namespace SharpFBTools.Tools
 		// переход в выбранную папку
 		void ListViewSourceDoubleClick(object sender, EventArgs e)
 		{
-			if( listViewSource.Items.Count > 0 && listViewSource.SelectedItems.Count != 0 ) {
-				ListView.SelectedListViewItemCollection si = listViewSource.SelectedItems;
+			ConnectListsEventHandlers( false );
+			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
+				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
 				ListViewItemType it = (ListViewItemType)si[0].Tag;
-				if(it.Type=="d" || it.Type=="dUp") {
+				if( it.Type == "d" || it.Type == "dUp" ) {
 					textBoxAddress.Text = it.Value;
-					FuulSortingGenerateSourceList( it.Value );
+					FullSortingGenerateSourceList( it.Value );
+				}
+			}
+			ConnectListsEventHandlers( true );
+		}
+		void ListViewSourceItemCheck(object sender, ItemCheckEventArgs e)
+		{
+			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
+				// при двойном клике на папке ".." пометку не ставим
+				ConnectListsEventHandlers( false );
+				if( e.Index == 0 ) // ".."
+					e.NewValue = CheckState.Unchecked;
+				ConnectListsEventHandlers( true );
+			}
+		}
+		
+		// пометка/снятие пометки по check на 0-й item - папка ".."
+		void ListViewSourceItemChecked(object sender, ItemCheckedEventArgs e)
+		{
+			if( listViewFB2Files.Items.Count > 0 ) {
+				ListViewItemType it = (ListViewItemType)e.Item.Tag;
+				if( it.Type == "dUp" ) {
+					ConnectListsEventHandlers( false );
+					if( e.Item.Checked )
+						MiscListView.CheckAllListViewItems( listViewFB2Files, true );
+					else
+						MiscListView.UnCheckAllListViewItems( listViewFB2Files.CheckedItems );;
+					ConnectListsEventHandlers( true );
 				}
 			}
 		}
@@ -5523,9 +5535,11 @@ namespace SharpFBTools.Tools
 				ListViewSourceDoubleClick(sender, e);
 			} else if ( e.KeyChar == (char)Keys.Back ) {
 				// переход на каталог выше
-				ListViewItemType it = (ListViewItemType)listViewSource.Items[0].Tag;
+				ConnectListsEventHandlers( false );
+				ListViewItemType it = (ListViewItemType)listViewFB2Files.Items[0].Tag;
 				textBoxAddress.Text = it.Value;
-				FuulSortingGenerateSourceList( it.Value );
+				FullSortingGenerateSourceList( it.Value );
+				ConnectListsEventHandlers( true );
 			}
 		}
 		
@@ -5533,9 +5547,9 @@ namespace SharpFBTools.Tools
 		void TsmiCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.CheckAllListViewItems( listViewSource, true );
-			if(listViewSource.Items.Count > 0) {
-				listViewSource.Items[0].Checked = false;
+			MiscListView.CheckAllListViewItems( listViewFB2Files, true );
+			if(listViewFB2Files.Items.Count > 0) {
+				listViewFB2Files.Items[0].Checked = false;
 			}
 			ConnectListsEventHandlers( true );
 		}
@@ -5544,7 +5558,7 @@ namespace SharpFBTools.Tools
 		void TsmiUnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.UnCheckAllListViewItems( listViewSource.CheckedItems );
+			MiscListView.UnCheckAllListViewItems( listViewFB2Files.CheckedItems );
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5552,7 +5566,7 @@ namespace SharpFBTools.Tools
 		void TsmiFilesCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.CheckAllFiles(listViewSource, true);
+			MiscListView.CheckAllFiles(listViewFB2Files, true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5560,7 +5574,7 @@ namespace SharpFBTools.Tools
 		void TsmiFilesUnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.UnCheckAllFiles(listViewSource);
+			MiscListView.UnCheckAllFiles(listViewFB2Files);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5568,7 +5582,7 @@ namespace SharpFBTools.Tools
 		void TsmiDirCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.CheckAllDirs(listViewSource, true);
+			MiscListView.CheckAllDirs(listViewFB2Files, true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5576,7 +5590,7 @@ namespace SharpFBTools.Tools
 		void TsmiDirUnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.UnCheckAllDirs(listViewSource);
+			MiscListView.UnCheckAllDirs(listViewFB2Files);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5584,7 +5598,7 @@ namespace SharpFBTools.Tools
 		void TsmiFB2CheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.CheckTypeAllFiles(listViewSource, "fb2", true);
+			MiscListView.CheckTypeAllFiles(listViewFB2Files, "fb2", true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5592,7 +5606,7 @@ namespace SharpFBTools.Tools
 		void TsmiFB2UnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.UnCheckTypeAllFiles(listViewSource, "fb2");
+			MiscListView.UnCheckTypeAllFiles(listViewFB2Files, "fb2");
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5600,7 +5614,7 @@ namespace SharpFBTools.Tools
 		void TsmiZipCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.CheckTypeAllFiles(listViewSource, "zip", true);
+			MiscListView.CheckTypeAllFiles(listViewFB2Files, "zip", true);
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5608,7 +5622,7 @@ namespace SharpFBTools.Tools
 		void TsmiZipUnCheckedAllClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.UnCheckTypeAllFiles(listViewSource, "zip");
+			MiscListView.UnCheckTypeAllFiles(listViewFB2Files, "zip");
 			ConnectListsEventHandlers( true );
 		}
 		
@@ -5616,43 +5630,18 @@ namespace SharpFBTools.Tools
 		void TsmiCheckedAllSelectedClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.ChekAllSelectedItems(listViewSource, true);
+			MiscListView.ChekAllSelectedItems(listViewFB2Files, true);
 			ConnectListsEventHandlers( true );
-			listViewSource.Focus();
+			listViewFB2Files.Focus();
 		}
 		
 		// Снять пометки со всего выделенного
 		void TsmiUnCheckedAllSelectedClick(object sender, EventArgs e)
 		{
 			ConnectListsEventHandlers( false );
-			MiscListView.ChekAllSelectedItems(listViewSource, false);
+			MiscListView.ChekAllSelectedItems(listViewFB2Files, false);
 			ConnectListsEventHandlers( true );
-			listViewSource.Focus();
-		}
-		
-		void ListViewSourceItemCheck(object sender, ItemCheckEventArgs e)
-		{
-			if( listViewSource.Items.Count > 0 && listViewSource.SelectedItems.Count != 0 ) {
-				// при двойном клике на папке ".." пометку не ставим
-				if(e.Index == 0) // ".."
-					e.NewValue = CheckState.Unchecked;
-			}
-		}
-		
-		// пометка/снятие пометки по check на 0-й item - папка ".."
-		void ListViewSourceItemChecked(object sender, ItemCheckedEventArgs e)
-		{
-			if( listViewSource.Items.Count > 0 ) {
-				ListViewItemType it = (ListViewItemType)e.Item.Tag;
-				if(it.Type == "dUp") {
-					ConnectListsEventHandlers( false );
-					if(e.Item.Checked)
-						MiscListView.CheckAllListViewItems( listViewSource, true );
-					else
-						MiscListView.UnCheckAllListViewItems( listViewSource.CheckedItems );;
-					ConnectListsEventHandlers( true );
-				}
-			}
+			listViewFB2Files.Focus();
 		}
 		
 		// =====================================================================================================================
@@ -5672,22 +5661,22 @@ namespace SharpFBTools.Tools
 				return;
 
 			// приведение к одному виду шаблонов
-			m_sortOptions.Template = templatesVerify.ToOneTemplateType( @m_sortOptions.Template );
+			m_sortOptions.Template = TemplatesVerify.ToOneTemplateType( @m_sortOptions.Template );
 			// проверки на корректность шаблонных строк
 			if( !IsLineTemplateCorrect( m_sortOptions.Template ) )
 				return;
 			
 			// инициализация контролов
 			Init();
-			SortingForm sortingForm = new SortingForm( ref m_sortOptions, listViewSource, lvFilesCount );
+			SortingForm sortingForm = new SortingForm( ref m_sortOptions, listViewFB2Files, lvFilesCount );
 			sortingForm.ShowDialog();
-			Core.Misc.EndWorkMode EndWorkMode = sortingForm.EndMode;
+			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			sortingForm.Dispose();
 			
 			MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Полная Сортировка", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			
 			if( !m_sortOptions.NotDelOriginalFiles )
-				FuulSortingGenerateSourceList( m_sortOptions.SourceDir );
+				FullSortingGenerateSourceList( m_sortOptions.SourceDir );
 			m_sortOptions = null;
 		}
 		
@@ -5716,15 +5705,15 @@ namespace SharpFBTools.Tools
 			chBoxFSNotDelFB2Files.Checked = m_sortOptions.NotDelOriginalFiles;
 			List<SelectedSortQueryCriteria> cl = m_sortOptions.getCriterias();
 			rbtnFMFSFB2Librusec.Checked = cl[0].GenresFB2Librusec;
-			SortingForm sortingForm = new SortingForm( ref m_sortOptions, listViewSource, lvFilesCount );
+			SortingForm sortingForm = new SortingForm( ref m_sortOptions, listViewFB2Files, lvFilesCount );
 			sortingForm.ShowDialog();
 			//TODO Доделать вывод инфы и в контролы????
-			Core.Misc.EndWorkMode EndWorkMode = sortingForm.EndMode;
+			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			sortingForm.Dispose();
 			MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Полная Сортировка", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			
 			if( !m_sortOptions.NotDelOriginalFiles )
-				FuulSortingGenerateSourceList( m_sortOptions.SourceDir );
+				FullSortingGenerateSourceList( m_sortOptions.SourceDir );
 			m_sortOptions = null;
 		}
 		
@@ -5744,6 +5733,11 @@ namespace SharpFBTools.Tools
 		}
 		
 		void RbtnFMFSFB22Click(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
+		void ComboBoxMaxFileForProgressSelectedIndexChanged(object sender, EventArgs e)
 		{
 			saveSettingsToXml();
 		}
@@ -5768,24 +5762,31 @@ namespace SharpFBTools.Tools
 			saveSettingsToXml();
 		}
 		
+		void CheckBoxNeedValidClick(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		
 		void TextBoxAddressTextChanged(object sender, EventArgs e)
 		{
-			if( textBoxAddress.Text.Substring(textBoxAddress.Text.Length-2, 2) == "\\\\" ) {
-				textBoxAddress.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length-1, 1);
-				textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
-			} else if( textBoxAddress.Text.Substring(textBoxAddress.Text.Length-2, 2) == "\\." ) {
-				textBoxAddress.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length-1, 1);
-				textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
-			} else if( textBoxAddress.Text.Substring( textBoxAddress.Text.Length-3, 3) == "\\.." ) {
-				textBoxAddress.Text = textBoxAddress.Text.Remove( textBoxAddress.Text.Length-1, 1 );
-				textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
+			if ( !string.IsNullOrEmpty( textBoxAddress.Text ) ) {
+				if( textBoxAddress.Text.Substring(textBoxAddress.Text.Length - 2, 2) == "\\\\" ) {
+					textBoxAddress.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length - 1, 1);
+					textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
+				} else if( textBoxAddress.Text.Substring(textBoxAddress.Text.Length - 2, 2) == "\\." ) {
+					textBoxAddress.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length-1, 1);
+					textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
+				} else if( textBoxAddress.Text.Substring( textBoxAddress.Text.Length - 3, 3) == "\\.." ) {
+					textBoxAddress.Text = textBoxAddress.Text.Remove( textBoxAddress.Text.Length - 1, 1 );
+					textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
+				}
+				
+				if( textBoxAddress.Text[textBoxAddress.Text.Length - 1] == '\\' )
+					labelTargetPath.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length - 1, 1);
+				else
+					labelTargetPath.Text = textBoxAddress.Text;
+				labelTargetPath.Text += " - OUT";
 			}
-			
-			if( textBoxAddress.Text[textBoxAddress.Text.Length-1] == '\\' )
-				labelTargetPath.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length-1, 1);
-			else
-				labelTargetPath.Text = textBoxAddress.Text;
-			labelTargetPath.Text += " - OUT";
 			saveSettingsToXml();
 		}
 		
@@ -5823,7 +5824,6 @@ namespace SharpFBTools.Tools
 		// запуск диалога Сбора данных для Избранной Сортировки
 		void BtnSSGetDataClick(object sender, EventArgs e)
 		{
-			#region Код
 			SelectedSortDataForm ssdfrm = new SelectedSortDataForm( m_SSFB2Librusec );
 			// если в основном списке критериев поиска уже есть записи, то копируем их в форму сбора данных
 			if( lvSSData.Items.Count > 0 ) {
@@ -5883,10 +5883,10 @@ namespace SharpFBTools.Tools
 						lvSSData.Items.Add( lvi );
 					}
 				}
+				MiscListView.AutoResizeColumns( lvSSData );
 			}
 			
 			ssdfrm.Dispose();
-			#endregion
 		}
 		
 		// запуск диалога Вставки готовых шаблонов
@@ -5912,6 +5912,26 @@ namespace SharpFBTools.Tools
 			filesWorker.OpenDirDlg( tboxSSToDir, fbdScanDir, "Укажите папку-приемник для размешения отсортированных файлов (Избранная Сортировка):" );
 		}
 		
+		void TsmiViewInReaderClick(object sender, EventArgs e)
+		{
+			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
+				// читаем путь к читалке из настроек
+				string sFBReaderPath = Settings.Settings.ReadFBReaderPath();
+				const string sTitle = "SharpFBTools - Открытие папки для файла";
+				if( !File.Exists( sFBReaderPath ) ) {
+					MessageBox.Show( "Не могу найти Читалку \""+sFBReaderPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
+				string sFilePath = Path.Combine( textBoxAddress.Text.Trim(), si[0].SubItems[0].Text.Split('/')[0].Trim() );
+				if( !File.Exists( sFilePath ) ) {
+					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				filesWorker.StartFile( sFBReaderPath, sFilePath );
+			}
+		}
+		
 		// =====================================================================================================================
 		// 													Избранная Сортировка
 		// =====================================================================================================================
@@ -5935,7 +5955,7 @@ namespace SharpFBTools.Tools
 			}
 
 			// приведение к одному виду шаблонов
-			m_sortOptions.Template = templatesVerify.ToOneTemplateType( @m_sortOptions.Template );
+			m_sortOptions.Template = TemplatesVerify.ToOneTemplateType( @m_sortOptions.Template );
 			// проверки на корректность шаблонных строк
 			if( !IsLineTemplateCorrect( m_sortOptions.Template ) )
 				return;
@@ -5944,7 +5964,7 @@ namespace SharpFBTools.Tools
 			Init();
 			Core.FileManager.SortingForm sortingForm = new Core.FileManager.SortingForm( ref m_sortOptions, lvFilesCount );
 			sortingForm.ShowDialog();
-			Core.Misc.EndWorkMode EndWorkMode = sortingForm.EndMode;
+			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			sortingForm.Dispose();
 			m_sortOptions = null;
 			MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Избранная Сортировка", MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -5998,7 +6018,7 @@ namespace SharpFBTools.Tools
 			SortingForm sortingForm = new SortingForm( ref m_sortOptions, lvFilesCount );
 			sortingForm.ShowDialog();
 			//TODO Доделать вывод инфы и в контролы????
-			Core.Misc.EndWorkMode EndWorkMode = sortingForm.EndMode;
+			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			sortingForm.Dispose();
 			m_sortOptions = null;
 			MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Избранная Сортировка", MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -6007,7 +6027,6 @@ namespace SharpFBTools.Tools
 		// сохранить список критериев Избранной Сортировки в файл
 		void BtnSSDataListSaveClick(object sender, EventArgs e)
 		{
-			#region Код
 			const string sMessTitle = "SharpFBTools - Избранная Сортировка";
 			if( lvSSData.Items.Count == 0 ) {
 				MessageBox.Show( "Список данных для Избранной Сортировки пуст.\nЗадайте хоть один критерий Сортировки (кнопка 'Собрать данные для Избранной Сортировки').",
@@ -6047,13 +6066,11 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Список данных для Избранной Сортировки сохранен в файл!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
 			}
-			#endregion
 		}
 		
 		// загрузить список критериев Избранной Сортировки из файла
 		void BtnSSDataListLoadClick(object sender, EventArgs e)
 		{
-			#region Код
 			sfdOpenXMLFile.Filter = "SharpFBTools файлы (*.sort_criterias)|*.sort_criterias";
 			sfdOpenXMLFile.FileName = string.Empty;
 			DialogResult result = sfdOpenXMLFile.ShowDialog();
@@ -6076,20 +6093,8 @@ namespace SharpFBTools.Tools
 					lvi.SubItems.Add( crit.Element("FB2Genres").Value );
 					lvSSData.Items.Add( lvi );
 				}
+				MiscListView.AutoResizeColumns(lvSSData);
 			}
-			#endregion
-		}
-		
-		void ChBoxStartExplorerColumnsAutoReizeCheckedChanged(object sender, EventArgs e)
-		{
-			if(chBoxStartExplorerColumnsAutoReize.Checked)
-				MiscListView.AutoResizeColumns(listViewSource);
-			saveSettingsToXml();
-		}
-		
-		void ChBoxViewProgressClick(object sender, EventArgs e)
-		{
-			saveSettingsToXml();
 		}
 		
 		// =====================================================================================================================
@@ -6175,6 +6180,24 @@ namespace SharpFBTools.Tools
 			else
 				((TextBox)sender).BackColor = Color.White;
 		}
+		
+		void ListViewSourceColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			if ( e.Column == m_lvwColumnSorter.SortColumn ) {
+				// Изменить сортировку на обратную для выбранного столбца
+				if( m_lvwColumnSorter.Order == SortOrder.Ascending )
+					m_lvwColumnSorter.Order = SortOrder.Descending;
+				else
+					m_lvwColumnSorter.Order = SortOrder.Ascending;
+			} else {
+				// Задать номер столбца для сортировки (по-умолчанию Ascending)
+				m_lvwColumnSorter.SortColumn = e.Column;
+				m_lvwColumnSorter.Order = SortOrder.Ascending;
+			}
+			listViewFB2Files.ListViewItemSorter = m_lvwColumnSorter; // перед listViewSource.Sort(); иначе - "тормоза"
+			listViewFB2Files.Sort();
+		}
+		
 		#endregion
 	}
 	

@@ -143,26 +143,6 @@ namespace Main.Tools {
 		/// <summary>
 		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
 		/// </summary>
-		internal static System.Drawing.Bitmap tsmiAllFilesInGroupReValidate_Image {
-			get {
-				object obj = ResourceManager.GetObject("tsmiAllFilesInGroupReValidate.Image", resourceCulture);
-				return ((System.Drawing.Bitmap)(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-		/// </summary>
-		internal static System.Drawing.Bitmap tsmiAllGroupsReValidate_Image {
-			get {
-				object obj = ResourceManager.GetObject("tsmiAllGroupsReValidate.Image", resourceCulture);
-				return ((System.Drawing.Bitmap)(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-		/// </summary>
 		internal static System.Drawing.Bitmap tsmiCheckedAll_Image {
 			get {
 				object obj = ResourceManager.GetObject("tsmiCheckedAll.Image", resourceCulture);
@@ -223,9 +203,29 @@ namespace Main.Tools {
 		/// <summary>
 		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
 		/// </summary>
+		internal static System.Drawing.Bitmap tsmiEditAuthors_Image {
+			get {
+				object obj = ResourceManager.GetObject("tsmiEditAuthors.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
 		internal static System.Drawing.Bitmap tsmiEditDescription_Image {
 			get {
 				object obj = ResourceManager.GetObject("tsmiEditDescription.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap tsmiEditGenres_Image {
+			get {
+				object obj = ResourceManager.GetObject("tsmiEditGenres.Image", resourceCulture);
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -246,16 +246,6 @@ namespace Main.Tools {
 		internal static System.Drawing.Bitmap tsmiEditInTextEditor_Image {
 			get {
 				object obj = ResourceManager.GetObject("tsmiEditInTextEditor.Image", resourceCulture);
-				return ((System.Drawing.Bitmap)(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-		/// </summary>
-		internal static System.Drawing.Bitmap tsmiFileReValidate_Image {
-			get {
-				object obj = ResourceManager.GetObject("tsmiFileReValidate.Image", resourceCulture);
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -296,6 +286,16 @@ namespace Main.Tools {
 		internal static System.Drawing.Bitmap tsmiUnCheckedAll_Image {
 			get {
 				object obj = ResourceManager.GetObject("tsmiUnCheckedAll.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap tsmiValidate_Image {
+			get {
+				object obj = ResourceManager.GetObject("tsmiValidate.Image", resourceCulture);
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}

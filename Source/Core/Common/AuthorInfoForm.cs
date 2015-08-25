@@ -17,17 +17,17 @@ namespace Core.Common
 	public partial class AuthorInfoForm : Form
 	{
 		#region Закрытые данные класса
-		private readonly EditDescriptionForm.AuthorInfo m_ai = new EditDescriptionForm.AuthorInfo( Core.Misc.Enums.AuthorEnum.AuthorOfBook, true );
+		private readonly AuthorInfo m_ai = new AuthorInfo( Enums.AuthorEnum.AuthorOfBook, true );
 		#endregion
 		
-		public AuthorInfoForm( ref EditDescriptionForm.AuthorInfo ai )
+		public AuthorInfoForm( ref AuthorInfo ai )
 		{
 			InitializeComponent();
 			m_ai = ai;
 			string sAuthor = string.Empty;
-			if( ai.AuthorType == Core.Misc.Enums.AuthorEnum.AuthorOfBook )
+			if( ai.AuthorType == Enums.AuthorEnum.AuthorOfBook )
 				sAuthor = "Автора книги";
-			else if ( ai.AuthorType == Core.Misc.Enums.AuthorEnum.AuthorOfFB2 )
+			else if ( ai.AuthorType == Enums.AuthorEnum.AuthorOfFB2 )
 				sAuthor = "Создателя fb2-файла";
 			else
 				sAuthor = "Переводчика";
@@ -45,7 +45,7 @@ namespace Core.Common
 		}
 		
 		#region Открытые свойства
-		public virtual EditDescriptionForm.AuthorInfo AuthorInfo {
+		public virtual AuthorInfo AuthorInfo {
 			get {
 				return m_ai;
 			}
