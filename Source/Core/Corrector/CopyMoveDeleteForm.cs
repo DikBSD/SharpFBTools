@@ -195,7 +195,7 @@ namespace Core.Corrector
 					string FilePath = Path.Combine( SourceDir, lvi.Text);
 					// есть ли такая книга на диске? Если нет - то смотрим следующую
 					if( File.Exists( FilePath ) ) {
-						string NewPath = Path.Combine( TargetDir, FilePath.Remove( 0, SourceDir.Length ));
+						string NewPath = Path.Combine( TargetDir, Path.GetFileName( FilePath ) );
 						FileInfo fi = new FileInfo( NewPath );
 						if( !fi.Directory.Exists )
 							Directory.CreateDirectory( fi.Directory.ToString() );

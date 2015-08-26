@@ -46,6 +46,8 @@ namespace Core.Common
 			this.GenreDeleteAllButton = new System.Windows.Forms.Button();
 			this.GenreDeleteButton = new System.Windows.Forms.Button();
 			this.GenresSchemePanel = new System.Windows.Forms.Panel();
+			this.GroupComboBox = new System.Windows.Forms.ComboBox();
+			this.GroupLabel = new System.Windows.Forms.Label();
 			this.GenreAddButton = new System.Windows.Forms.Button();
 			this.GenresLabel = new System.Windows.Forms.Label();
 			this.MatchMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
@@ -87,10 +89,10 @@ namespace Core.Common
 			this.GenresListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.GenresListView.FullRowSelect = true;
 			this.GenresListView.GridLines = true;
-			this.GenresListView.Location = new System.Drawing.Point(0, 57);
+			this.GenresListView.Location = new System.Drawing.Point(0, 95);
 			this.GenresListView.Name = "GenresListView";
-			this.GenresListView.Size = new System.Drawing.Size(714, 246);
-			this.GenresListView.TabIndex = 85;
+			this.GenresListView.Size = new System.Drawing.Size(714, 208);
+			this.GenresListView.TabIndex = 3;
 			this.GenresListView.UseCompatibleStateImageBehavior = false;
 			this.GenresListView.View = System.Windows.Forms.View.Details;
 			// 
@@ -112,19 +114,19 @@ namespace Core.Common
 			this.GenreWorkPanel.Controls.Add(this.GenreDeleteButton);
 			this.GenreWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.GenreWorkPanel.Enabled = false;
-			this.GenreWorkPanel.Location = new System.Drawing.Point(714, 57);
+			this.GenreWorkPanel.Location = new System.Drawing.Point(714, 95);
 			this.GenreWorkPanel.Name = "GenreWorkPanel";
-			this.GenreWorkPanel.Size = new System.Drawing.Size(75, 246);
+			this.GenreWorkPanel.Size = new System.Drawing.Size(75, 208);
 			this.GenreWorkPanel.TabIndex = 84;
 			// 
 			// GenreUpButton
 			// 
 			this.GenreUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.GenreUpButton.Image = ((System.Drawing.Image)(resources.GetObject("GenreUpButton.Image")));
-			this.GenreUpButton.Location = new System.Drawing.Point(0, 175);
+			this.GenreUpButton.Location = new System.Drawing.Point(0, 137);
 			this.GenreUpButton.Name = "GenreUpButton";
 			this.GenreUpButton.Size = new System.Drawing.Size(75, 36);
-			this.GenreUpButton.TabIndex = 7;
+			this.GenreUpButton.TabIndex = 6;
 			this.GenreUpButton.UseVisualStyleBackColor = true;
 			this.GenreUpButton.Click += new System.EventHandler(this.GenreUpButtonClick);
 			// 
@@ -132,10 +134,10 @@ namespace Core.Common
 			// 
 			this.GenreDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.GenreDownButton.Image = ((System.Drawing.Image)(resources.GetObject("GenreDownButton.Image")));
-			this.GenreDownButton.Location = new System.Drawing.Point(0, 211);
+			this.GenreDownButton.Location = new System.Drawing.Point(0, 173);
 			this.GenreDownButton.Name = "GenreDownButton";
 			this.GenreDownButton.Size = new System.Drawing.Size(75, 35);
-			this.GenreDownButton.TabIndex = 6;
+			this.GenreDownButton.TabIndex = 7;
 			this.GenreDownButton.UseVisualStyleBackColor = true;
 			this.GenreDownButton.Click += new System.EventHandler(this.GenreDownButtonClick);
 			// 
@@ -146,7 +148,7 @@ namespace Core.Common
 			this.GenreDeleteAllButton.Location = new System.Drawing.Point(0, 35);
 			this.GenreDeleteAllButton.Name = "GenreDeleteAllButton";
 			this.GenreDeleteAllButton.Size = new System.Drawing.Size(75, 35);
-			this.GenreDeleteAllButton.TabIndex = 1;
+			this.GenreDeleteAllButton.TabIndex = 5;
 			this.GenreDeleteAllButton.UseVisualStyleBackColor = true;
 			this.GenreDeleteAllButton.Click += new System.EventHandler(this.GenreDeleteAllButtonClick);
 			// 
@@ -157,12 +159,14 @@ namespace Core.Common
 			this.GenreDeleteButton.Location = new System.Drawing.Point(0, 0);
 			this.GenreDeleteButton.Name = "GenreDeleteButton";
 			this.GenreDeleteButton.Size = new System.Drawing.Size(75, 35);
-			this.GenreDeleteButton.TabIndex = 0;
+			this.GenreDeleteButton.TabIndex = 4;
 			this.GenreDeleteButton.UseVisualStyleBackColor = true;
 			this.GenreDeleteButton.Click += new System.EventHandler(this.GenreDeleteButtonClick);
 			// 
 			// GenresSchemePanel
 			// 
+			this.GenresSchemePanel.Controls.Add(this.GroupComboBox);
+			this.GenresSchemePanel.Controls.Add(this.GroupLabel);
 			this.GenresSchemePanel.Controls.Add(this.GenreAddButton);
 			this.GenresSchemePanel.Controls.Add(this.GenresLabel);
 			this.GenresSchemePanel.Controls.Add(this.MatchMaskedTextBox);
@@ -176,13 +180,35 @@ namespace Core.Common
 			this.GenresSchemePanel.Location = new System.Drawing.Point(0, 0);
 			this.GenresSchemePanel.Margin = new System.Windows.Forms.Padding(4);
 			this.GenresSchemePanel.Name = "GenresSchemePanel";
-			this.GenresSchemePanel.Size = new System.Drawing.Size(789, 57);
+			this.GenresSchemePanel.Size = new System.Drawing.Size(789, 95);
 			this.GenresSchemePanel.TabIndex = 77;
+			// 
+			// GroupComboBox
+			// 
+			this.GroupComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.GroupComboBox.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.GroupComboBox.FormattingEnabled = true;
+			this.GroupComboBox.Location = new System.Drawing.Point(68, 28);
+			this.GroupComboBox.Margin = new System.Windows.Forms.Padding(4);
+			this.GroupComboBox.Name = "GroupComboBox";
+			this.GroupComboBox.Size = new System.Drawing.Size(447, 24);
+			this.GroupComboBox.Sorted = true;
+			this.GroupComboBox.TabIndex = 0;
+			this.GroupComboBox.SelectedIndexChanged += new System.EventHandler(this.GroupComboBoxSelectedIndexChanged);
+			// 
+			// GroupLabel
+			// 
+			this.GroupLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.GroupLabel.Location = new System.Drawing.Point(2, 29);
+			this.GroupLabel.Name = "GroupLabel";
+			this.GroupLabel.Size = new System.Drawing.Size(59, 23);
+			this.GroupLabel.TabIndex = 84;
+			this.GroupLabel.Text = "Группа:";
 			// 
 			// GenreAddButton
 			// 
 			this.GenreAddButton.Image = ((System.Drawing.Image)(resources.GetObject("GenreAddButton.Image")));
-			this.GenreAddButton.Location = new System.Drawing.Point(712, 18);
+			this.GenreAddButton.Location = new System.Drawing.Point(712, 50);
 			this.GenreAddButton.Name = "GenreAddButton";
 			this.GenreAddButton.Size = new System.Drawing.Size(75, 35);
 			this.GenreAddButton.TabIndex = 83;
@@ -202,11 +228,11 @@ namespace Core.Common
 			// 
 			// MatchMaskedTextBox
 			// 
-			this.MatchMaskedTextBox.Location = new System.Drawing.Point(644, 26);
+			this.MatchMaskedTextBox.Location = new System.Drawing.Point(644, 58);
 			this.MatchMaskedTextBox.Mask = "000";
 			this.MatchMaskedTextBox.Name = "MatchMaskedTextBox";
 			this.MatchMaskedTextBox.Size = new System.Drawing.Size(39, 22);
-			this.MatchMaskedTextBox.TabIndex = 82;
+			this.MatchMaskedTextBox.TabIndex = 2;
 			// 
 			// rbtnFB22
 			// 
@@ -215,7 +241,7 @@ namespace Core.Common
 			this.rbtnFB22.Margin = new System.Windows.Forms.Padding(4);
 			this.rbtnFB22.Name = "rbtnFB22";
 			this.rbtnFB22.Size = new System.Drawing.Size(72, 21);
-			this.rbtnFB22.TabIndex = 75;
+			this.rbtnFB22.TabIndex = 11;
 			this.rbtnFB22.Text = "fb2.2";
 			this.rbtnFB22.UseVisualStyleBackColor = true;
 			this.rbtnFB22.Click += new System.EventHandler(this.RbtnFB22Click);
@@ -223,7 +249,7 @@ namespace Core.Common
 			// MathLabel
 			// 
 			this.MathLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.MathLabel.Location = new System.Drawing.Point(522, 29);
+			this.MathLabel.Location = new System.Drawing.Point(522, 61);
 			this.MathLabel.Name = "MathLabel";
 			this.MathLabel.Size = new System.Drawing.Size(121, 23);
 			this.MathLabel.TabIndex = 80;
@@ -237,7 +263,7 @@ namespace Core.Common
 			this.rbtnFB2Librusec.Margin = new System.Windows.Forms.Padding(4);
 			this.rbtnFB2Librusec.Name = "rbtnFB2Librusec";
 			this.rbtnFB2Librusec.Size = new System.Drawing.Size(127, 21);
-			this.rbtnFB2Librusec.TabIndex = 74;
+			this.rbtnFB2Librusec.TabIndex = 10;
 			this.rbtnFB2Librusec.TabStop = true;
 			this.rbtnFB2Librusec.Text = "fb2 Либрусек";
 			this.rbtnFB2Librusec.UseVisualStyleBackColor = true;
@@ -248,17 +274,17 @@ namespace Core.Common
 			this.GenresComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.GenresComboBox.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.GenresComboBox.FormattingEnabled = true;
-			this.GenresComboBox.Location = new System.Drawing.Point(68, 28);
+			this.GenresComboBox.Location = new System.Drawing.Point(68, 60);
 			this.GenresComboBox.Margin = new System.Windows.Forms.Padding(4);
 			this.GenresComboBox.Name = "GenresComboBox";
 			this.GenresComboBox.Size = new System.Drawing.Size(447, 24);
 			this.GenresComboBox.Sorted = true;
-			this.GenresComboBox.TabIndex = 79;
+			this.GenresComboBox.TabIndex = 1;
 			// 
 			// GenreLabel
 			// 
 			this.GenreLabel.ForeColor = System.Drawing.Color.Red;
-			this.GenreLabel.Location = new System.Drawing.Point(2, 29);
+			this.GenreLabel.Location = new System.Drawing.Point(2, 61);
 			this.GenreLabel.Name = "GenreLabel";
 			this.GenreLabel.Size = new System.Drawing.Size(59, 23);
 			this.GenreLabel.TabIndex = 78;
@@ -285,7 +311,7 @@ namespace Core.Common
 			this.CancelBtn.Location = new System.Drawing.Point(0, 52);
 			this.CancelBtn.Name = "CancelBtn";
 			this.CancelBtn.Size = new System.Drawing.Size(125, 49);
-			this.CancelBtn.TabIndex = 1;
+			this.CancelBtn.TabIndex = 9;
 			this.CancelBtn.Text = "Отмена";
 			this.CancelBtn.UseVisualStyleBackColor = true;
 			this.CancelBtn.Click += new System.EventHandler(this.CancelBtnClick);
@@ -298,7 +324,7 @@ namespace Core.Common
 			this.ApplyBtn.Location = new System.Drawing.Point(0, 0);
 			this.ApplyBtn.Name = "ApplyBtn";
 			this.ApplyBtn.Size = new System.Drawing.Size(125, 52);
-			this.ApplyBtn.TabIndex = 0;
+			this.ApplyBtn.TabIndex = 8;
 			this.ApplyBtn.Text = "Принять";
 			this.ApplyBtn.UseVisualStyleBackColor = true;
 			this.ApplyBtn.Click += new System.EventHandler(this.ApplyBtnClick);
@@ -350,6 +376,8 @@ namespace Core.Common
 			this.ResumeLayout(false);
 
 		}
+		private System.Windows.Forms.ComboBox GroupComboBox;
+		private System.Windows.Forms.Label GroupLabel;
 		private System.Windows.Forms.Panel ProgressPanel;
 		private System.Windows.Forms.ProgressBar ProgressBar;
 		private System.Windows.Forms.Button GenreUpButton;

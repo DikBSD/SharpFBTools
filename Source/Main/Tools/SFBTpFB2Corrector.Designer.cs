@@ -487,14 +487,14 @@ namespace SharpFBTools.Tools
 			this.toolStripMenuItem1,
 			this.tsmiColumnsExplorerAutoReize});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(460, 580);
+			this.cmsFB2.Size = new System.Drawing.Size(460, 608);
 			// 
 			// tsmiValidate
 			// 
 			this.tsmiValidate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.tsmiFileReValidate,
-			this.tsmiAllCheckedFilesReValidate,
 			this.tsmiAllSelectedFilesReValidate,
+			this.tsmiAllCheckedFilesReValidate,
 			this.toolStripMenuItem2,
 			this.tsmiAllFilesReValidate});
 			this.tsmiValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiValidate.Image")));
@@ -505,17 +505,17 @@ namespace SharpFBTools.Tools
 			// tsmiFileReValidate
 			// 
 			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
-			this.tsmiFileReValidate.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-			| System.Windows.Forms.Keys.V)));
-			this.tsmiFileReValidate.Size = new System.Drawing.Size(474, 24);
+			this.tsmiFileReValidate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+			this.tsmiFileReValidate.Size = new System.Drawing.Size(478, 24);
 			this.tsmiFileReValidate.Text = "Проверить выделенную книгу на валидность";
 			this.tsmiFileReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
 			// 
 			// tsmiAllCheckedFilesReValidate
 			// 
 			this.tsmiAllCheckedFilesReValidate.Name = "tsmiAllCheckedFilesReValidate";
-			this.tsmiAllCheckedFilesReValidate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-			this.tsmiAllCheckedFilesReValidate.Size = new System.Drawing.Size(474, 24);
+			this.tsmiAllCheckedFilesReValidate.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+			| System.Windows.Forms.Keys.V)));
+			this.tsmiAllCheckedFilesReValidate.Size = new System.Drawing.Size(478, 24);
 			this.tsmiAllCheckedFilesReValidate.Text = "Проверить помеченные книги на валидность";
 			this.tsmiAllCheckedFilesReValidate.Click += new System.EventHandler(this.TsmiAllCheckedFilesReValidateClick);
 			// 
@@ -523,21 +523,21 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiAllSelectedFilesReValidate.Name = "tsmiAllSelectedFilesReValidate";
 			this.tsmiAllSelectedFilesReValidate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.V)));
-			this.tsmiAllSelectedFilesReValidate.Size = new System.Drawing.Size(474, 24);
+			this.tsmiAllSelectedFilesReValidate.Size = new System.Drawing.Size(478, 24);
 			this.tsmiAllSelectedFilesReValidate.Text = "Проверить выделенные книги на валидность";
 			this.tsmiAllSelectedFilesReValidate.Click += new System.EventHandler(this.TsmiAllSelectedFilesReValidateClick);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(471, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(475, 6);
 			// 
 			// tsmiAllFilesReValidate
 			// 
 			this.tsmiAllFilesReValidate.Name = "tsmiAllFilesReValidate";
 			this.tsmiAllFilesReValidate.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift) 
 			| System.Windows.Forms.Keys.V)));
-			this.tsmiAllFilesReValidate.Size = new System.Drawing.Size(474, 24);
+			this.tsmiAllFilesReValidate.Size = new System.Drawing.Size(478, 24);
 			this.tsmiAllFilesReValidate.Text = "Проверить все книги на валидность";
 			this.tsmiAllFilesReValidate.Click += new System.EventHandler(this.TsmiAllFilesReValidateClick);
 			// 

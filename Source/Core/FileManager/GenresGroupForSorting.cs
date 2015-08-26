@@ -47,8 +47,7 @@ namespace Core.FileManager
 		private string m_GenreGroupsOther		= string.Empty;
 		#endregion
 		
-		public GenresGroupForSorting( string FromXmlFile )
-		{
+		public GenresGroupForSorting( string FromXmlFile ) {
 			m_FromXmlFile = FromXmlFile;
 			if( m_FromXmlFile != null ) {
 				// Возобновление сортировки

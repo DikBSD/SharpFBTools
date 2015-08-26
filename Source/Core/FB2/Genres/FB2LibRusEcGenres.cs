@@ -189,7 +189,6 @@ namespace Core.FB2.Genres
 				return string.Empty;
 			return stringProcessing.OnlyCorrectSymbolsForString( m_dFB2LibRusEcGenres[sGenreCode] );
 		}
-		
 		public string GetFBGenreGroup( string sGenreCode ) {
 			// возвращает Группу для указанного Жанра
 			if( !m_dFB2LibRusEcGenresGroup.ContainsKey( sGenreCode ) )
@@ -203,8 +202,7 @@ namespace Core.FB2.Genres
 		public string[] GetFBGenreCodesArray() {
 			return m_sFB2LibRusEcGenreCode;
 		}
-		
-		public List<string> GetFBGenresForGroup( string Group ) {
+		public List<string> GetFBGenreCodesListForGroup( string Group ) {
 			if( m_dFB2LibRusEcGenresGroup.ContainsValue( Group ) ) {
 				List<string> lsGenresForGroup = new List<string>();
 				foreach( string g in m_dFB2LibRusEcGenresGroup.Keys ) {
@@ -215,6 +213,10 @@ namespace Core.FB2.Genres
 				return lsGenresForGroup;
 			}
 			return null;
+		}
+		public string[] GetFBGenreCodesArrayForGroup( string Group ) {
+			List<string> lsGenresForGroup = GetFBGenreCodesListForGroup( Group );
+			return lsGenresForGroup != null ? lsGenresForGroup.ToArray() : null;
 		}
 		#endregion
 	}

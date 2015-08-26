@@ -248,6 +248,9 @@ namespace Core.Common
 						valid = IsFB2Librusec ? bd.IsValidFB2Librusec : bd.IsValidFB22;
 						if ( string.IsNullOrEmpty( valid )  ) {
 							valid = "Да";
+							lvi.ForeColor = Path.GetExtension(bd.FilePath).ToLower() == ".fb2"
+								? Color.FromName( "WindowText" )
+								: Colors.ZipFB2ForeColor;
 						} else {
 							valid = "Нет";
 							lvi.ForeColor = Colors.FB2NotValidForeColor;
@@ -290,6 +293,9 @@ namespace Core.Common
 							listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
 						} else {
 							valid = "Да";
+							listViewSource.ForeColor = FileExtension == ".fb2"
+								? Color.FromName( "WindowText" )
+								: Colors.ZipFB2ForeColor;
 						}
 					}
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumn.BookTitle].Text = bd.TIBookTitle;
@@ -321,6 +327,9 @@ namespace Core.Common
 							listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
 						} else {
 							valid = "Да";
+							listViewSource.Items[ItemNumber].ForeColor = FileExtension == ".fb2"
+								? Color.FromName( "WindowText" )
+								: Colors.ZipFB2ForeColor;
 						}
 					}
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumn.BookTitle].Text = bd.TIBookTitle;
@@ -386,7 +395,9 @@ namespace Core.Common
 					int nItemCount = 0;
 					
 					if ( form != null ) {
-						form.Text += ": " + dirInfo.GetFiles().Length.ToString() + " файлов";
+						form.Text += String.Format(
+							": {0} каталогов; {1} файлов", dirInfo.GetDirectories().Length, dirInfo.GetFiles().Length
+						);
 						ProgressBar.Maximum	= ( dirInfo.GetDirectories().Length + dirInfo.GetFiles().Length ) + 1;
 					}
 					
@@ -588,32 +599,67 @@ namespace Core.Common
 		}
 
 		// формирование Списка Групп Жанров
-		public static void makeListFMGenresGroups( ComboBox comboBox, bool IsFB2Libruser ) {
-			comboBox.Items.Clear();
-			comboBox.Items.Add( "ФАНТАСТИКА, ФЭНТЕЗИ" );
-			comboBox.Items.Add( "ДЕТЕКТИВЫ, БОЕВИКИ" );
-			comboBox.Items.Add( "ПРОЗА" );
-			comboBox.Items.Add( "ЛЮБОВНЫЕ РОМАНЫ" );
-			comboBox.Items.Add( "ПРИКЛЮЧЕНИЯ" );
-			comboBox.Items.Add( "ДЕТСКОЕ" );
-			comboBox.Items.Add( "ПОЭЗИЯ, ДРАМАТУРГИЯ" );
-			comboBox.Items.Add( "СТАРИННОЕ" );
-			comboBox.Items.Add( "НАУКА, ОБРАЗОВАНИЕ" );
-			comboBox.Items.Add( "КОМПЬЮТЕРЫ" );
-			comboBox.Items.Add( "СПРАВОЧНИКИ" );
-			comboBox.Items.Add( "ДОКУМЕНТАЛЬНОЕ" );
-			comboBox.Items.Add( "РЕЛИГИЯ" );
-			comboBox.Items.Add( "ЮМОР" );
-			comboBox.Items.Add( "ДОМ, СЕМЬЯ" );
-			comboBox.Items.Add( "БИЗНЕС" );
+		public static void makeListGenresGroups( ComboBox GenresGroupComboBox, bool IsFB2Libruser ) {
+			IGenresGroup GenresGroup = new GenresGroup();
+			GenresGroupComboBox.Items.Clear();
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupSf );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupDetective );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupProse );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupLove );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupAdventure );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupChildren );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupPoetry );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupAntique );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupScience );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupComputers );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupReference );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupNonfiction );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupReligion );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupHumor );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupHome );
+			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupBusiness );
 			if( IsFB2Libruser ) {
-				comboBox.Items.Add( "ТЕХНИКА" );
-				comboBox.Items.Add( "ВОЕННОЕ ДЕЛО" );
-				comboBox.Items.Add( "ФОЛЬКЛЕР" );
-				comboBox.Items.Add( "ПРОЧЕЕ" );
+				GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupTech );
+				GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupMilitary );
+				GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupFolklore );
+				GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupOther );
 			}
 			
-			comboBox.SelectedIndex = 0;
+			GenresGroupComboBox.SelectedIndex = 0;
+		}
+		
+		// формирование Списка Жанров в контролы, в зависимости от Группы (только коды Жанров)
+		public static void makeListCodeGenres( ComboBox GenresComboBox, bool IsFB2Libruser, string GenreGroup ) {
+			GenresComboBox.Items.Clear();
+			IGenresGroup GenresGroup = new GenresGroup();
+			IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( IsFB2Libruser, ref GenresGroup );
+			GenresComboBox.Items.AddRange( fb2g.GetFBGenreCodesArrayForGroup( GenreGroup ) );
+			GenresComboBox.SelectedIndex = 0;
+		}
+		
+		// формирование Списка Жанров в контролы, в зависимости от Группы (и коды и расшифровка Жанров)
+		public static void makeListGenres( ComboBox GenresComboBox, bool IsFB2Libruser, string GenreGroup ) {
+			GenresComboBox.Items.Clear();
+			IGenresGroup GenresGroup = new GenresGroup();
+			IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( IsFB2Libruser, ref GenresGroup );
+			string[] Codes = fb2g.GetFBGenreCodesArrayForGroup( GenreGroup );
+			for( int i = 0; i != Codes.Length; ++i )
+				GenresComboBox.Items.Add( fb2g.GetFBGenreName( Codes[i] ) + " (" + Codes[i] + ")" );
+
+			GenresComboBox.SelectedIndex = 0;
+		}
+		
+		// формирование Списка всех Жанров Схемы в контролы
+		public static void makeListAllGenres( ComboBox GenresComboBox, bool IsFB2Libruser ) {
+			GenresComboBox.Items.Clear();
+			IGenresGroup GenresGroup = new GenresGroup();
+			IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( IsFB2Libruser, ref GenresGroup );
+			string[] sGenresNames	= fb2g.GetFBGenreNamesArray();
+			string[] sCodes			= fb2g.GetFBGenreCodesArray();
+			
+			for( int i = 0; i != sGenresNames.Length; ++i )
+				GenresComboBox.Items.Add( sGenresNames[i] + " (" + sCodes[i] + ")" );
+			GenresComboBox.SelectedIndex = 0;
 		}
 		
 	}

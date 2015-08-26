@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace Core.FB2.Genres
 {
 	/// <summary>
-	/// IFBGenres: интерфейс для разных видов жанров
+	/// интерфейс для разных видов жанров
 	/// </summary>
 	public interface IFBGenres
 	{
@@ -20,6 +20,7 @@ namespace Core.FB2.Genres
 		string GetFBGenreGroup( string GenreCode );
 		string[] GetFBGenreNamesArray();
 		string[] GetFBGenreCodesArray();
-		List<string> GetFBGenresForGroup( string GenreGroup );
+		List<string> GetFBGenreCodesListForGroup( string GenreGroup );
+		string[] GetFBGenreCodesArrayForGroup( string GenreGroup );
 	}
 }

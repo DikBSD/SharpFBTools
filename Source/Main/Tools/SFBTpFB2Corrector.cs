@@ -161,6 +161,7 @@ namespace SharpFBTools.Tools
 			// запуск формы прогресса отображения метаданных книг
 			Cursor.Current = Cursors.WaitCursor;
 			listViewFB2Files.BeginUpdate();
+			ConnectListsEventHandlers( false );
 			
 			IGenresGroup GenresGroup = new GenresGroup();
 			IFBGenres fb2Genres = GenresWorker.genresListOfGenreSheme( rbtnFB2Librusec.Checked, ref GenresGroup );
@@ -173,6 +174,7 @@ namespace SharpFBTools.Tools
 			fb2TagsListGenerateForm.Dispose();
 			if( EndWorkMode.EndMode != EndWorkModeEnum.Done )
 				MessageBox.Show( EndWorkMode.Message, "Отображение метаданных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			ConnectListsEventHandlers( true );
 			listViewFB2Files.EndUpdate();
 			Cursor.Current = Cursors.Default;
 		}
@@ -662,7 +664,6 @@ namespace SharpFBTools.Tools
 		}
 		void ButtonGoClick(object sender, EventArgs e)
 		{
-			ConnectListsEventHandlers( false );
 			string s = textBoxAddress.Text.Trim();
 			if(s != string.Empty) {
 				if ( s.Substring(s.Length-1, 1) != "\\" )
@@ -673,7 +674,6 @@ namespace SharpFBTools.Tools
 				else
 					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error );
 			}
-			ConnectListsEventHandlers( true );
 		}
 		void TextBoxAddressKeyPress(object sender, KeyPressEventArgs e)
 		{
@@ -718,11 +718,9 @@ namespace SharpFBTools.Tools
 					
 				} else if ( e.KeyChar == (char)Keys.Back ) {
 					// переход на каталог выше
-					ConnectListsEventHandlers( false );
 					ListViewItemType it = (ListViewItemType)listViewFB2Files.Items[0].Tag;
 					textBoxAddress.Text = it.Value;
 					generateFB2List( it.Value );
-					ConnectListsEventHandlers( true );
 				}
 			}
 			e.Handled = true;
@@ -751,7 +749,6 @@ namespace SharpFBTools.Tools
 		void ListViewFB2FilesDoubleClick(object sender, EventArgs e)
 		{
 			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
-				ConnectListsEventHandlers( false );
 				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
 				ListViewItemType it = (ListViewItemType)si[0].Tag;
 				if( it.Type == "d" || it.Type == "dUp" ) {
@@ -761,7 +758,6 @@ namespace SharpFBTools.Tools
 					if( listViewFB2Files.SelectedItems.Count == 1 )
 						goHandlerWorker( cboxDblClickForFB2, sender, e );
 				}
-				ConnectListsEventHandlers( true );
 			}
 		}
 		void ListViewFB2FilesItemCheck(object sender, ItemCheckEventArgs e)

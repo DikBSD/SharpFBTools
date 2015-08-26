@@ -42,10 +42,11 @@ namespace Core.Common
 			InitializeComponent();
 			initializeBackgroundWorker();
 			
-			this.Text += " : " + GenreFB2InfoList.Count.ToString() + " книг";
+			this.Text += String.Format( " : {0} книг", GenreFB2InfoList.Count );
 			m_GenreFB2InfoList = GenreFB2InfoList;
-			// формирование Списка Жанров
-			makeListGenres();
+			// формирование Списка Групп Жанров
+			WorksWithBooks.makeListGenresGroups( GroupComboBox, rbtnFB2Librusec.Checked );
+
 			// загрузка Жанров для правки
 			loadGenresFromFB2Files( TitleInfoEnum.TitleInfo );
 			
@@ -128,17 +129,6 @@ namespace Core.Common
 		#endregion
 		
 		#region Закрытые вспомогательные методы
-		// формирование Списка Жанров в контролы
-		private void makeListGenres() {
-			GenresComboBox.Items.Clear();
-			IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( rbtnFB2Librusec.Checked, ref m_GenresGroup );
-			string[] sGenresNames	= fb2g.GetFBGenreNamesArray();
-			string[] sCodes			= fb2g.GetFBGenreCodesArray();
-			
-			for( int i = 0; i != sGenresNames.Length; ++i )
-				GenresComboBox.Items.Add( sGenresNames[i] + " (" + sCodes[i] + ")" );
-			GenresComboBox.SelectedIndex = 0;
-		}
 		// загрузка Жанров для правки
 		private void loadGenresFromFB2Files( Enums.TitleInfoEnum TitleInfoType ) {
 			IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( rbtnFB2Librusec.Checked, ref m_GenresGroup );
@@ -156,7 +146,8 @@ namespace Core.Common
 										: string.Empty
 									);
 									lvi.SubItems.Add( !string.IsNullOrEmpty( g.Math.ToString() ) ? g.Math.ToString() : string.Empty );
-									GenresListView.Items.Add( lvi );
+									if ( !string.IsNullOrEmpty( g.Name ) )
+										GenresListView.Items.Add( lvi );
 								}
 							}
 						}
@@ -182,7 +173,6 @@ namespace Core.Common
 			}
 			return Genres;
 		}
-		
 		#endregion
 		
 		#region Обработчики событий
@@ -192,11 +182,18 @@ namespace Core.Common
 		}
 		void RbtnFB2LibrusecClick(object sender, EventArgs e)
 		{
-			makeListGenres();
+			// формирование Списка Групп Жанров
+			WorksWithBooks.makeListGenresGroups( GroupComboBox, rbtnFB2Librusec.Checked );
 		}
 		void RbtnFB22Click(object sender, EventArgs e)
 		{
-			makeListGenres();
+			// формирование Списка Групп Жанров
+			WorksWithBooks.makeListGenresGroups( GroupComboBox, rbtnFB2Librusec.Checked );
+		}
+		void GroupComboBoxSelectedIndexChanged(object sender, EventArgs e)
+		{
+			// формирование Списка Жанров в контролы, в зависимости от Группы
+			WorksWithBooks.makeListGenres( GenresComboBox, rbtnFB2Librusec.Checked, GroupComboBox.Text );
 		}
 		void GenreAddButtonClick(object sender, EventArgs e)
 		{

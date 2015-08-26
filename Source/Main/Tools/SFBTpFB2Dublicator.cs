@@ -332,6 +332,7 @@ namespace SharpFBTools.Tools
 			this.gboxCopyMoveOptions = new System.Windows.Forms.GroupBox();
 			this.cboxExistFile = new System.Windows.Forms.ComboBox();
 			this.lblExistFile = new System.Windows.Forms.Label();
+			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
 			this.ssProgress.SuspendLayout();
 			this.cmsFB2.SuspendLayout();
 			this.tcDuplicator.SuspendLayout();
@@ -417,7 +418,7 @@ namespace SharpFBTools.Tools
 			                           	this.toolStripSeparator5,
 			                           	this.tsmiColumnsResultAutoReize});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(616, 682);
+			this.cmsFB2.Size = new System.Drawing.Size(616, 710);
 			// 
 			// tsmiAnalyzeForSelectedGroup
 			// 
@@ -519,6 +520,7 @@ namespace SharpFBTools.Tools
 			this.tsmiValidate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			                                         	this.tsmiFileReValidate,
 			                                         	this.tsmiAllFilesInGroupReValidate,
+			                                         	this.toolStripMenuItem7,
 			                                         	this.tsmiAllGroupsReValidate});
 			this.tsmiValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiValidate.Image")));
 			this.tsmiValidate.Name = "tsmiValidate";
@@ -529,7 +531,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiFileReValidate.Name = "tsmiFileReValidate";
 			this.tsmiFileReValidate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-			this.tsmiFileReValidate.Size = new System.Drawing.Size(501, 24);
+			this.tsmiFileReValidate.Size = new System.Drawing.Size(490, 24);
 			this.tsmiFileReValidate.Text = "Проверить выделенную книгу на валидность";
 			this.tsmiFileReValidate.Click += new System.EventHandler(this.TsmiFileReValidateClick);
 			// 
@@ -537,7 +539,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiAllFilesInGroupReValidate.Name = "tsmiAllFilesInGroupReValidate";
 			this.tsmiAllFilesInGroupReValidate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.V)));
-			this.tsmiAllFilesInGroupReValidate.Size = new System.Drawing.Size(501, 24);
+			this.tsmiAllFilesInGroupReValidate.Size = new System.Drawing.Size(490, 24);
 			this.tsmiAllFilesInGroupReValidate.Text = "Проверить все книги Группы на валидность";
 			this.tsmiAllFilesInGroupReValidate.Click += new System.EventHandler(this.TsmiAllFilesInGroupReValidateClick);
 			// 
@@ -546,8 +548,8 @@ namespace SharpFBTools.Tools
 			this.tsmiAllGroupsReValidate.Name = "tsmiAllGroupsReValidate";
 			this.tsmiAllGroupsReValidate.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
 			                                                                          | System.Windows.Forms.Keys.V)));
-			this.tsmiAllGroupsReValidate.Size = new System.Drawing.Size(501, 24);
-			this.tsmiAllGroupsReValidate.Text = "Проверить все книги всех Группы на валидность";
+			this.tsmiAllGroupsReValidate.Size = new System.Drawing.Size(490, 24);
+			this.tsmiAllGroupsReValidate.Text = "Проверить все книги всех Групп на валидность";
 			this.tsmiAllGroupsReValidate.Click += new System.EventHandler(this.TsmiAllGroupsReValidateClick);
 			// 
 			// tsmiRecoveryDescription
@@ -1904,6 +1906,11 @@ namespace SharpFBTools.Tools
 			this.lblExistFile.TabIndex = 17;
 			this.lblExistFile.Text = "Одинаковые файлы в папке-приемнике:";
 			// 
+			// toolStripMenuItem7
+			// 
+			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+			this.toolStripMenuItem7.Size = new System.Drawing.Size(487, 6);
+			// 
 			// SFBTpFB2Dublicator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1950,6 +1957,7 @@ namespace SharpFBTools.Tools
 			this.PerformLayout();
 
 		}
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 		private System.Windows.Forms.ComboBox cboxDblClickForFB2;
 		private System.Windows.Forms.Label lblValidatorForFB2;
 		private System.Windows.Forms.ComboBox cboxPressEnterForFB2;
@@ -2471,7 +2479,15 @@ namespace SharpFBTools.Tools
 					lvi.SubItems[(int)ResultViewDupCollumn.Encoding].Text = bd.Encoding;
 					if( chBoxIsValid.Checked ) {
 						string valid = rbtnFB2Librusec.Checked ? bd.IsValidFB2Librusec : bd.IsValidFB22;
-						lvi.SubItems[(int)ResultViewDupCollumn.Validate].Text = string.IsNullOrEmpty( valid ) ? "Да" : "Нет";
+						if ( !string.IsNullOrEmpty( valid ) ) {
+							lvi.SubItems[(int)ResultViewDupCollumn.Validate].Text = "Нет";
+							lvi.ForeColor = Colors.FB2NotValidForeColor;
+						} else {
+							lvi.SubItems[(int)ResultViewDupCollumn.Validate].Text = "Да";
+							lvi.ForeColor = Path.GetExtension(bd.FilePath).ToLower() == ".fb2"
+								? Color.FromName( "WindowText" )
+								: Colors.ZipFB2ForeColor;
+						}
 					}
 					lvi.SubItems[(int)ResultViewDupCollumn.FileLength].Text = bd.FileLength;
 					lvi.SubItems[(int)ResultViewDupCollumn.CreationTime].Text = bd.FileCreationTime;
@@ -2570,7 +2586,7 @@ namespace SharpFBTools.Tools
 					rtbSTIAnnotation.Text = StringProcessing.getDeleteAllTags( fb2Desc.STIAnnotation );
 					// Валидность файла
 					tbValidate.Clear();
-					if( SelectedItem.SubItems[7].Text == "Нет" ) {
+					if( SelectedItem.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Нет" ) {
 						string sResult	= rbtnFB2Librusec.Checked
 							? m_fv2Validator.ValidatingFB2LibrusecFile( SelectedItem.Text )
 							: m_fv2Validator.ValidatingFB22File( SelectedItem.Text );
@@ -2578,7 +2594,7 @@ namespace SharpFBTools.Tools
 						tbValidate.AppendText( Environment.NewLine );
 						tbValidate.AppendText( Environment.NewLine );
 						tbValidate.AppendText( sResult );
-					} else if( SelectedItem.SubItems[7].Text == "Да" )
+					} else if( SelectedItem.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Да" )
 						tbValidate.Text = "Все в порядке - файл валидный!";
 					else
 						tbValidate.Text = "Валидация файла не производилась.";

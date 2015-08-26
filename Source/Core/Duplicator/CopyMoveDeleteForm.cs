@@ -318,7 +318,7 @@ namespace Core.Duplicator
 					Regex rx = new Regex( @"\\+" );
 					FilePath = rx.Replace( FilePath, "\\" );
 					if( File.Exists( FilePath ) ) {
-						string NewPath = Path.Combine( TargetDir, FilePath.Substring( SourceDir.Length+1 ));
+						string NewPath = Path.Combine( TargetDir, Path.GetFileName( FilePath ) );
 						FileInfo fi = new FileInfo( NewPath );
 						if( !fi.Directory.Exists )
 							Directory.CreateDirectory( fi.Directory.ToString() );

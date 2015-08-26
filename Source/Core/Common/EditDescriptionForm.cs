@@ -104,32 +104,15 @@ namespace Core.Common
 			TISrcLangComboBox.Items.AddRange( LangList.LangsList );
 			STILangComboBox.Items.AddRange( LangList.LangsList );
 			STISrcLangComboBox.Items.AddRange( LangList.LangsList );
-			// формирование Списка Жанров
-			makeListGenres( Enums.TitleInfoEnum.TitleInfo );
-			makeListGenres( Enums.TitleInfoEnum.SourceTitleInfo );
+			// формирование Списка Групп Жанров
+			WorksWithBooks.makeListGenresGroups( TIGroupComboBox, rbtnTIFB2Librusec.Checked );
+			WorksWithBooks.makeListGenresGroups( STIGroupComboBox, rbtnSTIFB2Librusec.Checked );
 		}
 		
 		#region Вспомогательные методы для ЗАГРУЗКИ метаданных в контролы
 		private IFBGenres getGenresListOfGenreSheme( bool IsFB2Librusec ) {
 			IGenresGroup GenresGroup = new GenresGroup();
 			return GenresWorker.genresListOfGenreSheme( IsFB2Librusec, ref GenresGroup );
-		}
-		
-		// формирование Списка Жанров в контролы
-		private void makeListGenres( Enums.TitleInfoEnum TitleInfoType ) {
-			ComboBox cBox = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
-				? TIGenresComboBox : STIGenresComboBox;
-			cBox.Items.Clear();
-			RadioButton rb = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
-				? rbtnTIFB2Librusec : rbtnSTIFB2Librusec;
-			
-			IFBGenres fb2g = getGenresListOfGenreSheme( rb.Checked );
-			string[] sGenresNames	= fb2g.GetFBGenreNamesArray();
-			string[] sCodes			= fb2g.GetFBGenreCodesArray();
-			
-			for( int i = 0; i != sGenresNames.Length; ++i )
-				cBox.Items.Add( sGenresNames[i] + " (" + sCodes[i] + ")" );
-			cBox.SelectedIndex = 0;
 		}
 		// загрузка Названия книги в зависимости от типа TitleInfo
 		private void loadBookTitle( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
@@ -184,9 +167,14 @@ namespace Core.Common
 			if( Genres != null ) {
 				foreach( Genre g in Genres ) {
 					if ( !WorksWithBooks.genreIsExist( lv, g, fb2g ) ) {
-						ListViewItem lvi = new ListViewItem( fb2g.GetFBGenreName(g.Name) + " (" + g.Name + ")");
-						lvi.SubItems.Add( g.Math.ToString() );
-						lv.Items.Add( lvi );
+						ListViewItem lvi = new ListViewItem(
+							!string.IsNullOrEmpty( g.Name )
+							? fb2g.GetFBGenreName( g.Name ) + " (" + g.Name + ")"
+							: string.Empty
+						);
+						lvi.SubItems.Add( !string.IsNullOrEmpty( g.Math.ToString() ) ? g.Math.ToString() : string.Empty );
+						if ( !string.IsNullOrEmpty( g.Name ) )
+							lv.Items.Add( lvi );
 					}
 				}
 			}
@@ -938,11 +926,13 @@ namespace Core.Common
 		// Жанры
 		void RbtnTIFB2LibrusecClick(object sender, EventArgs e)
 		{
-			makeListGenres( Enums.TitleInfoEnum.TitleInfo );
+			// формирование Списка Групп Жанров
+			WorksWithBooks.makeListGenresGroups( TIGroupComboBox, rbtnTIFB2Librusec.Checked );
 		}
 		void RbtnTIFB22Click(object sender, EventArgs e)
 		{
-			makeListGenres( Enums.TitleInfoEnum.TitleInfo );
+			// формирование Списка Групп Жанров
+			WorksWithBooks.makeListGenresGroups( TIGroupComboBox, rbtnTIFB2Librusec.Checked );
 		}
 		void TIGenreAddButtonClick(object sender, EventArgs e)
 		{
@@ -982,6 +972,11 @@ namespace Core.Common
 				}
 			}
 			TIGenresListView.Select();
+		}
+		void TIGroupComboBoxSelectedIndexChanged(object sender, EventArgs e)
+		{
+			// формирование Списка Жанров в контролы, в зависимости от Группы
+			WorksWithBooks.makeListGenres( TIGenresComboBox, rbtnTIFB2Librusec.Checked, TIGroupComboBox.Text );
 		}
 		// Авторы Книги
 		void TIAuthorAddButtonClick(object sender, EventArgs e)
@@ -1089,11 +1084,13 @@ namespace Core.Common
 		// Жанры
 		void RbtnSTIFB2LibrusecClick(object sender, EventArgs e)
 		{
-			makeListGenres( Enums.TitleInfoEnum.SourceTitleInfo );
+			// формирование Списка Групп Жанров
+			WorksWithBooks.makeListGenresGroups( STIGroupComboBox, rbtnSTIFB2Librusec.Checked );
 		}
 		void RbtnSTIFB22Click(object sender, EventArgs e)
 		{
-			makeListGenres( Enums.TitleInfoEnum.SourceTitleInfo );
+			// формирование Списка Групп Жанров
+			WorksWithBooks.makeListGenresGroups( STIGroupComboBox, rbtnSTIFB2Librusec.Checked );
 		}
 		void STIGenreAddButtonClick(object sender, EventArgs e)
 		{
@@ -1133,6 +1130,11 @@ namespace Core.Common
 				}
 			}
 			STIGenresListView.Select();
+		}
+		void STIGroupComboBoxSelectedIndexChanged(object sender, EventArgs e)
+		{
+			// формирование Списка Жанров в контролы, в зависимости от Группы
+			WorksWithBooks.makeListGenres( STIGenresComboBox, rbtnSTIFB2Librusec.Checked, STIGroupComboBox.Text );
 		}
 		// Авторы книги
 		void STIAuthorAddButtonClick(object sender, EventArgs e)
@@ -1550,7 +1552,6 @@ namespace Core.Common
 			}
 			Close();
 		}
-		
 		#endregion
 	}
 }
