@@ -46,19 +46,22 @@ namespace Core.Common
 			string sA = string.Empty;
 			foreach( Author a in AuthorsList ) {
 				if ( a != null ) {
-					if( a.LastName!=null && a.LastName.Value!=null )
-						sA += a.LastName.Value + " ";
-					if( a.FirstName!=null && a.FirstName.Value!=null )
-						sA += a.FirstName.Value + " ";
-					if( a.MiddleName!=null && a.MiddleName.Value!=null )
-						sA += a.MiddleName.Value + " ";
-					if( a.NickName!=null && a.NickName.Value!=null )
-						sA += a.NickName.Value;
+					if( a.LastName != null && !string.IsNullOrWhiteSpace( a.LastName.Value ) )
+						sA += a.LastName.Value.Trim() + " ";
+					if( a.FirstName != null && !string.IsNullOrWhiteSpace( a.FirstName.Value ) )
+						sA += a.FirstName.Value.Trim() + " ";
+					if( a.MiddleName != null && !string.IsNullOrWhiteSpace( a.MiddleName.Value ) )
+						sA += a.MiddleName.Value.Trim() + " ";
+					if( a.NickName != null && !string.IsNullOrWhiteSpace( a.NickName.Value ) )
+						sA += a.NickName.Value.Trim();
 					sA = sA.Trim();
-					sA += "; ";
+					if ( !string.IsNullOrWhiteSpace( sA ) )
+						sA += "; ";
 				}
 			}
-			return sA.Substring( 0, sA.LastIndexOf( ';' ) ).Trim();
+			return sA.LastIndexOf( ';' ) > -1
+				? sA.Substring( 0, sA.LastIndexOf( ';' ) ).Trim()
+				: sA.Trim();
 		}
 		
 		// формирование строки с Датой Написания Книги или Датой Создания fb2-файла
@@ -68,9 +71,9 @@ namespace Core.Common
 			
 			string sDate = string.Empty;
 			if( Date.Text != null )
-				sDate += Date.Text;
-			if( Date.Value!=null )
-				sDate += " (" + Date.Value + ")";
+				sDate += Date.Text.Trim();
+			if( Date.Value != null )
+				sDate += " (" + Date.Value.Trim() + ")";
 			return sDate;
 		}
 		
@@ -81,14 +84,16 @@ namespace Core.Common
 			
 			string sG = string.Empty;
 			foreach( Genre g in GenresList ) {
-				if ( g != null ) {
-					if( g.Name != null )
-						sG += g.Name;
+				if( !string.IsNullOrWhiteSpace( g.Name ) )
+					sG += g.Name.Trim();
+				sG = sG.Trim();
+				if ( !string.IsNullOrWhiteSpace( sG ) )
 					sG += "; ";
-				}
 			}
 			sG = sG.Trim();
-			return sG.Substring( 0, sG.LastIndexOf( ';' ) ).Trim();
+			return sG.LastIndexOf( ';' ) > -1
+				? sG.Substring( 0, sG.LastIndexOf( ';' ) ).Trim()
+				: sG.Trim();
 		}
 		
 		// формирование строки с Сериями Книги из списка всех Серий ЭТОЙ Книги
@@ -97,17 +102,21 @@ namespace Core.Common
 			string sSeq = string.Empty;
 			foreach( Sequence s in Sequences ) {
 				if ( s != null ) {
-					if( s.Name != null )
-						sSeq += s.Name;
+					if( !string.IsNullOrWhiteSpace( s.Name ) )
+						sSeq += s.Name.Trim();
 					else
-						sSeq += "Нет";
-					if( s.Number != null )
-						sSeq += " ("+s.Number+") ";
-					sSeq += "; ";
+						sSeq += "<Нет Серии>";
+					if( !string.IsNullOrWhiteSpace( s.Number ) )
+						sSeq += " ("+s.Number.Trim()+") ";
+					sSeq = sSeq.Trim();
+					if ( !string.IsNullOrWhiteSpace( sSeq ) )
+						sSeq += "; ";
 				}
 			}
 			sSeq = sSeq.Trim();
-			return sSeq.Substring( 0, sSeq.LastIndexOf( ';' ) ).Trim();
+			return sSeq.LastIndexOf( ';' ) > -1
+				? sSeq.Substring( 0, sSeq.LastIndexOf( ';' ) ).Trim()
+				: sSeq.Trim();
 		}
 		#endregion
 		

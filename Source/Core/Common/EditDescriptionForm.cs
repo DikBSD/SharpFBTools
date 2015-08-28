@@ -905,11 +905,11 @@ namespace Core.Common
 				for( int i = 0; i != CoverOpenFileDialog.FileNames.Length; ++i ) {
 					// занесение данных в список
 					string FilePath = CoverOpenFileDialog.FileNames[i];
-					string CoverName = "cover" + StringProcessing.makeIINumber( i+1 ) + Path.GetExtension( FilePath );
+					string CoverName = "cover" + StringProcessing.makeIINumber( i+1 ) + Path.GetExtension( FilePath ).ToLower();
 					if( MiscListView.isExistListViewItem( CoverListView, CoverName ) ) {
 						// поиск максимально номера обложки
 						int MaxNumber = getMaxCoverNumber( CoverListView );
-						CoverName = "cover" + StringProcessing.makeIINumber( ++MaxNumber ) + Path.GetExtension( FilePath );
+						CoverName = "cover" + StringProcessing.makeIINumber( ++MaxNumber ) + Path.GetExtension( FilePath ).ToLower();
 					}
 					ListViewItem lvi = new ListViewItem( CoverName );
 					lvi.SubItems.Add( ImageWorker.getContentType( FilePath ) );

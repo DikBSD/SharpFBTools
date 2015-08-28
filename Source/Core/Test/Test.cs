@@ -375,7 +375,7 @@ namespace Test
 			if ( Authors1 != null && Authors2 != null )
 				if ( Authors1.Count != Authors2.Count )
 					return null;
-			MessageBox.Show("!!!");
+
 			List<string> list1 = makeListFOIAuthors(Authors1, WithMiddleName);
 			List<string> list2 = makeListFOIAuthors(Authors2, WithMiddleName);
 			return list1.Intersect(list2).ToList();
@@ -429,8 +429,11 @@ namespace Test
 				string s = fio.ToString();
 				if ( !AuthorExist )
 					s = Ret;
-				if ( !list.Contains(s) )
-					list.Add(s);
+				if ( s != Ret ) {
+					if ( !list.Contains(s) )
+						list.Add(s);
+				} else
+					list.Add(s + ( i > 0 ? i.ToString() : string.Empty ) );
 			}
 			return list;
 		}

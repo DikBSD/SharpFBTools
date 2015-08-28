@@ -13,10 +13,11 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.IO;
 
-using EndWorkMode	= Core.Common.EndWorkMode;
-using FilesWorker	= Core.Common.FilesWorker;
-using BooksWorkMode	= Core.Common.Enums.BooksWorkMode;
-using WorksWithBooks = Core.Common.WorksWithBooks;
+using EndWorkMode		= Core.Common.EndWorkMode;
+using FilesWorker		= Core.Common.FilesWorker;
+using BooksWorkMode		= Core.Common.Enums.BooksWorkMode;
+using WorksWithBooks	= Core.Common.WorksWithBooks;
+using MiscListView		= Core.Common.MiscListView;
 
 // enums
 using EndWorkModeEnum	= Core.Common.Enums.EndWorkModeEnum;
@@ -95,6 +96,8 @@ namespace Core.Corrector
 				m_listViewFB2Files.BeginUpdate();
 			
 			this.Text += ": " + m_listViewFB2Files.CheckedItems.Count.ToString() + " книг";
+			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Корректора
+			MiscListView.removeAllItemForNonExistFile( m_SourceDir.Trim(), m_listViewFB2Files );
 			switch( m_WorkMode ) {
 				case BooksWorkMode.CopyCheckedBooks:
 					this.Text = "Копирование помеченных книг в папку " + m_TargetDir;

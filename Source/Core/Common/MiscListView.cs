@@ -13,6 +13,8 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
 
+using FilesCountViewDupCollumn	= Core.Common.Enums.FilesCountViewDupCollumn;
+
 namespace Core.Common
 {
 	/// <summary>
@@ -353,6 +355,32 @@ namespace Core.Common
 			return false;
 		}
 		
+		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Корректора
+		public static bool removeChechedItemsNotDeleteFiles( ListView listViewFB2Files ) {
+			bool Result = false;
+			listViewFB2Files.BeginUpdate();
+			foreach( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
+				listViewFB2Files.Items.Remove( lvi );
+				Result = true;
+			}
+			listViewFB2Files.EndUpdate();
+			return Result;
+		}
+		
+		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Корректора
+		public static bool removeAllItemForNonExistFile( string SourseDir, ListView listViewFB2Files ) {
+			bool Result = false;
+			listViewFB2Files.BeginUpdate();
+			foreach( ListViewItem lvi in listViewFB2Files.Items ) {
+				if ( !File.Exists( Path.Combine( SourseDir, lvi.Text ) ) ) {
+					listViewFB2Files.Items.Remove( lvi );
+					Result = true;
+				}
+			}
+			listViewFB2Files.EndUpdate();
+			return Result;
+		}
+		
 		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
 		public static void deleteAllItemForNonExistFileWithCounter( ListView listView, ListViewItem RemoveListViewItem,
 		                                                           bool RemoveFast, ref int AllFiles ) {
@@ -395,17 +423,37 @@ namespace Core.Common
 			return Result;
 		}
 		
-		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Корректора
-		public static bool removeAllItemForNonExistFile( string SourseDir, ListView listViewFB2Files ) {
+		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Дубликатора
+		public static bool deleteChechedItemsNotDeleteFiles( ListView listViewFB2Files, ListView lvFilesCount ) {
 			bool Result = false;
 			listViewFB2Files.BeginUpdate();
-			foreach( ListViewItem lvi in listViewFB2Files.Items ) {
-				if ( !File.Exists( Path.Combine( SourseDir, lvi.Text ) ) )
-					listViewFB2Files.Items.Remove( lvi );
+			int RemoveGroupCount = 0;
+			int RemoveItemCount = 0;
+			foreach( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
+				ListViewGroup lvg = lvi.Group;
+				listViewFB2Files.Items.Remove( lvi );
+				++RemoveItemCount;
+				// удаление Групп с 1 элементом (и сам элемент)
+				if( lvg != null && lvg.Items.Count <= 1 ) {
+					if( lvg.Items.Count == 1 ) {
+						listViewFB2Files.Items[lvg.Items[0].Index].Remove();
+						++RemoveItemCount;
+					}
+					listViewFB2Files.Groups.Remove( lvg );
+					++RemoveGroupCount;
+				}
+				Result = true;
 			}
+			// реальное число Групп и книг в них
+			lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllGroups].SubItems[1].Text =
+				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllGroups].SubItems[1].Text) - RemoveGroupCount).ToString();
+			lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBoolsInAllGroups].SubItems[1].Text =
+				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
 			listViewFB2Files.EndUpdate();
 			return Result;
 		}
+		
+		
 		#endregion
 		
 		#region Перемещение итемов в списке...

@@ -885,6 +885,25 @@ namespace SharpFBTools.Tools
 				}
 			}
 		}
+		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются)
+		void TsmiDeleteChechedItemsNotDeleteFilesClick(object sender, EventArgs e)
+		{
+			if( listViewFB2Files.Items.Count > 0 ) {
+				const string MessTitle = "SharpFBTools - Удаление помеченных элементов Списка";
+				string sMess = "Вы действительно хотите удалить все помеченные элементы Списка (их файлы на жестком диске не удаляются)?";
+				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+				if( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
+					listViewFB2Files.BeginUpdate();
+					ConnectListsEventHandlers( false );
+					MiscListView.removeChechedItemsNotDeleteFiles( listViewFB2Files );
+					// Удаление элементов Списка, файлы которых были удалены с жесткого диска
+					MiscListView.removeAllItemForNonExistFile( textBoxAddress.Text.Trim(), listViewFB2Files );
+					ConnectListsEventHandlers( true );
+					listViewFB2Files.EndUpdate();
+					MessageBox.Show( "Удаление помеченных элементов Списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				}
+			}
+		}
 		// копировать помеченные файлы в папку-приемник
 		void TsmiCopyCheckedFb2ToClick(object sender, EventArgs e)
 		{
@@ -1295,6 +1314,7 @@ namespace SharpFBTools.Tools
 			DialogResult result = sfdList.ShowDialog();
 			if( result == DialogResult.OK ) {
 				ConnectListsEventHandlers( false );
+				// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске (защита от сохранения пустых Групп)
 				MiscListView.removeAllItemForNonExistFile( textBoxAddress.Text.Trim(), listViewFB2Files );
 				Environment.CurrentDirectory = Settings.Settings.ProgDir;
 				Core.Corrector.BooksListWorkerForm fileWorkerForm = new Core.Corrector.BooksListWorkerForm(

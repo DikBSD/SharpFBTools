@@ -33,7 +33,7 @@ namespace Core.Duplicator
 	{
 		#region Закрытые данные класса
 		private readonly BooksWorkMode	m_WorkMode; // режим обработки книг
-		private readonly string			m_FilePath				= string.Empty;
+		private readonly string			m_DirOrFileName		= string.Empty;
 		
 		private readonly ComboBox		m_cboxMode			= new ComboBox();
 		private readonly TextBox		m_tboxSourceDir		= new TextBox();
@@ -52,14 +52,14 @@ namespace Core.Duplicator
 		private BackgroundWorker		m_bw = null; // фоновый обработчик
 		#endregion
 
-		public CopiesListWorkerForm( BooksWorkMode WorkMode, string FromFilePath, ComboBox cboxMode,
+		public CopiesListWorkerForm( BooksWorkMode WorkMode, string DirOrFileName, ComboBox cboxMode,
 		                            ListView lvResult, ListView lvFilesCount, TextBox tboxSourceDir,
 		                            CheckBox chBoxScanSubDir, CheckBox chBoxIsValid, RadioButton rbtnFB2Librusec,
 		                            int LastSelectedItem, int GroupCountForList
 		                           )
 		{
 			InitializeComponent();
-			m_FilePath			= FromFilePath;
+			m_DirOrFileName		= DirOrFileName;
 			m_cboxMode			= cboxMode;
 			m_tboxSourceDir		= tboxSourceDir;
 			m_chBoxScanSubDir	= chBoxScanSubDir;
@@ -112,14 +112,17 @@ namespace Core.Duplicator
 			switch( m_WorkMode ) {
 				case BooksWorkMode.SaveFB2List:
 					this.Text = "Сохранение списка копий fb2 книг";
-					// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске (защита от сохранения пустых Групп)
-					MiscListView.deleteAllItemForNonExistFile( m_lvResult );
-					saveCopiesListToXml( ref m_bw, ref e, m_GroupCountForList, m_FilePath,
+					saveCopiesListToXml( ref m_bw, ref e, m_GroupCountForList, m_DirOrFileName,
 					                    m_cboxMode.SelectedIndex, m_cboxMode.Text.Trim() );
 					break;
 				case BooksWorkMode.LoadFB2List:
 					this.Text = "Загрузка списка копий fb2 книг";
-					loadCopiesListFromXML( ref m_bw, ref e, m_FilePath );
+					loadCopiesListFromXML( ref m_bw, ref e, m_DirOrFileName );
+					break;
+				case BooksWorkMode.SaveWorkingFB2List:
+					this.Text = "Сохранение списка копий fb2 книг";
+					saveWorkingListToXml( ref m_bw, ref e, m_GroupCountForList, m_DirOrFileName,
+					                     m_cboxMode.SelectedIndex, m_cboxMode.Text.Trim() );
 					break;
 				default:
 					return;
@@ -185,49 +188,111 @@ namespace Core.Duplicator
 			foreach( XElement Group in Groups )
 				Group.SetAttributeValue( "number", ++i );
 		}
+		private XDocument createXMLCtructure( int CompareMode, string CompareModeName ) {
+			return new XDocument(
+				new XDeclaration("1.0", "utf-8", "yes"),
+				new XComment("Файл копий fb2 книг, сохраненный после полного окончания работы Дубликатора"),
+				new XElement("Files", new XAttribute("type", "dup_endwork"),
+				             new XComment("Папка для поиска копий fb2 книг"),
+				             new XElement("SourceDir", m_tboxSourceDir.Text.Trim()),
+				             new XComment("Настройки поиска-сравнения fb2 книг"),
+				             new XElement("Settings",
+				                          new XElement("ScanSubDirs", m_chBoxScanSubDir.Checked),
+				                          new XElement("CheckValidate", m_chBoxIsValid.Checked),
+				                          new XElement("GenresFB2Librusec", m_rbtnFB2Librusec.Checked)),
+				             new XComment("Режим поиска-сравнения fb2 книг"),
+				             new XElement("CompareMode",
+				                          new XAttribute("index", CompareMode),
+				                          new XElement("Name", CompareModeName)),
+				             new XComment("Данные о ходе сравнения fb2 книг"),
+				             new XElement("CompareData",
+				                          new XElement("AllDirs", m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text),
+				                          new XElement("AllFiles", m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBooks].SubItems[1].Text),
+				                          new XElement("Groups", "0"),
+				                          new XElement("AllFB2InGroups", "0")
+				                         ),
+				             new XComment("Копии fb2 книг по группам"),
+				             new XElement("Groups",
+				                          new XAttribute("count", "0"),
+				                          new XAttribute("books", "0")
+				                         ),
+				             new XComment("Выделенный элемент списка, на котором завершили обработку книг"),
+				             new XElement("SelectedItem", "-1" )
+				            )
+			);
+		}
+		private void addGroupInGroups( ref XDocument doc, ref XElement xeGroup, ListViewGroup listViewGroup ) {
+			doc.Root.Element("Groups").Add(
+				xeGroup = new XElement("Group", new XAttribute("number", 0),
+				                       new XAttribute("count", listViewGroup.Items.Count),
+				                       new XAttribute("name", listViewGroup.Header)
+				                      )
+			);
+		}
+		private void addBookInGroup( ref XElement xeGroup, ListViewItem listViewItem, ref int BookNumber ) {
+			xeGroup.Add(
+				new XElement("Book", new XAttribute("number", ++BookNumber),
+				             new XElement("Group", listViewItem.Group.Header),
+				             new XElement("Path", listViewItem.SubItems[(int)ResultViewDupCollumn.Path].Text),
+				             new XElement("BookTitle", listViewItem.SubItems[(int)ResultViewDupCollumn.BookTitle].Text),
+				             new XElement("Authors", listViewItem.SubItems[(int)ResultViewDupCollumn.Authors].Text),
+				             new XElement("Genres", listViewItem.SubItems[(int)ResultViewDupCollumn.Genres].Text),
+				             new XElement("BookLang", listViewItem.SubItems[(int)ResultViewDupCollumn.BookLang].Text),
+				             new XElement("BookID", listViewItem.SubItems[(int)ResultViewDupCollumn.BookID].Text),
+				             new XElement("Version", listViewItem.SubItems[(int)ResultViewDupCollumn.Version].Text),
+				             new XElement("Encoding", listViewItem.SubItems[(int)ResultViewDupCollumn.Encoding].Text),
+				             new XElement("Validation", listViewItem.SubItems[(int)ResultViewDupCollumn.Validate].Text),
+				             new XElement("FileLength", listViewItem.SubItems[(int)ResultViewDupCollumn.FileLength].Text),
+				             new XElement("FileCreationTime", listViewItem.SubItems[(int)ResultViewDupCollumn.CreationTime].Text),
+				             new XElement("FileLastWriteTime", listViewItem.SubItems[(int)ResultViewDupCollumn.LastWriteTime].Text),
+				             new XElement("ForeColor", listViewItem.ForeColor.Name),
+				             new XElement("BackColor", listViewItem.BackColor.Name),
+				             new XElement("IsChecked", listViewItem.Checked)
+				            )
+			);
+		}
+		private void addAllBookInGroup( ref BackgroundWorker bw, ref DoWorkEventArgs e,
+		                               ref XDocument doc, ListViewGroup listViewGroup,
+		                               ref int BookInGroups, ref int GroupCountInGroups ) {
+			BookInGroups += listViewGroup.Items.Count;
+			
+			XElement xeGroup = null;
+			addGroupInGroups( ref doc, ref xeGroup, listViewGroup );
+			
+			int BookNumber = 0;			// номер Книги (Book number) В Группе (Group)
+			int BookCountInGroup = 0;	// число Книг (Group count) в Группе (Group)
+			int i = 0; 					// прогресс
+			foreach ( ListViewItem lvi in listViewGroup.Items ) {
+				// только для "реальных" книг в списке (игнорируем итемы в списке тех книг, которые были удалены с диска в режиме быстрого удаления)
+				// а также только для Групп, в которых больше 1 книги.
+				if( lvi.Group.Items.Count > 1 ) {
+					addBookInGroup( ref xeGroup, lvi, ref BookNumber );
+					xeGroup.SetAttributeValue( "count", ++BookCountInGroup );
+					if( !File.Exists( lvi.SubItems[(int)ResultViewDupCollumn.Path].Text ) ) {
+						// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
+						WorksWithBooks.MarkRemoverFileInCopyesList( lvi );
+					}
+				}
+				if( !xeGroup.HasElements ) {
+					xeGroup.Remove();
+				}
+				bw.ReportProgress( ++i );
+			} // по всем книгам Группы
+			++GroupCountInGroups;
+		}
 		// сохранение списка копий книг в xml-файл
 		private void saveCopiesListToXml( ref BackgroundWorker bw, ref DoWorkEventArgs e, int GroupCountForList,
-		                                 string ToFileName, int CompareMode, string CompareModeName ) {
-			if( !Directory.Exists( m_FilePath ) )
-				Directory.CreateDirectory( m_FilePath );
-			int ThroughGroupCounterForXML = 0;	// "скыозной"счетчик числа групп для каждого создаваемого xml файла копий
+		                                 string ToDirName, int CompareMode, string CompareModeName ) {
+			if( !Directory.Exists( ToDirName ) )
+				Directory.CreateDirectory( ToDirName );
+			int ThroughGroupCounterForXML = 0;	// "сквозной"счетчик числа групп для каждого создаваемого xml файла копий
 			int GroupCounterForXML = 0;			// счетчик (в границых CompareModeName) числа групп для каждого создаваемого xml файла копий
 			int XmlFileNumber = 0;				// номер файла - для формирования имени создаваемого xml файла копий
 			
 			// копии fb2 книг по группам
 			if ( m_lvResult.Groups.Count > 0 ) {
 				ProgressBar.Maximum	= m_lvResult.Items.Count;
-				XDocument doc = new XDocument(
-					new XDeclaration("1.0", "utf-8", "yes"),
-					new XComment("Файл копий fb2 книг, сохраненный после полного окончания работы Дубликатора"),
-					new XElement("Files", new XAttribute("type", "dup_endwork"),
-					             new XComment("Папка для поиска копий fb2 книг"),
-					             new XElement("SourceDir", m_tboxSourceDir.Text.Trim()),
-					             new XComment("Настройки поиска-сравнения fb2 книг"),
-					             new XElement("Settings",
-					                          new XElement("ScanSubDirs", m_chBoxScanSubDir.Checked),
-					                          new XElement("CheckValidate", m_chBoxIsValid.Checked),
-					                          new XElement("GenresFB2Librusec", m_rbtnFB2Librusec.Checked)),
-					             new XComment("Режим поиска-сравнения fb2 книг"),
-					             new XElement("CompareMode",
-					                          new XAttribute("index", CompareMode),
-					                          new XElement("Name", CompareModeName)),
-					             new XComment("Данные о ходе сравнения fb2 книг"),
-					             new XElement("CompareData",
-					                          new XElement("AllDirs", m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text),
-					                          new XElement("AllFiles", m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBooks].SubItems[1].Text),
-					                          new XElement("Groups", "0"),
-					                          new XElement("AllFB2InGroups", "0")
-					                         ),
-					             new XComment("Копии fb2 книг по группам"),
-					             new XElement("Groups",
-					                          new XAttribute("count", "0"),
-					                          new XAttribute("books", "0")
-					                         ),
-					             new XComment("Выделенный элемент списка, на котором завершили обработку книг"),
-					             new XElement("SelectedItem", "-1" )
-					            )
-				);
+				XDocument doc = createXMLCtructure( CompareMode, CompareModeName );
 				
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
@@ -236,54 +301,9 @@ namespace Core.Duplicator
 						e.Cancel = true;
 						return;
 					}
-					BookInGroups += lvGroup.Items.Count;
-					XElement xeGroup = null;
-					int BookNumber = 0;	// номер Книги (Book number) В Группе (Group)
-					int i = 0; 			// прогресс
-					doc.Root.Element("Groups").Add(
-						xeGroup = new XElement("Group", new XAttribute("number", 0),
-						                       new XAttribute("count", lvGroup.Items.Count),
-						                       new XAttribute("name", lvGroup.Header)
-						                      )
-					);
 					
-					int BookCountInGroup = 0; // число Книг (Group count) в Группе (Group)
-					foreach ( ListViewItem lvi in lvGroup.Items ) {
-						// только для "реальных" книг в списке (игнорируем итемы в списке тех книг, которые были удалены с диска в режиме быстрого удаления)
-						// а также только для Групп, в которых больше 1 книги.
-						if( lvi.Group.Items.Count > 1 ) {
-							xeGroup.Add( new XElement("Book", new XAttribute("number", ++BookNumber),
-							                          new XElement("Group", lvi.Group.Header),
-							                          new XElement("Path", lvi.SubItems[(int)ResultViewDupCollumn.Path].Text),
-							                          new XElement("BookTitle", lvi.SubItems[(int)ResultViewDupCollumn.BookTitle].Text),
-							                          new XElement("Authors", lvi.SubItems[(int)ResultViewDupCollumn.Authors].Text),
-							                          new XElement("Genres", lvi.SubItems[(int)ResultViewDupCollumn.Genres].Text),
-							                          new XElement("BookLang", lvi.SubItems[(int)ResultViewDupCollumn.BookLang].Text),
-							                          new XElement("BookID", lvi.SubItems[(int)ResultViewDupCollumn.BookID].Text),
-							                          new XElement("Version", lvi.SubItems[(int)ResultViewDupCollumn.Version].Text),
-							                          new XElement("Encoding", lvi.SubItems[(int)ResultViewDupCollumn.Encoding].Text),
-							                          new XElement("Validation", lvi.SubItems[(int)ResultViewDupCollumn.Validate].Text),
-							                          new XElement("FileLength", lvi.SubItems[(int)ResultViewDupCollumn.FileLength].Text),
-							                          new XElement("FileCreationTime", lvi.SubItems[(int)ResultViewDupCollumn.CreationTime].Text),
-							                          new XElement("FileLastWriteTime", lvi.SubItems[(int)ResultViewDupCollumn.LastWriteTime].Text),
-							                          new XElement("ForeColor", lvi.ForeColor.Name),
-							                          new XElement("BackColor", lvi.BackColor.Name),
-							                          new XElement("IsChecked", lvi.Checked)
-							                         )
-							           );
-							xeGroup.SetAttributeValue( "count", ++BookCountInGroup );
-							if( !File.Exists( lvi.SubItems[(int)ResultViewDupCollumn.Path].Text ) ) {
-								// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
-								WorksWithBooks.MarkRemoverFileInCopyesList( lvi );
-							}
-						}
-						if( !xeGroup.HasElements ) {
-							xeGroup.Remove();
-						}
-						bw.ReportProgress( ++i );
-					} // по всем книгам Группы
-					
-					++GroupCountInGroups;
+					addAllBookInGroup( ref bw, ref e, ref doc, lvGroup, ref BookInGroups, ref GroupCountInGroups );
+
 					++GroupCounterForXML;
 					++ThroughGroupCounterForXML;
 					doc.Root.Element("SelectedItem").SetValue(
@@ -294,7 +314,7 @@ namespace Core.Duplicator
 					if( GroupCountForList <= m_lvResult.Groups.Count ) {
 						if( GroupCounterForXML >= GroupCountForList ) {
 							setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-							doc.Save( Path.Combine( m_FilePath, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
+							doc.Save( Path.Combine( ToDirName, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
 							doc.Root.Element("Groups").Elements().Remove();
 							GroupCountInGroups = 0;
 							GroupCounterForXML = 0;
@@ -303,13 +323,37 @@ namespace Core.Duplicator
 							// последний диаппазон Групп
 							if( ThroughGroupCounterForXML == m_lvResult.Groups.Count ) {
 								setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-								doc.Save( Path.Combine( m_FilePath, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
+								doc.Save( Path.Combine( ToDirName, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
 							}
 						}
 					} else {
 						setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-						doc.Save( Path.Combine( m_FilePath, "001.dup_lbc" ) );
+						doc.Save( Path.Combine( ToDirName, "001.dup_lbc" ) );
 					}
+				} // по всем Группам
+			}
+		}
+		// сохранение текущего обрабатываемого списка без запроса на подтверждение и пути сохранения
+		private void saveWorkingListToXml( ref BackgroundWorker bw, ref DoWorkEventArgs e, int GroupCountForList,
+		                                  string ToFileName, int CompareMode, string CompareModeName ) {
+			// копии fb2 книг по группам
+			if ( m_lvResult.Groups.Count > 0 ) {
+				ProgressBar.Maximum	= m_lvResult.Items.Count;
+				XDocument doc = createXMLCtructure( CompareMode, CompareModeName );
+				
+				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
+				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
+				foreach (ListViewGroup lvGroup in m_lvResult.Groups ) {
+					if( ( bw.CancellationPending ) )  {
+						e.Cancel = true;
+						return;
+					}
+					
+					addAllBookInGroup( ref bw, ref e, ref doc, lvGroup, ref BookInGroups, ref GroupCountInGroups );
+					
+					doc.Root.Element("SelectedItem").SetValue( m_LastSelectedItem.ToString() );
+					setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
+					doc.Save( ToFileName );
 				} // по всем Группам
 			}
 		}

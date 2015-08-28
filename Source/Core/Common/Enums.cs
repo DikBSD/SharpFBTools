@@ -132,6 +132,7 @@ namespace Core.Common
 		/// </summary>
 		public enum BooksWorkMode : byte {
 			SaveFB2List,		// Сохранение списка копий книг
+			SaveWorkingFB2List,	// Сохранение текущего обрабатываемого списка копий книг без запроса пути
 			LoadFB2List,		// Загрузка списка копий книг
 			CopyCheckedBooks,	// Копирование помеченных книг в папку
 			MoveCheckedBooks,	// Перемещение помеченных книг в папку

@@ -212,6 +212,8 @@ namespace Core.Duplicator
 			if( m_Fast )
 				m_lvResult.BeginUpdate();
 			
+			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
+			MiscListView.deleteAllItemForNonExistFile( m_lvResult );
 			switch( m_WorkMode ) {
 				case BooksWorkMode.CopyCheckedBooks:
 					this.Text = "Копирование помеченных копий книг в папку " + m_TargetDir;
