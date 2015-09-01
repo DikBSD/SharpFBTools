@@ -296,6 +296,8 @@ namespace SharpFBTools.Tools
 			this.TICoverPixelsLabel = new System.Windows.Forms.Label();
 			this.TICoverDPILabel = new System.Windows.Forms.Label();
 			this.TICoverListViewPanel = new System.Windows.Forms.Panel();
+			this.TICoversListView = new System.Windows.Forms.ListView();
+			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.TICoverListViewButtonPanel = new System.Windows.Forms.Panel();
 			this.TISaveSelectedCoverButton = new System.Windows.Forms.Button();
 			this.tpSTI = new System.Windows.Forms.TabPage();
@@ -306,6 +308,8 @@ namespace SharpFBTools.Tools
 			this.STICoverPixelsLabel = new System.Windows.Forms.Label();
 			this.STICoverDPILabel = new System.Windows.Forms.Label();
 			this.STICoverListViewPanel = new System.Windows.Forms.Panel();
+			this.STICoversListView = new System.Windows.Forms.ListView();
+			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
 			this.STICoverListViewButtonPanel = new System.Windows.Forms.Panel();
 			this.STISaveSelectedCoverButton = new System.Windows.Forms.Button();
 			this.pFilesCount = new System.Windows.Forms.Panel();
@@ -347,10 +351,6 @@ namespace SharpFBTools.Tools
 			this.gboxCopyMoveOptions = new System.Windows.Forms.GroupBox();
 			this.cboxExistFile = new System.Windows.Forms.ComboBox();
 			this.lblExistFile = new System.Windows.Forms.Label();
-			this.TICoversListView = new System.Windows.Forms.ListView();
-			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-			this.STICoversListView = new System.Windows.Forms.ListView();
-			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
 			this.ssProgress.SuspendLayout();
 			this.cmsFB2.SuspendLayout();
 			this.tcDuplicator.SuspendLayout();
@@ -1458,10 +1458,31 @@ namespace SharpFBTools.Tools
 			this.TICoverListViewPanel.Size = new System.Drawing.Size(155, 229);
 			this.TICoverListViewPanel.TabIndex = 96;
 			// 
+			// TICoversListView
+			// 
+			this.TICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader1});
+			this.TICoversListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TICoversListView.GridLines = true;
+			this.TICoversListView.HideSelection = false;
+			this.TICoversListView.Location = new System.Drawing.Point(0, 0);
+			this.TICoversListView.Name = "TICoversListView";
+			this.TICoversListView.Size = new System.Drawing.Size(155, 191);
+			this.TICoversListView.TabIndex = 99;
+			this.TICoversListView.UseCompatibleStateImageBehavior = false;
+			this.TICoversListView.View = System.Windows.Forms.View.Details;
+			this.TICoversListView.SelectedIndexChanged += new System.EventHandler(this.TICoversListViewSelectedIndexChanged);
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Обложки";
+			this.columnHeader1.Width = 100;
+			// 
 			// TICoverListViewButtonPanel
 			// 
 			this.TICoverListViewButtonPanel.Controls.Add(this.TISaveSelectedCoverButton);
 			this.TICoverListViewButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TICoverListViewButtonPanel.Enabled = false;
 			this.TICoverListViewButtonPanel.Location = new System.Drawing.Point(0, 191);
 			this.TICoverListViewButtonPanel.Name = "TICoverListViewButtonPanel";
 			this.TICoverListViewButtonPanel.Size = new System.Drawing.Size(155, 38);
@@ -1470,7 +1491,6 @@ namespace SharpFBTools.Tools
 			// TISaveSelectedCoverButton
 			// 
 			this.TISaveSelectedCoverButton.Dock = System.Windows.Forms.DockStyle.Right;
-			this.TISaveSelectedCoverButton.Enabled = false;
 			this.TISaveSelectedCoverButton.Image = ((System.Drawing.Image)(resources.GetObject("TISaveSelectedCoverButton.Image")));
 			this.TISaveSelectedCoverButton.Location = new System.Drawing.Point(115, 0);
 			this.TISaveSelectedCoverButton.Name = "TISaveSelectedCoverButton";
@@ -1562,10 +1582,31 @@ namespace SharpFBTools.Tools
 			this.STICoverListViewPanel.Size = new System.Drawing.Size(155, 229);
 			this.STICoverListViewPanel.TabIndex = 97;
 			// 
+			// STICoversListView
+			// 
+			this.STICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader3});
+			this.STICoversListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.STICoversListView.GridLines = true;
+			this.STICoversListView.HideSelection = false;
+			this.STICoversListView.Location = new System.Drawing.Point(0, 0);
+			this.STICoversListView.Name = "STICoversListView";
+			this.STICoversListView.Size = new System.Drawing.Size(155, 191);
+			this.STICoversListView.TabIndex = 99;
+			this.STICoversListView.UseCompatibleStateImageBehavior = false;
+			this.STICoversListView.View = System.Windows.Forms.View.Details;
+			this.STICoversListView.SelectedIndexChanged += new System.EventHandler(this.STICoversListViewSelectedIndexChanged);
+			// 
+			// columnHeader3
+			// 
+			this.columnHeader3.Text = "Обложки";
+			this.columnHeader3.Width = 100;
+			// 
 			// STICoverListViewButtonPanel
 			// 
 			this.STICoverListViewButtonPanel.Controls.Add(this.STISaveSelectedCoverButton);
 			this.STICoverListViewButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STICoverListViewButtonPanel.Enabled = false;
 			this.STICoverListViewButtonPanel.Location = new System.Drawing.Point(0, 191);
 			this.STICoverListViewButtonPanel.Name = "STICoverListViewButtonPanel";
 			this.STICoverListViewButtonPanel.Size = new System.Drawing.Size(155, 38);
@@ -1574,7 +1615,6 @@ namespace SharpFBTools.Tools
 			// STISaveSelectedCoverButton
 			// 
 			this.STISaveSelectedCoverButton.Dock = System.Windows.Forms.DockStyle.Right;
-			this.STISaveSelectedCoverButton.Enabled = false;
 			this.STISaveSelectedCoverButton.Image = ((System.Drawing.Image)(resources.GetObject("STISaveSelectedCoverButton.Image")));
 			this.STISaveSelectedCoverButton.Location = new System.Drawing.Point(115, 0);
 			this.STISaveSelectedCoverButton.Name = "STISaveSelectedCoverButton";
@@ -2081,46 +2121,6 @@ namespace SharpFBTools.Tools
 			this.lblExistFile.Size = new System.Drawing.Size(267, 17);
 			this.lblExistFile.TabIndex = 17;
 			this.lblExistFile.Text = "Одинаковые файлы в папке-приемнике:";
-			// 
-			// TICoversListView
-			// 
-			this.TICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader1});
-			this.TICoversListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.TICoversListView.GridLines = true;
-			this.TICoversListView.HideSelection = false;
-			this.TICoversListView.Location = new System.Drawing.Point(0, 0);
-			this.TICoversListView.Name = "TICoversListView";
-			this.TICoversListView.Size = new System.Drawing.Size(155, 191);
-			this.TICoversListView.TabIndex = 99;
-			this.TICoversListView.UseCompatibleStateImageBehavior = false;
-			this.TICoversListView.View = System.Windows.Forms.View.Details;
-			this.TICoversListView.SelectedIndexChanged += new System.EventHandler(this.TICoversListViewSelectedIndexChanged);
-			// 
-			// columnHeader1
-			// 
-			this.columnHeader1.Text = "Обложки";
-			this.columnHeader1.Width = 100;
-			// 
-			// STICoversListView
-			// 
-			this.STICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader3});
-			this.STICoversListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.STICoversListView.GridLines = true;
-			this.STICoversListView.HideSelection = false;
-			this.STICoversListView.Location = new System.Drawing.Point(0, 0);
-			this.STICoversListView.Name = "STICoversListView";
-			this.STICoversListView.Size = new System.Drawing.Size(155, 191);
-			this.STICoversListView.TabIndex = 99;
-			this.STICoversListView.UseCompatibleStateImageBehavior = false;
-			this.STICoversListView.View = System.Windows.Forms.View.Details;
-			this.STICoversListView.SelectedIndexChanged += new System.EventHandler(this.STICoversListViewSelectedIndexChanged);
-			// 
-			// columnHeader3
-			// 
-			this.columnHeader3.Text = "Обложки";
-			this.columnHeader3.Width = 100;
 			// 
 			// SFBTpFB2Dublicator
 			// 

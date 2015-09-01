@@ -357,7 +357,7 @@ namespace Core.Common
 			DIYearTextBox.Text = !string.IsNullOrEmpty( fb2.PIYear ) ? fb2.PIYear : string.Empty;
 			// ISBN
 			ISBN isbn = fb2.PIISBN;
-			if( city != null )
+			if( isbn != null )
 				DIISBNTextBox.Text = !string.IsNullOrEmpty( isbn.Value ) ? isbn.Value : string.Empty;
 			// Sequence
 			loadSequences( ref fb2, Enums.TitleInfoEnum.TitleInfo, Enums.SequenceEnum.PaperBook );
