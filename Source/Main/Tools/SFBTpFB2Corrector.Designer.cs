@@ -37,100 +37,100 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Corrector));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Название Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Жанр(ы) Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Язык",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Язык оригинала",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Автор(ы) Книги",
 			""}, 0, System.Drawing.Color.Navy, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Дата написания",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Ключевые слова",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Переводчик(и)",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Серия(и) (Номер)",
 			""}, 0, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Название Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem43 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Жанр(ы) Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem44 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Язык",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Язык оригинала",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem46 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Автор(ы) Книги",
 			""}, 0, System.Drawing.Color.Navy, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem47 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Дата написания",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem48 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Ключевые слова",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem49 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Переводчик(и)",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem50 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Серия(и) (Номер)",
 			""}, 0, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem51 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Число Обложек",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem52 = new System.Windows.Forms.ListViewItem(new string[] {
 			"ID Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem53 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Версия fb2-файла",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem54 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Дата создания: Текст (Значение)",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem55 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Программы",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem56 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Источник OCR",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem57 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Источник URL",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem58 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Автор fb2-файла",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem59 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Заголовок Книги",
 			""}, 0, System.Drawing.SystemColors.WindowText, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem60 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Издатель",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem61 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Город",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem62 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Год издания",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem63 = new System.Windows.Forms.ListViewItem(new string[] {
 			"ISBN",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem64 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Серия(и) (Номер)",
 			""}, 0, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
@@ -233,13 +233,23 @@ namespace SharpFBTools.Tools
 			this.tbValidate = new System.Windows.Forms.TextBox();
 			this.tcCovers = new System.Windows.Forms.TabControl();
 			this.tpTI = new System.Windows.Forms.TabPage();
+			this.TICoverPanel = new System.Windows.Forms.Panel();
 			this.picBoxTICover = new System.Windows.Forms.PictureBox();
-			this.TICoversListView = new System.Windows.Forms.ListView();
-			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			this.TICoverInfoPanel = new System.Windows.Forms.Panel();
+			this.TICoverLenghtLabel = new System.Windows.Forms.Label();
+			this.TICoverPixelsLabel = new System.Windows.Forms.Label();
+			this.TICoverDPILabel = new System.Windows.Forms.Label();
+			this.TICoverListViewPanel = new System.Windows.Forms.Panel();
 			this.tpSTI = new System.Windows.Forms.TabPage();
+			this.STICoverPanel = new System.Windows.Forms.Panel();
 			this.picBoxSTICover = new System.Windows.Forms.PictureBox();
-			this.STICoversListView = new System.Windows.Forms.ListView();
-			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+			this.STICoverInfoPanel = new System.Windows.Forms.Panel();
+			this.STICoverLenghtLabel = new System.Windows.Forms.Label();
+			this.STICoverPixelsLabel = new System.Windows.Forms.Label();
+			this.STICoverDPILabel = new System.Windows.Forms.Label();
+			this.STICoverListViewPanel = new System.Windows.Forms.Panel();
+			this.STICoverListViewButtonPanel = new System.Windows.Forms.Panel();
+			this.STISaveSelectedCoverButton = new System.Windows.Forms.Button();
 			this.LegengPanel = new System.Windows.Forms.Panel();
 			this.BadZipLabel1 = new System.Windows.Forms.Label();
 			this.ZipLabel = new System.Windows.Forms.Label();
@@ -268,6 +278,12 @@ namespace SharpFBTools.Tools
 			this.imageListDescEditor = new System.Windows.Forms.ImageList(this.components);
 			this.sfdList = new System.Windows.Forms.SaveFileDialog();
 			this.sfdLoadList = new System.Windows.Forms.OpenFileDialog();
+			this.TICoverListViewButtonPanel = new System.Windows.Forms.Panel();
+			this.TISaveSelectedCoverButton = new System.Windows.Forms.Button();
+			this.TICoversListView = new System.Windows.Forms.ListView();
+			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			this.STICoversListView = new System.Windows.Forms.ListView();
+			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
 			this.ssProgress.SuspendLayout();
 			this.tcDesc.SuspendLayout();
 			this.tpCorrector.SuspendLayout();
@@ -285,13 +301,21 @@ namespace SharpFBTools.Tools
 			this.tpValidate.SuspendLayout();
 			this.tcCovers.SuspendLayout();
 			this.tpTI.SuspendLayout();
+			this.TICoverPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxTICover)).BeginInit();
+			this.TICoverInfoPanel.SuspendLayout();
+			this.TICoverListViewPanel.SuspendLayout();
 			this.tpSTI.SuspendLayout();
+			this.STICoverPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxSTICover)).BeginInit();
+			this.STICoverInfoPanel.SuspendLayout();
+			this.STICoverListViewPanel.SuspendLayout();
+			this.STICoverListViewButtonPanel.SuspendLayout();
 			this.LegengPanel.SuspendLayout();
 			this.panelExplorerAddress.SuspendLayout();
 			this.tpOptions.SuspendLayout();
 			this.gboxCopyMoveOptions.SuspendLayout();
+			this.TICoverListViewButtonPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ssProgress
@@ -376,6 +400,7 @@ namespace SharpFBTools.Tools
 			this.listViewFB2Files.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewFB2Files.FullRowSelect = true;
 			this.listViewFB2Files.GridLines = true;
+			this.listViewFB2Files.HideSelection = false;
 			this.listViewFB2Files.Location = new System.Drawing.Point(4, 74);
 			this.listViewFB2Files.Margin = new System.Windows.Forms.Padding(4);
 			this.listViewFB2Files.Name = "listViewFB2Files";
@@ -489,7 +514,7 @@ namespace SharpFBTools.Tools
 			this.toolStripMenuItem1,
 			this.tsmiColumnsExplorerAutoReize});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(588, 634);
+			this.cmsFB2.Size = new System.Drawing.Size(588, 606);
 			// 
 			// tsmiValidate
 			// 
@@ -915,16 +940,17 @@ namespace SharpFBTools.Tools
 			this.lvTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvTitleInfo.FullRowSelect = true;
 			this.lvTitleInfo.GridLines = true;
+			this.lvTitleInfo.HideSelection = false;
 			this.lvTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem1,
-			listViewItem2,
-			listViewItem3,
-			listViewItem4,
-			listViewItem5,
-			listViewItem6,
-			listViewItem7,
-			listViewItem8,
-			listViewItem9});
+			listViewItem33,
+			listViewItem34,
+			listViewItem35,
+			listViewItem36,
+			listViewItem37,
+			listViewItem38,
+			listViewItem39,
+			listViewItem40,
+			listViewItem41});
 			this.lvTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvTitleInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvTitleInfo.Name = "lvTitleInfo";
@@ -963,17 +989,18 @@ namespace SharpFBTools.Tools
 			this.lvSourceTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSourceTitleInfo.FullRowSelect = true;
 			this.lvSourceTitleInfo.GridLines = true;
+			this.lvSourceTitleInfo.HideSelection = false;
 			this.lvSourceTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem10,
-			listViewItem11,
-			listViewItem12,
-			listViewItem13,
-			listViewItem14,
-			listViewItem15,
-			listViewItem16,
-			listViewItem17,
-			listViewItem18,
-			listViewItem19});
+			listViewItem42,
+			listViewItem43,
+			listViewItem44,
+			listViewItem45,
+			listViewItem46,
+			listViewItem47,
+			listViewItem48,
+			listViewItem49,
+			listViewItem50,
+			listViewItem51});
 			this.lvSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvSourceTitleInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvSourceTitleInfo.Name = "lvSourceTitleInfo";
@@ -1012,14 +1039,15 @@ namespace SharpFBTools.Tools
 			this.lvDocumentInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvDocumentInfo.FullRowSelect = true;
 			this.lvDocumentInfo.GridLines = true;
+			this.lvDocumentInfo.HideSelection = false;
 			this.lvDocumentInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem20,
-			listViewItem21,
-			listViewItem22,
-			listViewItem23,
-			listViewItem24,
-			listViewItem25,
-			listViewItem26});
+			listViewItem52,
+			listViewItem53,
+			listViewItem54,
+			listViewItem55,
+			listViewItem56,
+			listViewItem57,
+			listViewItem58});
 			this.lvDocumentInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvDocumentInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvDocumentInfo.Name = "lvDocumentInfo";
@@ -1058,13 +1086,14 @@ namespace SharpFBTools.Tools
 			this.lvPublishInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvPublishInfo.FullRowSelect = true;
 			this.lvPublishInfo.GridLines = true;
+			this.lvPublishInfo.HideSelection = false;
 			this.lvPublishInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem27,
-			listViewItem28,
-			listViewItem29,
-			listViewItem30,
-			listViewItem31,
-			listViewItem32});
+			listViewItem59,
+			listViewItem60,
+			listViewItem61,
+			listViewItem62,
+			listViewItem63,
+			listViewItem64});
 			this.lvPublishInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvPublishInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvPublishInfo.Name = "lvPublishInfo";
@@ -1103,6 +1132,7 @@ namespace SharpFBTools.Tools
 			this.lvCustomInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvCustomInfo.FullRowSelect = true;
 			this.lvCustomInfo.GridLines = true;
+			this.lvCustomInfo.HideSelection = false;
 			this.lvCustomInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvCustomInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvCustomInfo.Name = "lvCustomInfo";
@@ -1226,8 +1256,8 @@ namespace SharpFBTools.Tools
 			// 
 			// tpTI
 			// 
-			this.tpTI.Controls.Add(this.picBoxTICover);
-			this.tpTI.Controls.Add(this.TICoversListView);
+			this.tpTI.Controls.Add(this.TICoverPanel);
+			this.tpTI.Controls.Add(this.TICoverListViewPanel);
 			this.tpTI.Location = new System.Drawing.Point(4, 25);
 			this.tpTI.Name = "tpTI";
 			this.tpTI.Padding = new System.Windows.Forms.Padding(3);
@@ -1236,42 +1266,81 @@ namespace SharpFBTools.Tools
 			this.tpTI.Text = "Обложки Книги";
 			this.tpTI.UseVisualStyleBackColor = true;
 			// 
+			// TICoverPanel
+			// 
+			this.TICoverPanel.Controls.Add(this.picBoxTICover);
+			this.TICoverPanel.Controls.Add(this.TICoverInfoPanel);
+			this.TICoverPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TICoverPanel.Location = new System.Drawing.Point(158, 3);
+			this.TICoverPanel.Name = "TICoverPanel";
+			this.TICoverPanel.Size = new System.Drawing.Size(163, 208);
+			this.TICoverPanel.TabIndex = 98;
+			// 
 			// picBoxTICover
 			// 
 			this.picBoxTICover.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.picBoxTICover.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.picBoxTICover.ErrorImage = ((System.Drawing.Image)(resources.GetObject("picBoxTICover.ErrorImage")));
-			this.picBoxTICover.Location = new System.Drawing.Point(158, 3);
+			this.picBoxTICover.Location = new System.Drawing.Point(0, 64);
 			this.picBoxTICover.Margin = new System.Windows.Forms.Padding(4);
 			this.picBoxTICover.Name = "picBoxTICover";
-			this.picBoxTICover.Size = new System.Drawing.Size(163, 208);
+			this.picBoxTICover.Size = new System.Drawing.Size(163, 144);
 			this.picBoxTICover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.picBoxTICover.TabIndex = 95;
+			this.picBoxTICover.TabIndex = 98;
 			this.picBoxTICover.TabStop = false;
 			// 
-			// TICoversListView
+			// TICoverInfoPanel
 			// 
-			this.TICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader1});
-			this.TICoversListView.Dock = System.Windows.Forms.DockStyle.Left;
-			this.TICoversListView.GridLines = true;
-			this.TICoversListView.Location = new System.Drawing.Point(3, 3);
-			this.TICoversListView.Name = "TICoversListView";
-			this.TICoversListView.Size = new System.Drawing.Size(155, 208);
-			this.TICoversListView.TabIndex = 94;
-			this.TICoversListView.UseCompatibleStateImageBehavior = false;
-			this.TICoversListView.View = System.Windows.Forms.View.Details;
-			this.TICoversListView.SelectedIndexChanged += new System.EventHandler(this.TICoversListViewSelectedIndexChanged);
+			this.TICoverInfoPanel.Controls.Add(this.TICoverLenghtLabel);
+			this.TICoverInfoPanel.Controls.Add(this.TICoverPixelsLabel);
+			this.TICoverInfoPanel.Controls.Add(this.TICoverDPILabel);
+			this.TICoverInfoPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverInfoPanel.Location = new System.Drawing.Point(0, 0);
+			this.TICoverInfoPanel.Name = "TICoverInfoPanel";
+			this.TICoverInfoPanel.Size = new System.Drawing.Size(163, 64);
+			this.TICoverInfoPanel.TabIndex = 97;
 			// 
-			// columnHeader1
+			// TICoverLenghtLabel
 			// 
-			this.columnHeader1.Text = "Обложки";
-			this.columnHeader1.Width = 100;
+			this.TICoverLenghtLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverLenghtLabel.Location = new System.Drawing.Point(0, 40);
+			this.TICoverLenghtLabel.Name = "TICoverLenghtLabel";
+			this.TICoverLenghtLabel.Size = new System.Drawing.Size(163, 20);
+			this.TICoverLenghtLabel.TabIndex = 4;
+			this.TICoverLenghtLabel.Text = "Размер";
+			// 
+			// TICoverPixelsLabel
+			// 
+			this.TICoverPixelsLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverPixelsLabel.Location = new System.Drawing.Point(0, 20);
+			this.TICoverPixelsLabel.Name = "TICoverPixelsLabel";
+			this.TICoverPixelsLabel.Size = new System.Drawing.Size(163, 20);
+			this.TICoverPixelsLabel.TabIndex = 3;
+			this.TICoverPixelsLabel.Text = "В пикселах";
+			// 
+			// TICoverDPILabel
+			// 
+			this.TICoverDPILabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverDPILabel.Location = new System.Drawing.Point(0, 0);
+			this.TICoverDPILabel.Name = "TICoverDPILabel";
+			this.TICoverDPILabel.Size = new System.Drawing.Size(163, 20);
+			this.TICoverDPILabel.TabIndex = 2;
+			this.TICoverDPILabel.Text = "DPI";
+			// 
+			// TICoverListViewPanel
+			// 
+			this.TICoverListViewPanel.Controls.Add(this.TICoversListView);
+			this.TICoverListViewPanel.Controls.Add(this.TICoverListViewButtonPanel);
+			this.TICoverListViewPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.TICoverListViewPanel.Location = new System.Drawing.Point(3, 3);
+			this.TICoverListViewPanel.Name = "TICoverListViewPanel";
+			this.TICoverListViewPanel.Size = new System.Drawing.Size(155, 208);
+			this.TICoverListViewPanel.TabIndex = 95;
 			// 
 			// tpSTI
 			// 
-			this.tpSTI.Controls.Add(this.picBoxSTICover);
-			this.tpSTI.Controls.Add(this.STICoversListView);
+			this.tpSTI.Controls.Add(this.STICoverPanel);
+			this.tpSTI.Controls.Add(this.STICoverListViewPanel);
 			this.tpSTI.Location = new System.Drawing.Point(4, 25);
 			this.tpSTI.Name = "tpSTI";
 			this.tpSTI.Padding = new System.Windows.Forms.Padding(3);
@@ -1280,37 +1349,97 @@ namespace SharpFBTools.Tools
 			this.tpSTI.Text = "Обложки Оригинала";
 			this.tpSTI.UseVisualStyleBackColor = true;
 			// 
+			// STICoverPanel
+			// 
+			this.STICoverPanel.Controls.Add(this.picBoxSTICover);
+			this.STICoverPanel.Controls.Add(this.STICoverInfoPanel);
+			this.STICoverPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.STICoverPanel.Location = new System.Drawing.Point(158, 3);
+			this.STICoverPanel.Name = "STICoverPanel";
+			this.STICoverPanel.Size = new System.Drawing.Size(163, 208);
+			this.STICoverPanel.TabIndex = 99;
+			// 
 			// picBoxSTICover
 			// 
 			this.picBoxSTICover.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.picBoxSTICover.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.picBoxSTICover.ErrorImage = ((System.Drawing.Image)(resources.GetObject("picBoxSTICover.ErrorImage")));
-			this.picBoxSTICover.Location = new System.Drawing.Point(158, 3);
+			this.picBoxSTICover.Location = new System.Drawing.Point(0, 64);
 			this.picBoxSTICover.Margin = new System.Windows.Forms.Padding(4);
 			this.picBoxSTICover.Name = "picBoxSTICover";
-			this.picBoxSTICover.Size = new System.Drawing.Size(163, 208);
+			this.picBoxSTICover.Size = new System.Drawing.Size(163, 144);
 			this.picBoxSTICover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.picBoxSTICover.TabIndex = 96;
+			this.picBoxSTICover.TabIndex = 100;
 			this.picBoxSTICover.TabStop = false;
 			// 
-			// STICoversListView
+			// STICoverInfoPanel
 			// 
-			this.STICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader2});
-			this.STICoversListView.Dock = System.Windows.Forms.DockStyle.Left;
-			this.STICoversListView.GridLines = true;
-			this.STICoversListView.Location = new System.Drawing.Point(3, 3);
-			this.STICoversListView.Name = "STICoversListView";
-			this.STICoversListView.Size = new System.Drawing.Size(155, 208);
-			this.STICoversListView.TabIndex = 95;
-			this.STICoversListView.UseCompatibleStateImageBehavior = false;
-			this.STICoversListView.View = System.Windows.Forms.View.Details;
-			this.STICoversListView.SelectedIndexChanged += new System.EventHandler(this.STICoversListViewSelectedIndexChanged);
+			this.STICoverInfoPanel.Controls.Add(this.STICoverLenghtLabel);
+			this.STICoverInfoPanel.Controls.Add(this.STICoverPixelsLabel);
+			this.STICoverInfoPanel.Controls.Add(this.STICoverDPILabel);
+			this.STICoverInfoPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverInfoPanel.Location = new System.Drawing.Point(0, 0);
+			this.STICoverInfoPanel.Name = "STICoverInfoPanel";
+			this.STICoverInfoPanel.Size = new System.Drawing.Size(163, 64);
+			this.STICoverInfoPanel.TabIndex = 99;
 			// 
-			// columnHeader2
+			// STICoverLenghtLabel
 			// 
-			this.columnHeader2.Text = "Обложки";
-			this.columnHeader2.Width = 100;
+			this.STICoverLenghtLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverLenghtLabel.Location = new System.Drawing.Point(0, 40);
+			this.STICoverLenghtLabel.Name = "STICoverLenghtLabel";
+			this.STICoverLenghtLabel.Size = new System.Drawing.Size(163, 20);
+			this.STICoverLenghtLabel.TabIndex = 7;
+			this.STICoverLenghtLabel.Text = "Размер";
+			// 
+			// STICoverPixelsLabel
+			// 
+			this.STICoverPixelsLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverPixelsLabel.Location = new System.Drawing.Point(0, 20);
+			this.STICoverPixelsLabel.Name = "STICoverPixelsLabel";
+			this.STICoverPixelsLabel.Size = new System.Drawing.Size(163, 20);
+			this.STICoverPixelsLabel.TabIndex = 6;
+			this.STICoverPixelsLabel.Text = "В пикселах";
+			// 
+			// STICoverDPILabel
+			// 
+			this.STICoverDPILabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverDPILabel.Location = new System.Drawing.Point(0, 0);
+			this.STICoverDPILabel.Name = "STICoverDPILabel";
+			this.STICoverDPILabel.Size = new System.Drawing.Size(163, 20);
+			this.STICoverDPILabel.TabIndex = 5;
+			this.STICoverDPILabel.Text = "DPI";
+			// 
+			// STICoverListViewPanel
+			// 
+			this.STICoverListViewPanel.Controls.Add(this.STICoversListView);
+			this.STICoverListViewPanel.Controls.Add(this.STICoverListViewButtonPanel);
+			this.STICoverListViewPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.STICoverListViewPanel.Location = new System.Drawing.Point(3, 3);
+			this.STICoverListViewPanel.Name = "STICoverListViewPanel";
+			this.STICoverListViewPanel.Size = new System.Drawing.Size(155, 208);
+			this.STICoverListViewPanel.TabIndex = 96;
+			// 
+			// STICoverListViewButtonPanel
+			// 
+			this.STICoverListViewButtonPanel.Controls.Add(this.STISaveSelectedCoverButton);
+			this.STICoverListViewButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STICoverListViewButtonPanel.Enabled = false;
+			this.STICoverListViewButtonPanel.Location = new System.Drawing.Point(0, 170);
+			this.STICoverListViewButtonPanel.Name = "STICoverListViewButtonPanel";
+			this.STICoverListViewButtonPanel.Size = new System.Drawing.Size(155, 38);
+			this.STICoverListViewButtonPanel.TabIndex = 98;
+			// 
+			// STISaveSelectedCoverButton
+			// 
+			this.STISaveSelectedCoverButton.Dock = System.Windows.Forms.DockStyle.Right;
+			this.STISaveSelectedCoverButton.Image = ((System.Drawing.Image)(resources.GetObject("STISaveSelectedCoverButton.Image")));
+			this.STISaveSelectedCoverButton.Location = new System.Drawing.Point(115, 0);
+			this.STISaveSelectedCoverButton.Name = "STISaveSelectedCoverButton";
+			this.STISaveSelectedCoverButton.Size = new System.Drawing.Size(40, 38);
+			this.STISaveSelectedCoverButton.TabIndex = 0;
+			this.STISaveSelectedCoverButton.UseVisualStyleBackColor = true;
+			this.STISaveSelectedCoverButton.Click += new System.EventHandler(this.STISaveSelectedCoverButtonClick);
 			// 
 			// LegengPanel
 			// 
@@ -1650,6 +1779,67 @@ namespace SharpFBTools.Tools
 			this.sfdLoadList.RestoreDirectory = true;
 			this.sfdLoadList.Title = "Загрузка Списка обрабатываемых книг";
 			// 
+			// TICoverListViewButtonPanel
+			// 
+			this.TICoverListViewButtonPanel.Controls.Add(this.TISaveSelectedCoverButton);
+			this.TICoverListViewButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TICoverListViewButtonPanel.Enabled = false;
+			this.TICoverListViewButtonPanel.Location = new System.Drawing.Point(0, 170);
+			this.TICoverListViewButtonPanel.Name = "TICoverListViewButtonPanel";
+			this.TICoverListViewButtonPanel.Size = new System.Drawing.Size(155, 38);
+			this.TICoverListViewButtonPanel.TabIndex = 99;
+			// 
+			// TISaveSelectedCoverButton
+			// 
+			this.TISaveSelectedCoverButton.Dock = System.Windows.Forms.DockStyle.Right;
+			this.TISaveSelectedCoverButton.Image = ((System.Drawing.Image)(resources.GetObject("TISaveSelectedCoverButton.Image")));
+			this.TISaveSelectedCoverButton.Location = new System.Drawing.Point(115, 0);
+			this.TISaveSelectedCoverButton.Name = "TISaveSelectedCoverButton";
+			this.TISaveSelectedCoverButton.Size = new System.Drawing.Size(40, 38);
+			this.TISaveSelectedCoverButton.TabIndex = 0;
+			this.TISaveSelectedCoverButton.UseVisualStyleBackColor = true;
+			this.TISaveSelectedCoverButton.Click += new System.EventHandler(this.TiSaveSelectedCoverButtonClick);
+			// 
+			// TICoversListView
+			// 
+			this.TICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader1});
+			this.TICoversListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TICoversListView.GridLines = true;
+			this.TICoversListView.HideSelection = false;
+			this.TICoversListView.Location = new System.Drawing.Point(0, 0);
+			this.TICoversListView.Name = "TICoversListView";
+			this.TICoversListView.Size = new System.Drawing.Size(155, 170);
+			this.TICoversListView.TabIndex = 100;
+			this.TICoversListView.UseCompatibleStateImageBehavior = false;
+			this.TICoversListView.View = System.Windows.Forms.View.Details;
+			this.TICoversListView.SelectedIndexChanged += new System.EventHandler(this.TICoversListViewSelectedIndexChanged);
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Обложки";
+			this.columnHeader1.Width = 100;
+			// 
+			// STICoversListView
+			// 
+			this.STICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader3});
+			this.STICoversListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.STICoversListView.GridLines = true;
+			this.STICoversListView.HideSelection = false;
+			this.STICoversListView.Location = new System.Drawing.Point(0, 0);
+			this.STICoversListView.Name = "STICoversListView";
+			this.STICoversListView.Size = new System.Drawing.Size(155, 170);
+			this.STICoversListView.TabIndex = 99;
+			this.STICoversListView.UseCompatibleStateImageBehavior = false;
+			this.STICoversListView.View = System.Windows.Forms.View.Details;
+			this.STICoversListView.SelectedIndexChanged += new System.EventHandler(this.STICoversListViewSelectedIndexChanged);
+			// 
+			// columnHeader3
+			// 
+			this.columnHeader3.Text = "Обложки";
+			this.columnHeader3.Width = 100;
+			// 
 			// SFBTpFB2Corrector
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1678,19 +1868,44 @@ namespace SharpFBTools.Tools
 			this.tpValidate.PerformLayout();
 			this.tcCovers.ResumeLayout(false);
 			this.tpTI.ResumeLayout(false);
+			this.TICoverPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.picBoxTICover)).EndInit();
+			this.TICoverInfoPanel.ResumeLayout(false);
+			this.TICoverListViewPanel.ResumeLayout(false);
 			this.tpSTI.ResumeLayout(false);
+			this.STICoverPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.picBoxSTICover)).EndInit();
+			this.STICoverInfoPanel.ResumeLayout(false);
+			this.STICoverListViewPanel.ResumeLayout(false);
+			this.STICoverListViewButtonPanel.ResumeLayout(false);
 			this.LegengPanel.ResumeLayout(false);
 			this.panelExplorerAddress.ResumeLayout(false);
 			this.panelExplorerAddress.PerformLayout();
 			this.tpOptions.ResumeLayout(false);
 			this.gboxCopyMoveOptions.ResumeLayout(false);
 			this.gboxCopyMoveOptions.PerformLayout();
+			this.TICoverListViewButtonPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
+		private System.Windows.Forms.Panel STICoverListViewPanel;
+		private System.Windows.Forms.Panel STICoverListViewButtonPanel;
+		private System.Windows.Forms.Button STISaveSelectedCoverButton;
+		private System.Windows.Forms.ColumnHeader columnHeader3;
+		private System.Windows.Forms.Button TISaveSelectedCoverButton;
+		private System.Windows.Forms.Panel TICoverListViewPanel;
+		private System.Windows.Forms.Panel TICoverListViewButtonPanel;
+		private System.Windows.Forms.Label TICoverLenghtLabel;
+		private System.Windows.Forms.Label STICoverLenghtLabel;
+		private System.Windows.Forms.Panel STICoverInfoPanel;
+		private System.Windows.Forms.Label STICoverPixelsLabel;
+		private System.Windows.Forms.Label STICoverDPILabel;
+		private System.Windows.Forms.Panel STICoverPanel;
+		private System.Windows.Forms.Label TICoverPixelsLabel;
+		private System.Windows.Forms.Label TICoverDPILabel;
+		private System.Windows.Forms.Panel TICoverPanel;
+		private System.Windows.Forms.Panel TICoverInfoPanel;
 		private System.Windows.Forms.ToolStripMenuItem tsmiDeleteChechedItemsNotDeleteFiles;
 		private System.Windows.Forms.TabPage tpOptions;
 		private System.Windows.Forms.ComboBox cboxPressEnterForFB2;
@@ -1807,7 +2022,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.TabPage tpSTI;
 		private System.Windows.Forms.PictureBox picBoxSTICover;
 		private System.Windows.Forms.ListView STICoversListView;
-		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.TabControl tcDesc;
 		private System.Windows.Forms.TabPage tpCorrector;
 		private System.Windows.Forms.ListView listViewFB2Files;

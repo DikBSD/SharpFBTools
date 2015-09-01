@@ -103,6 +103,26 @@ namespace Main.Tools {
 		/// <summary>
 		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
 		/// </summary>
+		internal static System.Drawing.Bitmap STISaveSelectedCoverButton_Image {
+			get {
+				object obj = ResourceManager.GetObject("STISaveSelectedCoverButton.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap TISaveSelectedCoverButton_Image {
+			get {
+				object obj = ResourceManager.GetObject("TISaveSelectedCoverButton.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
 		internal static System.Drawing.Bitmap tsbtnDupCurrentSaveList_Image {
 			get {
 				object obj = ResourceManager.GetObject("tsbtnDupCurrentSaveList.Image", resourceCulture);

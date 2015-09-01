@@ -89,6 +89,7 @@ namespace Core.Common
 			this.GenresListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.GenresListView.FullRowSelect = true;
 			this.GenresListView.GridLines = true;
+			this.GenresListView.HideSelection = false;
 			this.GenresListView.Location = new System.Drawing.Point(0, 95);
 			this.GenresListView.Name = "GenresListView";
 			this.GenresListView.Size = new System.Drawing.Size(714, 208);

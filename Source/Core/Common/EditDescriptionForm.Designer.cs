@@ -36,11 +36,15 @@ namespace Core.Common
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditDescriptionForm));
+			this.ControlPanel = new System.Windows.Forms.Panel();
+			this.CancelBtn = new System.Windows.Forms.Button();
+			this.ApplyBtn = new System.Windows.Forms.Button();
 			this.DescriptionPanel = new System.Windows.Forms.Panel();
 			this.tcViewFB2Desc = new System.Windows.Forms.TabControl();
 			this.tpTitleInfo = new System.Windows.Forms.TabPage();
 			this.TITabControl = new System.Windows.Forms.TabControl();
 			this.tpTittleInfoGeneral = new System.Windows.Forms.TabPage();
+			this.TIGeneralInfoPanel = new System.Windows.Forms.Panel();
 			this.TISequencePanel = new System.Windows.Forms.Panel();
 			this.TISequenceListView = new System.Windows.Forms.ListView();
 			this.columnHeader17 = new System.Windows.Forms.ColumnHeader();
@@ -134,7 +138,12 @@ namespace Core.Common
 			this.TICoverListView = new System.Windows.Forms.ListView();
 			this.columnHeader46 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader47 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader50 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader54 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader51 = new System.Windows.Forms.ColumnHeader();
 			this.TICoverWorkPanel = new System.Windows.Forms.Panel();
+			this.TICoverSaveAllSelectedImageButton = new System.Windows.Forms.Button();
+			this.TICoverSeparatorLabel = new System.Windows.Forms.Label();
 			this.TICoverUpButton = new System.Windows.Forms.Button();
 			this.TICoverDownButton = new System.Windows.Forms.Button();
 			this.TICoverDeleteAllButton = new System.Windows.Forms.Button();
@@ -145,6 +154,7 @@ namespace Core.Common
 			this.tpSourceTitleInfo = new System.Windows.Forms.TabPage();
 			this.STITabControl = new System.Windows.Forms.TabControl();
 			this.tpSTittleInfoGeneral = new System.Windows.Forms.TabPage();
+			this.STIGeneralInfoPanel = new System.Windows.Forms.Panel();
 			this.STISequencePanel = new System.Windows.Forms.Panel();
 			this.STISequenceListView = new System.Windows.Forms.ListView();
 			this.columnHeader35 = new System.Windows.Forms.ColumnHeader();
@@ -238,7 +248,12 @@ namespace Core.Common
 			this.STICoverListView = new System.Windows.Forms.ListView();
 			this.columnHeader48 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader49 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader52 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader55 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader53 = new System.Windows.Forms.ColumnHeader();
 			this.STICoverWorkPanel = new System.Windows.Forms.Panel();
+			this.STICoverSaveAllSelectedImageButton = new System.Windows.Forms.Button();
+			this.STICoverSeparatorLabel = new System.Windows.Forms.Label();
 			this.STICoverUpButton = new System.Windows.Forms.Button();
 			this.STICoverDownButton = new System.Windows.Forms.Button();
 			this.STICoverDeleteAllButton = new System.Windows.Forms.Button();
@@ -336,15 +351,15 @@ namespace Core.Common
 			this.CICustomInfoLabelPanel = new System.Windows.Forms.Panel();
 			this.CICustomInfoAddButton = new System.Windows.Forms.Button();
 			this.CICustomInfoLabel = new System.Windows.Forms.Label();
-			this.ControlPanel = new System.Windows.Forms.Panel();
-			this.CancelBtn = new System.Windows.Forms.Button();
-			this.ApplyBtn = new System.Windows.Forms.Button();
+			this.fbdSaveDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.CoverOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.ControlPanel.SuspendLayout();
 			this.DescriptionPanel.SuspendLayout();
 			this.tcViewFB2Desc.SuspendLayout();
 			this.tpTitleInfo.SuspendLayout();
 			this.TITabControl.SuspendLayout();
 			this.tpTittleInfoGeneral.SuspendLayout();
+			this.TIGeneralInfoPanel.SuspendLayout();
 			this.TISequencePanel.SuspendLayout();
 			this.TISequenceWorkPanel.SuspendLayout();
 			this.TISequenceLabelPanel.SuspendLayout();
@@ -370,6 +385,7 @@ namespace Core.Common
 			this.tpSourceTitleInfo.SuspendLayout();
 			this.STITabControl.SuspendLayout();
 			this.tpSTittleInfoGeneral.SuspendLayout();
+			this.STIGeneralInfoPanel.SuspendLayout();
 			this.STISequencePanel.SuspendLayout();
 			this.STISequenceWorkPanel.SuspendLayout();
 			this.STISequenceLabelPanel.SuspendLayout();
@@ -416,17 +432,54 @@ namespace Core.Common
 			this.CICustomInfoPanel.SuspendLayout();
 			this.CICustomInfoWorkPanel.SuspendLayout();
 			this.CICustomInfoLabelPanel.SuspendLayout();
-			this.ControlPanel.SuspendLayout();
 			this.SuspendLayout();
+			// 
+			// ControlPanel
+			// 
+			this.ControlPanel.BackColor = System.Drawing.Color.DarkGray;
+			this.ControlPanel.Controls.Add(this.CancelBtn);
+			this.ControlPanel.Controls.Add(this.ApplyBtn);
+			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
+			this.ControlPanel.Location = new System.Drawing.Point(810, 0);
+			this.ControlPanel.Name = "ControlPanel";
+			this.ControlPanel.Size = new System.Drawing.Size(127, 861);
+			this.ControlPanel.TabIndex = 3;
+			// 
+			// CancelBtn
+			// 
+			this.CancelBtn.Dock = System.Windows.Forms.DockStyle.Top;
+			this.CancelBtn.Image = ((System.Drawing.Image)(resources.GetObject("CancelBtn.Image")));
+			this.CancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.CancelBtn.Location = new System.Drawing.Point(0, 50);
+			this.CancelBtn.Name = "CancelBtn";
+			this.CancelBtn.Size = new System.Drawing.Size(127, 48);
+			this.CancelBtn.TabIndex = 1;
+			this.CancelBtn.Text = "Отмена";
+			this.CancelBtn.UseVisualStyleBackColor = true;
+			this.CancelBtn.Click += new System.EventHandler(this.CancelBtnClick);
+			// 
+			// ApplyBtn
+			// 
+			this.ApplyBtn.Dock = System.Windows.Forms.DockStyle.Top;
+			this.ApplyBtn.Image = ((System.Drawing.Image)(resources.GetObject("ApplyBtn.Image")));
+			this.ApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.ApplyBtn.Location = new System.Drawing.Point(0, 0);
+			this.ApplyBtn.Name = "ApplyBtn";
+			this.ApplyBtn.Size = new System.Drawing.Size(127, 50);
+			this.ApplyBtn.TabIndex = 0;
+			this.ApplyBtn.Text = "Принять";
+			this.ApplyBtn.UseVisualStyleBackColor = true;
+			this.ApplyBtn.Click += new System.EventHandler(this.ApplyBtnClick);
 			// 
 			// DescriptionPanel
 			// 
 			this.DescriptionPanel.Controls.Add(this.tcViewFB2Desc);
-			this.DescriptionPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.DescriptionPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.DescriptionPanel.Location = new System.Drawing.Point(0, 0);
+			this.DescriptionPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.DescriptionPanel.Name = "DescriptionPanel";
-			this.DescriptionPanel.Size = new System.Drawing.Size(810, 855);
-			this.DescriptionPanel.TabIndex = 0;
+			this.DescriptionPanel.Size = new System.Drawing.Size(810, 861);
+			this.DescriptionPanel.TabIndex = 4;
 			// 
 			// tcViewFB2Desc
 			// 
@@ -437,19 +490,19 @@ namespace Core.Common
 			this.tcViewFB2Desc.Controls.Add(this.tpCustomInfo);
 			this.tcViewFB2Desc.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tcViewFB2Desc.Location = new System.Drawing.Point(0, 0);
-			this.tcViewFB2Desc.Margin = new System.Windows.Forms.Padding(4);
+			this.tcViewFB2Desc.Margin = new System.Windows.Forms.Padding(0);
 			this.tcViewFB2Desc.Name = "tcViewFB2Desc";
 			this.tcViewFB2Desc.SelectedIndex = 0;
-			this.tcViewFB2Desc.Size = new System.Drawing.Size(810, 855);
+			this.tcViewFB2Desc.Size = new System.Drawing.Size(810, 861);
 			this.tcViewFB2Desc.TabIndex = 45;
 			// 
 			// tpTitleInfo
 			// 
 			this.tpTitleInfo.Controls.Add(this.TITabControl);
 			this.tpTitleInfo.Location = new System.Drawing.Point(4, 25);
-			this.tpTitleInfo.Margin = new System.Windows.Forms.Padding(4);
+			this.tpTitleInfo.Margin = new System.Windows.Forms.Padding(0);
 			this.tpTitleInfo.Name = "tpTitleInfo";
-			this.tpTitleInfo.Size = new System.Drawing.Size(802, 826);
+			this.tpTitleInfo.Size = new System.Drawing.Size(802, 832);
 			this.tpTitleInfo.TabIndex = 0;
 			this.tpTitleInfo.Text = "Книга";
 			this.tpTitleInfo.UseVisualStyleBackColor = true;
@@ -461,28 +514,40 @@ namespace Core.Common
 			this.TITabControl.Controls.Add(this.tpTittleInfoCovers);
 			this.TITabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TITabControl.Location = new System.Drawing.Point(0, 0);
+			this.TITabControl.Margin = new System.Windows.Forms.Padding(0);
 			this.TITabControl.Name = "TITabControl";
 			this.TITabControl.SelectedIndex = 0;
-			this.TITabControl.Size = new System.Drawing.Size(802, 826);
+			this.TITabControl.Size = new System.Drawing.Size(802, 832);
 			this.TITabControl.TabIndex = 10;
 			// 
 			// tpTittleInfoGeneral
 			// 
-			this.tpTittleInfoGeneral.Controls.Add(this.TISequencePanel);
-			this.tpTittleInfoGeneral.Controls.Add(this.TIKeyPanel);
-			this.tpTittleInfoGeneral.Controls.Add(this.TITranslatorPanel);
-			this.tpTittleInfoGeneral.Controls.Add(this.TIDatePanel);
-			this.tpTittleInfoGeneral.Controls.Add(this.TIAuthorsPanel);
-			this.tpTittleInfoGeneral.Controls.Add(this.TIGenrePanel);
-			this.tpTittleInfoGeneral.Controls.Add(this.TILangsPanel);
-			this.tpTittleInfoGeneral.Controls.Add(this.TIBookTitlePanel);
+			this.tpTittleInfoGeneral.Controls.Add(this.TIGeneralInfoPanel);
 			this.tpTittleInfoGeneral.Location = new System.Drawing.Point(4, 25);
+			this.tpTittleInfoGeneral.Margin = new System.Windows.Forms.Padding(0);
 			this.tpTittleInfoGeneral.Name = "tpTittleInfoGeneral";
-			this.tpTittleInfoGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpTittleInfoGeneral.Size = new System.Drawing.Size(794, 797);
+			this.tpTittleInfoGeneral.Size = new System.Drawing.Size(794, 803);
 			this.tpTittleInfoGeneral.TabIndex = 0;
 			this.tpTittleInfoGeneral.Text = "Основные данные";
 			this.tpTittleInfoGeneral.UseVisualStyleBackColor = true;
+			// 
+			// TIGeneralInfoPanel
+			// 
+			this.TIGeneralInfoPanel.AutoScroll = true;
+			this.TIGeneralInfoPanel.AutoScrollMargin = new System.Drawing.Size(3, 3);
+			this.TIGeneralInfoPanel.Controls.Add(this.TISequencePanel);
+			this.TIGeneralInfoPanel.Controls.Add(this.TIKeyPanel);
+			this.TIGeneralInfoPanel.Controls.Add(this.TITranslatorPanel);
+			this.TIGeneralInfoPanel.Controls.Add(this.TIDatePanel);
+			this.TIGeneralInfoPanel.Controls.Add(this.TIAuthorsPanel);
+			this.TIGeneralInfoPanel.Controls.Add(this.TIGenrePanel);
+			this.TIGeneralInfoPanel.Controls.Add(this.TILangsPanel);
+			this.TIGeneralInfoPanel.Controls.Add(this.TIBookTitlePanel);
+			this.TIGeneralInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TIGeneralInfoPanel.Location = new System.Drawing.Point(0, 0);
+			this.TIGeneralInfoPanel.Name = "TIGeneralInfoPanel";
+			this.TIGeneralInfoPanel.Size = new System.Drawing.Size(794, 803);
+			this.TIGeneralInfoPanel.TabIndex = 0;
 			// 
 			// TISequencePanel
 			// 
@@ -490,10 +555,10 @@ namespace Core.Common
 			this.TISequencePanel.Controls.Add(this.TISequenceWorkPanel);
 			this.TISequencePanel.Controls.Add(this.TISequenceLabelPanel);
 			this.TISequencePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TISequencePanel.Location = new System.Drawing.Point(3, 635);
+			this.TISequencePanel.Location = new System.Drawing.Point(0, 639);
 			this.TISequencePanel.Name = "TISequencePanel";
-			this.TISequencePanel.Size = new System.Drawing.Size(788, 160);
-			this.TISequencePanel.TabIndex = 10;
+			this.TISequencePanel.Size = new System.Drawing.Size(794, 160);
+			this.TISequencePanel.TabIndex = 19;
 			// 
 			// TISequenceListView
 			// 
@@ -503,9 +568,10 @@ namespace Core.Common
 			this.TISequenceListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TISequenceListView.FullRowSelect = true;
 			this.TISequenceListView.GridLines = true;
+			this.TISequenceListView.HideSelection = false;
 			this.TISequenceListView.Location = new System.Drawing.Point(0, 25);
 			this.TISequenceListView.Name = "TISequenceListView";
-			this.TISequenceListView.Size = new System.Drawing.Size(713, 135);
+			this.TISequenceListView.Size = new System.Drawing.Size(719, 135);
 			this.TISequenceListView.TabIndex = 87;
 			this.TISequenceListView.UseCompatibleStateImageBehavior = false;
 			this.TISequenceListView.View = System.Windows.Forms.View.Details;
@@ -527,7 +593,7 @@ namespace Core.Common
 			this.TISequenceWorkPanel.Controls.Add(this.TISequenceDeleteButton);
 			this.TISequenceWorkPanel.Controls.Add(this.TISequenceEditButton);
 			this.TISequenceWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.TISequenceWorkPanel.Location = new System.Drawing.Point(713, 25);
+			this.TISequenceWorkPanel.Location = new System.Drawing.Point(719, 25);
 			this.TISequenceWorkPanel.Name = "TISequenceWorkPanel";
 			this.TISequenceWorkPanel.Size = new System.Drawing.Size(75, 135);
 			this.TISequenceWorkPanel.TabIndex = 86;
@@ -595,14 +661,14 @@ namespace Core.Common
 			this.TISequenceLabelPanel.Location = new System.Drawing.Point(0, 0);
 			this.TISequenceLabelPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.TISequenceLabelPanel.Name = "TISequenceLabelPanel";
-			this.TISequenceLabelPanel.Size = new System.Drawing.Size(788, 25);
+			this.TISequenceLabelPanel.Size = new System.Drawing.Size(794, 25);
 			this.TISequenceLabelPanel.TabIndex = 80;
 			// 
 			// TISequenceAddButton
 			// 
 			this.TISequenceAddButton.Dock = System.Windows.Forms.DockStyle.Right;
 			this.TISequenceAddButton.Image = ((System.Drawing.Image)(resources.GetObject("TISequenceAddButton.Image")));
-			this.TISequenceAddButton.Location = new System.Drawing.Point(711, 0);
+			this.TISequenceAddButton.Location = new System.Drawing.Point(717, 0);
 			this.TISequenceAddButton.Name = "TISequenceAddButton";
 			this.TISequenceAddButton.Size = new System.Drawing.Size(77, 25);
 			this.TISequenceAddButton.TabIndex = 83;
@@ -616,7 +682,7 @@ namespace Core.Common
 			this.TISequenceLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.TISequenceLabel.Location = new System.Drawing.Point(0, 0);
 			this.TISequenceLabel.Name = "TISequenceLabel";
-			this.TISequenceLabel.Size = new System.Drawing.Size(788, 25);
+			this.TISequenceLabel.Size = new System.Drawing.Size(794, 25);
 			this.TISequenceLabel.TabIndex = 79;
 			this.TISequenceLabel.Text = "Серии книги:";
 			this.TISequenceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -626,16 +692,16 @@ namespace Core.Common
 			this.TIKeyPanel.Controls.Add(this.TIKeyTextBox);
 			this.TIKeyPanel.Controls.Add(this.TIKeyLabel);
 			this.TIKeyPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TIKeyPanel.Location = new System.Drawing.Point(3, 606);
+			this.TIKeyPanel.Location = new System.Drawing.Point(0, 610);
 			this.TIKeyPanel.Name = "TIKeyPanel";
-			this.TIKeyPanel.Size = new System.Drawing.Size(788, 29);
-			this.TIKeyPanel.TabIndex = 9;
+			this.TIKeyPanel.Size = new System.Drawing.Size(794, 29);
+			this.TIKeyPanel.TabIndex = 18;
 			// 
 			// TIKeyTextBox
 			// 
 			this.TIKeyTextBox.Location = new System.Drawing.Point(126, 2);
 			this.TIKeyTextBox.Name = "TIKeyTextBox";
-			this.TIKeyTextBox.Size = new System.Drawing.Size(659, 22);
+			this.TIKeyTextBox.Size = new System.Drawing.Size(587, 22);
 			this.TIKeyTextBox.TabIndex = 1;
 			// 
 			// TIKeyLabel
@@ -654,10 +720,10 @@ namespace Core.Common
 			this.TITranslatorPanel.Controls.Add(this.TITranslatorWorkPanel);
 			this.TITranslatorPanel.Controls.Add(this.TITranslatorLabelPanel);
 			this.TITranslatorPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TITranslatorPanel.Location = new System.Drawing.Point(3, 474);
+			this.TITranslatorPanel.Location = new System.Drawing.Point(0, 478);
 			this.TITranslatorPanel.Name = "TITranslatorPanel";
-			this.TITranslatorPanel.Size = new System.Drawing.Size(788, 132);
-			this.TITranslatorPanel.TabIndex = 8;
+			this.TITranslatorPanel.Size = new System.Drawing.Size(794, 132);
+			this.TITranslatorPanel.TabIndex = 17;
 			// 
 			// TITranslatorListView
 			// 
@@ -672,9 +738,10 @@ namespace Core.Common
 			this.TITranslatorListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TITranslatorListView.FullRowSelect = true;
 			this.TITranslatorListView.GridLines = true;
+			this.TITranslatorListView.HideSelection = false;
 			this.TITranslatorListView.Location = new System.Drawing.Point(0, 25);
 			this.TITranslatorListView.Name = "TITranslatorListView";
-			this.TITranslatorListView.Size = new System.Drawing.Size(713, 107);
+			this.TITranslatorListView.Size = new System.Drawing.Size(719, 107);
 			this.TITranslatorListView.TabIndex = 87;
 			this.TITranslatorListView.UseCompatibleStateImageBehavior = false;
 			this.TITranslatorListView.View = System.Windows.Forms.View.Details;
@@ -719,7 +786,7 @@ namespace Core.Common
 			this.TITranslatorWorkPanel.Controls.Add(this.TITranslatorDeleteButton);
 			this.TITranslatorWorkPanel.Controls.Add(this.TITranslatorEditButton);
 			this.TITranslatorWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.TITranslatorWorkPanel.Location = new System.Drawing.Point(713, 25);
+			this.TITranslatorWorkPanel.Location = new System.Drawing.Point(719, 25);
 			this.TITranslatorWorkPanel.Name = "TITranslatorWorkPanel";
 			this.TITranslatorWorkPanel.Size = new System.Drawing.Size(75, 107);
 			this.TITranslatorWorkPanel.TabIndex = 86;
@@ -755,7 +822,7 @@ namespace Core.Common
 			this.TITranslatorEditButton.Size = new System.Drawing.Size(75, 40);
 			this.TITranslatorEditButton.TabIndex = 0;
 			this.TITranslatorEditButton.UseVisualStyleBackColor = true;
-			this.TITranslatorEditButton.Click += new System.EventHandler(this.TITranslatorEditButtonClick);
+			this.TITranslatorEditButton.Click += new System.EventHandler(this.TITranslatorAddButtonClick);
 			// 
 			// TITranslatorLabelPanel
 			// 
@@ -765,14 +832,14 @@ namespace Core.Common
 			this.TITranslatorLabelPanel.Location = new System.Drawing.Point(0, 0);
 			this.TITranslatorLabelPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.TITranslatorLabelPanel.Name = "TITranslatorLabelPanel";
-			this.TITranslatorLabelPanel.Size = new System.Drawing.Size(788, 25);
+			this.TITranslatorLabelPanel.Size = new System.Drawing.Size(794, 25);
 			this.TITranslatorLabelPanel.TabIndex = 80;
 			// 
 			// TITranslatorAddButton
 			// 
 			this.TITranslatorAddButton.Dock = System.Windows.Forms.DockStyle.Right;
 			this.TITranslatorAddButton.Image = ((System.Drawing.Image)(resources.GetObject("TITranslatorAddButton.Image")));
-			this.TITranslatorAddButton.Location = new System.Drawing.Point(711, 0);
+			this.TITranslatorAddButton.Location = new System.Drawing.Point(717, 0);
 			this.TITranslatorAddButton.Name = "TITranslatorAddButton";
 			this.TITranslatorAddButton.Size = new System.Drawing.Size(77, 25);
 			this.TITranslatorAddButton.TabIndex = 83;
@@ -786,7 +853,7 @@ namespace Core.Common
 			this.TITranslatorLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.TITranslatorLabel.Location = new System.Drawing.Point(0, 0);
 			this.TITranslatorLabel.Name = "TITranslatorLabel";
-			this.TITranslatorLabel.Size = new System.Drawing.Size(788, 25);
+			this.TITranslatorLabel.Size = new System.Drawing.Size(794, 25);
 			this.TITranslatorLabel.TabIndex = 79;
 			this.TITranslatorLabel.Text = "Переводчики книги:";
 			this.TITranslatorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -800,22 +867,22 @@ namespace Core.Common
 			this.TIDatePanel.Controls.Add(this.TIDateValueLabel);
 			this.TIDatePanel.Controls.Add(this.TIDateLabel);
 			this.TIDatePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TIDatePanel.Location = new System.Drawing.Point(3, 444);
+			this.TIDatePanel.Location = new System.Drawing.Point(0, 448);
 			this.TIDatePanel.Name = "TIDatePanel";
-			this.TIDatePanel.Size = new System.Drawing.Size(788, 30);
-			this.TIDatePanel.TabIndex = 7;
+			this.TIDatePanel.Size = new System.Drawing.Size(794, 30);
+			this.TIDatePanel.TabIndex = 16;
 			// 
 			// TIDateTextBox
 			// 
-			this.TIDateTextBox.Location = new System.Drawing.Point(116, 3);
+			this.TIDateTextBox.Location = new System.Drawing.Point(61, 3);
 			this.TIDateTextBox.Name = "TIDateTextBox";
-			this.TIDateTextBox.Size = new System.Drawing.Size(132, 22);
+			this.TIDateTextBox.Size = new System.Drawing.Size(127, 22);
 			this.TIDateTextBox.TabIndex = 83;
 			// 
 			// TIDateValueFormatLabel
 			// 
 			this.TIDateValueFormatLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.TIDateValueFormatLabel.Location = new System.Drawing.Point(645, 3);
+			this.TIDateValueFormatLabel.Location = new System.Drawing.Point(577, 3);
 			this.TIDateValueFormatLabel.Name = "TIDateValueFormatLabel";
 			this.TIDateValueFormatLabel.Size = new System.Drawing.Size(146, 23);
 			this.TIDateValueFormatLabel.TabIndex = 87;
@@ -825,16 +892,16 @@ namespace Core.Common
 			// TIDateFormatLabel
 			// 
 			this.TIDateFormatLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.TIDateFormatLabel.Location = new System.Drawing.Point(249, 3);
+			this.TIDateFormatLabel.Location = new System.Drawing.Point(195, 3);
 			this.TIDateFormatLabel.Name = "TIDateFormatLabel";
-			this.TIDateFormatLabel.Size = new System.Drawing.Size(168, 23);
+			this.TIDateFormatLabel.Size = new System.Drawing.Size(165, 23);
 			this.TIDateFormatLabel.TabIndex = 86;
 			this.TIDateFormatLabel.Text = "Формат: 1 января 2015";
 			this.TIDateFormatLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// TIDateValueMaskedTextBox
 			// 
-			this.TIDateValueMaskedTextBox.Location = new System.Drawing.Point(554, 5);
+			this.TIDateValueMaskedTextBox.Location = new System.Drawing.Point(487, 5);
 			this.TIDateValueMaskedTextBox.Mask = "0000-00-00";
 			this.TIDateValueMaskedTextBox.Name = "TIDateValueMaskedTextBox";
 			this.TIDateValueMaskedTextBox.Size = new System.Drawing.Size(85, 22);
@@ -843,9 +910,9 @@ namespace Core.Common
 			// TIDateValueLabel
 			// 
 			this.TIDateValueLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.TIDateValueLabel.Location = new System.Drawing.Point(422, 3);
+			this.TIDateValueLabel.Location = new System.Drawing.Point(361, 3);
 			this.TIDateValueLabel.Name = "TIDateValueLabel";
-			this.TIDateValueLabel.Size = new System.Drawing.Size(126, 23);
+			this.TIDateValueLabel.Size = new System.Drawing.Size(124, 23);
 			this.TIDateValueLabel.TabIndex = 84;
 			this.TIDateValueLabel.Text = "Дата (значение):";
 			this.TIDateValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -855,9 +922,9 @@ namespace Core.Common
 			this.TIDateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.TIDateLabel.Location = new System.Drawing.Point(3, 3);
 			this.TIDateLabel.Name = "TIDateLabel";
-			this.TIDateLabel.Size = new System.Drawing.Size(126, 23);
+			this.TIDateLabel.Size = new System.Drawing.Size(52, 23);
 			this.TIDateLabel.TabIndex = 39;
-			this.TIDateLabel.Text = "Дата написания:";
+			this.TIDateLabel.Text = "Дата:";
 			this.TIDateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// TIAuthorsPanel
@@ -866,10 +933,10 @@ namespace Core.Common
 			this.TIAuthorsPanel.Controls.Add(this.TIAuthorsWorkPanel);
 			this.TIAuthorsPanel.Controls.Add(this.TIAuthorsAddPanel);
 			this.TIAuthorsPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TIAuthorsPanel.Location = new System.Drawing.Point(3, 284);
+			this.TIAuthorsPanel.Location = new System.Drawing.Point(0, 288);
 			this.TIAuthorsPanel.Name = "TIAuthorsPanel";
-			this.TIAuthorsPanel.Size = new System.Drawing.Size(788, 160);
-			this.TIAuthorsPanel.TabIndex = 6;
+			this.TIAuthorsPanel.Size = new System.Drawing.Size(794, 160);
+			this.TIAuthorsPanel.TabIndex = 15;
 			// 
 			// TIAuthorsListView
 			// 
@@ -884,9 +951,10 @@ namespace Core.Common
 			this.TIAuthorsListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TIAuthorsListView.FullRowSelect = true;
 			this.TIAuthorsListView.GridLines = true;
+			this.TIAuthorsListView.HideSelection = false;
 			this.TIAuthorsListView.Location = new System.Drawing.Point(0, 25);
 			this.TIAuthorsListView.Name = "TIAuthorsListView";
-			this.TIAuthorsListView.Size = new System.Drawing.Size(713, 135);
+			this.TIAuthorsListView.Size = new System.Drawing.Size(719, 135);
 			this.TIAuthorsListView.TabIndex = 87;
 			this.TIAuthorsListView.UseCompatibleStateImageBehavior = false;
 			this.TIAuthorsListView.View = System.Windows.Forms.View.Details;
@@ -933,7 +1001,7 @@ namespace Core.Common
 			this.TIAuthorsWorkPanel.Controls.Add(this.TIAuthorDeleteButton);
 			this.TIAuthorsWorkPanel.Controls.Add(this.TIAuthorEditButton);
 			this.TIAuthorsWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.TIAuthorsWorkPanel.Location = new System.Drawing.Point(713, 25);
+			this.TIAuthorsWorkPanel.Location = new System.Drawing.Point(719, 25);
 			this.TIAuthorsWorkPanel.Name = "TIAuthorsWorkPanel";
 			this.TIAuthorsWorkPanel.Size = new System.Drawing.Size(75, 135);
 			this.TIAuthorsWorkPanel.TabIndex = 86;
@@ -1001,14 +1069,14 @@ namespace Core.Common
 			this.TIAuthorsAddPanel.Location = new System.Drawing.Point(0, 0);
 			this.TIAuthorsAddPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.TIAuthorsAddPanel.Name = "TIAuthorsAddPanel";
-			this.TIAuthorsAddPanel.Size = new System.Drawing.Size(788, 25);
+			this.TIAuthorsAddPanel.Size = new System.Drawing.Size(794, 25);
 			this.TIAuthorsAddPanel.TabIndex = 80;
 			// 
 			// TIAuthorAddButton
 			// 
 			this.TIAuthorAddButton.Dock = System.Windows.Forms.DockStyle.Right;
 			this.TIAuthorAddButton.Image = ((System.Drawing.Image)(resources.GetObject("TIAuthorAddButton.Image")));
-			this.TIAuthorAddButton.Location = new System.Drawing.Point(711, 0);
+			this.TIAuthorAddButton.Location = new System.Drawing.Point(717, 0);
 			this.TIAuthorAddButton.Name = "TIAuthorAddButton";
 			this.TIAuthorAddButton.Size = new System.Drawing.Size(77, 25);
 			this.TIAuthorAddButton.TabIndex = 83;
@@ -1022,7 +1090,7 @@ namespace Core.Common
 			this.TIAuthorsLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.TIAuthorsLabel.Location = new System.Drawing.Point(0, 0);
 			this.TIAuthorsLabel.Name = "TIAuthorsLabel";
-			this.TIAuthorsLabel.Size = new System.Drawing.Size(788, 25);
+			this.TIAuthorsLabel.Size = new System.Drawing.Size(794, 25);
 			this.TIAuthorsLabel.TabIndex = 79;
 			this.TIAuthorsLabel.Text = "Авторы книги:";
 			this.TIAuthorsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1033,10 +1101,10 @@ namespace Core.Common
 			this.TIGenrePanel.Controls.Add(this.TIGenreWorkPanel);
 			this.TIGenrePanel.Controls.Add(this.TIGenresSchemePanel);
 			this.TIGenrePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TIGenrePanel.Location = new System.Drawing.Point(3, 99);
+			this.TIGenrePanel.Location = new System.Drawing.Point(0, 96);
 			this.TIGenrePanel.Name = "TIGenrePanel";
-			this.TIGenrePanel.Size = new System.Drawing.Size(788, 185);
-			this.TIGenrePanel.TabIndex = 4;
+			this.TIGenrePanel.Size = new System.Drawing.Size(794, 192);
+			this.TIGenrePanel.TabIndex = 14;
 			// 
 			// TIGenresListView
 			// 
@@ -1046,9 +1114,10 @@ namespace Core.Common
 			this.TIGenresListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TIGenresListView.FullRowSelect = true;
 			this.TIGenresListView.GridLines = true;
+			this.TIGenresListView.HideSelection = false;
 			this.TIGenresListView.Location = new System.Drawing.Point(0, 91);
 			this.TIGenresListView.Name = "TIGenresListView";
-			this.TIGenresListView.Size = new System.Drawing.Size(713, 94);
+			this.TIGenresListView.Size = new System.Drawing.Size(719, 101);
 			this.TIGenresListView.TabIndex = 85;
 			this.TIGenresListView.UseCompatibleStateImageBehavior = false;
 			this.TIGenresListView.View = System.Windows.Forms.View.Details;
@@ -1070,16 +1139,16 @@ namespace Core.Common
 			this.TIGenreWorkPanel.Controls.Add(this.TIGenreDeleteAllButton);
 			this.TIGenreWorkPanel.Controls.Add(this.TIGenreDeleteButton);
 			this.TIGenreWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.TIGenreWorkPanel.Location = new System.Drawing.Point(713, 91);
+			this.TIGenreWorkPanel.Location = new System.Drawing.Point(719, 91);
 			this.TIGenreWorkPanel.Name = "TIGenreWorkPanel";
-			this.TIGenreWorkPanel.Size = new System.Drawing.Size(75, 94);
+			this.TIGenreWorkPanel.Size = new System.Drawing.Size(75, 101);
 			this.TIGenreWorkPanel.TabIndex = 84;
 			// 
 			// TIGenreUpButton
 			// 
 			this.TIGenreUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.TIGenreUpButton.Image = ((System.Drawing.Image)(resources.GetObject("TIGenreUpButton.Image")));
-			this.TIGenreUpButton.Location = new System.Drawing.Point(0, 48);
+			this.TIGenreUpButton.Location = new System.Drawing.Point(0, 55);
 			this.TIGenreUpButton.Name = "TIGenreUpButton";
 			this.TIGenreUpButton.Size = new System.Drawing.Size(75, 23);
 			this.TIGenreUpButton.TabIndex = 9;
@@ -1090,7 +1159,7 @@ namespace Core.Common
 			// 
 			this.TIGenreDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.TIGenreDownButton.Image = ((System.Drawing.Image)(resources.GetObject("TIGenreDownButton.Image")));
-			this.TIGenreDownButton.Location = new System.Drawing.Point(0, 71);
+			this.TIGenreDownButton.Location = new System.Drawing.Point(0, 78);
 			this.TIGenreDownButton.Name = "TIGenreDownButton";
 			this.TIGenreDownButton.Size = new System.Drawing.Size(75, 23);
 			this.TIGenreDownButton.TabIndex = 8;
@@ -1135,7 +1204,7 @@ namespace Core.Common
 			this.TIGenresSchemePanel.Location = new System.Drawing.Point(0, 0);
 			this.TIGenresSchemePanel.Margin = new System.Windows.Forms.Padding(4);
 			this.TIGenresSchemePanel.Name = "TIGenresSchemePanel";
-			this.TIGenresSchemePanel.Size = new System.Drawing.Size(788, 91);
+			this.TIGenresSchemePanel.Size = new System.Drawing.Size(794, 91);
 			this.TIGenresSchemePanel.TabIndex = 77;
 			// 
 			// TIGroupComboBox
@@ -1163,7 +1232,7 @@ namespace Core.Common
 			// TIGenreAddButton
 			// 
 			this.TIGenreAddButton.Image = ((System.Drawing.Image)(resources.GetObject("TIGenreAddButton.Image")));
-			this.TIGenreAddButton.Location = new System.Drawing.Point(712, 55);
+			this.TIGenreAddButton.Location = new System.Drawing.Point(685, 55);
 			this.TIGenreAddButton.Name = "TIGenreAddButton";
 			this.TIGenreAddButton.Size = new System.Drawing.Size(74, 23);
 			this.TIGenreAddButton.TabIndex = 83;
@@ -1252,10 +1321,10 @@ namespace Core.Common
 			this.TILangsPanel.Controls.Add(this.TILangComboBox);
 			this.TILangsPanel.Controls.Add(this.TILangLabel);
 			this.TILangsPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TILangsPanel.Location = new System.Drawing.Point(3, 61);
+			this.TILangsPanel.Location = new System.Drawing.Point(0, 58);
 			this.TILangsPanel.Name = "TILangsPanel";
-			this.TILangsPanel.Size = new System.Drawing.Size(788, 38);
-			this.TILangsPanel.TabIndex = 3;
+			this.TILangsPanel.Size = new System.Drawing.Size(794, 38);
+			this.TILangsPanel.TabIndex = 13;
 			// 
 			// TISrcLangComboBox
 			// 
@@ -1302,16 +1371,16 @@ namespace Core.Common
 			this.TIBookTitlePanel.Controls.Add(this.TIBookTitleTextBox);
 			this.TIBookTitlePanel.Controls.Add(this.TIBookTitleLabel);
 			this.TIBookTitlePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TIBookTitlePanel.Location = new System.Drawing.Point(3, 3);
+			this.TIBookTitlePanel.Location = new System.Drawing.Point(0, 0);
 			this.TIBookTitlePanel.Name = "TIBookTitlePanel";
-			this.TIBookTitlePanel.Size = new System.Drawing.Size(788, 58);
-			this.TIBookTitlePanel.TabIndex = 1;
+			this.TIBookTitlePanel.Size = new System.Drawing.Size(794, 58);
+			this.TIBookTitlePanel.TabIndex = 12;
 			// 
 			// TIBookTitleTextBox
 			// 
 			this.TIBookTitleTextBox.Location = new System.Drawing.Point(127, 29);
 			this.TIBookTitleTextBox.Name = "TIBookTitleTextBox";
-			this.TIBookTitleTextBox.Size = new System.Drawing.Size(658, 22);
+			this.TIBookTitleTextBox.Size = new System.Drawing.Size(595, 22);
 			this.TIBookTitleTextBox.TabIndex = 1;
 			// 
 			// TIBookTitleLabel
@@ -1330,7 +1399,7 @@ namespace Core.Common
 			this.tpTittleInfoAnnotation.Location = new System.Drawing.Point(4, 25);
 			this.tpTittleInfoAnnotation.Name = "tpTittleInfoAnnotation";
 			this.tpTittleInfoAnnotation.Padding = new System.Windows.Forms.Padding(3);
-			this.tpTittleInfoAnnotation.Size = new System.Drawing.Size(794, 797);
+			this.tpTittleInfoAnnotation.Size = new System.Drawing.Size(794, 803);
 			this.tpTittleInfoAnnotation.TabIndex = 1;
 			this.tpTittleInfoAnnotation.Text = "Аннотация на книгу";
 			this.tpTittleInfoAnnotation.UseVisualStyleBackColor = true;
@@ -1342,7 +1411,7 @@ namespace Core.Common
 			this.TIAnnotationRichTextEdit.Location = new System.Drawing.Point(3, 3);
 			this.TIAnnotationRichTextEdit.Margin = new System.Windows.Forms.Padding(4);
 			this.TIAnnotationRichTextEdit.Name = "TIAnnotationRichTextEdit";
-			this.TIAnnotationRichTextEdit.Size = new System.Drawing.Size(788, 791);
+			this.TIAnnotationRichTextEdit.Size = new System.Drawing.Size(788, 797);
 			this.TIAnnotationRichTextEdit.TabIndex = 1;
 			this.TIAnnotationRichTextEdit.Text = "";
 			// 
@@ -1353,7 +1422,7 @@ namespace Core.Common
 			this.tpTittleInfoCovers.Location = new System.Drawing.Point(4, 25);
 			this.tpTittleInfoCovers.Name = "tpTittleInfoCovers";
 			this.tpTittleInfoCovers.Padding = new System.Windows.Forms.Padding(3);
-			this.tpTittleInfoCovers.Size = new System.Drawing.Size(794, 797);
+			this.tpTittleInfoCovers.Size = new System.Drawing.Size(794, 803);
 			this.tpTittleInfoCovers.TabIndex = 2;
 			this.tpTittleInfoCovers.Text = "Обложки";
 			this.tpTittleInfoCovers.UseVisualStyleBackColor = true;
@@ -1366,7 +1435,7 @@ namespace Core.Common
 			this.TICoverPictureBox.Location = new System.Drawing.Point(3, 257);
 			this.TICoverPictureBox.Margin = new System.Windows.Forms.Padding(4);
 			this.TICoverPictureBox.Name = "TICoverPictureBox";
-			this.TICoverPictureBox.Size = new System.Drawing.Size(788, 537);
+			this.TICoverPictureBox.Size = new System.Drawing.Size(788, 543);
 			this.TICoverPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.TICoverPictureBox.TabIndex = 48;
 			this.TICoverPictureBox.TabStop = false;
@@ -1386,10 +1455,14 @@ namespace Core.Common
 			// 
 			this.TICoverListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeader46,
-			this.columnHeader47});
+			this.columnHeader47,
+			this.columnHeader50,
+			this.columnHeader54,
+			this.columnHeader51});
 			this.TICoverListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TICoverListView.FullRowSelect = true;
 			this.TICoverListView.GridLines = true;
+			this.TICoverListView.HideSelection = false;
 			this.TICoverListView.Location = new System.Drawing.Point(0, 25);
 			this.TICoverListView.Name = "TICoverListView";
 			this.TICoverListView.Size = new System.Drawing.Size(713, 229);
@@ -1401,15 +1474,32 @@ namespace Core.Common
 			// columnHeader46
 			// 
 			this.columnHeader46.Text = "Обложка";
-			this.columnHeader46.Width = 400;
+			this.columnHeader46.Width = 200;
 			// 
 			// columnHeader47
 			// 
 			this.columnHeader47.Text = "Тип контента";
 			this.columnHeader47.Width = 150;
 			// 
+			// columnHeader50
+			// 
+			this.columnHeader50.Text = "DPI";
+			this.columnHeader50.Width = 100;
+			// 
+			// columnHeader54
+			// 
+			this.columnHeader54.Text = "Pixels";
+			this.columnHeader54.Width = 100;
+			// 
+			// columnHeader51
+			// 
+			this.columnHeader51.Text = "Размер";
+			this.columnHeader51.Width = 100;
+			// 
 			// TICoverWorkPanel
 			// 
+			this.TICoverWorkPanel.Controls.Add(this.TICoverSaveAllSelectedImageButton);
+			this.TICoverWorkPanel.Controls.Add(this.TICoverSeparatorLabel);
 			this.TICoverWorkPanel.Controls.Add(this.TICoverUpButton);
 			this.TICoverWorkPanel.Controls.Add(this.TICoverDownButton);
 			this.TICoverWorkPanel.Controls.Add(this.TICoverDeleteAllButton);
@@ -1419,6 +1509,25 @@ namespace Core.Common
 			this.TICoverWorkPanel.Name = "TICoverWorkPanel";
 			this.TICoverWorkPanel.Size = new System.Drawing.Size(75, 229);
 			this.TICoverWorkPanel.TabIndex = 86;
+			// 
+			// TICoverSaveAllSelectedImageButton
+			// 
+			this.TICoverSaveAllSelectedImageButton.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverSaveAllSelectedImageButton.Image = ((System.Drawing.Image)(resources.GetObject("TICoverSaveAllSelectedImageButton.Image")));
+			this.TICoverSaveAllSelectedImageButton.Location = new System.Drawing.Point(0, 85);
+			this.TICoverSaveAllSelectedImageButton.Name = "TICoverSaveAllSelectedImageButton";
+			this.TICoverSaveAllSelectedImageButton.Size = new System.Drawing.Size(75, 41);
+			this.TICoverSaveAllSelectedImageButton.TabIndex = 14;
+			this.TICoverSaveAllSelectedImageButton.UseVisualStyleBackColor = true;
+			this.TICoverSaveAllSelectedImageButton.Click += new System.EventHandler(this.TICoverSaveAllSelectedImageButtonClick);
+			// 
+			// TICoverSeparatorLabel
+			// 
+			this.TICoverSeparatorLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverSeparatorLabel.Location = new System.Drawing.Point(0, 46);
+			this.TICoverSeparatorLabel.Name = "TICoverSeparatorLabel";
+			this.TICoverSeparatorLabel.Size = new System.Drawing.Size(75, 39);
+			this.TICoverSeparatorLabel.TabIndex = 13;
 			// 
 			// TICoverUpButton
 			// 
@@ -1503,9 +1612,9 @@ namespace Core.Common
 			this.tpSourceTitleInfo.Controls.Add(this.STITabControl);
 			this.tpSourceTitleInfo.Controls.Add(this.STIEnableCheckBox);
 			this.tpSourceTitleInfo.Location = new System.Drawing.Point(4, 25);
-			this.tpSourceTitleInfo.Margin = new System.Windows.Forms.Padding(4);
+			this.tpSourceTitleInfo.Margin = new System.Windows.Forms.Padding(0);
 			this.tpSourceTitleInfo.Name = "tpSourceTitleInfo";
-			this.tpSourceTitleInfo.Size = new System.Drawing.Size(802, 826);
+			this.tpSourceTitleInfo.Size = new System.Drawing.Size(802, 832);
 			this.tpSourceTitleInfo.TabIndex = 1;
 			this.tpSourceTitleInfo.Text = "Оригинал";
 			this.tpSourceTitleInfo.UseVisualStyleBackColor = true;
@@ -1518,28 +1627,40 @@ namespace Core.Common
 			this.STITabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.STITabControl.Enabled = false;
 			this.STITabControl.Location = new System.Drawing.Point(0, 24);
+			this.STITabControl.Margin = new System.Windows.Forms.Padding(0);
 			this.STITabControl.Name = "STITabControl";
 			this.STITabControl.SelectedIndex = 0;
-			this.STITabControl.Size = new System.Drawing.Size(802, 802);
+			this.STITabControl.Size = new System.Drawing.Size(802, 808);
 			this.STITabControl.TabIndex = 21;
 			// 
 			// tpSTittleInfoGeneral
 			// 
-			this.tpSTittleInfoGeneral.Controls.Add(this.STISequencePanel);
-			this.tpSTittleInfoGeneral.Controls.Add(this.STIKeyPanel);
-			this.tpSTittleInfoGeneral.Controls.Add(this.STITranslatorPanel);
-			this.tpSTittleInfoGeneral.Controls.Add(this.STIDatePanel);
-			this.tpSTittleInfoGeneral.Controls.Add(this.STIAuthorsPanel);
-			this.tpSTittleInfoGeneral.Controls.Add(this.STIGenrePanel);
-			this.tpSTittleInfoGeneral.Controls.Add(this.STILangsPanel);
-			this.tpSTittleInfoGeneral.Controls.Add(this.STIBookTitlePanel);
+			this.tpSTittleInfoGeneral.Controls.Add(this.STIGeneralInfoPanel);
 			this.tpSTittleInfoGeneral.Location = new System.Drawing.Point(4, 25);
+			this.tpSTittleInfoGeneral.Margin = new System.Windows.Forms.Padding(0);
 			this.tpSTittleInfoGeneral.Name = "tpSTittleInfoGeneral";
-			this.tpSTittleInfoGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tpSTittleInfoGeneral.Size = new System.Drawing.Size(794, 773);
+			this.tpSTittleInfoGeneral.Size = new System.Drawing.Size(794, 779);
 			this.tpSTittleInfoGeneral.TabIndex = 0;
 			this.tpSTittleInfoGeneral.Text = "Основные данные";
 			this.tpSTittleInfoGeneral.UseVisualStyleBackColor = true;
+			// 
+			// STIGeneralInfoPanel
+			// 
+			this.STIGeneralInfoPanel.AutoScroll = true;
+			this.STIGeneralInfoPanel.Controls.Add(this.STISequencePanel);
+			this.STIGeneralInfoPanel.Controls.Add(this.STIKeyPanel);
+			this.STIGeneralInfoPanel.Controls.Add(this.STITranslatorPanel);
+			this.STIGeneralInfoPanel.Controls.Add(this.STIDatePanel);
+			this.STIGeneralInfoPanel.Controls.Add(this.STIAuthorsPanel);
+			this.STIGeneralInfoPanel.Controls.Add(this.STIGenrePanel);
+			this.STIGeneralInfoPanel.Controls.Add(this.STILangsPanel);
+			this.STIGeneralInfoPanel.Controls.Add(this.STIBookTitlePanel);
+			this.STIGeneralInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.STIGeneralInfoPanel.Location = new System.Drawing.Point(0, 0);
+			this.STIGeneralInfoPanel.Margin = new System.Windows.Forms.Padding(0);
+			this.STIGeneralInfoPanel.Name = "STIGeneralInfoPanel";
+			this.STIGeneralInfoPanel.Size = new System.Drawing.Size(794, 779);
+			this.STIGeneralInfoPanel.TabIndex = 0;
 			// 
 			// STISequencePanel
 			// 
@@ -1547,10 +1668,10 @@ namespace Core.Common
 			this.STISequencePanel.Controls.Add(this.STISequenceWorkPanel);
 			this.STISequencePanel.Controls.Add(this.STISequenceLabelPanel);
 			this.STISequencePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STISequencePanel.Location = new System.Drawing.Point(3, 611);
+			this.STISequencePanel.Location = new System.Drawing.Point(0, 615);
 			this.STISequencePanel.Name = "STISequencePanel";
-			this.STISequencePanel.Size = new System.Drawing.Size(788, 160);
-			this.STISequencePanel.TabIndex = 21;
+			this.STISequencePanel.Size = new System.Drawing.Size(794, 160);
+			this.STISequencePanel.TabIndex = 37;
 			// 
 			// STISequenceListView
 			// 
@@ -1560,9 +1681,10 @@ namespace Core.Common
 			this.STISequenceListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.STISequenceListView.FullRowSelect = true;
 			this.STISequenceListView.GridLines = true;
+			this.STISequenceListView.HideSelection = false;
 			this.STISequenceListView.Location = new System.Drawing.Point(0, 25);
 			this.STISequenceListView.Name = "STISequenceListView";
-			this.STISequenceListView.Size = new System.Drawing.Size(713, 135);
+			this.STISequenceListView.Size = new System.Drawing.Size(719, 135);
 			this.STISequenceListView.TabIndex = 87;
 			this.STISequenceListView.UseCompatibleStateImageBehavior = false;
 			this.STISequenceListView.View = System.Windows.Forms.View.Details;
@@ -1584,7 +1706,7 @@ namespace Core.Common
 			this.STISequenceWorkPanel.Controls.Add(this.STISequenceDeleteButton);
 			this.STISequenceWorkPanel.Controls.Add(this.STISequenceEditButton);
 			this.STISequenceWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.STISequenceWorkPanel.Location = new System.Drawing.Point(713, 25);
+			this.STISequenceWorkPanel.Location = new System.Drawing.Point(719, 25);
 			this.STISequenceWorkPanel.Name = "STISequenceWorkPanel";
 			this.STISequenceWorkPanel.Size = new System.Drawing.Size(75, 135);
 			this.STISequenceWorkPanel.TabIndex = 86;
@@ -1642,7 +1764,7 @@ namespace Core.Common
 			this.STISequenceEditButton.Size = new System.Drawing.Size(75, 40);
 			this.STISequenceEditButton.TabIndex = 0;
 			this.STISequenceEditButton.UseVisualStyleBackColor = true;
-			this.STISequenceEditButton.Click += new System.EventHandler(this.STISequenceEditButtonClick);
+			this.STISequenceEditButton.Click += new System.EventHandler(this.STISequenceAddButtonClick);
 			// 
 			// STISequenceLabelPanel
 			// 
@@ -1652,14 +1774,14 @@ namespace Core.Common
 			this.STISequenceLabelPanel.Location = new System.Drawing.Point(0, 0);
 			this.STISequenceLabelPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.STISequenceLabelPanel.Name = "STISequenceLabelPanel";
-			this.STISequenceLabelPanel.Size = new System.Drawing.Size(788, 25);
+			this.STISequenceLabelPanel.Size = new System.Drawing.Size(794, 25);
 			this.STISequenceLabelPanel.TabIndex = 80;
 			// 
 			// STISequenceAddButton
 			// 
 			this.STISequenceAddButton.Dock = System.Windows.Forms.DockStyle.Right;
 			this.STISequenceAddButton.Image = ((System.Drawing.Image)(resources.GetObject("STISequenceAddButton.Image")));
-			this.STISequenceAddButton.Location = new System.Drawing.Point(711, 0);
+			this.STISequenceAddButton.Location = new System.Drawing.Point(717, 0);
 			this.STISequenceAddButton.Name = "STISequenceAddButton";
 			this.STISequenceAddButton.Size = new System.Drawing.Size(77, 25);
 			this.STISequenceAddButton.TabIndex = 83;
@@ -1673,7 +1795,7 @@ namespace Core.Common
 			this.STISequenceLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.STISequenceLabel.Location = new System.Drawing.Point(0, 0);
 			this.STISequenceLabel.Name = "STISequenceLabel";
-			this.STISequenceLabel.Size = new System.Drawing.Size(788, 25);
+			this.STISequenceLabel.Size = new System.Drawing.Size(794, 25);
 			this.STISequenceLabel.TabIndex = 79;
 			this.STISequenceLabel.Text = "Серии книги:";
 			this.STISequenceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1683,16 +1805,16 @@ namespace Core.Common
 			this.STIKeyPanel.Controls.Add(this.STIKeyTextBox);
 			this.STIKeyPanel.Controls.Add(this.STIKeyLabel);
 			this.STIKeyPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STIKeyPanel.Location = new System.Drawing.Point(3, 582);
+			this.STIKeyPanel.Location = new System.Drawing.Point(0, 586);
 			this.STIKeyPanel.Name = "STIKeyPanel";
-			this.STIKeyPanel.Size = new System.Drawing.Size(788, 29);
-			this.STIKeyPanel.TabIndex = 20;
+			this.STIKeyPanel.Size = new System.Drawing.Size(794, 29);
+			this.STIKeyPanel.TabIndex = 36;
 			// 
 			// STIKeyTextBox
 			// 
 			this.STIKeyTextBox.Location = new System.Drawing.Point(126, 2);
 			this.STIKeyTextBox.Name = "STIKeyTextBox";
-			this.STIKeyTextBox.Size = new System.Drawing.Size(659, 22);
+			this.STIKeyTextBox.Size = new System.Drawing.Size(587, 22);
 			this.STIKeyTextBox.TabIndex = 1;
 			// 
 			// STIKeyLabel
@@ -1711,10 +1833,10 @@ namespace Core.Common
 			this.STITranslatorPanel.Controls.Add(this.STITranslatorWorkPanel);
 			this.STITranslatorPanel.Controls.Add(this.STITranslatorLabelPanel);
 			this.STITranslatorPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STITranslatorPanel.Location = new System.Drawing.Point(3, 450);
+			this.STITranslatorPanel.Location = new System.Drawing.Point(0, 454);
 			this.STITranslatorPanel.Name = "STITranslatorPanel";
-			this.STITranslatorPanel.Size = new System.Drawing.Size(788, 132);
-			this.STITranslatorPanel.TabIndex = 19;
+			this.STITranslatorPanel.Size = new System.Drawing.Size(794, 132);
+			this.STITranslatorPanel.TabIndex = 35;
 			// 
 			// STITranslatorListView
 			// 
@@ -1729,9 +1851,10 @@ namespace Core.Common
 			this.STITranslatorListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.STITranslatorListView.FullRowSelect = true;
 			this.STITranslatorListView.GridLines = true;
+			this.STITranslatorListView.HideSelection = false;
 			this.STITranslatorListView.Location = new System.Drawing.Point(0, 25);
 			this.STITranslatorListView.Name = "STITranslatorListView";
-			this.STITranslatorListView.Size = new System.Drawing.Size(713, 107);
+			this.STITranslatorListView.Size = new System.Drawing.Size(719, 107);
 			this.STITranslatorListView.TabIndex = 87;
 			this.STITranslatorListView.UseCompatibleStateImageBehavior = false;
 			this.STITranslatorListView.View = System.Windows.Forms.View.Details;
@@ -1776,7 +1899,7 @@ namespace Core.Common
 			this.STITranslatorWorkPanel.Controls.Add(this.STITranslatorDeleteButton);
 			this.STITranslatorWorkPanel.Controls.Add(this.STITranslatorEditButton);
 			this.STITranslatorWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.STITranslatorWorkPanel.Location = new System.Drawing.Point(713, 25);
+			this.STITranslatorWorkPanel.Location = new System.Drawing.Point(719, 25);
 			this.STITranslatorWorkPanel.Name = "STITranslatorWorkPanel";
 			this.STITranslatorWorkPanel.Size = new System.Drawing.Size(75, 107);
 			this.STITranslatorWorkPanel.TabIndex = 86;
@@ -1822,14 +1945,14 @@ namespace Core.Common
 			this.STITranslatorLabelPanel.Location = new System.Drawing.Point(0, 0);
 			this.STITranslatorLabelPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.STITranslatorLabelPanel.Name = "STITranslatorLabelPanel";
-			this.STITranslatorLabelPanel.Size = new System.Drawing.Size(788, 25);
+			this.STITranslatorLabelPanel.Size = new System.Drawing.Size(794, 25);
 			this.STITranslatorLabelPanel.TabIndex = 80;
 			// 
 			// STITranslatorAddButton
 			// 
 			this.STITranslatorAddButton.Dock = System.Windows.Forms.DockStyle.Right;
 			this.STITranslatorAddButton.Image = ((System.Drawing.Image)(resources.GetObject("STITranslatorAddButton.Image")));
-			this.STITranslatorAddButton.Location = new System.Drawing.Point(711, 0);
+			this.STITranslatorAddButton.Location = new System.Drawing.Point(717, 0);
 			this.STITranslatorAddButton.Name = "STITranslatorAddButton";
 			this.STITranslatorAddButton.Size = new System.Drawing.Size(77, 25);
 			this.STITranslatorAddButton.TabIndex = 83;
@@ -1843,7 +1966,7 @@ namespace Core.Common
 			this.STITranslatorLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.STITranslatorLabel.Location = new System.Drawing.Point(0, 0);
 			this.STITranslatorLabel.Name = "STITranslatorLabel";
-			this.STITranslatorLabel.Size = new System.Drawing.Size(788, 25);
+			this.STITranslatorLabel.Size = new System.Drawing.Size(794, 25);
 			this.STITranslatorLabel.TabIndex = 79;
 			this.STITranslatorLabel.Text = "Переводчики книги:";
 			this.STITranslatorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1857,22 +1980,22 @@ namespace Core.Common
 			this.STIDatePanel.Controls.Add(this.STIDateValueLabel);
 			this.STIDatePanel.Controls.Add(this.STIDateLabel);
 			this.STIDatePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STIDatePanel.Location = new System.Drawing.Point(3, 420);
+			this.STIDatePanel.Location = new System.Drawing.Point(0, 424);
 			this.STIDatePanel.Name = "STIDatePanel";
-			this.STIDatePanel.Size = new System.Drawing.Size(788, 30);
-			this.STIDatePanel.TabIndex = 18;
+			this.STIDatePanel.Size = new System.Drawing.Size(794, 30);
+			this.STIDatePanel.TabIndex = 34;
 			// 
 			// STIDateTextBox
 			// 
-			this.STIDateTextBox.Location = new System.Drawing.Point(116, 3);
+			this.STIDateTextBox.Location = new System.Drawing.Point(61, 3);
 			this.STIDateTextBox.Name = "STIDateTextBox";
-			this.STIDateTextBox.Size = new System.Drawing.Size(132, 22);
+			this.STIDateTextBox.Size = new System.Drawing.Size(127, 22);
 			this.STIDateTextBox.TabIndex = 84;
 			// 
 			// STIDateValueFormatLabel
 			// 
 			this.STIDateValueFormatLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.STIDateValueFormatLabel.Location = new System.Drawing.Point(645, 3);
+			this.STIDateValueFormatLabel.Location = new System.Drawing.Point(577, 3);
 			this.STIDateValueFormatLabel.Name = "STIDateValueFormatLabel";
 			this.STIDateValueFormatLabel.Size = new System.Drawing.Size(146, 23);
 			this.STIDateValueFormatLabel.TabIndex = 87;
@@ -1882,16 +2005,16 @@ namespace Core.Common
 			// STIDateFormatLabel
 			// 
 			this.STIDateFormatLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.STIDateFormatLabel.Location = new System.Drawing.Point(249, 3);
+			this.STIDateFormatLabel.Location = new System.Drawing.Point(195, 3);
 			this.STIDateFormatLabel.Name = "STIDateFormatLabel";
-			this.STIDateFormatLabel.Size = new System.Drawing.Size(168, 23);
+			this.STIDateFormatLabel.Size = new System.Drawing.Size(165, 23);
 			this.STIDateFormatLabel.TabIndex = 86;
 			this.STIDateFormatLabel.Text = "Формат: 1 января 2015";
 			this.STIDateFormatLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// STIDateValueMaskedTextBox
 			// 
-			this.STIDateValueMaskedTextBox.Location = new System.Drawing.Point(554, 5);
+			this.STIDateValueMaskedTextBox.Location = new System.Drawing.Point(487, 5);
 			this.STIDateValueMaskedTextBox.Mask = "0000-00-00";
 			this.STIDateValueMaskedTextBox.Name = "STIDateValueMaskedTextBox";
 			this.STIDateValueMaskedTextBox.Size = new System.Drawing.Size(85, 22);
@@ -1900,9 +2023,9 @@ namespace Core.Common
 			// STIDateValueLabel
 			// 
 			this.STIDateValueLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.STIDateValueLabel.Location = new System.Drawing.Point(422, 3);
+			this.STIDateValueLabel.Location = new System.Drawing.Point(361, 3);
 			this.STIDateValueLabel.Name = "STIDateValueLabel";
-			this.STIDateValueLabel.Size = new System.Drawing.Size(126, 23);
+			this.STIDateValueLabel.Size = new System.Drawing.Size(124, 23);
 			this.STIDateValueLabel.TabIndex = 84;
 			this.STIDateValueLabel.Text = "Дата (значение):";
 			this.STIDateValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1912,9 +2035,9 @@ namespace Core.Common
 			this.STIDateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.STIDateLabel.Location = new System.Drawing.Point(3, 3);
 			this.STIDateLabel.Name = "STIDateLabel";
-			this.STIDateLabel.Size = new System.Drawing.Size(126, 23);
+			this.STIDateLabel.Size = new System.Drawing.Size(52, 23);
 			this.STIDateLabel.TabIndex = 39;
-			this.STIDateLabel.Text = "Дата написания:";
+			this.STIDateLabel.Text = "Дата:";
 			this.STIDateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// STIAuthorsPanel
@@ -1923,10 +2046,10 @@ namespace Core.Common
 			this.STIAuthorsPanel.Controls.Add(this.STIAuthorsWorkPanel);
 			this.STIAuthorsPanel.Controls.Add(this.STIAuthorsLabelPanel);
 			this.STIAuthorsPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STIAuthorsPanel.Location = new System.Drawing.Point(3, 260);
+			this.STIAuthorsPanel.Location = new System.Drawing.Point(0, 264);
 			this.STIAuthorsPanel.Name = "STIAuthorsPanel";
-			this.STIAuthorsPanel.Size = new System.Drawing.Size(788, 160);
-			this.STIAuthorsPanel.TabIndex = 17;
+			this.STIAuthorsPanel.Size = new System.Drawing.Size(794, 160);
+			this.STIAuthorsPanel.TabIndex = 33;
 			// 
 			// STIAuthorsListView
 			// 
@@ -1941,9 +2064,10 @@ namespace Core.Common
 			this.STIAuthorsListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.STIAuthorsListView.FullRowSelect = true;
 			this.STIAuthorsListView.GridLines = true;
+			this.STIAuthorsListView.HideSelection = false;
 			this.STIAuthorsListView.Location = new System.Drawing.Point(0, 25);
 			this.STIAuthorsListView.Name = "STIAuthorsListView";
-			this.STIAuthorsListView.Size = new System.Drawing.Size(713, 135);
+			this.STIAuthorsListView.Size = new System.Drawing.Size(719, 135);
 			this.STIAuthorsListView.TabIndex = 87;
 			this.STIAuthorsListView.UseCompatibleStateImageBehavior = false;
 			this.STIAuthorsListView.View = System.Windows.Forms.View.Details;
@@ -1990,7 +2114,7 @@ namespace Core.Common
 			this.STIAuthorsWorkPanel.Controls.Add(this.STIAuthorDeleteButton);
 			this.STIAuthorsWorkPanel.Controls.Add(this.STIAuthorEditButton);
 			this.STIAuthorsWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.STIAuthorsWorkPanel.Location = new System.Drawing.Point(713, 25);
+			this.STIAuthorsWorkPanel.Location = new System.Drawing.Point(719, 25);
 			this.STIAuthorsWorkPanel.Name = "STIAuthorsWorkPanel";
 			this.STIAuthorsWorkPanel.Size = new System.Drawing.Size(75, 135);
 			this.STIAuthorsWorkPanel.TabIndex = 86;
@@ -2058,14 +2182,14 @@ namespace Core.Common
 			this.STIAuthorsLabelPanel.Location = new System.Drawing.Point(0, 0);
 			this.STIAuthorsLabelPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.STIAuthorsLabelPanel.Name = "STIAuthorsLabelPanel";
-			this.STIAuthorsLabelPanel.Size = new System.Drawing.Size(788, 25);
+			this.STIAuthorsLabelPanel.Size = new System.Drawing.Size(794, 25);
 			this.STIAuthorsLabelPanel.TabIndex = 80;
 			// 
 			// STIAuthorAddButton
 			// 
 			this.STIAuthorAddButton.Dock = System.Windows.Forms.DockStyle.Right;
 			this.STIAuthorAddButton.Image = ((System.Drawing.Image)(resources.GetObject("STIAuthorAddButton.Image")));
-			this.STIAuthorAddButton.Location = new System.Drawing.Point(711, 0);
+			this.STIAuthorAddButton.Location = new System.Drawing.Point(717, 0);
 			this.STIAuthorAddButton.Name = "STIAuthorAddButton";
 			this.STIAuthorAddButton.Size = new System.Drawing.Size(77, 25);
 			this.STIAuthorAddButton.TabIndex = 83;
@@ -2079,7 +2203,7 @@ namespace Core.Common
 			this.STIAuthorsLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.STIAuthorsLabel.Location = new System.Drawing.Point(0, 0);
 			this.STIAuthorsLabel.Name = "STIAuthorsLabel";
-			this.STIAuthorsLabel.Size = new System.Drawing.Size(788, 25);
+			this.STIAuthorsLabel.Size = new System.Drawing.Size(794, 25);
 			this.STIAuthorsLabel.TabIndex = 79;
 			this.STIAuthorsLabel.Text = "Авторы книги:";
 			this.STIAuthorsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2090,10 +2214,10 @@ namespace Core.Common
 			this.STIGenrePanel.Controls.Add(this.STIGenreWorkPanel);
 			this.STIGenrePanel.Controls.Add(this.STIGenresSchemePanel);
 			this.STIGenrePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STIGenrePanel.Location = new System.Drawing.Point(3, 75);
+			this.STIGenrePanel.Location = new System.Drawing.Point(0, 72);
 			this.STIGenrePanel.Name = "STIGenrePanel";
-			this.STIGenrePanel.Size = new System.Drawing.Size(788, 185);
-			this.STIGenrePanel.TabIndex = 16;
+			this.STIGenrePanel.Size = new System.Drawing.Size(794, 192);
+			this.STIGenrePanel.TabIndex = 32;
 			// 
 			// STIGenresListView
 			// 
@@ -2103,9 +2227,10 @@ namespace Core.Common
 			this.STIGenresListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.STIGenresListView.FullRowSelect = true;
 			this.STIGenresListView.GridLines = true;
+			this.STIGenresListView.HideSelection = false;
 			this.STIGenresListView.Location = new System.Drawing.Point(0, 91);
 			this.STIGenresListView.Name = "STIGenresListView";
-			this.STIGenresListView.Size = new System.Drawing.Size(713, 94);
+			this.STIGenresListView.Size = new System.Drawing.Size(719, 101);
 			this.STIGenresListView.TabIndex = 85;
 			this.STIGenresListView.UseCompatibleStateImageBehavior = false;
 			this.STIGenresListView.View = System.Windows.Forms.View.Details;
@@ -2127,16 +2252,16 @@ namespace Core.Common
 			this.STIGenreWorkPanel.Controls.Add(this.STIGenreDeleteAllButton);
 			this.STIGenreWorkPanel.Controls.Add(this.STIGenreDeleteButton);
 			this.STIGenreWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.STIGenreWorkPanel.Location = new System.Drawing.Point(713, 91);
+			this.STIGenreWorkPanel.Location = new System.Drawing.Point(719, 91);
 			this.STIGenreWorkPanel.Name = "STIGenreWorkPanel";
-			this.STIGenreWorkPanel.Size = new System.Drawing.Size(75, 94);
+			this.STIGenreWorkPanel.Size = new System.Drawing.Size(75, 101);
 			this.STIGenreWorkPanel.TabIndex = 84;
 			// 
 			// STIGenreUpButton
 			// 
 			this.STIGenreUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.STIGenreUpButton.Image = ((System.Drawing.Image)(resources.GetObject("STIGenreUpButton.Image")));
-			this.STIGenreUpButton.Location = new System.Drawing.Point(0, 48);
+			this.STIGenreUpButton.Location = new System.Drawing.Point(0, 55);
 			this.STIGenreUpButton.Name = "STIGenreUpButton";
 			this.STIGenreUpButton.Size = new System.Drawing.Size(75, 23);
 			this.STIGenreUpButton.TabIndex = 11;
@@ -2147,7 +2272,7 @@ namespace Core.Common
 			// 
 			this.STIGenreDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.STIGenreDownButton.Image = ((System.Drawing.Image)(resources.GetObject("STIGenreDownButton.Image")));
-			this.STIGenreDownButton.Location = new System.Drawing.Point(0, 71);
+			this.STIGenreDownButton.Location = new System.Drawing.Point(0, 78);
 			this.STIGenreDownButton.Name = "STIGenreDownButton";
 			this.STIGenreDownButton.Size = new System.Drawing.Size(75, 23);
 			this.STIGenreDownButton.TabIndex = 10;
@@ -2192,7 +2317,7 @@ namespace Core.Common
 			this.STIGenresSchemePanel.Location = new System.Drawing.Point(0, 0);
 			this.STIGenresSchemePanel.Margin = new System.Windows.Forms.Padding(4);
 			this.STIGenresSchemePanel.Name = "STIGenresSchemePanel";
-			this.STIGenresSchemePanel.Size = new System.Drawing.Size(788, 91);
+			this.STIGenresSchemePanel.Size = new System.Drawing.Size(794, 91);
 			this.STIGenresSchemePanel.TabIndex = 77;
 			// 
 			// STIGroupComboBox
@@ -2220,7 +2345,7 @@ namespace Core.Common
 			// STIGenreAddButton
 			// 
 			this.STIGenreAddButton.Image = ((System.Drawing.Image)(resources.GetObject("STIGenreAddButton.Image")));
-			this.STIGenreAddButton.Location = new System.Drawing.Point(711, 55);
+			this.STIGenreAddButton.Location = new System.Drawing.Point(685, 55);
 			this.STIGenreAddButton.Name = "STIGenreAddButton";
 			this.STIGenreAddButton.Size = new System.Drawing.Size(74, 23);
 			this.STIGenreAddButton.TabIndex = 83;
@@ -2309,10 +2434,10 @@ namespace Core.Common
 			this.STILangsPanel.Controls.Add(this.STILangComboBox);
 			this.STILangsPanel.Controls.Add(this.STILangLabel);
 			this.STILangsPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STILangsPanel.Location = new System.Drawing.Point(3, 37);
+			this.STILangsPanel.Location = new System.Drawing.Point(0, 34);
 			this.STILangsPanel.Name = "STILangsPanel";
-			this.STILangsPanel.Size = new System.Drawing.Size(788, 38);
-			this.STILangsPanel.TabIndex = 15;
+			this.STILangsPanel.Size = new System.Drawing.Size(794, 38);
+			this.STILangsPanel.TabIndex = 31;
 			// 
 			// STISrcLangComboBox
 			// 
@@ -2359,16 +2484,16 @@ namespace Core.Common
 			this.STIBookTitlePanel.Controls.Add(this.STIBookTitleTextBox);
 			this.STIBookTitlePanel.Controls.Add(this.STIBookTitleLabel);
 			this.STIBookTitlePanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.STIBookTitlePanel.Location = new System.Drawing.Point(3, 3);
+			this.STIBookTitlePanel.Location = new System.Drawing.Point(0, 0);
 			this.STIBookTitlePanel.Name = "STIBookTitlePanel";
-			this.STIBookTitlePanel.Size = new System.Drawing.Size(788, 34);
-			this.STIBookTitlePanel.TabIndex = 14;
+			this.STIBookTitlePanel.Size = new System.Drawing.Size(794, 34);
+			this.STIBookTitlePanel.TabIndex = 30;
 			// 
 			// STIBookTitleTextBox
 			// 
 			this.STIBookTitleTextBox.Location = new System.Drawing.Point(127, 5);
 			this.STIBookTitleTextBox.Name = "STIBookTitleTextBox";
-			this.STIBookTitleTextBox.Size = new System.Drawing.Size(658, 22);
+			this.STIBookTitleTextBox.Size = new System.Drawing.Size(595, 22);
 			this.STIBookTitleTextBox.TabIndex = 1;
 			// 
 			// STIBookTitleLabel
@@ -2387,7 +2512,7 @@ namespace Core.Common
 			this.tpSTittleInfoAnnotation.Location = new System.Drawing.Point(4, 25);
 			this.tpSTittleInfoAnnotation.Name = "tpSTittleInfoAnnotation";
 			this.tpSTittleInfoAnnotation.Padding = new System.Windows.Forms.Padding(3);
-			this.tpSTittleInfoAnnotation.Size = new System.Drawing.Size(794, 773);
+			this.tpSTittleInfoAnnotation.Size = new System.Drawing.Size(794, 779);
 			this.tpSTittleInfoAnnotation.TabIndex = 1;
 			this.tpSTittleInfoAnnotation.Text = "Аннотация на книгу";
 			this.tpSTittleInfoAnnotation.UseVisualStyleBackColor = true;
@@ -2399,7 +2524,7 @@ namespace Core.Common
 			this.STIAnnotationRichTextEdit.Location = new System.Drawing.Point(3, 3);
 			this.STIAnnotationRichTextEdit.Margin = new System.Windows.Forms.Padding(4);
 			this.STIAnnotationRichTextEdit.Name = "STIAnnotationRichTextEdit";
-			this.STIAnnotationRichTextEdit.Size = new System.Drawing.Size(788, 767);
+			this.STIAnnotationRichTextEdit.Size = new System.Drawing.Size(788, 773);
 			this.STIAnnotationRichTextEdit.TabIndex = 2;
 			this.STIAnnotationRichTextEdit.Text = "";
 			// 
@@ -2410,7 +2535,7 @@ namespace Core.Common
 			this.tpSTittleInfoCovers.Location = new System.Drawing.Point(4, 25);
 			this.tpSTittleInfoCovers.Name = "tpSTittleInfoCovers";
 			this.tpSTittleInfoCovers.Padding = new System.Windows.Forms.Padding(3);
-			this.tpSTittleInfoCovers.Size = new System.Drawing.Size(794, 773);
+			this.tpSTittleInfoCovers.Size = new System.Drawing.Size(794, 779);
 			this.tpSTittleInfoCovers.TabIndex = 2;
 			this.tpSTittleInfoCovers.Text = "Обложки";
 			this.tpSTittleInfoCovers.UseVisualStyleBackColor = true;
@@ -2423,7 +2548,7 @@ namespace Core.Common
 			this.STICoverPictureBox.Location = new System.Drawing.Point(3, 257);
 			this.STICoverPictureBox.Margin = new System.Windows.Forms.Padding(4);
 			this.STICoverPictureBox.Name = "STICoverPictureBox";
-			this.STICoverPictureBox.Size = new System.Drawing.Size(788, 513);
+			this.STICoverPictureBox.Size = new System.Drawing.Size(788, 519);
 			this.STICoverPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.STICoverPictureBox.TabIndex = 49;
 			this.STICoverPictureBox.TabStop = false;
@@ -2443,10 +2568,14 @@ namespace Core.Common
 			// 
 			this.STICoverListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeader48,
-			this.columnHeader49});
+			this.columnHeader49,
+			this.columnHeader52,
+			this.columnHeader55,
+			this.columnHeader53});
 			this.STICoverListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.STICoverListView.FullRowSelect = true;
 			this.STICoverListView.GridLines = true;
+			this.STICoverListView.HideSelection = false;
 			this.STICoverListView.Location = new System.Drawing.Point(0, 25);
 			this.STICoverListView.Name = "STICoverListView";
 			this.STICoverListView.Size = new System.Drawing.Size(713, 229);
@@ -2458,15 +2587,32 @@ namespace Core.Common
 			// columnHeader48
 			// 
 			this.columnHeader48.Text = "Обложка";
-			this.columnHeader48.Width = 400;
+			this.columnHeader48.Width = 200;
 			// 
 			// columnHeader49
 			// 
 			this.columnHeader49.Text = "Тип контента";
 			this.columnHeader49.Width = 150;
 			// 
+			// columnHeader52
+			// 
+			this.columnHeader52.Text = "DPI";
+			this.columnHeader52.Width = 100;
+			// 
+			// columnHeader55
+			// 
+			this.columnHeader55.Text = "Pixels";
+			this.columnHeader55.Width = 100;
+			// 
+			// columnHeader53
+			// 
+			this.columnHeader53.Text = "Размер";
+			this.columnHeader53.Width = 100;
+			// 
 			// STICoverWorkPanel
 			// 
+			this.STICoverWorkPanel.Controls.Add(this.STICoverSaveAllSelectedImageButton);
+			this.STICoverWorkPanel.Controls.Add(this.STICoverSeparatorLabel);
 			this.STICoverWorkPanel.Controls.Add(this.STICoverUpButton);
 			this.STICoverWorkPanel.Controls.Add(this.STICoverDownButton);
 			this.STICoverWorkPanel.Controls.Add(this.STICoverDeleteAllButton);
@@ -2476,6 +2622,25 @@ namespace Core.Common
 			this.STICoverWorkPanel.Name = "STICoverWorkPanel";
 			this.STICoverWorkPanel.Size = new System.Drawing.Size(75, 229);
 			this.STICoverWorkPanel.TabIndex = 86;
+			// 
+			// STICoverSaveAllSelectedImageButton
+			// 
+			this.STICoverSaveAllSelectedImageButton.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverSaveAllSelectedImageButton.Image = ((System.Drawing.Image)(resources.GetObject("STICoverSaveAllSelectedImageButton.Image")));
+			this.STICoverSaveAllSelectedImageButton.Location = new System.Drawing.Point(0, 85);
+			this.STICoverSaveAllSelectedImageButton.Name = "STICoverSaveAllSelectedImageButton";
+			this.STICoverSaveAllSelectedImageButton.Size = new System.Drawing.Size(75, 41);
+			this.STICoverSaveAllSelectedImageButton.TabIndex = 16;
+			this.STICoverSaveAllSelectedImageButton.UseVisualStyleBackColor = true;
+			this.STICoverSaveAllSelectedImageButton.Click += new System.EventHandler(this.STICoverSaveAllSelectedImageButtonClick);
+			// 
+			// STICoverSeparatorLabel
+			// 
+			this.STICoverSeparatorLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverSeparatorLabel.Location = new System.Drawing.Point(0, 46);
+			this.STICoverSeparatorLabel.Name = "STICoverSeparatorLabel";
+			this.STICoverSeparatorLabel.Size = new System.Drawing.Size(75, 39);
+			this.STICoverSeparatorLabel.TabIndex = 15;
 			// 
 			// STICoverUpButton
 			// 
@@ -2581,7 +2746,7 @@ namespace Core.Common
 			this.tpDocumentInfo.Location = new System.Drawing.Point(4, 25);
 			this.tpDocumentInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.tpDocumentInfo.Name = "tpDocumentInfo";
-			this.tpDocumentInfo.Size = new System.Drawing.Size(802, 826);
+			this.tpDocumentInfo.Size = new System.Drawing.Size(802, 832);
 			this.tpDocumentInfo.TabIndex = 2;
 			this.tpDocumentInfo.Text = "FB2 документ";
 			this.tpDocumentInfo.UseVisualStyleBackColor = true;
@@ -2593,7 +2758,7 @@ namespace Core.Common
 			this.DIHistoryRichTextEdit.Location = new System.Drawing.Point(0, 444);
 			this.DIHistoryRichTextEdit.Margin = new System.Windows.Forms.Padding(4);
 			this.DIHistoryRichTextEdit.Name = "DIHistoryRichTextEdit";
-			this.DIHistoryRichTextEdit.Size = new System.Drawing.Size(802, 382);
+			this.DIHistoryRichTextEdit.Size = new System.Drawing.Size(802, 388);
 			this.DIHistoryRichTextEdit.TabIndex = 21;
 			this.DIHistoryRichTextEdit.Text = "";
 			// 
@@ -2706,6 +2871,7 @@ namespace Core.Common
 			this.DIFB2AuthorListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.DIFB2AuthorListView.FullRowSelect = true;
 			this.DIFB2AuthorListView.GridLines = true;
+			this.DIFB2AuthorListView.HideSelection = false;
 			this.DIFB2AuthorListView.Location = new System.Drawing.Point(0, 25);
 			this.DIFB2AuthorListView.Name = "DIFB2AuthorListView";
 			this.DIFB2AuthorListView.Size = new System.Drawing.Size(727, 165);
@@ -3021,7 +3187,7 @@ namespace Core.Common
 			this.tpPublishInfo.Location = new System.Drawing.Point(4, 25);
 			this.tpPublishInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.tpPublishInfo.Name = "tpPublishInfo";
-			this.tpPublishInfo.Size = new System.Drawing.Size(802, 826);
+			this.tpPublishInfo.Size = new System.Drawing.Size(802, 832);
 			this.tpPublishInfo.TabIndex = 3;
 			this.tpPublishInfo.Text = "Бумажная книга";
 			this.tpPublishInfo.UseVisualStyleBackColor = true;
@@ -3045,6 +3211,7 @@ namespace Core.Common
 			this.PISequenceListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.PISequenceListView.FullRowSelect = true;
 			this.PISequenceListView.GridLines = true;
+			this.PISequenceListView.HideSelection = false;
 			this.PISequenceListView.Location = new System.Drawing.Point(0, 25);
 			this.PISequenceListView.Name = "PISequenceListView";
 			this.PISequenceListView.Size = new System.Drawing.Size(727, 229);
@@ -3304,7 +3471,7 @@ namespace Core.Common
 			this.tpCustomInfo.Location = new System.Drawing.Point(4, 25);
 			this.tpCustomInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.tpCustomInfo.Name = "tpCustomInfo";
-			this.tpCustomInfo.Size = new System.Drawing.Size(802, 826);
+			this.tpCustomInfo.Size = new System.Drawing.Size(802, 832);
 			this.tpCustomInfo.TabIndex = 4;
 			this.tpCustomInfo.Text = "Дополнительные данные";
 			this.tpCustomInfo.UseVisualStyleBackColor = true;
@@ -3317,7 +3484,7 @@ namespace Core.Common
 			this.CICustomInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.CICustomInfoPanel.Location = new System.Drawing.Point(0, 0);
 			this.CICustomInfoPanel.Name = "CICustomInfoPanel";
-			this.CICustomInfoPanel.Size = new System.Drawing.Size(802, 826);
+			this.CICustomInfoPanel.Size = new System.Drawing.Size(802, 832);
 			this.CICustomInfoPanel.TabIndex = 15;
 			// 
 			// CICustomInfoListView
@@ -3328,9 +3495,10 @@ namespace Core.Common
 			this.CICustomInfoListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.CICustomInfoListView.FullRowSelect = true;
 			this.CICustomInfoListView.GridLines = true;
+			this.CICustomInfoListView.HideSelection = false;
 			this.CICustomInfoListView.Location = new System.Drawing.Point(0, 25);
 			this.CICustomInfoListView.Name = "CICustomInfoListView";
-			this.CICustomInfoListView.Size = new System.Drawing.Size(727, 801);
+			this.CICustomInfoListView.Size = new System.Drawing.Size(727, 807);
 			this.CICustomInfoListView.TabIndex = 87;
 			this.CICustomInfoListView.UseCompatibleStateImageBehavior = false;
 			this.CICustomInfoListView.View = System.Windows.Forms.View.Details;
@@ -3355,7 +3523,7 @@ namespace Core.Common
 			this.CICustomInfoWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.CICustomInfoWorkPanel.Location = new System.Drawing.Point(727, 25);
 			this.CICustomInfoWorkPanel.Name = "CICustomInfoWorkPanel";
-			this.CICustomInfoWorkPanel.Size = new System.Drawing.Size(75, 801);
+			this.CICustomInfoWorkPanel.Size = new System.Drawing.Size(75, 807);
 			this.CICustomInfoWorkPanel.TabIndex = 86;
 			// 
 			// CICustomInfoUpButton
@@ -3447,42 +3615,9 @@ namespace Core.Common
 			this.CICustomInfoLabel.Text = "Custom Info:";
 			this.CICustomInfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// ControlPanel
+			// fbdSaveDir
 			// 
-			this.ControlPanel.BackColor = System.Drawing.Color.DarkGray;
-			this.ControlPanel.Controls.Add(this.CancelBtn);
-			this.ControlPanel.Controls.Add(this.ApplyBtn);
-			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.ControlPanel.Location = new System.Drawing.Point(813, 0);
-			this.ControlPanel.Name = "ControlPanel";
-			this.ControlPanel.Size = new System.Drawing.Size(127, 855);
-			this.ControlPanel.TabIndex = 1;
-			// 
-			// CancelBtn
-			// 
-			this.CancelBtn.Dock = System.Windows.Forms.DockStyle.Top;
-			this.CancelBtn.Image = ((System.Drawing.Image)(resources.GetObject("CancelBtn.Image")));
-			this.CancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.CancelBtn.Location = new System.Drawing.Point(0, 50);
-			this.CancelBtn.Name = "CancelBtn";
-			this.CancelBtn.Size = new System.Drawing.Size(127, 48);
-			this.CancelBtn.TabIndex = 1;
-			this.CancelBtn.Text = "Отмена";
-			this.CancelBtn.UseVisualStyleBackColor = true;
-			this.CancelBtn.Click += new System.EventHandler(this.CancelBtnClick);
-			// 
-			// ApplyBtn
-			// 
-			this.ApplyBtn.Dock = System.Windows.Forms.DockStyle.Top;
-			this.ApplyBtn.Image = ((System.Drawing.Image)(resources.GetObject("ApplyBtn.Image")));
-			this.ApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.ApplyBtn.Location = new System.Drawing.Point(0, 0);
-			this.ApplyBtn.Name = "ApplyBtn";
-			this.ApplyBtn.Size = new System.Drawing.Size(127, 50);
-			this.ApplyBtn.TabIndex = 0;
-			this.ApplyBtn.Text = "Принять";
-			this.ApplyBtn.UseVisualStyleBackColor = true;
-			this.ApplyBtn.Click += new System.EventHandler(this.ApplyBtnClick);
+			this.fbdSaveDir.Description = "Укажите папку для сохранения выделенных обложек";
 			// 
 			// CoverOpenFileDialog
 			// 
@@ -3494,18 +3629,24 @@ namespace Core.Common
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(940, 855);
+			this.ClientSize = new System.Drawing.Size(937, 861);
 			this.ControlBox = false;
-			this.Controls.Add(this.ControlPanel);
 			this.Controls.Add(this.DescriptionPanel);
+			this.Controls.Add(this.ControlPanel);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "EditDescriptionForm";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Редактирование метаданных описания fb2 книги";
+			this.ControlPanel.ResumeLayout(false);
 			this.DescriptionPanel.ResumeLayout(false);
 			this.tcViewFB2Desc.ResumeLayout(false);
 			this.tpTitleInfo.ResumeLayout(false);
 			this.TITabControl.ResumeLayout(false);
 			this.tpTittleInfoGeneral.ResumeLayout(false);
+			this.TIGeneralInfoPanel.ResumeLayout(false);
 			this.TISequencePanel.ResumeLayout(false);
 			this.TISequenceWorkPanel.ResumeLayout(false);
 			this.TISequenceLabelPanel.ResumeLayout(false);
@@ -3535,6 +3676,7 @@ namespace Core.Common
 			this.tpSourceTitleInfo.ResumeLayout(false);
 			this.STITabControl.ResumeLayout(false);
 			this.tpSTittleInfoGeneral.ResumeLayout(false);
+			this.STIGeneralInfoPanel.ResumeLayout(false);
 			this.STISequencePanel.ResumeLayout(false);
 			this.STISequenceWorkPanel.ResumeLayout(false);
 			this.STISequenceLabelPanel.ResumeLayout(false);
@@ -3596,10 +3738,22 @@ namespace Core.Common
 			this.CICustomInfoPanel.ResumeLayout(false);
 			this.CICustomInfoWorkPanel.ResumeLayout(false);
 			this.CICustomInfoLabelPanel.ResumeLayout(false);
-			this.ControlPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
+		private System.Windows.Forms.Button STICoverSaveAllSelectedImageButton;
+		private System.Windows.Forms.Label STICoverSeparatorLabel;
+		private System.Windows.Forms.FolderBrowserDialog fbdSaveDir;
+		private System.Windows.Forms.Button TICoverSaveAllSelectedImageButton;
+		private System.Windows.Forms.Label TICoverSeparatorLabel;
+		private System.Windows.Forms.ColumnHeader columnHeader54;
+		private System.Windows.Forms.ColumnHeader columnHeader55;
+		private System.Windows.Forms.ColumnHeader columnHeader52;
+		private System.Windows.Forms.ColumnHeader columnHeader53;
+		private System.Windows.Forms.ColumnHeader columnHeader50;
+		private System.Windows.Forms.ColumnHeader columnHeader51;
+		private System.Windows.Forms.Panel STIGeneralInfoPanel;
+		private System.Windows.Forms.Panel TIGeneralInfoPanel;
 		private System.Windows.Forms.ComboBox STIGroupComboBox;
 		private System.Windows.Forms.Label STIGroupLabel;
 		private System.Windows.Forms.ComboBox TIGroupComboBox;

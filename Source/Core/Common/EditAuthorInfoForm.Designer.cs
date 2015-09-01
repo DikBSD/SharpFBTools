@@ -40,6 +40,8 @@ namespace Core.Common
 			this.CancelBtn = new System.Windows.Forms.Button();
 			this.ApplyBtn = new System.Windows.Forms.Button();
 			this.DataPanel = new System.Windows.Forms.Panel();
+			this.ProgressPanel = new System.Windows.Forms.Panel();
+			this.ProgressBar = new System.Windows.Forms.ProgressBar();
 			this.AuthorsPanel = new System.Windows.Forms.Panel();
 			this.AuthorsListView = new System.Windows.Forms.ListView();
 			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
@@ -75,15 +77,14 @@ namespace Core.Common
 			this.FirstNameLabel = new System.Windows.Forms.Label();
 			this.LastNameLabel = new System.Windows.Forms.Label();
 			this.LastNameTextBox = new System.Windows.Forms.TextBox();
-			this.ProgressPanel = new System.Windows.Forms.Panel();
-			this.ProgressBar = new System.Windows.Forms.ProgressBar();
+			this.AuthorBreakEditButton = new System.Windows.Forms.Button();
 			this.ControlPanel.SuspendLayout();
 			this.DataPanel.SuspendLayout();
+			this.ProgressPanel.SuspendLayout();
 			this.AuthorsPanel.SuspendLayout();
 			this.AuthorsWorkPanel.SuspendLayout();
 			this.AuthorsAddPanel.SuspendLayout();
 			this.AuthorDataPanel.SuspendLayout();
-			this.ProgressPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ControlPanel
@@ -136,6 +137,22 @@ namespace Core.Common
 			this.DataPanel.Size = new System.Drawing.Size(1005, 487);
 			this.DataPanel.TabIndex = 24;
 			// 
+			// ProgressPanel
+			// 
+			this.ProgressPanel.Controls.Add(this.ProgressBar);
+			this.ProgressPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.ProgressPanel.Location = new System.Drawing.Point(0, 443);
+			this.ProgressPanel.Name = "ProgressPanel";
+			this.ProgressPanel.Size = new System.Drawing.Size(1005, 44);
+			this.ProgressPanel.TabIndex = 27;
+			// 
+			// ProgressBar
+			// 
+			this.ProgressBar.Location = new System.Drawing.Point(10, 10);
+			this.ProgressBar.Name = "ProgressBar";
+			this.ProgressBar.Size = new System.Drawing.Size(983, 23);
+			this.ProgressBar.TabIndex = 8;
+			// 
 			// AuthorsPanel
 			// 
 			this.AuthorsPanel.Controls.Add(this.AuthorsListView);
@@ -160,6 +177,7 @@ namespace Core.Common
 			this.AuthorsListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.AuthorsListView.FullRowSelect = true;
 			this.AuthorsListView.GridLines = true;
+			this.AuthorsListView.HideSelection = false;
 			this.AuthorsListView.Location = new System.Drawing.Point(0, 25);
 			this.AuthorsListView.Name = "AuthorsListView";
 			this.AuthorsListView.Size = new System.Drawing.Size(930, 279);
@@ -294,6 +312,7 @@ namespace Core.Common
 			// 
 			// AuthorDataPanel
 			// 
+			this.AuthorDataPanel.Controls.Add(this.AuthorBreakEditButton);
 			this.AuthorDataPanel.Controls.Add(this.AuthorAddButton);
 			this.AuthorDataPanel.Controls.Add(this.HelpLabel);
 			this.AuthorDataPanel.Controls.Add(this.NewIDButton);
@@ -468,21 +487,16 @@ namespace Core.Common
 			this.LastNameTextBox.TabIndex = 24;
 			this.LastNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxKeyDown);
 			// 
-			// ProgressPanel
+			// AuthorBreakEditButton
 			// 
-			this.ProgressPanel.Controls.Add(this.ProgressBar);
-			this.ProgressPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.ProgressPanel.Location = new System.Drawing.Point(0, 443);
-			this.ProgressPanel.Name = "ProgressPanel";
-			this.ProgressPanel.Size = new System.Drawing.Size(1005, 44);
-			this.ProgressPanel.TabIndex = 27;
-			// 
-			// ProgressBar
-			// 
-			this.ProgressBar.Location = new System.Drawing.Point(10, 10);
-			this.ProgressBar.Name = "ProgressBar";
-			this.ProgressBar.Size = new System.Drawing.Size(983, 23);
-			this.ProgressBar.TabIndex = 8;
+			this.AuthorBreakEditButton.Location = new System.Drawing.Point(833, 59);
+			this.AuthorBreakEditButton.Name = "AuthorBreakEditButton";
+			this.AuthorBreakEditButton.Size = new System.Drawing.Size(163, 48);
+			this.AuthorBreakEditButton.TabIndex = 85;
+			this.AuthorBreakEditButton.Text = "Прервать правку Автора";
+			this.AuthorBreakEditButton.UseVisualStyleBackColor = true;
+			this.AuthorBreakEditButton.Visible = false;
+			this.AuthorBreakEditButton.Click += new System.EventHandler(this.AuthorBreakEditButtonClick);
 			// 
 			// EditAuthorInfoForm
 			// 
@@ -497,15 +511,16 @@ namespace Core.Common
 			this.Text = "Правка данных Авторов";
 			this.ControlPanel.ResumeLayout(false);
 			this.DataPanel.ResumeLayout(false);
+			this.ProgressPanel.ResumeLayout(false);
 			this.AuthorsPanel.ResumeLayout(false);
 			this.AuthorsWorkPanel.ResumeLayout(false);
 			this.AuthorsAddPanel.ResumeLayout(false);
 			this.AuthorDataPanel.ResumeLayout(false);
 			this.AuthorDataPanel.PerformLayout();
-			this.ProgressPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
+		private System.Windows.Forms.Button AuthorBreakEditButton;
 		private System.Windows.Forms.Panel ProgressPanel;
 		private System.Windows.Forms.ProgressBar ProgressBar;
 		private System.Windows.Forms.Button AuthorUpButton;

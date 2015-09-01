@@ -662,5 +662,24 @@ namespace Core.Common
 			GenresComboBox.SelectedIndex = 0;
 		}
 		
+		// отображение обложки
+		public static void viewCover( ListView CoversListView, PictureBox picBox,
+		                             Label CoverDPILabel, Label CoverPixelsLabel, Label CoverLenghtLabel ) {
+			if( CoversListView.SelectedItems.Count > 0 ) {
+				try {
+					picBox.Image = ImageWorker.base64ToImage(
+						CoversListView.SelectedItems[0].Tag.ToString()
+					);
+					CoverDPILabel.Text = CoversListView.SelectedItems[0].SubItems[2].Text;
+					CoverPixelsLabel.Text = CoversListView.SelectedItems[0].SubItems[3].Text;
+					CoverLenghtLabel.Text = CoversListView.SelectedItems[0].SubItems[4].Text;
+				} catch ( System.Exception error ) {
+					MessageBox.Show(
+						error.Message, "Ошибка отображения картинки", MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+		}
+		
 	}
 }

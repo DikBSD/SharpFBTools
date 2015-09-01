@@ -6,6 +6,7 @@
  * 
  */
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using System.Collections.Generic;
@@ -20,9 +21,9 @@ using Core.FB2.Description.Common;
 using Core.FB2.Binary;
 using Core.FB2.Genres;
 
-using StringProcessing = Core.Common.StringProcessing;
-using ImageWorker = Core.Common.ImageWorker;
-using MiscListView = Core.Common.MiscListView;
+using StringProcessing	= Core.Common.StringProcessing;
+using ImageWorker		= Core.Common.ImageWorker;
+using MiscListView		= Core.Common.MiscListView;
 
 namespace Core.Common
 {
@@ -34,6 +35,7 @@ namespace Core.Common
 		#region Закрытые данные класса
 		private FictionBook m_fb2 = null;
 		private bool m_ApplyData = false;
+		private string m_DirForSavedCover = string.Empty;
 		private const string m_sTitle = "Правка метаданных описания fb2 книги";
 		#endregion
 		
@@ -42,6 +44,8 @@ namespace Core.Common
 			#region Код Конструктора
 			InitializeComponent();
 			m_fb2 = fb2;
+			// восстанавливаем структуру
+			m_fb2.recoveryDescriptionNode();
 			// первоначальное заполнение контролов
 			init();
 			// загрузка метаданных TitleInfo книги
@@ -890,7 +894,7 @@ namespace Core.Common
 			}
 			return MaxNumber;
 		}
-		// добавление обложек в спиок
+		// добавление обложек в список
 		private void addCoverToList( Enums.TitleInfoEnum TitleInfoType )
 		{
 			ListView CoverListView = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
@@ -911,10 +915,30 @@ namespace Core.Common
 						int MaxNumber = getMaxCoverNumber( CoverListView );
 						CoverName = "cover" + StringProcessing.makeIINumber( ++MaxNumber ) + Path.GetExtension( FilePath ).ToLower();
 					}
-					ListViewItem lvi = new ListViewItem( CoverName );
-					lvi.SubItems.Add( ImageWorker.getContentType( FilePath ) );
-					lvi.Tag = ImageWorker.toBase64( FilePath );
-					CoverListView.Items.Add( lvi );
+					
+					string NotOpenedCorers = string.Empty;
+					try {
+						ListViewItem lvi = new ListViewItem( CoverName );
+						lvi.SubItems.Add( ImageWorker.getContentType( FilePath ) );
+						
+						using ( System.Drawing.Image image = System.Drawing.Image.FromFile(FilePath) ) {
+							lvi.SubItems.Add( string.Format( "{0} x {1} dpi", image.VerticalResolution, image.HorizontalResolution ) );
+							lvi.SubItems.Add( string.Format( "{0} x {1} Pixels", image.Width, image.Height ) );
+							
+						}
+						FileInfo file = new FileInfo( FilePath );
+						lvi.SubItems.Add( FilesWorker.FormatFileLength( file.Length ) );
+						
+						lvi.Tag = ImageWorker.toBase64( FilePath );
+						CoverListView.Items.Add( lvi );
+					} catch ( System.Exception /*e*/ ) {
+						NotOpenedCorers += FilePath + "\n";
+					}
+					
+					if ( !string.IsNullOrEmpty( NotOpenedCorers ) )
+						MessageBox.Show(
+							"Не могу открыть следующие 'битые' обложки:\n" + NotOpenedCorers, m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+						);
 				}
 			}
 		}
@@ -1427,6 +1451,11 @@ namespace Core.Common
 			}
 			TICoverListView.Select();
 		}
+		void TICoverSaveAllSelectedImageButtonClick(object sender, EventArgs e)
+		{
+			// сохранение выделенных обложек на диск
+			ImageWorker.saveSelectedCovers( TICoverListView, ref m_DirForSavedCover, m_sTitle, fbdSaveDir );
+		}
 		
 		void STICoverListViewClick(object sender, EventArgs e)
 		{
@@ -1474,6 +1503,11 @@ namespace Core.Common
 					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 			}
 			STICoverListView.Select();
+		}
+		void STICoverSaveAllSelectedImageButtonClick(object sender, EventArgs e)
+		{
+			// сохранение выделенных обложек на диск
+			ImageWorker.saveSelectedCovers( STICoverListView, ref m_DirForSavedCover, m_sTitle, fbdSaveDir );
 		}
 		
 		void CancelBtnClick(object sender, EventArgs e)
@@ -1552,6 +1586,7 @@ namespace Core.Common
 			}
 			Close();
 		}
+		
 		#endregion
 	}
 }

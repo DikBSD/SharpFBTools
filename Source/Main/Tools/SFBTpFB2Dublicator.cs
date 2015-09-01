@@ -25,7 +25,7 @@ using Core.FB2.FB2Parsers;
 using FB2Validator		= Core.FB2Parser.FB2Validator;
 using SharpZipLibWorker = Core.Common.SharpZipLibWorker;
 using StatusView 		= Core.Duplicator.StatusView;
-using filesWorker		= Core.Common.FilesWorker;
+using FilesWorker		= Core.Common.FilesWorker;
 using MiscListView		= Core.Common.MiscListView;
 using ImageWorker		= Core.Common.ImageWorker;
 using WorksWithBooks	= Core.Common.WorksWithBooks;
@@ -289,13 +289,25 @@ namespace SharpFBTools.Tools
 			this.tbValidate = new System.Windows.Forms.TextBox();
 			this.tcCovers = new System.Windows.Forms.TabControl();
 			this.tpTI = new System.Windows.Forms.TabPage();
+			this.TICoverPanel = new System.Windows.Forms.Panel();
 			this.picBoxTICover = new System.Windows.Forms.PictureBox();
-			this.TICoversListView = new System.Windows.Forms.ListView();
-			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			this.TICoverInfoPanel = new System.Windows.Forms.Panel();
+			this.TICoverLenghtLabel = new System.Windows.Forms.Label();
+			this.TICoverPixelsLabel = new System.Windows.Forms.Label();
+			this.TICoverDPILabel = new System.Windows.Forms.Label();
+			this.TICoverListViewPanel = new System.Windows.Forms.Panel();
+			this.TICoverListViewButtonPanel = new System.Windows.Forms.Panel();
+			this.TISaveSelectedCoverButton = new System.Windows.Forms.Button();
 			this.tpSTI = new System.Windows.Forms.TabPage();
+			this.STICoverPanel = new System.Windows.Forms.Panel();
 			this.picBoxSTICover = new System.Windows.Forms.PictureBox();
-			this.STICoversListView = new System.Windows.Forms.ListView();
-			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+			this.STICoverInfoPanel = new System.Windows.Forms.Panel();
+			this.STICoverLenghtLabel = new System.Windows.Forms.Label();
+			this.STICoverPixelsLabel = new System.Windows.Forms.Label();
+			this.STICoverDPILabel = new System.Windows.Forms.Label();
+			this.STICoverListViewPanel = new System.Windows.Forms.Panel();
+			this.STICoverListViewButtonPanel = new System.Windows.Forms.Panel();
+			this.STISaveSelectedCoverButton = new System.Windows.Forms.Button();
 			this.pFilesCount = new System.Windows.Forms.Panel();
 			this.BadZipLabel1 = new System.Windows.Forms.Label();
 			this.ZipLabel = new System.Windows.Forms.Label();
@@ -335,6 +347,10 @@ namespace SharpFBTools.Tools
 			this.gboxCopyMoveOptions = new System.Windows.Forms.GroupBox();
 			this.cboxExistFile = new System.Windows.Forms.ComboBox();
 			this.lblExistFile = new System.Windows.Forms.Label();
+			this.TICoversListView = new System.Windows.Forms.ListView();
+			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			this.STICoversListView = new System.Windows.Forms.ListView();
+			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
 			this.ssProgress.SuspendLayout();
 			this.cmsFB2.SuspendLayout();
 			this.tcDuplicator.SuspendLayout();
@@ -353,9 +369,17 @@ namespace SharpFBTools.Tools
 			this.tpValidate.SuspendLayout();
 			this.tcCovers.SuspendLayout();
 			this.tpTI.SuspendLayout();
+			this.TICoverPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxTICover)).BeginInit();
+			this.TICoverInfoPanel.SuspendLayout();
+			this.TICoverListViewPanel.SuspendLayout();
+			this.TICoverListViewButtonPanel.SuspendLayout();
 			this.tpSTI.SuspendLayout();
+			this.STICoverPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxSTICover)).BeginInit();
+			this.STICoverInfoPanel.SuspendLayout();
+			this.STICoverListViewPanel.SuspendLayout();
+			this.STICoverListViewButtonPanel.SuspendLayout();
 			this.pFilesCount.SuspendLayout();
 			this.pMode.SuspendLayout();
 			this.pSearchFBDup2Dirs.SuspendLayout();
@@ -1037,6 +1061,7 @@ namespace SharpFBTools.Tools
 			this.lvTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvTitleInfo.FullRowSelect = true;
 			this.lvTitleInfo.GridLines = true;
+			this.lvTitleInfo.HideSelection = false;
 			this.lvTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 			listViewItem1,
 			listViewItem2,
@@ -1085,6 +1110,7 @@ namespace SharpFBTools.Tools
 			this.lvSourceTitleInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSourceTitleInfo.FullRowSelect = true;
 			this.lvSourceTitleInfo.GridLines = true;
+			this.lvSourceTitleInfo.HideSelection = false;
 			this.lvSourceTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 			listViewItem10,
 			listViewItem11,
@@ -1134,6 +1160,7 @@ namespace SharpFBTools.Tools
 			this.lvDocumentInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvDocumentInfo.FullRowSelect = true;
 			this.lvDocumentInfo.GridLines = true;
+			this.lvDocumentInfo.HideSelection = false;
 			this.lvDocumentInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 			listViewItem20,
 			listViewItem21,
@@ -1180,6 +1207,7 @@ namespace SharpFBTools.Tools
 			this.lvPublishInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvPublishInfo.FullRowSelect = true;
 			this.lvPublishInfo.GridLines = true;
+			this.lvPublishInfo.HideSelection = false;
 			this.lvPublishInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
 			listViewItem27,
 			listViewItem28,
@@ -1225,6 +1253,7 @@ namespace SharpFBTools.Tools
 			this.lvCustomInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvCustomInfo.FullRowSelect = true;
 			this.lvCustomInfo.GridLines = true;
+			this.lvCustomInfo.HideSelection = false;
 			this.lvCustomInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvCustomInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvCustomInfo.Name = "lvCustomInfo";
@@ -1348,8 +1377,8 @@ namespace SharpFBTools.Tools
 			// 
 			// tpTI
 			// 
-			this.tpTI.Controls.Add(this.picBoxTICover);
-			this.tpTI.Controls.Add(this.TICoversListView);
+			this.tpTI.Controls.Add(this.TICoverPanel);
+			this.tpTI.Controls.Add(this.TICoverListViewPanel);
 			this.tpTI.Location = new System.Drawing.Point(4, 25);
 			this.tpTI.Name = "tpTI";
 			this.tpTI.Padding = new System.Windows.Forms.Padding(3);
@@ -1358,42 +1387,102 @@ namespace SharpFBTools.Tools
 			this.tpTI.Text = "Обложки Книги";
 			this.tpTI.UseVisualStyleBackColor = true;
 			// 
+			// TICoverPanel
+			// 
+			this.TICoverPanel.Controls.Add(this.picBoxTICover);
+			this.TICoverPanel.Controls.Add(this.TICoverInfoPanel);
+			this.TICoverPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TICoverPanel.Location = new System.Drawing.Point(158, 3);
+			this.TICoverPanel.Name = "TICoverPanel";
+			this.TICoverPanel.Size = new System.Drawing.Size(163, 229);
+			this.TICoverPanel.TabIndex = 99;
+			// 
 			// picBoxTICover
 			// 
 			this.picBoxTICover.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.picBoxTICover.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.picBoxTICover.ErrorImage = ((System.Drawing.Image)(resources.GetObject("picBoxTICover.ErrorImage")));
-			this.picBoxTICover.Location = new System.Drawing.Point(158, 3);
+			this.picBoxTICover.Location = new System.Drawing.Point(0, 64);
 			this.picBoxTICover.Margin = new System.Windows.Forms.Padding(4);
 			this.picBoxTICover.Name = "picBoxTICover";
-			this.picBoxTICover.Size = new System.Drawing.Size(163, 229);
+			this.picBoxTICover.Size = new System.Drawing.Size(163, 165);
 			this.picBoxTICover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.picBoxTICover.TabIndex = 95;
+			this.picBoxTICover.TabIndex = 98;
 			this.picBoxTICover.TabStop = false;
 			// 
-			// TICoversListView
+			// TICoverInfoPanel
 			// 
-			this.TICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader1});
-			this.TICoversListView.Dock = System.Windows.Forms.DockStyle.Left;
-			this.TICoversListView.GridLines = true;
-			this.TICoversListView.Location = new System.Drawing.Point(3, 3);
-			this.TICoversListView.Name = "TICoversListView";
-			this.TICoversListView.Size = new System.Drawing.Size(155, 229);
-			this.TICoversListView.TabIndex = 94;
-			this.TICoversListView.UseCompatibleStateImageBehavior = false;
-			this.TICoversListView.View = System.Windows.Forms.View.Details;
-			this.TICoversListView.SelectedIndexChanged += new System.EventHandler(this.TICoversListViewSelectedIndexChanged);
+			this.TICoverInfoPanel.Controls.Add(this.TICoverLenghtLabel);
+			this.TICoverInfoPanel.Controls.Add(this.TICoverPixelsLabel);
+			this.TICoverInfoPanel.Controls.Add(this.TICoverDPILabel);
+			this.TICoverInfoPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverInfoPanel.Location = new System.Drawing.Point(0, 0);
+			this.TICoverInfoPanel.Name = "TICoverInfoPanel";
+			this.TICoverInfoPanel.Size = new System.Drawing.Size(163, 64);
+			this.TICoverInfoPanel.TabIndex = 97;
 			// 
-			// columnHeader1
+			// TICoverLenghtLabel
 			// 
-			this.columnHeader1.Text = "Обложки";
-			this.columnHeader1.Width = 120;
+			this.TICoverLenghtLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverLenghtLabel.Location = new System.Drawing.Point(0, 40);
+			this.TICoverLenghtLabel.Name = "TICoverLenghtLabel";
+			this.TICoverLenghtLabel.Size = new System.Drawing.Size(163, 20);
+			this.TICoverLenghtLabel.TabIndex = 4;
+			this.TICoverLenghtLabel.Text = "Размер";
+			// 
+			// TICoverPixelsLabel
+			// 
+			this.TICoverPixelsLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverPixelsLabel.Location = new System.Drawing.Point(0, 20);
+			this.TICoverPixelsLabel.Name = "TICoverPixelsLabel";
+			this.TICoverPixelsLabel.Size = new System.Drawing.Size(163, 20);
+			this.TICoverPixelsLabel.TabIndex = 3;
+			this.TICoverPixelsLabel.Text = "В пикселах";
+			// 
+			// TICoverDPILabel
+			// 
+			this.TICoverDPILabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TICoverDPILabel.Location = new System.Drawing.Point(0, 0);
+			this.TICoverDPILabel.Name = "TICoverDPILabel";
+			this.TICoverDPILabel.Size = new System.Drawing.Size(163, 20);
+			this.TICoverDPILabel.TabIndex = 2;
+			this.TICoverDPILabel.Text = "DPI";
+			// 
+			// TICoverListViewPanel
+			// 
+			this.TICoverListViewPanel.Controls.Add(this.TICoversListView);
+			this.TICoverListViewPanel.Controls.Add(this.TICoverListViewButtonPanel);
+			this.TICoverListViewPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.TICoverListViewPanel.Location = new System.Drawing.Point(3, 3);
+			this.TICoverListViewPanel.Name = "TICoverListViewPanel";
+			this.TICoverListViewPanel.Size = new System.Drawing.Size(155, 229);
+			this.TICoverListViewPanel.TabIndex = 96;
+			// 
+			// TICoverListViewButtonPanel
+			// 
+			this.TICoverListViewButtonPanel.Controls.Add(this.TISaveSelectedCoverButton);
+			this.TICoverListViewButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.TICoverListViewButtonPanel.Location = new System.Drawing.Point(0, 191);
+			this.TICoverListViewButtonPanel.Name = "TICoverListViewButtonPanel";
+			this.TICoverListViewButtonPanel.Size = new System.Drawing.Size(155, 38);
+			this.TICoverListViewButtonPanel.TabIndex = 98;
+			// 
+			// TISaveSelectedCoverButton
+			// 
+			this.TISaveSelectedCoverButton.Dock = System.Windows.Forms.DockStyle.Right;
+			this.TISaveSelectedCoverButton.Enabled = false;
+			this.TISaveSelectedCoverButton.Image = ((System.Drawing.Image)(resources.GetObject("TISaveSelectedCoverButton.Image")));
+			this.TISaveSelectedCoverButton.Location = new System.Drawing.Point(115, 0);
+			this.TISaveSelectedCoverButton.Name = "TISaveSelectedCoverButton";
+			this.TISaveSelectedCoverButton.Size = new System.Drawing.Size(40, 38);
+			this.TISaveSelectedCoverButton.TabIndex = 0;
+			this.TISaveSelectedCoverButton.UseVisualStyleBackColor = true;
+			this.TISaveSelectedCoverButton.Click += new System.EventHandler(this.TISaveSelectedCoverButtonClick);
 			// 
 			// tpSTI
 			// 
-			this.tpSTI.Controls.Add(this.picBoxSTICover);
-			this.tpSTI.Controls.Add(this.STICoversListView);
+			this.tpSTI.Controls.Add(this.STICoverPanel);
+			this.tpSTI.Controls.Add(this.STICoverListViewPanel);
 			this.tpSTI.Location = new System.Drawing.Point(4, 25);
 			this.tpSTI.Name = "tpSTI";
 			this.tpSTI.Padding = new System.Windows.Forms.Padding(3);
@@ -1402,37 +1491,97 @@ namespace SharpFBTools.Tools
 			this.tpSTI.Text = "Обложки Оригинала";
 			this.tpSTI.UseVisualStyleBackColor = true;
 			// 
+			// STICoverPanel
+			// 
+			this.STICoverPanel.Controls.Add(this.picBoxSTICover);
+			this.STICoverPanel.Controls.Add(this.STICoverInfoPanel);
+			this.STICoverPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.STICoverPanel.Location = new System.Drawing.Point(158, 3);
+			this.STICoverPanel.Name = "STICoverPanel";
+			this.STICoverPanel.Size = new System.Drawing.Size(163, 229);
+			this.STICoverPanel.TabIndex = 100;
+			// 
 			// picBoxSTICover
 			// 
 			this.picBoxSTICover.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.picBoxSTICover.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.picBoxSTICover.ErrorImage = ((System.Drawing.Image)(resources.GetObject("picBoxSTICover.ErrorImage")));
-			this.picBoxSTICover.Location = new System.Drawing.Point(158, 3);
+			this.picBoxSTICover.Location = new System.Drawing.Point(0, 64);
 			this.picBoxSTICover.Margin = new System.Windows.Forms.Padding(4);
 			this.picBoxSTICover.Name = "picBoxSTICover";
-			this.picBoxSTICover.Size = new System.Drawing.Size(163, 229);
+			this.picBoxSTICover.Size = new System.Drawing.Size(163, 165);
 			this.picBoxSTICover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.picBoxSTICover.TabIndex = 96;
+			this.picBoxSTICover.TabIndex = 100;
 			this.picBoxSTICover.TabStop = false;
 			// 
-			// STICoversListView
+			// STICoverInfoPanel
 			// 
-			this.STICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader2});
-			this.STICoversListView.Dock = System.Windows.Forms.DockStyle.Left;
-			this.STICoversListView.GridLines = true;
-			this.STICoversListView.Location = new System.Drawing.Point(3, 3);
-			this.STICoversListView.Name = "STICoversListView";
-			this.STICoversListView.Size = new System.Drawing.Size(155, 229);
-			this.STICoversListView.TabIndex = 95;
-			this.STICoversListView.UseCompatibleStateImageBehavior = false;
-			this.STICoversListView.View = System.Windows.Forms.View.Details;
-			this.STICoversListView.SelectedIndexChanged += new System.EventHandler(this.STICoversListViewSelectedIndexChanged);
+			this.STICoverInfoPanel.Controls.Add(this.STICoverLenghtLabel);
+			this.STICoverInfoPanel.Controls.Add(this.STICoverPixelsLabel);
+			this.STICoverInfoPanel.Controls.Add(this.STICoverDPILabel);
+			this.STICoverInfoPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverInfoPanel.Location = new System.Drawing.Point(0, 0);
+			this.STICoverInfoPanel.Name = "STICoverInfoPanel";
+			this.STICoverInfoPanel.Size = new System.Drawing.Size(163, 64);
+			this.STICoverInfoPanel.TabIndex = 99;
 			// 
-			// columnHeader2
+			// STICoverLenghtLabel
 			// 
-			this.columnHeader2.Text = "Обложки";
-			this.columnHeader2.Width = 120;
+			this.STICoverLenghtLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverLenghtLabel.Location = new System.Drawing.Point(0, 40);
+			this.STICoverLenghtLabel.Name = "STICoverLenghtLabel";
+			this.STICoverLenghtLabel.Size = new System.Drawing.Size(163, 20);
+			this.STICoverLenghtLabel.TabIndex = 7;
+			this.STICoverLenghtLabel.Text = "Размер";
+			// 
+			// STICoverPixelsLabel
+			// 
+			this.STICoverPixelsLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverPixelsLabel.Location = new System.Drawing.Point(0, 20);
+			this.STICoverPixelsLabel.Name = "STICoverPixelsLabel";
+			this.STICoverPixelsLabel.Size = new System.Drawing.Size(163, 20);
+			this.STICoverPixelsLabel.TabIndex = 6;
+			this.STICoverPixelsLabel.Text = "В пикселах";
+			// 
+			// STICoverDPILabel
+			// 
+			this.STICoverDPILabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.STICoverDPILabel.Location = new System.Drawing.Point(0, 0);
+			this.STICoverDPILabel.Name = "STICoverDPILabel";
+			this.STICoverDPILabel.Size = new System.Drawing.Size(163, 20);
+			this.STICoverDPILabel.TabIndex = 5;
+			this.STICoverDPILabel.Text = "DPI";
+			// 
+			// STICoverListViewPanel
+			// 
+			this.STICoverListViewPanel.Controls.Add(this.STICoversListView);
+			this.STICoverListViewPanel.Controls.Add(this.STICoverListViewButtonPanel);
+			this.STICoverListViewPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.STICoverListViewPanel.Location = new System.Drawing.Point(3, 3);
+			this.STICoverListViewPanel.Name = "STICoverListViewPanel";
+			this.STICoverListViewPanel.Size = new System.Drawing.Size(155, 229);
+			this.STICoverListViewPanel.TabIndex = 97;
+			// 
+			// STICoverListViewButtonPanel
+			// 
+			this.STICoverListViewButtonPanel.Controls.Add(this.STISaveSelectedCoverButton);
+			this.STICoverListViewButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.STICoverListViewButtonPanel.Location = new System.Drawing.Point(0, 191);
+			this.STICoverListViewButtonPanel.Name = "STICoverListViewButtonPanel";
+			this.STICoverListViewButtonPanel.Size = new System.Drawing.Size(155, 38);
+			this.STICoverListViewButtonPanel.TabIndex = 98;
+			// 
+			// STISaveSelectedCoverButton
+			// 
+			this.STISaveSelectedCoverButton.Dock = System.Windows.Forms.DockStyle.Right;
+			this.STISaveSelectedCoverButton.Enabled = false;
+			this.STISaveSelectedCoverButton.Image = ((System.Drawing.Image)(resources.GetObject("STISaveSelectedCoverButton.Image")));
+			this.STISaveSelectedCoverButton.Location = new System.Drawing.Point(115, 0);
+			this.STISaveSelectedCoverButton.Name = "STISaveSelectedCoverButton";
+			this.STISaveSelectedCoverButton.Size = new System.Drawing.Size(40, 38);
+			this.STISaveSelectedCoverButton.TabIndex = 0;
+			this.STISaveSelectedCoverButton.UseVisualStyleBackColor = true;
+			this.STISaveSelectedCoverButton.Click += new System.EventHandler(this.STISaveSelectedCoverButtonClick);
 			// 
 			// pFilesCount
 			// 
@@ -1685,6 +1834,7 @@ namespace SharpFBTools.Tools
 			this.tboxSourceDir.Name = "tboxSourceDir";
 			this.tboxSourceDir.Size = new System.Drawing.Size(822, 24);
 			this.tboxSourceDir.TabIndex = 1;
+			this.tboxSourceDir.TextChanged += new System.EventHandler(this.TboxSourceDirTextChanged);
 			this.tboxSourceDir.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TboxSourceDirKeyPress);
 			// 
 			// lblScanDir
@@ -1932,6 +2082,46 @@ namespace SharpFBTools.Tools
 			this.lblExistFile.TabIndex = 17;
 			this.lblExistFile.Text = "Одинаковые файлы в папке-приемнике:";
 			// 
+			// TICoversListView
+			// 
+			this.TICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader1});
+			this.TICoversListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TICoversListView.GridLines = true;
+			this.TICoversListView.HideSelection = false;
+			this.TICoversListView.Location = new System.Drawing.Point(0, 0);
+			this.TICoversListView.Name = "TICoversListView";
+			this.TICoversListView.Size = new System.Drawing.Size(155, 191);
+			this.TICoversListView.TabIndex = 99;
+			this.TICoversListView.UseCompatibleStateImageBehavior = false;
+			this.TICoversListView.View = System.Windows.Forms.View.Details;
+			this.TICoversListView.SelectedIndexChanged += new System.EventHandler(this.TICoversListViewSelectedIndexChanged);
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Обложки";
+			this.columnHeader1.Width = 100;
+			// 
+			// STICoversListView
+			// 
+			this.STICoversListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader3});
+			this.STICoversListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.STICoversListView.GridLines = true;
+			this.STICoversListView.HideSelection = false;
+			this.STICoversListView.Location = new System.Drawing.Point(0, 0);
+			this.STICoversListView.Name = "STICoversListView";
+			this.STICoversListView.Size = new System.Drawing.Size(155, 191);
+			this.STICoversListView.TabIndex = 99;
+			this.STICoversListView.UseCompatibleStateImageBehavior = false;
+			this.STICoversListView.View = System.Windows.Forms.View.Details;
+			this.STICoversListView.SelectedIndexChanged += new System.EventHandler(this.STICoversListViewSelectedIndexChanged);
+			// 
+			// columnHeader3
+			// 
+			this.columnHeader3.Text = "Обложки";
+			this.columnHeader3.Width = 100;
+			// 
 			// SFBTpFB2Dublicator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1962,9 +2152,17 @@ namespace SharpFBTools.Tools
 			this.tpValidate.PerformLayout();
 			this.tcCovers.ResumeLayout(false);
 			this.tpTI.ResumeLayout(false);
+			this.TICoverPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.picBoxTICover)).EndInit();
+			this.TICoverInfoPanel.ResumeLayout(false);
+			this.TICoverListViewPanel.ResumeLayout(false);
+			this.TICoverListViewButtonPanel.ResumeLayout(false);
 			this.tpSTI.ResumeLayout(false);
+			this.STICoverPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.picBoxSTICover)).EndInit();
+			this.STICoverInfoPanel.ResumeLayout(false);
+			this.STICoverListViewPanel.ResumeLayout(false);
+			this.STICoverListViewButtonPanel.ResumeLayout(false);
 			this.pFilesCount.ResumeLayout(false);
 			this.pMode.ResumeLayout(false);
 			this.pSearchFBDup2Dirs.ResumeLayout(false);
@@ -1978,6 +2176,28 @@ namespace SharpFBTools.Tools
 			this.PerformLayout();
 
 		}
+		private System.Windows.Forms.Panel STICoverPanel;
+		private System.Windows.Forms.PictureBox picBoxSTICover;
+		private System.Windows.Forms.Panel STICoverInfoPanel;
+		private System.Windows.Forms.Label STICoverLenghtLabel;
+		private System.Windows.Forms.Label STICoverPixelsLabel;
+		private System.Windows.Forms.Label STICoverDPILabel;
+		private System.Windows.Forms.Panel STICoverListViewPanel;
+		private System.Windows.Forms.Panel STICoverListViewButtonPanel;
+		private System.Windows.Forms.Button STISaveSelectedCoverButton;
+		private System.Windows.Forms.ListView STICoversListView;
+		private System.Windows.Forms.ColumnHeader columnHeader3;
+		private System.Windows.Forms.Panel TICoverPanel;
+		private System.Windows.Forms.PictureBox picBoxTICover;
+		private System.Windows.Forms.Panel TICoverInfoPanel;
+		private System.Windows.Forms.Label TICoverLenghtLabel;
+		private System.Windows.Forms.Label TICoverPixelsLabel;
+		private System.Windows.Forms.Label TICoverDPILabel;
+		private System.Windows.Forms.Panel TICoverListViewPanel;
+		private System.Windows.Forms.Panel TICoverListViewButtonPanel;
+		private System.Windows.Forms.Button TISaveSelectedCoverButton;
+		private System.Windows.Forms.ListView TICoversListView;
+		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.ToolStripButton tsbtnDupCurrentSaveList;
 		private System.Windows.Forms.ToolStripMenuItem tsmiDeleteChechedItemsNotDeleteFiles;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
@@ -2028,11 +2248,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.ToolStripMenuItem tsmiSetNewIDForAllCheckedBooks;
 		private System.Windows.Forms.ToolStripMenuItem tsmiNewID;
 		private System.Windows.Forms.ToolStripMenuItem tsmiSetNewIDForAllSelectedBooks;
-		private System.Windows.Forms.ColumnHeader columnHeader2;
-		private System.Windows.Forms.ColumnHeader columnHeader1;
-		private System.Windows.Forms.ListView STICoversListView;
-		private System.Windows.Forms.ListView TICoversListView;
-		private System.Windows.Forms.PictureBox picBoxSTICover;
 		private System.Windows.Forms.TabControl tcCovers;
 		private System.Windows.Forms.TabPage tpTI;
 		private System.Windows.Forms.TabPage tpSTI;
@@ -2069,7 +2284,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.ToolStripMenuItem tsmiAnalyzeForSelectedGroup;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ImageList imageListDup;
-		private System.Windows.Forms.PictureBox picBoxTICover;
 		private System.Windows.Forms.ToolStrip tsDup;
 		private System.Windows.Forms.Panel pInfo;
 		private System.Windows.Forms.OpenFileDialog sfdLoadList;
@@ -2142,6 +2356,7 @@ namespace SharpFBTools.Tools
 		private bool	m_isSettingsLoaded	= false; // Только при true все изменения настроек сохраняются в файл.
 		private string	m_TargetDir			= string.Empty; // Папка для Copy / Move помеченных книг
 		private string	m_sMessTitle		= string.Empty;
+		private string	m_DirForSavedCover	= string.Empty;	// папка для сохранения обложек
 		private int		m_CurrentResultItem	= -1;
 		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter = new MiscListView.ListViewColumnSorter();
 		#endregion
@@ -2232,7 +2447,7 @@ namespace SharpFBTools.Tools
 				lvFilesCount.Items[i].SubItems[1].Text	= "0";
 
 			// очистка временной папки
-			filesWorker.RemoveDir( Settings.Settings.TempDir );
+			FilesWorker.RemoveDir( Settings.Settings.TempDir );
 			lvResult.Items.Clear();
 			lvResult.Groups.Clear();
 			ConnectListViewResultEventHandlers( true );
@@ -2359,7 +2574,7 @@ namespace SharpFBTools.Tools
 		// проверка на наличие папки сканирования копий книг
 		private bool isScanFolderDataCorrect( TextBox tbSource, string MessTitle ) {
 			// проверка на корректность данных папок источника
-			string sSource	= filesWorker.WorkingDirPath( tbSource.Text.Trim() );
+			string sSource	= FilesWorker.WorkingDirPath( tbSource.Text.Trim() );
 			tbSource.Text	= sSource;
 			
 			// проверки на корректность папок источника
@@ -2394,7 +2609,7 @@ namespace SharpFBTools.Tools
 		// Fast = false: с удалением элементов списка копий - медленно. Fast = true: без удаления элементов списка копий - быстро
 		private void moveCheckedFb2To( bool Fast ) {
 			if( lvResult.Items.Count > 0 && lvResult.CheckedItems.Count > 0 ) {
-				string sTarget = filesWorker.OpenDirDlg( m_TargetDir, fbdScanDir, "Укажите папку-приемник для размешения копий книг:" );
+				string sTarget = FilesWorker.OpenDirDlg( m_TargetDir, fbdScanDir, "Укажите папку-приемник для размешения копий книг:" );
 				if( sTarget == null )
 					return;
 
@@ -2532,18 +2747,24 @@ namespace SharpFBTools.Tools
 					// загрузка обложек книги
 					IList<BinaryBase64> Covers = fb2Desc.TICoversBase64;
 					ImageWorker.makeListViewCoverNameItems( TICoversListView, ref Covers );
-					if( TICoversListView.Items.Count > 0 )
+					if( TICoversListView.Items.Count > 0 ) {
 						TICoversListView.Items[0].Selected = true;
-					else
+						TICoverListViewButtonPanel.Enabled = true;
+					} else {
 						picBoxTICover.Image = imageListDup.Images[0];
+						TICoverListViewButtonPanel.Enabled = false;
+					}
 					
 					// загруxзка обложек оригинала книги
 					Covers = fb2Desc.STICoversBase64;
 					ImageWorker.makeListViewCoverNameItems( STICoversListView, ref Covers );
-					if( STICoversListView.Items.Count > 0 )
+					if( STICoversListView.Items.Count > 0 ) {
 						STICoversListView.Items[0].Selected = true;
-					else
+						STICoverListViewButtonPanel.Enabled = true;
+					} else {
 						picBoxSTICover.Image = imageListDup.Images[0];
+						STICoverListViewButtonPanel.Enabled = false;
+					}
 					
 					// спиок жанров, в зависимости от схемы Жанров
 					IGenresGroup GenresGroup = new GenresGroup();
@@ -2621,7 +2842,7 @@ namespace SharpFBTools.Tools
 						tbValidate.Text = "Все в порядке - файл валидный!";
 					else
 						tbValidate.Text = "Валидация файла не производилась.";
-					filesWorker.RemoveDir( m_TempDir );
+					FilesWorker.RemoveDir( m_TempDir );
 //				MiscListView.AutoResizeColumns(lvResult);
 				}
 			} else
@@ -2751,7 +2972,7 @@ namespace SharpFBTools.Tools
 				Ret = true;
 			}
 			editAuthorInfoForm.Dispose();
-			filesWorker.RemoveDir( m_TempDir );
+			FilesWorker.RemoveDir( m_TempDir );
 			Cursor.Current = Cursors.Default;
 			return Ret;
 		}
@@ -2786,7 +3007,7 @@ namespace SharpFBTools.Tools
 				Ret = true;
 			}
 			editGenreInfoForm.Dispose();
-			filesWorker.RemoveDir( m_TempDir );
+			FilesWorker.RemoveDir( m_TempDir );
 			Cursor.Current = Cursors.Default;
 			return Ret;
 		}
@@ -2834,20 +3055,6 @@ namespace SharpFBTools.Tools
 			}
 			return false;
 		}
-		// отображение обложки
-		private void viewCover( ListView CoversListView, PictureBox picBox ) {
-			if( CoversListView.SelectedItems.Count > 0 ) {
-				try {
-					picBox.Image = ImageWorker.base64ToImage(
-						CoversListView.SelectedItems[0].Tag.ToString()
-					);
-				} catch ( System.Exception error ) {
-					MessageBox.Show(
-						error.Message, "Ошибка отображения картинки", MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
-			}
-		}
 		#endregion
 		
 		// =============================================================================================
@@ -2871,7 +3078,7 @@ namespace SharpFBTools.Tools
 		
 		void BtnOpenDirClick(object sender, EventArgs e)
 		{
-			filesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2 файлами:" );
+			FilesWorker.OpenDirDlg( tboxSourceDir, fbdScanDir, "Укажите папку для сканирования с fb2 файлами:" );
 		}
 		
 		// Поиск одинаковых fb2-файлов
@@ -2990,6 +3197,10 @@ namespace SharpFBTools.Tools
 			if( lvResult.SelectedItems.Count > 0 ) {
 				ListViewItem SelectedItem = lvResult.SelectedItems[0];
 				if( SelectedItem != null ) {
+					TICoverDPILabel.Text = STICoverDPILabel.Text = "DPI";
+					TICoverPixelsLabel.Text = STICoverPixelsLabel.Text = "В пикселах";
+					TICoverLenghtLabel.Text = STICoverLenghtLabel.Text = "Размер";
+					
 					// защита от двойного срабатывания
 					if( m_CurrentResultItem != SelectedItem.Index )
 						viewBookMetaDataFull( SelectedItem );
@@ -3152,23 +3363,32 @@ namespace SharpFBTools.Tools
 			lvResult.Sort();
 		}
 		
+		// отображение обложек книги
+		void TICoversListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			WorksWithBooks.viewCover( TICoversListView, picBoxTICover, TICoverDPILabel, TICoverPixelsLabel, TICoverLenghtLabel );
+		}
+		void TISaveSelectedCoverButtonClick(object sender, EventArgs e)
+		{
+			// сохранение выделенных обложек на диск
+			ImageWorker.saveSelectedCovers( TICoversListView, ref m_DirForSavedCover, "Сохранение обложек на диск", fbdScanDir );
+		}
+		// отображение обложек Оригинала
+		void STICoversListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			WorksWithBooks.viewCover( STICoversListView, picBoxSTICover, STICoverDPILabel, STICoverPixelsLabel, STICoverLenghtLabel );
+		}
+		void STISaveSelectedCoverButtonClick(object sender, EventArgs e)
+		{
+			// сохранение выделенных обложек на диск
+			ImageWorker.saveSelectedCovers( STICoversListView, ref m_DirForSavedCover, "Сохранение обложек на диск", fbdScanDir );
+		}
 		#endregion
 		
 		// =============================================================================================
 		// 								ОБРАБОТЧИКИ для контекстного меню
 		// =============================================================================================
 		#region Обработчики для контекстного меню
-		// отображение обложек книги
-		void TICoversListViewSelectedIndexChanged(object sender, EventArgs e)
-		{
-			viewCover( TICoversListView, picBoxTICover );
-		}
-		// отображение обложек Оригинала
-		void STICoversListViewSelectedIndexChanged(object sender, EventArgs e)
-		{
-			viewCover( STICoversListView, picBoxSTICover );
-		}
-
 		// удаление выделенного файла с диска
 		void TsmiDeleteFileFromDiskClick(object sender, EventArgs e)
 		{
@@ -3219,7 +3439,7 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Папка: \""+sDir+"\" не найдена!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				filesWorker.ShowAsyncDir( sDir );
+				FilesWorker.ShowAsyncDir( sDir );
 			}
 		}
 		
@@ -3240,7 +3460,7 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				filesWorker.StartFile( sFBReaderPath, sFilePath );
+				FilesWorker.StartFile( sFBReaderPath, sFilePath );
 			}
 		}
 		
@@ -3279,7 +3499,7 @@ namespace SharpFBTools.Tools
 								// занесение данных в выделенный итем (метаданные книги после правки)
 								FB2BookDescription bd = new FB2BookDescription( FilePath );
 								viewBookMetaDataLocal( ref bd, SelectedItem );
-								filesWorker.RemoveDir( m_TempDir );
+								FilesWorker.RemoveDir( m_TempDir );
 								// отображение метаданных после правки книги
 								viewBookMetaDataFull( ref bd, SelectedItem );
 							} catch ( System.Exception ) {
@@ -3366,7 +3586,7 @@ namespace SharpFBTools.Tools
 				
 				DateTime dtEnd = DateTime.Now;
 				string sTime = dtEnd.Subtract( dtStart ).ToString() + " (час.:мин.:сек.)";
-				filesWorker.RemoveDir( m_TempDir );
+				FilesWorker.RemoveDir( m_TempDir );
 				MessageBox.Show( "Проверка выделенного файла на соответствие FictionBook.xsd схеме завершена.\nЗатрачено времени: "+sTime+"\n\nФайл: \""+sFilePath+"\"\n\n"+ErrorMsg+"\n"+Msg, "SharpFBTools - "+ErrorMsg, MessageBoxButtons.OK, mbi );
 			}
 		}
@@ -3588,7 +3808,7 @@ namespace SharpFBTools.Tools
 		void TsmiCopyCheckedFb2ToClick(object sender, EventArgs e)
 		{
 			if( lvResult.Items.Count > 0 && lvResult.CheckedItems.Count > 0 ) {
-				string sTarget = filesWorker.OpenDirDlg( m_TargetDir, fbdScanDir, "Укажите папку-приемник для размешения копий книг:" );
+				string sTarget = FilesWorker.OpenDirDlg( m_TargetDir, fbdScanDir, "Укажите папку-приемник для размешения копий книг:" );
 				if( sTarget == null )
 					return;
 

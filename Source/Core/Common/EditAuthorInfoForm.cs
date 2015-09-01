@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml;
 using System.IO;
+using System.Linq;
 
 
 using Core.FB2.Description.Common;
@@ -35,6 +36,8 @@ namespace Core.Common
 		private bool m_ApplyData = false;
 		private readonly SharpZipLibWorker m_sharpZipLib = new SharpZipLibWorker();
 		private BackgroundWorker m_bw = null;
+		
+		private bool m_EditMode = false; // В режиме правки Автора m_EditMode = true; В режиме добавления Нового Автора m_EditMode = false;
 		
 		public EditAuthorInfoForm( ref IList<FB2ItemInfo> AuthorFB2InfoList )
 		{
@@ -191,6 +194,13 @@ namespace Core.Common
 			}
 			return Authors;
 		}
+		// завершение режима правки автора
+		private void cancelEditMode() {
+			LastNameTextBox.Text = FirstNameTextBox.Text = MiddleNameTextBox.Text =
+				NickNameTextBox.Text = HomePageTextBox.Text = EmailTextBox.Text = IDTextBox.Text = string.Empty;
+			AuthorsWorkPanel.Enabled = ApplyBtn.Enabled = AuthorsListView.Enabled = true;
+			m_EditMode = false;
+		}
 		#endregion
 		
 		#region Обработчики событий
@@ -220,23 +230,58 @@ namespace Core.Common
 				return;
 			}
 			
-			ListViewItem lvi = new ListViewItem( LastNameTextBox.Text.Trim() );
-			lvi.SubItems.Add( FirstNameTextBox.Text.Trim() );
-			lvi.SubItems.Add( MiddleNameTextBox.Text.Trim() );
-			lvi.SubItems.Add( NickNameTextBox.Text.Trim() );
-			lvi.SubItems.Add( HomePageTextBox.Text.Trim() );
-			lvi.SubItems.Add( EmailTextBox.Text.Trim() );
-			lvi.SubItems.Add( IDTextBox.Text.Trim() );
-			AuthorsListView.Items.Add( lvi );
+			if ( m_EditMode ) {
+				// режим правки автора
+				ListViewItem SelectedItem = AuthorsListView.SelectedItems[0];
+				SelectedItem.SubItems[0].Text = LastNameTextBox.Text.Trim() ;
+				SelectedItem.SubItems[1].Text = FirstNameTextBox.Text.Trim();
+				SelectedItem.SubItems[2].Text = MiddleNameTextBox.Text.Trim();
+				SelectedItem.SubItems[3].Text = NickNameTextBox.Text.Trim();
+				SelectedItem.SubItems[4].Text = HomePageTextBox.Text.Trim();
+				SelectedItem.SubItems[5].Text = EmailTextBox.Text.Trim();
+				SelectedItem.SubItems[6].Text = IDTextBox.Text.Trim();
+			} else {
+				List<string> list1 = new List<string>();
+				list1.Add(
+					LastNameTextBox.Text.Trim() + FirstNameTextBox.Text.Trim() + MiddleNameTextBox.Text.Trim() +
+					NickNameTextBox.Text.Trim() + IDTextBox.Text.Trim()
+				);
+				foreach ( ListViewItem Item in AuthorsListView.Items ) {
+					List<string> list2 = new List<string>();
+					list2.Add(
+						Item.SubItems[0].Text.Trim() + Item.SubItems[1].Text.Trim() + Item.SubItems[2].Text.Trim() +
+						Item.SubItems[3].Text.Trim() + Item.SubItems[6].Text.Trim()
+					);
+					List<string> list3 = list1.Intersect(list2).ToList();
+					if ( list3.Count >= 1 ) {
+						MessageBox.Show( "В списке Авторов уже есть Автор с точно такими же данными!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						LastNameTextBox.Focus();
+						return;
+					}
+				}
+
+				ListViewItem lvi = new ListViewItem( LastNameTextBox.Text.Trim() );
+				lvi.SubItems.Add( FirstNameTextBox.Text.Trim() );
+				lvi.SubItems.Add( MiddleNameTextBox.Text.Trim() );
+				lvi.SubItems.Add( NickNameTextBox.Text.Trim() );
+				lvi.SubItems.Add( HomePageTextBox.Text.Trim() );
+				lvi.SubItems.Add( EmailTextBox.Text.Trim() );
+				lvi.SubItems.Add( IDTextBox.Text.Trim() );
+				AuthorsListView.Items.Add( lvi );
+			}
 			
-			LastNameTextBox.Text = FirstNameTextBox.Text = MiddleNameTextBox.Text =
-				NickNameTextBox.Text = HomePageTextBox.Text = EmailTextBox.Text = IDTextBox.Text = string.Empty;
+			cancelEditMode();
 			LastNameTextBox.Focus();
 		}
 		void TextBoxKeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter)
 				AuthorAddButtonClick( sender, e );
+		}
+		void AuthorBreakEditButtonClick(object sender, EventArgs e)
+		{
+			cancelEditMode();
+			AuthorBreakEditButton.Visible = false;
 		}
 		void AuthorEditButtonClick(object sender, EventArgs e)
 		{
@@ -245,6 +290,9 @@ namespace Core.Common
 			} else if( AuthorsListView.SelectedItems.Count != 1 ) {
 				MessageBox.Show( "Выберите одного Автора для редактирования.", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 			} else {
+				m_EditMode = true;
+				AuthorBreakEditButton.Visible = true;
+				AuthorsWorkPanel.Enabled = ApplyBtn.Enabled = AuthorsListView.Enabled = false;
 				LastNameTextBox.Text = AuthorsListView.SelectedItems[0].SubItems[0].Text;
 				FirstNameTextBox.Text = AuthorsListView.SelectedItems[0].SubItems[1].Text;
 				MiddleNameTextBox.Text = AuthorsListView.SelectedItems[0].SubItems[2].Text;
@@ -252,7 +300,6 @@ namespace Core.Common
 				HomePageTextBox.Text = AuthorsListView.SelectedItems[0].SubItems[4].Text;
 				EmailTextBox.Text = AuthorsListView.SelectedItems[0].SubItems[5].Text;
 				IDTextBox.Text = AuthorsListView.SelectedItems[0].SubItems[6].Text;
-				AuthorsListView.Items.Remove( AuthorsListView.SelectedItems[0] );
 				LastNameTextBox.Focus();
 			}
 		}
@@ -298,6 +345,7 @@ namespace Core.Common
 					m_bw.RunWorkerAsync();
 			}
 		}
+		
 		#endregion
 	}
 }
