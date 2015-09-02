@@ -334,8 +334,13 @@ namespace SharpFBTools.Tools
 			if ( File.Exists( FilePath ) && !SelectedItem.Font.Strikeout ) {
 				ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
 				try {
-					FB2BookDescription fb2Desc = new FB2BookDescription( FilePath );
-					viewBookMetaDataFull( ref fb2Desc, SelectedItem );
+					if ( Path.GetExtension( FilePath ).ToLower() == ".fb2" ) {
+						FB2BookDescription fb2Desc = new FB2BookDescription( FilePath );
+						viewBookMetaDataFull( ref fb2Desc, SelectedItem );
+					} else {
+						clearDataFields();
+						FilesWorker.RemoveDir( m_TempDir );
+					}
 				} catch (System.Exception) {
 					clearDataFields();
 				}
