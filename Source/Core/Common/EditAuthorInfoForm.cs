@@ -72,7 +72,8 @@ namespace Core.Common
 				FictionBook fb2 = Info.FictionBook;
 				if( fb2 != null ) {
 					// восстанавление раздела description до структуры с необходимыми элементами для валидности
-					fb2.recoveryDescriptionNode();
+					FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+					fB2Corrector.recoveryDescriptionNode();
 					
 					IList<XmlNode> xmlNewAuthors = makeAuthorNode( Enums.AuthorEnum.AuthorOfBook, ref fb2, AuthorsListView );
 					if( xmlNewAuthors != null ) {
@@ -169,6 +170,7 @@ namespace Core.Common
 			}
 		}
 		private IList<XmlNode> makeAuthorNode( Enums.AuthorEnum AuthorType, ref FictionBook fb2, ListView lv ) {
+			FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
 			IList<XmlNode> Authors = null;
 			XmlNode xmlAuthor = null;
 			if( lv.Items.Count > 0 ) {
@@ -178,7 +180,7 @@ namespace Core.Common
 					IList<string> lHPs = HPs.Split( new Char [] { ',',';' } );
 					string Emails = StringProcessing.trimLastTemplateSymbol( item.SubItems[5].Text.Trim(), new Char [] { ',',';' } );
 					IList<string> lEmails = Emails.Split( new Char [] { ',',';' } );
-					xmlAuthor = fb2.makeAuthor(
+					xmlAuthor = fB2Corrector.makeAuthor(
 						AuthorType,
 						item.SubItems[1].Text, item.SubItems[2].Text, item.Text, item.SubItems[3].Text,
 						lHPs, lEmails, item.SubItems[6].Text
@@ -188,7 +190,7 @@ namespace Core.Common
 			} else {
 				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = new List<XmlNode>();
-					xmlAuthor = fb2.makeAuthor( AuthorType, null, null, null, null, null, null, null );
+					xmlAuthor = fB2Corrector.makeAuthor( AuthorType, null, null, null, null, null, null, null );
 					Authors.Add(xmlAuthor);
 				}
 			}

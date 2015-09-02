@@ -4,6 +4,7 @@
  * Дата: 13.02.2015
  * Время: 9:34
  * 
+  * License: GPL 2.1
  */
 using System;
 using System.Drawing;
@@ -442,9 +443,10 @@ namespace SharpFBTools.Tools
 			
 			if( fb2 != null ) {
 				// восстанавление раздела description до структуры с необходимыми элементами для валидности
-				WorksWithBooks.recoveryFB2Structure( ref fb2, Item );
-				fb2.getDocumentInfoNode().ReplaceChild( fb2.makeID(), fb2.getFB2IDNode() );
-				fb2.getXmlDoc().Save( FilePath );
+				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item );
+				fB2Corrector.setNewID ();
+				fB2Corrector.saveToFB2File( FilePath );
 				
 				if( IsFromZip ) {
 					// обработка исправленного файла-архива
@@ -493,8 +495,9 @@ namespace SharpFBTools.Tools
 			
 			if( fb2 != null ) {
 				// восстанавление раздела description до структуры с необходимыми элементами для валидности
-				WorksWithBooks.recoveryFB2Structure( ref fb2, Item );
-				fb2.getXmlDoc().Save( FilePath );
+				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item );
+				fB2Corrector.saveToFB2File( FilePath );
 				
 				if( IsFromZip ) {
 					// обработка исправленного файла-архива
@@ -1482,11 +1485,10 @@ namespace SharpFBTools.Tools
 					string BookTitleNew = fb2.TIBookTitle != null ? fb2.TIBookTitle.Value : "Новое название книги";
 					if ( WorksWithBooks.InputBox( "Правка названия книги", "Новое название книги:", ref BookTitleNew ) == DialogResult.OK) {
 						// восстанавление раздела description до структуры с необходимыми элементами для валидности
-						WorksWithBooks.recoveryFB2Structure( ref fb2, listViewFB2Files.SelectedItems[0]  );
-						fb2.getTitleInfoNode(Enums.TitleInfoEnum.TitleInfo).ReplaceChild(
-							fb2.makeBookTitle( BookTitleNew ), fb2.getBookTitleNode(Enums.TitleInfoEnum.TitleInfo)
-						);
-						fb2.getXmlDoc().Save( FilePath );
+						FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+						WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, listViewFB2Files.SelectedItems[0]  );
+						fB2Corrector.setNewBookTitle( BookTitleNew );
+						fB2Corrector.saveToFB2File( FilePath );
 						
 						if( IsFromZip ) {
 							// обработка исправленного файла-архива

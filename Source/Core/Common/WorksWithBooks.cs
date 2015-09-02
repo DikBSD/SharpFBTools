@@ -590,8 +590,8 @@ namespace Core.Common
 		}
 
 		// восстановление структуры description fb2 файла
-		public static bool recoveryFB2Structure( ref FictionBook fb2, ListViewItem lvi ) {
-			if (fb2.recoveryDescriptionNode() ) {
+		public static bool recoveryFB2Structure( ref FB2Corrector fB2Corrector, ListViewItem lvi ) {
+			if (fB2Corrector.recoveryDescriptionNode() ) {
 				lvi.ForeColor = Color.FromName( "WindowText" );
 				return true;
 			}

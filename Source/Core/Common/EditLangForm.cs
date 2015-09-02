@@ -62,12 +62,13 @@ namespace Core.Common
 			foreach( FB2ItemInfo Info in m_LangFB2InfoList ) {
 				FictionBook fb2 = Info.FictionBook;
 				if( fb2 != null ) {
-					fb2.recoveryDescriptionNode();
+					FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+					fB2Corrector.recoveryDescriptionNode();
 					
 					XmlNode xmlTI = fb2.getTitleInfoNode( TitleInfoEnum.TitleInfo );
 					if( xmlTI != null ) {
 						xmlTI.ReplaceChild(
-							fb2.makeLang( LangComboBox.Text.Substring( LangComboBox.Text.IndexOf('(')+1, 2 ) ),
+							fB2Corrector.makeLang( LangComboBox.Text.Substring( LangComboBox.Text.IndexOf('(')+1, 2 ) ),
 							fb2.getLangNode( TitleInfoEnum.TitleInfo )
 						);
 						

@@ -44,6 +44,7 @@ namespace Core.Common
 			
 			this.Text += String.Format( " : {0} книг", GenreFB2InfoList.Count );
 			m_GenreFB2InfoList = GenreFB2InfoList;
+			
 			// формирование Списка Групп Жанров
 			WorksWithBooks.makeListGenresGroups( GroupComboBox, rbtnFB2Librusec.Checked );
 
@@ -69,11 +70,13 @@ namespace Core.Common
 		}
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			Cursor.Current = Cursors.WaitCursor;
+			FB2Corrector fB2Corrector = null;
 			foreach( FB2ItemInfo Info in m_GenreFB2InfoList ) {
 				FictionBook fb2 = Info.FictionBook;
 				if( fb2 != null ) {
 					// восстанавление раздела description до структуры с необходимыми элементами для валидности
-					fb2.recoveryDescriptionNode();
+					fB2Corrector = new FB2Corrector( ref fb2 );
+					fB2Corrector.recoveryDescriptionNode();
 					
 					IList<XmlNode> xmlNewGenres = makeGenreNode( ref fb2, GenresListView );
 					if( xmlNewGenres != null ) {
@@ -160,14 +163,15 @@ namespace Core.Common
 			XmlNode xmlGenre = null;
 			if( lv.Items.Count > 0 ) {
 				Genres = new List<XmlNode>( lv.Items.Count );
+				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
 				if( lv.Items.Count > 0 ) {
 					foreach( ListViewItem item in lv.Items ) {
 						string code = item.Text.Substring( item.Text.IndexOf('(') + 1 );
-						xmlGenre = fb2.makeGenre( code.Substring( 0, code.Length - 1), item.SubItems[1].Text );
+						xmlGenre = fB2Corrector.makeGenre( code.Substring( 0, code.Length - 1), item.SubItems[1].Text );
 						Genres.Add(xmlGenre);
 					}
 				} else {
-					xmlGenre = fb2.makeGenre( "other", null );
+					xmlGenre = fB2Corrector.makeGenre( "other", null );
 					Genres.Add(xmlGenre);
 				}
 			}

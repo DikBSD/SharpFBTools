@@ -79,6 +79,7 @@
     <Compile Include="Common\EndWorkMode.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\FB2BookDescription.cs" />
+    <Compile Include="Common\FB2Corrector.cs" />
     <Compile Include="Common\FilesWorker.cs" />
     <Compile Include="Common\GenresGroup.cs" />
     <Compile Include="Common\GenresWorker.cs" />
