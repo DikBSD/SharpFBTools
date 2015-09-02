@@ -1980,7 +1980,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnDupSaveList.Name = "tsbtnDupSaveList";
 			this.tsbtnDupSaveList.Size = new System.Drawing.Size(182, 28);
 			this.tsbtnDupSaveList.Text = "Сохранить в файлы...";
-			this.tsbtnDupSaveList.ToolTipText = "Сохранить список копий книг в файл";
+			this.tsbtnDupSaveList.ToolTipText = "Сохранить список копий книг в файлы";
 			this.tsbtnDupSaveList.Click += new System.EventHandler(this.TsbtnDupSaveListClick);
 			// 
 			// toolStripSeparator2
@@ -2006,6 +2006,7 @@ namespace SharpFBTools.Tools
 			this.tsbtnDupCurrentSaveList.Name = "tsbtnDupCurrentSaveList";
 			this.tsbtnDupCurrentSaveList.Size = new System.Drawing.Size(111, 28);
 			this.tsbtnDupCurrentSaveList.Text = "Сохранить";
+			this.tsbtnDupCurrentSaveList.ToolTipText = "Сохранить текущий обрабатываемый список копий";
 			this.tsbtnDupCurrentSaveList.Click += new System.EventHandler(this.TsbtnDupCurrentSaveListClick);
 			// 
 			// tpOptions
@@ -2738,115 +2739,120 @@ namespace SharpFBTools.Tools
 		// занесение данных книги в контролы для просмотра
 		private void viewBookMetaDataFull( ref FB2BookDescription fb2Desc, ListViewItem SelectedItem ) {
 			ConnectListViewResultEventHandlers( false );
-			if ( File.Exists( fb2Desc.FilePath ) && !SelectedItem.Font.Strikeout ) {
-				// очистка контролов вывода данных по книге по ее выбору
-				m_CurrentResultItem = SelectedItem.Index;
-				clearDataFields();
-				
-				if( fb2Desc != null ) {
-					// загрузка обложек книги
-					IList<BinaryBase64> Covers = fb2Desc.TICoversBase64;
-					ImageWorker.makeListViewCoverNameItems( TICoversListView, ref Covers );
-					if( TICoversListView.Items.Count > 0 ) {
-						TICoversListView.Items[0].Selected = true;
-						TICoverListViewButtonPanel.Enabled = true;
-					} else {
-						picBoxTICover.Image = imageListDup.Images[0];
-						TICoverListViewButtonPanel.Enabled = false;
-					}
+			try {
+				if ( File.Exists( fb2Desc.FilePath ) && !SelectedItem.Font.Strikeout ) {
+					// очистка контролов вывода данных по книге по ее выбору
+					m_CurrentResultItem = SelectedItem.Index;
+					clearDataFields();
 					
-					// загруxзка обложек оригинала книги
-					Covers = fb2Desc.STICoversBase64;
-					ImageWorker.makeListViewCoverNameItems( STICoversListView, ref Covers );
-					if( STICoversListView.Items.Count > 0 ) {
-						STICoversListView.Items[0].Selected = true;
-						STICoverListViewButtonPanel.Enabled = true;
-					} else {
-						picBoxSTICover.Image = imageListDup.Images[0];
-						STICoverListViewButtonPanel.Enabled = false;
-					}
-					
-					// спиок жанров, в зависимости от схемы Жанров
-					IGenresGroup GenresGroup = new GenresGroup();
-					IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( rbtnFB2Librusec.Checked, ref GenresGroup );
-					
-					// считываем данные TitleInfo
-					MiscListView.ListViewStatus( lvTitleInfo, 0, fb2Desc.TIBookTitle );
-					MiscListView.ListViewStatus( lvTitleInfo, 1, GenresWorker.cyrillicGenreNameAndCode( fb2Desc.TIGenres, ref fb2g ) );
-					MiscListView.ListViewStatus( lvTitleInfo, 2, fb2Desc.TILang );
-					MiscListView.ListViewStatus( lvTitleInfo, 3, fb2Desc.TISrcLang );
-					MiscListView.ListViewStatus( lvTitleInfo, 4, fb2Desc.TIAuthors );
-					MiscListView.ListViewStatus( lvTitleInfo, 5, fb2Desc.TIDate );
-					MiscListView.ListViewStatus( lvTitleInfo, 6, fb2Desc.TIKeywords );
-					MiscListView.ListViewStatus( lvTitleInfo, 7, fb2Desc.TITranslators );
-					MiscListView.ListViewStatus( lvTitleInfo, 8, fb2Desc.TISequences );
-					MiscListView.AutoResizeColumns( lvTitleInfo );
-					// считываем данные SourceTitleInfo
-					MiscListView.ListViewStatus( lvSourceTitleInfo, 0, fb2Desc.STIBookTitle );
-					MiscListView.ListViewStatus( lvSourceTitleInfo, 1, GenresWorker.cyrillicGenreNameAndCode( fb2Desc.STIGenres, ref fb2g ) );
-					MiscListView.ListViewStatus( lvSourceTitleInfo, 2, fb2Desc.STILang );
-					MiscListView.ListViewStatus( lvSourceTitleInfo, 3, fb2Desc.STISrcLang );
-					MiscListView.ListViewStatus( lvSourceTitleInfo, 4, fb2Desc.STIAuthors );
-					MiscListView.ListViewStatus( lvSourceTitleInfo, 5, fb2Desc.STIDate );
-					MiscListView.ListViewStatus( lvSourceTitleInfo, 6, fb2Desc.STIKeywords );
-					MiscListView.ListViewStatus( lvSourceTitleInfo, 7, fb2Desc.STITranslators );
-					MiscListView.ListViewStatus( lvSourceTitleInfo, 8, fb2Desc.STISequences );
-					MiscListView.AutoResizeColumns( lvSourceTitleInfo );
-					// считываем данные DocumentInfo
-					MiscListView.ListViewStatus( lvDocumentInfo, 0, fb2Desc.DIID );
-					MiscListView.ListViewStatus( lvDocumentInfo, 1, fb2Desc.DIVersion );
-					MiscListView.ListViewStatus( lvDocumentInfo, 2, fb2Desc.DIFB2Date );
-					MiscListView.ListViewStatus( lvDocumentInfo, 3, fb2Desc.DIProgramUsed );
-					MiscListView.ListViewStatus( lvDocumentInfo, 4, fb2Desc.DISrcOcr );
-					MiscListView.ListViewStatus( lvDocumentInfo, 5, fb2Desc.DISrcUrls );
-					MiscListView.ListViewStatus( lvDocumentInfo, 6, fb2Desc.DIFB2Authors );
-					MiscListView.AutoResizeColumns( lvDocumentInfo );
-					// считываем данные PublishInfo
-					MiscListView.ListViewStatus( lvPublishInfo, 0, fb2Desc.PIBookName );
-					MiscListView.ListViewStatus( lvPublishInfo, 1, fb2Desc.PIPublisher );
-					MiscListView.ListViewStatus( lvPublishInfo, 2, fb2Desc.PICity );
-					MiscListView.ListViewStatus( lvPublishInfo, 3, fb2Desc.PIYear );
-					MiscListView.ListViewStatus( lvPublishInfo, 4, fb2Desc.PIISBN );
-					MiscListView.ListViewStatus( lvPublishInfo, 5, fb2Desc.PISequences );
-					MiscListView.AutoResizeColumns( lvPublishInfo );
-					// считываем данные CustomInfo
-					lvCustomInfo.Items.Clear();
-					IList<CustomInfo> lcu = fb2Desc.CICustomInfo;
-					if( lcu != null ) {
-						foreach( CustomInfo ci in lcu ) {
-							ListViewItem lvi = new ListViewItem( ci.InfoType );
-							lvi.SubItems.Add( ci.Value );
-							lvCustomInfo.Items.Add( lvi );
+					if( fb2Desc != null ) {
+						// загрузка обложек книги
+						IList<BinaryBase64> Covers = fb2Desc.TICoversBase64;
+						ImageWorker.makeListViewCoverNameItems( TICoversListView, ref Covers );
+						if( TICoversListView.Items.Count > 0 ) {
+							TICoversListView.Items[0].Selected = true;
+							TICoverListViewButtonPanel.Enabled = true;
+						} else {
+							picBoxTICover.Image = imageListDup.Images[0];
+							TICoverListViewButtonPanel.Enabled = false;
 						}
-						MiscListView.AutoResizeColumns( lvCustomInfo );
-					}
-					// считываем данные History
-					rtbHistory.Clear();
-					rtbHistory.Text = StringProcessing.getDeleteAllTags( fb2Desc.DIHistory );
-					// считываем данные Annotation
-					rtbTIAnnotation.Clear();
-					rtbTIAnnotation.Text = StringProcessing.getDeleteAllTags( fb2Desc.TIAnnotation );
-					rtbSTIAnnotation.Clear();
-					rtbSTIAnnotation.Text = StringProcessing.getDeleteAllTags( fb2Desc.STIAnnotation );
-					// Валидность файла
-					tbValidate.Clear();
-					if( SelectedItem.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Нет" ) {
-						string sResult	= rbtnFB2Librusec.Checked
-							? m_fv2Validator.ValidatingFB2LibrusecFile( SelectedItem.Text )
-							: m_fv2Validator.ValidatingFB22File( SelectedItem.Text );
-						tbValidate.Text = "Файл невалидный. Ошибка:";
-						tbValidate.AppendText( Environment.NewLine );
-						tbValidate.AppendText( Environment.NewLine );
-						tbValidate.AppendText( sResult );
-					} else if( SelectedItem.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Да" )
-						tbValidate.Text = "Все в порядке - файл валидный!";
-					else
-						tbValidate.Text = "Валидация файла не производилась.";
-					FilesWorker.RemoveDir( m_TempDir );
+						
+						// загруxзка обложек оригинала книги
+						Covers = fb2Desc.STICoversBase64;
+						ImageWorker.makeListViewCoverNameItems( STICoversListView, ref Covers );
+						if( STICoversListView.Items.Count > 0 ) {
+							STICoversListView.Items[0].Selected = true;
+							STICoverListViewButtonPanel.Enabled = true;
+						} else {
+							picBoxSTICover.Image = imageListDup.Images[0];
+							STICoverListViewButtonPanel.Enabled = false;
+						}
+						
+						// спиок жанров, в зависимости от схемы Жанров
+						IGenresGroup GenresGroup = new GenresGroup();
+						IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( rbtnFB2Librusec.Checked, ref GenresGroup );
+						
+						// считываем данные TitleInfo
+						MiscListView.ListViewStatus( lvTitleInfo, 0, fb2Desc.TIBookTitle );
+						MiscListView.ListViewStatus( lvTitleInfo, 1, GenresWorker.cyrillicGenreNameAndCode( fb2Desc.TIGenres, ref fb2g ) );
+						MiscListView.ListViewStatus( lvTitleInfo, 2, fb2Desc.TILang );
+						MiscListView.ListViewStatus( lvTitleInfo, 3, fb2Desc.TISrcLang );
+						MiscListView.ListViewStatus( lvTitleInfo, 4, fb2Desc.TIAuthors );
+						MiscListView.ListViewStatus( lvTitleInfo, 5, fb2Desc.TIDate );
+						MiscListView.ListViewStatus( lvTitleInfo, 6, fb2Desc.TIKeywords );
+						MiscListView.ListViewStatus( lvTitleInfo, 7, fb2Desc.TITranslators );
+						MiscListView.ListViewStatus( lvTitleInfo, 8, fb2Desc.TISequences );
+						MiscListView.AutoResizeColumns( lvTitleInfo );
+						// считываем данные SourceTitleInfo
+						MiscListView.ListViewStatus( lvSourceTitleInfo, 0, fb2Desc.STIBookTitle );
+						MiscListView.ListViewStatus( lvSourceTitleInfo, 1, GenresWorker.cyrillicGenreNameAndCode( fb2Desc.STIGenres, ref fb2g ) );
+						MiscListView.ListViewStatus( lvSourceTitleInfo, 2, fb2Desc.STILang );
+						MiscListView.ListViewStatus( lvSourceTitleInfo, 3, fb2Desc.STISrcLang );
+						MiscListView.ListViewStatus( lvSourceTitleInfo, 4, fb2Desc.STIAuthors );
+						MiscListView.ListViewStatus( lvSourceTitleInfo, 5, fb2Desc.STIDate );
+						MiscListView.ListViewStatus( lvSourceTitleInfo, 6, fb2Desc.STIKeywords );
+						MiscListView.ListViewStatus( lvSourceTitleInfo, 7, fb2Desc.STITranslators );
+						MiscListView.ListViewStatus( lvSourceTitleInfo, 8, fb2Desc.STISequences );
+						MiscListView.AutoResizeColumns( lvSourceTitleInfo );
+						// считываем данные DocumentInfo
+						MiscListView.ListViewStatus( lvDocumentInfo, 0, fb2Desc.DIID );
+						MiscListView.ListViewStatus( lvDocumentInfo, 1, fb2Desc.DIVersion );
+						MiscListView.ListViewStatus( lvDocumentInfo, 2, fb2Desc.DIFB2Date );
+						MiscListView.ListViewStatus( lvDocumentInfo, 3, fb2Desc.DIProgramUsed );
+						MiscListView.ListViewStatus( lvDocumentInfo, 4, fb2Desc.DISrcOcr );
+						MiscListView.ListViewStatus( lvDocumentInfo, 5, fb2Desc.DISrcUrls );
+						MiscListView.ListViewStatus( lvDocumentInfo, 6, fb2Desc.DIFB2Authors );
+						MiscListView.AutoResizeColumns( lvDocumentInfo );
+						// считываем данные PublishInfo
+						MiscListView.ListViewStatus( lvPublishInfo, 0, fb2Desc.PIBookName );
+						MiscListView.ListViewStatus( lvPublishInfo, 1, fb2Desc.PIPublisher );
+						MiscListView.ListViewStatus( lvPublishInfo, 2, fb2Desc.PICity );
+						MiscListView.ListViewStatus( lvPublishInfo, 3, fb2Desc.PIYear );
+						MiscListView.ListViewStatus( lvPublishInfo, 4, fb2Desc.PIISBN );
+						MiscListView.ListViewStatus( lvPublishInfo, 5, fb2Desc.PISequences );
+						MiscListView.AutoResizeColumns( lvPublishInfo );
+						// считываем данные CustomInfo
+						lvCustomInfo.Items.Clear();
+						IList<CustomInfo> lcu = fb2Desc.CICustomInfo;
+						if( lcu != null ) {
+							foreach( CustomInfo ci in lcu ) {
+								ListViewItem lvi = new ListViewItem( ci.InfoType );
+								lvi.SubItems.Add( ci.Value );
+								lvCustomInfo.Items.Add( lvi );
+							}
+							MiscListView.AutoResizeColumns( lvCustomInfo );
+						}
+						// считываем данные History
+						rtbHistory.Clear();
+						rtbHistory.Text = StringProcessing.getDeleteAllTags( fb2Desc.DIHistory );
+						// считываем данные Annotation
+						rtbTIAnnotation.Clear();
+						rtbTIAnnotation.Text = StringProcessing.getDeleteAllTags( fb2Desc.TIAnnotation );
+						rtbSTIAnnotation.Clear();
+						rtbSTIAnnotation.Text = StringProcessing.getDeleteAllTags( fb2Desc.STIAnnotation );
+						// Валидность файла
+						tbValidate.Clear();
+						if( SelectedItem.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Нет" ) {
+							string sResult	= rbtnFB2Librusec.Checked
+								? m_fv2Validator.ValidatingFB2LibrusecFile( SelectedItem.Text )
+								: m_fv2Validator.ValidatingFB22File( SelectedItem.Text );
+							tbValidate.Text = "Файл невалидный. Ошибка:";
+							tbValidate.AppendText( Environment.NewLine );
+							tbValidate.AppendText( Environment.NewLine );
+							tbValidate.AppendText( sResult );
+						} else if( SelectedItem.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Да" )
+							tbValidate.Text = "Все в порядке - файл валидный!";
+						else
+							tbValidate.Text = "Валидация файла не производилась.";
+						FilesWorker.RemoveDir( m_TempDir );
 //				MiscListView.AutoResizeColumns(lvResult);
-				}
-			} else
-				clearDataFields();
+					}
+				} else
+					clearDataFields();
+			} catch ( System.Exception e ) {
+				MessageBox.Show( "Ошибка при отображении метаданных книги " + fb2Desc.FilePath + "\n" + e.Message );
+			}
+			
 			ConnectListViewResultEventHandlers( true );
 		}
 		// занесение данных книги в контролы для просмотра
@@ -3368,9 +3374,9 @@ namespace SharpFBTools.Tools
 		{
 			WorksWithBooks.viewCover( TICoversListView, picBoxTICover, TICoverDPILabel, TICoverPixelsLabel, TICoverLenghtLabel );
 		}
+		// сохранение выделенных обложек на диск
 		void TISaveSelectedCoverButtonClick(object sender, EventArgs e)
 		{
-			// сохранение выделенных обложек на диск
 			ImageWorker.saveSelectedCovers( TICoversListView, ref m_DirForSavedCover, "Сохранение обложек на диск", fbdScanDir );
 		}
 		// отображение обложек Оригинала
@@ -4027,6 +4033,7 @@ namespace SharpFBTools.Tools
 				}
 			}
 		}
+		
 		
 		#endregion
 		
