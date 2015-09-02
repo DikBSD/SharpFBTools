@@ -206,6 +206,7 @@ namespace SharpFBTools.Tools
 		// занесение данных книги в контролы для просмотра
 		private void viewBookMetaDataFull( ref FB2BookDescription fb2Desc, ListViewItem SelectedItem ) {
 			ConnectListsEventHandlers( false );
+			
 			try {
 				if ( File.Exists( fb2Desc.FilePath ) && !SelectedItem.Font.Strikeout ) {
 					// очистка контролов вывода данных по книге по ее выбору
@@ -323,6 +324,7 @@ namespace SharpFBTools.Tools
 			} catch ( System.Exception e ) {
 				MessageBox.Show( "Ошибка при отображении метаданных книги " + fb2Desc.FilePath + "\n" + e.Message );
 			}
+			
 			ConnectListsEventHandlers( true );
 		}
 		// занесение данных книги в контролы для просмотра
@@ -1049,7 +1051,7 @@ namespace SharpFBTools.Tools
 						FictionBook fb2 = null;
 						try {
 							fb2 = new FictionBook( FilePath );
-						} catch {
+						} catch (System.Exception /*m*/) {
 							MessageBox.Show( "Файл \""+FilePath+"\" невозможно открыть для извлечения fb2 метаданных!\nФайл обработан не будет.",
 							                "Задание нового ID", MessageBoxButtons.OK, MessageBoxIcon.Error );
 							return;
@@ -1076,10 +1078,9 @@ namespace SharpFBTools.Tools
 								WorksWithBooks.viewBookMetaDataLocal(
 									ref bd, SelectedItem, checkBoxNeedValid.Checked, rbtnFB2Librusec.Checked, ref fb2g
 								);
-								FilesWorker.RemoveDir( m_TempDir );
 								// отображение метаданных после правки книги
 								viewBookMetaDataFull( ref bd, SelectedItem );
-							} catch ( System.Exception ) {
+							} catch ( System.Exception /*m*/ ) {
 							} finally {
 								FilesWorker.RemoveDir( m_TempDir );
 							}

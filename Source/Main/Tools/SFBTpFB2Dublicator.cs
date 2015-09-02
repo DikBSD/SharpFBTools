@@ -3505,7 +3505,6 @@ namespace SharpFBTools.Tools
 								// занесение данных в выделенный итем (метаданные книги после правки)
 								FB2BookDescription bd = new FB2BookDescription( FilePath );
 								viewBookMetaDataLocal( ref bd, SelectedItem );
-								FilesWorker.RemoveDir( m_TempDir );
 								// отображение метаданных после правки книги
 								viewBookMetaDataFull( ref bd, SelectedItem );
 							} catch ( System.Exception ) {
