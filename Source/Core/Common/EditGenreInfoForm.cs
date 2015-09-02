@@ -167,11 +167,11 @@ namespace Core.Common
 				if( lv.Items.Count > 0 ) {
 					foreach( ListViewItem item in lv.Items ) {
 						string code = item.Text.Substring( item.Text.IndexOf('(') + 1 );
-						xmlGenre = fB2Corrector.makeGenre( code.Substring( 0, code.Length - 1), item.SubItems[1].Text );
+						xmlGenre = fB2Corrector.makeGenreNode( code.Substring( 0, code.Length - 1), item.SubItems[1].Text );
 						Genres.Add(xmlGenre);
 					}
 				} else {
-					xmlGenre = fB2Corrector.makeGenre( "other", null );
+					xmlGenre = fB2Corrector.makeGenreNode( "other", null );
 					Genres.Add(xmlGenre);
 				}
 			}

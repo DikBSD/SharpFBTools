@@ -84,30 +84,30 @@ namespace Core.Common
 				TitleInfoType == TitleInfoEnum.TitleInfo ? "title-info" : "source-title-info",
 				_fb2.getNamespaceURI()
 			);
-			xmlTI.AppendChild( makeGenre( "other", null ) );
+			xmlTI.AppendChild( makeGenreNode( "other", null ) );
 			xmlTI.AppendChild(
-				makeAuthor(
+				makeAuthorNode(
 					Enums.AuthorEnum.AuthorOfBook, string.Empty, string.Empty, "Неизвестный", string.Empty,
 					null, null, string.Empty
 				)
 			);
-			xmlTI.AppendChild( makeBookTitle( "Неизвестная книга" ) );
-			xmlTI.AppendChild( makeLang() );
+			xmlTI.AppendChild( makeBookTitleNode( "Неизвестная книга" ) );
+			xmlTI.AppendChild( makeLangNode() );
 			return xmlTI;
 		}
 		// создание нового раздела document-info с минимальными необходимыми данными
 		public XmlElement makeDocumentInfoNodeWithMinimalElements() {
 			XmlElement xmlDI = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "document-info", _fb2.getNamespaceURI() );
 			xmlDI.AppendChild(
-				makeAuthor(
+				makeAuthorNode(
 					Enums.AuthorEnum.AuthorOfFB2, string.Empty, string.Empty, "fb2 создатель", string.Empty,
 					null, null, string.Empty
 				)
 			);
-			xmlDI.AppendChild( makeProgramUsed() );
-			xmlDI.AppendChild( makeDate() );
-			xmlDI.AppendChild( makeID() );
-			xmlDI.AppendChild( makeVersion() );
+			xmlDI.AppendChild( makeProgramUsedNode() );
+			xmlDI.AppendChild( makeDateNode() );
+			xmlDI.AppendChild( makeIDNode() );
+			xmlDI.AppendChild( makeVersionNode() );
 			return xmlDI;
 		}
 		
@@ -235,7 +235,7 @@ namespace Core.Common
 							if ( xmlInfoType != null ) {
 								if ( string.IsNullOrWhiteSpace( xmlInfoType.Value ) ) {
 									if ( !string.IsNullOrWhiteSpace( xmlCIOld.InnerText ) ) {
-										XmlNode xmlCINew = makeCustomInfo(
+										XmlNode xmlCINew = makeCustomInfoNode(
 											xmlCIOld.Attributes["info-type"].Value, xmlCIOld.InnerText.Trim()
 										);
 										xmlDesc.RemoveChild( xmlCIOld );
@@ -243,7 +243,7 @@ namespace Core.Common
 									} else
 										xmlDesc.RemoveChild( xmlCIOld );
 								} else {
-									XmlNode xmlCINew = makeCustomInfo(
+									XmlNode xmlCINew = makeCustomInfoNode(
 										xmlCIOld.Attributes["info-type"].Value, xmlCIOld.InnerText.Trim()
 									);
 									xmlDesc.RemoveChild( xmlCIOld );
@@ -251,7 +251,7 @@ namespace Core.Common
 								}
 							} else {
 								if ( !string.IsNullOrWhiteSpace( xmlCIOld.InnerText ) ) {
-									XmlNode xmlCINew = makeCustomInfo( "?", xmlCIOld.InnerText.Trim() );
+									XmlNode xmlCINew = makeCustomInfoNode( "?", xmlCIOld.InnerText.Trim() );
 									xmlDesc.RemoveChild( xmlCIOld );
 									xmlDesc.AppendChild( xmlCINew );
 								} else
@@ -286,15 +286,15 @@ namespace Core.Common
 							xmlTINew.AppendChild( Genre );
 						}
 					} else
-						xmlTINew.AppendChild( makeGenre( "other", null ) );
+						xmlTINew.AppendChild( makeGenreNode( "other", null ) );
 				} else
-					xmlTINew.AppendChild( makeGenre( "other", null ) );
+					xmlTINew.AppendChild( makeGenreNode( "other", null ) );
 				// Авторы
 				XmlNodeList xmlAuthors = _fb2.getAuthorNodes( TitleInfoType );
 				if ( xmlAuthors != null ) {
 					if ( xmlAuthors.Count == 0 ) {
 						xmlTINew.AppendChild(
-							makeAuthor(
+							makeAuthorNode(
 								Enums.AuthorEnum.AuthorOfBook, string.Empty, string.Empty, "Неизвестный", string.Empty,
 								null, null, string.Empty
 							)
@@ -304,7 +304,7 @@ namespace Core.Common
 							foreach( XmlNode Author in xmlAuthors ) {
 								// реконструкция Автора
 								xmlTINew.AppendChild(
-									recoveryAuthor( Author, AuthorEnum.AuthorOfBook )
+									recoveryAuthorNode( Author, AuthorEnum.AuthorOfBook )
 								);
 							}
 						} else {
@@ -326,7 +326,7 @@ namespace Core.Common
 								    ( xmlHomePageList != null && xmlHomePageList.Count > 0 ) ||
 								    ( xmlEmailList != null && xmlEmailList.Count > 0 ) ) {
 									xmlTINew.AppendChild(
-										recoveryAuthor( Author, AuthorEnum.AuthorOfBook )
+										recoveryAuthorNode( Author, AuthorEnum.AuthorOfBook )
 									);
 								}
 							}
@@ -334,7 +334,7 @@ namespace Core.Common
 					}
 				} else {
 					xmlTINew.AppendChild(
-						makeAuthor(
+						makeAuthorNode(
 							Enums.AuthorEnum.AuthorOfBook, string.Empty, string.Empty, "Неизвестный", string.Empty,
 							null, null, string.Empty
 						)
@@ -348,7 +348,7 @@ namespace Core.Common
 					xmlTINew.AppendChild( xmlBookTitle );
 				} else {
 					xmlTINew.AppendChild(
-						makeBookTitle( "Неизвестная книга" )
+						makeBookTitleNode( "Неизвестная книга" )
 					);
 				}
 				// Аннотация
@@ -365,7 +365,7 @@ namespace Core.Common
 				if ( xmlDate != null )
 					xmlTINew.AppendChild( xmlDate );
 				else
-					xmlTINew.AppendChild( makeDate( null ) );
+					xmlTINew.AppendChild( makeDateNode( null ) );
 				// coverpage
 				XmlNode xmlCoverpages = _fb2.getCoverNode( TitleInfoType );
 				if ( xmlCoverpages != null )
@@ -377,7 +377,7 @@ namespace Core.Common
 						xmlLang.InnerText = "ru";
 					xmlTINew.AppendChild( xmlLang );
 				} else
-					xmlTINew.AppendChild( makeLang() );
+					xmlTINew.AppendChild( makeLangNode() );
 				// src-lang
 				XmlNode xmlSrcLang = _fb2.getSrcLangNode( TitleInfoType );
 				if ( xmlSrcLang != null ) {
@@ -390,7 +390,7 @@ namespace Core.Common
 					foreach( XmlNode Translator in xmlTranslators ) {
 						// реконструкция Переводчика
 						xmlTINew.AppendChild(
-							recoveryAuthor( Translator, AuthorEnum.Translator )
+							recoveryAuthorNode( Translator, AuthorEnum.Translator )
 						);
 					}
 				}
@@ -407,7 +407,9 @@ namespace Core.Common
 									xmlTINew.AppendChild( Sequence );
 								else if ( !string.IsNullOrWhiteSpace( Sequence.Attributes["name"].Value ) &&
 								         string.IsNullOrWhiteSpace( Sequence.Attributes["number"].Value ) )
-									xmlTINew.AppendChild( makeSequence( Sequence.Attributes["name"].Value.Trim(), null ) );
+									xmlTINew.AppendChild(
+										makeSequenceNode( Sequence.Attributes["name"].Value.Trim(), null )
+									);
 							} else {
 								// аттрибута number нет
 								if ( !string.IsNullOrWhiteSpace( Sequence.Attributes["name"].Value ) )
@@ -433,12 +435,12 @@ namespace Core.Common
 					foreach( XmlNode Author in xmlAuthors ) {
 						// реконструкция Автора
 						xmlDINew.AppendChild(
-							recoveryAuthor( Author, AuthorEnum.AuthorOfFB2 )
+							recoveryAuthorNode( Author, AuthorEnum.AuthorOfFB2 )
 						);
 					}
 				} else {
 					xmlDINew.AppendChild(
-						makeAuthor(
+						makeAuthorNode(
 							Enums.AuthorEnum.AuthorOfFB2, string.Empty, string.Empty, "Создатель fb2-файла", string.Empty,
 							null, null, string.Empty
 						)
@@ -451,13 +453,13 @@ namespace Core.Common
 						xmlDIProgUsed.InnerText += ", SharpFBTools";
 					xmlDINew.AppendChild( xmlDIProgUsed );
 				} else
-					xmlDINew.AppendChild( makeProgramUsed() );
+					xmlDINew.AppendChild( makeProgramUsedNode() );
 				// date
 				XmlNode xmlDIDate = _fb2.getFB2CreateDate();
 				if ( xmlDIDate != null )
 					xmlDINew.AppendChild( xmlDIDate );
 				else
-					xmlDINew.AppendChild( makeDate() );
+					xmlDINew.AppendChild( makeDateNode() );
 				// src-url
 				XmlNodeList xmlFB2SrcUrls = _fb2.getFB2SrcUrls();
 				if ( xmlFB2SrcUrls != null ) {
@@ -479,7 +481,7 @@ namespace Core.Common
 						xmlFB2ID.InnerText = Guid.NewGuid().ToString().ToUpper();
 					xmlDINew.AppendChild( xmlFB2ID );
 				} else
-					xmlDINew.AppendChild( makeID() );
+					xmlDINew.AppendChild( makeIDNode() );
 				// version
 				XmlNode xmlFB2Version = _fb2.getFB2VersionNode();
 				if ( xmlFB2Version != null ) {
@@ -487,7 +489,7 @@ namespace Core.Common
 						xmlFB2Version.InnerText = "1.0";
 					xmlDINew.AppendChild( xmlFB2Version );
 				} else
-					xmlDINew.AppendChild( makeVersion() );
+					xmlDINew.AppendChild( makeVersionNode() );
 				// history
 				XmlNode xmlFB2History = _fb2.getFB2History();
 				if ( xmlFB2History != null ) {
@@ -498,7 +500,7 @@ namespace Core.Common
 					xmlDINew.AppendChild( xmlFB2History );
 				} else {
 					string [] HistoryArray = {"1.0 - Восстановление структуры fb2 файла с помощью SharpFBTools"};
-					xmlDINew.AppendChild( makeHistory( HistoryArray ) );
+					xmlDINew.AppendChild( makeHistoryNode( HistoryArray ) );
 				}
 				
 				return xmlDINew;
@@ -552,7 +554,7 @@ namespace Core.Common
 									xmlPINew.AppendChild( Sequence );
 								else if ( !string.IsNullOrWhiteSpace( Sequence.Attributes["name"].Value ) &&
 								         string.IsNullOrWhiteSpace( Sequence.Attributes["number"].Value ) )
-									xmlPINew.AppendChild( makeSequence( Sequence.Attributes["name"].Value.Trim(), null ) );
+									xmlPINew.AppendChild( makeSequenceNode( Sequence.Attributes["name"].Value.Trim(), null ) );
 							} else {
 								// аттрибута number нет
 								if ( !string.IsNullOrWhiteSpace( Sequence.Attributes["name"].Value ) )
@@ -566,7 +568,7 @@ namespace Core.Common
 			return xmlPIOld;
 		}
 		// реконструкция Автора/Переводчика
-		public XmlNode recoveryAuthor( XmlNode xmlAuthor, AuthorEnum AuthorType ) {
+		public XmlNode recoveryAuthorNode( XmlNode xmlAuthor, AuthorEnum AuthorType ) {
 			string author = AuthorType == Enums.AuthorEnum.Translator ? "translator" : "author";
 			if ( xmlAuthor.Name == author ) {
 				XmlNode xmlFirstName = xmlAuthor.SelectSingleNode( "." + _fb2.getNamespace() + "first-name", _fb2.getNamespaceManager() );
@@ -628,8 +630,8 @@ namespace Core.Common
 		}
 		
 		// создание нового Автора NewAuthor по заданным данным
-		public XmlElement makeAuthor( AuthorEnum AuthorType, string FirstName, string MiddleName, string LastName, string Nickname,
-		                             IList<string> HomePage, IList<string> Email, string ID ) {
+		public XmlElement makeAuthorNode( AuthorEnum AuthorType, string FirstName, string MiddleName, string LastName, string Nickname,
+		                                 IList<string> HomePage, IList<string> Email, string ID ) {
 			XmlElement xmlNewAuthor = _fb2.getXmlDoc().CreateElement(
 				_fb2.getPrefix(), AuthorType == Enums.AuthorEnum.Translator
 				? "translator"
@@ -693,7 +695,7 @@ namespace Core.Common
 		}
 		
 		// создание нового Автора NewAuthor по частичным/полным данным Автора FromAuthor
-		public XmlElement makeAuthorFromAuthor( AuthorEnum AuthorType, XmlNode FromAuthor ) {
+		public XmlElement makeAuthorNodeFromAuthor( AuthorEnum AuthorType, XmlNode FromAuthor ) {
 			if( FromAuthor == null ) return null;
 			
 			XmlElement xmlNewAuthor = _fb2.getXmlDoc().CreateElement(
@@ -755,7 +757,7 @@ namespace Core.Common
 		}
 		
 		// создание нового Жанра NewGenre  по заданным данным
-		public XmlElement makeGenre( string GenreName = "other", string GenreMatch = "100" ) {
+		public XmlElement makeGenreNode( string GenreName = "other", string GenreMatch = "100" ) {
 			XmlElement xmlNewGenre = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "genre", _fb2.getNamespaceURI() );
 			xmlNewGenre.InnerText = !string.IsNullOrEmpty(GenreName) ? GenreName : "other";
 			if( !string.IsNullOrEmpty(GenreMatch) )
@@ -765,7 +767,7 @@ namespace Core.Common
 		}
 
 		// создание новой Серии NewSequence по заданным данным
-		public XmlElement makeSequence( string SequenceName, string Number ) {
+		public XmlElement makeSequenceNode( string SequenceName, string Number ) {
 			XmlElement xmlNewSequence = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "sequence", _fb2.getNamespaceURI() );
 			xmlNewSequence.SetAttribute( "name", !string.IsNullOrEmpty(SequenceName) ? SequenceName : "" );
 			if( !string.IsNullOrEmpty(Number) )
@@ -774,23 +776,23 @@ namespace Core.Common
 		}
 		
 		// создание нового Названия книги - BookTitle по заданным данным
-		public XmlElement makeBookTitle( string BookTitle ) {
+		public XmlElement makeBookTitleNode( string BookTitle ) {
 			return createStructure( "book-title", BookTitle );
 		}
 		
 		// создание Аннотации на книгу по заданным данным
-		public XmlElement makeAnnotation( string [] AnnotationArray ) {
+		public XmlElement makeAnnotationNode( string [] AnnotationArray ) {
 			return createStructure( "annotation", ref AnnotationArray );
 		}
 		
 		// создание Ключевых слов по заданным данным
-		public XmlElement makeKeywords( string Keywords ) {
+		public XmlElement makeKeywordsNode( string Keywords ) {
 			return createStructure( "keywords", Keywords );
 		}
 		
 		// создание новой Даты по заданным данным
 		// Date = null - создаем пустую ноду даты
-		public XmlElement makeDate( string Date = "", string DateValue = "" ) {
+		public XmlElement makeDateNode( string Date = "", string DateValue = "" ) {
 			XmlElement xmlDate = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "date", _fb2.getNamespaceURI() );
 			if( !string.IsNullOrEmpty(DateValue) )
 				xmlDate.SetAttribute( "value", DateValue );
@@ -808,31 +810,31 @@ namespace Core.Common
 		}
 		
 		// создание новой структуры Языка книги ("ru" по-умолчанию) по заданным данным
-		public XmlElement makeLang( string lang = "ru" ) {
+		public XmlElement makeLangNode( string lang = "ru" ) {
 			XmlElement xmlLang = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "lang", _fb2.getNamespaceURI() );
 			xmlLang.InnerText = !string.IsNullOrEmpty(lang) ? lang : "ru";
 			return xmlLang;
 		}
 		
 		// создание новой структуры Языка Оригинала ("en" по-умолчанию) по заданным данным
-		public XmlElement makeSrcLang( string lang = "en" ) {
+		public XmlElement makeSrcLangNode( string lang = "en" ) {
 			XmlElement xmlLang = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "src-lang", _fb2.getNamespaceURI() );
 			xmlLang.InnerText = !string.IsNullOrEmpty(lang) ? lang : "en";
 			return xmlLang;
 		}
 		
 		// создание новой структуры program-used по заданным данным
-		public XmlElement makeProgramUsed( string ProgramUsed = "SharpFBTools" ) {
+		public XmlElement makeProgramUsedNode( string ProgramUsed = "SharpFBTools" ) {
 			return createStructure( "program-used", ProgramUsed );
 		}
 		
 		// создание новой структуры src-ocr по заданным данным
-		public XmlElement makeSrcOcr( string SrcOcr ) {
+		public XmlElement makeSrcOcrNode( string SrcOcr ) {
 			return createStructure( "src-ocr", SrcOcr );
 		}
 		
 		// создание новой структуры src-url по заданным данным
-		public IList<XmlNode> makeSrcUrl( ref string [] SrcUrlArray ) {
+		public IList<XmlNode> makeSrcUrlNode( ref string [] SrcUrlArray ) {
 			IList<XmlNode> lSrcUrls = new List<XmlNode>();
 			for( int i = 0; i != SrcUrlArray.Length; ++i ) {
 				XmlElement xmlElement = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "src-url", _fb2.getNamespaceURI() );
@@ -847,52 +849,52 @@ namespace Core.Common
 		}
 		
 		// создание новой структуры id fb2 файла по заданным данным
-		public XmlElement makeID( string ID = "" ) {
+		public XmlElement makeIDNode( string ID = "" ) {
 			return createStructure( "id", !string.IsNullOrEmpty(ID) ? ID : Guid.NewGuid().ToString().ToUpper() );
 		}
 		
 		// создание новой структуры Версии fb2-файла по заданным данным
-		public XmlElement makeVersion( string Version = "1.0") {
+		public XmlElement makeVersionNode( string Version = "1.0") {
 			return createStructure( "version", Version );
 		}
 		
 		// создание новой Истории развития fb2 файла по заданным данным
-		public XmlElement makeHistory( string [] HistoryArray ) {
+		public XmlElement makeHistoryNode( string [] HistoryArray ) {
 			return createStructure( "history", ref HistoryArray );
 		}
 		
 		// создание нового Названия Бумажной книги по заданным данным
-		public XmlElement makePaperBookName( string BookName ) {
+		public XmlElement makePaperBookNameNode( string BookName ) {
 			return createStructure( "book-name", BookName );
 		}
 		
 		// создание новой структуры Издателя бумажной книги по заданным данным
-		public XmlElement makePaperPublisher( string Publisher ) {
+		public XmlElement makePaperPublisherNode( string Publisher ) {
 			return createStructure( "publisher", Publisher );
 		}
 		
 		// создание новой структуры Города Издателя бумажной книги по заданным данным
-		public XmlElement makePaperCity( string City ) {
+		public XmlElement makePaperCityNode( string City ) {
 			return createStructure( "city", City );
 		}
 		
 		// создание новой структуры Года издания бумажной книги по заданным данным
-		public XmlElement makePaperYear( string Year ) {
+		public XmlElement makePaperYearNode( string Year ) {
 			return createStructure( "year", Year );
 		}
 		
 		// создание новой структуры ISBN издания бумажной книги по заданным данным
-		public XmlElement makePaperISBN( string ISBN ) {
+		public XmlElement makePaperISBNNode( string ISBN ) {
 			return createStructure( "isbn", ISBN );
 		}
 		
 		// создание новой структуры custom-info по заданным данным
-		public XmlElement makeCustomInfo( string InfoType, string ElementValue ) {
+		public XmlElement makeCustomInfoNode( string InfoType, string ElementValue ) {
 			return createStructure( "custom-info", "info-type", ElementValue, InfoType);
 		}
 		
 		// создание новой структуры cover
-		public XmlElement makeCoverpage( IList<string> ImagesName ) {
+		public XmlElement makeCoverpageNode( IList<string> ImagesName ) {
 			if( ImagesName != null && ImagesName.Count > 0 ) {
 				XmlElement xmlCover = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "coverpage", _fb2.getNamespaceURI() );
 				if( xmlCover != null ) {
@@ -923,7 +925,7 @@ namespace Core.Common
 		}
 		
 		// создание новой структуры binary
-		public XmlElement makeBinary( string Id, string ContentType, string Base64String ) {
+		public XmlElement makeBinaryNode( string Id, string ContentType, string Base64String ) {
 			if( !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(ContentType) && !string.IsNullOrEmpty(Base64String) ) {
 				XmlElement xmlBinary = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "binary", _fb2.getNamespaceURI() );
 				if( xmlBinary != null ) {
@@ -956,13 +958,13 @@ namespace Core.Common
 		// задание нового ID для книги
 		public void setNewID() {
 			_fb2.getDocumentInfoNode().ReplaceChild(
-				makeID(), _fb2.getFB2IDNode()
+				makeIDNode(), _fb2.getFB2IDNode()
 			);
 		}
 		// задание нового Названия книги
 		public void setNewBookTitle( string BookTitleNew ) {
 			_fb2.getTitleInfoNode(Enums.TitleInfoEnum.TitleInfo).ReplaceChild(
-				makeBookTitle( BookTitleNew ), _fb2.getBookTitleNode(Enums.TitleInfoEnum.TitleInfo)
+				makeBookTitleNode( BookTitleNew ), _fb2.getBookTitleNode(Enums.TitleInfoEnum.TitleInfo)
 			);
 		}
 		#endregion

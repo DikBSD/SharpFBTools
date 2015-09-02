@@ -2914,34 +2914,31 @@ namespace SharpFBTools.Tools
 				// восстанавление раздела description до структуры с необходимыми элементами для валидности
 				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
 				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, SelectedItem );
-				XmlNode xmlDI = fb2.getDocumentInfoNode();
-				if( xmlDI != null ) {
-					xmlDI.ReplaceChild( fB2Corrector.makeID(), fb2.getFB2IDNode() );
-					fB2Corrector.saveToFB2File( FilePath );
-					
-					if( IsFromZip ) {
-						// обработка исправленного файла-архива
-						string ArchFile = FilePath + ".zip";
-						m_sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-						if( File.Exists( SourceFilePath ) )
-							File.Delete( SourceFilePath );
-						File.Move( ArchFile, SourceFilePath );
-					}
-					
-					// отображение нового id в строке списка
-					if( IsFromZip )
-						ZipFB2Worker.getFileFromFB2_FB2Z( ref SourceFilePath, m_TempDir );
-					try {
-						FB2BookDescription bd = new FB2BookDescription( SourceFilePath );
-						viewBookMetaDataLocal( ref bd, SelectedItem );
-						viewBookMetaDataFull( SelectedItem );
-						FilesWorker.RemoveDir( m_TempDir );
-					} catch {
-						FilesWorker.RemoveDir( m_TempDir );
-						return false;
-					}
-					return true;
+				fB2Corrector.setNewID();
+				fB2Corrector.saveToFB2File( FilePath );
+				
+				if( IsFromZip ) {
+					// обработка исправленного файла-архива
+					string ArchFile = FilePath + ".zip";
+					m_sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
+					if( File.Exists( SourceFilePath ) )
+						File.Delete( SourceFilePath );
+					File.Move( ArchFile, SourceFilePath );
 				}
+				
+				// отображение нового id в строке списка
+				if( IsFromZip )
+					ZipFB2Worker.getFileFromFB2_FB2Z( ref SourceFilePath, m_TempDir );
+				try {
+					FB2BookDescription bd = new FB2BookDescription( SourceFilePath );
+					viewBookMetaDataLocal( ref bd, SelectedItem );
+					viewBookMetaDataFull( SelectedItem );
+					FilesWorker.RemoveDir( m_TempDir );
+				} catch {
+					FilesWorker.RemoveDir( m_TempDir );
+					return false;
+				}
+				return true;
 			}
 			return false;
 		}

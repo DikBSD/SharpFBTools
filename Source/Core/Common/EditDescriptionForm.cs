@@ -454,7 +454,7 @@ namespace Core.Common
 					IList<string> lHPs = HPs.Split( new Char [] { ',',';' } );
 					string Emails = StringProcessing.trimLastTemplateSymbol( item.SubItems[5].Text.Trim(), new Char [] { ',',';' } );
 					IList<string> lEmails = Emails.Split( new Char [] { ',',';' } );
-					xmlAuthor = fB2Corrector.makeAuthor(
+					xmlAuthor = fB2Corrector.makeAuthorNode(
 						AuthorType,
 						item.SubItems[1].Text, item.SubItems[2].Text, item.Text, item.SubItems[3].Text,
 						lHPs, lEmails, item.SubItems[6].Text
@@ -464,7 +464,7 @@ namespace Core.Common
 			} else {
 				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = new List<XmlNode>();
-					xmlAuthor = fB2Corrector.makeAuthor( AuthorType, null, null, null, null, null, null, null );
+					xmlAuthor = fB2Corrector.makeAuthorNode( AuthorType, null, null, null, null, null, null, null );
 					Authors.Add(xmlAuthor);
 				}
 			}
@@ -524,11 +524,11 @@ namespace Core.Common
 			if( GenresListView.Items.Count > 0 ) {
 				foreach( ListViewItem item in GenresListView.Items ) {
 					string code = item.Text.Substring( item.Text.IndexOf('(') + 1 );
-					xmlGenre = _fB2Corrector.makeGenre( code.Substring( 0, code.Length - 1), item.SubItems[1].Text );
+					xmlGenre = _fB2Corrector.makeGenreNode( code.Substring( 0, code.Length - 1), item.SubItems[1].Text );
 					xmlTI.AppendChild( xmlGenre );
 				}
 			} else {
-				xmlGenre = _fB2Corrector.makeGenre( "other", null );
+				xmlGenre = _fB2Corrector.makeGenreNode( "other", null );
 				xmlTI.AppendChild( xmlGenre );
 			}
 			
@@ -538,30 +538,30 @@ namespace Core.Common
 				xmlTI.AppendChild( Author );
 			
 			// Book Title
-			xmlTI.AppendChild( _fB2Corrector.makeBookTitle( BookTitleTextBox.Text.Trim() ) );
+			xmlTI.AppendChild( _fB2Corrector.makeBookTitleNode( BookTitleTextBox.Text.Trim() ) );
 			
 			// Аннотация
-			XmlElement Annot = _fB2Corrector.makeAnnotation( AnnotationRichTextEdit.Lines );
+			XmlElement Annot = _fB2Corrector.makeAnnotationNode( AnnotationRichTextEdit.Lines );
 			if( Annot != null )
 				if( !string.IsNullOrEmpty( Annot.InnerText.Trim() ) )
 					xmlTI.AppendChild( Annot );
 			
 			// keywords
 			if( !string.IsNullOrEmpty( KeyTextBox.Text.Trim() ) )
-				xmlTI.AppendChild( _fB2Corrector.makeKeywords( KeyTextBox.Text.Trim() ) );
+				xmlTI.AppendChild( _fB2Corrector.makeKeywordsNode( KeyTextBox.Text.Trim() ) );
 			
 			// date
 			string DateValue = DateValueMaskedTextBox.Text.Trim();
 			if( !string.IsNullOrEmpty( DateTextBox.Text.Trim() ) ) {
 				if( !DateValue.Equals( "-  -" ) )
-					xmlTI.AppendChild( _fB2Corrector.makeDate( DateTextBox.Text.Trim(), DateValue ) );
+					xmlTI.AppendChild( _fB2Corrector.makeDateNode( DateTextBox.Text.Trim(), DateValue ) );
 				else
-					xmlTI.AppendChild( _fB2Corrector.makeDate( DateTextBox.Text.Trim(), null ) );
+					xmlTI.AppendChild( _fB2Corrector.makeDateNode( DateTextBox.Text.Trim(), null ) );
 			} else {
 				if( !DateValue.Equals( "-  -" ) )
-					xmlTI.AppendChild( _fB2Corrector.makeDate( null, DateValue ) );
+					xmlTI.AppendChild( _fB2Corrector.makeDateNode( null, DateValue ) );
 				else
-					xmlTI.AppendChild( _fB2Corrector.makeDate( null, null ) );
+					xmlTI.AppendChild( _fB2Corrector.makeDateNode( null, null ) );
 			}
 			
 			// coverpage и binary
@@ -578,7 +578,7 @@ namespace Core.Common
 					list.Add( item.Text );
 				
 				xmlTI.AppendChild(
-					_fB2Corrector.makeCoverpage( list )
+					_fB2Corrector.makeCoverpageNode( list )
 				);
 				
 				// binary
@@ -587,7 +587,7 @@ namespace Core.Common
 					// добавление всех binary Обложек
 					if( m_fb2.getBinaryNodeForID( item.Text ) == null )
 						xmlFB.AppendChild(
-							_fB2Corrector.makeBinary(
+							_fB2Corrector.makeBinaryNode(
 								item.Text, item.SubItems[1].Text, item.Tag.ToString()
 							)
 						);
@@ -597,15 +597,15 @@ namespace Core.Common
 			// lang
 			if( !string.IsNullOrEmpty( LangComboBox.Text ) )
 				xmlTI.AppendChild(
-					_fB2Corrector.makeLang( LangComboBox.Text.Substring( LangComboBox.Text.IndexOf('(')+1, 2 ) )
+					_fB2Corrector.makeLangNode( LangComboBox.Text.Substring( LangComboBox.Text.IndexOf('(')+1, 2 ) )
 				);
 			else
-				xmlTI.AppendChild( _fB2Corrector.makeLang() );
+				xmlTI.AppendChild( _fB2Corrector.makeLangNode() );
 			
 			// src-lang
 			if( !string.IsNullOrEmpty( SrcLangComboBox.Text ) ) {
 				xmlTI.AppendChild(
-					_fB2Corrector.makeSrcLang( SrcLangComboBox.Text.Substring( SrcLangComboBox.Text.IndexOf('(')+1, 2 ) )
+					_fB2Corrector.makeSrcLangNode( SrcLangComboBox.Text.Substring( SrcLangComboBox.Text.IndexOf('(')+1, 2 ) )
 				);
 			}
 			
@@ -619,7 +619,7 @@ namespace Core.Common
 			// sequence
 			if( SequenceListView.Items.Count > 0 ) {
 				foreach( ListViewItem item in SequenceListView.Items )
-					xmlTI.AppendChild( _fB2Corrector.makeSequence( item.Text, item.SubItems[1].Text ) );
+					xmlTI.AppendChild( _fB2Corrector.makeSequenceNode( item.Text, item.SubItems[1].Text ) );
 			}
 			return xmlTI;
 		}
@@ -669,7 +669,7 @@ namespace Core.Common
 				xmlDI.AppendChild( Author );
 			
 			// Program Used
-			XmlElement xmlProgramUsed = _fB2Corrector.makeProgramUsed( DIProgramUsedTextBox.Text.Trim() );
+			XmlElement xmlProgramUsed = _fB2Corrector.makeProgramUsedNode( DIProgramUsedTextBox.Text.Trim() );
 			if( xmlProgramUsed != null )
 				xmlDI.AppendChild( xmlProgramUsed );
 			
@@ -677,20 +677,20 @@ namespace Core.Common
 			string DateValue = DIDateValueMaskedTextBox.Text.Trim();
 			if( !string.IsNullOrWhiteSpace( DIDateTextBox.Text ) ) {
 				if( !DateValue.Equals( "-  -" ) )
-					xmlDI.AppendChild( _fB2Corrector.makeDate( DIDateTextBox.Text.Trim(), DateValue ) );
+					xmlDI.AppendChild( _fB2Corrector.makeDateNode( DIDateTextBox.Text.Trim(), DateValue ) );
 				else
-					xmlDI.AppendChild( _fB2Corrector.makeDate( DIDateTextBox.Text.Trim(), null ) );
+					xmlDI.AppendChild( _fB2Corrector.makeDateNode( DIDateTextBox.Text.Trim(), null ) );
 			} else {
 				if( !DateValue.Equals( "-  -" ) )
-					xmlDI.AppendChild( _fB2Corrector.makeDate( null, DateValue ) );
+					xmlDI.AppendChild( _fB2Corrector.makeDateNode( null, DateValue ) );
 				else
-					xmlDI.AppendChild( _fB2Corrector.makeDate( null, null ) );
+					xmlDI.AppendChild( _fB2Corrector.makeDateNode( null, null ) );
 			}
 			
 			// src-url
 			if( !string.IsNullOrWhiteSpace( DIURLTextBox.Text ) ) {
 				string [] URLs = DIURLTextBox.Text.Split( new Char [] { ',',';' } );
-				IList<XmlNode> lSrcUrls = _fB2Corrector.makeSrcUrl( ref URLs );
+				IList<XmlNode> lSrcUrls = _fB2Corrector.makeSrcUrlNode( ref URLs );
 				if( lSrcUrls != null && lSrcUrls.Count > 0 ) {
 					foreach( XmlNode URL in lSrcUrls )
 						xmlDI.AppendChild( URL );
@@ -698,18 +698,18 @@ namespace Core.Common
 			}
 			
 			// src-ocr
-			XmlElement xmlSrcOcr = _fB2Corrector.makeSrcOcr( DIOCRTextBox.Text.Trim() );
+			XmlElement xmlSrcOcr = _fB2Corrector.makeSrcOcrNode( DIOCRTextBox.Text.Trim() );
 			if( xmlSrcOcr != null )
 				xmlDI.AppendChild( xmlSrcOcr );
 			
 			// id
-			xmlDI.AppendChild( _fB2Corrector.makeID( DIIDTextBox.Text.Trim() ) );
+			xmlDI.AppendChild( _fB2Corrector.makeIDNode( DIIDTextBox.Text.Trim() ) );
 			
 			// version
-			xmlDI.AppendChild( _fB2Corrector.makeVersion( DIVersionTextBox.Text.Trim() ) );
+			xmlDI.AppendChild( _fB2Corrector.makeVersionNode( DIVersionTextBox.Text.Trim() ) );
 			
 			// history
-			XmlElement History = _fB2Corrector.makeHistory( DIHistoryRichTextEdit.Lines );
+			XmlElement History = _fB2Corrector.makeHistoryNode( DIHistoryRichTextEdit.Lines );
 			if( History != null )
 				if( !string.IsNullOrWhiteSpace( History.InnerText ) )
 					xmlDI.AppendChild( History );
@@ -732,35 +732,35 @@ namespace Core.Common
 			XmlNode xmlPI = xmlDoc.CreateElement( m_fb2.getPrefix(), "publish-info", m_fb2.getNamespaceURI() );
 			
 			// Book Name
-			XmlNode bn = _fB2Corrector.makePaperBookName( DIBookNameTextBox.Text.Trim() );
+			XmlNode bn = _fB2Corrector.makePaperBookNameNode( DIBookNameTextBox.Text.Trim() );
 			if( bn != null ) {
 				xmlPI.AppendChild( bn );
 				PIExists = true;
 			}
 			
 			// publisher
-			XmlNode pub = _fB2Corrector.makePaperPublisher( DIPublisherTextBox.Text.Trim() );
+			XmlNode pub = _fB2Corrector.makePaperPublisherNode( DIPublisherTextBox.Text.Trim() );
 			if( pub != null ) {
 				xmlPI.AppendChild( pub );
 				PIExists = true;
 			}
 			
 			// city
-			XmlNode city = _fB2Corrector.makePaperCity( DICityTextBox.Text.Trim() );
+			XmlNode city = _fB2Corrector.makePaperCityNode( DICityTextBox.Text.Trim() );
 			if( city != null ) {
 				xmlPI.AppendChild( city);
 				PIExists = true;
 			}
 			
 			// year
-			XmlNode year = _fB2Corrector.makePaperYear( DIYearTextBox.Text.Trim() );
+			XmlNode year = _fB2Corrector.makePaperYearNode( DIYearTextBox.Text.Trim() );
 			if( year != null ) {
 				xmlPI.AppendChild( year );
 				PIExists = true;
 			}
 			
 			// isbn
-			XmlNode isbn = _fB2Corrector.makePaperISBN( DIISBNTextBox.Text.Trim() );
+			XmlNode isbn = _fB2Corrector.makePaperISBNNode( DIISBNTextBox.Text.Trim() );
 			if( isbn != null ) {
 				xmlPI.AppendChild( isbn );
 				PIExists = true;
@@ -770,7 +770,7 @@ namespace Core.Common
 			XmlNode xmlSequence = null;
 			if( PISequenceListView.Items.Count > 0 ) {
 				foreach( ListViewItem item in PISequenceListView.Items ) {
-					xmlSequence = _fB2Corrector.makeSequence( item.Text, item.SubItems[1].Text );
+					xmlSequence = _fB2Corrector.makeSequenceNode( item.Text, item.SubItems[1].Text );
 					xmlPI.AppendChild( xmlSequence );
 				}
 				PIExists = true;
@@ -810,7 +810,9 @@ namespace Core.Common
 				
 				if( CICustomInfoListView.Items.Count > 0 ) {
 					foreach( ListViewItem item in CICustomInfoListView.Items )
-						xmlDesc.AppendChild( _fB2Corrector.makeCustomInfo( item.Text, item.SubItems[1].Text ) );
+						xmlDesc.AppendChild(
+							_fB2Corrector.makeCustomInfoNode( item.Text, item.SubItems[1].Text )
+						);
 					return true;
 				}
 			}

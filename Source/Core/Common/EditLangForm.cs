@@ -68,7 +68,7 @@ namespace Core.Common
 					XmlNode xmlTI = fb2.getTitleInfoNode( TitleInfoEnum.TitleInfo );
 					if( xmlTI != null ) {
 						xmlTI.ReplaceChild(
-							fB2Corrector.makeLang( LangComboBox.Text.Substring( LangComboBox.Text.IndexOf('(')+1, 2 ) ),
+							fB2Corrector.makeLangNode( LangComboBox.Text.Substring( LangComboBox.Text.IndexOf('(')+1, 2 ) ),
 							fb2.getLangNode( TitleInfoEnum.TitleInfo )
 						);
 						

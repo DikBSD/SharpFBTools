@@ -180,7 +180,7 @@ namespace Core.Common
 					IList<string> lHPs = HPs.Split( new Char [] { ',',';' } );
 					string Emails = StringProcessing.trimLastTemplateSymbol( item.SubItems[5].Text.Trim(), new Char [] { ',',';' } );
 					IList<string> lEmails = Emails.Split( new Char [] { ',',';' } );
-					xmlAuthor = fB2Corrector.makeAuthor(
+					xmlAuthor = fB2Corrector.makeAuthorNode(
 						AuthorType,
 						item.SubItems[1].Text, item.SubItems[2].Text, item.Text, item.SubItems[3].Text,
 						lHPs, lEmails, item.SubItems[6].Text
@@ -190,7 +190,7 @@ namespace Core.Common
 			} else {
 				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = new List<XmlNode>();
-					xmlAuthor = fB2Corrector.makeAuthor( AuthorType, null, null, null, null, null, null, null );
+					xmlAuthor = fB2Corrector.makeAuthorNode( AuthorType, null, null, null, null, null, null, null );
 					Authors.Add(xmlAuthor);
 				}
 			}
