@@ -40,12 +40,11 @@ namespace Core.FileManager
 		private readonly bool 		m_NeedValidate		= false;
 		private readonly bool 		m_IsLibrusecGenres	= true;
 		private readonly string		m_dirPath			= null;
-		private IFBGenres			m_fb2FullSortGenres	= null;			// спиок жанров для Полной Сортировки для режима отображения метаданных для файлов Проводника
 		private readonly DateTime	m_dtStart 			= DateTime.Now;
 		#endregion
 		
 		public FB2TagsViewForm( bool isCreateItems, bool isTagsView, bool NeedValidate, bool IsLibrusecGenres,
-		                       IFBGenres fb2FullSortGenres, ListView listViewFB2Files, string dirPath = null )
+		                       ListView listViewFB2Files, string dirPath = null )
 		{
 			InitializeComponent();
 			
@@ -53,7 +52,6 @@ namespace Core.FileManager
 			
 			m_NeedValidate		= NeedValidate;
 			m_IsLibrusecGenres	= IsLibrusecGenres;
-			m_fb2FullSortGenres = fb2FullSortGenres;
 			m_isTagsView		= isTagsView;
 			m_isCreateItems		= isCreateItems;
 			m_listViewFB2Files	= listViewFB2Files;
@@ -89,13 +87,15 @@ namespace Core.FileManager
 		
 		// генерация списка файлов с описанием из метаданных
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
+			IGenresGroup GenresGroup = new GenresGroupForSorting( null );
+			IFBGenres fb2Genres = GenresWorker.genresListOfGenreSheme( m_IsLibrusecGenres, ref GenresGroup );
 			if( !m_isCreateItems ) {
 				// отображение/скрытие метаданных данных книг в Списке Сортировщика
 				if( m_listViewFB2Files.Items.Count > 0 ) {
 					ProgressBar.Maximum	= m_listViewFB2Files.Items.Count;
 					if (
 						!WorksWithBooks.viewOrHideBookMetaDataLocal(
-							m_listViewFB2Files, ref m_fb2FullSortGenres,
+							m_listViewFB2Files, ref fb2Genres,
 							m_IsLibrusecGenres, m_isTagsView, m_NeedValidate,
 							m_bw, e
 						)
@@ -106,7 +106,7 @@ namespace Core.FileManager
 				// генерация списка файлов - создание итемов listViewSource
 				if (
 					!WorksWithBooks.generateBooksListWithMetaData(
-						m_listViewFB2Files, m_dirPath, ref m_fb2FullSortGenres,
+						m_listViewFB2Files, m_dirPath, ref fb2Genres,
 						m_IsLibrusecGenres, m_isTagsView, true, m_NeedValidate,
 						false, this, ProgressBar, m_bw, e
 					)

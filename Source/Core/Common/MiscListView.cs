@@ -358,12 +358,10 @@ namespace Core.Common
 		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Корректора
 		public static bool removeChechedItemsNotDeleteFiles( ListView listViewFB2Files ) {
 			bool Result = false;
-			listViewFB2Files.BeginUpdate();
 			foreach( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
 				listViewFB2Files.Items.Remove( lvi );
 				Result = true;
 			}
-			listViewFB2Files.EndUpdate();
 			return Result;
 		}
 		
@@ -372,9 +370,11 @@ namespace Core.Common
 			bool Result = false;
 			listViewFB2Files.BeginUpdate();
 			foreach( ListViewItem lvi in listViewFB2Files.Items ) {
-				if ( !File.Exists( Path.Combine( SourseDir, lvi.Text ) ) ) {
-					listViewFB2Files.Items.Remove( lvi );
-					Result = true;
+				if( ((ListViewItemType)lvi.Tag).Type == "f" ) {
+					if ( !File.Exists( Path.Combine( SourseDir, lvi.Text ) ) ) {
+						listViewFB2Files.Items.Remove( lvi );
+						Result = true;
+					}
 				}
 			}
 			listViewFB2Files.EndUpdate();
@@ -398,14 +398,13 @@ namespace Core.Common
 				}
 			} else {
 				// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
-				WorksWithBooks.MarkRemoverFileInCopyesList( RemoveListViewItem );
+				WorksWithBooks.markRemoverFileInCopyesList( RemoveListViewItem );
 			}
 		}
 		
 		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
 		public static bool deleteAllItemForNonExistFile( ListView listViewFB2Files ) {
 			bool Result = false;
-//			listViewFB2Files.BeginUpdate();
 			foreach( ListViewItem lvi in listViewFB2Files.Items ) {
 				if ( !File.Exists( lvi.Text ) ) {
 					ListViewGroup lvg = lvi.Group;
@@ -419,7 +418,6 @@ namespace Core.Common
 					Result = true;
 				}
 			}
-//			listViewFB2Files.EndUpdate();
 			return Result;
 		}
 		
@@ -449,6 +447,7 @@ namespace Core.Common
 				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllGroups].SubItems[1].Text) - RemoveGroupCount).ToString();
 			lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBoolsInAllGroups].SubItems[1].Text =
 				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
+			
 			listViewFB2Files.EndUpdate();
 			return Result;
 		}

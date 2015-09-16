@@ -39,7 +39,7 @@ namespace Core.Corrector
 		private readonly ListView		m_listViewFB2Files	= new ListView();
 		private readonly EndWorkMode	m_EndMode			= new EndWorkMode();
 		
-		private readonly int			m_LastSelectedItem	= -1; // выделенный итем, на котором закончилась обработка списка...
+		private 		 int			m_LastSelectedItem	= -1; // выделенный итем, на котором закончилась обработка списка...
 		
 		private readonly DateTime		m_dtStart;
 		private BackgroundWorker		m_bw = null; // фоновый обработчик
@@ -70,6 +70,9 @@ namespace Core.Corrector
 		#region Открытые свойства
 		public virtual EndWorkMode EndMode {
 			get { return m_EndMode; }
+		}
+		public virtual int LastSelectedItem {
+			get { return m_LastSelectedItem; }
 		}
 		#endregion
 		
@@ -279,8 +282,8 @@ namespace Core.Corrector
 						}
 						bw.ReportProgress( ++i );
 					}
-					int SelectedItem = Convert.ToInt32( xmlTree.Element("SelectedItem").Value );
-					MiscListView.SelectedItemEnsureVisible(m_listViewFB2Files, SelectedItem == -1 ? 0 : SelectedItem );
+					m_LastSelectedItem = Convert.ToInt32( xmlTree.Element("SelectedItem").Value );
+					MiscListView.SelectedItemEnsureVisible(m_listViewFB2Files, m_LastSelectedItem == -1 ? 0 : m_LastSelectedItem );
 				}
 			}
 		}

@@ -132,6 +132,8 @@ namespace Core.Common
 		public virtual string FileLength {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );
+				if ( !fi.Exists )
+					return string.Empty;
 				return filesWorker.FormatFileLength( fi.Length );
 			}
 		}
@@ -140,6 +142,8 @@ namespace Core.Common
 		public virtual string FileCreationTime {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );
+				if ( !fi.Exists )
+					return string.Empty;
 				return fi.CreationTime.ToString();
 			}
 		}
@@ -147,6 +151,8 @@ namespace Core.Common
 		public virtual string FileLastWriteTime {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );
+				if ( !fi.Exists )
+					return string.Empty;
 				return fi.LastWriteTime.ToString();
 			}
 		}

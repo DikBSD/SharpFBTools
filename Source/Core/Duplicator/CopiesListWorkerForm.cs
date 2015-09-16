@@ -45,7 +45,7 @@ namespace Core.Duplicator
 		private readonly StatusView		m_StatusView		= new StatusView();
 		private readonly EndWorkMode	m_EndMode			= new EndWorkMode();
 		
-		private readonly int			m_LastSelectedItem	= -1;	// выделенный итем, на котором закончилась обработка списка...
+		private 		 int			m_LastSelectedItem	= -1;	// выделенный итем, на котором закончилась обработка списка...
 		private readonly int			m_GroupCountForList	= 500;	// ограничитель числа групп для кажого файла
 		
 		private readonly DateTime		m_dtStart;
@@ -89,6 +89,9 @@ namespace Core.Duplicator
 		#region Открытые свойства
 		public virtual EndWorkMode EndMode {
 			get { return m_EndMode; }
+		}
+		public virtual int LastSelectedItem {
+			get { return m_LastSelectedItem; }
 		}
 		#endregion
 		
@@ -270,7 +273,7 @@ namespace Core.Duplicator
 					xeGroup.SetAttributeValue( "count", ++BookCountInGroup );
 					if( !File.Exists( lvi.SubItems[(int)ResultViewDupCollumn.Path].Text ) ) {
 						// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
-						WorksWithBooks.MarkRemoverFileInCopyesList( lvi );
+						WorksWithBooks.markRemoverFileInCopyesList( lvi );
 					}
 				}
 				if( !xeGroup.HasElements ) {
@@ -433,8 +436,8 @@ namespace Core.Duplicator
 				}
 			}
 			ViewDupProgressData();
-			int SelectedItem = Convert.ToInt32( xmlTree.Element("SelectedItem").Value );
-			MiscListView.SelectedItemEnsureVisible(m_lvResult, SelectedItem == -1 ? 0 : SelectedItem );
+			m_LastSelectedItem = Convert.ToInt32( xmlTree.Element("SelectedItem").Value );
+			MiscListView.SelectedItemEnsureVisible(m_lvResult, m_LastSelectedItem == -1 ? 0 : m_LastSelectedItem );
 		}
 		
 		// создание хеш-таблицы для групп одинаковых книг

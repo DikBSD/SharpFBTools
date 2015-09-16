@@ -149,6 +149,16 @@ namespace Core.Common
 		}
 		
 		/// <summary>
+		/// Режимы автокорректировки книг
+		/// </summary>
+		public enum BooksAutoCorrectMode : byte {
+			CheckedBooks,		// помеченные книги
+			SelectedBooks,		// выделенные книги
+			BooksInGroup,		// В текущей Группе
+			BooksInAllGroup,	// Во всех Группах
+		}
+		
+		/// <summary>
 		/// Режим сортировки книг - по числу Авторов и Жанров
 		/// </summary>
 //		public enum SortModeType : byte {

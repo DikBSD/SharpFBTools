@@ -212,7 +212,7 @@ namespace Core.Common
 
 	#region FB2ItemInfo
 	/// <summary>
-	/// FB2ItemInfo: Класс хранения данных редактируемого Автора / Жанра
+	/// FB2ItemInfo: Класс хранения данных редактируемого Автора / Жанра / Языка
 	/// </summary>
 	public class FB2ItemInfo {
 		#region Закрытые данные класса
@@ -258,6 +258,56 @@ namespace Core.Common
 		public virtual FictionBook FictionBook {
 			get {
 				return m_fb2;
+			}
+		}
+		public virtual bool IsDirListViewItem {
+			get {
+				return ((ListViewItemType)m_FB2ListViewItem.Tag).Type == "d" ? true : false;
+			}
+		}
+		public virtual bool IsFileListViewItem {
+			get {
+				return ((ListViewItemType)m_FB2ListViewItem.Tag).Type == "f" ? true : false;
+			}
+		}
+		#endregion
+	}
+	#endregion
+	
+	#region ItemInfo
+	/// <summary>
+	/// Класс хранения данных для выбранного итема Списка
+	/// </summary>
+	public class ListViewItemInfo {
+		#region Закрытые данные класса
+		private readonly ListViewItem m_ListViewItem = null;
+		private readonly string m_FilePathSource = null;
+		#endregion
+		
+		public ListViewItemInfo( ListViewItem ListViewItem, string FilePathSource ) {
+			m_ListViewItem = ListViewItem;
+			m_FilePathSource = FilePathSource.Replace( @"\\", @"\" );
+		}
+		
+		#region Открытые свойства
+		public virtual string FilePathSource {
+			get {
+				return m_FilePathSource;
+			}
+		}
+		public virtual ListViewItem ListViewItem {
+			get {
+				return m_ListViewItem;
+			}
+		}
+		public virtual bool IsDirListViewItem {
+			get {
+				return ((ListViewItemType)m_ListViewItem.Tag).Type == "d" ? true : false;
+			}
+		}
+		public virtual bool IsFileListViewItem {
+			get {
+				return ((ListViewItemType)m_ListViewItem.Tag).Type == "f" ? true : false;
 			}
 		}
 		#endregion

@@ -123,6 +123,136 @@ namespace Main.Tools {
 		/// <summary>
 		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
 		/// </summary>
+		internal static System.Drawing.Bitmap toolStripButtonCopyCheckedFb2To_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripButtonCopyCheckedFb2To.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripButtonDiffFB2_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripButtonDiffFB2.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripButtonEditDescription_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripButtonEditDescription.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripButtonEditInFB2Editor_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripButtonEditInFB2Editor.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripButtonEditInTextEditor_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripButtonEditInTextEditor.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripButtonViewInReader_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripButtonViewInReader.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripDropDownButtonDeleteCheckedFb2_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripDropDownButtonDeleteCheckedFb2.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripDropDownButtonEditAuthors_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripDropDownButtonEditAuthors.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripDropDownButtonEditGenres_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripDropDownButtonEditGenres.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripDropDownButtonMoveCheckedFb2To_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripDropDownButtonMoveCheckedFb2To.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripDropDownButtonNewID_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripDropDownButtonNewID.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripDropDownButtonRecoveryDescription_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripDropDownButtonRecoveryDescription.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap toolStripMenuItem11_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripMenuItem11.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
 		internal static System.Drawing.Bitmap tsbtnDupCurrentSaveList_Image {
 			get {
 				object obj = ResourceManager.GetObject("tsbtnDupCurrentSaveList.Image", resourceCulture);

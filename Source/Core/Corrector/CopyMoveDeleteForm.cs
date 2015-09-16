@@ -7,25 +7,23 @@
  * License: GPL 2.1
  */
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 using System.IO;
 
 using EndWorkMode		= Core.Common.EndWorkMode;
 using FilesWorker		= Core.Common.FilesWorker;
-using BooksWorkMode		= Core.Common.Enums.BooksWorkMode;
 using WorksWithBooks	= Core.Common.WorksWithBooks;
 using MiscListView		= Core.Common.MiscListView;
 
 // enums
 using EndWorkModeEnum	= Core.Common.Enums.EndWorkModeEnum;
+using BooksWorkMode		= Core.Common.Enums.BooksWorkMode;
 
 namespace Core.Corrector
 {
 	/// <summary>
-	/// CopyMoveDeleteForm: Обработка помеченных fb2-файлов: Copy / Move / Delete для Редактора метаданных
+	/// Обработка помеченных fb2-файлов: Copy / Move / Delete для Редактора метаданных
 	/// </summary>
 	public partial class CopyMoveDeleteForm : Form
 	{
@@ -217,11 +215,11 @@ namespace Core.Corrector
 								lvResult.Items.Remove( lvi );
 							else {
 								// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
-								WorksWithBooks.MarkRemoverFileInCopyesList( lvi );
+								WorksWithBooks.markRemoverFileInCopyesList( lvi );
 							}
 						}
 						m_bFilesWorked |= true;
-						bw.ReportProgress( ++i ); // отобразим данные в контролах
+						bw.ReportProgress( ++i ); 
 					}
 				}
 			}
@@ -245,11 +243,11 @@ namespace Core.Corrector
 								lvResult.Items.Remove( lvi );
 						} else {
 							// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
-							WorksWithBooks.MarkRemoverFileInCopyesList( lvi );
+							WorksWithBooks.markRemoverFileInCopyesList( lvi );
 						}
 						m_bFilesWorked |= true;
 					}
-					bw.ReportProgress( ++i ); // отобразим данные в контролах
+					bw.ReportProgress( ++i );
 				}
 			}
 		}

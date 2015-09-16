@@ -99,6 +99,10 @@
     <Compile Include="Common\StringProcessing.cs" />
     <Compile Include="Common\WorksWithBooks.cs" />
     <Compile Include="Common\ZipFB2Worker.cs" />
+    <Compile Include="Corrector\AutoCorrectorForm.cs" />
+    <Compile Include="Corrector\AutoCorrectorForm.Designer.cs">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Corrector\BooksListWorkerForm.cs" />
     <Compile Include="Corrector\BooksListWorkerForm.Designer.cs">
       <DependentUpon>BooksListWorkerForm.cs</DependentUpon>
@@ -115,6 +119,10 @@
     <Compile Include="Corrector\ValidatorForm.cs" />
     <Compile Include="Corrector\ValidatorForm.Designer.cs">
       <DependentUpon>ValidatorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Duplicator\AutoCorrectorForm.cs" />
+    <Compile Include="Duplicator\AutoCorrectorForm.Designer.cs">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Duplicator\CheckedBooksPathToXMLForm.cs" />
     <Compile Include="Duplicator\CheckedBooksPathToXMLForm.Designer.cs">
@@ -149,6 +157,9 @@
     <EmbeddedResource Include="Common\SequenceInfoForm.resx">
       <DependentUpon>SequenceInfoForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\AutoCorrectorForm.resx">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Corrector\BooksListWorkerForm.resx">
       <DependentUpon>BooksListWorkerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -160,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Corrector\ValidatorForm.resx">
       <DependentUpon>ValidatorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\AutoCorrectorForm.resx">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Duplicator\CheckedBooksPathToXMLForm.resx">
       <DependentUpon>CheckedBooksPathToXMLForm.cs</DependentUpon>
