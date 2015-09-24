@@ -38,7 +38,6 @@ namespace Core.Duplicator
 		private readonly ComboBox		m_cboxMode			= new ComboBox();
 		private readonly TextBox		m_tboxSourceDir		= new TextBox();
 		private readonly CheckBox		m_chBoxScanSubDir	= new CheckBox();
-		private readonly CheckBox 		m_chBoxIsValid		= new CheckBox();
 		private readonly RadioButton	m_rbtnFB2Librusec	= new RadioButton();
 		private readonly ListView		m_lvResult			= new ListView();
 		private readonly ListView		m_lvFilesCount		= new ListView();
@@ -54,7 +53,7 @@ namespace Core.Duplicator
 
 		public CopiesListWorkerForm( BooksWorkMode WorkMode, string DirOrFileName, ComboBox cboxMode,
 		                            ListView lvResult, ListView lvFilesCount, TextBox tboxSourceDir,
-		                            CheckBox chBoxScanSubDir, CheckBox chBoxIsValid, RadioButton rbtnFB2Librusec,
+		                            CheckBox chBoxScanSubDir, RadioButton rbtnFB2Librusec,
 		                            int LastSelectedItem, int GroupCountForList
 		                           )
 		{
@@ -63,7 +62,6 @@ namespace Core.Duplicator
 			m_cboxMode			= cboxMode;
 			m_tboxSourceDir		= tboxSourceDir;
 			m_chBoxScanSubDir	= chBoxScanSubDir;
-			m_chBoxIsValid		= chBoxIsValid;
 			m_rbtnFB2Librusec	= rbtnFB2Librusec;
 			m_lvResult			= lvResult;
 			m_lvFilesCount		= lvFilesCount;
@@ -201,7 +199,6 @@ namespace Core.Duplicator
 				             new XComment("Настройки поиска-сравнения fb2 книг"),
 				             new XElement("Settings",
 				                          new XElement("ScanSubDirs", m_chBoxScanSubDir.Checked),
-				                          new XElement("CheckValidate", m_chBoxIsValid.Checked),
 				                          new XElement("GenresFB2Librusec", m_rbtnFB2Librusec.Checked)),
 				             new XComment("Режим поиска-сравнения fb2 книг"),
 				             new XElement("CompareMode",
@@ -373,7 +370,6 @@ namespace Core.Duplicator
 			// устанавливаем данные настройки поиска-сравнения
 			m_tboxSourceDir.Text = xmlTree.Element("SourceDir").Value;
 			m_chBoxScanSubDir.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("ScanSubDirs").Value );
-			m_chBoxIsValid.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("CheckValidate").Value );
 			m_rbtnFB2Librusec.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("GenresFB2Librusec").Value );
 			
 			//загрузка данных о ходе сравнения

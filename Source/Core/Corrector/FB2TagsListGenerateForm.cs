@@ -35,14 +35,12 @@ namespace Core.Corrector
 		private readonly EndWorkMode m_EndMode			= new EndWorkMode();
 		private readonly string		m_TempDir			= Settings.Settings.TempDir;
 		private readonly string		m_dirPath			= null;
-		private readonly bool		m_NeedValidate		= false;
 		private readonly bool		m_autoResizeColumns	= false;
 		private readonly bool		m_IsLibrusecGenres	= true;
 		private readonly DateTime	m_dtStart 			= DateTime.Now;
 		#endregion
 		
-		public FB2TagsListGenerateForm( bool IsLibrusecGenres, ListView listView, string dirPath,
-		                               bool NeedValidate, bool AutoResizeColumns )
+		public FB2TagsListGenerateForm( bool IsLibrusecGenres, ListView listView, string dirPath, bool AutoResizeColumns )
 		{
 			InitializeComponent();
 			
@@ -50,7 +48,6 @@ namespace Core.Corrector
 			
 			m_IsLibrusecGenres	= IsLibrusecGenres;
 			m_autoResizeColumns = AutoResizeColumns;
-			m_NeedValidate		= NeedValidate;
 			m_listView			= listView;
 			m_dirPath			= dirPath;
 			ProgressBar.Value	= 0;
@@ -87,7 +84,7 @@ namespace Core.Corrector
 			IGenresGroup GenresGroup = new GenresGroup();
 			IFBGenres fb2Genres = GenresWorker.genresListOfGenreSheme( m_IsLibrusecGenres, ref GenresGroup );
 			if ( !WorksWithBooks.generateBooksListWithMetaData( m_listView, m_dirPath, ref fb2Genres, m_IsLibrusecGenres,
-			                                                   true, false, m_NeedValidate, false,
+			                                                   true, false, false,
 			                                                   this, ProgressBar, m_bw, e ) )
 				e.Cancel = true;
 		}

@@ -19,6 +19,8 @@ using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.Common;
 using Core.FB2.FB2Parsers;
 
+using FB2Validator = Core.FB2Parser.FB2Validator;
+
 // enums
 using ResultViewCollumn		= Core.Common.Enums.ResultViewCollumn;
 using ResultViewDupCollumn	= Core.Common.Enums.ResultViewDupCollumn;
@@ -31,6 +33,8 @@ namespace Core.Common
 	/// </summary>
 	public class WorksWithBooks
 	{
+		private readonly static FB2Validator m_fv2Validator	= new FB2Validator();
+		
 		public WorksWithBooks()
 		{
 		}
@@ -279,7 +283,7 @@ namespace Core.Common
 		public static ListViewItem.ListViewSubItem[]
 			createSubItemsWithMetaData( string FilePath, string SourceFileExt,
 			                           ListViewItem Item, ref IFBGenres FB2FullSortGenres,
-			                           bool IsLibrusecGenres, bool NeedValidate ) {
+			                           bool IsLibrusecGenres ) {
 			FB2BookDescription bd = null;
 			try {
 				bd = new FB2BookDescription( FilePath );
@@ -287,18 +291,16 @@ namespace Core.Common
 			}
 			
 			string valid = "?";
-			if(	NeedValidate ) {
-				if ( bd != null )
-					valid = IsLibrusecGenres ? bd.IsValidFB2Librusec : bd.IsValidFB22;
-				else
-					valid = ZipFB2Worker.IsValid( FilePath, IsLibrusecGenres );
-				if ( !string.IsNullOrEmpty( valid ) ) {
-					valid = "Нет";
-					Item.ForeColor = Colors.FB2NotValidForeColor;
-				} else {
-					valid = "Да";
-					Item.ForeColor = SourceFileExt == ".fb2" ? Color.FromName( "WindowText" ) : Colors.ZipFB2ForeColor;
-				}
+			if ( bd != null )
+				valid = IsLibrusecGenres ? bd.IsValidFB2Librusec : bd.IsValidFB22;
+			else
+				valid = m_fv2Validator.ValidatingFB2File( FilePath, IsLibrusecGenres );
+			if ( !string.IsNullOrEmpty( valid ) ) {
+				valid = "Нет";
+				Item.ForeColor = Colors.FB2NotValidForeColor;
+			} else {
+				valid = "Да";
+				Item.ForeColor = SourceFileExt == ".fb2" ? Colors.FB2ForeColor : Colors.ZipFB2ForeColor;
 			}
 			
 			return new ListViewItem.ListViewSubItem[] {
@@ -319,24 +321,22 @@ namespace Core.Common
 		}
 		
 		// занесение данных в выделенный итем (метаданные книги после правки) для Корректора
-		public static bool viewBookMetaDataLocal( ref FB2BookDescription fb2Desc, ListViewItem lvi,
-		                                         bool IsNeedValid, bool IsFB2Librusec, ref IFBGenres FB2Genres ) {
+		public static bool viewBookMetaDataLocal( ref string SrcFilePath, ref FB2BookDescription fb2Desc, ListViewItem lvi,
+		                                         bool IsFB2Librusec, ref IFBGenres FB2Genres ) {
 			if( lvi != null ) {
 				if( fb2Desc != null ) {
-					string fileExtention = Path.GetExtension(fb2Desc.FilePath).ToLower();
-					string valid = "?";
-					if(	IsNeedValid ) {
-						valid = IsFB2Librusec ? fb2Desc.IsValidFB2Librusec : fb2Desc.IsValidFB22;
-						if ( string.IsNullOrEmpty( valid )  ) {
-							valid = "Да";
-							lvi.ForeColor = fileExtention == ".fb2"
-								? Color.FromName( "WindowText" )
-								: Colors.ZipFB2ForeColor;
-						} else {
-							valid = "Нет";
-							lvi.ForeColor = Colors.FB2NotValidForeColor;
-						}
+					string fileExtention = Path.GetExtension( SrcFilePath ).ToLower();
+					string valid = IsFB2Librusec ? fb2Desc.IsValidFB2Librusec : fb2Desc.IsValidFB22;
+					if ( string.IsNullOrEmpty( valid ) ) {
+						valid = "Да";
+						lvi.ForeColor = fileExtention == ".fb2"
+							? Colors.FB2ForeColor
+							: Colors.ZipFB2ForeColor;
+					} else {
+						valid = "Нет";
+						lvi.ForeColor = Colors.FB2NotValidForeColor;
 					}
+
 					lvi.SubItems[(int)ResultViewCollumn.BookTitle].Text = fb2Desc.TIBookTitle;
 					lvi.SubItems[(int)ResultViewCollumn.Authors].Text = fb2Desc.TIAuthors;
 					lvi.SubItems[(int)ResultViewCollumn.Genres].Text = GenresWorker.cyrillicGenreName( fb2Desc.TIGenres, ref FB2Genres );
@@ -357,24 +357,28 @@ namespace Core.Common
 			return false;
 		}
 		// скрыть метаданные итема в Списке для Корректора
-		public static void hideMetaDataLocal( ListViewItem Item, bool IsNeedvalidate ) {
+		public static void hideMetaDataLocal( ListViewItem Item ) {
 			for( int i = 1; i != Item.SubItems.Count; ++i )
 				Item.SubItems[i].Text = string.Empty;
-			Item.ForeColor = Colors.FB2NotValidForeColor;
-			Item.SubItems[(int)ResultViewCollumn.Validate].Text = IsNeedvalidate ? "Нет" : "?";
-			Item.SubItems[(int)ResultViewCollumn.Format].Text = Item.Text.Substring(Item.Text.LastIndexOf('.'));
+			
+			string ItemType = ((ListViewItemType)Item.Tag).Type;
+			if( ItemType == "f" ) {
+				Item.ForeColor = Colors.FB2NotValidForeColor;
+				Item.SubItems[(int)ResultViewCollumn.Validate].Text = "Нет";
+				Item.SubItems[(int)ResultViewCollumn.Format].Text = Item.Text.Substring(Item.Text.LastIndexOf('.'));
+			}
 		}
 		// скрыть метаданные итема в Списке для Дубликатора
-		public static void hideMetaDataLocalForDup( ListViewItem Item, bool IsNeedvalidate ) {
+		public static void hideMetaDataLocalForDup( ListViewItem Item ) {
 			for( int i = 1; i != Item.SubItems.Count; ++i )
 				Item.SubItems[i].Text = string.Empty;
 			Item.ForeColor = Colors.FB2NotValidForeColor;
-			Item.SubItems[(int)ResultViewDupCollumn.Validate].Text = IsNeedvalidate ? "Нет" : "?";
+			Item.SubItems[(int)ResultViewDupCollumn.Validate].Text = "Нет";
 		}
 		
 		// показать данные книги для Сортировщика
 		public static void viewBookMetaDataLocal( string FilePath, ListView listViewSource, IFBGenres FB2FullSortGenres,
-		                                         int ItemNumber, string TempDir, bool IsLibrusecGenres, bool NeedValidate ) {
+		                                         int ItemNumber, string TempDir, bool IsLibrusecGenres ) {
 			string valid = "?";
 			FB2BookDescription bd = null;
 			string FileExtension = Path.GetExtension( FilePath ).ToLower();
@@ -382,18 +386,18 @@ namespace Core.Common
 				if( FileExtension == ".fb2" ) {
 					// показать данные fb2 файлов
 					bd = new FB2BookDescription( FilePath );
-					if(	NeedValidate ) {
-						valid = IsLibrusecGenres ? bd.IsValidFB2Librusec : bd.IsValidFB22;
-						if ( !string.IsNullOrEmpty( valid ) ) {
-							valid = "Нет";
-							listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
-						} else {
-							valid = "Да";
-							listViewSource.ForeColor = FileExtension == ".fb2"
-								? Color.FromName( "WindowText" )
-								: Colors.ZipFB2ForeColor;
-						}
+
+					valid = IsLibrusecGenres ? bd.IsValidFB2Librusec : bd.IsValidFB22;
+					if ( !string.IsNullOrEmpty( valid ) ) {
+						valid = "Нет";
+						listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
+					} else {
+						valid = "Да";
+						listViewSource.ForeColor = FileExtension == ".fb2"
+							? Colors.FB2ForeColor
+							: Colors.ZipFB2ForeColor;
 					}
+
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumn.BookTitle].Text = bd.TIBookTitle;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumn.Authors].Text = bd.TIAuthors;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumn.Genres].Text = GenresWorker.cyrillicGenreName(
@@ -416,18 +420,18 @@ namespace Core.Common
 					sharpZipLib.UnZipFiles( FilePath, TempDir, 0, true, null, 4096 );
 					string [] files = Directory.GetFiles( TempDir );
 					bd = new FB2BookDescription( files[0] );
-					if(	NeedValidate ) {
-						valid = IsLibrusecGenres ? bd.IsValidFB2Librusec : bd.IsValidFB22;
-						if ( !string.IsNullOrEmpty( valid ) ) {
-							valid = "Нет";
-							listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
-						} else {
-							valid = "Да";
-							listViewSource.Items[ItemNumber].ForeColor = FileExtension == ".fb2"
-								? Color.FromName( "WindowText" )
-								: Colors.ZipFB2ForeColor;
-						}
+
+					valid = IsLibrusecGenres ? bd.IsValidFB2Librusec : bd.IsValidFB22;
+					if ( !string.IsNullOrEmpty( valid ) ) {
+						valid = "Нет";
+						listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
+					} else {
+						valid = "Да";
+						listViewSource.Items[ItemNumber].ForeColor = FileExtension == ".fb2"
+							? Colors.FB2ForeColor
+							: Colors.ZipFB2ForeColor;
 					}
+
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumn.BookTitle].Text = bd.TIBookTitle;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumn.Authors].Text = bd.TIAuthors;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumn.Genres].Text = GenresWorker.cyrillicGenreName(
@@ -460,7 +464,6 @@ namespace Core.Common
 		/// <param name="IsLibrusecGenres">true - Схема Жанров от Либрусек</param>
 		/// <param name="isTagsView">Нужно ли отображатьметаданные книг в списке</param>
 		/// <param name="itemChecked">Нужно ли ставить пометку на созданный ListLiewItem</param>
-		/// <param name="NeedValidate">Нужно ли проводить валидацию книги</param>
 		/// <param name="AutoResizeColumns">Нужно ли проводить авторазмер колонок списка</param>
 		/// <param name="form">Форма прогреса Windows.Form (null, если не используется)</param>
 		/// <param name="ProgressBar">Прогресc Windows.ProgressBar.ProgressBar (null, если не используется)</param>
@@ -469,7 +472,7 @@ namespace Core.Common
 		/// <returns>true - список сформирован; false - прерывание генерации списка</returns>
 		public static bool generateBooksListWithMetaData( ListView listView, string dirPath, ref IFBGenres fb2g,
 		                                                 bool IsLibrusecGenres, bool isTagsView, bool itemChecked,
-		                                                 bool NeedValidate, bool AutoResizeColumns,
+		                                                 bool AutoResizeColumns,
 		                                                 Form form = null, ProgressBar ProgressBar = null,
 		                                                 BackgroundWorker bw = null, DoWorkEventArgs e = null ) {
 			if ( !Directory.Exists( dirPath ) )
@@ -533,15 +536,15 @@ namespace Core.Common
 								return false;
 							}
 						}
-						string Ext = file.Extension.ToLower();
-						if( Ext == ".fb2" || Ext == ".zip" || Ext == ".fbz" ) {
-							item = new ListViewItem( file.Name, Ext == ".fb2" ? 1 : 2 );
+						string FileExt = file.Extension.ToLower();
+						if( FileExt == ".fb2" || FileExt == ".zip" || FileExt == ".fbz" ) {
+							item = new ListViewItem( file.Name, FileExt == ".fb2" ? 1 : 2 );
 							try {
-								if( Ext == ".fb2" ) {
+								if( FileExt == ".fb2" ) {
 									if( isTagsView ) {
+										item.ForeColor = Colors.FB2ForeColor;
 										subItems = createSubItemsWithMetaData(
-											file.FullName, Ext, item, ref fb2g, IsLibrusecGenres,
-											NeedValidate
+											file.FullName, FileExt, item, ref fb2g, IsLibrusecGenres
 										);
 									} else
 										subItems = createEmptySubItemsForItem( item );
@@ -551,22 +554,21 @@ namespace Core.Common
 										FilesWorker.RemoveDir( TempDir );
 										sharpZipLib.UnZipFiles( file.FullName, TempDir, 0, false, null, 4096 );
 										string [] files = Directory.GetFiles( TempDir );
-										Ext = Path.GetExtension( files[0] ).ToLower();
-										if ( Ext == ".fb2") {
-											subItems = createSubItemsWithMetaData(
-												files[0], Ext, item, ref fb2g, IsLibrusecGenres,
-												NeedValidate
-											);
+										string ExtFromZip = Path.GetExtension( files[0] ).ToLower();
+										if ( ExtFromZip == ".fb2") {
 											item.ForeColor = Colors.ZipFB2ForeColor;
+											subItems = createSubItemsWithMetaData(
+												files[0], FileExt, item, ref fb2g, IsLibrusecGenres
+											);
 										} else {
-											subItems = createEmptySubItemsForItem( item );
 											item.ForeColor = Colors.BadZipForeColor;
+											subItems = createEmptySubItemsForItem( item );
 										}
 									} else
 										subItems = createEmptySubItemsForItem( item );
 								}
 								item.SubItems.AddRange(subItems);
-							} catch(System.Exception) {
+							} catch(System.Exception /*e*/) {
 								subItems = createEmptySubItemsForItem( item );
 								item.SubItems.AddRange(subItems);
 								item.ForeColor = Colors.BadZipForeColor;
@@ -604,12 +606,11 @@ namespace Core.Common
 		/// <param name="fb2g">Список Жанров IFBGenres</param>
 		/// <param name="IsLibrusecGenres">true - Схема Жанров от Либрусек</param>
 		/// <param name="isTagsView">Нужно ли отображатьметаданные книг в списке</param>
-		/// <param name="NeedValidate">Нужно ли проводить валидацию книги</param>
 		/// <param name="bw">Фоновый обработчик BackgroundWorker (null, если не используется)</param>
 		/// <param name="e">DoWorkEventArgs (null, если не используется)</param>
 		/// <returns>true - список сформирован; false - прерывание генерации списка</returns>
 		public static bool viewOrHideBookMetaDataLocal( ListView listViewFB2Files, ref IFBGenres fb2g,
-		                                               bool IsLibrusecGenres, bool isTagsView, bool NeedValidate,
+		                                               bool IsLibrusecGenres, bool isTagsView,
 		                                               BackgroundWorker bw = null, DoWorkEventArgs e = null ) {
 			ListViewItemType it	= null;
 			string TempDir = Settings.Settings.TempDir;
@@ -626,7 +627,7 @@ namespace Core.Common
 					if( isTagsView ) {
 						// показать данные книг
 						viewBookMetaDataLocal(
-							it.Value, listViewFB2Files, fb2g, i, TempDir, IsLibrusecGenres, NeedValidate
+							it.Value, listViewFB2Files, fb2g, i, TempDir, IsLibrusecGenres
 						);
 					} else {
 						// скрыть данные книг
@@ -692,9 +693,10 @@ namespace Core.Common
 		}
 
 		// восстановление структуры description fb2 файла
-		public static bool recoveryFB2Structure( ref FB2Corrector fB2Corrector, ListViewItem lvi ) {
-			if (fB2Corrector.recoveryDescriptionNode() ) {
-				lvi.ForeColor = Color.FromName( "WindowText" );
+		public static bool recoveryFB2Structure( ref FB2Corrector fB2Corrector, ListViewItem lvi, string FilePath ) {
+			if ( fB2Corrector.recoveryDescriptionNode() ) {
+				lvi.ForeColor = Path.GetExtension(FilePath).ToLower() == ".fb2"
+					? Colors.FB2ForeColor : Colors.ZipFB2ForeColor;
 				return true;
 			}
 			return false;
@@ -786,7 +788,7 @@ namespace Core.Common
 		// автокорректировка всех выделеннеых/помеченных книг для Корректора и Дубликатора
 		// OneBook = false - обработка для нескольких книг в цикле вызывающего кода
 		public static void autoCorrect( ListViewItem Item, string SrcFilePath,
-		                               bool IsFB2Librusec, bool IsNeedValid, bool OneBook, SharpZipLibWorker sharpZipLib ) {
+		                               bool IsFB2Librusec, bool OneBook, SharpZipLibWorker sharpZipLib ) {
 			string SourceFilePath = SrcFilePath;
 			string FilePath = SourceFilePath;
 			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, Settings.Settings.TempDir );
@@ -806,7 +808,7 @@ namespace Core.Common
 			if( fb2 != null ) {
 				// восстанавление раздела description до структуры с необходимыми элементами для валидности
 				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
-				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item );
+				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SrcFilePath );
 				fB2Corrector.saveToFB2File( FilePath );
 				
 				if( IsFromZip ) {
@@ -825,12 +827,12 @@ namespace Core.Common
 				IGenresGroup GenresGroup = new GenresGroup();
 				IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( IsFB2Librusec, ref GenresGroup );
 				try {
-					FB2BookDescription fb2Corrected = new FB2BookDescription( SourceFilePath );
+					FB2BookDescription fb2Desc = new FB2BookDescription( SourceFilePath );
 					viewBookMetaDataLocal(
-						ref fb2Corrected, Item, IsNeedValid, IsFB2Librusec, ref fb2g
+						ref SrcFilePath, ref fb2Desc, Item, IsFB2Librusec, ref fb2g
 					);
-					FilesWorker.RemoveDir( Settings.Settings.TempDir );
-				} catch ( System.Exception ) {
+				} catch ( System.Exception /*e*/ ) {
+				} finally {
 					FilesWorker.RemoveDir( Settings.Settings.TempDir );
 				}
 			}
@@ -866,9 +868,21 @@ namespace Core.Common
 						File.Delete( SourceFilePath );
 					File.Move( ArchFile, SourceFilePath );
 				}
-
 			}
 		}
 		
+		// Занесение данных о валидации в поле детализации
+		public static string isValidate( string SrcFilePath, TextBox tbValidate, bool IsFB2Librusec ) {
+			string Result = m_fv2Validator.ValidatingFB2File( SrcFilePath, IsFB2Librusec );
+			if ( string.IsNullOrEmpty( Result ) ) {
+				tbValidate.Text = "Все в порядке - файл валидный!";
+			} else {
+				tbValidate.Text = "Файл невалидный. Ошибка:";
+				tbValidate.AppendText( Environment.NewLine );
+				tbValidate.AppendText( Environment.NewLine );
+				tbValidate.AppendText( Result );
+			}
+			return Result;
+		}
 	}
 }

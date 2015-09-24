@@ -10,6 +10,7 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Text;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
@@ -29,6 +30,42 @@ namespace Core.Common
 	{
 		#region Закрытые данные класса
 		private readonly FictionBook _fb2 = null;
+		private static string[] _Tags = {
+			"<p>", "<p ", "</p>", "<p/>", "<p />", "<empty-line/>", "<empty-line />",
+			"<strong>", "</strong>", "<emphasis>", "</emphasis>", "<a ", "</a>",
+			"<section>", "</section>", "<section ",
+			"<title>", "</title>", "<title ", "<subtitle>", "<subtitle ", "</subtitle>",
+			"<image>", "</image>", "<image ",
+			"<poem>", "<poem ", "</poem>", "<stanza>", "<stanza ", "</stanza>", "<v>", "<v ", "</v>",
+			"<cite>", "<cite ", "</cite>", "<epigraph>", "</epigraph>", "<epigraph ",
+			"<strikethrough>", "</strikethrough>", "<sub>", "</sub>", "<sup>", "</sup>", "<code>", "</code>",
+			"<table>", "<table ", "</table>", "<th>", "<th ", "</th>", "<td>", "<td ", "</td>",
+			
+			"<title-info>", "</title-info>", "<title-info ", "<genre>", "</genre>", "<genre ",
+			"<author>", "</author>", "<author ", "<book-title>", "</book-title>", "<book-title ",
+			"<annotation>", "</annotation>", "<annotation ", "<keywords>", "</keywords>", "<keywords ",
+			"<date>", "</date>", "<date ", "<date/>", "<date />",
+			"<coverpage>", "</coverpage>", "<coverpage ",
+			"<lang>", "</lang>", "<lang ", "<src-lang>", "</src-lang>", "<src-lang ", "<translator>", "</translator>", "<translator ",
+			"<sequence>", "</sequence>", "<sequence ", "<src-title-info>", "</src-title-info>", "<src-title-info ",
+			"<document-info>", "</document-info>", "<document-info ", "<program-used>", "</program-used>", "<program-used ",
+			"<src-url>", "</src-url>", "<src-url ", "<src-ocr>", "</src-ocr>", "<src-ocr ",
+			"<id>", "</id>", "<id ", "<version>", "</version>", "<version ", "<binary ", "</binary>",
+			"<publish-info>", "</publish-info>", "<publish-info ", "<book-name>", "</book-name>", "<book-name ",
+			"<publisher>", "</publisher>", "<publisher ", "<description>", "</description>", "<description ",
+			"<city>", "</city>", "<city ", "<year>", "</year>", "<year ", "<isbn>", "<isbn ", "</isbn>",
+			"<history>", "</history>", "<history ", "<custom-info ", "</custom-info>",
+			"<body>", "<body ", "</body>", "<text-author>", "<text-author ", "</text-author>",
+			"<first-name>", "<first-name ", "</first-name>", "<first-name/>", "<first-name />",
+			"<middle-name>", "<middle-name ", "<middle-name/>", "<middle-name />", "</middle-name>",
+			"<last-name>", "<last-name ", "</last-name>", "<last-name/>", "<last-name />",
+			"<nickname>", "<nickname ", "</nickname>", "<last-name/>", "<last-name />",
+			"<home-page>", "<home-page ", "</home-page>", "<home-page/>", "<home-page />",
+			"<email>", "<email ", "</email>", "<email/>", "<email />",
+			"<FictionBook ", "</FictionBook>", "<stylesheet ", "</stylesheet>", "<style>", "</style>", "<style ",
+			"<output>", "</output>", "<part>", "</part>", "<part ",
+			"<output-document-class>", "</output-document-class>", "<output-document-class ", "<?xml "
+		};
 		#endregion
 		
 		public FB2Corrector( ref FictionBook fb2 )
@@ -984,7 +1021,7 @@ namespace Core.Common
 		}
 		#endregion
 		
-		#region Открытые вспомогательные методы
+		#region Открытые методы
 		public void saveToFB2File( string FilePath ) {
 			_fb2.saveToFB2File( FilePath );
 		}
@@ -998,10 +1035,89 @@ namespace Core.Common
 			if ( string.IsNullOrWhiteSpace( str ) || str.Length == 0 )
 				return encoding;
 			
-			Match match = Regex.Match( str, "(?<=encoding=\").+(?=\")", RegexOptions.IgnoreCase);
+			Match match = Regex.Match( str, "(?<=encoding=\").+?(?=\")", RegexOptions.IgnoreCase);
 			if ( match.Success )
 				encoding = match.Value;
 			return encoding;
+		}
+		#endregion
+		
+		#region Закрытые вспомогательные методы
+		// проверка, содержит ли тестируемый текст вначале fb2 тего
+		private static bool isFB2Tag( string Text, Hashtable htTags ) {
+			if ( string.IsNullOrWhiteSpace( Text ) )
+				return false;
+
+			int start = Text.IndexOf('<');
+			int end = -1;
+			if ( start == -1 )
+				return false;
+			else {
+				end = Text.IndexOf(' ');
+				if ( end == -1 )
+					end = Text.IndexOf('>');
+				if ( end == -1 )
+					return false;
+			}
+			return htTags.ContainsValue(Text.Substring(start, end+1 - start));
+		}
+		// разбивка текста по токенам с границами <>
+		private static List<string> splitString( string InputString ) {
+			List<string> list = new List<string>();
+			int start = 0;
+			while (true) {
+				// ищем открывающий символ <
+				int indexLeft = InputString.IndexOf( '<', start );
+				if ( indexLeft != -1 ) {
+					_splitString( InputString.Substring( start + 1, indexLeft - start - ( indexLeft > start ? 1 : 0 ) ), ref list );
+					// ищем закрывающий символ >
+					int indexRight = InputString.IndexOf( '>', indexLeft );
+					if ( indexRight != -1 ) {
+						_splitString( InputString.Substring( indexLeft, indexRight - indexLeft + 1 ), ref list );
+					} else {
+						_splitString( InputString.Substring( indexLeft ), ref list );
+						break;
+					}
+					start = indexRight;
+				} else {
+					list.Add( InputString.Substring(start) );
+					break;
+				}
+			}
+			return list;
+		}
+		// разбивка текста по токенам с границами <>
+		private static void _splitString( string InputString, ref List<string> list ) {
+			if ( InputString.Equals( "\n" ) ) {
+				list.Add( InputString );
+				return;
+			}
+			int start = 0;
+			while (true) {
+				// ищем открывающий символ <
+				int indexLeft = InputString.IndexOf( '<', start );
+				if ( indexLeft != -1 ) {
+					string s = InputString.Substring( start + 1, indexLeft - start - ( indexLeft > start ? 1 : 0 ) );
+					if ( !string.IsNullOrEmpty( s ) )
+						list.Add( s );
+					// ищем закрывающий символ >
+					int indexRight = InputString.IndexOf( '>', indexLeft );
+					if ( indexRight != -1 ) {
+						string s1 = InputString.Substring( indexLeft, indexRight - indexLeft + 1 );
+						if ( !string.IsNullOrEmpty( s ) )
+							list.Add( s1 );
+					} else {
+						string s2 = InputString.Substring( indexLeft );
+						if ( !string.IsNullOrEmpty( s ) )
+							list.Add( s2 );
+						break;
+					}
+					start = indexRight;
+				} else {
+					list.Add( InputString );
+					break;
+				}
+			}
 		}
 		// Автокорректировка теста файла FilePath
 		public static void autoCorrector( string FilePath ) {
@@ -1012,20 +1128,56 @@ namespace Core.Common
 				return;
 			
 			string encoding = getEncoding( FilePath );
-			string str = string.Empty;
+			string InputString = string.Empty;
 			using (StreamReader reader = new StreamReader( File.OpenRead (FilePath), Encoding.GetEncoding(encoding) ) ) {
-				str = reader.ReadToEnd();
+				InputString = reader.ReadToEnd();
 			}
-			str = autoCorrect( str );
+			
+			// разделение файла на части ДО и ПОСЛЕ графики для ускорения обработки и предотвращения случайной порчи кода графики
+			string BeforeBinary = string.Empty;
+			string AfterBinary = string.Empty;
+			int IndexBinary = InputString.IndexOf( "<binary " );
+			if ( IndexBinary != -1 ) {
+				AfterBinary = InputString.Substring( IndexBinary ); // часть графики
+				BeforeBinary = InputString.Substring( 0, IndexBinary ); // часть до графики
+				InputString = string.Empty;
+			}
+			
+			// обработка < > в тексте, кроме fb2 тегов
+			Hashtable htTags = new Hashtable(_Tags.Length);
+			for ( int i = 0; i != _Tags.Length; ++i )
+				htTags.Add(i, _Tags[i]);
+			
+			List<string> list = splitString( IndexBinary != -1 ? BeforeBinary : InputString );
+			StringBuilder sbNewString = new StringBuilder( list.Count );
+			string token = string.Empty;
+			foreach ( string item in list ) {
+				token = item.Replace("\r\n", "").TrimEnd();
+				if ( isFB2Tag( token, htTags ) )
+					sbNewString.AppendLine( token );
+				else {
+					if ( token.IndexOf("\r\n", 0) == 0 || token.IndexOf("\n", 0) == 0
+					    || string.IsNullOrEmpty( token ) || token.IndexOf("\r", 0) == 0 )
+						continue;
+					else if ( token.Trim().Equals( ">" ) )
+						continue;
+					else if ( token.IndexOf(">\n", 0) == -1 && token.IndexOf(">\r\n", 0) == -1 )
+						sbNewString.AppendLine( token.Replace("<", "&lt;").Replace(">", "&gt;") );
+					else
+						sbNewString.AppendLine( "\r\n" );
+				}
+			}
+
+			// автокорректировка файла
+			InputString = autoCorrect( IndexBinary != -1 ? BeforeBinary : sbNewString.ToString() );
+
+			// запись откорректированного файла
 			using ( StreamWriter writer = new StreamWriter( FilePath, false, Encoding.GetEncoding(encoding) ) ) {
-				writer.Write( str );
+				writer.Write( IndexBinary != -1 ? ( InputString + AfterBinary ) : InputString );
 			}
-//			using (StreamReader reader = new StreamReader( File.OpenRead (FilePath), Encoding.GetEncoding(encoding) ) )
-//				using ( StreamWriter writer = new StreamWriter( FilePath, false, Encoding.GetEncoding(encoding) ) )
-//					writer.Write( autoCorrect( reader.ReadToEnd() ) );
 		}
 		// Автокорректировка текста строки InputString
-		public static string autoCorrect( string InputString ) {
+		private static string autoCorrect( string InputString ) {
 			if ( string.IsNullOrWhiteSpace( InputString ) || InputString.Length == 0 )
 				return InputString;
 			
@@ -1042,155 +1194,67 @@ namespace Core.Common
 					InputString = InputString.Replace( search22, replace );
 			}
 			
-			Regex regex;
-			MatchCollection matches;
 			try {
 				// незавершенный тег <p>: <p текст
-				regex = new Regex("(^\\s*)(<p)(?=\\s+)", RegexOptions.IgnoreCase | RegexOptions.Multiline); // (^\s*)(<p)(?=\s+)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$2>");
+				InputString = Regex.Replace(InputString, "(^\\s*)(<p)(?=\\s+[^i])", "$2>", RegexOptions.IgnoreCase | RegexOptions.Multiline); // (^\s*)(<p)(?=\s+[^i])
 				// восстановление пропущенных </p>
-				regex = new Regex("(\\:|;|\"|»\\d|\\w|\\.|,|!|\\?)\\s*(<p>)", RegexOptions.IgnoreCase | RegexOptions.Multiline); // (\:|;|\"|»\d|\w|\.|,|!|\?)\s*(<p>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1</p>\n$2");
+				InputString = Regex.Replace(InputString, "(\\:|;|\"|»\\d|\\w|\\.|,|!|\\?)\\s*(<p>)", "$1</p>\n$2", RegexOptions.IgnoreCase | RegexOptions.Multiline); // (\:|;|\"|»\d|\w|\.|,|!|\?)\s*(<p>)
 				// восстановление пропущенных <p>
-				regex = new Regex("(</p>)\\s*(\\d|\\w|\\.|,|!|\\?|\\:|;|\"|«)", RegexOptions.IgnoreCase | RegexOptions.Multiline); // (</p>)\s*(\d|\w|\.|,|!|\?|\:|;|\"|«)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1\n<p>$2");
+				InputString = Regex.Replace(InputString, "(</p>)\\s*(\\d|\\w|\\.|,|!|\\?|\\:|;|\"|«)", "$1\n<p>$2", RegexOptions.IgnoreCase | RegexOptions.Multiline); // (</p>)\s*(\d|\w|\.|,|!|\?|\:|;|\"|«)
 				
 				// обработка жанра
-				regex = new Regex("(<genre>)(?:\\s*)(?:proce|literature19)(?:\\s*)(</genre>)", RegexOptions.IgnoreCase); // (<genre>)(\s*)(proce|literature19)(\s*)(</genre>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1prose$2");
-				// замепна <lang> для русских книг на ru для fb2 без <src-title-info>
+				InputString = Regex.Replace(InputString, "(<genre>)(?:\\s*)(?:proce|literature19)(?:\\s*)(</genre>)", "$1prose$2", RegexOptions.IgnoreCase); // (<genre>)(\s*)(proce|literature19)(\s*)(</genre>)
+				// замена <lang> для русских книг на ru для fb2 без <src-title-info>
 				if ( InputString.IndexOf( "<src-title-info>" ) == -1 ) {
-					regex = new Regex("[ЯяЭэЮюЁёЪъЬьЫыЖжЧчЩщ]"); // [ЯяЭэЮюЁёЪъЬьЫыЖжЧчЩщ]
-					matches = regex.Matches(InputString);
-					if ( matches.Count > 0 ) {
+					if ( Regex.Match(InputString, "[ЯяЭэЮюЁёЪъЬьЫыЖжЧчЩщ]").Success ) { // [ЯяЭэЮюЁёЪъЬьЫыЖжЧчЩщ]
 						// только для книг с русскими буквами
-						regex = new Regex("(?<=lang>).+(?=</lang>)", RegexOptions.IgnoreCase | RegexOptions.Multiline); // (?<=lang>).+(?=</lang>)
-						if ( matches.Count > 0 )
-							InputString = regex.Replace(InputString, "ru");
+						InputString = Regex.Replace(InputString, "(?<=lang>)\\s*.+\\s*(?=</lang>)", "ru", RegexOptions.IgnoreCase | RegexOptions.Multiline); // (?<=lang>)\s*.+\s*(?=</lang>)
 					}
 				}
 				
 				// обработка неверно заданного русского языка
-				regex = new Regex("(<lang>)(?:\\s*)(?:RU-ru|Rus)(?:\\s*)(</lang>)", RegexOptions.IgnoreCase); // (<lang>)(\s*)(RU-ru|Rus)(\s*)(</lang>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1ru$2");
+				InputString = Regex.Replace(InputString, "(<lang>)(?:\\s*)(?:RU-ru|Rus)(?:\\s*)(</lang>)", "$1ru$2", RegexOptions.IgnoreCase); // (<lang>)(\s*)(RU-ru|Rus)(\s*)(</lang>)
 				// обработка неверно заданного английского языка
-				regex = new Regex("(<lang>)(?:\\s*)(?:EN-en|Eng)(?:\\s*)(</lang>)", RegexOptions.IgnoreCase); // (<lang>)(?:\s*)(?:EN-en|Eng)(?:\s*)(</lang>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1en$2");
+				InputString = Regex.Replace(InputString, "(<lang>)(?:\\s*)(?:EN-en|Eng)(?:\\s*)(</lang>)", "$1en$2", RegexOptions.IgnoreCase); // (<lang>)(?:\s*)(?:EN-en|Eng)(?:\s*)(</lang>)
 				
 				// обработка тегов полужирного
-				regex = new Regex("<(/?)[bB]\\b((?:[^>\"']|\"[^\"]*\"|'[^']*')*)>", RegexOptions.IgnoreCase); // <(/?)[bB]\b((?:[^>"']|"[^"]*"|'[^']*')*)>
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "<$1strong>");
+				InputString = Regex.Replace(InputString, "<(/?)[bB]\\b((?:[^>\"']|\"[^\"]*\"|'[^']*')*)>", "<$1strong>", RegexOptions.IgnoreCase); // <(/?)[bB]\b((?:[^>"']|"[^"]*"|'[^']*')*)>
 				// обработка тегов курсива
-				regex = new Regex("<(/?)[iI]\\b((?:[^>\"']|\"[^\"]*\"|'[^']*')*)>", RegexOptions.IgnoreCase); // <(/?)[iI]\b((?:[^>"']|"[^"]*"|'[^']*')*)>
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "<$1emphasis>");
+				InputString = Regex.Replace(InputString, "<(/?)[iI]\\b((?:[^>\"']|\"[^\"]*\"|'[^']*')*)>", "<$1emphasis>", RegexOptions.IgnoreCase); // <(/?)[iI]\b((?:[^>"']|"[^"]*"|'[^']*')*)>
 				// обработка тегов курсива
-				regex = new Regex("<(/?)[eE][mM]\\b((?:[^>\"']|\"[^\"]*\"|'[^']*')*)>", RegexOptions.IgnoreCase); // <(/?)[eE][mM]\b((?:[^>"']|"[^"]*"|'[^']*')*)>
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "<$1emphasis>");
+				InputString = Regex.Replace(InputString, "<(/?)[eE][mM]\\b((?:[^>\"']|\"[^\"]*\"|'[^']*')*)>", "<$1emphasis>", RegexOptions.IgnoreCase); // <(/?)[eE][mM]\b((?:[^>"']|"[^"]*"|'[^']*')*)>
 				
 				// обработка картинок
-				regex = new Regex("(<image .+)(>)(?:\\s*)(?:</image>)", RegexOptions.IgnoreCase); //(<image .+)(>)(?:\s*)(?:</image>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1 /$2");
+				InputString = Regex.Replace(InputString, "(<image .+)(>)(?:\\s*)(?:</image>)", "$1 /$2", RegexOptions.IgnoreCase); //(<image .+)(>)(?:\s*)(?:</image>)
 				// обработка тегов body и section
-				regex = new Regex("(<body\\b|section\\b)(?:\\s*)xmlns=\"\"(?:\\s*)(>)", RegexOptions.IgnoreCase); // (<body\b|section\b)(?:\s*)xmlns=""(?:\s*)(>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1$2");
+				InputString = Regex.Replace(InputString, "(<body\\b|section\\b)(?:\\s*)xmlns=\"\"(?:\\s*)(>)", "$1$2", RegexOptions.IgnoreCase); // (<body\b|section\b)(?:\s*)xmlns=""(?:\s*)(>)
 				// удаление тегов <DIV ...></DIV>
-				regex = new Regex("(<[Dd][Ii][Vv]\\s*.+?>)|(<\\s*/[Dd][Ii][Vv])", RegexOptions.IgnoreCase); //(<[Dd][Ii][Vv]\s*.+?>)|(<\s*/[Dd][Ii][Vv])
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "");
+				InputString = Regex.Replace(InputString, "(<[Dd][Ii][Vv]\\s*.+?>)|(<\\s*/[Dd][Ii][Vv])", "", RegexOptions.IgnoreCase); //(<[Dd][Ii][Vv]\s*.+?>)|(<\s*/[Dd][Ii][Vv])
 				// удаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>
-				regex = new Regex("(?:<br|<BR|<R)(?:\\s*)(?:/?>)", RegexOptions.IgnoreCase); // (?:<br|<BR|<R)(?:\s*)(?:/?>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "");
-				// удаление тегов <cite id="dsfssefe" /> , <cite id="dsfssefe"></cite>
-				regex = new Regex("<(cite)\\s+id=\"\\w+\"(?:></\\1>|\\s+/>)", RegexOptions.IgnoreCase); // <(cite)\s+id="\w+"(?:></\1>|\s+/>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "");
+				InputString = Regex.Replace(InputString, "(?:<br|<BR|<R)(?:\\s*)(?:/?>)", "", RegexOptions.IgnoreCase); // (?:<br|<BR|<R)(?:\s*)(?:/?>)
+				// удаление тегов <cite id="nnnnnn" /> , <cite id="nnnnnn"></cite>
+				InputString = Regex.Replace(InputString, "<(cite)\\s+id=\"\\w+\"(?:></\\1>|\\s+/>)", "", RegexOptions.IgnoreCase); // <(cite)\s+id="\w+"(?:></\1>|\s+/>)
 				
 				// обработка вложенных друг в друга тегов strong или emphasis
-				regex = new Regex("^\\s*(<strong>|<emphasis>)\\s*\\1\\s*(<p>)", RegexOptions.IgnoreCase | RegexOptions.Multiline) ; // ^\s*(<strong>|<emphasis>)\s*\1\s*(<p>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$2$1");
-				regex = new Regex("(</p>)\\s*(</strong>|</emphasis>)\\s*\\2", RegexOptions.IgnoreCase); // (</p>)\s*(</strong>|</emphasis>)\s*\2
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$2$1");
+				InputString = Regex.Replace(InputString, "^\\s*(<strong>|<emphasis>)\\s*\\1\\s*(<p>)", "$2$1", RegexOptions.IgnoreCase | RegexOptions.Multiline) ; // ^\s*(<strong>|<emphasis>)\s*\1\s*(<p>)
+				InputString = Regex.Replace(InputString, "(</p>)\\s*(</strong>|</emphasis>)\\s*\\2", "$2$1", RegexOptions.IgnoreCase); // (</p>)\s*(</strong>|</emphasis>)\s*\2
 				
 				// обработка вложенных друг в друга тегов cite (epigraph)
-				regex = new Regex("^\\s*((<(cite|epigraph)>\\s*)\\s*\\2)(.+)(\\s*</\\3>){2}", RegexOptions.IgnoreCase | RegexOptions.Multiline); // ^\s*((<(cite|epigraph)>\s*)\s*\2)(.+)(\s*</\3>){2}
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "<text-author>$3</text-author>");
+				InputString = Regex.Replace(InputString, "^\\s*((<(cite|epigraph)>\\s*)\\s*\\2)(.+)(\\s*</\\3>){2}", "<text-author>$3</text-author>", RegexOptions.IgnoreCase | RegexOptions.Multiline); // ^\s*((<(cite|epigraph)>\s*)\s*\2)(.+)(\s*</\3>){2}
 				
 				// обработка пустого id
-				regex = new Regex("(?<=<id>)\\s*.+\\s*(?=</id>)", RegexOptions.IgnoreCase); // (?<=<id>)\s*.+\s*(?=</id>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 ) {
-					if ( string.IsNullOrWhiteSpace( matches[0].Value ) )
-						InputString = regex.Replace(InputString, Guid.NewGuid().ToString().ToUpper());
-				}
-				// обработка Либрусековских id
-				regex = new Regex("(?<=<id>)\\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+\\d{2}\\s+(\\d{2}\\:){2}\\d{2}\\s+\\d{4}\\s*(?=</id>)"); // (?<=<id>)\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{2}\s+(\d{2}\:){2}\d{2}\s+\d{4}\s*(?=</id>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, Guid.NewGuid().ToString().ToUpper());
+				InputString = InputString = Regex.Replace(InputString, "(?<=<id>)\\s*\\s*(?=</id>)", Guid.NewGuid().ToString().ToUpper(), RegexOptions.IgnoreCase);
 				
-				// обработка < рядом с не английскими символами
-				regex = new Regex("(?:<)\\s*([^/\\?a-zF])"); // (?:<)\s*([^/\?a-zF])
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "&lt;$1");
-				regex = new Regex("([A-Za-zА-ЯЁёа-я])<([A-Za-zА-ЯЁёа-я])"); // ([A-Za-zА-ЯЁёа-я])<([A-Za-zА-ЯЁёа-я])
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1&lt;$2");
-				// обработка > рядом с не английскими символами
-				regex = new Regex("([^/\"\\?a-z])\\s*(?:>)", RegexOptions.IgnoreCase); // ([^/\"\?a-z])\s*(?:>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1&gt;");
+				// обработка Либрусековских id
+				InputString = Regex.Replace(InputString, "(?<=<id>)\\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+\\d{2}\\s+(\\d{2}\\:){2}\\d{2}\\s+\\d{4}\\s*(?=</id>)", Guid.NewGuid().ToString().ToUpper()); // (?<=<id>)\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{2}\s+(\d{2}\:){2}\d{2}\s+\d{4}\s*(?=</id>)
 				
 				// удаление недопустимых символов
-				regex = new Regex("(?<=[ЁёА-Яа-я])(&)(?=[-ЁёА-Яа-я])|[\x00-\x08\x0B\x0C\x0E-\x1F]"); // (?<=[ЁёА-Яа-я])(&)(?=[-ЁёА-Яа-я])|[\x00-\x08\x0B\x0C\x0E-\x1F]
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "");
+				InputString = Regex.Replace(InputString, "(?<=[ЁёА-Яа-я])(&)(?=[-ЁёА-Яа-я])|[\x00-\x08\x0B\x0C\x0E-\x1F]", ""); // (?<=[ЁёА-Яа-я])(&)(?=[-ЁёА-Яа-я])|[\x00-\x08\x0B\x0C\x0E-\x1F]
 				// замена & на &amp
-				regex = new Regex("([A-Za-zЁёА-Яа-я.,!?«»\"]\\s*)&(\\s*[A-KM-Za-km-zЁёА-Яа-я.,!?«»\"])"); // ([A-Za-zЁёА-Яа-я.,!?«»\"]\s*)&(\s*[A-KM-Za-km-zЁёА-Яа-я.,!?«»\"])
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1&amp;$2");
+				InputString = Regex.Replace(InputString, "([A-Za-zЁёА-Яа-я.,!?«»\"]\\s*)&(\\s*[A-KM-Za-km-zЁёА-Яа-я.,!?«»\"])", "$1&amp;$2"); // ([A-Za-zЁёА-Яа-я.,!?«»\"]\s*)&(\s*[A-KM-Za-km-zЁёА-Яа-я.,!?«»\"])
 				
 				// Вставка между </epigraph> или <image ... /> (<image ... ></image>) недостающего тега <empty-line/>
-				regex = new Regex("((<image\\s+.+/>)|(<image\\s+.+>\\s*</image>)|(</epigraph>))\\s*(</section>)"); // ((<image\s+.+/>)|(<image\s+.+>\s*</image>)|(</epigraph>))\s*(</section>)
-				matches = regex.Matches(InputString);
-				if ( matches.Count > 0 )
-					InputString = regex.Replace(InputString, "$1\n<empty-line/>\n$5");
+				InputString = Regex.Replace(InputString, "((<image\\s+.+/>)|(<image\\s+.+>\\s*</image>)|(</epigraph>))\\s*(</section>)", "$1\n<empty-line/>\n$5"); // ((<image\s+.+/>)|(<image\s+.+>\s*</image>)|(</epigraph>))\s*(</section>)
 
 			} catch (Exception /*ex*/) {
 //				MessageBox.Show(ex.Message);

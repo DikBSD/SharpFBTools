@@ -184,7 +184,7 @@ namespace Core.Corrector
 			if( WorksWithBooks.isFileItem( lvi ) ) {
 				string FilePath = Path.Combine( m_SourceDir.Trim(), lvi.SubItems[0].Text );
 				if( File.Exists( FilePath ) ) {
-					string Msg = ZipFB2Worker.IsValid( FilePath, m_FB2Librusec );
+					string Msg = fv2Validator.ValidatingFB2File( FilePath, m_FB2Librusec );
 					lvi.SubItems[(int)ResultViewCollumn.Validate].Text = Msg == string.Empty ? "Да" : "Нет";
 					string Ext = Path.GetExtension( FilePath ).ToLower();
 					if ( !string.IsNullOrEmpty( Msg ) )

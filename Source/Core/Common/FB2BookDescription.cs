@@ -160,14 +160,14 @@ namespace Core.Common
 		public virtual string IsValidFB22 {
 			get {
 				FB2Validator fv2Validator = new FB2Validator();
-				return fv2Validator.ValidatingFB22File( m_sFromFilePath );
+				return fv2Validator.ValidatingFB2File( m_sFromFilePath, false );
 			}
 		}
 		
 		public virtual string IsValidFB2Librusec {
 			get {
 				FB2Validator fv2Validator = new FB2Validator();
-				return fv2Validator.ValidatingFB2LibrusecFile( m_sFromFilePath );
+				return fv2Validator.ValidatingFB2File( m_sFromFilePath, true );
 			}
 		}
 		

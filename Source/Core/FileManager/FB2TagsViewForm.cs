@@ -37,20 +37,18 @@ namespace Core.FileManager
 		private readonly string		m_TempDir			= Settings.Settings.TempDir;
 		private readonly bool 		m_isCreateItems		= true;
 		private readonly bool 		m_isTagsView		= false;
-		private readonly bool 		m_NeedValidate		= false;
 		private readonly bool 		m_IsLibrusecGenres	= true;
 		private readonly string		m_dirPath			= null;
 		private readonly DateTime	m_dtStart 			= DateTime.Now;
 		#endregion
 		
-		public FB2TagsViewForm( bool isCreateItems, bool isTagsView, bool NeedValidate, bool IsLibrusecGenres,
+		public FB2TagsViewForm( bool isCreateItems, bool isTagsView, bool IsLibrusecGenres,
 		                       ListView listViewFB2Files, string dirPath = null )
 		{
 			InitializeComponent();
 			
 			InitializeBackgroundWorker();
 			
-			m_NeedValidate		= NeedValidate;
 			m_IsLibrusecGenres	= IsLibrusecGenres;
 			m_isTagsView		= isTagsView;
 			m_isCreateItems		= isCreateItems;
@@ -96,7 +94,7 @@ namespace Core.FileManager
 					if (
 						!WorksWithBooks.viewOrHideBookMetaDataLocal(
 							m_listViewFB2Files, ref fb2Genres,
-							m_IsLibrusecGenres, m_isTagsView, m_NeedValidate,
+							m_IsLibrusecGenres, m_isTagsView,
 							m_bw, e
 						)
 					)
@@ -107,7 +105,7 @@ namespace Core.FileManager
 				if (
 					!WorksWithBooks.generateBooksListWithMetaData(
 						m_listViewFB2Files, m_dirPath, ref fb2Genres,
-						m_IsLibrusecGenres, m_isTagsView, true, m_NeedValidate,
+						m_IsLibrusecGenres, m_isTagsView, true,
 						false, this, ProgressBar, m_bw, e
 					)
 				)

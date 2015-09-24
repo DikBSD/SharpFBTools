@@ -14,6 +14,7 @@ using System.Xml.Schema;
 using System.Windows.Forms;
 
 using Settings;
+using SharpZipLibWorker = Core.Common.SharpZipLibWorker;
 
 namespace Core.FB2Parser
 {
@@ -25,22 +26,32 @@ namespace Core.FB2Parser
 		#region Закрытые данные класса
 		private const string m_aFB20Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
 		private const string m_aFB21Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.1";
+		private readonly static SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
+		private readonly static string				m_TempDir		= Settings.Settings.TempDir;
 		#endregion
 		
 		public FB2Validator()
 		{
 		}
 
-		private string validate( string sFB2Path, string SchemePath ) {
+		private string validate( string FilePath, string SchemePath ) {
+			string Ext = Path.GetExtension( FilePath ).ToLower();
+			string [] files = null;
+			if ( Ext == ".zip" || Ext == ".fbz" ) {
+				m_sharpZipLib.UnZipFiles(FilePath, m_TempDir, 0, false, null, 4096);
+				files = Directory.GetFiles( m_TempDir );
+			}
+			string FB2Path = files != null ? files[0] : FilePath;
 			XmlDocument xmlDoc = new XmlDocument();
 			try {
-				xmlDoc.Load( sFB2Path );
+				xmlDoc.Load( FB2Path );
 			} catch ( System.Exception e ) {
-				return "Файл: " + sFB2Path + "\r\n" + e.Message;
+				return  e.Message + "\r\n\r\nФайл: " + FilePath;
 			}
+			
+			Cursor.Current = Cursors.WaitCursor;
 			string fb2FileNamespaceURI = xmlDoc.DocumentElement.NamespaceURI;
-			using (Stream xmlSchemeFile = new FileStream( SchemePath, FileMode.Open ) )
-			{
+			using (Stream xmlSchemeFile = new FileStream( SchemePath, FileMode.Open ) ) {
 				XmlSchemaSet sc = new XmlSchemaSet();
 				if( fb2FileNamespaceURI.Equals( m_aFB21Namespace ) )
 					sc.Add( m_aFB21Namespace, XmlReader.Create( xmlSchemeFile ) );
@@ -50,27 +61,31 @@ namespace Core.FB2Parser
 				XmlReaderSettings settings = new XmlReaderSettings();
 				settings.ValidationType = ValidationType.Schema;
 				settings.Schemas = sc;
-				XmlReader reader = XmlReader.Create( sFB2Path, settings );
+				XmlReader reader = XmlReader.Create( FB2Path, settings );
 
 				try {
 					while ( reader.Read() ) {;}
 					reader.Close();
+					Cursor.Current = Cursors.Default;
 					return string.Empty;
 				} catch (System.Xml.Schema.XmlSchemaException e) {
 					reader.Close();
-					return "Файл: " + sFB2Path + "\r\n" + e.Message + "\r\nСтрока: " + e.LineNumber + "; Позиция: " + e.LinePosition;
+					Cursor.Current = Cursors.Default;
+					return "Файл: " + FilePath + "\r\n" + e.Message + "\r\nСтрока: " + e.LineNumber + "; Позиция: " + e.LinePosition;
 				} catch ( System.Exception e ) {
 					reader.Close();
-					return "Файл: " + sFB2Path + "\r\n" + e.Message;
+					Cursor.Current = Cursors.Default;
+					return "Файл: " + FilePath + "\r\n" + e.Message;
 				}
 			}
 		}
-		public string ValidatingFB22File( string sFB2Path ) {
-			return validate( sFB2Path, Settings.Settings.FB22SchemePath );
-		}
 		
-		public string ValidatingFB2LibrusecFile( string sFB2Path ) {
-			return validate( sFB2Path, Settings.Settings.FB2LibrusecSchemePath );
+		public string ValidatingFB2File( string FilePath, bool IsFB2Librusec ) {
+			return validate(
+				FilePath, IsFB2Librusec
+				? Settings.Settings.FB2LibrusecSchemePath
+				: Settings.Settings.FB22SchemePath
+			);
 		}
 		
 	}

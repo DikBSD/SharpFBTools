@@ -17,6 +17,7 @@ namespace Core.Common
 	{
 		private static readonly Color m_DirBackColor			= Color.Beige;			// цвет фона каталогов
 		private static readonly Color m_FileBackColor			= Color.LightSteelBlue;	// цвет фона файлов
+		private static readonly Color m_FB2ForeColor			= Color.Black; 			// цвет для fb2
 		private static readonly Color m_ZipFB2ForeColor			= Color.Green; 			// цвет для fb2 в zip
 		private static readonly Color m_BadZipForeColor			= Color.Purple;			// цвет битых архивов
 		private static readonly Color m_FB2NotValidForeColor	= Color.Blue;			// цвет невалидных fb2 файлов и архивов
@@ -28,6 +29,11 @@ namespace Core.Common
 		public static Color DirBackColor {
 			get {
 				return m_DirBackColor;
+			}
+		}
+		public static Color FB2ForeColor {
+			get {
+				return m_FB2ForeColor;
 			}
 		}
 		public static Color FileBackColor {
