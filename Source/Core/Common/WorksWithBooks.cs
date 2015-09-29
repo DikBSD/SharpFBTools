@@ -839,11 +839,12 @@ namespace Core.Common
 		}
 		
 		
-		// автокорректировка всех  книг для Корректора
+		// автокорректировка всех книг для Корректора
 		public static void autoCorrect( string SrcFilePath, SharpZipLibWorker sharpZipLib ) {
 			string SourceFilePath = SrcFilePath;
 			string FilePath = SourceFilePath;
-			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, Settings.Settings.TempDir );
+			string TempDir = Settings.Settings.TempDir;
+			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, TempDir );
 
 			FB2Corrector.autoCorrector( FilePath );
 			
@@ -851,6 +852,7 @@ namespace Core.Common
 			try {
 				fb2 = new FictionBook( FilePath );
 			} catch {
+				FilesWorker.RemoveDir( TempDir );
 				return;
 			}
 			
@@ -867,6 +869,7 @@ namespace Core.Common
 					if( File.Exists( SourceFilePath ) )
 						File.Delete( SourceFilePath );
 					File.Move( ArchFile, SourceFilePath );
+					FilesWorker.RemoveDir( TempDir );
 				}
 			}
 		}

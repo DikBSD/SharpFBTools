@@ -807,7 +807,7 @@ namespace SharpFBTools.Tools
 						
 						// отображение новых метаданных в строке списка и в детализации
 						if( ((ListViewItemType)SelectedItem.Tag).Type == "f" ) {
-							string FilePath = Path.Combine( textBoxAddress.Text.Trim(), SelectedItem.Text.Trim() );
+							string FilePath = Path.Combine( textBoxAddress.Text.Trim(), SelectedItem.Text );
 							string SrcFilePath = FilePath;
 							if ( File.Exists( FilePath ) && !SelectedItem.Font.Strikeout ) {
 								if ( FilesWorker.isFB2Archive( FilePath ) )
@@ -1024,7 +1024,7 @@ namespace SharpFBTools.Tools
 					return;
 				}
 				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
-				string sFilePath = Path.Combine( textBoxAddress.Text.Trim(), si[0].SubItems[0].Text.Split('/')[0] );
+				string sFilePath = Path.Combine( textBoxAddress.Text.Trim(), si[0].SubItems[0].Text );
 				if( !File.Exists( sFilePath ) ) {
 					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
@@ -1045,7 +1045,7 @@ namespace SharpFBTools.Tools
 					return;
 				}
 				editFB2InProgram(
-					FBEPath, Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.SelectedItems[0].SubItems[0].Text.Trim() ), Title
+					FBEPath, Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.SelectedItems[0].SubItems[0].Text ), Title
 				);
 			}
 		}
@@ -1061,7 +1061,7 @@ namespace SharpFBTools.Tools
 					return;
 				}
 				editFB2InProgram(
-					TextEditorPath, Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.SelectedItems[0].SubItems[0].Text.Trim() ), Title
+					TextEditorPath, Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.SelectedItems[0].SubItems[0].Text ), Title
 				);
 			}
 		}
@@ -1400,7 +1400,7 @@ namespace SharpFBTools.Tools
 					listViewFB2Files.EndUpdate();
 					ConnectListsEventHandlers( true );
 					// отображение метаданных
-					string FilePath = Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.Items[SelectedItem].Text.Trim() );
+					string FilePath = Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.Items[SelectedItem].Text );
 					viewMetaData( FilePath, listViewFB2Files.Items[SelectedItem], 1 );
 					MessageBox.Show( EndWorkMode.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					listViewFB2Files.Focus();

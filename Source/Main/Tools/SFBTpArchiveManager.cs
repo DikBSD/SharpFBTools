@@ -55,26 +55,26 @@ namespace SharpFBTools.Tools
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpArchiveManager));
 			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-			"Всего папок",
-			"0"}, 0);
+			                                                                                        	"Всего папок",
+			                                                                                        	"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
-			"Всего файлов",
-			"0"}, 0);
+			                                                                                        	"Всего файлов",
+			                                                                                        	"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-			"fb2-файлов",
-			"0"}, 0);
+			                                                                                        	"fb2-файлов",
+			                                                                                        	"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-			"Всего папок",
-			"0"}, 0);
+			                                                                                        	"Всего папок",
+			                                                                                        	"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-			"Всего файлов",
-			"0"}, 0);
+			                                                                                        	"Всего файлов",
+			                                                                                        	"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
-			"Распаковано архивов",
-			"0"}, 0);
+			                                                                                        	"Распаковано архивов",
+			                                                                                        	"0"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
-			"fb2-файлы из этих архивов",
-			"0"}, 0);
+			                                                                                        	"fb2-файлы из этих архивов",
+			                                                                                        	"0"}, 0);
 			this.tsArchiver = new System.Windows.Forms.ToolStrip();
 			this.tsbtnArchive = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -157,9 +157,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsArchiver.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.tsArchiver.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.tsbtnArchive,
-			this.toolStripSeparator1,
-			this.tsbtnArchiveStop});
+			                               	this.tsbtnArchive,
+			                               	this.toolStripSeparator1,
+			                               	this.tsbtnArchiveStop});
 			this.tsArchiver.Location = new System.Drawing.Point(4, 4);
 			this.tsArchiver.Name = "tsArchiver";
 			this.tsArchiver.Size = new System.Drawing.Size(1081, 31);
@@ -195,8 +195,8 @@ namespace SharpFBTools.Tools
 			// 
 			this.ssProgress.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.ssProgress.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.tsslblProgress,
-			this.tsProgressBar});
+			                               	this.tsslblProgress,
+			                               	this.tsProgressBar});
 			this.ssProgress.Location = new System.Drawing.Point(0, 650);
 			this.ssProgress.Name = "ssProgress";
 			this.ssProgress.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
@@ -271,8 +271,8 @@ namespace SharpFBTools.Tools
 			// 
 			// tboxSourceDir
 			// 
-			this.tboxSourceDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxSourceDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			                                                                  | System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxSourceDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tboxSourceDir.Location = new System.Drawing.Point(277, 6);
 			this.tboxSourceDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -348,15 +348,15 @@ namespace SharpFBTools.Tools
 			// lvGeneralCount
 			// 
 			this.lvGeneralCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader1,
-			this.columnHeader2});
+			                                     	this.columnHeader1,
+			                                     	this.columnHeader2});
 			this.lvGeneralCount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvGeneralCount.FullRowSelect = true;
 			this.lvGeneralCount.GridLines = true;
 			this.lvGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem1,
-			listViewItem2,
-			listViewItem3});
+			                                   	listViewItem1,
+			                                   	listViewItem2,
+			                                   	listViewItem3});
 			this.lvGeneralCount.Location = new System.Drawing.Point(4, 51);
 			this.lvGeneralCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lvGeneralCount.Name = "lvGeneralCount";
@@ -430,9 +430,9 @@ namespace SharpFBTools.Tools
 			this.cboxExistArchive.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxExistArchive.FormattingEnabled = true;
 			this.cboxExistArchive.Items.AddRange(new object[] {
-			"Заменить существующий fb2-архив создаваемым",
-			"Добавить к создаваемому fb2-архиву очередной номер",
-			"Добавить к создаваемому fb2-архиву дату и время"});
+			                                     	"Заменить существующий fb2-архив создаваемым",
+			                                     	"Добавить к создаваемому fb2-архиву очередной номер",
+			                                     	"Добавить к создаваемому fb2-архиву дату и время"});
 			this.cboxExistArchive.Location = new System.Drawing.Point(277, 4);
 			this.cboxExistArchive.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.cboxExistArchive.Name = "cboxExistArchive";
@@ -477,8 +477,8 @@ namespace SharpFBTools.Tools
 			// 
 			// tboxToAnotherDir
 			// 
-			this.tboxToAnotherDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxToAnotherDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			                                                                     | System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxToAnotherDir.Location = new System.Drawing.Point(277, 7);
 			this.tboxToAnotherDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tboxToAnotherDir.Name = "tboxToAnotherDir";
@@ -542,16 +542,16 @@ namespace SharpFBTools.Tools
 			// lvUAGeneralCount
 			// 
 			this.lvUAGeneralCount.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.cHeaderDirsFiles,
-			this.cHeaderCount});
+			                                       	this.cHeaderDirsFiles,
+			                                       	this.cHeaderCount});
 			this.lvUAGeneralCount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvUAGeneralCount.FullRowSelect = true;
 			this.lvUAGeneralCount.GridLines = true;
 			this.lvUAGeneralCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem4,
-			listViewItem5,
-			listViewItem6,
-			listViewItem7});
+			                                     	listViewItem4,
+			                                     	listViewItem5,
+			                                     	listViewItem6,
+			                                     	listViewItem7});
 			this.lvUAGeneralCount.Location = new System.Drawing.Point(0, 0);
 			this.lvUAGeneralCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lvUAGeneralCount.Name = "lvUAGeneralCount";
@@ -625,9 +625,9 @@ namespace SharpFBTools.Tools
 			this.cboxUAExistArchive.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboxUAExistArchive.FormattingEnabled = true;
 			this.cboxUAExistArchive.Items.AddRange(new object[] {
-			"Заменить существующий fb2-файл создаваемым",
-			"Добавить к создаваемому fb2-файлу очередной номер",
-			"Добавить к создаваемому fb2-файлу дату и время"});
+			                                       	"Заменить существующий fb2-файл создаваемым",
+			                                       	"Добавить к создаваемому fb2-файлу очередной номер",
+			                                       	"Добавить к создаваемому fb2-файлу дату и время"});
 			this.cboxUAExistArchive.Location = new System.Drawing.Point(277, 4);
 			this.cboxUAExistArchive.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.cboxUAExistArchive.Name = "cboxUAExistArchive";
@@ -685,8 +685,8 @@ namespace SharpFBTools.Tools
 			// 
 			// tboxUAToAnotherDir
 			// 
-			this.tboxUAToAnotherDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxUAToAnotherDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			                                                                       | System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxUAToAnotherDir.Location = new System.Drawing.Point(277, 7);
 			this.tboxUAToAnotherDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tboxUAToAnotherDir.Name = "tboxUAToAnotherDir";
@@ -750,8 +750,8 @@ namespace SharpFBTools.Tools
 			// 
 			// tboxUASourceDir
 			// 
-			this.tboxUASourceDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxUASourceDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			                                                                    | System.Windows.Forms.AnchorStyles.Right)));
 			this.tboxUASourceDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tboxUASourceDir.Location = new System.Drawing.Point(277, 6);
 			this.tboxUASourceDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -774,9 +774,9 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsUnArchiver.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.tsUnArchiver.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.tsbtnUnArchive,
-			this.toolStripSeparator2,
-			this.tsbtnUnArchiveStop});
+			                                 	this.tsbtnUnArchive,
+			                                 	this.toolStripSeparator2,
+			                                 	this.tsbtnUnArchiveStop});
 			this.tsUnArchiver.Location = new System.Drawing.Point(4, 4);
 			this.tsUnArchiver.Name = "tsUnArchiver";
 			this.tsUnArchiver.Size = new System.Drawing.Size(1081, 31);
@@ -1541,17 +1541,17 @@ namespace SharpFBTools.Tools
 		}
 		
 		// проверки папки-приемника
-		private bool IsTargetDirCorrect( string sTarget, bool bToAnotherDir, string sMessTitle ) {
-			if( bToAnotherDir ) {
-				// папка-приемник - отличная от источника
-				if( sTarget.Length == 0 ) {
-					MessageBox.Show( "Не задана папка-приемник архивов!", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+		private bool IsTargetDirCorrect( string Target, bool ToAnotherDir, string MessTitle ) {
+			string Message = "Не задана папка-приемник!";
+			if( string.IsNullOrWhiteSpace( Target ) ) {
+				MessageBox.Show( Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			
+			if( !ToAnotherDir ) { // папка-приемник - отличная от источника
+				// проверка папки-приемника и создание ее, если нужно
+				if( !filesWorker.CreateDirIfNeed( Target, MessTitle ) )
 					return false;
-				} else {
-					// проверка папки-приемника и создание ее, если нужно
-					if( !filesWorker.CreateDirIfNeed( sTarget, sMessTitle ) )
-						return false;
-				}
 			}
 			return true;
 		}
