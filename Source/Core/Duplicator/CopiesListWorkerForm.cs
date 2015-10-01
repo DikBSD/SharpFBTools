@@ -38,7 +38,6 @@ namespace Core.Duplicator
 		private readonly ComboBox		m_cboxMode			= new ComboBox();
 		private readonly TextBox		m_tboxSourceDir		= new TextBox();
 		private readonly CheckBox		m_chBoxScanSubDir	= new CheckBox();
-		private readonly RadioButton	m_rbtnFB2Librusec	= new RadioButton();
 		private readonly ListView		m_lvResult			= new ListView();
 		private readonly ListView		m_lvFilesCount		= new ListView();
 		private readonly StatusView		m_StatusView		= new StatusView();
@@ -53,8 +52,7 @@ namespace Core.Duplicator
 
 		public CopiesListWorkerForm( BooksWorkMode WorkMode, string DirOrFileName, ComboBox cboxMode,
 		                            ListView lvResult, ListView lvFilesCount, TextBox tboxSourceDir,
-		                            CheckBox chBoxScanSubDir, RadioButton rbtnFB2Librusec,
-		                            int LastSelectedItem, int GroupCountForList
+		                            CheckBox chBoxScanSubDir, int LastSelectedItem, int GroupCountForList
 		                           )
 		{
 			InitializeComponent();
@@ -62,7 +60,6 @@ namespace Core.Duplicator
 			m_cboxMode			= cboxMode;
 			m_tboxSourceDir		= tboxSourceDir;
 			m_chBoxScanSubDir	= chBoxScanSubDir;
-			m_rbtnFB2Librusec	= rbtnFB2Librusec;
 			m_lvResult			= lvResult;
 			m_lvFilesCount		= lvFilesCount;
 			m_WorkMode			= WorkMode;
@@ -82,7 +79,7 @@ namespace Core.Duplicator
 		}
 		
 		// =============================================================================================
-		// 								ОТКРЫТЫЕ СВОЙСТВА
+		// 								ОТКРЫТЫЕ СВОЙСТВА 
 		// =============================================================================================
 		#region Открытые свойства
 		public virtual EndWorkMode EndMode {
@@ -198,8 +195,7 @@ namespace Core.Duplicator
 				             new XElement("SourceDir", m_tboxSourceDir.Text.Trim()),
 				             new XComment("Настройки поиска-сравнения fb2 книг"),
 				             new XElement("Settings",
-				                          new XElement("ScanSubDirs", m_chBoxScanSubDir.Checked),
-				                          new XElement("GenresFB2Librusec", m_rbtnFB2Librusec.Checked)),
+				                          new XElement("ScanSubDirs", m_chBoxScanSubDir.Checked)),
 				             new XComment("Режим поиска-сравнения fb2 книг"),
 				             new XElement("CompareMode",
 				                          new XAttribute("index", CompareMode),
@@ -370,7 +366,6 @@ namespace Core.Duplicator
 			// устанавливаем данные настройки поиска-сравнения
 			m_tboxSourceDir.Text = xmlTree.Element("SourceDir").Value;
 			m_chBoxScanSubDir.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("ScanSubDirs").Value );
-			m_rbtnFB2Librusec.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("GenresFB2Librusec").Value );
 			
 			//загрузка данных о ходе сравнения
 			XElement compareData = xmlTree.Element("CompareData");

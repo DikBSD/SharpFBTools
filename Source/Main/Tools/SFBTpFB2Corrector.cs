@@ -79,11 +79,6 @@ namespace SharpFBTools.Tools
 					             new XElement("Explorer",
 					                          new XComment("Папка исходных fb2-файлов"),
 					                          new XElement("SourceDir", textBoxAddress.Text.Trim()),
-					                          new XComment("Активная Схема Жанров"),
-					                          new XElement("FB2Genres",
-					                                       new XAttribute("Librusec", rbtnFB2Librusec.Checked),
-					                                       new XAttribute("FB22", rbtnFB22.Checked)
-					                                      ),
 					                          new XComment("Папка для копирования/перемещения копий fb2 книг"),
 					                          new XElement("TargetDir", m_TargetDir),
 					                          
@@ -119,14 +114,6 @@ namespace SharpFBTools.Tools
 					// Папка исходных fb2-файлов
 					if( xmlExplorer.Element("SourceDir") != null )
 						textBoxAddress.Text = xmlExplorer.Element("SourceDir").Value;
-					// Активная Схема Жанров
-					if( xmlExplorer.Element("FB2Genres") != null ) {
-						XElement xmlFB2Genres = xmlExplorer.Element("FB2Genres");
-						if( xmlFB2Genres.Attribute("Librusec") != null )
-							rbtnFB2Librusec.Checked = Convert.ToBoolean( xmlFB2Genres.Attribute("Librusec").Value );
-						if( xmlFB2Genres.Attribute("FB22") != null )
-							rbtnFB22.Checked = Convert.ToBoolean( xmlFB2Genres.Attribute("FB22").Value );
-					}
 					// Папка для копирования/перемещения копий fb2 книг
 					if( xmlTree.Element("TargetDir") != null )
 						m_TargetDir = xmlTree.Element("TargetDir").Value;
@@ -208,7 +195,7 @@ namespace SharpFBTools.Tools
 			ConnectListsEventHandlers( false );
 			
 			FB2TagsListGenerateForm fb2TagsListGenerateForm = new FB2TagsListGenerateForm(
-				rbtnFB2Librusec.Checked, listViewFB2Files, dirPath, false
+				listViewFB2Files, dirPath, false
 			);
 			fb2TagsListGenerateForm.ShowDialog();
 			EndWorkMode EndWorkMode = fb2TagsListGenerateForm.EndMode;
@@ -308,12 +295,10 @@ namespace SharpFBTools.Tools
 						ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
 					try {
 						if ( Path.GetExtension( FilePath ).ToLower() == ".fb2" ) {
-							// список жанров, в зависимости от схемы Жанров
-							IGenresGroup GenresGroup = new GenresGroup();
-							IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( rbtnFB2Librusec.Checked, ref GenresGroup );
 							FB2BookDescription fb2Desc = new FB2BookDescription( FilePath );
+							FB2UnionGenres fb2g = new FB2UnionGenres();
 							WorksWithBooks.viewBookMetaDataLocal(
-								ref SrcFilePath, ref fb2Desc, listViewItem, rbtnFB2Librusec.Checked, ref fb2g
+								ref SrcFilePath, ref fb2Desc, listViewItem, ref fb2g
 							);
 							
 							if ( BooksCount == 1 )
@@ -379,8 +364,7 @@ namespace SharpFBTools.Tools
 						}
 						
 						// список жанров, в зависимости от схемы Жанров
-						IGenresGroup GenresGroup = new GenresGroup();
-						IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( rbtnFB2Librusec.Checked, ref GenresGroup );
+						FB2UnionGenres fb2g = new FB2UnionGenres();
 						
 						// считываем данные TitleInfo
 						MiscListView.ListViewStatus( lvTitleInfo, 0, fb2Desc.TIBookTitle );
@@ -442,7 +426,7 @@ namespace SharpFBTools.Tools
 						rtbSTIAnnotation.Text = StringProcessing.getDeleteAllTags( fb2Desc.STIAnnotation );
 						// Валидность файла
 						tbValidate.Clear();
-						string Valid = WorksWithBooks.isValidate( fb2Desc.FilePath, tbValidate, rbtnFB2Librusec.Checked );
+						string Valid = WorksWithBooks.isValidate( fb2Desc.FilePath, tbValidate );
 						if ( !string.IsNullOrEmpty( Valid ) )
 							SelectedItem.SubItems[(int)ResultViewCollumn.Validate].Text = "Нет";
 						else
@@ -824,7 +808,7 @@ namespace SharpFBTools.Tools
 									WorksWithBooks.hideMetaDataLocal( SelectedItem );
 									clearDataFields();
 									// Занесение данных о валидации в поле детализации
-									WorksWithBooks.isValidate( SrcFilePath, tbValidate, rbtnFB2Librusec.Checked );
+									WorksWithBooks.isValidate( SrcFilePath, tbValidate );
 								}
 								FilesWorker.RemoveDir( m_TempDir );
 							} else {
@@ -840,15 +824,6 @@ namespace SharpFBTools.Tools
 			}
 		}
 		void ListViewFB2FilesColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
-		{
-			saveSettingsToXml();
-		}
-		
-		void RbtnFMFSFB2LibrusecClick(object sender, EventArgs e)
-		{
-			saveSettingsToXml();
-		}
-		void RbtnFMFSFB22Click(object sender, EventArgs e)
 		{
 			saveSettingsToXml();
 		}
@@ -1181,7 +1156,7 @@ namespace SharpFBTools.Tools
 				string Msg		= string.Empty;
 				string ErrorMsg	= "СООБЩЕНИЕ ОБ ОШИБКЕ:";
 				string OkMsg	= "ОШИБОК НЕТ - ФАЙЛ ВАЛИДЕН";
-				Msg = m_fv2Validator.ValidatingFB2File( FilePath, rbtnFB2Librusec.Checked );
+				Msg = m_fv2Validator.ValidatingFB2File( FilePath );
 				
 				// отобразить данные в детализации
 				viewMetaData( FilePath, SelectedItem, 1 );
@@ -1224,8 +1199,7 @@ namespace SharpFBTools.Tools
 				Cursor.Current = Cursors.Default;
 				
 				Core.Corrector.ValidatorForm validatorForm = new Core.Corrector.ValidatorForm(
-					BooksValidateMode.CheckedBooks, rbtnFB2Librusec.Checked,
-					listViewFB2Files, textBoxAddress.Text.Trim()
+					BooksValidateMode.CheckedBooks, listViewFB2Files, textBoxAddress.Text.Trim()
 				);
 				validatorForm.ShowDialog();
 				EndWorkMode EndWorkMode = validatorForm.EndMode;
@@ -1247,8 +1221,7 @@ namespace SharpFBTools.Tools
 				Cursor.Current = Cursors.Default;
 				
 				Core.Corrector.ValidatorForm validatorForm = new Core.Corrector.ValidatorForm(
-					BooksValidateMode.SelectedBooks, rbtnFB2Librusec.Checked,
-					listViewFB2Files, textBoxAddress.Text.Trim()
+					BooksValidateMode.SelectedBooks, listViewFB2Files, textBoxAddress.Text.Trim()
 				);
 				validatorForm.ShowDialog();
 				EndWorkMode EndWorkMode = validatorForm.EndMode;
@@ -1270,7 +1243,7 @@ namespace SharpFBTools.Tools
 				Cursor.Current = Cursors.Default;
 				
 				Core.Corrector.ValidatorForm validatorForm = new Core.Corrector.ValidatorForm(
-					BooksValidateMode.AllBooks, rbtnFB2Librusec.Checked,
+					BooksValidateMode.AllBooks,
 					listViewFB2Files, textBoxAddress.Text.Trim()
 				);
 				validatorForm.ShowDialog();
@@ -1353,7 +1326,7 @@ namespace SharpFBTools.Tools
 				Environment.CurrentDirectory = Settings.Settings.ProgDir;
 				Core.Corrector.BooksListWorkerForm fileWorkerForm = new Core.Corrector.BooksListWorkerForm(
 					BooksWorkMode.SaveFB2List, sfdList.FileName,
-					listViewFB2Files, textBoxAddress, rbtnFB2Librusec,
+					listViewFB2Files, textBoxAddress,
 					listViewFB2Files.SelectedItems.Count >= 1 ? listViewFB2Files.SelectedItems[0].Index : -1
 				);
 				fileWorkerForm.ShowDialog();
@@ -1377,11 +1350,12 @@ namespace SharpFBTools.Tools
 				FromXML = sfdLoadList.FileName;
 				// установка режима поиска
 				if( !File.Exists( FromXML ) ) {
-					MessageBox.Show( "Не найден файл списка редактируемых fb2 книг: \""+FromXML+"\"!", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Не найден файл списка редактируемых fb2 книг: \""+FromXML+"\"!",
+						MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 					return;
 				}
-				XmlReaderSettings data = new XmlReaderSettings();
-				data.IgnoreWhitespace = true;
 				try {
 					// отключаем обработчики событий для lvResult (убираем "тормоза")
 					ConnectListsEventHandlers( false );
@@ -1391,7 +1365,7 @@ namespace SharpFBTools.Tools
 					listViewFB2Files.Items.Clear();
 					Environment.CurrentDirectory = Settings.Settings.ProgDir;
 					Core.Corrector.BooksListWorkerForm fileWorkerForm = new Core.Corrector.BooksListWorkerForm(
-						BooksWorkMode.LoadFB2List, FromXML, listViewFB2Files, textBoxAddress, rbtnFB2Librusec, -1
+						BooksWorkMode.LoadFB2List, FromXML, listViewFB2Files, textBoxAddress, -1
 					);
 					fileWorkerForm.ShowDialog();
 					EndWorkMode EndWorkMode = fileWorkerForm.EndMode;
@@ -1599,7 +1573,7 @@ namespace SharpFBTools.Tools
 					Cursor.Current = Cursors.Default;
 
 					AutoCorrectorForm autoCorrectorForm = new AutoCorrectorForm(
-						null, textBoxAddress.Text.Trim(), ListViewItemInfoList, listViewFB2Files, rbtnFB2Librusec.Checked
+						null, textBoxAddress.Text.Trim(), ListViewItemInfoList, listViewFB2Files
 					);
 					autoCorrectorForm.ShowDialog();
 					EndWorkMode EndWorkMode = autoCorrectorForm.EndMode;
@@ -1633,7 +1607,7 @@ namespace SharpFBTools.Tools
 					Cursor.Current = Cursors.Default;
 					
 					AutoCorrectorForm autoCorrectorForm = new AutoCorrectorForm(
-						null, textBoxAddress.Text.Trim(), ListViewItemInfoList, listViewFB2Files, rbtnFB2Librusec.Checked
+						null, textBoxAddress.Text.Trim(), ListViewItemInfoList, listViewFB2Files
 					);
 					autoCorrectorForm.ShowDialog();
 					EndWorkMode EndWorkMode = autoCorrectorForm.EndMode;
@@ -1666,13 +1640,12 @@ namespace SharpFBTools.Tools
 
 			if( xmlTree != null ) {
 				textBoxAddress.Text = xmlTree.Element("SourceRootDir").Value;
-				rbtnFB2Librusec.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("GenresFB2Librusec").Value );
 			}
 			
 			ConnectListsEventHandlers( false );
 			listViewFB2Files.BeginUpdate();
 			AutoCorrectorForm autoCorrectorForm = new AutoCorrectorForm(
-				sfdLoadList.FileName, textBoxAddress.Text.Trim(), null, listViewFB2Files, rbtnFB2Librusec.Checked
+				sfdLoadList.FileName, textBoxAddress.Text.Trim(), null, listViewFB2Files
 			);
 			autoCorrectorForm.ShowDialog();
 			textBoxAddress.Text = autoCorrectorForm.getSourceDirFromRenew();

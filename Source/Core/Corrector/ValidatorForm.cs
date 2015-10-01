@@ -34,7 +34,6 @@ namespace Core.Corrector
 	{
 		#region Закрытые данные класса
 		private readonly BooksValidateMode m_booksValidateMode = BooksValidateMode.AllBooks;
-		private bool						m_FB2Librusec	= true;
 		private readonly string				m_SourceDir		= string.Empty;
 		
 		private readonly ListView			m_listView		= new ListView();
@@ -46,14 +45,12 @@ namespace Core.Corrector
 		private BackgroundWorker m_bw = null;
 		#endregion
 		
-		public ValidatorForm( BooksValidateMode booksValidateMode,
-		                     bool FB2Librusec, ListView listView, string SourceDir )
+		public ValidatorForm( BooksValidateMode booksValidateMode, ListView listView, string SourceDir )
 		{
 			InitializeComponent();
 
 			m_SourceDir			= SourceDir;
 			m_booksValidateMode	= booksValidateMode;
-			m_FB2Librusec		= FB2Librusec;
 			m_listView			= listView;
 			
 			InitializeBackgroundWorker();
@@ -184,7 +181,7 @@ namespace Core.Corrector
 			if( WorksWithBooks.isFileItem( lvi ) ) {
 				string FilePath = Path.Combine( m_SourceDir.Trim(), lvi.SubItems[0].Text );
 				if( File.Exists( FilePath ) ) {
-					string Msg = fv2Validator.ValidatingFB2File( FilePath, m_FB2Librusec );
+					string Msg = fv2Validator.ValidatingFB2File( FilePath );
 					lvi.SubItems[(int)ResultViewCollumn.Validate].Text = Msg == string.Empty ? "Да" : "Нет";
 					string Ext = Path.GetExtension( FilePath ).ToLower();
 					if ( !string.IsNullOrEmpty( Msg ) )

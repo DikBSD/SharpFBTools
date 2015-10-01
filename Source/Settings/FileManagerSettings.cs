@@ -33,8 +33,6 @@ namespace Settings
 		private readonly static bool m_FullSortNotDelFB2Files		= true;
 		private readonly static string m_FullSortSourceDir 			= string.Empty;
 		private readonly static string m_FullSortTargetDir			= string.Empty;
-		private readonly static bool m_FullSortFB2GenresLibrusec	= true;
-		private readonly static bool m_FullSortFB2GenresFB22		= false;
 		private readonly static Int16 m_MaxFileForProgressIndex	= 11;
 		
 		// Настройки Избранной сортировки
@@ -95,28 +93,6 @@ namespace Settings
 		private readonly static string m_NoFB2MiddleName	= "Без Отчества fb2-создателя";
 		private readonly static string m_NoFB2LastName		= "Без Фамилия fb2-создателя";
 		private readonly static string m_NoFB2NickName		= "Без Ника fb2-создателя";
-		
-		// название Групп Жанров
-		private readonly static string m_sf			= "ФАНТАСТИКА, ФЭНТЕЗИ";
-		private readonly static string m_detective	= "ДЕТЕКТИВЫ, БОЕВИКИ";
-		private readonly static string m_prose		= "ПРОЗА";
-		private readonly static string m_love		= "ЛЮБОВНЫЕ РОМАНЫ";
-		private readonly static string m_adventure	= "ПРИКЛЮЧЕНИЯ";
-		private readonly static string m_children	= "ДЕТСКОЕ";
-		private readonly static string m_poetry		= "ПОЭЗИЯ, ДРАМАТУРГИЯ";
-		private readonly static string m_antique	= "СТАРИННОЕ";
-		private readonly static string m_science	= "НАУКА, ОБРАЗОВАНИЕ";
-		private readonly static string m_computers	= "КОМПЬЮТЕРЫ";
-		private readonly static string m_reference	= "СПРАВОЧНИКИ";
-		private readonly static string m_nonfiction	= "ДОКУМЕНТАЛЬНОЕ";
-		private readonly static string m_religion	= "РЕЛИГИЯ";
-		private readonly static string m_humor		= "ЮМОР";
-		private readonly static string m_home		= "ДОМ, СЕМЬЯ";
-		private readonly static string m_business	= "БИЗНЕС";
-		private readonly static string m_tech		= "ТЕХНИКА";
-		private readonly static string m_military	= "ВОЕННОЕ ДЕЛО";
-		private readonly static string m_folklore	= "ФОЛЬКЛЕР";
-		private readonly static string m_other		= "ПРОЧЕЕ";
 		#endregion
 		
 		public FileManagerSettings()
@@ -201,14 +177,6 @@ namespace Settings
 		// Папка приемник
 		public static string DefFullSortTargetDir {
 			get { return m_FullSortTargetDir; }
-		}
-		// Жанр Либрусек?
-		public static bool DefFullSortFB2GenresLibrusec {
-			get { return m_FullSortFB2GenresLibrusec; }
-		}
-		// Жанр FB2.2?
-		public static bool DefFullSortFB2GenresFB22 {
-			get { return m_FullSortFB2GenresFB22; }
 		}
 		#endregion
 		// =====================================================================================================
@@ -446,91 +414,6 @@ namespace Settings
 			get { return m_NoFB2NickName; }
 		}
 		#endregion
-		// =====================================================================================================
-		// 										название Групп Жанров
-		// =====================================================================================================
-		#region название Групп Жанров
-		// Фантастика, Фэнтэзи
-		public static string DefGenresGroupSf {
-			get { return m_sf; }
-		}
-		// Детективы, Боевики
-		public static string DefGenresGroupDetective {
-			get { return m_detective; }
-		}
-		// Проза
-		public static string DefGenresGroupProse {
-			get { return m_prose; }
-		}
-		// Любовные романы
-		public static string DefGenresGroupLove {
-			get { return m_love; }
-		}
-		// Приключения
-		public static string DefGenresGroupAdventure {
-			get { return m_adventure; }
-		}
-		// Детское
-		public static string DefGenresGroupChildren {
-			get { return m_children; }
-		}
-		// Поэзия, Драматургия
-		public static string DefGenresGroupPoetry {
-			get { return m_poetry; }
-		}
-		// Старинное
-		public static string DefGenresGroupAntique {
-			get { return m_antique; }
-		}
-		// Наука, Образование
-		public static string DefGenresGroupScience {
-			get { return m_science; }
-		}
-		// Компьютеры
-		public static string DefGenresGroupComputers {
-			get { return m_computers; }
-		}
-		// Справочники
-		public static string DefGenresGroupReference {
-			get { return m_reference; }
-		}
-		// Документальное
-		public static string DefGenresGroupNonfiction {
-			get { return m_nonfiction; }
-		}
-		// Религия
-		public static string DefGenresGroupReligion {
-			get { return m_religion; }
-		}
-		// Юмор
-		public static string DefGenresGroupHumor {
-			get { return m_humor; }
-		}
-		// Дом, Семья
-		public static string DefGenresGroupHome {
-			get { return m_home; }
-		}
-		// Бизнес
-		public static string DefGenresGroupBusiness {
-			get { return m_business; }
-		}
-		// Техника
-		public static string DefGenresGroupTech {
-			get { return m_tech; }
-		}
-		// Военное дело
-		public static string DefGenresGroupMilitary {
-			get { return m_military; }
-		}
-		// Фольклор
-		public static string DefGenresGroupFolklore {
-			get { return m_folklore; }
-		}
-		// Прочее
-		public static string DefGenresGroupOther {
-			get { return m_other; }
-		}
-		#endregion
 		
 		// =====================================================================================================
 		// 					Открытые статические ОБЩИЕ свойства класса для чтения отдельных настроек
@@ -566,28 +449,6 @@ namespace Settings
 					return node.InnerText;
 			}
 			return DefFullSortTargetDir;
-		}
-		public static bool ReadFullSortFB2GenresLibrusec() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/FullSorting/FB2Genres");
-				if(node != null) {
-					XmlAttributeCollection attrs = node.Attributes;
-					return Convert.ToBoolean( attrs.GetNamedItem("Librusec").InnerText );
-				}
-			}
-			return DefFullSortFB2GenresLibrusec;
-		}
-		public static bool ReadFullSortFB2GenresFB22() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/FullSorting/FB2Genres");
-				if(node != null) {
-					XmlAttributeCollection attrs = node.Attributes;
-					return Convert.ToBoolean( attrs.GetNamedItem("FB22").InnerText );
-				}
-			}
-			return DefFullSortFB2GenresFB22;
 		}
 		
 		public static bool ReadFullSortScanSubDirs() {
@@ -1115,189 +976,6 @@ namespace Settings
 					return node.InnerText;
 			}
 			return DefNoFB2NickName;
-		}
-		#endregion
-		// =====================================================================================================
-		// 										название Групп Жанров
-		// =====================================================================================================
-		#region название Групп Жанров
-		public static string ReadFMSf() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/sf");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupSf;
-		}
-		public static string ReadFMDetective() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/detective");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupDetective;
-		}
-		public static string ReadFMProse() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/prose");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupProse;
-		}
-		public static string ReadFMLove() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/love");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupLove;
-		}
-		public static string ReadFMAdventure() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/adventure");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupAdventure;
-		}
-		public static string ReadFMChildren() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/children");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupChildren;
-		}
-		public static string ReadFMPoetry() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/poetry");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupPoetry;
-		}
-		public static string ReadFMAntique() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/antique");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupAntique;
-		}
-		public static string ReadFMScience() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/science");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupScience;
-		}
-		public static string ReadFMComputers() {
-			if( m_xmlDoc != null ) {
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/computers");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupComputers;
-		}
-		public static string ReadFMReference() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/reference");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupReference;
-		}
-		public static string ReadFMNonfiction() {
-			if( m_xmlDoc != null ) {
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/nonfiction");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupNonfiction;
-		}
-		public static string ReadFMReligion() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/religion");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupReligion;
-		}
-		public static string ReadFMHumor() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/humor");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupHumor;
-		}
-		public static string ReadFMHome() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/home");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupHome;
-		}
-		public static string ReadFMBusiness() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/business");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupBusiness;
-		}
-		public static string ReadFMTech() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/tech");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupTech;
-		}
-		public static string ReadFMMilitary() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/military");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupMilitary;
-		}
-		public static string ReadFMFolklore() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/folklore");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupFolklore;
-		}
-		public static string ReadFMOther() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/CommonOptions/GenreGroups/other");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefGenresGroupOther;
 		}
 		#endregion
 		#endregion

@@ -36,17 +36,15 @@ namespace Core.Corrector
 		private readonly string		m_TempDir			= Settings.Settings.TempDir;
 		private readonly string		m_dirPath			= null;
 		private readonly bool		m_autoResizeColumns	= false;
-		private readonly bool		m_IsLibrusecGenres	= true;
 		private readonly DateTime	m_dtStart 			= DateTime.Now;
 		#endregion
 		
-		public FB2TagsListGenerateForm( bool IsLibrusecGenres, ListView listView, string dirPath, bool AutoResizeColumns )
+		public FB2TagsListGenerateForm( ListView listView, string dirPath, bool AutoResizeColumns )
 		{
 			InitializeComponent();
 			
 			InitializeBackgroundWorker();
 			
-			m_IsLibrusecGenres	= IsLibrusecGenres;
 			m_autoResizeColumns = AutoResizeColumns;
 			m_listView			= listView;
 			m_dirPath			= dirPath;
@@ -81,9 +79,8 @@ namespace Core.Corrector
 		// генерация списка файлов - создание итемов listViewSource
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			// генерация списка файлов - создание итемов listViewSource
-			IGenresGroup GenresGroup = new GenresGroup();
-			IFBGenres fb2Genres = GenresWorker.genresListOfGenreSheme( m_IsLibrusecGenres, ref GenresGroup );
-			if ( !WorksWithBooks.generateBooksListWithMetaData( m_listView, m_dirPath, ref fb2Genres, m_IsLibrusecGenres,
+			FB2UnionGenres fb2Genres = new FB2UnionGenres();
+			if ( !WorksWithBooks.generateBooksListWithMetaData( m_listView, m_dirPath, ref fb2Genres,
 			                                                   true, false, false,
 			                                                   this, ProgressBar, m_bw, e ) )
 				e.Cancel = true;

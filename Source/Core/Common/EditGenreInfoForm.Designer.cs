@@ -49,11 +49,8 @@ namespace Core.Common
 			this.GroupComboBox = new System.Windows.Forms.ComboBox();
 			this.GroupLabel = new System.Windows.Forms.Label();
 			this.GenreAddButton = new System.Windows.Forms.Button();
-			this.GenresLabel = new System.Windows.Forms.Label();
 			this.MatchMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
-			this.rbtnFB22 = new System.Windows.Forms.RadioButton();
 			this.MathLabel = new System.Windows.Forms.Label();
-			this.rbtnFB2Librusec = new System.Windows.Forms.RadioButton();
 			this.GenresComboBox = new System.Windows.Forms.ComboBox();
 			this.GenreLabel = new System.Windows.Forms.Label();
 			this.ControlPanel = new System.Windows.Forms.Panel();
@@ -90,9 +87,9 @@ namespace Core.Common
 			this.GenresListView.FullRowSelect = true;
 			this.GenresListView.GridLines = true;
 			this.GenresListView.HideSelection = false;
-			this.GenresListView.Location = new System.Drawing.Point(0, 95);
+			this.GenresListView.Location = new System.Drawing.Point(0, 77);
 			this.GenresListView.Name = "GenresListView";
-			this.GenresListView.Size = new System.Drawing.Size(714, 208);
+			this.GenresListView.Size = new System.Drawing.Size(714, 226);
 			this.GenresListView.TabIndex = 3;
 			this.GenresListView.UseCompatibleStateImageBehavior = false;
 			this.GenresListView.View = System.Windows.Forms.View.Details;
@@ -115,16 +112,16 @@ namespace Core.Common
 			this.GenreWorkPanel.Controls.Add(this.GenreDeleteButton);
 			this.GenreWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.GenreWorkPanel.Enabled = false;
-			this.GenreWorkPanel.Location = new System.Drawing.Point(714, 95);
+			this.GenreWorkPanel.Location = new System.Drawing.Point(714, 77);
 			this.GenreWorkPanel.Name = "GenreWorkPanel";
-			this.GenreWorkPanel.Size = new System.Drawing.Size(75, 208);
+			this.GenreWorkPanel.Size = new System.Drawing.Size(75, 226);
 			this.GenreWorkPanel.TabIndex = 84;
 			// 
 			// GenreUpButton
 			// 
 			this.GenreUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.GenreUpButton.Image = ((System.Drawing.Image)(resources.GetObject("GenreUpButton.Image")));
-			this.GenreUpButton.Location = new System.Drawing.Point(0, 137);
+			this.GenreUpButton.Location = new System.Drawing.Point(0, 155);
 			this.GenreUpButton.Name = "GenreUpButton";
 			this.GenreUpButton.Size = new System.Drawing.Size(75, 36);
 			this.GenreUpButton.TabIndex = 6;
@@ -135,7 +132,7 @@ namespace Core.Common
 			// 
 			this.GenreDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.GenreDownButton.Image = ((System.Drawing.Image)(resources.GetObject("GenreDownButton.Image")));
-			this.GenreDownButton.Location = new System.Drawing.Point(0, 173);
+			this.GenreDownButton.Location = new System.Drawing.Point(0, 191);
 			this.GenreDownButton.Name = "GenreDownButton";
 			this.GenreDownButton.Size = new System.Drawing.Size(75, 35);
 			this.GenreDownButton.TabIndex = 7;
@@ -169,11 +166,8 @@ namespace Core.Common
 			this.GenresSchemePanel.Controls.Add(this.GroupComboBox);
 			this.GenresSchemePanel.Controls.Add(this.GroupLabel);
 			this.GenresSchemePanel.Controls.Add(this.GenreAddButton);
-			this.GenresSchemePanel.Controls.Add(this.GenresLabel);
 			this.GenresSchemePanel.Controls.Add(this.MatchMaskedTextBox);
-			this.GenresSchemePanel.Controls.Add(this.rbtnFB22);
 			this.GenresSchemePanel.Controls.Add(this.MathLabel);
-			this.GenresSchemePanel.Controls.Add(this.rbtnFB2Librusec);
 			this.GenresSchemePanel.Controls.Add(this.GenresComboBox);
 			this.GenresSchemePanel.Controls.Add(this.GenreLabel);
 			this.GenresSchemePanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -181,7 +175,7 @@ namespace Core.Common
 			this.GenresSchemePanel.Location = new System.Drawing.Point(0, 0);
 			this.GenresSchemePanel.Margin = new System.Windows.Forms.Padding(4);
 			this.GenresSchemePanel.Name = "GenresSchemePanel";
-			this.GenresSchemePanel.Size = new System.Drawing.Size(789, 95);
+			this.GenresSchemePanel.Size = new System.Drawing.Size(789, 77);
 			this.GenresSchemePanel.TabIndex = 77;
 			// 
 			// GroupComboBox
@@ -189,7 +183,7 @@ namespace Core.Common
 			this.GroupComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.GroupComboBox.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.GroupComboBox.FormattingEnabled = true;
-			this.GroupComboBox.Location = new System.Drawing.Point(68, 28);
+			this.GroupComboBox.Location = new System.Drawing.Point(68, 11);
 			this.GroupComboBox.Margin = new System.Windows.Forms.Padding(4);
 			this.GroupComboBox.Name = "GroupComboBox";
 			this.GroupComboBox.Size = new System.Drawing.Size(447, 24);
@@ -200,7 +194,7 @@ namespace Core.Common
 			// GroupLabel
 			// 
 			this.GroupLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.GroupLabel.Location = new System.Drawing.Point(2, 29);
+			this.GroupLabel.Location = new System.Drawing.Point(2, 12);
 			this.GroupLabel.Name = "GroupLabel";
 			this.GroupLabel.Size = new System.Drawing.Size(59, 23);
 			this.GroupLabel.TabIndex = 84;
@@ -209,73 +203,36 @@ namespace Core.Common
 			// GenreAddButton
 			// 
 			this.GenreAddButton.Image = ((System.Drawing.Image)(resources.GetObject("GenreAddButton.Image")));
-			this.GenreAddButton.Location = new System.Drawing.Point(712, 50);
+			this.GenreAddButton.Location = new System.Drawing.Point(712, 33);
 			this.GenreAddButton.Name = "GenreAddButton";
 			this.GenreAddButton.Size = new System.Drawing.Size(75, 35);
 			this.GenreAddButton.TabIndex = 83;
 			this.GenreAddButton.UseVisualStyleBackColor = true;
 			this.GenreAddButton.Click += new System.EventHandler(this.GenreAddButtonClick);
 			// 
-			// GenresLabel
-			// 
-			this.GenresLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.GenresLabel.ForeColor = System.Drawing.Color.Navy;
-			this.GenresLabel.Location = new System.Drawing.Point(4, 4);
-			this.GenresLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.GenresLabel.Name = "GenresLabel";
-			this.GenresLabel.Size = new System.Drawing.Size(144, 20);
-			this.GenresLabel.TabIndex = 73;
-			this.GenresLabel.Text = "Схема Жанров:";
-			// 
 			// MatchMaskedTextBox
 			// 
-			this.MatchMaskedTextBox.Location = new System.Drawing.Point(644, 58);
+			this.MatchMaskedTextBox.Location = new System.Drawing.Point(644, 44);
 			this.MatchMaskedTextBox.Mask = "000";
 			this.MatchMaskedTextBox.Name = "MatchMaskedTextBox";
 			this.MatchMaskedTextBox.Size = new System.Drawing.Size(39, 22);
 			this.MatchMaskedTextBox.TabIndex = 2;
 			// 
-			// rbtnFB22
-			// 
-			this.rbtnFB22.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFB22.Location = new System.Drawing.Point(285, 4);
-			this.rbtnFB22.Margin = new System.Windows.Forms.Padding(4);
-			this.rbtnFB22.Name = "rbtnFB22";
-			this.rbtnFB22.Size = new System.Drawing.Size(72, 21);
-			this.rbtnFB22.TabIndex = 11;
-			this.rbtnFB22.Text = "fb2.2";
-			this.rbtnFB22.UseVisualStyleBackColor = true;
-			this.rbtnFB22.Click += new System.EventHandler(this.RbtnFB22Click);
-			// 
 			// MathLabel
 			// 
 			this.MathLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.MathLabel.Location = new System.Drawing.Point(522, 61);
+			this.MathLabel.Location = new System.Drawing.Point(522, 47);
 			this.MathLabel.Name = "MathLabel";
 			this.MathLabel.Size = new System.Drawing.Size(121, 23);
 			this.MathLabel.TabIndex = 80;
 			this.MathLabel.Text = "Соответствие %:";
-			// 
-			// rbtnFB2Librusec
-			// 
-			this.rbtnFB2Librusec.Checked = true;
-			this.rbtnFB2Librusec.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.rbtnFB2Librusec.Location = new System.Drawing.Point(151, 4);
-			this.rbtnFB2Librusec.Margin = new System.Windows.Forms.Padding(4);
-			this.rbtnFB2Librusec.Name = "rbtnFB2Librusec";
-			this.rbtnFB2Librusec.Size = new System.Drawing.Size(127, 21);
-			this.rbtnFB2Librusec.TabIndex = 10;
-			this.rbtnFB2Librusec.TabStop = true;
-			this.rbtnFB2Librusec.Text = "fb2 Либрусек";
-			this.rbtnFB2Librusec.UseVisualStyleBackColor = true;
-			this.rbtnFB2Librusec.Click += new System.EventHandler(this.RbtnFB2LibrusecClick);
 			// 
 			// GenresComboBox
 			// 
 			this.GenresComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.GenresComboBox.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.GenresComboBox.FormattingEnabled = true;
-			this.GenresComboBox.Location = new System.Drawing.Point(68, 60);
+			this.GenresComboBox.Location = new System.Drawing.Point(68, 43);
 			this.GenresComboBox.Margin = new System.Windows.Forms.Padding(4);
 			this.GenresComboBox.Name = "GenresComboBox";
 			this.GenresComboBox.Size = new System.Drawing.Size(447, 24);
@@ -285,7 +242,7 @@ namespace Core.Common
 			// GenreLabel
 			// 
 			this.GenreLabel.ForeColor = System.Drawing.Color.Red;
-			this.GenreLabel.Location = new System.Drawing.Point(2, 61);
+			this.GenreLabel.Location = new System.Drawing.Point(2, 44);
 			this.GenreLabel.Name = "GenreLabel";
 			this.GenreLabel.Size = new System.Drawing.Size(59, 23);
 			this.GenreLabel.TabIndex = 78;
@@ -393,11 +350,8 @@ namespace Core.Common
 		private System.Windows.Forms.Button GenreDeleteButton;
 		private System.Windows.Forms.Panel GenresSchemePanel;
 		private System.Windows.Forms.Button GenreAddButton;
-		private System.Windows.Forms.Label GenresLabel;
 		private System.Windows.Forms.MaskedTextBox MatchMaskedTextBox;
-		private System.Windows.Forms.RadioButton rbtnFB22;
 		private System.Windows.Forms.Label MathLabel;
-		private System.Windows.Forms.RadioButton rbtnFB2Librusec;
 		private System.Windows.Forms.ComboBox GenresComboBox;
 		private System.Windows.Forms.Label GenreLabel;
 		private System.Windows.Forms.Panel ControlPanel;

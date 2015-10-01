@@ -34,7 +34,6 @@ namespace Core.Corrector
 		private readonly BooksWorkMode	m_WorkMode; // режим обработки книг
 		private readonly string			m_FilePath			= string.Empty;
 		private readonly TextBox		m_textBoxAddress	= new TextBox();
-		private readonly RadioButton	m_rbtnFB2Librusec	= new RadioButton();
 		private readonly ListView		m_listViewFB2Files	= new ListView();
 		private readonly EndWorkMode	m_EndMode			= new EndWorkMode();
 		
@@ -46,12 +45,11 @@ namespace Core.Corrector
 		
 		public BooksListWorkerForm(
 			BooksWorkMode WorkMode, string FromFilePath, ListView listViewFB2Files,
-			TextBox textBoxAddress, RadioButton rbtnFB2Librusec, int LastSelectedItem )
+			TextBox textBoxAddress, int LastSelectedItem )
 		{
 			InitializeComponent();
 			m_FilePath			= FromFilePath;
 			m_textBoxAddress	= textBoxAddress;
-			m_rbtnFB2Librusec	= rbtnFB2Librusec;
 			m_listViewFB2Files	= listViewFB2Files;
 			m_WorkMode			= WorkMode;
 			m_LastSelectedItem	= LastSelectedItem;
@@ -156,9 +154,6 @@ namespace Core.Corrector
 				new XElement("Files", new XAttribute("type", "metaeditor_explorer"),
 				             new XComment("Папка для обработки fb2 книг"),
 				             new XElement("SourceDir", m_textBoxAddress.Text.Trim()),
-				             new XComment("Настройки обработки fb2 книг"),
-				             new XElement("Settings",
-				                          new XElement("GenresFB2Librusec", m_rbtnFB2Librusec.Checked)),
 				             new XComment("Список обрабатываемых книг"),
 				             xeBooks = new XElement("Books", new XAttribute("count", "0")),
 				             new XComment("Выделенный элемент списка, на котором завершили обработку книг"),
@@ -223,7 +218,6 @@ namespace Core.Corrector
 					ProgressBar.Maximum	= Convert.ToInt32( xmlBooks.Attribute("count").Value );
 					// устанавливаем данные настройки поиска-сравнения
 					m_textBoxAddress.Text = xmlTree.Element("SourceDir").Value;
-					m_rbtnFB2Librusec.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("GenresFB2Librusec").Value );
 					// перебор книг
 					int i = 0;
 					ListViewItem lvi = null;

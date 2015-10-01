@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--xml файл Групп и Жанров схемы FictionBook 2.1 -->
+<genres type="fb2.1">
+	<group name="Детективы, Боевики" >
+		<genre name="Боевики" code="det_action" />
+		<genre name="Детектив" code="detective" />
+		<genre name="Детские Остросюжетные" code="child_det" />
+		<genre name="Иронический Детектив" code="det_irony" />
+		<genre name="Исторический Детектив" code="det_history" />
+		<genre name="Классический Детектив" code="det_classic" />
+		<genre name="Криминальный Детектив" code="det_crime" />
+		<genre name="Крутой Детектив" code="det_hard" />
+		<genre name="Любовный детектив" code="love_detective" />
+		<genre name="Маньяки" code="det_maniac" />
+		<genre name="Политический детектив" code="det_political" />
+		<genre name="Полицейский Детектив" code="det_police" />
+		<genre name="Триллеры" code="thriller" />
+		<genre name="Шпионский Детектив" code="det_espionage" />
+		<genre name="Фантистический детектив" code="sf_detective" />
+	</group>
+	<group name="Детское" >
+		<genre name="Детская Образовательная литература" code="child_education" />
+		<genre name="Детская Проза" code="child_prose" />
+		<genre name="Детская Фантастика" code="child_sf" />
+		<genre name="Детские Остросюжетные" code="child_det" />
+		<genre name="Детские Приключения" code="child_adv" />
+		<genre name="Детские Стихи" code="child_verse" />
+		<genre name="Детское: Прочее" code="children" />
+		<genre name="Сказки" code="child_tale" />
+	</group>
+	<group name="Документальное" >
+		<genre name="Биографии и Мемуары" code="nonf_biography" />
+		<genre name="Документальное: Прочее" code="nonfiction" />
+		<genre name="Искусство, Дизайн" code="design" />
+		<genre name="Критика" code="nonf_criticism" />
+		<genre name="Периодика" code="periodic" />
+		<genre name="Публицистика" code="nonf_publicism" />
+	</group>
+	<group name="Дом, Семья" >
+		<genre name="Дом и Семья: Прочее" code="home" />
+		<genre name="Домашние Животные" code="home_pets" />
+		<genre name="Здоровье" code="home_health" />
+		<genre name="Кулинария" code="home_cooking" />
+		<genre name="Развлечения" code="home_entertain" />
+		<genre name="Сад и Огород" code="home_garden" />
+		<genre name="Сделай Сам" code="home_diy" />
+		<genre name="Спорт" code="home_sport" />
+		<genre name="Хобби, Ремесла" code="home_crafts" />
+		<genre name="Эротика, Секс" code="home_sex" />
+	</group>
+	<group name="Компьютеры" >
+		<genre name="Базы данных" code="comp_db" />
+		<genre name="Интернет" code="comp_www" />
+		<genre name="Компьютерное Железо" code="comp_hard" />
+		<genre name="Компьютеры: Прочее" code="computers" />
+		<genre name="ОС и Сети" code="comp_osnet" />
+		<genre name="Программирование" code="comp_programming" />
+		<genre name="Программы" code="comp_soft" />
+	</group>
+	<group name="Любовные романы" >
+		<genre name="Исторические Любовные Романы" code="love_history" />
+		<genre name="Короткие Любовные Романы" code="love_short" />
+		<genre name="Остросюжетные Любовные Романы" code="love_detective" />
+		<genre name="Современные Любовные Романы" code="love_contemporary" />
+		<genre name="Фантастическая любовь" code="love_sf" />
+		<genre name="Эротика" code="love_erotica" />
+	</group>
+	<group name="Наука, Образование" >
+		<genre name="Биология" code="sci_biology" />
+		<genre name="Деловая литература" code="sci_business" />
+		<genre name="История" code="sci_history" />
+		<genre name="Культурология" code="sci_culture" />
+		<genre name="Математика" code="sci_math" />
+		<genre name="Медицина" code="sci_medicine" />
+		<genre name="Научно-образовательная: Прочее" code="science" />
+		<genre name="Политика" code="sci_politics" />
+		<genre name="Природа и Животные" code="adv_animal" />
+		<genre name="Психология" code="sci_psychology" />
+		<genre name="Религиоведение" code="sci_religion" />
+		<genre name="Технические" code="sci_tech" />
+		<genre name="Физика" code="sci_phys" />
+		<genre name="Философия" code="sci_philosophy" />
+		<genre name="Химия" code="sci_chem" />
+		<genre name="Юриспруденция" code="sci_juris" />
+		<genre name="Языкознание" code="sci_linguistic" />
+	</group>
+	<group name="Поэзия, Драматургия" >
+		<genre name="Драматургия" code="dramaturgy" />
+		<genre name="Поэзия" code="poetry" />
+		<genre name="Стихи: Прочее" code="child_verse" />
+		<genre name="Юмористические стихи" code="humor_verse" />
+	</group>
+	<group name="Приключения" >
+		<genre name="Вестерны" code="adv_western" />
+		<genre name="Исторические Приключения" code="adv_history" />
+		<genre name="Морские Приключения" code="adv_maritime" />
+		<genre name="Приключения для детей" code="child_adv" />
+		<genre name="Приключения: Индейцы" code="adv_indian" />
+		<genre name="Приключения: Прочее" code="adventure" />
+		<genre name="Природа и Животные" code="adv_animal" />
+		<genre name="Путешествия и География" code="adv_geo" />
+	</group>
+	<group name="Проза" >
+		<genre name="Военная проза" code="prose_military" />
+		<genre name="Историческая Проза" code="prose_history" />
+		<genre name="Классическая Проза" code="prose_classic" />
+		<genre name="Контркультура" code="prose_counter" />
+		<genre name="Проза: Прочее" code="child_prose" />
+		<genre name="Русская Классика" code="prose_rus_classic" />
+		<genre name="Советская Классика" code="prose_su_classics" />
+		<genre name="Современная Проза" code="prose_contemporary" />
+		<genre name="Юмористическая проза" code="humor_prose" />
+	</group>
+	<group name="Религия" >
+		<genre name="Религиозные исследования" code="sci_religion" />
+		<genre name="Религия" code="religion_rel" />
+		<genre name="Религия и духовность: Прочее" code="religion" />
+		<genre name="Самосовершенствование" code="religion_self" />
+		<genre name="Эзотерика" code="religion_esoterics" />
+	</group>
+	<group name="Справочники" >
+		<genre name="GEO Справочники" code="geo_guides" />
+		<genre name="Руководства" code="ref_guide" />
+		<genre name="Словари" code="ref_dict" />
+		<genre name="Справочная Литература: Прочее" code="reference" />
+		<genre name="Справочники" code="ref_ref" />
+		<genre name="Энциклопедии" code="ref_encyc" />
+	</group>
+	<group name="Старинное" >
+		<genre name="Античная Литература" code="antique_ant" />
+		<genre name="Древневосточная Литература" code="antique_east" />
+		<genre name="Древнерусская Литература" code="antique_russian" />
+		<genre name="Европейская Старинная Литература" code="antique_european" />
+		<genre name="Мифы. Легенды. Эпос" code="antique_myths" />
+		<genre name="Старинная Литература: Прочее" code="antique" />
+	</group>
+	<group name="Фантастика и Фэнтези" >
+		<genre name="Альтернативная история" code="sf_history" />
+		<genre name="Боевая Фантастика" code="sf_action" />
+		<genre name="Героическая фантастика" code="sf_heroic" />
+		<genre name="Детективная Фантастика" code="sf_detective" />
+		<genre name="Киберпанк" code="sf_cyberpunk" />
+		<genre name="Космическая Фантастика" code="sf_space" />
+		<genre name="Научная Фантастика" code="sf" />
+		<genre name="Научная Фантастика для детей" code="child_sf" />
+		<genre name="Социальная фантастика" code="sf_social" />
+		<genre name="Ужасы и Мистика" code="sf_horror" />
+		<genre name="Фэнтези" code="sf_fantasy" />
+		<genre name="Эпическая Фантастика" code="sf_epic" />
+		<genre name="Юмористическая фантастика" code="sf_humor" />
+	</group>
+	<group name="Экономика и Бизнес" >
+		<genre name="Банковское дело" code="banking" />
+		<genre name="Бухучет, Налогообложение, Аудит" code="accounting" />
+		<genre name="Внешнеэкономическая деятельность" code="global_economy" />
+		<genre name="Делопроизводство" code="paper_work" />
+		<genre name="Корпоративная культура" code="org_behavior" />
+		<genre name="Личные финансы" code="personal_finance" />
+		<genre name="Малый бизнес" code="small_business" />
+		<genre name="Недвижимость" code="real_estate" />
+		<genre name="Отраслевые издания" code="industries" />
+		<genre name="Подбор персонала" code="management" />
+		<genre name="Поиск работы" code="periodic" />
+		<genre name="Популярно о бизнесе" code="popular_business" />
+		<genre name="Продажи, Реклама, PR" code="marketing" />
+		<genre name="Справочники" code="economics_ref" />
+		<genre name="Ценные бумаги, Инвестиции" code="stock" />
+		<genre name="Экономика" code="economics" />
+	</group>
+	<group name="Юмор" >
+		<genre name="Анекдоты" code="humor_anecdote" />
+		<genre name="Юмор: Прочее" code="humor" />
+		<genre name="Юмористическая Проза" code="humor_prose" />
+		<genre name="Юмористические Стихи" code="humor_verse" />
+	</group>
+</genres>

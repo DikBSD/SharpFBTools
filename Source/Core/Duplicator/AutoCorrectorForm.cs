@@ -36,18 +36,15 @@ namespace Core.Duplicator
 		private readonly EndWorkMode m_EndMode		= new EndWorkMode();
 		private readonly string m_TempDir			= Settings.Settings.TempDir;
 		private readonly BooksAutoCorrectMode m_WorkMode;  // режим обработки книг
-		private readonly bool m_IsFB2Librusec = true;
 		private readonly DateTime m_dtStart;
 		private BackgroundWorker m_bw	= null;  // фоновый обработчик
 		#endregion
 		
-		public AutoCorrectorForm( BooksAutoCorrectMode WorkMode, ListView listViewFB2Files,
-		                         bool IsFB2Librusec )
+		public AutoCorrectorForm( BooksAutoCorrectMode WorkMode, ListView listViewFB2Files )
 		{
 			InitializeComponent();
 			m_listViewFB2Files	= listViewFB2Files;
 			m_WorkMode			= WorkMode;
-			m_IsFB2Librusec		= IsFB2Librusec;
 			
 			switch( m_WorkMode ) {
 				case BooksAutoCorrectMode.SelectedBooks:
@@ -110,7 +107,7 @@ namespace Core.Duplicator
 							return;
 						}
 						WorksWithBooks.autoCorrect(
-							SelectedItem, SelectedItem.Text, m_IsFB2Librusec,
+							SelectedItem, SelectedItem.Text,
 							m_listViewFB2Files.SelectedItems.Count == 1 ? true : false,
 							m_sharpZipLib
 						);
@@ -125,7 +122,7 @@ namespace Core.Duplicator
 							return;
 						}
 						WorksWithBooks.autoCorrect(
-							CheckedItem, CheckedItem.Text, m_IsFB2Librusec,
+							CheckedItem, CheckedItem.Text,
 							m_listViewFB2Files.CheckedItems.Count == 1 ? true : false,
 							m_sharpZipLib
 						);
@@ -140,7 +137,7 @@ namespace Core.Duplicator
 							return;
 						}
 						WorksWithBooks.autoCorrect(
-							Item, Item.Text, m_IsFB2Librusec,
+							Item, Item.Text,
 							false, m_sharpZipLib
 						);
 						m_bw.ReportProgress( ++i );
@@ -154,8 +151,7 @@ namespace Core.Duplicator
 							return;
 						}
 						WorksWithBooks.autoCorrect(
-							Item, Item.Text, m_IsFB2Librusec,
-							false, m_sharpZipLib
+							Item, Item.Text, false, m_sharpZipLib
 						);
 						m_bw.ReportProgress( ++i );
 					}

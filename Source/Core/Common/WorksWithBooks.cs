@@ -195,7 +195,7 @@ namespace Core.Common
 		}
 		
 		// есть ли в списке заданный жанр
-		public static bool genreIsExist( ListView listView, Genre g, IFBGenres fb2g ) {
+		public static bool genreIsExist( ListView listView, Genre g, FB2UnionGenres fb2g ) {
 			string Name = !string.IsNullOrEmpty( g.Name )
 				? fb2g.GetFBGenreName( g.Name ) + " (" + g.Name + ")"
 				: string.Empty;
@@ -281,9 +281,10 @@ namespace Core.Common
 		
 		// создание заполненных subitems для Сортировщика и Корректора
 		public static ListViewItem.ListViewSubItem[]
-			createSubItemsWithMetaData( string FilePath, string SourceFileExt,
-			                           ListViewItem Item, ref IFBGenres FB2FullSortGenres,
-			                           bool IsLibrusecGenres ) {
+			createSubItemsWithMetaData(
+				string FilePath, string SourceFileExt,
+				ListViewItem Item, ref FB2UnionGenres FB2FullSortGenres
+			) {
 			FB2BookDescription bd = null;
 			try {
 				bd = new FB2BookDescription( FilePath );
@@ -292,9 +293,9 @@ namespace Core.Common
 			
 			string valid = "?";
 			if ( bd != null )
-				valid = IsLibrusecGenres ? bd.IsValidFB2Librusec : bd.IsValidFB22;
+				valid = bd.IsValidFB2Librusec;
 			else
-				valid = m_fv2Validator.ValidatingFB2File( FilePath, IsLibrusecGenres );
+				valid = m_fv2Validator.ValidatingFB2File( FilePath );
 			if ( !string.IsNullOrEmpty( valid ) ) {
 				valid = "Нет";
 				Item.ForeColor = Colors.FB2NotValidForeColor;
@@ -322,11 +323,11 @@ namespace Core.Common
 		
 		// занесение данных в выделенный итем (метаданные книги после правки) для Корректора
 		public static bool viewBookMetaDataLocal( ref string SrcFilePath, ref FB2BookDescription fb2Desc, ListViewItem lvi,
-		                                         bool IsFB2Librusec, ref IFBGenres FB2Genres ) {
+		                                         ref FB2UnionGenres FB2Genres ) {
 			if( lvi != null ) {
 				if( fb2Desc != null ) {
 					string fileExtention = Path.GetExtension( SrcFilePath ).ToLower();
-					string valid = IsFB2Librusec ? fb2Desc.IsValidFB2Librusec : fb2Desc.IsValidFB22;
+					string valid = fb2Desc.IsValidFB2Librusec;
 					if ( string.IsNullOrEmpty( valid ) ) {
 						valid = "Да";
 						lvi.ForeColor = fileExtention == ".fb2"
@@ -377,8 +378,8 @@ namespace Core.Common
 		}
 		
 		// показать данные книги для Сортировщика
-		public static void viewBookMetaDataLocal( string FilePath, ListView listViewSource, IFBGenres FB2FullSortGenres,
-		                                         int ItemNumber, string TempDir, bool IsLibrusecGenres ) {
+		public static void viewBookMetaDataLocal( string FilePath, ListView listViewSource, FB2UnionGenres FB2FullSortGenres,
+		                                         int ItemNumber, string TempDir ) {
 			string valid = "?";
 			FB2BookDescription bd = null;
 			string FileExtension = Path.GetExtension( FilePath ).ToLower();
@@ -387,7 +388,7 @@ namespace Core.Common
 					// показать данные fb2 файлов
 					bd = new FB2BookDescription( FilePath );
 
-					valid = IsLibrusecGenres ? bd.IsValidFB2Librusec : bd.IsValidFB22;
+					valid = bd.IsValidFB2Librusec;
 					if ( !string.IsNullOrEmpty( valid ) ) {
 						valid = "Нет";
 						listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
@@ -421,7 +422,7 @@ namespace Core.Common
 					string [] files = Directory.GetFiles( TempDir );
 					bd = new FB2BookDescription( files[0] );
 
-					valid = IsLibrusecGenres ? bd.IsValidFB2Librusec : bd.IsValidFB22;
+					valid = bd.IsValidFB2Librusec;
 					if ( !string.IsNullOrEmpty( valid ) ) {
 						valid = "Нет";
 						listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
@@ -460,8 +461,7 @@ namespace Core.Common
 		/// </summary>
 		/// <param name="listView">ListView для формирования списка items</param>
 		/// <param name="dirPath">Исходная папка сканирования книг для генерации списка их данных</param>
-		/// <param name="fb2g">Список Жанров IFBGenres</param>
-		/// <param name="IsLibrusecGenres">true - Схема Жанров от Либрусек</param>
+		/// <param name="fb2g">Список Жанров FB2UnionGenres</param>
 		/// <param name="isTagsView">Нужно ли отображатьметаданные книг в списке</param>
 		/// <param name="itemChecked">Нужно ли ставить пометку на созданный ListLiewItem</param>
 		/// <param name="AutoResizeColumns">Нужно ли проводить авторазмер колонок списка</param>
@@ -470,9 +470,8 @@ namespace Core.Common
 		/// <param name="bw">Фоновый обработчик BackgroundWorker (null, если не используется)</param>
 		/// <param name="e">DoWorkEventArgs (null, если не используется)</param>
 		/// <returns>true - список сформирован; false - прерывание генерации списка</returns>
-		public static bool generateBooksListWithMetaData( ListView listView, string dirPath, ref IFBGenres fb2g,
-		                                                 bool IsLibrusecGenres, bool isTagsView, bool itemChecked,
-		                                                 bool AutoResizeColumns,
+		public static bool generateBooksListWithMetaData( ListView listView, string dirPath, ref FB2UnionGenres fb2g,
+		                                                 bool isTagsView, bool itemChecked, bool AutoResizeColumns,
 		                                                 Form form = null, ProgressBar ProgressBar = null,
 		                                                 BackgroundWorker bw = null, DoWorkEventArgs e = null ) {
 			if ( !Directory.Exists( dirPath ) )
@@ -544,7 +543,7 @@ namespace Core.Common
 									if( isTagsView ) {
 										item.ForeColor = Colors.FB2ForeColor;
 										subItems = createSubItemsWithMetaData(
-											file.FullName, FileExt, item, ref fb2g, IsLibrusecGenres
+											file.FullName, FileExt, item, ref fb2g
 										);
 									} else
 										subItems = createEmptySubItemsForItem( item );
@@ -558,7 +557,7 @@ namespace Core.Common
 										if ( ExtFromZip == ".fb2") {
 											item.ForeColor = Colors.ZipFB2ForeColor;
 											subItems = createSubItemsWithMetaData(
-												files[0], FileExt, item, ref fb2g, IsLibrusecGenres
+												files[0], FileExt, item, ref fb2g
 											);
 										} else {
 											item.ForeColor = Colors.BadZipForeColor;
@@ -603,14 +602,13 @@ namespace Core.Common
 		/// отображение/скрытие метаданных данных книг в Списке Сортировщика
 		/// </summary>
 		/// <param name="listViewFB2Files">ListView для формирования списка items</param>
-		/// <param name="fb2g">Список Жанров IFBGenres</param>
-		/// <param name="IsLibrusecGenres">true - Схема Жанров от Либрусек</param>
+		/// <param name="fb2g">Список Жанров FB2UnionGenres</param>
 		/// <param name="isTagsView">Нужно ли отображатьметаданные книг в списке</param>
 		/// <param name="bw">Фоновый обработчик BackgroundWorker (null, если не используется)</param>
 		/// <param name="e">DoWorkEventArgs (null, если не используется)</param>
 		/// <returns>true - список сформирован; false - прерывание генерации списка</returns>
-		public static bool viewOrHideBookMetaDataLocal( ListView listViewFB2Files, ref IFBGenres fb2g,
-		                                               bool IsLibrusecGenres, bool isTagsView,
+		public static bool viewOrHideBookMetaDataLocal( ListView listViewFB2Files, ref FB2UnionGenres fb2g,
+		                                               bool isTagsView,
 		                                               BackgroundWorker bw = null, DoWorkEventArgs e = null ) {
 			ListViewItemType it	= null;
 			string TempDir = Settings.Settings.TempDir;
@@ -627,7 +625,7 @@ namespace Core.Common
 					if( isTagsView ) {
 						// показать данные книг
 						viewBookMetaDataLocal(
-							it.Value, listViewFB2Files, fb2g, i, TempDir, IsLibrusecGenres
+							it.Value, listViewFB2Files, fb2g, i, TempDir
 						);
 					} else {
 						// скрыть данные книг
@@ -703,66 +701,34 @@ namespace Core.Common
 		}
 
 		// формирование Списка Групп Жанров
-		public static void makeListGenresGroups( ComboBox GenresGroupComboBox, bool IsFB2Libruser ) {
-			IGenresGroup GenresGroup = new GenresGroup();
+		public static void makeListGenresGroups( ComboBox GenresGroupComboBox ) {
 			GenresGroupComboBox.Items.Clear();
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupSf );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupDetective );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupProse );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupLove );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupAdventure );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupChildren );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupPoetry );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupAntique );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupScience );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupComputers );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupReference );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupNonfiction );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupReligion );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupHumor );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupHome );
-			GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupBusiness );
-			if( IsFB2Libruser ) {
-				GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupTech );
-				GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupMilitary );
-				GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupFolklore );
-				GenresGroupComboBox.Items.Add( GenresGroup.GenresGroupOther );
-			}
-			
+			FB2UnionGenres fb2g = new FB2UnionGenres();
+			GenresGroupComboBox.Items.AddRange( fb2g.GetListAllGenresGroupsArray() );
 			GenresGroupComboBox.SelectedIndex = 0;
 		}
 		
-		// формирование Списка Жанров в контролы, в зависимости от Группы (только коды Жанров)
-		public static void makeListCodeGenres( ComboBox GenresComboBox, bool IsFB2Libruser, string GenreGroup ) {
+		// формирование Списка всех полных Жанров (в скобках) в контролы
+		public static void makeListAllFullGenres( ComboBox GenresComboBox ) {
 			GenresComboBox.Items.Clear();
-			IGenresGroup GenresGroup = new GenresGroup();
-			IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( IsFB2Libruser, ref GenresGroup );
-			GenresComboBox.Items.AddRange( fb2g.GetFBGenreCodesArrayForGroup( GenreGroup ) );
+			FB2UnionGenres fb2g = new FB2UnionGenres();
+			GenresComboBox.Items.AddRange( fb2g.GetListAllFullGenreArray() );
 			GenresComboBox.SelectedIndex = 0;
 		}
 		
 		// формирование Списка Жанров в контролы, в зависимости от Группы (и коды и расшифровка Жанров)
-		public static void makeListGenres( ComboBox GenresComboBox, bool IsFB2Libruser, string GenreGroup ) {
+		public static void makeListGenres( ComboBox GenresComboBox, string GenreGroup ) {
 			GenresComboBox.Items.Clear();
-			IGenresGroup GenresGroup = new GenresGroup();
-			IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( IsFB2Libruser, ref GenresGroup );
-			string[] Codes = fb2g.GetFBGenreCodesArrayForGroup( GenreGroup );
-			for( int i = 0; i != Codes.Length; ++i )
-				GenresComboBox.Items.Add( fb2g.GetFBGenreName( Codes[i] ) + " (" + Codes[i] + ")" );
-
+			FB2UnionGenres fb2g = new FB2UnionGenres();
+			GenresComboBox.Items.AddRange( fb2g.GetListAllFullGenreArrayForGroup( GenreGroup ) );
 			GenresComboBox.SelectedIndex = 0;
 		}
 		
-		// формирование Списка всех Жанров Схемы в контролы
-		public static void makeListAllGenres( ComboBox GenresComboBox, bool IsFB2Libruser ) {
+		// формирование Списка Жанров в контролы, в зависимости от Группы (только коды Жанров)
+		public static void makeListCodeGenres( ComboBox GenresComboBox, string GenreGroup ) {
 			GenresComboBox.Items.Clear();
-			IGenresGroup GenresGroup = new GenresGroup();
-			IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( IsFB2Libruser, ref GenresGroup );
-			string[] sGenresNames	= fb2g.GetFBGenreNamesArray();
-			string[] sCodes			= fb2g.GetFBGenreCodesArray();
-			
-			for( int i = 0; i != sGenresNames.Length; ++i )
-				GenresComboBox.Items.Add( sGenresNames[i] + " (" + sCodes[i] + ")" );
+			FB2UnionGenres fb2g = new FB2UnionGenres();
+			GenresComboBox.Items.AddRange( fb2g.GetFBGenreCodesArrayForGroup( GenreGroup ) );
 			GenresComboBox.SelectedIndex = 0;
 		}
 		
@@ -788,7 +754,7 @@ namespace Core.Common
 		// автокорректировка всех выделеннеых/помеченных книг для Корректора и Дубликатора
 		// OneBook = false - обработка для нескольких книг в цикле вызывающего кода
 		public static void autoCorrect( ListViewItem Item, string SrcFilePath,
-		                               bool IsFB2Librusec, bool OneBook, SharpZipLibWorker sharpZipLib ) {
+		                               bool OneBook, SharpZipLibWorker sharpZipLib ) {
 			string SourceFilePath = SrcFilePath;
 			string FilePath = SourceFilePath;
 			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, Settings.Settings.TempDir );
@@ -823,13 +789,11 @@ namespace Core.Common
 				// отображение новых данных в строке списка
 				if( IsFromZip )
 					ZipFB2Worker.getFileFromFB2_FB2Z( ref SourceFilePath, Settings.Settings.TempDir );
-				// спиок жанров, в зависимости от схемы Жанров
-				IGenresGroup GenresGroup = new GenresGroup();
-				IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( IsFB2Librusec, ref GenresGroup );
+				FB2UnionGenres fb2g = new FB2UnionGenres();
 				try {
 					FB2BookDescription fb2Desc = new FB2BookDescription( SourceFilePath );
 					viewBookMetaDataLocal(
-						ref SrcFilePath, ref fb2Desc, Item, IsFB2Librusec, ref fb2g
+						ref SrcFilePath, ref fb2Desc, Item, ref fb2g
 					);
 				} catch ( System.Exception /*e*/ ) {
 				} finally {
@@ -875,8 +839,8 @@ namespace Core.Common
 		}
 		
 		// Занесение данных о валидации в поле детализации
-		public static string isValidate( string SrcFilePath, TextBox tbValidate, bool IsFB2Librusec ) {
-			string Result = m_fv2Validator.ValidatingFB2File( SrcFilePath, IsFB2Librusec );
+		public static string isValidate( string SrcFilePath, TextBox tbValidate ) {
+			string Result = m_fv2Validator.ValidatingFB2File( SrcFilePath );
 			if ( string.IsNullOrEmpty( Result ) ) {
 				tbValidate.Text = "Все в порядке - файл валидный!";
 			} else {

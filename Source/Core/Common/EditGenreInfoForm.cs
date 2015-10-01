@@ -34,7 +34,6 @@ namespace Core.Common
 		private readonly IList<FB2ItemInfo> m_GenreFB2InfoList = null;
 		private bool m_ApplyData = false;
 		private readonly SharpZipLibWorker m_sharpZipLib = new SharpZipLibWorker();
-		private IGenresGroup m_GenresGroup = new GenresGroup();
 		private BackgroundWorker m_bw = null;
 		
 		public EditGenreInfoForm( ref IList<FB2ItemInfo> GenreFB2InfoList )
@@ -46,7 +45,7 @@ namespace Core.Common
 			m_GenreFB2InfoList = GenreFB2InfoList;
 			
 			// формирование Списка Групп Жанров
-			WorksWithBooks.makeListGenresGroups( GroupComboBox, rbtnFB2Librusec.Checked );
+			WorksWithBooks.makeListGenresGroups( GroupComboBox );
 
 			// загрузка Жанров для правки
 			loadGenresFromFB2Files( TitleInfoEnum.TitleInfo );
@@ -134,7 +133,7 @@ namespace Core.Common
 		#region Закрытые вспомогательные методы
 		// загрузка Жанров для правки
 		private void loadGenresFromFB2Files( Enums.TitleInfoEnum TitleInfoType ) {
-			IFBGenres fb2g = GenresWorker.genresListOfGenreSheme( rbtnFB2Librusec.Checked, ref m_GenresGroup );
+			FB2UnionGenres fb2g = new FB2UnionGenres();
 			foreach( FB2ItemInfo Info in m_GenreFB2InfoList ) {
 				if( Info.FictionBook != null ) {
 					IList<Genre> GenresList = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
@@ -184,20 +183,10 @@ namespace Core.Common
 		{
 			Close();
 		}
-		void RbtnFB2LibrusecClick(object sender, EventArgs e)
-		{
-			// формирование Списка Групп Жанров
-			WorksWithBooks.makeListGenresGroups( GroupComboBox, rbtnFB2Librusec.Checked );
-		}
-		void RbtnFB22Click(object sender, EventArgs e)
-		{
-			// формирование Списка Групп Жанров
-			WorksWithBooks.makeListGenresGroups( GroupComboBox, rbtnFB2Librusec.Checked );
-		}
 		void GroupComboBoxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			// формирование Списка Жанров в контролы, в зависимости от Группы
-			WorksWithBooks.makeListGenres( GenresComboBox, rbtnFB2Librusec.Checked, GroupComboBox.Text );
+			WorksWithBooks.makeListGenres( GenresComboBox, GroupComboBox.Text );
 		}
 		void GenreAddButtonClick(object sender, EventArgs e)
 		{

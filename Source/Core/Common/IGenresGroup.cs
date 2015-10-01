@@ -10,7 +10,7 @@ using System;
 namespace Core.Common
 {
 	/// <summary>
-	/// IGenresGroup: интерфейс названий Групп Жанров
+	/// Интерфейс названий Групп Жанров
 	/// </summary>
 	public interface IGenresGroup
 	{

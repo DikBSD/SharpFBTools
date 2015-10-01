@@ -10,7 +10,7 @@ using System;
 namespace Core.Common
 {
 	/// <summary>
-	/// GenresGroup: Названия Групп Жанров
+	/// Названия Групп Жанров
 	/// </summary>
 	public class GenresGroup : IGenresGroup
 	{

@@ -6,13 +6,15 @@
  * 
  */
 using System;
+using System.IO;
+using System.Xml.Linq;
 
 using Core.FB2.Genres;
 
 namespace Core.Common
 {
 	/// <summary>
-	/// GenresWorker: работа с Жанрами
+	/// Работа с Жанрами
 	/// </summary>
 	public class GenresWorker
 	{
@@ -21,7 +23,7 @@ namespace Core.Common
 		}
 		
 		// название жанра по его коду
-		public static string cyrillicGenreName( string GenreCodes, ref IFBGenres fb2g ) {
+		public static string cyrillicGenreName( string GenreCodes, ref FB2UnionGenres fb2g ) {
 			if( GenreCodes.IndexOf(';') != -1 ) {
 				string ret = string.Empty;
 				string[] Codes = GenreCodes.Split(';');
@@ -38,7 +40,7 @@ namespace Core.Common
 		}
 		
 		// название жанра (код)
-		public static string cyrillicGenreNameAndCode( string GenreCodes, ref IFBGenres fb2g ) {
+		public static string cyrillicGenreNameAndCode( string GenreCodes, ref FB2UnionGenres fb2g ) {
 			if( GenreCodes.IndexOf(';') != -1 ) {
 				string ret = string.Empty;
 				string[] Codes = GenreCodes.Split(';');
@@ -52,14 +54,5 @@ namespace Core.Common
 			return fb2g.GetFBGenreName( GenreCodes ) + " (" + GenreCodes + ")";
 		}
 		
-		// спиок жанров, в зависимости от схемы Жанров
-		public static IFBGenres genresListOfGenreSheme( bool IsFB2Librusec, ref IGenresGroup GenresGroup ) {
-			IFBGenres fb2g = null;
-			if( IsFB2Librusec )
-				fb2g = new FB2LibrusecGenres( ref GenresGroup );
-			else
-				fb2g = new FB22Genres( ref GenresGroup );
-			return fb2g;
-		}
 	}
 }

@@ -91,6 +91,7 @@
     <Compile Include="Common\ListViewItemType.cs" />
     <Compile Include="Common\MetaEditClasses.cs" />
     <Compile Include="Common\MiscListView.cs" />
+    <Compile Include="Common\MultiDictionary.cs" />
     <Compile Include="Common\SequenceInfoForm.cs" />
     <Compile Include="Common\SequenceInfoForm.Designer.cs">
       <DependentUpon>SequenceInfoForm.cs</DependentUpon>
@@ -255,12 +256,9 @@
     <Compile Include="FB2\Description\TitleInfo\TitleInfo.cs" />
     <Compile Include="FB2\FB2Parsers\FB2Validator.cs" />
     <Compile Include="FB2\FB2Parsers\FictionBook.cs" />
-    <Compile Include="FB2\Genres\FB22Genres.cs" />
-    <Compile Include="FB2\Genres\FB2LibRusEcGenres.cs" />
-    <Compile Include="FB2\Genres\IFBGenres.cs" />
+    <Compile Include="FB2\Genres\FB2UnionGenres.cs" />
     <Compile Include="FileManager\BasiclTemplates.cs" />
     <Compile Include="FileManager\FB2SelectedSorting.cs" />
-    <Compile Include="FileManager\GenresGroupForSorting.cs" />
     <Compile Include="FileManager\ISortOptions.cs" />
     <Compile Include="FileManager\SelectedSortDataForm.cs" />
     <Compile Include="FileManager\SortingForm.cs" />

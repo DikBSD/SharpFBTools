@@ -111,15 +111,11 @@ namespace Core.Common
 			STILangComboBox.Items.AddRange( LangList.LangsList );
 			STISrcLangComboBox.Items.AddRange( LangList.LangsList );
 			// формирование Списка Групп Жанров
-			WorksWithBooks.makeListGenresGroups( TIGroupComboBox, rbtnTIFB2Librusec.Checked );
-			WorksWithBooks.makeListGenresGroups( STIGroupComboBox, rbtnSTIFB2Librusec.Checked );
+			WorksWithBooks.makeListGenresGroups( TIGroupComboBox );
+			WorksWithBooks.makeListGenresGroups( STIGroupComboBox );
 		}
 		
 		#region Вспомогательные методы для ЗАГРУЗКИ метаданных в контролы
-		private IFBGenres getGenresListOfGenreSheme( bool IsFB2Librusec ) {
-			IGenresGroup GenresGroup = new GenresGroup();
-			return GenresWorker.genresListOfGenreSheme( IsFB2Librusec, ref GenresGroup );
-		}
 		// загрузка Названия книги в зависимости от типа TitleInfo
 		private void loadBookTitle( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
 			BookTitle bookTitle = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
@@ -160,12 +156,10 @@ namespace Core.Common
 		}
 		// загрузка Жанров взависимости от типа TitleInfo
 		private void loadGenres( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
-			RadioButton rbFB2Librusec = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
-				? rbtnTIFB2Librusec : rbtnSTIFB2Librusec;
 			ListView lv = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? TIGenresListView : STIGenresListView;
 			
-			IFBGenres fb2g = getGenresListOfGenreSheme( rbFB2Librusec.Checked );
+			FB2UnionGenres fb2g = new FB2UnionGenres();
 			
 			IList<Genre> Genres = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? fb2.TIGenres : fb2.STIGenres;
@@ -953,16 +947,6 @@ namespace Core.Common
 		#region Обработчики событий
 		/* Title Info */
 		// Жанры
-		void RbtnTIFB2LibrusecClick(object sender, EventArgs e)
-		{
-			// формирование Списка Групп Жанров
-			WorksWithBooks.makeListGenresGroups( TIGroupComboBox, rbtnTIFB2Librusec.Checked );
-		}
-		void RbtnTIFB22Click(object sender, EventArgs e)
-		{
-			// формирование Списка Групп Жанров
-			WorksWithBooks.makeListGenresGroups( TIGroupComboBox, rbtnTIFB2Librusec.Checked );
-		}
 		void TIGenreAddButtonClick(object sender, EventArgs e)
 		{
 			if( !MiscListView.isExistListViewItem( TIGenresListView, TIGenresComboBox.Text ) ) {
@@ -1005,7 +989,7 @@ namespace Core.Common
 		void TIGroupComboBoxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			// формирование Списка Жанров в контролы, в зависимости от Группы
-			WorksWithBooks.makeListGenres( TIGenresComboBox, rbtnTIFB2Librusec.Checked, TIGroupComboBox.Text );
+			WorksWithBooks.makeListGenres( TIGenresComboBox, TIGroupComboBox.Text );
 		}
 		// Авторы Книги
 		void TIAuthorAddButtonClick(object sender, EventArgs e)
@@ -1111,16 +1095,6 @@ namespace Core.Common
 			STITabControl.Enabled = STIEnableCheckBox.Checked;
 		}
 		// Жанры
-		void RbtnSTIFB2LibrusecClick(object sender, EventArgs e)
-		{
-			// формирование Списка Групп Жанров
-			WorksWithBooks.makeListGenresGroups( STIGroupComboBox, rbtnSTIFB2Librusec.Checked );
-		}
-		void RbtnSTIFB22Click(object sender, EventArgs e)
-		{
-			// формирование Списка Групп Жанров
-			WorksWithBooks.makeListGenresGroups( STIGroupComboBox, rbtnSTIFB2Librusec.Checked );
-		}
 		void STIGenreAddButtonClick(object sender, EventArgs e)
 		{
 			if( !MiscListView.isExistListViewItem( STIGenresListView, STIGenresComboBox.Text ) ) {
@@ -1163,7 +1137,7 @@ namespace Core.Common
 		void STIGroupComboBoxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			// формирование Списка Жанров в контролы, в зависимости от Группы
-			WorksWithBooks.makeListGenres( STIGenresComboBox, rbtnSTIFB2Librusec.Checked, STIGroupComboBox.Text );
+			WorksWithBooks.makeListGenres( STIGenresComboBox, STIGroupComboBox.Text );
 		}
 		// Авторы книги
 		void STIAuthorAddButtonClick(object sender, EventArgs e)

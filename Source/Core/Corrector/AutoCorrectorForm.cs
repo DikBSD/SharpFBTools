@@ -48,7 +48,6 @@ namespace Core.Corrector
 		private bool m_StopToSave = false;	// true, если остановка с сохранением необработанного списка книг в файл.
 		private int m_AllDirs = 0;
 		private int m_AllFiles = 0;
-		private readonly bool m_IsFB2Librusec = true;
 		private readonly DateTime m_dtStart = DateTime.Now;
 		
 		private BackgroundWorker m_bw		= null; // фоновый обработчик для Непрерывной Автокорректировки
@@ -56,14 +55,13 @@ namespace Core.Corrector
 		#endregion
 		
 		public AutoCorrectorForm( string fromXmlPath, string SourceRootDir, IList<ListViewItemInfo> ListViewItemInfoList,
-		                         ListView listViewFB2Files, bool IsFB2Librusec )
+		                         ListView listViewFB2Files )
 		{
 			InitializeComponent();
 			m_SourceRootDir 		= SourceRootDir;
 			m_ListViewItemInfoList	= ListViewItemInfoList;
 			
 			m_listViewFB2Files	= listViewFB2Files;
-			m_IsFB2Librusec		= IsFB2Librusec;
 			ProgressBar.Value	= 0;
 			
 			InitializeBackgroundWorker();
@@ -260,10 +258,9 @@ namespace Core.Corrector
 
 			// оздание итемов списка всех файлов и каталогов
 			StatusLabel.Text += "Отображение списка файлов с метаданными...\r";
-			IGenresGroup GenresGroup = new GenresGroup();
-			IFBGenres fb2Genres = GenresWorker.genresListOfGenreSheme( m_IsFB2Librusec, ref GenresGroup );
+			FB2UnionGenres fb2Genres = new FB2UnionGenres();
 			// генерация списка файлов - создание итемов listViewSource
-			if ( !WorksWithBooks.generateBooksListWithMetaData( m_listViewFB2Files, m_SourceRootDir, ref fb2Genres, m_IsFB2Librusec,
+			if ( !WorksWithBooks.generateBooksListWithMetaData( m_listViewFB2Files, m_SourceRootDir, ref fb2Genres,
 			                                                   true, false, false, this, ProgressBar, m_bwRenew, e ) )
 				e.Cancel = true;
 		}
@@ -322,10 +319,6 @@ namespace Core.Corrector
 				             new XElement("Data",
 				                          new XElement("AllDirs", m_AllDirs),
 				                          new XElement("AllFiles", m_AllFiles)
-				                         ),
-				             new XComment("Настройки"),
-				             new XElement("Settings",
-				                          new XElement("GenresFB2Librusec", m_IsFB2Librusec)
 				                         ),
 				             new XComment("Заданные каталоги для обработки"),
 				             new XElement("Dirs", new XAttribute("count", DirsList.Count)),

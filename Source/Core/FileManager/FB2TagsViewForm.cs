@@ -7,10 +7,8 @@
  * License: GPL 2.1
  */
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
-using System.IO;
 
 using Core.Common;
 using Core.FB2.Genres;
@@ -37,19 +35,16 @@ namespace Core.FileManager
 		private readonly string		m_TempDir			= Settings.Settings.TempDir;
 		private readonly bool 		m_isCreateItems		= true;
 		private readonly bool 		m_isTagsView		= false;
-		private readonly bool 		m_IsLibrusecGenres	= true;
 		private readonly string		m_dirPath			= null;
 		private readonly DateTime	m_dtStart 			= DateTime.Now;
 		#endregion
 		
-		public FB2TagsViewForm( bool isCreateItems, bool isTagsView, bool IsLibrusecGenres,
-		                       ListView listViewFB2Files, string dirPath = null )
+		public FB2TagsViewForm( bool isCreateItems, bool isTagsView, ListView listViewFB2Files, string dirPath = null )
 		{
 			InitializeComponent();
 			
 			InitializeBackgroundWorker();
 			
-			m_IsLibrusecGenres	= IsLibrusecGenres;
 			m_isTagsView		= isTagsView;
 			m_isCreateItems		= isCreateItems;
 			m_listViewFB2Files	= listViewFB2Files;
@@ -85,8 +80,7 @@ namespace Core.FileManager
 		
 		// генерация списка файлов с описанием из метаданных
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
-			IGenresGroup GenresGroup = new GenresGroupForSorting( null );
-			IFBGenres fb2Genres = GenresWorker.genresListOfGenreSheme( m_IsLibrusecGenres, ref GenresGroup );
+			FB2UnionGenres fb2Genres = new FB2UnionGenres();
 			if( !m_isCreateItems ) {
 				// отображение/скрытие метаданных данных книг в Списке Сортировщика
 				if( m_listViewFB2Files.Items.Count > 0 ) {
@@ -94,8 +88,7 @@ namespace Core.FileManager
 					if (
 						!WorksWithBooks.viewOrHideBookMetaDataLocal(
 							m_listViewFB2Files, ref fb2Genres,
-							m_IsLibrusecGenres, m_isTagsView,
-							m_bw, e
+							m_isTagsView, m_bw, e
 						)
 					)
 						e.Cancel = true;
@@ -105,8 +98,7 @@ namespace Core.FileManager
 				if (
 					!WorksWithBooks.generateBooksListWithMetaData(
 						m_listViewFB2Files, m_dirPath, ref fb2Genres,
-						m_IsLibrusecGenres, m_isTagsView, true,
-						false, this, ProgressBar, m_bw, e
+						m_isTagsView, true, false, this, ProgressBar, m_bw, e
 					)
 				)
 					e.Cancel = true;
