@@ -27,12 +27,11 @@ namespace Settings
 		private readonly static string m_settings 				= ProgDir + "\\settings.xml";
 		private readonly static string m_sLicensePath			= ProgDir + "\\License GPL 2.1.rtf";
 		private readonly static string m_sChangeFilePath		= ProgDir + "\\Change.rtf";
-		private readonly static string m_sFB22SchemePath		= ProgDir + "\\FB22FictionBook.xsd";
-		private readonly static string m_sFB2LibrusecSchemePath	= ProgDir + "\\LibrusecFictionBook.xsd";
+		private readonly static string m_SchemePath				= ProgDir + "\\FictionBook.xsd";
 		private readonly static string m_sTFB2Path				= "c:\\WINDOWS\\NOTEPAD.EXE";
 		private readonly static string m_sFBEPath				= "c:\\Program Files\\FictionBook Editor\\FBE.exe";
 		private readonly static string m_sFBReaderPath			= "c:\\Program Files\\AlReader 2\\AlReader2.exe";
-		private static string m_sDiffPath				= string.Empty;
+		private 		 static string m_sDiffPath				= string.Empty;
 		#endregion
 		
 		#region Общие Сообщения
@@ -88,14 +87,9 @@ namespace Settings
 			get { return m_sTempDir; }
 		}
 		
-		// возвращает путь к схеме fb2.2
-		public static string FB22SchemePath {
-			get { return m_sFB22SchemePath; }
-		}
-		
-		// возвращает путь к схеме fb2 Librusec
-		public static string FB2LibrusecSchemePath {
-			get { return m_sFB2LibrusecSchemePath; }
+		// возвращает путь к объединенной схеме
+		public static string SchemePath {
+			get { return m_SchemePath; }
 		}
 		
 		public static string SettingsPath {

@@ -81,7 +81,7 @@ namespace Core.FB2Parser
 		}
 		
 		public string ValidatingFB2File( string FilePath ) {
-			return validate( FilePath, Settings.Settings.FB2LibrusecSchemePath );
+			return validate( FilePath, Settings.Settings.SchemePath );
 		}
 		
 	}
