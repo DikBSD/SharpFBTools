@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
+using System.Windows.Forms;
+
 using Core.Common;
 using Core.FB2.FB2Parsers;
 
@@ -31,7 +33,7 @@ namespace Core.Common
 		#region Закрытые данные класса
 		private readonly FictionBook _fb2 = null;
 		private static string[] _Tags = {
-			"<p>", "<p ", "</p>", "<p/>", "<p />", "<empty-line/>", "<empty-line />",
+			"<p>", "<p ", "</p>", "<p/>", "<p />", "<empty-line/>", "<empty-line />", "<empty-line ",
 			"<strong>", "</strong>", "<emphasis>", "</emphasis>", "<a ", "</a>",
 			"<section>", "</section>", "<section ",
 			"<title>", "</title>", "<title ", "<subtitle>", "<subtitle ", "</subtitle>",
@@ -300,7 +302,6 @@ namespace Core.Common
 						}
 					}
 				}
-				
 				return true;
 			}
 		}
@@ -1023,7 +1024,7 @@ namespace Core.Common
 		
 		#region Открытые методы
 		public void saveToFB2File( string FilePath ) {
-			_fb2.saveToFB2File( FilePath );
+			_fb2.saveToFB2File( FilePath, false );
 		}
 		public static string getEncoding( string FilePath ) {
 			string encoding = "UTF-8";
@@ -1152,7 +1153,9 @@ namespace Core.Common
 			StringBuilder sbNewString = new StringBuilder( list.Count );
 			string token = string.Empty;
 			foreach ( string item in list ) {
-				token = item.Replace("\r\n", "").TrimEnd();
+				token = item.Replace("\r\n", "");
+				if ( string.IsNullOrWhiteSpace( token ) )
+					token = token.Trim();
 				if ( isFB2Tag( token, htTags ) )
 					sbNewString.AppendLine( token );
 				else {
@@ -1167,7 +1170,7 @@ namespace Core.Common
 						sbNewString.AppendLine( "\r\n" );
 				}
 			}
-
+			
 			// автокорректировка файла
 			InputString = autoCorrect( IndexBinary != -1 ? BeforeBinary : sbNewString.ToString() );
 
@@ -1176,11 +1179,39 @@ namespace Core.Common
 				writer.Write( IndexBinary != -1 ? ( InputString + AfterBinary ) : InputString );
 			}
 		}
+		// склейка тегов абзацев <p> </p> с их текстом в одну строку (для дальнейшей простоты обработки текста)
+		private static string pCorrect( string InputString ) {
+			// склейка <p>, тегов форматирования и его текста в одну строку (<p>\nТекст\n</p>)
+			InputString = Regex.Replace(
+				InputString, @"(<p>\s+)<(strong|emphasis)>\s*(.+)\s*</\2>(\s+</p>)",
+				"<p><$2>$3</$2></p>", RegexOptions.None
+			); // (<p>\s+)<(strong|emphasis)>\s*(.+)\s*</\2>(\s+</p>)
+			// склейка <p> и его текста в одну строку (<p>\nТекст\n</p>)
+			InputString = Regex.Replace(
+				InputString, @"^<p>\s+([^<]+)\s+</p>\s",
+				"<p>$1</p>", RegexOptions.None
+			); // ^<p>\s+([^<]+)\s+</p>\s
+			// склейка <p> и его текста в одну строку (<p>\nТекст</p>)
+			InputString = Regex.Replace(
+				InputString, @"^<p>\s+([^<]+)\s*</p>\s",
+				"<p>$1</p>", RegexOptions.None
+			); // ^<p>\s+([^<\s]+)\s*</p>\s
+			// склейка <p> и его текста в одну строку (<p>Текст\n</p>)
+			InputString = Regex.Replace(
+				InputString, @"^<p>([^<]+)\s+</p>",
+				"<p>$1</p>", RegexOptions.None
+			); // ^<p>([^<]+)\s+</p>
+			
+			return InputString;
+		}
 		// Автокорректировка текста строки InputString
 		private static string autoCorrect( string InputString ) {
 			if ( string.IsNullOrWhiteSpace( InputString ) || InputString.Length == 0 )
 				return InputString;
 			
+			// склейка тегов абзацев <p> </p> с их текстом в одну строку (для дальнейшей простоты обработки текста)
+//			InputString = pCorrect( InputString );
+
 			//  правка пространство имен
 			string search21 = "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.1\"";
 			string search22 = "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.2\"";
@@ -1200,9 +1231,9 @@ namespace Core.Common
 				 *********************/
 				// незавершенный тег <p>: <p текст
 				InputString = Regex.Replace(
-					InputString, @"(^\s*)(<p)(?=\s+[^i])",
-					"$2>", RegexOptions.IgnoreCase | RegexOptions.Multiline)
-					; // (^\s*)(<p)(?=\s+[^i])
+					InputString, @"(^\s*)(<p)(?=\s+[^i/>])",
+					"$2>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				); // (^\s*)(<p)(?=\s+[^i/>])
 				// восстановление пропущенных </p>
 				InputString = Regex.Replace(
 					InputString, "(\\:|;|\"|»\\d|\\w|\\.|,|!|\\?)\\s*(<p>)",
@@ -1213,6 +1244,12 @@ namespace Core.Common
 					InputString, "(</p>)\\s*(\\d|\\w|\\.|,|!|\\?|\\:|;|\"|«)",
 					"$1\n<p>$2", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				); // (</p>)\s*(\d|\w|\.|,|!|\?|\:|;|\"|«)
+				// обработка строк типа <p> бла-бла-бла <p> бла-бла-бла </p> бла-бла-бла </p>
+				InputString = Regex.Replace(
+					InputString, @"(<p>)(.+)(<p>)(.+)(</p>)(.+)(</p>)\s",
+					"$1$2$5\n$3$4$6$7", RegexOptions.None
+				); // (<p>)(.+)(<p>)(.+)(</p>)(.+)(</p>)\s
+				
 				
 				/******************
 				 * Обработка Жанра *
@@ -1246,6 +1283,169 @@ namespace Core.Common
 					InputString, @"(<lang>)(?:\s*)(?:EN-en|Eng)(?:\s*)(</lang>)",
 					"$1en$2", RegexOptions.IgnoreCase
 				); // (<lang>)(?:\s*)(?:EN-en|Eng)(?:\s*)(</lang>)
+				
+				/*****************
+				 * Удаление тегов *
+				 *****************/
+				// удаление тегов <DIV ...></DIV>
+				InputString = Regex.Replace(
+					InputString, @"(<[Dd][Ii][Vv]\s*.+?>)|(<\s*/[Dd][Ii][Vv])",
+					"", RegexOptions.IgnoreCase
+				); //(<[Dd][Ii][Vv]\s*.+?>)|(<\s*/[Dd][Ii][Vv])
+				// удаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>
+				InputString = Regex.Replace(
+					InputString, @"(?:<br|<BR|<R)(?:\s*)(?:/?>)",
+					"", RegexOptions.IgnoreCase
+				); // (?:<br|<BR|<R)(?:\s*)(?:/?>)
+				// удаление тегов <cite id="nnnnnn" /> , <cite id="nnnnnn"></cite>
+				InputString = Regex.Replace(
+					InputString, "<(cite)\\s+id=\"(.+?)\"(?:>\\s*</\\1>|\\s*/>)",
+					"", RegexOptions.IgnoreCase
+				); // <(cite)\s+id="(.+?)"(?:>\s*</\1>|\s*/>)
+				// удаление тегов <p> и </p> в структуре <p> <empty-line /> </p>
+				InputString = Regex.Replace(
+					InputString, @"<p>\s*(<empty-line />\s*)</p>",
+					"$1", RegexOptions.IgnoreCase
+				); // <p>\s*(<empty-line />\s*)</p>
+				
+				/*********************
+				 * Обработка структур *
+				 **********************/
+				// обработка тегов body и section
+				InputString = Regex.Replace(
+					InputString, @"(<body\b|section\b)(?:\s*)xmlns=""(?:\s*)(>)",
+					"$1$2", RegexOptions.IgnoreCase
+				); // (<body\b|section\b)(?:\s*)xmlns=""(?:\s*)(>)
+				// обработка вложенных друг в друга тегов cite (epigraph)
+				InputString = Regex.Replace(
+					InputString, @"^\s*((<(cite|epigraph)>\s*)\s*\2)(.+)(\s*</\3>){2}",
+					"<text-author>$3</text-author>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				); // ^\s*((<(cite|epigraph)>\s*)\s*\2)(.+)(\s*</\3>){2}
+				// Вставка между </epigraph> или <image ... /> (<image ... ></image>) недостающего тега <empty-line/>
+				InputString = Regex.Replace(
+					InputString, @"((<image\s+.+/>)|(<image\s+.+>\s*</image>)|(</epigraph>))\s*(</section>)",
+					"$1\n<empty-line/>\n$5", RegexOptions.None
+				); // ((<image\s+.+/>)|(<image\s+.+>\s*</image>)|(</epigraph>))\s*(</section>)
+				// Перемещение пустой строки между Заголовком и Эпиграфом за Эпиграф (</title><empty-line/><epigraph><p>Эпиграф</p></epigraph><empty-line/>)
+				InputString = Regex.Replace(
+					InputString, @"(</title>\s*?)<empty-line ?/>\s*(<epigraph>)",
+					"$1$2", RegexOptions.None
+				); // (</title>\s*?)<empty-line ?/>\s*(<epigraph>)
+				// Обрамление Эпиграфа в тексте блоками </section><section>
+				InputString = Regex.Replace(
+					InputString, @"(</p>\s*)(<epigraph>\s*.+?\s*</epigraph>\s*<empty-line\s*/>)",
+					"$1</section>\n<section>\n$2\n</section>\n<section>", RegexOptions.None
+				); // (</p>\s*)(<epigraph>\s*.+?\s*</epigraph>\s*<empty-line\s*/>)
+				// вставка <text-author> внутрь <poem> </poem>
+				InputString = Regex.Replace(
+					InputString, @"(</poem>)(\s*)(<text-author>\s*.+?\s*</text-author>)",
+					"$3$2$1", RegexOptions.None
+				); // (</poem>)(\s*)(<text-author>\s*.+?\s*</text-author>)
+				// удаление <empty-line /> между </title> и <epigraph>
+				InputString = Regex.Replace(
+					InputString, @"(</title>\s*)<empty-line ?/>\s*(<epigraph>)",
+					"$1$2", RegexOptions.None
+				); // (</title>\s*)<empty-line ?/>\s*(<epigraph>)
+				// удаление <empty-line /> между </epigraph> и <epigraph>
+				InputString = Regex.Replace(
+					InputString, @"(?<=</epigraph>)(\s*<empty-line ?/>\s*)(?=<epigraph>)",
+					"\n\t\t", RegexOptions.None
+				); // (?<=</epigraph>)(\s*<empty-line ?/>\s*)(?=<epigraph>)
+				
+				// обработка подзаголовков <subtitle> (<subtitle>\n<p>\n11111\n</p>\n</subtitle>)
+				InputString = Regex.Replace(
+					InputString, @"(<subtitle>)\s*<p>(\s*.+?\s*)</p>\s*(</subtitle>)",
+					"$1$2$3", RegexOptions.None
+				); // (<subtitle>)\s*<p>(\s*.+?\s*)</p>\s*(</subtitle>)
+				// Перестановка местами Подзаголовка и Эпиграфа <subtitle>!!!!!</subtitle>  <epigraph><p>NNN</p></epigraph>
+				InputString = Regex.Replace(
+					InputString, @"(<subtitle>\s*[^<]+?\s*</subtitle>\s*)(\s*<epigraph>\s*)((<p>\s*.+?\s*</p>\s*){1,})(\s*</epigraph>)",
+					"$2$3$5\n$1", RegexOptions.None
+				); // (<subtitle>\s*[^<]+?\s*</subtitle>\s*)(\s*<epigraph>\s*)((<p>\s*.+?\s*</p>\s*){1,})(\s*</epigraph>)
+				// обработка Эпиграфа, идущего после Подзаголовка <subtitle>
+				InputString = Regex.Replace(
+					InputString, @"(<subtitle>\s*.+?\s*</subtitle>\s*)(((<empty-line ?/>\s*)|(<p>\s*.+?\s*</p>\s*)){1,})(<epigraph>)",
+					"</section>\n<section>\n$1$2</section>\n<section>\n$6", RegexOptions.None
+				); // (<subtitle>\s*.+?\s*</subtitle>\s*)(((<empty-line ?/>\s*)|(<p>\s*.+?\s*</p>\s*)){1,})(<epigraph>)
+				
+				// обработка Эпиграфа с вложенным Эпиграфом и Эпиграфом вместо Автора эпиграфа
+				InputString = Regex.Replace(
+					InputString, @"(<epigraph>\s*)(<epigraph>\s*)((<p>\s*.+\s*</p>\s*){1,})</epigraph>\s*<epigraph>\s*<(emphasis|strong)>(\s*<p>)([^<]+?)(</p>\s*)</\5>\s*</epigraph>\s*(</epigraph>)",
+					"$1$3<text-author><$5>$7</$5></text-author>\n$9", RegexOptions.None
+				); // (<epigraph>\s*)(<epigraph>\s*)((<p>\s*.+\s*</p>\s*){1,})</epigraph>\s*<epigraph>\s*<(emphasis|strong)>(\s*<p>)([^<]+?)(</p>\s*)</\5>\s*</epigraph>\s*(</epigraph>)
+				// обработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа
+				InputString = Regex.Replace(
+					InputString, @"(<epigraph>\s*)((<p>\s*.+\s*</p>\s*){1,})<epigraph>\s*<(emphasis|strong)>(\s*<p>)([^<]+?)(</p>\s*)</\4>\s*</epigraph>\s*(</epigraph>)",
+					"$1$2<text-author><$4>$6</$4></text-author>\n$8", RegexOptions.None
+				); // (<epigraph>\s*)((<p>\s*.+\s*</p>\s*){1,})<epigraph>\s*<(emphasis|strong)>(\s*<p>)([^<]+?)(</p>\s*)</\4>\s*</epigraph>\s*(</epigraph>)
+				// обработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа
+				InputString = Regex.Replace(
+					InputString, @"(<epigraph>\s*)((<p>\s*.+\s*</p>\s*){1,})<epigraph>\s*(<p>\s*)<(emphasis|strong)>([^<]+?)</\5>\s*(</p>\s*)</epigraph>\s*(</epigraph>)",
+					"$1$2<text-author><$5>$6</$5></text-author>\n$8", RegexOptions.None
+				); // (<epigraph>\s*)((<p>\s*.+\s*</p>\s*){1,})<epigraph>\s*(<p>\s*)<(emphasis|strong)>([^<]+?)</\5>\s*(</p>\s*)</epigraph>\s*(</epigraph>)
+				// преобразование Эпиграфа после текста в тегах <p> в Цитату
+				InputString = Regex.Replace(
+					InputString, @"(?<=</p>)(?:\s*)(?:<epigraph>)(\s*(<p>\s*.+\s*</p>\s*){1,})(?:</epigraph>)",
+					"\n<cite>$1</cite>", RegexOptions.None
+				); // (?<=</p>)(?:\s*)(?:<epigraph>)(\s*(<p>\s*.+\s*</p>\s*){1,})(?:</epigraph>)
+				
+				// удаление </section> между Заголовком </title> и <section>
+				InputString = Regex.Replace(
+					InputString, @"(</title>|</section>)(\s*<section>\s*<title>\s*)((<p>\s*.+\s*</p>\s*){1,}</title>\s*)(</section>\s*)(?=<section>)",
+					"$1$2$3", RegexOptions.None
+				); // (</title>|</section>)(\s*<section>\s*<title>\s*)((<p>\s*.+\s*</p>\s*){1,}</title>\s*)(</section>\s*)(?=<section>)
+				
+				// удаление <section> </section> вокруг Заголовка Книги
+				InputString = Regex.Replace(
+					InputString, @"(<body>)(\s*<section>\s*)(<title>\s*)((<p>\s*.+\s*</p>\s*){1,}</title>\s*)(</section>\s*)(?=<section>)",
+					"$1$3$4", RegexOptions.None
+				); // (<body>)(\s*<section>\s*)(<title>\s*)((<p>\s*.+\s*</p>\s*){1,}</title>\s*)(</section>\s*)(?=<section>)
+				
+				// Обработка Заголовка и ее </section> в конце книги перед </body>
+				InputString = Regex.Replace(
+					InputString, @"(<section>\s*<title>\s*(<p>\s*[^<]+\s*</p>\s*){1,}</title>\s*)(</section>\s*)(?=</body>)",
+					"$1<empty-line/>\n\t$3", RegexOptions.None
+				); // (<section>\s*<title>\s*(<p>\s*[^<]+\s*</p>\s*){1,}</title>\s*)(</section>\s*)(?=</body>)
+				// Обработка Заголовка и ее </section> в конце книги перед </body>
+				InputString = Regex.Replace(
+					InputString, @"(<section>\s*<title>\s*(<p>\s*<(strong|emphasis)>\s*.+\s*</\3>\s*</p>\s*){1,}</title>\s*)(</section>\s*)(?=</body>)",
+					"$1<empty-line/>\n\t$4", RegexOptions.None
+				); // (<section>\s*<title>\s*(<p>\s*<(strong|emphasis)>\s*.+\s*</\3>\s*</p>\s*){1,}</title>\s*)(</section>\s*)(?=</body>)
+				
+				
+				// Обработка <annotation><i>
+				InputString = Regex.Replace(
+					InputString, @"<(annotation|cite)>\s*<(i|b)>\s*(([^<]+\s*){1,})</\2>\s*</\1>",
+					"<$1>\n<p>$3</p>\n</$1>", RegexOptions.None
+				); // <(annotation|cite)>\s*<(i|b)>\s*(([^<]+\s*){1,})</\2>\s*</\1>
+				
+				/****************
+				 * Обработка id *
+				 ****************/
+				// обработка пустого id
+				InputString = InputString = Regex.Replace(
+					InputString, "(?<=<id>)\\s*\\s*(?=</id>)",
+					Guid.NewGuid().ToString().ToUpper(), RegexOptions.IgnoreCase
+				);
+				// обработка Либрусековских id
+				InputString = Regex.Replace(
+					InputString, @"(?<=<id>)\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{2}\s+(\d{2}\:){2}\d{2}\s+\d{4}\s*(?=</id>)",
+					Guid.NewGuid().ToString().ToUpper()
+				); // (?<=<id>)\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{2}\s+(\d{2}\:){2}\d{2}\s+\d{4}\s*(?=</id>)
+				
+				/********************
+				 * Обработка ссылок *
+				 *******************/
+				// некорректное id ссылки (начинается цифра)
+				InputString = InputString = Regex.Replace(
+					InputString, "id=\"(\\d[^\"]*)\"",
+					"id=\"_$1\"", RegexOptions.None
+				); // id="(\d[^"]*)"
+				// обработка Либрусековских id
+				InputString = Regex.Replace(
+					InputString, "=\"#(\\d[^\"]*)\"",
+					"=\"#_$1\"", RegexOptions.None
+				); // ="#(\d[^"]*)"
 				
 				/****************************
 				 * Обработка форматирования *
@@ -1294,142 +1494,6 @@ namespace Core.Common
 					InputString, @"(<section>\s*)(<image[^/]+?/>\s*)(<title>\s*)(<p[^>]+?>)([^<]+?)(</p>\s*</title>)",
 					"$1$3$4$5$6\n\t\t$2", RegexOptions.IgnoreCase
 				); //(<section>\s*)(<image[^/]+?/>\s*)(<title>\s*)(<p[^>]+?>)([^<]+?)(</p>\s*</title>)
-				
-				/*****************
-				 * Удаление тегов *
-				 *****************/
-				// удаление тегов <DIV ...></DIV>
-				InputString = Regex.Replace(
-					InputString, @"(<[Dd][Ii][Vv]\s*.+?>)|(<\s*/[Dd][Ii][Vv])",
-					"", RegexOptions.IgnoreCase
-				); //(<[Dd][Ii][Vv]\s*.+?>)|(<\s*/[Dd][Ii][Vv])
-				// удаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>
-				InputString = Regex.Replace(
-					InputString, @"(?:<br|<BR|<R)(?:\s*)(?:/?>)",
-					"", RegexOptions.IgnoreCase
-				); // (?:<br|<BR|<R)(?:\s*)(?:/?>)
-				// удаление тегов <cite id="nnnnnn" /> , <cite id="nnnnnn"></cite>
-				InputString = Regex.Replace(
-					InputString, "<(cite)\\s+id=\"(.+?)\"(?:>\\s*</\\1>|\\s*/>)",
-					"", RegexOptions.IgnoreCase
-				); // <(cite)\s+id="(.+?)"(?:>\s*</\1>|\s*/>)
-				// удаление тегов <p> и </p> в структуре <p> <empty-line /> </p>
-				InputString = Regex.Replace(
-					InputString, @"<p>\s*(<empty-line />\s*)</p>",
-					"$1", RegexOptions.IgnoreCase
-				); // <p>\s*(<empty-line />\s*)</p>
-				
-				/*********************
-				 * Обработка структур *
-				 **********************/
-				// обработка тегов body и section
-				InputString = Regex.Replace(
-					InputString, @"(<body\b|section\b)(?:\s*)xmlns=""(?:\s*)(>)",
-					"$1$2", RegexOptions.IgnoreCase
-				); // (<body\b|section\b)(?:\s*)xmlns=""(?:\s*)(>)
-				// обработка вложенных друг в друга тегов cite (epigraph)
-				InputString = Regex.Replace(
-					InputString, @"^\s*((<(cite|epigraph)>\s*)\s*\2)(.+)(\s*</\3>){2}",
-					"<text-author>$3</text-author>", RegexOptions.IgnoreCase | RegexOptions.Multiline
-				); // ^\s*((<(cite|epigraph)>\s*)\s*\2)(.+)(\s*</\3>){2}
-				// Перестановка местами Подзаголовка и Эпиграфа <subtitle>!!!!!</subtitle>  <epigraph><p>NNN</p></epigraph>
-				InputString = Regex.Replace(
-					InputString, @"(<subtitle>\s*[^<]+?\s*</subtitle>\s*)(\s*<epigraph>\s*)(.+?)(\s*</epigraph>)",
-					"$2$3$4\n$1", RegexOptions.None
-				); // (<subtitle>\s*[^<]+?\s*</subtitle>\s*)(\s*<epigraph>\s*)(.+?)(\s*</epigraph>)
-				// Вставка между </epigraph> или <image ... /> (<image ... ></image>) недостающего тега <empty-line/>
-				InputString = Regex.Replace(
-					InputString, @"((<image\s+.+/>)|(<image\s+.+>\s*</image>)|(</epigraph>))\s*(</section>)",
-					"$1\n<empty-line/>\n$5", RegexOptions.None
-				); // ((<image\s+.+/>)|(<image\s+.+>\s*</image>)|(</epigraph>))\s*(</section>)
-				// Перемещение пустой строки между Заголовком и Эпиграфом за Эпиграф (</title><empty-line/><epigraph><p>Эпиграф</p></epigraph><empty-line/>)
-				InputString = Regex.Replace(
-					InputString, @"(</title>\s*?)<empty-line ?/>\s*(<epigraph>)",
-					"$1$2", RegexOptions.None
-				); // (</title>\s*?)<empty-line ?/>\s*(<epigraph>)
-				// Обрамление Эпиграфа в тексте блоками </section><section>
-				InputString = Regex.Replace(
-					InputString, @"(</p>\s*)(<epigraph>\s*.+?\s*</epigraph>\s*<empty-line\s*/>)",
-					"$1</section>\n<section>\n$2\n</section>\n<section>", RegexOptions.None
-				); // (</p>\s*)(<epigraph>\s*.+?\s*</epigraph>\s*<empty-line\s*/>)
-				// вставка <text-author> внутрь <poem> </poem>
-				InputString = Regex.Replace(
-					InputString, @"(</poem>)(\s*)(<text-author>[^<]+?</text-author>)",
-					"$3$2$1", RegexOptions.None
-				); // (</poem>)(\s*)(<text-author>[^<]+?</text-author>)
-				// удаление <empty-line /> между </title> и <epigraph>
-				InputString = Regex.Replace(
-					InputString, @"(</title>\s*)<empty-line ?/>\s*(<epigraph>)",
-					"$1$2", RegexOptions.None
-				); // (</title>\s*)<empty-line ?/>\s*(<epigraph>)
-				// обработка подзаголовков <subtitle>
-				InputString = Regex.Replace(
-					InputString, @"(<subtitle>)\s*<p>([^<]+?)</p>\s*(</subtitle>)",
-					"$1$2$3", RegexOptions.None
-				); // (<subtitle>)\s*<p>([^<]+?)</p>\s*(</subtitle>)
-				// удаление <empty-line /> между </epigraph> и <epigraph>
-				InputString = Regex.Replace(
-					InputString, @"(?<=</epigraph>)(\s*<empty-line ?/>\s*)(?=<epigraph>)",
-					"\n\t\t", RegexOptions.None
-				); // (?<=</epigraph>)(\s*<empty-line ?/>\s*)(?=<epigraph>)
-				
-				// обработка Эпиграфа, идущего после Подзаголовка <subtitle>
-				InputString = Regex.Replace(
-					InputString, @"(<subtitle>.+?</subtitle>\s*)(<empty-line ?/>\s*|<p>\s*)(<epigraph>)",
-					"</section>\n<section>\n$1$2</section>\n<section>\n$3", RegexOptions.None
-				); // (<subtitle>.+?</subtitle>\s*)(<empty-line ?/>\s*|<p>\s*)(<epigraph>)
-				// обработка Эпиграфа с вложенным Эпиграфом и Эпиграфом вместо Автора эпиграфа
-				InputString = Regex.Replace(
-					InputString, @"(<epigraph>\s*)(<epigraph>\s*)((<p>[^<]+</p>\s*){1,})</epigraph>\s*<epigraph>\s*<(emphasis|strong)>(\s*<p>)([^<]+?)(</p>\s*)</\5>\s*</epigraph>\s*(</epigraph>)",
-					"$1$3<text-author><$5>$7</$5></text-author>\n$9", RegexOptions.None
-				); // (<epigraph>\s*)(<epigraph>\s*)((<p>[^<]+</p>\s*){1,})</epigraph>\s*<epigraph>\s*<(emphasis|strong)>(\s*<p>)([^<]+?)(</p>\s*)</\5>\s*</epigraph>\s*(</epigraph>)
-				// обработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа
-				InputString = Regex.Replace(
-					InputString, @"(<epigraph>\s*)((<p>[^<]+</p>\s*){1,})<epigraph>\s*<(emphasis|strong)>(\s*<p>)([^<]+?)(</p>\s*)</\4>\s*</epigraph>\s*(</epigraph>)",
-					"$1$2<text-author><$4>$6</$4></text-author>\n$8", RegexOptions.None
-				); // (<epigraph>\s*)((<p>[^<]+</p>\s*){1,})<epigraph>\s*<(emphasis|strong)>(\s*<p>)([^<]+?)(</p>\s*)</\4>\s*</epigraph>\s*(</epigraph>)
-				
-				// преобразование Эпиграфа после текста в тегах <p> в Цитату
-				InputString = Regex.Replace(
-					InputString, @"(?<=</p>)(?:\s*)(?:<epigraph>)(\s*(<p>[^<]+</p>\s*){1,})(?:</epigraph>)",
-					"\n<cite>$1</cite>", RegexOptions.None
-				); // (?<=</p>)(?:\s*)(?:<epigraph>)(\s*(<p>[^<]+</p>\s*){1,})(?:</epigraph>)
-				
-				
-//				// вставка недостающего тега </section> после структур перед <section><title>
-//				InputString = Regex.Replace(
-//					InputString, "(</p>\\s*|<empty-line ?/>\\s*|</epigraph>\\s*|</cite>\\s*|</subtitle>\\s*|</table>\\s*|</poem>\\s*)(<section>\\s*)(<title>)",
-//					"$1</section>\n\t$2$3"
-//				); // (</p>\s*|<empty-line ?/>\s*|</epigraph>\s*|</cite>\s*|</subtitle>\s*|</table>\s*|</poem>\s*)(<section>\s*)(<title>)
-				
-				
-				/****************
-				 * Обработка id *
-				 ****************/
-				// обработка пустого id
-				InputString = InputString = Regex.Replace(
-					InputString, @"(?<=<id>)\s*\s*(?=</id>)",
-					Guid.NewGuid().ToString().ToUpper(), RegexOptions.IgnoreCase
-				);
-				// обработка Либрусековских id
-				InputString = Regex.Replace(
-					InputString, @"(?<=<id>)\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{2}\s+(\d{2}\:){2}\d{2}\s+\d{4}\s*(?=</id>)",
-					Guid.NewGuid().ToString().ToUpper()
-				); // (?<=<id>)\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{2}\s+(\d{2}\:){2}\d{2}\s+\d{4}\s*(?=</id>)
-				
-				/********************
-				 * Обработка ссылок *
-				 *******************/
-				// некорректное id ссылки (начинается цифра)
-				InputString = InputString = Regex.Replace(
-					InputString, "id=\"(\\d[^\"]*)\"",
-					"id=\"_$1\"", RegexOptions.None
-				); // id="(\d[^"]*)"
-				// обработка Либрусековских id
-				InputString = Regex.Replace(
-					InputString, "=\"#(\\d[^\"]*)\"",
-					"=\"#_$1\"", RegexOptions.None
-				); // ="#(\d[^"]*)"
 				
 				
 				/**********************************

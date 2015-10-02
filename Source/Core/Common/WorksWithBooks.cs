@@ -751,17 +751,24 @@ namespace Core.Common
 			}
 		}
 		
-		// автокорректировка всех выделеннеых/помеченных книг для Корректора и Дубликатора
+		// автокорректировка всех выделеннеых/помеченных книг для Дубликатора
 		// OneBook = false - обработка для нескольких книг в цикле вызывающего кода
 		public static void autoCorrect( ListViewItem Item, string SrcFilePath,
 		                               bool OneBook, SharpZipLibWorker sharpZipLib ) {
-			string SourceFilePath = SrcFilePath;
-			string FilePath = SourceFilePath;
+			string FilePath = SrcFilePath;
 			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, Settings.Settings.TempDir );
 			
-			FB2Corrector.autoCorrector( SourceFilePath );
-			
+			// восстанавление раздела description до структуры с необходимыми элементами для валидности
 			FictionBook fb2 = null;
+			try { fb2 = new FictionBook( FilePath ); } catch { }
+			recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+			
+			// автокорректировка
+			FB2Corrector.autoCorrector( FilePath );
+			zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+			
+			// восстанавление раздела description до структуры с необходимыми элементами для валидности
+			fb2 = null;
 			try {
 				fb2 = new FictionBook( FilePath );
 			} catch {
@@ -770,28 +777,18 @@ namespace Core.Common
 					                "Автокорректировка", MessageBoxButtons.OK, MessageBoxIcon.Error );
 				return;
 			}
-			
 			if( fb2 != null ) {
-				// восстанавление раздела description до структуры с необходимыми элементами для валидности
 				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
 				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SrcFilePath );
 				fB2Corrector.saveToFB2File( FilePath );
-				
-				if( IsFromZip ) {
-					// обработка исправленного файла-архива
-					string ArchFile = FilePath + ".zip";
-					sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-					if( File.Exists( SourceFilePath ) )
-						File.Delete( SourceFilePath );
-					File.Move( ArchFile, SourceFilePath );
-				}
+				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
 
 				// отображение новых данных в строке списка
 				if( IsFromZip )
-					ZipFB2Worker.getFileFromFB2_FB2Z( ref SourceFilePath, Settings.Settings.TempDir );
+					ZipFB2Worker.getFileFromFB2_FB2Z( ref SrcFilePath, Settings.Settings.TempDir );
 				FB2UnionGenres fb2g = new FB2UnionGenres();
 				try {
-					FB2BookDescription fb2Desc = new FB2BookDescription( SourceFilePath );
+					FB2BookDescription fb2Desc = new FB2BookDescription( SrcFilePath );
 					viewBookMetaDataLocal(
 						ref SrcFilePath, ref fb2Desc, Item, ref fb2g
 					);
@@ -805,37 +802,55 @@ namespace Core.Common
 		
 		// автокорректировка всех книг для Корректора
 		public static void autoCorrect( string SrcFilePath, SharpZipLibWorker sharpZipLib ) {
-			string SourceFilePath = SrcFilePath;
-			string FilePath = SourceFilePath;
+			string FilePath = SrcFilePath;
 			string TempDir = Settings.Settings.TempDir;
 			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, TempDir );
 
-			FB2Corrector.autoCorrector( FilePath );
-			
+			// восстанавление раздела description до структуры с необходимыми элементами для валидности
 			FictionBook fb2 = null;
-			try {
-				fb2 = new FictionBook( FilePath );
-			} catch {
-				FilesWorker.RemoveDir( TempDir );
-				return;
-			}
+			try { fb2 = new FictionBook( FilePath ); } catch { }
+			bool IsDescRecovered = recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
 			
-			if( fb2 != null ) {
+			// автокорректировка
+			FB2Corrector.autoCorrector( FilePath );
+			zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+			
+			if ( !IsDescRecovered ) {
 				// восстанавление раздела description до структуры с необходимыми элементами для валидности
+				fb2 = null;
+				try {
+					fb2 = new FictionBook( FilePath );
+					recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+				} catch { }
+			}
+			FilesWorker.RemoveDir( TempDir );
+		}
+		
+		
+		private static bool recoveDesc( ref FictionBook fb2, SharpZipLibWorker sharpZipLib,
+		                               string SrcFilePath, bool IsFromZip, string FilePath ) {
+			if( fb2 != null ) {
 				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
 				fB2Corrector.recoveryDescriptionNode();
 				fB2Corrector.saveToFB2File( FilePath );
-				
-				if( IsFromZip ) {
-					// обработка исправленного файла-архива
-					string ArchFile = FilePath + ".zip";
-					sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-					if( File.Exists( SourceFilePath ) )
-						File.Delete( SourceFilePath );
-					File.Move( ArchFile, SourceFilePath );
-					FilesWorker.RemoveDir( TempDir );
-				}
+				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+				return true;
 			}
+			return false;
+		}
+		
+		public static bool zipMoveTempFB2FileTo( SharpZipLibWorker sharpZipLib,
+		                                        string SrcFilePath, bool IsFromZip, string FilePath ) {
+			if( IsFromZip ) {
+				// обработка исправленного файла-архива
+				string ArchFile = FilePath + ".zip";
+				sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
+				if( File.Exists( SrcFilePath ) )
+					File.Delete( SrcFilePath );
+				File.Move( ArchFile, SrcFilePath );
+				return true;
+			}
+			return false;
 		}
 		
 		// Занесение данных о валидации в поле детализации
@@ -851,5 +866,45 @@ namespace Core.Common
 			}
 			return Result;
 		}
+		
+		#region Создание "пустых" частей fb2 структур
+		public static string makeEmptyFB2Root( string encoding ) {
+			string xml1 = string.Format( "<?xml version=\"1.0\" " + "encoding=\"{0}\"?>\n", encoding );
+			string xml2 = "<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\" " + "xmlns:l=\"http://www.w3.org/1999/xlink\">\n";
+			return xml1 + xml2;
+		}
+		public static string makeEmptyFB2Description() {
+			return @"<description>
+<title-info>
+<genre>other</genre>
+<author>
+<first-name></first-name>
+<last-name>empty</last-name>
+</author>
+<book-title>empty</book-title>
+<date></date>
+<lang>ru</lang>
+</title-info>
+<document-info>
+<author>
+<first-name></first-name>
+<last-name>empty</last-name>
+</author>
+<date></date>
+<id>EMPTY ID</id>
+<version>1.0</version>
+</document-info>
+</description>";
+		}
+		public static string makeEmptyFB2Bosy() {
+			return "\n<body><section><empty-line/></section></body>";
+		}
+		public static string makeEmptyFB2Bottom() {
+			return "\n</FictionBook>";
+		}
+		public static string makeEmptyFB2File( string encoding = "windosw-1251" ) {
+			return makeEmptyFB2Root( encoding ) + makeEmptyFB2Description() + makeEmptyFB2Bosy() + makeEmptyFB2Bottom();
+		}
+		#endregion
 	}
 }
