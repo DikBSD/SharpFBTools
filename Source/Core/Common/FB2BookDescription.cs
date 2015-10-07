@@ -11,6 +11,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Xml;
 
+//using System.Windows.Forms;
+
 using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.CustomInfo;
@@ -32,10 +34,10 @@ namespace Core.Common
 		private string m_sFromFilePath		= string.Empty;	// путь к анализируемой книге
 		#endregion
 		
-		public FB2BookDescription( string sFromFilePath)
+		public FB2BookDescription( string FromFilePath )
 		{
-			m_sFromFilePath = sFromFilePath;
-			m_fb2 = new FictionBook( sFromFilePath );
+			m_sFromFilePath = FromFilePath;
+			m_fb2 = new FictionBook( FromFilePath );
 		}
 		
 		#region Закрытые вспомогательные методы класса

@@ -68,11 +68,12 @@ namespace Core.Common
 		}
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			Cursor.Current = Cursors.WaitCursor;
+			FB2DescriptionCorrector fB2Corrector = null;
 			foreach( FB2ItemInfo Info in m_AuthorFB2InfoList ) {
 				FictionBook fb2 = Info.FictionBook;
 				if( fb2 != null ) {
 					// восстанавление раздела description до структуры с необходимыми элементами для валидности
-					FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+					fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 					fB2Corrector.recoveryDescriptionNode();
 					
 					IList<XmlNode> xmlNewAuthors = makeAuthorNode( Enums.AuthorEnum.AuthorOfBook, ref fb2, AuthorsListView );
@@ -94,16 +95,8 @@ namespace Core.Common
 									if( !Directory.Exists( m_TempDir ) )
 										Directory.CreateDirectory( m_TempDir );
 									string NewPath = Info.IsFromArhive ? Info.FilePathIfFromZip : Info.FilePathSource;
-									fb2.getXmlDoc().Save( NewPath );
-									
-									if( Info.IsFromArhive ) {
-										// обработка исправленного файла-архива
-										string ArchFile = NewPath + ".zip";
-										m_sharpZipLib.ZipFile( NewPath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-										if( File.Exists( Info.FilePathSource ) )
-											File.Delete( Info.FilePathSource );
-										File.Move( ArchFile, Info.FilePathSource );
-									}
+									fb2.saveToFB2File( NewPath, false );
+									WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, Info.FilePathSource, Info.IsFromArhive, NewPath );
 								}
 							}
 						}
@@ -170,7 +163,7 @@ namespace Core.Common
 			}
 		}
 		private IList<XmlNode> makeAuthorNode( Enums.AuthorEnum AuthorType, ref FictionBook fb2, ListView lv ) {
-			FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 			IList<XmlNode> Authors = null;
 			XmlNode xmlAuthor = null;
 			if( lv.Items.Count > 0 ) {

@@ -350,7 +350,7 @@ namespace SharpFBTools.Tools
 							}
 						}
 
-						// загруxзка обложек оригинала книги
+						// загрузка обложек оригинала книги
 						Covers = fb2Desc.STICoversBase64;
 						if ( Covers != null ) {
 							ImageWorker.makeListViewCoverNameItems( STICoversListView, ref Covers );
@@ -504,34 +504,26 @@ namespace SharpFBTools.Tools
 			bool IsFromZip = false;
 			if ( FilesWorker.isFB2Archive( FilePath ) )
 				IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
-			FictionBook fb2 = null;
-			try {
-				fb2 = new FictionBook( FilePath );
-			} catch {
-				if ( BooksCount == 1 )
-					MessageBox.Show( "Файл \""+FilePath+"\" невозможно открыть для извлечения fb2 метаданных!\nФайл обработан не будет.",
-					                "Задание нового ID", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				return;
-			}
-			
-			if( fb2 != null ) {
-				// восстанавление раздела description до структуры с необходимыми элементами для валидности
-				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
-				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SourceFilePath );
-				fB2Corrector.setNewID ();
-				fB2Corrector.saveToFB2File( FilePath );
-				
-				if( IsFromZip ) {
-					// обработка исправленного файла-архива
-					string ArchFile = FilePath + ".zip";
-					m_sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-					if( File.Exists( SourceFilePath ) )
-						File.Delete( SourceFilePath );
-					File.Move( ArchFile, SourceFilePath );
+			if( File.Exists( FilePath ) ) {
+				FictionBook fb2 = null;
+				try {
+					fb2 = new FictionBook( FilePath );
+				} catch ( FileLoadException er ) {
+					if ( BooksCount == 1 )
+						MessageBox.Show( er.Message, "Генерация нового id", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					return;
 				}
-
-				// отображение новых метаданных в строке списка и в детализации
-				viewMetaData( SourceFilePath, Item, BooksCount );
+				
+				if( fb2 != null ) {
+					// восстанавление раздела description до структуры с необходимыми элементами для валидности
+					FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+					WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SourceFilePath );
+					fB2Corrector.setNewID ();
+					fb2.saveToFB2File(FilePath);
+					WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, SourceFilePath, IsFromZip, FilePath );
+					// отображение новых метаданных в строке списка и в детализации
+					viewMetaData( SourceFilePath, Item, BooksCount );
+				}
 			}
 		}
 		// правка Авторов выделенных/помеченных книг
@@ -594,44 +586,6 @@ namespace SharpFBTools.Tools
 			FilesWorker.RemoveDir( m_TempDir );
 //			MiscListView.AutoResizeColumns( listViewFB2Files );
 			Cursor.Current = Cursors.Default;
-		}
-		// восстановление структуры для всех выделеннеых/помеченных книг
-		// BooksCount > 1 - обработка для нескольких книг в цикле вызывающего кода
-		private bool recoveryDescription( ListViewItem Item, int BooksCount ) {
-			string SourceFilePath = Path.Combine( textBoxAddress.Text.Trim(), Item.Text );
-			string FilePath = SourceFilePath;
-			bool IsFromZip = false;
-			if ( FilesWorker.isFB2Archive( FilePath ) )
-				IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
-			FictionBook fb2 = null;
-			try {
-				fb2 = new FictionBook( FilePath );
-			} catch {
-				if ( BooksCount == 1 )
-					MessageBox.Show( "Файл \""+FilePath+"\" невозможно открыть для извлечения fb2 метаданных!\nФайл обработан не будет.",
-					                "Задание нового ID", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				return false;
-			}
-			
-			if( fb2 != null ) {
-				// восстанавление раздела description до структуры с необходимыми элементами для валидности
-				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
-				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SourceFilePath );
-				fB2Corrector.saveToFB2File( FilePath );
-				
-				if( IsFromZip ) {
-					// обработка исправленного файла-архива
-					string ArchFile = FilePath + ".zip";
-					m_sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-					if( File.Exists( SourceFilePath ) )
-						File.Delete( SourceFilePath );
-					File.Move( ArchFile, SourceFilePath );
-				}
-
-				// отображаем новые данные в строке списка
-				return viewMetaData( SourceFilePath, Item, BooksCount );
-			}
-			return false;
 		}
 		#endregion
 		
@@ -804,7 +758,7 @@ namespace SharpFBTools.Tools
 										WorksWithBooks.hideMetaDataLocal( SelectedItem );
 										clearDataFields();
 									}
-								} catch (System.Exception /*e*/) {
+								} catch (Exception /*e*/) {
 									WorksWithBooks.hideMetaDataLocal( SelectedItem );
 									clearDataFields();
 									// Занесение данных о валидации в поле детализации
@@ -1057,24 +1011,17 @@ namespace SharpFBTools.Tools
 							FictionBook fb2 = null;
 							try {
 								fb2 = new FictionBook( FilePath );
-							} catch (System.Exception /*m*/) {
-								MessageBox.Show( "Файл \""+FilePath+"\" невозможно открыть для извлечения fb2 метаданных!\nФайл обработан не будет.",
-								                "Комплексная правка метаданных", MessageBoxButtons.OK, MessageBoxIcon.Error );
+							} catch ( FileLoadException er ) {
+								MessageBox.Show( er.Message, "Комплексная правка метаданных", MessageBoxButtons.OK, MessageBoxIcon.Error );
 								return;
 							}
+							
 							EditDescriptionForm editDescriptionForm = new EditDescriptionForm( fb2 );
 							editDescriptionForm.ShowDialog();
 							Cursor.Current = Cursors.WaitCursor;
 							if( editDescriptionForm.isApplyData() ) {
-								editDescriptionForm.getFB2XmlDocument().Save( FilePath );
-								if( IsFromArhive ) {
-									// обработка исправленного файла-архива
-									string ArchFile = FilePath + ".zip";
-									m_sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-									if( File.Exists( SourceFilePath ) )
-										File.Delete( SourceFilePath );
-									File.Move( ArchFile, SourceFilePath );
-								}
+								editDescriptionForm.getFB2().saveToFB2File( FilePath, false );
+								WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, SourceFilePath, IsFromArhive, FilePath );
 								// отображаем новые данные в строке списка
 								viewMetaData( FilePath, SelectedItem, 1 );
 							}
@@ -1468,89 +1415,31 @@ namespace SharpFBTools.Tools
 					bool IsFromZip = false;
 					if ( FilesWorker.isFB2Archive( FilePath ) )
 						IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
-					FictionBook fb2 = null;
-					try {
-						fb2 = new FictionBook( FilePath );
-					} catch {
-						MessageBox.Show( "Файл \""+FilePath+"\" невозможно открыть для извлечения fb2 метаданных!\nФайл обработан не будет.",
-						                "Задание нового Названия книги", MessageBoxButtons.OK, MessageBoxIcon.Error );
-						return;
-					}
-					
-					if( fb2 != null ) {
-						string BookTitleNew = fb2.TIBookTitle != null ? fb2.TIBookTitle.Value : "Новое название книги";
-						if ( WorksWithBooks.InputBox( "Правка названия книги", "Новое название книги:", ref BookTitleNew ) == DialogResult.OK) {
-							// восстанавление раздела description до структуры с необходимыми элементами для валидности
-							FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
-							WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, listViewFB2Files.SelectedItems[0], SourceFilePath );
-							fB2Corrector.setNewBookTitle( BookTitleNew );
-							fB2Corrector.saveToFB2File( FilePath );
-							
-							if( IsFromZip ) {
-								// обработка исправленного файла-архива
-								string ArchFile = FilePath + ".zip";
-								m_sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-								if( File.Exists( SourceFilePath ) )
-									File.Delete( SourceFilePath );
-								File.Move( ArchFile, SourceFilePath );
+					if( File.Exists( FilePath ) ) {
+						FictionBook fb2 = null;
+						try {
+							fb2 = new FictionBook( FilePath );
+						} catch ( FileLoadException er ) {
+							MessageBox.Show( er.Message, "Правка Названия книги", MessageBoxButtons.OK, MessageBoxIcon.Error );
+							return;
+						}
+						if( fb2 != null ) {
+							string BookTitleNew = fb2.TIBookTitle != null ? fb2.TIBookTitle.Value : "Новое название книги";
+							if ( WorksWithBooks.InputBox( "Правка названия книги", "Новое название книги:", ref BookTitleNew ) == DialogResult.OK) {
+								// восстанавление раздела description до структуры с необходимыми элементами для валидности
+								FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+								WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, listViewFB2Files.SelectedItems[0], SourceFilePath );
+								fB2Corrector.setNewBookTitle( BookTitleNew );
+								fb2.saveToFB2File( FilePath, false );
+								WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, SourceFilePath, IsFromZip, FilePath );
+								// отображение нового названия книги в строке списка
+								viewMetaData( SourceFilePath, listViewFB2Files.SelectedItems[0], 1 );
 							}
-
-							// отображение нового названия книги в строке списка
-							viewMetaData( SourceFilePath, listViewFB2Files.SelectedItems[0], 1 );
 						}
 					}
 				} else {
 					MessageBox.Show( "Выделите только одну книгу для изменения ее Названия",
 					                "Задание нового Названия книги", MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				}
-			}
-		}
-		
-		// восстановление структуры для всех выделеннеых книг
-		void TsmiRecoveryDescriptionForAllSelectedBooksClick(object sender, EventArgs e)
-		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
-				ListView.SelectedListViewItemCollection SelectedItems = listViewFB2Files.SelectedItems;
-				const string Message = "Вы действительно хотите восстановить структуру раздела description для всех выделенных книг?";
-				const string MessTitle = "SharpFBTools - Восстановление структуры раздела description";
-				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
-				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
-					Cursor.Current = Cursors.WaitCursor;
-					tsProgressBar.Maximum = SelectedItems.Count;
-					tsProgressBar.Value = 0;
-					foreach( ListViewItem SelectedItem in SelectedItems ) {
-						if( WorksWithBooks.isFileItem( SelectedItem ) )
-							recoveryDescription( SelectedItem, SelectedItems.Count );
-						tsProgressBar.Value++;
-					}
-					tsProgressBar.Value = 0;
-//					MiscListView.AutoResizeColumns( listViewFB2Files );
-					Cursor.Current = Cursors.Default;
-				}
-			}
-		}
-		// восстановление структуры для всех помеченных книг
-		void TsmiRecoveryDescriptionForAllCheckedBooksClick(object sender, EventArgs e)
-		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
-				ListView.CheckedListViewItemCollection CheckedItems = listViewFB2Files.CheckedItems;
-				const string Message = "Вы действительно хотите восстановить структуру раздела description для всех помеченных книг?";
-				const string MessTitle = "SharpFBTools - Восстановление структуры раздела description";
-				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
-				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
-					Cursor.Current = Cursors.WaitCursor;
-					tsProgressBar.Maximum = CheckedItems.Count;
-					tsProgressBar.Value = 0;
-					foreach( ListViewItem CheckedItem in CheckedItems ) {
-						if( WorksWithBooks.isFileItem( CheckedItem ) )
-							recoveryDescription( CheckedItem, CheckedItems.Count );
-						tsProgressBar.Value++;
-					}
-					tsProgressBar.Value = 0;
-//					MiscListView.AutoResizeColumns( listViewFB2Files );
-					Cursor.Current = Cursors.Default;
 				}
 			}
 		}

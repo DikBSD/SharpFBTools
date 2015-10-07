@@ -223,7 +223,8 @@ namespace Core.Common
 		private readonly FictionBook m_fb2 = null;
 		#endregion
 		
-		public FB2ItemInfo( ListViewItem FB2ListViewItem, string FilePathSource, string FilePathIfFromZip, bool IsFromArhive ) {
+		public FB2ItemInfo( ListViewItem FB2ListViewItem, string FilePathSource,
+		                   string FilePathIfFromZip, bool IsFromArhive ) {
 			m_FB2ListViewItem = FB2ListViewItem;
 			m_FilePathSource = FilePathSource.Replace( @"\\", @"\" );
 			m_FilePathIfFromZip = FilePathIfFromZip.Replace( @"\\", @"\" );

@@ -233,16 +233,6 @@ namespace Main.Tools {
 		/// <summary>
 		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
 		/// </summary>
-		internal static System.Drawing.Bitmap toolStripDropDownButtonRecoveryDescription_Image {
-			get {
-				object obj = ResourceManager.GetObject("toolStripDropDownButtonRecoveryDescription.Image", resourceCulture);
-				return ((System.Drawing.Bitmap)(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-		/// </summary>
 		internal static System.Drawing.Bitmap toolStripMenuItem11_Image {
 			get {
 				object obj = ResourceManager.GetObject("toolStripMenuItem11.Image", resourceCulture);

@@ -77,112 +77,112 @@ namespace SharpFBTools.Tools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFBTpFB2Dublicator));
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Название Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Жанр(ы) Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem43 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Язык",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem44 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Язык оригинала",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Автор(ы) Книги",
 			""}, 0, System.Drawing.Color.Navy, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem46 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Дата написания",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem47 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Ключевые слова",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem48 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Переводчик(и)",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem49 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Серия(и) (Номер)",
 			""}, 0, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem50 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Название Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem51 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Жанр(ы) Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem52 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Язык",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem53 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Язык оригинала",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem54 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Автор(ы) Книги",
 			""}, 0, System.Drawing.Color.Navy, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem55 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Дата написания",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem56 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Ключевые слова",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem57 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Переводчик(и)",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem58 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Серия(и) (Номер)",
 			""}, 0, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem59 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Число Обложек",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem60 = new System.Windows.Forms.ListViewItem(new string[] {
 			"ID Книги",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem61 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Версия fb2-файла",
 			""}, 0, System.Drawing.Color.Red, System.Drawing.Color.Empty, new System.Drawing.Font("Tahoma", 8F));
-			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem62 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Дата создания: Текст (Значение)",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem63 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Программы",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem64 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Источник OCR",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem65 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Источник URL",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem66 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Автор fb2-файла",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem67 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Заголовок Книги",
 			""}, 0, System.Drawing.SystemColors.WindowText, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem68 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Издатель",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem69 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Город",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem70 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Год издания",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem71 = new System.Windows.Forms.ListViewItem(new string[] {
 			"ISBN",
 			""}, 0);
-			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem72 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Серия(и) (Номер)",
 			""}, 0, System.Drawing.Color.Green, System.Drawing.Color.Empty, null);
-			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Всего папок",
 			"0"}, 0);
-			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Всего файлов",
 			"0"}, 0);
-			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Всего групп одинаковых книг",
 			"0"}, 0);
-			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
 			"Книг во всех группах одинаковых книг",
 			"0"}, 0);
 			this.ssProgress = new System.Windows.Forms.StatusStrip();
@@ -214,9 +214,6 @@ namespace SharpFBTools.Tools
 			this.tsmiAutoCorrectorForAllBooksFromGroup = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiAutoCorrectorForAllBooksAllGroup = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmiRecoveryDescription = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmiRecoveryDescriptionForAllSelectedBooks = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsmiRecoveryDescriptionForAllCheckedBooks = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiEditAuthors = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiSetAuthorsForSelectedBooks = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiSetAuthorsForCheckedBooks = new System.Windows.Forms.ToolStripMenuItem();
@@ -360,9 +357,6 @@ namespace SharpFBTools.Tools
 			this.ToolStripMenuItemDeleteCheckedFb2Fast = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonEditDescription = new System.Windows.Forms.ToolStripButton();
-			this.toolStripDropDownButtonRecoveryDescription = new System.Windows.Forms.ToolStripDropDownButton();
-			this.ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks = new System.Windows.Forms.ToolStripMenuItem();
-			this.ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripDropDownButtonNewID = new System.Windows.Forms.ToolStripDropDownButton();
 			this.ToolStripMenuItemSetNewIDForAllSelectedBooks = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolStripMenuItemSetNewIDForAllCheckedBooks = new System.Windows.Forms.ToolStripMenuItem();
@@ -473,7 +467,6 @@ namespace SharpFBTools.Tools
 			this.tsmi3,
 			this.tsmiValidate,
 			this.toolStripMenuItem11,
-			this.tsmiRecoveryDescription,
 			this.tsmiEditAuthors,
 			this.tsmiEditGenres,
 			this.tsmiNewID,
@@ -504,7 +497,7 @@ namespace SharpFBTools.Tools
 			this.toolStripSeparator5,
 			this.tsmiColumnsResultAutoReize});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(616, 734);
+			this.cmsFB2.Size = new System.Drawing.Size(616, 708);
 			// 
 			// tsmiAnalyzeForSelectedGroup
 			// 
@@ -694,31 +687,6 @@ namespace SharpFBTools.Tools
 			this.tsmiAutoCorrectorForAllBooksAllGroup.Size = new System.Drawing.Size(275, 24);
 			this.tsmiAutoCorrectorForAllBooksAllGroup.Text = "Для всех книг всех Групп...";
 			this.tsmiAutoCorrectorForAllBooksAllGroup.Click += new System.EventHandler(this.TsmiAutoCorrectorForAllBooksAllGroupClick);
-			// 
-			// tsmiRecoveryDescription
-			// 
-			this.tsmiRecoveryDescription.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.tsmiRecoveryDescriptionForAllSelectedBooks,
-			this.tsmiRecoveryDescriptionForAllCheckedBooks});
-			this.tsmiRecoveryDescription.Name = "tsmiRecoveryDescription";
-			this.tsmiRecoveryDescription.Size = new System.Drawing.Size(615, 26);
-			this.tsmiRecoveryDescription.Text = "Восстановление структуры description";
-			// 
-			// tsmiRecoveryDescriptionForAllSelectedBooks
-			// 
-			this.tsmiRecoveryDescriptionForAllSelectedBooks.Name = "tsmiRecoveryDescriptionForAllSelectedBooks";
-			this.tsmiRecoveryDescriptionForAllSelectedBooks.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-			this.tsmiRecoveryDescriptionForAllSelectedBooks.Size = new System.Drawing.Size(317, 24);
-			this.tsmiRecoveryDescriptionForAllSelectedBooks.Text = "Для всех выделенных книг";
-			this.tsmiRecoveryDescriptionForAllSelectedBooks.Click += new System.EventHandler(this.TsmiRecoveryDescriptionForAllSelectedBooksClick);
-			// 
-			// tsmiRecoveryDescriptionForAllCheckedBooks
-			// 
-			this.tsmiRecoveryDescriptionForAllCheckedBooks.Name = "tsmiRecoveryDescriptionForAllCheckedBooks";
-			this.tsmiRecoveryDescriptionForAllCheckedBooks.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
-			this.tsmiRecoveryDescriptionForAllCheckedBooks.Size = new System.Drawing.Size(317, 24);
-			this.tsmiRecoveryDescriptionForAllCheckedBooks.Text = "Для всех помеченных книг";
-			this.tsmiRecoveryDescriptionForAllCheckedBooks.Click += new System.EventHandler(this.TsmiRecoveryDescriptionForAllCheckedBooksClick);
 			// 
 			// tsmiEditAuthors
 			// 
@@ -1270,15 +1238,15 @@ namespace SharpFBTools.Tools
 			this.lvTitleInfo.GridLines = true;
 			this.lvTitleInfo.HideSelection = false;
 			this.lvTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem1,
-			listViewItem2,
-			listViewItem3,
-			listViewItem4,
-			listViewItem5,
-			listViewItem6,
-			listViewItem7,
-			listViewItem8,
-			listViewItem9});
+			listViewItem41,
+			listViewItem42,
+			listViewItem43,
+			listViewItem44,
+			listViewItem45,
+			listViewItem46,
+			listViewItem47,
+			listViewItem48,
+			listViewItem49});
 			this.lvTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvTitleInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvTitleInfo.Name = "lvTitleInfo";
@@ -1319,16 +1287,16 @@ namespace SharpFBTools.Tools
 			this.lvSourceTitleInfo.GridLines = true;
 			this.lvSourceTitleInfo.HideSelection = false;
 			this.lvSourceTitleInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem10,
-			listViewItem11,
-			listViewItem12,
-			listViewItem13,
-			listViewItem14,
-			listViewItem15,
-			listViewItem16,
-			listViewItem17,
-			listViewItem18,
-			listViewItem19});
+			listViewItem50,
+			listViewItem51,
+			listViewItem52,
+			listViewItem53,
+			listViewItem54,
+			listViewItem55,
+			listViewItem56,
+			listViewItem57,
+			listViewItem58,
+			listViewItem59});
 			this.lvSourceTitleInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvSourceTitleInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvSourceTitleInfo.Name = "lvSourceTitleInfo";
@@ -1369,13 +1337,13 @@ namespace SharpFBTools.Tools
 			this.lvDocumentInfo.GridLines = true;
 			this.lvDocumentInfo.HideSelection = false;
 			this.lvDocumentInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem20,
-			listViewItem21,
-			listViewItem22,
-			listViewItem23,
-			listViewItem24,
-			listViewItem25,
-			listViewItem26});
+			listViewItem60,
+			listViewItem61,
+			listViewItem62,
+			listViewItem63,
+			listViewItem64,
+			listViewItem65,
+			listViewItem66});
 			this.lvDocumentInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvDocumentInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvDocumentInfo.Name = "lvDocumentInfo";
@@ -1416,12 +1384,12 @@ namespace SharpFBTools.Tools
 			this.lvPublishInfo.GridLines = true;
 			this.lvPublishInfo.HideSelection = false;
 			this.lvPublishInfo.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem27,
-			listViewItem28,
-			listViewItem29,
-			listViewItem30,
-			listViewItem31,
-			listViewItem32});
+			listViewItem67,
+			listViewItem68,
+			listViewItem69,
+			listViewItem70,
+			listViewItem71,
+			listViewItem72});
 			this.lvPublishInfo.Location = new System.Drawing.Point(0, 0);
 			this.lvPublishInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.lvPublishInfo.Name = "lvPublishInfo";
@@ -1923,10 +1891,10 @@ namespace SharpFBTools.Tools
 			this.lvFilesCount.FullRowSelect = true;
 			this.lvFilesCount.GridLines = true;
 			this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem33,
-			listViewItem34,
-			listViewItem35,
-			listViewItem36});
+			listViewItem37,
+			listViewItem38,
+			listViewItem39,
+			listViewItem40});
 			this.lvFilesCount.Location = new System.Drawing.Point(0, 27);
 			this.lvFilesCount.Margin = new System.Windows.Forms.Padding(4);
 			this.lvFilesCount.Name = "lvFilesCount";
@@ -1960,7 +1928,6 @@ namespace SharpFBTools.Tools
 			this.toolStripDropDownButtonDeleteCheckedFb2,
 			this.toolStripSeparator7,
 			this.toolStripButtonEditDescription,
-			this.toolStripDropDownButtonRecoveryDescription,
 			this.toolStripDropDownButtonNewID,
 			this.toolStripDropDownButtonEditAuthors,
 			this.toolStripDropDownButtonEditGenres});
@@ -2093,36 +2060,6 @@ namespace SharpFBTools.Tools
 			this.toolStripButtonEditDescription.Size = new System.Drawing.Size(24, 24);
 			this.toolStripButtonEditDescription.Text = "Правка метаданных описания книги";
 			this.toolStripButtonEditDescription.Click += new System.EventHandler(this.TsmiEditDescriptionClick);
-			// 
-			// toolStripDropDownButtonRecoveryDescription
-			// 
-			this.toolStripDropDownButtonRecoveryDescription.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripDropDownButtonRecoveryDescription.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks,
-			this.ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks});
-			this.toolStripDropDownButtonRecoveryDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-			this.toolStripDropDownButtonRecoveryDescription.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonRecoveryDescription.Image")));
-			this.toolStripDropDownButtonRecoveryDescription.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripDropDownButtonRecoveryDescription.Name = "toolStripDropDownButtonRecoveryDescription";
-			this.toolStripDropDownButtonRecoveryDescription.Size = new System.Drawing.Size(34, 24);
-			this.toolStripDropDownButtonRecoveryDescription.Text = "D";
-			this.toolStripDropDownButtonRecoveryDescription.ToolTipText = "Восстановление структуры description";
-			// 
-			// ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks
-			// 
-			this.ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this.ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks.Name = "ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks";
-			this.ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks.Size = new System.Drawing.Size(266, 24);
-			this.ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks.Text = "Для всех выделенных книг";
-			this.ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks.Click += new System.EventHandler(this.TsmiRecoveryDescriptionForAllSelectedBooksClick);
-			// 
-			// ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks
-			// 
-			this.ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this.ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks.Name = "ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks";
-			this.ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks.Size = new System.Drawing.Size(266, 24);
-			this.ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks.Text = "Для всех помеченных книг";
-			this.ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks.Click += new System.EventHandler(this.TsmiRecoveryDescriptionForAllCheckedBooksClick);
 			// 
 			// toolStripDropDownButtonNewID
 			// 
@@ -2656,9 +2593,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.ToolStripMenuItem tsmiAutoCorrectorForAllSelectedBooks;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAutoCorrectorForAllCheckedBooks;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
-		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonRecoveryDescription;
-		private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemRecoveryDescriptionForAllSelectedBooks;
-		private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemRecoveryDescriptionForAllCheckedBooks;
 		private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemSetNewIDForAllSelectedBooks;
 		private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemSetNewIDForAllCheckedBooks;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
@@ -2731,9 +2665,6 @@ namespace SharpFBTools.Tools
 		private System.Windows.Forms.Label LegengCaptionLabel;
 		private System.Windows.Forms.Panel pFilesCount;
 		private System.Windows.Forms.ToolStripMenuItem tsmiDeleteAllItemForNonExistFile;
-		private System.Windows.Forms.ToolStripMenuItem tsmiRecoveryDescriptionForAllSelectedBooks;
-		private System.Windows.Forms.ToolStripMenuItem tsmiRecoveryDescriptionForAllCheckedBooks;
-		private System.Windows.Forms.ToolStripMenuItem tsmiRecoveryDescription;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
 		private System.Windows.Forms.ToolStripMenuItem tsmiAllNonValidateBooksForAllGroups;
@@ -3450,34 +3381,25 @@ namespace SharpFBTools.Tools
 			bool IsFromZip = false;
 			if ( FilesWorker.isFB2Archive( FilePath ) )
 				IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
-			FictionBook fb2 = null;
-			try {
-				fb2 = new FictionBook( FilePath );
-			} catch {
-				if ( BooksCount == 1 )
-					MessageBox.Show( "Файл \""+FilePath+"\" невозможно открыть для извлечения fb2 метаданных!\nФайл обработан не будет.",
-					                "Задание нового ID", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				return;
-			}
-			
-			if( fb2 != null ) {
-				// восстанавление раздела description до структуры с необходимыми элементами для валидности
-				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
-				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, SelectedItem, SourceFilePath );
-				fB2Corrector.setNewID();
-				fB2Corrector.saveToFB2File( FilePath );
-				
-				if( IsFromZip ) {
-					// обработка исправленного файла-архива
-					string ArchFile = FilePath + ".zip";
-					m_sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-					if( File.Exists( SourceFilePath ) )
-						File.Delete( SourceFilePath );
-					File.Move( ArchFile, SourceFilePath );
+			if( File.Exists( FilePath ) ) {
+				FictionBook fb2 = null;
+				try {
+					fb2 = new FictionBook( FilePath );
+				} catch ( FileLoadException er ) {
+					if ( BooksCount == 1 )
+						MessageBox.Show( er.Message, "Генерация нового id", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					return;
 				}
-				
-				// отображение нового id в строке списка
-				viewMetaData( SourceFilePath, SelectedItem, BooksCount );
+				if( fb2 != null ) {
+					// восстанавление раздела description до структуры с необходимыми элементами для валидности
+					FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+					WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, SelectedItem, SourceFilePath );
+					fB2Corrector.setNewID();
+					fb2.saveToFB2File( FilePath, false );
+					WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, SourceFilePath, IsFromZip, FilePath );
+					// отображение нового id в строке списка
+					viewMetaData( SourceFilePath, SelectedItem, BooksCount );
+				}
 			}
 		}
 		// правка Авторов выделенных/помеченных книг
@@ -3513,44 +3435,6 @@ namespace SharpFBTools.Tools
 			editGenreInfoForm.Dispose();
 			FilesWorker.RemoveDir( m_TempDir );
 			Cursor.Current = Cursors.Default;
-		}
-		// восстановление структуры для всех выделеннеых/помеченных книг
-		// BooksCount > 1 - обработка для нескольких книг в цикле вызывающего кода
-		private bool recoveryDescription( ListViewItem listViewItem, int BooksCount ) {
-			string SourceFilePath = listViewItem.Text;
-			string FilePath = SourceFilePath;
-			bool IsFromZip = false;
-			if ( FilesWorker.isFB2Archive( FilePath ) )
-				IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
-			FictionBook fb2 = null;
-			try {
-				fb2 = new FictionBook( FilePath );
-			} catch {
-				if ( BooksCount == 1 )
-					MessageBox.Show( "Файл \""+FilePath+"\" невозможно открыть для извлечения fb2 метаданных!\nФайл обработан не будет.",
-					                "Задание нового ID", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				return false;
-			}
-			
-			if( fb2 != null ) {
-				// восстанавление раздела description до структуры с необходимыми элементами для валидности
-				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
-				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, listViewItem, SourceFilePath );
-				fB2Corrector.saveToFB2File( FilePath );
-				
-				if( IsFromZip ) {
-					// обработка исправленного файла-архива
-					string ArchFile = FilePath + ".zip";
-					m_sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-					if( File.Exists( SourceFilePath ) )
-						File.Delete( SourceFilePath );
-					File.Move( ArchFile, SourceFilePath );
-				}
-
-				// отображение новых метаданных в строке списка
-				return viewMetaData( FilePath, listViewItem, BooksCount );
-			}
-			return false;
 		}
 		#endregion
 		
@@ -3679,7 +3563,7 @@ namespace SharpFBTools.Tools
 									WorksWithBooks.hideMetaDataLocalForDup( SelectedItem );
 									clearDataFields();
 								}
-							} catch ( System.Exception ) {
+							} catch ( System.Exception /*e*/) {
 								WorksWithBooks.hideMetaDataLocalForDup( SelectedItem );
 								clearDataFields();
 								// Занесение данных о валидации в поле детализации
@@ -3959,24 +3843,16 @@ namespace SharpFBTools.Tools
 							FictionBook fb2 = null;
 							try {
 								fb2 = new FictionBook( FilePath );
-							} catch {
-								MessageBox.Show( "Файл \""+FilePath+"\" невозможно открыть для извлечения fb2 метаданных!\nФайл обработан не будет.",
-								                "Комплексная правка метаданных", MessageBoxButtons.OK, MessageBoxIcon.Error );
+							} catch ( FileLoadException er ) {
+								MessageBox.Show( er.Message, "Комплексная правка метаданных", MessageBoxButtons.OK, MessageBoxIcon.Error );
 								return;
 							}
 							EditDescriptionForm editDescriptionForm = new EditDescriptionForm( fb2 );
 							editDescriptionForm.ShowDialog();
 							Cursor.Current = Cursors.WaitCursor;
 							if( editDescriptionForm.isApplyData() ) {
-								editDescriptionForm.getFB2XmlDocument().Save( FilePath );
-								if( IsFromArhive ) {
-									// обработка исправленного файла-архива
-									string ArchFile = FilePath + ".zip";
-									m_sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-									if( File.Exists( SourceFilePath) )
-										File.Delete( SourceFilePath );
-									File.Move( ArchFile, SourceFilePath );
-								}
+								editDescriptionForm.getFB2().saveToFB2File( FilePath, false );
+								WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, SourceFilePath, IsFromArhive, FilePath );
 								viewMetaData( FilePath, SelectedItem, 1 );
 							}
 							editDescriptionForm.Dispose();
@@ -4651,54 +4527,7 @@ namespace SharpFBTools.Tools
 				}
 			}
 		}
-		
-		// восстановление структуры для всех выделеннеых книг
-		void TsmiRecoveryDescriptionForAllSelectedBooksClick(object sender, EventArgs e)
-		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
-				ListView.SelectedListViewItemCollection SelectedItems = listViewFB2Files.SelectedItems;
-				const string Message = "Вы действительно хотите восстановить структуру раздела description для всех выделенных книг?";
-				const string MessTitle = "SharpFBTools - Восстановление структуры раздела description";
-				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
-				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
-					Cursor.Current = Cursors.WaitCursor;
-					tsProgressBar.Maximum = SelectedItems.Count;
-					tsProgressBar.Value = 0;
-					foreach( ListViewItem SelectedItem in SelectedItems ) {
-						recoveryDescription( SelectedItem, SelectedItems.Count );
-						tsProgressBar.Value++;
-					}
-					tsProgressBar.Value = 0;
-//					MiscListView.AutoResizeColumns( listViewFB2Files );
-					Cursor.Current = Cursors.Default;
-				}
-			}
-		}
-		// восстановление структуры для всех помеченных книг
-		void TsmiRecoveryDescriptionForAllCheckedBooksClick(object sender, EventArgs e)
-		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
-				ListView.CheckedListViewItemCollection CheckedItems = listViewFB2Files.CheckedItems;
-				const string Message = "Вы действительно хотите восстановить структуру раздела description для всех помеченных книг?";
-				const string MessTitle = "SharpFBTools - Восстановление структуры раздела description";
-				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
-				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
-					Cursor.Current = Cursors.WaitCursor;
-					tsProgressBar.Maximum = CheckedItems.Count;
-					tsProgressBar.Value = 0;
-					foreach( ListViewItem CheckedItem in CheckedItems ) {
-						recoveryDescription( CheckedItem, CheckedItems.Count );
-						tsProgressBar.Value++;
-					}
-					tsProgressBar.Value = 0;
-//					MiscListView.AutoResizeColumns( listViewFB2Files );
-					Cursor.Current = Cursors.Default;
-				}
-			}
-		}
-		
+
 		// авторазмер ширины колонок Списка корпий
 		void TsmiColumnsResultAutoReizeClick(object sender, EventArgs e)
 		{

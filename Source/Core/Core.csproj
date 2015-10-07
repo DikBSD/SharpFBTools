@@ -78,13 +78,12 @@
     </Compile>
     <Compile Include="Common\EndWorkMode.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\FB2AutoCorrector.cs" />
     <Compile Include="Common\FB2BookDescription.cs" />
-    <Compile Include="Common\FB2Corrector.cs" />
+    <Compile Include="Common\FB2DescriptionCorrector.cs" />
     <Compile Include="Common\FilesWorker.cs" />
-    <Compile Include="Common\GenresGroup.cs" />
     <Compile Include="Common\GenresWorker.cs" />
     <Compile Include="Common\IFB2TagsNotExsist.cs" />
-    <Compile Include="Common\IGenresGroup.cs" />
     <Compile Include="Common\ImageWorker.cs" />
     <Compile Include="Common\IProblemDirs.cs" />
     <Compile Include="Common\LangList.cs" />
@@ -133,6 +132,7 @@
     <Compile Include="Duplicator\CopiesAnalyzeForm.Designer.cs">
       <DependentUpon>CopiesAnalyzeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FB2\FB2Parsers\FB2Text.cs" />
     <Compile Include="FileManager\FB2TagsViewForm.cs" />
     <Compile Include="FileManager\FB2TagsViewForm.Designer.cs">
       <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
@@ -211,7 +211,6 @@
     <Folder Include="FB2\Genres" />
     <Folder Include="FileManager\Templates" />
     <Folder Include="FileManager" />
-    <Folder Include="Validator" />
     <Folder Include="Test" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Duplicator\BookData.cs" />
@@ -269,7 +268,6 @@
     <Compile Include="FileManager\Templates\LexemType.cs" />
     <Compile Include="FileManager\Templates\TemplatesParser.cs" />
     <Compile Include="FileManager\Templates\TemplatesVerify.cs" />
-    <Compile Include="Validator\ValidatorReports.cs" />
     <Compile Include="Test\Test.cs" />
     <Folder Include="Common" />
     <Folder Include="Corrector" />

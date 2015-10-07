@@ -37,7 +37,7 @@ namespace Core.Common
 		private bool m_ApplyData = false;
 		private string m_DirForSavedCover = string.Empty;
 		private const string m_sTitle = "Правка метаданных описания fb2 книги";
-		private readonly FB2Corrector _fB2Corrector = null;
+		private readonly FB2DescriptionCorrector _fB2Corrector = null;
 		#endregion
 		
 		public EditDescriptionForm( FictionBook fb2 )
@@ -46,7 +46,7 @@ namespace Core.Common
 			InitializeComponent();
 			m_fb2 = fb2;
 			// восстанавливаем структуру
-			_fB2Corrector = new FB2Corrector( ref m_fb2 );
+			_fB2Corrector = new FB2DescriptionCorrector( ref m_fb2 );
 			_fB2Corrector.recoveryDescriptionNode();
 			// первоначальное заполнение контролов
 			init();
@@ -97,8 +97,8 @@ namespace Core.Common
 		public bool isApplyData() {
 			return m_ApplyData;
 		}
-		public XmlDocument getFB2XmlDocument() {
-			return m_fb2.getXmlDoc();
+		public FictionBook getFB2() {
+			return m_fb2;
 		}
 		#endregion
 		
@@ -386,7 +386,7 @@ namespace Core.Common
 			}
 			return false;
 		}
-		// удаление Imsge тэга Cover по Href
+		// удаление Image тэга Cover по Href
 		private void deleteCoverImageForHref( Enums.TitleInfoEnum TitleInfoType, string Href ) {
 			XmlNode xmlCover = m_fb2.getCoverNode( TitleInfoType );
 			if( xmlCover != null ) {
@@ -438,7 +438,7 @@ namespace Core.Common
 		
 		#region Вспомогательные методы СОЗДАНИЯ структур метаданных
 		private IList<XmlNode> makeAuthorNode( Enums.AuthorEnum AuthorType, ref FictionBook fb2, ListView lv ) {
-			FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 			IList<XmlNode> Authors = null;
 			XmlNode xmlAuthor = null;
 			if( lv.Items.Count > 0 ) {

@@ -691,7 +691,7 @@ namespace Core.Common
 		}
 
 		// восстановление структуры description fb2 файла
-		public static bool recoveryFB2Structure( ref FB2Corrector fB2Corrector, ListViewItem lvi, string FilePath ) {
+		public static bool recoveryFB2Structure( ref FB2DescriptionCorrector fB2Corrector, ListViewItem lvi, string FilePath ) {
 			if ( fB2Corrector.recoveryDescriptionNode() ) {
 				lvi.ForeColor = Path.GetExtension(FilePath).ToLower() == ".fb2"
 					? Colors.FB2ForeColor : Colors.ZipFB2ForeColor;
@@ -758,29 +758,24 @@ namespace Core.Common
 			string FilePath = SrcFilePath;
 			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, Settings.Settings.TempDir );
 			
-			// восстанавление раздела description до структуры с необходимыми элементами для валидности
-			FictionBook fb2 = null;
-			try { fb2 = new FictionBook( FilePath ); } catch { }
-			recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
-			
 			// автокорректировка
-			FB2Corrector.autoCorrector( FilePath );
+			FB2AutoCorrector.autoCorrector( FilePath );
 			zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
 			
 			// восстанавление раздела description до структуры с необходимыми элементами для валидности
-			fb2 = null;
+			FictionBook fb2 = null;
 			try {
 				fb2 = new FictionBook( FilePath );
-			} catch {
+				recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+			} catch ( FileLoadException e ) {
 				if ( OneBook )
-					MessageBox.Show( "Файл \""+FilePath+"\" невозможно открыть для извлечения fb2 метаданных!",
-					                "Автокорректировка", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show( e.Message, "Автокорректировка", MessageBoxButtons.OK, MessageBoxIcon.Error );
 				return;
 			}
 			if( fb2 != null ) {
-				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SrcFilePath );
-				fB2Corrector.saveToFB2File( FilePath );
+				fb2.saveToFB2File( FilePath, false );
 				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
 
 				// отображение новых данных в строке списка
@@ -799,40 +794,31 @@ namespace Core.Common
 			}
 		}
 		
-		
 		// автокорректировка всех книг для Корректора
 		public static void autoCorrect( string SrcFilePath, SharpZipLibWorker sharpZipLib ) {
 			string FilePath = SrcFilePath;
 			string TempDir = Settings.Settings.TempDir;
 			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, TempDir );
 
-			// восстанавление раздела description до структуры с необходимыми элементами для валидности
-			FictionBook fb2 = null;
-			try { fb2 = new FictionBook( FilePath ); } catch { }
-			bool IsDescRecovered = recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
-			
 			// автокорректировка
-			FB2Corrector.autoCorrector( FilePath );
+			FB2AutoCorrector.autoCorrector( FilePath );
 			zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
 			
-			if ( !IsDescRecovered ) {
-				// восстанавление раздела description до структуры с необходимыми элементами для валидности
-				fb2 = null;
-				try {
-					fb2 = new FictionBook( FilePath );
-					recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
-				} catch { }
-			}
+			// восстанавление раздела description до структуры с необходимыми элементами для валидности
+			FictionBook	fb2 = null;
+			try {
+				fb2 = new FictionBook( FilePath );
+				recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+			} catch { }
 			FilesWorker.RemoveDir( TempDir );
 		}
-		
 		
 		private static bool recoveDesc( ref FictionBook fb2, SharpZipLibWorker sharpZipLib,
 		                               string SrcFilePath, bool IsFromZip, string FilePath ) {
 			if( fb2 != null ) {
-				FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 				fB2Corrector.recoveryDescriptionNode();
-				fB2Corrector.saveToFB2File( FilePath );
+				fb2.saveToFB2File( FilePath, false );
 				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
 				return true;
 			}
@@ -866,45 +852,6 @@ namespace Core.Common
 			}
 			return Result;
 		}
-		
-		#region Создание "пустых" частей fb2 структур
-		public static string makeEmptyFB2Root( string encoding ) {
-			string xml1 = string.Format( "<?xml version=\"1.0\" " + "encoding=\"{0}\"?>\n", encoding );
-			string xml2 = "<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\" " + "xmlns:l=\"http://www.w3.org/1999/xlink\">\n";
-			return xml1 + xml2;
-		}
-		public static string makeEmptyFB2Description() {
-			return @"<description>
-<title-info>
-<genre>other</genre>
-<author>
-<first-name></first-name>
-<last-name>empty</last-name>
-</author>
-<book-title>empty</book-title>
-<date></date>
-<lang>ru</lang>
-</title-info>
-<document-info>
-<author>
-<first-name></first-name>
-<last-name>empty</last-name>
-</author>
-<date></date>
-<id>EMPTY ID</id>
-<version>1.0</version>
-</document-info>
-</description>";
-		}
-		public static string makeEmptyFB2Bosy() {
-			return "\n<body><section><empty-line/></section></body>";
-		}
-		public static string makeEmptyFB2Bottom() {
-			return "\n</FictionBook>";
-		}
-		public static string makeEmptyFB2File( string encoding = "windosw-1251" ) {
-			return makeEmptyFB2Root( encoding ) + makeEmptyFB2Description() + makeEmptyFB2Bosy() + makeEmptyFB2Bottom();
-		}
-		#endregion
+
 	}
 }

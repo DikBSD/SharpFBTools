@@ -59,10 +59,11 @@ namespace Core.Common
 		}
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			Cursor.Current = Cursors.WaitCursor;
+			FB2DescriptionCorrector fB2Corrector = null;
 			foreach( FB2ItemInfo Info in m_LangFB2InfoList ) {
 				FictionBook fb2 = Info.FictionBook;
 				if( fb2 != null ) {
-					FB2Corrector fB2Corrector = new FB2Corrector( ref fb2 );
+					fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 					fB2Corrector.recoveryDescriptionNode();
 					
 					XmlNode xmlTI = fb2.getTitleInfoNode( TitleInfoEnum.TitleInfo );
@@ -76,16 +77,8 @@ namespace Core.Common
 						if( !Directory.Exists( m_TempDir ) )
 							Directory.CreateDirectory( m_TempDir );
 						string NewPath = Info.IsFromArhive ? Info.FilePathIfFromZip : Info.FilePathSource;
-						fb2.getXmlDoc().Save( NewPath );
-						
-						if( Info.IsFromArhive ) {
-							// обработка исправленного файла-архива
-							string ArchFile = NewPath + ".zip";
-							m_sharpZipLib.ZipFile( NewPath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
-							if( File.Exists( Info.FilePathSource ) )
-								File.Delete( Info.FilePathSource );
-							File.Move( ArchFile, Info.FilePathSource );
-						}
+						fb2.saveToFB2File( NewPath, false );
+						WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, Info.FilePathSource, Info.IsFromArhive, NewPath );
 					}
 				}
 				m_bw.ReportProgress( 1 );
