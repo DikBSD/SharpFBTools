@@ -8,11 +8,9 @@
 using System;
 using System.Windows.Forms;
 using System.ComponentModel;
-using System.IO;
 
 using Core.Common;
-using Core.FB2.Genres;
-using Core.FB2.FB2Parsers;
+using Core.FB2Parser;
 
 using EndWorkMode		= Core.Common.EndWorkMode;
 using FilesWorker		= Core.Common.FilesWorker;
@@ -32,7 +30,8 @@ namespace Core.Duplicator
 	{
 		#region Закрытые данные класса
 		private readonly ListView m_listViewFB2Files = new ListView();
-		private readonly SharpZipLibWorker	m_sharpZipLib = new SharpZipLibWorker();
+		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
+		private readonly FB2Validator		m_fv2Validator	= new FB2Validator();
 		private readonly EndWorkMode m_EndMode		= new EndWorkMode();
 		private readonly string m_TempDir			= Settings.Settings.TempDir;
 		private readonly BooksAutoCorrectMode m_WorkMode;  // режим обработки книг
@@ -98,6 +97,7 @@ namespace Core.Duplicator
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			ProgressBar.Value = 0;
 			int i = 0;
+			FB2Validator fv2Validator = new FB2Validator();
 			switch( m_WorkMode ) {
 				case BooksAutoCorrectMode.SelectedBooks:
 					this.Text = string.Format( "Автокорректировка выделенных {0} книг", m_listViewFB2Files.SelectedItems.Count );
@@ -106,10 +106,11 @@ namespace Core.Duplicator
 							e.Cancel = true;
 							return;
 						}
+						// обработка файла
 						WorksWithBooks.autoCorrect(
 							SelectedItem, SelectedItem.Text,
 							m_listViewFB2Files.SelectedItems.Count == 1 ? true : false,
-							m_sharpZipLib
+							m_sharpZipLib, m_fv2Validator
 						);
 						m_bw.ReportProgress( ++i );
 					}
@@ -121,10 +122,11 @@ namespace Core.Duplicator
 							e.Cancel = true;
 							return;
 						}
+						// обработка файла
 						WorksWithBooks.autoCorrect(
 							CheckedItem, CheckedItem.Text,
 							m_listViewFB2Files.CheckedItems.Count == 1 ? true : false,
-							m_sharpZipLib
+							m_sharpZipLib, m_fv2Validator
 						);
 						m_bw.ReportProgress( ++i );
 					}
@@ -136,10 +138,8 @@ namespace Core.Duplicator
 							e.Cancel = true;
 							return;
 						}
-						WorksWithBooks.autoCorrect(
-							Item, Item.Text,
-							false, m_sharpZipLib
-						);
+						// обработка файла
+						WorksWithBooks.autoCorrect( Item, Item.Text, false, m_sharpZipLib, m_fv2Validator );
 						m_bw.ReportProgress( ++i );
 					}
 					break;
@@ -150,9 +150,8 @@ namespace Core.Duplicator
 							e.Cancel = true;
 							return;
 						}
-						WorksWithBooks.autoCorrect(
-							Item, Item.Text, false, m_sharpZipLib
-						);
+						// обработка файла
+						WorksWithBooks.autoCorrect( Item, Item.Text, false, m_sharpZipLib, m_fv2Validator );
 						m_bw.ReportProgress( ++i );
 					}
 					break;

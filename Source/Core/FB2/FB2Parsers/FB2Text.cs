@@ -10,7 +10,9 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
 
-using System.Windows.Forms;
+//using System.Windows.Forms;
+
+using Core.AutoCorrector;
 
 namespace Core.FB2.FB2Parsers
 {
@@ -28,12 +30,18 @@ namespace Core.FB2.FB2Parsers
 		private const string _BodysProxy = "\r\n<body><section><empty-line/></section></body>\r\n";
 		private bool _ProxyMode = false;
 		
-		public FB2Text( string FilePath )
+		public FB2Text( string FilePath, bool onlyDescription = false )
 		{
 			_FilePath = FilePath;
 			_Encoding = getEncoding();
-			loadFile();
+			if ( !onlyDescription )
+				loadFromFile();
+			else
+				loadDescriptionOnlyFromFile();
 			_StartTags = _Description.Substring( 0, _Description.IndexOf("<description>") );
+			
+			// предварительная обязательная обработка
+			preWork();
 		}
 		
 		public virtual bool ProxyMode {
@@ -48,11 +56,11 @@ namespace Core.FB2.FB2Parsers
 		public virtual string FB2FilePath  {
 			get { return _FilePath; }
 		}
-//		
-//		public virtual bool DescriptionExists {
-//			get { return string.IsNullOrWhiteSpace( _Description ); }
-//		}
-//		
+
+		public virtual bool DescriptionExists {
+			get { return string.IsNullOrWhiteSpace( _Description ); }
+		}
+
 		public virtual string StartTags  {
 			get { return _StartTags; }
 		}
@@ -63,7 +71,7 @@ namespace Core.FB2.FB2Parsers
 		}
 		
 		public virtual bool BodiesExists {
-			get { return string.IsNullOrWhiteSpace( _Bodies ); }
+			get { return !string.IsNullOrWhiteSpace( _Bodies ); }
 		}
 		
 		public virtual string Bodies {
@@ -74,7 +82,7 @@ namespace Core.FB2.FB2Parsers
 		}
 
 		public virtual bool BinariesExists {
-			get { return string.IsNullOrWhiteSpace( _Binaries ); }
+			get { return !string.IsNullOrWhiteSpace( _Binaries ); }
 		}
 		
 		public virtual string Binaries {
@@ -97,6 +105,7 @@ namespace Core.FB2.FB2Parsers
 			saveFile( FilePath );
 		}
 		
+		#region Закрытые вспомогательные методы и свойства
 		private void saveFile( string FilePath ) {
 			using (
 				StreamWriter writer = new StreamWriter(
@@ -106,21 +115,45 @@ namespace Core.FB2.FB2Parsers
 			}
 		}
 		
-		private void loadFile() {
+		private void loadFromFile() {
 			string InputString = string.Empty;
 			using (StreamReader reader = new StreamReader( File.OpenRead (_FilePath), Encoding.GetEncoding(_Encoding) ) ) {
 				InputString = reader.ReadToEnd();
 			}
-
-			string DescEndTag = "</description>";
-			int IndexDescriptionEnd = InputString.IndexOf( DescEndTag ) + DescEndTag.Length;
-			int IndexFirstBody = IndexDescriptionEnd;
+			makeFB2Part( ref InputString );
+		}
+		
+		private void loadDescriptionOnlyFromFile() {
+			StringBuilder sb = new StringBuilder();
+			using ( StreamReader sr = new StreamReader( File.OpenRead(_FilePath), Encoding.GetEncoding(_Encoding) ) ) {
+				string input = string.Empty;
+				string DescEndTag = "</description>";
+				while (sr.Peek() >= 0) {
+					input = sr.ReadLine();
+					int index = input.IndexOf( DescEndTag );
+					if ( index > -1 ) {
+						sb.Append( input.Substring( 0, index ) );
+						sb.Append( input.Substring( index, DescEndTag.Length ) );
+						break;
+					}
+					sb.Append( input );
+				}
+			}
+			_Description = sb.ToString();
+			string InputString = _Description;
+			makeFB2Part( ref InputString );
+			ProxyMode = true;
+		}
+		
+		private void makeFB2Part( ref string InputString ) {
+			string DescCloseTag = "</description>";
+			int IndexDescriptionEnd = InputString.IndexOf( DescCloseTag ) + DescCloseTag.Length;
+			int IndexFirstBody = InputString.IndexOf( "<body" );
 			int IndexFirstBinary = InputString.IndexOf( "<binary " );
-			int IndexFictionBoocEndTag = InputString.IndexOf( "</FictionBook>" );
+			int IndexFictionBookEndTag = InputString.IndexOf( "</FictionBook>" );
 			if ( IndexDescriptionEnd != -1 ) {
 				_Description = InputString.Substring( 0, IndexDescriptionEnd );
-				bool UnicodeCharExists = isUnicodeCharExists();
-				if ( _Encoding.Equals( "windows-1251" ) && UnicodeCharExists ) {
+				if ( _Encoding.Equals( "windows-1251" ) && isUnicodeCharExists() ) {
 					_Encoding = "UTF-8";
 					_Description = Regex.Replace(
 						_Description, "(?<=encoding=\").+?(?=\")",
@@ -131,11 +164,16 @@ namespace Core.FB2.FB2Parsers
 					if ( IndexFirstBinary != -1 )
 						_Bodies = InputString.Substring( IndexFirstBody, IndexFirstBinary - IndexFirstBody );
 					else
-						_Bodies = InputString.Substring( IndexFirstBody, IndexFictionBoocEndTag - IndexFirstBody );
+						_Bodies = InputString.Substring( IndexFirstBody, IndexFictionBookEndTag - IndexFirstBody );
+					if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50 ) == -1 )
+						_Bodies += "</body>";
 				}
 				
-				if ( IndexFirstBinary != -1 )
-					_Binaries = InputString.Substring( IndexFirstBinary, IndexFictionBoocEndTag - IndexFirstBinary );
+				if ( IndexFirstBinary != -1 ) {
+					_Binaries = InputString.Substring( IndexFirstBinary, IndexFictionBookEndTag - IndexFirstBinary );
+					if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50 ) != -1 )
+						_Binaries = _Binaries.Replace( "</body>", string.Empty );
+				}
 			}
 			InputString = string.Empty;
 		}
@@ -153,9 +191,12 @@ namespace Core.FB2.FB2Parsers
 			Match match = Regex.Match( str, "(?<=encoding=\").+?(?=\")", RegexOptions.IgnoreCase);
 			if ( match.Success )
 				encoding = match.Value;
+			if ( encoding.ToLower() == "wutf-8" )
+				encoding = "utf-8";
 			return encoding;
 		}
 		
+		// есть ли в тексте Юникодные символы
 		private bool isUnicodeCharExists() {
 			string template = "(&#(x([0-9]|[A-F]){1,4})|([0-9]){1,3});";
 			bool res = Regex.IsMatch( _Description, template );
@@ -163,5 +204,20 @@ namespace Core.FB2.FB2Parsers
 				res |= Regex.IsMatch( _Bodies, template );
 			return res;
 		}
+		
+		// предварительная обязательная обработка
+		private void preWork() {
+			Regex regex = new Regex( FB2CleanCode.getRegAmpString() ); // пропускае юникод, символы в десятичной кодировке и меняем уголки
+			/* удаление недопустимых символов */
+			_Description = FB2CleanCode.deleteIllegalCharacters(
+				/* обработка & */
+				regex.Replace( _Description, "&amp;" )
+			);
+			_Bodies = FB2CleanCode.deleteIllegalCharacters(
+				/* обработка & */
+				regex.Replace( _Bodies, "&amp;" )
+			);
+		}
+		#endregion
 	}
 }

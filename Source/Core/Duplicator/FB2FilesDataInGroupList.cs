@@ -1,0 +1,100 @@
+﻿/*
+ * Created by SharpDevelop.
+ * User: Кузнецов Вадим (DikBSD)
+ * Date: 07.10.2009
+ * Time: 9:57
+ * 
+ * License: GPL 2.1
+ */
+using System;
+using System.Text;
+using System.Collections.Generic;
+
+using System.Windows.Forms;
+
+namespace Core.Duplicator
+{
+	/// <summary>
+	/// класс для хранения информации по одинаковым книгам в одной группе
+	/// </summary>
+	public class FB2FilesDataInGroup : List<BookData> {
+		
+		#region Закрытые данные класса
+		private string m_sGroup = null;
+		private string m_BookTitleForGroup	= string.Empty;	// Название Книги (для Группы)
+		#endregion
+		
+		#region конструкторы
+		public FB2FilesDataInGroup() {
+		}
+		public FB2FilesDataInGroup( BookData abt ) {
+			this.Add( abt );
+		}
+		public FB2FilesDataInGroup( BookData abt, string Group ) {
+			this.Add( abt );
+			m_sGroup = Group;
+		}
+		public FB2FilesDataInGroup( string Group ) {
+			m_sGroup = Group;
+		}
+		#endregion
+		
+		#region Открытые методы класса
+		public void AddBookData( BookData abt ) {
+			this.Add( abt );
+		}
+		
+		public bool isBookExists( string BookPath ) {
+			foreach( BookData bd in this ) {
+				if( bd.Path.Trim() == BookPath.Trim() )
+					return true;
+			}
+			return false;
+		}
+		
+		// формирование списка строк из ФИО всех Авторов книги
+		public string makeAuthorsString(bool WithMiddleName) {
+			if (this.Count > 0) {
+				List<string> list = new List<string>();
+				foreach( BookData bd in this ) {
+					List<string> fioList = bd.makeListFOIAuthors(bd.Authors, WithMiddleName);
+					foreach( string fio in fioList ) {
+						if (!list.Contains(fio)) {
+							list.Add(fio);
+							list.Add("; ");
+						}
+					}
+				}
+				
+				StringBuilder sb = new StringBuilder( list.Count );
+				foreach( string s in list )
+					sb.Append(s);
+				
+				string sA = sb.ToString().Trim();
+				return sA.Substring( 0, sA.LastIndexOf( ';' ) ).Trim();
+			}
+			return string.Empty;
+		}
+		
+		// сравнение только по названию группы (если они не одинаковые, то и содержимое групп - разное)
+		public bool isSameGroup( FB2FilesDataInGroup RightValue ) {
+			if ( RightValue == null )
+				return false;
+			
+			return this.Group == RightValue.Group;
+		}
+		#endregion
+		
+		#region Свойства класса
+		public virtual string Group {
+			get { return m_sGroup; }
+			set { m_sGroup = value; }
+		}
+		// формирование Названия Книги для Названия Группы
+		public virtual string BookTitleForGroup {
+			get { return m_BookTitleForGroup; }
+			set { m_BookTitleForGroup = value; }
+		}
+		#endregion
+	}
+}

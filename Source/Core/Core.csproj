@@ -50,6 +50,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCorrector\EpigraphCorrector.cs" />
+    <Compile Include="AutoCorrector\FB2AutoCorrector.cs" />
+    <Compile Include="AutoCorrector\FB2CleanCode.cs" />
+    <Compile Include="AutoCorrector\IWorker.cs" />
+    <Compile Include="AutoCorrector\LangRuUkBeCorrector.cs" />
+    <Compile Include="AutoCorrector\LinksCorrector.cs" />
+    <Compile Include="AutoCorrector\ParaCorrector.cs" />
+    <Compile Include="AutoCorrector\TagPair.cs" />
+    <Compile Include="AutoCorrector\TagWorker.cs" />
+    <Compile Include="AutoCorrector\TitleCorrector.cs" />
     <Compile Include="Common\AuthorInfoForm.cs" />
     <Compile Include="Common\AuthorInfoForm.Designer.cs">
       <DependentUpon>AuthorInfoForm.cs</DependentUpon>
@@ -78,7 +88,6 @@
     </Compile>
     <Compile Include="Common\EndWorkMode.cs" />
     <Compile Include="Common\Enums.cs" />
-    <Compile Include="Common\FB2AutoCorrector.cs" />
     <Compile Include="Common\FB2BookDescription.cs" />
     <Compile Include="Common\FB2DescriptionCorrector.cs" />
     <Compile Include="Common\FilesWorker.cs" />
@@ -197,6 +206,7 @@
     <EmbeddedResource Include="FileManager\SortingForm.resx">
       <DependentUpon>SortingForm.cs</DependentUpon>
     </EmbeddedResource>
+    <Folder Include="AutoCorrector" />
     <Folder Include="Duplicator" />
     <Folder Include="FB2" />
     <Folder Include="FB2\binary" />

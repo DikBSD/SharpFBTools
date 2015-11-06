@@ -159,7 +159,7 @@ namespace Core.Common
 			}
 		}
 		
-		public virtual string IsValidFB2Librusec {
+		public virtual string IsValidFB2Union {
 			get {
 				FB2Validator fv2Validator = new FB2Validator();
 				return fv2Validator.ValidatingFB2File( m_sFromFilePath );

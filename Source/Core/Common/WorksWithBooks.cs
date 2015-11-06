@@ -13,11 +13,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
+using System.Xml;
 
 using Core.FB2.Genres;
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.Common;
 using Core.FB2.FB2Parsers;
+using Core.AutoCorrector;
 
 using FB2Validator = Core.FB2Parser.FB2Validator;
 
@@ -91,7 +93,9 @@ namespace Core.Common
 					ProgressBar.Maximum = Items.Count;
 					foreach( ListViewItem item in Items ) {
 						if( File.Exists( item.Text.Trim() ) )
-							ListViewItemInfoList.Add( new ListViewItemInfo( item, item.Text.Trim() ) );
+							ListViewItemInfoList.Add(
+								new ListViewItemInfo( item, item.Text.Trim() )
+							);
 						ProgressBar.Value++;
 					}
 				}
@@ -247,7 +251,7 @@ namespace Core.Common
 			return false;
 		}
 
-		// итем - файл?
+		// итем - это файл?
 		public static bool isFileItem( ListViewItem listViewItem ) {
 			return ((ListViewItemType)listViewItem.Tag).Type == "f" ? true : false;
 		}
@@ -259,8 +263,9 @@ namespace Core.Common
 			lvi.Checked = false;
 		}
 		
-		
-		// создание пустых subitems для Сортировщика и Корректора
+		/// <summary>
+		/// Создание пустых subitems для Сортировщика и Корректора
+		/// </summary>
 		public static ListViewItem.ListViewSubItem[] createEmptySubItemsForItem( ListViewItem Item ) {
 			return new ListViewItem.ListViewSubItem[] {
 				new ListViewItem.ListViewSubItem(Item, string.Empty),
@@ -279,7 +284,9 @@ namespace Core.Common
 			};
 		}
 		
-		// создание заполненных subitems для Сортировщика и Корректора
+		/// <summary>
+		/// Создание заполненных subitems для Сортировщика и Корректора
+		/// </summary>
 		public static ListViewItem.ListViewSubItem[]
 			createSubItemsWithMetaData(
 				string FilePath, string SourceFileExt,
@@ -293,7 +300,7 @@ namespace Core.Common
 			
 			string valid = "?";
 			if ( bd != null )
-				valid = bd.IsValidFB2Librusec;
+				valid = bd.IsValidFB2Union;
 			else
 				valid = m_fv2Validator.ValidatingFB2File( FilePath );
 			if ( !string.IsNullOrEmpty( valid ) ) {
@@ -320,14 +327,18 @@ namespace Core.Common
 				new ListViewItem.ListViewSubItem(Item, bd != null ? bd.FileLastWriteTime : string.Empty)
 			};
 		}
-		
-		// занесение данных в выделенный итем (метаданные книги после правки) для Корректора
-		public static bool viewBookMetaDataLocal( ref string SrcFilePath, ref FB2BookDescription fb2Desc, ListViewItem lvi,
-		                                         ref FB2UnionGenres FB2Genres ) {
+
+		/// <summary>
+		/// Занесение данных в выделенный итем (метаданные книги после правки) для Корректора
+		/// </summary>
+		public static string viewBookMetaDataLocal( ref string SrcFilePath, ref FB2BookDescription fb2Desc, ListViewItem lvi,
+		                                           ref FB2UnionGenres FB2Genres ) {
+			string RetValid = string.Empty;
 			if( lvi != null ) {
 				if( fb2Desc != null ) {
 					string fileExtention = Path.GetExtension( SrcFilePath ).ToLower();
-					string valid = fb2Desc.IsValidFB2Librusec;
+					string valid = fb2Desc.IsValidFB2Union;
+					RetValid = valid;
 					if ( string.IsNullOrEmpty( valid ) ) {
 						valid = "Да";
 						lvi.ForeColor = fileExtention == ".fb2"
@@ -351,13 +362,14 @@ namespace Core.Common
 					lvi.SubItems[(int)ResultViewCollumn.FileLength].Text = fb2Desc.FileLength;
 					lvi.SubItems[(int)ResultViewCollumn.CreationTime].Text = fb2Desc.FileCreationTime;
 					lvi.SubItems[(int)ResultViewCollumn.LastWriteTime].Text = fb2Desc.FileLastWriteTime;
-					
-					return true;
 				}
 			}
-			return false;
+			return RetValid;
 		}
-		// скрыть метаданные итема в Списке для Корректора
+
+		/// <summary>
+		/// Скрыть метаданные итема в Списке для Корректора
+		/// </summary>
 		public static void hideMetaDataLocal( ListViewItem Item ) {
 			for( int i = 1; i != Item.SubItems.Count; ++i )
 				Item.SubItems[i].Text = string.Empty;
@@ -369,7 +381,9 @@ namespace Core.Common
 				Item.SubItems[(int)ResultViewCollumn.Format].Text = Item.Text.Substring(Item.Text.LastIndexOf('.'));
 			}
 		}
-		// скрыть метаданные итема в Списке для Дубликатора
+		/// <summary>
+		/// Скрыть метаданные итема в Списке для Дубликатора
+		/// </summary>
 		public static void hideMetaDataLocalForDup( ListViewItem Item ) {
 			for( int i = 1; i != Item.SubItems.Count; ++i )
 				Item.SubItems[i].Text = string.Empty;
@@ -377,7 +391,9 @@ namespace Core.Common
 			Item.SubItems[(int)ResultViewDupCollumn.Validate].Text = "Нет";
 		}
 		
-		// показать данные книги для Сортировщика
+		/// <summary>
+		/// Показать данные книги для Сортировщика
+		/// </summary>
 		public static void viewBookMetaDataLocal( string FilePath, ListView listViewSource, FB2UnionGenres FB2FullSortGenres,
 		                                         int ItemNumber, string TempDir ) {
 			string valid = "?";
@@ -388,7 +404,7 @@ namespace Core.Common
 					// показать данные fb2 файлов
 					bd = new FB2BookDescription( FilePath );
 
-					valid = bd.IsValidFB2Librusec;
+					valid = bd.IsValidFB2Union;
 					if ( !string.IsNullOrEmpty( valid ) ) {
 						valid = "Нет";
 						listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
@@ -422,7 +438,7 @@ namespace Core.Common
 					string [] files = Directory.GetFiles( TempDir );
 					bd = new FB2BookDescription( files[0] );
 
-					valid = bd.IsValidFB2Librusec;
+					valid = bd.IsValidFB2Union;
 					if ( !string.IsNullOrEmpty( valid ) ) {
 						valid = "Нет";
 						listViewSource.Items[ItemNumber].ForeColor = Colors.FB2NotValidForeColor;
@@ -751,80 +767,105 @@ namespace Core.Common
 			}
 		}
 		
-		// автокорректировка всех выделеннеых/помеченных книг для Дубликатора
+		/// <summary>
+		/// Автокорректировка всех выделеннеых/помеченных книг для Дубликатора
+		/// </summary>
 		// OneBook = false - обработка для нескольких книг в цикле вызывающего кода
 		public static void autoCorrect( ListViewItem Item, string SrcFilePath,
-		                               bool OneBook, SharpZipLibWorker sharpZipLib ) {
+		                               bool OneBook, SharpZipLibWorker sharpZipLib, FB2Validator fv2Validator ) {
 			string FilePath = SrcFilePath;
-			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, Settings.Settings.TempDir );
+			string TempDir = Settings.Settings.TempDir;
+			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, TempDir );
 			
-			// автокорректировка
-			FB2AutoCorrector.autoCorrector( FilePath );
-			zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
-			
-			// восстанавление раздела description до структуры с необходимыми элементами для валидности
-			FictionBook fb2 = null;
-			try {
-				fb2 = new FictionBook( FilePath );
-				recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
-			} catch ( FileLoadException e ) {
-				if ( OneBook )
-					MessageBox.Show( e.Message, "Автокорректировка", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				return;
-			}
-			if( fb2 != null ) {
-				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
-				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SrcFilePath );
-				fb2.saveToFB2File( FilePath, false );
-				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
-
-				// отображение новых данных в строке списка
-				if( IsFromZip )
-					ZipFB2Worker.getFileFromFB2_FB2Z( ref SrcFilePath, Settings.Settings.TempDir );
-				FB2UnionGenres fb2g = new FB2UnionGenres();
-				try {
-					FB2BookDescription fb2Desc = new FB2BookDescription( SrcFilePath );
-					viewBookMetaDataLocal(
-						ref SrcFilePath, ref fb2Desc, Item, ref fb2g
-					);
-				} catch ( System.Exception /*e*/ ) {
-				} finally {
-					FilesWorker.RemoveDir( Settings.Settings.TempDir );
+			if ( !string.IsNullOrEmpty( fv2Validator.ValidatingFB2File( FilePath ) ) ) {
+				// автокорректировка только невалидного файла
+				FB2AutoCorrector.autoCorrector( FilePath );
+				// Постобработка для Дубликатора после Автокорректировки файла
+				postWorkForDuplicator( Item, SrcFilePath, IsFromZip, FilePath, OneBook, sharpZipLib );
+			} else {
+				// замена <lang> для русских книг на ru, украинских на uk, беларуский на be для fb2 без <src-title-info>
+				FB2Text fb2Text = new FB2Text( FilePath );
+				string XmlText = fb2Text.toXML();
+				string InputString = fb2Text.Description;
+				LangRuUkBeCorrector langRuUkBeCorrector = new LangRuUkBeCorrector( XmlText, ref InputString );
+				bool IsCorrected = false;
+				InputString = langRuUkBeCorrector.correct( ref IsCorrected );
+				if ( IsCorrected ) {
+					fb2Text.Description = InputString;
+					try {
+						XmlDocument xmlDoc = new XmlDocument();
+						xmlDoc.LoadXml( fb2Text.toXML() );
+						xmlDoc.Save( FilePath );
+					} catch {
+						fb2Text.saveFile();
+					}
+					// Постобработка для Дубликатора после Автокорректировки файла
+					postWorkForDuplicator( Item, SrcFilePath, IsFromZip, FilePath, OneBook, sharpZipLib );
 				}
 			}
+			FilesWorker.RemoveDir( TempDir );
 		}
 		
-		// автокорректировка всех книг для Корректора
-		public static void autoCorrect( string SrcFilePath, SharpZipLibWorker sharpZipLib ) {
+		/// <summary>
+		/// Автокорректировка всех выделеннеых/помеченных книг для Корректора
+		/// </summary>
+		public static void autoCorrect( string SrcFilePath, SharpZipLibWorker sharpZipLib, FB2Validator fv2Validator ) {
 			string FilePath = SrcFilePath;
 			string TempDir = Settings.Settings.TempDir;
 			bool IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, TempDir );
 
-			// автокорректировка
-			FB2AutoCorrector.autoCorrector( FilePath );
-			zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
-			
-			// восстанавление раздела description до структуры с необходимыми элементами для валидности
-			FictionBook	fb2 = null;
-			try {
-				fb2 = new FictionBook( FilePath );
-				recoveDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
-			} catch { }
+			if ( !string.IsNullOrEmpty( fv2Validator.ValidatingFB2File( FilePath ) ) ) {
+				// автокорректировка только невалидного файла
+				FB2AutoCorrector.autoCorrector( FilePath );
+				
+				// Сжатие файла FilePath и перемещение архива по пути SrcFilePath (если он был из архива)
+				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+				// восстанавление раздела description до структуры с необходимыми элементами для валидности
+				FictionBook	fb2 = null;
+				try {
+					fb2 = new FictionBook( FilePath );
+					recoverDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+				} catch { }
+			} else {
+				// замена <lang> для русских книг на ru, украинских на uk, беларуский на be для fb2 без <src-title-info>
+				FB2Text fb2Text = new FB2Text( FilePath );
+				string XmlText = fb2Text.toXML();
+				string InputString = fb2Text.Description;
+				LangRuUkBeCorrector langRuUkBeCorrector = new LangRuUkBeCorrector( XmlText, ref InputString );
+				bool IsCorrected = false;
+				InputString = langRuUkBeCorrector.correct( ref IsCorrected );
+				if ( IsCorrected ) {
+					fb2Text.Description = InputString;
+					try {
+						XmlDocument xmlDoc = new XmlDocument();
+						xmlDoc.LoadXml( fb2Text.toXML() );
+						xmlDoc.Save( FilePath );
+					} catch {
+						fb2Text.saveFile();
+					}
+					
+					// Сжатие файла FilePath и перемещение архива по пути SrcFilePath (если он был из архива)
+					zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+					// восстанавление раздела description до структуры с необходимыми элементами для валидности
+					FictionBook	fb2 = null;
+					try {
+						fb2 = new FictionBook( FilePath );
+						recoverDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+					} catch { }
+				}
+			}
+
 			FilesWorker.RemoveDir( TempDir );
 		}
 		
-		private static bool recoveDesc( ref FictionBook fb2, SharpZipLibWorker sharpZipLib,
-		                               string SrcFilePath, bool IsFromZip, string FilePath ) {
-			if( fb2 != null ) {
-				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
-				fB2Corrector.recoveryDescriptionNode();
-				fb2.saveToFB2File( FilePath, false );
-				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
-				return true;
-			}
-			return false;
-		}
-		
+		/// <summary>
+		/// Сжатие файла FilePath и перемещение архива по пути SrcFilePath (если он был из архива)
+		/// </summary>
+		/// <param name="sharpZipLib">Экземпляр класса по работе с архивами</param>
+		/// <param name="SrcFilePath">Исходный путь архива</param>
+		/// <param name="IsFromZip">Признак, извлечен ли файл из архива</param>
+		/// <param name="FilePath">Временный путь распакованного файла</param>
+		/// <returns>Признак, успешно ли прошла операция упаковки и перемещения файла</returns>
 		public static bool zipMoveTempFB2FileTo( SharpZipLibWorker sharpZipLib,
 		                                        string SrcFilePath, bool IsFromZip, string FilePath ) {
 			if( IsFromZip ) {
@@ -853,5 +894,53 @@ namespace Core.Common
 			return Result;
 		}
 
+		/// <summary>
+		/// Восстановление description раздела описания fb2 книги
+		/// </summary>
+		/// <param name="fb2">Книга в fb2 фармате</param>
+		/// <param name="sharpZipLib">Экземпляр класса по работе с архивами</param>
+		/// <param name="SrcFilePath">Исходный путь архива</param>
+		/// <param name="IsFromZip">Признак, извлечен ли файл из архива</param>
+		/// <param name="FilePath">Временный путь распакованного файла</param>
+		/// <returns>true, если fb2 не равен null, и восстановление произошло; false - в противном случае</returns>
+		private static bool recoverDesc( ref FictionBook fb2, SharpZipLibWorker sharpZipLib,
+		                                string SrcFilePath, bool IsFromZip, string FilePath ) {
+			if( fb2 != null ) {
+				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+				fB2Corrector.recoveryDescriptionNode();
+				fb2.saveToFB2File( FilePath, false );
+				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+				return true;
+			}
+			return false;
+		}
+		
+		/// <summary>
+		/// Постобработка для Дубликатора после Автокорректировки файла
+		/// </summary>
+		private static void postWorkForDuplicator( ListViewItem Item, string SrcFilePath, bool IsFromZip, string FilePath,
+		                                          bool OneBook, SharpZipLibWorker sharpZipLib ) {
+			// Сжатие файла FilePath и перемещение архива по пути SrcFilePath (если он был из архива)
+			zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+			
+			// восстанавление раздела description до структуры с необходимыми элементами для валидности
+			FictionBook fb2 = null;
+			try {
+				fb2 = new FictionBook( FilePath );
+				recoverDesc( ref fb2, sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+			} catch ( FileLoadException e ) {
+				if ( OneBook )
+					MessageBox.Show( e.Message, "Автокорректировка", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+			if( fb2 != null ) {
+				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SrcFilePath );
+				fb2.saveToFB2File( FilePath, false );
+				// Сжатие файла FilePath и перемещение архива по пути SrcFilePath (если он был из архива)
+				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
+			}
+		}
+		
 	}
 }

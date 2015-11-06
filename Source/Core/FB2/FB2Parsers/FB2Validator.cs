@@ -13,7 +13,6 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Windows.Forms;
 
-using Settings;
 using SharpZipLibWorker = Core.Common.SharpZipLibWorker;
 
 namespace Core.FB2Parser

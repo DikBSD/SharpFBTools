@@ -159,6 +159,15 @@ namespace Core.Common
 		}
 		
 		/// <summary>
+		/// Загрузка fb2 книга из:
+		/// </summary>
+		public enum LoadFB2FromMode : byte {
+			File,		// из файла
+			FB2Text,	// из строки типа FB2Text
+			String,		// из строки типа string
+		}
+		
+		/// <summary>
 		/// Режим сортировки книг - по числу Авторов и Жанров
 		/// </summary>
 //		public enum SortModeType : byte {

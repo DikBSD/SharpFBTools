@@ -229,10 +229,7 @@ namespace Core.Common
 			m_FilePathSource = FilePathSource.Replace( @"\\", @"\" );
 			m_FilePathIfFromZip = FilePathIfFromZip.Replace( @"\\", @"\" );
 			m_IsFromArhive = IsFromArhive;
-			if( IsFromArhive )
-				m_fb2 = new FictionBook( FilePathIfFromZip );
-			else
-				m_fb2 = new FictionBook( FilePathSource );
+			m_fb2 = IsFromArhive ? new FictionBook( FilePathIfFromZip ) : new FictionBook( FilePathSource );
 		}
 		
 		#region Открытые свойства

@@ -9,12 +9,12 @@ using System;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
 using Core.Common;
 using Core.FB2.Genres;
+using Core.FB2Parser;
 
 using EndWorkMode		= Core.Common.EndWorkMode;
 using FilesWorker		= Core.Common.FilesWorker;
@@ -33,8 +33,9 @@ namespace Core.Corrector
 	{
 		#region Закрытые данные класса
 		private const string m_sMessTitle			= "SharpFBTools - Автокорректировка fb2 файлов";
-		private readonly ListView m_listViewFB2Files = new ListView();
-		private readonly SharpZipLibWorker	m_sharpZipLib = new SharpZipLibWorker();
+		private readonly ListView	m_listViewFB2Files = new ListView();
+		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
+		private readonly FB2Validator		m_fv2Validator	= new FB2Validator();
 		private readonly string	m_SourceRootDir				= string.Empty; // корневой каталог для поиска помеченных папок и файлов
 		private readonly IList<ListViewItemInfo> m_ListViewItemInfoList = null; // помеченные / выделенные книги и папки в корневой папке
 		private readonly IList<string> m_SourceDirs			= new List<string>();	// подпапки корневой папки для поиска книг
@@ -285,6 +286,7 @@ namespace Core.Corrector
 			this.Text = string.Format( "Автокорректировка книг: всего {0} книг в {1} каталогах", m_AllFiles, m_AllDirs );
 			if ( IsReNew )
 				this.Text += string.Format( " / Для обработки {0} файлов", m_NotWorkingFilesList.Count );
+			
 			ProgressBar.Maximum	= NotWorлingFilesList.Count;
 			ProgressBar.Value = 0;
 			
@@ -297,7 +299,8 @@ namespace Core.Corrector
 					return;
 				}
 				// обработка файла
-				WorksWithBooks.autoCorrect( file, m_sharpZipLib );
+				WorksWithBooks.autoCorrect( file, m_sharpZipLib, m_fv2Validator );
+				
 				// обработанные файлы
 				m_WorkingFilesList.Add( NotWorлingFilesList[i] );
 				m_bw.ReportProgress( ++i );

@@ -987,6 +987,7 @@ namespace SharpFBTools.Tools
 			this.toolStripDropDownButtonEditGenres});
 			this.CommandToolStrip.Location = new System.Drawing.Point(4, 74);
 			this.CommandToolStrip.Name = "CommandToolStrip";
+			this.CommandToolStrip.ShowItemToolTips = false;
 			this.CommandToolStrip.Size = new System.Drawing.Size(1413, 27);
 			this.CommandToolStrip.TabIndex = 56;
 			this.CommandToolStrip.Text = "Панель инструментов обработки книг";
