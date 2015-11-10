@@ -309,6 +309,7 @@ namespace SharpFBTools.Tools
 							FilesWorker.RemoveDir( m_TempDir );
 						}
 					} catch ( System.Exception /*e*/ ) {
+						RetValid = "Нет";
 						WorksWithBooks.hideMetaDataLocal( listViewItem );
 						clearDataFields();
 					} finally {

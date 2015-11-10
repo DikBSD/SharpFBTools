@@ -38,7 +38,7 @@ namespace Core.FB2.FB2Parsers
 				loadFromFile();
 			else
 				loadDescriptionOnlyFromFile();
-			_StartTags = _Description.Substring( 0, _Description.IndexOf("<description>") );
+			_StartTags = _Description.Substring( 0, _Description.IndexOf("<description") );
 			
 			// предварительная обязательная обработка
 			preWork();
@@ -160,19 +160,39 @@ namespace Core.FB2.FB2Parsers
 						"UTF-8", RegexOptions.IgnoreCase
 					);
 				}
+				
 				if ( IndexFirstBody != -1 ) {
 					if ( IndexFirstBinary != -1 )
 						_Bodies = InputString.Substring( IndexFirstBody, IndexFirstBinary - IndexFirstBody );
 					else
 						_Bodies = InputString.Substring( IndexFirstBody, IndexFictionBookEndTag - IndexFirstBody );
-					if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50 ) == -1 )
-						_Bodies += "</body>";
 				}
 				
 				if ( IndexFirstBinary != -1 ) {
 					_Binaries = InputString.Substring( IndexFirstBinary, IndexFictionBookEndTag - IndexFirstBinary );
-					if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50 ) != -1 )
-						_Binaries = _Binaries.Replace( "</body>", string.Empty );
+				}
+				Match mBody = Regex.Match( _Binaries, "<body +?name=\"notes\">", RegexOptions.IgnoreCase );
+				int indexBody = mBody.Index;
+				string BodyNotes = string.Empty;
+				if ( indexBody > 0 ) {
+					Match mEndBody = Regex.Match( _Binaries, "</body>", RegexOptions.IgnoreCase );
+					int indexEndBody = mEndBody.Index;
+					if ( indexEndBody > 0 ) {
+						BodyNotes = _Binaries.Substring( indexBody, indexEndBody - indexBody + 7 );
+						_Bodies += BodyNotes;
+						_Binaries = _Binaries.Remove( indexBody, indexEndBody - indexBody + 7 );
+					}
+				}
+
+				if ( indexBody == 0 ) {
+					if ( IndexFirstBody != -1 ) {
+						if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50 ) == -1 )
+							_Bodies += "</body>";
+					}
+					if ( IndexFirstBinary != -1 ) {
+						if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50 ) != -1 )
+							_Binaries = _Binaries.Replace( "</body>", string.Empty );
+					}
 				}
 			}
 			InputString = string.Empty;
@@ -191,7 +211,7 @@ namespace Core.FB2.FB2Parsers
 			Match match = Regex.Match( str, "(?<=encoding=\").+?(?=\")", RegexOptions.IgnoreCase);
 			if ( match.Success )
 				encoding = match.Value;
-			if ( encoding.ToLower() == "wutf-8" )
+			if ( encoding.ToLower() == "wutf-8" || encoding.ToLower() == "utf8" )
 				encoding = "utf-8";
 			return encoding;
 		}
@@ -217,6 +237,43 @@ namespace Core.FB2.FB2Parsers
 				/* обработка & */
 				regex.Replace( _Bodies, "&amp;" )
 			);
+			// обработка неверного значения кодировки файла
+			regex = new Regex( "(?<=encoding=\")(?:(?:wutf-8)|(?:utf8))(?=\")", RegexOptions.IgnoreCase );
+			_Description = regex.Replace( _Description, "utf-8" );
+			
+			// обработка NameSpace
+			int FictionBookTagIndex = _StartTags.IndexOf( "<FictionBook" );
+			string xmlns = "xmlns:l";
+			regex = new Regex( "(?:xmlns:xlink)", RegexOptions.IgnoreCase );
+			Match m = regex.Match( _Description );
+			if ( m.Success )
+				xmlns = m.Value;
+			else {
+				m = regex.Match( _Bodies );
+				if ( m.Success )
+					xmlns = m.Value;
+				else {
+					regex = new Regex( "(?:xmlns:l)", RegexOptions.IgnoreCase );
+					if ( m.Success )
+						xmlns = m.Value;
+					else {
+						m = regex.Match( _Bodies );
+						if ( m.Success )
+							xmlns = m.Value;
+					}
+				}
+			}
+			string xmlnsLink = xmlns + "=\"http://www.w3.org/1999/xlink\"";
+			if ( _StartTags.IndexOf( xmlnsLink ) == -1 ) {
+				if ( FictionBookTagIndex != -1) {
+					int index = _StartTags.LastIndexOf( '>' );
+					string left = _StartTags.Substring( 0, index );
+					string right = _StartTags.Substring( index );
+					string newStartTags = left + " " + xmlnsLink + right;
+					_Description = _Description.Replace( _StartTags, newStartTags );
+					_StartTags = newStartTags;
+				}
+			}
 		}
 		#endregion
 	}

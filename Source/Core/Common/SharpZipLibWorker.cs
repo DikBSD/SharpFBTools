@@ -638,7 +638,7 @@ namespace Core.Common
 			Match match = Regex.Match( str, "(?<=encoding=\").+?(?=\")", RegexOptions.IgnoreCase);
 			if ( match.Success )
 				FB2Encoding = match.Value;
-			if ( FB2Encoding.ToLower() == "wutf-8" )
+			if ( FB2Encoding.ToLower() == "wutf-8" || FB2Encoding.ToLower() == "utf8" )
 				FB2Encoding = "utf-8";
 			return FB2Encoding;
 		}

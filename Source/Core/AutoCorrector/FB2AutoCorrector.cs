@@ -45,6 +45,9 @@ namespace Core.AutoCorrector
 			if ( enc.ToLower().IndexOf( "wutf-8" ) > 0 ) {
 				enc = enc.Substring( enc.ToLower().IndexOf( "wutf-8" ), 6 );
 				fb2Text.Description = fb2Text.Description.Replace( enc, "utf-8" );
+			} else if ( enc.ToLower().IndexOf( "utf8" ) > 0 ) {
+				enc = enc.Substring( enc.ToLower().IndexOf( "utf8" ), 4 );
+				fb2Text.Description = fb2Text.Description.Replace( enc, "utf-8" );
 			}
 			fb2Text.Description = autoCorrectDescription( fb2Text.toXML(), fb2Text.Description, htTags );
 			fb2Text.Bodies = autoCorrect( fb2Text.Bodies, htTags );
@@ -82,11 +85,25 @@ namespace Core.AutoCorrector
 			}
 			
 			try {
+				/***********************************************
+				 * удаление атрибутов xmlns в теге description *
+				 ***********************************************/
+				// удаление пустого атрибута xmlns="" в теге description
+				InputString = Regex.Replace(
+					InputString, "(?<=<)(?'tag'description)(?:\\s+?xmlns=\"\"\\s*?)(?=>)",
+					"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+				// удаление атрибута xmlns:xlink="www" в теге description
+				InputString = Regex.Replace(
+					InputString, "(?<=<)(?'tag'description)(?:\\s+?xmlns:(xlink|rdf)=\"[^\"]+?\"\\s*?)(?=>)",
+					"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+					
 				/****************
 				 * Обработка id *
 				 ****************/
 				// обработка пустого id
-				InputString = InputString = Regex.Replace(
+				InputString = Regex.Replace(
 					InputString, @"(?<=<id>)(?:\s*\s*)(?=</id>)",
 					Guid.NewGuid().ToString().ToUpper(), RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
@@ -172,16 +189,16 @@ namespace Core.AutoCorrector
 				 ***************************/
 				// удаление тегов <p> и </p> в структуре <p> <empty-line /> </p>
 				InputString = Regex.Replace(
-					InputString, @"(?:(?:<p>\s*)(?'empty'<empty-line />)(?:\s*</p>))",
+					InputString, @"(?:(?:<p>\s*)(?'empty'<empty-line\s*?/>)(?:\s*</p>))",
 					"${empty}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 				
-				/*************************************************************
-				 * удаление пустых атрибутов xmlns="" в тегах body и section *
-				 ************************************************************/
+				/********************************************************************
+				 * удаление пустых атрибутов xmlns="" в тегах body, title и section *
+				 ********************************************************************/
 				// удаление пустого атрибута xmlns="" в тегах body и section
 				InputString = Regex.Replace(
-					InputString, "(?<=<)(?'tag'body|section)(?:\\s*?xmlns=\"\"\\s*?)(?=>)",
+					InputString, "(?<=<)(?'tag'body|section|title)(?:\\s+?xmlns=\"\"\\s*?)(?=>)",
 					"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 				
@@ -218,12 +235,6 @@ namespace Core.AutoCorrector
 					"${textauthor}${ws}${_poem}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 				
-				// обработка подзаголовков <subtitle> (<subtitle>\n<p>\nТекст\n</p>\n</subtitle>)
-				InputString = Regex.Replace(
-					InputString, @"(?'tag_start'<subtitle>)\s*<p>\s*(?'text'.+?)\s*</p>\s*(?'tag_end'</subtitle>)",
-					"${tag_start}${text}${tag_end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-				);
-				
 				// перестановка местами Текста Цитаты и ее автора: <cite><text-author>Автор</text-author><p>Цитата</p></cite> =><cite><p>Цитата</p><text-author>Автор</text-author></cite>
 				InputString = Regex.Replace(
 					InputString, @"(?<=<cite>)\s*?(?'author'<text-author>\s*?.*?</text-author>)\s*?(?'texts'(?:<p>\s*?.+?\s*?</p>\s*?){1,})\s*?(?=</cite>)",
@@ -231,8 +242,17 @@ namespace Core.AutoCorrector
 				);
 				
 				/**************************************
+				 * Обработка подзаголовков <subtitle> *
+				 **************************************/
+				// обработка подзаголовков <subtitle> (<subtitle>\n<p>\nТекст\n</p>\n</subtitle>)
+				InputString = Regex.Replace(
+					InputString, @"(?'tag_start'<subtitle>)\s*<p>\s*(?'text'.+?)\s*</p>\s*(?'tag_end'</subtitle>)",
+					"${tag_start}${text}${tag_end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+				
+				/***********************************
 				 * Обработка image и <empty-line/> *
-				 *************************************/
+				 ***********************************/
 				// Вставка между <image ... /> (<image ... ></image>) и </section> недостающего тега <empty-line/>
 				InputString = Regex.Replace(
 					InputString, "(?'tag'(?:<image\\s+\\w+:href=\"#[^\"]*\"\\s*?/>)|(?:<image\\s+\\w+:href=\"#[^\"]*\">\\s*?</image>))(?:\\s*?)(?'_sect'</section>)",
@@ -276,6 +296,12 @@ namespace Core.AutoCorrector
 				InputString = Regex.Replace(
 					InputString, "(?'format'<(?'tag'strong|emphasis)>)\\s*?(?'p'(?:<p(?:(?:[^>\"']|\"[^\"]*\"|'[^']*')*)>))\\s*?(?'text'(?:[^<]+))?(?'_p'(?:</p>))\\s*?(?'_format'</\\k'tag'>)\\s*?",
 					"${p}${format}${text}${_format}${_p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+				
+				// замена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>
+				InputString = Regex.Replace(
+					InputString, "(?:<(?'tag'strong|emphasis)>)\\s*?(?'text'(?:(?:<p(?:(?:[^>\"']|\"[^\"]*\"|'[^']*')*)>)\\s*?(?:[^<]+)?(?:</p>)\\s*?){2,})(?:</\\k'tag'>)",
+					"<cite>${text}</cite>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 
 				/**********************

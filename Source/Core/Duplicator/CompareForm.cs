@@ -287,7 +287,6 @@ namespace Core.Duplicator
 		
 		// поиск одинаковых fb2-файлов
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
-			#region Код
 			ControlPanel.Enabled = false;
 			StatusLabel.Text += "Создание списка файлов для поиска копий fb2 книг...\r";
 			List<string> lDirList = new List<string>();
@@ -304,8 +303,6 @@ namespace Core.Duplicator
 				m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBooks].SubItems[1].Text = m_sv.AllFiles.ToString();
 			}
 			m_bw.ReportProgress( 0 ); // отобразим данные в контролах
-			
-			ControlPanel.Enabled = true;
 
 			if( ( m_bw.CancellationPending ) ) {
 				e.Cancel = true;
@@ -326,12 +323,12 @@ namespace Core.Duplicator
 			// Сравнение fb2-файлов
 			m_htWorkingBook.Clear();
 			m_htBookTitleAuthors.Clear();
+			ControlPanel.Enabled = true;
 			// Создание списка копий fb2-книг по Группам
 			makeBookCopiesGroups( ref m_bw, ref e, (SearchCompareMode) m_CompareMode,
 			                     ref m_FilesList, ref m_htWorkingBook, ref m_htBookTitleAuthors );
 			if ( m_autoResizeColumns )
 				MiscListView.AutoResizeColumns( m_listViewFB2Files );
-			#endregion
 		}
 		
 		// Отображение результата
@@ -341,7 +338,6 @@ namespace Core.Duplicator
 		
 		// Проверяем - это отмена, ошибка, или конец задачи и сообщить
 		private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
-			#region Код
 			DateTime dtEnd = DateTime.Now;
 			ViewDupProgressData(); // отображение данных прогресса
 			FilesWorker.RemoveDir( Settings.Settings.TempDir );
@@ -379,7 +375,7 @@ namespace Core.Duplicator
 			
 			if ( _nonOpenedFile.Count > 0 ) {
 				m_EndMode.Message += string.Format(
-					"\n\nСписок {0} файлов, которые никак не удалось открыть? и которые не участвовали в сравнении, находится в файле {1}",
+					"\n\nСписок {0} файлов, которые никак не удалось открыть, и которые не участвовали в сравнении, находится в файле {1}",
 					_nonOpenedFile.Count, _nonOpenedFB2FilePath
 				);
 				XDocument doc = new XDocument(
@@ -398,7 +394,6 @@ namespace Core.Duplicator
 			m_htBookTitleAuthors.Clear();
 			_nonOpenedFile.Clear();
 			this.Close();
-			#endregion
 		}
 		#endregion
 		
@@ -858,22 +853,35 @@ namespace Core.Duplicator
 			// заполнение списка необработанных файлов
 			m_FilesList.Clear();
 			IEnumerable<XElement> files = xmlTree.Element("NotWorkingFiles").Elements("File");
-			foreach (XElement element in files)
-				m_FilesList.Add(element.Value);
+			int i = 0;
+			ProgressBar.Maximum = files.ToList().Count;
+			ProgressBar.Value = 0;
+			foreach ( XElement element in files ) {
+				m_FilesList.Add( element.Value );
+				m_bw.ReportProgress( ++i );
+			}
 
 			// заполнение хэш-таблицы
 			m_htWorkingBook.Clear();
 			m_htBookTitleAuthors.Clear();
-			
-			ControlPanel.Enabled = true;
 
 			// загрузка из xml-файла в хэш таблицу данных о копиях книг
 			loadFromXMLToHashtable( ref m_bwRenew, (SearchCompareMode) m_CompareMode, ref xmlTree, ref m_htWorkingBook );
+			// загрузка списка неоткрываемых книг
+			if ( File.Exists( _nonOpenedFB2FilePath ) ) {
+				XElement xmlNonOpenedFilesTree = XElement.Load( _nonOpenedFB2FilePath );
+				IEnumerable<XElement> nof_files = xmlNonOpenedFilesTree.Elements("File");
+				foreach ( XElement element in nof_files )
+					_nonOpenedFile.Add( element.Value );
+			}
+			ControlPanel.Enabled = true;
+			
 			// Создание списка копий fb2-книг по Группам
 			makeBookCopiesGroups( ref m_bwRenew, ref e, (SearchCompareMode) m_CompareMode,
 			                     ref m_FilesList, ref m_htWorkingBook, ref m_htBookTitleAuthors );
 			if ( m_autoResizeColumns )
 				MiscListView.AutoResizeColumns( m_listViewFB2Files );
+			
 		}
 		
 		// загрузка из xml-файла в хэш таблицу данных о копиях книг для всех режимов
@@ -1037,9 +1045,13 @@ namespace Core.Duplicator
 						             new XElement("Path", FilesList[i])
 						            )
 					);
-					++ProgressBar.Value;
+					if ( m_bw.IsBusy )
+						m_bw.ReportProgress( ++i );
+					else
+						m_bwRenew.ReportProgress( ++i );
 				}
 			}
+			StatusLabel.Text += "\nПодождите, пожалуйста - происходит сохранение данных в файл...";
 			doc.Save(ToFileName);
 		}
 		
@@ -1050,6 +1062,7 @@ namespace Core.Duplicator
 				ProgressBar.Maximum	= keyList.Count + filesListCount;
 				ProgressBar.Value	= 0;
 				XElement xeGroup = null;
+				int i = 0;
 				foreach( string key in keyList ) {
 					FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)htFB2InGroup[key];
 					doc.Root.Element(ToElement).Add(
@@ -1060,7 +1073,11 @@ namespace Core.Duplicator
 						                      )
 					);
 					xmlSaveBookData( ref xeGroup, fb2f, ref fileNumber );
-					++ProgressBar.Value;
+//					++ProgressBar.Value;
+					if ( m_bw.IsBusy )
+						m_bw.ReportProgress( ++i );
+					else
+						m_bwRenew.ReportProgress( ++i );
 				}
 			}
 		}
@@ -1076,7 +1093,6 @@ namespace Core.Duplicator
 		
 		// сохранение данных о книге в xml-файл
 		private void xmlSaveBookData( ref XElement xeGroup, FB2FilesDataInGroup fb2f, ref int fileNumber ) {
-			#region Код
 			XElement xeAuthors;
 			XElement xeGenres;
 			foreach ( BookData bd in fb2f ) {
@@ -1115,7 +1131,6 @@ namespace Core.Duplicator
 					}
 				}
 			}
-			#endregion
 		}
 
 		private TextFieldType transformToTextFieldType(string Value) {

@@ -333,7 +333,7 @@ namespace Core.Common
 		/// </summary>
 		public static string viewBookMetaDataLocal( ref string SrcFilePath, ref FB2BookDescription fb2Desc, ListViewItem lvi,
 		                                           ref FB2UnionGenres FB2Genres ) {
-			string RetValid = string.Empty;
+			string RetValid = "?";
 			if( lvi != null ) {
 				if( fb2Desc != null ) {
 					string fileExtention = Path.GetExtension( SrcFilePath ).ToLower();
