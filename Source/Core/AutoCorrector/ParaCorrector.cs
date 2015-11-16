@@ -48,10 +48,21 @@ namespace Core.AutoCorrector
 			if ( _preProcess )
 				_xmlText = FB2CleanCode.preProcessing( _xmlText );
 			
+			// преобразование тега вида <p id="$890^^@@"> в тег <p>
+			_xmlText = Regex.Replace(
+				_xmlText, "<p +?id=\"\\$\\d\\d\\d\\^\\^@@\">",
+				"<p>", RegexOptions.Multiline // регистр не игнорировать!!!
+			);
+			// удаление <empty-line /> из текста внутри тегов <p> ... </p> (в перечисление не добавил <> - они работают неверно - удаляются <empty-line /> и между целыми тегами)
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'start'(?:[-\\w\\+=\\*—,\\.\\?!:;\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])|<p>)\\s*?<empty-line *?/>\\s*?(?'end'[-\\w\\+=\\*—,\\.\\?!:;\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])",
+				"${start} ${end}", RegexOptions.Multiline // регистр не игнорировать!!!
+			);
+			
 			// незавершенный тег <p>: <p текст => <p> текст
 			_xmlText = Regex.Replace(
 				_xmlText, @"(?:\s*?)(?'p'<p)(?=\s+?[^i/>])",
-				"${p}>", RegexOptions.Multiline // регист не игнорировать!!!
+				"${p}>", RegexOptions.Multiline // регистр не игнорировать!!!
 			);
 			
 			// восстановление пропущенных </p>: <p><image xlink:href="#cover.jpg"/><p>Текст</p> => <p><image xlink:href="#cover.jpg"/></p>\n<p>Текст</p>
@@ -93,6 +104,7 @@ namespace Core.AutoCorrector
 				_xmlText, "(?'text'[\\−\\—\\–\\-\\*\\+\\d\\w`'\"«»„“”‘’\\:;\\.,!_=\\?\\(\\)\\{\\}\\[\\]@#$%№\\^~])\\s*?(?'p'<p>)(?!\\s*?</[^<]+?>)",
 				"${text}</p>\n${p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
+			//TODO очень медленный
 			// восстановление пропущенных </p>: <p><strong>Текст</strong><p> => <p><strong>Текст</strong></p><p>
 			_xmlText = Regex.Replace(
 				_xmlText, @"(?'p'<p>)(?:\s*?)(?'tag_s'<(?'tag'strong|emphasis|strikethrough|sub|sup|code)\b>\s*?)(?'text'.+?\s*?)(?'_tag'</\k'tag'>)(?=\s*?<p>)",
@@ -100,6 +112,13 @@ namespace Core.AutoCorrector
 			);
 			// ********************************************************************************************************
 			
+			// удаление лишнего открывающего тега <p> в случаях: <p><p id="AutBody_0fb_0">Текст</p> 
+			_xmlText = Regex.Replace(
+				_xmlText, "<p>\\s*(?=<p +?id=\"[^\"]+\">)",
+				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			
+			       
 			//TODO
 			// удаление "одиночных" тегов <strong> (</strong>) и т.д. из абзаца <p> ... </p>
 

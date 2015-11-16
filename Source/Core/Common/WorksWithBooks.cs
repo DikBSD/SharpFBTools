@@ -787,7 +787,7 @@ namespace Core.Common
 				FB2Text fb2Text = new FB2Text( FilePath );
 				string XmlText = fb2Text.toXML();
 				string InputString = fb2Text.Description;
-				LangRuUkBeCorrector langRuUkBeCorrector = new LangRuUkBeCorrector( XmlText, ref InputString );
+				LangRuUkBeCorrector langRuUkBeCorrector = new LangRuUkBeCorrector( ref InputString, XmlText );
 				bool IsCorrected = false;
 				InputString = langRuUkBeCorrector.correct( ref IsCorrected );
 				if ( IsCorrected ) {
@@ -829,9 +829,8 @@ namespace Core.Common
 			} else {
 				// замена <lang> для русских книг на ru, украинских на uk, беларуский на be для fb2 без <src-title-info>
 				FB2Text fb2Text = new FB2Text( FilePath );
-				string XmlText = fb2Text.toXML();
 				string InputString = fb2Text.Description;
-				LangRuUkBeCorrector langRuUkBeCorrector = new LangRuUkBeCorrector( XmlText, ref InputString );
+				LangRuUkBeCorrector langRuUkBeCorrector = new LangRuUkBeCorrector( ref InputString, fb2Text.Bodies );
 				bool IsCorrected = false;
 				InputString = langRuUkBeCorrector.correct( ref IsCorrected );
 				if ( IsCorrected ) {

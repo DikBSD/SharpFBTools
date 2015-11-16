@@ -9,8 +9,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
-
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 using Core.AutoCorrector;
 
@@ -161,39 +160,46 @@ namespace Core.FB2.FB2Parsers
 					);
 				}
 				
-				if ( IndexFirstBody != -1 ) {
-					if ( IndexFirstBinary != -1 )
-						_Bodies = InputString.Substring( IndexFirstBody, IndexFirstBinary - IndexFirstBody );
-					else
-						_Bodies = InputString.Substring( IndexFirstBody, IndexFictionBookEndTag - IndexFirstBody );
-				}
-				
-				if ( IndexFirstBinary != -1 ) {
-					_Binaries = InputString.Substring( IndexFirstBinary, IndexFictionBookEndTag - IndexFirstBinary );
-				}
-				Match mBody = Regex.Match( _Binaries, "<body +?name=\"notes\">", RegexOptions.IgnoreCase );
-				int indexBody = mBody.Index;
-				string BodyNotes = string.Empty;
-				if ( indexBody > 0 ) {
-					Match mEndBody = Regex.Match( _Binaries, "</body>", RegexOptions.IgnoreCase );
-					int indexEndBody = mEndBody.Index;
-					if ( indexEndBody > 0 ) {
-						BodyNotes = _Binaries.Substring( indexBody, indexEndBody - indexBody + 7 );
-						_Bodies += BodyNotes;
-						_Binaries = _Binaries.Remove( indexBody, indexEndBody - indexBody + 7 );
+				try {
+					if ( IndexFirstBody != -1 ) {
+						if ( IndexFirstBinary != -1 )
+							_Bodies = InputString.Substring( IndexFirstBody, IndexFirstBinary - IndexFirstBody );
+						else
+							_Bodies = InputString.Substring( IndexFirstBody, IndexFictionBookEndTag - IndexFirstBody );
 					}
+					
+					if ( IndexFirstBinary != -1 ) {
+						_Binaries = InputString.Substring( IndexFirstBinary, IndexFictionBookEndTag - IndexFirstBinary );
+					}
+					Match mBody = Regex.Match( _Binaries, "<body +?name=\"notes\">", RegexOptions.IgnoreCase );
+					int indexBody = mBody.Index;
+					string BodyNotes = string.Empty;
+					if ( indexBody > 0 ) {
+						Match mEndBody = Regex.Match( _Binaries, "</body>", RegexOptions.IgnoreCase );
+						int indexEndBody = mEndBody.Index;
+						if ( indexEndBody > 0 ) {
+							BodyNotes = _Binaries.Substring( indexBody, indexEndBody - indexBody + 7 );
+							_Bodies += BodyNotes;
+							_Binaries = _Binaries.Remove( indexBody, indexEndBody - indexBody + 7 );
+						}
+					}
+
+					if ( indexBody == 0 ) {
+						if ( IndexFirstBody != -1 ) {
+							if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50 ) == -1 )
+								_Bodies += "</body>";
+						}
+						if ( IndexFirstBinary != -1 ) {
+							if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50 ) != -1 )
+								_Binaries = _Binaries.Replace( "</body>", string.Empty );
+						}
+					}
+				} catch {
+					MessageBox.Show(
+						string.Format("Структура файла {0} сильно 'изуродована'.\nОткрыть книгу для последующей ее обработки не предоставляется возможным.", _FilePath),
+					                "Чтение структуры fb2-файла", MessageBoxButtons.OK, MessageBoxIcon.Error );
 				}
 
-				if ( indexBody == 0 ) {
-					if ( IndexFirstBody != -1 ) {
-						if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50 ) == -1 )
-							_Bodies += "</body>";
-					}
-					if ( IndexFirstBinary != -1 ) {
-						if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50 ) != -1 )
-							_Binaries = _Binaries.Replace( "</body>", string.Empty );
-					}
-				}
 			}
 			InputString = string.Empty;
 		}

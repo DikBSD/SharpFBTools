@@ -66,6 +66,11 @@ namespace Core.AutoCorrector
 				_xmlText, @"(?<=</epigraph>)(?:\s*<empty-line ?/>\s*)(?=<epigraph>)",
 				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
+			// удаление <empty-line /> между </epigraph> и <section>: </epigraph><empty-line /><section> => </epigraph>\n<section>
+			_xmlText = Regex.Replace(
+				_xmlText, @"(?<=</epigraph>)(?:\s*<empty-line ?/>\s*)(?=<section>)",
+				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
 			
 			// обработка найденных парных тэгов
 			IWorker worker = new EpigraphCorrectorWorker();

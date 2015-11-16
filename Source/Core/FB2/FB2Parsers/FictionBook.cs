@@ -53,7 +53,7 @@ namespace Core.FB2.FB2Parsers
 			try {
 				try {
 					if ( !onlyDescription )
-						_xmlDoc.LoadXml( FB2Path );
+						_xmlDoc.Load( FB2Path );
 					else
 						_fb2TextXml = new FB2Text( FB2Path, true );
 					setNameSpace();

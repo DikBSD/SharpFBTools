@@ -2204,7 +2204,8 @@ namespace SharpFBTools.Tools
 			"2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинако" +
 				"вым Названием)",
 			"3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разн" +
-				"ые Id, но Автор и Название - одинаковые)"});
+				"ые Id, но Автор и Название - одинаковые)",
+			"4. Авторы с одинаковой Фамилией и инициалами"});
 			this.cboxMode.Location = new System.Drawing.Point(211, 1);
 			this.cboxMode.Margin = new System.Windows.Forms.Padding(4);
 			this.cboxMode.Name = "cboxMode";

@@ -16,18 +16,18 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class LangRuUkBeCorrector
 	{
-		private readonly string _xmlText = string.Empty;
-		private string _InputString = string.Empty;
+		private string _XmlDescription = string.Empty;
+		private readonly string _XmlBody = string.Empty;
 		
 		/// <summary>
 		/// Конструктор класса LangRuUkBeCorrector
 		/// </summary>
-		/// <param name="xmlText">xml текст всей книги</param>
-		/// <param name="InputString">Строка для корректировки</param>
-		public LangRuUkBeCorrector( string xmlText, ref string InputString )
+		/// <param name="XmlBody">xml текст body</param>
+		/// <param name="XmlDescription">xml строка description для корректировки</param>
+		public LangRuUkBeCorrector( ref string XmlDescription, string XmlBody)
 		{
-			_xmlText = xmlText;
-			_InputString = InputString;
+			_XmlDescription = XmlDescription;
+			_XmlBody = XmlBody;
 		}
 		
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Core.AutoCorrector
 		public string correct( ref bool IsCorrected ) {
 			IsCorrected = false;
 			// замена <lang> для русских книг на ru для fb2 без <src-title-info>
-			if ( _InputString.IndexOf( "<src-title-info>" ) == -1 ) {
+			if ( _XmlDescription.IndexOf( "<src-title-info>" ) == -1 ) {
 				/* ***************************************************************************
 				 * 							Алгоритм:
 				 * 1. Ищем Ъъ - это только русский язык.
@@ -51,34 +51,34 @@ namespace Core.AutoCorrector
 				 * 8. Если нет, то замена на русский язык (ru)
 				 *************************************************************************** */
 				const string BookLang = @"(?<=lang>)\s*?[^<]+?\s*?(?=</lang>)";
-				if ( Regex.Match( _xmlText, "[Ъъ]" ).Success ) {
+				if ( Regex.Match( _XmlBody, "[Ъъ]", RegexOptions.None ).Success ) {
 					// это книга только на русском языке
-					_InputString = Regex.Replace(
-						_InputString, BookLang,
+					_XmlDescription = Regex.Replace(
+						_XmlDescription, BookLang,
 						"ru", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 					IsCorrected = true;
 				} else {
-					if ( Regex.Match( _xmlText, "[ЯяЭэЮюЁёЬьЫыЖжЧчЩщ]" ).Success ) {
+					if ( Regex.Match( _XmlBody, "[ЯяЭэЮюЁёЬьЫыЖжЧчЩщ]" ).Success ) {
 						// могут быть как книга на русском, так и на украинском или белорусском языках
-						if ( Regex.Match( _xmlText, "[Ўў]" ).Success ) {
+						if ( Regex.Match( _XmlBody, "[Ўў]", RegexOptions.None ).Success ) {
 							// это книга только на белорусском языке
-							_InputString = Regex.Replace(
-								_InputString, BookLang,
+							_XmlDescription = Regex.Replace(
+								_XmlDescription, BookLang,
 								"be", RegexOptions.IgnoreCase | RegexOptions.Multiline
 							);
 							IsCorrected = true;
-						} else if ( Regex.Match( _xmlText, "[ҐґЇїЄє]" ).Success ) {
+						} else if ( Regex.Match( _XmlBody, "[ҐґЇїЄє]", RegexOptions.None ).Success ) {
 							// это книга только на украинском языке
-							_InputString = Regex.Replace(
-								_InputString, BookLang,
+							_XmlDescription = Regex.Replace(
+								_XmlDescription, BookLang,
 								"uk", RegexOptions.IgnoreCase | RegexOptions.Multiline
 							);
 							IsCorrected = true;
 						} else {
 							// это книга только на русском языке
-							_InputString = Regex.Replace(
-								_InputString, BookLang,
+							_XmlDescription = Regex.Replace(
+								_XmlDescription, BookLang,
 								"ru", RegexOptions.IgnoreCase | RegexOptions.Multiline
 							);
 							IsCorrected = true;
@@ -86,7 +86,7 @@ namespace Core.AutoCorrector
 					}
 				}
 			}
-			return _InputString;
+			return _XmlDescription;
 		}
 	}
 }

@@ -366,12 +366,12 @@ namespace Core.Common
 		}
 		
 		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Корректора
-		public static bool removeAllItemForNonExistFile( string SourseDir, ListView listViewFB2Files ) {
+		public static bool removeAllItemForNonExistFile( string SourсeDir, ListView listViewFB2Files ) {
 			bool Result = false;
 			listViewFB2Files.BeginUpdate();
 			foreach( ListViewItem lvi in listViewFB2Files.Items ) {
 				if( ((ListViewItemType)lvi.Tag).Type == "f" ) {
-					if ( !File.Exists( Path.Combine( SourseDir, lvi.Text ) ) ) {
+					if ( !File.Exists( Path.Combine( SourсeDir, lvi.Text ) ) ) {
 						listViewFB2Files.Items.Remove( lvi );
 						Result = true;
 					}

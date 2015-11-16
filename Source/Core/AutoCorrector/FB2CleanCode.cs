@@ -165,6 +165,11 @@ namespace Core.AutoCorrector
 				InputString, "(?!<>)(?:<(?:(?:cite|epigraph|poem|annotation)\\s*?(?:[^<]+)?(?:\"[^\"]*\"|'[^']*')?)*>)(?:<\\s*/(?:cite|epigraph|poem|annotation)>)",
 				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
+			// удаление тегов <cite id="bdn__4"></cite>
+			InputString = Regex.Replace(
+				InputString, "<cite +?id=\"[^\"]+\">\\s*?</cite>",
+				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
 			// удаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>
 			InputString = Regex.Replace(
 				InputString, "<(?:b?r(?:(?:[^>\"']|\"[^\"]*\"|'[^']*')*)/?)>",
@@ -184,6 +189,12 @@ namespace Core.AutoCorrector
 			// удаление <h1> ... <h6> с их содержимым
 			InputString = Regex.Replace(
 				InputString, @"<\b(h1|h2|h3|h4|h5|h6)\b\s+[^>]*?\w*?[^>]*>((?:(?!</\1>).)*)</\1>",
+				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			
+			// удаление <stanza/>, <stanza />, <stanza>/s*?</stanza>)
+			InputString = Regex.Replace(
+				InputString, @"(<stanza ?/>)|(<stanza>\s*?</stanza>)",
 				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			return InputString;

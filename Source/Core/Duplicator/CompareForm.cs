@@ -437,6 +437,13 @@ namespace Core.Duplicator
 					// Создание списка копий для режима "3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)"
 					makeTreeOfBookCopies( ref bw, ref e, ref htBookTitleAuthors );
 					break;
+				case SearchCompareMode.AuthorFIO:
+					// 4. Авторы с одинаковой Фамилией и инициалами
+					// Хэширование fb2-файлов
+					FilesHashForAuthorFIOParser( ref bw, ref e, ref FilesList, ref htWorkingBook );
+					// Создание списка копий для режима "4. Авторы с одинаковой Фамилией и инициалами"
+					makeTreeOfBookCopies( ref bw, ref e, ref htWorkingBook );
+					break;
 			}
 		}
 		
@@ -818,6 +825,122 @@ namespace Core.Duplicator
 				}
 			}
 			return ht;
+		}
+		
+		// хеширование файлов в контексте Авторов с одинаковой Фамилией и инициалами:
+		// могут быть найдены и разные книги разных Авторов, но с одинаковыми Фамилиями и инициалами
+		// параметры: FilesList - список файлов для сканирования
+		private void FilesHashForAuthorFIOParser( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref List<string> FilesList, ref Hashtable htFB2ForAuthorFIO ) {
+			StatusLabel.Text += "Хэширование fb2-файлов...\r";
+			ProgressBar.Maximum	= FilesList.Count;
+			ProgressBar.Value	= 0;
+			
+			List<string> FinishedFilesList = new List<string>();
+			for( int i = 0; i != FilesList.Count; ++i ) {
+				if( ( bw.CancellationPending ) )  {
+					// удаление из списка всех файлов обработанные книги (файлы)
+					removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+					e.Cancel = true;
+					return;
+				}
+				string Ext = Path.GetExtension( FilesList[i] ).ToLower();
+				if( Ext == ".fb2" ) {
+					// заполнение хеш таблицы данными о fb2-книгах в контексте Авторов с одинаковой Фамилией и инициалами
+					MakeFB2AuthorFIOHashTable( null, FilesList[i], ref htFB2ForAuthorFIO );
+					// обработанные файлы
+					FinishedFilesList.Add(FilesList[i]);
+				} else {
+					if( Ext == ".zip" || Ext == ".fbz" ) {
+						try {
+							m_sharpZipLib.UnZipFiles(FilesList[i], m_TempDir, 0, false, null, 4096);
+							string [] files = Directory.GetFiles( m_TempDir );
+							if( files.Length > 0 ) {
+								if( Path.GetExtension( files[0] ).ToLower() == ".fb2") {
+									// заполнение хеш таблицы данными о fb2-книгах в контексте Авторов с одинаковой Фамилией и инициалами
+									MakeFB2AuthorFIOHashTable( FilesList[i], files[0], ref htFB2ForAuthorFIO );
+									// обработанные файлы
+									FinishedFilesList.Add(FilesList[i]);
+								}
+							}
+						} catch {
+						}
+						FilesWorker.RemoveDir( m_TempDir );
+					}
+				}
+				bw.ReportProgress( i ); // отобразим данные в контролах
+			}
+			// удаление из списка всех файлов обработанные книги (файлы)
+			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+		}
+		
+		/// <summary>
+		/// Заполнение хеш таблицы данными о fb2-книгах в контексте Авторов с одинаковой Фамилией и инициалами
+		/// </summary>
+		/// <param name="ZipPath">путь к zip-архиву. Если книга - не запакована в zip, то ZipPath = null</param>
+		/// <param name="SrcPath">путь к fb2-файлу</param>
+		/// <param name="htFB2ForAuthorFIO">хеш-таблица</param>
+		private void MakeFB2AuthorFIOHashTable( string ZipPath, string SrcPath, ref Hashtable htFB2ForAuthorFIO ) {
+			FictionBook fb2 = null;
+			try {
+				fb2 = new FictionBook( SrcPath );
+			} catch  {
+				collectBadFB2( SrcPath );
+				return;
+			}
+			
+			string Encoding = fb2.getEncoding();
+			if( string.IsNullOrWhiteSpace( Encoding ) )
+				Encoding = "?";
+			
+			IList<Author> AuthorsList = fb2.TIAuthors;
+			string sAuthor = "<Автор книги отсутствует>";
+			if( AuthorsList != null  ) {
+				foreach( Author a in AuthorsList ) {
+					if ( a.LastName != null && !string.IsNullOrEmpty( a.LastName.Value ) )
+						sAuthor = a.LastName.Value;
+					if ( a.FirstName != null && !string.IsNullOrEmpty( a.FirstName.Value ) )
+						sAuthor += " " + a.FirstName.Value.Substring(0,1);
+//					if ( a.MiddleName != null && !string.IsNullOrEmpty( a.MiddleName.Value ) )
+//						sAuthor += " " + a.MiddleName.Value.Substring(0,1);
+					sAuthor.Trim();
+					// Заполнение хеш таблицы данными о fb2-книгах в контексте Авторов
+					FB2AuthorFIOSetHashTable( fb2, ZipPath, SrcPath, Encoding, sAuthor, ref htFB2ForAuthorFIO );
+				}
+			} else {
+				// Заполнение хеш таблицы данными о fb2-книгах в контексте Авторов
+				FB2AuthorFIOSetHashTable( fb2, ZipPath, SrcPath, Encoding, sAuthor, ref htFB2ForAuthorFIO );
+			}
+		}
+		/// <summary>
+		/// Заполнение хеш таблицы данными о fb2-книгах в контексте Авторов
+		/// </summary>
+		/// <param name="fb2">объект класса FictionBook</param>
+		/// <param name="ZipPath">путь к zip-архиву. Если книга - не запакована в zip, то ZipPath = null</param>
+		/// <param name="SrcPath">путь к fb2-файлу</param>
+		/// <param name="Encoding">кодировка текщего файла в fb2</param>
+		/// <param name="sAuthor">Фамилия и 1-я буква Имени текущего автора</param>
+		/// <param name="htFB2ForAuthorFIO">хеш-таблица</param>
+		private void FB2AuthorFIOSetHashTable( FictionBook fb2, string ZipPath, string SrcPath, string Encoding,
+		                                      string sAuthor, ref Hashtable htFB2ForAuthorFIO ) {
+			// данные о книге
+			BookData fb2BookData = new BookData(
+				fb2.TIBookTitle, fb2.TIAuthors, fb2.TIGenres, fb2.TILang, fb2.DIID, fb2.DIVersion, SrcPath, Encoding
+			);
+			
+			if (ZipPath != null)
+				fb2BookData.Path = ZipPath;
+			
+			if( !htFB2ForAuthorFIO.ContainsKey( sAuthor ) ) {
+				// этого Автор sAuthor в Группе еще нет
+				FB2FilesDataInGroup fb2f = new FB2FilesDataInGroup( fb2BookData, sAuthor );
+				fb2f.Group = sAuthor;
+				htFB2ForAuthorFIO.Add( sAuthor, fb2f );
+			} else {
+				// этот Автор sAuthor в Группе уже есть
+				FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)htFB2ForAuthorFIO[sAuthor];
+				fb2f.AddBookData( fb2BookData );
+				//htFB2ForBT[sAuthor] = fb2f; //ИЗБЫТОЧНЫЙ КОД
+			}
 		}
 		#endregion
 
