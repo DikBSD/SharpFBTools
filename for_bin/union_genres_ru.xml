@@ -122,6 +122,7 @@
 		<genre name="Альтернативная медицина" code="sci_medicine_alternative" />
 		<genre name="Альтернативные науки и научные теории" code="sci_theories" />
 		<genre name="Аналитическая химия" code="sci_anachem" />
+		<genre name="Археология" code="science_archaeology" />
 		<genre name="Астрономия и Космос" code="sci_cosmos" />
 		<genre name="Биология" code="sci_biology" />
 		<genre name="Биофизика" code="sci_biophys" />
@@ -335,7 +336,6 @@
 		<genre name="Сатира" code="humor_satire" />
 		<genre name="Юмор: прочее" code="humor" />
 		<genre name="Юмористическая проза" code="humor_prose" />
-		<genre name="Юмористическая фантастика" code="sf_humor" />
 		<genre name="Юмористические стихи" code="humor_verse" />
 	</group>
 	<group name="Любовные романы" >
