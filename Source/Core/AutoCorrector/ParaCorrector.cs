@@ -49,76 +49,106 @@ namespace Core.AutoCorrector
 				_xmlText = FB2CleanCode.preProcessing( _xmlText );
 			
 			// преобразование тега вида <p id="$890^^@@"> в тег <p>
-			_xmlText = Regex.Replace(
-				_xmlText, "<p +?id=\"\\$\\d\\d\\d\\^\\^@@\">",
-				"<p>", RegexOptions.Multiline // регистр не игнорировать!!!
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "<p +?id=\"\\$\\d\\d\\d\\^\\^@@\">",
+					"<p>", RegexOptions.Multiline // регистр не игнорировать!!!
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// удаление <empty-line /> из текста внутри тегов <p> ... </p> (в перечисление не добавил <> - они работают неверно - удаляются <empty-line /> и между целыми тегами)
-			_xmlText = Regex.Replace(
-				_xmlText, "(?'start'(?:[-\\w\\+=\\*—,\\.\\?!:;\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])|<p>)\\s*?<empty-line *?/>\\s*?(?'end'[-\\w\\+=\\*—,\\.\\?!:;\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])",
-				"${start} ${end}", RegexOptions.Multiline // регистр не игнорировать!!!
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'start'(?:[-\\w\\+=\\*—,\\.\\?!:;…\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])|<p>)\\s*?<empty-line *?/>\\s*?(?'end'[-\\w\\+=\\*—,\\.\\?!:;\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])",
+					"${start} ${end}", RegexOptions.Multiline // регистр не игнорировать!!!
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// незавершенный тег <p>: <p текст => <p> текст
-			_xmlText = Regex.Replace(
-				_xmlText, @"(?:\s*?)(?'p'<p)(?=\s+?[^i/>])",
-				"${p}>", RegexOptions.Multiline // регистр не игнорировать!!!
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?:\s*?)(?'p'<p)(?=\s+?[^i/>])",
+					"${p}>", RegexOptions.Multiline // регистр не игнорировать!!!
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// восстановление пропущенных </p>: <p><image xlink:href="#cover.jpg"/><p>Текст</p> => <p><image xlink:href="#cover.jpg"/></p>\n<p>Текст</p>
-			_xmlText = Regex.Replace(
-				_xmlText, @"(?'inline_img'<p>\s*?<image [^<]+?/>)(?=\s*?<p>)",
-				"${inline_img}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?'inline_img'<p>\s*?<image [^<]+?/>)(?=\s*?<p>)",
+					"${inline_img}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// восстановление пропущенных <p>: </p><image xlink:href="#cover.jpg"/></p> => </p>\n<p><image xlink:href="#cover.jpg"/></p>
-			_xmlText = Regex.Replace(
-				_xmlText, @"(?'_p'</p>)(?:\s*?)(?'img'<image [^<]+?/>)(?=\s*?</p>)",
-				"${_p}<p>${img}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?'_p'</p>)(?:\s*?)(?'img'<image [^<]+?/>)(?=\s*?</p>)",
+					"${_p}<p>${img}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// восстановление пропущенных <p>: </p>Любой текст с тегами</p> => </p><p>Любой текст с тегами</p>
-			_xmlText = Regex.Replace(
-				_xmlText, @"(?<=</p>)(?: *?)(?'text'(?:(?!(?:(?:<p>)|(?:</[^p])|(?:<empty-line ?/>))).?){1,} *?)(?=</p>)",
-				"<p>${text}", RegexOptions.IgnoreCase | RegexOptions.Multiline  | RegexOptions.Singleline
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?<=</p>)(?: *?)(?'text'(?:(?!(?:(?:<p>)|(?:</[^p])|(?:<empty-line ?/>))).?){1,} *?)(?=</p>)",
+					"<p>${text}", RegexOptions.IgnoreCase | RegexOptions.Multiline  | RegexOptions.Singleline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// восстановление пропущенных </p>: <p>Любой текст с тегами<p> => <p>Любой текст с тегами</p><p>
-			_xmlText = Regex.Replace(
-				_xmlText, @"(?<=<p>)(?: *?)(?'text'(?:(?!(?:</p>)).?){1,} *?)(?=<p>)",
-				"${text}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline  | RegexOptions.Singleline
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?<=<p>)(?: *?)(?'text'(?:(?!(?:</p>)).?){1,} *?)(?=<p>)",
+					"${text}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline  | RegexOptions.Singleline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 
 			// ********************************************************************************************************
 			// восстановление пропущенных <p>: </p> Текст => </p>\n<p> Текст
-			_xmlText = Regex.Replace(
-				_xmlText, "(?'_p'</p>)\\s*?(?'text'[\\−\\—\\–\\-\\*\\+\\d\\w`'\"«»„“”‘’\\:;\\.,!_=\\?\\(\\)\\{\\}\\[\\]@#$%№\\^~])",
-				"${_p}\n<p>${text}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'_p'</p>)\\s*?(?'text'[\\−\\—\\–\\-\\*\\+\\d\\w`'\"«»„“”‘’\\:;…\\.,!_=\\?\\(\\)\\{\\}\\[\\]@#$%№\\^~])",
+					"${_p}\n<p>${text}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// восстановление пропущенных <p>: </p><strong>Текст</strong> => </p><p><strong>Текст</strong>
-			_xmlText = Regex.Replace(
-				_xmlText, @"(?'_p'</p>)(?:\s*?)(?'tag_s'<(?'tag'strong|emphasis|strikethrough|sub|sup|code)\b>\s*?)(?'text'.+?\s*?)(?=</\k'tag'>)",
-				"${_p}\n<p>${tag_s}${text}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?'_p'</p>)(?:\s*?)(?'tag_s'<(?'tag'strong|emphasis|strikethrough|sub|sup|code)\b>\s*?)(?'text'.+?\s*?)(?=</\k'tag'>)",
+					"${_p}\n<p>${tag_s}${text}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// восстановление пропущенных </p>: Текст <p> => Текст </p>\n<p>
-			_xmlText = Regex.Replace(
-				_xmlText, "(?'text'[\\−\\—\\–\\-\\*\\+\\d\\w`'\"«»„“”‘’\\:;\\.,!_=\\?\\(\\)\\{\\}\\[\\]@#$%№\\^~])\\s*?(?'p'<p>)(?!\\s*?</[^<]+?>)",
-				"${text}</p>\n${p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
-			//TODO очень медленный
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'text'[\\−\\—\\–\\-\\*\\+\\d\\w`'\"«»„“”‘’\\:;…\\.,!_=\\?\\(\\)\\{\\}\\[\\]@#$%№\\^~])\\s*?(?'p'<p>)(?!\\s*?</[^<]+?>)",
+					"${text}</p>\n${p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+
 			// восстановление пропущенных </p>: <p><strong>Текст</strong><p> => <p><strong>Текст</strong></p><p>
-			_xmlText = Regex.Replace(
-				_xmlText, @"(?'p'<p>)(?:\s*?)(?'tag_s'<(?'tag'strong|emphasis|strikethrough|sub|sup|code)\b>\s*?)(?'text'.+?\s*?)(?'_tag'</\k'tag'>)(?=\s*?<p>)",
-				"${p}${tag_s}${text}${_tag}</p>\n", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?'p'<p>)(?:\s*?)(?'tag_s'<(?'tag'strong|emphasis|strikethrough|sub|sup|code)\b>\s*?)(?'text'.+?\s*?)(?'_tag'</\k'tag'>)(?=\s*?<p>)",
+					"${p}${tag_s}${text}${_tag}</p>\n", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// ********************************************************************************************************
 			
-			// удаление лишнего открывающего тега <p> в случаях: <p><p id="AutBody_0fb_0">Текст</p> 
-			_xmlText = Regex.Replace(
-				_xmlText, "<p>\\s*(?=<p +?id=\"[^\"]+\">)",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			// удаление лишнего открывающего тега <p> в случаях: <p><p id="AutBody_0fb_0">Текст</p>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "<p>\\s*(?=<p +?id=\"[^\"]+\">)",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
-			       
+			// удаление лишнего открывающего тега <p> в случаях: <p><p>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"<p>\s*?(?=<p>)",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			//TODO
 			// удаление "одиночных" тегов <strong> (</strong>) и т.д. из абзаца <p> ... </p>
 

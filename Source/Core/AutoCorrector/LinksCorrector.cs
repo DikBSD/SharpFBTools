@@ -57,37 +57,62 @@ namespace Core.AutoCorrector
 		/// <returns>Откорректированную строку типа string </returns>
 		public string correct() {
 			// некорректное id ссылки (начинается с цифры)
-			_xmlText = Regex.Replace(
-				_xmlText, _UnCorrectID_Numb_Query,
-				_UnCorrectID_Numb_Repl, RegexOptions.None
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, _UnCorrectID_Numb_Query,
+					_UnCorrectID_Numb_Repl, RegexOptions.None
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// некорректное id ссылки (символ @)
-			_xmlText = Regex.Replace(
-				_xmlText, _UnCorrectID_O_Query,
-				_UnCorrectID_O_Repl, RegexOptions.None
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, _UnCorrectID_O_Query,
+					_UnCorrectID_O_Repl, RegexOptions.None
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// некорректное id ссылки (символ ')
-			_xmlText = Regex.Replace(
-				_xmlText, _UnCorrectID_Apost_Query,
-				_UnCorrectID_Apost_Repl, RegexOptions.None
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, _UnCorrectID_Apost_Query,
+					_UnCorrectID_Apost_Repl, RegexOptions.None
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// обработка Либрусековских id
-			_xmlText = Regex.Replace(
-				_xmlText, _UnCorrectLibrusecID_Numb_Query,
-				_UnCorrectLibrusecID_Numb_Repl, RegexOptions.None
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, _UnCorrectLibrusecID_Numb_Query,
+					_UnCorrectLibrusecID_Numb_Repl, RegexOptions.None
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// обработка Либрусековских id (символ @)
-			_xmlText = Regex.Replace(
-				_xmlText, _UnCorrectLibrusecID_O_Query,
-				_UnCorrectLibrusecID_O_Repl, RegexOptions.None
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, _UnCorrectLibrusecID_O_Query,
+					_UnCorrectLibrusecID_O_Repl, RegexOptions.None
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// обработка Либрусековских id (символ ')
-			_xmlText = Regex.Replace(
-				_xmlText, _UnCorrectLibrusecID_Apost_Query,
-				_UnCorrectLibrusecID_Apost_Repl, RegexOptions.None
-			);
-			
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, _UnCorrectLibrusecID_Apost_Query,
+					_UnCorrectLibrusecID_Apost_Repl, RegexOptions.None
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// замена пробелов в ссылках на _
+			try {
+				Match m = Regex.Match(
+					_xmlText, "(?:=\"#?[^\"]*\\.\\w\\w\\w\")",
+					RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+				if ( m.Success ) {
+					string s = m.Value;
+					s = s.Replace(" ", "_");
+					_xmlText = _xmlText.Substring( 0, m.Index ) /* ДО обрабатываемого текста */
+						+ s
+						+ _xmlText.Substring( m.Index + m.Length ); /* ПОСЛЕ обрабатываемого текста */
+				}
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			return _xmlText;
 		}
 	}

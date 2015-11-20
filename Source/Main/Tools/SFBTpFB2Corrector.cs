@@ -423,10 +423,13 @@ namespace SharpFBTools.Tools
 						// Валидность файла
 						tbValidate.Clear();
 						string Valid = WorksWithBooks.isValidate( fb2Desc.FilePath, tbValidate );
-						if ( !string.IsNullOrEmpty( Valid ) )
+						if ( !string.IsNullOrEmpty( Valid ) ) {
 							SelectedItem.SubItems[(int)ResultViewCollumn.Validate].Text = "Нет";
-						else
+							SelectedItem.ForeColor = SelectedItem.SubItems[(int)ResultViewCollumn.Format].Text == ".fb2" ? Colors.FB2NotValidForeColor : Colors.ZipFB2ForeColor;
+						} else {
 							SelectedItem.SubItems[(int)ResultViewCollumn.Validate].Text = "Да";
+							SelectedItem.ForeColor = Colors.FB2ForeColor;
+						}
 						FilesWorker.RemoveDir( m_TempDir );
 //						MiscListView.AutoResizeColumns(listViewFB2Files);
 					}

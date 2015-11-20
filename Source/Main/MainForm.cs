@@ -307,6 +307,8 @@ namespace Main
 			tsbtnFB2Corrector.Checked = true;
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Corrector );
 			this.sfbTpFB2Corrector.Dock = System.Windows.Forms.DockStyle.Fill;
+			
+			AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(10000));
 		}
 		
 		#region Обработчики событий

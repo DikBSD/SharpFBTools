@@ -513,7 +513,7 @@ namespace Core.Common
 					
 					if ( form != null ) {
 						form.Text += String.Format(
-							": {0} каталогов; {1} файлов", dirInfo.GetDirectories().Length, dirInfo.GetFiles().Length
+							": всего {0} каталогов, {1} файлов", dirInfo.GetDirectories().Length+1, dirInfo.GetFiles().Length
 						);
 						ProgressBar.Maximum	= ( dirInfo.GetDirectories().Length + dirInfo.GetFiles().Length ) + 1;
 					}

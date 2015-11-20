@@ -119,11 +119,11 @@ namespace Core.Common
 		public static string FormatFileLength( long lLength ) {
 			float f = lLength;
 			if( lLength < 1024 )
-				return lLength.ToString()+" байт";
+				return string.Format( "{0:N2} байт", lLength );
 			else if( lLength < 1048576 ) // >=1 Мб
-				return (f/1024).ToString()+" Кб";
+				return string.Format( "{0:N2} Кб", (f/1024) );
 			else // <=1 Гб
-				return (f/(1024*1024)).ToString()+" Мб";
+				return string.Format( "{0:N2} Мб", (f/(1024*1024)) );
 		}
 		
 		/// <summary>

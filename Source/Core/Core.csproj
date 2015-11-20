@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Core</RootNamespace>
     <AssemblyName>Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\VadimK\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -50,13 +50,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCorrector\CiteCorrector.cs" />
+    <Compile Include="AutoCorrector\DateCorrector.cs" />
     <Compile Include="AutoCorrector\EpigraphCorrector.cs" />
     <Compile Include="AutoCorrector\FB2AutoCorrector.cs" />
     <Compile Include="AutoCorrector\FB2CleanCode.cs" />
+    <Compile Include="AutoCorrector\GenreCorrector.cs" />
+    <Compile Include="AutoCorrector\ImageCorrector.cs" />
     <Compile Include="AutoCorrector\IWorker.cs" />
     <Compile Include="AutoCorrector\LangRuUkBeCorrector.cs" />
     <Compile Include="AutoCorrector\LinksCorrector.cs" />
     <Compile Include="AutoCorrector\ParaCorrector.cs" />
+    <Compile Include="AutoCorrector\PoemCorrector.cs" />
+    <Compile Include="AutoCorrector\StanzaCorrector.cs" />
     <Compile Include="AutoCorrector\TagPair.cs" />
     <Compile Include="AutoCorrector\TagWorker.cs" />
     <Compile Include="AutoCorrector\TitleCorrector.cs" />

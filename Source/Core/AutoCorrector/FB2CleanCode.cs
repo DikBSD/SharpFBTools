@@ -21,9 +21,10 @@ namespace Core.AutoCorrector
 	{
 		#region Закрытые данные класса
 		private static string[] _Tags = {
-			"<p>", "<p ", "</p>", "<p/>", "<p />", "<empty-line/>", "<empty-line />", "<empty-line ", "<empty-line>", "</empty-line>",
-			"<strong>", "</strong>", "<strong/>", "<strong />",
-			"<emphasis>", "</emphasis>", "<emphasis/>", "<emphasis />",
+			"<p>", "<p ", "</p>", "<p/>", "<p />",
+			"<empty-line/>", "<empty-line />", "<empty-line ", "<empty-line>", "</empty-line>",
+			"<strong>", "</strong>", "<strong/>", "<strong />", "<strong ",
+			"<emphasis>", "</emphasis>", "<emphasis/>", "<emphasis />", "<emphasis ",
 			"<a ", "</a>",
 			"<section>", "</section>", "<section ", "<section/>", "<section />",
 			"<title>", "</title>", "<title ", "<title/>", "<title />",
@@ -35,9 +36,10 @@ namespace Core.AutoCorrector
 			"<cite>", "<cite ", "</cite>", "<cite/>", "<cite />",
 			"<epigraph>", "</epigraph>", "<epigraph ", "<epigraph/>", "<epigraph />",
 			"<annotation>", "</annotation>", "<annotation ", "<annotation/>", "<annotation />",
-			"<strikethrough>", "</strikethrough>", "<strikethrough/>", "<strikethrough />",
-			"<sub>", "</sub>", "<sub/>", "<sub />", "<sup>", "</sup>", "<sup/>", "<sup />",
-			"<code>", "</code>", "<code/>", "<code />",
+			"<strikethrough>", "</strikethrough>", "<strikethrough/>", "<strikethrough />", "<strikethrough ", 
+			"<sub>", "</sub>", "<sub/>", "<sub />", "<sub ",
+			"<sup>", "</sup>", "<sup/>", "<sup />", "<sup ",
+			"<code>", "</code>", "<code/>", "<code />", "<code ",
 			"<table>", "<table ", "</table>", "<table/>", "<table />",
 			"<tr>", "<tr ", "</tr>", "<tr/>", "<tr />",
 			"<th>", "<th ", "</th>", "<th/>", "<th />",
@@ -55,7 +57,7 @@ namespace Core.AutoCorrector
 			"<coverpage>", "</coverpage>", "<coverpage ", "<coverpage/>", "<coverpage />",
 			"<lang>", "</lang>", "<lang ", "<lang/>", "<lang />",
 			"<src-lang>", "</src-lang>", "<src-lang ", "<src-lang/>", "<src-lang />",
-			"<translator>", "</translator>", "<translator ", "<translator/>", "<translator />", 
+			"<translator>", "</translator>", "<translator ", "<translator/>", "<translator />",
 			"<sequence>", "</sequence>", "<sequence ", "<sequence/>", "<sequence />",
 			"<src-title-info>", "</src-title-info>", "<src-title-info ", "<src-title-info/>", "<src-title-info />",
 			"<document-info>", "</document-info>", "<document-info ", "<document-info/>", "<document-info />",
@@ -69,7 +71,7 @@ namespace Core.AutoCorrector
 			"<publisher>", "</publisher>", "<publisher ", "<publisher/>", "<publisher />",
 			"<city>", "</city>", "<city ", "<city/>", "<city />",
 			"<year>", "</year>", "<year ", "<year/>", "<year />",
-			"<isbn>", "<isbn ", "</isbn>", "<isbn/>", "<isbn />", 
+			"<isbn>", "<isbn ", "</isbn>", "<isbn/>", "<isbn />",
 			"<history>", "</history>", "<history ", "<history/>", "<history />",
 			"<text-author>", "<text-author ", "</text-author>", "<text-author/>", "<text-author />",
 			"<first-name>", "<first-name ", "</first-name>", "<first-name/>", "<first-name />",
@@ -137,66 +139,96 @@ namespace Core.AutoCorrector
 			 * Обработка форматирования *
 			 ***************************/
 			// обработка тегов полужирного
-			InputString = Regex.Replace(
-				InputString, "<(/?)(b|big)>",
-				"<$1strong>", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, "<(/?)(b|big)>",
+					"<$1strong>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// обработка тегов курсива
-			InputString = Regex.Replace(
-				InputString, "<(/?)(i|em)>",
-				"<$1emphasis>", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, "<(/?)(i|em)>",
+					"<$1emphasis>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 
 			/*****************
 			 * Удаление тегов *
 			 *****************/
 			// удаление тегов <DIV ...></DIV>
-			InputString = Regex.Replace(
-				InputString, "(?!<>)<(?:/?)(?:[dD][iI][vV]\\s?(?:[^<]+)?(?:\"[^\"]*\"|'[^']*')?)*>",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, "(?!<>)<(?:/?)(?:[dD][iI][vV]\\s?(?:[^<]+)?(?:\"[^\"]*\"|'[^']*')?)*>",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// удаление тегов <cite />, <cite id="nnnnnn" />
-			InputString = Regex.Replace(
-				InputString, "(?!<>)(?:<(?:(?:cite|epigraph|poem|annotation)\\s*?(?:[^<]+)?(?:\"[^\"]*\"|'[^']*')?\\s*/)*>)",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, "(?!<>)(?:<(?:(?:cite|epigraph|poem|annotation)\\s*?(?:[^<]+)?(?:\"[^\"]*\"|'[^']*')?\\s*/)*>)",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// удаление тегов <cite id="nnnnnn"></cite>, <cite></cite>
-			InputString = Regex.Replace(
-				InputString, "(?!<>)(?:<(?:(?:cite|epigraph|poem|annotation)\\s*?(?:[^<]+)?(?:\"[^\"]*\"|'[^']*')?)*>)(?:<\\s*/(?:cite|epigraph|poem|annotation)>)",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, "(?!<>)(?:<(?:(?:cite|epigraph|poem|annotation)\\s*?(?:[^<]+)?(?:\"[^\"]*\"|'[^']*')?)*>)(?:<\\s*/(?:cite|epigraph|poem|annotation)>)",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// удаление тегов <cite id="bdn__4"></cite>
-			InputString = Regex.Replace(
-				InputString, "<cite +?id=\"[^\"]+\">\\s*?</cite>",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, "<cite +?id=\"[^\"]+\">\\s*?</cite>",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// удаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>
-			InputString = Regex.Replace(
-				InputString, "<(?:b?r(?:(?:[^>\"']|\"[^\"]*\"|'[^']*')*)/?)>",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, "<(?:b?r(?:(?:[^>\"']|\"[^\"]*\"|'[^']*')*)/?)>",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// удаление <p><emphasis></emphasis></p>
-			InputString = Regex.Replace(
-				InputString, @"(?:(?:<p>\s*)<(?'tag'strong|emphasis|strikethrough|sub|sup|code|image|a|style)\b>\s*</\k'tag'>(?:\s*</p>))",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, @"(?:(?:<p>\s*)<(?'tag'strong|emphasis|strikethrough|sub|sup|code|image|a|style)\b>\s*</\k'tag'>(?:\s*</p>))",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// удаление <emphasis></emphasis>
-			InputString = Regex.Replace(
-				InputString, @"<(?'tag'strong|emphasis|strikethrough|sub|sup|code|image|a|style)\b>\s*</\k'tag'>",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, @"<(?'tag'strong|emphasis|strikethrough|sub|sup|code|image|a|style)\b>\s*</\k'tag'>",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// удаление <h1> ... <h6> с их содержимым
-			InputString = Regex.Replace(
-				InputString, @"<\b(h1|h2|h3|h4|h5|h6)\b\s+[^>]*?\w*?[^>]*>((?:(?!</\1>).)*)</\1>",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, @"<\b(h1|h2|h3|h4|h5|h6)\b\s+[^>]*?\w*?[^>]*>((?:(?!</\1>).)*)</\1>",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// удаление <stanza/>, <stanza />, <stanza>/s*?</stanza>)
-			InputString = Regex.Replace(
-				InputString, @"(<stanza ?/>)|(<stanza>\s*?</stanza>)",
-				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, @"(<stanza ?/>)|(<stanza>\s*?</stanza>)",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// удаление <SUBTITLE/>, <SUBTITLE />
+			try {
+				InputString = Regex.Replace(
+					InputString, @"(<SUBTITLE ?/>)",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			
 			return InputString;
 		}
 		

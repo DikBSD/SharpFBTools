@@ -70,6 +70,7 @@
 		<genre name="Путешествия и география" code="adv_geo" />
 	</group>
 	<group name="Домоводство (Дом и семья)" >
+		<genre name="Детская психология" code="psy_childs" />
 		<genre name="Домашние животные" code="home_pets" />
 		<genre name="Домоводство" code="home" />
 		<genre name="Здоровье" code="home_health" />

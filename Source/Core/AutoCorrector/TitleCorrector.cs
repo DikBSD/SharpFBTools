@@ -53,20 +53,47 @@ namespace Core.AutoCorrector
 			 * Предварительная обработка title *
 			 ***********************************/
 //			// Обработка </section> между </title> и <section> (Заголовок Книги игнорируется): </section><section><title><p><strong>Название</strong></p><p>главы</p></title></section><section>
-//			_xmlText = Regex.Replace(
-//				_xmlText, @"(?'sect_before_text'</section>\s*?<section>\s*?<title>\s*?)(?'text_end_title'(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?</title>\s*?)(?'end_sect'</section>\s*?)(?=<section>)",
-//				"${sect_before_text}${text_end_title}<empty-line/>\n${end_sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-//			);
-			// удаление <section> </section> вокруг Заголовка Книги: <body><section><title><p><strong>Название</strong></p><p>главы</p></title></section><section>
-			_xmlText = Regex.Replace(
-				_xmlText, @"(?<=<body>)(?:\s*?<section>\s*?)(?'title'<title>\s*?)(?'text_title'(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?</title>\s*?)(?:</section>\s*?)(?=<section>)",
-				"${title}${text_title}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+//			try {
+//				_xmlText = Regex.Replace(
+//					_xmlText, @"(?'sect_before_text'</section>\s*?<section>\s*?<title>\s*?)(?'text_end_title'(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?</title>\s*?)(?'end_sect'</section>\s*?)(?=<section>)",
+//					"${sect_before_text}${text_end_title}<empty-line/>\n${end_sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+//				);
+//			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// удаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section> 
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?<=<body>)(?:\s*?<section>\s*?)(?'title'<title>\s*?)(?'texts'(?:(?:<empty-line ?/>\s*?)?(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?)(?:<empty-line ?/>\s*?)?){1,})(?'_title'\s*?</title>\s*?)(?:</section>\s*?)(?=<section>)",
+					"${title}${texts}${_title}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// Обработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>
-			_xmlText = Regex.Replace(
-				_xmlText, @"(?'base_struct'<section>\s*?<title>\s*?(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,}</title>\s*?)(?'end_sect'</section>\s*?)(?=</body>)",
-				"${base_struct}\n<empty-line/>${end_sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?'base_struct'<section>\s*?<title>\s*?(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,}</title>\s*?)(?'end_sect'</section>\s*?)(?=</body>)",
+					"${base_struct}\n<empty-line/>${end_sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// внесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?<=<body>)\s*?(?'text_title'<title>\s*?(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?)(?'_title'</title>\s*?)<subtitle>\s*?(?'text_subtitle'(?:<(?'tag_s'strong|emphasis)>)?\s*?(?:[^<]+)?(?:</\k'tag_s'>)?\s*?)</subtitle>",
+					"${text_title}<p>${text_subtitle}</p>${_title}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// Обрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?<=<title>)\s*?(?'text_title'(?:<(?'tag_s'strong|emphasis)>)?\s*?(?:[^<]+)?(?:</\k'tag_s'>)?\s*?)\s*?(?=</title>)",
+					"<p>${text_title}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// Удаление <empty-line/> между </title> и <section>: </title><empty-line /><section>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?<=</title>)?\s*?<empty-line ?/>\s*?(?=<section>)",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// обработка найденных парных тэгов
 			IWorker worker = new TitleCorrectorWorker();
@@ -97,13 +124,18 @@ namespace Core.AutoCorrector
 					NewTag = "</section><section>" + tagPair.PairTag;
 				} else if ( tagPair.PreviousTag.Equals("<section>") && tagPair.NextTag.Equals("</section>") ) {
 					// Вставка <empty-line/> между </title> и <section> (Заголовок Книги игнорируется): <section><title><p><strong>Название</strong></p><p>главы</p></title></section>
-					NewTag = Regex.Replace(
-						NewTag, @"(?'title_text_end_title'<title>\s*?(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?</title>)",
-						"${title_text_end_title}<empty-line/>", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
+					try {
+						NewTag = Regex.Replace(
+							NewTag, @"(?'title_text_end_title'<title>\s*?(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?</title>)",
+							"${title_text_end_title}<empty-line/>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+						);
+					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				} else if ( tagPair.PreviousTag.Equals("</cite>") && tagPair.NextTag.Equals("<p>") ) {
 					// вставка тегов </section><section>: </cite><title><p>Текст</p><p><strong>Текст</strong></p></title><p>Текст</p> => </cite></section><section><title><p>Текст</p><p><strong>Текст</strong></p></title><p>Текст</p>
 					NewTag = "</section><section>" + tagPair.PairTag;
+				} else if ( tagPair.PreviousTag.Equals("<body>") && tagPair.NextTag.Equals("<section>") ) {
+					// замена <v> ... </v> в Заголовке книги на <p> ... </p>
+					NewTag = NewTag.Replace("<v>", "<p>").Replace("</v>", "</p>");
 				} else {
 					// замена <subtitle>Text</subtitle> внутри тегов <title на  <p>Text</p>
 					NewTag = NewTag.Replace("<subtitle>", "<p>").Replace("</subtitle>", "</p>");

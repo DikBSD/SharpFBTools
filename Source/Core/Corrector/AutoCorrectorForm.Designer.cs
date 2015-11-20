@@ -37,7 +37,7 @@ namespace Core.Corrector
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AutoCorrectorForm));
 			this.ProgressPanel = new System.Windows.Forms.Panel();
-			this.StatusLabel = new System.Windows.Forms.Label();
+			this.StatusTextBox = new System.Windows.Forms.TextBox();
 			this.ProgressBar = new System.Windows.Forms.ProgressBar();
 			this.ControlPanel = new System.Windows.Forms.Panel();
 			this.btnStop = new System.Windows.Forms.Button();
@@ -49,27 +49,39 @@ namespace Core.Corrector
 			// 
 			// ProgressPanel
 			// 
-			this.ProgressPanel.Controls.Add(this.StatusLabel);
+			this.ProgressPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.ProgressPanel.Controls.Add(this.StatusTextBox);
 			this.ProgressPanel.Controls.Add(this.ProgressBar);
-			this.ProgressPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.ProgressPanel.Location = new System.Drawing.Point(0, 0);
+			this.ProgressPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.ProgressPanel.Name = "ProgressPanel";
-			this.ProgressPanel.Size = new System.Drawing.Size(516, 168);
+			this.ProgressPanel.Size = new System.Drawing.Size(688, 207);
 			this.ProgressPanel.TabIndex = 4;
 			// 
-			// StatusLabel
+			// StatusTextBox
 			// 
-			this.StatusLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.StatusLabel.Location = new System.Drawing.Point(13, 58);
-			this.StatusLabel.Name = "StatusLabel";
-			this.StatusLabel.Size = new System.Drawing.Size(491, 98);
-			this.StatusLabel.TabIndex = 2;
+			this.StatusTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.StatusTextBox.Location = new System.Drawing.Point(14, 71);
+			this.StatusTextBox.Multiline = true;
+			this.StatusTextBox.Name = "StatusTextBox";
+			this.StatusTextBox.ReadOnly = true;
+			this.StatusTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.StatusTextBox.Size = new System.Drawing.Size(655, 124);
+			this.StatusTextBox.TabIndex = 3;
+			this.StatusTextBox.TextChanged += new System.EventHandler(this.StatusTextBoxTextChanged);
 			// 
 			// ProgressBar
 			// 
-			this.ProgressBar.Location = new System.Drawing.Point(12, 12);
+			this.ProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.ProgressBar.Location = new System.Drawing.Point(16, 15);
+			this.ProgressBar.Margin = new System.Windows.Forms.Padding(4);
 			this.ProgressBar.Name = "ProgressBar";
-			this.ProgressBar.Size = new System.Drawing.Size(490, 36);
+			this.ProgressBar.Size = new System.Drawing.Size(653, 44);
 			this.ProgressBar.TabIndex = 0;
 			// 
 			// ControlPanel
@@ -79,9 +91,10 @@ namespace Core.Corrector
 			this.ControlPanel.Controls.Add(this.btnSaveToXml);
 			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.ControlPanel.Enabled = false;
-			this.ControlPanel.Location = new System.Drawing.Point(514, 0);
+			this.ControlPanel.Location = new System.Drawing.Point(685, 0);
+			this.ControlPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.ControlPanel.Name = "ControlPanel";
-			this.ControlPanel.Size = new System.Drawing.Size(156, 168);
+			this.ControlPanel.Size = new System.Drawing.Size(208, 207);
 			this.ControlPanel.TabIndex = 5;
 			// 
 			// btnStop
@@ -89,9 +102,10 @@ namespace Core.Corrector
 			this.btnStop.Dock = System.Windows.Forms.DockStyle.Top;
 			this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-			this.btnStop.Location = new System.Drawing.Point(0, 58);
+			this.btnStop.Location = new System.Drawing.Point(0, 71);
+			this.btnStop.Margin = new System.Windows.Forms.Padding(4);
 			this.btnStop.Name = "btnStop";
-			this.btnStop.Size = new System.Drawing.Size(156, 58);
+			this.btnStop.Size = new System.Drawing.Size(208, 71);
 			this.btnStop.TabIndex = 2;
 			this.btnStop.Text = "Прервать";
 			this.btnStop.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -105,8 +119,9 @@ namespace Core.Corrector
 			this.btnSaveToXml.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnSaveToXml.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveToXml.Image")));
 			this.btnSaveToXml.Location = new System.Drawing.Point(0, 0);
+			this.btnSaveToXml.Margin = new System.Windows.Forms.Padding(4);
 			this.btnSaveToXml.Name = "btnSaveToXml";
-			this.btnSaveToXml.Size = new System.Drawing.Size(156, 58);
+			this.btnSaveToXml.Size = new System.Drawing.Size(208, 71);
 			this.btnSaveToXml.TabIndex = 1;
 			this.btnSaveToXml.Text = "Прервать в файл...";
 			this.btnSaveToXml.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -121,13 +136,13 @@ namespace Core.Corrector
 			// 
 			// AutoCorrectorForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(670, 168);
+			this.ClientSize = new System.Drawing.Size(893, 207);
 			this.ControlBox = false;
 			this.Controls.Add(this.ControlPanel);
 			this.Controls.Add(this.ProgressPanel);
-			this.Margin = new System.Windows.Forms.Padding(2);
+			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "AutoCorrectorForm";
@@ -136,12 +151,13 @@ namespace Core.Corrector
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "AutoCorrectorForm";
 			this.ProgressPanel.ResumeLayout(false);
+			this.ProgressPanel.PerformLayout();
 			this.ControlPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
+		private System.Windows.Forms.TextBox StatusTextBox;
 		private System.Windows.Forms.SaveFileDialog sfdList;
-		private System.Windows.Forms.Label StatusLabel;
 		private System.Windows.Forms.Button btnSaveToXml;
 		private System.Windows.Forms.Panel ControlPanel;
 		private System.Windows.Forms.Button btnStop;

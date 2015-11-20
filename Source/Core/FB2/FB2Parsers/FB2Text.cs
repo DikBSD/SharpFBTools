@@ -197,7 +197,7 @@ namespace Core.FB2.FB2Parsers
 				} catch {
 					MessageBox.Show(
 						string.Format("Структура файла {0} сильно 'изуродована'.\nОткрыть книгу для последующей ее обработки не предоставляется возможным.", _FilePath),
-					                "Чтение структуры fb2-файла", MessageBoxButtons.OK, MessageBoxIcon.Error );
+						"Чтение структуры fb2-файла", MessageBoxButtons.OK, MessageBoxIcon.Error );
 				}
 
 			}
@@ -269,15 +269,17 @@ namespace Core.FB2.FB2Parsers
 					}
 				}
 			}
-			string xmlnsLink = xmlns + "=\"http://www.w3.org/1999/xlink\"";
-			if ( _StartTags.IndexOf( xmlnsLink ) == -1 ) {
-				if ( FictionBookTagIndex != -1) {
-					int index = _StartTags.LastIndexOf( '>' );
-					string left = _StartTags.Substring( 0, index );
-					string right = _StartTags.Substring( index );
-					string newStartTags = left + " " + xmlnsLink + right;
-					_Description = _Description.Replace( _StartTags, newStartTags );
-					_StartTags = newStartTags;
+			string xmlnsLink_q = xmlns + "=\"http://www.w3.org/1999/xlink\"";
+			if ( _StartTags.IndexOf( "='http://www.w3.org/1999/xlink'" ) == -1 ) {
+				if ( _StartTags.IndexOf( xmlnsLink_q ) == -1 ) {
+					if ( FictionBookTagIndex != -1) {
+						int index = _StartTags.LastIndexOf( '>' );
+						string left = _StartTags.Substring( 0, index );
+						string right = _StartTags.Substring( index );
+						string newStartTags = left + " " + xmlnsLink_q + right;
+						_Description = _Description.Replace( _StartTags, newStartTags );
+						_StartTags = newStartTags;
+					}
 				}
 			}
 		}
