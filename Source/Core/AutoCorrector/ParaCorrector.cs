@@ -55,19 +55,20 @@ namespace Core.AutoCorrector
 					"<p>", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-			// удаление <empty-line /> из текста внутри тегов <p> ... </p> (в перечисление не добавил <> - они работают неверно - удаляются <empty-line /> и между целыми тегами)
-			try {
-				_xmlText = Regex.Replace(
-					_xmlText, "(?'start'(?:[-\\w\\+=\\*—,\\.\\?!:;…\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])|<p>)\\s*?<empty-line *?/>\\s*?(?'end'[-\\w\\+=\\*—,\\.\\?!:;\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])",
-					"${start} ${end}", RegexOptions.Multiline // регистр не игнорировать!!!
-				);
-			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// незавершенный тег <p>: <p текст => <p> текст
 			try {
 				_xmlText = Regex.Replace(
 					_xmlText, @"(?:\s*?)(?'p'<p)(?=\s+?[^i/>])",
 					"${p}>", RegexOptions.Multiline // регистр не игнорировать!!!
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			
+			// обработка тегов <p>: <p><strong></strong><p>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?<=<p>)\s*<(?'tag'strong|emphasis)>\s*</\k'tag'>\s*<p>",
+					"", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			

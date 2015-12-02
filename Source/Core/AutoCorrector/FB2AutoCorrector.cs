@@ -44,6 +44,12 @@ namespace Core.AutoCorrector
 			Hashtable htTags = FB2CleanCode.getTagsHashtable();
 			
 			FB2Text fb2Text = new FB2Text( FilePath );
+			if ( fb2Text.Description.IndexOf( "<FictionBook" ) == -1 ) {
+				fb2Text.Description = fb2Text.Description.Insert(
+					fb2Text.Description.IndexOf( "<description>" ),
+					"<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:l=\"http://www.w3.org/1999/xlink\">"
+				);
+			}
 			string enc = fb2Text.Description.Substring( 0, fb2Text.Description.IndexOf( "<FictionBook" ) );
 			if ( enc.ToLower().IndexOf( "wutf-8" ) > 0 ) {
 				enc = enc.Substring( enc.ToLower().IndexOf( "wutf-8" ), 6 );
@@ -79,7 +85,7 @@ namespace Core.AutoCorrector
 			if ( string.IsNullOrWhiteSpace( XmlDescription ) || XmlDescription.Length == 0 )
 				return XmlDescription;
 			
-			//  правка пространство имен
+			//  правка пространства имен
 			string search21 = "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.1\"";
 			string search22 = "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.2\"";
 			string replace = "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\"";
@@ -266,8 +272,57 @@ namespace Core.AutoCorrector
 				// Удаление <empty-line/> между </section> и <section>
 				try {
 					InputString = Regex.Replace(
-						InputString, @"(?<=</section>)\s*?<empty-line\s*?/>\s*?(?=<section>)",
+						InputString, @"(?<=</section>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=<section>)",
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// Удаление <empty-line/> между </section> и </section>
+				try {
+					InputString = Regex.Replace(
+						InputString, @"(?<=</section>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=</section>)",
+						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// Удаление <empty-line/> между </epigraph> и </section>
+				try {
+					InputString = Regex.Replace(
+						InputString, @"(?<=</epigraph>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=</section>)",
+						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// Удаление <empty-line/> между </section> и </body>
+				try {
+					InputString = Regex.Replace(
+						InputString, @"(?<=</section>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=</body>)",
+						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// Удаление <empty-line/> между </title> и <section>
+				try {
+					InputString = Regex.Replace(
+						InputString, @"(?<=</title>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=<section>)",
+						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// удаление <empty-line /> из текста до тега </p>: <empty-line /></p>
+				try {
+					InputString = Regex.Replace(
+						InputString, @"<empty-line */>\s*(?=</p>)",
+						"", RegexOptions.Multiline // регистр не игнорировать!!!
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// удаление <empty-line /> из текста после тега <p>: <p><empty-line />
+				try {
+					InputString = Regex.Replace(
+						InputString, @"(?<=<p>)\s*<empty-line */>",
+						"", RegexOptions.Multiline // регистр не игнорировать!!!
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// удаление <empty-line /> из текста внутри тегов <p> ... </p> (в перечисление не добавил <> - они работают неверно - удаляются <empty-line /> и между целыми тегами)
+				try {
+					InputString = Regex.Replace(
+						InputString, "(?'start'(?:[-\\w\\+=\\*—,\\.\\?!:;…\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])|<p>)\\s*?<empty-line *?/>\\s*?(?'end'[-\\w\\+=\\*—,\\.\\?!:;\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])",
+						"${start} ${end}", RegexOptions.Multiline // регистр не игнорировать!!!
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				
@@ -320,6 +375,13 @@ namespace Core.AutoCorrector
 						"${tag_start}${text}${tag_end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// обработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>
+				try {
+					InputString = Regex.Replace(
+						InputString, @"</section>\s*?<section>\s*?<subtitle>\s*?(?'sub'[^<]+?)\s*?</subtitle>\s*?<epigraph>",
+						"</section><section><title><p>${sub}</p></title><epigraph>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 
 				/**********************
 				 * Обработка epigraph *
@@ -340,11 +402,25 @@ namespace Core.AutoCorrector
 				/**************************
 				 * Обработка <annotation> *
 				 *************************/
+				// Обработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>
 				try {
-					// Обработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>
 					InputString = Regex.Replace(
 						InputString, @"<(?'tag'annotation|cite)\b>\s*?<(?'format'i|b|emphasis|strong)\b>\s*?(?'text'[^<]+?\s*)</\k'format'>\s*?</\k'tag'>",
 						"<${tag}><p>${text}</p></${tag}>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// Удаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>
+				try {
+					InputString = Regex.Replace(
+						InputString, @"(?<=<section>)\s*(?:<empty-line */>\s*){1,}\s*(?=<annotation>)",
+						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// Вставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>
+				try {
+					InputString = Regex.Replace(
+						InputString, @"(?'ann'</annotation>)(\s*)(?'end_sect'</section>)",
+						"${ann}<empty-line />${end_sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				

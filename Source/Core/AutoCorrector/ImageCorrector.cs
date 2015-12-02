@@ -63,6 +63,13 @@ namespace Core.AutoCorrector
 					"${sect}${title}${p}${_title}${img}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// вставка <empty-line /> до картинки, идущей после тега <section>: <section><image l:href="#index.jpg" /> => <section><empty-line /><image l:href="#index.jpg" />
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "(?<=<section>)\\s*(?'img'<image[^/]+?(?:\"[^\"]*\"|'[^']*')?/>)",
+					"<empty-line />${img}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// вставка <empty-line /> после картинки, заключенной в тегах <section> ... </section>: <section><image l:href="#index.jpg" /></section> => <section><image l:href="#index.jpg" /><empty-line /></section>
 			try {
 				_xmlText = Regex.Replace(
@@ -106,12 +113,14 @@ namespace Core.AutoCorrector
 					_xmlText, "(?:=\"#[^\"]*\\.\\w\\w\\w\")",
 					RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
-				if ( m.Success ) {
+				while (m.Success) {
 					string s = m.Value;
-					s = s.Replace(" ", "_");
+					s = s.Replace(' ', '_').Replace('~', '_');
 					_xmlText = _xmlText.Substring( 0, m.Index ) /* ДО обрабатываемого текста */
 						+ s
 						+ _xmlText.Substring( m.Index + m.Length ); /* ПОСЛЕ обрабатываемого текста */
+					
+					m = m.NextMatch();
 				}
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			

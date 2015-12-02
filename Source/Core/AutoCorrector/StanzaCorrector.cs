@@ -110,6 +110,14 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				
+				// обработка строф с эпиграфом: <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>
+				try {
+					NewTag = Regex.Replace(
+						NewTag, @"<epigraph>\s*?<v>\s*?(?'v'<v>[^<]+?</v>)\s*?</v>\s*?</epigraph>",
+						"${v}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				
 				Index = XmlText.IndexOf( tagPair.PairTag, tagPair.StartTagPosition ) + NewTag.Length;
 				XmlText = XmlText.Substring( 0, tagPair.StartTagPosition ) /* ДО обрабатываемого текста */
 					+ NewTag

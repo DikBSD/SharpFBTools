@@ -117,6 +117,7 @@
 			<xs:enumeration value="literature_18"/>
 			<xs:enumeration value="literature_19"/>
 			<xs:enumeration value="literature_20"/>
+			<xs:enumeration value="litrpg"/>
 			<xs:enumeration value="love"/>
 			<xs:enumeration value="love_contemporary"/>
 			<xs:enumeration value="love_detective"/>

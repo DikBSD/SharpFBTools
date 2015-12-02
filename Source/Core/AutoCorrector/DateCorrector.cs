@@ -52,14 +52,14 @@ namespace Core.AutoCorrector
 			// обработка атрибута в датах типа <date value="16.01.2006"></date> => <date value="2006-01-16"></date>
 			// или <date value="16.01.2006">Текст</date> => <date value="2006-01-16">Текст</date>
 			_xmlText = Regex.Replace(
-				_xmlText, "(?'start'<date +?value=\")(?'d'\\d\\d)\\.(?'m'\\d\\d)\\.(?'y'\\d\\d\\d\\d)(?'end'\">(?:[^<]+?)?(?:\\s*?</date>))",
+				_xmlText, "(?'start'<date +?value=\")(?'d'\\d\\d)\\.(?'m'\\d\\d)\\.(?'y'\\d\\d\\d\\d)(?'end'\">(?:\\s*?</date>))",
 				"${start}${y}-${m}-${d}${end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
-//			// обработка атрибута в датах типа <date value="16.01.2006">16.01.2006</date> => <date value="2006-01-16">16.01.2006</date>
-//			_xmlText = Regex.Replace(
-//				_xmlText, "(?'start'<date +?value=\")(?'d'\\d\\d)\\.(?'m'\\d\\d)\\.(?'y'\\d\\d\\d\\d)(?'end'\">(?:\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d</date>))",
-//				"${start}${y}-${m}-${d}${end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-//			);
+			// обработка атрибута в датах типа <date value="16.01.2006">16.01.2006</date> => <date value="2006-01-16">16.01.2006</date>
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'start'<date +?value=\")(?'d'\\d\\d)\\.(?'m'\\d\\d)\\.(?'y'\\d\\d\\d\\d)(?'end'\">(?:\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d</date>))",
+				"${start}${y}-${m}-${d}${end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
 			// обработка атрибута в датах типа <date value="2008.04.30">2008.04.30</date> => <date value="2008-04-30">2008.04.30</date>
 			_xmlText = Regex.Replace(
 				_xmlText, "(?'start'<date +?value=\")(?'y'\\d\\d\\d\\d)\\.(?'m'\\d\\d)\\.(?'d'\\d\\d)(?'end'\">(?:[^<]+?)?(?:\\s*?</date>))",
@@ -67,7 +67,12 @@ namespace Core.AutoCorrector
 			);
 			// обработка атрибута в датах типа <date value="2015-08-24 15:22:32">24 авг 2015</date> - удаление времени
 			_xmlText = Regex.Replace(
-				_xmlText, "(?<=<date value=\"\\d\\d\\d\\d-\\d\\d-\\d\\d)(?:\\s*?[^<]+?)(?=(?:\">\\s*?[^<]+?)?\\s*?</date>)",
+				_xmlText, "(?<=<date value=\"\\d\\d\\d\\d-\\d\\d-\\d\\d)(?: [^<]+?)(?=(?:\">[^<]+?)</date>)",
+				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			// обработка атрибута в датах типа <date value="2015-08-24 15:22:32"></date> - удаление времени
+			_xmlText = Regex.Replace(
+				_xmlText, "(?<=<date value=\"\\d\\d\\d\\d-\\d\\d-\\d\\d)(?: [^<]+?)(?=(?:\">)</date>)",
 				"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			// удаление атрибута в датах типа <date value="05-06-21">21.06.05</date>

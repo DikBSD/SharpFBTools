@@ -176,7 +176,7 @@ namespace Core.Corrector
 		// Проверяем - это отмена, ошибка, или конец задачи и сообщить
 		private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
 			DateTime dtEnd = DateTime.Now;
-			string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sTime = dtEnd.Subtract( m_dtStart ).ToString().Substring( 0, 8 ) + " (час.:мин.:сек.)";
 			if ( e.Cancelled ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Cancelled;
 				m_EndMode.Message = "Автокорректировка fb2-файлов прервана!\r\nЗатрачено времени: "+sTime;
@@ -284,7 +284,7 @@ namespace Core.Corrector
 		}
 		// Автокорректировка файлов
 		private void autoCorrect( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref List<string> NotWorлingFilesList, ref List<string> WorkingFilesList, bool IsReNew = false ) {
-			this.Text = string.Format( "Автокорректировка книг: всего {0} книг в {1} каталогах", m_AllFiles, m_AllDirs );
+			this.Text = string.Format( "Автокорректировка {0} книг в {1} каталогах", m_AllFiles, m_AllDirs );
 			if ( IsReNew )
 				this.Text += string.Format( " / Для обработки {0} файлов", m_NotWorkingFilesList.Count );
 			
@@ -306,7 +306,7 @@ namespace Core.Corrector
 				StatusTextBox.Text += string.Format(@"{0}  =>  ( {1} )  =>", file, getFileLength( file ) );
 				WorksWithBooks.autoCorrect( file, m_sharpZipLib, m_fv2Validator );
 				DateTime dtEnd = DateTime.Now;
-				string sTime = dtEnd.Subtract( dtStart ).ToString().Substring( 0, 8 ) + " (ч.:м.:с.)";
+				string sTime = dtEnd.Subtract( dtStart ).ToString().Substring( 0, 11 ) + " (ч:м:с.мс)";
 				StatusTextBox.Text += string.Format("  {0}", sTime ) + "\r\n";
 				
 				// обработанные файлы

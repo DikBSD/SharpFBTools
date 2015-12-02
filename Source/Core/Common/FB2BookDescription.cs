@@ -465,12 +465,12 @@ namespace Core.Common
 		#endregion
 		
 		#region Открытые методы класса
-		public XmlDocument getXmlDoc() {
-			return m_fb2.getXmlDoc();
-		}
-		public FictionBook getFictionBook() {
-			return m_fb2;
-		}
+//		public XmlDocument getXmlDoc() {
+//			return m_fb2.getXmlDoc();
+//		}
+//		public FictionBook getFictionBook() {
+//			return m_fb2;
+//		}
 		#endregion
 	}
 }

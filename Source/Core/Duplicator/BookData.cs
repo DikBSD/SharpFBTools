@@ -15,6 +15,7 @@ using System.Windows.Forms;
 
 using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
+using Core.Common;
 
 namespace Core.Duplicator
 {
@@ -57,7 +58,7 @@ namespace Core.Duplicator
 
 			List<string> list1 = makeListFOIAuthors(Authors1, WithMiddleName);
 			List<string> list2 = makeListFOIAuthors(Authors2, WithMiddleName);
-			return list1.Intersect(list2).ToList();
+			return list1.Intersect(list2, new FB2EqualityComparer()).ToList();
 		}
 		#endregion
 		

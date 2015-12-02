@@ -65,6 +65,13 @@ namespace Core.AutoCorrector
 					"${texts}${author}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// Удаление <empty-line /> между </text-author> и </cite>: </text-author><empty-line /></cite> => </text-author></cite>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?<=</text-author>)\s*<empty-line */>\s*(?=</cite>)",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// обработка найденных парных тэгов
 			IWorker worker = new CiteCorrectorWorker();

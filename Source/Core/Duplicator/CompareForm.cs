@@ -210,8 +210,8 @@ namespace Core.Duplicator
 		
 		private BackgroundWorker m_bw			= null; // фоновый обработчик для Непрерывного сравнения
 		private BackgroundWorker m_bwRenew		= null; // фоновый обработчик для Возобновления сравнения
-		private Hashtable m_htWorkingBook		= new Hashtable();  // таблица обработанные файлов - копии.
-		private Hashtable m_htBookTitleAuthors	= new Hashtable();  // таблица для обработанных данных копий для режима группировки по Авторам.
+		private Hashtable m_htWorkingBook		= new Hashtable( new FB2CultureComparer() ); // таблица обработанные файлов - копии
+		private Hashtable m_htBookTitleAuthors	= new Hashtable( new FB2CultureComparer() ); // таблица для обработанных данных копий (режим группировки по Авторам)
 
 		private readonly DateTime m_dtStart 	= DateTime.Now;
 		
@@ -342,7 +342,7 @@ namespace Core.Duplicator
 			ViewDupProgressData(); // отображение данных прогресса
 			FilesWorker.RemoveDir( Settings.Settings.TempDir );
 
-			string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
+			string sTime = dtEnd.Subtract( m_dtStart ).ToString().Substring( 0, 8 ) + " (час.:мин.:сек.)";
 			if ( e.Cancelled ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Cancelled;
 				m_EndMode.Message = "Поиск одинаковых fb2-файлов остановлен!\nСписок Групп копий fb2-файлов не сформирован полностью!\nЗатрачено времени: "+sTime;
@@ -798,7 +798,7 @@ namespace Core.Duplicator
 		private Hashtable FindDupForAuthors( ref BackgroundWorker bw, ref DoWorkEventArgs e, FB2FilesDataInGroup fb2Group, bool WithMiddleName ) {
 			// в fb2Group.Group - название группы (название книги у всех книг одинаковое, а пути - разные )
 			// внутри fb2Group в BookData - данные на каждую книгу группы
-			Hashtable ht = new Hashtable();
+			Hashtable ht = new Hashtable( new FB2CultureComparer() );
 			// 2 итератора для перебора всех книг группы. 1-й - только на текущий элемент группы, 2-й - скользящий на все последующие. т.е. iter2 = iter1+1
 			for( int iter1 = 0; iter1 != fb2Group.Count; ++iter1 ) {
 				if( ( bw.CancellationPending ) )  {
@@ -902,7 +902,7 @@ namespace Core.Duplicator
 						sAuthor += " " + a.FirstName.Value.Substring(0,1);
 //					if ( a.MiddleName != null && !string.IsNullOrEmpty( a.MiddleName.Value ) )
 //						sAuthor += " " + a.MiddleName.Value.Substring(0,1);
-					sAuthor.Trim();
+					sAuthor = sAuthor.Trim();
 					// Заполнение хеш таблицы данными о fb2-книгах в контексте Авторов
 					FB2AuthorFIOSetHashTable( fb2, ZipPath, SrcPath, Encoding, sAuthor, ref htFB2ForAuthorFIO );
 				}
@@ -1282,7 +1282,7 @@ namespace Core.Duplicator
 		
 		// формирование представления Групп с их книгами
 		private void makeBookCopiesView( FB2FilesDataInGroup fb2BookList ) {
-			Hashtable htBookGroups = new Hashtable(); // хеш-таблица групп одинаковых книг
+			Hashtable htBookGroups = new Hashtable( new FB2CultureComparer() ); // хеш-таблица групп одинаковых книг
 			ListViewGroup lvGroup = null; // группа одинаковых книг
 			string Valid = string.Empty;
 			foreach( BookData bd in fb2BookList ) {

@@ -12,6 +12,8 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 
+//using System.Windows.Forms;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -36,7 +38,7 @@ namespace Core.AutoCorrector
 			"<cite>", "<cite ", "</cite>", "<cite/>", "<cite />",
 			"<epigraph>", "</epigraph>", "<epigraph ", "<epigraph/>", "<epigraph />",
 			"<annotation>", "</annotation>", "<annotation ", "<annotation/>", "<annotation />",
-			"<strikethrough>", "</strikethrough>", "<strikethrough/>", "<strikethrough />", "<strikethrough ", 
+			"<strikethrough>", "</strikethrough>", "<strikethrough/>", "<strikethrough />", "<strikethrough ",
 			"<sub>", "</sub>", "<sub/>", "<sub />", "<sub ",
 			"<sup>", "</sup>", "<sup/>", "<sup />", "<sup ",
 			"<code>", "</code>", "<code/>", "<code />", "<code ",
@@ -128,7 +130,7 @@ namespace Core.AutoCorrector
 		public static string postProcessing( string InputString ) {
 			// разбиение на теги (смежные теги)
 			return Regex.Replace(
-				InputString, @"><",
+				InputString, "><",
 				">\n<", RegexOptions.Multiline
 			);
 		}
@@ -191,17 +193,25 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-			// удаление <p><emphasis></emphasis></p>
+			// удаление пустых тегов <p><emphasis></emphasis></p>
 			try {
 				InputString = Regex.Replace(
 					InputString, @"(?:(?:<p>\s*)<(?'tag'strong|emphasis|strikethrough|sub|sup|code|image|a|style)\b>\s*</\k'tag'>(?:\s*</p>))",
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-			// удаление <emphasis></emphasis>
+			// удаление пустых тегов <emphasis></emphasis>
 			try {
 				InputString = Regex.Replace(
-					InputString, @"<(?'tag'strong|emphasis|strikethrough|sub|sup|code|image|a|style)\b>\s*</\k'tag'>",
+					InputString, @"<(?'tag'strong|emphasis|strikethrough|sub|sup|code|image|a|style|poem|stanza|section|history|author|text-author)\b>\s*</\k'tag'>",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			
+			// удаление <stanza/>, <stanza />
+			try {
+				InputString = Regex.Replace(
+					InputString, @"<(?:stanza|poem|SUBTITLE|sup|sub|section|table|annotation|title|cite|epigraph|strong|emphasis|strikethrough|code|style|history|author|text-author) ?/>",
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
@@ -214,31 +224,20 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
-			// удаление <stanza/>, <stanza />, <stanza>/s*?</stanza>)
-			try {
-				InputString = Regex.Replace(
-					InputString, @"(<stanza ?/>)|(<stanza>\s*?</stanza>)",
-					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-				);
-			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-			// удаление <SUBTITLE/>, <SUBTITLE />
-			try {
-				InputString = Regex.Replace(
-					InputString, @"(<SUBTITLE ?/>)",
-					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-				);
-			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-			
 			return InputString;
 		}
 		
 		// удаление недопустимых символов
 		public static string deleteIllegalCharacters( string InputString ) {
-			return Regex.Replace(
-				InputString, "[\x00-\x08\x0B\x0C\x0E-\x1F]",
-				"", RegexOptions.None
-			);
+			try {
+				InputString = Regex.Replace(
+					InputString, "[\x00-\x08\x0B\x0C\x0E-\x1F]",
+					"", RegexOptions.None
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			return InputString;
 		}
+		
 		// обработка < и > и &
 		public static string processingCharactersMoreAndLessAndAmp( string InputString, Hashtable htTags ) {
 			Regex regex = new Regex(_RegAmp); // пропускае юникод, символы в десятичной кодировке и меняем уголки

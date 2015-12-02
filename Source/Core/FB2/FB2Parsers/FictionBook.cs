@@ -63,9 +63,9 @@ namespace Core.FB2.FB2Parsers
 					_xmlDoc.LoadXml( _fb2TextXml.toXML() );
 					setNameSpace();
 				}
-			} catch {
+			} catch ( Exception ex ) {
 				throw new System.IO.FileLoadException(
-					"Файл: " + FB2Path + " невозможно открыть для извлечения fb2 метаданных!\nВозможная причина:\n1. Не найден путь к файлу.\n2. Файл имеет сильно искаженную fb2-структуру.\n3. Файл - 'битый'.\n4. Кодировка файла отлична от распространенных (windows-1251 и utf-8), и поэтому файл содержит 'недопустимые' символы..."
+					string.Format( "Файл {0}:\nНевозможно открыть для извлечения fb2 метаданных.\n\n{1}", FB2Path, ex.Message )
 				);
 			}
 		}
@@ -601,7 +601,7 @@ namespace Core.FB2.FB2Parsers
 					for( int i = 0; i != ilCoverpages.Count; ++i ) {
 						// извлечение информации по binary, в зависимости от атрибута id бинарного объекта
 						foreach( XmlNode node in xmlNodes ) {
-							if( node.Attributes["id"] != null ) {
+							if( node.Attributes["id"] != null && node.Attributes["content-type"] != null ) {
 								if( ilCoverpages[i].Value == node.Attributes["id"].Value )
 									binaryBase64 = new BinaryBase64(
 										ilCoverpages[i].Value, node.Attributes["content-type"].Value, node.InnerText

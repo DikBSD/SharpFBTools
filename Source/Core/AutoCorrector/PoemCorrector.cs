@@ -58,6 +58,13 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// Удаление структур <poem><stanza><empty-line /></stanza></poem>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"<poem>\s*?<stanza>\s*?<empty-line ?/>\s*?</stanza>\s*?</poem>",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			// вставка <text-author> внутрь <poem> </poem>
 			try {
 				_xmlText = Regex.Replace(

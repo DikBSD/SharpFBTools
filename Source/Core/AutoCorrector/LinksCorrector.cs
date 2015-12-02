@@ -105,14 +105,17 @@ namespace Core.AutoCorrector
 					_xmlText, "(?:=\"#?[^\"]*\\.\\w\\w\\w\")",
 					RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
-				if ( m.Success ) {
+				while (m.Success) {
 					string s = m.Value;
-					s = s.Replace(" ", "_");
+					s = s.Replace(' ', '_').Replace('~', '_');
 					_xmlText = _xmlText.Substring( 0, m.Index ) /* ДО обрабатываемого текста */
 						+ s
 						+ _xmlText.Substring( m.Index + m.Length ); /* ПОСЛЕ обрабатываемого текста */
+					
+					m = m.NextMatch();
 				}
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			
 			return _xmlText;
 		}
 	}

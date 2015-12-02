@@ -17,6 +17,7 @@ namespace Core.FB2.FB2Parsers
 {
 	/// <summary>
 	/// fb2 Файл в виде реальных текстовых частей
+	/// В случае невозможности чтения файла "по частям", генерируется исключение
 	/// </summary>
 	public class FB2Text
 	{
@@ -37,7 +38,12 @@ namespace Core.FB2.FB2Parsers
 				loadFromFile();
 			else
 				loadDescriptionOnlyFromFile();
-			_StartTags = _Description.Substring( 0, _Description.IndexOf("<description") );
+			
+			try {
+				_StartTags = _Description.Substring( 0, _Description.IndexOf("<description") );
+			} catch ( Exception ex ) {
+				throw new Exception( string.Format("Файл: {0}\r\nСтруктура раздела <description> сильно искажена.\r\n{1}\r\n", _FilePath, ex.Message)  );
+			}
 			
 			// предварительная обязательная обработка
 			preWork();
@@ -145,11 +151,45 @@ namespace Core.FB2.FB2Parsers
 		}
 		
 		private void makeFB2Part( ref string InputString ) {
+			// реконструкция кодировки, если ее нет
+			if ( InputString.IndexOf( "<?xml version=" ) == -1 )
+				InputString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + InputString;
+			
+			//  правка тега <FictionBook
+			int FictionBookTagIndex = InputString.IndexOf( "<FictionBook" );
+			string FictionBookTag = "<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:l=\"http://www.w3.org/1999/xlink\">";
+			if ( FictionBookTagIndex == -1 ) {
+				// нет тега <FictionBook
+				int index = InputString.LastIndexOf( '>' );
+				string left = InputString.Substring( 0, index );
+				string right = InputString.Substring( index );
+				InputString = left + " " + FictionBookTag + right;
+			} else {
+				// тег <FictionBook есть
+				Regex regex  = new Regex( "<FictionBook [^>]+>", RegexOptions.None );
+				Match m = regex.Match( InputString );
+				if ( m.Success ) {
+					string FBookTag = m.Value;
+					int xmlnsIndex = FBookTag.IndexOf( "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2." );
+					int xmlnsLinkIndex = FBookTag.IndexOf( "=\"http://www.w3.org/1999/xlink\"" );
+					if ( xmlnsIndex == -1 || xmlnsLinkIndex == -1 ) {
+						try {
+							InputString = Regex.Replace(
+								InputString, "<FictionBook [^>]+>", FictionBookTag, RegexOptions.None
+							);
+						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+					}
+				}
+			}
+			
 			string DescCloseTag = "</description>";
 			int IndexDescriptionEnd = InputString.IndexOf( DescCloseTag ) + DescCloseTag.Length;
 			int IndexFirstBody = InputString.IndexOf( "<body" );
 			int IndexFirstBinary = InputString.IndexOf( "<binary " );
 			int IndexFictionBookEndTag = InputString.IndexOf( "</FictionBook>" );
+			if ( IndexFictionBookEndTag == -1 )
+				IndexFictionBookEndTag = InputString.Length;
+			
 			if ( IndexDescriptionEnd != -1 ) {
 				_Description = InputString.Substring( 0, IndexDescriptionEnd );
 				if ( _Encoding.Equals( "windows-1251" ) && isUnicodeCharExists() ) {
@@ -195,9 +235,7 @@ namespace Core.FB2.FB2Parsers
 						}
 					}
 				} catch {
-					MessageBox.Show(
-						string.Format("Структура файла {0} сильно 'изуродована'.\nОткрыть книгу для последующей ее обработки не предоставляется возможным.", _FilePath),
-						"Чтение структуры fb2-файла", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					throw new Exception( string.Format("Структура файла {0} сильно искажена.", _FilePath) );
 				}
 
 			}

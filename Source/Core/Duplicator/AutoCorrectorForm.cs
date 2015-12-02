@@ -144,7 +144,7 @@ namespace Core.Duplicator
 					}
 					break;
 				case BooksAutoCorrectMode.BooksInAllGroup:
-					this.Text = string.Format( "Автокорректировка всех {0} книг во всех Группах", m_listViewFB2Files.Items.Count );
+					this.Text = string.Format( "Автокорректировка {0} книг во всех Группах", m_listViewFB2Files.Items.Count );
 					foreach( ListViewItem Item in m_listViewFB2Files.Items ) {
 						if( ( m_bw.CancellationPending ) ) {
 							e.Cancel = true;

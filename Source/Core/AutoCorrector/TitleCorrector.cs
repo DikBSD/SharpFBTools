@@ -94,6 +94,13 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			// Обрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, @"(?<=</title>)\s*?(?'pp'(?'p'<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,})\s*?(?=<section>)",
+					"<section>${p}</section>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
 			// обработка найденных парных тэгов
 			IWorker worker = new TitleCorrectorWorker();

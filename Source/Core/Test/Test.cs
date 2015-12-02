@@ -26,6 +26,7 @@ using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.TitleInfo;
 using Core.Duplicator;
 using Core.FB2.FB2Parsers;
+using Core.Common;
 
 namespace Test
 {
@@ -378,7 +379,7 @@ namespace Test
 
 			List<string> list1 = makeListFOIAuthors(Authors1, WithMiddleName);
 			List<string> list2 = makeListFOIAuthors(Authors2, WithMiddleName);
-			return list1.Intersect(list2).ToList();
+			return list1.Intersect(list2, new FB2EqualityComparer()).ToList();
 		}
 		// формирование списка из строк ФИО каждого Автора из Authors
 		// WithMiddleName = true - учитывать Отчество Автора

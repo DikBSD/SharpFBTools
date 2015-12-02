@@ -99,21 +99,21 @@ namespace Core.Corrector
 			switch( m_WorkMode ) {
 				case BooksWorkMode.CopyCheckedBooks:
 					this.Text = "Копирование помеченных книг в папку " + m_TargetDir;
-					this.Text += String.Format( ": Файлов: {0}", m_listViewFB2Files.CheckedItems.Count );
+					this.Text += String.Format( ": {0}", m_listViewFB2Files.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, true,
 					                         m_SourceDir, m_TargetDir, m_listViewFB2Files,
 					                         m_FileExistMode );
 					break;
 				case BooksWorkMode.MoveCheckedBooks:
 					this.Text = "Перемещение помеченных книг в папку " + m_TargetDir;
-					this.Text += String.Format( ": Файлов: {0}", m_listViewFB2Files.CheckedItems.Count );
+					this.Text += String.Format( ": {0}", m_listViewFB2Files.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, false,
 					                         m_SourceDir, m_TargetDir, m_listViewFB2Files,
 					                         m_FileExistMode );
 					break;
 				case BooksWorkMode.DeleteCheckedBooks:
 					this.Text = "Удаление помеченных книг";
-					this.Text += String.Format( ": Файлов: {0}", m_listViewFB2Files.CheckedItems.Count );
+					this.Text += String.Format( ": {0}", m_listViewFB2Files.CheckedItems.Count );
 					DeleteCheckedFiles( ref m_bwcmd, ref e, m_listViewFB2Files );
 					break;
 				default:

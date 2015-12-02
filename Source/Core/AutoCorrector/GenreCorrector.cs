@@ -50,9 +50,9 @@ namespace Core.AutoCorrector
 			 * Обработка genre *
 			 *******************/
 			/* Фантастика */
-			// обработка жанра romance_fantasy, romance_sf, magician_book, foreign_fantasy, dragon_fantasy
+			// обработка жанра romance_fantasy, romance_sf, magician_book, foreign_fantasy, dragon_fantasy, fantasy
 			_xmlText = Regex.Replace(
-				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(romance_fantasy|romance_sf|magician_book|foreign_fantasy|dragon_fantasy)\\s*?(?=</genre>)",
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(romance_fantasy|romance_sf|magician_book|foreign_fantasy|dragon_fantasy|fantasy)\\s*?(?=</genre>)",
 				"${genre}sf_fantasy", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			// обработка жанра horror, vampire_book
@@ -94,6 +94,11 @@ namespace Core.AutoCorrector
 			_xmlText = Regex.Replace(
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?love_fantasy\\s*?(?=</genre>)",
 				"${genre}love_sf", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			// обработка жанра litrpg
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?litrpg\\s*?(?=</genre>)",
+				"${genre}sf_litrpg", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			
 			/* Юмор */
@@ -299,9 +304,9 @@ namespace Core.AutoCorrector
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?science_history_philosophy\\s*?(?=</genre>)",
 				"${genre}sci_philosophy", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
-			// обработка жанра science_earth, geography_book
+			// обработка жанра science_earth, geography_book, geo_guide
 			_xmlText = Regex.Replace(
-				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(science_earth|geography_book)\\s*?(?=</genre>)",
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(science_earth|geography_book|geo_guide)\\s*?(?=</genre>)",
 				"${genre}sci_geo", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			// обработка жанра foreign_edu
@@ -416,6 +421,11 @@ namespace Core.AutoCorrector
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?foreign_publicism\\s*?(?=</genre>)",
 				"${genre}nonf_publicism", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
+			// обработка жанра foreign_desc
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?foreign_desc\\s*?(?=</genre>)",
+				"${genre}nonfiction", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
 			
 			/* Политика, экономика юриспруденция, деловая литература */
 			// обработка жанра nonfiction_politics, literature_political
@@ -480,9 +490,9 @@ namespace Core.AutoCorrector
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?health_nutrition\\s*?(?=</genre>)",
 				"${genre}home_cooking", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
-			// обработка жанра health_psy, science_psy, upbringing_book, foreign_psychology, psy_generic
+			// обработка жанра health_psy, science_psy, upbringing_book, foreign_psychology, psy_generic, psy_alassic
 			_xmlText = Regex.Replace(
-				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(health_psy|science_psy|upbringing_book|foreign_psychology|psy_generic)\\s*?(?=</genre>)",
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(health_psy|science_psy|upbringing_book|foreign_psychology|psy_generic|psy_alassic)\\s*?(?=</genre>)",
 				"${genre}sci_psychology", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 
@@ -496,6 +506,11 @@ namespace Core.AutoCorrector
 			_xmlText = Regex.Replace(
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(women_single|literature_women|foreign_love)\\s*?(?=</genre>)",
 				"${genre}love", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			// обработка жанра slash
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?slash\\s*?(?=</genre>)",
+				"${genre}love_hard", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			
 			/* Искусство, Искусствоведение, Дизайн */

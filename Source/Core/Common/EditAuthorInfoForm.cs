@@ -225,6 +225,7 @@ namespace Core.Common
 				return;
 			}
 			
+			AuthorBreakEditButton.Visible = false;
 			if ( m_EditMode ) {
 				// режим правки автора
 				ListViewItem SelectedItem = AuthorsListView.SelectedItems[0];
@@ -247,7 +248,7 @@ namespace Core.Common
 						Item.SubItems[0].Text.Trim() + Item.SubItems[1].Text.Trim() + Item.SubItems[2].Text.Trim() +
 						Item.SubItems[3].Text.Trim() + Item.SubItems[6].Text.Trim()
 					);
-					List<string> list3 = list1.Intersect(list2).ToList();
+					List<string> list3 = list1.Intersect(list2, new FB2EqualityComparer()).ToList();
 					if ( list3.Count >= 1 ) {
 						MessageBox.Show( "В списке Авторов уже есть Автор с точно такими же данными!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						LastNameTextBox.Focus();

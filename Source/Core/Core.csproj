@@ -50,6 +50,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCorrector\AutoCorrectorForm.cs" />
+    <Compile Include="AutoCorrector\AutoCorrectorForm.Designer.cs">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AutoCorrector\CiteCorrector.cs" />
     <Compile Include="AutoCorrector\DateCorrector.cs" />
     <Compile Include="AutoCorrector\EpigraphCorrector.cs" />
@@ -95,6 +99,7 @@
     <Compile Include="Common\EndWorkMode.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\FB2BookDescription.cs" />
+    <Compile Include="Common\FB2Comparer.cs" />
     <Compile Include="Common\FB2DescriptionCorrector.cs" />
     <Compile Include="Common\FilesWorker.cs" />
     <Compile Include="Common\GenresWorker.cs" />
@@ -114,10 +119,6 @@
     <Compile Include="Common\StringProcessing.cs" />
     <Compile Include="Common\WorksWithBooks.cs" />
     <Compile Include="Common\ZipFB2Worker.cs" />
-    <Compile Include="Corrector\AutoCorrectorForm.cs" />
-    <Compile Include="Corrector\AutoCorrectorForm.Designer.cs">
-      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Corrector\BooksListWorkerForm.cs" />
     <Compile Include="Corrector\BooksListWorkerForm.Designer.cs">
       <DependentUpon>BooksListWorkerForm.cs</DependentUpon>
@@ -152,6 +153,9 @@
     <Compile Include="FileManager\FB2TagsViewForm.Designer.cs">
       <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AutoCorrector\AutoCorrectorForm.resx">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Common\AuthorInfoForm.resx">
       <DependentUpon>AuthorInfoForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -172,9 +176,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Common\SequenceInfoForm.resx">
       <DependentUpon>SequenceInfoForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Corrector\AutoCorrectorForm.resx">
-      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Corrector\BooksListWorkerForm.resx">
       <DependentUpon>BooksListWorkerForm.cs</DependentUpon>

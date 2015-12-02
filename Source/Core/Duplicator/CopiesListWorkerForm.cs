@@ -186,7 +186,7 @@ namespace Core.Duplicator
 			foreach( XElement Group in Groups )
 				Group.SetAttributeValue( "number", ++i );
 		}
-		private XDocument createXMLCtructure( int CompareMode, string CompareModeName ) {
+		private XDocument createXMLStructure( int CompareMode, string CompareModeName ) {
 			return new XDocument(
 				new XDeclaration("1.0", "utf-8", "yes"),
 				new XComment("Файл копий fb2 книг, сохраненный после полного окончания работы Дубликатора"),
@@ -288,7 +288,7 @@ namespace Core.Duplicator
 			// копии fb2 книг по группам
 			if ( m_lvResult.Groups.Count > 0 ) {
 				ProgressBar.Maximum	= m_lvResult.Items.Count;
-				XDocument doc = createXMLCtructure( CompareMode, CompareModeName );
+				XDocument doc = createXMLStructure( CompareMode, CompareModeName );
 				
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
@@ -335,7 +335,7 @@ namespace Core.Duplicator
 			// копии fb2 книг по группам
 			if ( m_lvResult.Groups.Count > 0 ) {
 				ProgressBar.Maximum	= m_lvResult.Items.Count;
-				XDocument doc = createXMLCtructure( CompareMode, CompareModeName );
+				XDocument doc = createXMLStructure( CompareMode, CompareModeName );
 				
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)

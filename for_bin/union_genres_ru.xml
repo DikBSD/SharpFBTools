@@ -238,6 +238,7 @@
 		<genre name="Ислам" code="religion_islam" />
 		<genre name="Иудаизм" code="religion_judaism" />
 		<genre name="Католицизм" code="religion_catholicism" />
+		<genre name="Оккультизм" code="religion_occult" />
 		<genre name="Православие" code="religion_orthodoxy" />
 		<genre name="Протестантизм" code="religion_protestantism" />
 		<genre name="Религиоведение" code="sci_religion" />

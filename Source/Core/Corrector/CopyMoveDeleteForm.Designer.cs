@@ -105,7 +105,7 @@ namespace Core.Corrector
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Работа с помеченными копиями книг";
+			this.Text = "Работа с помеченными книгами";
 			this.ProgressPanel.ResumeLayout(false);
 			this.ControlPanel.ResumeLayout(false);
 			this.ResumeLayout(false);

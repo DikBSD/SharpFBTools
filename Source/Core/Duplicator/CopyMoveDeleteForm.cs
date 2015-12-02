@@ -217,21 +217,21 @@ namespace Core.Duplicator
 			switch( m_WorkMode ) {
 				case BooksWorkMode.CopyCheckedBooks:
 					this.Text = "Копирование помеченных копий книг в папку " + m_TargetDir;
-					this.Text += String.Format( ": Файлов: {0}", m_lvResult.CheckedItems.Count );
+					this.Text += String.Format( ": {0}", m_lvResult.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, true,
 					                         m_SourceDir, m_TargetDir, m_lvResult,
 					                         m_FileExistMode );
 					break;
 				case BooksWorkMode.MoveCheckedBooks:
 					this.Text = "Перемещение помеченных копий книг в папку " + m_TargetDir;
-					this.Text += String.Format( ": Файлов: {0}", m_lvResult.CheckedItems.Count );
+					this.Text += String.Format( ": {0}", m_lvResult.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, false,
 					                         m_SourceDir, m_TargetDir, m_lvResult,
 					                         m_FileExistMode );
 					break;
 				case BooksWorkMode.DeleteCheckedBooks:
 					this.Text = "Удаление помеченных копий книг";
-					this.Text += String.Format( ": Файлов: {0}", m_lvResult.CheckedItems.Count );
+					this.Text += String.Format( ": {0}", m_lvResult.CheckedItems.Count );
 					DeleteCheckedFiles( ref m_bwcmd, ref e, m_lvResult );
 					break;
 				default:
