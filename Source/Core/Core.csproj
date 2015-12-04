@@ -54,11 +54,14 @@
     <Compile Include="AutoCorrector\AutoCorrectorForm.Designer.cs">
       <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AutoCorrector\BinaryCorrector.cs" />
     <Compile Include="AutoCorrector\CiteCorrector.cs" />
     <Compile Include="AutoCorrector\DateCorrector.cs" />
+    <Compile Include="AutoCorrector\EmptyLineCorrector.cs" />
     <Compile Include="AutoCorrector\EpigraphCorrector.cs" />
     <Compile Include="AutoCorrector\FB2AutoCorrector.cs" />
     <Compile Include="AutoCorrector\FB2CleanCode.cs" />
+    <Compile Include="AutoCorrector\FictionBookTagCorrector.cs" />
     <Compile Include="AutoCorrector\GenreCorrector.cs" />
     <Compile Include="AutoCorrector\ImageCorrector.cs" />
     <Compile Include="AutoCorrector\IWorker.cs" />

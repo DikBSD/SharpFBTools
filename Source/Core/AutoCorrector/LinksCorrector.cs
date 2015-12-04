@@ -116,6 +116,14 @@ namespace Core.AutoCorrector
 				}
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			
+			// обработка неверного атрибута тега <a>: <a href="#note01" type="note"> => <a l:href="#note01" type="note">
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "<a +(?'hr'href=\")",
+					"<a l:${hr}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			
 			return _xmlText;
 		}
 	}

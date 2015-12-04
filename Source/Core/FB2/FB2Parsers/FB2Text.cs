@@ -157,29 +157,17 @@ namespace Core.FB2.FB2Parsers
 			
 			//  правка тега <FictionBook
 			int FictionBookTagIndex = InputString.IndexOf( "<FictionBook" );
-			string FictionBookTag = "<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:l=\"http://www.w3.org/1999/xlink\">";
+			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
 			if ( FictionBookTagIndex == -1 ) {
 				// нет тега <FictionBook
 				int index = InputString.LastIndexOf( '>' );
 				string left = InputString.Substring( 0, index );
 				string right = InputString.Substring( index );
-				InputString = left + " " + FictionBookTag + right;
+				InputString = left + " " + fbtc.NewFictionBookTag + right;
 			} else {
 				// тег <FictionBook есть
-				Regex regex  = new Regex( "<FictionBook [^>]+>", RegexOptions.None );
-				Match m = regex.Match( InputString );
-				if ( m.Success ) {
-					string FBookTag = m.Value;
-					int xmlnsIndex = FBookTag.IndexOf( "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2." );
-					int xmlnsLinkIndex = FBookTag.IndexOf( "=\"http://www.w3.org/1999/xlink\"" );
-					if ( xmlnsIndex == -1 || xmlnsLinkIndex == -1 ) {
-						try {
-							InputString = Regex.Replace(
-								InputString, "<FictionBook [^>]+>", FictionBookTag, RegexOptions.None
-							);
-						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-					}
-				}
+				// обработка головного тега FictionBook и пространства имен
+				InputString = fbtc.StartTagCorrect( InputString );
 			}
 			
 			string DescCloseTag = "</description>";
@@ -194,10 +182,12 @@ namespace Core.FB2.FB2Parsers
 				_Description = InputString.Substring( 0, IndexDescriptionEnd );
 				if ( _Encoding.Equals( "windows-1251" ) && isUnicodeCharExists() ) {
 					_Encoding = "UTF-8";
-					_Description = Regex.Replace(
-						_Description, "(?<=encoding=\").+?(?=\")",
-						"UTF-8", RegexOptions.IgnoreCase
-					);
+					try {
+						_Description = Regex.Replace(
+							_Description, "(?<=encoding=\").+?(?=\")",
+							"UTF-8", RegexOptions.IgnoreCase
+						);
+					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				}
 				
 				try {
@@ -284,42 +274,6 @@ namespace Core.FB2.FB2Parsers
 			// обработка неверного значения кодировки файла
 			regex = new Regex( "(?<=encoding=\")(?:(?:wutf-8)|(?:utf8))(?=\")", RegexOptions.IgnoreCase );
 			_Description = regex.Replace( _Description, "utf-8" );
-			
-			// обработка NameSpace
-			int FictionBookTagIndex = _StartTags.IndexOf( "<FictionBook" );
-			string xmlns = "xmlns:l";
-			regex = new Regex( "(?:xmlns:xlink)", RegexOptions.IgnoreCase );
-			Match m = regex.Match( _Description );
-			if ( m.Success )
-				xmlns = m.Value;
-			else {
-				m = regex.Match( _Bodies );
-				if ( m.Success )
-					xmlns = m.Value;
-				else {
-					regex = new Regex( "(?:xmlns:l)", RegexOptions.IgnoreCase );
-					if ( m.Success )
-						xmlns = m.Value;
-					else {
-						m = regex.Match( _Bodies );
-						if ( m.Success )
-							xmlns = m.Value;
-					}
-				}
-			}
-			string xmlnsLink_q = xmlns + "=\"http://www.w3.org/1999/xlink\"";
-			if ( _StartTags.IndexOf( "='http://www.w3.org/1999/xlink'" ) == -1 ) {
-				if ( _StartTags.IndexOf( xmlnsLink_q ) == -1 ) {
-					if ( FictionBookTagIndex != -1) {
-						int index = _StartTags.LastIndexOf( '>' );
-						string left = _StartTags.Substring( 0, index );
-						string right = _StartTags.Substring( index );
-						string newStartTags = left + " " + xmlnsLink_q + right;
-						_Description = _Description.Replace( _StartTags, newStartTags );
-						_StartTags = newStartTags;
-					}
-				}
-			}
 		}
 		#endregion
 	}

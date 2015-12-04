@@ -159,6 +159,9 @@ namespace Core.AutoCorrector
 									"<cite>${texts}</cite>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+						} else if ( tagPair.PreviousTag.Equals("</section>") && tagPair.NextTag.Equals("<section>") ) {
+							// обрамление Эпиграфа тегами <section> ... <empty-line /></section> в случае если до Эпиграфа стоит тег </section>, а после Эпиграфа - тег <section> : </section><epigraph><p>Текст</p><p>Текст</p></epigraph><section> => </section><section><epigraph><p>Текст</p><p>Текст</p></epigraph><empty-line/></section><section>
+							NewTag = "<section>" + NewTag + "<empty-line /></section>";
 						} else if ( tagPair.PreviousTag.Equals("</title>") || tagPair.PreviousTag.Equals("<section>") ) {
 							// Обработка Эпиграфа с Аннотацией в случае: </title><epigraph><annotation><p>Текст.</p><p>Текст.</p><empty-line /><p>Текст</p><p><emphasis>Текст</emphasis></p><p>Текст</p></annotation></epigraph>
 							try {
@@ -174,7 +177,7 @@ namespace Core.AutoCorrector
 							// замена epigraph на cite в случае, если перед простым Эпиграфом находится </p><empty-line />
 							NewTag = NewTag.Replace( "<epigraph>", "<cite>" ).Replace( "</epigraph>", "</cite>" );
 						} else if ( tagPair.PreviousTag.Equals("</annotation>") ) {
-							// замена epigraph на cite в случае, если перед простым Эпиграфом находится </p><empty-line />
+							// обрамление Эпиграфа тегами <section> ... <empty-line /></section>
 							NewTag = "<section>" + NewTag + "<empty-line /></section>";
 						}
 					} else if ( tagPair.StartTagCount == 2 ) {
@@ -208,15 +211,16 @@ namespace Core.AutoCorrector
 									"${epigraph}${texts}<text-author><${tag1}>${author}</${tag1}></text-author>${_epigraph}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 								); //
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-						} else {
-							// обработка Эпиграфа с текстом и Эпиграфом вместо Автора эпиграфа: <epigraph><p><emphasis>Текст</emphasis></p><p>Текст</p><epigraph><p><emphasis>Достоевский</emphasis></p></epigraph></epigraph><epigraph>
-							try {
-								NewTag = Regex.Replace(
-									NewTag, @"(?'epigraph'<epigraph>\s*)(?'texts'(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?[^<]+?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?)<epigraph>\s*<p>\s*(?:<(?'tag1'strong|emphasis)\b>\s*?)(?'author'[^<]+?)</\k'tag1'>\s*</p>\s*?</epigraph>\s*?(?'_epigraph'</epigraph>)",
-									"${epigraph}${texts}<text-author><${tag1}>${author}</${tag1}></text-author>${_epigraph}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-								); //
-							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 						}
+						
+						// Обработка Эпиграфа вида: <epigraph><empty-line/><p>Текст</p><p>Текст.</p><epigraph><empty-line/><p><emphasis>Автор</emphasis> </p></epigraph></epigraph> => <epigraph><empty-line/><p>Текст</p><p>Текст.</p><text-author><emphasis>Автор</emphasis></text-author></epigraph>
+						try {
+							NewTag = Regex.Replace(
+								NewTag, @"(?<=<epigraph>)\s*(?'p'(?:<empty-line ?/>)?\s*(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?[^<]+?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*(?:<empty-line ?/>)?\s*)(?:<epigraph>\s*(?:<empty-line ?/>)?\s*<p>)(?'author'<(?'tag1'strong|emphasis)>[^<]+</\k'tag1'>)(?: ?</p>\s*(?:<empty-line ?/>)?\s*</epigraph>\s*)(?=</epigraph>)",
+								"${p}<text-author>${author}</text-author>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+							);
+						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+						
 					} else if ( tagPair.StartTagCount == 3 ) {
 						// обработка Эпиграфа с вложенным Эпиграфом и Эпиграфом вместо Автора эпиграфа: <epigraph><epigraph><p><strong>Текст</strong></p><p>Текст</p></epigraph><epigraph><emphasis><p>Автор</p></emphasis></epigraph></epigraph>
 						try {

@@ -40,30 +40,31 @@ namespace Core.AutoCorrector
 			else if ( fi.Length < 4 )
 				return;
 			
-			// обработка < > в тексте, кроме fb2 тегов
-			Hashtable htTags = FB2CleanCode.getTagsHashtable();
+			Hashtable htTags = FB2CleanCode.getTagsHashtable(); // обработка < > в тексте, кроме fb2 тегов
 			
+			// обработка головного тега FictionBook и пространства имен
 			FB2Text fb2Text = new FB2Text( FilePath );
 			if ( fb2Text.Description.IndexOf( "<FictionBook" ) == -1 ) {
+				// тег FictionBook отсутствует в книге
+				FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
 				fb2Text.Description = fb2Text.Description.Insert(
 					fb2Text.Description.IndexOf( "<description>" ),
-					"<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:l=\"http://www.w3.org/1999/xlink\">"
+					fbtc.NewFictionBookTag
 				);
 			}
-			string enc = fb2Text.Description.Substring( 0, fb2Text.Description.IndexOf( "<FictionBook" ) );
-			if ( enc.ToLower().IndexOf( "wutf-8" ) > 0 ) {
-				enc = enc.Substring( enc.ToLower().IndexOf( "wutf-8" ), 6 );
-				fb2Text.Description = fb2Text.Description.Replace( enc, "utf-8" );
-			} else if ( enc.ToLower().IndexOf( "utf8" ) > 0 ) {
-				enc = enc.Substring( enc.ToLower().IndexOf( "utf8" ), 4 );
-				fb2Text.Description = fb2Text.Description.Replace( enc, "utf-8" );
-			}
+
+			// обработка неверного значения кодировки файла
+			Regex regex = new Regex( "(?<=encoding=\")(?:(?:wutf-8)|(?:utf8))(?=\")", RegexOptions.IgnoreCase );
+			fb2Text.Description = regex.Replace( fb2Text.Description, "utf-8" );
+			// автокорректировка раздела description
 			fb2Text.Description = autoCorrectDescription( fb2Text.Bodies, fb2Text.Description, htTags );
+			// автокорректировка разделов body
 			fb2Text.Bodies = autoCorrect( fb2Text.Bodies, htTags );
+			// автокорректировка разделов binary
 			if( fb2Text.BinariesExists ) {
-				// обработка ссылок
-				LinksCorrector linksCorrector = new LinksCorrector( fb2Text.Binaries );
-				fb2Text.Binaries = linksCorrector.correct();
+				// обработка ссылок-названий картинок в binary
+				BinaryCorrector binaryCorrector = new BinaryCorrector( fb2Text.Binaries );
+				fb2Text.Binaries = binaryCorrector.correct();
 			}
 			
 			try {
@@ -85,19 +86,10 @@ namespace Core.AutoCorrector
 			if ( string.IsNullOrWhiteSpace( XmlDescription ) || XmlDescription.Length == 0 )
 				return XmlDescription;
 			
-			//  правка пространства имен
-			string search21 = "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.1\"";
-			string search22 = "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.2\"";
-			string replace = "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\"";
-			int index = XmlDescription.IndexOf( search21 );
-			if ( index > 0 ) {
-				XmlDescription = XmlDescription.Replace( search21, replace );
-			} else {
-				index = XmlDescription.IndexOf( search22 );
-				if ( index > 0 )
-					XmlDescription = XmlDescription.Replace( search22, replace );
-			}
-			
+			// обработка головного тега FictionBook и пространства имен
+			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
+			XmlDescription = fbtc.StartTagCorrect( XmlDescription );
+
 			try {
 				/***********************************************
 				 * удаление атрибутов xmlns в теге description *
@@ -262,69 +254,10 @@ namespace Core.AutoCorrector
 				/****************************
 				 * Обработка <empty-line /> *
 				 ***************************/
-				// удаление тегов <p> и </p> в структуре <p> <empty-line /> </p>
-				try {
-					InputString = Regex.Replace(
-						InputString, @"(?:(?:<p>\s*)(?'empty'<empty-line\s*?/>)(?:\s*</p>))",
-						"${empty}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				// Удаление <empty-line/> между </section> и <section>
-				try {
-					InputString = Regex.Replace(
-						InputString, @"(?<=</section>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=<section>)",
-						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				// Удаление <empty-line/> между </section> и </section>
-				try {
-					InputString = Regex.Replace(
-						InputString, @"(?<=</section>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=</section>)",
-						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				// Удаление <empty-line/> между </epigraph> и </section>
-				try {
-					InputString = Regex.Replace(
-						InputString, @"(?<=</epigraph>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=</section>)",
-						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				// Удаление <empty-line/> между </section> и </body>
-				try {
-					InputString = Regex.Replace(
-						InputString, @"(?<=</section>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=</body>)",
-						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				// Удаление <empty-line/> между </title> и <section>
-				try {
-					InputString = Regex.Replace(
-						InputString, @"(?<=</title>)\s*?(?:<empty-line\s*?/>\s*?){1,}\s*?(?=<section>)",
-						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				// удаление <empty-line /> из текста до тега </p>: <empty-line /></p>
-				try {
-					InputString = Regex.Replace(
-						InputString, @"<empty-line */>\s*(?=</p>)",
-						"", RegexOptions.Multiline // регистр не игнорировать!!!
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				// удаление <empty-line /> из текста после тега <p>: <p><empty-line />
-				try {
-					InputString = Regex.Replace(
-						InputString, @"(?<=<p>)\s*<empty-line */>",
-						"", RegexOptions.Multiline // регистр не игнорировать!!!
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				// удаление <empty-line /> из текста внутри тегов <p> ... </p> (в перечисление не добавил <> - они работают неверно - удаляются <empty-line /> и между целыми тегами)
-				try {
-					InputString = Regex.Replace(
-						InputString, "(?'start'(?:[-\\w\\+=\\*—,\\.\\?!:;…\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])|<p>)\\s*?<empty-line *?/>\\s*?(?'end'[-\\w\\+=\\*—,\\.\\?!:;\"'`#&%$@«»\\(\\{\\[\\)\\}\\]])",
-						"${start} ${end}", RegexOptions.Multiline // регистр не игнорировать!!!
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				if ( InputString.IndexOf( "<empty-line/>" ) != -1 || InputString.IndexOf( "<empty-line />" ) != -1) {
+					EmptyLineCorrector emCorrector = new EmptyLineCorrector( InputString );
+					InputString = emCorrector.correct();
+				}
 				
 				/********************************************************************
 				 * удаление пустых атрибутов xmlns="" в тегах body, title и section *
@@ -339,7 +272,7 @@ namespace Core.AutoCorrector
 				// удаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:xlink="http://www.w3.org/1999/xlink">
 				try {
 					InputString = Regex.Replace(
-						InputString, "(?<=<body )\\b(xmlns|l)\\b:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" \\b(xmlns|l)\\b:xlink=\"http://www.w3.org/1999/xlink\"(?=>)",
+						InputString, "(?<=<body) \\b(xmlns|l)\\b:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" \\b(xmlns|l)\\b:xlink=\"http://www.w3.org/1999/xlink\"(?=>)",
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}

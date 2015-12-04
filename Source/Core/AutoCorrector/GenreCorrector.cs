@@ -100,6 +100,11 @@ namespace Core.AutoCorrector
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?litrpg\\s*?(?=</genre>)",
 				"${genre}sf_litrpg", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
+			// обработка жанра SF
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?SF\\s*?(?=</genre>)",
+				"${genre}sf", RegexOptions.Multiline
+			);
 			
 			/* Юмор */
 			// обработка жанра entert_humor, foreign_humor
@@ -314,20 +319,15 @@ namespace Core.AutoCorrector
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?foreign_edu\\s*?(?=</genre>)",
 				"${genre}sci_popular", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
-			// обработка жанра psy_social
+			// обработка жанра psy_social, sociology_book, nonfiction_sociology, nonfiction_social_sci
 			_xmlText = Regex.Replace(
-				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?psy_social\\s*?(?=</genre>)",
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(psy_social|sociology_book|nonfiction_sociology|nonfiction_social_sci|nonfiction_social_work)\\s*?(?=</genre>)",
 				"${genre}sci_social_studies", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			// обработка жанра pedagogy_book
 			_xmlText = Regex.Replace(
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?pedagogy_book\\s*?(?=</genre>)",
 				"${genre}sci_pedagogy", RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
-			// обработка жанра sociology_book
-			_xmlText = Regex.Replace(
-				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?sociology_book\\s*?(?=</genre>)",
-				"${genre}sci_social_studies", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			
 			/* Поэзия */
@@ -355,9 +355,9 @@ namespace Core.AutoCorrector
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(religion_buddhism|rel_boddizm)\\s*?(?=</genre>)",
 				"${genre}religion_budda", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
-			// обработка жанра chris_pravoslavie, chris_orthodoxy
+			// обработка жанра chris_pravoslavie, chris_orthodoxy, Православие
 			_xmlText = Regex.Replace(
-				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(chris_pravoslavie|chris_orthodoxy)\\s*?(?=</genre>)",
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(chris_pravoslavie|chris_orthodoxy|Православие)\\s*?(?=</genre>)",
 				"${genre}religion_orthodoxy", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			// обработка жанра literature_religion, foreign_religion
@@ -411,9 +411,9 @@ namespace Core.AutoCorrector
 			);
 			
 			/* Публицистика и документалистика */
-			// обработка жанра biogr_historical, biogr_arts, biography, biogr_leaders, biogr_professionals
+			// обработка жанра biogr_historical, biogr_arts, biography, biogr_leaders, biogr_professionals, biogr_sports
 			_xmlText = Regex.Replace(
-				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(biogr_historical|biography|biogr_leaders|biogr_arts|biogr_professionals)\\s*?(?=</genre>)",
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(biogr_historical|biography|biogr_leaders|biogr_arts|biogr_professionals|biogr_sports)\\s*?(?=</genre>)",
 				"${genre}nonf_biography", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			// обработка жанра foreign_publicism
@@ -452,6 +452,11 @@ namespace Core.AutoCorrector
 			_xmlText = Regex.Replace(
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?psy_personal\\s*?(?=</genre>)",
 				"${genre}management", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			// обработка жанра business
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?business\\s*?(?=</genre>)",
+				"${genre}popular_business", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			
 			/* Семья и здоровье */
@@ -530,6 +535,23 @@ namespace Core.AutoCorrector
 			_xmlText = Regex.Replace(
 				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?foreign_comp\\s*?(?=</genre>)",
 				"${genre}computers", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			
+			/* Справочная литература */
+			// обработка жанра ref_books
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?ref_books\\s*?(?=</genre>)",
+				"${genre}ref_ref", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			// обработка жанра hand-book
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?hand-book\\s*?(?=</genre>)",
+				"${genre}ref_guide", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			// обработка жанра ref_encyclopedia
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?ref_encyclopedia\\s*?(?=</genre>)",
+				"${genre}ref_encyc", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			
 			// постобработка (разбиение на теги (смежные теги) )

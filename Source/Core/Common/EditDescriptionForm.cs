@@ -137,8 +137,8 @@ namespace Core.Common
 				? "(" + fb2.TISrcLang + ")" : "(" + fb2.STISrcLang + ")";
 			if( !string.IsNullOrEmpty(Lang) ) {
 				for( int i = 0; i != cbLang.Items.Count; ++i ) {
-					string s = cbLang.Items[i].ToString();
-					if( s.IndexOf( Lang ) > -1 ) {
+					string s = cbLang.Items[i].ToString().ToLower();
+					if( s.IndexOf( Lang.ToLower() ) > -1 ) {
 						cbLang.SelectedIndex = i;
 						break;
 					}
@@ -146,8 +146,8 @@ namespace Core.Common
 			}
 			if( !string.IsNullOrEmpty(SrcLang) ) {
 				for( int i = 0; i != cbSrcLang.Items.Count; ++i ) {
-					string s = cbSrcLang.Items[i].ToString();
-					if( s.IndexOf( SrcLang ) > -1 ) {
+					string s = cbSrcLang.Items[i].ToString().ToLower();
+					if( s.IndexOf( SrcLang.ToLower() ) > -1 ) {
 						cbSrcLang.SelectedIndex = i;
 						break;
 					}

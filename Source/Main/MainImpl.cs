@@ -10,6 +10,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Drawing;
+
 using SharpFBTools.Tools;
 
 namespace Main
@@ -75,7 +77,7 @@ namespace Main
 		public static void ToggleMode( List<ToolStripButton> tsbl, List<UserControl> ucl,
 		                              ToolStripButton Btn, UserControl Uc, ToolStripContainer tscMain ) {
 			// переключение состояния кнопки btn
-			if( Btn.Checked != true ) {
+			if( !Btn.Checked ) {
 				Btn.Checked = true;
 				// отключаем все кнопки, кроме btn
 				foreach( ToolStripButton btn in tsbl ) {
@@ -85,9 +87,8 @@ namespace Main
 				}
 				// отключаем видимость всех имплантированных панелей, кроме uc
 				foreach( UserControl uc in ucl ) {
-					if( uc != Uc ) {
+					if( uc != Uc )
 						uc.Visible = false;
-					}
 				}
 				// панель Uc делаем видимой
 				tscMain.ContentPanel.Controls.Add( Uc );
