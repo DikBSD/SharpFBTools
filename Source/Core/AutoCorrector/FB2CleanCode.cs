@@ -87,7 +87,9 @@ namespace Core.AutoCorrector
 			"<FictionBook ", "</FictionBook>",
 			"<stylesheet ", "</stylesheet>", "<style>", "</style>", "<style ",
 			"<output>", "</output>", "<part>", "</part>", "<part ",
-			"<output-document-class>", "</output-document-class>", "<output-document-class ", "<?xml "
+			"<output-document-class>", "</output-document-class>", "<output-document-class ", "<?xml ",
+			
+			"<!--", "-->"
 		};
 		private static string _RegAmp = @"(?!&(?:amp|lt|gt|(#x[\d\w]{4})|(?:#\d{1,6}));)(&)";//пропускае юникод, символы в десятичной кодировке и меняем уголки
 		

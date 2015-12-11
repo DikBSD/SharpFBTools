@@ -306,7 +306,11 @@ namespace Core.Corrector
 				StatusTextBox.Text += string.Format(@"{0}  =>  ( {1} )  =>", file, getFileLength( file ) );
 				WorksWithBooks.autoCorrect( file, m_sharpZipLib, m_fv2Validator );
 				DateTime dtEnd = DateTime.Now;
-				string sTime = dtEnd.Subtract( dtStart ).ToString().Substring( 0, 11 ) + " (ч:м:с.мс)";
+				string sTime = dtEnd.Subtract( dtStart ).ToString();
+				try {
+					sTime = sTime.Substring( 0, 11 );
+				} catch { }
+				sTime = sTime + " (ч:м:с.мс)";
 				StatusTextBox.Text += string.Format("  {0}", sTime ) + "\r\n";
 				
 				// обработанные файлы

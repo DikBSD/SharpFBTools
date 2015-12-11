@@ -869,6 +869,8 @@ namespace Core.Duplicator
 				}
 				bw.ReportProgress( i ); // отобразим данные в контролах
 			}
+			// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента
+			removeNotCopiesEntryInHashTable( ref htFB2ForAuthorFIO );
 			// удаление из списка всех файлов обработанные книги (файлы)
 			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
 		}

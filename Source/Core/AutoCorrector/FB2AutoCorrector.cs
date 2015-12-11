@@ -202,6 +202,24 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				
+				/**********************************
+				 * Обработка history и annotation *
+				 **********************************/
+				// вставка недостающего <p> : <history>Текст</p></history> => <history><p>Текст</p></history>
+				try {
+					XmlDescription = Regex.Replace(
+						XmlDescription, @"(?'tag'<(history|annotation)>)(?!<p>)",
+						"${tag}<p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				// вставка недостающего </p> : <history><p>Текст</history> => <history><p>Текст</p></history>
+				try {
+					XmlDescription = Regex.Replace(
+						XmlDescription, @"(?<!</p>)(?'tag'</(history|annotation)>)",
+						"</p>${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				
 			} catch (Exception /*ex*/) {
 //				MessageBox.Show(ex.Message);
 			}
