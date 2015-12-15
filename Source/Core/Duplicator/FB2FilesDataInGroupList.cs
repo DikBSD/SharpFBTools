@@ -21,7 +21,6 @@ namespace Core.Duplicator
 		
 		#region Закрытые данные класса
 		private string m_sGroup = null;
-		private string m_BookTitleForGroup	= string.Empty;	// Название Книги (для Группы)
 		#endregion
 		
 		#region конструкторы
@@ -40,10 +39,11 @@ namespace Core.Duplicator
 		#endregion
 		
 		#region Открытые методы класса
-		public void AddBookData( BookData abt ) {
-			this.Add( abt );
-		}
-		
+		/// <summary>
+		/// Проверка - таже самая ли это книга:
+		/// проверка производится по всем книгам в текущей Группе (в списке List)
+		/// </summary>
+		/// <param name="BookPath">Путь к проверяемой книге</param>
 		public bool isBookExists( string BookPath ) {
 			foreach( BookData bd in this ) {
 				if( bd.Path.Trim() == BookPath.Trim() )
@@ -89,11 +89,6 @@ namespace Core.Duplicator
 		public virtual string Group {
 			get { return m_sGroup; }
 			set { m_sGroup = value; }
-		}
-		// формирование Названия Книги для Названия Группы
-		public virtual string BookTitleForGroup {
-			get { return m_BookTitleForGroup; }
-			set { m_BookTitleForGroup = value; }
 		}
 		#endregion
 	}

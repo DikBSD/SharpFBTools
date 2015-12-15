@@ -412,6 +412,14 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 
+				/********************
+				 * Обработка Таблиц *
+				 *******************/
+				if ( InputString.IndexOf( "<table" ) != -1 ) {
+					TableCorrector tableCorrector = new TableCorrector ( ref InputString, false, false );
+					InputString = tableCorrector.correct();
+				}
+					
 				/**********************
 				 * Обработка тега <p> *
 				 *********************/

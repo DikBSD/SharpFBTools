@@ -242,7 +242,7 @@ namespace Core.FB2.FB2Parsers
 			if ( string.IsNullOrWhiteSpace( str ) || str.Length == 0 )
 				return encoding;
 			
-			Match match = Regex.Match( str, "(?<=encoding=\").+?(?=\")", RegexOptions.IgnoreCase);
+			Match match = Regex.Match( str, "(?<=encoding=\").+?(?=\")", RegexOptions.IgnoreCase );
 			if ( match.Success )
 				encoding = match.Value;
 			if ( encoding.ToLower() == "wutf-8" || encoding.ToLower() == "utf8" )

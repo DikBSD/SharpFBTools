@@ -7,6 +7,7 @@
  * License: GPL 2.1
  */
 using System;
+using System.IO;
 using System.Xml;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -75,20 +76,21 @@ namespace Core.FB2.FB2Parsers
 			return _fb2Path;
 		}
 		public string getEncoding() {
-			int Enc = _xmlDoc.InnerXml.IndexOf( "encoding" );
-			int FictionBook = _xmlDoc.InnerXml.IndexOf( "FictionBook" );
-			if ( Enc > -1 && FictionBook > -1) {
-				string xml = _xmlDoc.InnerXml.Substring( Enc, FictionBook ).Trim();
-				int StartXmlEnc = xml.IndexOf( '"', 0 );
-				if( StartXmlEnc > -1 ) {
-					string Encoding = xml.Substring( StartXmlEnc ).Trim();
-					int EndXmlEnc = Encoding.IndexOf( '"', 1 );
-					if( EndXmlEnc > -1 )
-						return Encoding.Substring( 1, EndXmlEnc-1 );
-				}
+			string encoding = "UTF-8";
+			string str = string.Empty;
+			using ( StreamReader reader = File.OpenText( _fb2Path ) ) {
+				str = reader.ReadLine();
 			}
 			
-			return string.Empty;
+			if ( string.IsNullOrWhiteSpace( str ) || str.Length == 0 )
+				return encoding;
+			
+			Match match = Regex.Match( str, "(?<=encoding=\").+?(?=\")", RegexOptions.IgnoreCase );
+			if ( match.Success )
+				encoding = match.Value;
+			if ( encoding.ToLower() == "wutf-8" || encoding.ToLower() == "utf8" )
+				encoding = "utf-8";
+			return encoding;
 		}
 		// удаление пробелов, табуляций, переносов строк в тексте тегов
 		public void removeWiteSpaceInTagsText( XmlNode ParrentNode ) {

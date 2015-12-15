@@ -70,6 +70,7 @@
     <Compile Include="AutoCorrector\ParaCorrector.cs" />
     <Compile Include="AutoCorrector\PoemCorrector.cs" />
     <Compile Include="AutoCorrector\StanzaCorrector.cs" />
+    <Compile Include="AutoCorrector\TableCorrector.cs" />
     <Compile Include="AutoCorrector\TagPair.cs" />
     <Compile Include="AutoCorrector\TagWorker.cs" />
     <Compile Include="AutoCorrector\TitleCorrector.cs" />
