@@ -3472,8 +3472,8 @@ namespace SharpFBTools.Tools
 			listViewFB2Files.BeginUpdate();
 			tsslblProgress.Text = "=>";
 			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
-				null, tboxSourceDir.Text.Trim(), cboxMode.SelectedIndex,
-				chBoxScanSubDir.Checked, lvFilesCount, listViewFB2Files, false
+				null, tboxSourceDir.Text.Trim(), cboxMode.SelectedIndex, cboxMode.Text,
+				chBoxScanSubDir.Checked, tscbGroupCountForList.SelectedIndex, lvFilesCount, listViewFB2Files, false
 			);
 			comrareForm.ShowDialog();
 			EndWorkMode EndWorkMode = comrareForm.EndMode;
@@ -3512,8 +3512,8 @@ namespace SharpFBTools.Tools
 			ConnectListViewResultEventHandlers( false );
 			listViewFB2Files.BeginUpdate();
 			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
-				sfdLoadList.FileName, tboxSourceDir.Text.Trim(), cboxMode.SelectedIndex,
-				chBoxScanSubDir.Checked, lvFilesCount, listViewFB2Files, false
+				sfdLoadList.FileName, tboxSourceDir.Text.Trim(), cboxMode.SelectedIndex, cboxMode.Text,
+				chBoxScanSubDir.Checked, tscbGroupCountForList.SelectedIndex, lvFilesCount, listViewFB2Files, false
 			);
 			Cursor.Current = Cursors.Default;
 			comrareForm.ShowDialog();

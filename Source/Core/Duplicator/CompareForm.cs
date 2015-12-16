@@ -33,6 +33,7 @@ using Colors			= Core.Common.Colors;
 using SearchCompareMode			= Core.Common.Enums.SearchCompareMode;
 using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
 using FilesCountViewDupCollumn	= Core.Common.Enums.FilesCountViewDupCollumn;
+using ResultViewDupCollumn		= Core.Common.Enums.ResultViewDupCollumn;
 
 namespace Core.Duplicator
 {
@@ -73,9 +74,12 @@ namespace Core.Duplicator
 			this.ProgressBar = new System.Windows.Forms.ProgressBar();
 			this.ProgressPanel = new System.Windows.Forms.Panel();
 			this.StatusLabel = new System.Windows.Forms.Label();
-			this.btnSaveToXml = new System.Windows.Forms.Button();
 			this.ControlPanel = new System.Windows.Forms.Panel();
+			this.btnSaveToXml = new System.Windows.Forms.Button();
 			this.btnStop = new System.Windows.Forms.Button();
+			this.cbGroupCountForList = new System.Windows.Forms.ComboBox();
+			this.lblGroupCountForList = new System.Windows.Forms.Label();
+			this.checkBoxSaveGroupsToXml = new System.Windows.Forms.CheckBox();
 			this.ProgressPanel.SuspendLayout();
 			this.ControlPanel.SuspendLayout();
 			this.SuspendLayout();
@@ -87,6 +91,8 @@ namespace Core.Duplicator
 			// 
 			// ProgressBar
 			// 
+			this.ProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			                                                                | System.Windows.Forms.AnchorStyles.Right)));
 			this.ProgressBar.Location = new System.Drawing.Point(16, 16);
 			this.ProgressBar.Margin = new System.Windows.Forms.Padding(4);
 			this.ProgressBar.Name = "ProgressBar";
@@ -97,78 +103,151 @@ namespace Core.Duplicator
 			// 
 			this.ProgressPanel.Controls.Add(this.StatusLabel);
 			this.ProgressPanel.Controls.Add(this.ProgressBar);
-			this.ProgressPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.ProgressPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ProgressPanel.Location = new System.Drawing.Point(0, 0);
 			this.ProgressPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.ProgressPanel.Name = "ProgressPanel";
-			this.ProgressPanel.Size = new System.Drawing.Size(688, 242);
+			this.ProgressPanel.Size = new System.Drawing.Size(892, 255);
 			this.ProgressPanel.TabIndex = 0;
 			// 
 			// StatusLabel
 			// 
+			this.StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			                                                                 | System.Windows.Forms.AnchorStyles.Left)
+			                                                                | System.Windows.Forms.AnchorStyles.Right)));
 			this.StatusLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.StatusLabel.Location = new System.Drawing.Point(15, 52);
 			this.StatusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.StatusLabel.Name = "StatusLabel";
-			this.StatusLabel.Size = new System.Drawing.Size(655, 176);
+			this.StatusLabel.Size = new System.Drawing.Size(655, 188);
 			this.StatusLabel.TabIndex = 1;
+			// 
+			// ControlPanel
+			// 
+			this.ControlPanel.BackColor = System.Drawing.Color.DarkGray;
+			this.ControlPanel.Controls.Add(this.btnSaveToXml);
+			this.ControlPanel.Controls.Add(this.btnStop);
+			this.ControlPanel.Controls.Add(this.cbGroupCountForList);
+			this.ControlPanel.Controls.Add(this.lblGroupCountForList);
+			this.ControlPanel.Controls.Add(this.checkBoxSaveGroupsToXml);
+			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
+			this.ControlPanel.Location = new System.Drawing.Point(684, 0);
+			this.ControlPanel.Margin = new System.Windows.Forms.Padding(4);
+			this.ControlPanel.Name = "ControlPanel";
+			this.ControlPanel.Size = new System.Drawing.Size(208, 255);
+			this.ControlPanel.TabIndex = 1;
 			// 
 			// btnSaveToXml
 			// 
-			this.btnSaveToXml.Dock = System.Windows.Forms.DockStyle.Top;
+			this.btnSaveToXml.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.btnSaveToXml.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnSaveToXml.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveToXml.Image")));
-			this.btnSaveToXml.Location = new System.Drawing.Point(0, 0);
+			this.btnSaveToXml.Location = new System.Drawing.Point(0, 113);
 			this.btnSaveToXml.Margin = new System.Windows.Forms.Padding(4);
 			this.btnSaveToXml.Name = "btnSaveToXml";
 			this.btnSaveToXml.Size = new System.Drawing.Size(208, 71);
-			this.btnSaveToXml.TabIndex = 0;
+			this.btnSaveToXml.TabIndex = 8;
 			this.btnSaveToXml.Text = "Прервать в файл...";
 			this.btnSaveToXml.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.btnSaveToXml.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.btnSaveToXml.UseVisualStyleBackColor = true;
 			this.btnSaveToXml.Click += new System.EventHandler(this.BtnSaveToXmlClick);
 			// 
-			// ControlPanel
-			// 
-			this.ControlPanel.BackColor = System.Drawing.Color.DarkGray;
-			this.ControlPanel.Controls.Add(this.btnStop);
-			this.ControlPanel.Controls.Add(this.btnSaveToXml);
-			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.ControlPanel.Location = new System.Drawing.Point(684, 0);
-			this.ControlPanel.Margin = new System.Windows.Forms.Padding(4);
-			this.ControlPanel.Name = "ControlPanel";
-			this.ControlPanel.Size = new System.Drawing.Size(208, 242);
-			this.ControlPanel.TabIndex = 1;
-			// 
 			// btnStop
 			// 
-			this.btnStop.Dock = System.Windows.Forms.DockStyle.Top;
+			this.btnStop.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-			this.btnStop.Location = new System.Drawing.Point(0, 71);
+			this.btnStop.Location = new System.Drawing.Point(0, 184);
 			this.btnStop.Margin = new System.Windows.Forms.Padding(4);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(208, 71);
-			this.btnStop.TabIndex = 2;
+			this.btnStop.TabIndex = 7;
 			this.btnStop.Text = "Прервать";
 			this.btnStop.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.btnStop.UseVisualStyleBackColor = true;
 			this.btnStop.Click += new System.EventHandler(this.BtnStopClick);
 			// 
+			// cbGroupCountForList
+			// 
+			this.cbGroupCountForList.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbGroupCountForList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbGroupCountForList.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.cbGroupCountForList.FormattingEnabled = true;
+			this.cbGroupCountForList.Items.AddRange(new object[] {
+			                                        	"5",
+			                                        	"10",
+			                                        	"50",
+			                                        	"100",
+			                                        	"150",
+			                                        	"200",
+			                                        	"250",
+			                                        	"300",
+			                                        	"350",
+			                                        	"400",
+			                                        	"450",
+			                                        	"500",
+			                                        	"550",
+			                                        	"600",
+			                                        	"650",
+			                                        	"700",
+			                                        	"750",
+			                                        	"800",
+			                                        	"850",
+			                                        	"900",
+			                                        	"950",
+			                                        	"1000",
+			                                        	"1500",
+			                                        	"2000",
+			                                        	"2500",
+			                                        	"3000",
+			                                        	"3500",
+			                                        	"4000",
+			                                        	"4500",
+			                                        	"5000"});
+			this.cbGroupCountForList.Location = new System.Drawing.Point(0, 85);
+			this.cbGroupCountForList.Name = "cbGroupCountForList";
+			this.cbGroupCountForList.Size = new System.Drawing.Size(208, 24);
+			this.cbGroupCountForList.TabIndex = 5;
+			// 
+			// lblGroupCountForList
+			// 
+			this.lblGroupCountForList.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblGroupCountForList.ForeColor = System.Drawing.Color.Navy;
+			this.lblGroupCountForList.Location = new System.Drawing.Point(0, 62);
+			this.lblGroupCountForList.Name = "lblGroupCountForList";
+			this.lblGroupCountForList.Size = new System.Drawing.Size(208, 23);
+			this.lblGroupCountForList.TabIndex = 4;
+			this.lblGroupCountForList.Text = "Число Групп копий в файле:";
+			// 
+			// checkBoxSaveGroupsToXml
+			// 
+			this.checkBoxSaveGroupsToXml.Checked = true;
+			this.checkBoxSaveGroupsToXml.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxSaveGroupsToXml.Dock = System.Windows.Forms.DockStyle.Top;
+			this.checkBoxSaveGroupsToXml.ForeColor = System.Drawing.Color.Blue;
+			this.checkBoxSaveGroupsToXml.Location = new System.Drawing.Point(0, 0);
+			this.checkBoxSaveGroupsToXml.Name = "checkBoxSaveGroupsToXml";
+			this.checkBoxSaveGroupsToXml.Size = new System.Drawing.Size(208, 62);
+			this.checkBoxSaveGroupsToXml.TabIndex = 3;
+			this.checkBoxSaveGroupsToXml.Text = "Сохранять результат (Группы) сразу в файлы без построения дерева";
+			this.checkBoxSaveGroupsToXml.UseVisualStyleBackColor = true;
+			this.checkBoxSaveGroupsToXml.CheckedChanged += new System.EventHandler(this.CheckBoxSaveGroupsToXmlCheckedChanged);
+			// 
 			// CompareForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(892, 242);
+			this.ClientSize = new System.Drawing.Size(892, 255);
 			this.ControlBox = false;
 			this.Controls.Add(this.ControlPanel);
 			this.Controls.Add(this.ProgressPanel);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(910, 287);
+			this.MaximumSize = new System.Drawing.Size(1200, 600);
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(910, 300);
 			this.Name = "CompareForm";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
@@ -179,6 +258,9 @@ namespace Core.Duplicator
 			this.ResumeLayout(false);
 
 		}
+		private System.Windows.Forms.ComboBox cbGroupCountForList;
+		private System.Windows.Forms.Label lblGroupCountForList;
+		private System.Windows.Forms.CheckBox checkBoxSaveGroupsToXml;
 		private System.Windows.Forms.Label StatusLabel;
 		private System.Windows.Forms.SaveFileDialog sfdList;
 		private System.Windows.Forms.ProgressBar ProgressBar;
@@ -190,9 +272,10 @@ namespace Core.Duplicator
 		
 		#region Закрытые данные класса
 		private const string m_sMessTitle		= "SharpFBTools - Поиск одинаковых fb2 файлов";
-		private readonly string m_sSource		= string.Empty;
-		private readonly bool m_bScanSubDirs	= false;
+		private readonly string m_Source		= string.Empty;
+		private readonly bool m_ScanSubDirs	= false;
 		private int m_CompareMode				= 0; // режим сравнения книг на определение копий
+		private string m_CompareModeName		= string.Empty; // название режима сравнения книг на определение копий
 		private readonly bool m_autoResizeColumns	= false;
 		private readonly string m_fromXmlPath		= null;	// null - полное сканирование; Путь - возобновление сравнения их xml
 		private readonly string m_TempDir	= Settings.Settings.TempDir;
@@ -217,18 +300,22 @@ namespace Core.Duplicator
 		
 		private List<string> _nonOpenedFile = new List<string>();
 		private const string _nonOpenedFB2FilePath = "_DuplicatorNonOpenedFile.xml";
+
 		#endregion
 		
-		public CompareForm( string fromXmlPath, string sSource, int CompareMode, bool ScanSubDirs,
-		                   ListView lvFilesCount, ListView listViewFB2Files, bool AutoResizeColumns )
+		public CompareForm( string fromXmlPath, string sSource, int CompareMode, string CompareModeName,
+		                   bool ScanSubDirs, int GroupCountForList, ListView lvFilesCount, ListView listViewFB2Files, bool AutoResizeColumns )
 		{
 			InitializeComponent();
-			m_sSource			= sSource;
-			m_bScanSubDirs		= ScanSubDirs;
+			m_Source			= sSource;
+			m_ScanSubDirs		= ScanSubDirs;
 			m_CompareMode		= CompareMode;
+			m_CompareModeName	= CompareModeName;
 			m_lvFilesCount		= lvFilesCount;
 			m_listViewFB2Files	= listViewFB2Files;
 			m_autoResizeColumns	= AutoResizeColumns;
+			
+			cbGroupCountForList.SelectedIndex = GroupCountForList;
 			
 			InitializeBackgroundWorker();
 			InitializeRenewBackgroundWorker();
@@ -262,7 +349,7 @@ namespace Core.Duplicator
 		}
 		
 		public string getSourceDirFromRenew() {
-			return m_sSource;
+			return m_Source;
 		}
 		#endregion
 		
@@ -291,14 +378,14 @@ namespace Core.Duplicator
 			StatusLabel.Text += "Создание списка файлов для поиска копий fb2 книг...\r";
 			List<string> lDirList = new List<string>();
 			m_FilesList.Clear();
-			if( !m_bScanSubDirs ) {
+			if( !m_ScanSubDirs ) {
 				// сканировать только указанную папку
-				FilesWorker.makeFilesListFromDir( m_sSource, ref m_FilesList, true );
+				FilesWorker.makeFilesListFromDir( m_Source, ref m_FilesList, true );
 				m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
 				m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text =
-					FilesWorker.recursionDirsSearch( m_sSource, ref lDirList, true ).ToString();
+					FilesWorker.recursionDirsSearch( m_Source, ref lDirList, true ).ToString();
 				m_sv.AllFiles = FilesWorker.makeFilesListFromDirs( ref m_bw, ref e, ref lDirList, ref m_FilesList, true );
 				m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBooks].SubItems[1].Text = m_sv.AllFiles.ToString();
 			}
@@ -368,8 +455,12 @@ namespace Core.Duplicator
 			} else {
 				m_EndMode.EndMode = EndWorkModeEnum.Done;
 				m_EndMode.Message = "Поиск одинаковых fb2-файлов завершен!\nЗатрачено времени: "+sTime;
-				if ( m_listViewFB2Files.Items.Count == 0 )
-					m_EndMode.Message += "\n\nНе найдено НИ ОДНОЙ копии книг!";
+				if ( checkBoxSaveGroupsToXml.Checked ) {
+					m_EndMode.Message += "\n\nРезультат поиска (Группы копий) сохранен в папку '_Copies'";
+				} else {
+					if ( m_listViewFB2Files.Items.Count == 0 )
+						m_EndMode.Message += "\n\nНе найдено НИ ОДНОЙ копии книг!";
+				}
 			}
 			
 			if ( _nonOpenedFile.Count > 0 ) {
@@ -409,22 +500,40 @@ namespace Core.Duplicator
 					// 0. Абсолютно одинаковые книги (md5)
 					// Хэширование fb2-файлов
 					FilesHashForMd5Parser( ref bw, ref e, ref FilesList, ref m_htWorkingBook );
-					// Создание списка копий для режима "0. Абсолютно одинаковые книги (md5)"
-					makeTreeOfBookCopies( ref bw, ref e, ref m_htWorkingBook );
+					if ( !checkBoxSaveGroupsToXml.Checked ) {
+						// Создание списка копий
+						makeTreeOfBookCopies( ref bw, ref e, ref m_htWorkingBook );
+					} else {
+						// Сохранение Групп сразу в файлы без построения дерева
+						saveCopiesListToXml( ref bw, ref e, Convert.ToInt32( cbGroupCountForList.Text ),
+						                    m_CompareMode, m_CompareModeName, ref m_htWorkingBook );
+					}
 					break;
 				case SearchCompareMode.BookID:
 					// 1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)
 					// Хэширование fb2-файлов
 					FilesHashForIDParser( ref bw, ref e, ref FilesList, ref m_htWorkingBook );
-					// Создание списка копий для режима "1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)"
-					makeTreeOfBookCopies( ref bw, ref e, ref m_htWorkingBook );
+					if ( !checkBoxSaveGroupsToXml.Checked ) {
+						// Создание списка копий
+						makeTreeOfBookCopies( ref bw, ref e, ref m_htWorkingBook );
+					} else {
+						// Сохранение Групп сразу в файлы без построения дерева
+						saveCopiesListToXml( ref bw, ref e, Convert.ToInt32( cbGroupCountForList.Text ),
+						                    m_CompareMode, m_CompareModeName, ref m_htWorkingBook );
+					}
 					break;
 				case SearchCompareMode.BookTitle:
 					// 2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)
 					// Хэширование fb2-файлов
 					FilesHashForBTParser( ref bw, ref e, ref FilesList, ref m_htWorkingBook );
-					// Создание списка копий для режима "2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)"
-					makeTreeOfBookCopies( ref bw, ref e, ref m_htWorkingBook );
+					if ( !checkBoxSaveGroupsToXml.Checked ) {
+						// Создание списка копий
+						makeTreeOfBookCopies( ref bw, ref e, ref m_htWorkingBook );
+					} else {
+						// Сохранение Групп сразу в файлы без построения дерева
+						saveCopiesListToXml( ref bw, ref e, Convert.ToInt32( cbGroupCountForList.Text ),
+						                    m_CompareMode, m_CompareModeName, ref m_htWorkingBook );
+					}
 					break;
 				case SearchCompareMode.AuthorAndTitle:
 					// 3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
@@ -432,21 +541,38 @@ namespace Core.Duplicator
 					FilesHashForBTParser( ref bw, ref e, ref FilesList, ref m_htWorkingBook );
 					// Хэширование по одинаковым Авторам в пределах сгенерированных групп книг по одинаковым названиям
 					FilesHashForAuthorsParser( ref bw, ref e, ref m_htWorkingBook, ref m_htBookTitleAuthors );
-					// Создание списка копий для режима "3. Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)"
-					makeTreeOfBookCopies( ref bw, ref e, ref m_htBookTitleAuthors );
+					if ( !checkBoxSaveGroupsToXml.Checked ) {
+						// Создание списка копий
+						makeTreeOfBookCopies( ref bw, ref e, ref m_htBookTitleAuthors );
+					} else {
+						// Сохранение Групп сразу в файлы без построения дерева
+						saveCopiesListToXml( ref bw, ref e, Convert.ToInt32( cbGroupCountForList.Text ),
+						                    m_CompareMode, m_CompareModeName, ref m_htBookTitleAuthors );
+					}
 					break;
 				case SearchCompareMode.AuthorFIO:
 					// 4. Авторы с одинаковой Фамилией и инициалами
 					// Хэширование fb2-файлов
 					FilesHashForAuthorFIOParser( ref bw, ref e, ref FilesList, ref m_htWorkingBook );
-					// Создание списка копий для режима "4. Авторы с одинаковой Фамилией и инициалами"
-					makeTreeOfBookCopies( ref bw, ref e, ref m_htWorkingBook );
+					if ( !checkBoxSaveGroupsToXml.Checked ) {
+						// Создание списка копий
+						makeTreeOfBookCopies( ref bw, ref e, ref m_htWorkingBook );
+					} else {
+						// Сохранение Групп сразу в файлы без построения дерева
+						saveCopiesListToXml( ref bw, ref e, Convert.ToInt32( cbGroupCountForList.Text ),
+						                    m_CompareMode, m_CompareModeName, ref m_htWorkingBook );
+					}
 					break;
 			}
 		}
 		
 		// Создание дерева списка копий для всех режимов сравнения
 		private void makeTreeOfBookCopies( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref Hashtable ht ) {
+			// блокировка возможности сразу сохранять результат в xml файлы, минуя построения дерева.
+			checkBoxSaveGroupsToXml.Enabled = false;
+			lblGroupCountForList.Enabled = false;
+			cbGroupCountForList.Enabled = false;
+			
 			StatusLabel.Text += "Создание списка одинаковых fb2-файлов...\r";
 			ProgressBar.Maximum	= ht.Values.Count;
 			ProgressBar.Value	= 0;
@@ -1115,10 +1241,10 @@ namespace Core.Duplicator
 				new XComment("Файл копий fb2 книг, сохраненный после прерывания работы Дубликатора. Используется для возобновления поиска/сравнения"),
 				new XElement("Files", new XAttribute("type", "dup_break"),
 				             new XComment("Папка для поиска копий книг"),
-				             new XElement("SourceDir", m_sSource),
+				             new XElement("SourceDir", m_Source),
 				             new XComment("Настройки поиска-сравнения"),
 				             new XElement("Settings",
-				                          new XElement("ScanSubDirs", m_bScanSubDirs)
+				                          new XElement("ScanSubDirs", m_ScanSubDirs)
 				                         ),
 				             new XComment("Режим поиска-сравнения"),
 				             new XElement("CompareMode",
@@ -1499,8 +1625,188 @@ namespace Core.Duplicator
 //				new BookTitle(string.Empty), authors, genres, "ru", "EMPTY ID", "1.0", string.Empty, "UTF-8"
 //			);
 //		}
-		
 
+		#endregion
+		
+		// =============================================================================================
+		// 							СОХРАНЕНИЕ РЕЗУЛЬТАТА ПОИСКА КОПИЙ В XML-ФАЙЛЫ
+		// =============================================================================================
+		#region Сохранение результата поиска копий в xml-файлы
+		private void saveCopiesListToXml( ref BackgroundWorker bw, ref DoWorkEventArgs e, int GroupCountForList,
+		                                 int CompareMode, string CompareModeName, ref Hashtable ht ) {
+			// блокировка отмены сохранения результата в файлы
+			ControlPanel.Enabled = false;
+			
+			StatusLabel.Text += "Сохранение результата поиска в xml-файлы (папка '_Copies') без построения дерева копий...\r";
+			ProgressBar.Maximum	= ht.Values.Count;
+			ProgressBar.Value	= 0;
+			
+			string ToDirName = "_Copies";
+			if ( !Directory.Exists( ToDirName ) )
+				Directory.CreateDirectory( ToDirName );
+			
+			int ThroughGroupCounterForXML = 0;	// "сквозной" счетчик числа групп для каждого создаваемого xml файла копий
+			int GroupCounterForXML = 0;			// счетчик (в границых CompareModeName) числа групп для каждого создаваемого xml файла копий
+			int XmlFileNumber = 0;				// номер файла - для формирования имени создаваемого xml файла копий
+
+			// копии fb2 книг по группам
+			if ( ht.Values.Count > 0 ) {
+				XDocument doc = createXMLStructure( CompareMode, CompareModeName );
+				
+				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
+				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
+				int i = 0;					// прогресс
+				// сортировка ключей (групп)
+				List<string> keyList = makeSortedKeysForGroups( ref ht );
+				foreach ( string key in keyList ) {
+					if ( ( bw.CancellationPending ) )  {
+						e.Cancel = true;
+						return;
+					}
+					++m_sv.Group; // число групп одинаковых книг
+					// формирование представления Групп с их книгами
+					addAllBookInGroup( ref bw, ref e, ref doc, (FB2FilesDataInGroup)ht[key], ref BookInGroups, ref GroupCountInGroups );
+
+					++GroupCounterForXML;
+					++ThroughGroupCounterForXML;
+					doc.Root.Element("SelectedItem").SetValue("0");
+					if ( GroupCountForList <= ht.Values.Count ) {
+						if ( GroupCounterForXML >= GroupCountForList ) {
+							setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
+							doc.Save( Path.Combine( ToDirName, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
+							doc.Root.Element("Groups").Elements().Remove();
+							GroupCountInGroups = 0;
+							GroupCounterForXML = 0;
+							BookInGroups = 0;
+						} else {
+							// последний диаппазон Групп
+							if( ThroughGroupCounterForXML == ht.Values.Count ) {
+								setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
+								doc.Save( Path.Combine( ToDirName, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
+							}
+						}
+					} else {
+						setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
+						doc.Save( Path.Combine( ToDirName, "001.dup_lbc" ) );
+					}
+					bw.ReportProgress( ++i );
+				} // по всем Группам
+			}
+		}
+		private void addAllBookInGroup( ref BackgroundWorker bw, ref DoWorkEventArgs e,
+		                               ref XDocument doc, FB2FilesDataInGroup fb2BookList,
+		                               ref int BookInGroups, ref int GroupCountInGroups ) {
+			BookInGroups += fb2BookList.Count;
+			
+			// Добавление Группы в Список Групп
+			XElement xeGroup = null;
+			doc.Root.Element("Groups").Add(
+				xeGroup = new XElement(
+					"Group", new XAttribute("number", 0),
+					new XAttribute("count", fb2BookList.Count),
+					new XAttribute("name", fb2BookList.Group)
+				)
+			);
+			
+			int BookNumber = 0;			// номер Книги (Book number) В Группе (Group)
+			int BookCountInGroup = 0;	// число Книг (Group count) в Группе (Group)
+			
+			foreach( BookData bd in fb2BookList ) {
+				++m_sv.AllFB2InGroups; // число книг во всех группах одинаковых книг
+				string sForeColor = "WindowText";
+				string Ext = Path.GetExtension( bd.Path ).ToLower();
+				if( Ext == ".zip" || Ext == ".fbz" )
+					sForeColor = Colors.ZipFB2ForeColor.Name;
+				string Validation = m_fv2Validator.ValidatingFB2File( bd.Path );
+				if ( string.IsNullOrEmpty( Validation )  ) {
+					Validation = "Да";
+					sForeColor = Ext == ".fb2" ? "WindowText" : Colors.ZipFB2ForeColor.Name;
+				} else {
+					Validation = "Нет";
+					sForeColor = Colors.FB2NotValidForeColor.Name;
+				}
+				// Добавление Книги в Группу
+				xeGroup.Add(
+					new XElement("Book", new XAttribute("number", ++BookNumber),
+					             new XElement("Group", fb2BookList.Group),
+					             new XElement("Path", bd.Path),
+					             new XElement("BookTitle", MakeBookTitleString( bd.BookTitle )),
+					             new XElement("Authors", MakeAuthorsString( bd.Authors )),
+					             new XElement("Genres", MakeGenresString( bd.Genres )),
+					             new XElement("BookLang", bd.Lang),
+					             new XElement("BookID", bd.Id),
+					             new XElement("Version", bd.Version),
+					             new XElement("Encoding", bd.Encoding),
+					             new XElement("Validation", Validation),
+					             new XElement("FileLength", GetFileLength( bd.Path )),
+					             new XElement("FileCreationTime", GetFileCreationTime( bd.Path )),
+					             new XElement("FileLastWriteTime", FileLastWriteTime( bd.Path )),
+					             new XElement("ForeColor", sForeColor),
+					             new XElement("BackColor", "Window"),
+					             new XElement("IsChecked", false)
+					            )
+				);
+				
+				xeGroup.SetAttributeValue( "count", ++BookCountInGroup );
+				if ( !xeGroup.HasElements ) {
+					xeGroup.Remove();
+				}
+			} // по всем книгам Группы
+			++GroupCountInGroups;
+		}
+		// заполнение данными ноды для генерируемых файлов списка копий
+		private void setDataForNode( ref XDocument doc, int GroupCountInGroups, int BookInGroups ) {
+			doc.Root.Element("CompareData").SetElementValue("Groups", GroupCountInGroups);
+			doc.Root.Element("CompareData").SetElementValue("AllFB2InGroups", BookInGroups);
+			// заполнение аттрибутов
+			doc.Root.Element("Groups").SetAttributeValue("count", GroupCountInGroups);
+			doc.Root.Element("Groups").SetAttributeValue("books", BookInGroups);
+			IEnumerable<XElement> Groups = doc.Root.Element("Groups").Elements("Group");
+			int i = 0;
+			foreach( XElement Group in Groups )
+				Group.SetAttributeValue( "number", ++i );
+		}
+		// формирование строки из номера по Шаблону 00X
+		private string makeNNNStringOfNumber( int Number ) {
+			// число, смотрим, сколько цифр и добавляем слева нужное число 0.
+			if ( Number > 0 && Number <= 9 )
+				return "00" + Number.ToString();
+			else if ( Number >= 10 && Number <= 99 )
+				return "0" + Number.ToString();
+			else
+				return Number.ToString(); // число символов >= 3
+		}
+		private XDocument createXMLStructure( int CompareMode, string CompareModeName ) {
+			return new XDocument(
+				new XDeclaration("1.0", "utf-8", "yes"),
+				new XComment("Файл копий fb2 книг, сохраненный после полного окончания работы Дубликатора"),
+				new XElement("Files", new XAttribute("type", "dup_endwork"),
+				             new XComment("Папка для поиска копий fb2 книг"),
+				             new XElement("SourceDir", m_Source),
+				             new XComment("Настройки поиска-сравнения fb2 книг"),
+				             new XElement("Settings",
+				                          new XElement("ScanSubDirs", m_ScanSubDirs)),
+				             new XComment("Режим поиска-сравнения fb2 книг"),
+				             new XElement("CompareMode",
+				                          new XAttribute("index", CompareMode),
+				                          new XElement("Name", CompareModeName)),
+				             new XComment("Данные о ходе сравнения fb2 книг"),
+				             new XElement("CompareData",
+				                          new XElement("AllDirs", m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text),
+				                          new XElement("AllFiles", m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBooks].SubItems[1].Text),
+				                          new XElement("Groups", "0"),
+				                          new XElement("AllFB2InGroups", "0")
+				                         ),
+				             new XComment("Копии fb2 книг по группам"),
+				             new XElement("Groups",
+				                          new XAttribute("count", "0"),
+				                          new XAttribute("books", "0")
+				                         ),
+				             new XComment("Выделенный элемент списка, на котором завершили обработку книг"),
+				             new XElement("SelectedItem", "-1" )
+				            )
+			);
+		}
 		#endregion
 		
 		// =============================================================================================
@@ -1514,6 +1820,11 @@ namespace Core.Duplicator
 		void BtnStopClick(object sender, EventArgs e)
 		{
 			StopCompare( false );
+		}
+		void CheckBoxSaveGroupsToXmlCheckedChanged(object sender, EventArgs e)
+		{
+			lblGroupCountForList.Enabled = checkBoxSaveGroupsToXml.Checked;
+			cbGroupCountForList.Enabled = checkBoxSaveGroupsToXml.Checked;
 		}
 		#endregion
 		

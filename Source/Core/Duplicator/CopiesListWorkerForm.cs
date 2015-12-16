@@ -52,8 +52,7 @@ namespace Core.Duplicator
 
 		public CopiesListWorkerForm( BooksWorkMode WorkMode, string DirOrFileName, ComboBox cboxMode,
 		                            ListView lvResult, ListView lvFilesCount, TextBox tboxSourceDir,
-		                            CheckBox chBoxScanSubDir, int LastSelectedItem, int GroupCountForList
-		                           )
+		                            CheckBox chBoxScanSubDir, int LastSelectedItem, int GroupCountForList )
 		{
 			InitializeComponent();
 			m_DirOrFileName		= DirOrFileName;
@@ -79,7 +78,7 @@ namespace Core.Duplicator
 		}
 		
 		// =============================================================================================
-		// 								ОТКРЫТЫЕ СВОЙСТВА 
+		// 								ОТКРЫТЫЕ СВОЙСТВА
 		// =============================================================================================
 		#region Открытые свойства
 		public virtual EndWorkMode EndMode {
@@ -109,15 +108,18 @@ namespace Core.Duplicator
 			ProgressBar.Value = 0;
 			switch( m_WorkMode ) {
 				case BooksWorkMode.SaveFB2List:
+					// Сохранение списка копий книг
 					this.Text = "Сохранение списка копий fb2 книг";
 					saveCopiesListToXml( ref m_bw, ref e, m_GroupCountForList, m_DirOrFileName,
 					                    m_cboxMode.SelectedIndex, m_cboxMode.Text.Trim() );
 					break;
 				case BooksWorkMode.LoadFB2List:
+					// Загрузка списка копий книг
 					this.Text = "Загрузка списка копий fb2 книг";
 					loadCopiesListFromXML( ref m_bw, ref e, m_DirOrFileName );
 					break;
 				case BooksWorkMode.SaveWorkingFB2List:
+					// Сохранение текущего обрабатываемого списка копий книг без запроса пути
 					this.Text = "Сохранение списка копий fb2 книг";
 					saveWorkingListToXml( ref m_bw, ref e, m_GroupCountForList, m_DirOrFileName,
 					                     m_cboxMode.SelectedIndex, m_cboxMode.Text.Trim() );
@@ -167,9 +169,9 @@ namespace Core.Duplicator
 		// формирование строки из номера по Шаблону 00X
 		private string makeNNNStringOfNumber( int Number ) {
 			// число, смотрим, сколько цифр и добавляем слева нужное число 0.
-			if( Number > 0 && Number <= 9 )
+			if ( Number > 0 && Number <= 9 )
 				return "00" + Number.ToString();
-			else if( Number >= 10 && Number <= 99)
+			else if ( Number >= 10 && Number <= 99 )
 				return "0" + Number.ToString();
 			else
 				return Number.ToString(); // число символов >= 3
@@ -219,10 +221,11 @@ namespace Core.Duplicator
 		}
 		private void addGroupInGroups( ref XDocument doc, ref XElement xeGroup, ListViewGroup listViewGroup ) {
 			doc.Root.Element("Groups").Add(
-				xeGroup = new XElement("Group", new XAttribute("number", 0),
-				                       new XAttribute("count", listViewGroup.Items.Count),
-				                       new XAttribute("name", listViewGroup.Header)
-				                      )
+				xeGroup = new XElement(
+					"Group", new XAttribute("number", 0),
+					new XAttribute("count", listViewGroup.Items.Count),
+					new XAttribute("name", listViewGroup.Header)
+				)
 			);
 		}
 		private void addBookInGroup( ref XElement xeGroup, ListViewItem listViewItem, ref int BookNumber ) {
@@ -261,15 +264,15 @@ namespace Core.Duplicator
 			foreach ( ListViewItem lvi in listViewGroup.Items ) {
 				// только для "реальных" книг в списке (игнорируем итемы в списке тех книг, которые были удалены с диска в режиме быстрого удаления)
 				// а также только для Групп, в которых больше 1 книги.
-				if( lvi.Group.Items.Count > 1 ) {
+				if ( lvi.Group.Items.Count > 1 ) {
 					addBookInGroup( ref xeGroup, lvi, ref BookNumber );
 					xeGroup.SetAttributeValue( "count", ++BookCountInGroup );
-					if( !File.Exists( lvi.SubItems[(int)ResultViewDupCollumn.Path].Text ) ) {
+					if ( !File.Exists( lvi.SubItems[(int)ResultViewDupCollumn.Path].Text ) ) {
 						// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
 						WorksWithBooks.markRemoverFileInCopyesList( lvi );
 					}
 				}
-				if( !xeGroup.HasElements ) {
+				if ( !xeGroup.HasElements ) {
 					xeGroup.Remove();
 				}
 				bw.ReportProgress( ++i );
@@ -279,9 +282,9 @@ namespace Core.Duplicator
 		// сохранение списка копий книг в xml-файл
 		private void saveCopiesListToXml( ref BackgroundWorker bw, ref DoWorkEventArgs e, int GroupCountForList,
 		                                 string ToDirName, int CompareMode, string CompareModeName ) {
-			if( !Directory.Exists( ToDirName ) )
+			if ( !Directory.Exists( ToDirName ) )
 				Directory.CreateDirectory( ToDirName );
-			int ThroughGroupCounterForXML = 0;	// "сквозной"счетчик числа групп для каждого создаваемого xml файла копий
+			int ThroughGroupCounterForXML = 0;	// "сквозной" счетчик числа групп для каждого создаваемого xml файла копий
 			int GroupCounterForXML = 0;			// счетчик (в границых CompareModeName) числа групп для каждого создаваемого xml файла копий
 			int XmlFileNumber = 0;				// номер файла - для формирования имени создаваемого xml файла копий
 			
@@ -292,8 +295,8 @@ namespace Core.Duplicator
 				
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
-				foreach (ListViewGroup lvGroup in m_lvResult.Groups ) {
-					if( ( bw.CancellationPending ) )  {
+				foreach ( ListViewGroup lvGroup in m_lvResult.Groups ) {
+					if ( ( bw.CancellationPending ) )  {
 						e.Cancel = true;
 						return;
 					}
@@ -307,8 +310,8 @@ namespace Core.Duplicator
 						? m_LastSelectedItem.ToString()
 						: "0"
 					);
-					if( GroupCountForList <= m_lvResult.Groups.Count ) {
-						if( GroupCounterForXML >= GroupCountForList ) {
+					if ( GroupCountForList <= m_lvResult.Groups.Count ) {
+						if ( GroupCounterForXML >= GroupCountForList ) {
 							setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
 							doc.Save( Path.Combine( ToDirName, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
 							doc.Root.Element("Groups").Elements().Remove();
@@ -339,8 +342,8 @@ namespace Core.Duplicator
 				
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
-				foreach (ListViewGroup lvGroup in m_lvResult.Groups ) {
-					if( ( bw.CancellationPending ) )  {
+				foreach ( ListViewGroup lvGroup in m_lvResult.Groups ) {
+					if ( ( bw.CancellationPending ) )  {
 						e.Cancel = true;
 						return;
 					}
@@ -384,15 +387,15 @@ namespace Core.Duplicator
 			IEnumerable<XElement> Groups = xmlTree.Element("Groups").Elements("Group");
 			// перебор всех групп копий
 			int i = 0;
-			foreach( XElement Group in Groups ) {
-				if( ( bw.CancellationPending ) )  {
+			foreach ( XElement Group in Groups ) {
+				if ( ( bw.CancellationPending ) )  {
 					e.Cancel = true;
 					return;
 				}
 				string GroupName = Group.Attribute("name").Value;
 				// перебор всех книг в группе
 				IEnumerable<XElement> books = Group.Elements("Book");
-				foreach( XElement book in books ) {
+				foreach ( XElement book in books ) {
 					// в список - только существующие на диске книги
 					if ( File.Exists( book.Element("Path").Value ) ) {
 						string ForeColor = book.Element("ForeColor").Value;
@@ -433,8 +436,8 @@ namespace Core.Duplicator
 		
 		// создание хеш-таблицы для групп одинаковых книг
 		private bool AddBookGroupInHashTable( ref Hashtable groups, ref ListViewGroup lvg ) {
-			if( groups != null ){
-				if( !groups.Contains( lvg.Header ) ) {
+			if ( groups != null ){
+				if ( !groups.Contains( lvg.Header ) ) {
 					groups.Add( lvg.Header, lvg );
 					return true;
 				}
