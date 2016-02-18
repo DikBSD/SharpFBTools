@@ -741,7 +741,7 @@ namespace SharpFBTools.Tools
 					TICoverListViewButtonPanel.Enabled = STICoverListViewButtonPanel.Enabled = false;
 
 					// защита от двойного срабатывания
-					if( m_CurrentResultItem != SelectedItem.Index ) {
+					if( m_CurrentResultItem != SelectedItem.Index & listViewFB2Files.SelectedItems.Count == 1 ) {
 						m_CurrentResultItem = SelectedItem.Index;
 						
 						// отображение новых метаданных в строке списка и в детализации

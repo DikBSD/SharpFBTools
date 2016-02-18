@@ -60,6 +60,7 @@ namespace Core.Common
 			this.AuthorsAddPanel = new System.Windows.Forms.Panel();
 			this.AuthorsLabel = new System.Windows.Forms.Label();
 			this.AuthorDataPanel = new System.Windows.Forms.Panel();
+			this.AuthorBreakEditButton = new System.Windows.Forms.Button();
 			this.AuthorAddButton = new System.Windows.Forms.Button();
 			this.HelpLabel = new System.Windows.Forms.Label();
 			this.NewIDButton = new System.Windows.Forms.Button();
@@ -77,7 +78,6 @@ namespace Core.Common
 			this.FirstNameLabel = new System.Windows.Forms.Label();
 			this.LastNameLabel = new System.Windows.Forms.Label();
 			this.LastNameTextBox = new System.Windows.Forms.TextBox();
-			this.AuthorBreakEditButton = new System.Windows.Forms.Button();
 			this.ControlPanel.SuspendLayout();
 			this.DataPanel.SuspendLayout();
 			this.ProgressPanel.SuspendLayout();
@@ -184,6 +184,7 @@ namespace Core.Common
 			this.AuthorsListView.TabIndex = 87;
 			this.AuthorsListView.UseCompatibleStateImageBehavior = false;
 			this.AuthorsListView.View = System.Windows.Forms.View.Details;
+			this.AuthorsListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.AuthorsListViewColumnClick);
 			// 
 			// columnHeader1
 			// 
@@ -337,6 +338,17 @@ namespace Core.Common
 			this.AuthorDataPanel.Size = new System.Drawing.Size(1005, 133);
 			this.AuthorDataPanel.TabIndex = 1;
 			// 
+			// AuthorBreakEditButton
+			// 
+			this.AuthorBreakEditButton.Location = new System.Drawing.Point(833, 59);
+			this.AuthorBreakEditButton.Name = "AuthorBreakEditButton";
+			this.AuthorBreakEditButton.Size = new System.Drawing.Size(163, 48);
+			this.AuthorBreakEditButton.TabIndex = 85;
+			this.AuthorBreakEditButton.Text = "Прервать правку Автора";
+			this.AuthorBreakEditButton.UseVisualStyleBackColor = true;
+			this.AuthorBreakEditButton.Visible = false;
+			this.AuthorBreakEditButton.Click += new System.EventHandler(this.AuthorBreakEditButtonClick);
+			// 
 			// AuthorAddButton
 			// 
 			this.AuthorAddButton.Image = ((System.Drawing.Image)(resources.GetObject("AuthorAddButton.Image")));
@@ -486,17 +498,6 @@ namespace Core.Common
 			this.LastNameTextBox.Size = new System.Drawing.Size(203, 22);
 			this.LastNameTextBox.TabIndex = 24;
 			this.LastNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxKeyDown);
-			// 
-			// AuthorBreakEditButton
-			// 
-			this.AuthorBreakEditButton.Location = new System.Drawing.Point(833, 59);
-			this.AuthorBreakEditButton.Name = "AuthorBreakEditButton";
-			this.AuthorBreakEditButton.Size = new System.Drawing.Size(163, 48);
-			this.AuthorBreakEditButton.TabIndex = 85;
-			this.AuthorBreakEditButton.Text = "Прервать правку Автора";
-			this.AuthorBreakEditButton.UseVisualStyleBackColor = true;
-			this.AuthorBreakEditButton.Visible = false;
-			this.AuthorBreakEditButton.Click += new System.EventHandler(this.AuthorBreakEditButtonClick);
 			// 
 			// EditAuthorInfoForm
 			// 

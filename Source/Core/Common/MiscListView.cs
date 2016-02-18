@@ -506,6 +506,22 @@ namespace Core.Common
 		#endregion
 		
 		#region Разное
+		// сортировка списка по нажаьтю на колонку
+		public static void SortColumnClick( ListView listView, ListViewColumnSorter listViewColumnSorter, ColumnClickEventArgs e ) {
+			if ( e.Column == listViewColumnSorter.SortColumn ) {
+				// Изменить сортировку на обратную для выбранного столбца
+				if ( listViewColumnSorter.Order == SortOrder.Ascending )
+					listViewColumnSorter.Order = SortOrder.Descending;
+				else
+					listViewColumnSorter.Order = SortOrder.Ascending;
+			} else {
+				// Задать номер столбца для сортировки (по-умолчанию Ascending)
+				listViewColumnSorter.SortColumn = e.Column;
+				listViewColumnSorter.Order = SortOrder.Ascending;
+			}
+			listView.ListViewItemSorter = listViewColumnSorter; // перед listView.Sort(); иначе - "тормоза"
+			listView.Sort();
+		}
 		// авторазмер колонок Списка ListView
 		public static void AutoResizeColumns( ListView listView ) {
 			listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);

@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.IO;
 
+using Core.Common;
+
 using ResultViewDupCollumn = Core.Common.Enums.ResultViewDupCollumn;
 using EndWorkMode			= Core.Common.EndWorkMode;
 using BooksWorkMode			= Core.Common.Enums.BooksWorkMode;
@@ -27,7 +29,7 @@ using FilesCountViewDupCollumn	= Core.Common.Enums.FilesCountViewDupCollumn;
 namespace Core.Duplicator
 {
 	/// <summary>
-	/// FileWorkerForm: форма прогреса обработки файлов (загрузка/сохранение списков, копирование/перемещение файлов)
+	/// FileWorkerForm: форма прогресса обработки файлов (загрузка/сохранение списков, копирование/перемещение файлов)
 	/// </summary>
 	public partial class CopiesListWorkerForm : Form
 	{
@@ -166,27 +168,23 @@ namespace Core.Duplicator
 		#region Сохранение в xml и Загрузка из xml списка копий fb2 книг
 		
 		#region Сохранение в xml списка копий fb2 книг
-		// формирование строки из номера по Шаблону 00X
-		private string makeNNNStringOfNumber( int Number ) {
-			// число, смотрим, сколько цифр и добавляем слева нужное число 0.
-			if ( Number > 0 && Number <= 9 )
-				return "00" + Number.ToString();
-			else if ( Number >= 10 && Number <= 99 )
-				return "0" + Number.ToString();
-			else
-				return Number.ToString(); // число символов >= 3
-		}
 		// заполнение данными ноды для генерируемых файлов списка копий
 		private void setDataForNode( ref XDocument doc, int GroupCountInGroups, int BookInGroups ) {
-			doc.Root.Element("CompareData").SetElementValue("Groups", GroupCountInGroups);
-			doc.Root.Element("CompareData").SetElementValue("AllFB2InGroups", BookInGroups);
+			XElement xCompareData = doc.Root.Element("CompareData");
+			if ( xCompareData != null ) {
+				xCompareData.SetElementValue("Groups", GroupCountInGroups);
+				xCompareData.SetElementValue("AllFB2InGroups", BookInGroups);
+			}
 			// заполнение аттрибутов
-			doc.Root.Element("Groups").SetAttributeValue("count", GroupCountInGroups);
-			doc.Root.Element("Groups").SetAttributeValue("books", BookInGroups);
-			IEnumerable<XElement> Groups = doc.Root.Element("Groups").Elements("Group");
-			int i = 0;
-			foreach( XElement Group in Groups )
-				Group.SetAttributeValue( "number", ++i );
+			XElement xGroups = doc.Root.Element("Groups");
+			if ( xGroups != null ) {
+				xGroups.SetAttributeValue("count", GroupCountInGroups);
+				xGroups.SetAttributeValue("books", BookInGroups);
+				IEnumerable<XElement> Groups = xGroups.Elements("Group");
+				int i = 0;
+				foreach( XElement Group in Groups )
+					Group.SetAttributeValue( "number", ++i );
+			}
 		}
 		private XDocument createXMLStructure( int CompareMode, string CompareModeName ) {
 			return new XDocument(
@@ -295,6 +293,7 @@ namespace Core.Duplicator
 				
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
+				bool one = false;
 				foreach ( ListViewGroup lvGroup in m_lvResult.Groups ) {
 					if ( ( bw.CancellationPending ) )  {
 						e.Cancel = true;
@@ -313,7 +312,9 @@ namespace Core.Duplicator
 					if ( GroupCountForList <= m_lvResult.Groups.Count ) {
 						if ( GroupCounterForXML >= GroupCountForList ) {
 							setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-							doc.Save( Path.Combine( ToDirName, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
+							doc.Save(
+								Path.Combine( ToDirName, StringProcessing.makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" )
+							);
 							doc.Root.Element("Groups").Elements().Remove();
 							GroupCountInGroups = 0;
 							GroupCounterForXML = 0;
@@ -322,14 +323,18 @@ namespace Core.Duplicator
 							// последний диаппазон Групп
 							if( ThroughGroupCounterForXML == m_lvResult.Groups.Count ) {
 								setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-								doc.Save( Path.Combine( ToDirName, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
+								doc.Save(
+									Path.Combine( ToDirName, StringProcessing.makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" )
+								);
 							}
 						}
 					} else {
 						setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-						doc.Save( Path.Combine( ToDirName, "001.dup_lbc" ) );
+						one = true;
 					}
 				} // по всем Группам
+				if ( one )
+					doc.Save( Path.Combine( ToDirName, "001.dup_lbc" ) );
 			}
 		}
 		// сохранение текущего обрабатываемого списка без запроса на подтверждение и пути сохранения
@@ -352,8 +357,8 @@ namespace Core.Duplicator
 					
 					doc.Root.Element("SelectedItem").SetValue( m_LastSelectedItem.ToString() );
 					setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-					doc.Save( ToFileName );
 				} // по всем Группам
+				doc.Save( ToFileName );
 			}
 		}
 		#endregion
@@ -398,12 +403,12 @@ namespace Core.Duplicator
 				foreach ( XElement book in books ) {
 					// в список - только существующие на диске книги
 					if ( File.Exists( book.Element("Path").Value ) ) {
-						string ForeColor = book.Element("ForeColor").Value;
-						string BackColor = book.Element("BackColor").Value;
+						string lviForeColor = book.Element("ForeColor").Value;
+						string lviBackColor = book.Element("BackColor").Value;
 						lvg = new ListViewGroup( GroupName );
 						lvi = new ListViewItem( book.Element("Path").Value );
-						lvi.ForeColor = Color.FromName( ForeColor );
-						lvi.BackColor = Color.FromName( BackColor );
+						lvi.ForeColor = Color.FromName( lviForeColor );
+						lvi.BackColor = Color.FromName( lviBackColor );
 						lvi.SubItems.Add( book.Element("BookTitle").Value );
 						lvi.SubItems.Add( book.Element("Authors").Value );
 						lvi.SubItems.Add( book.Element("Genres").Value );

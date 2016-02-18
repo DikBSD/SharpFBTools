@@ -48,21 +48,35 @@ namespace Core.Duplicator
 			m_Encoding	= Encoding;
 			m_Path		= Path;
 		}
-		#region Закрытые вспомогательные методы класса
+	
+		#region Открытые методы класса
+		/// <summary>
+		/// Проверка - таже самая ли это книга:
+		/// сравнение проводится только по Авторам: число авторов в книгах может быть разным;
+		/// без учета Path (книги могут быть абсолютно одинаковые, но размещаться в раных папках);
+		/// без учета жанров (книги могут быть одинаковые, но разные книгоделатели присвоили им разные жанры);
+		/// без учета ID, версии, кодировки...
+		/// </summary>
+		/// <param name="RightValue">Данные книги для сравнения</param>
+		/// <param name="WithMiddleName">учитывать Отчество Автора (true)</param>
+		public bool isSameBook(BookData RightValue, bool WithMiddleName) {
+			return RightValue != null
+				? isSameAuthors( this.Authors, RightValue.Authors, WithMiddleName )
+				: false;
+		}
+		
+		// Одни и те же ли Авторы в обоих книги (их число и ФИО) true, если авторы одинаковые (но могут идти в разном порядке)
 		// формирование списка строк с ФИО Авторов, которые есть в обоих списках Авторов (Intersection)
 		// WithMiddleName = true - учитывать Отчество Автора
-		private List<string> listIntersection(IList<Author> Authors1, IList<Author> Authors2, bool WithMiddleName) {
+		public bool isSameAuthors(IList<Author> Authors1, IList<Author> Authors2, bool WithMiddleName) {
 			if ( Authors1 != null && Authors2 != null )
 				if ( Authors1.Count != Authors2.Count )
-					return null;
-
-			List<string> list1 = makeListFOIAuthors(Authors1, WithMiddleName);
-			List<string> list2 = makeListFOIAuthors(Authors2, WithMiddleName);
-			return list1.Intersect(list2, new FB2EqualityComparer()).ToList();
+					return false;
+			// если авторы одинаковые (но могут идти в разном порядке), то возвращается true
+			return makeListFOIAuthors(Authors1, WithMiddleName).Except(
+				makeListFOIAuthors(Authors2, WithMiddleName), new FB2EqualityComparer()
+			).ToList().Count == 0;
 		}
-		#endregion
-		
-		#region Открытые методы класса
 		
 		// формирование списка из строк ФИО каждого Автора из Authors
 		// WithMiddleName = true - учитывать Отчество Автора
@@ -120,50 +134,6 @@ namespace Core.Duplicator
 			}
 			list.Sort(); // чтобы учесть одинаковые книги, где Авторы переставлены местами
 			return list;
-		}
-		/// <summary>
-		/// Проверка - таже самая ли это книга:
-		/// сравнение проводится только по Авторам: число авторов в книгах может быть разным;
-		/// без учета Path (книги могут быть абсолютно одинаковые, но размещаться в раных папках);
-		/// без учета жанров (книги могут быть одинаковые, но разные книгоделатели присвоили им разные жанры);
-		/// без учета ID, версии, кодировки...
-		/// </summary>
-		/// <param name="RightValue">Данные книги для сравнения</param>
-		/// <param name="WithMiddleName">учитывать Отчество Автора (true)</param>
-		public bool isSameBook(BookData RightValue, bool WithMiddleName) {
-			if ( RightValue == null )
-				return false;
-			else {
-				// все авторы 2-х сравниваемых книг должны быть одни и те же
-				if ( this.Authors != null && RightValue.Authors != null ) {
-					if ( this.Authors.Count == RightValue.Authors.Count ) {
-						List<string> l = listIntersection( this.Authors, RightValue.Authors, WithMiddleName );
-						return l != null
-							? (l.Count == this.Authors.Count)
-							: false;
-					} else
-						return false;
-				} else if ( this.Authors != null && RightValue.Authors == null ) {
-					List<string> l = listIntersection( this.Authors, RightValue.Authors, WithMiddleName );
-					return l != null
-						? (l.Count == this.Authors.Count)
-						: false;
-				} else if ( this.Authors == null ) {
-					List<string> l = listIntersection( this.Authors, RightValue.Authors, WithMiddleName );
-					if ( l == null || l.Count == 0 )
-						return false;
-					else {
-						if ( l.Count == 1 )
-							if ( l[0] == m_NoAuthor )
-								return true;
-							else
-								return false;
-						else // l.Count > 1
-							return false;
-					}
-				}
-			}
-			return false;
 		}
 		#endregion
 		

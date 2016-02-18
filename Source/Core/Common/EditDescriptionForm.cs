@@ -38,6 +38,10 @@ namespace Core.Common
 		private string m_DirForSavedCover = string.Empty;
 		private const string m_sTitle = "Правка метаданных описания fb2 книги";
 		private readonly FB2DescriptionCorrector _fB2Corrector = null;
+		private readonly MiscListView.ListViewColumnSorter m_TIAuthorsListViewColumnSorter = new MiscListView.ListViewColumnSorter();
+		private readonly MiscListView.ListViewColumnSorter m_TITranslatorListViewColumnSorter = new MiscListView.ListViewColumnSorter();
+		private readonly MiscListView.ListViewColumnSorter m_STIAuthorsListViewColumnSorter = new MiscListView.ListViewColumnSorter();
+		private readonly MiscListView.ListViewColumnSorter m_STITranslatorListViewColumnSorter = new MiscListView.ListViewColumnSorter();
 		#endregion
 		
 		public EditDescriptionForm( FictionBook fb2 )
@@ -1564,6 +1568,22 @@ namespace Core.Common
 				m_ApplyData = true; // применить изменения к описанию книги
 			}
 			Close();
+		}
+		void TIAuthorsListViewColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			MiscListView.SortColumnClick( TIAuthorsListView, m_TIAuthorsListViewColumnSorter, e );
+		}
+		void TITranslatorListViewColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			MiscListView.SortColumnClick( TITranslatorListView, m_TITranslatorListViewColumnSorter, e );
+		}
+		void STIAuthorsListViewColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			MiscListView.SortColumnClick( STIAuthorsListView, m_STIAuthorsListViewColumnSorter, e );
+		}
+		void STITranslatorListViewColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			MiscListView.SortColumnClick( STITranslatorListView, m_STITranslatorListViewColumnSorter, e );
 		}
 		
 		#endregion

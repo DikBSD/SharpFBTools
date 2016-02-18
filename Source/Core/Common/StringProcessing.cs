@@ -659,6 +659,16 @@ namespace Core.Common
 			}
 			return StringFromListItems;
 		}
+		// формирование строки из номера по Шаблону 00X
+		public static string makeNNNStringOfNumber( int Number ) {
+			// число, смотрим, сколько цифр и добавляем слева нужное число 0.
+			if ( Number > 0 && Number <= 9 )
+				return "00" + Number.ToString();
+			else if ( Number >= 10 && Number <= 99 )
+				return "0" + Number.ToString();
+			else
+				return Number.ToString(); // число символов >= 3
+		}
 		#endregion
 	}
 }

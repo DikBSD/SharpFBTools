@@ -107,7 +107,7 @@ namespace Core.Duplicator
 			this.ProgressPanel.Location = new System.Drawing.Point(0, 0);
 			this.ProgressPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.ProgressPanel.Name = "ProgressPanel";
-			this.ProgressPanel.Size = new System.Drawing.Size(892, 255);
+			this.ProgressPanel.Size = new System.Drawing.Size(892, 282);
 			this.ProgressPanel.TabIndex = 0;
 			// 
 			// StatusLabel
@@ -119,7 +119,7 @@ namespace Core.Duplicator
 			this.StatusLabel.Location = new System.Drawing.Point(15, 52);
 			this.StatusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.StatusLabel.Name = "StatusLabel";
-			this.StatusLabel.Size = new System.Drawing.Size(655, 188);
+			this.StatusLabel.Size = new System.Drawing.Size(655, 215);
 			this.StatusLabel.TabIndex = 1;
 			// 
 			// ControlPanel
@@ -134,7 +134,7 @@ namespace Core.Duplicator
 			this.ControlPanel.Location = new System.Drawing.Point(684, 0);
 			this.ControlPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.ControlPanel.Name = "ControlPanel";
-			this.ControlPanel.Size = new System.Drawing.Size(208, 255);
+			this.ControlPanel.Size = new System.Drawing.Size(208, 282);
 			this.ControlPanel.TabIndex = 1;
 			// 
 			// btnSaveToXml
@@ -142,7 +142,7 @@ namespace Core.Duplicator
 			this.btnSaveToXml.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.btnSaveToXml.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnSaveToXml.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveToXml.Image")));
-			this.btnSaveToXml.Location = new System.Drawing.Point(0, 113);
+			this.btnSaveToXml.Location = new System.Drawing.Point(0, 140);
 			this.btnSaveToXml.Margin = new System.Windows.Forms.Padding(4);
 			this.btnSaveToXml.Name = "btnSaveToXml";
 			this.btnSaveToXml.Size = new System.Drawing.Size(208, 71);
@@ -158,7 +158,7 @@ namespace Core.Duplicator
 			this.btnStop.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-			this.btnStop.Location = new System.Drawing.Point(0, 184);
+			this.btnStop.Location = new System.Drawing.Point(0, 211);
 			this.btnStop.Margin = new System.Windows.Forms.Padding(4);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(208, 71);
@@ -205,7 +205,9 @@ namespace Core.Duplicator
 			                                        	"3500",
 			                                        	"4000",
 			                                        	"4500",
-			                                        	"5000"});
+			                                        	"5000",
+			                                        	"7500",
+			                                        	"10000"});
 			this.cbGroupCountForList.Location = new System.Drawing.Point(0, 85);
 			this.cbGroupCountForList.Name = "cbGroupCountForList";
 			this.cbGroupCountForList.Size = new System.Drawing.Size(208, 24);
@@ -239,7 +241,7 @@ namespace Core.Duplicator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(892, 255);
+			this.ClientSize = new System.Drawing.Size(892, 282);
 			this.ControlBox = false;
 			this.Controls.Add(this.ControlPanel);
 			this.Controls.Add(this.ProgressPanel);
@@ -304,7 +306,8 @@ namespace Core.Duplicator
 		#endregion
 		
 		public CompareForm( string fromXmlPath, string sSource, int CompareMode, string CompareModeName,
-		                   bool ScanSubDirs, int GroupCountForList, ListView lvFilesCount, ListView listViewFB2Files, bool AutoResizeColumns )
+		                   bool ScanSubDirs, int GroupCountForList, bool SaveGroupToXMLWithoutTree,
+		                   ListView lvFilesCount, ListView listViewFB2Files, bool AutoResizeColumns )
 		{
 			InitializeComponent();
 			m_Source			= sSource;
@@ -316,6 +319,7 @@ namespace Core.Duplicator
 			m_autoResizeColumns	= AutoResizeColumns;
 			
 			cbGroupCountForList.SelectedIndex = GroupCountForList;
+			checkBoxSaveGroupsToXml.Checked = SaveGroupToXMLWithoutTree;
 			
 			InitializeBackgroundWorker();
 			InitializeRenewBackgroundWorker();
@@ -323,11 +327,11 @@ namespace Core.Duplicator
 			// Запуск процесса DoWork от RunWorker
 			if( fromXmlPath == null ) {
 				if( !m_bw.IsBusy )
-					m_bw.RunWorkerAsync(); //если не занят, то запустить процесс
+					m_bw.RunWorkerAsync(); // если не занят, то запустить процесс
 			} else {
 				m_fromXmlPath = fromXmlPath; // путь к xml файлу для возобновления поиска копий fb2 книг
 				if( !m_bwRenew.IsBusy )
-					m_bwRenew.RunWorkerAsync(); //если не занят. то запустить процесс
+					m_bwRenew.RunWorkerAsync(); // если не занят. то запустить процесс
 			}
 		}
 
@@ -431,7 +435,7 @@ namespace Core.Duplicator
 			string sTime = dtEnd.Subtract( m_dtStart ).ToString().Substring( 0, 8 ) + " (час.:мин.:сек.)";
 			if ( e.Cancelled ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Cancelled;
-				m_EndMode.Message = "Поиск одинаковых fb2-файлов остановлен!\nСписок Групп копий fb2-файлов не сформирован полностью!\nЗатрачено времени: "+sTime;
+				m_EndMode.Message = "Поиск одинаковых fb2-файлов остановлен!\nСписок (псевдодерево) Групп копий fb2-файлов не сформирован полностью!\nЗатрачено времени: "+sTime;
 				if ( m_StopToSave ) {
 					// остановка поиска копий с сохранением списка необработанных книг в файл
 					m_StopToSave = false;
@@ -445,7 +449,7 @@ namespace Core.Duplicator
 						ControlPanel.Enabled = false;
 						StatusLabel.Text += "Сохранение данных анализа в файл:\r";
 						StatusLabel.Text += sfdList.FileName;
-						saveSearchDataToXmlFile( sfdList.FileName, m_CompareMode, ref m_FilesList );
+						saveSearchedDataToXmlFile( sfdList.FileName, m_CompareMode, ref m_FilesList );
 						m_EndMode.Message = "Поиск одинаковых fb2 файлов прерван!\nДанные поиска и список оставшихся для обработки книг сохранены в xml-файл:\n\n"+sfdList.FileName+"\n\nЗатрачено времени: "+sTime;
 					}
 				}
@@ -573,7 +577,7 @@ namespace Core.Duplicator
 			lblGroupCountForList.Enabled = false;
 			cbGroupCountForList.Enabled = false;
 			
-			StatusLabel.Text += "Создание списка одинаковых fb2-файлов...\r";
+			StatusLabel.Text += "Создание списка (псевдодерево) одинаковых fb2-файлов...\r";
 			ProgressBar.Maximum	= ht.Values.Count;
 			ProgressBar.Value	= 0;
 			// сортировка ключей (групп)
@@ -1099,20 +1103,20 @@ namespace Core.Duplicator
 			StatusLabel.Text += "Возобновление поиска копий fb2 книг из xml файла:\r";
 			StatusLabel.Text += m_fromXmlPath + "\r";
 			StatusLabel.Text += "Загрузка данных поиска из xml файла...\r";
-			XElement xmlTree = XElement.Load( m_fromXmlPath );
+			XElement xTree = XElement.Load( m_fromXmlPath );
 
 			//режим сравнения
-			m_CompareMode = Convert.ToInt32( xmlTree.Element("CompareMode").Attribute("index").Value );
+			m_CompareMode = Convert.ToInt32( xTree.Element("CompareMode").Attribute("index").Value );
 			//загрузка данных о ходе сравнения
-			XElement compareData = xmlTree.Element("CompareData");
-			m_sv.AllFiles = Convert.ToInt32( compareData.Element("AllFiles").Value );
-			m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text = compareData.Element("AllDirs").Value;
+			XElement xCompareData = xTree.Element("CompareData");
+			m_sv.AllFiles = Convert.ToInt32( xCompareData.Element("AllFiles").Value );
+			m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text = xCompareData.Element("AllDirs").Value;
 
 			ViewDupProgressData();
 			
 			// заполнение списка необработанных файлов
 			m_FilesList.Clear();
-			IEnumerable<XElement> files = xmlTree.Element("NotWorkingFiles").Elements("File");
+			IEnumerable<XElement> files = xTree.Element("NotWorkingFiles").Elements("File");
 			int i = 0;
 			ProgressBar.Maximum = files.ToList().Count;
 			ProgressBar.Value = 0;
@@ -1122,7 +1126,7 @@ namespace Core.Duplicator
 			}
 
 			// загрузка из xml-файла в хэш таблицу данных о копиях книг
-			loadFromXMLToHashtable( ref m_bwRenew, (SearchCompareMode)m_CompareMode, ref xmlTree );
+			loadFromXMLToHashtable( ref m_bwRenew, (SearchCompareMode)m_CompareMode, ref xTree );
 			// загрузка списка неоткрываемых книг
 			if ( File.Exists( _nonOpenedFB2FilePath ) ) {
 				XElement xmlNonOpenedFilesTree = XElement.Load( _nonOpenedFB2FilePath );
@@ -1233,7 +1237,7 @@ namespace Core.Duplicator
 		// =============================================================================================
 		#region Прерывание сравнения: Сохранение данных в xml
 		// сохранение данных о найденных копиях и о необработанных книгах при прерывании проверки для записи
-		private void saveSearchDataToXmlFile(string ToFileName, int CompareMode, ref List<string> FilesList) {
+		private void saveSearchedDataToXmlFile(string ToFileName, int CompareMode, ref List<string> FilesList) {
 			int fileNumber = 0;
 			int groupNumber = 0;
 			XDocument doc = new XDocument(
@@ -1244,11 +1248,12 @@ namespace Core.Duplicator
 				             new XElement("SourceDir", m_Source),
 				             new XComment("Настройки поиска-сравнения"),
 				             new XElement("Settings",
-				                          new XElement("ScanSubDirs", m_ScanSubDirs)
+				                          new XElement("ScanSubDirs", m_ScanSubDirs),
+				                          new XElement("GroupCountForList", cbGroupCountForList.SelectedIndex),
+				                          new XElement("SaveGroupToXMLWithoutTree", checkBoxSaveGroupsToXml.Checked)
 				                         ),
 				             new XComment("Режим поиска-сравнения"),
-				             new XElement("CompareMode",
-				                          new XAttribute("index", CompareMode)),
+				             new XElement("CompareMode", new XAttribute("index", CompareMode)),
 				             new XComment("Данные о ходе сравнения"),
 				             new XElement("CompareData",
 				                          new XElement("AllDirs", m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text),
@@ -1257,9 +1262,12 @@ namespace Core.Duplicator
 				                          new XElement("AllFB2InGroups", m_sv.AllFB2InGroups)
 				                         ),
 				             new XComment("Обработанные файлы"),
-				             new XElement("Groups", new XAttribute("count",
-				                                                   (SearchCompareMode)CompareMode == SearchCompareMode.AuthorAndTitle
-				                                                   ? m_htBookTitleAuthors.Count : m_htWorkingBook.Count)),
+				             new XElement("Groups",
+				                          new XAttribute(
+				                          	"count",
+				                          	(SearchCompareMode)CompareMode == SearchCompareMode.AuthorAndTitle
+				                          	? m_htBookTitleAuthors.Count : m_htWorkingBook.Count)
+				                         ),
 				             new XComment("Не обработанные файлы"),
 				             (SearchCompareMode)CompareMode == SearchCompareMode.AuthorAndTitle
 				             ? new XElement("BookTitleGroup", new XAttribute("count", m_htWorkingBook.Count))
@@ -1601,11 +1609,15 @@ namespace Core.Duplicator
 		
 		// список файлов, которые не никак удалось открыть
 		private void collectBadFB2( string FilePath ) {
-			foreach ( string file in _nonOpenedFile ) {
-				if ( file != FilePath ) {
-					_nonOpenedFile.Add( FilePath );
-					break;
+			if ( _nonOpenedFile.Count > 0 ) {
+				foreach ( string file in _nonOpenedFile ) {
+					if ( file != FilePath ) {
+						_nonOpenedFile.Add( FilePath );
+						break;
+					}
 				}
+			} else {
+				_nonOpenedFile.Add( FilePath );
 			}
 		}
 		
@@ -1656,6 +1668,7 @@ namespace Core.Duplicator
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
 				int i = 0;					// прогресс
+				bool one = false;
 				// сортировка ключей (групп)
 				List<string> keyList = makeSortedKeysForGroups( ref ht );
 				foreach ( string key in keyList ) {
@@ -1672,8 +1685,10 @@ namespace Core.Duplicator
 					doc.Root.Element("SelectedItem").SetValue("0");
 					if ( GroupCountForList <= ht.Values.Count ) {
 						if ( GroupCounterForXML >= GroupCountForList ) {
+							string FileNumber = StringProcessing.makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc";
 							setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-							doc.Save( Path.Combine( ToDirName, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
+							doc.Save( Path.Combine( ToDirName, FileNumber ) );
+							StatusLabel.Text += "Файл: '_Copies\\" + FileNumber+"' создан...\r";
 							doc.Root.Element("Groups").Elements().Remove();
 							GroupCountInGroups = 0;
 							GroupCounterForXML = 0;
@@ -1681,16 +1696,22 @@ namespace Core.Duplicator
 						} else {
 							// последний диаппазон Групп
 							if( ThroughGroupCounterForXML == ht.Values.Count ) {
+								string FileNumber = StringProcessing.makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc";
 								setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-								doc.Save( Path.Combine( ToDirName, makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" ) );
+								doc.Save( Path.Combine( ToDirName, FileNumber ) );
+								StatusLabel.Text += "Файл: '_Copies\\" + FileNumber+"' создан...\r";
 							}
 						}
 					} else {
 						setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
-						doc.Save( Path.Combine( ToDirName, "001.dup_lbc" ) );
+						one = true;
 					}
 					bw.ReportProgress( ++i );
 				} // по всем Группам
+				if ( one ) {
+					StatusLabel.Text += "Файл: '_Copies\001.dup_lbc' ...\r";
+					doc.Save( Path.Combine( ToDirName, "001.dup_lbc" ) );
+				}
 			}
 		}
 		private void addAllBookInGroup( ref BackgroundWorker bw, ref DoWorkEventArgs e,
@@ -1756,25 +1777,21 @@ namespace Core.Duplicator
 		}
 		// заполнение данными ноды для генерируемых файлов списка копий
 		private void setDataForNode( ref XDocument doc, int GroupCountInGroups, int BookInGroups ) {
-			doc.Root.Element("CompareData").SetElementValue("Groups", GroupCountInGroups);
-			doc.Root.Element("CompareData").SetElementValue("AllFB2InGroups", BookInGroups);
+			XElement xCompareData = doc.Root.Element("CompareData");
+			if ( xCompareData != null ) {
+				xCompareData.SetElementValue("Groups", GroupCountInGroups);
+				xCompareData.SetElementValue("AllFB2InGroups", BookInGroups);
+			}
 			// заполнение аттрибутов
-			doc.Root.Element("Groups").SetAttributeValue("count", GroupCountInGroups);
-			doc.Root.Element("Groups").SetAttributeValue("books", BookInGroups);
-			IEnumerable<XElement> Groups = doc.Root.Element("Groups").Elements("Group");
-			int i = 0;
-			foreach( XElement Group in Groups )
-				Group.SetAttributeValue( "number", ++i );
-		}
-		// формирование строки из номера по Шаблону 00X
-		private string makeNNNStringOfNumber( int Number ) {
-			// число, смотрим, сколько цифр и добавляем слева нужное число 0.
-			if ( Number > 0 && Number <= 9 )
-				return "00" + Number.ToString();
-			else if ( Number >= 10 && Number <= 99 )
-				return "0" + Number.ToString();
-			else
-				return Number.ToString(); // число символов >= 3
+			XElement xGroups = doc.Root.Element("Groups");
+			if ( xGroups != null ) {
+				xGroups.SetAttributeValue("count", GroupCountInGroups);
+				xGroups.SetAttributeValue("books", BookInGroups);
+				IEnumerable<XElement> Groups = xGroups.Elements("Group");
+				int i = 0;
+				foreach( XElement Group in Groups )
+					Group.SetAttributeValue( "number", ++i );
+			}
 		}
 		private XDocument createXMLStructure( int CompareMode, string CompareModeName ) {
 			return new XDocument(
@@ -1785,7 +1802,9 @@ namespace Core.Duplicator
 				             new XElement("SourceDir", m_Source),
 				             new XComment("Настройки поиска-сравнения fb2 книг"),
 				             new XElement("Settings",
-				                          new XElement("ScanSubDirs", m_ScanSubDirs)),
+				                          new XElement("ScanSubDirs", m_ScanSubDirs),
+				                          new XElement("GroupCountForList", cbGroupCountForList.SelectedIndex),
+				                          new XElement("SaveGroupToXMLWithoutTree", checkBoxSaveGroupsToXml.Checked)),
 				             new XComment("Режим поиска-сравнения fb2 книг"),
 				             new XElement("CompareMode",
 				                          new XAttribute("index", CompareMode),

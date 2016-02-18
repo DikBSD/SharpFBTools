@@ -739,6 +739,7 @@ namespace Core.Common
 			this.TITranslatorListView.TabIndex = 87;
 			this.TITranslatorListView.UseCompatibleStateImageBehavior = false;
 			this.TITranslatorListView.View = System.Windows.Forms.View.Details;
+			this.TITranslatorListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.TITranslatorListViewColumnClick);
 			// 
 			// columnHeader8
 			// 
@@ -952,6 +953,7 @@ namespace Core.Common
 			this.TIAuthorsListView.TabIndex = 87;
 			this.TIAuthorsListView.UseCompatibleStateImageBehavior = false;
 			this.TIAuthorsListView.View = System.Windows.Forms.View.Details;
+			this.TIAuthorsListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.TIAuthorsListViewColumnClick);
 			// 
 			// columnHeader1
 			// 
@@ -1812,6 +1814,7 @@ namespace Core.Common
 			this.STITranslatorListView.TabIndex = 87;
 			this.STITranslatorListView.UseCompatibleStateImageBehavior = false;
 			this.STITranslatorListView.View = System.Windows.Forms.View.Details;
+			this.STITranslatorListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.STITranslatorListViewColumnClick);
 			// 
 			// columnHeader28
 			// 
@@ -2025,6 +2028,7 @@ namespace Core.Common
 			this.STIAuthorsListView.TabIndex = 87;
 			this.STIAuthorsListView.UseCompatibleStateImageBehavior = false;
 			this.STIAuthorsListView.View = System.Windows.Forms.View.Details;
+			this.STIAuthorsListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.STIAuthorsListViewColumnClick);
 			// 
 			// columnHeader21
 			// 

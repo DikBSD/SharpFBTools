@@ -38,6 +38,7 @@ namespace Core.Common
 		private BackgroundWorker m_bw = null;
 		
 		private bool m_EditMode = false; // В режиме правки Автора m_EditMode = true; В режиме добавления Нового Автора m_EditMode = false;
+		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter = new MiscListView.ListViewColumnSorter();
 		
 		public EditAuthorInfoForm( ref IList<FB2ItemInfo> AuthorFB2InfoList )
 		{
@@ -340,6 +341,10 @@ namespace Core.Common
 				if( !m_bw.IsBusy )
 					m_bw.RunWorkerAsync();
 			}
+		}
+		void AuthorsListViewColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			MiscListView.SortColumnClick( AuthorsListView, m_lvwColumnSorter, e );
 		}
 		
 		#endregion

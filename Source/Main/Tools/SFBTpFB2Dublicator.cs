@@ -371,6 +371,7 @@ namespace SharpFBTools.Tools
 			this.ToolStripMenuItemSetGenresForSelectedBooks = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolStripMenuItemSetGenresForCheckedBooks = new System.Windows.Forms.ToolStripMenuItem();
 			this.pMode = new System.Windows.Forms.Panel();
+			this.checkBoxSaveGroupsToXml = new System.Windows.Forms.CheckBox();
 			this.cboxMode = new System.Windows.Forms.ComboBox();
 			this.lblMode = new System.Windows.Forms.Label();
 			this.pSearchFBDup2Dirs = new System.Windows.Forms.Panel();
@@ -2182,6 +2183,7 @@ namespace SharpFBTools.Tools
 			// 
 			// pMode
 			// 
+			this.pMode.Controls.Add(this.checkBoxSaveGroupsToXml);
 			this.pMode.Controls.Add(this.cboxMode);
 			this.pMode.Controls.Add(this.lblMode);
 			this.pMode.Dock = System.Windows.Forms.DockStyle.Top;
@@ -2190,6 +2192,20 @@ namespace SharpFBTools.Tools
 			this.pMode.Name = "pMode";
 			this.pMode.Size = new System.Drawing.Size(1483, 32);
 			this.pMode.TabIndex = 48;
+			// 
+			// checkBoxSaveGroupsToXml
+			// 
+			this.checkBoxSaveGroupsToXml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBoxSaveGroupsToXml.Checked = true;
+			this.checkBoxSaveGroupsToXml.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxSaveGroupsToXml.ForeColor = System.Drawing.Color.Blue;
+			this.checkBoxSaveGroupsToXml.Location = new System.Drawing.Point(1097, 2);
+			this.checkBoxSaveGroupsToXml.Name = "checkBoxSaveGroupsToXml";
+			this.checkBoxSaveGroupsToXml.Size = new System.Drawing.Size(393, 25);
+			this.checkBoxSaveGroupsToXml.TabIndex = 18;
+			this.checkBoxSaveGroupsToXml.Text = "Сохранять результат в файлы без построения дерева";
+			this.checkBoxSaveGroupsToXml.UseVisualStyleBackColor = true;
+			this.checkBoxSaveGroupsToXml.CheckStateChanged += new System.EventHandler(this.CheckBoxSaveGroupsToXmlCheckStateChanged);
 			// 
 			// cboxMode
 			// 
@@ -2258,7 +2274,7 @@ namespace SharpFBTools.Tools
 			this.chBoxScanSubDir.Location = new System.Drawing.Point(1098, 5);
 			this.chBoxScanSubDir.Margin = new System.Windows.Forms.Padding(4);
 			this.chBoxScanSubDir.Name = "chBoxScanSubDir";
-			this.chBoxScanSubDir.Size = new System.Drawing.Size(181, 30);
+			this.chBoxScanSubDir.Size = new System.Drawing.Size(381, 30);
 			this.chBoxScanSubDir.TabIndex = 2;
 			this.chBoxScanSubDir.Text = "Сканировать подпапки";
 			this.chBoxScanSubDir.UseVisualStyleBackColor = true;
@@ -2368,10 +2384,13 @@ namespace SharpFBTools.Tools
 			"3500",
 			"4000",
 			"4500",
-			"5000"});
+			"5000",
+			"7500",
+			"10000"});
 			this.tscbGroupCountForList.MaxDropDownItems = 10;
 			this.tscbGroupCountForList.Name = "tscbGroupCountForList";
 			this.tscbGroupCountForList.Size = new System.Drawing.Size(99, 31);
+			this.tscbGroupCountForList.SelectedIndexChanged += new System.EventHandler(this.TscbGroupCountForListSelectedIndexChanged);
 			// 
 			// tsbtnDupSaveList
 			// 
@@ -2581,6 +2600,7 @@ namespace SharpFBTools.Tools
 			this.PerformLayout();
 
 		}
+		private System.Windows.Forms.CheckBox checkBoxSaveGroupsToXml;
 		private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
 		private System.Windows.Forms.ColumnHeader chFileLastWriteTime;
 		private System.Windows.Forms.ColumnHeader chFileCreationTime;
@@ -2884,6 +2904,8 @@ namespace SharpFBTools.Tools
 					                          new XElement("PressEnterForFB2", cboxPressEnterForFB2.SelectedIndex),
 					                          new XComment("число Групп для сохранения в список"),
 					                          new XElement("GroupCountForList", tscbGroupCountForList.SelectedIndex),
+					                          new XComment("Сохранять результат (Группы) сразу в файлы без построения дерева"),
+					                          new XElement("SaveGroupToXMLWithoutTree", checkBoxSaveGroupsToXml.Checked),
 					                          new XComment("Ширина колонок списка копий"),
 					                          new XElement("Columns", new XAttribute("count", listViewFB2Files.Columns.Count))
 					                         )
@@ -2935,6 +2957,8 @@ namespace SharpFBTools.Tools
 					// число Групп для сохранения в список
 					if( xmlOptions.Element("GroupCountForList") != null )
 						tscbGroupCountForList.SelectedIndex = Convert.ToInt16( xmlOptions.Element("GroupCountForList").Value );
+					if( xmlOptions.Element("SaveGroupToXMLWithoutTree") != null )
+						checkBoxSaveGroupsToXml.Checked	= Convert.ToBoolean( xmlOptions.Element("SaveGroupToXMLWithoutTree").Value );
 					
 					// ширина колонок
 					XElement xColumns = xmlOptions.Element("Columns");
@@ -3473,7 +3497,8 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text = "=>";
 			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
 				null, tboxSourceDir.Text.Trim(), cboxMode.SelectedIndex, cboxMode.Text,
-				chBoxScanSubDir.Checked, tscbGroupCountForList.SelectedIndex, lvFilesCount, listViewFB2Files, false
+				chBoxScanSubDir.Checked, tscbGroupCountForList.SelectedIndex, checkBoxSaveGroupsToXml.Checked,
+				lvFilesCount, listViewFB2Files, false
 			);
 			comrareForm.ShowDialog();
 			EndWorkMode EndWorkMode = comrareForm.EndMode;
@@ -3505,15 +3530,25 @@ namespace SharpFBTools.Tools
 			if( xmlTree != null ) {
 				// выставляем режим сравнения
 				cboxMode.SelectedIndex = Convert.ToInt16( xmlTree.Element("CompareMode").Attribute("index").Value );
-				// устанавливаем данные настройки поиска-сравнения
-				tboxSourceDir.Text = xmlTree.Element("SourceDir").Value;
-				chBoxScanSubDir.Checked = Convert.ToBoolean( xmlTree.Element("Settings").Element("ScanSubDirs").Value );
+				XElement xmlSettings = xmlTree.Element("Settings");
+				if ( xmlSettings != null ) {
+					// устанавливаем данные настройки поиска-сравнения
+					tboxSourceDir.Text = xmlTree.Element("SourceDir").Value;
+					if( xmlSettings.Element("ScanSubDirs") != null )
+						chBoxScanSubDir.Checked = Convert.ToBoolean( xmlSettings.Element("ScanSubDirs").Value );
+					// число Групп для сохранения в список
+					if( xmlSettings.Element("GroupCountForList") != null )
+						tscbGroupCountForList.SelectedIndex = Convert.ToInt16( xmlTree.Element("Settings").Element("GroupCountForList").Value );
+					if( xmlSettings.Element("SaveGroupToXMLWithoutTree") != null )
+						checkBoxSaveGroupsToXml.Checked	= Convert.ToBoolean( xmlTree.Element("Settings").Element("SaveGroupToXMLWithoutTree").Value );
+				}
 			}
 			ConnectListViewResultEventHandlers( false );
 			listViewFB2Files.BeginUpdate();
 			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
 				sfdLoadList.FileName, tboxSourceDir.Text.Trim(), cboxMode.SelectedIndex, cboxMode.Text,
-				chBoxScanSubDir.Checked, tscbGroupCountForList.SelectedIndex, lvFilesCount, listViewFB2Files, false
+				chBoxScanSubDir.Checked, tscbGroupCountForList.SelectedIndex, checkBoxSaveGroupsToXml.Checked,
+				lvFilesCount, listViewFB2Files, false
 			);
 			Cursor.Current = Cursors.Default;
 			comrareForm.ShowDialog();
@@ -3556,9 +3591,8 @@ namespace SharpFBTools.Tools
 					TICoverLenghtLabel.Text = STICoverLenghtLabel.Text = "Размер";
 					
 					// защита от двойного срабатывания
-					if( m_CurrentResultItem != SelectedItem.Index ) {
+					if( m_CurrentResultItem != SelectedItem.Index & listViewFB2Files.SelectedItems.Count == 1 ) {
 						m_CurrentResultItem = SelectedItem.Index;
-						
 						// отображение новых метаданных в строке списка и в детализации
 						string FilePath = SelectedItem.Text;
 						string SrcFilePath = FilePath;
@@ -4554,6 +4588,14 @@ namespace SharpFBTools.Tools
 		void TsmiColumnsResultAutoReizeClick(object sender, EventArgs e)
 		{
 			MiscListView.AutoResizeColumns( listViewFB2Files );
+		}
+		void CheckBoxSaveGroupsToXmlCheckStateChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		void TscbGroupCountForListSelectedIndexChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
 		}
 		
 		#endregion

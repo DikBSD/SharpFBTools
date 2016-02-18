@@ -164,6 +164,11 @@ namespace Core.FileManager.Templates {
 			}
 		}
 		
+		// ограничение размера строки Source до размера Len (для предотвращения длинных имен)
+		private static string makeString( string Source, int Len ) {
+			return Source.Length <= Len ? Source : Source.Substring(0, Len-1);
+		}
+		
 		// парсинг сложных условных групп
 		private static string ParseComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors,
 		                                        BookTitle btBookTitle, IList<Sequence> lSequences, FB2UnionGenres fb2g, Date dBookDate,
@@ -391,7 +396,7 @@ namespace Core.FileManager.Templates {
 									if( btBookTitle.Value==null || btBookTitle.Value.Trim().Length==0 ) {
 										lexem.Lexem = "";
 									} else {
-										lexem.Lexem = btBookTitle.Value.Trim();
+										lexem.Lexem += makeString( btBookTitle.Value.Trim(), 50 );
 									}
 								}
 								break;
@@ -402,7 +407,7 @@ namespace Core.FileManager.Templates {
 									if( lSequences[0].Name==null || lSequences[0].Name.Trim().Length==0 ) {
 										lexem.Lexem = "";
 									} else {
-										lexem.Lexem = lSequences[0].Name.Trim();
+										lexem.Lexem = makeString( lSequences[0].Name.Trim(), 50 );
 									}
 								}
 								break;
@@ -867,7 +872,7 @@ namespace Core.FileManager.Templates {
 									if( btBookTitle.Value==null || btBookTitle.Value.Trim().Length==0 ) {
 										sFileName += sortOptions.BookInfoNoBookTitle;
 									} else {
-										sFileName += btBookTitle.Value.Trim();
+										sFileName += makeString( btBookTitle.Value.Trim(), 50 );
 									}
 								}
 								break;
@@ -878,7 +883,7 @@ namespace Core.FileManager.Templates {
 									if( lSequences[0].Name==null || lSequences[0].Name.Trim().Length==0 ) {
 										sFileName += sortOptions.BookInfoNoSequence;
 									} else {
-										sFileName += lSequences[0].Name.Trim();
+										sFileName += makeString( lSequences[0].Name.Trim(), 50 );
 									}
 								}
 								break;
@@ -1161,14 +1166,14 @@ namespace Core.FileManager.Templates {
 							case "[*BT*]": // Название Книги
 								if( btBookTitle != null ) {
 									if( btBookTitle.Value!=null || btBookTitle.Value.Trim().Length!=0 ) {
-										sFileName += btBookTitle.Value.Trim();
+										sFileName += makeString( btBookTitle.Value.Trim(), 50 );
 									}
 								}
 								break;
 							case "[*SN*]": // Серия Книги
 								if( lSequences != null ) {
 									if( lSequences[0].Name!=null || lSequences[0].Name.Trim().Length!=0 ) {
-										sFileName += lSequences[0].Name.Trim();
+										sFileName += makeString( lSequences[0].Name.Trim(), 50 );
 									}
 								}
 								break;
