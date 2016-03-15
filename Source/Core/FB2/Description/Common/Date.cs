@@ -27,37 +27,37 @@ namespace Core.FB2.Description.Common
 		}
 		public Date( string sText, string sValue, string sLang )
         {
-            m_sText		= sText;
-			m_sValue	= sValue;
-            m_sLang		= sLang;
+            m_sText		= sText.Trim();
+			m_sValue	= sValue.Trim();
+            m_sLang		= sLang.Trim();
         }
 		public Date( string sText, string sValue )
         {
-            m_sText		= sText;
-            m_sValue	= sValue;
+            m_sText		= sText.Trim();
+            m_sValue	= sValue.Trim();
         }
 		public Date( string sText )
         {
-            m_sText	= sText;
+            m_sText	= sText.Trim();
         }
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Value {
-            get { return m_sValue; }
-            set { m_sValue = value; }
+            get { return m_sValue.Trim(); }
+            set { m_sValue = value.Trim(); }
         }
 
         public virtual string Lang {
-            get { return m_sLang; }
-            set { m_sLang = value; }
+            get { return m_sLang.Trim(); }
+            set { m_sLang = value.Trim(); }
         }
         #endregion
         
 		#region Открытые свойства класса - элементы fb2-элементов
         public virtual string Text {
-            get { return m_sText; }
-            set { m_sText = value; }
+            get { return m_sText.Trim(); }
+            set { m_sText = value.Trim(); }
         }
 		#endregion
 	}

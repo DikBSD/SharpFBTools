@@ -92,6 +92,7 @@ namespace Core.Common
 		/// </summary>
 		public enum CompareMode : byte {
 			Version,		// Версия файла
+			VersionValidate,// Версия файла и валидность
 			Encoding,		// Кодировка
 			Validate,		// Валидность
 			FileLength, 	// Размер файла

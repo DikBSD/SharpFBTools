@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
+using System.Linq;
+using System.Xml.Linq;
 
 using Core.FB2.Genres;
 using Core.FB2.Description.TitleInfo;
@@ -893,6 +895,18 @@ namespace Core.Common
 			return Result;
 		}
 
+		// удаление из списка всех обработанных книг (файлы)
+		// FilesList обрабатываемые файлы
+		// FinishedFilesList обработанные файлы
+		public static void removeFinishedFilesInFilesList( ref List<string> FilesList, ref List<string> FinishedFilesList ) {
+			List<string> FilesToWorkingList = new List<string>();
+			foreach ( var file in FilesList.Except(FinishedFilesList) )
+				FilesToWorkingList.Add(file);
+			
+			FilesList.Clear();
+			FilesList.AddRange(FilesToWorkingList);
+		}
+		
 		/// <summary>
 		/// Восстановление description раздела описания fb2 книги
 		/// </summary>
@@ -940,6 +954,7 @@ namespace Core.Common
 				zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, IsFromZip, FilePath );
 			}
 		}
+		
 		
 	}
 }

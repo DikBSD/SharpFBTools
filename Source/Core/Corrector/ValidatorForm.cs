@@ -100,6 +100,7 @@ namespace Core.Corrector
 					int i = 0;
 					foreach( ListViewItem lvi in checkedItems ) {
 						if( ( m_bw.CancellationPending ) ) {
+							m_listView.EndUpdate();
 							e.Cancel = true;
 							return;
 						}
@@ -118,6 +119,7 @@ namespace Core.Corrector
 					int i = 0;
 					foreach( ListViewItem lvi in selItems ) {
 						if( ( m_bw.CancellationPending ) ) {
+							m_listView.EndUpdate();
 							e.Cancel = true;
 							return;
 						}
@@ -136,6 +138,7 @@ namespace Core.Corrector
 					int i = 0;
 					foreach( ListViewItem lvi in lvItemColl ) {
 						if( ( m_bw.CancellationPending ) ) {
+							m_listView.EndUpdate();
 							e.Cancel = true;
 							return;
 						}
@@ -152,7 +155,7 @@ namespace Core.Corrector
 			++ProgressBar.Value;
 		}
 		
-		// Завершение работы Обработчика Файлов
+		// Проверяем - это отмена, ошибка, или конец задачи и сообщить
 		private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
 			// Сбор данных о причине завершения работы
 			DateTime dtEnd = DateTime.Now;

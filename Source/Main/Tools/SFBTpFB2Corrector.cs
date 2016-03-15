@@ -10,10 +10,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Text;
 using System.IO;
-using System.Xml;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -187,8 +184,6 @@ namespace SharpFBTools.Tools
 		}
 		// заполнение списка данными указанной папки
 		private void generateFB2List( string dirPath ) {
-			// отображение метаданных книг
-			DirectoryInfo dirInfo = new DirectoryInfo( dirPath );
 			// запуск формы прогресса отображения метаданных книг
 			Cursor.Current = Cursors.WaitCursor;
 			listViewFB2Files.BeginUpdate();
@@ -1317,19 +1312,21 @@ namespace SharpFBTools.Tools
 					);
 					fileWorkerForm.ShowDialog();
 					EndWorkMode EndWorkMode = fileWorkerForm.EndMode;
-					int SelectedItem = fileWorkerForm.LastSelectedItem;
+					int SelectedItem = fileWorkerForm.LastSelectedItem > -1 ? fileWorkerForm.LastSelectedItem : 0;
 					fileWorkerForm.Dispose();
 					listViewFB2Files.EndUpdate();
 					ConnectListsEventHandlers( true );
 					// отображение метаданных
-					string FilePath = Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.Items[SelectedItem].Text );
-					viewMetaData( FilePath, listViewFB2Files.Items[SelectedItem], 1 );
+					if ( listViewFB2Files.Items.Count > 0 ) {
+						string FilePath = Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.Items[SelectedItem].Text );
+						viewMetaData( FilePath, listViewFB2Files.Items[SelectedItem], 1 );
+					}
 					MessageBox.Show( EndWorkMode.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					listViewFB2Files.Focus();
-				} catch {
+				} catch (System.Exception ex) {
 					listViewFB2Files.EndUpdate();
 					ConnectListsEventHandlers( true );
-					MessageBox.Show( "Поврежден файл списка редактируемых fb2 книг: \""+FromXML+"\"!", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show( "Возможно, поврежден файл списка редактируемых fb2 книг: \""+FromXML+"\"!\n"+ex.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				}
 			}
 		}
@@ -1563,6 +1560,94 @@ namespace SharpFBTools.Tools
 		void TsmiColumnsExplorerAutoReizeClick(object sender, EventArgs e)
 		{
 			MiscListView.AutoResizeColumns( listViewFB2Files );
+		}
+		
+		// найти все невалидные файлы в папке Адрес
+		void TtoolStripButtonFundNotValidateClick(object sender, EventArgs e)
+		{
+			const string MessagTitle = "SharpFBTools - Поиск всех невалидных файлов";
+			string Address = textBoxAddress.Text.Trim();
+			if( Address != string.Empty ) {
+				if ( Address.Substring( Address.Length - 1, 1 ) != "\\" )
+					Address = textBoxAddress.Text = textBoxAddress.Text + "\\";
+				if( Directory.Exists( Address ) ) {
+					// запуск формы прогресса отображения метаданных книг
+					Cursor.Current = Cursors.WaitCursor;
+					ConnectListsEventHandlers( false );
+					listViewFB2Files.BeginUpdate();
+					listViewFB2Files.Items.Clear();
+					
+					FB2NotValidateForm fb2NotValidateForm = new FB2NotValidateForm(
+						null, listViewFB2Files, Address, false
+					);
+					fb2NotValidateForm.ShowDialog();
+					EndWorkMode EndWorkMode = fb2NotValidateForm.EndMode;
+					fb2NotValidateForm.Dispose();
+
+					listViewFB2Files.EndUpdate();
+					ConnectListsEventHandlers( true );
+					Cursor.Current = Cursors.Default;
+					MessageBox.Show( EndWorkMode.Message, MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				} else
+					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Error );
+			}
+		}
+		void ToolStripButtonReFundNotValidateFromXMLClick(object sender, EventArgs e)
+		{
+			const string MessagTitle = "SharpFBTools - Поиск всех невалидных файлов";
+			// загрузка данных из xml
+			sfdLoadList.InitialDirectory = Settings.Settings.ProgDir;
+			sfdLoadList.Title		= "Укажите файл для возобновления поиска всех невалидных книг:";
+			sfdLoadList.Filter		= "SharpFBTools Файлы хода работы Корректора (*.corr_break)|*.corr_break";
+			sfdLoadList.FileName	= string.Empty;
+			DialogResult result		= sfdLoadList.ShowDialog();
+			XElement xmlTree = null;
+			if( result == DialogResult.OK ) {
+				Cursor.Current = Cursors.WaitCursor;
+				xmlTree = XElement.Load( sfdLoadList.FileName );
+			} else
+				return;
+			
+			int GroupCountForList = 0;
+			bool SaveGroupToXMLWithoutTree = true;
+			if( xmlTree != null ) {
+				XElement xmlSettings = xmlTree.Element("Settings");
+				if ( xmlSettings != null ) {
+					// устанавливаем данные настройки поиска-сравнения
+					textBoxAddress.Text = xmlTree.Element("SourceDir").Value;
+					// число Групп для сохранения в список
+					if( xmlSettings.Element("GroupCountForList") != null )
+						GroupCountForList = Convert.ToInt16( xmlTree.Element("Settings").Element("GroupCountForList").Value );
+					if( xmlSettings.Element("SaveGroupToXMLWithoutTree") != null )
+						SaveGroupToXMLWithoutTree	= Convert.ToBoolean( xmlTree.Element("Settings").Element("SaveGroupToXMLWithoutTree").Value );
+				}
+			}
+			
+			string Address = textBoxAddress.Text.Trim();
+			if( Directory.Exists( Address ) ) {
+				// запуск формы прогресса отображения метаданных книг
+				Cursor.Current = Cursors.WaitCursor;
+				ConnectListsEventHandlers( false );
+				listViewFB2Files.BeginUpdate();
+				listViewFB2Files.Items.Clear();
+				
+				FB2NotValidateForm fb2NotValidateForm = new FB2NotValidateForm(
+					sfdLoadList.FileName, listViewFB2Files, textBoxAddress.Text, false
+				);
+
+				fb2NotValidateForm.ShowDialog();
+				EndWorkMode EndWorkMode = fb2NotValidateForm.EndMode;
+				textBoxAddress.Text = fb2NotValidateForm.getSourceDirFromRenew();
+				fb2NotValidateForm.Dispose();
+
+				listViewFB2Files.EndUpdate();
+				ConnectListsEventHandlers( true );
+				Cursor.Current = Cursors.Default;
+				MessageBox.Show( EndWorkMode.Message, MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			} else {
+				MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Error );
+			}
+			
 		}
 		
 		#endregion

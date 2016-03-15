@@ -9,6 +9,7 @@
 using System;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 using Core.Common;
 
@@ -45,6 +46,7 @@ namespace Core.Duplicator
 			private int m_IndexCreationTime = 0;
 			private int m_IndexLastWriteTime = 0;
 			private string		m_Version		= string.Empty;
+			private bool		m_Validate		= false;
 			private DateTime	m_CreationTime	= Convert.ToDateTime("01/01/1900");
 			private DateTime	m_LastWriteTime	= Convert.ToDateTime("01/01/1900");
 
@@ -64,6 +66,10 @@ namespace Core.Duplicator
 			public virtual string Version {
 				get { return m_Version; }
 				set { m_Version = value; }
+			}
+			public virtual bool Validate {
+				get { return m_Validate; }
+				set { m_Validate = value; }
 			}
 			public virtual DateTime CreationTime {
 				get { return m_CreationTime; }
@@ -127,6 +133,11 @@ namespace Core.Duplicator
 							this.Text += " (по версии)";
 							CheckAllOldBooksInAllGroups(CompareMode.Version, ref m_bw, ref e);
 							break;
+						case CompareMode.VersionValidate:
+							// пометить в каждой группе все "старые" книги (по тэгу version), невалидные
+							this.Text += " (по версии, все невалидные книги)";
+							CheckAllOldBooksInAllGroups(CompareMode.VersionValidate, ref m_bw, ref e);
+							break;
 						case CompareMode.CreationTime:
 							// пометить в каждой группе все "старые" книги (по времени создания файла)
 							this.Text += " (по времени создания)";
@@ -153,6 +164,11 @@ namespace Core.Duplicator
 							// пометить в выбранной группе все "старые" книги (по тэгу version)
 							this.Text += " (по версии)";
 							CheckAllOldBooksInGroup(CompareMode.Version, ref m_bw, ref e);
+							break;
+						case CompareMode.VersionValidate:
+							// пометить в выбранной группе все "старые" книги (по тэгу version), невалидные
+							this.Text += " (по версии, все невалидные книги)";
+							CheckAllOldBooksInGroup(CompareMode.VersionValidate, ref m_bw, ref e);
 							break;
 						case CompareMode.CreationTime:
 							// пометить в выбранной группе все "старые" книги (по времени создания файла)
@@ -251,23 +267,26 @@ namespace Core.Duplicator
 		{
 			#region Код
 			int iter = 0;
-			if( !InAllGroups ) {
+			if ( !InAllGroups ) {
 				if ( mode == CompareMode.Validate )
 					ProgressBar.Maximum	= lvGroup.Items.Count;
+				else if ( mode == CompareMode.VersionValidate )
+					ProgressBar.Maximum	= 6 * lvGroup.Items.Count;
 				else
 					ProgressBar.Maximum	= 2 * lvGroup.Items.Count;
 			}
 			
 			// перебор всех книг в выбранной группе
 			FB2BookInfo bookInfo = new FB2BookInfo();
+			List<FB2BookInfo> fb2BookInfoList = new List<FB2BookInfo>();
 			DateTime dt;
-			foreach( ListViewItem lvi in lvGroup.Items ) {
-				if( ( bw.CancellationPending ) )  {
+			foreach ( ListViewItem lvi in lvGroup.Items ) {
+				if ( ( bw.CancellationPending ) )  {
 					e.Cancel = true;
 					return;
 				}
 				if (lvi.SubItems[(int)ResultViewDupCollumn.Version].Text != string.Empty) {
-					switch( mode) {
+					switch ( mode ) {
 						case CompareMode.Version:
 							// у какой книги версия более поздняя
 							if ( bookInfo.Version.Replace('.', ',').CompareTo(lvi.SubItems[(int)ResultViewDupCollumn.Version].Text.Replace('.', ',')) < 0 ) {
@@ -275,6 +294,14 @@ namespace Core.Duplicator
 								bookInfo.Version = lvi.SubItems[(int)ResultViewDupCollumn.Version].Text;
 								bookInfo.IndexVersion = lvi.Index;
 							}
+							break;
+						case CompareMode.VersionValidate:
+							// пометить в выбранной группе все "старые" книги (по тэгу version и невалидности)
+							FB2BookInfo bookInfoVerVal = new FB2BookInfo();
+							bookInfoVerVal.Version = lvi.SubItems[(int)ResultViewDupCollumn.Version].Text;
+							bookInfoVerVal.IndexVersion = lvi.Index;
+							bookInfoVerVal.Validate = lvi.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Да" ? true : false;
+							fb2BookInfoList.Add( bookInfoVerVal );
 							break;
 						case CompareMode.CreationTime:
 							// какой файл позднее создан
@@ -299,33 +326,98 @@ namespace Core.Duplicator
 							break;
 					}
 				}
-				if( !InAllGroups )
+				if ( !InAllGroups )
 					bw.ReportProgress( ++iter );
 			}
 			
-			if ( mode != CompareMode.Validate ) {
+			if ( mode != CompareMode.Validate && mode != CompareMode.VersionValidate) {
 				// помечаем все книги в группе, кроме самой "новой"
 				foreach ( ListViewItem item in lvGroup.Items ) {
-					if( ( bw.CancellationPending ) )  {
+					if ( ( bw.CancellationPending ) )  {
 						e.Cancel = true;
 						return;
 					}
 					switch( mode) {
 						case CompareMode.Version:
-							if (item.Index != bookInfo.IndexVersion)
+							if ( item.Index != bookInfo.IndexVersion )
 								m_lvResult.Items[item.Index].Checked = true;
 							break;
 						case CompareMode.CreationTime:
-							if (item.Index != bookInfo.IndexCreationTime)
+							if ( item.Index != bookInfo.IndexCreationTime )
 								m_lvResult.Items[item.Index].Checked = true;
 							break;
 						case CompareMode.LastWriteTime:
-							if (item.Index != bookInfo.IndexLastWriteTime)
+							if ( item.Index != bookInfo.IndexLastWriteTime )
 								m_lvResult.Items[item.Index].Checked = true;
 							break;
 					}
-					if( !InAllGroups )
+					if ( !InAllGroups )
 						bw.ReportProgress( ++iter );
+				}
+			}
+			
+			if ( mode == CompareMode.VersionValidate ) {
+				List<string> array = new List<string>( fb2BookInfoList.Count );
+				foreach ( FB2BookInfo fb2BookInfo in fb2BookInfoList ) {
+					array.Add( fb2BookInfo.Version.Replace('.', ',') );
+					if ( ( bw.CancellationPending ) )  {
+						e.Cancel = true;
+						return;
+					}
+					if ( !InAllGroups )
+						bw.ReportProgress( ++iter );
+				}
+				array.Sort();
+				string maxVersion = array[array.Count-1];
+				
+				// отбор элементов, соответстующих максимальной версии maxVersion
+				List<FB2BookInfo> fb2BookInfoMaxVersionList = new List<FB2BookInfo>();
+				foreach ( FB2BookInfo fb2BookInfo in fb2BookInfoList ) {
+					if ( fb2BookInfo.Version.Replace('.', ',').CompareTo( maxVersion ) == 0 )
+						fb2BookInfoMaxVersionList.Add( fb2BookInfo );
+					if ( ( bw.CancellationPending ) )  {
+						e.Cancel = true;
+						return;
+					}
+					if ( !InAllGroups )
+						bw.ReportProgress( ++iter );
+				}
+				
+				// поиск валидной книги среди книг с максимальной версией
+				int maxVersionValidateIndex = -1; // индекс итема валидной книги с максимальной версией
+				foreach ( FB2BookInfo fb2BookInfo in fb2BookInfoMaxVersionList ) {
+					if ( fb2BookInfo.Validate ) {
+						maxVersionValidateIndex = fb2BookInfo.IndexVersion;
+						break;
+					}
+					if ( ( bw.CancellationPending ) )  {
+						e.Cancel = true;
+						return;
+					}
+					if ( !InAllGroups )
+						bw.ReportProgress( ++iter );
+				}
+				
+				// помечаем все книги в группе, кроме самой "новой" и валидной
+				foreach ( ListViewItem item in lvGroup.Items ) {
+					if ( item.Index != maxVersionValidateIndex )
+						m_lvResult.Items[item.Index].Checked = true;
+					if ( ( bw.CancellationPending ) )  {
+						e.Cancel = true;
+						return;
+					}
+					if ( !InAllGroups )
+						bw.ReportProgress( ++iter );
+				}
+				
+				// если выделены все итемы (все - невалидные), то снимаем пометку с первого итема с максимальной версией
+				if ( maxVersionValidateIndex == -1 ) {
+					foreach ( FB2BookInfo fb2BookInfo in fb2BookInfoMaxVersionList ) {
+						if ( !fb2BookInfo.Validate ) {
+							m_lvResult.Items[fb2BookInfo.IndexVersion].Checked = false;
+							break;
+						}
+					}
 				}
 			}
 			#endregion

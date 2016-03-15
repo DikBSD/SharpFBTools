@@ -22,11 +22,11 @@ namespace Core.FB2.Description.DocumentInfo
 		{
 		}
 		public History( string sText, string sId, string sLang ) :
-			base( sText, sId, sLang )
+			base( sText.Trim(), sId.Trim(), sLang.Trim() )
         {
         }
 		public History( string sText, string sId ) :
-			base( sText, sId )
+			base( sText.Trim(), sId.Trim() )
         {
         }
 		#endregion

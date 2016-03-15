@@ -132,6 +132,10 @@
       <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Corrector\CorrectorrSettings.cs" />
+    <Compile Include="Corrector\FB2NotValidateForm.cs" />
+    <Compile Include="Corrector\FB2NotValidateForm.Designer.cs">
+      <DependentUpon>FB2NotValidateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Corrector\FB2TagsListGenerateForm.cs" />
     <Compile Include="Corrector\FB2TagsListGenerateForm.Designer.cs">
       <DependentUpon>FB2TagsListGenerateForm.cs</DependentUpon>
@@ -186,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Corrector\CopyMoveDeleteForm.resx">
       <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\FB2NotValidateForm.resx">
+      <DependentUpon>FB2NotValidateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Corrector\FB2TagsListGenerateForm.resx">
       <DependentUpon>FB2TagsListGenerateForm.cs</DependentUpon>

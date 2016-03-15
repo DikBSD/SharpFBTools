@@ -22,11 +22,11 @@ namespace Core.FB2.Description.TitleInfo
 		{
 		}
 		public Keywords( string sValue, string sLang ) :
-			base( sValue, sLang )
+			base( sValue.Trim(), sLang.Trim() )
         {
         }
 		public Keywords( string sValue ) :
-			base( sValue )
+			base( sValue.Trim() )
         {
         }
 		#endregion

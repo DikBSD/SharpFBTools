@@ -28,24 +28,24 @@ namespace Core.FB2.Description.CustomInfo
 		public CustomInfo( string sValue, string sInfoType, string sLang ) :
 			base( sValue, sLang )
         {
-			m_sInfoType	= sInfoType;
+			m_sInfoType	= sInfoType.Trim();
         }
 		public CustomInfo(string sValue, string sInfoType) :
 			base( sValue )
         {
-            m_sInfoType = sInfoType;
+            m_sInfoType = sInfoType.Trim();
         }
 		public CustomInfo( string sInfoType ) :
 			base( "", "" )
         {
-			m_sInfoType	= sInfoType;
+			m_sInfoType	= sInfoType.Trim();
         }
 		#endregion
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string InfoType {
-            get { return m_sInfoType; }
-            set { m_sInfoType = value; }
+            get { return m_sInfoType.Trim(); }
+            set { m_sInfoType = value.Trim(); }
         }
 		#endregion
 	}

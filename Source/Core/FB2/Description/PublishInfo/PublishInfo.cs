@@ -37,7 +37,7 @@ namespace Core.FB2.Description.PublishInfo
             m_BookName	= bookName;
             m_Publisher = publisher;
             m_City		= city;
-            m_sYear		= sYear;
+            m_sYear		= sYear.Trim();
             m_ISBN		= isbn;
             m_Sequences	= sequences;
         }
@@ -64,8 +64,8 @@ namespace Core.FB2.Description.PublishInfo
 
         public virtual string Year
         {
-            get { return m_sYear; }
-            set { m_sYear = value; }
+            get { return m_sYear.Trim(); }
+            set { m_sYear = value.Trim(); }
         }
 
         public virtual ISBN ISBN

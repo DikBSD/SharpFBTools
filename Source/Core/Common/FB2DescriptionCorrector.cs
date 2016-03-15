@@ -111,7 +111,7 @@ namespace Core.Common
 			xmlTI.AppendChild( makeGenreNode( "other", null ) );
 			xmlTI.AppendChild(
 				makeAuthorNode(
-					Enums.AuthorEnum.AuthorOfBook, string.Empty, string.Empty, "Неизвестный", string.Empty,
+					Enums.AuthorEnum.AuthorOfBook, string.Empty, string.Empty, "Автор Неизвестен", string.Empty,
 					null, null, string.Empty
 				)
 			);
@@ -322,7 +322,7 @@ namespace Core.Common
 					if ( xmlAuthors.Count == 0 ) {
 						xmlTINew.AppendChild(
 							makeAuthorNode(
-								Enums.AuthorEnum.AuthorOfBook, string.Empty, string.Empty, "Неизвестный", string.Empty,
+								Enums.AuthorEnum.AuthorOfBook, string.Empty, string.Empty, "Автор Неизвестен", string.Empty,
 								null, null, string.Empty
 							)
 						);
@@ -362,7 +362,7 @@ namespace Core.Common
 				} else {
 					xmlTINew.AppendChild(
 						makeAuthorNode(
-							Enums.AuthorEnum.AuthorOfBook, string.Empty, string.Empty, "Неизвестный", string.Empty,
+							Enums.AuthorEnum.AuthorOfBook, string.Empty, string.Empty, "Автор Неизвестен", string.Empty,
 							null, null, string.Empty
 						)
 					);
@@ -635,7 +635,7 @@ namespace Core.Common
 					xmlAuthorNew.AppendChild( xmlLastName );
 				else {
 					XmlElement xmlLastNameNew = _fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "last-name", _fb2.getNamespaceURI());
-					xmlLastNameNew.InnerText = "Неизвестный";
+					xmlLastNameNew.InnerText = "Автор Неизвестен";
 					xmlAuthorNew.AppendChild( xmlLastNameNew );
 				}
 				

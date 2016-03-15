@@ -22,11 +22,11 @@ namespace Core.FB2.Description.DocumentInfo
 		{
 		}
 		public SrcOCR( string sValue, string sLang ) :
-			base( sValue, sLang )
+			base( sValue.Trim(), sLang.Trim() )
         {
         }
 		public SrcOCR( string sValue ) :
-			base( sValue )
+			base( sValue.Trim() )
         {
         }
 		#endregion

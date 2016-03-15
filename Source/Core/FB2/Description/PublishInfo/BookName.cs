@@ -22,11 +22,11 @@ namespace Core.FB2.Description.PublishInfo
 		{
 		}
 		public BookName( string sValue, string sLang ) :
-			base( sValue, sLang )
+			base( sValue.Trim(), sLang.Trim() )
         {
         }
 		public BookName( string sValue ) :
-			base( sValue )
+			base( sValue.Trim() )
         {
         }
 		#endregion

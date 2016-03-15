@@ -151,10 +151,10 @@ namespace Core.FB2.Description.Common
 		}
 
 		public virtual string ID {
-			get { return m_sID; }
+			get { return m_sID.Trim(); }
 			set {
 				if( m_sID == null )
-					m_sID = value;
+					m_sID = value.Trim();
 			}
 		}
 		#endregion

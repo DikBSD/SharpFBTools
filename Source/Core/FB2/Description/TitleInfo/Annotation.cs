@@ -27,34 +27,34 @@ namespace Core.FB2.Description.TitleInfo
 		}
 		public Annotation( string sValue, string sId, string sLang )
         {
-            m_sValue	= sValue;
-			m_sId		= sId;
-            m_sLang		= sLang;
+            m_sValue	= sValue.Trim();
+			m_sId		= sId.Trim();
+            m_sLang		= sLang.Trim();
         }
 		public Annotation( string sValue, string sId )
         {
-            m_sValue	= sValue;
-			m_sId		= sId;
+            m_sValue	= sValue.Trim();
+			m_sId		= sId.Trim();
 			m_sLang		= null;
         }
         #endregion
         
         #region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Id {
-            get { return m_sId; }
-            set { m_sId = value; }
+            get { return m_sId.Trim(); }
+            set { m_sId = value.Trim(); }
         }
 
         public virtual string Lang {
-            get { return m_sLang; }
-            set { m_sLang = value; }
+            get { return m_sLang.Trim(); }
+            set { m_sLang = value.Trim(); }
         }
         #endregion
         
         #region Открытые свойства класса - элементы fb2-элементов
         public virtual string Value {
-            get { return m_sValue; }
-            set { m_sValue = value; }
+            get { return m_sValue.Trim(); }
+            set { m_sValue = value.Trim(); }
         }
         #endregion
 	}

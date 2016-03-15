@@ -676,18 +676,6 @@ namespace Core.Duplicator
 				ht.Remove(ent.Key);
 		}
 		
-		// удаление из списка всех обработанных книг (файлы)
-		// FilesList обрабатываемые файлы
-		// FinishedFilesList обработанные файлы
-		private void removeFinishedFilesInFilesList( ref List<string> FilesList, ref List<string> FinishedFilesList) {
-			List<string> FilesToWorkingList = new List<string>();
-			foreach (var file in FilesList.Except(FinishedFilesList))
-				FilesToWorkingList.Add(file);
-			
-			FilesList.Clear();
-			FilesList.AddRange(FilesToWorkingList);
-		}
-		
 		// хеширование файлов в контексте Md5 книг:
 		// 0. Абсолютно одинаковые книги (md5)
 		// параметры: FilesList - список файлов для сканирования
@@ -700,30 +688,32 @@ namespace Core.Duplicator
 			for( int i = 0; i != FilesList.Count; ++i ) {
 				if( ( bw.CancellationPending ) )  {
 					// удаление из списка всех файлов обработанные книги (файлы)
-					removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+					WorksWithBooks.removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
 					e.Cancel = true;
 					return;
 				}
 				string Ext = Path.GetExtension( FilesList[i] ).ToLower();
-				if( Ext == ".fb2" ) {
+				if ( Ext == ".fb2" ) {
 					// заполнение хеш таблицы данными о fb2-книгах в контексте их md5
 					MakeFB2Md5HashTable( null, FilesList[i], ref htFB2ForMd5 );
 					// обработанные файлы
-					FinishedFilesList.Add(FilesList[i]);
+					FinishedFilesList.Add( FilesList[i] );
 				}  else {
-					if( Ext == ".zip" || Ext == ".fbz" ) {
+					if ( Ext == ".zip" || Ext == ".fbz" ) {
 						try {
-							m_sharpZipLib.UnZipFiles(FilesList[i], m_TempDir, 0, false, null, 4096);
+							m_sharpZipLib.UnZipFiles( FilesList[i], m_TempDir, 0, false, null, 4096 );
 							string [] files = Directory.GetFiles( m_TempDir );
-							if( files.Length > 0 ) {
-								if( Path.GetExtension( files[0] ).ToLower() == ".fb2") {
+							if ( files.Length > 0 ) {
+								if ( Path.GetExtension( files[0] ).ToLower() == ".fb2" ) {
 									// заполнение хеш таблицы данными о fb2-книгах в контексте их md5
 									MakeFB2Md5HashTable( FilesList[i], files[0], ref htFB2ForMd5 );
 									// обработанные файлы
-									FinishedFilesList.Add(FilesList[i]);
+									FinishedFilesList.Add( FilesList[i] );
 								}
 							}
 						} catch {
+							// обработанные файлы
+							FinishedFilesList.Add(FilesList[i]);
 						}
 						FilesWorker.RemoveDir( m_TempDir );
 					}
@@ -733,7 +723,7 @@ namespace Core.Duplicator
 			// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
 			removeNotCopiesEntryInHashTable( ref htFB2ForMd5 );
 			// удаление из списка всех файлов обработанные книги (файлы)
-			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+			WorksWithBooks.removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList );
 		}
 		
 		/// <summary>
@@ -794,7 +784,7 @@ namespace Core.Duplicator
 			for( int i = 0; i != FilesList.Count; ++i ) {
 				if( ( bw.CancellationPending ) )  {
 					// удаление из списка всех файлов обработанные книги (файлы)
-					removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+					WorksWithBooks.removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
 					e.Cancel = true;
 					return;
 				}
@@ -827,7 +817,7 @@ namespace Core.Duplicator
 			// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
 			removeNotCopiesEntryInHashTable( ref htFB2ForID );
 			// удаление из списка всех файлов обработанные книги (файлы)
-			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+			WorksWithBooks.removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
 		}
 		
 		/// <summary>
@@ -884,7 +874,7 @@ namespace Core.Duplicator
 			for( int i = 0; i != FilesList.Count; ++i ) {
 				if( ( bw.CancellationPending ) )  {
 					// удаление из списка всех файлов обработанные книги (файлы)
-					removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+					WorksWithBooks.removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
 					e.Cancel = true;
 					return;
 				}
@@ -917,7 +907,7 @@ namespace Core.Duplicator
 			// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
 			removeNotCopiesEntryInHashTable( ref htFB2ForBT );
 			// удаление из списка всех файлов обработанные книги (файлы)
-			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+			WorksWithBooks.removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
 		}
 		
 		/// <summary>
@@ -976,7 +966,7 @@ namespace Core.Duplicator
 			for( int i = 0; i != FilesList.Count; ++i ) {
 				if( ( bw.CancellationPending ) )  {
 					// удаление из списка всех файлов обработанные книги (файлы)
-					removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+					WorksWithBooks.removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
 					e.Cancel = true;
 					return;
 				}
@@ -1009,7 +999,7 @@ namespace Core.Duplicator
 			// удаление элементов таблицы, value (списки) которых состоят из 1-го элемента
 			removeNotCopiesEntryInHashTable( ref htFB2ForAuthorFIO );
 			// удаление из списка всех файлов обработанные книги (файлы)
-			removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
+			WorksWithBooks.removeFinishedFilesInFilesList( ref FilesList, ref FinishedFilesList);
 		}
 		
 		/// <summary>
@@ -1644,6 +1634,9 @@ namespace Core.Duplicator
 		// 							СОХРАНЕНИЕ РЕЗУЛЬТАТА ПОИСКА КОПИЙ В XML-ФАЙЛЫ
 		// =============================================================================================
 		#region Сохранение результата поиска копий в xml-файлы
+		/// <summary>
+		/// сохранение результата сразу в xml-файлы без построения визуального списка
+		/// </summary>
 		private void saveCopiesListToXml( ref BackgroundWorker bw, ref DoWorkEventArgs e, int GroupCountForList,
 		                                 int CompareMode, string CompareModeName, ref Hashtable ht ) {
 			// блокировка отмены сохранения результата в файлы
@@ -1688,7 +1681,7 @@ namespace Core.Duplicator
 							string FileNumber = StringProcessing.makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc";
 							setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
 							doc.Save( Path.Combine( ToDirName, FileNumber ) );
-							StatusLabel.Text += "Файл: '_Copies\\" + FileNumber+"' создан...\r";
+							StatusLabel.Text += "Файл: '_Copies\\" + FileNumber + "' создан...\r";
 							doc.Root.Element("Groups").Elements().Remove();
 							GroupCountInGroups = 0;
 							GroupCounterForXML = 0;
@@ -1699,14 +1692,14 @@ namespace Core.Duplicator
 								string FileNumber = StringProcessing.makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc";
 								setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
 								doc.Save( Path.Combine( ToDirName, FileNumber ) );
-								StatusLabel.Text += "Файл: '_Copies\\" + FileNumber+"' создан...\r";
+								StatusLabel.Text += "Файл: '_Copies\\" + FileNumber + "' создан...\r";
 							}
 						}
 					} else {
 						setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
 						one = true;
 					}
-					bw.ReportProgress( ++i );
+					bw.ReportProgress( i++ );
 				} // по всем Группам
 				if ( one ) {
 					StatusLabel.Text += "Файл: '_Copies\001.dup_lbc' ...\r";

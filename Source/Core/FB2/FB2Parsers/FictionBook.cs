@@ -355,7 +355,7 @@ namespace Core.FB2.FB2Parsers
 				if( xmlDINode != null ) {
 					XmlNode xmlNode = xmlDINode.SelectSingleNode("." + _ns + "id", _NsManager);
 					return ( xmlNode != null )
-						? xmlNode.InnerText
+						? xmlNode.InnerText.Trim()
 						: null;
 				}
 				return null;
@@ -368,7 +368,7 @@ namespace Core.FB2.FB2Parsers
 				if( xmlDINode != null ) {
 					XmlNode xmlNode = xmlDINode.SelectSingleNode("." + _ns + "version", _NsManager);
 					return ( xmlNode != null )
-						? xmlNode.InnerText
+						? xmlNode.InnerText.Trim()
 						: null;
 				}
 				return null;
@@ -411,7 +411,7 @@ namespace Core.FB2.FB2Parsers
 						if( xmlNodes.Count > 0  ) {
 							ilSrcUrls = new List<string>();
 							foreach( XmlNode node in xmlNodes )
-								ilSrcUrls.Add( node.InnerText );
+								ilSrcUrls.Add( node.InnerText.Trim() );
 						}
 					}
 				}
@@ -425,7 +425,7 @@ namespace Core.FB2.FB2Parsers
 				if( xmlDINode != null ) {
 					XmlNode xmlNode = xmlDINode.SelectSingleNode("." + _ns + "src-ocr", _NsManager);
 					return ( xmlNode != null )
-						? new SrcOCR( xmlNode.InnerText )
+						? new SrcOCR( xmlNode.InnerText.Trim() )
 						: null;
 				}
 				return null;
@@ -493,7 +493,7 @@ namespace Core.FB2.FB2Parsers
 				if( xmlPINode != null ) {
 					XmlNode xmlYearNode = xmlPINode.SelectSingleNode("." + _ns + "year", _NsManager);
 					return ( xmlYearNode != null )
-						? xmlYearNode.InnerText
+						? xmlYearNode.InnerText.Trim()
 						: null;
 				}
 				return null;
@@ -564,12 +564,12 @@ namespace Core.FB2.FB2Parsers
 				foreach( XmlNode node in xmlNodes ) {
 					CustomInfo customInfo = null;
 					if( node.Attributes["info-type"] != null )
-						customInfo = new CustomInfo( node.InnerText, node.Attributes["info-type"].Value);
+						customInfo = new CustomInfo( node.InnerText, node.Attributes["info-type"].Value.Trim());
 					else
 						customInfo = new CustomInfo( node.InnerText, null );
 
 					if( node.Attributes["lang"] != null )
-						customInfo.Lang = node.Attributes["lang"].Value;
+						customInfo.Lang = node.Attributes["lang"].Value.Trim();
 
 					ilCustomInfos.Add( customInfo );
 				}
@@ -624,7 +624,7 @@ namespace Core.FB2.FB2Parsers
 			// извлечение информации по binary, в зависимости от атрибута id бинарного объекта
 			XmlNode xmlNode = getBinaryNodeForID( ID );
 			return xmlNode != null
-				? xmlNode.InnerText
+				? xmlNode.InnerText.Trim()
 				: null;
 		}
 		
@@ -637,11 +637,11 @@ namespace Core.FB2.FB2Parsers
 		}
 		
 		public string getPrefix() {
-			return 	_xmlDoc.DocumentElement.Prefix;
+			return 	_xmlDoc.DocumentElement.Prefix.Trim();
 		}
 		
 		public string getNamespaceURI() {
-			return _xmlDoc.DocumentElement.NamespaceURI;
+			return _xmlDoc.DocumentElement.NamespaceURI.Trim();
 		}
 
 		public XmlNamespaceManager getNamespaceManager() {
@@ -912,7 +912,7 @@ namespace Core.FB2.FB2Parsers
 				if( xmlBinaryNodes != null && xmlBinaryNodes.Count > 0 ) {
 					foreach( XmlNode Binary in xmlBinaryNodes ) {
 						if( Binary.Attributes["id"] != null ) {
-							if( ID == Binary.Attributes["id"].Value )
+							if( ID == Binary.Attributes["id"].Value.Trim() )
 								return Binary;
 						}
 					}
@@ -961,7 +961,7 @@ namespace Core.FB2.FB2Parsers
 			Genre genre = new Genre( xn.InnerText );
 			if( xn.Attributes["match"] != null ) {
 				try {
-					genre.Math = Convert.ToUInt32( xn.Attributes["match"].Value );
+					genre.Math = Convert.ToUInt32( xn.Attributes["match"].Value.Trim() );
 				} catch( Exception ) {
 					genre.Math = 100;
 				}
@@ -1003,7 +1003,7 @@ namespace Core.FB2.FB2Parsers
 					if( hp.Count > 0 ) {
 						IList<string> homePages = new List<string>();
 						foreach( XmlNode node in hp )
-							homePages.Add( node.InnerText );
+							homePages.Add( node.InnerText.Trim() );
 						Author.HomePages = homePages;
 					}
 				}
@@ -1012,13 +1012,13 @@ namespace Core.FB2.FB2Parsers
 					if( em.Count > 0 ) {
 						IList<string> emails = new List<string>();
 						foreach( XmlNode node in em )
-							emails.Add( node.InnerText );
+							emails.Add( node.InnerText.Trim() );
 						Author.Emails = emails;
 					}
 				}
 				
 				if( id != null )
-					Author.ID = id.InnerText;
+					Author.ID = id.InnerText.Trim();
 			}
 			return Author;
 		}
@@ -1031,20 +1031,20 @@ namespace Core.FB2.FB2Parsers
 			
 			Sequence sequence = null;
 			if( node.Attributes["name"] != null )
-				sequence = new Sequence( node.Attributes["name"].Value );
+				sequence = new Sequence( node.Attributes["name"].Value.Trim() );
 
 			if( node.Attributes["number"] != null ) {
 				if( sequence == null )
 					sequence = new Sequence();
 				try {
-					sequence.Number = node.Attributes["number"].Value ;
+					sequence.Number = node.Attributes["number"].Value.Trim() ;
 				} catch( FormatException ) {
 				}
 			}
 			if( node.Attributes["lang"] != null ) {
 				if( sequence == null )
 					sequence = new Sequence();
-				sequence.Lang = node.Attributes["lang"].Value;
+				sequence.Lang = node.Attributes["lang"].Value.Trim();
 			}
 			return sequence;
 		}
@@ -1082,7 +1082,7 @@ namespace Core.FB2.FB2Parsers
 			if( xmlTINode != null ) {
 				XmlNode xmlLangNode = xmlTINode.SelectSingleNode("." + _ns + "lang", _NsManager);
 				return ( xmlLangNode != null )
-					? xmlLangNode.InnerText
+					? xmlLangNode.InnerText.Trim()
 					: null;
 			}
 			return null;
@@ -1093,7 +1093,7 @@ namespace Core.FB2.FB2Parsers
 			if( xmlTINode != null ) {
 				XmlNode xmlSrcLangNode = xmlTINode.SelectSingleNode("." + _ns + "src-lang", _NsManager);
 				return ( xmlSrcLangNode != null )
-					? xmlSrcLangNode.InnerText
+					? xmlSrcLangNode.InnerText.Trim()
 					: null;
 			}
 			return null;
@@ -1173,7 +1173,7 @@ namespace Core.FB2.FB2Parsers
 						foreach( XmlNode ImageNode in xmlImageNodes ) {
 							if( ImageNode != null ) {
 								if( ImageNode.Attributes["l:href"] != null ) {
-									string Value = ImageNode.Attributes["l:href"].Value;
+									string Value = ImageNode.Attributes["l:href"].Value.Trim();
 									ilCoverpages.Add(
 										new Coverpage( Value.Substring( 0, 1 ) == "#" ? Value.Substring(1) : Value )
 									);
@@ -1217,7 +1217,7 @@ namespace Core.FB2.FB2Parsers
 			T textField = new T();
 			textField.Value = xmlNode.InnerText;
 			if( xmlNode.Attributes["lang"] != null )
-				textField.Lang = xmlNode.Attributes["lang"].Value;
+				textField.Lang = xmlNode.Attributes["lang"].Value.Trim();
 
 			return textField;
 		}
@@ -1229,9 +1229,9 @@ namespace Core.FB2.FB2Parsers
 				annotation = new T();
 				annotation.Value = xmlNode.InnerXml;
 				if( xmlNode.Attributes["id"] != null )
-					annotation.Id = xmlNode.Attributes["id"].Value;
+					annotation.Id = xmlNode.Attributes["id"].Value.Trim();
 				if( xmlNode.Attributes["lang"] != null )
-					annotation.Lang = xmlNode.Attributes["lang"].Value;
+					annotation.Lang = xmlNode.Attributes["lang"].Value.Trim();
 			}
 			return annotation;
 		}

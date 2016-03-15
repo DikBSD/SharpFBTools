@@ -90,7 +90,7 @@ namespace Core.Corrector
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(898, 117);
 			this.Name = "FB2TagsListGenerateForm";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Создание списка книг с описанием";
 			this.ControlPanel.ResumeLayout(false);
 			this.ResumeLayout(false);

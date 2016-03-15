@@ -30,13 +30,13 @@ namespace Core.FB2.Description.Common
 		}
 		public Sequence( string sName, string sNumber, string sLang )
         {
-			m_sName		= sName;
-			m_sNumber	= sNumber;
-			m_sLang		= sLang;
+			m_sName		= sName.Trim();
+			m_sNumber	= sNumber.Trim();
+			m_sLang		= sLang.Trim();
         }
         public Sequence( string sName )
         {
-            m_sName 	= sName;
+            m_sName 	= sName.Trim();
 			m_sLang		= null;
 			m_sNumber	= null;
         }
@@ -44,22 +44,22 @@ namespace Core.FB2.Description.Common
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Lang {
-            get { return m_sLang; }
-            set { m_sLang = value; }
+            get { return m_sLang.Trim(); }
+            set { m_sLang = value.Trim(); }
         }
 		#endregion
 		
 		#region Открытые свойства класса - fb2-элементы
 		public virtual string Name {
             // Название Серии
-			get { return m_sName; }
-            set { m_sName = value; }
+			get { return m_sName.Trim(); }
+            set { m_sName = value.Trim(); }
         }
 
         public virtual string Number {
 			// Номер Серии
-            get { return m_sNumber; }
-            set { m_sNumber = value; }
+            get { return m_sNumber.Trim(); }
+            set { m_sNumber = value.Trim(); }
         }
 		#endregion
 	}

@@ -22,11 +22,11 @@ namespace Core.FB2.Description.DocumentInfo
 		{
 		}
 		public ProgramUsed( string sValue, string sLang ) :
-			base( sValue, sLang )
+			base( sValue.Trim(), sLang.Trim() )
         {
         }
 		public ProgramUsed( string sValue ) :
-			base( sValue )
+			base( sValue.Trim() )
         {
         }
 		#endregion

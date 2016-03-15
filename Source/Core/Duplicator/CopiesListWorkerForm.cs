@@ -40,7 +40,7 @@ namespace Core.Duplicator
 		private readonly ComboBox		m_cboxMode			= new ComboBox();
 		private readonly TextBox		m_tboxSourceDir		= new TextBox();
 		private readonly CheckBox		m_chBoxScanSubDir	= new CheckBox();
-		private readonly ListView		m_lvResult			= new ListView();
+		private readonly ListView		m_listViewFB2Files	= new ListView();
 		private readonly ListView		m_lvFilesCount		= new ListView();
 		private readonly StatusView		m_StatusView		= new StatusView();
 		private readonly EndWorkMode	m_EndMode			= new EndWorkMode();
@@ -53,7 +53,7 @@ namespace Core.Duplicator
 		#endregion
 
 		public CopiesListWorkerForm( BooksWorkMode WorkMode, string DirOrFileName, ComboBox cboxMode,
-		                            ListView lvResult, ListView lvFilesCount, TextBox tboxSourceDir,
+		                            ListView listViewFB2Files, ListView lvFilesCount, TextBox tboxSourceDir,
 		                            CheckBox chBoxScanSubDir, int LastSelectedItem, int GroupCountForList )
 		{
 			InitializeComponent();
@@ -61,7 +61,7 @@ namespace Core.Duplicator
 			m_cboxMode			= cboxMode;
 			m_tboxSourceDir		= tboxSourceDir;
 			m_chBoxScanSubDir	= chBoxScanSubDir;
-			m_lvResult			= lvResult;
+			m_listViewFB2Files	= listViewFB2Files;
 			m_lvFilesCount		= lvFilesCount;
 			m_WorkMode			= WorkMode;
 			m_LastSelectedItem	= LastSelectedItem;
@@ -287,14 +287,14 @@ namespace Core.Duplicator
 			int XmlFileNumber = 0;				// номер файла - для формирования имени создаваемого xml файла копий
 			
 			// копии fb2 книг по группам
-			if ( m_lvResult.Groups.Count > 0 ) {
-				ProgressBar.Maximum	= m_lvResult.Items.Count;
+			if ( m_listViewFB2Files.Groups.Count > 0 ) {
+				ProgressBar.Maximum	= m_listViewFB2Files.Items.Count;
 				XDocument doc = createXMLStructure( CompareMode, CompareModeName );
 				
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
 				bool one = false;
-				foreach ( ListViewGroup lvGroup in m_lvResult.Groups ) {
+				foreach ( ListViewGroup lvGroup in m_listViewFB2Files.Groups ) {
 					if ( ( bw.CancellationPending ) )  {
 						e.Cancel = true;
 						return;
@@ -309,7 +309,7 @@ namespace Core.Duplicator
 						? m_LastSelectedItem.ToString()
 						: "0"
 					);
-					if ( GroupCountForList <= m_lvResult.Groups.Count ) {
+					if ( GroupCountForList <= m_listViewFB2Files.Groups.Count ) {
 						if ( GroupCounterForXML >= GroupCountForList ) {
 							setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
 							doc.Save(
@@ -321,7 +321,7 @@ namespace Core.Duplicator
 							BookInGroups = 0;
 						} else {
 							// последний диаппазон Групп
-							if( ThroughGroupCounterForXML == m_lvResult.Groups.Count ) {
+							if( ThroughGroupCounterForXML == m_listViewFB2Files.Groups.Count ) {
 								setDataForNode( ref doc, GroupCountInGroups, BookInGroups );
 								doc.Save(
 									Path.Combine( ToDirName, StringProcessing.makeNNNStringOfNumber( ++XmlFileNumber ) + ".dup_lbc" )
@@ -341,13 +341,13 @@ namespace Core.Duplicator
 		private void saveWorkingListToXml( ref BackgroundWorker bw, ref DoWorkEventArgs e, int GroupCountForList,
 		                                  string ToFileName, int CompareMode, string CompareModeName ) {
 			// копии fb2 книг по группам
-			if ( m_lvResult.Groups.Count > 0 ) {
-				ProgressBar.Maximum	= m_lvResult.Items.Count;
+			if ( m_listViewFB2Files.Groups.Count > 0 ) {
+				ProgressBar.Maximum	= m_listViewFB2Files.Items.Count;
 				XDocument doc = createXMLStructure( CompareMode, CompareModeName );
 				
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
-				foreach ( ListViewGroup lvGroup in m_lvResult.Groups ) {
+				foreach ( ListViewGroup lvGroup in m_listViewFB2Files.Groups ) {
 					if ( ( bw.CancellationPending ) )  {
 						e.Cancel = true;
 						return;
@@ -423,10 +423,10 @@ namespace Core.Duplicator
 						// заносим группу в хеш, если она там отсутствует
 						AddBookGroupInHashTable( ref htBookGroups, ref lvg );
 						// присваиваем группу книге
-						m_lvResult.Groups.Add( (ListViewGroup)htBookGroups[GroupName] );
+						m_listViewFB2Files.Groups.Add( (ListViewGroup)htBookGroups[GroupName] );
 						lvi.Group = (ListViewGroup)htBookGroups[GroupName];
 						lvi.Checked = Convert.ToBoolean( book.Element("IsChecked").Value );
-						m_lvResult.Items.Add( lvi );
+						m_listViewFB2Files.Items.Add( lvi );
 					} else {
 						--m_StatusView.AllFiles;
 						--m_StatusView.AllFB2InGroups;
@@ -436,7 +436,7 @@ namespace Core.Duplicator
 			}
 			ViewDupProgressData();
 			m_LastSelectedItem = Convert.ToInt32( xmlTree.Element("SelectedItem").Value );
-			MiscListView.SelectedItemEnsureVisible(m_lvResult, m_LastSelectedItem == -1 ? 0 : m_LastSelectedItem );
+			MiscListView.SelectedItemEnsureVisible( m_listViewFB2Files, m_LastSelectedItem == -1 ? 0 : m_LastSelectedItem );
 		}
 		
 		// создание хеш-таблицы для групп одинаковых книг

@@ -530,9 +530,11 @@ namespace Core.Common
 		}
 		// переход на указанный итем
 		public static void SelectedItemEnsureVisible( ListView listView, int Index ) {
-			listView.Select();
-			listView.Items[Index].Selected = true;
-			listView.EnsureVisible(Index);
+			if ( listView.Items.Count > 0 ) {
+				listView.Select();
+				listView.Items[Index].Selected = true;
+				listView.EnsureVisible(Index);
+			}
 		}
 		// число помеченных итемов в группе
 		public static int countCheckedItemsInGroup( ListViewGroup Group ) {

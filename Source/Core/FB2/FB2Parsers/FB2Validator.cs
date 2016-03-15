@@ -35,6 +35,9 @@ namespace Core.FB2Parser
 		{
 		}
 
+		/// <summary>
+		/// Валидация fb2, fb2.zip ли fbz файлов по пути FilePath, согласно схеме SchemePath
+		/// </summary>
 		private string validate( string FilePath, string SchemePath ) {
 			string Ext = Path.GetExtension( FilePath ).ToLower();
 			string [] files = null;
@@ -184,6 +187,9 @@ namespace Core.FB2Parser
 			}
 		}
 		
+		/// <summary>
+		/// Валидация fb2, fb2.zip ли fbz файлов по пути FilePath
+		/// </summary>
 		public string ValidatingFB2File( string FilePath ) {
 			return validate( FilePath, Settings.Settings.SchemePath );
 		}

@@ -26,14 +26,14 @@ namespace Core.FB2.Description.TitleInfo
 		}
         public Coverpage( string sValue )
 		{
-        	m_sValue = sValue;
+        	m_sValue = sValue.Trim();
 		}
         #endregion
         
 		#region Открытые свойства класса - элементы fb2-элементов
         public virtual string Value {
-            get { return m_sValue; }
-            set { m_sValue = value; }
+            get { return m_sValue.Trim(); }
+            set { m_sValue = value.Trim(); }
         }
         #endregion
 	}

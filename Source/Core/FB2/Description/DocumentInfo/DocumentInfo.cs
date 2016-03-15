@@ -41,16 +41,16 @@ namespace Core.FB2.Description.DocumentInfo
             m_Date			= date;
             m_SrcUrls		= srcUrls;
             m_sSrcOCR		= srcOcr;
-            m_sID			= sID;
-            m_sVersion		= sVersion;
+            m_sID			= sID.Trim();
+            m_sVersion		= sVersion.Trim();
             m_History		= history;
         }
         public DocumentInfo(IList<Author> authors, Date date, string sID, string sVersion)
         {
             m_Authors	= authors;
             m_Date		= date;
-            m_sID		= sID;
-            m_sVersion	= sVersion;
+            m_sID		= sID.Trim();
+            m_sVersion	= sVersion.Trim();
         }
         #endregion
         
@@ -82,14 +82,14 @@ namespace Core.FB2.Description.DocumentInfo
 
         public virtual string ID
         {
-            get { return m_sID; }
-            set { m_sID = value; }
+            get { return m_sID.Trim(); }
+            set { m_sID = value.Trim(); }
         }
 
         public virtual string Version
         {
-            get { return m_sVersion; }
-            set { m_sVersion = value; }
+            get { return m_sVersion.Trim(); }
+            set { m_sVersion = value.Trim(); }
         }
 
         public virtual History History

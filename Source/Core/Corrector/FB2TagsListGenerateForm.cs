@@ -64,9 +64,9 @@ namespace Core.Corrector
 		#endregion
 		
 		// =============================================================================================
-		//			BackgroundWorker: Сохранение списка помеченных книг (пути) в xml
+		//			BackgroundWorker: Формирование данных тегов книг для списка 
 		// =============================================================================================
-		#region BackgroundWorker: Сохранение списка помеченных книг (пути) в xml
+		#region BackgroundWorker: Формирование данных тегов книг для списка
 		private void InitializeBackgroundWorker() {
 			// Инициализация перед использование BackgroundWorker
 			m_bw = new BackgroundWorker();

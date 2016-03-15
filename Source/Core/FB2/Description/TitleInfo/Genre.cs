@@ -28,7 +28,7 @@ namespace Core.FB2.Description.TitleInfo
 		}
 		public Genre( string sName, uint unMath )
 		{
-			m_sName = sName;
+			m_sName = sName.Trim();
 			if( unMath < 0 ) {
 				m_unMath = 0;
 			} else if( unMath > 100 ) {
@@ -51,15 +51,15 @@ namespace Core.FB2.Description.TitleInfo
 			if ( ( this==null && RightValue!=null ) || ( this!=null && RightValue==null ) )
 				return false;
 
-			return this.Name == RightValue.Name
+			return this.Name.Trim() == RightValue.Name.Trim()
 				&& this.Math == RightValue.Math;
 		}
 		#endregion
 		
 		#region Открытые свойства класса - fb2-элементы
 		public virtual string Name {
-			get { return m_sName; }
-			set { m_sName = value; }
+			get { return m_sName.Trim(); }
+			set { m_sName = value.Trim(); }
 		}
 
 		public virtual uint Math {

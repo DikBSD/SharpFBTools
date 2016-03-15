@@ -24,7 +24,7 @@
 		<genre name="Боевик" code="det_action" />
 		<genre name="Дамский детективный роман" code="det_cozy" />
 		<genre name="Детективная фантастика" code="sf_detective" />
-		<genre name="Детективы: прочее" code="detective" />
+		<genre name="Детективы" code="detective" />
 		<genre name="Детские остросюжетные" code="child_det" />
 		<genre name="Иронический детектив" code="det_irony" />
 		<genre name="Исторический детектив" code="det_history" />
@@ -43,7 +43,7 @@
 		<genre name="Юридический триллер" code="thriller_legal" />
 	</group>
 	<group name="Детское" >
-		<genre name="Детская литература: прочее" code="children" />
+		<genre name="Детская литература" code="children" />
 		<genre name="Детская проза" code="child_prose" />
 		<genre name="Детская фантастика" code="child_sf" />
 		<genre name="Детские остросюжетные" code="child_det" />
@@ -88,7 +88,7 @@
 		<genre name="Античная драма" code="drama_antique" />
 		<genre name="Водевиль, буффонада, мистерия" code="vaudeville" />
 		<genre name="Драма" code="drama" />
-		<genre name="Драматургия: прочее" code="dramaturgy" />
+		<genre name="Драматургия" code="dramaturgy" />
 		<genre name="Киносценарии" code="screenplays" />
 		<genre name="Комедия" code="comedy" />
 		<genre name="Мистерия" code="mystery" />
@@ -143,7 +143,7 @@
 		<genre name="Литературоведение" code="sci_philology" />
 		<genre name="Математика" code="sci_math" />
 		<genre name="Медицина" code="sci_medicine" />
-		<genre name="Научная литература: прочее" code="science" />
+		<genre name="Научная литература" code="science" />
 		<genre name="Научно-популярная литература" code="sci_popular" />
 		<genre name="Обществознание, Социология" code="sci_social_studies" />
 		<genre name="Органическая химия" code="sci_orgchem" />
@@ -184,7 +184,7 @@
 		<genre name="Экспериментальная поэзия" code="experimental_poetry" />
 		<genre name="Эпическая поэзия" code="epic_poetry" />
 		<genre name="Юмористические стихи" code="humor_verse" />
-		<genre name="Поэзия: прочее" code="poetry" />
+		<genre name="Поэзия" code="poetry" />
 	</group>
 	<group name="Приключения" >
 		<genre name="Авантюрный роман" code="adv_story" />
@@ -193,7 +193,7 @@
 		<genre name="Исторические приключения" code="adv_history" />
 		<genre name="Морские приключения" code="adv_maritime" />
 		<genre name="Приключения про индейцев" code="adv_indian" />
-		<genre name="Приключения: прочее" code="adventure" />
+		<genre name="Приключения" code="adventure" />
 		<genre name="Приключения в современном мире" code="adv_modern" />
 		<genre name="Природа и животные" code="adv_animal" />
 		<genre name="Путешествия и география" code="adv_geo" />
@@ -242,7 +242,7 @@
 		<genre name="Православие" code="religion_orthodoxy" />
 		<genre name="Протестантизм" code="religion_protestantism" />
 		<genre name="Религиоведение" code="sci_religion" />
-		<genre name="Религиозная литература: прочее" code="religion" />
+		<genre name="Религиозная литература" code="religion" />
 		<genre name="Религия" code="religion_rel" />
 		<genre name="Самосовершенствование" code="religion_self" />
 		<genre name="Хиромантия" code="palmistry" />
@@ -264,7 +264,7 @@
 		<genre name="Древнеевропейская литература" code="antique_european" />
 		<genre name="Древнерусская литература" code="antique_russian" />
 		<genre name="Мифы. Легенды. Эпос" code="antique_myths" />
-		<genre name="Старинная литература: прочее" code="antique" />
+		<genre name="Старинная литература" code="antique" />
 	</group>
 	<group name="Техника" >
 		<genre name="Автодело" code="auto_business" />
@@ -312,7 +312,7 @@
 		<genre name="Стимпанк" code="sf_stimpank" />
 		<genre name="Технофэнтези" code="sf_technofantasy" />
 		<genre name="Ужасы" code="sf_horror" />
-		<genre name="Фантастика: прочее" code="sf_etc" />
+		<genre name="Фантастика" code="sf_etc" />
 		<genre name="Фэнтези" code="sf_fantasy" />
 		<genre name="Хроноопера" code="hronoopera" />
 		<genre name="Эпическая фантастика" code="sf_epic" />
@@ -329,14 +329,14 @@
 		<genre name="Народные сказки" code="folk_tale" />
 		<genre name="Пословицы, поговорки" code="proverbs" />
 		<genre name="Мифы. Легенды. Эпос" code="antique_myths" />
-		<genre name="Фольклор: прочее" code="folklore" />
+		<genre name="Фольклор" code="folklore" />
 		<genre name="Частушки, прибаутки, потешки" code="limerick" />
 	</group>
 	<group name="Юмор" >
 		<genre name="Анекдоты" code="humor_anecdote" />
 		<genre name="Комедия" code="comedy" />
 		<genre name="Сатира" code="humor_satire" />
-		<genre name="Юмор: прочее" code="humor" />
+		<genre name="Юмор" code="humor" />
 		<genre name="Юмористическая проза" code="humor_prose" />
 		<genre name="Юмористические стихи" code="humor_verse" />
 	</group>
@@ -356,7 +356,7 @@
 		<genre name="Военная документалистика" code="nonf_military" />
 		<genre name="Военная история" code="military_history" />
 		<genre name="Военная техника и вооружение" code="military_weapon" />
-		<genre name="Военное дело: прочее" code="military" />
+		<genre name="Военное дело" code="military" />
 		<genre name="О войне" code="prose_military" />
 		<genre name="Спецслужбы" code="military_special" />
 	</group>
