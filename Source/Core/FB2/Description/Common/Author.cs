@@ -41,7 +41,7 @@ namespace Core.FB2.Description.Common
 			m_tNickName		= tNickName;
 			m_ilsHomePages	= ilsHomePages;
 			m_ilsEmails		= ilsEmails;
-			m_sID			= sID;
+			m_sID			= !string.IsNullOrEmpty(sID) ? sID.Trim() : null;
 		}
 		// все данные об Авторе без его id
 		public Author( TextFieldType tFirstName, TextFieldType tMiddleName, TextFieldType tLastName, TextFieldType tNickName,
@@ -151,10 +151,11 @@ namespace Core.FB2.Description.Common
 		}
 
 		public virtual string ID {
-			get { return m_sID.Trim(); }
+			get { return !string.IsNullOrEmpty(m_sID) ? m_sID.Trim() : null; }
 			set {
-				if( m_sID == null )
-					m_sID = value.Trim();
+				if( m_sID == null ) {
+					m_sID = !string.IsNullOrEmpty(value) ? value.Trim() : value;
+				}
 			}
 		}
 		#endregion

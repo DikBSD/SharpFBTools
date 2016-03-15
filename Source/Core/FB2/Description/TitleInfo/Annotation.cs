@@ -27,34 +27,34 @@ namespace Core.FB2.Description.TitleInfo
 		}
 		public Annotation( string sValue, string sId, string sLang )
         {
-            m_sValue	= sValue.Trim();
-			m_sId		= sId.Trim();
-            m_sLang		= sLang.Trim();
+            m_sValue	= !string.IsNullOrEmpty(sValue) ? sValue.Trim() : null;
+            m_sId		= !string.IsNullOrEmpty(sId) ? sId.Trim() : null;
+            m_sLang		= !string.IsNullOrEmpty(sLang) ? sLang.Trim() : null;
         }
 		public Annotation( string sValue, string sId )
         {
-            m_sValue	= sValue.Trim();
-			m_sId		= sId.Trim();
+            m_sValue	= !string.IsNullOrEmpty(sValue) ? sValue.Trim() : null;
+            m_sId		= !string.IsNullOrEmpty(sId) ? sId.Trim() : null;
 			m_sLang		= null;
         }
         #endregion
         
         #region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Id {
-            get { return m_sId.Trim(); }
-            set { m_sId = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sId) ? m_sId.Trim() : null; }
+            set { m_sId = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 
         public virtual string Lang {
-            get { return m_sLang.Trim(); }
-            set { m_sLang = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sLang) ? m_sLang.Trim() : null; }
+            set { m_sLang = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
         #endregion
         
         #region Открытые свойства класса - элементы fb2-элементов
         public virtual string Value {
-            get { return m_sValue.Trim(); }
-            set { m_sValue = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sValue) ? m_sValue.Trim() : null; }
+            set { m_sValue = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
         #endregion
 	}

@@ -21,11 +21,14 @@ namespace Core.FB2.Description.TitleInfo
 		{
 		}
 		public BookTitle( string sValue, string sLang ) :
-			base( sValue.Trim(), sLang.Trim() )
+			base(
+				!string.IsNullOrEmpty(sValue) ? sValue.Trim() : null,
+				!string.IsNullOrEmpty(sLang) ? sLang.Trim() : null
+			)
         {
         }
 		public BookTitle( string sValue ) :
-			base( sValue.Trim() )
+			base( !string.IsNullOrEmpty(sValue) ? sValue.Trim() : null )
         {
         }
 		#endregion

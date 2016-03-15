@@ -37,7 +37,7 @@ namespace Core.FB2.Description.PublishInfo
             m_BookName	= bookName;
             m_Publisher = publisher;
             m_City		= city;
-            m_sYear		= sYear.Trim();
+            m_sYear		= !string.IsNullOrEmpty(sYear) ? sYear.Trim() : null;
             m_ISBN		= isbn;
             m_Sequences	= sequences;
         }
@@ -64,8 +64,8 @@ namespace Core.FB2.Description.PublishInfo
 
         public virtual string Year
         {
-            get { return m_sYear.Trim(); }
-            set { m_sYear = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sYear) ? m_sYear.Trim() : null; }
+            set { m_sYear = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 
         public virtual ISBN ISBN

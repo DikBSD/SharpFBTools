@@ -3279,11 +3279,10 @@ namespace SharpFBTools.Tools
 		}
 		// занесение данных книги в контролы для просмотра
 		private void viewBookMetaDataFull( ref FB2BookDescription fb2Desc, ListViewItem SelectedItem ) {
-			try {
-				if ( File.Exists( fb2Desc.FilePath ) && !SelectedItem.Font.Strikeout ) {
-					// очистка контролов вывода данных по книге по ее выбору
-					clearDataFields();
-					
+			if ( File.Exists( fb2Desc.FilePath ) && !SelectedItem.Font.Strikeout ) {
+				// очистка контролов вывода данных по книге по ее выбору
+				clearDataFields();
+				try {
 					if( fb2Desc != null ) {
 						// загрузка обложек книги
 						IList<BinaryBase64> Covers = fb2Desc.TICoversBase64;
@@ -3378,11 +3377,11 @@ namespace SharpFBTools.Tools
 						FilesWorker.RemoveDir( m_TempDir );
 //						MiscListView.AutoResizeColumns(listViewFB2Files);
 					}
-				} else
-					clearDataFields();
-			} catch ( System.Exception e ) {
-				MessageBox.Show( "Ошибка при отображении метаданных книги " + fb2Desc.FilePath + "\n" + e.Message );
-			}
+				} catch ( System.Exception e ) {
+					MessageBox.Show( "Ошибка при отображении метаданных книги " + fb2Desc.FilePath + "\n" + e.Message, "Отображение метаданных книги", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
+			} else
+				clearDataFields();
 		}
 		
 		// отобразить метаданные данные после массовой обработки книг
@@ -3767,7 +3766,7 @@ namespace SharpFBTools.Tools
 				} catch (System.Exception ex) {
 					listViewFB2Files.EndUpdate();
 					ConnectListViewResultEventHandlers( true );
-					MessageBox.Show( "Возможно, поврежден файл списка копий fb2 книг: \""+FromXML+"\"!\n"+ex.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show( "Возможно, поврежден файл списка копий fb2 книг: \""+FromXML+"\"!\n"+ex.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Error );
 				}
 			}
 		}

@@ -11,7 +11,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Xml;
 
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
@@ -67,15 +67,16 @@ namespace Core.Common
 		}
 		
 		// формирование строки с Датой Написания Книги или Датой Создания fb2-файла
-		private string MakeDateString( Date Date ) {
-			if( Date == null )
+		private string MakeDateString( Date date ) {
+			if ( date == null )
 				return string.Empty;
-			
+
 			string sDate = string.Empty;
-			if( Date.Text != null )
-				sDate += Date.Text.Trim();
-			if( Date.Value != null )
-				sDate += " (" + Date.Value.Trim() + ")";
+			if ( !string.IsNullOrWhiteSpace(date.Text) )
+				sDate += date.Text.Trim();
+			if ( !string.IsNullOrWhiteSpace(date.Value) ) 
+				sDate += " (" + date.Value.Trim() + ")";
+			
 			return sDate;
 		}
 		

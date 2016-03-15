@@ -22,11 +22,18 @@ namespace Core.FB2.Description.DocumentInfo
 		{
 		}
 		public History( string sText, string sId, string sLang ) :
-			base( sText.Trim(), sId.Trim(), sLang.Trim() )
+			base(
+				!string.IsNullOrEmpty(sText) ? sText.Trim() : null,
+				!string.IsNullOrEmpty(sId) ? sId.Trim() : null,
+				!string.IsNullOrEmpty(sLang) ? sLang.Trim() : null
+			)
         {
         }
 		public History( string sText, string sId ) :
-			base( sText.Trim(), sId.Trim() )
+			base(
+				!string.IsNullOrEmpty(sText) ? sText.Trim() : null,
+				!string.IsNullOrEmpty(sId) ? sId.Trim() : null
+			)
         {
         }
 		#endregion

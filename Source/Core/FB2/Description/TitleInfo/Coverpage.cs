@@ -26,14 +26,14 @@ namespace Core.FB2.Description.TitleInfo
 		}
         public Coverpage( string sValue )
 		{
-        	m_sValue = sValue.Trim();
+        	m_sValue = !string.IsNullOrEmpty(sValue) ? sValue.Trim() : null;
 		}
         #endregion
         
 		#region Открытые свойства класса - элементы fb2-элементов
         public virtual string Value {
-            get { return m_sValue.Trim(); }
-            set { m_sValue = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sValue) ? m_sValue.Trim() : null; }
+			set { m_sValue = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
         #endregion
 	}

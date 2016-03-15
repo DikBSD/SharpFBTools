@@ -16,8 +16,8 @@ namespace Core.FB2.Description.TitleInfo
 	public class Genre
 	{
 		#region Закрытые данные класса
-		private uint 	m_unMath	= 100;
 		private string 	m_sName		= null;
+		private uint 	m_unMath	= 100;
 		#endregion
 		
 		#region Конструкторы класса
@@ -28,7 +28,7 @@ namespace Core.FB2.Description.TitleInfo
 		}
 		public Genre( string sName, uint unMath )
 		{
-			m_sName = sName.Trim();
+			m_sName	= !string.IsNullOrEmpty(sName) ? sName.Trim() : null;
 			if( unMath < 0 ) {
 				m_unMath = 0;
 			} else if( unMath > 100 ) {
@@ -39,7 +39,7 @@ namespace Core.FB2.Description.TitleInfo
 		}
 		public Genre( string sName )
 		{
-			m_sName 	= sName;
+			m_sName		= !string.IsNullOrEmpty(sName) ? sName.Trim() : null;
 			m_unMath 	= 100;
 		}
 		#endregion
@@ -51,15 +51,15 @@ namespace Core.FB2.Description.TitleInfo
 			if ( ( this==null && RightValue!=null ) || ( this!=null && RightValue==null ) )
 				return false;
 
-			return this.Name.Trim() == RightValue.Name.Trim()
+			return this.Name == RightValue.Name
 				&& this.Math == RightValue.Math;
 		}
 		#endregion
 		
 		#region Открытые свойства класса - fb2-элементы
 		public virtual string Name {
-			get { return m_sName.Trim(); }
-			set { m_sName = value.Trim(); }
+			get { return !string.IsNullOrEmpty(m_sName) ? m_sName.Trim() : null; }
+			set { m_sName = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
 		}
 
 		public virtual uint Math {

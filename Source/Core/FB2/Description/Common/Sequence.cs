@@ -30,13 +30,13 @@ namespace Core.FB2.Description.Common
 		}
 		public Sequence( string sName, string sNumber, string sLang )
         {
-			m_sName		= sName.Trim();
-			m_sNumber	= sNumber.Trim();
-			m_sLang		= sLang.Trim();
+			m_sName		= !string.IsNullOrEmpty(sName) ? sName.Trim() : null;
+			m_sNumber	= !string.IsNullOrEmpty(sNumber) ? sNumber.Trim() : null;
+			m_sLang		= !string.IsNullOrEmpty(sLang) ? sLang.Trim() : null;
         }
         public Sequence( string sName )
         {
-            m_sName 	= sName.Trim();
+            m_sName		= !string.IsNullOrEmpty(sName) ? sName.Trim() : null;
 			m_sLang		= null;
 			m_sNumber	= null;
         }
@@ -44,22 +44,22 @@ namespace Core.FB2.Description.Common
 		
 		#region Открытые свойства класса - атрибуты fb2-элементов
 		public virtual string Lang {
-            get { return m_sLang.Trim(); }
-            set { m_sLang = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sLang) ? m_sLang.Trim() : null; }
+			set { m_sLang = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 		#endregion
 		
 		#region Открытые свойства класса - fb2-элементы
 		public virtual string Name {
             // Название Серии
-			get { return m_sName.Trim(); }
-            set { m_sName = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sName) ? m_sName.Trim() : null; }
+			set { m_sName = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 
         public virtual string Number {
 			// Номер Серии
-            get { return m_sNumber.Trim(); }
-            set { m_sNumber = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sNumber) ? m_sNumber.Trim() : null; }
+			set { m_sNumber = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 		#endregion
 	}

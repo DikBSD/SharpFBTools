@@ -24,30 +24,30 @@ namespace Core.FB2.Binary
 		#region Конструкторы класса
 		public BinaryBase64()
 		{
-			m_id = null;
-			m_contentType = null;
-			m_base64String = null;
+			m_id			= null;
+			m_contentType	= null;
+			m_base64String	= null;
 		}
 		public BinaryBase64( string id, string contentType, string base64String )
 		{
-			m_id			= id.Trim();
-			m_contentType	= contentType.Trim();
-			m_base64String	= base64String.Trim();
+			m_id			= !string.IsNullOrEmpty(id) ? id.Trim() : null;
+			m_contentType	= !string.IsNullOrEmpty(contentType) ? contentType.Trim() : null;
+			m_base64String	= !string.IsNullOrEmpty(base64String) ? base64String.Trim() : null;
 		}
 		#endregion
 		
 		#region Открытые свойства класса - fb2-элементы
 		public virtual string id {
-			get { return m_id.Trim(); }
-			set { m_id = value.Trim(); }
+			get { return !string.IsNullOrEmpty(m_id) ? m_id.Trim() : null; }
+			set { m_id = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
 		}
 		public virtual string contentType {
-			get { return m_contentType.Trim(); }
-			set { m_contentType = value.Trim(); }
+			get { return !string.IsNullOrEmpty(m_contentType) ? m_contentType.Trim() : null; }
+			set { m_contentType = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
 		}
 		public virtual string base64String {
-			get { return m_base64String.Trim(); }
-			set { m_base64String = value.Trim(); }
+			get { return !string.IsNullOrEmpty(m_base64String) ? m_base64String.Trim() : null; }
+			set { m_base64String = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
 		}
 		#endregion
 	}

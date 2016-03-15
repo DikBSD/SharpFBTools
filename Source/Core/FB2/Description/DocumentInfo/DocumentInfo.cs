@@ -41,16 +41,16 @@ namespace Core.FB2.Description.DocumentInfo
             m_Date			= date;
             m_SrcUrls		= srcUrls;
             m_sSrcOCR		= srcOcr;
-            m_sID			= sID.Trim();
-            m_sVersion		= sVersion.Trim();
+            m_sID			= !string.IsNullOrEmpty(sID) ? sID.Trim() : null;
+            m_sVersion		= !string.IsNullOrEmpty(sVersion) ? sVersion.Trim() : null;
             m_History		= history;
         }
         public DocumentInfo(IList<Author> authors, Date date, string sID, string sVersion)
         {
             m_Authors	= authors;
             m_Date		= date;
-            m_sID		= sID.Trim();
-            m_sVersion	= sVersion.Trim();
+            m_sID		= !string.IsNullOrEmpty(sID) ? sID.Trim() : null;
+            m_sVersion	= !string.IsNullOrEmpty(sVersion) ? sVersion.Trim() : null;
         }
         #endregion
         
@@ -82,14 +82,14 @@ namespace Core.FB2.Description.DocumentInfo
 
         public virtual string ID
         {
-            get { return m_sID.Trim(); }
-            set { m_sID = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sID) ? m_sID.Trim() : null; }
+			set { m_sID = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 
         public virtual string Version
         {
-            get { return m_sVersion.Trim(); }
-            set { m_sVersion = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_sVersion) ? m_sVersion.Trim() : null; }
+			set { m_sVersion = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 
         public virtual History History

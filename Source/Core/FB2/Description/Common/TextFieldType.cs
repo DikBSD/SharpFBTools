@@ -30,12 +30,12 @@ namespace Core.FB2.Description.Common
 		}
 		public TextFieldType( string sValue, string sLang )
 		{
-			m_sValue	= sValue;
-			m_sLang		= sLang;
+			m_sValue	= !string.IsNullOrEmpty(sValue) ? sValue.Trim() : null;
+			m_sLang		= !string.IsNullOrEmpty(sLang) ? sLang.Trim() : null;
 		}
 		public TextFieldType( string sValue )
 		{
-			m_sValue	= sValue;
+			m_sValue	= !string.IsNullOrEmpty(sValue) ? sValue.Trim() : null;
 		}
 		#endregion
 		
@@ -53,13 +53,13 @@ namespace Core.FB2.Description.Common
 		
 		#region Открытые свойства класса
 		public virtual string Lang {
-			get { return m_sLang; }
-			set { m_sLang = value; }
+			get { return !string.IsNullOrEmpty(m_sLang) ? m_sLang.Trim() : null; }
+			set { m_sLang = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
 		}
 		
 		public virtual string Value {
-			get { return m_sValue; }
-			set { m_sValue = value; }
+			get { return !string.IsNullOrEmpty(m_sValue) ? m_sValue.Trim() : null; }
+			set { m_sValue = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
 		}
 		#endregion
 	}

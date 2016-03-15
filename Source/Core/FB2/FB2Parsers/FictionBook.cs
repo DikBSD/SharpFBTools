@@ -604,9 +604,9 @@ namespace Core.FB2.FB2Parsers
 						// извлечение информации по binary, в зависимости от атрибута id бинарного объекта
 						foreach( XmlNode node in xmlNodes ) {
 							if( node.Attributes["id"] != null && node.Attributes["content-type"] != null ) {
-								if( ilCoverpages[i].Value == node.Attributes["id"].Value )
+								if( ilCoverpages[i].Value == node.Attributes["id"].Value.Trim() )
 									binaryBase64 = new BinaryBase64(
-										ilCoverpages[i].Value, node.Attributes["content-type"].Value, node.InnerText
+										ilCoverpages[i].Value.Trim(), node.Attributes["content-type"].Value.Trim(), node.InnerText.Trim()
 									);
 							}
 						}

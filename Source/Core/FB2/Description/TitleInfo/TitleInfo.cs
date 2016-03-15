@@ -47,8 +47,8 @@ namespace Core.FB2.Description.TitleInfo
             m_Keywords 		= keywords;
             m_Date 			= date;
             m_Coverpages	= coverpages;
-            m_Lang 			= lang.Trim();
-            m_SrcLang 		= srcLang.Trim();
+            m_Lang			= !string.IsNullOrEmpty(lang) ? lang.Trim() : null;
+            m_SrcLang		= !string.IsNullOrEmpty(srcLang) ? srcLang.Trim() : null;
             m_Translators 	= translators;
             m_Sequences 	= sequences;
         }
@@ -99,14 +99,14 @@ namespace Core.FB2.Description.TitleInfo
          
         public virtual string Lang
         {
-            get { return m_Lang.Trim(); }
-            set { m_Lang = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_Lang) ? m_Lang.Trim() : null; }
+            set { m_Lang = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 
         public virtual string SrcLang
         {
-            get { return m_SrcLang.Trim(); }
-            set { m_SrcLang = value.Trim(); }
+            get { return !string.IsNullOrEmpty(m_SrcLang) ? m_SrcLang.Trim() : null; }
+            set { m_SrcLang = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 
         public virtual IList<Author> Translators

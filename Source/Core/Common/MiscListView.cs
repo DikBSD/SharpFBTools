@@ -198,22 +198,42 @@ namespace Core.Common
 		#region Работа с отдельными итемами ListView
 		// увеличение значения 2-й колонки ListView на 1
 		public static void IncListViewStatus( ListView lv, int nItem ) {
-			lv.Items[nItem].SubItems[1].Text =
-				Convert.ToString( 1 + Convert.ToInt32( lv.Items[nItem].SubItems[1].Text ) );
+			if ( lv.Items.Count > 0 ) {
+				if ( nItem > -1 ) {
+					lv.Items[nItem].SubItems[1].Text =
+						Convert.ToString( 1 + Convert.ToInt32( lv.Items[nItem].SubItems[1].Text ) );
+				}
+			}
 		}
 		// уменьшение значения 2-й колонки ListView на 1
 		public static void DecListViewStatus( ListView lv, int nItem ) {
-			lv.Items[nItem].SubItems[1].Text =
-				Convert.ToString( Convert.ToInt32( lv.Items[nItem].SubItems[1].Text ) - 1 );
+			if ( lv.Items.Count > 0 ) {
+				if ( nItem > -1 ) {
+					lv.Items[nItem].SubItems[1].Text =
+						Convert.ToString( Convert.ToInt32( lv.Items[nItem].SubItems[1].Text ) - 1 );
+				}
+			}
 		}
 		// занесение в нужный item определеного значения
 		public static void ListViewStatus( ListView lv, int nItem, int nValue ) {
-			lv.Items[nItem].SubItems[1].Text = Convert.ToString( nValue );
+			if ( lv.Items.Count > 0 ) {
+				if ( nItem > -1 ) {
+					lv.Items[nItem].SubItems[1].Text = Convert.ToString( nValue );
+				}
+			}
 		}
 		
 		// занесение в нужный item определеного значения
 		public static void ListViewStatus( ListView lv, int nItem, string sValue ) {
-			lv.Items[nItem].SubItems[1].Text = sValue;
+			if ( lv.Items.Count > 0 ) {
+				if ( nItem > -1 ) {
+					if ( !string.IsNullOrWhiteSpace(sValue) ) {
+						lv.Items[nItem].SubItems[1].Text = sValue.Trim();
+					} else {
+						lv.Items[nItem].SubItems[1].Text = string.Empty;
+					}
+				}
+			}
 		}
 		#endregion
 		
@@ -294,10 +314,10 @@ namespace Core.Common
 		
 		// отметить все папки
 		public static void CheckAllDirs(ListView lv, bool bCheck) {
-			if( lv.Items.Count > 0  ) {
-				for( int i=0; i!=lv.Items.Count; ++i ) {
+			if ( lv.Items.Count > 0  ) {
+				for ( int i = 0; i != lv.Items.Count; ++i ) {
 					ListViewItemType it = (ListViewItemType)lv.Items[i].Tag;
-					if( it.Type == "d" )
+					if ( it.Type == "d" )
 						lv.Items[i].Checked = bCheck;
 				}
 			}
@@ -305,10 +325,12 @@ namespace Core.Common
 		
 		// снять пометку со всех папок
 		public static void UnCheckAllDirs(ListView lv) {
-			foreach( ListViewItem lvi in lv.CheckedItems ) {
-				ListViewItemType it = (ListViewItemType)lvi.Tag;
-				if( it.Type == "d" )
-					lvi.Checked = false;
+			if( lv.Items.Count > 0  ) {
+				foreach( ListViewItem lvi in lv.CheckedItems ) {
+					ListViewItemType it = (ListViewItemType)lvi.Tag;
+					if( it.Type == "d" )
+						lvi.Checked = false;
+				}
 			}
 		}
 		
@@ -317,10 +339,12 @@ namespace Core.Common
 		#region Добавление, удаление итемов
 		// есть ли в списке итем с текстом CompareItemText
 		public static bool isExistListViewItem( ListView lv, string CompareItemText ) {
-			ListView.ListViewItemCollection lvicol = lv.Items;
-			foreach( ListViewItem item in lvicol ) {
-				if( CompareItemText.Equals( item.Text ) )
-					return true;
+			if( lv.Items.Count > 0  ) {
+				ListView.ListViewItemCollection lvicol = lv.Items;
+				foreach( ListViewItem item in lvicol ) {
+					if( CompareItemText.Equals( item.Text ) )
+						return true;
+				}
 			}
 			return false;
 		}
@@ -358,9 +382,11 @@ namespace Core.Common
 		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Корректора
 		public static bool removeChechedItemsNotDeleteFiles( ListView listViewFB2Files ) {
 			bool Result = false;
-			foreach( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
-				listViewFB2Files.Items.Remove( lvi );
-				Result = true;
+			if( listViewFB2Files.Items.Count > 0  ) {
+				foreach ( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
+					listViewFB2Files.Items.Remove( lvi );
+					Result = true;
+				}
 			}
 			return Result;
 		}
@@ -369,8 +395,8 @@ namespace Core.Common
 		public static bool removeAllItemForNonExistFile( string SourсeDir, ListView listViewFB2Files ) {
 			bool Result = false;
 			listViewFB2Files.BeginUpdate();
-			foreach( ListViewItem lvi in listViewFB2Files.Items ) {
-				if( ((ListViewItemType)lvi.Tag).Type == "f" ) {
+			foreach ( ListViewItem lvi in listViewFB2Files.Items ) {
+				if ( ((ListViewItemType)lvi.Tag).Type == "f" ) {
 					if ( !File.Exists( Path.Combine( SourсeDir, lvi.Text ) ) ) {
 						listViewFB2Files.Items.Remove( lvi );
 						Result = true;
