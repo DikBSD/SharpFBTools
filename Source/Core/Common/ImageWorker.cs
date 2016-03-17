@@ -78,7 +78,12 @@ namespace Core.Common
 						ListViewItem lvi = new ListViewItem( Cover.id );
 						lvi.SubItems.Add( Cover.contentType );
 
-						Image image = ImageWorker.base64ToImage( Cover.base64String );
+						Image image = null;
+						try {
+							image = ImageWorker.base64ToImage( Cover.base64String );
+						} catch ( Exception /*ex*/ ) {
+							continue;
+						}
 
 						lvi.SubItems.Add( string.Format( "{0} x {1} dpi", image.VerticalResolution, image.HorizontalResolution ) );
 						lvi.SubItems.Add( string.Format( "{0} x {1} Pixels", image.Width, image.Height ) );
@@ -130,6 +135,6 @@ namespace Core.Common
 					);
 			}
 		}
-	
+		
 	}
 }
