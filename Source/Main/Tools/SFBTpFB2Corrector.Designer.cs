@@ -1385,7 +1385,7 @@ namespace SharpFBTools.Tools
 			this.toolStripButtonReFundNotValidateFromXML.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonReFundNotValidateFromXML.Name = "toolStripButtonReFundNotValidateFromXML";
 			this.toolStripButtonReFundNotValidateFromXML.Size = new System.Drawing.Size(207, 24);
-			this.toolStripButtonReFundNotValidateFromXML.Text = "Возобновить поиск их xml...";
+			this.toolStripButtonReFundNotValidateFromXML.Text = "Возобновить поиск из xml...";
 			this.toolStripButtonReFundNotValidateFromXML.Click += new System.EventHandler(this.ToolStripButtonReFundNotValidateFromXMLClick);
 			// 
 			// FB2InfoPanel

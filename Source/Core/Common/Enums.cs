@@ -91,7 +91,6 @@ namespace Core.Common
 		/// Варианты сравнения книг в группах Дубликатора
 		/// </summary>
 		public enum CompareMode : byte {
-			Version,		// Версия файла
 			VersionValidate,// Версия файла и валидность
 			Encoding,		// Кодировка
 			Validate,		// Валидность
