@@ -4,6 +4,7 @@
  * Дата: 09.09.2015
  * Время: 13:23
  * 
+ * License: GPL 2.1
  */
 using System;
 using System.IO;

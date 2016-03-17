@@ -66,6 +66,7 @@
     <Compile Include="AutoCorrector\ImageCorrector.cs" />
     <Compile Include="AutoCorrector\IWorker.cs" />
     <Compile Include="AutoCorrector\LangRuUkBeCorrector.cs" />
+    <Compile Include="AutoCorrector\LatinToRus.cs" />
     <Compile Include="AutoCorrector\LinksCorrector.cs" />
     <Compile Include="AutoCorrector\ParaCorrector.cs" />
     <Compile Include="AutoCorrector\PoemCorrector.cs" />

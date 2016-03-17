@@ -13,8 +13,11 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
+//using System.Windows.Forms;
+
 using Core.Common;
 using Core.FB2.FB2Parsers;
+using Core.AutoCorrector;
 
 using TitleInfoEnum	= Core.Common.Enums.TitleInfoEnum;
 using AuthorEnum	= Core.Common.Enums.AuthorEnum;
@@ -617,23 +620,46 @@ namespace Core.Common
 				XmlElement xmlAuthorNew = _fb2.getXmlDoc().CreateElement(
 					_fb2.getPrefix(), author, _fb2.getNamespaceURI()
 				);
-				if ( xmlFirstName != null && !string.IsNullOrWhiteSpace( xmlFirstName.InnerText ) )
+				
+				// для замены в русских fb2 1-го латинского символа в ФИО на соответствующий русский
+				bool isRusLang = _fb2.TILang == "ru" ? true : false;
+				bool isNeedLatinToRus = false;
+				if ( isRusLang && AuthorType == Enums.AuthorEnum.AuthorOfBook )
+					isNeedLatinToRus = true;
+				LatinToRus latinToRus = new LatinToRus();
+				
+				if ( xmlFirstName != null && !string.IsNullOrWhiteSpace( xmlFirstName.InnerText ) ) {
+					if ( isNeedLatinToRus ) {
+						string FirstName = latinToRus.replaceFirstCharLatinToRus( xmlFirstName.InnerText );
+						if ( !string.IsNullOrEmpty( FirstName ) )
+							xmlFirstName.InnerText = FirstName;
+					}
 					xmlAuthorNew.AppendChild( xmlFirstName );
-				else
+				} else
 					xmlAuthorNew.AppendChild(
 						_fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "first-name", _fb2.getNamespaceURI() )
 					);
 				
-				if ( xmlMiddleName != null && !string.IsNullOrWhiteSpace( xmlMiddleName.InnerText ) )
+				if ( xmlMiddleName != null && !string.IsNullOrWhiteSpace( xmlMiddleName.InnerText ) ) {
+					if ( isNeedLatinToRus ) {
+						string MiddleName = latinToRus.replaceFirstCharLatinToRus( xmlMiddleName.InnerText );
+						if ( !string.IsNullOrEmpty( MiddleName ) )
+							xmlMiddleName.InnerText = MiddleName;
+					}
 					xmlAuthorNew.AppendChild( xmlMiddleName );
-				else
+				} else
 					xmlAuthorNew.AppendChild(
 						_fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "middle-name", _fb2.getNamespaceURI())
 					);
 				
-				if ( xmlLastName != null && !string.IsNullOrWhiteSpace( xmlLastName.InnerText ) )
+				if ( xmlLastName != null && !string.IsNullOrWhiteSpace( xmlLastName.InnerText ) ) {
+					if ( isNeedLatinToRus ) {
+						string LastName = latinToRus.replaceFirstCharLatinToRus( xmlLastName.InnerText );
+						if ( !string.IsNullOrEmpty( LastName ) )
+							xmlLastName.InnerText = LastName;
+					}
 					xmlAuthorNew.AppendChild( xmlLastName );
-				else {
+				} else {
 					XmlElement xmlLastNameNew = _fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "last-name", _fb2.getNamespaceURI());
 					xmlLastNameNew.InnerText = "Автор Неизвестен";
 					xmlAuthorNew.AppendChild( xmlLastNameNew );
