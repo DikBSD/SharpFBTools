@@ -622,7 +622,14 @@ namespace Core.Common
 				);
 				
 				// для замены в русских fb2 1-го латинского символа в ФИО на соответствующий русский
-				bool isRusLang = _fb2.TILang == "ru" ? true : false;
+				bool isRusLang = false;
+				if ( string.IsNullOrEmpty(_fb2.TILang) ) {
+					// если тэга <lang> вообще нет, то считаем такую книгу за русскую
+					isRusLang = true;
+				} else {
+					isRusLang = _fb2.TILang == "ru" ? true : false;
+				}
+
 				bool isNeedLatinToRus = false;
 				if ( isRusLang && AuthorType == Enums.AuthorEnum.AuthorOfBook )
 					isNeedLatinToRus = true;

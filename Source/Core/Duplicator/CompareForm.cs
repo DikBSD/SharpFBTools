@@ -739,7 +739,7 @@ namespace Core.Duplicator
 			try {
 				fb2 = new FictionBook( SrcPath );
 			} catch  {
-				collectBadFB2( SrcPath );
+				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
 			}
 			
@@ -831,7 +831,7 @@ namespace Core.Duplicator
 			try {
 				fb2 = new FictionBook( SrcPath );
 			} catch  {
-				collectBadFB2( SrcPath );
+				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
 			}
 			
@@ -921,7 +921,7 @@ namespace Core.Duplicator
 			try {
 				fb2 = new FictionBook( SrcPath );
 			} catch  {
-				collectBadFB2( SrcPath );
+				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
 			}
 			
@@ -1013,7 +1013,7 @@ namespace Core.Duplicator
 			try {
 				fb2 = new FictionBook( SrcPath );
 			} catch  {
-				collectBadFB2( SrcPath );
+				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
 			}
 			

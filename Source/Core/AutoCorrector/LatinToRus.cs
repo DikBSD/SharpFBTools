@@ -9,6 +9,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 using System.Windows.Forms;
 
@@ -49,16 +50,30 @@ namespace Core.AutoCorrector
 		}
 		
 		/// <summary>
+		/// Проверка, если ли в строке Text хотя бы один русский символ
+		/// </summary>
+		/// <param name="Text">Текст для обработки</param>
+		/// <returns>true, если в строке Text есть хотя бы один русский символ; false - в противном случае</returns>
+		public bool isExistCharRussian( string Text ) {
+			return Regex.IsMatch( Text, "[А-Яа-яЁё]+" );
+		}
+		
+		/// <summary>
 		/// Замена 1-го латинского символа в строке Text на соответствующий кирилический
 		/// </summary>
 		/// <param name="Text">Текст для обработки</param>
-		/// <returns>троку типа string, если была произведена обработка; null - в противном случае</returns>
+		/// <returns>строку типа string, если была произведена обработка; null - в противном случае</returns>
 		public string replaceFirstCharLatinToRus( string Text ) {
-			StringBuilder sb = new StringBuilder( Text.Trim() );
-			foreach( KeyValuePair<string, string> kvp in _dic ) {
-				if ( sb[0] == kvp.Key.ToCharArray()[0] ) {
-					sb[0] = kvp.Value.ToCharArray()[0];
-					return sb.ToString();
+			if ( !string.IsNullOrWhiteSpace(Text) ) {
+				if ( isExistCharRussian( Text ) ) {
+					// пропускаем Text, который состоят только из НЕ русских символов
+					StringBuilder sb = new StringBuilder( Text.Trim() );
+					foreach( KeyValuePair<string, string> kvp in _dic ) {
+						if ( sb[0] == kvp.Key.ToCharArray()[0] ) {
+							sb[0] = kvp.Value.ToCharArray()[0];
+							return sb.ToString();
+						}
+					}
 				}
 			}
 			return null;
