@@ -18,7 +18,7 @@ namespace Core.FileManager.Templates.Lexems {
 								"*LF*","*LM*","*LL*","*LN*",
 								"*YEAR*","PUB","*CITY*",
 								"*FB2AF*","*FB2AM*","*FB2AL*","*FB2AN*",
-								"*GROUP*"
+								"*GROUP*","*FILENAME*","*COUNTER*"
 								};
 		public AllTemplates() {
 		}
@@ -32,71 +32,92 @@ namespace Core.FileManager.Templates.Lexems {
 			
 		}
 		// постоянные шаблоны
-		public string LBAL {
+		public static string LBAL {
             get { return m_sAllTemplates[0]; }
         }
-		public string L {
+		public static string L {
 			get { return m_sAllTemplates[1]; }
         }
-		public string G {
+		public static string G {
             get { return m_sAllTemplates[2]; }
         }
-		public string BAF {
+		public static string BAF {
             get { return m_sAllTemplates[3]; }
         }
-		public string BAM {
+		public static string BAM {
             get { return m_sAllTemplates[4]; }
         }
-		public string BAL {
+		public static string BAL {
             get { return m_sAllTemplates[5]; }
         }
-		public string BAN {
+		public static string BAN {
             get { return m_sAllTemplates[6]; }
         }
-		public string BT {
+		public static string BT {
             get { return m_sAllTemplates[7]; }
         }
-		public string SN {
+		public static string SN {
             get { return m_sAllTemplates[8]; }
         }
-		public string SI {
+		public static string SI {
             get { return m_sAllTemplates[9]; }
         }
-		public string GG {
+		public static string GG {
             get { return m_sAllTemplates[10]; }
         }
-		public string SII {
+		public static string SII {
             get { return m_sAllTemplates[11]; }
         }
-		public string SIII {
+		public static string SIII {
             get { return m_sAllTemplates[12]; }
         }
-		public string DT {
+		public static string DT {
             get { return m_sAllTemplates[13]; }
         }
-		public string DV {
+		public static string DV {
             get { return m_sAllTemplates[14]; }
         }
-		public string LF {
+		public static string LF {
             get { return m_sAllTemplates[15]; }
         }
-		public string LM {
+		public static string LM {
             get { return m_sAllTemplates[16]; }
         }
-		public string LL {
+		public static string LL {
             get { return m_sAllTemplates[17]; }
         }
-		public string LN {
+		public static string LN {
             get { return m_sAllTemplates[18]; }
         }
-		public string YEAR {
+		public static string YEAR {
             get { return m_sAllTemplates[19]; }
         }
-		public string PUB {
+		public static string PUB {
             get { return m_sAllTemplates[20]; }
         }
-		public string CITY {
+		public static string CITY {
             get { return m_sAllTemplates[21]; }
+        }
+		public static string FB2AF {
+            get { return m_sAllTemplates[22]; }
+        }
+		public static string FB2AM {
+            get { return m_sAllTemplates[23]; }
+        }
+		public static string FB2AL {
+            get { return m_sAllTemplates[24]; }
+        }
+		public static string FB2AN {
+            get { return m_sAllTemplates[25]; }
+        }
+		public static string GROUP {
+            get { return m_sAllTemplates[26]; }
+        }
+		public static string FILENAME {
+            get { return m_sAllTemplates[27]; }
+        }
+		public static string COUNTER {
+            get { return m_sAllTemplates[28]; }
         }
 	}
 	

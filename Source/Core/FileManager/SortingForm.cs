@@ -301,7 +301,7 @@ namespace Core.FileManager
 				// формируем список помеченных папок
 				List<string> lCheckedDirList	= new List<string>();
 				List<string> lCheckedFileList	= new List<string>();
-				System.Windows.Forms.ListView.CheckedListViewItemCollection checkedItems = m_listViewFB2Files.CheckedItems;
+				ListView.CheckedListViewItemCollection checkedItems = m_listViewFB2Files.CheckedItems;
 				foreach( ListViewItem lvi in checkedItems ) {
 					ListViewItemType it = (ListViewItemType)lvi.Tag;
 					if(it.Type.Trim() == "d")

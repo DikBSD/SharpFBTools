@@ -3977,8 +3977,20 @@ namespace SharpFBTools.Tools
 				return false;
 			}
 			// проверка на наличие недопустимого условного шаблона [*GROUP*]
-			if( sLineTemplate.IndexOf("[*GROUP*]")!=-1 ) {
+			if( sLineTemplate.IndexOf("[*GROUP*]") != -1 ) {
 				MessageBox.Show( "Шаблон для Группы Жанров *GROUP* не миожет буть условным [*GROUP*]!\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			// проверка на наличие недопустимого условного шаблона [*FILENAME*]
+			if( sLineTemplate.IndexOf("[*FILENAME*]") != -1 ) {
+				MessageBox.Show( "Шаблон для имени файла *FILENAME* не миожет буть условным [*FILENAME*]!\nРабота прекращена.",
+				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+			// проверка на наличие недопустимого условного шаблона [*COUNTER*]
+			if( sLineTemplate.IndexOf("[*COUNTER*]") != -1 ) {
+				MessageBox.Show( "Шаблон для счетчика *COUNTER* не миожет буть условным [*COUNTER*]!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
@@ -3995,7 +4007,7 @@ namespace SharpFBTools.Tools
 				return false;
 			}
 			// проверка, не стоит ли ] перед [
-			if( sLineTemplate.IndexOf('[')!=-1 && sLineTemplate.IndexOf(']')!=-1 ) {
+			if( sLineTemplate.IndexOf('[')!=-1 && sLineTemplate.IndexOf(']') != -1 ) {
 				if( sLineTemplate.IndexOf('[') > sLineTemplate.IndexOf(']') ) {
 					MessageBox.Show( "В строке с шаблонами закрывающая скобка ] не может стоять перед открывающей [ !\nРабота прекращена.",
 					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );

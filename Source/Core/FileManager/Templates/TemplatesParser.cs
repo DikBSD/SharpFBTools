@@ -7,10 +7,11 @@
  * License: GPL 2.1
  */
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 using Core.Common;
 using Core.FB2.Description.TitleInfo;
@@ -28,7 +29,8 @@ namespace Core.FileManager.Templates {
 	public class TemplatesParser : Core.FileManager.Templates.Lexems.AllTemplates
 	{
 		#region Закрытые данные
-		private readonly static char cSeparator = '↑';
+		private readonly static char _cSeparator = '↑';
+		private static long lConter = 0;
 		#endregion
 		
 		public TemplatesParser()
@@ -60,10 +62,10 @@ namespace Core.FileManager.Templates {
 					if( nCount % 2 == 0 ) {
 						// закрывающая * (четная)
 						sTemp += sLine[i];
-						sTemp += cSeparator;
+						sTemp += _cSeparator;
 					} else {
 						// открывающая * (не четная)
-						sTemp += cSeparator;
+						sTemp += _cSeparator;
 						sTemp += sLine[i];
 					}
 				} else
@@ -78,12 +80,12 @@ namespace Core.FileManager.Templates {
 			string sTemp = string.Empty;
 			for( int i = 0; i != sLine.Length; ++i ) {
 				if( sLine[i] == '[' ) {
-					sTemp += cSeparator;
+					sTemp += _cSeparator;
 					sTemp += sLine[i];
 				} else {
 					sTemp += sLine[i];
 					if( sLine[i] == ']' )
-						sTemp += cSeparator;
+						sTemp += _cSeparator;
 				}
 			}
 			return sTemp;
@@ -122,7 +124,7 @@ namespace Core.FileManager.Templates {
 			// разбиваем строку относительно *
 			string str = sLine.Remove( 0, 1 );
 			str = str.Remove( (str.Length - 1), 1 );
-			string [] sLexems = InsertSeparatorToAsterik( str ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries );
+			string [] sLexems = InsertSeparatorToAsterik( str ).Split( new char[] { _cSeparator }, StringSplitOptions.RemoveEmptyEntries );
 			// задаем лексемам их тип
 			List<Lexems.TPComplex> lexems = new List<Lexems.TPComplex>();
 			foreach( string s in sLexems ) {
@@ -166,7 +168,7 @@ namespace Core.FileManager.Templates {
 		
 		// ограничение размера строки Source до размера Len (для предотвращения длинных имен)
 		private static string makeString( string Source, int Len ) {
-			return Source.Length <= Len ? Source : Source.Substring(0, Len-1);
+			return Source.Length <= Len ? Source : Source.Substring( 0, Len - 1 );
 		}
 		
 		// парсинг сложных условных групп
@@ -529,10 +531,10 @@ namespace Core.FileManager.Templates {
 								if( lfb2Authors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lfb2Authors[nAuthorIndex].LastName==null ) {
+									if( lfb2Authors[nAuthorIndex].LastName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length == 0 ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lfb2Authors[nAuthorIndex].LastName.Value.Trim();
@@ -544,16 +546,22 @@ namespace Core.FileManager.Templates {
 								if( lfb2Authors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lfb2Authors[nAuthorIndex].NickName==null ) {
+									if( lfb2Authors[nAuthorIndex].NickName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
+										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length == 0 ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lfb2Authors[nAuthorIndex].NickName.Value.Trim();
 										}
 									}
 								}
+								break;
+							case "*FILENAME*": // Название файла
+								lexem.Lexem += Path.GetFileNameWithoutExtension( sFileName );
+								break;
+							case "*COUNTER*": // Счетчик файлов
+								lexem.Lexem += (++lConter).ToString();
 								break;
 								default :
 									lexem.Lexem = "";
@@ -564,12 +572,12 @@ namespace Core.FileManager.Templates {
 			}
 			
 			// определение, какой текст, если он есть в группе, будет отображаться вместе с данными "его" шаблона
-			for( int i=0; i!=lCLexems.Count; ++i ) {
+			for( int i = 0; i != lCLexems.Count; ++i ) {
 				// "пустой" шаблон "ликвидирует" текст справа от себя, а 1-й "пустой" шаблон - еще и слева.
 				if( lCLexems[i].Type == Lexems.ComplexType.template ) {
 					if( lCLexems[i].Lexem == "" ) {
 						// не 1-й ли это элемент списка
-						if( i < lCLexems.Count-1 && lCLexems[i+1].Type == Lexems.ComplexType.text ) {
+						if( i < lCLexems.Count - 1 && lCLexems[i+1].Type == Lexems.ComplexType.text ) {
 							lCLexems[i+1].Lexem = "";
 						}
 						// если этот шаблон - самый первый из группы шаблонов, а до него есть текст, то еще и "ликвидируем" текст слева от него
@@ -594,14 +602,14 @@ namespace Core.FileManager.Templates {
 		/* получение простых лексем из шаблонной строки */
 		public static List<Core.FileManager.Templates.Lexems.TPSimple> GemSimpleLexems( string sLine ) {
 			// разбиваем строку относительно [ и ]
-			string [] sTemp = InsertSeparatorToSquareBracket( sLine ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries );
+			string [] sTemp = InsertSeparatorToSquareBracket( sLine ).Split( new char[] { _cSeparator }, StringSplitOptions.RemoveEmptyEntries );
 			// разбиваем строки sLexems, где нет [] относительно *
 			List<string> lsLexems = new List<string>();
 			foreach( string sStr in sTemp ) {
-				if( sStr.IndexOf( '[' )!=-1 || sStr.IndexOf( '*' )==-1 )
+				if( sStr.IndexOf( '[' )!=-1 || sStr.IndexOf( '*' ) == -1 )
 					lsLexems.Add( sStr );
 				else
-					lsLexems.AddRange( InsertSeparatorToAsterik( sStr ).Split( new char[] { cSeparator }, StringSplitOptions.RemoveEmptyEntries ) );
+					lsLexems.AddRange( InsertSeparatorToAsterik( sStr ).Split( new char[] { _cSeparator }, StringSplitOptions.RemoveEmptyEntries ) );
 			}
 			// задаем лексемам их тип
 			List<Lexems.TPSimple> lexems = new List<Lexems.TPSimple>();
@@ -610,14 +618,14 @@ namespace Core.FileManager.Templates {
 					// постоянные символы
 					lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.const_text ) );
 				} else {
-					if( s.IndexOf( '[' )==-1 ) {
+					if( s.IndexOf( '[' ) == -1 ) {
 						// постоянный шаблон
 						lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.const_template ) );
 					} else {
 						// удаляем шаблон из строки и смотрим, есть ли там еще что, помимо него
 						string st = GetTemplate( s );
 						string sRem = s.Remove( s.IndexOf( st ), st.Length ).Remove( 0, 1 );
-						sRem = sRem.Remove( (sRem.Length-1), 1 );
+						sRem = sRem.Remove( (sRem.Length - 1), 1 );
 						if( sRem == "" ) {
 							// условный шаблон
 							lexems.Add( new Lexems.TPSimple( s, Lexems.SimpleType.conditional_template ) );
@@ -1030,6 +1038,12 @@ namespace Core.FileManager.Templates {
 										}
 									}
 								}
+								break;
+							case "*FILENAME*": // Название файла
+								sFileName += Path.GetFileNameWithoutExtension( sFB2FilePath );
+								break;
+							case "*COUNTER*": // Счетчик файлов
+								sFileName += (++lConter).ToString();
 								break;
 								default :
 									sFileName += "";

@@ -44,7 +44,7 @@ namespace Core.FileManager.Templates
 					"*LBAL*","*L*","*GG*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*SII*","*SIII*","*DT*","*DV*",
 					"*LF*","*LM*","*LL*","*LN*",
 					"*YEAR*","*PUB*","*CITY*",
-					"*FB2AF*","*FB2AM*","*FB2AL*","*FB2AN*",
+					"*FB2AF*","*FB2AM*","*FB2AL*","*FB2AN*","*FILENAME*","*COUNTER*",
 					"[","]","\\","(",")","{","}"," ","`","~","'","!","@","#","№","$","%","^",
 					"-","+","=","_",";",".",","
 			};
@@ -77,8 +77,8 @@ namespace Core.FileManager.Templates
 		public static bool IsEvenElements( string sLine, char cChar ) {
 			// проверка на четность элементов в строке
 			int nCount = 0;
-			for( int i=0; i!=sLine.Length; ++i ) {
-				if( sLine[i]== cChar ) {
+			for( int i = 0; i != sLine.Length; ++i ) {
+				if( sLine[i] == cChar ) {
 					++nCount;
 				}
 			}
@@ -89,8 +89,8 @@ namespace Core.FileManager.Templates
 			// проверка на соответствие [ ] или ( ) в строке
 			int nLCount = 0;
 			int nRCount = 0;
-			for( int i=0; i!=sLine.Length; ++i ) {
-				if( sLine[i]== cLChar ) {
+			for( int i = 0; i != sLine.Length; ++i ) {
+				if( sLine[i] == cLChar ) {
 					++nLCount;
 				}
 			}
