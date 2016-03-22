@@ -11,7 +11,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 using Core.Common;
 using Core.FB2.Description.TitleInfo;
@@ -176,7 +176,8 @@ namespace Core.FileManager.Templates {
 		                                        BookTitle btBookTitle, IList<Sequence> lSequences, FB2UnionGenres fb2g, Date dBookDate,
 		                                        string sYear, Publisher pubPub, City cCity,
 		                                        IList<Author> lfb2Authors,
-		                                        ref SortingOptions sortOptions, int nGenreIndex, int nAuthorIndex ) {
+		                                        ref SortingOptions sortOptions, int nGenreIndex, int nAuthorIndex,
+		                                        int MaxBookTitleLenght, int MaxSequenceLenght ) {
 			string sFileName = string.Empty;
 			List<Lexems.TPComplex> lCLexems = GemComplexLexems( sLine );
 			foreach( Lexems.TPComplex lexem in lCLexems ) {
@@ -398,7 +399,7 @@ namespace Core.FileManager.Templates {
 									if( btBookTitle.Value==null || btBookTitle.Value.Trim().Length==0 ) {
 										lexem.Lexem = "";
 									} else {
-										lexem.Lexem += makeString( btBookTitle.Value.Trim(), 50 );
+										lexem.Lexem += makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
 									}
 								}
 								break;
@@ -409,7 +410,7 @@ namespace Core.FileManager.Templates {
 									if( lSequences[0].Name==null || lSequences[0].Name.Trim().Length==0 ) {
 										lexem.Lexem = "";
 									} else {
-										lexem.Lexem = makeString( lSequences[0].Name.Trim(), 50 );
+										lexem.Lexem = makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
 									}
 								}
 								break;
@@ -643,7 +644,8 @@ namespace Core.FileManager.Templates {
 		public static string Parse( string sFB2FilePath, List<Core.FileManager.Templates.Lexems.TPSimple> lSLexems,
 		                           ref FB2UnionGenres fb2g, int nGenreIndex, int nAuthorIndex, int RegisterMode,
 		                           int SpaceProcessMode, bool StrictMode, bool TranslitMode,
-		                           ref SortingOptions sortOptions ) {
+		                           ref SortingOptions sortOptions,
+		                           int MaxBookTitleLenght, int MaxSequenceLenght ) {
 			string sFileName			= string.Empty;
 			FictionBook fb2				= new FictionBook( sFB2FilePath );
 			string sLang				= fb2.TILang;
@@ -880,7 +882,7 @@ namespace Core.FileManager.Templates {
 									if( btBookTitle.Value==null || btBookTitle.Value.Trim().Length==0 ) {
 										sFileName += sortOptions.BookInfoNoBookTitle;
 									} else {
-										sFileName += makeString( btBookTitle.Value.Trim(), 50 );
+										sFileName += makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
 									}
 								}
 								break;
@@ -888,10 +890,10 @@ namespace Core.FileManager.Templates {
 								if( lSequences == null ) {
 									sFileName += sortOptions.BookInfoNoSequence;
 								} else {
-									if( lSequences[0].Name==null || lSequences[0].Name.Trim().Length==0 ) {
+									if( lSequences[0].Name == null || lSequences[0].Name.Trim().Length == 0 ) {
 										sFileName += sortOptions.BookInfoNoSequence;
 									} else {
-										sFileName += makeString( lSequences[0].Name.Trim(), 50 );
+										sFileName += makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
 									}
 								}
 								break;
@@ -899,7 +901,7 @@ namespace Core.FileManager.Templates {
 								if( lSequences == null ) {
 									sFileName += sortOptions.BookInfoNoNSequence;
 								} else {
-									if( lSequences[0].Number==null ) {
+									if( lSequences[0].Number == null ) {
 										sFileName += sortOptions.BookInfoNoNSequence;
 									} else {
 										sFileName += lSequences[0].Number;
@@ -910,7 +912,7 @@ namespace Core.FileManager.Templates {
 								if( lSequences == null ) {
 									sFileName += sortOptions.BookInfoNoNSequence;
 								} else {
-									if( lSequences[0].Number==null ) {
+									if( lSequences[0].Number == null ) {
 										sFileName += sortOptions.BookInfoNoNSequence;
 									} else {
 										sFileName += MakeSII( lSequences[0].Number );
@@ -921,7 +923,7 @@ namespace Core.FileManager.Templates {
 								if( lSequences == null ) {
 									sFileName += sortOptions.BookInfoNoNSequence;
 								} else {
-									if( lSequences[0].Number==null ) {
+									if( lSequences[0].Number == null ) {
 										sFileName += sortOptions.BookInfoNoNSequence;
 									} else {
 										sFileName += MakeSIII( lSequences[0].Number );
@@ -932,7 +934,7 @@ namespace Core.FileManager.Templates {
 								if( dBookDate == null ) {
 									sFileName += sortOptions.BookInfoNoDateText;
 								} else {
-									if( dBookDate.Text==null || dBookDate.Text.Trim().Length==0 ) {
+									if( dBookDate.Text == null || dBookDate.Text.Trim().Length == 0 ) {
 										sFileName += sortOptions.BookInfoNoDateText;
 									} else {
 										sFileName += dBookDate.Text.Trim();
@@ -943,7 +945,7 @@ namespace Core.FileManager.Templates {
 								if( dBookDate == null ) {
 									sFileName += sortOptions.BookInfoNoDateText;
 								} else {
-									if( dBookDate.Value==null || dBookDate.Value.Trim().Length==0 ) {
+									if( dBookDate.Value == null || dBookDate.Value.Trim().Length == 0 ) {
 										sFileName += sortOptions.BookInfoNoDateValue;
 									} else {
 										sFileName += dBookDate.Value.Trim();
@@ -961,7 +963,7 @@ namespace Core.FileManager.Templates {
 								if( pubPub == null ) {
 									sFileName += sortOptions.PublishInfoNoPublisher;
 								} else {
-									if( pubPub.Value==null || pubPub.Value.Trim().Length==0 ) {
+									if( pubPub.Value == null || pubPub.Value.Trim().Length == 0 ) {
 										sFileName += sortOptions.PublishInfoNoPublisher;
 									} else {
 										sFileName += pubPub.Value.Trim();
@@ -972,7 +974,7 @@ namespace Core.FileManager.Templates {
 								if( cCity == null ) {
 									sFileName += sortOptions.PublishInfoNoCity;
 								} else {
-									if( cCity.Value==null || cCity.Value.Trim().Length==0 ) {
+									if( cCity.Value == null || cCity.Value.Trim().Length == 0 ) {
 										sFileName += sortOptions.PublishInfoNoCity;
 									} else {
 										sFileName += cCity.Value.Trim();
@@ -986,7 +988,7 @@ namespace Core.FileManager.Templates {
 									if( lfb2Authors[nAuthorIndex].FirstName==null ) {
 										sFileName += sortOptions.FB2InfoNoFB2FirstName;
 									} else {
-										if( lfb2Authors[nAuthorIndex].FirstName.Value.Trim().Length==0 ) {
+										if( lfb2Authors[nAuthorIndex].FirstName.Value.Trim().Length == 0 ) {
 											sFileName += sortOptions.FB2InfoNoFB2FirstName;
 										} else {
 											sFileName += lfb2Authors[nAuthorIndex].FirstName.Value.Trim();
@@ -998,10 +1000,10 @@ namespace Core.FileManager.Templates {
 								if( lfb2Authors == null ) {
 									sFileName += sortOptions.FB2InfoNoFB2MiddleName;
 								} else {
-									if( lfb2Authors[nAuthorIndex].MiddleName==null ) {
+									if( lfb2Authors[nAuthorIndex].MiddleName == null ) {
 										sFileName += sortOptions.FB2InfoNoFB2MiddleName;
 									} else {
-										if( lfb2Authors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
+										if( lfb2Authors[nAuthorIndex].MiddleName.Value.Trim().Length == 0 ) {
 											sFileName += sortOptions.FB2InfoNoFB2MiddleName;
 										} else {
 											sFileName += lfb2Authors[nAuthorIndex].MiddleName.Value.Trim();
@@ -1013,10 +1015,10 @@ namespace Core.FileManager.Templates {
 								if( lfb2Authors == null ) {
 									sFileName += sortOptions.FB2InfoNoFB2LastName;
 								} else {
-									if( lfb2Authors[nAuthorIndex].LastName==null ) {
+									if( lfb2Authors[nAuthorIndex].LastName == null ) {
 										sFileName += sortOptions.FB2InfoNoFB2LastName;
 									} else {
-										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length == 0 ) {
 											sFileName += sortOptions.FB2InfoNoFB2LastName;
 										} else {
 											sFileName += lfb2Authors[nAuthorIndex].LastName.Value.Trim();
@@ -1028,10 +1030,10 @@ namespace Core.FileManager.Templates {
 								if( lfb2Authors == null ) {
 									sFileName += sortOptions.FB2InfoNoFB2NickName;
 								} else {
-									if( lfb2Authors[nAuthorIndex].NickName==null ) {
+									if( lfb2Authors[nAuthorIndex].NickName == null ) {
 										sFileName += sortOptions.FB2InfoNoFB2NickName;
 									} else {
-										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
+										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length == 0 ) {
 											sFileName += sortOptions.FB2InfoNoFB2NickName;
 										} else {
 											sFileName += lfb2Authors[nAuthorIndex].NickName.Value.Trim();
@@ -1275,7 +1277,7 @@ namespace Core.FileManager.Templates {
 							case "[*FB2AN*]": // Ник создателя fb2-файла
 								if( lfb2Authors != null ) {
 									if( lfb2Authors[nAuthorIndex].NickName != null ) {
-										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length!=0 ) {
+										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length != 0 ) {
 											sFileName += lfb2Authors[nAuthorIndex].NickName.Value.Trim();
 										}
 									}
@@ -1291,7 +1293,8 @@ namespace Core.FileManager.Templates {
 						sFileName += ParseComplexGroup( lexem.Lexem, sLang, lGenres, lAuthors, btBookTitle,
 						                               lSequences, fb2g, dBookDate, sYear, pubPub, cCity,
 						                               lfb2Authors,
-						                               ref sortOptions, nGenreIndex, nAuthorIndex );
+						                               ref sortOptions, nGenreIndex, nAuthorIndex,
+						                               MaxBookTitleLenght, MaxSequenceLenght );
 						break;
 						default :
 							// постоянные символы

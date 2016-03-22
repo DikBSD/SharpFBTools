@@ -207,17 +207,21 @@ namespace Core.FileManager
 		private readonly EndWorkMode 		m_EndMode		= new EndWorkMode();
 		
 		private readonly string m_TempDir	= Settings.Settings.TempDir;
-		private readonly DateTime m_dtStart = DateTime.Now;
+		private static int _MaxBookTitleLenght = 50; // Максимальная длина имени книги
+		private static int _MaxSequenceLenght = 50; // Максимальная длина имени серии
 		private bool m_StopToSave			= false; // true, если остановка с сохранением необработанного списка книг в файл.
+		private readonly DateTime m_dtStart = DateTime.Now;
 		#endregion
 		
-		private void init( ref SortingOptions sortOptions, ListView listViewFilesCount )
+		private void init( ref SortingOptions sortOptions, ListView listViewFilesCount, int MaxBTLenght, int MaxSequenceLenght )
 		{
 			#region Инициализация
 			InitializeComponent();
 			initializeBackgroundWorker();
 			initializeRenewBackgroundWorker();
 			
+			_MaxBookTitleLenght = MaxBTLenght;
+			_MaxSequenceLenght = MaxSequenceLenght;
 			m_lvFilesCount	= listViewFilesCount;
 			
 			m_sortOptions	= sortOptions;
@@ -240,16 +244,19 @@ namespace Core.FileManager
 		}
 		
 		// Полнпя сортировка: Беспрерывная и Возобновление
-		public SortingForm( ref SortingOptions sortOptions, ListView listViewFB2Files, ListView listViewFilesCount )
+		public SortingForm(
+			ref SortingOptions sortOptions, ListView listViewFB2Files, ListView listViewFilesCount,
+			int MaxBTLenght, int MaxSequenceLenght
+		)
 		{
 			m_listViewFB2Files = listViewFB2Files;
-			init( ref sortOptions, listViewFilesCount );
+			init( ref sortOptions, listViewFilesCount, MaxBTLenght, MaxSequenceLenght );
 		}
 		
 		// Избранная сортировка: Беспрерывная и Возобновление
-		public SortingForm( ref SortingOptions sortOptions, ListView listViewFilesCount )
+		public SortingForm( ref SortingOptions sortOptions, ListView listViewFilesCount, int MaxBTLenght, int MaxSequenceLenght )
 		{
-			init( ref sortOptions, listViewFilesCount );
+			init( ref sortOptions, listViewFilesCount, MaxBTLenght, MaxSequenceLenght );
 		}
 		
 		// =============================================================================================
@@ -1103,7 +1110,8 @@ namespace Core.FileManager
 					string ToFilePath = TargetDir + "\\" +
 						templatesParser.Parse(
 							FromFilePath, lSLexems, ref fb2g, nGenreIndex, AuthorIndex,
-							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, ref m_sortOptions
+							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, ref m_sortOptions,
+							_MaxBookTitleLenght, _MaxSequenceLenght
 						) + ".fb2";
 					createFileTo(
 						FromZip, FromFilePath, ToFilePath, m_sortOptions.FileExistMode, m_sortOptions.FileLongPathDir

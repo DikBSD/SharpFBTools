@@ -237,6 +237,11 @@ namespace SharpFBTools.Tools
 			this.tpSettings = new System.Windows.Forms.TabPage();
 			this.tcFM = new System.Windows.Forms.TabControl();
 			this.tpFMGeneral = new System.Windows.Forms.TabPage();
+			this.gBoxOptions = new System.Windows.Forms.GroupBox();
+			this.comboBoxMaxSequenceLenght = new System.Windows.Forms.ComboBox();
+			this.lblMaxSequenceLenght = new System.Windows.Forms.Label();
+			this.comboBoxMaxBTLenght = new System.Windows.Forms.ComboBox();
+			this.lblMaxBTLenght = new System.Windows.Forms.Label();
 			this.gboxApportionment = new System.Windows.Forms.GroupBox();
 			this.gBoxGenres = new System.Windows.Forms.GroupBox();
 			this.gBoxGenresType = new System.Windows.Forms.GroupBox();
@@ -359,6 +364,7 @@ namespace SharpFBTools.Tools
 			this.tpSettings.SuspendLayout();
 			this.tcFM.SuspendLayout();
 			this.tpFMGeneral.SuspendLayout();
+			this.gBoxOptions.SuspendLayout();
 			this.gboxApportionment.SuspendLayout();
 			this.gBoxGenres.SuspendLayout();
 			this.gBoxGenresType.SuspendLayout();
@@ -934,7 +940,7 @@ namespace SharpFBTools.Tools
 			"4000",
 			"4500",
 			"5000"});
-			this.comboBoxMaxFileForProgress.Location = new System.Drawing.Point(260, 170);
+			this.comboBoxMaxFileForProgress.Location = new System.Drawing.Point(260, 141);
 			this.comboBoxMaxFileForProgress.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.comboBoxMaxFileForProgress.Name = "comboBoxMaxFileForProgress";
 			this.comboBoxMaxFileForProgress.Size = new System.Drawing.Size(105, 24);
@@ -944,7 +950,7 @@ namespace SharpFBTools.Tools
 			// lblMaxFileForProgress
 			// 
 			this.lblMaxFileForProgress.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblMaxFileForProgress.Location = new System.Drawing.Point(4, 172);
+			this.lblMaxFileForProgress.Location = new System.Drawing.Point(4, 143);
 			this.lblMaxFileForProgress.Name = "lblMaxFileForProgress";
 			this.lblMaxFileForProgress.Size = new System.Drawing.Size(251, 23);
 			this.lblMaxFileForProgress.TabIndex = 10;
@@ -1849,6 +1855,7 @@ namespace SharpFBTools.Tools
 			// 
 			// tpFMGeneral
 			// 
+			this.tpFMGeneral.Controls.Add(this.gBoxOptions);
 			this.tpFMGeneral.Controls.Add(this.gboxApportionment);
 			this.tpFMGeneral.Controls.Add(this.gboxFMGeneral);
 			this.tpFMGeneral.Location = new System.Drawing.Point(4, 25);
@@ -1859,6 +1866,103 @@ namespace SharpFBTools.Tools
 			this.tpFMGeneral.TabIndex = 0;
 			this.tpFMGeneral.Text = " Основные ";
 			this.tpFMGeneral.UseVisualStyleBackColor = true;
+			// 
+			// gBoxOptions
+			// 
+			this.gBoxOptions.Controls.Add(this.comboBoxMaxSequenceLenght);
+			this.gBoxOptions.Controls.Add(this.lblMaxSequenceLenght);
+			this.gBoxOptions.Controls.Add(this.comboBoxMaxBTLenght);
+			this.gBoxOptions.Controls.Add(this.lblMaxBTLenght);
+			this.gBoxOptions.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gBoxOptions.ForeColor = System.Drawing.Color.Maroon;
+			this.gBoxOptions.Location = new System.Drawing.Point(4, 409);
+			this.gBoxOptions.Name = "gBoxOptions";
+			this.gBoxOptions.Size = new System.Drawing.Size(1193, 105);
+			this.gBoxOptions.TabIndex = 31;
+			this.gBoxOptions.TabStop = false;
+			this.gBoxOptions.Text = " Опции ";
+			// 
+			// comboBoxMaxSequenceLenght
+			// 
+			this.comboBoxMaxSequenceLenght.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxMaxSequenceLenght.FormattingEnabled = true;
+			this.comboBoxMaxSequenceLenght.Items.AddRange(new object[] {
+			"10",
+			"15",
+			"20",
+			"25",
+			"30",
+			"35",
+			"40",
+			"45",
+			"50",
+			"55",
+			"60",
+			"65",
+			"70",
+			"75",
+			"80",
+			"85",
+			"90",
+			"95",
+			"100"});
+			this.comboBoxMaxSequenceLenght.Location = new System.Drawing.Point(480, 59);
+			this.comboBoxMaxSequenceLenght.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.comboBoxMaxSequenceLenght.Name = "comboBoxMaxSequenceLenght";
+			this.comboBoxMaxSequenceLenght.Size = new System.Drawing.Size(105, 24);
+			this.comboBoxMaxSequenceLenght.TabIndex = 19;
+			this.comboBoxMaxSequenceLenght.SelectedIndexChanged += new System.EventHandler(this.ComboBoxMaxSequenceLenghtSelectedIndexChanged);
+			// 
+			// lblMaxSequenceLenght
+			// 
+			this.lblMaxSequenceLenght.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblMaxSequenceLenght.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblMaxSequenceLenght.Location = new System.Drawing.Point(12, 61);
+			this.lblMaxSequenceLenght.Name = "lblMaxSequenceLenght";
+			this.lblMaxSequenceLenght.Size = new System.Drawing.Size(462, 23);
+			this.lblMaxSequenceLenght.TabIndex = 18;
+			this.lblMaxSequenceLenght.Text = "Шаблон подстановки *SN*: максимальная длина названия серии:";
+			// 
+			// comboBoxMaxBTLenght
+			// 
+			this.comboBoxMaxBTLenght.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxMaxBTLenght.FormattingEnabled = true;
+			this.comboBoxMaxBTLenght.Items.AddRange(new object[] {
+			"10",
+			"15",
+			"20",
+			"25",
+			"30",
+			"35",
+			"40",
+			"45",
+			"50",
+			"55",
+			"60",
+			"65",
+			"70",
+			"75",
+			"80",
+			"85",
+			"90",
+			"95",
+			"100"});
+			this.comboBoxMaxBTLenght.Location = new System.Drawing.Point(480, 29);
+			this.comboBoxMaxBTLenght.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.comboBoxMaxBTLenght.Name = "comboBoxMaxBTLenght";
+			this.comboBoxMaxBTLenght.Size = new System.Drawing.Size(105, 24);
+			this.comboBoxMaxBTLenght.TabIndex = 17;
+			this.comboBoxMaxBTLenght.SelectedIndexChanged += new System.EventHandler(this.ComboBoxMaxBTLenghtSelectedIndexChanged);
+			// 
+			// lblMaxBTLenght
+			// 
+			this.lblMaxBTLenght.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblMaxBTLenght.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblMaxBTLenght.Location = new System.Drawing.Point(12, 31);
+			this.lblMaxBTLenght.Name = "lblMaxBTLenght";
+			this.lblMaxBTLenght.Size = new System.Drawing.Size(462, 23);
+			this.lblMaxBTLenght.TabIndex = 16;
+			this.lblMaxBTLenght.Text = "Шаблон подстановки *BT*: максимальная длина названия книги:";
 			// 
 			// gboxApportionment
 			// 
@@ -3159,6 +3263,7 @@ namespace SharpFBTools.Tools
 			this.tpSettings.ResumeLayout(false);
 			this.tcFM.ResumeLayout(false);
 			this.tpFMGeneral.ResumeLayout(false);
+			this.gBoxOptions.ResumeLayout(false);
 			this.gboxApportionment.ResumeLayout(false);
 			this.gBoxGenres.ResumeLayout(false);
 			this.gBoxGenresType.ResumeLayout(false);
@@ -3223,6 +3328,11 @@ namespace SharpFBTools.Tools
 			this.PerformLayout();
 
 		}
+		private System.Windows.Forms.GroupBox gBoxOptions;
+		private System.Windows.Forms.ComboBox comboBoxMaxSequenceLenght;
+		private System.Windows.Forms.Label lblMaxSequenceLenght;
+		private System.Windows.Forms.ComboBox comboBoxMaxBTLenght;
+		private System.Windows.Forms.Label lblMaxBTLenght;
 		private System.Windows.Forms.ComboBox comboBoxMaxFileForProgress;
 		private System.Windows.Forms.Label lblMaxFileForProgress;
 		private System.Windows.Forms.ColumnHeader colHeaderIFormat;
@@ -3479,6 +3589,8 @@ namespace SharpFBTools.Tools
 			Init();
 			
 			comboBoxMaxFileForProgress.SelectedIndex = 10;
+			comboBoxMaxBTLenght.SelectedIndex = 8;
+			comboBoxMaxSequenceLenght.SelectedIndex = 8;
 
 			/* Настройки Менеджера Файлов по-умолчанию*/
 			// основные настройки
@@ -3658,7 +3770,10 @@ namespace SharpFBTools.Tools
 					                                       new XElement("BooksTagsView", checkBoxTagsView.Checked),
 					                                       new XComment("Показывать сообщение о том, что требуется много времени на генерацию метаданных"),
 					                                       new XElement("ViewMessageForLongTime", m_ViewMessageForLongTime),
-					                                       new XElement("MaxFileForProgressIndex", comboBoxMaxFileForProgress.SelectedIndex)
+					                                       new XElement("MaxFileForProgressIndex", comboBoxMaxFileForProgress.SelectedIndex),
+					                                       new XComment("Максимальная длина имени книги и/или серии"),
+					                                       new XElement("MaxBTLenght", comboBoxMaxBTLenght.SelectedIndex),
+					                                       new XElement("MaxSequenceLenght", comboBoxMaxSequenceLenght.SelectedIndex)
 					                                      )
 					                         ),
 					             new XComment("Избранная Сортировка"),
@@ -3808,6 +3923,12 @@ namespace SharpFBTools.Tools
 						// Если число файлов в сканируемом каталоге превышает заданное, то появляется панель прогресса
 						if( xmlOptions.Element("MaxFileForProgressIndex") != null )
 							comboBoxMaxFileForProgress.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxFileForProgressIndex").Value );
+						
+						// Максимальная длина имени книги и/или серии
+						if( xmlOptions.Element("MaxBTLenght") != null )
+							comboBoxMaxBTLenght.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxBTLenght").Value );
+						if( xmlOptions.Element("MaxSequenceLenght") != null )
+							comboBoxMaxSequenceLenght.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxSequenceLenght").Value );
 					}
 				}
 				
@@ -4581,7 +4702,11 @@ namespace SharpFBTools.Tools
 			
 			// инициализация контролов
 			Init();
-			SortingForm sortingForm = new SortingForm( ref m_sortOptions, listViewFB2Files, lvFilesCount );
+
+			SortingForm sortingForm = new SortingForm(
+				ref m_sortOptions, listViewFB2Files, lvFilesCount,
+				Convert.ToInt16( comboBoxMaxBTLenght.Text ), Convert.ToInt16( comboBoxMaxSequenceLenght.Text )
+			);
 			sortingForm.ShowDialog();
 			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			sortingForm.Dispose();
@@ -4616,7 +4741,10 @@ namespace SharpFBTools.Tools
 			chBoxScanSubDir.Checked = m_sortOptions.ScanSubDirs;
 			chBoxFSToZip.Checked = m_sortOptions.ToZip;
 			chBoxFSNotDelFB2Files.Checked = m_sortOptions.NotDelOriginalFiles;
-			SortingForm sortingForm = new SortingForm( ref m_sortOptions, listViewFB2Files, lvFilesCount );
+			SortingForm sortingForm = new SortingForm(
+				ref m_sortOptions, listViewFB2Files, lvFilesCount,
+				Convert.ToInt16( comboBoxMaxBTLenght.Text ), Convert.ToInt16( comboBoxMaxSequenceLenght.Text )
+			);
 			sortingForm.ShowDialog();
 			//TODO Доделать вывод инфы и в контролы????
 			EndWorkMode EndWorkMode = sortingForm.EndMode;
@@ -4845,7 +4973,10 @@ namespace SharpFBTools.Tools
 			
 			// инициализация контролов
 			Init();
-			SortingForm sortingForm = new SortingForm( ref m_sortOptions, lvFilesCount );
+			SortingForm sortingForm = new SortingForm(
+				ref m_sortOptions, lvFilesCount,
+				Convert.ToInt16( comboBoxMaxBTLenght.Text ), Convert.ToInt16( comboBoxMaxSequenceLenght.Text )
+			);
 			sortingForm.ShowDialog();
 			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			sortingForm.Dispose();
@@ -4900,7 +5031,10 @@ namespace SharpFBTools.Tools
 				lvSSData.Items.Add( lvi );
 			}
 
-			SortingForm sortingForm = new SortingForm( ref m_sortOptions, lvFilesCount );
+			SortingForm sortingForm = new SortingForm(
+				ref m_sortOptions, lvFilesCount,
+				Convert.ToInt16( comboBoxMaxBTLenght.Text ), Convert.ToInt16( comboBoxMaxSequenceLenght.Text )
+			);
 			sortingForm.ShowDialog();
 			//TODO Доделать вывод инфы и в контролы????
 			EndWorkMode EndWorkMode = sortingForm.EndMode;
@@ -5027,7 +5161,14 @@ namespace SharpFBTools.Tools
 		{
 			saveSettingsToXml();
 		}
-		
+		void ComboBoxMaxBTLenghtSelectedIndexChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
+		void ComboBoxMaxSequenceLenghtSelectedIndexChanged(object sender, EventArgs e)
+		{
+			saveSettingsToXml();
+		}
 		void TxtBoxFMNoGenreGroupTextChanged(object sender, EventArgs e)
 		{
 			saveSettingsToXml();
