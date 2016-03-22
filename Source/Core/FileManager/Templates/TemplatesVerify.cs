@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using Core.FileManager.Templates.Lexems;
 
 namespace Core.FileManager.Templates
 {
@@ -39,15 +40,13 @@ namespace Core.FileManager.Templates
 		
 		private static string[] GetLexemsToVerify( string sString ) {
 			// разбивка строки на лексемы, согласно шаблонам переименовывания
-			string[] sAllTemplates = new string[] {
-					"*GROUP*",
-					"*LBAL*","*L*","*GG*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*SII*","*SIII*","*DT*","*DV*",
-					"*LF*","*LM*","*LL*","*LN*",
-					"*YEAR*","*PUB*","*CITY*",
-					"*FB2AF*","*FB2AM*","*FB2AL*","*FB2AN*","*FILENAME*","*COUNTER*",
+			string[] sSymbols = new string[] {
 					"[","]","\\","(",")","{","}"," ","`","~","'","!","@","#","№","$","%","^",
 					"-","+","=","_",";",".",","
 			};
+			string[] sAllTemplates = new string[AllTemplates.Templates.Length + sSymbols.Length ];
+			AllTemplates.Templates.CopyTo( sAllTemplates, 0 );
+			sSymbols.CopyTo( sAllTemplates, AllTemplates.Templates.Length );
 			return sString.Split( sAllTemplates, StringSplitOptions.RemoveEmptyEntries );
 		}
 		#endregion

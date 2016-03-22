@@ -22,6 +22,9 @@ namespace Core.FileManager.Templates.Lexems {
 								};
 		public AllTemplates() {
 		}
+		public static string[] Templates {
+            get { return m_sAllTemplates; }
+        }
 	}
 	
 	/// <summary>

@@ -4809,7 +4809,7 @@ namespace SharpFBTools.Tools
 					labelTargetPath.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length - 1, 1);
 				else
 					labelTargetPath.Text = textBoxAddress.Text;
-				labelTargetPath.Text += " - OUT";
+				labelTargetPath.Text += "-OUT";
 			}
 			saveSettingsToXml();
 		}
