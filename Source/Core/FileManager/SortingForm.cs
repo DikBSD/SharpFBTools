@@ -663,7 +663,6 @@ namespace Core.FileManager
 		private void sortBooks( ref BackgroundWorker bw, ref DoWorkEventArgs e ) {
 			// формируем лексемы шаблонной строки
 			List<TemplatesLexemsSimple> lSLexems = templatesParser.GemSimpleLexems( m_sortOptions.Template );
-
 			// папки для проблемных файлов
 			string TargetDir = m_sortOptions.TargetDir;
 			m_sortOptions.NotReadFB2Dir		= Path.Combine( TargetDir, m_sortOptions.NotReadFB2Dir );
@@ -1106,10 +1105,9 @@ namespace Core.FileManager
 						return;
 				}
 				try {
-					FB2UnionGenres fb2g = m_FB2LibrusecGenres;
 					string ToFilePath = TargetDir + "\\" +
 						templatesParser.Parse(
-							FromFilePath, lSLexems, ref fb2g, nGenreIndex, AuthorIndex,
+							FromFilePath, lSLexems, ref m_FB2LibrusecGenres, nGenreIndex, AuthorIndex,
 							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, ref m_sortOptions,
 							_MaxBookTitleLenght, _MaxSequenceLenght
 						) + ".fb2";

@@ -42,12 +42,12 @@ namespace Core.FB2.Description.Common
 		#region Открытые методы класса
 		// атрибут Lang не проверяется - в реальных книгах он не используется (или крайне редко)
 		public bool Equals(TextFieldType RightValue) {
-			if ( this==null && RightValue==null )
+			if ( this == null && RightValue == null )
 				return true;
-			if ( ( this==null && RightValue!=null ) || ( this!=null && RightValue==null ) )
+			if ( ( this == null && RightValue != null ) || ( this != null && RightValue == null ) )
 				return false;
 
-			return this.Value==RightValue.Value;
+			return this.Value == RightValue.Value;
 		}
 		#endregion
 		

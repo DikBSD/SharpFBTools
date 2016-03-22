@@ -11,7 +11,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 using Core.Common;
 using Core.FB2.Description.TitleInfo;
@@ -200,7 +200,7 @@ namespace Core.FileManager.Templates {
 								if( lGenres == null ) {
 									sFileName += sNoGroup;
 								} else {
-									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
+									if( lGenres[nGenreIndex].Name == null || string.IsNullOrEmpty(lGenres[nGenreIndex].Name.Trim()) ) {
 										sFileName += sNoGroup;
 									} else {
 										// жанр есть
@@ -215,7 +215,7 @@ namespace Core.FileManager.Templates {
 								if( lGenres == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lGenres[nGenreIndex].Name == null || lGenres[nGenreIndex].Name.Trim().Length == 0 ) {
+									if( lGenres[nGenreIndex].Name == null || string.IsNullOrEmpty(lGenres[nGenreIndex].Name) ) {
 										lexem.Lexem = "";
 									} else {
 										// жанр есть
@@ -236,7 +236,7 @@ namespace Core.FileManager.Templates {
 								if( lGenres == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
+									if( lGenres[nGenreIndex].Name == null || string.IsNullOrEmpty(lGenres[nGenreIndex].Name) ) {
 										lexem.Lexem = "";
 									} else {
 										// жанр есть
@@ -246,20 +246,20 @@ namespace Core.FileManager.Templates {
 										} else {
 											// жанр расшифровано
 											string sg = fb2g.GetFBGenreName( lGenres[nGenreIndex].Name.Trim() );
-											// sg.Length==0 для жанра, не соответствующего схеме
+											// sg.Length == 0 для жанра, не соответствующего схеме
 											lexem.Lexem = ( sg.Length == 0 ? lGenres[nGenreIndex].Name.Trim() : sg );
 										}
 									}
 								}
 								break;
 							case "*BAF*": // Имя Автора Книги
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[nAuthorIndex].FirstName==null ) {
+									if ( lAuthors[nAuthorIndex].FirstName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].FirstName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lAuthors[nAuthorIndex].FirstName.Value.Trim();
@@ -268,13 +268,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*LF*": // Имя Автора Книги - 1-я Буква
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[nAuthorIndex].FirstName==null ) {
+									if ( lAuthors[nAuthorIndex].FirstName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].FirstName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].FirstName.Value.Trim();
@@ -284,13 +284,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*BAM*": // Отчество Автора Книги
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[nAuthorIndex].MiddleName==null ) {
+									if ( lAuthors[nAuthorIndex].MiddleName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].MiddleName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lAuthors[nAuthorIndex].MiddleName.Value.Trim();
@@ -302,10 +302,10 @@ namespace Core.FileManager.Templates {
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[nAuthorIndex].MiddleName==null ) {
+									if( lAuthors[nAuthorIndex].MiddleName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
+										if( string.IsNullOrEmpty(lAuthors[nAuthorIndex].MiddleName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].MiddleName.Value.Trim();
@@ -318,10 +318,10 @@ namespace Core.FileManager.Templates {
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[nAuthorIndex].LastName==null ) {
+									if( lAuthors[nAuthorIndex].LastName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+										if( string.IsNullOrEmpty(lAuthors[nAuthorIndex].LastName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lAuthors[nAuthorIndex].LastName.Value.Trim();
@@ -333,10 +333,10 @@ namespace Core.FileManager.Templates {
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[nAuthorIndex].LastName==null ) {
+									if( lAuthors[nAuthorIndex].LastName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+										if( string.IsNullOrEmpty(lAuthors[nAuthorIndex].LastName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
@@ -349,10 +349,10 @@ namespace Core.FileManager.Templates {
 								if( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[nAuthorIndex].LastName==null ) {
+									if( lAuthors[nAuthorIndex].LastName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+										if( string.IsNullOrEmpty(lAuthors[nAuthorIndex].LastName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
@@ -362,13 +362,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*BAN*": // Ник Автора Книги
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[nAuthorIndex].NickName==null ) {
+									if ( lAuthors[nAuthorIndex].NickName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].NickName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lAuthors[nAuthorIndex].NickName.Value.Trim();
@@ -377,13 +377,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*LN*": // Ник Автора Книги - 1-я Буква
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lAuthors[nAuthorIndex].NickName==null ) {
+									if ( lAuthors[nAuthorIndex].NickName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lAuthors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].NickName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].NickName.Value.Trim();
@@ -393,10 +393,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*BT*": // Название Книги
-								if( btBookTitle == null ) {
+								if ( btBookTitle == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( btBookTitle.Value==null || btBookTitle.Value.Trim().Length==0 ) {
+									if ( string.IsNullOrEmpty(btBookTitle.Value) || string.IsNullOrWhiteSpace(btBookTitle.Value) ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem += makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
@@ -407,7 +407,7 @@ namespace Core.FileManager.Templates {
 								if( lSequences == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lSequences[0].Name==null || lSequences[0].Name.Trim().Length==0 ) {
+									if( string.IsNullOrEmpty(lSequences[0].Name) || string.IsNullOrWhiteSpace(lSequences[0].Name) ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
@@ -418,7 +418,7 @@ namespace Core.FileManager.Templates {
 								if( lSequences == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lSequences[0].Number==null ) {
+									if( string.IsNullOrEmpty(lSequences[0].Number) ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = lSequences[0].Number;
@@ -426,10 +426,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*SII*": // Номер Серии Книги 0X
-								if( lSequences == null ) {
+								if ( lSequences == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lSequences[0].Number==null ) {
+									if ( string.IsNullOrEmpty(lSequences[0].Number) ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = MakeSII( lSequences[0].Number );
@@ -437,10 +437,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*SIII*": // Номер Серии Книги 00X
-								if( lSequences == null ) {
+								if ( lSequences == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lSequences[0].Number==null ) {
+									if ( string.IsNullOrEmpty(lSequences[0].Number) ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = MakeSIII( lSequences[0].Number );
@@ -448,10 +448,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*DT*": // Дата написания Книги (текст)
-								if( dBookDate == null ) {
+								if ( dBookDate == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( dBookDate.Text==null || dBookDate.Text.Trim().Length==0 ) {
+									if ( string.IsNullOrEmpty(dBookDate.Text) || string.IsNullOrWhiteSpace(dBookDate.Text) ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = dBookDate.Text.Trim();
@@ -459,10 +459,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*DV*": // Дата написания Книги (значение)
-								if( dBookDate == null ) {
+								if ( dBookDate == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( dBookDate.Value==null || dBookDate.Value.Trim().Length==0 ) {
+									if ( string.IsNullOrEmpty(dBookDate.Value) || string.IsNullOrWhiteSpace(dBookDate.Value) ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = dBookDate.Value.Trim();
@@ -470,17 +470,17 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*YEAR*": // Год Издания Книги
-								if( string.IsNullOrEmpty( sYear ) ) {
+								if ( string.IsNullOrEmpty( sYear ) ) {
 									lexem.Lexem = "";
 								} else {
 									lexem.Lexem = sYear.Trim();
 								}
 								break;
 							case "*PUB*": // Издательство
-								if( pubPub == null ) {
+								if ( pubPub == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( pubPub.Value==null || pubPub.Value.Trim().Length==0 ) {
+									if ( string.IsNullOrEmpty(pubPub.Value) || string.IsNullOrWhiteSpace(pubPub.Value) ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = pubPub.Value.Trim();
@@ -488,10 +488,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*CITY*": // Город Издательства
-								if( cCity == null ) {
+								if ( cCity == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( cCity.Value==null || cCity.Value.Trim().Length==0 ) {
+									if ( string.IsNullOrEmpty(cCity.Value) || string.IsNullOrWhiteSpace(cCity.Value) ) {
 										lexem.Lexem = "";
 									} else {
 										lexem.Lexem = cCity.Value.Trim();
@@ -499,13 +499,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*FB2AF*": // Имя создателя fb2-файла
-								if( lfb2Authors == null ) {
+								if ( lfb2Authors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lfb2Authors[nAuthorIndex].FirstName==null ) {
+									if ( lfb2Authors[nAuthorIndex].FirstName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lfb2Authors[nAuthorIndex].FirstName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].FirstName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lfb2Authors[nAuthorIndex].FirstName.Value.Trim();
@@ -517,10 +517,10 @@ namespace Core.FileManager.Templates {
 								if( lfb2Authors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lfb2Authors[nAuthorIndex].MiddleName==null ) {
+									if ( lfb2Authors[nAuthorIndex].MiddleName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lfb2Authors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
+										if( string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].MiddleName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lfb2Authors[nAuthorIndex].MiddleName.Value.Trim();
@@ -529,13 +529,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*FB2AL*": // Фамилия создателя fb2-файла
-								if( lfb2Authors == null ) {
+								if ( lfb2Authors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lfb2Authors[nAuthorIndex].LastName == null ) {
+									if ( lfb2Authors[nAuthorIndex].LastName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length == 0 ) {
+										if ( string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].LastName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lfb2Authors[nAuthorIndex].LastName.Value.Trim();
@@ -544,25 +544,19 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*FB2AN*": // Ник создателя fb2-файла
-								if( lfb2Authors == null ) {
+								if ( lfb2Authors == null ) {
 									lexem.Lexem = "";
 								} else {
-									if( lfb2Authors[nAuthorIndex].NickName == null ) {
+									if ( lfb2Authors[nAuthorIndex].NickName == null ) {
 										lexem.Lexem = "";
 									} else {
-										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length == 0 ) {
+										if ( string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].NickName.Value) ) {
 											lexem.Lexem = "";
 										} else {
 											lexem.Lexem = lfb2Authors[nAuthorIndex].NickName.Value.Trim();
 										}
 									}
 								}
-								break;
-							case "*FILENAME*": // Название файла
-								lexem.Lexem += Path.GetFileNameWithoutExtension( sFileName );
-								break;
-							case "*COUNTER*": // Счетчик файлов
-								lexem.Lexem += (++lConter).ToString();
 								break;
 								default :
 									lexem.Lexem = "";
@@ -680,48 +674,48 @@ namespace Core.FileManager.Templates {
 								if( lGenres == null ) {
 									sFileName += sNoGroup;
 								} else {
-									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
+									if( string.IsNullOrEmpty(lGenres[nGenreIndex].Name) || string.IsNullOrWhiteSpace(lGenres[nGenreIndex].Name) ) {
 										sFileName += sNoGroup;
 									} else {
 										// жанр есть
 										string sgg = fb2g.GetFBGenreGroup( lGenres[nGenreIndex].Name.Trim() );// группа жанров
-										// sgg.Length==0 для жанра, не соответствующего схеме
-										sFileName += ( sgg.Length==0 ? sNoGroup : sgg );
+										// sgg.Length == 0 для жанра, не соответствующего схеме
+										sFileName += ( sgg.Length == 0 ? sNoGroup : sgg );
 									}
 								}
 								break;
 							case "*GG*": // Группа Жанров\Жанр Книги
 								string sNoGG = sortOptions.BookInfoNoGenreGroup;
-								string sNo = sNoGG+"\\"+sortOptions.BookInfoNoGenre;// такого жанра нет в схеме
-								if( lGenres == null ) {
+								string sNo = sNoGG + "\\" + sortOptions.BookInfoNoGenre;// такого жанра нет в схеме
+								if ( lGenres == null ) {
 									sFileName += sNo;
 								} else {
-									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
+									if ( string.IsNullOrEmpty(lGenres[nGenreIndex].Name) || string.IsNullOrWhiteSpace(lGenres[nGenreIndex].Name) ) {
 										sFileName += sNo;
 									} else {
 										// жанр есть
 										string sGenre	= lGenres[nGenreIndex].Name.Trim();
 										string sgg		= fb2g.GetFBGenreGroup( sGenre );// группа жанров
 										// sgg.Length==0 для жанра, не соответствующего схеме
-										if( sortOptions.GenresTypeGenreSchema ) {
+										if ( sortOptions.GenresTypeGenreSchema ) {
 											// как в схеме
-											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
+											sFileName += ( sgg.Length == 0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
 										} else {
 											// жанр расшифровано
-											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+fb2g.GetFBGenreName( sGenre ) );
+											sFileName += ( sgg.Length == 0 ? sNoGG+"\\"+sGenre : sgg+"\\"+fb2g.GetFBGenreName( sGenre ) );
 										}
 									}
 								}
 								break;
 							case "*G*": // Жанр Книги
-								if( lGenres == null ) {
+								if ( lGenres == null ) {
 									sFileName += sortOptions.BookInfoNoGenre;
 								} else {
-									if( lGenres[nGenreIndex].Name==null || lGenres[nGenreIndex].Name.Trim().Length==0 ) {
+									if ( string.IsNullOrEmpty(lGenres[nGenreIndex].Name) || string.IsNullOrWhiteSpace(lGenres[nGenreIndex].Name) ) {
 										sFileName += sortOptions.BookInfoNoGenre;
 									} else {
 										// жанр есть
-										if( sortOptions.GenresTypeGenreSchema ) {
+										if ( sortOptions.GenresTypeGenreSchema ) {
 											// как в схеме
 											sFileName += lGenres[nGenreIndex].Name.Trim();
 										} else {
@@ -734,13 +728,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*BAF*": // Имя Автора Книги
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									sFileName += sortOptions.BookInfoNoFirstName;
 								} else {
-									if( lAuthors[nAuthorIndex].FirstName==null ) {
+									if ( lAuthors[nAuthorIndex].FirstName == null ) {
 										sFileName += sortOptions.BookInfoNoFirstName;
 									} else {
-										if( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].FirstName.Value) ) {
 											sFileName += sortOptions.BookInfoNoFirstName;
 										} else {
 											sFileName += lAuthors[nAuthorIndex].FirstName.Value.Trim();
@@ -749,13 +743,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*LF*": // Имя Автора Книги - 1-я Буква
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									sFileName += sortOptions.BookInfoNoFirstName;
 								} else {
-									if( lAuthors[nAuthorIndex].FirstName == null ) {
+									if ( lAuthors[nAuthorIndex].FirstName == null ) {
 										sFileName += sortOptions.BookInfoNoFirstName;
 									} else {
-										if( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length == 0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].FirstName.Value) ) {
 											sFileName += sortOptions.BookInfoNoFirstName;
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].FirstName.Value.Trim();
@@ -765,13 +759,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*BAM*": // Отчество Автора Книги
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									sFileName += sortOptions.BookInfoNoMiddleName;
 								} else {
-									if( lAuthors[nAuthorIndex].MiddleName==null ) {
+									if ( lAuthors[nAuthorIndex].MiddleName==null ) {
 										sFileName += sortOptions.BookInfoNoMiddleName;
 									} else {
-										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].MiddleName.Value) ) {
 											sFileName += sortOptions.BookInfoNoMiddleName;
 										} else {
 											sFileName += lAuthors[nAuthorIndex].MiddleName.Value.Trim();
@@ -780,13 +774,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*LM*": // Отчество Автора Книги - 1-я Буква
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									sFileName += sortOptions.BookInfoNoMiddleName;
 								} else {
-									if( lAuthors[nAuthorIndex].MiddleName==null ) {
+									if ( lAuthors[nAuthorIndex].MiddleName==null ) {
 										sFileName += sortOptions.BookInfoNoMiddleName;
 									} else {
-										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].MiddleName.Value) ) {
 											sFileName += sortOptions.BookInfoNoMiddleName;
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].MiddleName.Value.Trim();
@@ -796,13 +790,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*BAL*": // Фамилия Автора Книги
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									sFileName += sortOptions.BookInfoNoLastName;
 								} else {
-									if( lAuthors[nAuthorIndex].LastName==null ) {
+									if ( lAuthors[nAuthorIndex].LastName==null ) {
 										sFileName += sortOptions.BookInfoNoLastName;
 									} else {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].LastName.Value) ) {
 											sFileName += sortOptions.BookInfoNoLastName;
 										} else {
 											sFileName += lAuthors[nAuthorIndex].LastName.Value.Trim();
@@ -811,13 +805,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*LL*": // Фамилия Автора Книги - 1-я Буква
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									sFileName += sortOptions.BookInfoNoLastName;
 								} else {
-									if( lAuthors[nAuthorIndex].LastName==null ) {
+									if ( lAuthors[nAuthorIndex].LastName==null ) {
 										sFileName += sortOptions.BookInfoNoLastName;
 									} else {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].LastName.Value) ) {
 											sFileName += sortOptions.BookInfoNoLastName;
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
@@ -829,13 +823,13 @@ namespace Core.FileManager.Templates {
 							case "*LBAL*": // 1-я Буква Фамилия Автора Книги \ Фамилия Автора Книги
 								string sNoLN = sortOptions.BookInfoNoLastName;
 								sNo = sNoLN[0] + "\\" + sNoLN;
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									sFileName += sNoLN;
 								} else {
-									if( lAuthors[nAuthorIndex].LastName==null ) {
+									if ( lAuthors[nAuthorIndex].LastName == null ) {
 										sFileName += sNoLN + "\\" + sNoLN;
 									} else {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].LastName.Value) ) {
 											sFileName += sNoLN + "\\" + sNoLN;
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
@@ -845,13 +839,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*BAN*": // Ник Автора Книги
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									sFileName += sortOptions.BookInfoNoNickName;
 								} else {
-									if( lAuthors[nAuthorIndex].NickName==null ) {
+									if ( lAuthors[nAuthorIndex].NickName == null ) {
 										sFileName += sortOptions.BookInfoNoNickName;
 									} else {
-										if( lAuthors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].NickName.Value) ) {
 											sFileName += sortOptions.BookInfoNoNickName;
 										} else {
 											sFileName += lAuthors[nAuthorIndex].NickName.Value.Trim();
@@ -860,13 +854,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*LN*": // Ник Автора Книги - 1-я Буква
-								if( lAuthors == null ) {
+								if ( lAuthors == null ) {
 									sFileName += sortOptions.BookInfoNoNickName;
 								} else {
-									if( lAuthors[nAuthorIndex].NickName==null ) {
+									if ( lAuthors[nAuthorIndex].NickName == null ) {
 										sFileName += sortOptions.BookInfoNoNickName;
 									} else {
-										if( lAuthors[nAuthorIndex].NickName.Value.Trim().Length==0 ) {
+										if ( string.IsNullOrEmpty(lAuthors[nAuthorIndex].NickName.Value) ) {
 											sFileName += sortOptions.BookInfoNoNickName;
 										} else {
 											string sExsist = lAuthors[nAuthorIndex].NickName.Value.Trim();
@@ -876,10 +870,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*BT*": // Название Книги
-								if( btBookTitle == null ) {
+								if ( btBookTitle == null ) {
 									sFileName += sortOptions.BookInfoNoBookTitle;
 								} else {
-									if( btBookTitle.Value==null || btBookTitle.Value.Trim().Length==0 ) {
+									if ( string.IsNullOrEmpty(btBookTitle.Value) || string.IsNullOrWhiteSpace(btBookTitle.Value) ) {
 										sFileName += sortOptions.BookInfoNoBookTitle;
 									} else {
 										sFileName += makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
@@ -887,10 +881,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*SN*": // Серия Книги
-								if( lSequences == null ) {
+								if ( lSequences == null ) {
 									sFileName += sortOptions.BookInfoNoSequence;
 								} else {
-									if( lSequences[0].Name == null || lSequences[0].Name.Trim().Length == 0 ) {
+									if ( string.IsNullOrEmpty(lSequences[0].Name) || string.IsNullOrWhiteSpace(lSequences[0].Name) ) {
 										sFileName += sortOptions.BookInfoNoSequence;
 									} else {
 										sFileName += makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
@@ -898,10 +892,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*SI*": // Номер Серии Книги
-								if( lSequences == null ) {
+								if ( lSequences == null ) {
 									sFileName += sortOptions.BookInfoNoNSequence;
 								} else {
-									if( lSequences[0].Number == null ) {
+									if ( string.IsNullOrEmpty(lSequences[0].Number) ) {
 										sFileName += sortOptions.BookInfoNoNSequence;
 									} else {
 										sFileName += lSequences[0].Number;
@@ -909,10 +903,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*SII*": // Номер Серии Книги 0X
-								if( lSequences == null ) {
+								if ( lSequences == null ) {
 									sFileName += sortOptions.BookInfoNoNSequence;
 								} else {
-									if( lSequences[0].Number == null ) {
+									if ( string.IsNullOrEmpty(lSequences[0].Number) ) {
 										sFileName += sortOptions.BookInfoNoNSequence;
 									} else {
 										sFileName += MakeSII( lSequences[0].Number );
@@ -920,10 +914,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*SIII*": // Номер Серии Книги 00X
-								if( lSequences == null ) {
+								if ( lSequences == null ) {
 									sFileName += sortOptions.BookInfoNoNSequence;
 								} else {
-									if( lSequences[0].Number == null ) {
+									if ( string.IsNullOrEmpty(lSequences[0].Number) ) {
 										sFileName += sortOptions.BookInfoNoNSequence;
 									} else {
 										sFileName += MakeSIII( lSequences[0].Number );
@@ -931,10 +925,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*DT*": // Дата написания Книги (текст)
-								if( dBookDate == null ) {
+								if ( dBookDate == null ) {
 									sFileName += sortOptions.BookInfoNoDateText;
 								} else {
-									if( dBookDate.Text == null || dBookDate.Text.Trim().Length == 0 ) {
+									if ( string.IsNullOrEmpty(dBookDate.Text) || string.IsNullOrWhiteSpace(dBookDate.Text) ) {
 										sFileName += sortOptions.BookInfoNoDateText;
 									} else {
 										sFileName += dBookDate.Text.Trim();
@@ -942,10 +936,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*DV*": // Дата написания Книги (значение)
-								if( dBookDate == null ) {
+								if ( dBookDate == null ) {
 									sFileName += sortOptions.BookInfoNoDateText;
 								} else {
-									if( dBookDate.Value == null || dBookDate.Value.Trim().Length == 0 ) {
+									if ( string.IsNullOrEmpty(dBookDate.Value) || string.IsNullOrWhiteSpace(dBookDate.Value) ) {
 										sFileName += sortOptions.BookInfoNoDateValue;
 									} else {
 										sFileName += dBookDate.Value.Trim();
@@ -953,17 +947,17 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*YEAR*": // Год Издания Книги
-								if( string.IsNullOrEmpty( sYear ) ) {
+								if ( string.IsNullOrEmpty( sYear ) ) {
 									sFileName += sortOptions.PublishInfoNoYear;
 								} else {
 									sFileName += sYear.Trim();
 								}
 								break;
 							case "*PUB*": // Издательство
-								if( pubPub == null ) {
+								if ( pubPub == null ) {
 									sFileName += sortOptions.PublishInfoNoPublisher;
 								} else {
-									if( pubPub.Value == null || pubPub.Value.Trim().Length == 0 ) {
+									if ( string.IsNullOrEmpty(pubPub.Value) || string.IsNullOrWhiteSpace(pubPub.Value) ) {
 										sFileName += sortOptions.PublishInfoNoPublisher;
 									} else {
 										sFileName += pubPub.Value.Trim();
@@ -971,10 +965,10 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*CITY*": // Город Издательства
-								if( cCity == null ) {
+								if ( cCity == null ) {
 									sFileName += sortOptions.PublishInfoNoCity;
 								} else {
-									if( cCity.Value == null || cCity.Value.Trim().Length == 0 ) {
+									if ( string.IsNullOrEmpty(cCity.Value) || string.IsNullOrWhiteSpace(cCity.Value) ) {
 										sFileName += sortOptions.PublishInfoNoCity;
 									} else {
 										sFileName += cCity.Value.Trim();
@@ -982,13 +976,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*FB2AF*": // Имя сооздателя fb2-файла
-								if( lfb2Authors == null ) {
+								if ( lfb2Authors == null ) {
 									sFileName += sortOptions.FB2InfoNoFB2FirstName;
 								} else {
-									if( lfb2Authors[nAuthorIndex].FirstName==null ) {
+									if ( lfb2Authors[nAuthorIndex].FirstName == null ) {
 										sFileName += sortOptions.FB2InfoNoFB2FirstName;
 									} else {
-										if( lfb2Authors[nAuthorIndex].FirstName.Value.Trim().Length == 0 ) {
+										if ( string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].FirstName.Value) ) {
 											sFileName += sortOptions.FB2InfoNoFB2FirstName;
 										} else {
 											sFileName += lfb2Authors[nAuthorIndex].FirstName.Value.Trim();
@@ -997,13 +991,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*FB2AM*": // Отчество сооздателя fb2-файла
-								if( lfb2Authors == null ) {
+								if ( lfb2Authors == null ) {
 									sFileName += sortOptions.FB2InfoNoFB2MiddleName;
 								} else {
-									if( lfb2Authors[nAuthorIndex].MiddleName == null ) {
+									if ( lfb2Authors[nAuthorIndex].MiddleName == null ) {
 										sFileName += sortOptions.FB2InfoNoFB2MiddleName;
 									} else {
-										if( lfb2Authors[nAuthorIndex].MiddleName.Value.Trim().Length == 0 ) {
+										if ( string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].MiddleName.Value) ) {
 											sFileName += sortOptions.FB2InfoNoFB2MiddleName;
 										} else {
 											sFileName += lfb2Authors[nAuthorIndex].MiddleName.Value.Trim();
@@ -1012,13 +1006,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*FB2AL*": // Фамилия сооздателя fb2-файла
-								if( lfb2Authors == null ) {
+								if ( lfb2Authors == null ) {
 									sFileName += sortOptions.FB2InfoNoFB2LastName;
 								} else {
-									if( lfb2Authors[nAuthorIndex].LastName == null ) {
+									if ( lfb2Authors[nAuthorIndex].LastName == null ) {
 										sFileName += sortOptions.FB2InfoNoFB2LastName;
 									} else {
-										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length == 0 ) {
+										if ( string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].LastName.Value) ) {
 											sFileName += sortOptions.FB2InfoNoFB2LastName;
 										} else {
 											sFileName += lfb2Authors[nAuthorIndex].LastName.Value.Trim();
@@ -1027,13 +1021,13 @@ namespace Core.FileManager.Templates {
 								}
 								break;
 							case "*FB2AN*": // Ник сооздателя fb2-файла
-								if( lfb2Authors == null ) {
+								if ( lfb2Authors == null ) {
 									sFileName += sortOptions.FB2InfoNoFB2NickName;
 								} else {
-									if( lfb2Authors[nAuthorIndex].NickName == null ) {
+									if ( lfb2Authors[nAuthorIndex].NickName == null ) {
 										sFileName += sortOptions.FB2InfoNoFB2NickName;
 									} else {
-										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length == 0 ) {
+										if ( string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].NickName.Value) ) {
 											sFileName += sortOptions.FB2InfoNoFB2NickName;
 										} else {
 											sFileName += lfb2Authors[nAuthorIndex].NickName.Value.Trim();
@@ -1056,229 +1050,282 @@ namespace Core.FileManager.Templates {
 						// условный шаблон
 						switch( lexem.Lexem ) {
 							case "[*L*]": // Язык Книги
-								if( sLang!=null || sLang.Length!=0 ) {
-									sFileName += sLang.Trim();
+								if( !string.IsNullOrEmpty(sLang) ) {
+									if ( sLang.Trim().Length != 0 ) {
+										sFileName += sLang.Trim();
+									}
 								}
 								break;
 							case "[*GG*]": // Группа Жанров\Жанр Книги
 								string sNoGG = sortOptions.BookInfoNoGenreGroup;// такого жанра (группы) нет в схеме
-								if( lGenres != null ) {
-									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim().Length!=0 ) {
-										// жанр есть
-										string sGenre	= lGenres[nGenreIndex].Name.Trim();
-										string sgg		= fb2g.GetFBGenreGroup( sGenre );// группа жанров
-										// sgg.Length==0 для жанра, не соответствующего схеме
-										if( sortOptions.GenresTypeGenreSchema ) {
-											// как в схеме
-											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
-										} else {
-											// жанр расшифровано
-											sFileName += ( sgg.Length==0 ? sNoGG+"\\"+sGenre : sgg+"\\"+fb2g.GetFBGenreName( sGenre ) );
+								if ( lGenres != null ) {
+									if ( !string.IsNullOrEmpty(lGenres[nGenreIndex].Name) ) {
+										if ( lGenres[nGenreIndex].Name.Trim().Length != 0 ) {
+											// жанр есть
+											string sGenre	= lGenres[nGenreIndex].Name.Trim();
+											string sgg		= fb2g.GetFBGenreGroup( sGenre );// группа жанров
+											// sgg.Length==0 для жанра, не соответствующего схеме
+											if ( sortOptions.GenresTypeGenreSchema ) {
+												// как в схеме
+												sFileName += ( sgg.Length == 0 ? sNoGG+"\\"+sGenre : sgg+"\\"+sGenre );
+											} else {
+												// жанр расшифровано
+												sFileName += ( sgg.Length == 0 ? sNoGG+"\\"+sGenre : sgg+"\\"+fb2g.GetFBGenreName( sGenre ) );
+											}
 										}
 									}
 								}
 								break;
 							case "[*G*]": // Жанр Книги
-								if( lGenres != null ) {
-									if( lGenres[nGenreIndex].Name!=null || lGenres[nGenreIndex].Name.Trim().Length!=0 ) {
-										if( sortOptions.GenresTypeGenreSchema ) {
-											// как в схеме
-											sFileName += lGenres[nGenreIndex].Name.Trim();
-										} else {
-											// жанр расшифровано
-											string sg = fb2g.GetFBGenreName( lGenres[nGenreIndex].Name.Trim() );
-											// sg.Length==0 для жанра, не соответствующего схеме
-											sFileName += ( sg.Length==0 ? lGenres[nGenreIndex].Name.Trim() : sg );
+								if ( lGenres != null ) {
+									if ( !string.IsNullOrEmpty(lGenres[nGenreIndex].Name) ) {
+										if ( lGenres[nGenreIndex].Name.Trim().Length != 0 ) {
+											if ( sortOptions.GenresTypeGenreSchema ) {
+												// как в схеме
+												sFileName += lGenres[nGenreIndex].Name.Trim();
+											} else {
+												// жанр расшифровано
+												string sg = fb2g.GetFBGenreName( lGenres[nGenreIndex].Name.Trim() );
+												// sg.Length==0 для жанра, не соответствующего схеме
+												sFileName += ( sg.Length == 0 ? lGenres[nGenreIndex].Name.Trim() : sg );
+											}
 										}
 									}
 								}
 								break;
 							case "[*BAF*]": // Имя Автора Книги
-								if( lAuthors != null ) {
-									if( lAuthors[nAuthorIndex].FirstName != null ) {
-										if( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length!=0 ) {
-											sFileName += lAuthors[nAuthorIndex].FirstName.Value.Trim();
+								if ( lAuthors != null ) {
+									if ( lAuthors[nAuthorIndex].FirstName != null ) {
+										if ( !string.IsNullOrEmpty(lAuthors[nAuthorIndex].FirstName.Value) ) {
+											if ( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length != 0 ) {
+												sFileName += lAuthors[nAuthorIndex].FirstName.Value.Trim();
+											}
 										}
 									}
 								}
 								break;
 							case "[*LF*]": // Имя Автора Книги - 1-я Буква
-								if( lAuthors != null ) {
-									if( lAuthors[nAuthorIndex].FirstName != null ) {
-										if( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length!=0 ) {
-											string sExsist = lAuthors[nAuthorIndex].FirstName.Value.Trim();
-											sFileName += firstLetter( sExsist ).ToString().ToUpper();
+								if ( lAuthors != null ) {
+									if ( lAuthors[nAuthorIndex].FirstName != null ) {
+										if ( !string.IsNullOrEmpty(lAuthors[nAuthorIndex].FirstName.Value) ) {
+											if ( lAuthors[nAuthorIndex].FirstName.Value.Trim().Length != 0 ) {
+												string sExsist = lAuthors[nAuthorIndex].FirstName.Value.Trim();
+												sFileName += firstLetter( sExsist ).ToString().ToUpper();
+											}
 										}
 									}
 								}
 								break;
 							case "[*BAM*]": // Отчество Автора Книги
-								if( lAuthors != null ) {
-									if( lAuthors[nAuthorIndex].MiddleName != null ) {
-										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length!=0 ) {
-											sFileName += lAuthors[nAuthorIndex].MiddleName.Value.Trim();
+								if ( lAuthors != null ) {
+									if ( lAuthors[nAuthorIndex].MiddleName != null ) {
+										if ( !string.IsNullOrEmpty(lAuthors[nAuthorIndex].MiddleName.Value) ) {
+											if ( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length != 0 ) {
+												sFileName += lAuthors[nAuthorIndex].MiddleName.Value.Trim();
+											}
 										}
 									}
 								}
 								break;
 							case "[*LM*]": // Отчество Автора Книги - 1-я Буква
-								if( lAuthors != null ) {
-									if( lAuthors[nAuthorIndex].MiddleName != null ) {
-										if( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length!=0 ) {
-											string sExsist = lAuthors[nAuthorIndex].MiddleName.Value.Trim();
-											sFileName += firstLetter( sExsist ).ToString().ToUpper();
+								if ( lAuthors != null ) {
+									if ( lAuthors[nAuthorIndex].MiddleName != null ) {
+										if ( !string.IsNullOrEmpty(lAuthors[nAuthorIndex].MiddleName.Value) ) {
+											if ( lAuthors[nAuthorIndex].MiddleName.Value.Trim().Length != 0 ) {
+												string sExsist = lAuthors[nAuthorIndex].MiddleName.Value.Trim();
+												sFileName += firstLetter( sExsist ).ToString().ToUpper();
+											}
 										}
 									}
 								}
 								break;
 							case "[*BAL*]": // Фамилия Автора Книги
-								if( lAuthors != null ) {
-									if( lAuthors[nAuthorIndex].LastName != null ) {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length!=0 ) {
-											sFileName += lAuthors[nAuthorIndex].LastName.Value.Trim();
+								if ( lAuthors != null ) {
+									if ( lAuthors[nAuthorIndex].LastName != null ) {
+										if ( !string.IsNullOrEmpty(lAuthors[nAuthorIndex].LastName.Value) ) {
+											if ( lAuthors[nAuthorIndex].LastName.Value.Trim().Length != 0 ) {
+												sFileName += lAuthors[nAuthorIndex].LastName.Value.Trim();
+											}
 										}
 									}
 								}
 								break;
-							case "[*LL*]": // Фамилия Автора Книги- 1-я Буква
-								if( lAuthors != null ) {
-									if( lAuthors[nAuthorIndex].LastName != null ) {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length!=0 ) {
-											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
-											sFileName += firstLetter( sExsist ).ToString().ToUpper();
+							case "[*LL*]": // Фамилия Автора Книги - 1-я Буква
+								if ( lAuthors != null ) {
+									if ( lAuthors[nAuthorIndex].LastName != null ) {
+										if ( !string.IsNullOrEmpty(lAuthors[nAuthorIndex].LastName.Value) ) {
+											if ( lAuthors[nAuthorIndex].LastName.Value.Trim().Length != 0 ) {
+												string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
+												sFileName += firstLetter( sExsist ).ToString().ToUpper();
+											}
 										}
 									}
 								}
 								break;
 							case "[*LBAL*]": // 1-я Буква Фамилия Автора Книги \ Фамилия Автора Книги
-								if( lAuthors != null ) {
-									if( lAuthors[nAuthorIndex].LastName != null ) {
-										if( lAuthors[nAuthorIndex].LastName.Value.Trim().Length!=0 ) {
-											string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
-											sFileName += firstLetter( sExsist ).ToString().ToUpper() + "\\" + sExsist;
+								if ( lAuthors != null ) {
+									if ( lAuthors[nAuthorIndex].LastName != null ) {
+										if ( !string.IsNullOrEmpty(lAuthors[nAuthorIndex].LastName.Value) ) {
+											if ( lAuthors[nAuthorIndex].LastName.Value.Trim().Length != 0 ) {
+												string sExsist = lAuthors[nAuthorIndex].LastName.Value.Trim();
+												sFileName += firstLetter( sExsist ).ToString().ToUpper() + "\\" + sExsist;
+											}
 										}
 									}
 								}
 								break;
 							case "[*BAN*]": // Ник Автора Книги
-								if( lAuthors != null ) {
-									if( lAuthors[nAuthorIndex].NickName != null ) {
-										if( lAuthors[nAuthorIndex].NickName.Value.Trim().Length!=0 ) {
-											sFileName += lAuthors[nAuthorIndex].NickName.Value.Trim();
+								if ( lAuthors != null ) {
+									if ( lAuthors[nAuthorIndex].NickName != null ) {
+										if ( !string.IsNullOrEmpty(lAuthors[nAuthorIndex].NickName.Value) ) {
+											if ( lAuthors[nAuthorIndex].NickName.Value.Trim().Length != 0 ) {
+												sFileName += lAuthors[nAuthorIndex].NickName.Value.Trim();
+											}
 										}
 									}
 								}
 								break;
 							case "[*LN*]": // Ник Автора Книги- 1-я Буква
-								if( lAuthors != null ) {
-									if( lAuthors[nAuthorIndex].NickName != null ) {
-										if( lAuthors[nAuthorIndex].NickName.Value.Trim().Length!=0 ) {
-											string sExsist = lAuthors[nAuthorIndex].NickName.Value.Trim();
-											sFileName += firstLetter( sExsist ).ToString().ToUpper();
+								if ( lAuthors != null ) {
+									if ( lAuthors[nAuthorIndex].NickName != null ) {
+										if ( !string.IsNullOrEmpty(lAuthors[nAuthorIndex].NickName.Value) ) {
+											if ( lAuthors[nAuthorIndex].NickName.Value.Trim().Length != 0 ) {
+												string sExsist = lAuthors[nAuthorIndex].NickName.Value.Trim();
+												sFileName += firstLetter( sExsist ).ToString().ToUpper();
+											}
 										}
 									}
 								}
 								break;
 							case "[*BT*]": // Название Книги
-								if( btBookTitle != null ) {
-									if( btBookTitle.Value!=null || btBookTitle.Value.Trim().Length!=0 ) {
-										sFileName += makeString( btBookTitle.Value.Trim(), 50 );
+								if ( btBookTitle != null ) {
+									if ( !string.IsNullOrEmpty(btBookTitle.Value) ) {
+										if ( btBookTitle.Value.Trim().Length != 0 ) {
+											sFileName += makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
+										}
 									}
 								}
 								break;
 							case "[*SN*]": // Серия Книги
-								if( lSequences != null ) {
-									if( lSequences[0].Name!=null || lSequences[0].Name.Trim().Length!=0 ) {
-										sFileName += makeString( lSequences[0].Name.Trim(), 50 );
+								if ( lSequences != null ) {
+									if ( !string.IsNullOrEmpty(lSequences[0].Name) ) {
+										if ( lSequences[0].Name.Trim().Length != 0 ) {
+											sFileName += makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
+										}
+										
 									}
 								}
 								break;
 							case "[*SI*]": // Номер Серии Книги
-								if( lSequences != null ) {
-									if( lSequences[0].Number != null ) {
-										sFileName += lSequences[0].Number;
+								if ( lSequences != null ) {
+									if ( !string.IsNullOrEmpty(lSequences[0].Number) ) {
+										if ( lSequences[0].Number.Trim().Length != 0 ) {
+											sFileName += lSequences[0].Number;
+										}
 									}
 								}
 								break;
 							case "[*SII*]": // Номер Серии Книги 0X
-								if( lSequences != null ) {
-									if( lSequences[0].Number != null ) {
-										sFileName += MakeSII( lSequences[0].Number );
+								if ( lSequences != null ) {
+									if ( !string.IsNullOrEmpty(lSequences[0].Number) ) {
+										if ( lSequences[0].Number.Trim().Length != 0 ) {
+											sFileName += MakeSII( lSequences[0].Number );
+										}
 									}
 								}
 								break;
 							case "[*SIII*]": // Номер Серии Книги 00X
-								if( lSequences != null ) {
-									if( lSequences[0].Number != null ) {
-										sFileName += MakeSIII( lSequences[0].Number );
+								if ( lSequences != null ) {
+									if ( !string.IsNullOrEmpty(lSequences[0].Number) ) {
+										if ( lSequences[0].Number.Trim().Length != 0 ) {
+											sFileName += MakeSIII( lSequences[0].Number );
+										}
 									}
 								}
 								break;
 							case "[*DT*]": // Дата написания Книги (текст)
-								if( dBookDate != null ) {
-									if( dBookDate.Text!=null || dBookDate.Text.Trim().Length!=0 ) {
-										sFileName += dBookDate.Text.Trim();
+								if ( dBookDate != null ) {
+									if ( !string.IsNullOrEmpty(dBookDate.Text) ) {
+										if ( dBookDate.Text.Trim().Length != 0 ) {
+											sFileName += dBookDate.Text.Trim();
+										}
 									}
 								}
 								break;
 							case "[*DV*]": // Дата написания Книги (значение)
-								if( dBookDate != null ) {
-									if( dBookDate.Value!=null || dBookDate.Value.Trim().Length!=0 ) {
-										sFileName += dBookDate.Value.Trim();
+								if ( dBookDate != null ) {
+									if ( !string.IsNullOrEmpty(dBookDate.Value) ) {
+										if ( dBookDate.Value.Trim().Length != 0 ) {
+											sFileName += dBookDate.Value.Trim();
+										}
 									}
 								}
 								break;
 							case "[*YEAR*]": // Год Издания Книги
-								if( sYear != null || sYear.Length != 0 ) {
-									sFileName += sYear.Trim();
+								if ( !string.IsNullOrEmpty(sYear) ) {
+									if ( sYear.Trim().Length != 0 ) {
+										sFileName += sYear.Trim();
+									}
 								}
 								break;
 							case "[*PUB*]": // Издательство
-								if( pubPub != null ) {
-									if( pubPub.Value!=null || pubPub.Value.Trim().Length!=0 ) {
-										sFileName += pubPub.Value.Trim();
+								if ( pubPub != null ) {
+									if ( !string.IsNullOrEmpty(pubPub.Value) ) {
+										if ( pubPub.Value.Trim().Length != 0 ) {
+											sFileName += pubPub.Value.Trim();
+										}
 									}
 								}
 								break;
 							case "[*CITY*]": // Город Издательства
-								if( cCity != null ) {
-									if( cCity.Value!=null || cCity.Value.Trim().Length!=0 ) {
-										sFileName += cCity.Value.Trim();
+								if ( cCity != null ) {
+									if ( !string.IsNullOrEmpty(cCity.Value) ) {
+										if ( cCity.Value.Trim().Length != 0 ) {
+											sFileName += cCity.Value.Trim();
+										}
 									}
 								}
 								break;
 							case "[*FB2AF*]": // Имя создателя fb2-файла
-								if( lfb2Authors != null ) {
-									if( lfb2Authors[nAuthorIndex].FirstName != null ) {
-										if( lfb2Authors[nAuthorIndex].FirstName.Value.Trim().Length!=0 ) {
-											sFileName += lfb2Authors[nAuthorIndex].FirstName.Value.Trim();
+								if ( lfb2Authors != null ) {
+									if ( lfb2Authors[nAuthorIndex].FirstName != null ) {
+										if ( !string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].FirstName.Value) ) {
+											if ( lfb2Authors[nAuthorIndex].FirstName.Value.Trim().Length != 0 ) {
+												sFileName += lfb2Authors[nAuthorIndex].FirstName.Value.Trim();
+											}
 										}
 									}
 								}
 								break;
 							case "[*FB2AM*]": // Отчество создателя fb2-файла
-								if( lfb2Authors != null ) {
-									if( lfb2Authors[nAuthorIndex].MiddleName != null ) {
-										if( lfb2Authors[nAuthorIndex].MiddleName.Value.Trim().Length!=0 ) {
-											sFileName += lfb2Authors[nAuthorIndex].MiddleName.Value.Trim();
+								if ( lfb2Authors != null ) {
+									if ( lfb2Authors[nAuthorIndex].MiddleName != null ) {
+										if ( !string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].MiddleName.Value) ) {
+											if ( lfb2Authors[nAuthorIndex].MiddleName.Value.Trim().Length != 0 ) {
+												sFileName += lfb2Authors[nAuthorIndex].MiddleName.Value.Trim();
+											}
 										}
 									}
 								}
 								break;
 							case "[*FB2AL*]": // Фамилия создателя fb2-файла
-								if( lfb2Authors != null ) {
-									if( lfb2Authors[nAuthorIndex].LastName != null ) {
-										if( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length!=0 ) {
-											sFileName += lfb2Authors[nAuthorIndex].LastName.Value.Trim();
+								if ( lfb2Authors != null ) {
+									if ( lfb2Authors[nAuthorIndex].LastName != null ) {
+										if ( !string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].LastName.Value) ) {
+											if ( lfb2Authors[nAuthorIndex].LastName.Value.Trim().Length != 0 ) {
+												sFileName += lfb2Authors[nAuthorIndex].LastName.Value.Trim();
+											}
 										}
 									}
 								}
 								break;
 							case "[*FB2AN*]": // Ник создателя fb2-файла
-								if( lfb2Authors != null ) {
-									if( lfb2Authors[nAuthorIndex].NickName != null ) {
-										if( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length != 0 ) {
-											sFileName += lfb2Authors[nAuthorIndex].NickName.Value.Trim();
+								if ( lfb2Authors != null ) {
+									if ( lfb2Authors[nAuthorIndex].NickName != null ) {
+										if ( !string.IsNullOrEmpty(lfb2Authors[nAuthorIndex].NickName.Value) ) {
+											if ( lfb2Authors[nAuthorIndex].NickName.Value.Trim().Length != 0 ) {
+												sFileName += lfb2Authors[nAuthorIndex].NickName.Value.Trim();
+											}
 										}
 									}
 								}

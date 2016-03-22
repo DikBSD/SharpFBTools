@@ -125,10 +125,10 @@ namespace Core.FileManager.Templates.Lexems {
 	/// Description of SimpleType
 	/// </summary>
 	public enum SimpleType {
-		const_template,			// постоянный шаблон
-		const_text, 			// постоянные символы
-		conditional_template,	// условный шаблон
-		conditional_group, 		// условная группа
+		const_template,			// постоянный шаблон (*BT*)
+		const_text, 			// постоянные символы (\, -, #)
+		conditional_template,	// условный шаблон [*BT*]
+		conditional_group, 		// условная группа [ *BAF*], [*LL* - ]
 	}
 	
 	/// <summary>
