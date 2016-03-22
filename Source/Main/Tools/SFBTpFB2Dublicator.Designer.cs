@@ -143,6 +143,16 @@ namespace Main.Tools {
 		/// <summary>
 		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
 		/// </summary>
+		internal static System.Drawing.Bitmap toolStripButtonEditBookName_Image {
+			get {
+				object obj = ResourceManager.GetObject("toolStripButtonEditBookName.Image", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+		/// </summary>
 		internal static System.Drawing.Bitmap toolStripButtonEditDescription_Image {
 			get {
 				object obj = ResourceManager.GetObject("toolStripButtonEditDescription.Image", resourceCulture);

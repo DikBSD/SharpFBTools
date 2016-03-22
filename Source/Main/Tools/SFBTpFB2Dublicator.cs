@@ -229,6 +229,7 @@ namespace SharpFBTools.Tools
 			this.tsmiSetNewIDForAllBooksFromGroup = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiSetNewIDForAllBooksAllGroup = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsmiEditBookName = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmiEditDescription = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiEditInTextEditor = new System.Windows.Forms.ToolStripMenuItem();
@@ -372,6 +373,7 @@ namespace SharpFBTools.Tools
 			this.toolStripDropDownButtonEditGenres = new System.Windows.Forms.ToolStripDropDownButton();
 			this.ToolStripMenuItemSetGenresForSelectedBooks = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolStripMenuItemSetGenresForCheckedBooks = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripButtonEditBookName = new System.Windows.Forms.ToolStripButton();
 			this.pMode = new System.Windows.Forms.Panel();
 			this.checkBoxSaveGroupsToXml = new System.Windows.Forms.CheckBox();
 			this.cboxMode = new System.Windows.Forms.ComboBox();
@@ -473,6 +475,7 @@ namespace SharpFBTools.Tools
 			this.tsmiEditAuthors,
 			this.tsmiEditGenres,
 			this.tsmiNewID,
+			this.tsmiEditBookName,
 			this.tsmiEditDescription,
 			this.toolStripMenuItem1,
 			this.tsmiEditInTextEditor,
@@ -500,7 +503,7 @@ namespace SharpFBTools.Tools
 			this.toolStripSeparator5,
 			this.tsmiColumnsResultAutoReize});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(616, 736);
+			this.cmsFB2.Size = new System.Drawing.Size(616, 734);
 			// 
 			// tsmiAnalyzeForSelectedGroup
 			// 
@@ -815,6 +818,14 @@ namespace SharpFBTools.Tools
 			this.tsmiSetNewIDForAllBooksAllGroup.Size = new System.Drawing.Size(470, 24);
 			this.tsmiSetNewIDForAllBooksAllGroup.Text = "Новые id для всех книг всех Групп...";
 			this.tsmiSetNewIDForAllBooksAllGroup.Click += new System.EventHandler(this.TsmiSetNewIDForAllBooksAllGroupClick);
+			// 
+			// tsmiEditBookName
+			// 
+			this.tsmiEditBookName.Name = "tsmiEditBookName";
+			this.tsmiEditBookName.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
+			this.tsmiEditBookName.Size = new System.Drawing.Size(615, 26);
+			this.tsmiEditBookName.Text = "Правка названия выделенной книги";
+			this.tsmiEditBookName.Click += new System.EventHandler(this.TsmiEditBookNameClick);
 			// 
 			// tsmiEditDescription
 			// 
@@ -1951,7 +1962,8 @@ namespace SharpFBTools.Tools
 			this.toolStripButtonEditDescription,
 			this.toolStripDropDownButtonNewID,
 			this.toolStripDropDownButtonEditAuthors,
-			this.toolStripDropDownButtonEditGenres});
+			this.toolStripDropDownButtonEditGenres,
+			this.toolStripButtonEditBookName});
 			this.CommandToolStrip.Location = new System.Drawing.Point(0, 0);
 			this.CommandToolStrip.Name = "CommandToolStrip";
 			this.CommandToolStrip.ShowItemToolTips = false;
@@ -2194,6 +2206,17 @@ namespace SharpFBTools.Tools
 			this.ToolStripMenuItemSetGenresForCheckedBooks.Size = new System.Drawing.Size(345, 24);
 			this.ToolStripMenuItemSetGenresForCheckedBooks.Text = "Правка Жанров для помеченных книг";
 			this.ToolStripMenuItemSetGenresForCheckedBooks.Click += new System.EventHandler(this.TsmiSetGenresClick);
+			// 
+			// toolStripButtonEditBookName
+			// 
+			this.toolStripButtonEditBookName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonEditBookName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			this.toolStripButtonEditBookName.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonEditBookName.Image")));
+			this.toolStripButtonEditBookName.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonEditBookName.Name = "toolStripButtonEditBookName";
+			this.toolStripButtonEditBookName.Size = new System.Drawing.Size(32, 24);
+			this.toolStripButtonEditBookName.Text = "BT";
+			this.toolStripButtonEditBookName.Click += new System.EventHandler(this.TsmiEditBookNameClick);
 			// 
 			// pMode
 			// 
@@ -2614,6 +2637,8 @@ namespace SharpFBTools.Tools
 			this.PerformLayout();
 
 		}
+		private System.Windows.Forms.ToolStripButton toolStripButtonEditBookName;
+		private System.Windows.Forms.ToolStripMenuItem tsmiEditBookName;
 		private System.Windows.Forms.ToolStripMenuItem tsmiAllOldBooksVersionValidateForAllGroups;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
@@ -3155,6 +3180,7 @@ namespace SharpFBTools.Tools
 					lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBoolsInAllGroups].SubItems[1].Text =
 						(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
 					
+					MiscListView.UnCheckAllListViewItems( listViewFB2Files.CheckedItems );
 					ConnectListViewResultEventHandlers( true );
 					listViewFB2Files.EndUpdate();
 					MessageBox.Show( "Удаление Групп из списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -3886,7 +3912,43 @@ namespace SharpFBTools.Tools
 				FilesWorker.StartFile( sFBReaderPath, sFilePath );
 			}
 		}
-		
+		void TsmiEditBookNameClick(object sender, EventArgs e)
+		{
+			if( listViewFB2Files.Items.Count > 0 ) {
+				if( listViewFB2Files.SelectedItems.Count == 1 ) {
+					string SourceFilePath = listViewFB2Files.SelectedItems[0].Text;
+					string FilePath = SourceFilePath;
+					bool IsFromZip = false;
+					if ( FilesWorker.isFB2Archive( FilePath ) )
+						IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
+					if( File.Exists( FilePath ) ) {
+						FictionBook fb2 = null;
+						try {
+							fb2 = new FictionBook( FilePath );
+						} catch ( FileLoadException er ) {
+							MessageBox.Show( er.Message, "Правка Названия книги", MessageBoxButtons.OK, MessageBoxIcon.Error );
+							return;
+						}
+						if( fb2 != null ) {
+							string BookTitleNew = fb2.TIBookTitle != null ? fb2.TIBookTitle.Value : "Новое название книги";
+							if ( WorksWithBooks.InputBox( "Правка названия книги", "Новое название книги:", ref BookTitleNew ) == DialogResult.OK) {
+								// восстанавление раздела description до структуры с необходимыми элементами для валидности
+								FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+								WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, listViewFB2Files.SelectedItems[0], SourceFilePath );
+								fB2Corrector.setNewBookTitle( BookTitleNew );
+								fb2.saveToFB2File( FilePath, false );
+								WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, SourceFilePath, IsFromZip, FilePath );
+								// отображение нового названия книги в строке списка
+								viewMetaData( SourceFilePath, listViewFB2Files.SelectedItems[0], 1 );
+							}
+						}
+					}
+				} else {
+					MessageBox.Show( "Выделите только одну книгу для изменения ее Названия",
+					                "Задание нового Названия книги", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				}
+			}
+		}
 		// комплексное редактирование метаданных в специальном диалоге
 		void TsmiEditDescriptionClick(object sender, EventArgs e)
 		{
@@ -4612,8 +4674,7 @@ namespace SharpFBTools.Tools
 		void TscbGroupCountForListSelectedIndexChanged(object sender, EventArgs e)
 		{
 			saveSettingsToXml();
-		}
-		
+		}		
 		#endregion
 		
 	}
