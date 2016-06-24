@@ -19,6 +19,7 @@ using Core.FB2.Description.Common;
 using Core.FB2.FB2Parsers;
 using Core.FB2.Genres;
 using Core.Common;
+using Core.FileManager.Templates;
 
 using Fb2Validator				= Core.FB2Parser.FB2Validator;
 using TemplatesLexemsSimple		= Core.FileManager.Templates.Lexems.TPSimple;
@@ -27,7 +28,6 @@ using StatusView 				= Core.FileManager.StatusView;
 using SharpZipLibWorker 		= Core.Common.SharpZipLibWorker;
 using EndWorkMode 				= Core.Common.EndWorkMode;
 using filesWorker				= Core.Common.FilesWorker;
-using templatesParser			= Core.FileManager.Templates.TemplatesParser;
 
 // enums
 using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
@@ -193,9 +193,9 @@ namespace Core.FileManager
 		
 		private string m_sMessTitle		= string.Empty;
 		private string m_fromXmlPath	= null;	// null - полное сканирование; Путь - возобновление сравнения их xml
-
-		FB2UnionGenres m_FB2LibrusecGenres	= null;
 		
+		private long _lCounter = 0; // счетчик текущего обрабатываемого файла (для шаблона *COUNTER*)
+		private TemplatesParser _templatesParser = new TemplatesParser();
 		private List<SelectedSortQueryCriteria> m_lSSQCList		= null; // список критериев поиска для Избранной Сортировки
 		private SortingOptions					m_sortOptions	= null; // индивидуальные настройки обоих Сортировщиков, взависимости от режима (непрерывная сортировка или возобновление сортировки)
 		
@@ -213,9 +213,7 @@ namespace Core.FileManager
 		private readonly DateTime m_dtStart = DateTime.Now;
 		#endregion
 		
-		private void init( ref SortingOptions sortOptions, ListView listViewFilesCount, int MaxBTLenght, int MaxSequenceLenght )
-		{
-			#region Инициализация
+		private void init( ref SortingOptions sortOptions, ListView listViewFilesCount, int MaxBTLenght, int MaxSequenceLenght ) {
 			InitializeComponent();
 			initializeBackgroundWorker();
 			initializeRenewBackgroundWorker();
@@ -226,8 +224,6 @@ namespace Core.FileManager
 			
 			m_sortOptions	= sortOptions;
 			m_lSSQCList		= m_sortOptions.getCriterias();
-
-			m_FB2LibrusecGenres	= new FB2UnionGenres();
 			
 			m_sMessTitle = m_sortOptions.IsFullSort ? "SharpFBTools - Полная Сортировка" : "SharpFBTools - Избранная Сортировка";
 			
@@ -240,7 +236,6 @@ namespace Core.FileManager
 				if( !m_bwRenew.IsBusy )
 					m_bwRenew.RunWorkerAsync(); //если не занят. то запустить процесс
 			}
-			#endregion
 		}
 		
 		// Полнпя сортировка: Беспрерывная и Возобновление
@@ -254,7 +249,10 @@ namespace Core.FileManager
 		}
 		
 		// Избранная сортировка: Беспрерывная и Возобновление
-		public SortingForm( ref SortingOptions sortOptions, ListView listViewFilesCount, int MaxBTLenght, int MaxSequenceLenght )
+		public SortingForm(
+			ref SortingOptions sortOptions, ListView listViewFilesCount,
+			int MaxBTLenght, int MaxSequenceLenght
+		)
 		{
 			init( ref sortOptions, listViewFilesCount, MaxBTLenght, MaxSequenceLenght );
 		}
@@ -293,7 +291,6 @@ namespace Core.FileManager
 		
 		// сортировка файлов по папкам, согласно шаблонам подстановки
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
-			#region Код
 			ControlPanel.Enabled = false;
 			StatusLabel.Text += m_sortOptions.IsFullSort ? "Полная сортировка файлов." : "Избранная сортировка файлов.";
 			StatusLabel.Text += "\rСоздание списка файлов для сортировки fb2 книг... " ;
@@ -372,7 +369,6 @@ namespace Core.FileManager
 			// сортировка книг, в зависимости от критериев поиска и типа Сортировщика
 			StatusLabel.Text += "\rЗапущена сортировка книг... ";
 			sortBooks( ref m_bw, ref e );
-			#endregion
 		}
 		
 		// Отобразим результат сортировки
@@ -450,9 +446,12 @@ namespace Core.FileManager
 
 			//загрузка данных о ходе сравнения
 			XElement compareData = xmlTree.Element("SortingData");
-			m_sv.AllFiles = Convert.ToInt32( compareData.Element("AllFiles").Value );
-			m_lvFilesCount.Items[0].SubItems[1].Text = compareData.Element("AllDirs").Value;
-
+			if ( compareData.Element("Counter") != null )
+				_lCounter = Convert.ToInt64( compareData.Element("Counter").Value );
+			if ( compareData.Element("AllFiles") != null )
+				m_sv.AllFiles = Convert.ToInt64( compareData.Element("AllFiles").Value );
+			if ( compareData.Element("AllDirs") != null )
+				m_lvFilesCount.Items[0].SubItems[1].Text = compareData.Element("AllDirs").Value;
 			sortingProgressData();
 
 			// заполнение списка необработанных файлов
@@ -478,7 +477,6 @@ namespace Core.FileManager
 		#region Прерывание сортировки: Сохранение данных в xml
 		// сохранение списка необработанных книг при прерывании проверки для записи
 		private void saveBreakDataToXmlFile(string ToFileName, ref List<string> FilesList) {
-			#region Код
 			string type = m_sortOptions.IsFullSort ? "fullsort_break" : "selsort_break";
 			XDocument doc = new XDocument(
 				new XDeclaration("1.0", "utf-8", "yes"),
@@ -518,7 +516,8 @@ namespace Core.FileManager
 				                          new XElement("NotValidFB2", m_sv.NotValidFB2),
 				                          new XElement("BadZip", m_sv.BadZip),
 				                          new XElement("NotSort", m_sv.NotSort),
-				                          new XElement("LongPath", m_sv.LongPath)
+				                          new XElement("LongPath", m_sv.LongPath),
+				                          new XElement("Counter", _lCounter)
 				                         ),
 				             
 				             new XComment("Не обработанные файлы"),
@@ -574,12 +573,10 @@ namespace Core.FileManager
 				}
 			}
 			doc.Save(ToFileName);
-			#endregion
 		}
 		
 		// сохранение настроек в xml-файл
 		private void makeCommonOptions( ref XElement xeOptions ) {
-			#region Код
 			xeOptions.Add(
 				new XComment("Основные настройки"),
 				new XElement("General",
@@ -654,7 +651,6 @@ namespace Core.FileManager
 				                         )
 				            )
 			);
-			#endregion
 		}
 		#endregion
 		
@@ -662,7 +658,7 @@ namespace Core.FileManager
 		// сортировка книг, в зависимости от критериев поиска и типа Сортировщика
 		private void sortBooks( ref BackgroundWorker bw, ref DoWorkEventArgs e ) {
 			// формируем лексемы шаблонной строки
-			List<TemplatesLexemsSimple> lSLexems = templatesParser.GemSimpleLexems( m_sortOptions.Template );
+			List<TemplatesLexemsSimple> lSLexems = _templatesParser.GemSimpleLexems( m_sortOptions.Template );
 			// папки для проблемных файлов
 			string TargetDir = m_sortOptions.TargetDir;
 			m_sortOptions.NotReadFB2Dir		= Path.Combine( TargetDir, m_sortOptions.NotReadFB2Dir );
@@ -1106,9 +1102,10 @@ namespace Core.FileManager
 				}
 				try {
 					string ToFilePath = TargetDir + "\\" +
-						templatesParser.Parse(
-							FromFilePath, lSLexems, ref m_FB2LibrusecGenres, nGenreIndex, AuthorIndex,
-							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, ref m_sortOptions,
+						_templatesParser.generateNewPath(
+							FromFilePath, lSLexems, nGenreIndex, AuthorIndex,
+							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode,
+							ref m_sortOptions, ref _lCounter,
 							_MaxBookTitleLenght, _MaxSequenceLenght
 						) + ".fb2";
 					createFileTo(

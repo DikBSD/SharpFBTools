@@ -303,7 +303,7 @@ namespace Core.Common
 		// "строгое" значение строки
 		public static string StrictString( string sString ) {
 			string s = sString;
-			if( sString==null || sString.Length==0 )
+			if ( string.IsNullOrEmpty( sString ) )
 				return sString;
 
 			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}~-+=_.,!@#$%^&№`';«»";
@@ -480,11 +480,20 @@ namespace Core.Common
 		
 		// "строгое" значение строки
 		public static string StrictPath( string sPath ) {
-			if( sPath == null || sPath.Length == 0 )
+			if ( string.IsNullOrEmpty( sPath ) )
 				return sPath;
 			
 			// "строгое" значение Юникодной строки - псевдо-транслитерация
 			string s = TranslateUnicodeString( sPath );
+			// замена кавычек " на елочки вокруг слов
+			s = Regex.Replace(
+				s, "(?'space'\\s+)\"(?'letter'[^<])", "${space}«${letter}",
+				RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			s = Regex.Replace(
+				s, "(?'letter'[^<])\"", "${letter}»",
+				RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
 			
 			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}~-+=_.,!@#$%^&№`';«»";
 			string sStrict = string.Empty;
