@@ -15,15 +15,15 @@ using System.IO;
 using Core.Common;
 
 using FB2Validator		= Core.FB2Parser.FB2Validator;
+using FilesWorker		= Core.Common.FilesWorker;
 using SharpZipLibWorker = Core.Common.SharpZipLibWorker;
 using EndWorkMode 		= Core.Common.EndWorkMode;
-using filesWorker		= Core.Common.FilesWorker;
 using Colors			= Core.Common.Colors;
 
 // enums
-using GroupAnalyzeMode		= Core.Common.Enums.GroupAnalyzeMode;
-using EndWorkModeEnum		= Core.Common.Enums.EndWorkModeEnum;
-using ResultViewDupCollumn	= Core.Common.Enums.ResultViewDupCollumn;
+using GroupAnalyzeModeEnum		= Core.Common.Enums.GroupAnalyzeModeEnum;
+using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
+using ResultViewDupCollumnEnum	= Core.Common.Enums.ResultViewDupCollumnEnum;
 
 namespace Core.Duplicator
 {
@@ -142,7 +142,7 @@ namespace Core.Duplicator
 		#endregion
 		
 		#region Закрытые данные класса
-		private readonly GroupAnalyzeMode	m_GroupAnalyzeMode = GroupAnalyzeMode.Group;
+		private readonly GroupAnalyzeModeEnum	m_GroupAnalyzeMode = GroupAnalyzeModeEnum.Group;
 		private readonly ListView			m_lvResult		= new ListView();
 		private readonly DateTime			m_dtStart		= DateTime.Now;
 		private readonly string				m_TempDir		= Settings.Settings.TempDir;
@@ -152,7 +152,7 @@ namespace Core.Duplicator
 		private BackgroundWorker m_bw	= null;
 		#endregion
 		
-		public ValidatorForm( GroupAnalyzeMode groupAnalyzeMode, ListView lvResult )
+		public ValidatorForm( GroupAnalyzeModeEnum groupAnalyzeMode, ListView lvResult )
 		{
 			InitializeComponent();
 			
@@ -196,7 +196,7 @@ namespace Core.Duplicator
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			FB2Validator fv2Validator = new FB2Validator();
 			m_lvResult.BeginUpdate();
-			if( m_GroupAnalyzeMode == GroupAnalyzeMode.AllGroup ) {
+			if( m_GroupAnalyzeMode == GroupAnalyzeModeEnum.AllGroup ) {
 				// все книги всех Групп
 				this.Text += ": Все книги всех Групп";
 				ProgressBar.Maximum = m_lvResult.Items.Count;
@@ -267,12 +267,12 @@ namespace Core.Duplicator
 			string FilePath = lvi.SubItems[0].Text;
 			if( File.Exists( FilePath ) ) {
 				string Msg = fv2Validator.ValidatingFB2File( FilePath );
-				lvi.SubItems[(int)ResultViewDupCollumn.Validate].Text = Msg == string.Empty ? "Да" : "Нет";
-				string Ext = Path.GetExtension( FilePath ).ToLower();
+				lvi.SubItems[(int)ResultViewDupCollumnEnum.Validate].Text = Msg == string.Empty ? "Да" : "Нет";
 				if ( !string.IsNullOrEmpty( Msg ) )
 					lvi.ForeColor = Colors.FB2NotValidForeColor;
 				else
-					lvi.ForeColor = Ext == ".fb2" ? Color.FromName( "WindowText" ) : Colors.ZipFB2ForeColor;
+					lvi.ForeColor = FilesWorker.isFB2File( FilePath )
+						? Color.FromName( "WindowText" ) : Colors.ZipFB2ForeColor;
 			}
 		}
 		#endregion

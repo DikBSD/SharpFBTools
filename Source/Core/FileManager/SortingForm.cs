@@ -17,25 +17,24 @@ using System.Xml.Linq;
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.Common;
 using Core.FB2.FB2Parsers;
-using Core.FB2.Genres;
 using Core.Common;
 using Core.FileManager.Templates;
 
 using Fb2Validator				= Core.FB2Parser.FB2Validator;
+using FilesWorker				= Core.Common.FilesWorker;
 using TemplatesLexemsSimple		= Core.FileManager.Templates.Lexems.TPSimple;
 using SelectedSortQueryCriteria	= Core.FileManager.SortQueryCriteria;
 using StatusView 				= Core.FileManager.StatusView;
 using SharpZipLibWorker 		= Core.Common.SharpZipLibWorker;
 using EndWorkMode 				= Core.Common.EndWorkMode;
-using filesWorker				= Core.Common.FilesWorker;
 
 // enums
-using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
+using EndWorkModeEnum	= Core.Common.Enums.EndWorkModeEnum;
 
 namespace Core.FileManager
 {
 	/// <summary>
-	/// SelectedSortForm: Форма прогресса избранной сортировки fb2 книг
+	/// SortingForm: Форма прогресса сортировки fb2 книг
 	/// </summary>
 	public partial class SortingForm : Form
 	{
@@ -200,7 +199,6 @@ namespace Core.FileManager
 		private SortingOptions					m_sortOptions	= null; // индивидуальные настройки обоих Сортировщиков, взависимости от режима (непрерывная сортировка или возобновление сортировки)
 		
 		private ListView m_listViewFB2Files					= new ListView();
-		private ListView m_lvFilesCount						= new ListView();
 		private readonly Fb2Validator		m_fv2V			= new Fb2Validator();
 		private readonly StatusView 		m_sv			= new StatusView();
 		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
@@ -213,14 +211,13 @@ namespace Core.FileManager
 		private readonly DateTime m_dtStart = DateTime.Now;
 		#endregion
 		
-		private void init( ref SortingOptions sortOptions, ListView listViewFilesCount, int MaxBTLenght, int MaxSequenceLenght ) {
+		private void init( ref SortingOptions sortOptions, int MaxBTLenght, int MaxSequenceLenght ) {
 			InitializeComponent();
 			initializeBackgroundWorker();
 			initializeRenewBackgroundWorker();
 			
 			_MaxBookTitleLenght = MaxBTLenght;
 			_MaxSequenceLenght = MaxSequenceLenght;
-			m_lvFilesCount	= listViewFilesCount;
 			
 			m_sortOptions	= sortOptions;
 			m_lSSQCList		= m_sortOptions.getCriterias();
@@ -238,23 +235,23 @@ namespace Core.FileManager
 			}
 		}
 		
-		// Полнпя сортировка: Беспрерывная и Возобновление
+		// Полная сортировка: Беспрерывная и Возобновление
 		public SortingForm(
-			ref SortingOptions sortOptions, ListView listViewFB2Files, ListView listViewFilesCount,
+			ref SortingOptions sortOptions, ListView listViewFB2Files,
 			int MaxBTLenght, int MaxSequenceLenght
 		)
 		{
 			m_listViewFB2Files = listViewFB2Files;
-			init( ref sortOptions, listViewFilesCount, MaxBTLenght, MaxSequenceLenght );
+			init( ref sortOptions, MaxBTLenght, MaxSequenceLenght );
 		}
 		
 		// Избранная сортировка: Беспрерывная и Возобновление
 		public SortingForm(
-			ref SortingOptions sortOptions, ListView listViewFilesCount,
+			ref SortingOptions sortOptions,
 			int MaxBTLenght, int MaxSequenceLenght
 		)
 		{
-			init( ref sortOptions, listViewFilesCount, MaxBTLenght, MaxSequenceLenght );
+			init( ref sortOptions, MaxBTLenght, MaxSequenceLenght );
 		}
 		
 		// =============================================================================================
@@ -263,6 +260,9 @@ namespace Core.FileManager
 		#region Открытые свойства
 		public virtual EndWorkMode EndMode {
 			get { return m_EndMode; }
+		}
+		public virtual StatusView Status {
+			get { return m_sv; }
 		}
 		#endregion
 		
@@ -298,7 +298,7 @@ namespace Core.FileManager
 //			m_FilesList.Clear();
 			List<string> lDirList = new List<string>();
 			
-			if( m_sortOptions.IsFullSort ) {
+			if ( m_sortOptions.IsFullSort ) {
 				// ========================================================================
 				//                              Полная Сортировка
 				// ========================================================================
@@ -306,26 +306,26 @@ namespace Core.FileManager
 				List<string> lCheckedDirList	= new List<string>();
 				List<string> lCheckedFileList	= new List<string>();
 				ListView.CheckedListViewItemCollection checkedItems = m_listViewFB2Files.CheckedItems;
-				foreach( ListViewItem lvi in checkedItems ) {
+				foreach ( ListViewItem lvi in checkedItems ) {
 					ListViewItemType it = (ListViewItemType)lvi.Tag;
-					if(it.Type.Trim() == "d")
+					if ( it.Type.Trim() == "d" )
 						lCheckedDirList.Add(it.Value.Trim());
-					else if(it.Type.Trim() == "f")
+					else if ( it.Type.Trim() == "f" )
 						lCheckedFileList.Add(it.Value.Trim());
 				}
 				
 				m_FilesList.AddRange( lCheckedFileList ); // помеченные файлы
 				lDirList.Add( m_sortOptions.SourceDir );
-				if( !m_sortOptions.ScanSubDirs ) {
+				if ( !m_sortOptions.ScanSubDirs ) {
 					// сканировать только указанную папку (ее папки, но не их подпапки)
 					lDirList.AddRange( lCheckedDirList );
-					foreach(string dir in lCheckedDirList)
+					foreach ( string dir in lCheckedDirList )
 						m_FilesList.AddRange( Directory.GetFiles( dir ) );
 
 				} else {
 					// сканировать и все подпапки
-					foreach(string dir in lCheckedDirList)
-						filesWorker.DirsFilesParser( m_bw, e, dir, ref lDirList, ref m_FilesList );
+					foreach ( string dir in lCheckedDirList )
+						FilesWorker.DirsFilesParser( m_bw, e, dir, ref lDirList, ref m_FilesList );
 				}
 				lCheckedDirList.Clear();
 				lCheckedFileList.Clear();
@@ -333,28 +333,27 @@ namespace Core.FileManager
 				// ========================================================================
 				//                            Избранная Сортировка
 				// ========================================================================
-				if( !m_sortOptions.ScanSubDirs ) {
+				if ( !m_sortOptions.ScanSubDirs ) {
 					// сканировать только указанную папку
 					lDirList.Add( m_sortOptions.SourceDir );
 					m_FilesList.AddRange( Directory.GetFiles( m_sortOptions.SourceDir ) );
 				} else {
 					// сканировать и все подпапки
-					filesWorker.DirsFilesParser( m_bw, e, m_sortOptions.SourceDir, ref lDirList, ref m_FilesList );
+					FilesWorker.DirsFilesParser( m_bw, e, m_sortOptions.SourceDir, ref lDirList, ref m_FilesList );
 				}
 			}
-			m_lvFilesCount.Items[0].SubItems[1].Text = lDirList.Count.ToString();
-			m_lvFilesCount.Items[1].SubItems[1].Text = m_FilesList.Count.ToString();
+			m_sv.AllDirs = lDirList.Count;
 			m_sv.AllFiles = m_FilesList.Count;
 			ControlPanel.Enabled = true;
 			
 			// Проверить флаг на остановку процесса
-			if( ( m_bw.CancellationPending == true ) ) {
+			if ( ( m_bw.CancellationPending == true ) ) {
 				e.Cancel = true;
 				return;
 			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
-			if( m_FilesList.Count == 0 ) {
+			if ( m_FilesList.Count == 0 ) {
 				MessageBox.Show(
 					"В папке сканирования не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information
 				);
@@ -373,18 +372,14 @@ namespace Core.FileManager
 		
 		// Отобразим результат сортировки
 		private void bw_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
-			if( m_sortOptions.Progress )
-				sortingProgressData();
-
 			++ProgressBar.Value;
 		}
 		
 		// Проверяем это отмена, ошибка, или конец задачи и сообщить
 		private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
 			#region Код
-			sortingProgressData(); // Отобразим результат сортировки
 			DateTime dtEnd = DateTime.Now;
-			filesWorker.RemoveDir( m_TempDir );
+			FilesWorker.RemoveDir( m_TempDir );
 			
 			string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
 			if ( e.Cancelled ) {
@@ -446,13 +441,32 @@ namespace Core.FileManager
 
 			//загрузка данных о ходе сравнения
 			XElement compareData = xmlTree.Element("SortingData");
-			if ( compareData.Element("Counter") != null )
-				_lCounter = Convert.ToInt64( compareData.Element("Counter").Value );
+			if ( compareData.Element("AllDirs") != null )
+				m_sv.AllDirs = Convert.ToInt64( compareData.Element("AllDirs").Value );
 			if ( compareData.Element("AllFiles") != null )
 				m_sv.AllFiles = Convert.ToInt64( compareData.Element("AllFiles").Value );
-			if ( compareData.Element("AllDirs") != null )
-				m_lvFilesCount.Items[0].SubItems[1].Text = compareData.Element("AllDirs").Value;
-			sortingProgressData();
+			if ( compareData.Element("FB2Files") != null )
+				m_sv.SourceFB2 = Convert.ToInt64( compareData.Element("FB2Files").Value );
+			if ( compareData.Element("Zip") != null )
+				m_sv.Zip = Convert.ToInt64( compareData.Element("Zip").Value );
+			if ( compareData.Element("FB2FromZips") != null )
+				m_sv.FB2FromZips = Convert.ToInt64( compareData.Element("FB2FromZips").Value );
+			if ( compareData.Element("Other") != null )
+				m_sv.Other = Convert.ToInt64( compareData.Element("Other").Value );
+			if ( compareData.Element("CreateInTarget") != null )
+				m_sv.CreateInTarget = Convert.ToInt64( compareData.Element("CreateInTarget").Value );
+			if ( compareData.Element("NotRead") != null )
+				m_sv.NotRead = Convert.ToInt64( compareData.Element("NotRead").Value );
+			if ( compareData.Element("NotValidFB2") != null )
+				m_sv.NotValidFB2 = Convert.ToInt64( compareData.Element("NotValidFB2").Value );
+			if ( compareData.Element("BadZip") != null )
+				m_sv.BadZip = Convert.ToInt64( compareData.Element("BadZip").Value );
+			if ( compareData.Element("NotSort") != null )
+				m_sv.NotSort = Convert.ToInt64( compareData.Element("NotSort").Value );
+			if ( compareData.Element("LongPath") != null )
+				m_sv.LongPath = Convert.ToInt64( compareData.Element("LongPath").Value );
+			if ( compareData.Element("Counter") != null )
+				_lCounter = Convert.ToInt64( compareData.Element("Counter").Value );
 
 			// заполнение списка необработанных файлов
 			m_FilesList.Clear();
@@ -500,12 +514,9 @@ namespace Core.FileManager
 				             new XComment("Критерии сортировки"),
 				             new XElement("Criterias", new XAttribute("count", m_lSSQCList != null ? m_lSSQCList.Count.ToString() : "1")),
 				             
-				             new XComment("Отображение изменения хода работы"),
-				             new XElement("Progress", m_sortOptions.Progress),
-				             
 				             new XComment("Данные о ходе сортировки"),
 				             new XElement("SortingData",
-				                          new XElement("AllDirs", m_lvFilesCount.Items[0].SubItems[1].Text),
+				                          new XElement("AllDirs", m_sv.AllDirs),
 				                          new XElement("AllFiles", m_sv.AllFiles),
 				                          new XElement("FB2Files", m_sv.SourceFB2),
 				                          new XElement("Zip", m_sv.Zip),
@@ -668,13 +679,13 @@ namespace Core.FileManager
 			
 			List<string> FinishedFilesList = new List<string>();
 			
-			if( m_sortOptions.IsFullSort ) {
+			if ( m_sortOptions.IsFullSort ) {
 				// ========================================================================
 				//                              Полная Сортировка
 				// ========================================================================
-				for( int i = 0; i != m_FilesList.Count; ++i ) {
+				for ( int i = 0; i != m_FilesList.Count; ++i ) {
 					// Проверить флаг на остановку процесса
-					if( ( bw.CancellationPending == true ) ) {
+					if ( ( bw.CancellationPending == true ) ) {
 						// удаление из списка всех файлов обработанные книги (файлы)
 						removeFinishedFilesInFilesList( ref m_FilesList, ref FinishedFilesList);
 						e.Cancel = true;
@@ -687,7 +698,7 @@ namespace Core.FileManager
 					);
 					
 					FinishedFilesList.Add( m_FilesList[i] ); // обработанные файлы
-					filesWorker.RemoveDir( m_TempDir );
+					FilesWorker.RemoveDir( m_TempDir );
 					bw.ReportProgress( i ); // отобразим данные в контролах
 				}
 				
@@ -697,9 +708,9 @@ namespace Core.FileManager
 				// ========================================================================
 				//                            Избранная Сортировка
 				// ========================================================================
-				for( int i = 0; i != m_FilesList.Count; ++i ) {
+				for ( int i = 0; i != m_FilesList.Count; ++i ) {
 					// Проверить флаг на остановку процесса
-					if( ( bw.CancellationPending == true ) ) {
+					if ( ( bw.CancellationPending == true ) ) {
 						// удаление из списка всех файлов обработанные книги (файлы)
 						removeFinishedFilesInFilesList( ref m_FilesList, ref FinishedFilesList);
 						e.Cancel = true;
@@ -714,7 +725,7 @@ namespace Core.FileManager
 					);
 					
 					FinishedFilesList.Add( m_FilesList[i] ); // обработанные файлы
-					filesWorker.RemoveDir( m_TempDir );
+					FilesWorker.RemoveDir( m_TempDir );
 					bw.ReportProgress( i ); // отобразим данные в контролах
 				}
 				// удаление из списка всех файлов обработанные книги (файлы)
@@ -727,23 +738,23 @@ namespace Core.FileManager
 		//=================================================================================================================
 		private void fileFullSorting( string FromFilePath, string SourceDir, string TargetDir, List<TemplatesLexemsSimple> lSLexems,
 		                             int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
-			string SourceExt = Path.GetExtension( FromFilePath ).ToLower();
-			if( SourceExt == ".fb2" ) {
+			if ( FilesWorker.isFB2File( FromFilePath ) ) {
 				// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 				makeFileForGenreAndAuthorFromFB2(
 					false, FromFilePath, SourceDir, TargetDir, lSLexems,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode,
+					null /* Группа будет определяться исходя из Жанра из fb2 */
 				);
 				++m_sv.SourceFB2;
 				
 				// удаляем исходный fb2-файл, если включена эта опция
-				if( !m_sortOptions.NotDelOriginalFiles ) {
-					if( File.Exists( FromFilePath ) )
+				if ( !m_sortOptions.NotDelOriginalFiles ) {
+					if ( File.Exists( FromFilePath ) )
 						File.Delete( FromFilePath );
 				}
-			} else if( SourceExt == ".zip" || SourceExt == ".fbz" ) {
-				long UnZipCount = m_sharpZipLib.UnZipFiles( FromFilePath, m_TempDir, 0, true, null, 4096 );
-				List<string> FilesListFromZip = filesWorker.MakeFileListFromDir( m_TempDir, false, false );
+			} else if ( FilesWorker.isFB2Archive( FromFilePath ) ) {
+				long UnZipCount = m_sharpZipLib.UnZipFB2Files( FromFilePath, m_TempDir );
+				List<string> FilesListFromZip = FilesWorker.MakeFileListFromDir( m_TempDir, false, true );
 
 				if ( UnZipCount == -1 ) {
 					// не получилось открыть архив - "битый"
@@ -752,31 +763,32 @@ namespace Core.FileManager
 					return;
 				} else {
 					++m_sv.Zip;
-					if( FilesListFromZip == null ) {
+					if ( FilesListFromZip == null ) {
 						// в архиве нет fb2-файлов
 						copyBadZipToBadDir( FromFilePath, SourceDir, m_sortOptions.NotOpenArchDir, m_sortOptions.FileExistMode );
 						++m_sv.BadZip;
 						return;
 					}
-					foreach( string FB2FromArchPath in FilesListFromZip ) {
+					foreach ( string FB2FromArchPath in FilesListFromZip ) {
 						// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 						makeFileForGenreAndAuthorFromFB2(
 							true, FB2FromArchPath, m_TempDir, TargetDir, lSLexems,
-							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode,
+							null /* Группа будет определяться исходя из Жанра из fb2 */
 						);
 						++m_sv.FB2FromZips;
 					}
 					
 					// очистка временной папки
-					foreach( string FB2FromArchPath in FilesListFromZip ) {
+					foreach ( string FB2FromArchPath in FilesListFromZip ) {
 						if( File.Exists( FB2FromArchPath ) )
 							File.Delete( FB2FromArchPath );
 					}
 				}
 				
 				// удаляем исходный zip-файл, если включена эта опция
-				if( !m_sortOptions.NotDelOriginalFiles ) {
-					if( File.Exists( FromFilePath ) )
+				if ( !m_sortOptions.NotDelOriginalFiles ) {
+					if ( File.Exists( FromFilePath ) )
 						File.Delete( FromFilePath );
 				}
 
@@ -792,16 +804,15 @@ namespace Core.FileManager
 		private void fileSelectedSorting( string FromFilePath, string SourceDir, string TargetDir,
 		                                 List<TemplatesLexemsSimple> lSLexems,
 		                                 int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
-			string SourceExt = Path.GetExtension( FromFilePath ).ToLower();
 			bool IsNotRead = false;
-			if( SourceExt == ".fb2" ) {
+			if ( FilesWorker.isFB2File( FromFilePath ) ) {
 				// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
 				SortQueryCriteria criteria = FB2SelectedSorting.isConformity( FromFilePath, m_lSSQCList, out IsNotRead );
-				if( criteria != null ) {
+				if ( criteria != null ) {
 					// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 					makeFileForGenreAndAuthorFromFB2(
 						false, FromFilePath, SourceDir, TargetDir, lSLexems,
-						RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+						RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, criteria.GenresGroup
 					);
 					++m_sv.SourceFB2;
 				} else {
@@ -812,14 +823,14 @@ namespace Core.FileManager
 						);
 				}
 				// удаляем исходный fb2-файл, если включена эта опция
-				if( !m_sortOptions.NotDelOriginalFiles ) {
-					if( File.Exists( FromFilePath ) )
+				if ( ! m_sortOptions.NotDelOriginalFiles ) {
+					if ( File.Exists( FromFilePath ) )
 						File.Delete( FromFilePath );
 				}
-			} else if( SourceExt == ".zip" || SourceExt == ".fbz" ) {
-				long UnZipCount = m_sharpZipLib.UnZipFiles( FromFilePath, m_TempDir, 0, true, null, 4096 );
-				List<string> FilesListFromZip = filesWorker.MakeFileListFromDir( m_TempDir, false, false );
-				if( UnZipCount == -1 ) {
+			} else if ( FilesWorker.isFB2Archive( FromFilePath ) ) {
+				long UnZipCount = m_sharpZipLib.UnZipFB2Files( FromFilePath, m_TempDir );
+				List<string> FilesListFromZip = FilesWorker.MakeFileListFromDir( m_TempDir, false, false );
+				if ( UnZipCount == -1 ) {
 					// не получилось открыть архив - "битый"
 					copyBadZipToBadDir(
 						FromFilePath, SourceDir, m_sortOptions.NotOpenArchDir, m_sortOptions.FileExistMode
@@ -828,7 +839,7 @@ namespace Core.FileManager
 					return;
 				} else {
 					++m_sv.Zip;
-					if( FilesListFromZip == null ) {
+					if ( FilesListFromZip == null ) {
 						// в архиве нет fb2-файлов
 						copyBadZipToBadDir(
 							FromFilePath, SourceDir, m_sortOptions.NotOpenArchDir, m_sortOptions.FileExistMode
@@ -838,22 +849,21 @@ namespace Core.FileManager
 					}
 				}
 				m_sv.FB2FromZips += FilesListFromZip.Count;
-				foreach( string FB2FromZipPath in FilesListFromZip ) {
+				foreach ( string FB2FromZipPath in FilesListFromZip ) {
 					// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
 					SortQueryCriteria criteria = FB2SelectedSorting.isConformity( FB2FromZipPath, m_lSSQCList, out IsNotRead );
-					if( criteria != null ) {
-						string FileFromZipExt = Path.GetExtension( FB2FromZipPath ).ToLower();
-						if( FileFromZipExt == ".fb2" ) {
+					if ( criteria != null ) {
+						if ( FilesWorker.isFB2File( FB2FromZipPath ) ) {
 							// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 							makeFileForGenreAndAuthorFromFB2(
 								true, FB2FromZipPath, m_TempDir, TargetDir, lSLexems,
-								RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+								RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, criteria.GenresGroup
 							);
 							++m_sv.SourceFB2;
 							
 							// удаляем исходный fb2-файл, если включена эта опция
-							if( !m_sortOptions.NotDelOriginalFiles ) {
-								if( File.Exists( FromFilePath ) )
+							if ( !m_sortOptions.NotDelOriginalFiles ) {
+								if ( File.Exists( FromFilePath ) )
 									File.Delete( FromFilePath );
 							}
 						} else {
@@ -870,14 +880,14 @@ namespace Core.FileManager
 					}
 				}
 				// очистка временной папки
-				foreach( string FB2FromArchPath in FilesListFromZip ) {
-					if( File.Exists( FB2FromArchPath ) )
+				foreach ( string FB2FromArchPath in FilesListFromZip ) {
+					if ( File.Exists( FB2FromArchPath ) )
 						File.Delete( FB2FromArchPath );
 				}
 				
 				// удаляем исходный zip-файл, если включена эта опция
-				if( !m_sortOptions.NotDelOriginalFiles ) {
-					if( File.Exists( FromFilePath ) )
+				if ( ! m_sortOptions.NotDelOriginalFiles ) {
+					if ( File.Exists( FromFilePath ) )
 						File.Delete( FromFilePath );
 				}
 			} else {
@@ -887,77 +897,85 @@ namespace Core.FileManager
 		}
 		
 		// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
-		private void makeFileForGenreAndAuthorFromFB2( bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
-		                                              List<TemplatesLexemsSimple> lSLexems,
-		                                              int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
-			string Ext = Path.GetExtension( FromFilePath ).ToLower();
-			if( m_sortOptions.GenresToDirsGenreOne && m_sortOptions.AuthorsToDirsAuthorOne ) {
+		// GenreGroup = null для Полной Сортировки. Для избранной - передаем значение Группы из критерия поиска
+		private void makeFileForGenreAndAuthorFromFB2(
+			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
+			List<TemplatesLexemsSimple> lSLexems,
+			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+		) {
+			if ( m_sortOptions.GenresToDirsGenreOne && m_sortOptions.AuthorsToDirsAuthorOne ) {
 				// по первому Жанру и первому Автору Книги
 				makeFileFor1Genre1AuthorWorker(
-					FromZip, Ext, FromFilePath, SourceDir, TargetDir, lSLexems,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems,
+					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
 				);
-			} else if( m_sortOptions.GenresToDirsGenreOne && m_sortOptions.AuthorsToDirsAuthorAll ) {
+			} else if ( m_sortOptions.GenresToDirsGenreOne && m_sortOptions.AuthorsToDirsAuthorAll ) {
 				// по первому Жанру и всем Авторам Книги
 				makeFileFor1GenreAllAuthorWorker(
-					FromZip, Ext, FromFilePath, SourceDir, TargetDir, lSLexems,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems,
+					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
 				);
-			} else if( m_sortOptions.GenresToDirsGenreAll && m_sortOptions.AuthorsToDirsAuthorOne ) {
+			} else if ( m_sortOptions.GenresToDirsGenreAll && m_sortOptions.AuthorsToDirsAuthorOne ) {
 				// по всем Жанрам и первому Автору Книги
 				makeFileForAllGenre1AuthorWorker(
-					FromZip, Ext, FromFilePath, SourceDir, TargetDir, lSLexems,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems,
+					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
 				);
 			} else {
 				// по всем Жанрам и всем Авторам Книги
 				makeFileForAllGenreAllAuthorWorker(
-					FromZip, Ext, FromFilePath, SourceDir, TargetDir, lSLexems,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems,
+					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
 				);
 			}
 		}
 		
-		private void makeFileFor1Genre1AuthorWorker( bool FromZip, string Ext, string FromFilePath, string SourceDir, string TargetDir,
-		                                            List<TemplatesLexemsSimple> lSLexems,
-		                                            int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
+		private void makeFileFor1Genre1AuthorWorker(
+			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
+			List<TemplatesLexemsSimple> lSLexems,
+			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+		) {
 			try {
 				makeFB2File(
 					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems, 0, 0,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
 				);
 			} catch {
-				if( Ext==".fb2" )
+				if ( FilesWorker.isFB2File( FromFilePath ) )
 					copyBadFileToDir(
 						FromFilePath, SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
 					);
 			}
 		}
 
-		private void makeFileForAllGenre1AuthorWorker( bool FromZip, string Ext, string FromFilePath, string SourceDir, string TargetDir,
-		                                              List<TemplatesLexemsSimple> lSLexems,
-		                                              int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode  ) {
+		private void makeFileForAllGenre1AuthorWorker(
+			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
+			List<TemplatesLexemsSimple> lSLexems,
+			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+		) {
 			try {
 				FictionBook fb2 = new FictionBook( FromFilePath );
 				TitleInfo ti = fb2.getTitleInfo();
 				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
-				for( int i = 0; i != lGenres.Count; ++i )
+				for ( int i = 0; i != lGenres.Count; ++i )
 					makeFB2File(
 						FromZip, FromFilePath, SourceDir, TargetDir, lSLexems, i, 0,
-						RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+						RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
 					);
 			} catch {
-				if( Ext == ".fb2" )
+				if ( FilesWorker.isFB2File( FromFilePath ) )
 					copyBadFileToDir(
 						FromFilePath, SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
 					);
 			}
 		}
 
-		private void makeFileFor1GenreAllAuthorWorker( bool FromZip, string Ext, string FromFilePath, string SourceDir, string TargetDir,
-		                                              List<TemplatesLexemsSimple> lSLexems,
-		                                              int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
+		private void makeFileFor1GenreAllAuthorWorker(
+			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
+			List<TemplatesLexemsSimple> lSLexems,
+			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+		) {
 			try {
 				FictionBook fb2 = new FictionBook( FromFilePath );
 				TitleInfo ti = fb2.getTitleInfo();
@@ -966,19 +984,21 @@ namespace Core.FileManager
 				for( int i = 0; i != lAuthors.Count; ++i )
 					makeFB2File(
 						FromZip, FromFilePath, SourceDir, TargetDir, lSLexems, 0, i,
-						RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+						RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
 					);
 			} catch {
-				if( Ext == ".fb2" )
+				if ( FilesWorker.isFB2File( FromFilePath ) )
 					copyBadFileToDir(
 						FromFilePath, SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
 					);
 			}
 		}
 
-		private void makeFileForAllGenreAllAuthorWorker( bool FromZip, string Ext, string FromFilePath, string SourceDir, string TargetDir,
-		                                                List<TemplatesLexemsSimple> lSLexems,
-		                                                int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
+		private void makeFileForAllGenreAllAuthorWorker(
+			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
+			List<TemplatesLexemsSimple> lSLexems,
+			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+		) {
 			try {
 				FictionBook fb2 = new FictionBook( FromFilePath );
 				TitleInfo ti = fb2.getTitleInfo();
@@ -988,11 +1008,11 @@ namespace Core.FileManager
 					for( int j = 0; j != lAuthors.Count; ++j )
 						makeFB2File(
 							FromZip, FromFilePath, SourceDir, TargetDir, lSLexems, i, j,
-							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode
+							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
 						);
 				}
 			} catch {
-				if( Ext == ".fb2" )
+				if ( FilesWorker.isFB2File( FromFilePath ) )
 					copyBadFileToDir(
 						FromFilePath, SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
 					);
@@ -1010,7 +1030,7 @@ namespace Core.FileManager
 				if( FileExistMode == 0 )
 					File.Delete( ToFilePath );
 				else {
-					string Sufix = filesWorker.createSufix( ToFilePath, FileExistMode );
+					string Sufix = FilesWorker.createSufix( ToFilePath, FileExistMode );
 					if( ToZip )
 						ToFilePath = ToFilePath.Remove( ToFilePath.Length - 8 ) + Sufix + ".fb2.zip";
 					else
@@ -1059,7 +1079,7 @@ namespace Core.FileManager
 					File.Delete( ToFilePath );
 				else {
 					ToFilePath = ToFilePath.Remove( ToFilePath.Length-4 )
-						+ filesWorker.createSufix( ToFilePath, FileExistMode ) //Sufix
+						+ FilesWorker.createSufix( ToFilePath, FileExistMode ) //Sufix
 						+ Path.GetExtension( ToFilePath );
 				}
 			}
@@ -1091,13 +1111,12 @@ namespace Core.FileManager
 		// создаем файл по новому пути
 		private void makeFB2File( bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
 		                         List<TemplatesLexemsSimple> lSLexems, int nGenreIndex, int AuthorIndex,
-		                         int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
+		                         int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup ) {
 			// смотрим, что это за файл
-			string Ext = Path.GetExtension( FromFilePath ).ToLower();
-			if( Ext == ".fb2" ) {
+			if( FilesWorker.isFB2File( FromFilePath ) ) {
 				if( m_sortOptions.SortTypeOnlyValidFB2  ) {
 					// тип сортировки: только валидные
-					if( !isValid( FromFilePath, SourceDir, nGenreIndex, AuthorIndex ) )
+					if( ! isValid( FromFilePath, SourceDir, nGenreIndex, AuthorIndex ) )
 						return;
 				}
 				try {
@@ -1106,7 +1125,7 @@ namespace Core.FileManager
 							FromFilePath, lSLexems, nGenreIndex, AuthorIndex,
 							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode,
 							ref m_sortOptions, ref _lCounter,
-							_MaxBookTitleLenght, _MaxSequenceLenght
+							_MaxBookTitleLenght, _MaxSequenceLenght, GenreGroup
 						) + ".fb2";
 					createFileTo(
 						FromZip, FromFilePath, ToFilePath, m_sortOptions.FileExistMode, m_sortOptions.FileLongPathDir
@@ -1168,22 +1187,6 @@ namespace Core.FileManager
 			
 			FilesList.Clear();
 			FilesList.AddRange(FilesToWorkingList);
-		}
-
-		// Отображнгтн результата сортировки
-		private void sortingProgressData() {
-			/*m_lvFilesCount.Items[0].SubItems[1].Text = Convert.ToString( m_sv.AllDirs );
-            m_lvFilesCount.Items[1].SubItems[1].Text = Convert.ToString( m_sv.AllFiles );*/
-			m_lvFilesCount.Items[2].SubItems[1].Text = Convert.ToString( m_sv.SourceFB2 );
-			m_lvFilesCount.Items[3].SubItems[1].Text = Convert.ToString( m_sv.Zip );
-			m_lvFilesCount.Items[4].SubItems[1].Text = Convert.ToString( m_sv.FB2FromZips );
-			m_lvFilesCount.Items[5].SubItems[1].Text = Convert.ToString( m_sv.Other );
-			m_lvFilesCount.Items[6].SubItems[1].Text = Convert.ToString( m_sv.CreateInTarget );
-			m_lvFilesCount.Items[7].SubItems[1].Text = Convert.ToString( m_sv.NotRead );
-			m_lvFilesCount.Items[8].SubItems[1].Text = Convert.ToString( m_sv.NotValidFB2 );
-			m_lvFilesCount.Items[9].SubItems[1].Text = Convert.ToString( m_sv.BadZip );
-			m_lvFilesCount.Items[10].SubItems[1].Text = Convert.ToString( m_sv.LongPath );
-			m_lvFilesCount.Items[11].SubItems[1].Text = Convert.ToString( m_sv.NotSort );
 		}
 		//------------------------------------------------------------------------------------------
 		// остановка поиска / возобновления поиска из xml

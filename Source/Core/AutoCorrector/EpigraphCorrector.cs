@@ -41,7 +41,7 @@ namespace Core.AutoCorrector
 		/// </summary>
 		/// <returns>Откорректированную строку типа string </returns>
 		public string correct() {
-			if ( _xmlText.IndexOf( _startTag ) == -1 )
+			if ( _xmlText.IndexOf( _startTag, StringComparison.CurrentCulture ) == -1 )
 				return _xmlText;
 			
 			// преобработка (удаление стартовых пробелов ДО тегов и удаление завершающих пробелов ПОСЛЕ тегов и символов переноса строк)
@@ -170,7 +170,7 @@ namespace Core.AutoCorrector
 									"${epigraph}${text}${_epigraph}", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-						} else if ( tagPair.PreviousTag.IndexOf("<empty-line />") != -1 || tagPair.PreviousTag.IndexOf("<empty-line/>") != -1) {
+						} else if ( tagPair.PreviousTag.IndexOf("<empty-line />", StringComparison.CurrentCulture) != -1 || tagPair.PreviousTag.IndexOf("<empty-line/>", StringComparison.CurrentCulture) != -1) {
 							// замена epigraph на cite в случае, если перед простым Эпиграфом находится </p><empty-line />
 							NewTag = NewTag.Replace( "<epigraph>", "<cite>" ).Replace( "</epigraph>", "</cite>" );
 						} else if ( tagPair.PreviousTag.Equals("</cite>") || tagPair.PreviousTag.Equals("</poem>") ) {
@@ -231,7 +231,7 @@ namespace Core.AutoCorrector
 						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 					}
 				}
-				Index = XmlText.IndexOf( tagPair.PairTag, tagPair.StartTagPosition ) + NewTag.Length;
+				Index = XmlText.IndexOf( tagPair.PairTag, tagPair.StartTagPosition, StringComparison.CurrentCulture ) + NewTag.Length;
 				XmlText = XmlText.Substring( 0, tagPair.StartTagPosition ) /* ДО обрабатываемого текста */
 					+ NewTag
 					+ XmlText.Substring( tagPair.EndTagPosition ); /* ПОСЛЕ обрабатываемого текста */

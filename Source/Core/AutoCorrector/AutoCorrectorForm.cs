@@ -125,7 +125,7 @@ namespace Core.Corrector
 			ProgressBar.Value = 0;
 			StatusTextBox.Text += "Создание списка файлов для Автокорректировки...\r\n";
 			
-			foreach( ListViewItemInfo Item in m_ListViewItemInfoList ) {
+			foreach ( ListViewItemInfo Item in m_ListViewItemInfoList ) {
 				if ( Item.IsDirListViewItem )
 					m_SourceDirs.Add( Item.FilePathSource );
 				else
@@ -133,7 +133,7 @@ namespace Core.Corrector
 			}
 			
 			m_NotWorkingFilesList.Clear();
-			foreach( string dir in m_SourceDirs )
+			foreach ( string dir in m_SourceDirs )
 				m_AllDirs += FilesWorker.recursionDirsSearch( dir, ref m_DirsList, true );
 
 			m_AllFiles = FilesWorker.makeFilesListFromDirs( ref m_bw, ref e, ref m_DirsList, ref m_NotWorkingFilesList, true );
@@ -263,8 +263,9 @@ namespace Core.Corrector
 			StatusTextBox.Text += "Отображение списка файлов с метаданными...\r\n";
 			FB2UnionGenres fb2Genres = new FB2UnionGenres();
 			// генерация списка файлов - создание итемов listViewSource
-			if ( !WorksWithBooks.generateBooksListWithMetaData( m_listViewFB2Files, m_SourceRootDir, ref fb2Genres,
-			                                                   true, false, false, this, ProgressBar, m_bwRenew, e ) )
+			if ( ! WorksWithBooks.generateBooksListWithMetaData(
+				m_listViewFB2Files, m_SourceRootDir, ref fb2Genres, true, false, false, this, ProgressBar, m_bwRenew, e )
+			   )
 				e.Cancel = true;
 		}
 		#endregion
@@ -284,25 +285,25 @@ namespace Core.Corrector
 			FilesList.AddRange(FilesToWorkingList);
 		}
 		// Автокорректировка файлов
-		private void autoCorrect( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref List<string> NotWorлingFilesList, ref List<string> WorkingFilesList, bool IsReNew = false ) {
+		private void autoCorrect( ref BackgroundWorker bw, ref DoWorkEventArgs e, ref List<string> NotWorkingFilesList, ref List<string> WorkingFilesList, bool IsReNew = false ) {
 			this.Text = string.Format( "Автокорректировка {0} книг в {1} каталогах", m_AllFiles, m_AllDirs );
 			if ( IsReNew )
 				this.Text += string.Format( " / Для обработки {0} файлов", m_NotWorkingFilesList.Count );
 			
 			string Title = this.Text;
-			ProgressBar.Maximum	= NotWorлingFilesList.Count;
+			ProgressBar.Maximum	= NotWorkingFilesList.Count;
 			ProgressBar.Value = 0;
 			
 			int i = 0;
-			foreach( string file in NotWorлingFilesList ) {
-				if( ( bw.CancellationPending ) ) {
+			foreach ( string file in NotWorkingFilesList ) {
+				if ( ( bw.CancellationPending ) ) {
 					// удаление из списка всех файлов обработанные книги (файлы)
-					removeFinishedFilesInFilesList( ref NotWorлingFilesList, ref m_WorkingFilesList);
+					removeFinishedFilesInFilesList( ref NotWorkingFilesList, ref m_WorkingFilesList);
 					e.Cancel = true;
 					return;
 				}
 				// обработка файла
-				this.Text = string.Format( "{0} : {1} / {2}", Title, i+1, NotWorлingFilesList.Count );
+				this.Text = string.Format( "{0} : {1} / {2}", Title, i+1, NotWorkingFilesList.Count );
 				DateTime dtStart = DateTime.Now;
 				StatusTextBox.Text += string.Format(@"{0}  =>  ( {1} )  =>", file, getFileLength( file ) );
 				WorksWithBooks.autoCorrect( file, m_sharpZipLib, m_fv2Validator );
@@ -315,11 +316,11 @@ namespace Core.Corrector
 				StatusTextBox.Text += string.Format("  {0}", sTime ) + "\r\n";
 				
 				// обработанные файлы
-				m_WorkingFilesList.Add( NotWorлingFilesList[i] );
+				m_WorkingFilesList.Add( NotWorkingFilesList[i] );
 				m_bw.ReportProgress( ++i );
 			}
 			// удаление из списка всех файлов обработанные книги (файлы)
-			removeFinishedFilesInFilesList( ref NotWorлingFilesList, ref WorkingFilesList);
+			removeFinishedFilesInFilesList( ref NotWorkingFilesList, ref WorkingFilesList);
 		}
 		
 		// сохранение данных о необработанных книгах при прерывании проверки для записи

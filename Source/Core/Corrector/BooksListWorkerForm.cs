@@ -15,13 +15,13 @@ using System.Xml.Linq;
 
 using Core.Common;
 
-using resultViewCollumn = Core.Common.Enums.ResultViewCollumn;
-using EndWorkMode		= Core.Common.EndWorkMode;
-using BooksWorkMode		= Core.Common.Enums.BooksWorkMode;
-using MiscListView		= Core.Common.MiscListView;
+using EndWorkMode	= Core.Common.EndWorkMode;
+using MiscListView	= Core.Common.MiscListView;
 
 // enums
-using EndWorkModeEnum	= Core.Common.Enums.EndWorkModeEnum;
+using EndWorkModeEnum		= Core.Common.Enums.EndWorkModeEnum;
+using ResultViewCollumnEnum = Core.Common.Enums.ResultViewCollumnEnum;
+using BooksWorkModeEnum		= Core.Common.Enums.BooksWorkModeEnum;
 
 namespace Core.Corrector
 {
@@ -31,7 +31,7 @@ namespace Core.Corrector
 	public partial class BooksListWorkerForm : Form
 	{
 		#region Закрытые данные класса
-		private readonly BooksWorkMode	m_WorkMode; // режим обработки книг
+		private readonly BooksWorkModeEnum	m_WorkMode; // режим обработки книг
 		private readonly string			m_FilePath			= string.Empty;
 		private readonly TextBox		m_textBoxAddress	= new TextBox();
 		private readonly ListView		m_listViewFB2Files	= new ListView();
@@ -44,7 +44,7 @@ namespace Core.Corrector
 		#endregion
 		
 		public BooksListWorkerForm(
-			BooksWorkMode WorkMode, string FromFilePath, ListView listViewFB2Files,
+			BooksWorkModeEnum WorkMode, string FromFilePath, ListView listViewFB2Files,
 			TextBox textBoxAddress, int LastSelectedItem )
 		{
 			InitializeComponent();
@@ -91,11 +91,11 @@ namespace Core.Corrector
 			#region Код
 			ProgressBar.Value = 0;
 			switch( m_WorkMode ) {
-				case BooksWorkMode.SaveFB2List:
+				case BooksWorkModeEnum.SaveFB2List:
 					this.Text = "Сохранение списка fb2 книг";
 					saveListToXml( ref m_bw, ref e, m_FilePath );
 					break;
-				case BooksWorkMode.LoadFB2List:
+				case BooksWorkModeEnum.LoadFB2List:
 					this.Text = "Загрузка списка fb2 книг";
 					loadListFromXML( ref m_bw, ref e, m_FilePath );
 					break;
@@ -180,20 +180,20 @@ namespace Core.Corrector
 							             new XAttribute("number", ++FileNumber),
 							             new XAttribute("type", it.Type == "f" ? "file" : "dir"),
 							             new XAttribute("path", it.Value),
-							             new XElement("FileName", lvi.SubItems[(int)resultViewCollumn.Path].Text),
-							             new XElement("BookTitle", lvi.SubItems[(int)resultViewCollumn.BookTitle].Text),
-							             new XElement("Authors", lvi.SubItems[(int)resultViewCollumn.Authors].Text),
-							             new XElement("Genres", lvi.SubItems[(int)resultViewCollumn.Genres].Text),
-							             new XElement("Sequence", lvi.SubItems[(int)resultViewCollumn.Sequences].Text),
-							             new XElement("Lang", lvi.SubItems[(int)resultViewCollumn.Lang].Text),
-							             new XElement("BookID", lvi.SubItems[(int)resultViewCollumn.BookID].Text),
-							             new XElement("Version", lvi.SubItems[(int)resultViewCollumn.Version].Text),
-							             new XElement("Encoding", lvi.SubItems[(int)resultViewCollumn.Encoding].Text),
-							             new XElement("Validation", lvi.SubItems[(int)resultViewCollumn.Validate].Text),
-							             new XElement("Format", lvi.SubItems[(int)resultViewCollumn.Format].Text),
-							             new XElement("FileLength", lvi.SubItems[(int)resultViewCollumn.FileLength].Text),
-							             new XElement("FileCreationTime", lvi.SubItems[(int)resultViewCollumn.CreationTime].Text),
-							             new XElement("FileLastWriteTime", lvi.SubItems[(int)resultViewCollumn.LastWriteTime].Text),
+							             new XElement("FileName", lvi.SubItems[(int)ResultViewCollumnEnum.Path].Text),
+							             new XElement("BookTitle", lvi.SubItems[(int)ResultViewCollumnEnum.BookTitle].Text),
+							             new XElement("Authors", lvi.SubItems[(int)ResultViewCollumnEnum.Authors].Text),
+							             new XElement("Genres", lvi.SubItems[(int)ResultViewCollumnEnum.Genres].Text),
+							             new XElement("Sequence", lvi.SubItems[(int)ResultViewCollumnEnum.Sequences].Text),
+							             new XElement("Lang", lvi.SubItems[(int)ResultViewCollumnEnum.Lang].Text),
+							             new XElement("BookID", lvi.SubItems[(int)ResultViewCollumnEnum.BookID].Text),
+							             new XElement("Version", lvi.SubItems[(int)ResultViewCollumnEnum.Version].Text),
+							             new XElement("Encoding", lvi.SubItems[(int)ResultViewCollumnEnum.Encoding].Text),
+							             new XElement("Validation", lvi.SubItems[(int)ResultViewCollumnEnum.Validate].Text),
+							             new XElement("Format", lvi.SubItems[(int)ResultViewCollumnEnum.Format].Text),
+							             new XElement("FileLength", lvi.SubItems[(int)ResultViewCollumnEnum.FileLength].Text),
+							             new XElement("FileCreationTime", lvi.SubItems[(int)ResultViewCollumnEnum.CreationTime].Text),
+							             new XElement("FileLastWriteTime", lvi.SubItems[(int)ResultViewCollumnEnum.LastWriteTime].Text),
 							             new XElement("ForeColor", lvi.ForeColor.Name),
 							             new XElement("BackColor", lvi.BackColor.Name),
 							             new XElement("IsChecked", lvi.Checked)
@@ -248,8 +248,7 @@ namespace Core.Corrector
 									lvi.Tag = new ListViewItemType( "d", BookPath );
 								}
 							} else {
-								string FileExt = Path.GetExtension(BookPath).ToLower();
-								lvi = new ListViewItem( FileName, FileExt == ".fb2" ? 1 : 2 );
+								lvi = new ListViewItem( FileName, FilesWorker.isFB2File( BookPath ) ? 1 : 2 );
 								lvi.Tag = new ListViewItemType( "f", BookPath );
 							}
 							lvi.ForeColor = Color.FromName( ForeColor );

@@ -46,15 +46,15 @@ namespace Core.Common
 			if( AuthorsList == null )
 				return string.Empty;
 			string sA = string.Empty;
-			foreach( Author a in AuthorsList ) {
+			foreach ( Author a in AuthorsList ) {
 				if ( a != null ) {
-					if( a.LastName != null && !string.IsNullOrWhiteSpace( a.LastName.Value ) )
+					if ( a.LastName != null && !string.IsNullOrWhiteSpace( a.LastName.Value ) )
 						sA += a.LastName.Value.Trim() + " ";
-					if( a.FirstName != null && !string.IsNullOrWhiteSpace( a.FirstName.Value ) )
+					if ( a.FirstName != null && !string.IsNullOrWhiteSpace( a.FirstName.Value ) )
 						sA += a.FirstName.Value.Trim() + " ";
-					if( a.MiddleName != null && !string.IsNullOrWhiteSpace( a.MiddleName.Value ) )
+					if ( a.MiddleName != null && !string.IsNullOrWhiteSpace( a.MiddleName.Value ) )
 						sA += a.MiddleName.Value.Trim() + " ";
-					if( a.NickName != null && !string.IsNullOrWhiteSpace( a.NickName.Value ) )
+					if ( a.NickName != null && !string.IsNullOrWhiteSpace( a.NickName.Value ) )
 						sA += a.NickName.Value.Trim();
 					sA = sA.Trim();
 					if ( !string.IsNullOrWhiteSpace( sA ) )
@@ -82,12 +82,12 @@ namespace Core.Common
 		
 		// формирование строки с Жанрами Книги из списка всех Жанров ЭТОЙ Книги
 		private string MakeGenresString( IList<Genre> GenresList ) {
-			if( GenresList == null )
+			if ( GenresList == null )
 				return string.Empty;
 			
 			string sG = string.Empty;
-			foreach( Genre g in GenresList ) {
-				if( !string.IsNullOrWhiteSpace( g.Name ) )
+			foreach ( Genre g in GenresList ) {
+				if ( !string.IsNullOrWhiteSpace( g.Name ) )
 					sG += g.Name.Trim();
 				sG = sG.Trim();
 				if ( !string.IsNullOrWhiteSpace( sG ) )
@@ -101,15 +101,13 @@ namespace Core.Common
 		
 		// формирование строки с Сериями Книги из списка всех Серий ЭТОЙ Книги
 		private string MakeSequencesString( IList<Sequence> Sequences ) {
-			if( Sequences == null ) return string.Empty;
+			if ( Sequences == null ) return string.Empty;
 			string sSeq = string.Empty;
-			foreach( Sequence s in Sequences ) {
+			foreach ( Sequence s in Sequences ) {
 				if ( s != null ) {
-					if( !string.IsNullOrWhiteSpace( s.Name ) )
-						sSeq += s.Name.Trim();
-					else
-						sSeq += "<Нет Серии>";
-					if( !string.IsNullOrWhiteSpace( s.Number ) )
+					sSeq += !string.IsNullOrWhiteSpace( s.Name )
+						? s.Name.Trim() : "<Нет Серии>";
+					if ( !string.IsNullOrWhiteSpace( s.Number ) )
 						sSeq += " ("+s.Number.Trim()+") ";
 					sSeq = sSeq.Trim();
 					if ( !string.IsNullOrWhiteSpace( sSeq ) )
@@ -135,9 +133,7 @@ namespace Core.Common
 		public virtual string FileLength {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );
-				if ( !fi.Exists )
-					return string.Empty;
-				return filesWorker.FormatFileLength( fi.Length );
+				return !fi.Exists ? string.Empty : filesWorker.FormatFileLength( fi.Length );
 			}
 		}
 		
@@ -145,18 +141,14 @@ namespace Core.Common
 		public virtual string FileCreationTime {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );
-				if ( !fi.Exists )
-					return string.Empty;
-				return fi.CreationTime.ToString();
+				return !fi.Exists ? string.Empty : fi.CreationTime.ToString();
 			}
 		}
 		// время последней записи в файл
 		public virtual string FileLastWriteTime {
 			get {
 				FileInfo fi = new FileInfo( m_sFromFilePath );
-				if ( !fi.Exists )
-					return string.Empty;
-				return fi.LastWriteTime.ToString();
+				return !fi.Exists ? string.Empty : fi.LastWriteTime.ToString();
 			}
 		}
 		
@@ -266,7 +258,7 @@ namespace Core.Common
 			get {
 				return ( m_fb2.STIAnnotation != null && m_fb2.STIAnnotation.Value != null )
 					? m_fb2.TIAnnotation.Value
-					: "";
+					: string.Empty;
 			}
 		}
 		

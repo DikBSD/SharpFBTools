@@ -78,7 +78,8 @@ namespace Core.Common
 							Directory.CreateDirectory( m_TempDir );
 						string NewPath = Info.IsFromArhive ? Info.FilePathIfFromZip : Info.FilePathSource;
 						fb2.saveToFB2File( NewPath, false );
-						WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, Info.FilePathSource, Info.IsFromArhive, NewPath );
+						if ( Info.IsFromArhive )
+							WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, NewPath, Info.FilePathSource );
 					}
 				}
 				m_bw.ReportProgress( 1 );

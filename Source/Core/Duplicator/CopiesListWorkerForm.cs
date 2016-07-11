@@ -16,15 +16,15 @@ using System.IO;
 
 using Core.Common;
 
-using ResultViewDupCollumn = Core.Common.Enums.ResultViewDupCollumn;
-using EndWorkMode			= Core.Common.EndWorkMode;
-using BooksWorkMode			= Core.Common.Enums.BooksWorkMode;
-using WorksWithBooks		= Core.Common.WorksWithBooks;
-using MiscListView			= Core.Common.MiscListView;
+using EndWorkMode		= Core.Common.EndWorkMode;
+using WorksWithBooks	= Core.Common.WorksWithBooks;
+using MiscListView		= Core.Common.MiscListView;
 
 // enums
-using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
-using FilesCountViewDupCollumn	= Core.Common.Enums.FilesCountViewDupCollumn;
+using ResultViewDupCollumnEnum		= Core.Common.Enums.ResultViewDupCollumnEnum;
+using FilesCountViewDupCollumnEnum	= Core.Common.Enums.FilesCountViewDupCollumnEnum;
+using EndWorkModeEnum				= Core.Common.Enums.EndWorkModeEnum;
+using BooksWorkModeEnum				= Core.Common.Enums.BooksWorkModeEnum;
 
 namespace Core.Duplicator
 {
@@ -34,7 +34,7 @@ namespace Core.Duplicator
 	public partial class CopiesListWorkerForm : Form
 	{
 		#region Закрытые данные класса
-		private readonly BooksWorkMode	m_WorkMode; // режим обработки книг
+		private readonly BooksWorkModeEnum	m_WorkMode; // режим обработки книг
 		private readonly string			m_DirOrFileName		= string.Empty;
 		
 		private readonly ComboBox		m_cboxMode			= new ComboBox();
@@ -52,7 +52,7 @@ namespace Core.Duplicator
 		private BackgroundWorker		m_bw = null; // фоновый обработчик
 		#endregion
 
-		public CopiesListWorkerForm( BooksWorkMode WorkMode, string DirOrFileName, ComboBox cboxMode,
+		public CopiesListWorkerForm( BooksWorkModeEnum WorkMode, string DirOrFileName, ComboBox cboxMode,
 		                            ListView listViewFB2Files, ListView lvFilesCount, TextBox tboxSourceDir,
 		                            CheckBox chBoxScanSubDir, int LastSelectedItem, int GroupCountForList )
 		{
@@ -66,9 +66,9 @@ namespace Core.Duplicator
 			m_WorkMode			= WorkMode;
 			m_LastSelectedItem	= LastSelectedItem;
 			
-			m_StatusView.AllFiles		= Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBooks].SubItems[1].Text );
-			m_StatusView.Group			= Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllGroups].SubItems[1].Text );
-			m_StatusView.AllFB2InGroups = Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBoolsInAllGroups].SubItems[1].Text );
+			m_StatusView.AllFiles		= Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBooks].SubItems[1].Text );
+			m_StatusView.Group			= Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text );
+			m_StatusView.AllFB2InGroups = Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text );
 
 			m_GroupCountForList = GroupCountForList;
 			
@@ -109,18 +109,18 @@ namespace Core.Duplicator
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			ProgressBar.Value = 0;
 			switch( m_WorkMode ) {
-				case BooksWorkMode.SaveFB2List:
+				case BooksWorkModeEnum.SaveFB2List:
 					// Сохранение списка копий книг
 					this.Text = "Сохранение списка копий fb2 книг";
 					saveCopiesListToXml( ref m_bw, ref e, m_GroupCountForList, m_DirOrFileName,
 					                    m_cboxMode.SelectedIndex, m_cboxMode.Text.Trim() );
 					break;
-				case BooksWorkMode.LoadFB2List:
+				case BooksWorkModeEnum.LoadFB2List:
 					// Загрузка списка копий книг
 					this.Text = "Загрузка списка копий fb2 книг";
 					loadCopiesListFromXML( ref m_bw, ref e, m_DirOrFileName );
 					break;
-				case BooksWorkMode.SaveWorkingFB2List:
+				case BooksWorkModeEnum.SaveWorkingFB2List:
 					// Сохранение текущего обрабатываемого списка копий книг без запроса пути
 					this.Text = "Сохранение списка копий fb2 книг";
 					saveWorkingListToXml( ref m_bw, ref e, m_GroupCountForList, m_DirOrFileName,
@@ -202,8 +202,8 @@ namespace Core.Duplicator
 				                          new XElement("Name", CompareModeName)),
 				             new XComment("Данные о ходе сравнения fb2 книг"),
 				             new XElement("CompareData",
-				                          new XElement("AllDirs", m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text),
-				                          new XElement("AllFiles", m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBooks].SubItems[1].Text),
+				                          new XElement("AllDirs", m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text),
+				                          new XElement("AllFiles", m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBooks].SubItems[1].Text),
 				                          new XElement("Groups", "0"),
 				                          new XElement("AllFB2InGroups", "0")
 				                         ),
@@ -230,18 +230,18 @@ namespace Core.Duplicator
 			xeGroup.Add(
 				new XElement("Book", new XAttribute("number", ++BookNumber),
 				             new XElement("Group", listViewItem.Group.Header),
-				             new XElement("Path", listViewItem.SubItems[(int)ResultViewDupCollumn.Path].Text),
-				             new XElement("BookTitle", listViewItem.SubItems[(int)ResultViewDupCollumn.BookTitle].Text),
-				             new XElement("Authors", listViewItem.SubItems[(int)ResultViewDupCollumn.Authors].Text),
-				             new XElement("Genres", listViewItem.SubItems[(int)ResultViewDupCollumn.Genres].Text),
-				             new XElement("BookLang", listViewItem.SubItems[(int)ResultViewDupCollumn.BookLang].Text),
-				             new XElement("BookID", listViewItem.SubItems[(int)ResultViewDupCollumn.BookID].Text),
-				             new XElement("Version", listViewItem.SubItems[(int)ResultViewDupCollumn.Version].Text),
-				             new XElement("Encoding", listViewItem.SubItems[(int)ResultViewDupCollumn.Encoding].Text),
-				             new XElement("Validation", listViewItem.SubItems[(int)ResultViewDupCollumn.Validate].Text),
-				             new XElement("FileLength", listViewItem.SubItems[(int)ResultViewDupCollumn.FileLength].Text),
-				             new XElement("FileCreationTime", listViewItem.SubItems[(int)ResultViewDupCollumn.CreationTime].Text),
-				             new XElement("FileLastWriteTime", listViewItem.SubItems[(int)ResultViewDupCollumn.LastWriteTime].Text),
+				             new XElement("Path", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.Path].Text),
+				             new XElement("BookTitle", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.BookTitle].Text),
+				             new XElement("Authors", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.Authors].Text),
+				             new XElement("Genres", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.Genres].Text),
+				             new XElement("BookLang", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.BookLang].Text),
+				             new XElement("BookID", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.BookID].Text),
+				             new XElement("Version", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.Version].Text),
+				             new XElement("Encoding", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.Encoding].Text),
+				             new XElement("Validation", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.Validate].Text),
+				             new XElement("FileLength", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.FileLength].Text),
+				             new XElement("FileCreationTime", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.CreationTime].Text),
+				             new XElement("FileLastWriteTime", listViewItem.SubItems[(int)ResultViewDupCollumnEnum.LastWriteTime].Text),
 				             new XElement("ForeColor", listViewItem.ForeColor.Name),
 				             new XElement("BackColor", listViewItem.BackColor.Name),
 				             new XElement("IsChecked", listViewItem.Checked)
@@ -265,7 +265,7 @@ namespace Core.Duplicator
 				if ( lvi.Group.Items.Count > 1 ) {
 					addBookInGroup( ref xeGroup, lvi, ref BookNumber );
 					xeGroup.SetAttributeValue( "count", ++BookCountInGroup );
-					if ( !File.Exists( lvi.SubItems[(int)ResultViewDupCollumn.Path].Text ) ) {
+					if ( !File.Exists( lvi.SubItems[(int)ResultViewDupCollumnEnum.Path].Text ) ) {
 						// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
 						WorksWithBooks.markRemoverFileInCopyesList( lvi );
 					}
@@ -380,7 +380,7 @@ namespace Core.Duplicator
 			m_StatusView.AllFiles = Convert.ToInt32( compareData.Element("AllFiles").Value );
 			m_StatusView.Group = Convert.ToInt32( compareData.Element("Groups").Value );
 			m_StatusView.AllFB2InGroups = Convert.ToInt32( compareData.Element("AllFB2InGroups").Value );
-			m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllDirs].SubItems[1].Text = compareData.Element("AllDirs").Value;
+			m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text = compareData.Element("AllDirs").Value;
 			
 			ViewDupProgressData();
 
@@ -453,9 +453,9 @@ namespace Core.Duplicator
 		
 		// Отображение результата поиска сравнения
 		private void ViewDupProgressData() {
-			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumn.AllBooks, m_StatusView.AllFiles );
-			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumn.AllGroups, m_StatusView.Group );
-			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumn.AllBoolsInAllGroups, m_StatusView.AllFB2InGroups );
+			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBooks, m_StatusView.AllFiles );
+			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllGroups, m_StatusView.Group );
+			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups, m_StatusView.AllFB2InGroups );
 		}
 		#endregion
 		

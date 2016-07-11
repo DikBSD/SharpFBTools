@@ -16,11 +16,12 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 using SharpZipLibWorker = Core.Common.SharpZipLibWorker;
+using FilesWorker		= Core.Common.FilesWorker;
 
 namespace Core.FB2Parser
 {
 	/// <summary>
-	/// Description of FB2Validator.
+	/// Валидатор fb2, fb2.zip ли fbz файлов по пути FilePath
 	/// </summary>
 	public class FB2Validator
 	{
@@ -36,28 +37,40 @@ namespace Core.FB2Parser
 		}
 
 		/// <summary>
+		/// Валидация fb2, fb2.zip ли fbz файлов по пути FilePath
+		/// </summary>
+		public string ValidatingFB2File( string FilePath ) {
+			bool IsZip = false;
+			string Result = validate( FilePath, Settings.Settings.SchemePath, ref IsZip );
+			if ( IsZip ) //  удаляем временные файлы только, если проверяли архив
+				FilesWorker.RemoveDir( m_TempDir );
+			return Result;
+		}
+		
+		/// <summary>
 		/// Валидация fb2, fb2.zip ли fbz файлов по пути FilePath, согласно схеме SchemePath
 		/// </summary>
-		private string validate( string FilePath, string SchemePath ) {
-			string Ext = Path.GetExtension( FilePath ).ToLower();
+		/// <returns>Пустая строка, файл валиден; Строка с сообщением, если файл невалиден</returns>
+		private string validate( string FilePath, string SchemePath, ref bool IsZip ) {
 			string [] files = null;
-			if ( Ext == ".zip" || Ext == ".fbz" ) {
-				m_sharpZipLib.UnZipFiles(FilePath, m_TempDir, 0, false, null, 4096);
+			if ( FilesWorker.isFB2Archive( FilePath ) ) {
+				IsZip = true;
+				m_sharpZipLib.UnZipFB2Files(FilePath, m_TempDir);
 				files = Directory.GetFiles( m_TempDir );
 			}
-			string FB2Path = files != null ? files[0] : FilePath;
+			string FB2Path = ( files != null && files.Length > 0 ) ? files[0] : FilePath;
 			XmlDocument xmlDoc = new XmlDocument();
 			try {
 				xmlDoc.Load( FB2Path );
 				// Проверка наличия атрибутов корневого тега <FictionBook
-				int FictionBookTagIndex = xmlDoc.InnerXml.IndexOf( "<FictionBook" );
+				int FictionBookTagIndex = xmlDoc.InnerXml.IndexOf( "<FictionBook", StringComparison.CurrentCulture );
 				if ( FictionBookTagIndex != -1 ) {
 					Regex regex  = new Regex( "<FictionBook [^>]+>", RegexOptions.None );
 					Match m = regex.Match( xmlDoc.InnerXml );
 					if ( m.Success ) {
 						string FBookTag = m.Value;
-						int xmlnsIndex = FBookTag.IndexOf( "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2." );
-						int xmlnsLinkIndex = FBookTag.IndexOf( "=\"http://www.w3.org/1999/xlink\"" );
+						int xmlnsIndex = FBookTag.IndexOf( "xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.", StringComparison.CurrentCulture  );
+						int xmlnsLinkIndex = FBookTag.IndexOf( "=\"http://www.w3.org/1999/xlink\"", StringComparison.CurrentCulture  );
 						if ( xmlnsIndex == -1 )
 							return "Файл: " + FilePath + "\r\nВ корневом теге <FictionBook отсутствует атрибут xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\"";
 						if ( xmlnsLinkIndex == -1 )
@@ -87,7 +100,7 @@ namespace Core.FB2Parser
 					return "Файл: " + FilePath + "\r\nОтсутствует раздел описания книги <title-info>";
 				} else {
 					// Проверка <genre>
-					if ( TI.IndexOf("<genre") == -1 )
+					if ( TI.IndexOf("<genre", StringComparison.CurrentCulture ) == -1 )
 						return "Файл: " + FilePath + "\r\nОтсутствует тег <genre> книги";
 					else {
 						Regex regGenre = new Regex( @"(<genre ?/>)|(<genre></genre>)", RegexOptions.None );
@@ -97,7 +110,7 @@ namespace Core.FB2Parser
 					}
 					
 					// Проверка <lang>
-					if ( TI.IndexOf("<lang") == -1 )
+					if ( TI.IndexOf("<lang", StringComparison.CurrentCulture ) == -1 )
 						return "Файл: " + FilePath + "\r\nОтсутствует тег <lang> книги";
 					else {
 						Regex regLang = new Regex( @"(<lang ?/>)|(<lang></lang>)", RegexOptions.None );
@@ -115,7 +128,7 @@ namespace Core.FB2Parser
 					}
 					
 					// Проверка <author>
-					if ( TI.IndexOf("<author") == -1 )
+					if ( TI.IndexOf("<author", StringComparison.CurrentCulture ) == -1 )
 						return "Файл: " + FilePath + "\r\nОтсутствует тег <author> Автора книги";
 					else {
 						Regex regAuthor = new Regex( @"(<author ?/>)|(<author></author>)", RegexOptions.None );
@@ -125,7 +138,7 @@ namespace Core.FB2Parser
 					}
 					
 					// Проверка <book-title>
-					if ( TI.IndexOf("<book-title") == -1 )
+					if ( TI.IndexOf("<book-title", StringComparison.CurrentCulture ) == -1 )
 						return "Файл: " + FilePath + "\r\nОтсутствует тег <book-title> Названия книги";
 					else {
 						Regex regBT = new Regex( @"(<book-title ?/>)|(<book-title></book-title>)", RegexOptions.None );
@@ -138,7 +151,7 @@ namespace Core.FB2Parser
 					return "Файл: " + FilePath + "\r\nОтсутствует раздел описания книги <document-info>";
 				} else {
 					// Проверка id книги
-					if ( DI.IndexOf("<id") == -1 )
+					if ( DI.IndexOf("<id", StringComparison.CurrentCulture ) == -1 )
 						return "Файл: " + FilePath + "\r\nОтсутствует идентификатор книги тег <id>";
 					else {
 						Regex regID = new Regex( @"(<id ?/>)|(<id></id>)", RegexOptions.None );
@@ -186,13 +199,5 @@ namespace Core.FB2Parser
 				}
 			}
 		}
-		
-		/// <summary>
-		/// Валидация fb2, fb2.zip ли fbz файлов по пути FilePath
-		/// </summary>
-		public string ValidatingFB2File( string FilePath ) {
-			return validate( FilePath, Settings.Settings.SchemePath );
-		}
-		
 	}
 }

@@ -9,9 +9,9 @@
 using System;
 using System.Windows.Forms;
 
-using Settings;
-using Core.FB2.Genres;
 using Core.Common;
+
+using CriteriasViewCollumnEnum = Core.Common.Enums.CriteriasViewCollumnEnum;
 
 namespace Core.FileManager
 {
@@ -48,26 +48,26 @@ namespace Core.FileManager
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectedSortDataForm));
-			this.cmbBoxSSLang = new System.Windows.Forms.ComboBox();
-			this.chBoxSSLang = new System.Windows.Forms.CheckBox();
-			this.txtBoxSSSequence = new System.Windows.Forms.TextBox();
-			this.chBoxSSSequence = new System.Windows.Forms.CheckBox();
-			this.lblSSNick = new System.Windows.Forms.Label();
-			this.textBoxSSNick = new System.Windows.Forms.TextBox();
-			this.lblSSMiddle = new System.Windows.Forms.Label();
-			this.textBoxSSMiddle = new System.Windows.Forms.TextBox();
-			this.lblSSFirst = new System.Windows.Forms.Label();
+			this.cmbBoxLang = new System.Windows.Forms.ComboBox();
+			this.chBoxLang = new System.Windows.Forms.CheckBox();
+			this.txtBoxSequence = new System.Windows.Forms.TextBox();
+			this.chBoxSequence = new System.Windows.Forms.CheckBox();
+			this.lblNick = new System.Windows.Forms.Label();
+			this.textBoxNick = new System.Windows.Forms.TextBox();
+			this.lblMiddle = new System.Windows.Forms.Label();
+			this.textBoxMiddle = new System.Windows.Forms.TextBox();
+			this.lblFirst = new System.Windows.Forms.Label();
 			this.chBoxAuthor = new System.Windows.Forms.CheckBox();
-			this.textBoxSSLast = new System.Windows.Forms.TextBox();
-			this.textBoxSSFirst = new System.Windows.Forms.TextBox();
-			this.lblSSLast = new System.Windows.Forms.Label();
+			this.textBoxLast = new System.Windows.Forms.TextBox();
+			this.textBoxFirst = new System.Windows.Forms.TextBox();
+			this.lblLast = new System.Windows.Forms.Label();
 			this.gBoxGenre = new System.Windows.Forms.GroupBox();
-			this.cmbBoxSSGenres = new System.Windows.Forms.ComboBox();
-			this.cmbBoxSSGenresGroup = new System.Windows.Forms.ComboBox();
-			this.rbtnSSGenres = new System.Windows.Forms.RadioButton();
-			this.rbtnSSGenresGroup = new System.Windows.Forms.RadioButton();
+			this.cmbBoxGenres = new System.Windows.Forms.ComboBox();
+			this.cmbBoxGenresGroup = new System.Windows.Forms.ComboBox();
+			this.rbtnGenres = new System.Windows.Forms.RadioButton();
+			this.rbtnGenresGroup = new System.Windows.Forms.RadioButton();
 			this.chkBoxGenre = new System.Windows.Forms.CheckBox();
-			this.lvSSData = new System.Windows.Forms.ListView();
+			this.lvData = new System.Windows.Forms.ListView();
 			this.cHeaderLang = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderGenresGroup = new System.Windows.Forms.ColumnHeader();
 			this.cHeaderGenre = new System.Windows.Forms.ColumnHeader();
@@ -84,7 +84,7 @@ namespace Core.FileManager
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.txtBoxInfo = new System.Windows.Forms.TextBox();
 			this.chBoxExactFit = new System.Windows.Forms.CheckBox();
-			this.txtBoxSSBookTitle = new System.Windows.Forms.TextBox();
+			this.txtBoxBookTitle = new System.Windows.Forms.TextBox();
 			this.chkBoxBookTitle = new System.Windows.Forms.CheckBox();
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.lblCount = new System.Windows.Forms.Label();
@@ -92,105 +92,105 @@ namespace Core.FileManager
 			this.gBoxGenre.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// cmbBoxSSLang
+			// cmbBoxLang
 			// 
-			this.cmbBoxSSLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbBoxSSLang.Enabled = false;
-			this.cmbBoxSSLang.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.cmbBoxSSLang.FormattingEnabled = true;
-			this.cmbBoxSSLang.Location = new System.Drawing.Point(132, 97);
-			this.cmbBoxSSLang.Margin = new System.Windows.Forms.Padding(4);
-			this.cmbBoxSSLang.Name = "cmbBoxSSLang";
-			this.cmbBoxSSLang.Size = new System.Drawing.Size(341, 24);
-			this.cmbBoxSSLang.TabIndex = 36;
+			this.cmbBoxLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbBoxLang.Enabled = false;
+			this.cmbBoxLang.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.cmbBoxLang.FormattingEnabled = true;
+			this.cmbBoxLang.Location = new System.Drawing.Point(132, 97);
+			this.cmbBoxLang.Margin = new System.Windows.Forms.Padding(4);
+			this.cmbBoxLang.Name = "cmbBoxLang";
+			this.cmbBoxLang.Size = new System.Drawing.Size(341, 24);
+			this.cmbBoxLang.TabIndex = 36;
 			// 
-			// chBoxSSLang
+			// chBoxLang
 			// 
-			this.chBoxSSLang.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxSSLang.Location = new System.Drawing.Point(16, 97);
-			this.chBoxSSLang.Margin = new System.Windows.Forms.Padding(4);
-			this.chBoxSSLang.Name = "chBoxSSLang";
-			this.chBoxSSLang.Size = new System.Drawing.Size(87, 30);
-			this.chBoxSSLang.TabIndex = 35;
-			this.chBoxSSLang.Text = "Язык:";
-			this.chBoxSSLang.UseVisualStyleBackColor = true;
-			this.chBoxSSLang.CheckedChanged += new System.EventHandler(this.ChBoxSSLangCheckedChanged);
+			this.chBoxLang.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxLang.Location = new System.Drawing.Point(16, 97);
+			this.chBoxLang.Margin = new System.Windows.Forms.Padding(4);
+			this.chBoxLang.Name = "chBoxLang";
+			this.chBoxLang.Size = new System.Drawing.Size(87, 30);
+			this.chBoxLang.TabIndex = 35;
+			this.chBoxLang.Text = "Язык:";
+			this.chBoxLang.UseVisualStyleBackColor = true;
+			this.chBoxLang.CheckedChanged += new System.EventHandler(this.ChBoxSSLangCheckedChanged);
 			// 
-			// txtBoxSSSequence
+			// txtBoxSequence
 			// 
-			this.txtBoxSSSequence.Enabled = false;
-			this.txtBoxSSSequence.Location = new System.Drawing.Point(132, 319);
-			this.txtBoxSSSequence.Margin = new System.Windows.Forms.Padding(4);
-			this.txtBoxSSSequence.Name = "txtBoxSSSequence";
-			this.txtBoxSSSequence.Size = new System.Drawing.Size(827, 22);
-			this.txtBoxSSSequence.TabIndex = 46;
+			this.txtBoxSequence.Enabled = false;
+			this.txtBoxSequence.Location = new System.Drawing.Point(132, 343);
+			this.txtBoxSequence.Margin = new System.Windows.Forms.Padding(4);
+			this.txtBoxSequence.Name = "txtBoxSequence";
+			this.txtBoxSequence.Size = new System.Drawing.Size(827, 22);
+			this.txtBoxSequence.TabIndex = 46;
 			// 
-			// chBoxSSSequence
+			// chBoxSequence
 			// 
-			this.chBoxSSSequence.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxSSSequence.Location = new System.Drawing.Point(16, 317);
-			this.chBoxSSSequence.Margin = new System.Windows.Forms.Padding(4);
-			this.chBoxSSSequence.Name = "chBoxSSSequence";
-			this.chBoxSSSequence.Size = new System.Drawing.Size(87, 30);
-			this.chBoxSSSequence.TabIndex = 45;
-			this.chBoxSSSequence.Text = "Серия:";
-			this.chBoxSSSequence.UseVisualStyleBackColor = true;
-			this.chBoxSSSequence.CheckedChanged += new System.EventHandler(this.ChBoxSSSequenceCheckedChanged);
-			this.chBoxSSSequence.Click += new System.EventHandler(this.ChBoxSSSequenceClick);
+			this.chBoxSequence.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.chBoxSequence.Location = new System.Drawing.Point(16, 341);
+			this.chBoxSequence.Margin = new System.Windows.Forms.Padding(4);
+			this.chBoxSequence.Name = "chBoxSequence";
+			this.chBoxSequence.Size = new System.Drawing.Size(87, 30);
+			this.chBoxSequence.TabIndex = 45;
+			this.chBoxSequence.Text = "Серия:";
+			this.chBoxSequence.UseVisualStyleBackColor = true;
+			this.chBoxSequence.CheckedChanged += new System.EventHandler(this.ChBoxSSSequenceCheckedChanged);
+			this.chBoxSequence.Click += new System.EventHandler(this.ChBoxSSSequenceClick);
 			// 
-			// lblSSNick
+			// lblNick
 			// 
-			this.lblSSNick.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.lblSSNick.ForeColor = System.Drawing.Color.Navy;
-			this.lblSSNick.Location = new System.Drawing.Point(483, 158);
-			this.lblSSNick.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.lblSSNick.Name = "lblSSNick";
-			this.lblSSNick.Size = new System.Drawing.Size(44, 30);
-			this.lblSSNick.TabIndex = 57;
-			this.lblSSNick.Text = "Ник";
-			this.lblSSNick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.lblNick.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblNick.ForeColor = System.Drawing.Color.Navy;
+			this.lblNick.Location = new System.Drawing.Point(483, 158);
+			this.lblNick.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.lblNick.Name = "lblNick";
+			this.lblNick.Size = new System.Drawing.Size(44, 30);
+			this.lblNick.TabIndex = 57;
+			this.lblNick.Text = "Ник";
+			this.lblNick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// textBoxSSNick
+			// textBoxNick
 			// 
-			this.textBoxSSNick.Enabled = false;
-			this.textBoxSSNick.Location = new System.Drawing.Point(531, 164);
-			this.textBoxSSNick.Margin = new System.Windows.Forms.Padding(4);
-			this.textBoxSSNick.Name = "textBoxSSNick";
-			this.textBoxSSNick.Size = new System.Drawing.Size(255, 22);
-			this.textBoxSSNick.TabIndex = 56;
+			this.textBoxNick.Enabled = false;
+			this.textBoxNick.Location = new System.Drawing.Point(531, 164);
+			this.textBoxNick.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxNick.Name = "textBoxNick";
+			this.textBoxNick.Size = new System.Drawing.Size(255, 22);
+			this.textBoxNick.TabIndex = 56;
 			// 
-			// lblSSMiddle
+			// lblMiddle
 			// 
-			this.lblSSMiddle.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.lblSSMiddle.ForeColor = System.Drawing.Color.Navy;
-			this.lblSSMiddle.Location = new System.Drawing.Point(132, 158);
-			this.lblSSMiddle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.lblSSMiddle.Name = "lblSSMiddle";
-			this.lblSSMiddle.Size = new System.Drawing.Size(85, 30);
-			this.lblSSMiddle.TabIndex = 55;
-			this.lblSSMiddle.Text = "Отчество";
-			this.lblSSMiddle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.lblMiddle.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblMiddle.ForeColor = System.Drawing.Color.Navy;
+			this.lblMiddle.Location = new System.Drawing.Point(132, 158);
+			this.lblMiddle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.lblMiddle.Name = "lblMiddle";
+			this.lblMiddle.Size = new System.Drawing.Size(85, 30);
+			this.lblMiddle.TabIndex = 55;
+			this.lblMiddle.Text = "Отчество";
+			this.lblMiddle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// textBoxSSMiddle
+			// textBoxMiddle
 			// 
-			this.textBoxSSMiddle.Enabled = false;
-			this.textBoxSSMiddle.Location = new System.Drawing.Point(219, 164);
-			this.textBoxSSMiddle.Margin = new System.Windows.Forms.Padding(4);
-			this.textBoxSSMiddle.Name = "textBoxSSMiddle";
-			this.textBoxSSMiddle.Size = new System.Drawing.Size(255, 22);
-			this.textBoxSSMiddle.TabIndex = 54;
+			this.textBoxMiddle.Enabled = false;
+			this.textBoxMiddle.Location = new System.Drawing.Point(219, 164);
+			this.textBoxMiddle.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxMiddle.Name = "textBoxMiddle";
+			this.textBoxMiddle.Size = new System.Drawing.Size(255, 22);
+			this.textBoxMiddle.TabIndex = 54;
 			// 
-			// lblSSFirst
+			// lblFirst
 			// 
-			this.lblSSFirst.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.lblSSFirst.ForeColor = System.Drawing.Color.Navy;
-			this.lblSSFirst.Location = new System.Drawing.Point(483, 130);
-			this.lblSSFirst.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.lblSSFirst.Name = "lblSSFirst";
-			this.lblSSFirst.Size = new System.Drawing.Size(47, 30);
-			this.lblSSFirst.TabIndex = 53;
-			this.lblSSFirst.Text = "Имя";
-			this.lblSSFirst.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.lblFirst.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblFirst.ForeColor = System.Drawing.Color.Navy;
+			this.lblFirst.Location = new System.Drawing.Point(483, 130);
+			this.lblFirst.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.lblFirst.Name = "lblFirst";
+			this.lblFirst.Size = new System.Drawing.Size(47, 30);
+			this.lblFirst.TabIndex = 53;
+			this.lblFirst.Text = "Имя";
+			this.lblFirst.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// chBoxAuthor
 			// 
@@ -205,102 +205,100 @@ namespace Core.FileManager
 			this.chBoxAuthor.CheckedChanged += new System.EventHandler(this.ChBoxAuthorCheckedChanged);
 			this.chBoxAuthor.Click += new System.EventHandler(this.ChBoxAuthorClick);
 			// 
-			// textBoxSSLast
+			// textBoxLast
 			// 
-			this.textBoxSSLast.Enabled = false;
-			this.textBoxSSLast.Location = new System.Drawing.Point(219, 134);
-			this.textBoxSSLast.Margin = new System.Windows.Forms.Padding(4);
-			this.textBoxSSLast.Name = "textBoxSSLast";
-			this.textBoxSSLast.Size = new System.Drawing.Size(255, 22);
-			this.textBoxSSLast.TabIndex = 50;
+			this.textBoxLast.Enabled = false;
+			this.textBoxLast.Location = new System.Drawing.Point(219, 134);
+			this.textBoxLast.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxLast.Name = "textBoxLast";
+			this.textBoxLast.Size = new System.Drawing.Size(255, 22);
+			this.textBoxLast.TabIndex = 50;
 			// 
-			// textBoxSSFirst
+			// textBoxFirst
 			// 
-			this.textBoxSSFirst.Enabled = false;
-			this.textBoxSSFirst.Location = new System.Drawing.Point(531, 134);
-			this.textBoxSSFirst.Margin = new System.Windows.Forms.Padding(4);
-			this.textBoxSSFirst.Name = "textBoxSSFirst";
-			this.textBoxSSFirst.Size = new System.Drawing.Size(255, 22);
-			this.textBoxSSFirst.TabIndex = 52;
+			this.textBoxFirst.Enabled = false;
+			this.textBoxFirst.Location = new System.Drawing.Point(531, 134);
+			this.textBoxFirst.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxFirst.Name = "textBoxFirst";
+			this.textBoxFirst.Size = new System.Drawing.Size(255, 22);
+			this.textBoxFirst.TabIndex = 52;
 			// 
-			// lblSSLast
+			// lblLast
 			// 
-			this.lblSSLast.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.lblSSLast.ForeColor = System.Drawing.Color.Navy;
-			this.lblSSLast.Location = new System.Drawing.Point(132, 130);
-			this.lblSSLast.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.lblSSLast.Name = "lblSSLast";
-			this.lblSSLast.Size = new System.Drawing.Size(79, 30);
-			this.lblSSLast.TabIndex = 51;
-			this.lblSSLast.Text = "Фамилия";
-			this.lblSSLast.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.lblLast.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.lblLast.ForeColor = System.Drawing.Color.Navy;
+			this.lblLast.Location = new System.Drawing.Point(132, 130);
+			this.lblLast.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.lblLast.Name = "lblLast";
+			this.lblLast.Size = new System.Drawing.Size(79, 30);
+			this.lblLast.TabIndex = 51;
+			this.lblLast.Text = "Фамилия";
+			this.lblLast.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// gBoxGenre
 			// 
-			this.gBoxGenre.Controls.Add(this.cmbBoxSSGenres);
-			this.gBoxGenre.Controls.Add(this.cmbBoxSSGenresGroup);
-			this.gBoxGenre.Controls.Add(this.rbtnSSGenres);
-			this.gBoxGenre.Controls.Add(this.rbtnSSGenresGroup);
+			this.gBoxGenre.Controls.Add(this.cmbBoxGenres);
+			this.gBoxGenre.Controls.Add(this.cmbBoxGenresGroup);
+			this.gBoxGenre.Controls.Add(this.rbtnGenres);
+			this.gBoxGenre.Controls.Add(this.rbtnGenresGroup);
 			this.gBoxGenre.Enabled = false;
 			this.gBoxGenre.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gBoxGenre.Location = new System.Drawing.Point(132, 223);
 			this.gBoxGenre.Margin = new System.Windows.Forms.Padding(4);
 			this.gBoxGenre.Name = "gBoxGenre";
 			this.gBoxGenre.Padding = new System.Windows.Forms.Padding(4);
-			this.gBoxGenre.Size = new System.Drawing.Size(655, 87);
+			this.gBoxGenre.Size = new System.Drawing.Size(655, 111);
 			this.gBoxGenre.TabIndex = 58;
 			this.gBoxGenre.TabStop = false;
 			// 
-			// cmbBoxSSGenres
+			// cmbBoxGenres
 			// 
-			this.cmbBoxSSGenres.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbBoxSSGenres.Enabled = false;
-			this.cmbBoxSSGenres.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.cmbBoxSSGenres.FormattingEnabled = true;
-			this.cmbBoxSSGenres.Location = new System.Drawing.Point(168, 50);
-			this.cmbBoxSSGenres.Margin = new System.Windows.Forms.Padding(4);
-			this.cmbBoxSSGenres.Name = "cmbBoxSSGenres";
-			this.cmbBoxSSGenres.Size = new System.Drawing.Size(472, 24);
-			this.cmbBoxSSGenres.Sorted = true;
-			this.cmbBoxSSGenres.TabIndex = 38;
+			this.cmbBoxGenres.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbBoxGenres.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.cmbBoxGenres.FormattingEnabled = true;
+			this.cmbBoxGenres.Location = new System.Drawing.Point(11, 51);
+			this.cmbBoxGenres.Margin = new System.Windows.Forms.Padding(4);
+			this.cmbBoxGenres.Name = "cmbBoxGenres";
+			this.cmbBoxGenres.Size = new System.Drawing.Size(472, 24);
+			this.cmbBoxGenres.Sorted = true;
+			this.cmbBoxGenres.TabIndex = 3;
 			// 
-			// cmbBoxSSGenresGroup
+			// cmbBoxGenresGroup
 			// 
-			this.cmbBoxSSGenresGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbBoxSSGenresGroup.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.cmbBoxSSGenresGroup.FormattingEnabled = true;
-			this.cmbBoxSSGenresGroup.Location = new System.Drawing.Point(168, 18);
-			this.cmbBoxSSGenresGroup.Margin = new System.Windows.Forms.Padding(4);
-			this.cmbBoxSSGenresGroup.Name = "cmbBoxSSGenresGroup";
-			this.cmbBoxSSGenresGroup.Size = new System.Drawing.Size(472, 24);
-			this.cmbBoxSSGenresGroup.Sorted = true;
-			this.cmbBoxSSGenresGroup.TabIndex = 37;
+			this.cmbBoxGenresGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbBoxGenresGroup.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.cmbBoxGenresGroup.FormattingEnabled = true;
+			this.cmbBoxGenresGroup.Location = new System.Drawing.Point(11, 19);
+			this.cmbBoxGenresGroup.Margin = new System.Windows.Forms.Padding(4);
+			this.cmbBoxGenresGroup.Name = "cmbBoxGenresGroup";
+			this.cmbBoxGenresGroup.Size = new System.Drawing.Size(472, 24);
+			this.cmbBoxGenresGroup.Sorted = true;
+			this.cmbBoxGenresGroup.TabIndex = 2;
+			this.cmbBoxGenresGroup.SelectedIndexChanged += new System.EventHandler(this.CmbBoxSSGenresGroupSelectedIndexChanged);
 			// 
-			// rbtnSSGenres
+			// rbtnGenres
 			// 
-			this.rbtnSSGenres.ForeColor = System.Drawing.Color.Navy;
-			this.rbtnSSGenres.Location = new System.Drawing.Point(11, 47);
-			this.rbtnSSGenres.Margin = new System.Windows.Forms.Padding(4);
-			this.rbtnSSGenres.Name = "rbtnSSGenres";
-			this.rbtnSSGenres.Size = new System.Drawing.Size(77, 30);
-			this.rbtnSSGenres.TabIndex = 3;
-			this.rbtnSSGenres.Text = "Жанр";
-			this.rbtnSSGenres.UseVisualStyleBackColor = true;
-			this.rbtnSSGenres.CheckedChanged += new System.EventHandler(this.RbtnSSGenresCheckedChanged);
+			this.rbtnGenres.ForeColor = System.Drawing.Color.Navy;
+			this.rbtnGenres.Location = new System.Drawing.Point(233, 78);
+			this.rbtnGenres.Margin = new System.Windows.Forms.Padding(4);
+			this.rbtnGenres.Name = "rbtnGenres";
+			this.rbtnGenres.Size = new System.Drawing.Size(223, 30);
+			this.rbtnGenres.TabIndex = 5;
+			this.rbtnGenres.Text = "Только выбранный Жанр";
+			this.rbtnGenres.UseVisualStyleBackColor = true;
 			// 
-			// rbtnSSGenresGroup
+			// rbtnGenresGroup
 			// 
-			this.rbtnSSGenresGroup.Checked = true;
-			this.rbtnSSGenresGroup.ForeColor = System.Drawing.Color.Navy;
-			this.rbtnSSGenresGroup.Location = new System.Drawing.Point(11, 18);
-			this.rbtnSSGenresGroup.Margin = new System.Windows.Forms.Padding(4);
-			this.rbtnSSGenresGroup.Name = "rbtnSSGenresGroup";
-			this.rbtnSSGenresGroup.Size = new System.Drawing.Size(156, 30);
-			this.rbtnSSGenresGroup.TabIndex = 2;
-			this.rbtnSSGenresGroup.TabStop = true;
-			this.rbtnSSGenresGroup.Text = "Группа Жанров";
-			this.rbtnSSGenresGroup.UseVisualStyleBackColor = true;
-			this.rbtnSSGenresGroup.CheckedChanged += new System.EventHandler(this.RbtnSSGenresGroupCheckedChanged);
+			this.rbtnGenresGroup.Checked = true;
+			this.rbtnGenresGroup.ForeColor = System.Drawing.Color.Navy;
+			this.rbtnGenresGroup.Location = new System.Drawing.Point(11, 78);
+			this.rbtnGenresGroup.Margin = new System.Windows.Forms.Padding(4);
+			this.rbtnGenresGroup.Name = "rbtnGenresGroup";
+			this.rbtnGenresGroup.Size = new System.Drawing.Size(183, 30);
+			this.rbtnGenresGroup.TabIndex = 4;
+			this.rbtnGenresGroup.TabStop = true;
+			this.rbtnGenresGroup.Text = "Жанры всей Группы";
+			this.rbtnGenresGroup.UseVisualStyleBackColor = true;
 			// 
 			// chkBoxGenre
 			// 
@@ -314,30 +312,30 @@ namespace Core.FileManager
 			this.chkBoxGenre.UseVisualStyleBackColor = true;
 			this.chkBoxGenre.CheckedChanged += new System.EventHandler(this.ChkBoxGenreCheckedChanged);
 			// 
-			// lvSSData
+			// lvData
 			// 
-			this.lvSSData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.cHeaderLang,
-			this.cHeaderGenresGroup,
-			this.cHeaderGenre,
-			this.cHeaderLast,
-			this.cHeaderFirst,
-			this.cHeaderMiddle,
-			this.cHeaderNick,
-			this.cHeaderSequence,
-			this.cHeaderBookTitle,
-			this.cHeaderExactFit});
-			this.lvSSData.FullRowSelect = true;
-			this.lvSSData.GridLines = true;
-			this.lvSSData.HideSelection = false;
-			this.lvSSData.Location = new System.Drawing.Point(16, 349);
-			this.lvSSData.Margin = new System.Windows.Forms.Padding(4);
-			this.lvSSData.Name = "lvSSData";
-			this.lvSSData.Size = new System.Drawing.Size(943, 180);
-			this.lvSSData.TabIndex = 60;
-			this.lvSSData.UseCompatibleStateImageBehavior = false;
-			this.lvSSData.View = System.Windows.Forms.View.Details;
-			this.lvSSData.SelectedIndexChanged += new System.EventHandler(this.LvSSDataSelectedIndexChanged);
+			this.lvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			                             	this.cHeaderLang,
+			                             	this.cHeaderGenresGroup,
+			                             	this.cHeaderGenre,
+			                             	this.cHeaderLast,
+			                             	this.cHeaderFirst,
+			                             	this.cHeaderMiddle,
+			                             	this.cHeaderNick,
+			                             	this.cHeaderSequence,
+			                             	this.cHeaderBookTitle,
+			                             	this.cHeaderExactFit});
+			this.lvData.FullRowSelect = true;
+			this.lvData.GridLines = true;
+			this.lvData.HideSelection = false;
+			this.lvData.Location = new System.Drawing.Point(16, 379);
+			this.lvData.Margin = new System.Windows.Forms.Padding(4);
+			this.lvData.Name = "lvData";
+			this.lvData.Size = new System.Drawing.Size(943, 163);
+			this.lvData.TabIndex = 60;
+			this.lvData.UseCompatibleStateImageBehavior = false;
+			this.lvData.View = System.Windows.Forms.View.Details;
+			this.lvData.SelectedIndexChanged += new System.EventHandler(this.LvSSDataSelectedIndexChanged);
 			// 
 			// cHeaderLang
 			// 
@@ -392,7 +390,7 @@ namespace Core.FileManager
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.btnCancel.Location = new System.Drawing.Point(609, 543);
+			this.btnCancel.Location = new System.Drawing.Point(609, 549);
 			this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(147, 32);
@@ -406,7 +404,7 @@ namespace Core.FileManager
 			this.btnOK.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.btnOK.Image = ((System.Drawing.Image)(resources.GetObject("btnOK.Image")));
 			this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnOK.Location = new System.Drawing.Point(813, 543);
+			this.btnOK.Location = new System.Drawing.Point(813, 549);
 			this.btnOK.Margin = new System.Windows.Forms.Padding(4);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(147, 32);
@@ -471,14 +469,14 @@ namespace Core.FileManager
 			this.chBoxExactFit.Text = "Точное соответствие";
 			this.chBoxExactFit.UseVisualStyleBackColor = true;
 			// 
-			// txtBoxSSBookTitle
+			// txtBoxBookTitle
 			// 
-			this.txtBoxSSBookTitle.Enabled = false;
-			this.txtBoxSSBookTitle.Location = new System.Drawing.Point(132, 196);
-			this.txtBoxSSBookTitle.Margin = new System.Windows.Forms.Padding(4);
-			this.txtBoxSSBookTitle.Name = "txtBoxSSBookTitle";
-			this.txtBoxSSBookTitle.Size = new System.Drawing.Size(653, 22);
-			this.txtBoxSSBookTitle.TabIndex = 69;
+			this.txtBoxBookTitle.Enabled = false;
+			this.txtBoxBookTitle.Location = new System.Drawing.Point(132, 196);
+			this.txtBoxBookTitle.Margin = new System.Windows.Forms.Padding(4);
+			this.txtBoxBookTitle.Name = "txtBoxBookTitle";
+			this.txtBoxBookTitle.Size = new System.Drawing.Size(653, 22);
+			this.txtBoxBookTitle.TabIndex = 69;
 			// 
 			// chkBoxBookTitle
 			// 
@@ -497,23 +495,25 @@ namespace Core.FileManager
 			// 
 			this.lblInfo.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.lblInfo.Location = new System.Drawing.Point(16, 543);
+			this.lblInfo.Location = new System.Drawing.Point(16, 553);
 			this.lblInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblInfo.Name = "lblInfo";
 			this.lblInfo.Size = new System.Drawing.Size(247, 28);
 			this.lblInfo.TabIndex = 70;
 			this.lblInfo.Text = "Число записей условий поиска:";
+			this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// lblCount
 			// 
 			this.lblCount.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblCount.ForeColor = System.Drawing.Color.Navy;
-			this.lblCount.Location = new System.Drawing.Point(261, 543);
+			this.lblCount.Location = new System.Drawing.Point(261, 553);
 			this.lblCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblCount.Name = "lblCount";
 			this.lblCount.Size = new System.Drawing.Size(83, 28);
 			this.lblCount.TabIndex = 71;
 			this.lblCount.Text = "0";
+			this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// btnDeleteAll
 			// 
@@ -540,7 +540,7 @@ namespace Core.FileManager
 			this.Controls.Add(this.btnDeleteAll);
 			this.Controls.Add(this.lblCount);
 			this.Controls.Add(this.lblInfo);
-			this.Controls.Add(this.txtBoxSSBookTitle);
+			this.Controls.Add(this.txtBoxBookTitle);
 			this.Controls.Add(this.chkBoxBookTitle);
 			this.Controls.Add(this.chBoxExactFit);
 			this.Controls.Add(this.txtBoxInfo);
@@ -549,21 +549,21 @@ namespace Core.FileManager
 			this.Controls.Add(this.btnAdd);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
-			this.Controls.Add(this.lvSSData);
+			this.Controls.Add(this.lvData);
 			this.Controls.Add(this.gBoxGenre);
-			this.Controls.Add(this.lblSSNick);
-			this.Controls.Add(this.textBoxSSNick);
-			this.Controls.Add(this.lblSSMiddle);
-			this.Controls.Add(this.textBoxSSMiddle);
-			this.Controls.Add(this.lblSSFirst);
+			this.Controls.Add(this.lblNick);
+			this.Controls.Add(this.textBoxNick);
+			this.Controls.Add(this.lblMiddle);
+			this.Controls.Add(this.textBoxMiddle);
+			this.Controls.Add(this.lblFirst);
 			this.Controls.Add(this.chBoxAuthor);
-			this.Controls.Add(this.textBoxSSLast);
-			this.Controls.Add(this.textBoxSSFirst);
-			this.Controls.Add(this.lblSSLast);
-			this.Controls.Add(this.txtBoxSSSequence);
-			this.Controls.Add(this.chBoxSSSequence);
-			this.Controls.Add(this.cmbBoxSSLang);
-			this.Controls.Add(this.chBoxSSLang);
+			this.Controls.Add(this.textBoxLast);
+			this.Controls.Add(this.textBoxFirst);
+			this.Controls.Add(this.lblLast);
+			this.Controls.Add(this.txtBoxSequence);
+			this.Controls.Add(this.chBoxSequence);
+			this.Controls.Add(this.cmbBoxLang);
+			this.Controls.Add(this.chBoxLang);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MaximizeBox = false;
@@ -582,7 +582,7 @@ namespace Core.FileManager
 		public System.Windows.Forms.Label lblCount;
 		private System.Windows.Forms.Label lblInfo;
 		private System.Windows.Forms.CheckBox chkBoxBookTitle;
-		private System.Windows.Forms.TextBox txtBoxSSBookTitle;
+		private System.Windows.Forms.TextBox txtBoxBookTitle;
 		private System.Windows.Forms.ColumnHeader cHeaderBookTitle;
 		private System.Windows.Forms.ColumnHeader cHeaderExactFit;
 		private System.Windows.Forms.CheckBox chBoxExactFit;
@@ -600,25 +600,25 @@ namespace Core.FileManager
 		private System.Windows.Forms.ColumnHeader cHeaderFirst;
 		private System.Windows.Forms.ColumnHeader cHeaderLast;
 		private System.Windows.Forms.ColumnHeader cHeaderLang;
-		public System.Windows.Forms.ListView lvSSData;
-		private System.Windows.Forms.ComboBox cmbBoxSSGenresGroup;
-		private System.Windows.Forms.ComboBox cmbBoxSSGenres;
-		private System.Windows.Forms.RadioButton rbtnSSGenresGroup;
-		private System.Windows.Forms.RadioButton rbtnSSGenres;
+		public System.Windows.Forms.ListView lvData;
+		private System.Windows.Forms.ComboBox cmbBoxGenresGroup;
+		private System.Windows.Forms.ComboBox cmbBoxGenres;
+		private System.Windows.Forms.RadioButton rbtnGenresGroup;
+		private System.Windows.Forms.RadioButton rbtnGenres;
 		private System.Windows.Forms.GroupBox gBoxGenre;
-		private System.Windows.Forms.Label lblSSLast;
-		private System.Windows.Forms.TextBox textBoxSSFirst;
-		private System.Windows.Forms.TextBox textBoxSSLast;
+		private System.Windows.Forms.Label lblLast;
+		private System.Windows.Forms.TextBox textBoxFirst;
+		private System.Windows.Forms.TextBox textBoxLast;
 		private System.Windows.Forms.CheckBox chBoxAuthor;
-		private System.Windows.Forms.Label lblSSFirst;
-		private System.Windows.Forms.TextBox textBoxSSMiddle;
-		private System.Windows.Forms.Label lblSSMiddle;
-		private System.Windows.Forms.TextBox textBoxSSNick;
-		private System.Windows.Forms.Label lblSSNick;
-		private System.Windows.Forms.CheckBox chBoxSSSequence;
-		private System.Windows.Forms.TextBox txtBoxSSSequence;
-		private System.Windows.Forms.CheckBox chBoxSSLang;
-		private System.Windows.Forms.ComboBox cmbBoxSSLang;
+		private System.Windows.Forms.Label lblFirst;
+		private System.Windows.Forms.TextBox textBoxMiddle;
+		private System.Windows.Forms.Label lblMiddle;
+		private System.Windows.Forms.TextBox textBoxNick;
+		private System.Windows.Forms.Label lblNick;
+		private System.Windows.Forms.CheckBox chBoxSequence;
+		private System.Windows.Forms.TextBox txtBoxSequence;
+		private System.Windows.Forms.CheckBox chBoxLang;
+		private System.Windows.Forms.ComboBox cmbBoxLang;
 		#endregion
 		
 		#region Закрытые данные класса
@@ -628,66 +628,129 @@ namespace Core.FileManager
 
 		public SelectedSortDataForm()
 		{
-			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
 			
 			// формирование Списка Языков
 			MakeListFMLangs();
-			// Смена схемы Жанров
-			GenresSchemeChange();
+			// формирование Списка Групп Жанров
+			WorksWithBooks.makeListGenresGroups( cmbBoxGenresGroup );
 		}
 		
 		#region Закрытые вспомогательные методы класса
-		// формирование Списка Языков
+		/// <summary>
+		/// формирование Списка Языков
+		/// </summary>
 		private void MakeListFMLangs() {
-			cmbBoxSSLang.Items.AddRange( Core.Common.LangList.LangsList );
-			cmbBoxSSLang.SelectedIndex = 0;
+			cmbBoxLang.Items.AddRange( Core.Common.LangList.LangsList );
+			cmbBoxLang.SelectedIndex = 0;
 		}
 		
-		// Смена схемы Жанров
-		private void GenresSchemeChange() {
-			// формирование Списка Групп Жанров
-			WorksWithBooks.makeListGenresGroups( cmbBoxSSGenresGroup );
-			// формирование Списка Жанров
-			WorksWithBooks.makeListAllFullGenres( cmbBoxSSGenres );
+		/// <summary>
+		/// Извлечение кода языка
+		/// </summary>
+		/// <returns>Код Языка типа string</returns>
+		private string getLangCode( string sLang ) {
+			return (sLang.Substring(
+				sLang.IndexOf('(')+1, sLang.IndexOf(')') - sLang.IndexOf('(') - 1).Trim()
+			       );
+		}
+		/// <summary>
+		/// Извлечение кода жанра
+		/// </summary>
+		/// <returns>Код Жанра типа string</returns>
+		private string getGenreCode( string sGenre ) {
+			return (sGenre.Substring(
+				sGenre.IndexOf('(')+1, sGenre.IndexOf(')') - sGenre.IndexOf('(') - 1).Trim()
+			       );
 		}
 		
-		// есть ли такая запись в списке
-		private bool IsRecordExist() {
-			if( lvSSData.Items.Count == 0 )
+		/// <summary>
+		/// Есть ли такая запись в списке (при добавлении только одного Жанра)
+		/// </summary>
+		/// <param name="GenreGroup">Название Группы Жанров</param>
+		/// <param name="GenreCode">Код Жанра</param>
+		/// <returns>true - если добавляемая запись уже есть в списке; false - если нет</returns>
+		private bool isRecordExistForGenre( string GenreGroup, string GenreCode ) {
+			if( lvData.Items.Count == 0 )
 				return false;
 
-			string sLang	= cmbBoxSSLang.Text;
-			string sGG		= string.Empty;
-			string sGenre	= string.Empty;
-			if( chkBoxGenre.Checked ) {
-				if( rbtnSSGenresGroup.Checked )
-					sGG = cmbBoxSSGenresGroup.Text.Trim();
-				else
-					sGenre = cmbBoxSSGenres.Text.Trim();
-			}
-			string sLast	= !string.IsNullOrWhiteSpace(textBoxSSLast.Text) ? textBoxSSLast.Text.Trim()	: string.Empty;
-			string sFirst	= !string.IsNullOrWhiteSpace(textBoxSSFirst.Text) ? textBoxSSFirst.Text.Trim() : string.Empty;
-			string sMiddle	= !string.IsNullOrWhiteSpace(textBoxSSMiddle.Text) ? textBoxSSMiddle.Text.Trim() : string.Empty;
-			string sNick	= !string.IsNullOrWhiteSpace(textBoxSSNick.Text) ? textBoxSSNick.Text.Trim()	: string.Empty;
-			string sSeq		= !string.IsNullOrWhiteSpace(txtBoxSSSequence.Text) ? txtBoxSSSequence.Text.Trim() : string.Empty;
-			string sBTitle	= !string.IsNullOrWhiteSpace(txtBoxSSBookTitle.Text)  ? txtBoxSSBookTitle.Text.Trim() : string.Empty;
+			string sLang		= chBoxLang.Checked ? getLangCode( cmbBoxLang.Text.Trim() ) : string.Empty;
+			string sGenreGroup	= chkBoxGenre.Checked ? GenreGroup : string.Empty;
+			string sGenre		= chkBoxGenre.Checked ? GenreCode : string.Empty;
+			string sLast	= !string.IsNullOrWhiteSpace(textBoxLast.Text) ? textBoxLast.Text.Trim()	: string.Empty;
+			string sFirst	= !string.IsNullOrWhiteSpace(textBoxFirst.Text) ? textBoxFirst.Text.Trim() : string.Empty;
+			string sMiddle	= !string.IsNullOrWhiteSpace(textBoxMiddle.Text) ? textBoxMiddle.Text.Trim() : string.Empty;
+			string sNick	= !string.IsNullOrWhiteSpace(textBoxNick.Text) ? textBoxNick.Text.Trim()	: string.Empty;
+			string sSeq		= !string.IsNullOrWhiteSpace(txtBoxSequence.Text) ? txtBoxSequence.Text.Trim() : string.Empty;
+			string sBTitle	= !string.IsNullOrWhiteSpace(txtBoxBookTitle.Text) ? txtBoxBookTitle.Text.Trim() : string.Empty;
+			string ExactFit = chBoxExactFit.Checked ? "true" : "false";
 			
 			// перебираем все записи в списке
-			for( int i = 0; i != lvSSData.Items.Count; ++i ) {
-				if( lvSSData.Items[i].Text == sLang				&& 
-				  lvSSData.Items[i].SubItems[1].Text == sGG		&& 
-				  lvSSData.Items[i].SubItems[2].Text == sGenre	&&
-				  lvSSData.Items[i].SubItems[3].Text == sLast	&&
-				  lvSSData.Items[i].SubItems[4].Text == sFirst	&&
-				  lvSSData.Items[i].SubItems[5].Text == sMiddle	&&
-				  lvSSData.Items[i].SubItems[6].Text == sNick	&&
-				  lvSSData.Items[i].SubItems[7].Text == sSeq	&&
-				  lvSSData.Items[i].SubItems[8].Text == sBTitle ) {
+			for ( int i = 0; i != lvData.Items.Count; ++i ) {
+				if (lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.Lang ].Text == sLang	&&
+				    lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.GenresGroup ].Text == sGenreGroup	&&
+				    lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.Genre ].Text == sGenre	&&
+				    lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.Last ].Text == sLast	&&
+				    lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.First ].Text == sFirst	&&
+				    lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.Middle ].Text == sMiddle	&&
+				    lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.Nick ].Text == sNick	&&
+				    lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.Sequence ].Text == sSeq	&&
+				    lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.BookTitle ].Text == sBTitle &&
+				    lvData.Items[i].SubItems[ (int)CriteriasViewCollumnEnum.ExactFit ].Text == ExactFit) {
 					return true;
 				}
 			}
 			return false;
+		}
+		
+		/// <summary>
+		/// Формирование subItems для отдельной записи критерия поиска
+		/// </summary>
+		/// <param name="lvi">Item класса ListViewItem с пустыми SubTems</param>
+		/// <param name="GenreGroup">Название Группы Жанров</param>
+		/// <param name="GenreCode">Код Жанра</param>
+		/// <returns>Сформированный Item класса ListViewItem</returns>
+		private ListViewItem makeCriteriaSubItem( ListViewItem lvi, string GenreGroup, string GenreCode ) {
+			// Язык Книги
+			if ( chBoxLang.Checked )
+				lvi.SubItems[ (int)CriteriasViewCollumnEnum.Lang ].Text = getLangCode( cmbBoxLang.Text );
+			
+			// Жанр Книги
+			if ( chkBoxGenre.Checked ) {
+				lvi.SubItems[ (int)CriteriasViewCollumnEnum.GenresGroup ].Text = GenreGroup;
+				lvi.SubItems[ (int)CriteriasViewCollumnEnum.Genre ].Text = GenreCode;
+			}
+			
+			// Автор Книги
+			if ( chBoxAuthor.Checked ) {
+				if ( ! string.IsNullOrWhiteSpace( textBoxLast.Text.Trim() ) )
+					lvi.SubItems[ (int)CriteriasViewCollumnEnum.Last ].Text = textBoxLast.Text.Trim();
+				
+				if ( ! string.IsNullOrWhiteSpace( textBoxFirst.Text.Trim() ) )
+					lvi.SubItems[ (int)CriteriasViewCollumnEnum.First ].Text = textBoxFirst.Text.Trim();
+				
+				if ( ! string.IsNullOrWhiteSpace( textBoxMiddle.Text.Trim() ) )
+					lvi.SubItems[ (int)CriteriasViewCollumnEnum.Middle ].Text = textBoxMiddle.Text.Trim();
+				
+				if ( ! string.IsNullOrWhiteSpace( textBoxNick.Text.Trim() ) )
+					lvi.SubItems[ (int)CriteriasViewCollumnEnum.Nick ].Text = textBoxNick.Text.Trim();
+			}
+
+			// Серия Книги
+			if ( chBoxSequence.Checked ) {
+				if ( ! string.IsNullOrWhiteSpace( txtBoxSequence.Text.Trim() ) )
+					lvi.SubItems[ (int)CriteriasViewCollumnEnum.Sequence ].Text = txtBoxSequence.Text.Trim();
+			}
+			
+			// Название Книги
+			if ( chkBoxBookTitle.Checked ) {
+				if ( ! string.IsNullOrWhiteSpace( txtBoxBookTitle.Text.Trim() ) )
+					lvi.SubItems[ (int)CriteriasViewCollumnEnum.BookTitle ].Text = txtBoxBookTitle.Text.Trim();
+			}
+			
+			// Точное соответствие
+			lvi.SubItems[ (int)CriteriasViewCollumnEnum.ExactFit ].Text = chBoxExactFit.Checked ? "true" : "false";
+			return lvi;
 		}
 		#endregion
 		
@@ -695,189 +758,144 @@ namespace Core.FileManager
 		public bool IsOKClicked() {
 			return m_bOKClicked;
 		}
-		
 		#endregion
 		
 		#region Обработчики событий
 		void ChBoxSSLangCheckedChanged(object sender, EventArgs e)
 		{
-			cmbBoxSSLang.Enabled = chBoxSSLang.Checked;
+			cmbBoxLang.Enabled = chBoxLang.Checked;
 		}
 		
 		void ChBoxAuthorCheckedChanged(object sender, EventArgs e)
 		{
-			textBoxSSLast.Enabled = textBoxSSFirst.Enabled = textBoxSSMiddle.Enabled = textBoxSSNick.Enabled = chBoxAuthor.Checked;
+			textBoxLast.Enabled = textBoxFirst.Enabled = textBoxMiddle.Enabled = textBoxNick.Enabled = chBoxAuthor.Checked;
 		}
 		
 		void ChBoxSSSequenceCheckedChanged(object sender, EventArgs e)
 		{
-			txtBoxSSSequence.Enabled = chBoxSSSequence.Checked;
+			txtBoxSequence.Enabled = chBoxSequence.Checked;
 		}
 		
 		void ChkBoxGenreCheckedChanged(object sender, EventArgs e)
 		{
 			gBoxGenre.Enabled = chkBoxGenre.Checked;
 		}
-		
-		void RbtnSSGenresGroupCheckedChanged(object sender, EventArgs e)
-		{
-			cmbBoxSSGenresGroup.Enabled = rbtnSSGenresGroup.Checked;
-		}
-		
-		void RbtnSSGenresCheckedChanged(object sender, EventArgs e)
-		{
-			cmbBoxSSGenres.Enabled = rbtnSSGenres.Checked;
-		}
 
 		void ChkBoxBookTitleCheckedChanged(object sender, EventArgs e)
 		{
-			txtBoxSSBookTitle.Enabled = chkBoxBookTitle.Checked;
+			txtBoxBookTitle.Enabled = chkBoxBookTitle.Checked;
 		}
-		
-		void RbtnFMSSFB2LibrusecClick(object sender, EventArgs e)
-		{
-			GenresSchemeChange();
-		}
-		
-		void RbtnFMSSFB22Click(object sender, EventArgs e)
-		{
-			GenresSchemeChange();
-		}
-		
+
 		// Добавить данные сортировки в список
 		void BtnAddClick(object sender, EventArgs e)
 		{
 			// проверка, выбранали хоть одна опция сортировки
-			if( !chBoxSSLang.Checked && !chBoxAuthor.Checked &&
-			   	!chkBoxGenre.Checked && !chBoxSSSequence.Checked &&
+			if ( !chBoxLang.Checked && !chBoxAuthor.Checked &&
+			    !chkBoxGenre.Checked && !chBoxSequence.Checked &&
 			    !chkBoxBookTitle.Checked ) {
 				MessageBox.Show( "Выберите хоть одну опцию поиска для сортировки (чекбоксы)!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			}
 
 			// если выбран ТОЛЬКО Автор и (или) Серия и (или) Название Книги
-			if( !chBoxSSLang.Checked && !chkBoxGenre.Checked) {
-				if( chBoxAuthor.Checked ) {
+			if ( !chBoxLang.Checked && !chkBoxGenre.Checked) {
+				if ( chBoxAuthor.Checked ) {
 					// выбран Автор - не пустые ли все его поля
-					if( string.IsNullOrWhiteSpace( textBoxSSLast.Text.Trim() ) &&
-					   string.IsNullOrWhiteSpace( textBoxSSFirst.Text.Trim() ) &&
-					   string.IsNullOrWhiteSpace( textBoxSSMiddle.Text.Trim() ) &&
-					   string.IsNullOrWhiteSpace( textBoxSSNick.Text.Trim() ) ) {
+					if ( string.IsNullOrWhiteSpace( textBoxLast.Text.Trim() ) &&
+					    string.IsNullOrWhiteSpace( textBoxFirst.Text.Trim() ) &&
+					    string.IsNullOrWhiteSpace( textBoxMiddle.Text.Trim() ) &&
+					    string.IsNullOrWhiteSpace( textBoxNick.Text.Trim() ) ) {
 						MessageBox.Show( "Заполните хоть одно поле для Автора Книг!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
 					}
 				}
-				if( chkBoxBookTitle.Checked ) {
+				if ( chkBoxBookTitle.Checked ) {
 					// выбрано Название Книги - не пустое ли ее поле
-					if( string.IsNullOrWhiteSpace( txtBoxSSBookTitle.Text.Trim() ) ) {
+					if ( string.IsNullOrWhiteSpace( txtBoxBookTitle.Text.Trim() ) ) {
 						MessageBox.Show( "Заполните поле для Названия Книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
 					}
 				}
-				if( chBoxSSSequence.Checked ) {
+				if ( chBoxSequence.Checked ) {
 					// выбрана Серия - не пустое ли ее поле
-					if( string.IsNullOrWhiteSpace( txtBoxSSSequence.Text.Trim() ) ) {
+					if ( string.IsNullOrWhiteSpace( txtBoxSequence.Text.Trim() ) ) {
 						MessageBox.Show( "Заполните поле для Серии Книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
 					}
 				}
 			}
 			
-			// проверка, есть ли вводимые данные в списке
-			if( IsRecordExist() ) {
-				MessageBox.Show( "Вводимые данные уже есть в списке!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
-			}
-			
-			ListViewItem lvi = null;
-			// Язык Книги
-			if( chBoxSSLang.Checked )
-				lvi = new ListViewItem( cmbBoxSSLang.Text );
-			else
-				lvi = new ListViewItem( string.Empty );
-			
-			// Жанр Книги
-			if( chkBoxGenre.Checked ) {
-				if( rbtnSSGenresGroup.Checked ) {
-					lvi.SubItems.Add( cmbBoxSSGenresGroup.Text.Trim() );
-					lvi.SubItems.Add( string.Empty );
+			int SubItemsCount = lvData.Columns.Count;
+			// Добавление записи критерия поиска в список, в зависимости от всей Группы или отдельного Жанра Книги
+			if ( chkBoxGenre.Checked ) {
+				// Жанры участвуют в критерии поиска
+				if ( rbtnGenresGroup.Checked ) {
+					for ( int i = 0; i != cmbBoxGenres.Items.Count; ++i ) {
+						string GenreCode = getGenreCode ( cmbBoxGenres.Items[i].ToString().Trim() ); // Код Жанра
+						// добавление записи в список критериев
+						if ( ! isRecordExistForGenre( cmbBoxGenresGroup.Text.Trim(), GenreCode ) ) {
+							lvData.Items.Add(
+								makeCriteriaSubItem(
+									MiscListView.makeEmptyListViewItem( SubItemsCount ), // Геренация пустой записи критерия поиска
+									cmbBoxGenresGroup.Text.Trim(),			// Название Группы Жанра
+									GenreCode								// Код Жанра
+								) // Формирование subItems для отдельной записи критерия поиска
+							);
+						}
+					}
 				} else {
-					lvi.SubItems.Add( string.Empty );
-					lvi.SubItems.Add( cmbBoxSSGenres.Text.Trim() );
+					// проверка, есть ли вводимые данные в списке (при добавлении только одного Жанра)
+					if ( isRecordExistForGenre(
+						cmbBoxGenresGroup.Text.Trim(),
+						getGenreCode ( cmbBoxGenres.Text.Trim() )
+					) ) {
+						MessageBox.Show( "Вводимые данные уже есть в списке критериев!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						return;
+					}
+					// добавление записи в список критериев
+					lvData.Items.Add(
+						makeCriteriaSubItem(
+							MiscListView.makeEmptyListViewItem( SubItemsCount ), // Геренация пустой записи критерия поиска
+							cmbBoxGenresGroup.Text.Trim(), 				// Название Группы Жанра
+							getGenreCode ( cmbBoxGenres.Text.Trim() )	// Код Жанра
+						) // Формирование subItems для отдельной записи критерия поиска
+					);
 				}
 			} else {
-				for( int i=0; i!=2; ++i )
-					lvi.SubItems.Add( string.Empty );
+				// Жанры не участвуют в критерии поиска
+				// проверка, есть ли вводимые данные в списке (при добавлении только одного Жанра)
+				if ( isRecordExistForGenre( string.Empty, string.Empty ) ) {
+					MessageBox.Show( "Вводимые данные уже есть в списке критериев!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					return;
+				}
+				// добавление записи в список критериев
+				lvData.Items.Add(
+					makeCriteriaSubItem(
+						MiscListView.makeEmptyListViewItem( SubItemsCount ), // Геренация пустой записи критерия поиска
+						string.Empty, 	// Название Группы Жанра
+						string.Empty	// Код Жанра
+					) // Формирование subItems для отдельной записи критерия поиска
+				);
 			}
 			
-			// Автор Книги
-			if( chBoxAuthor.Checked ) {
-				if( textBoxSSLast.Text.Trim().Length!=0 )
-					lvi.SubItems.Add( textBoxSSLast.Text.Trim() );
-				else
-					lvi.SubItems.Add( string.Empty );
-				
-				if( textBoxSSFirst.Text.Trim().Length!=0 )
-					lvi.SubItems.Add( textBoxSSFirst.Text.Trim() );
-				else
-					lvi.SubItems.Add( string.Empty );
-				
-				if( textBoxSSMiddle.Text.Trim().Length!=0 )
-					lvi.SubItems.Add( textBoxSSMiddle.Text.Trim() );
-				else
-					lvi.SubItems.Add( string.Empty );
-				
-				if( textBoxSSNick.Text.Trim().Length!=0 )
-					lvi.SubItems.Add( textBoxSSNick.Text.Trim() );
-				else
-					lvi.SubItems.Add( string.Empty );
-			} else {
-				for( int i=0; i!=4; ++i )
-					lvi.SubItems.Add( string.Empty );
-			}
-
-			// Серия Книги
-			if( chBoxSSSequence.Checked ) {
-				if( txtBoxSSSequence.Text.Trim().Length!=0 )
-					lvi.SubItems.Add( txtBoxSSSequence.Text.Trim() );
-				else
-					lvi.SubItems.Add( string.Empty );
-			} else
-				lvi.SubItems.Add( string.Empty );
-			
-			// Название Книги
-			if( chkBoxBookTitle.Checked ) {
-				if( txtBoxSSBookTitle.Text.Trim().Length!=0 )
-					lvi.SubItems.Add( txtBoxSSBookTitle.Text.Trim() );
-				else
-					lvi.SubItems.Add( string.Empty );
-			} else
-				lvi.SubItems.Add( string.Empty );
-			
-			// Точное соответствие
-			if( chBoxExactFit.Checked )
-				lvi.SubItems.Add( "Да" );
-			else
-				lvi.SubItems.Add( "Нет" );
-			
-			// добавление записи в список
-			lvSSData.Items.Add( lvi );
-			for( int i=0; i!=lvSSData.Items.Count; ++i )
-				lvSSData.Items[ i ].Selected = false;
-
-			lvSSData.Items[ lvSSData.Items.Count-1 ].Selected	= true;
-			lvSSData.Items[ lvSSData.Items.Count-1 ].Focused	= true;
-			
+			// Снимаем выделения со всех итемов, если они есть
+			for ( int i = 0; i != lvData.Items.Count; ++i )
+				lvData.Items[ i ].Selected = false;
+			// Выделяем последний итем в списке
+			lvData.Items[ lvData.Items.Count-1 ].Selected	= true;
+			lvData.Items[ lvData.Items.Count-1 ].Focused	= true;
 			// очищаем поля ввода
-			textBoxSSLast.Text = textBoxSSFirst.Text = textBoxSSMiddle.Text = textBoxSSNick.Text = 
-								txtBoxSSSequence.Text = txtBoxSSBookTitle.Text = string.Empty;
-			lblCount.Text = Convert.ToString( lvSSData.Items.Count );
+			textBoxLast.Text = textBoxFirst.Text = textBoxMiddle.Text = textBoxNick.Text =
+				txtBoxSequence.Text = txtBoxBookTitle.Text = string.Empty;
+			// выводим число записей в списке
+			lblCount.Text = Convert.ToString( lvData.Items.Count );
+			// Разблокировка кнопки OK
 			btnOK.Enabled = true;
 		}
 		
 		void LvSSDataSelectedIndexChanged(object sender, EventArgs e)
 		{
-			if( lvSSData.SelectedItems.Count == 0 )
+			if( lvData.SelectedItems.Count == 0 )
 				btnDelete.Enabled		= false;
 			else {
 				btnDelete.Enabled		= true;
@@ -892,19 +910,16 @@ namespace Core.FileManager
 			const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
 			result = MessageBox.Show( sMess, m_sTitle, buttons, MessageBoxIcon.Question );
-	        if(result == DialogResult.No)
-	            return;
+			if (result == DialogResult.No)
+				return;
 
-			lvSSData.Items.Remove( lvSSData.SelectedItems[0] );
+			lvData.Items.Remove( lvData.SelectedItems[0] );
 			
-			if( lvSSData.SelectedItems.Count == 0 )
-				btnOK.Enabled = false;
-			else
-				btnOK.Enabled = true;
+			btnOK.Enabled = lvData.SelectedItems.Count == 0 ? false : true;
 			
-			lblCount.Text = Convert.ToString( lvSSData.Items.Count );
+			lblCount.Text = Convert.ToString( lvData.Items.Count );
 			
-			if( lvSSData.Items.Count > 0 )
+			if ( lvData.Items.Count > 0 )
 				btnOK.Enabled			= true;
 			else {
 				btnDelete.Enabled 		= false;
@@ -919,16 +934,16 @@ namespace Core.FileManager
 			const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result;
 			result = MessageBox.Show( sMess, m_sTitle, buttons, MessageBoxIcon.Question );
-	        if(result == DialogResult.No)
-	            return;
+			if (result == DialogResult.No)
+				return;
 			
-			lvSSData.Items.Clear();
+			lvData.Items.Clear();
 			
 			btnDelete.Enabled 		= false;
 			btnDeleteAll.Enabled	= false;
 			//btnOK.Enabled 			= false;
 			
-			lblCount.Text = Convert.ToString( lvSSData.Items.Count );
+			lblCount.Text = Convert.ToString( lvData.Items.Count );
 		}
 		
 		// принять данные
@@ -940,23 +955,29 @@ namespace Core.FileManager
 		
 		void ChBoxAuthorClick(object sender, EventArgs e)
 		{
-			textBoxSSLast.Focus();
+			textBoxLast.Focus();
 		}
 		
 		void ChBoxSSSequenceClick(object sender, EventArgs e)
 		{
-			txtBoxSSSequence.Focus();
+			txtBoxSequence.Focus();
 		}
 		
 		void ChkBoxBookTitleClick(object sender, EventArgs e)
 		{
-			txtBoxSSBookTitle.Focus();
+			txtBoxBookTitle.Focus();
 		}
 		
 		void SelectedSortDataShown(object sender, EventArgs e)
 		{
-			if( lvSSData.Items.Count > 0 )
+			if ( lvData.Items.Count > 0 )
 				btnDeleteAll.Enabled = true;
+		}
+		
+		void CmbBoxSSGenresGroupSelectedIndexChanged(object sender, EventArgs e)
+		{
+			// формирование Списка Жанров в контролы, в зависимости от Группы
+			WorksWithBooks.makeListGenres( cmbBoxGenres, cmbBoxGenresGroup.Text );
 		}
 		#endregion
 	}

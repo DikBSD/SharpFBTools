@@ -26,15 +26,15 @@ using FilesWorker		= Core.Common.FilesWorker;
 using WorksWithBooks	= Core.Common.WorksWithBooks;
 
 // enums
-using ResultViewCollumn		= Core.Common.Enums.ResultViewCollumn;
-using BooksWorkMode			= Core.Common.Enums.BooksWorkMode;
+using ResultViewCollumnEnum	= Core.Common.Enums.ResultViewCollumnEnum;
+using BooksWorkModeEnum		= Core.Common.Enums.BooksWorkModeEnum;
 using EndWorkModeEnum		= Core.Common.Enums.EndWorkModeEnum;
-using BooksValidateMode		= Core.Common.Enums.BooksValidateMode;
+using BooksValidateModeEnum	= Core.Common.Enums.BooksValidateModeEnum;
 
 namespace SharpFBTools.Tools
 {
 	/// <summary>
-	/// Правка / массая правка метаданных книг
+	/// Правка / массоваяая правка метаданных книг
 	/// </summary>
 	public partial class SFBTpFB2Corrector : UserControl
 	{
@@ -214,7 +214,7 @@ namespace SharpFBTools.Tools
 //					listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
 					CopyMoveDeleteForm copyMoveDeleteForm = new CopyMoveDeleteForm(
-						Fast, BooksWorkMode.DeleteCheckedBooks, textBoxAddress.Text.Trim(), null,
+						Fast, BooksWorkModeEnum.DeleteCheckedBooks, textBoxAddress.Text.Trim(), null,
 						cboxExistFile.SelectedIndex, listViewFB2Files
 					);
 					copyMoveDeleteForm.ShowDialog();
@@ -245,7 +245,7 @@ namespace SharpFBTools.Tools
 //				listViewFB2Files.BeginUpdate();
 				ConnectListsEventHandlers( false );
 				CopyMoveDeleteForm copyMoveDeleteForm = new CopyMoveDeleteForm(
-					Fast, BooksWorkMode.MoveCheckedBooks, textBoxAddress.Text.Trim(), sTarget,
+					Fast, BooksWorkModeEnum.MoveCheckedBooks, textBoxAddress.Text.Trim(), sTarget,
 					cboxExistFile.SelectedIndex, listViewFB2Files
 				);
 				copyMoveDeleteForm.ShowDialog();
@@ -286,16 +286,15 @@ namespace SharpFBTools.Tools
 			if ( File.Exists( SrcFilePath ) && !listViewItem.Font.Strikeout ) {
 				if( ((ListViewItemType)listViewItem.Tag).Type == "f" ) {
 					string FilePath = SrcFilePath;
-					if( FilesWorker.isFB2Archive( FilePath ) )
-						ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
+					if( FilesWorker.isFB2Archive( SrcFilePath ) )
+						FilePath = ZipFB2Worker.getFileFromZipFBZ( SrcFilePath, m_TempDir );
 					try {
-						if ( Path.GetExtension( FilePath ).ToLower() == ".fb2" ) {
+						if ( FilesWorker.isFB2File( FilePath ) ) {
 							FB2BookDescription fb2Desc = new FB2BookDescription( FilePath );
 							FB2UnionGenres fb2g = new FB2UnionGenres();
 							RetValid = WorksWithBooks.viewBookMetaDataLocal(
 								ref SrcFilePath, ref fb2Desc, listViewItem, ref fb2g
 							);
-							
 							if ( BooksCount == 1 )
 								viewBookMetaDataFull( ref fb2Desc, listViewItem );
 						} else {
@@ -323,7 +322,7 @@ namespace SharpFBTools.Tools
 		}
 		// занесение данных книги в контролы для просмотра
 		private void viewBookMetaDataFull( ref FB2BookDescription fb2Desc, ListViewItem SelectedItem ) {
-			if ( File.Exists( fb2Desc.FilePath ) && !SelectedItem.Font.Strikeout ) {
+			if ( File.Exists( fb2Desc.FilePath ) && ! SelectedItem.Font.Strikeout ) {
 				// очистка контролов вывода данных по книге по ее выбору
 				clearDataFields();
 				try {
@@ -340,7 +339,7 @@ namespace SharpFBTools.Tools
 								TICoverListViewButtonPanel.Enabled = false;
 							}
 						}
-
+						
 						// загрузка обложек оригинала книги
 						Covers = fb2Desc.STICoversBase64;
 						if ( Covers != null ) {
@@ -353,7 +352,6 @@ namespace SharpFBTools.Tools
 								STICoverListViewButtonPanel.Enabled = false;
 							}
 						}
-						
 						// список жанров, в зависимости от схемы Жанров
 						FB2UnionGenres fb2g = new FB2UnionGenres();
 						
@@ -419,10 +417,10 @@ namespace SharpFBTools.Tools
 						tbValidate.Clear();
 						string Valid = WorksWithBooks.isValidate( fb2Desc.FilePath, tbValidate );
 						if ( !string.IsNullOrEmpty( Valid ) ) {
-							SelectedItem.SubItems[(int)ResultViewCollumn.Validate].Text = "Нет";
-							SelectedItem.ForeColor = SelectedItem.SubItems[(int)ResultViewCollumn.Format].Text == ".fb2" ? Colors.FB2NotValidForeColor : Colors.ZipFB2ForeColor;
+							SelectedItem.SubItems[(int)ResultViewCollumnEnum.Validate].Text = "Нет";
+							SelectedItem.ForeColor = SelectedItem.SubItems[(int)ResultViewCollumnEnum.Format].Text == ".fb2" ? Colors.FB2NotValidForeColor : Colors.ZipFB2ForeColor;
 						} else {
-							SelectedItem.SubItems[(int)ResultViewCollumn.Validate].Text = "Да";
+							SelectedItem.SubItems[(int)ResultViewCollumnEnum.Validate].Text = "Да";
 							SelectedItem.ForeColor = Colors.FB2ForeColor;
 						}
 						FilesWorker.RemoveDir( m_TempDir );
@@ -435,12 +433,12 @@ namespace SharpFBTools.Tools
 				clearDataFields();
 		}
 		// отобразить метаданные данные после массовой обработки книг
-		private string viewMetaDataAfterWorkManyBooks( IList<ListViewItemInfo> ListViewItemInfoList,  BooksValidateMode BooksValidateType ) {
+		private string viewMetaDataAfterWorkManyBooks( IList<ListViewItemInfo> ListViewItemInfoList,  BooksValidateModeEnum BooksValidateType ) {
 			string Valid = string.Empty;
 			int BooksCount = 0;
-			if ( BooksValidateType == BooksValidateMode.SelectedBooks )
+			if ( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 				BooksCount = listViewFB2Files.SelectedItems.Count;
-			else if ( BooksValidateType == BooksValidateMode.CheckedBooks )
+			else if ( BooksValidateType == BooksValidateModeEnum.CheckedBooks )
 				BooksCount = listViewFB2Files.CheckedItems.Count;
 			else /* BooksValidateType == BooksValidateMode.AllBooks */
 				BooksCount = listViewFB2Files.Items.Count;
@@ -456,11 +454,11 @@ namespace SharpFBTools.Tools
 			return Valid;
 		}
 		// отобразить метаданные данные после массовой обработки книг (обработка в диалоге)
-		private void viewMetaDataAfterDialogWorkManyBooks( IList<FB2ItemInfo> ListViewItemInfoList,  BooksValidateMode BooksValidateType ) {
+		private void viewMetaDataAfterDialogWorkManyBooks( IList<FB2ItemInfo> ListViewItemInfoList,  BooksValidateModeEnum BooksValidateType ) {
 			int BooksCount = 0;
-			if ( BooksValidateType == BooksValidateMode.SelectedBooks )
+			if ( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 				BooksCount = listViewFB2Files.SelectedItems.Count;
-			else if ( BooksValidateType == BooksValidateMode.CheckedBooks )
+			else if ( BooksValidateType == BooksValidateModeEnum.CheckedBooks )
 				BooksCount = listViewFB2Files.CheckedItems.Count;
 			else /* BooksValidateType == BooksValidateMode.AllBooks */
 				BooksCount = listViewFB2Files.Items.Count;
@@ -484,7 +482,7 @@ namespace SharpFBTools.Tools
 					return;
 				} else {
 					// правка fb2 и перепаковка fb2 из zip, fbz
-					ZipFB2Worker.StartFB2_FBZForEdit( FilePath, ProgPath, Title );
+					ZipFB2Worker.StartFB2_FBZForEdit( FilePath, ProgPath );
 					Cursor.Current = Cursors.WaitCursor;
 					// отображение новых метаданных в строке списка и в детализации
 					viewMetaData( FilePath, SelectedItem, 1 );
@@ -498,8 +496,10 @@ namespace SharpFBTools.Tools
 			string SourceFilePath = Path.Combine( textBoxAddress.Text.Trim(), Item.Text );
 			string FilePath = SourceFilePath;
 			bool IsFromZip = false;
-			if ( FilesWorker.isFB2Archive( FilePath ) )
-				IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
+			if ( FilesWorker.isFB2Archive( SourceFilePath ) ) {
+				IsFromZip = true;
+				FilePath = ZipFB2Worker.getFileFromZipFBZ( SourceFilePath, m_TempDir );
+			}
 			if( File.Exists( FilePath ) ) {
 				FictionBook fb2 = null;
 				try {
@@ -516,14 +516,15 @@ namespace SharpFBTools.Tools
 					WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SourceFilePath );
 					fB2Corrector.setNewID ();
 					fb2.saveToFB2File(FilePath);
-					WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, SourceFilePath, IsFromZip, FilePath );
+					if ( IsFromZip )
+						WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, FilePath, SourceFilePath );
 					// отображение новых метаданных в строке списка и в детализации
 					viewMetaData( SourceFilePath, Item, BooksCount );
 				}
 			}
 		}
 		// правка Авторов выделенных/помеченных книг
-		private void editAuthors( BooksValidateMode BooksValidateType ) {
+		private void editAuthors( BooksValidateModeEnum BooksValidateType ) {
 			Cursor.Current = Cursors.WaitCursor;
 			// создание списка FB2ItemInfo данных для выбранных книг
 			IList<FB2ItemInfo> AuthorFB2InfoList = WorksWithBooks.makeFB2InfoList(
@@ -543,7 +544,7 @@ namespace SharpFBTools.Tools
 			Cursor.Current = Cursors.Default;
 		}
 		// правка Жанров выделенных/помеченных книг
-		private void editGenres( BooksValidateMode BooksValidateType ) {
+		private void editGenres( BooksValidateModeEnum BooksValidateType ) {
 			Cursor.Current = Cursors.WaitCursor;
 			
 			// создание списка FB2ItemInfo данных для выбранных книг
@@ -564,7 +565,7 @@ namespace SharpFBTools.Tools
 			Cursor.Current = Cursors.Default;
 		}
 		// правка Языка для выделенных/помеченных книг
-		private void editLang( BooksValidateMode BooksValidateType ) {
+		private void editLang( BooksValidateModeEnum BooksValidateType ) {
 			Cursor.Current = Cursors.WaitCursor;
 			// создание списка FB2ItemInfo данных для выбранных книг
 			IList<FB2ItemInfo> LangFB2InfoList = WorksWithBooks.makeFB2InfoList(
@@ -741,20 +742,20 @@ namespace SharpFBTools.Tools
 						
 						// отображение новых метаданных в строке списка и в детализации
 						if( ((ListViewItemType)SelectedItem.Tag).Type == "f" ) {
-							string FilePath = Path.Combine( textBoxAddress.Text.Trim(), SelectedItem.Text );
-							string SrcFilePath = FilePath;
-							if ( File.Exists( FilePath ) && !SelectedItem.Font.Strikeout ) {
-								if ( FilesWorker.isFB2Archive( FilePath ) )
-									ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
+							string SrcFilePath = Path.Combine( textBoxAddress.Text.Trim(), SelectedItem.Text );
+							string FilePath = SrcFilePath;
+							if ( File.Exists( SrcFilePath ) && !SelectedItem.Font.Strikeout ) {
+								if ( FilesWorker.isFB2Archive( SrcFilePath ) )
+									FilePath = ZipFB2Worker.getFileFromZipFBZ( SrcFilePath, m_TempDir );
 								try {
-									if ( Path.GetExtension( FilePath ).ToLower() == ".fb2" ) {
+									if ( FilesWorker.isFB2File( FilePath ) ) {
 										FB2BookDescription fb2Desc = new FB2BookDescription( FilePath );
 										viewBookMetaDataFull( ref fb2Desc, SelectedItem );
 									} else {
 										WorksWithBooks.hideMetaDataLocal( SelectedItem );
 										clearDataFields();
 									}
-								} catch (Exception /*e*/) {
+								} catch (Exception /*exp*/) {
 									WorksWithBooks.hideMetaDataLocal( SelectedItem );
 									clearDataFields();
 									// Занесение данных о валидации в поле детализации
@@ -851,7 +852,7 @@ namespace SharpFBTools.Tools
 		{
 			if( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление элементов Списка \"без файлов\"";
-				string sMess = "Вы действительно хотите удалить все элементы Списка, для которых отсутствуют файлы на жестком диске?";
+				const string sMess = "Вы действительно хотите удалить все элементы Списка, для которых отсутствуют файлы на жестком диске?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				if( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
 					ConnectListsEventHandlers( false );
@@ -866,7 +867,7 @@ namespace SharpFBTools.Tools
 		{
 			if( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление помеченных элементов Списка";
-				string sMess = "Вы действительно хотите удалить все помеченные элементы Списка (их файлы на жестком диске не удаляются)?";
+				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка (их файлы на жестком диске НЕ удаляются)?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				if( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
 					listViewFB2Files.BeginUpdate();
@@ -898,7 +899,7 @@ namespace SharpFBTools.Tools
 				}
 				
 				CopyMoveDeleteForm copyMoveDeleteForm = new CopyMoveDeleteForm(
-					false, BooksWorkMode.CopyCheckedBooks, textBoxAddress.Text.Trim(), sTarget,
+					false, BooksWorkModeEnum.CopyCheckedBooks, textBoxAddress.Text.Trim(), sTarget,
 					cboxExistFile.SelectedIndex, listViewFB2Files
 				);
 				copyMoveDeleteForm.ShowDialog();
@@ -954,7 +955,7 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				FilesWorker.StartFile( sFBReaderPath, sFilePath );
+				FilesWorker.StartFile( true, sFBReaderPath, sFilePath );
 			}
 		}
 		
@@ -1000,9 +1001,11 @@ namespace SharpFBTools.Tools
 					if( SelectedItem != null ) {
 						string SourceFilePath = Path.Combine( textBoxAddress.Text.Trim(), SelectedItem.Text );
 						string FilePath = SourceFilePath;
-						bool IsFromArhive = false;
-						if ( FilesWorker.isFB2Archive( FilePath ) )
-							IsFromArhive = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
+						bool IsFromZip = false;
+						if ( FilesWorker.isFB2Archive( SourceFilePath ) ) {
+							IsFromZip = true;
+							FilePath = ZipFB2Worker.getFileFromZipFBZ( SourceFilePath, m_TempDir );
+						}
 						if( File.Exists( FilePath ) ) {
 							FictionBook fb2 = null;
 							try {
@@ -1017,7 +1020,8 @@ namespace SharpFBTools.Tools
 							Cursor.Current = Cursors.WaitCursor;
 							if( editDescriptionForm.isApplyData() ) {
 								editDescriptionForm.getFB2().saveToFB2File( FilePath, false );
-								WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, SourceFilePath, IsFromArhive, FilePath );
+								if ( IsFromZip )
+									WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, FilePath, SourceFilePath );
 								// отображаем новые данные в строке списка
 								viewMetaData( FilePath, SelectedItem, 1 );
 							}
@@ -1041,7 +1045,7 @@ namespace SharpFBTools.Tools
 					                "Правка метаданных Жанров для помеченных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				editGenres( BooksValidateMode.CheckedBooks );
+				editGenres( BooksValidateModeEnum.CheckedBooks );
 			}
 		}
 		// правка Жанров выделенных книг
@@ -1053,7 +1057,7 @@ namespace SharpFBTools.Tools
 					                "Правка метаданных Жанров для выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				editGenres( BooksValidateMode.SelectedBooks );
+				editGenres( BooksValidateModeEnum.SelectedBooks );
 			}
 		}
 		
@@ -1066,7 +1070,7 @@ namespace SharpFBTools.Tools
 					                "Правка метаданных Авторов для помеченных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				editAuthors( BooksValidateMode.CheckedBooks );
+				editAuthors( BooksValidateModeEnum.CheckedBooks );
 			}
 		}
 		// правка Авторов выделенных книг
@@ -1078,7 +1082,7 @@ namespace SharpFBTools.Tools
 					                "Правка метаданных Авторов для выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				editAuthors( BooksValidateMode.SelectedBooks );
+				editAuthors( BooksValidateModeEnum.SelectedBooks );
 			}
 		}
 		
@@ -1089,7 +1093,7 @@ namespace SharpFBTools.Tools
 			   WorksWithBooks.isFileItem( listViewFB2Files.SelectedItems[0] ) ) {
 				DateTime dtStart = DateTime.Now;
 				ListViewItem SelectedItem = listViewFB2Files.SelectedItems[0];
-				string SelectedItemText = SelectedItem.SubItems[(int)ResultViewCollumn.Path].Text;
+				string SelectedItemText = SelectedItem.SubItems[(int)ResultViewCollumnEnum.Path].Text;
 				string FilePath = Path.Combine( textBoxAddress.Text.Trim(), SelectedItemText );
 				if( !File.Exists( FilePath ) ) {
 					MessageBox.Show( "Файл: \""+FilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -1108,15 +1112,15 @@ namespace SharpFBTools.Tools
 					// файл валидный
 					mbi = MessageBoxIcon.Information;
 					ErrorMsg = OkMsg;
-					SelectedItem.SubItems[(int)ResultViewCollumn.Validate].Text = "Да";
-					SelectedItem.ForeColor = Path.GetExtension(FilePath).ToLower() == ".fb2"
+					SelectedItem.SubItems[(int)ResultViewCollumnEnum.Validate].Text = "Да";
+					SelectedItem.ForeColor = FilesWorker.isFB2File( FilePath )
 						? Colors.FB2ForeColor
 						: Colors.ZipFB2ForeColor;
 					tbValidate.Text = "Все в порядке - файл валидный!";
 				} else {
 					// файл не валидный
 					mbi = MessageBoxIcon.Error;
-					SelectedItem.SubItems[(int)ResultViewCollumn.Validate].Text = "Нет";
+					SelectedItem.SubItems[(int)ResultViewCollumnEnum.Validate].Text = "Нет";
 					SelectedItem.ForeColor = Colors.FB2NotValidForeColor;
 					tbValidate.Text = "Файл невалидный. Ошибка:";
 					tbValidate.AppendText( Environment.NewLine );
@@ -1137,18 +1141,18 @@ namespace SharpFBTools.Tools
 				Cursor.Current = Cursors.WaitCursor;
 				// создание списка ListViewItemInfo данных для выбранных книг
 				IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
-					listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateMode.CheckedBooks, tsProgressBar
+					listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateModeEnum.CheckedBooks, tsProgressBar
 				);
 				Cursor.Current = Cursors.Default;
 				
 				Core.Corrector.ValidatorForm validatorForm = new Core.Corrector.ValidatorForm(
-					BooksValidateMode.CheckedBooks, listViewFB2Files, textBoxAddress.Text.Trim()
+					BooksValidateModeEnum.CheckedBooks, listViewFB2Files, textBoxAddress.Text.Trim()
 				);
 				validatorForm.ShowDialog();
 				EndWorkMode EndWorkMode = validatorForm.EndMode;
 				validatorForm.Dispose();
 				// отобразить данные в детализации
-				viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateMode.CheckedBooks );
+				viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateModeEnum.CheckedBooks );
 				MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Валидация всех помеченных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
@@ -1159,18 +1163,18 @@ namespace SharpFBTools.Tools
 				Cursor.Current = Cursors.WaitCursor;
 				// создание списка ListViewItemInfo данных для выбранных книг
 				IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
-					listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateMode.SelectedBooks, tsProgressBar
+					listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateModeEnum.SelectedBooks, tsProgressBar
 				);
 				Cursor.Current = Cursors.Default;
 				
 				Core.Corrector.ValidatorForm validatorForm = new Core.Corrector.ValidatorForm(
-					BooksValidateMode.SelectedBooks, listViewFB2Files, textBoxAddress.Text.Trim()
+					BooksValidateModeEnum.SelectedBooks, listViewFB2Files, textBoxAddress.Text.Trim()
 				);
 				validatorForm.ShowDialog();
 				EndWorkMode EndWorkMode = validatorForm.EndMode;
 				validatorForm.Dispose();
 				// отобразить данные в детализации
-				viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateMode.SelectedBooks );
+				viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateModeEnum.SelectedBooks );
 				MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Валидация всех выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
@@ -1181,19 +1185,19 @@ namespace SharpFBTools.Tools
 				Cursor.Current = Cursors.WaitCursor;
 				// создание списка ListViewItemInfo данных для выбранных книг
 				IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
-					listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateMode.AllBooks, tsProgressBar
+					listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateModeEnum.AllBooks, tsProgressBar
 				);
 				Cursor.Current = Cursors.Default;
 				
 				Core.Corrector.ValidatorForm validatorForm = new Core.Corrector.ValidatorForm(
-					BooksValidateMode.AllBooks,
+					BooksValidateModeEnum.AllBooks,
 					listViewFB2Files, textBoxAddress.Text.Trim()
 				);
 				validatorForm.ShowDialog();
 				EndWorkMode EndWorkMode = validatorForm.EndMode;
 				validatorForm.Dispose();
 				// отобразить данные в детализации
-				viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateMode.AllBooks );
+				viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateModeEnum.AllBooks );
 				MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Валидация всех книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
@@ -1268,7 +1272,7 @@ namespace SharpFBTools.Tools
 				MiscListView.removeAllItemForNonExistFile( textBoxAddress.Text.Trim(), listViewFB2Files );
 				Environment.CurrentDirectory = Settings.Settings.ProgDir;
 				Core.Corrector.BooksListWorkerForm fileWorkerForm = new Core.Corrector.BooksListWorkerForm(
-					BooksWorkMode.SaveFB2List, sfdList.FileName,
+					BooksWorkModeEnum.SaveFB2List, sfdList.FileName,
 					listViewFB2Files, textBoxAddress,
 					listViewFB2Files.SelectedItems.Count >= 1 ? listViewFB2Files.SelectedItems[0].Index : -1
 				);
@@ -1308,7 +1312,7 @@ namespace SharpFBTools.Tools
 					listViewFB2Files.Items.Clear();
 					Environment.CurrentDirectory = Settings.Settings.ProgDir;
 					Core.Corrector.BooksListWorkerForm fileWorkerForm = new Core.Corrector.BooksListWorkerForm(
-						BooksWorkMode.LoadFB2List, FromXML, listViewFB2Files, textBoxAddress, -1
+						BooksWorkModeEnum.LoadFB2List, FromXML, listViewFB2Files, textBoxAddress, -1
 					);
 					fileWorkerForm.ShowDialog();
 					EndWorkMode EndWorkMode = fileWorkerForm.EndMode;
@@ -1388,7 +1392,7 @@ namespace SharpFBTools.Tools
 					                "Правка метаданных Авторов для выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				editLang( BooksValidateMode.SelectedBooks );
+				editLang( BooksValidateModeEnum.SelectedBooks );
 			}
 		}
 		// правка Языка для помеченных книг
@@ -1400,7 +1404,7 @@ namespace SharpFBTools.Tools
 					                "Правка метаданных Авторов для помеченных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
-				editLang( BooksValidateMode.CheckedBooks );
+				editLang( BooksValidateModeEnum.CheckedBooks );
 			}
 		}
 		// правка Названия книги для выделенной книги
@@ -1411,8 +1415,10 @@ namespace SharpFBTools.Tools
 					string SourceFilePath = Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.SelectedItems[0].Text );
 					string FilePath = SourceFilePath;
 					bool IsFromZip = false;
-					if ( FilesWorker.isFB2Archive( FilePath ) )
-						IsFromZip = ZipFB2Worker.getFileFromFB2_FB2Z( ref FilePath, m_TempDir );
+					if ( FilesWorker.isFB2Archive( SourceFilePath ) ) {
+						IsFromZip = true;
+						FilePath = ZipFB2Worker.getFileFromZipFBZ( SourceFilePath, m_TempDir );
+					}
 					if( File.Exists( FilePath ) ) {
 						FictionBook fb2 = null;
 						try {
@@ -1429,7 +1435,8 @@ namespace SharpFBTools.Tools
 								WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, listViewFB2Files.SelectedItems[0], SourceFilePath );
 								fB2Corrector.setNewBookTitle( BookTitleNew );
 								fb2.saveToFB2File( FilePath, false );
-								WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, SourceFilePath, IsFromZip, FilePath );
+								if ( IsFromZip )
+									WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, FilePath, SourceFilePath );
 								// отображение нового названия книги в строке списка
 								viewMetaData( SourceFilePath, listViewFB2Files.SelectedItems[0], 1 );
 							}
@@ -1455,7 +1462,7 @@ namespace SharpFBTools.Tools
 					Cursor.Current = Cursors.WaitCursor;
 					// создание списка ListViewItemInfo данных для выбранных книг
 					IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
-						listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateMode.SelectedBooks, tsProgressBar
+						listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateModeEnum.SelectedBooks, tsProgressBar
 					);
 					Cursor.Current = Cursors.Default;
 
@@ -1468,7 +1475,7 @@ namespace SharpFBTools.Tools
 					
 					// отобразить метаданные данные после автокорректировки
 					Cursor.Current = Cursors.WaitCursor;
-					string valid = viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateMode.SelectedBooks );
+					string valid = viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateModeEnum.SelectedBooks );
 					string mess = (SelectedItems.Count == 1)
 						? ( !string.IsNullOrWhiteSpace( valid ) ? ("\n\nФайл невалидный:\r\n" + valid) : "\n\nФайл валидный!" )
 						: string.Empty;
@@ -1495,7 +1502,7 @@ namespace SharpFBTools.Tools
 					Cursor.Current = Cursors.WaitCursor;
 					// создание списка ListViewItemInfo данных для выбранных книг
 					IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
-						listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateMode.CheckedBooks, tsProgressBar
+						listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateModeEnum.CheckedBooks, tsProgressBar
 					);
 					Cursor.Current = Cursors.Default;
 					
@@ -1508,7 +1515,7 @@ namespace SharpFBTools.Tools
 					
 					// отобразить метаданные данные после автокорректировки
 					Cursor.Current = Cursors.WaitCursor;
-					string valid = viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateMode.CheckedBooks );
+					string valid = viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateModeEnum.CheckedBooks );
 					string mess = (CheckedItems.Count == 1)
 						? ( !string.IsNullOrWhiteSpace( valid ) ? ("\n\nФайл невалидный:\r\n" + valid) : "\n\nФайл валидный!")
 						: string.Empty;

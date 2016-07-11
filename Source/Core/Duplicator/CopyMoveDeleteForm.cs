@@ -13,15 +13,15 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.IO;
 
-using EndWorkMode	= Core.Common.EndWorkMode;
-using filesWorker	= Core.Common.FilesWorker;
-using BooksWorkMode	= Core.Common.Enums.BooksWorkMode;
-using MiscListView	= Core.Common.MiscListView;
-using WorksWithBooks = Core.Common.WorksWithBooks;
+using EndWorkMode		= Core.Common.EndWorkMode;
+using filesWorker		= Core.Common.FilesWorker;
+using MiscListView		= Core.Common.MiscListView;
+using WorksWithBooks 	= Core.Common.WorksWithBooks;
 
 // enums
-using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
-using FilesCountViewDupCollumn	= Core.Common.Enums.FilesCountViewDupCollumn;
+using BooksWorkModeEnum				= Core.Common.Enums.BooksWorkModeEnum;
+using EndWorkModeEnum				= Core.Common.Enums.EndWorkModeEnum;
+using FilesCountViewDupCollumnEnum	= Core.Common.Enums.FilesCountViewDupCollumnEnum;
 
 namespace Core.Duplicator
 {
@@ -150,12 +150,12 @@ namespace Core.Duplicator
 		private readonly string	m_TargetDir			= string.Empty;
 		private readonly int	m_FileExistMode		= 1; // добавить к создаваемому fb2-файлу очередной номер
 		private readonly EndWorkMode	m_EndMode	= new EndWorkMode();
-		private readonly BooksWorkMode	m_WorkMode;  // режим обработки книг
+		private readonly BooksWorkModeEnum	m_WorkMode;  // режим обработки книг
 		private bool m_bFilesWorked			= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
 		private BackgroundWorker m_bwcmd	= null;  // фоновый обработчик
 		#endregion
 		
-		public CopyMoveDeleteForm( bool Fast, BooksWorkMode WorkMode, string Source, string TargetDir, int FileExistMode,
+		public CopyMoveDeleteForm( bool Fast, BooksWorkModeEnum WorkMode, string Source, string TargetDir, int FileExistMode,
 		                          ListView lvFilesCount, ListView lvResult )
 		{
 			InitializeComponent();
@@ -168,7 +168,7 @@ namespace Core.Duplicator
 			m_FileExistMode = FileExistMode;
 			m_WorkMode		= WorkMode;
 			
-			m_AllFiles = Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBooks].SubItems[1].Text );
+			m_AllFiles = Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBooks].SubItems[1].Text );
 			
 			ProgressBar.Maximum = m_lvResult.CheckedItems.Count;
 			ProgressBar.Value	= 0;
@@ -215,21 +215,21 @@ namespace Core.Duplicator
 			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
 			MiscListView.deleteAllItemForNonExistFile( m_lvResult );
 			switch( m_WorkMode ) {
-				case BooksWorkMode.CopyCheckedBooks:
+				case BooksWorkModeEnum.CopyCheckedBooks:
 					this.Text = "Копирование помеченных копий книг в папку " + m_TargetDir;
 					this.Text += String.Format( ": {0}", m_lvResult.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, true,
 					                         m_SourceDir, m_TargetDir, m_lvResult,
 					                         m_FileExistMode );
 					break;
-				case BooksWorkMode.MoveCheckedBooks:
+				case BooksWorkModeEnum.MoveCheckedBooks:
 					this.Text = "Перемещение помеченных копий книг в папку " + m_TargetDir;
 					this.Text += String.Format( ": {0}", m_lvResult.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, false,
 					                         m_SourceDir, m_TargetDir, m_lvResult,
 					                         m_FileExistMode );
 					break;
-				case BooksWorkMode.DeleteCheckedBooks:
+				case BooksWorkModeEnum.DeleteCheckedBooks:
 					this.Text = "Удаление помеченных копий книг";
 					this.Text += String.Format( ": {0}", m_lvResult.CheckedItems.Count );
 					DeleteCheckedFiles( ref m_bwcmd, ref e, m_lvResult );
@@ -251,15 +251,15 @@ namespace Core.Duplicator
 			string sMessCanceled, sMessError, sMessDone;
 			sMessCanceled = sMessError = sMessDone = string.Empty;
 			switch( m_WorkMode ) {
-				case BooksWorkMode.CopyCheckedBooks:
+				case BooksWorkModeEnum.CopyCheckedBooks:
 					sMessDone 		= "Копирование файлов в указанную папку завершено!";
 					sMessCanceled	= "Копирование файлов в указанную папку остановлено!";
 					break;
-				case BooksWorkMode.MoveCheckedBooks:
+				case BooksWorkModeEnum.MoveCheckedBooks:
 					sMessDone 		= "Перемещение файлов в указанную папку завершено!";
 					sMessCanceled	= "Перемещение файлов в указанную папку остановлено!";
 					break;
-				case BooksWorkMode.DeleteCheckedBooks:
+				case BooksWorkModeEnum.DeleteCheckedBooks:
 					sMessDone 		= "Удаление файлов из папки-источника завершено!";
 					sMessCanceled	= "Удаление файлов из папки-источника остановлено!";
 					break;
@@ -268,13 +268,13 @@ namespace Core.Duplicator
 			if( !m_bFilesWorked ) {
 				const string s = "На диске не найдено ни одного файла из помеченных!\n";
 				switch( m_WorkMode ) {
-					case BooksWorkMode.CopyCheckedBooks:
+					case BooksWorkModeEnum.CopyCheckedBooks:
 						sMessDone = s + "Копирование файлов в указанную папку не произведено!";
 						break;
-					case BooksWorkMode.MoveCheckedBooks:
+					case BooksWorkModeEnum.MoveCheckedBooks:
 						sMessDone = s + "Перемещение файлов в указанную папку не произведено!";
 						break;
-					case BooksWorkMode.DeleteCheckedBooks:
+					case BooksWorkModeEnum.DeleteCheckedBooks:
 						sMessDone = s + "Удаление файлов из папки-источника не произведено!";
 						break;
 				}
@@ -396,11 +396,11 @@ namespace Core.Duplicator
 				}
 			}
 			// реальное число всех файлов
-			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumn.AllBooks, m_AllFiles.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBooks, m_AllFiles.ToString() );
 			// реальное число групп копий
-			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumn.AllGroups, AllGroups.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllGroups, AllGroups.ToString() );
 			// реальное число копий книг во всех группах
-			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumn.AllBoolsInAllGroups, AllBooks.ToString() );
+			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups, AllBooks.ToString() );
 		}
 		#endregion
 		

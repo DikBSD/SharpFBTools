@@ -44,11 +44,11 @@ namespace Core.AutoCorrector
 			
 			// обработка головного тега FictionBook и пространства имен
 			FB2Text fb2Text = new FB2Text( FilePath );
-			if ( fb2Text.Description.IndexOf( "<FictionBook" ) == -1 ) {
+			if ( fb2Text.Description.IndexOf( "<FictionBook", StringComparison.CurrentCulture ) == -1 ) {
 				// тег FictionBook отсутствует в книге
 				FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
 				fb2Text.Description = fb2Text.Description.Insert(
-					fb2Text.Description.IndexOf( "<description>" ),
+					fb2Text.Description.IndexOf( "<description>", StringComparison.CurrentCulture ),
 					fbtc.NewFictionBookTag
 				);
 			}
@@ -61,7 +61,7 @@ namespace Core.AutoCorrector
 			// автокорректировка разделов body
 			fb2Text.Bodies = autoCorrect( fb2Text.Bodies, htTags );
 			// автокорректировка разделов binary
-			if( fb2Text.BinariesExists ) {
+			if ( fb2Text.BinariesExists ) {
 				// обработка ссылок-названий картинок в binary
 				BinaryCorrector binaryCorrector = new BinaryCorrector( fb2Text.Binaries );
 				fb2Text.Binaries = binaryCorrector.correct();
@@ -155,7 +155,7 @@ namespace Core.AutoCorrector
 				/******************
 				 * Обработка Жанра *
 				 ******************/
-				if ( XmlDescription.IndexOf( "<genre" ) != -1 ) {
+				if ( XmlDescription.IndexOf( "<genre", StringComparison.CurrentCulture ) != -1 ) {
 					GenreCorrector genreCorrector = new GenreCorrector( ref XmlDescription, false, false );
 					XmlDescription = genreCorrector.correct();
 				}
@@ -186,7 +186,7 @@ namespace Core.AutoCorrector
 				/*****************
 				 * Обработка дат *
 				 *****************/
-				if ( XmlDescription.IndexOf( "<date" ) != -1 ) {
+				if ( XmlDescription.IndexOf( "<date", StringComparison.CurrentCulture ) != -1 ) {
 					DateCorrector dateCorrector = new DateCorrector( ref XmlDescription, false, false );
 					XmlDescription = dateCorrector.correct();
 				}
@@ -264,7 +264,7 @@ namespace Core.AutoCorrector
 				 * Обработка ссылок *
 				 *******************/
 				// обработка ссылок
-				if ( InputString.IndexOf( "<a " ) != -1 ) {
+				if ( InputString.IndexOf( "<a ", StringComparison.CurrentCulture ) != -1 ) {
 					LinksCorrector linksCorrector = new LinksCorrector( InputString );
 					InputString = linksCorrector.correct();
 				}
@@ -272,7 +272,7 @@ namespace Core.AutoCorrector
 				/****************************
 				 * Обработка <empty-line /> *
 				 ***************************/
-				if ( InputString.IndexOf( "<empty-line/>" ) != -1 || InputString.IndexOf( "<empty-line />" ) != -1) {
+				if ( InputString.IndexOf( "<empty-line/>", StringComparison.CurrentCulture ) != -1 || InputString.IndexOf( "<empty-line />", StringComparison.CurrentCulture ) != -1) {
 					EmptyLineCorrector emCorrector = new EmptyLineCorrector( InputString );
 					InputString = emCorrector.correct();
 				}
@@ -298,7 +298,7 @@ namespace Core.AutoCorrector
 				/*********************
 				 * Обработка графики *
 				 ********************/
-				if ( InputString.IndexOf( "<image" ) != -1 ) {
+				if ( InputString.IndexOf( "<image", StringComparison.CurrentCulture ) != -1 ) {
 					ImageCorrector imageCorrector = new ImageCorrector( ref InputString, false, false );
 					InputString = imageCorrector.correct();
 				}
@@ -306,7 +306,7 @@ namespace Core.AutoCorrector
 				/**************************
 				 * Обработка цитат <cite> *
 				 **************************/
-				if ( InputString.IndexOf( "<cite" ) != -1 ) {
+				if ( InputString.IndexOf( "<cite", StringComparison.CurrentCulture ) != -1 ) {
 					CiteCorrector citeCorrector = new CiteCorrector( ref InputString, false, false );
 					InputString = citeCorrector.correct();
 				}
@@ -337,7 +337,7 @@ namespace Core.AutoCorrector
 				/**********************
 				 * Обработка epigraph *
 				 **********************/
-				if ( InputString.IndexOf( "<epigraph" ) != -1 ) {
+				if ( InputString.IndexOf( "<epigraph", StringComparison.CurrentCulture ) != -1 ) {
 					EpigraphCorrector epigraphCorrector = new EpigraphCorrector ( ref InputString, true, false );
 					InputString = epigraphCorrector.correct();
 				}
@@ -345,7 +345,7 @@ namespace Core.AutoCorrector
 				/*********************
 				 * Обработка <title> *
 				 ********************/
-				if ( InputString.IndexOf( "<title" ) != -1 ) {
+				if ( InputString.IndexOf( "<title", StringComparison.CurrentCulture ) != -1 ) {
 					TitleCorrector titleCorrector = new TitleCorrector ( ref InputString, true, false );
 					InputString = titleCorrector.correct();
 				}
@@ -378,7 +378,7 @@ namespace Core.AutoCorrector
 				/********************
 				 * Обработка Стихов *
 				 ********************/
-				if ( InputString.IndexOf( "<poem" ) != -1 ) {
+				if ( InputString.IndexOf( "<poem", StringComparison.CurrentCulture ) != -1 ) {
 					StanzaCorrector stanzaCorrector = new StanzaCorrector( ref InputString, false, false );
 					InputString = stanzaCorrector.correct();
 					
@@ -415,7 +415,7 @@ namespace Core.AutoCorrector
 				/********************
 				 * Обработка Таблиц *
 				 *******************/
-				if ( InputString.IndexOf( "<table" ) != -1 ) {
+				if ( InputString.IndexOf( "<table", StringComparison.CurrentCulture ) != -1 ) {
 					TableCorrector tableCorrector = new TableCorrector ( ref InputString, false, false );
 					InputString = tableCorrector.correct();
 				}

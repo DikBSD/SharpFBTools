@@ -98,7 +98,8 @@ namespace Core.Common
 										Directory.CreateDirectory( m_TempDir );
 									string NewPath = Info.IsFromArhive ? Info.FilePathIfFromZip : Info.FilePathSource;
 									fb2.saveToFB2File( NewPath, false );
-									WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, Info.FilePathSource, Info.IsFromArhive, NewPath );
+									if ( Info.IsFromArhive )
+										WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, NewPath, Info.FilePathSource );
 								}
 							}
 						}
@@ -126,13 +127,13 @@ namespace Core.Common
 		// загрузка Жанров для правки
 		private void loadGenresFromFB2Files( Enums.TitleInfoEnum TitleInfoType ) {
 			FB2UnionGenres fb2g = new FB2UnionGenres();
-			foreach( FB2ItemInfo Info in m_GenreFB2InfoList ) {
-				if( Info.FictionBook != null ) {
+			foreach ( FB2ItemInfo Info in m_GenreFB2InfoList ) {
+				if ( Info.FictionBook != null ) {
 					IList<Genre> GenresList = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 						? Info.FictionBook.TIGenres : Info.FictionBook.STIGenres;
-					if( GenresList != null ) {
-						foreach( Genre g in GenresList ) {
-							if( g != null ) {
+					if ( GenresList != null ) {
+						foreach ( Genre g in GenresList ) {
+							if ( g != null ) {
 								if ( !WorksWithBooks.genreIsExist( GenresListView, g, fb2g ) ) {
 									ListViewItem lvi = new ListViewItem(
 										!string.IsNullOrEmpty( g.Name )
@@ -152,11 +153,11 @@ namespace Core.Common
 		private IList<XmlNode> makeGenreNode( ref FictionBook fb2, ListView lv ) {
 			IList<XmlNode> Genres = null;
 			XmlNode xmlGenre = null;
-			if( lv.Items.Count > 0 ) {
+			if ( lv.Items.Count > 0 ) {
 				Genres = new List<XmlNode>( lv.Items.Count );
 				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
-				if( lv.Items.Count > 0 ) {
-					foreach( ListViewItem item in lv.Items ) {
+				if ( lv.Items.Count > 0 ) {
+					foreach ( ListViewItem item in lv.Items ) {
 						string code = item.Text.Substring( item.Text.IndexOf('(') + 1 );
 						xmlGenre = fB2Corrector.makeGenreNode( code.Substring( 0, code.Length - 1), item.SubItems[1].Text );
 						Genres.Add(xmlGenre);

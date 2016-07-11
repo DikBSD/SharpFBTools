@@ -564,7 +564,7 @@ namespace SharpFBTools.Tools
 			this.toolStripMenuItem1,
 			this.tsmiColumnsExplorerAutoReize});
 			this.cmsFB2.Name = "cmsValidator";
-			this.cmsFB2.Size = new System.Drawing.Size(588, 618);
+			this.cmsFB2.Size = new System.Drawing.Size(614, 618);
 			// 
 			// tsmiValidate
 			// 
@@ -576,7 +576,7 @@ namespace SharpFBTools.Tools
 			this.tsmiAllFilesReValidate});
 			this.tsmiValidate.Image = ((System.Drawing.Image)(resources.GetObject("tsmiValidate.Image")));
 			this.tsmiValidate.Name = "tsmiValidate";
-			this.tsmiValidate.Size = new System.Drawing.Size(587, 26);
+			this.tsmiValidate.Size = new System.Drawing.Size(613, 26);
 			this.tsmiValidate.Text = "Валидация";
 			// 
 			// tsmiFileReValidate
@@ -621,7 +621,7 @@ namespace SharpFBTools.Tools
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(584, 6);
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(610, 6);
 			// 
 			// toolStripMenuItemAutoCorrector
 			// 
@@ -632,7 +632,7 @@ namespace SharpFBTools.Tools
 			this.tsmiAutoCorrectorReNewFromXML});
 			this.toolStripMenuItemAutoCorrector.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemAutoCorrector.Image")));
 			this.toolStripMenuItemAutoCorrector.Name = "toolStripMenuItemAutoCorrector";
-			this.toolStripMenuItemAutoCorrector.Size = new System.Drawing.Size(587, 26);
+			this.toolStripMenuItemAutoCorrector.Size = new System.Drawing.Size(613, 26);
 			this.toolStripMenuItemAutoCorrector.Text = "Автокорректировка книг";
 			// 
 			// tsmiAutoCorrectorForAllSelectedBooks
@@ -670,7 +670,7 @@ namespace SharpFBTools.Tools
 			this.tsmiSetAuthorsForCheckedBooks});
 			this.tsmiEditAuthors.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditAuthors.Image")));
 			this.tsmiEditAuthors.Name = "tsmiEditAuthors";
-			this.tsmiEditAuthors.Size = new System.Drawing.Size(587, 26);
+			this.tsmiEditAuthors.Size = new System.Drawing.Size(613, 26);
 			this.tsmiEditAuthors.Text = "Правка метаданных Авторов";
 			// 
 			// tsmiSetAuthorsForSelectedBooks
@@ -696,7 +696,7 @@ namespace SharpFBTools.Tools
 			this.tsmiSetGenresForCheckedBooks});
 			this.tsmiEditGenres.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditGenres.Image")));
 			this.tsmiEditGenres.Name = "tsmiEditGenres";
-			this.tsmiEditGenres.Size = new System.Drawing.Size(587, 26);
+			this.tsmiEditGenres.Size = new System.Drawing.Size(613, 26);
 			this.tsmiEditGenres.Text = "Правка Жанров";
 			// 
 			// tsmiSetGenresForSelectedBooks
@@ -721,7 +721,7 @@ namespace SharpFBTools.Tools
 			this.tsmiSetLangForSelectedBooks,
 			this.tsmiSetLangForCheckedBooks});
 			this.tsmiEditLang.Name = "tsmiEditLang";
-			this.tsmiEditLang.Size = new System.Drawing.Size(587, 26);
+			this.tsmiEditLang.Size = new System.Drawing.Size(613, 26);
 			this.tsmiEditLang.Text = "Правка Языка";
 			// 
 			// tsmiSetLangForSelectedBooks
@@ -746,7 +746,7 @@ namespace SharpFBTools.Tools
 			this.tsmiSetNewIDForAllSelectedBooks,
 			this.tsmiSetNewIDForAllCheckedBooks});
 			this.tsmiNewID.Name = "tsmiNewID";
-			this.tsmiNewID.Size = new System.Drawing.Size(587, 26);
+			this.tsmiNewID.Size = new System.Drawing.Size(613, 26);
 			this.tsmiNewID.Text = "Новый id книг(и)";
 			// 
 			// tsmiSetNewIDForAllSelectedBooks
@@ -769,7 +769,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiEditBookName.Name = "tsmiEditBookName";
 			this.tsmiEditBookName.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
-			this.tsmiEditBookName.Size = new System.Drawing.Size(587, 26);
+			this.tsmiEditBookName.Size = new System.Drawing.Size(613, 26);
 			this.tsmiEditBookName.Text = "Правка названия выделенной книги";
 			this.tsmiEditBookName.Click += new System.EventHandler(this.TsmiEditBookNameClick);
 			// 
@@ -778,21 +778,21 @@ namespace SharpFBTools.Tools
 			this.tsmiEditDescription.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditDescription.Image")));
 			this.tsmiEditDescription.Name = "tsmiEditDescription";
 			this.tsmiEditDescription.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-			this.tsmiEditDescription.Size = new System.Drawing.Size(587, 26);
+			this.tsmiEditDescription.Size = new System.Drawing.Size(613, 26);
 			this.tsmiEditDescription.Text = "Правка метаданных описания книги";
 			this.tsmiEditDescription.Click += new System.EventHandler(this.TsmiEditDescriptionClick);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(584, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(610, 6);
 			// 
 			// tsmiEditInTextEditor
 			// 
 			this.tsmiEditInTextEditor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInTextEditor.Image")));
 			this.tsmiEditInTextEditor.Name = "tsmiEditInTextEditor";
 			this.tsmiEditInTextEditor.ShortcutKeys = System.Windows.Forms.Keys.F4;
-			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(587, 26);
+			this.tsmiEditInTextEditor.Size = new System.Drawing.Size(613, 26);
 			this.tsmiEditInTextEditor.Text = "Редактировать в текстовом редакторе";
 			this.tsmiEditInTextEditor.Click += new System.EventHandler(this.TsmiEditInTextEditorClick);
 			// 
@@ -801,7 +801,7 @@ namespace SharpFBTools.Tools
 			this.tsmiEditInFB2Editor.Image = ((System.Drawing.Image)(resources.GetObject("tsmiEditInFB2Editor.Image")));
 			this.tsmiEditInFB2Editor.Name = "tsmiEditInFB2Editor";
 			this.tsmiEditInFB2Editor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(587, 26);
+			this.tsmiEditInFB2Editor.Size = new System.Drawing.Size(613, 26);
 			this.tsmiEditInFB2Editor.Text = "Редактировать в fb2-редакторе";
 			this.tsmiEditInFB2Editor.Click += new System.EventHandler(this.TsmiEditInFB2EditorClick);
 			// 
@@ -810,35 +810,35 @@ namespace SharpFBTools.Tools
 			this.tsmiDiffFB2.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDiffFB2.Image")));
 			this.tsmiDiffFB2.Name = "tsmiDiffFB2";
 			this.tsmiDiffFB2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F1)));
-			this.tsmiDiffFB2.Size = new System.Drawing.Size(587, 26);
+			this.tsmiDiffFB2.Size = new System.Drawing.Size(613, 26);
 			this.tsmiDiffFB2.Text = "diff два помеченных (checked) файла";
 			this.tsmiDiffFB2.Click += new System.EventHandler(this.TsmiDiffFB2Click);
 			// 
 			// tsmi1
 			// 
 			this.tsmi1.Name = "tsmi1";
-			this.tsmi1.Size = new System.Drawing.Size(584, 6);
+			this.tsmi1.Size = new System.Drawing.Size(610, 6);
 			// 
 			// tsmiViewInReader
 			// 
 			this.tsmiViewInReader.Image = ((System.Drawing.Image)(resources.GetObject("tsmiViewInReader.Image")));
 			this.tsmiViewInReader.Name = "tsmiViewInReader";
 			this.tsmiViewInReader.ShortcutKeys = System.Windows.Forms.Keys.F3;
-			this.tsmiViewInReader.Size = new System.Drawing.Size(587, 26);
+			this.tsmiViewInReader.Size = new System.Drawing.Size(613, 26);
 			this.tsmiViewInReader.Text = "Запустить в fb2-читалке (Просмотр)";
 			this.tsmiViewInReader.Click += new System.EventHandler(this.TsmiViewInReaderClick);
 			// 
 			// tsmi2
 			// 
 			this.tsmi2.Name = "tsmi2";
-			this.tsmi2.Size = new System.Drawing.Size(584, 6);
+			this.tsmi2.Size = new System.Drawing.Size(610, 6);
 			// 
 			// tsmiCopyCheckedFb2To
 			// 
 			this.tsmiCopyCheckedFb2To.Image = ((System.Drawing.Image)(resources.GetObject("tsmiCopyCheckedFb2To.Image")));
 			this.tsmiCopyCheckedFb2To.Name = "tsmiCopyCheckedFb2To";
 			this.tsmiCopyCheckedFb2To.ShortcutKeys = System.Windows.Forms.Keys.F5;
-			this.tsmiCopyCheckedFb2To.Size = new System.Drawing.Size(587, 26);
+			this.tsmiCopyCheckedFb2To.Size = new System.Drawing.Size(613, 26);
 			this.tsmiCopyCheckedFb2To.Text = "Копировать помеченные книги...";
 			this.tsmiCopyCheckedFb2To.Click += new System.EventHandler(this.TsmiCopyCheckedFb2ToClick);
 			// 
@@ -849,7 +849,7 @@ namespace SharpFBTools.Tools
 			this.tsmiMoveCheckedFb2ToFast});
 			this.tsmiMoveCheckedFb2To.Image = ((System.Drawing.Image)(resources.GetObject("tsmiMoveCheckedFb2To.Image")));
 			this.tsmiMoveCheckedFb2To.Name = "tsmiMoveCheckedFb2To";
-			this.tsmiMoveCheckedFb2To.Size = new System.Drawing.Size(587, 26);
+			this.tsmiMoveCheckedFb2To.Size = new System.Drawing.Size(613, 26);
 			this.tsmiMoveCheckedFb2To.Text = "Переместить помеченные книги";
 			// 
 			// tsmiMoveCheckedFb2ToView
@@ -875,7 +875,7 @@ namespace SharpFBTools.Tools
 			this.tsmiDeleteCheckedFb2Fast});
 			this.tsmiDeleteCheckedFb2.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteCheckedFb2.Image")));
 			this.tsmiDeleteCheckedFb2.Name = "tsmiDeleteCheckedFb2";
-			this.tsmiDeleteCheckedFb2.Size = new System.Drawing.Size(587, 26);
+			this.tsmiDeleteCheckedFb2.Size = new System.Drawing.Size(613, 26);
 			this.tsmiDeleteCheckedFb2.Text = "Удалить помеченные книги";
 			// 
 			// tsmiDeleteCheckedFb2View
@@ -897,33 +897,35 @@ namespace SharpFBTools.Tools
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(584, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(610, 6);
 			// 
 			// tsmiDeleteAllItemForNonExistFile
 			// 
 			this.tsmiDeleteAllItemForNonExistFile.Name = "tsmiDeleteAllItemForNonExistFile";
-			this.tsmiDeleteAllItemForNonExistFile.Size = new System.Drawing.Size(587, 26);
+			this.tsmiDeleteAllItemForNonExistFile.ShortcutKeys = System.Windows.Forms.Keys.F12;
+			this.tsmiDeleteAllItemForNonExistFile.Size = new System.Drawing.Size(613, 26);
 			this.tsmiDeleteAllItemForNonExistFile.Text = "Удалить все элементы Списка \"без файлов\" на диске...";
 			this.tsmiDeleteAllItemForNonExistFile.Click += new System.EventHandler(this.TsmiDeleteAllItemForNonExistFileClick);
 			// 
 			// tsmiDeleteChechedItemsNotDeleteFiles
 			// 
 			this.tsmiDeleteChechedItemsNotDeleteFiles.Name = "tsmiDeleteChechedItemsNotDeleteFiles";
-			this.tsmiDeleteChechedItemsNotDeleteFiles.Size = new System.Drawing.Size(587, 26);
-			this.tsmiDeleteChechedItemsNotDeleteFiles.Text = "Удалить помеченные элементы Списка (файлы на диске не удаляются)...";
+			this.tsmiDeleteChechedItemsNotDeleteFiles.ShortcutKeys = System.Windows.Forms.Keys.F9;
+			this.tsmiDeleteChechedItemsNotDeleteFiles.Size = new System.Drawing.Size(613, 26);
+			this.tsmiDeleteChechedItemsNotDeleteFiles.Text = "Удалить помеченные элементы Списка (файлы на диске НЕ удаляются)...";
 			this.tsmiDeleteChechedItemsNotDeleteFiles.Click += new System.EventHandler(this.TsmiDeleteChechedItemsNotDeleteFilesClick);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(584, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(610, 6);
 			// 
 			// tsmiCheckedAllInGroup
 			// 
 			this.tsmiCheckedAllInGroup.Image = ((System.Drawing.Image)(resources.GetObject("tsmiCheckedAllInGroup.Image")));
 			this.tsmiCheckedAllInGroup.Name = "tsmiCheckedAllInGroup";
 			this.tsmiCheckedAllInGroup.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
-			this.tsmiCheckedAllInGroup.Size = new System.Drawing.Size(587, 26);
+			this.tsmiCheckedAllInGroup.Size = new System.Drawing.Size(613, 26);
 			this.tsmiCheckedAllInGroup.Text = "Пометить все выделенные книги";
 			this.tsmiCheckedAllInGroup.Click += new System.EventHandler(this.TsmiCheckedAllInGroupClick);
 			// 
@@ -931,7 +933,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.tsmiUnCheckedAllSelected.Name = "tsmiUnCheckedAllSelected";
 			this.tsmiUnCheckedAllSelected.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.U)));
-			this.tsmiUnCheckedAllSelected.Size = new System.Drawing.Size(587, 26);
+			this.tsmiUnCheckedAllSelected.Size = new System.Drawing.Size(613, 26);
 			this.tsmiUnCheckedAllSelected.Text = "Снять пометки со всего выделенного";
 			this.tsmiUnCheckedAllSelected.Click += new System.EventHandler(this.TsmiUnCheckedAllSelectedClick);
 			// 
@@ -940,7 +942,7 @@ namespace SharpFBTools.Tools
 			this.tsmiCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiCheckedAll.Image")));
 			this.tsmiCheckedAll.Name = "tsmiCheckedAll";
 			this.tsmiCheckedAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-			this.tsmiCheckedAll.Size = new System.Drawing.Size(587, 26);
+			this.tsmiCheckedAll.Size = new System.Drawing.Size(613, 26);
 			this.tsmiCheckedAll.Text = "Пометить все книги";
 			this.tsmiCheckedAll.Click += new System.EventHandler(this.TsmiCheckedAllClick);
 			// 
@@ -949,20 +951,20 @@ namespace SharpFBTools.Tools
 			this.tsmiUnCheckedAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiUnCheckedAll.Image")));
 			this.tsmiUnCheckedAll.Name = "tsmiUnCheckedAll";
 			this.tsmiUnCheckedAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(587, 26);
+			this.tsmiUnCheckedAll.Size = new System.Drawing.Size(613, 26);
 			this.tsmiUnCheckedAll.Text = "Снять потметки со всех книг";
 			this.tsmiUnCheckedAll.Click += new System.EventHandler(this.TsmiUnCheckedAllClick);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(584, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(610, 6);
 			// 
 			// tsmiColumnsExplorerAutoReize
 			// 
 			this.tsmiColumnsExplorerAutoReize.Name = "tsmiColumnsExplorerAutoReize";
 			this.tsmiColumnsExplorerAutoReize.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
-			this.tsmiColumnsExplorerAutoReize.Size = new System.Drawing.Size(587, 26);
+			this.tsmiColumnsExplorerAutoReize.Size = new System.Drawing.Size(613, 26);
 			this.tsmiColumnsExplorerAutoReize.Text = "Обновить авторазмер колонок Проводника";
 			this.tsmiColumnsExplorerAutoReize.Click += new System.EventHandler(this.TsmiColumnsExplorerAutoReizeClick);
 			// 
@@ -2102,12 +2104,13 @@ namespace SharpFBTools.Tools
 			this.OpenFB2FilesListButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.OpenFB2FilesListButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenFB2FilesListButton.Image")));
 			this.OpenFB2FilesListButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.OpenFB2FilesListButton.Location = new System.Drawing.Point(1270, 0);
+			this.OpenFB2FilesListButton.Location = new System.Drawing.Point(1269, 0);
 			this.OpenFB2FilesListButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.OpenFB2FilesListButton.Name = "OpenFB2FilesListButton";
 			this.OpenFB2FilesListButton.Size = new System.Drawing.Size(139, 34);
 			this.OpenFB2FilesListButton.TabIndex = 21;
 			this.OpenFB2FilesListButton.Text = "Загрузить...";
+			this.OpenFB2FilesListButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.OpenFB2FilesListButton.UseVisualStyleBackColor = true;
 			this.OpenFB2FilesListButton.Click += new System.EventHandler(this.OpenFB2FilesListButtonClick);
 			// 
@@ -2122,6 +2125,7 @@ namespace SharpFBTools.Tools
 			this.SaveFB2FilesToListButton.Size = new System.Drawing.Size(139, 34);
 			this.SaveFB2FilesToListButton.TabIndex = 20;
 			this.SaveFB2FilesToListButton.Text = "Сохранить...";
+			this.SaveFB2FilesToListButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.SaveFB2FilesToListButton.UseVisualStyleBackColor = true;
 			this.SaveFB2FilesToListButton.Click += new System.EventHandler(this.SaveFB2FilesToListButtonClick);
 			// 
@@ -2132,7 +2136,7 @@ namespace SharpFBTools.Tools
 			this.buttonGo.Location = new System.Drawing.Point(929, 0);
 			this.buttonGo.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonGo.Name = "buttonGo";
-			this.buttonGo.Size = new System.Drawing.Size(189, 35);
+			this.buttonGo.Size = new System.Drawing.Size(189, 34);
 			this.buttonGo.TabIndex = 12;
 			this.buttonGo.Text = "Перейти / Обновить";
 			this.buttonGo.UseVisualStyleBackColor = true;
@@ -2143,10 +2147,10 @@ namespace SharpFBTools.Tools
 			this.textBoxAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 			| System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxAddress.Location = new System.Drawing.Point(126, 7);
+			this.textBoxAddress.Location = new System.Drawing.Point(125, 7);
 			this.textBoxAddress.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxAddress.Name = "textBoxAddress";
-			this.textBoxAddress.Size = new System.Drawing.Size(795, 24);
+			this.textBoxAddress.Size = new System.Drawing.Size(794, 24);
 			this.textBoxAddress.TabIndex = 10;
 			this.textBoxAddress.TextChanged += new System.EventHandler(this.TextBoxAddressTextChanged);
 			this.textBoxAddress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAddressKeyPress);

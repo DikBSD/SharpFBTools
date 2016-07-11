@@ -12,7 +12,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using filesWorker = Core.Common.FilesWorker;
+using FilesWorker = Core.Common.FilesWorker;
 
 using ICSharpCode.SharpZipLib.Zip;
 
@@ -237,8 +237,7 @@ namespace Core.Common
 		/// </summary>
 		/// <param name="ZipPath">Путь к исходному zip-файлу</param>
 		public string UnZipFB2FileToString( string ZipPath ) {
-			string Ext = Path.GetExtension( ZipPath ).ToLower();
-			if( Ext == ".zip" || Ext == ".fbz" ) {
+			if( FilesWorker.isFB2Archive( ZipPath )  ) {
 				MemoryStream ms = new MemoryStream();
 				ICSharpCode.SharpZipLib.Zip.ZipInputStream zis = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(
 					new FileStream(ZipPath, FileMode.Open)
@@ -270,6 +269,7 @@ namespace Core.Common
 		/// <param name="DestinationDir">папка для распакованного фвйла</param>
 		/// <param name="IsFileExistsMode">Режим для суффикса: 0 - замена; 1 - новый номер; 2 - дата</param>
 		/// <param name="BufferSize">буфер, обычно 4096</param>
+		/// <returns>true - если архив удалось распаковать; false - если не удалось распаковать</returns>
 		public bool UnZipFile(string SourceZipFile, string DestinationDir, int IsFileExistsMode, int BufferSize)
 		{
 			FileStream fileStreamIn = new FileStream(SourceZipFile, FileMode.Open, FileAccess.Read);
@@ -289,7 +289,7 @@ namespace Core.Common
 			if( !Directory.Exists( dir ) )
 				Directory.CreateDirectory( dir );
 			if( File.Exists( path ) )
-				path = filesWorker.createFilePathWithSufix(path, IsFileExistsMode);
+				path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 			
 			using ( FileStream fileStreamOut = new FileStream(path, FileMode.Create, FileAccess.Write) ) {
 				CopyStream(zipInStream, fileStreamOut, BufferSize);
@@ -310,7 +310,6 @@ namespace Core.Common
 		
 		/// <summary>
 		/// Распаковка файла из zip архива: с учетом вложенных папок, относительно исходной, и наличия копий в папке распаковки
-		/// Возвращает: Число распакованных файлов, или -1, если архив 'битый' (не смог открыть).
 		/// Не воспринимает символы « и » в имени архива - вылетает
 		/// </summary>
 		/// <param name="SourceZipFile">Путь к исходному zip-файлу</param>
@@ -319,7 +318,7 @@ namespace Core.Common
 		/// <param name="FB2Only">true - распаковка только fb2 файлов</param>
 		/// <param name="Password">пароль архива. Если его нет, то задаем null</param>
 		/// <param name="BufferSize">буфер, обычно 4096</param>
-		/// <returns>Число распакованных файлов</returns>
+		/// <returns>Число распакованных файлов, или -1, если архив 'битый' (не смог открыть)</returns>
 		public long UnZipFiles(string SourceZipFile, string DestinationDir,
 		                       int IsFileExistsMode, bool FB2Only, string Password, int BufferSize)
 		{
@@ -351,10 +350,67 @@ namespace Core.Common
 							if( !Directory.Exists( dir ) )
 								Directory.CreateDirectory( dir );
 							if( File.Exists( path ) )
-								path = filesWorker.createFilePathWithSufix(path, IsFileExistsMode);
+								path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
 							using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
 								CopyStream(inputStream, fileStream, BufferSize);
+								fileStream.Close();
+								inputStream.Close();
+							}
+							if( File.Exists(path) ) {
+								DateTime dtFile = zipFile[i].DateTime;
+								File.SetCreationTime(path, dtFile);
+								File.SetLastAccessTime(path, dtFile);
+								File.SetLastWriteTime(path, dtFile);
+							}
+							++count;
+						}
+					}
+				}
+				zipFile.Close();
+			}
+			return count;
+		}
+		
+		/// <summary>
+		/// Распаковка только fb2 файлов из zip архива: с учетом вложенных папок, относительно исходной, и наличия копий в папке распаковки
+		/// Не воспринимает символы « и » в имени архива - вылетает
+		/// </summary>
+		/// <param name="SourceZipPath">Путь к исходному zip-файлу</param>
+		/// <param name="DestinationDir">папка для распаковываемых фвйлов</param>
+		/// <param name="IsFileExistsMode">Режим для суффикса: 0 - замена; 1 - новый номер; 2 - дата</param>
+		/// <returns>Число распакованных файлов, или -1, если архив 'битый' (не смог открыть)</returns>
+		public long UnZipFB2Files(string SourceZipPath, string DestinationDir, int IsFileExistsMode = 1)
+		{
+			long count = 0;
+			if ( File.Exists(SourceZipPath) ) {
+				ZipFile zipFile = null;
+				try {
+					zipFile = new ZipFile(SourceZipPath);
+				} catch {
+					return -1;
+				}
+
+				if ( !Directory.Exists( DestinationDir ) )
+					Directory.CreateDirectory( DestinationDir );
+				
+				for ( int i = 0; i != zipFile.Count; ++i ) {
+					if ( zipFile[i] != null ) {
+						if ( zipFile[i].IsFile ) {
+							string zipFileName = zipFile[i].Name.Replace('<', '«').Replace('>', '»').Replace(':', '_');
+							if ( Path.GetExtension(zipFileName.ToLower()) != ".fb2" )
+								continue;
+							
+							Stream inputStream = zipFile.GetInputStream(zipFile[i]);
+							string path = Path.Combine(DestinationDir, zipFileName.Replace('/', '\\'));
+							string dir = Path.GetDirectoryName(path);
+							if( !Directory.Exists( dir ) )
+								Directory.CreateDirectory( dir );
+							if( File.Exists( path ) )
+								path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
+
+							using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
+								CopyStream(inputStream, fileStream, 4096);
 								fileStream.Close();
 								inputStream.Close();
 							}
@@ -409,7 +465,7 @@ namespace Core.Common
 						if( !Directory.Exists( dir ) )
 							Directory.CreateDirectory( dir );
 						if( File.Exists( path ) )
-							path = filesWorker.createFilePathWithSufix(path, IsFileExistsMode);
+							path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
 						using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
 							CopyStream(inputStream, fileStream, BufferSize);
@@ -474,7 +530,7 @@ namespace Core.Common
 							if( !Directory.Exists( dir ) )
 								Directory.CreateDirectory( dir );
 							if( File.Exists( path ) )
-								path = filesWorker.createFilePathWithSufix(path, IsFileExistsMode);
+								path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
 							using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
 								CopyStream(inputStream, fileStream, BufferSize);
@@ -598,8 +654,8 @@ namespace Core.Common
 				int nFB2 = 0;
 				for (int i = 0; i != zipFile.Count; ++i) {
 					zipEntry = zipFile[i];
-					if( FB2Only ) {
-						if( Path.GetExtension( Path.GetFileName( zipEntry.Name ) ).ToLower()==".fb2" ) {
+					if ( FB2Only ) {
+						if ( Path.GetExtension( Path.GetFileName( zipEntry.Name ) ).ToLower()==".fb2" ) {
 							FilesFromZipList.Add(zipEntry.Name);
 							++nFB2;
 						}

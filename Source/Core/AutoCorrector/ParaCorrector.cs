@@ -41,7 +41,7 @@ namespace Core.AutoCorrector
 		/// </summary>
 		/// <returns>Откорректированную строку типа string </returns>
 		public string correct() {
-			if ( _xmlText.IndexOf( _startTag ) == -1 )
+			if ( _xmlText.IndexOf( _startTag, StringComparison.CurrentCulture ) == -1 )
 				return _xmlText;
 			
 			// преобработка (удаление стартовых пробелов ДО тегов и удаление завершающих пробелов ПОСЛЕ тегов и символов переноса строк)

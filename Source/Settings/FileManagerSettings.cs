@@ -44,9 +44,6 @@ namespace Settings
 		private readonly static string m_SelSortTargetDir 		= string.Empty;
 		private readonly static bool m_SelSortFB2GenresLibrusec	= true;
 		private readonly static bool m_SelSortFB2GenresFB22		= false;
-
-		// прогресс
-		private readonly static bool m_Progress				= false;
 		
 		// основные опции Сортировщиков
 		private readonly static bool m_RegisterAsIs			= true;
@@ -243,10 +240,6 @@ namespace Settings
 		// 									основные опции Сортировщиков
 		// =====================================================================================================
 		#region основные опции Сортировщиков
-		// отображение прогресса
-		public static bool DefProgress {
-			get { return m_Progress; }
-		}
 		// транслитерация имен файлов
 		public static bool DefTranslit {
 			get { return m_Translit; }
@@ -577,16 +570,6 @@ namespace Settings
 		// 									основные опции Сортировщиков
 		// =====================================================================================================
 		#region основные опции Сортировщиков
-		// Отображение прогресса
-		public static bool ReadProgress() {
-			if(File.Exists(m_FileSettingsPath)) {
-				m_xmlDoc.Load(m_FileSettingsPath);
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/Log/Progress");
-				if(node != null)
-					return Convert.ToBoolean( node.InnerText );
-			}
-			return DefProgress;
-		}
 		// Регистр имени файла: как есть
 		public static bool ReadRegisterAsIs() {
 			if(File.Exists(m_FileSettingsPath)) {

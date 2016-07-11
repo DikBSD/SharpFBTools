@@ -68,12 +68,12 @@ namespace Core.Common
 		// Создание итемов ListView названий Обложек
 		public static int makeListViewCoverNameItems( ListView lv, ref IList<BinaryBase64> Covers ) {
 			int ImageCount = 0;
-			if( Covers != null && Covers.Count > 0 ) {
+			if ( Covers != null && Covers.Count > 0 ) {
 				string Temp = Settings.Settings.TempDir;
 				if ( !Directory.Exists( Temp ) )
 					Directory.CreateDirectory( Temp );
 
-				foreach( BinaryBase64 Cover in Covers ) {
+				foreach ( BinaryBase64 Cover in Covers ) {
 					if ( Cover != null ) {
 						ListViewItem lvi = new ListViewItem( Cover.id );
 						lvi.SubItems.Add( Cover.contentType );
@@ -81,22 +81,23 @@ namespace Core.Common
 						Image image = null;
 						try {
 							image = ImageWorker.base64ToImage( Cover.base64String );
-						} catch ( Exception /*ex*/ ) {
+						} catch ( Exception /*exp*/ ) {
 							continue;
 						}
 
 						lvi.SubItems.Add( string.Format( "{0} x {1} dpi", image.VerticalResolution, image.HorizontalResolution ) );
 						lvi.SubItems.Add( string.Format( "{0} x {1} Pixels", image.Width, image.Height ) );
 
-						string Type = Cover.contentType.Substring( Cover.contentType.IndexOf( '/' )+1 );
+//						string Type = Cover.contentType.Substring( Cover.contentType.IndexOf( '/' ) + 1 );
 						string TempFile =  Path.Combine( Temp, string.Format( "__temp_image__{0}", Cover.id ) );
+						
 						try {
 							image.Save( TempFile );
 							FileInfo file = new FileInfo( TempFile );
 							lvi.SubItems.Add( FilesWorker.FormatFileLength( file.Length ) );
 							if ( File.Exists( TempFile ) )
 								File.Delete( TempFile );
-						} catch ( System.Exception /*e*/ ) {
+						} catch ( System.Exception /*exp*/ ) {
 							lvi.SubItems.Add( "? kb" );
 						}
 						

@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
 
-using FilesCountViewDupCollumn	= Core.Common.Enums.FilesCountViewDupCollumn;
+using FilesCountViewDupCollumnEnum	= Core.Common.Enums.FilesCountViewDupCollumnEnum;
 
 namespace Core.Common
 {
@@ -469,10 +469,10 @@ namespace Core.Common
 				Result = true;
 			}
 			// реальное число Групп и книг в них
-			lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllGroups].SubItems[1].Text =
-				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllGroups].SubItems[1].Text) - RemoveGroupCount).ToString();
-			lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBoolsInAllGroups].SubItems[1].Text =
-				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumn.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
+			lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text =
+				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text) - RemoveGroupCount).ToString();
+			lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text =
+				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
 			
 			listViewFB2Files.EndUpdate();
 			return Result;
@@ -585,6 +585,18 @@ namespace Core.Common
 		public static void unSelectAllItems( ListView listView ) {
 			foreach( ListViewItem item in listView.Items )
 				item.Selected = false;
+		}
+		
+		/// <summary>
+		/// Геренация ListViewItem с пустыми значениями SubItems
+		/// </summary>
+		/// <param name="SubItemsCount">Число пустых SubItems</param>
+		/// <returns>Сформированный Item класса ListViewItem с пустыми SubItems</returns>
+		public static ListViewItem makeEmptyListViewItem( int SubItemsCount ) {
+			ListViewItem lvi = new ListViewItem( string.Empty );
+			for ( int i = 0; i != SubItemsCount; ++i )
+				lvi.SubItems.Add( string.Empty );
+			return lvi;
 		}
 		#endregion
 	}

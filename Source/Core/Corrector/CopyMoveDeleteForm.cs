@@ -18,7 +18,7 @@ using MiscListView		= Core.Common.MiscListView;
 
 // enums
 using EndWorkModeEnum	= Core.Common.Enums.EndWorkModeEnum;
-using BooksWorkMode		= Core.Common.Enums.BooksWorkMode;
+using BooksWorkModeEnum	= Core.Common.Enums.BooksWorkModeEnum;
 
 namespace Core.Corrector
 {
@@ -34,12 +34,12 @@ namespace Core.Corrector
 		private readonly string	m_TargetDir			= string.Empty;
 		private readonly int	m_FileExistMode		= 1; // добавить к создаваемому fb2-файлу очередной номер
 		private readonly EndWorkMode	m_EndMode	= new EndWorkMode();
-		private readonly BooksWorkMode	m_WorkMode;  // режим обработки книг
+		private readonly BooksWorkModeEnum	m_WorkMode;  // режим обработки книг
 		private bool m_bFilesWorked			= false; // флаг = true, если хоть один файл был на диске и был обработан (copy, move или delete)
 		private BackgroundWorker m_bwcmd	= null;  // фоновый обработчик
 		#endregion
 		
-		public CopyMoveDeleteForm( bool Fast, BooksWorkMode WorkMode, string Source, string TargetDir,
+		public CopyMoveDeleteForm( bool Fast, BooksWorkModeEnum WorkMode, string Source, string TargetDir,
 		                          int FileExistMode, ListView listViewFB2Files )
 		{
 
@@ -97,21 +97,21 @@ namespace Core.Corrector
 			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Корректора
 			MiscListView.removeAllItemForNonExistFile( m_SourceDir.Trim(), m_listViewFB2Files );
 			switch( m_WorkMode ) {
-				case BooksWorkMode.CopyCheckedBooks:
+				case BooksWorkModeEnum.CopyCheckedBooks:
 					this.Text = "Копирование помеченных книг в папку " + m_TargetDir;
 					this.Text += String.Format( ": {0}", m_listViewFB2Files.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, true,
 					                         m_SourceDir, m_TargetDir, m_listViewFB2Files,
 					                         m_FileExistMode );
 					break;
-				case BooksWorkMode.MoveCheckedBooks:
+				case BooksWorkModeEnum.MoveCheckedBooks:
 					this.Text = "Перемещение помеченных книг в папку " + m_TargetDir;
 					this.Text += String.Format( ": {0}", m_listViewFB2Files.CheckedItems.Count );
 					CopyOrMoveCheckedFilesTo( ref m_bwcmd, ref e, false,
 					                         m_SourceDir, m_TargetDir, m_listViewFB2Files,
 					                         m_FileExistMode );
 					break;
-				case BooksWorkMode.DeleteCheckedBooks:
+				case BooksWorkModeEnum.DeleteCheckedBooks:
 					this.Text = "Удаление помеченных книг";
 					this.Text += String.Format( ": {0}", m_listViewFB2Files.CheckedItems.Count );
 					DeleteCheckedFiles( ref m_bwcmd, ref e, m_listViewFB2Files );
@@ -133,15 +133,15 @@ namespace Core.Corrector
 			string sMessCanceled, sMessError, sMessDone;
 			sMessCanceled = sMessError = sMessDone = string.Empty;
 			switch( m_WorkMode ) {
-				case BooksWorkMode.CopyCheckedBooks:
+				case BooksWorkModeEnum.CopyCheckedBooks:
 					sMessDone 		= "Копирование файлов в указанную папку завершено!";
 					sMessCanceled	= "Копирование файлов в указанную папку остановлено!";
 					break;
-				case BooksWorkMode.MoveCheckedBooks:
+				case BooksWorkModeEnum.MoveCheckedBooks:
 					sMessDone 		= "Перемещение файлов в указанную папку завершено!";
 					sMessCanceled	= "Перемещение файлов в указанную папку остановлено!";
 					break;
-				case BooksWorkMode.DeleteCheckedBooks:
+				case BooksWorkModeEnum.DeleteCheckedBooks:
 					sMessDone 		= "Удаление файлов из папки-источника завершено!";
 					sMessCanceled	= "Удаление файлов из папки-источника остановлено!";
 					break;
@@ -150,13 +150,13 @@ namespace Core.Corrector
 			if( !m_bFilesWorked ) {
 				const string s = "На диске не найдено ни одного файла из помеченных!\n";
 				switch( m_WorkMode ) {
-					case BooksWorkMode.CopyCheckedBooks:
+					case BooksWorkModeEnum.CopyCheckedBooks:
 						sMessDone = s + "Копирование файлов в указанную папку не произведено!";
 						break;
-					case BooksWorkMode.MoveCheckedBooks:
+					case BooksWorkModeEnum.MoveCheckedBooks:
 						sMessDone = s + "Перемещение файлов в указанную папку не произведено!";
 						break;
-					case BooksWorkMode.DeleteCheckedBooks:
+					case BooksWorkModeEnum.DeleteCheckedBooks:
 						sMessDone = s + "Удаление файлов из папки-источника не произведено!";
 						break;
 				}

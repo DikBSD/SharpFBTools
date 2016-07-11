@@ -251,12 +251,12 @@ namespace Core.AutoCorrector
 				if ( isFB2Tag( token, htTags ) ) {
 					sbNewString.Append( token );
 				} else {
-					if ( token.IndexOf("\r\n", 0) == 0 || token.IndexOf("\n", 0) == 0
-					    || string.IsNullOrEmpty( token ) || token.IndexOf("\r", 0) == 0 )
+					if ( token.IndexOf("\r\n", 0, StringComparison.CurrentCulture) == 0 || token.IndexOf("\n", 0, StringComparison.CurrentCulture) == 0
+					    || string.IsNullOrEmpty( token ) || token.IndexOf("\r", 0, StringComparison.CurrentCulture) == 0 )
 						continue;
 					else if ( token.Trim().Equals( ">" ) )
 						continue;
-					else if ( token.IndexOf(">\n", 0) == -1 && token.IndexOf(">\r\n", 0) == -1 )
+					else if ( token.IndexOf(">\n", 0, StringComparison.CurrentCulture) == -1 && token.IndexOf(">\r\n", 0, StringComparison.CurrentCulture) == -1 )
 						sbNewString.Append(
 							regex.Replace(
 								token.Replace("<", "&lt;").Replace(">", "&gt;"), "&amp;"

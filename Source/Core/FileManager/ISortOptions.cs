@@ -60,10 +60,5 @@ namespace Core.FileManager
 		bool GenresTypeGenreSchema { get; set; }
 		bool GenresTypeGenreText { get; set; }
 		#endregion
-		
-		#region Разное
-		// отображение прогресса
-		bool Progress { get; set; }
-		#endregion
 	}
 }

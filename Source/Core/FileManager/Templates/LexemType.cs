@@ -14,11 +14,12 @@ namespace Core.FileManager.Templates.Lexems {
 	/// </summary>
 	public class AllTemplates {
 		protected static readonly string[] m_sAllTemplates = new string[] {
-								"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*","*BT*","*SN*","*SI*","*GG*","*SII*","*SIII*","*DT*","DV",
+								"*LBAL*","*L*","*G*","*BAF*","*BAM*","*BAL*","*BAN*",
+								"*BT*","*SN*","*SI*","*GG*","*SII*","*SIII*","*DT*","DV",
 								"*LF*","*LM*","*LL*","*LN*",
 								"*YEAR*","PUB","*CITY*",
 								"*FB2AF*","*FB2AM*","*FB2AL*","*FB2AN*",
-								"*GROUP*","*FILENAME*","*COUNTER*"
+								"*GROUP*","*FILENAME*","*COUNTER*","*LBAL_OR_LBAN*", "*LL_OR_LN*"
 								};
 		public AllTemplates() {
 		}
@@ -122,20 +123,26 @@ namespace Core.FileManager.Templates.Lexems {
 		public static string COUNTER {
             get { return m_sAllTemplates[28]; }
         }
+		public static string LBAL_OR_LBAN {
+            get { return m_sAllTemplates[29]; }
+        }
+		public static string LL_OR_LN {
+            get { return m_sAllTemplates[30]; }
+        }
 	}
 	
 	/// <summary>
-	/// Description of SimpleType
+	/// SimpleType
 	/// </summary>
 	public enum SimpleType {
-		const_template,			// постоянный шаблон (*BT*)
+		const_template,			// постоянный шаблон *BT*, *L*
 		const_text, 			// постоянные символы (\, -, #)
 		conditional_template,	// условный шаблон [*BT*]
 		conditional_group, 		// условная группа [ *BAF*], [*LL* - ]
 	}
 	
 	/// <summary>
-	/// Description of ComplexType
+	/// ComplexType
 	/// </summary>
 	public enum ComplexType {
 		template,	// постоянный шаблон
@@ -143,10 +150,10 @@ namespace Core.FileManager.Templates.Lexems {
 	}
 	
 	/// <summary>
-	/// Description of TPSimple
+	/// TPSimple
 	/// </summary>
 	public class TPSimple {
-		private string		m_sLexem	= "";
+		private string		m_sLexem	= string.Empty;
 		private SimpleType	m_Type		= SimpleType.const_template;
 		public TPSimple( string sLexem, SimpleType Type )
 		{
@@ -162,10 +169,10 @@ namespace Core.FileManager.Templates.Lexems {
 	}
 	
 	/// <summary>
-	/// Description of TPComplex
+	/// TPComplex
 	/// </summary>
 	public class TPComplex {
-		private string		m_sLexem	= "";
+		private string		m_sLexem	= string.Empty;
 		private ComplexType	m_bType		= ComplexType.template;
 		public TPComplex( string sLexem, ComplexType Type )
 		{

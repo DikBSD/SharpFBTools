@@ -32,11 +32,13 @@ namespace Core.Common
 		
 		// сброс для списка файлов аттрибута только для чтения
 		public static void DumpReadOnlyAttrForFiles( string sDir ) {
-			DirectoryInfo diFolder = new DirectoryInfo( sDir );
-			foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-				string s = Path.Combine( diFolder.FullName, fiNextFile.ToString() );
-				if ( ( File.GetAttributes( s ) & FileAttributes.ReadOnly ) == FileAttributes.ReadOnly )
-					File.SetAttributes( s, FileAttributes.Normal ) ;
+			if( Directory.Exists( sDir ) ) {
+				DirectoryInfo diFolder = new DirectoryInfo( sDir );
+				foreach ( FileInfo fiNextFile in diFolder.GetFiles() ) {
+					string s = Path.Combine( diFolder.FullName, fiNextFile.ToString() );
+					if ( ( File.GetAttributes( s ) & FileAttributes.ReadOnly ) == FileAttributes.ReadOnly )
+						File.SetAttributes( s, FileAttributes.Normal ) ;
+				}
 			}
 		}
 		
@@ -44,7 +46,7 @@ namespace Core.Common
 		public static void _RemoveDir( string sDir ) {
 			if( Directory.Exists( sDir ) ) {
 				DirectoryInfo diFolder = new DirectoryInfo( sDir );
-				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
+				foreach ( FileInfo fiNextFile in diFolder.GetFiles() ) {
 					string s = Path.Combine( diFolder.FullName, fiNextFile.ToString() );
 					if ( ( File.GetAttributes( s ) & FileAttributes.ReadOnly ) == FileAttributes.ReadOnly )
 						File.SetAttributes( s, FileAttributes.Normal ) ;
@@ -61,59 +63,32 @@ namespace Core.Common
 			}
 		}
 		
-		public static string ShowDir( System.Windows.Forms.ListView lw ) {
+		public static string ShowDir( bool RunSync, System.Windows.Forms.ListView lw ) {
 			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
 			FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
 			CommandManager manag = new CommandManager();
-			return manag.Run( "c:\\WINDOWS\\explorer.exe", "\""+fi.Directory.ToString()+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
+			return manag.Run( RunSync, "c:\\WINDOWS\\explorer.exe", "\""+fi.Directory.ToString()+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
 		}
 		
-		public static string ShowAsyncDir( System.Windows.Forms.ListView lw ) {
-			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
-			FileInfo fi = new FileInfo( si[0].SubItems[0].Text.Split('/')[0] );
+		public static string ShowDir( bool RunSync, string sDir ) {
 			CommandManager manag = new CommandManager();
-			return manag.RunAsync( "c:\\WINDOWS\\explorer.exe", "\""+fi.Directory.ToString()+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
+			return manag.Run( RunSync, "c:\\WINDOWS\\explorer.exe", "\""+sDir+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
 		}
 		
-		public static string ShowDir( string sDir ) {
-			CommandManager manag = new CommandManager();
-			return manag.Run( "c:\\WINDOWS\\explorer.exe", "\""+sDir+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
-		}
-		
-		public static string ShowAsyncDir( string sDir ) {
-			CommandManager manag = new CommandManager();
-			return manag.RunAsync( "c:\\WINDOWS\\explorer.exe", "\""+sDir+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
-		}
-		
-		public static string StartFile( string sProgramPath, System.Windows.Forms.ListView lw ) {
+		public static string StartFile( bool RunSync, string sProgramPath, System.Windows.Forms.ListView lw ) {
 			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
 			CommandManager manag = new CommandManager();
-			return manag.Run( "\""+sProgramPath+"\"", "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
+			return manag.Run( RunSync, "\""+sProgramPath+"\"", "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
 		}
 		
-		public static string StartAsyncFile( string sProgramPath, System.Windows.Forms.ListView lw ) {
-			ListView.SelectedListViewItemCollection si = lw.SelectedItems;
+		public static string StartFile( bool RunSync, string sProgramPath, string sStartFilePath ) {
 			CommandManager manag = new CommandManager();
-			return manag.RunAsync( "\""+sProgramPath+"\"", "\""+si[0].SubItems[0].Text.Split('/')[0]+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
+			return manag.Run( RunSync, "\""+sProgramPath+"\"", "\""+sStartFilePath+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
 		}
 		
-		public static string StartFile( string sProgramPath, string sStartFilePath ) {
+		public static string StartDiff( bool RunSync, string sProgramPath, string sPath1, string sPath2 ) {
 			CommandManager manag = new CommandManager();
-			return manag.Run( "\""+sProgramPath+"\"", "\""+sStartFilePath+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
-		}
-		
-		public static string StartAsyncFile( string sProgramPath, string sStartFilePath ) {
-			CommandManager manag = new CommandManager();
-			return manag.RunAsync( "\""+sProgramPath+"\"", "\""+sStartFilePath+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
-		}
-		
-		public static string StartDiff( string sProgramPath, string sPath1, string sPath2 ) {
-			CommandManager manag = new CommandManager();
-			return manag.Run( "\""+sProgramPath+"\"", "\""+sPath1+"\" \""+sPath2+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
-		}
-		public static string StartAsyncDiff( string sProgramPath, string sPath1, string sPath2 ) {
-			CommandManager manag = new CommandManager();
-			return manag.RunAsync( "\""+sProgramPath+"\"", "\""+sPath1+"\" \""+sPath2+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
+			return manag.Run( RunSync, "\""+sProgramPath+"\"", "\""+sPath1+"\" \""+sPath2+"\"", ProcessWindowStyle.Maximized, Priority.GetPriority( "Средний" ) );
 		}
 		
 		public static string FormatFileLength( long lLength ) {
@@ -175,7 +150,7 @@ namespace Core.Common
 					int nFB2 = 0;
 					foreach( string sFile in files ) {
 						if( bFB2Only ) {
-							if( Path.GetExtension( Path.GetFileName( sFile ) ).ToLower() == ".fb2" ) {
+							if( FilesWorker.isFB2File( sFile ) ) {
 								lFilesList.Add( sFile );
 								++nFB2;
 							}
@@ -536,11 +511,27 @@ namespace Core.Common
 		}*/
 		#endregion
 
+		/// <summary>
+		/// Прповерка является ли файл .fb2.zip или .fbz архивом
+		/// </summary>
+		/// <param name="FilePath">Путь к проверяемому файлу</param>
+		/// <returns>true - если файл - .fb2.zip или .fbz архив; false - если не .fb2.zip или .fbz архив</returns>
 		public static bool isFB2Archive( string FilePath ) {
-			string Extention = string.Empty;
 			if ( File.Exists( FilePath ) ) {
-				Extention = Path.GetExtension( FilePath ).ToLower();
+				string Extention = Path.GetExtension( FilePath ).ToLower();
 				return ( Extention == ".zip" || Extention == ".fbz" ) ? true : false;
+			} else
+				return false;
+		}
+		
+		/// <summary>
+		/// Прповерка является ли файл fb2 файлом
+		/// </summary>
+		/// <param name="FilePath">Путь к проверяемому файлу</param>
+		/// <returns>true - если файл - fb2 файлом; false - если не fb2 файл</returns>
+		public static bool isFB2File( string FilePath ) {
+			if ( File.Exists( FilePath ) ) {
+				return Path.GetExtension( FilePath ).ToLower() == ".fb2" ? true : false;
 			} else
 				return false;
 		}

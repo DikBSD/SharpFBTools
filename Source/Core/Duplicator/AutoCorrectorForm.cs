@@ -18,8 +18,8 @@ using WorksWithBooks	= Core.Common.WorksWithBooks;
 using MiscListView		= Core.Common.MiscListView;
 
 // enums
-using EndWorkModeEnum		= Core.Common.Enums.EndWorkModeEnum;
-using BooksAutoCorrectMode	= Core.Common.Enums.BooksAutoCorrectMode;
+using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
+using BooksAutoCorrectModeEnum	= Core.Common.Enums.BooksAutoCorrectModeEnum;
 
 namespace Core.Duplicator
 {
@@ -34,28 +34,28 @@ namespace Core.Duplicator
 		private readonly FB2Validator		m_fv2Validator	= new FB2Validator();
 		private readonly EndWorkMode m_EndMode		= new EndWorkMode();
 		private readonly string m_TempDir			= Settings.Settings.TempDir;
-		private readonly BooksAutoCorrectMode m_WorkMode;  // режим обработки книг
+		private readonly BooksAutoCorrectModeEnum m_WorkMode;  // режим обработки книг
 		private readonly DateTime m_dtStart;
 		private BackgroundWorker m_bw	= null;  // фоновый обработчик
 		#endregion
 		
-		public AutoCorrectorForm( BooksAutoCorrectMode WorkMode, ListView listViewFB2Files )
+		public AutoCorrectorForm( BooksAutoCorrectModeEnum WorkMode, ListView listViewFB2Files )
 		{
 			InitializeComponent();
 			m_listViewFB2Files	= listViewFB2Files;
 			m_WorkMode			= WorkMode;
 			
 			switch( m_WorkMode ) {
-				case BooksAutoCorrectMode.SelectedBooks:
+				case BooksAutoCorrectModeEnum.SelectedBooks:
 					ProgressBar.Maximum = m_listViewFB2Files.SelectedItems.Count;
 					break;
-				case BooksAutoCorrectMode.CheckedBooks:
+				case BooksAutoCorrectModeEnum.CheckedBooks:
 					ProgressBar.Maximum = m_listViewFB2Files.CheckedItems.Count;
 					break;
-				case BooksAutoCorrectMode.BooksInGroup:
+				case BooksAutoCorrectModeEnum.BooksInGroup:
 					ProgressBar.Maximum = m_listViewFB2Files.SelectedItems[0].Group.Items.Count;
 					break;
-				case BooksAutoCorrectMode.BooksInAllGroup:
+				case BooksAutoCorrectModeEnum.BooksInAllGroup:
 					ProgressBar.Maximum = m_listViewFB2Files.Items.Count;
 					break;
 				default:
@@ -99,7 +99,7 @@ namespace Core.Duplicator
 			int i = 0;
 			FB2Validator fv2Validator = new FB2Validator();
 			switch( m_WorkMode ) {
-				case BooksAutoCorrectMode.SelectedBooks:
+				case BooksAutoCorrectModeEnum.SelectedBooks:
 					this.Text = string.Format( "Автокорректировка выделенных {0} книг", m_listViewFB2Files.SelectedItems.Count );
 					foreach( ListViewItem SelectedItem in m_listViewFB2Files.SelectedItems ) {
 						if( ( m_bw.CancellationPending ) ) {
@@ -115,7 +115,7 @@ namespace Core.Duplicator
 						m_bw.ReportProgress( ++i );
 					}
 					break;
-				case BooksAutoCorrectMode.CheckedBooks:
+				case BooksAutoCorrectModeEnum.CheckedBooks:
 					this.Text = string.Format( "Автокорректировка помеченных {0} книг", m_listViewFB2Files.CheckedItems.Count );
 					foreach( ListViewItem CheckedItem in m_listViewFB2Files.CheckedItems ) {
 						if( ( m_bw.CancellationPending ) ) {
@@ -131,7 +131,7 @@ namespace Core.Duplicator
 						m_bw.ReportProgress( ++i );
 					}
 					break;
-				case BooksAutoCorrectMode.BooksInGroup:
+				case BooksAutoCorrectModeEnum.BooksInGroup:
 					this.Text = string.Format( "Автокорректировка {0} книг в Группе", m_listViewFB2Files.SelectedItems[0].Group.Items.Count );
 					foreach( ListViewItem Item in m_listViewFB2Files.SelectedItems[0].Group.Items ) {
 						if( ( m_bw.CancellationPending ) ) {
@@ -143,7 +143,7 @@ namespace Core.Duplicator
 						m_bw.ReportProgress( ++i );
 					}
 					break;
-				case BooksAutoCorrectMode.BooksInAllGroup:
+				case BooksAutoCorrectModeEnum.BooksInAllGroup:
 					this.Text = string.Format( "Автокорректировка {0} книг во всех Группах", m_listViewFB2Files.Items.Count );
 					foreach( ListViewItem Item in m_listViewFB2Files.Items ) {
 						if( ( m_bw.CancellationPending ) ) {

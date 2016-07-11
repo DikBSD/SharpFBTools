@@ -35,7 +35,9 @@
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -162,6 +164,10 @@
     <Compile Include="FileManager\FB2TagsViewForm.Designer.cs">
       <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FileManager\SortResultForm.cs" />
+    <Compile Include="FileManager\SortResultForm.Designer.cs">
+      <DependentUpon>SortResultForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AutoCorrector\AutoCorrectorForm.resx">
       <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -224,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FileManager\SortingForm.resx">
       <DependentUpon>SortingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileManager\SortResultForm.resx">
+      <DependentUpon>SortResultForm.cs</DependentUpon>
     </EmbeddedResource>
     <Folder Include="AutoCorrector" />
     <Folder Include="Duplicator" />

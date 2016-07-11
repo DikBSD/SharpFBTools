@@ -19,25 +19,25 @@ namespace Core.Common
 		/// Вид TitleInfo: TitleInfo или SourceTitleInfo  
 		/// </summary>
 		public enum TitleInfoEnum : byte {
-			TitleInfo,		
-			SourceTitleInfo
+			TitleInfo,			// TitleInfo fb2 файла
+			SourceTitleInfo		// SourceTitleInfo fb2 файла
 		}
 		
 		/// <summary>
 		/// Обрабатываемый author: Автор книги, Автор fb2-файла или Переводчик  
 		/// </summary>
 		public enum AuthorEnum : byte {
-			AuthorOfBook,		
-			AuthorOfFB2,
-			Translator
+			AuthorOfBook,	// Автор книги
+			AuthorOfFB2,	// Автор fb2-файла
+			Translator		// Переводчик
 		}
 		
 		/// <summary>
 		/// Обрабатываемый sequence: Серия Электронной или Бумажной книги  
 		/// </summary>
 		public enum SequenceEnum : byte {
-			Ebook,		
-			PaperBook
+			Ebook,		// Серия Электронной книги
+			PaperBook	// Серия Бумажной книги 
 		}
 		
 		/// <summary>
@@ -52,7 +52,7 @@ namespace Core.Common
 		/// <summary>
 		/// Номера колонок контрола просмотра групп одинаковых книг Корректора и Сортировщика
 		/// </summary>
-		public enum ResultViewCollumn : byte {
+		public enum ResultViewCollumnEnum : byte {
 			Path			= 0,	// Путь к книге
 			BookTitle		= 1,	// Название книги
 			Authors			= 2,	// Автор(ы)
@@ -72,7 +72,7 @@ namespace Core.Common
 		/// <summary>
 		/// Номера колонок контрола просмотра групп одинаковых книг для Дубликатора
 		/// </summary>
-		public enum ResultViewDupCollumn : byte {
+		public enum ResultViewDupCollumnEnum : byte {
 			Path			= 0,	// Путь к книге
 			BookTitle		= 1,	// Название книги
 			Authors			= 2,	// Автор(ы)
@@ -90,7 +90,7 @@ namespace Core.Common
 		/// <summary>
 		/// Варианты сравнения книг в группах Дубликатора
 		/// </summary>
-		public enum CompareMode : byte {
+		public enum CompareModeEnum : byte {
 			VersionValidate,// Версия файла и валидность
 			Encoding,		// Кодировка
 			Validate,		// Валидность
@@ -102,7 +102,7 @@ namespace Core.Common
 		/// <summary>
 		/// Варианты сравнения книг: в текущей группе или во всех группах Дубликатора
 		/// </summary>
-		public enum GroupAnalyzeMode : byte {
+		public enum GroupAnalyzeModeEnum : byte {
 			Group,		// В текущей Группе
 			AllGroup,	// Во всех Группах
 		}
@@ -110,7 +110,7 @@ namespace Core.Common
 		/// <summary>
 		/// режимы сравнения книг Дубликатора
 		/// </summary>
-		public enum SearchCompareMode : byte {
+		public enum SearchCompareModeEnum : byte {
 			Md5					= 0, // 0. Абсолютно одинаковые книги (md5)
 			BookID				= 1, // 1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)
 			BookTitle			= 2, // 2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)
@@ -121,7 +121,7 @@ namespace Core.Common
 		/// <summary>
 		/// Номера колонок контрола отображения информации по файлам и Группам Дубликатора
 		/// </summary>
-		public enum FilesCountViewDupCollumn : byte {
+		public enum FilesCountViewDupCollumnEnum : byte {
 			AllDirs				= 0,	// всего каталогов
 			AllBooks			= 1,	// всего книг
 			AllGroups			= 2,	// всего Групп одинаковых книг
@@ -131,7 +131,7 @@ namespace Core.Common
 		/// <summary>
 		/// Режимы обработки помеченных книг
 		/// </summary>
-		public enum BooksWorkMode : byte {
+		public enum BooksWorkModeEnum : byte {
 			SaveFB2List,		// Сохранение списка копий книг
 			SaveWorkingFB2List,	// Сохранение текущего обрабатываемого списка копий книг без запроса пути
 			LoadFB2List,		// Загрузка списка копий книг
@@ -143,7 +143,7 @@ namespace Core.Common
 		/// <summary>
 		/// Режимы валидации книг
 		/// </summary>
-		public enum BooksValidateMode : byte {
+		public enum BooksValidateModeEnum : byte {
 			AllBooks,		// все книги
 			CheckedBooks,	// помеченные книги
 			SelectedBooks,	// выделенные книги
@@ -152,7 +152,7 @@ namespace Core.Common
 		/// <summary>
 		/// Режимы автокорректировки книг
 		/// </summary>
-		public enum BooksAutoCorrectMode : byte {
+		public enum BooksAutoCorrectModeEnum : byte {
 			CheckedBooks,		// помеченные книги
 			SelectedBooks,		// выделенные книги
 			BooksInGroup,		// В текущей Группе
@@ -162,10 +162,34 @@ namespace Core.Common
 		/// <summary>
 		/// Загрузка fb2 книга из:
 		/// </summary>
-		public enum LoadFB2FromMode : byte {
+		public enum LoadFB2FromModeEnum : byte {
 			File,		// из файла
 			FB2Text,	// из строки типа FB2Text
 			String,		// из строки типа string
+		}
+		
+		/// <summary>
+		/// Номера колонок контрола сбора критериев Избранной Сортировщки
+		/// </summary>
+		public enum CriteriasViewCollumnEnum : byte {
+			Lang			= 0,	// Язык Книги
+			GenresGroup		= 1,	// Группа Жанров
+			Genre			= 2,	// Жанр
+			Last			= 3,	// Фамилия
+			First			= 4,	// Имя
+			Middle			= 5,	// Отчество
+			Nick			= 6,	// Ник
+			Sequence		= 7,	// Версия файла
+			BookTitle		= 8,	// Кодировка
+			ExactFit		= 9,	// Точное соответствие
+		}
+
+		/// <summary>
+		/// Тип Сортировки: Полная или Избранная
+		/// </summary>
+		public enum SortingTypeEnum : byte {
+			FullSort,		// Полная Сортировка
+			SelectedSort	// Избранная Сортировка
 		}
 		
 		/// <summary>

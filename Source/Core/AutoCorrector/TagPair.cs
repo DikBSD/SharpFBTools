@@ -140,48 +140,48 @@ namespace Core.AutoCorrector
 //			}
 			int cursor = _startTagPosition;
 			try {
-				start: int indexOf_Epigraph = xmlText.IndexOf( endTag, cursor + startTag.Length );
-				if ( indexOf_Epigraph == -1 )
+				start: int indexOf_Tag = xmlText.IndexOf( endTag, cursor + startTag.Length, StringComparison.CurrentCulture );
+				if ( indexOf_Tag == -1 )
 					return false; // нет зарывающего тега для найденного открывающего
 				else {
 					// нашли закрывающий тег </tag>
-					int indexOfEpigraph = xmlText.IndexOf( startTag, cursor + startTag.Length );
-					if ( indexOfEpigraph != -1 ) {
+					int indexOfTag = xmlText.IndexOf( startTag, cursor + startTag.Length, StringComparison.CurrentCulture );
+					if ( indexOfTag != -1 ) {
 						// нашли открывающий тег <tag>
-						if ( indexOf_Epigraph < indexOfEpigraph ) {
+						if ( indexOf_Tag < indexOfTag ) {
 							// закрывающий тег </tag> находится ДО нового открывающего тега <tag>
 							++_endTagCount;
 							if ( _endTagCount == _startTagCount ) {
-								_endTagPosition = indexOf_Epigraph + endTag.Length;
+								_endTagPosition = indexOf_Tag + endTag.Length;
 								_tagPair = xmlText.Substring( _startTagPosition, _endTagPosition - _startTagPosition );
 								return true;
 							} else {
 								// закрывающий тег </tag> находится ПОСЛЕ нового открывающего тега <tag>
-								cursor = indexOf_Epigraph;
+								cursor = indexOf_Tag;
 								goto start;
 							}
 						} else {
 							// новый открывающий тег <tag> находится ДО закрывающего тега </tag>
 							++_startTagCount;
-							cursor = indexOfEpigraph;
+							cursor = indexOfTag;
 							goto start;
 						}
 					} else {
 						// нет открывающего тега <tag>
 						++_endTagCount;
 						if ( _endTagCount == _startTagCount ) {
-							_endTagPosition = indexOf_Epigraph + endTag.Length;
+							_endTagPosition = indexOf_Tag + endTag.Length;
 							_tagPair = xmlText.Substring( _startTagPosition, _endTagPosition - _startTagPosition );
 							return true;
 						} else {
 							// закрывающий тег </tag> находится ПОСЛЕ нового открывающего тега <tag>
-							cursor = indexOf_Epigraph;
+							cursor = indexOf_Tag;
 							goto start;
 						}
 					}
 				}
-			} catch (Exception m) {
-				MessageBox.Show("getPairTagText:\n" + m);
+			} catch (Exception exp) {
+				MessageBox.Show("getPairTagText:\n" + exp);
 			}
 			
 			return false;
@@ -208,11 +208,11 @@ namespace Core.AutoCorrector
 					}
 				}
 				_nextTag = xmlText.Substring( start, end-start+1 );
-			} catch (Exception m) {
-				MessageBox.Show("findNextTag:\n" + m);
+			} catch (Exception exp) {
+				MessageBox.Show("findNextTag:\n" + exp);
 			}
 			
-			return !string.IsNullOrEmpty( _nextTag );
+			return ! string.IsNullOrEmpty( _nextTag );
 		}
 		
 		/// <summary>
@@ -254,11 +254,11 @@ namespace Core.AutoCorrector
 					}
 				}
 				_previousTag = xmlText.Substring( start, end-start+1 );
-			} catch (Exception m) {
-				MessageBox.Show("_findPreviousTag:\n" + m);
+			} catch (Exception exp) {
+				MessageBox.Show("_findPreviousTag:\n" + exp);
 			}
 			
-			return !string.IsNullOrEmpty( _previousTag );
+			return ! string.IsNullOrEmpty( _previousTag );
 		}
 		
 	}

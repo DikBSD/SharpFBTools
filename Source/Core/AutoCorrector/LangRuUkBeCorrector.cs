@@ -38,7 +38,7 @@ namespace Core.AutoCorrector
 		public string correct( ref bool IsCorrected ) {
 			IsCorrected = false;
 			// замена <lang> для русских книг на ru для fb2 без <src-title-info>
-			if ( _XmlDescription.IndexOf( "<src-title-info>" ) == -1 ) {
+			if ( _XmlDescription.IndexOf( "<src-title-info>", StringComparison.CurrentCulture ) == -1 ) {
 				/* ***************************************************************************
 				 * 							Алгоритм:
 				 * 1. Ищем Ъъ - это только русский язык.

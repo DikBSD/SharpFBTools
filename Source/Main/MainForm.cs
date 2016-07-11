@@ -80,11 +80,11 @@ namespace Main
 			// 
 			// tscMain.ContentPanel
 			// 
-			this.tscMain.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
+			this.tscMain.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tscMain.ContentPanel.Size = new System.Drawing.Size(1104, 691);
 			this.tscMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tscMain.Location = new System.Drawing.Point(0, 0);
-			this.tscMain.Margin = new System.Windows.Forms.Padding(4);
+			this.tscMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tscMain.Name = "tscMain";
 			this.tscMain.Size = new System.Drawing.Size(1104, 750);
 			this.tscMain.TabIndex = 0;
@@ -116,7 +116,7 @@ namespace Main
 			this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(889, 59);
+			this.tsMain.Size = new System.Drawing.Size(716, 59);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnFB2Corrector
@@ -144,9 +144,9 @@ namespace Main
 			this.tsbtnFB2Dublicator.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFB2Dublicator.Image")));
 			this.tsbtnFB2Dublicator.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnFB2Dublicator.Name = "tsbtnFB2Dublicator";
-			this.tsbtnFB2Dublicator.Size = new System.Drawing.Size(151, 56);
+			this.tsbtnFB2Dublicator.Size = new System.Drawing.Size(95, 56);
 			this.tsbtnFB2Dublicator.Tag = "tsbtnFB2Dublicator";
-			this.tsbtnFB2Dublicator.Text = "Дубликатор файлов";
+			this.tsbtnFB2Dublicator.Text = "Дубликатор";
 			this.tsbtnFB2Dublicator.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnFB2Dublicator.ToolTipText = "Поиск одинаковых книг";
 			this.tsbtnFB2Dublicator.Click += new System.EventHandler(this.TsbtnFB2DublicatorClick);
@@ -163,9 +163,9 @@ namespace Main
 			this.tsbtnFileManager.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFileManager.Image")));
 			this.tsbtnFileManager.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnFileManager.Name = "tsbtnFileManager";
-			this.tsbtnFileManager.Size = new System.Drawing.Size(165, 56);
+			this.tsbtnFileManager.Size = new System.Drawing.Size(109, 56);
 			this.tsbtnFileManager.Tag = "tsbtnFileManager";
-			this.tsbtnFileManager.Text = "Сортировщик файлов";
+			this.tsbtnFileManager.Text = "Сортировщик";
 			this.tsbtnFileManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnFileManager.Click += new System.EventHandler(this.TsbtnFileManagerClick);
 			// 
@@ -181,9 +181,9 @@ namespace Main
 			this.tsbtnArchiveManager.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnArchiveManager.Image")));
 			this.tsbtnArchiveManager.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbtnArchiveManager.Name = "tsbtnArchiveManager";
-			this.tsbtnArchiveManager.Size = new System.Drawing.Size(149, 56);
+			this.tsbtnArchiveManager.Size = new System.Drawing.Size(88, 56);
 			this.tsbtnArchiveManager.Tag = "tsbtnArchiveManager";
-			this.tsbtnArchiveManager.Text = "Менеджер архивов";
+			this.tsbtnArchiveManager.Text = "Архиватор";
 			this.tsbtnArchiveManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbtnArchiveManager.Click += new System.EventHandler(this.TsbtnArchiveManagerClick);
 			// 
@@ -256,7 +256,7 @@ namespace Main
 			this.ClientSize = new System.Drawing.Size(1104, 750);
 			this.Controls.Add(this.tscMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Margin = new System.Windows.Forms.Padding(4);
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SharpFBTools";

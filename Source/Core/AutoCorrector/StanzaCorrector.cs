@@ -41,7 +41,7 @@ namespace Core.AutoCorrector
 		/// </summary>
 		/// <returns>Откорректированную строку типа string </returns>
 		public string correct() {
-			if ( _xmlText.IndexOf( _startTag ) == -1 )
+			if ( _xmlText.IndexOf( _startTag, StringComparison.CurrentCulture ) == -1 )
 				return _xmlText;
 			
 			// преобработка (удаление стартовых пробелов ДО тегов и удаление завершающих пробелов ПОСЛЕ тегов и символов переноса строк)
@@ -93,11 +93,11 @@ namespace Core.AutoCorrector
 						RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 					if ( m.Success ) {
-						string s = m.Value;
-						s = s.Replace("<v>", "<p>").Replace("</v>", "</p>");
-						NewTag = NewTag.Substring( 0, m.Index ) /* ДО обрабатываемого текста */
-							+ s
-							+ NewTag.Substring( m.Index + m.Length ); /* ПОСЛЕ обрабатываемого текста */
+						string sSource = m.Value;
+						string sResult = m.Value;
+						sResult = sResult.Replace("<v>", "<p>").Replace("</v>", "</p>");
+						if ( sResult != sSource )
+							NewTag = NewTag.Replace( sSource, sResult );
 					}
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				
@@ -118,7 +118,7 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				
-				Index = XmlText.IndexOf( tagPair.PairTag, tagPair.StartTagPosition ) + NewTag.Length;
+				Index = XmlText.IndexOf( tagPair.PairTag, tagPair.StartTagPosition, StringComparison.CurrentCulture ) + NewTag.Length;
 				XmlText = XmlText.Substring( 0, tagPair.StartTagPosition ) /* ДО обрабатываемого текста */
 					+ NewTag
 					+ XmlText.Substring( tagPair.EndTagPosition ); /* ПОСЛЕ обрабатываемого текста */

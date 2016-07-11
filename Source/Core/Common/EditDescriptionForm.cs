@@ -1392,6 +1392,10 @@ namespace Core.Common
 			if( TICoverListView.SelectedItems.Count > 0 )
 				TICoverPictureBox.Image = ImageWorker.base64ToImage( TICoverListView.SelectedItems[0].Tag.ToString() );
 		}
+		void TICoverListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			TICoverListViewClick(sender, e);
+		}
 		void TICoverAddButtonClick(object sender, EventArgs e)
 		{
 			addCoverToList( Enums.TitleInfoEnum.TitleInfo );
@@ -1444,6 +1448,10 @@ namespace Core.Common
 		{
 			if( STICoverListView.SelectedItems.Count > 0 )
 				STICoverPictureBox.Image = ImageWorker.base64ToImage( STICoverListView.SelectedItems[0].Tag.ToString() );
+		}
+		void STICoverListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			STICoverListViewClick(sender, e);
 		}
 		void STICoverAddButtonClick(object sender, EventArgs e)
 		{

@@ -38,19 +38,15 @@ namespace Core.AutoCorrector
 					RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 				while (m.Success) {
-					string binaryTag = m.Value;
-					
+					string sourceRinaryTag = m.Value;
 					// обработка ссылок
-					LinksCorrector linksCorrector = new LinksCorrector( binaryTag );
-					binaryTag = linksCorrector.correct();
-					
-					_xmlText = _xmlText.Substring( 0, m.Index ) /* ДО обрабатываемого текста */
-						+ binaryTag
-						+ _xmlText.Substring( m.Index + m.Length ); /* ПОСЛЕ обрабатываемого текста */
-					
+					LinksCorrector linksCorrector = new LinksCorrector( sourceRinaryTag );
+					string resultBinaryTag = linksCorrector.correct();
+					if ( resultBinaryTag != sourceRinaryTag )
+						_xmlText = _xmlText.Replace( sourceRinaryTag, resultBinaryTag );
 					m = m.NextMatch();
 				}
-			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			return _xmlText;
 		}
 	}

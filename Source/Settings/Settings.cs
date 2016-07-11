@@ -23,14 +23,14 @@ namespace Settings
 		
 		#region Общее Настройки
 		private 		 static string m_sProgDir 				= Environment.CurrentDirectory;
-		private readonly static string m_sTempDir 				= ProgDir + "\\Temp"; // временный каталог
-		private readonly static string m_settings 				= ProgDir + "\\settings.xml";
-		private readonly static string m_sLicensePath			= ProgDir + "\\License GPL 2.1.rtf";
-		private readonly static string m_sChangeFilePath		= ProgDir + "\\Change.rtf";
-		private readonly static string m_SchemePath				= ProgDir + "\\FictionBook.xsd";
-		private readonly static string m_sTFB2Path				= "c:\\WINDOWS\\NOTEPAD.EXE";
-		private readonly static string m_sFBEPath				= "c:\\Program Files\\FictionBook Editor\\FBE.exe";
-		private readonly static string m_sFBReaderPath			= "c:\\Program Files\\AlReader 2\\AlReader2.exe";
+		private readonly static string m_sTempDir 				= Path.Combine(Path.GetTempPath(),"Temp"); // Путь к временной папке текущего пользователя
+		private readonly static string m_settings 				= Path.Combine(ProgDir, "settings.xml");
+		private readonly static string m_sLicensePath			= Path.Combine(ProgDir, "License GPL 2.1.rtf");
+		private readonly static string m_sChangeFilePath		= Path.Combine(ProgDir, "Change.rtf");
+		private readonly static string m_SchemePath				= Path.Combine(ProgDir, "FictionBook.xsd");
+		private readonly static string m_sTFB2Path				= @"c:\Windows\Notepad.exe";
+		private readonly static string m_sFBEPath				= @"c:\Program Files\FictionBook Editor\FBE.exe";
+		private readonly static string m_sFBReaderPath			= @"c:\Program Files\AlReader 2\AlReader2.exe";
 		private 		 static string m_sDiffPath				= string.Empty;
 		#endregion
 		

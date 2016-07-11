@@ -21,7 +21,7 @@ using Core.Common;
 namespace Core.FileManager
 {
 	/// <summary>
-	/// проверка файла по критериям Избранной сортировки
+	/// Проверка файла по критериям Избранной сортировки
 	/// </summary>
 	public class FB2SelectedSorting
 	{
@@ -30,40 +30,13 @@ namespace Core.FileManager
 		}
 		
 		#region Открытые методы
-		// заполняем список критериев поиска для Избранной Сортировки
-		public static List<SortQueryCriteria> makeSelectedSortQuerysList( ref SortQueryCriteria criteria ) {
-			List<string> lsGenres = null; // временный список Жанров по конкретной Группе Жанров
-			// если есть Группа Жанров, то преобразуем ее в список "ее" Жанров
-			if( !string.IsNullOrEmpty( criteria.GenresGroup ) ) {
-				FB2UnionGenres fb2g = new FB2UnionGenres();
-				lsGenres = fb2g.GetFBGenreCodesListForGroup( criteria.GenresGroup );
-			}
-			// формируем список критериев поиска в зависимости от наличия Групп Жанров
-			List<SortQueryCriteria> lSSQCList = new List<SortQueryCriteria>();
-			if( lsGenres == null ) {
-				lSSQCList.Add(
-					new SortQueryCriteria(
-						criteria.Lang, criteria.GenresGroup, criteria.Genre,
-						criteria.LastName, criteria.FirstName, criteria.MiddleName, criteria.NickName,
-						criteria.Sequence, criteria.BookTitle, criteria.ExactFit
-					)
-				);
-			} else {
-				foreach( string sGenre in lsGenres ) {
-					lSSQCList.Add(
-						new SortQueryCriteria(
-							criteria.Lang, string.Empty, sGenre,
-							criteria.LastName, criteria.FirstName, criteria.MiddleName, criteria.NickName,
-							criteria.Sequence, criteria.BookTitle, criteria.ExactFit
-						)
-					);
-				}
-			}
-			return lSSQCList;
-		}
-
-		// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
-		// возвращает null, если книга не соответствует ни одному критерию поиска; или найденный критерий SelectedSortQueryCriteria
+		/// <summary>
+		/// Проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
+		/// </summary>
+		/// <param name="sFromFilePath">Экземпляр класса SortQueryCriteria</param>
+		/// <param name="lSSQCList">Список экземпляров класса  SortQueryCriteria</param>
+		/// <param name="IsNotRead">out параметр: true - книга не открывается; false - книгу удалось открыть</param>
+		/// <returns>null, если книга не соответствует ни одному критерию поиска; или найденный критерий SelectedSortQueryCriteria</returns>
 		public static SortQueryCriteria isConformity( string sFromFilePath, List<SortQueryCriteria> lSSQCList, out bool IsNotRead ) {
 			SortQueryCriteria currentCriteria = null;
 			IsNotRead			= false;
@@ -87,21 +60,9 @@ namespace Core.FileManager
 			string sLang, sFirstName, sGenre, sMiddleName, sLastName, sNickName, sSequence, sBookTitle;
 			bool bExactFit;
 			Regex re = null;
-			foreach( SortQueryCriteria ssqc in lSSQCList ) {
-				// "вычленяем" язык книги
-				sLang = ssqc.Lang;
-				if( !string.IsNullOrWhiteSpace( sLang ) ) {
-					sLang = sLang.Substring( sLang.IndexOf( "(" ) + 1 );
-					sLang = sLang.Remove( sLang.IndexOf( ")" ) );
-				}
-				// если есть Жанр, то "вычленяем" его из строки
-				sGenre	= ssqc.Genre;
-				if( !string.IsNullOrWhiteSpace( sGenre ) ) {
-					if( sGenre.IndexOf( "(" ) >= 0 )
-						sGenre = sGenre.Substring( sGenre.IndexOf( "(" ) + 1 );
-					if( sGenre.IndexOf( ")" ) >= 0 )
-						sGenre = sGenre.Remove( sGenre.IndexOf( ")" ) );
-				}
+			foreach ( SortQueryCriteria ssqc in lSSQCList ) {
+				sLang 		= ssqc.Lang;
+				sGenre		= ssqc.Genre;
 				sFirstName	= ssqc.FirstName;
 				sMiddleName	= ssqc.MiddleName;
 				sLastName	= ssqc.LastName;
@@ -112,167 +73,167 @@ namespace Core.FileManager
 				
 				/* Проверка условиям критерия */
 				// проверка языка книги
-				if( !string.IsNullOrWhiteSpace( sFB2Lang ) ) {
-					if( !string.IsNullOrWhiteSpace( sLang ) ) {
-						if( sFB2Lang != sLang )
+				if ( !string.IsNullOrWhiteSpace( sFB2Lang ) ) {
+					if ( !string.IsNullOrWhiteSpace( sLang ) ) {
+						if ( sFB2Lang != sLang )
 							continue;
 					}
 				} else {
 					// в книге тега языка нет
-					if( !string.IsNullOrWhiteSpace( sLang ) )
+					if ( !string.IsNullOrWhiteSpace( sLang ) )
 						continue;
 				}
 				// проверка жанра книги
 				bool b = false;
-				if( lFB2Genres != null ) {
-					if( !string.IsNullOrWhiteSpace( sGenre ) ) {
-						foreach( Genre gfb2 in lFB2Genres ) {
-							if( !string.IsNullOrWhiteSpace( gfb2.Name ) ) {
-								if( gfb2.Name == sGenre ) {
+				if ( lFB2Genres != null ) {
+					if ( !string.IsNullOrWhiteSpace( sGenre ) ) {
+						foreach ( Genre gfb2 in lFB2Genres ) {
+							if ( !string.IsNullOrWhiteSpace( gfb2.Name ) ) {
+								if ( gfb2.Name == sGenre ) {
 									b = true; break;
 								}
 							} else
 								continue;
 						}
-						if( !b )
+						if ( !b )
 							continue;
 					}
 				} else {
 					// в книге тега жанра нет
-					if( !string.IsNullOrWhiteSpace( sGenre ) )
+					if ( !string.IsNullOrWhiteSpace( sGenre ) )
 						continue;
 				}
 				// проверка серии книги
 				b = false;
-				if( lFB2Sequences != null ) {
-					if( !string.IsNullOrWhiteSpace( sSequence ) ) {
-						foreach( Sequence sfb2 in lFB2Sequences ) {
-							if( !string.IsNullOrWhiteSpace( sfb2.Name ) ) {
-								if( bExactFit ) {
+				if ( lFB2Sequences != null ) {
+					if ( !string.IsNullOrWhiteSpace( sSequence ) ) {
+						foreach ( Sequence sfb2 in lFB2Sequences ) {
+							if ( !string.IsNullOrWhiteSpace( sfb2.Name ) ) {
+								if ( bExactFit ) {
 									// точное соответствие
-									if( sfb2.Name == sSequence ) {
+									if ( sfb2.Name == sSequence ) {
 										b = true; break;
 									}
 								} else {
 									re = new Regex( sSequence, RegexOptions.IgnoreCase );
-									if( re.IsMatch( sfb2.Name ) ) {
+									if ( re.IsMatch( sfb2.Name ) ) {
 										b = true; break;
 									}
 								}
 							} else
 								continue;
 						}
-						if( !b )
+						if ( !b )
 							continue;
 					}
 				} else {
 					// в книге тега серии нет
-					if( !string.IsNullOrWhiteSpace( sSequence ) )
+					if ( !string.IsNullOrWhiteSpace( sSequence ) )
 						continue;
 				}
 				// проверка автора книги
-				if( lFB2Authors != null ) {
+				if ( lFB2Authors != null ) {
 					b = false;
-					if( sFirstName.Length != 0 ) {
-						foreach( Author afb2 in lFB2Authors ) {
-							if( afb2.FirstName != null ) {
-								if( bExactFit ) {
+					if ( sFirstName.Length != 0 ) {
+						foreach ( Author afb2 in lFB2Authors ) {
+							if ( afb2.FirstName != null ) {
+								if ( bExactFit ) {
 									// точное соответствие
-									if( afb2.FirstName.Value == sFirstName ) {
+									if ( afb2.FirstName.Value == sFirstName ) {
 										b = true; break;
 									}
 								} else {
 									re = new Regex( sFirstName, RegexOptions.IgnoreCase );
-									if( re.IsMatch( afb2.FirstName.Value ) ) {
+									if ( re.IsMatch( afb2.FirstName.Value ) ) {
 										b = true; break;
 									}
 								}
 							} else
 								continue;
 						}
-						if( !b )
+						if ( !b )
 							continue;
 					}
 					b = false;
-					if( sMiddleName.Length != 0 ) {
-						foreach( Author afb2 in lFB2Authors ) {
-							if( afb2.MiddleName != null ) {
-								if( bExactFit ) {
+					if ( sMiddleName.Length != 0 ) {
+						foreach ( Author afb2 in lFB2Authors ) {
+							if ( afb2.MiddleName != null ) {
+								if ( bExactFit ) {
 									// точное соответствие
-									if( afb2.MiddleName.Value == sMiddleName ) {
+									if ( afb2.MiddleName.Value == sMiddleName ) {
 										b = true; break;
 									}
 								} else {
 									re = new Regex( sMiddleName, RegexOptions.IgnoreCase );
-									if( re.IsMatch( afb2.MiddleName.Value ) ) {
+									if ( re.IsMatch( afb2.MiddleName.Value ) ) {
 										b = true; break;
 									}
 								}
 							} else
 								continue;
 						}
-						if( !b )
+						if ( !b )
 							continue;
 					}
 					b = false;
-					if( sLastName.Length != 0 ) {
-						foreach( Author afb2 in lFB2Authors ) {
-							if( afb2.LastName != null ) {
-								if( bExactFit ) {
+					if ( sLastName.Length != 0 ) {
+						foreach ( Author afb2 in lFB2Authors ) {
+							if ( afb2.LastName != null ) {
+								if ( bExactFit ) {
 									// точное соответствие
-									if( afb2.LastName.Value == sLastName ) {
+									if ( afb2.LastName.Value == sLastName ) {
 										b = true; break;
 									}
 								} else {
 									re = new Regex( sLastName, RegexOptions.IgnoreCase );
-									if( re.IsMatch( afb2.LastName.Value ) ) {
+									if ( re.IsMatch( afb2.LastName.Value ) ) {
 										b = true; break;
 									}
 								}
 							} else
 								continue;
 						}
-						if( !b )
+						if ( !b )
 							continue;
 					}
 					b = false;
-					if( sNickName.Length != 0 ) {
-						foreach( Author afb2 in lFB2Authors ) {
-							if( afb2.NickName != null ) {
-								if( bExactFit ) {
+					if ( sNickName.Length != 0 ) {
+						foreach ( Author afb2 in lFB2Authors ) {
+							if ( afb2.NickName != null ) {
+								if ( bExactFit ) {
 									// точное соответствие
-									if( afb2.NickName.Value == sNickName ) {
+									if ( afb2.NickName.Value == sNickName ) {
 										b = true; break;
 									}
 								} else {
 									re = new Regex( sNickName, RegexOptions.IgnoreCase );
-									if( re.IsMatch( afb2.NickName.Value ) ) {
+									if ( re.IsMatch( afb2.NickName.Value ) ) {
 										b = true; break;
 									}
 								}
 							} else
 								continue;
 						}
-						if( !b )
+						if ( !b )
 							continue;
 					}
 				} else {
 					// в книге тегов автора нет
-					if( !string.IsNullOrWhiteSpace( sFirstName ) || !string.IsNullOrWhiteSpace( sMiddleName )||
-					   !string.IsNullOrWhiteSpace( sNickName ) || !string.IsNullOrWhiteSpace( sNickName ) )
+					if ( !string.IsNullOrWhiteSpace( sFirstName ) || !string.IsNullOrWhiteSpace( sMiddleName )||
+					    !string.IsNullOrWhiteSpace( sNickName ) || !string.IsNullOrWhiteSpace( sNickName ) )
 						continue;
 				}
 				// проверка названия книги
-				if( FB2BookTitle != null ) {
-					if( !string.IsNullOrWhiteSpace( sBookTitle ) ) {
-						if( !string.IsNullOrWhiteSpace( FB2BookTitle.Value ) ) {
-							if( bExactFit ) {
+				if ( FB2BookTitle != null ) {
+					if ( !string.IsNullOrWhiteSpace( sBookTitle ) ) {
+						if ( !string.IsNullOrWhiteSpace( FB2BookTitle.Value ) ) {
+							if ( bExactFit ) {
 								// точное соответствие
-								if( FB2BookTitle.Value != sBookTitle )
+								if ( FB2BookTitle.Value != sBookTitle )
 									continue;
 							} else {
 								re = new Regex( sBookTitle, RegexOptions.IgnoreCase );
-								if( !re.IsMatch( FB2BookTitle.Value ) )
+								if ( !re.IsMatch( FB2BookTitle.Value ) )
 									continue;
 							}
 						} else
@@ -280,7 +241,7 @@ namespace Core.FileManager
 					}
 				} else {
 					// в книге тега названия нет
-					if( !string.IsNullOrWhiteSpace( sBookTitle ) )
+					if ( !string.IsNullOrWhiteSpace( sBookTitle ) )
 						continue;
 				}
 				currentCriteria = ssqc;

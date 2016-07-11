@@ -12,10 +12,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
+//using System.Windows.Forms;
+
 using Settings;
 using Core.Common;
 
 using SelectedSortQueryCriteria	= Core.FileManager.SortQueryCriteria;
+
+// enums
+using SortingTypeEnum  = Core.Common.Enums.SortingTypeEnum;
 
 namespace Core.FileManager
 {
@@ -27,7 +32,7 @@ namespace Core.FileManager
 		#region закрытые данные класса
 		private readonly XElement m_xmlTree		= null; // дерево настроек из xml файла m_FromXmlFile
 		private readonly string m_FromXmlFile	= null; // xml файл с сохраненными настройками сортировки при прерывании работы (null - сортировка сначала)
-		private bool m_FullSort					= true; // true - Полная сортировка; false - Избранная сортировка
+		private SortingTypeEnum _sortingTypeEnum = SortingTypeEnum.FullSort; // Тип Сортировки: Полная или Избранная сортировка
 		private List<SelectedSortQueryCriteria> m_lSSQCList = new List<SelectedSortQueryCriteria>(); // список критерие Избранной Сортировки
 		
 		#region Папки для "проблемных" файлов
@@ -110,19 +115,22 @@ namespace Core.FileManager
 		private string m_FB2InfoNoFB2NickName	= string.Empty;
 		#endregion
 		#endregion
-		
-		// отображение прогресса
-		private bool m_Progress	= false;
+
 		#endregion
 		
-		public SortingOptions( bool FullSort, string FromXmlFile )
+		/// <summary>
+		/// Конструктор класса SortingOptions: индивидуальные настройки обоих Сортировщиков, в зависимости от режима (непрерывная сортировка или возобновление сортировки)
+		/// </summary>
+		/// <param name="sortingTypeEnum">Тип сортировки: Полная Сортировка или Избранная Сортировка</param>
+		/// <param name="FromXmlFile">null - Непрерывная Сортировка; Путь - Возобновление Сортировки из xml файла</param>
+		public SortingOptions( SortingTypeEnum sortingTypeEnum, string FromXmlFile )
 		{
-			m_FromXmlFile	= FromXmlFile;
-			m_FullSort		= FullSort;
+			m_FromXmlFile	 = FromXmlFile;
+			_sortingTypeEnum = sortingTypeEnum;
 			
 			if( m_FromXmlFile == null ) {
 				// Непрерывная Сортировка
-				loadSettinsgForNotBreakSort( m_FullSort );
+				loadSettingsForNotBreakSort( _sortingTypeEnum );
 			} else {
 				// Возобновление Сортировки
 				if( File.Exists( m_FromXmlFile ) ) {
@@ -130,8 +138,8 @@ namespace Core.FileManager
 					if( m_xmlTree != null ) {
 						try {
 							// загрузка данных из xml-файла восстановления сортировки
-							loadSettinsgForReNewSort();
-							if( !m_FullSort ) // загрузка критериев Избранной Сортировки при возобновлении сортировки
+							loadSettingsForReNewSort();
+							if( _sortingTypeEnum == SortingTypeEnum.SelectedSort ) // загрузка критериев Избранной Сортировки при возобновлении сортировки
 								loadCriteriasForSelReNewSort();
 						} catch {
 							return;
@@ -237,11 +245,6 @@ namespace Core.FileManager
 		public virtual int FileExistMode {
 			get { return m_FileExistMode; }
 			set { m_FileExistMode = value; }
-		}
-		
-		public virtual bool Progress {
-			get { return m_Progress; }
-			set { m_Progress = value; }
 		}
 		#endregion
 		
@@ -403,7 +406,16 @@ namespace Core.FileManager
 		}
 		// Вид сортировки: m_FullSort = true - Полная; false - Избранная.
 		public bool IsFullSort {
-			get { return m_FullSort; }
+			get {
+				return _sortingTypeEnum == SortingTypeEnum.FullSort
+					? true : false;
+			}
+		}
+		// Вид сортировки: Полная или Избранная.
+		public SortingTypeEnum sortingTypeEnum {
+			get {
+				return _sortingTypeEnum;
+			}
 		}
 		// Режим сортировки: true - Возобновление; false - Непрерывная
 		public bool IsReNewSort {
@@ -416,7 +428,10 @@ namespace Core.FileManager
 		//											Открытые методы класса
 		// =====================================================================================================
 		#region Открытые методы класса
-		// присвоение критериев Сортировки
+		/// <summary>
+		/// Присвоение критериев Сортировки
+		/// </summary>
+		/// <param name="lSSQCList">Список экземпляров класса SelectedSortQueryCriteria</param>
 		public void setCriterias( List<SelectedSortQueryCriteria> lSSQCList ) {
 			m_lSSQCList = lSSQCList;
 		}
@@ -444,9 +459,11 @@ namespace Core.FileManager
 		//											Загрузка индивидуальных настроек сортировки
 		// =====================================================================================================
 		#region Закрытые методы класса: загрузка данных по-умолчанию, в зависимости от Сортировщика  (Непрерывная Сортировка)
-		// данные из xml-файла Сортировщика для непрерывной сортировки
-		private void loadSettinsgForNotBreakSort( bool FullSort ) {
-			if( FullSort ) {
+		/// <summary>
+		/// Данные из xml-файла Сортировщика для непрерывной сортировки
+		/// </summary>
+		private void loadSettingsForNotBreakSort( SortingTypeEnum sortingTypeEnum ) {
+			if( sortingTypeEnum == SortingTypeEnum.FullSort ) {
 				// Полная Сортировка : данные из xml-файла Сортировщика
 				#region Обработка файлов
 				m_SourceDir = FileManagerSettings.ReadFullSortSourceDir();
@@ -517,12 +534,12 @@ namespace Core.FileManager
 			m_FB2InfoNoFB2LastName		= FileManagerSettings.ReadFMNoFB2LastName();
 			m_FB2InfoNoFB2NickName		= FileManagerSettings.ReadFMNoFB2NickName();
 			#endregion
-			
-			// Прогресс
-			m_Progress = FileManagerSettings.ReadProgress();
 		}
-		// загрузка данных из xml-файла восстановления сортировки
-		private void loadSettinsgForReNewSort() {
+
+		/// <summary>
+		/// Загрузка данных из xml-файла восстановления сортировки
+		/// </summary>
+		private void loadSettingsForReNewSort() {
 			#region Код
 			#region Обработка файлов
 			// загрузка папок: исходная и приемник
@@ -697,18 +714,17 @@ namespace Core.FileManager
 				}
 			}
 			#endregion
-			
-			if( m_xmlTree.Element("Progress") != null )
-				m_Progress = Convert.ToBoolean( m_xmlTree.Element("Progress").Value );
 			#endregion
 		}
 		
-		// загрузка критериев Избранной Сортировки при возобновлении сортировки
+		/// <summary>
+		/// Загрузка критериев Избранной Сортировки при возобновлении сортировки
+		/// </summary>
 		private void loadCriteriasForSelReNewSort() {
 			XElement xeCriterias = m_xmlTree.Element("Criterias");
 			IEnumerable<XElement> iexeCriterias  = from el in xeCriterias.Descendants("Criteria") select el;
 			
-			foreach( XElement c in iexeCriterias ) {
+			foreach ( XElement c in iexeCriterias ) {
 				XElement xeLang = c.Element("Lang");
 				XElement xeGGroup = c.Element("GenresGroup");
 				XElement xeGenre = c.Element("Genre");
@@ -722,16 +738,15 @@ namespace Core.FileManager
 				XElement xeGenresFB2Librusec = c.Element("GenresFB2Librusec");
 				// заполняем список критериев поиска для Избранной Сортировки
 				SortQueryCriteria SelSortQuery = new SelectedSortQueryCriteria(
-					xeLang!= null ? xeLang.Value : null, xeGGroup!= null ? xeGGroup.Value : null, xeGenre!= null ? xeGenre.Value : null,
-					xeLast!= null ? xeLast.Value : null, xeFirst!= null ? xeFirst.Value : null, xeMiddle!= null ? xeMiddle.Value : null, xeNick!= null ? xeNick.Value : null,
-					xeSequence!= null ? xeSequence.Value : null, xeBookTitle!= null ? xeBookTitle.Value : null,
-					xeExactFit!= null ? Convert.ToBoolean( xeExactFit.Value ) : true
+					xeLang != null ? xeLang.Value : null, xeGGroup != null ? xeGGroup.Value : null, xeGenre != null ? xeGenre.Value : null,
+					xeLast != null ? xeLast.Value : null, xeFirst != null ? xeFirst.Value : null, xeMiddle != null ? xeMiddle.Value : null, xeNick != null ? xeNick.Value : null,
+					xeSequence != null ? xeSequence.Value : null, xeBookTitle != null ? xeBookTitle.Value : null,
+					xeExactFit != null ? Convert.ToBoolean( xeExactFit.Value ) : true
 				);
-				m_lSSQCList.AddRange( FB2SelectedSorting.makeSelectedSortQuerysList( ref SelSortQuery ) );
+				m_lSSQCList.Add( SelSortQuery );
 			}
 		}
 		#endregion
-		
 	}
 }
 

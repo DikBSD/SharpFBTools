@@ -21,9 +21,9 @@ using MiscListView		= Core.Common.MiscListView;
 using Colors			= Core.Common.Colors;
 
 // enums
-using EndWorkModeEnum	= Core.Common.Enums.EndWorkModeEnum;
-using ResultViewCollumn = Core.Common.Enums.ResultViewCollumn;
-using BooksValidateMode = Core.Common.Enums.BooksValidateMode;
+using EndWorkModeEnum		= Core.Common.Enums.EndWorkModeEnum;
+using ResultViewCollumnEnum	= Core.Common.Enums.ResultViewCollumnEnum;
+using BooksValidateModeEnum = Core.Common.Enums.BooksValidateModeEnum;
 
 namespace Core.Corrector
 {
@@ -33,7 +33,7 @@ namespace Core.Corrector
 	public partial class ValidatorForm : Form
 	{
 		#region Закрытые данные класса
-		private readonly BooksValidateMode m_booksValidateMode = BooksValidateMode.AllBooks;
+		private readonly BooksValidateModeEnum m_booksValidateMode = BooksValidateModeEnum.AllBooks;
 		private readonly string				m_SourceDir		= string.Empty;
 		
 		private readonly ListView			m_listView		= new ListView();
@@ -45,7 +45,7 @@ namespace Core.Corrector
 		private BackgroundWorker m_bw = null;
 		#endregion
 		
-		public ValidatorForm( BooksValidateMode booksValidateMode, ListView listView, string SourceDir )
+		public ValidatorForm( BooksValidateModeEnum booksValidateMode, ListView listView, string SourceDir )
 		{
 			InitializeComponent();
 
@@ -90,7 +90,7 @@ namespace Core.Corrector
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			FB2Validator fv2Validator = new FB2Validator();
 			m_listView.BeginUpdate();
-			if( m_booksValidateMode == BooksValidateMode.CheckedBooks ) {
+			if( m_booksValidateMode == BooksValidateModeEnum.CheckedBooks ) {
 				// для помеченных книг
 				ListView.CheckedListViewItemCollection checkedItems = m_listView.CheckedItems;
 				if( checkedItems.Count > 0 ) {
@@ -108,7 +108,7 @@ namespace Core.Corrector
 						m_bw.ReportProgress( ++i );
 					}
 				}
-			} else if( m_booksValidateMode == BooksValidateMode.SelectedBooks ) {
+			} else if( m_booksValidateMode == BooksValidateModeEnum.SelectedBooks ) {
 				// для выделенных книг
 				ListView.SelectedListViewItemCollection selItems = m_listView.SelectedItems;
 				this.Text += ": Выделенные книги";
@@ -185,12 +185,12 @@ namespace Core.Corrector
 				string FilePath = Path.Combine( m_SourceDir.Trim(), lvi.SubItems[0].Text );
 				if( File.Exists( FilePath ) ) {
 					string Msg = fv2Validator.ValidatingFB2File( FilePath );
-					lvi.SubItems[(int)ResultViewCollumn.Validate].Text = Msg == string.Empty ? "Да" : "Нет";
-					string Ext = Path.GetExtension( FilePath ).ToLower();
+					lvi.SubItems[(int)ResultViewCollumnEnum.Validate].Text = Msg == string.Empty ? "Да" : "Нет";
 					if ( !string.IsNullOrEmpty( Msg ) )
 						lvi.ForeColor = Colors.FB2NotValidForeColor;
 					else
-						lvi.ForeColor = Ext == ".fb2" ? Color.FromName( "WindowText" ) : Colors.ZipFB2ForeColor;
+						lvi.ForeColor = FilesWorker.isFB2File( FilePath )
+							? Color.FromName( "WindowText" ) : Colors.ZipFB2ForeColor;
 				}
 			}
 		}

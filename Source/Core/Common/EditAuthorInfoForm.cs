@@ -97,7 +97,8 @@ namespace Core.Common
 										Directory.CreateDirectory( m_TempDir );
 									string NewPath = Info.IsFromArhive ? Info.FilePathIfFromZip : Info.FilePathSource;
 									fb2.saveToFB2File( NewPath, false );
-									WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, Info.FilePathSource, Info.IsFromArhive, NewPath );
+									if ( Info.IsFromArhive )
+										WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, NewPath, Info.FilePathSource );
 								}
 							}
 						}
@@ -345,6 +346,10 @@ namespace Core.Common
 		void AuthorsListViewColumnClick(object sender, ColumnClickEventArgs e)
 		{
 			MiscListView.SortColumnClick( AuthorsListView, m_lvwColumnSorter, e );
+		}
+		void EditAuthorInfoFormShown(object sender, EventArgs e)
+		{
+			LastNameTextBox.Focus();
 		}
 		
 		#endregion

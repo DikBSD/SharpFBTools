@@ -114,12 +114,11 @@ namespace Core.AutoCorrector
 					RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 				while (m.Success) {
-					string s = m.Value;
-					s = s.Replace(' ', '_').Replace('~', '_');
-					_xmlText = _xmlText.Substring( 0, m.Index ) /* ДО обрабатываемого текста */
-						+ s
-						+ _xmlText.Substring( m.Index + m.Length ); /* ПОСЛЕ обрабатываемого текста */
-					
+					string sSource = m.Value;
+					string sResult = m.Value;
+					sResult = sResult.Replace(' ', '_').Replace('~', '_');
+					if ( sResult != sSource )
+						_xmlText = _xmlText.Replace( sSource, sResult );
 					m = m.NextMatch();
 				}
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}

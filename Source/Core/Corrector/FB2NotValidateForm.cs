@@ -20,15 +20,16 @@ using Core.Common;
 using Core.FB2.Genres;
 
 using FB2Validator		= Core.FB2Parser.FB2Validator;
+using FilesWorker		= Core.Common.FilesWorker;
 using SharpZipLibWorker = Core.Common.SharpZipLibWorker;
 using EndWorkMode 		= Core.Common.EndWorkMode;
 using MiscListView		= Core.Common.MiscListView;
 using Colors			= Core.Common.Colors;
 
 // enums
-using EndWorkModeEnum	= Core.Common.Enums.EndWorkModeEnum;
-using ResultViewCollumn = Core.Common.Enums.ResultViewCollumn;
-using BooksValidateMode = Core.Common.Enums.BooksValidateMode;
+using EndWorkModeEnum		= Core.Common.Enums.EndWorkModeEnum;
+using ResultViewCollumnEnum	= Core.Common.Enums.ResultViewCollumnEnum;
+using BooksValidateModeEnum = Core.Common.Enums.BooksValidateModeEnum;
 
 namespace Core.Corrector
 {
@@ -284,19 +285,18 @@ namespace Core.Corrector
 				string TempDir = Settings.Settings.TempDir;
 				string FileExt = Path.GetExtension( FilePath );
 				ListViewItem.ListViewSubItem[] subItems;
-				if( FileExt == ".fb2" || FileExt == ".zip" || FileExt == ".fbz" ) {
-					ListViewItem item = new ListViewItem( FilePath, FilePath == ".fb2" ? 1 : 2 );
+				if( FilesWorker.isFB2File( FilePath ) || FilesWorker.isFB2Archive( FilePath ) ) {
+					ListViewItem item = new ListViewItem( FilePath, FilesWorker.isFB2File( FilePath ) ? 1 : 2 );
 					try {
-						if( FileExt == ".fb2" ) {
+						if( FilesWorker.isFB2File( FilePath ) ) {
 							item.ForeColor = Colors.FB2ForeColor;
 							subItems = createSubItemsWithMetaData( FilePath, FileExt, item, ref fb2g, ref fv2Validator );
 						} else {
 							// для zip-архивов
 							FilesWorker.RemoveDir( TempDir );
-							sharpZipLib.UnZipFiles( FilePath, TempDir, 0, false, null, 4096 );
+							sharpZipLib.UnZipFB2Files( FilePath, TempDir );
 							string [] files = Directory.GetFiles( TempDir );
-							string ExtFromZip = Path.GetExtension( files[0] ).ToLower();
-							if ( ExtFromZip == ".fb2") {
+							if ( FilesWorker.isFB2File( files[0] ) ) {
 								item.ForeColor = Colors.ZipFB2ForeColor;
 								subItems = createSubItemsWithMetaData( files[0], FileExt, item, ref fb2g, ref fv2Validator );
 							} else {

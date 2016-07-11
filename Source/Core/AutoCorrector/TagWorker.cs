@@ -43,13 +43,13 @@ namespace Core.AutoCorrector
 		public string Work() {
 			TagPair tagPair = new TagPair();
 			List<int> PairTagIndexes = new List<int>();
-			int indexOfTag = _xmlText.IndexOf( _startTag );
+			int indexOfTag = _xmlText.IndexOf( _startTag, StringComparison.CurrentCulture );
 			do {
 				tagPair.clear();
 				++tagPair.StartTagCount;
 				tagPair.StartTagPosition = indexOfTag;
 				
-				if ( !PairTagIndexes.Contains( tagPair.StartTagPosition ) )
+				if ( ! PairTagIndexes.Contains( tagPair.StartTagPosition ) )
 					PairTagIndexes.Add( tagPair.StartTagPosition );
 				else
 					break;
@@ -57,10 +57,9 @@ namespace Core.AutoCorrector
 				tagPair.getPairTextAndTags( _xmlText, _startTag, _endTag );
 				int Index = 0;
 				_worker.DoWork( ref tagPair, ref _xmlText, ref Index );
-				if ( tagPair.EndTagPosition < _xmlText.Length )
-					indexOfTag = _xmlText.IndexOf( _startTag, Index );
-				else
-					indexOfTag = -1;
+				indexOfTag = ( tagPair.EndTagPosition < _xmlText.Length )
+					? _xmlText.IndexOf( _startTag, Index, StringComparison.CurrentCulture )
+					: -1;
 			} while( indexOfTag != -1 );
 			
 			return _xmlText;

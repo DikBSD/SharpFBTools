@@ -42,26 +42,24 @@ namespace Core.Common
 	
 	public class CommandManager {
 		private Process	m_oProc;
-		private string	m_sResult;
 
 		public CommandManager() {
 
 		}
 
 		/// <summary>
-		/// 
+		/// Запуск процесса в синхронном режиме - т.е. управление возвращается к программе только после завершения процесса
 		/// </summary>
-		/// <param name="sStartProgPath"></param>
-		/// <param name="sArgs"></param>
-		/// <param name="pwStyle"></param>
-		/// <param name="ppcPriorityClass"></param>
-		/// <returns></returns>
-		// запуск процесса в синхронном режиме - т.е. управление возвращается к программе только после завершения процесса
-		public string Run( string sStartProgPath, string sArgs, ProcessWindowStyle pwStyle, ProcessPriorityClass  ppcPriorityClass )  {
-			m_sResult = string.Empty;
+		/// <param name="RunSync">true - Запуск процесса в синхронном режиме - т.е. управление возвращается к программе только после завершения процесса. false - Запуск процесса в асинхронном режиме - т.е. управление возвращается к программе после запуска процесса.</param>
+		/// <param name="sStartProgPath">Путь к запускаемой программе</param>
+		/// <param name="sArgs">Аргументы коммандной строки для запускаемой программы</param>
+		/// <param name="pwStyle">Каким образом должно выглядеть новое окно при запуске процесса системой</param>
+		/// <param name="ppcPriorityClass">Приоритет, который система связывает с процессом.</param>
+		/// <returns>Признак завершения процесса - Empty - </returns>
+		public string Run( bool RunSync, string sStartProgPath, string sArgs, ProcessWindowStyle pwStyle, ProcessPriorityClass  ppcPriorityClass ) {
 			m_oProc = new Process();
 			
-			ProcessStartInfo oInfo = string.IsNullOrEmpty( sArgs )
+			ProcessStartInfo oInfo = string.IsNullOrWhiteSpace( sArgs )
 				? new ProcessStartInfo( sStartProgPath )
 				: new ProcessStartInfo( sStartProgPath, sArgs );
 			
@@ -74,61 +72,20 @@ namespace Core.Common
 			try {
 				m_oProc.Start();
 				m_oProc.PriorityClass = ppcPriorityClass;
-				m_oProc.WaitForExit();
-				return m_sResult;
+				if ( RunSync )
+					m_oProc.WaitForExit();
+				m_oProc.Close();
+				m_oProc.Dispose();
+				return string.Empty;
 			} catch( System.Exception e ) {
 				if( !m_oProc.HasExited ) {
 					m_oProc.Kill();
-					m_sResult = "Error: Hung process terminated ...\r\n"+e.Message+"\r\n";
-					return m_sResult;
+					m_oProc.Close();
+					m_oProc.Dispose();
+					return "Error: Hung process terminated ...\r\n"+e.Message+"\r\n";;
 				}
-			} finally {
-				m_oProc.Close();
-				m_oProc.Dispose();
 			}
-
-			return m_sResult;
-		}
-		
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="sStartProgPath"></param>
-		/// <param name="sArgs"></param>
-		/// <param name="pwStyle"></param>
-		/// <param name="ppcPriorityClass"></param>
-		/// <returns></returns>
-		// запуск процесса в асинхронном режиме - т.е. управление возвращается к программе после запуска процесса
-		public string RunAsync( string sStartProgPath, string sArgs, ProcessWindowStyle pwStyle, ProcessPriorityClass  ppcPriorityClass )  {
-			m_sResult = string.Empty;
-			m_oProc = new Process();
-			
-			ProcessStartInfo oInfo = string.IsNullOrEmpty( sArgs )
-				? new ProcessStartInfo( sStartProgPath )
-				: new ProcessStartInfo( sStartProgPath, sArgs );
-			
-			oInfo.UseShellExecute	= true;
-			oInfo.CreateNoWindow	= true;
-			oInfo.WindowStyle		= pwStyle;
-
-			m_oProc.StartInfo = oInfo;
-
-			try {
-				m_oProc.Start();
-				m_oProc.PriorityClass = ppcPriorityClass;
-				return m_sResult;
-			} catch( System.Exception e ) {
-				if( !m_oProc.HasExited ) {
-					m_oProc.Kill();
-					m_sResult = "Error: Hung process terminated ...\r\n"+e.Message+"\r\n";
-					return m_sResult;
-				}
-			} finally {
-				m_oProc.Close();
-				m_oProc.Dispose();
-			}
-
-			return m_sResult;
-		}
+			return string.Empty;
+		}	
 	}
 }

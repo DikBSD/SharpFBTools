@@ -15,10 +15,11 @@ using Core.Common;
 
 using MiscListView			= Core.Common.MiscListView;
 
-using CompareMode			= Core.Common.Enums.CompareMode;
-using EndWorkModeEnum		= Core.Common.Enums.EndWorkModeEnum;
-using GroupAnalyzeMode		= Core.Common.Enums.GroupAnalyzeMode;
-using ResultViewDupCollumn	= Core.Common.Enums.ResultViewDupCollumn;
+// enums
+using CompareModeEnum			= Core.Common.Enums.CompareModeEnum;
+using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
+using GroupAnalyzeModeEnum		= Core.Common.Enums.GroupAnalyzeModeEnum;
+using ResultViewDupCollumnEnum	= Core.Common.Enums.ResultViewDupCollumnEnum;
 
 namespace Core.Duplicator
 {
@@ -28,8 +29,8 @@ namespace Core.Duplicator
 	public partial class CopiesAnalyzeForm : Form
 	{
 		#region Закрытые данные класса
-		private readonly CompareMode		m_AnalyzeMode; 		// метод анализа книг
-		private readonly GroupAnalyzeMode	m_GroupAnalyzeMode; // метод анализа книг (в группе или во всех группах)
+		private readonly CompareModeEnum		m_AnalyzeMode; 		// метод анализа книг
+		private readonly GroupAnalyzeModeEnum	m_GroupAnalyzeMode; // метод анализа книг (в группе или во всех группах)
 		private readonly ListView			m_lvResult	= new ListView();
 		private readonly MiscListView		m_mscLV		= new MiscListView(); // класс по работе с ListView
 		private readonly StatusView			m_sv		= new StatusView();
@@ -82,7 +83,7 @@ namespace Core.Duplicator
 		}
 		#endregion
 		
-		public CopiesAnalyzeForm( GroupAnalyzeMode ToGroupAnalyzeMode, CompareMode AnalyzeMode, ListView lvResult )
+		public CopiesAnalyzeForm( GroupAnalyzeModeEnum ToGroupAnalyzeMode, CompareModeEnum AnalyzeMode, ListView lvResult )
 		{
 			InitializeComponent();
 			
@@ -125,55 +126,55 @@ namespace Core.Duplicator
 			#region Код
 			ProgressBar.Value = 0;
 			switch( m_GroupAnalyzeMode) {
-				case GroupAnalyzeMode.AllGroup:
+				case GroupAnalyzeModeEnum.AllGroup:
 					this.Text += ": Во всех Группах копий книг";
 					switch( m_AnalyzeMode) {
-						case CompareMode.VersionValidate:
+						case CompareModeEnum.VersionValidate:
 							// пометить в каждой группе все "старые" книги (по тэгу version), невалидные
 							this.Text += " (по версии, все невалидные книги)";
-							CheckAllOldBooksInAllGroups(CompareMode.VersionValidate, ref m_bw, ref e);
+							CheckAllOldBooksInAllGroups(CompareModeEnum.VersionValidate, ref m_bw, ref e);
 							break;
-						case CompareMode.CreationTime:
+						case CompareModeEnum.CreationTime:
 							// пометить в каждой группе все "старые" книги (по времени создания файла)
 							this.Text += " (по времени создания)";
-							CheckAllOldBooksInAllGroups(CompareMode.CreationTime, ref m_bw, ref e);
+							CheckAllOldBooksInAllGroups(CompareModeEnum.CreationTime, ref m_bw, ref e);
 							break;
-						case CompareMode.LastWriteTime:
+						case CompareModeEnum.LastWriteTime:
 							// пометить в каждой группе все "старые" книги (по времени последнего изменения файла)
 							this.Text += " (по времени последнего изменения)";
-							CheckAllOldBooksInAllGroups(CompareMode.LastWriteTime, ref m_bw, ref e);
+							CheckAllOldBooksInAllGroups(CompareModeEnum.LastWriteTime, ref m_bw, ref e);
 							break;
-						case CompareMode.Validate:
+						case CompareModeEnum.Validate:
 							// пометить в каждой группе все невалидные книги
 							this.Text += " (все невалидные книги)";
-							CheckAllOldBooksInAllGroups(CompareMode.Validate, ref m_bw, ref e);
+							CheckAllOldBooksInAllGroups(CompareModeEnum.Validate, ref m_bw, ref e);
 							break;
 						default:
 							return;
 					}
 					break;
-				case GroupAnalyzeMode.Group:
+				case GroupAnalyzeModeEnum.Group:
 					this.Text += ": В выбранной Группе копий книг";
 					switch( m_AnalyzeMode) {
-						case CompareMode.VersionValidate:
+						case CompareModeEnum.VersionValidate:
 							// пометить в выбранной группе все "старые" книги (по тэгу version), невалидные
 							this.Text += " (по версии, все невалидные книги)";
-							CheckAllOldBooksInGroup(CompareMode.VersionValidate, ref m_bw, ref e);
+							CheckAllOldBooksInGroup(CompareModeEnum.VersionValidate, ref m_bw, ref e);
 							break;
-						case CompareMode.CreationTime:
+						case CompareModeEnum.CreationTime:
 							// пометить в выбранной группе все "старые" книги (по времени создания файла)
 							this.Text += " (по времени создания)";
-							CheckAllOldBooksInGroup(CompareMode.CreationTime, ref m_bw, ref e);
+							CheckAllOldBooksInGroup(CompareModeEnum.CreationTime, ref m_bw, ref e);
 							break;
-						case CompareMode.LastWriteTime:
+						case CompareModeEnum.LastWriteTime:
 							// пометить в выбранной группе все "старые" книги (по времени последнего изменения файла)
 							this.Text += " (по времени последнего изменения)";
-							CheckAllOldBooksInGroup(CompareMode.LastWriteTime, ref m_bw, ref e);
+							CheckAllOldBooksInGroup(CompareModeEnum.LastWriteTime, ref m_bw, ref e);
 							break;
-						case CompareMode.Validate:
+						case CompareModeEnum.Validate:
 							// пометить в выбранной группе все все невалидные книги
 							this.Text += " (все невалидные книги)";
-							CheckAllOldBooksInGroup(CompareMode.Validate, ref m_bw, ref e);
+							CheckAllOldBooksInGroup(CompareModeEnum.Validate, ref m_bw, ref e);
 							break;
 						default:
 							return;
@@ -222,7 +223,7 @@ namespace Core.Duplicator
 		// =============================================================================================
 		#region Анализатор копий книг
 		// пометить в выбранной группе все "старые" книги
-		private void CheckAllOldBooksInGroup(CompareMode mode, ref BackgroundWorker bw, ref DoWorkEventArgs e)
+		private void CheckAllOldBooksInGroup(CompareModeEnum mode, ref BackgroundWorker bw, ref DoWorkEventArgs e)
 		{
 			ListView.SelectedListViewItemCollection si = m_lvResult.SelectedItems;
 			if (si.Count > 0) {
@@ -234,7 +235,7 @@ namespace Core.Duplicator
 		}
 		
 		// пометить в каждой группе все "старые" книги
-		private void CheckAllOldBooksInAllGroups(CompareMode mode, ref BackgroundWorker bw, ref DoWorkEventArgs e)
+		private void CheckAllOldBooksInAllGroups(CompareModeEnum mode, ref BackgroundWorker bw, ref DoWorkEventArgs e)
 		{
 			int iter = 0;
 			ProgressBar.Maximum	= m_lvResult.Groups.Count;
@@ -252,15 +253,15 @@ namespace Core.Duplicator
 		}
 		
 		// пометка более "старых" книг
-		private void _CheckAllOldBooksInGroup(CompareMode mode, ListViewGroup lvGroup, bool InAllGroups,
+		private void _CheckAllOldBooksInGroup(CompareModeEnum mode, ListViewGroup lvGroup, bool InAllGroups,
 		                                      ref BackgroundWorker bw, ref DoWorkEventArgs e)
 		{
 			#region Код
 			int iter = 0;
 			if ( !InAllGroups ) {
-				if ( mode == CompareMode.Validate )
+				if ( mode == CompareModeEnum.Validate )
 					ProgressBar.Maximum	= lvGroup.Items.Count;
-				else if ( mode == CompareMode.VersionValidate )
+				else if ( mode == CompareModeEnum.VersionValidate )
 					ProgressBar.Maximum	= 6 * lvGroup.Items.Count;
 				else
 					ProgressBar.Maximum	= 2 * lvGroup.Items.Count;
@@ -276,10 +277,10 @@ namespace Core.Duplicator
 					return;
 				}
 				switch ( mode ) {
-					case CompareMode.VersionValidate:
+					case CompareModeEnum.VersionValidate:
 						// пометить в выбранной группе все "старые" книги (по тэгу version и невалидности)
 						FB2BookInfo bookInfoVerVal = new FB2BookInfo();
-						string version = lvi.SubItems[(int)ResultViewDupCollumn.Version].Text;
+						string version = lvi.SubItems[(int)ResultViewDupCollumnEnum.Version].Text;
 						if ( !string.IsNullOrWhiteSpace( version ) ) {
 							if ( Char.IsDigit(version[0]) ) {
 								bookInfoVerVal.Version = version;
@@ -287,28 +288,28 @@ namespace Core.Duplicator
 						} else
 							bookInfoVerVal.Version = "-1"; // Если тега версии нет, или он - пуст, то -1
 						bookInfoVerVal.IndexVersion = lvi.Index;
-						bookInfoVerVal.Validate = lvi.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Да" ? true : false;
+						bookInfoVerVal.Validate = lvi.SubItems[(int)ResultViewDupCollumnEnum.Validate].Text == "Да" ? true : false;
 						fb2BookInfoList.Add( bookInfoVerVal );
 						break;
-					case CompareMode.CreationTime:
+					case CompareModeEnum.CreationTime:
 						// какой файл позднее создан
-						dt = Convert.ToDateTime(lvi.SubItems[(int)ResultViewDupCollumn.CreationTime].Text);
+						dt = Convert.ToDateTime(lvi.SubItems[(int)ResultViewDupCollumnEnum.CreationTime].Text);
 						if ( bookInfo.CreationTime.CompareTo(dt) < 0 ) {
 							bookInfo.CreationTime = dt;
 							bookInfo.IndexCreationTime = lvi.Index;
 						}
 						break;
-					case CompareMode.LastWriteTime:
+					case CompareModeEnum.LastWriteTime:
 						// какой файл позднее правился
-						dt = Convert.ToDateTime(lvi.SubItems[(int)ResultViewDupCollumn.LastWriteTime].Text);
+						dt = Convert.ToDateTime(lvi.SubItems[(int)ResultViewDupCollumnEnum.LastWriteTime].Text);
 						if ( bookInfo.LastWriteTime.CompareTo(dt) < 0 ) {
 							bookInfo.LastWriteTime = dt;
 							bookInfo.IndexLastWriteTime = lvi.Index;
 						}
 						break;
-					case CompareMode.Validate:
+					case CompareModeEnum.Validate:
 						// по валидности файла
-						if ( lvi.SubItems[(int)ResultViewDupCollumn.Validate].Text == "Нет" )
+						if ( lvi.SubItems[(int)ResultViewDupCollumnEnum.Validate].Text == "Нет" )
 							m_lvResult.Items[lvi.Index].Checked = true;
 						break;
 				}
@@ -317,7 +318,7 @@ namespace Core.Duplicator
 					bw.ReportProgress( ++iter );
 			}
 			
-			if ( mode != CompareMode.Validate && mode != CompareMode.VersionValidate) {
+			if ( mode != CompareModeEnum.Validate && mode != CompareModeEnum.VersionValidate) {
 				// помечаем все книги в группе, кроме самой "новой"
 				foreach ( ListViewItem item in lvGroup.Items ) {
 					if ( ( bw.CancellationPending ) )  {
@@ -325,11 +326,11 @@ namespace Core.Duplicator
 						return;
 					}
 					switch( mode) {
-						case CompareMode.CreationTime:
+						case CompareModeEnum.CreationTime:
 							if ( item.Index != bookInfo.IndexCreationTime )
 								m_lvResult.Items[item.Index].Checked = true;
 							break;
-						case CompareMode.LastWriteTime:
+						case CompareModeEnum.LastWriteTime:
 							if ( item.Index != bookInfo.IndexLastWriteTime )
 								m_lvResult.Items[item.Index].Checked = true;
 							break;
@@ -339,7 +340,7 @@ namespace Core.Duplicator
 				}
 			}
 			
-			if ( mode == CompareMode.VersionValidate ) {
+			if ( mode == CompareModeEnum.VersionValidate ) {
 				List<string> array = new List<string>( fb2BookInfoList.Count );
 				foreach ( FB2BookInfo fb2BookInfo in fb2BookInfoList ) {
 					array.Add( fb2BookInfo.Version.Replace('.', ',') );

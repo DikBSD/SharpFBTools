@@ -16,7 +16,7 @@ using System.Linq;
 using System.Xml.Linq;
 
 using SharpZipLibWorker	= Core.Common.SharpZipLibWorker;
-using filesWorker 		= Core.Common.FilesWorker;
+using FilesWorker 		= Core.Common.FilesWorker;
 
 namespace SharpFBTools.Tools
 {
@@ -1037,7 +1037,6 @@ namespace SharpFBTools.Tools
 		
 		// загрузка настроек из xml-файла
 		private void readSettingsFromXML() {
-			#region Код
 			if( File.Exists( m_FileSettingsPath ) ) {
 				XElement xmlTree = XElement.Load( m_FileSettingsPath );
 				/* Zip */
@@ -1104,7 +1103,6 @@ namespace SharpFBTools.Tools
 						chBoxViewProgressU.Checked = Convert.ToBoolean( xmlUnZip.Element("Progress").Value );
 				}
 			}
-			#endregion
 		}
 		#endregion
 		
@@ -1131,7 +1129,7 @@ namespace SharpFBTools.Tools
 				lvGeneralCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				nAllFiles = filesWorker.DirsParser( m_bwa, e, SourceDir, ref lvGeneralCount, ref lDirList, false );
+				nAllFiles = FilesWorker.DirsParser( m_bwa, e, SourceDir, ref lvGeneralCount, ref lDirList, false );
 			}
 			
 			// отобразим число всех файлов в папке сканирования
@@ -1183,7 +1181,7 @@ namespace SharpFBTools.Tools
 		private void bwa_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
 			ArchiveProgressData(); // Отобразим результат Упаковки
 			DateTime dtEnd = DateTime.Now;
-			filesWorker.RemoveDir( m_TempDir );
+			FilesWorker.RemoveDir( m_TempDir );
 			
 			tsslblProgress.Text = Settings.Settings.GetReady();
 			SetPackingStartEnabled( true );
@@ -1213,7 +1211,7 @@ namespace SharpFBTools.Tools
 				else {
 					// или FilePath вместо sArchiveFile
 					ArchiveFile = FilePath.Remove( FilePath.Length-4 )
-						+ filesWorker.createSufix( ArchiveFile, cboxExistArchive.SelectedIndex )//Sufix
+						+ FilesWorker.createSufix( ArchiveFile, cboxExistArchive.SelectedIndex )//Sufix
 						+ FileExt + ".zip";
 				}
 			}
@@ -1234,7 +1232,7 @@ namespace SharpFBTools.Tools
 					File.Delete( ArchiveFile );
 				else {
 					ArchiveFile = TargetDir + NewFilePath.Remove( NewFilePath.Length-4 )
-						+ filesWorker.createSufix( ArchiveFile, cboxExistArchive.SelectedIndex )//Sufix
+						+ FilesWorker.createSufix( ArchiveFile, cboxExistArchive.SelectedIndex )//Sufix
 						+ FileExt + ".zip";
 				}
 			}
@@ -1244,7 +1242,7 @@ namespace SharpFBTools.Tools
 		// упаковка fb2-файлов в .fb2.zip
 		private void FileToZip( string FilePath, string SourceDir, string TargetDir ) {
 			// упаковываем только fb2-файлы
-			if( Path.GetExtension( FilePath ).ToLower() == ".fb2" ) {
+			if( FilesWorker.isFB2File( FilePath ) ) {
 				++m_nFB2A;
 				string ArchiveFile = string.Empty;
 				if( cboxToSomeDir.Checked ) {
@@ -1284,15 +1282,15 @@ namespace SharpFBTools.Tools
 		
 		// получение source папки для режима упаковки
 		private string getSourceDirForZip() {
-			return filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
+			return FilesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
 		}
 		
 		// получение target папки для режима упаковки
 		private string getTargetDirForZip() {
 			if (cboxToSomeDir.Checked)
-				return filesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
+				return FilesWorker.WorkingDirPath( tboxSourceDir.Text.Trim() );
 			else
-				return filesWorker.WorkingDirPath( tboxToAnotherDir.Text.Trim() );
+				return FilesWorker.WorkingDirPath( tboxToAnotherDir.Text.Trim() );
 		}
 		
 		// Отобразим результат Упаковки
@@ -1336,13 +1334,13 @@ namespace SharpFBTools.Tools
 		// задание папки для копирования запакованных fb2-файлов
 		void BtnToAnotherDirClick(object sender, EventArgs e)
 		{
-			filesWorker.OpenDirDlg( tboxToAnotherDir, fbdDir, "Укажите папку для размещения упакованных fb2-файлов" );
+			FilesWorker.OpenDirDlg( tboxToAnotherDir, fbdDir, "Укажите папку для размещения упакованных fb2-файлов" );
 		}
 		
 		// задание папки с fb2-файлами для сканирования (Архивация)
 		void BtnOpenDirClick(object sender, EventArgs e)
 		{
-			if( filesWorker.OpenDirDlg( tboxSourceDir, fbdDir, "Укажите папку с fb2-файлами для Упаковки" ) )
+			if( FilesWorker.OpenDirDlg( tboxSourceDir, fbdDir, "Укажите папку с fb2-файлами для Упаковки" ) )
 				InitA();
 		}
 		
@@ -1435,7 +1433,7 @@ namespace SharpFBTools.Tools
 				lvUAGeneralCount.Items[0].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки
-				nAllFiles = filesWorker.DirsParser( m_bwu, e, SourceDir, ref lvUAGeneralCount, ref lDirList, false );
+				nAllFiles = FilesWorker.DirsParser( m_bwu, e, SourceDir, ref lvUAGeneralCount, ref lDirList, false );
 			}
 			
 			// отобразим число всех файлов в папке сканирования
@@ -1460,7 +1458,7 @@ namespace SharpFBTools.Tools
 			m_nCountU = m_nZipU		= 0;
 			m_nFB2U = 0;
 
-			filesWorker.RemoveDir( m_TempDir );
+			FilesWorker.RemoveDir( m_TempDir );
 			
 			BackgroundWorker bw = sender as BackgroundWorker;
 			m_nUnpackCount = UnZipToFile( bw, e, SourceDir, lDirList, getTargetDirForUnZip() );
@@ -1477,7 +1475,7 @@ namespace SharpFBTools.Tools
 		private void bwu_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
 			UnArchiveProgressData(); // Отобразим результат Распаковки
 			DateTime dtEnd = DateTime.Now;
-			filesWorker.RemoveDir( m_TempDir );
+			FilesWorker.RemoveDir( m_TempDir );
 			
 			tsslblProgress.Text = Settings.Settings.GetReady();
 			SetUnPackingStartEnabled( true );
@@ -1506,18 +1504,19 @@ namespace SharpFBTools.Tools
 		private int UnZipToFile( BackgroundWorker bw, DoWorkEventArgs e, string FileSourceDir, List<string> lDirList, string TargetDir ) {
 			int nCount = 0;
 			int n = 0;
-			foreach( string dir in lDirList ) {
+			foreach ( string dir in lDirList ) {
 				DirectoryInfo diFolder = new DirectoryInfo( dir );
-				foreach( FileInfo fiNextFile in diFolder.GetFiles() ) {
-					if( ( bw.CancellationPending == true ) ) {
+				foreach ( FileInfo fiNextFile in diFolder.GetFiles() ) {
+					if ( ( bw.CancellationPending == true ) ) {
 						e.Cancel = true; // Выставить окончание - по отмене, сработает событие bw_RunWorkerCompleted
 						return nCount;
 					}
 					string sFile = dir + "\\" + fiNextFile.Name;
-					if( Path.GetExtension( sFile.ToLower() ) == ".zip" || Path.GetExtension( sFile.ToLower() ) == ".fbz" ) {
+					if( FilesWorker.isFB2Archive( sFile ) ) {
 						//string sNewDir = Path.GetDirectoryName( sMoveToDir+"\\"+sFile.Remove( 0, sFileSourceDir.Length ) );
-						m_nFB2U += m_sharpZipLib.UnZipFiles(sFile, filesWorker.buildTargetDir(sFile, FileSourceDir, TargetDir),
-						                                    cboxUAExistArchive.SelectedIndex, true, null, 4096);
+						m_nFB2U += m_sharpZipLib.UnZipFB2Files(
+							sFile, FilesWorker.buildTargetDir(sFile, FileSourceDir, TargetDir), cboxUAExistArchive.SelectedIndex
+						);
 						++m_nZipU; ++m_nCountU; ++nCount;
 						// удаление исходного архива, если включена опция
 						if ( cboxUADelFB2Files.Checked )
@@ -1531,7 +1530,7 @@ namespace SharpFBTools.Tools
 		
 		// инициализация контролов и переменных (Распаковка)
 		private void InitUA() {
-			for( int i=0; i!=lvUAGeneralCount.Items.Count; ++i ) {
+			for( int  i= 0; i != lvUAGeneralCount.Items.Count; ++i ) {
 				lvUAGeneralCount.Items[i].SubItems[1].Text = "0";
 			}
 			tsProgressBar.Value		= 0;
@@ -1542,7 +1541,7 @@ namespace SharpFBTools.Tools
 		
 		// проверки папки-приемника
 		private bool IsTargetDirCorrect( string Target, bool ToAnotherDir, string MessTitle ) {
-			string Message = "Не задана папка-приемник!";
+			const string Message = "Не задана папка-приемник!";
 			if( string.IsNullOrWhiteSpace( Target ) ) {
 				MessageBox.Show( Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
@@ -1550,7 +1549,7 @@ namespace SharpFBTools.Tools
 			
 			if( !ToAnotherDir ) { // папка-приемник - отличная от источника
 				// проверка папки-приемника и создание ее, если нужно
-				if( !filesWorker.CreateDirIfNeed( Target, MessTitle ) )
+				if( ! FilesWorker.CreateDirIfNeed( Target, MessTitle ) )
 					return false;
 			}
 			return true;
@@ -1578,15 +1577,14 @@ namespace SharpFBTools.Tools
 		
 		// получение source папки для режима распаковки
 		private string getSourceDirForUnZip() {
-			return filesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
+			return FilesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
 		}
 		
 		// получение target папки для режима распаковки
 		private string getTargetDirForUnZip() {
-			if (cboxUAToSomeDir.Checked)
-				return filesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() );
-			else
-				return filesWorker.WorkingDirPath( tboxUAToAnotherDir.Text.Trim() );
+			return cboxUAToSomeDir.Checked
+				? FilesWorker.WorkingDirPath( tboxUASourceDir.Text.Trim() )
+				: FilesWorker.WorkingDirPath( tboxUAToAnotherDir.Text.Trim() );
 		}
 		
 		// Отобразим результат Распаковки
@@ -1599,14 +1597,14 @@ namespace SharpFBTools.Tools
 		// задание папки с fb2-архивами для сканирования (Распаковка)
 		void BtnUAOpenDirClick(object sender, EventArgs e)
 		{
-			if( filesWorker.OpenDirDlg( tboxUASourceDir, fbdDir, "Укажите папку с fb2-архивами для Распаковки" ) )
+			if( FilesWorker.OpenDirDlg( tboxUASourceDir, fbdDir, "Укажите папку с fb2-архивами для Распаковки" ) )
 				InitUA();
 		}
 		
 		// задание папки для копирования распакованных файлов
 		void BtnUAToAnotherDirClick(object sender, EventArgs e)
 		{
-			filesWorker.OpenDirDlg( tboxUAToAnotherDir, fbdDir, "Укажите папку для размещения распакованных файлов" );
+			FilesWorker.OpenDirDlg( tboxUAToAnotherDir, fbdDir, "Укажите папку для размещения распакованных файлов" );
 		}
 		
 		void CboxUAToSomeDirCheckedChanged(object sender, EventArgs e)
