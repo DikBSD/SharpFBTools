@@ -70,36 +70,37 @@ namespace Core.Common
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			Cursor.Current = Cursors.WaitCursor;
 			FB2DescriptionCorrector fB2Corrector = null;
-			foreach( FB2ItemInfo Info in m_GenreFB2InfoList ) {
+			foreach ( FB2ItemInfo Info in m_GenreFB2InfoList ) {
 				FictionBook fb2 = Info.FictionBook;
-				if( fb2 != null ) {
+				if ( fb2 != null ) {
 					// восстанавление раздела description до структуры с необходимыми элементами для валидности
 					fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 					fB2Corrector.recoveryDescriptionNode();
 					
 					IList<XmlNode> xmlNewGenres = makeGenreNode( ref fb2, GenresListView );
-					if( xmlNewGenres != null ) {
+					if ( xmlNewGenres != null ) {
 						XmlDocument xmlDoc = fb2.getXmlDoc();
 						XmlNodeList xmlGenreList = fb2.getGenreNodes( TitleInfoEnum.TitleInfo );
-						if( xmlGenreList != null ) {
+						if ( xmlGenreList != null ) {
 							XmlNodeList xmlAuthorList = fb2.getAuthorNodes( TitleInfoEnum.TitleInfo );
-							if( xmlAuthorList != null ) {
+							if ( xmlAuthorList != null ) {
 								XmlNode xmlTINode = fb2.getTitleInfoNode( TitleInfoEnum.TitleInfo );
-								if( xmlTINode != null ) {
+								if ( xmlTINode != null ) {
 									// удаление старых данных Жанров
-									foreach( XmlNode g in xmlGenreList )
+									foreach ( XmlNode g in xmlGenreList )
 										xmlTINode.RemoveChild( g );
 									// добавление новых данных Жанров
-									foreach( XmlNode g in xmlNewGenres )
+									foreach ( XmlNode g in xmlNewGenres )
 										xmlTINode.InsertBefore( g, xmlAuthorList[0] );
-									
 									// сохранение fb2 файла
-									if( !Directory.Exists( m_TempDir ) )
+									if ( !Directory.Exists( m_TempDir ) )
 										Directory.CreateDirectory( m_TempDir );
-									string NewPath = Info.IsFromArhive ? Info.FilePathIfFromZip : Info.FilePathSource;
+									string NewPath = Info.IsFromZip ? Info.FilePathIfFromZip : Info.FilePathSource;
 									fb2.saveToFB2File( NewPath, false );
-									if ( Info.IsFromArhive )
+									if ( Info.IsFromZip )
 										WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, NewPath, Info.FilePathSource );
+									if ( Info.IsFromZip && File.Exists( NewPath ) )
+										File.Delete( NewPath );
 								}
 							}
 						}
@@ -183,7 +184,7 @@ namespace Core.Common
 		}
 		void GenreAddButtonClick(object sender, EventArgs e)
 		{
-			if( !MiscListView.isExistListViewItem( GenresListView, GenresComboBox.Text ) ) {
+			if ( !MiscListView.isExistListViewItem( GenresListView, GenresComboBox.Text ) ) {
 				ListViewItem lvi = new ListViewItem( GenresComboBox.Text );
 				lvi.SubItems.Add( MatchMaskedTextBox.Text.Trim() );
 				GenresListView.Items.Add( lvi );
@@ -200,8 +201,8 @@ namespace Core.Common
 		}
 		void GenreUpButtonClick(object sender, EventArgs e)
 		{
-			if( GenresListView.Items.Count > 0 && GenresListView.SelectedItems.Count > 0 ) {
-				if( GenresListView.SelectedItems.Count == 1 )
+			if ( GenresListView.Items.Count > 0 && GenresListView.SelectedItems.Count > 0 ) {
+				if ( GenresListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( GenresListView );
 				else
 					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -210,8 +211,8 @@ namespace Core.Common
 		}
 		void GenreDownButtonClick(object sender, EventArgs e)
 		{
-			if( GenresListView.Items.Count > 0 && GenresListView.SelectedItems.Count > 0 ) {
-				if( GenresListView.SelectedItems.Count == 1 )
+			if ( GenresListView.Items.Count > 0 && GenresListView.SelectedItems.Count > 0 ) {
+				if ( GenresListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( GenresListView );
 				else
 					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -220,7 +221,7 @@ namespace Core.Common
 		}
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
-			if( GenresListView.Items.Count == 0 ) {
+			if ( GenresListView.Items.Count == 0 ) {
 				MessageBox.Show( "Заполните данные хотя бы для одного Жанра!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			} else {
@@ -228,7 +229,7 @@ namespace Core.Common
 				ControlPanel.Enabled = false;
 				GenresSchemePanel.Enabled = false;
 				GenreWorkPanel.Enabled = false;
-				if( !m_bw.IsBusy )
+				if ( !m_bw.IsBusy )
 					m_bw.RunWorkerAsync();
 			}
 		}

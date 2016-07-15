@@ -95,10 +95,12 @@ namespace Core.Common
 									// сохранение fb2 файла
 									if( !Directory.Exists( m_TempDir ) )
 										Directory.CreateDirectory( m_TempDir );
-									string NewPath = Info.IsFromArhive ? Info.FilePathIfFromZip : Info.FilePathSource;
+									string NewPath = Info.IsFromZip ? Info.FilePathIfFromZip : Info.FilePathSource;
 									fb2.saveToFB2File( NewPath, false );
-									if ( Info.IsFromArhive )
+									if ( Info.IsFromZip )
 										WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, NewPath, Info.FilePathSource );
+									if ( Info.IsFromZip && File.Exists( NewPath ) )
+										File.Delete( NewPath );
 								}
 							}
 						}

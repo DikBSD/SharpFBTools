@@ -109,8 +109,12 @@ namespace Core.FB2.FB2Parsers
 		public FB2Text getFB2TextXmlIsExists() {
 			return _fb2TextXml;
 		}
-		// сохранение книги: если экземпляр FictionBook был создан с помощью FB2Text _fb2TextXml,
-		// и задействован Proxy режим, то сохраняем методами FB2Text. Если Proxy режим не задействован, то - через _xmlDoc
+		/// <summary>
+		/// Сохранение книги: если экземпляр FictionBook был создан с помощью FB2Text _fb2TextXml,
+		/// и задействован Proxy режим, то сохраняем методами FB2Text. Если Proxy режим не задействован, то - через _xmlDoc
+		/// </summary>
+		/// <param name="FilePath">Путь к исходному fb2-файлу</param>
+		/// <param name="PreserveWhitespace">Задает значение, определяющее, будут ли сохранены пробелы в содержимом элемента (false) или нет - все теги склеиваются в одну строку (true)</param>
 		public void saveToFB2File( string FilePath, bool PreserveWhitespace = false ) {
 			_xmlDoc.PreserveWhitespace = PreserveWhitespace; // если true, то все теги склеиваются в одну строку
 			if ( _fb2TextXml == null )
@@ -122,9 +126,9 @@ namespace Core.FB2.FB2Parsers
 			}
 		}
 		public string getDescriptionXmlText() {
-			string xmlns20 = " xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\"";
-			string xmlns21 = " xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.1\"";
-			string xmlns22 = " xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.2\"";
+			const string xmlns20 = " xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\"";
+			const string xmlns21 = " xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.1\"";
+			const string xmlns22 = " xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.2\"";
 			
 			string DescXml = getDescriptionNode().InnerXml;
 			DescXml = DescXml.Replace( xmlns20, "" ).Replace( xmlns21, "" ).Replace( xmlns22, "" );

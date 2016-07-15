@@ -34,10 +34,14 @@ namespace Core.Common
 		private string m_sFromFilePath		= string.Empty;	// путь к анализируемой книге
 		#endregion
 		
-		public FB2BookDescription( string FromFilePath )
+		/// <summary>
+		/// Конструктор: Сбор всех данных о книге
+		/// </summary>
+		/// <param name="FromFB2FilePath">Путь к исходному fb2-файлу</param>
+		public FB2BookDescription( string FromFB2FilePath )
 		{
-			m_sFromFilePath = FromFilePath;
-			m_fb2 = new FictionBook( FromFilePath );
+			m_sFromFilePath = FromFB2FilePath;
+			m_fb2 = new FictionBook( FromFB2FilePath );
 		}
 		
 		#region Закрытые вспомогательные методы класса

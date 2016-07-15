@@ -46,27 +46,27 @@ namespace Core.Common
 		// создание списка FB2ItemInfo данных для помеченных книг Дубликатора
 		public static IList<FB2ItemInfo> makeFB2InfoListForDup( ListView listView, BooksValidateModeEnum BooksValidateType ) {
 			IList<FB2ItemInfo> FB2InfoList = new List<FB2ItemInfo>();
-			if( listView.Items.Count > 0 ) {
-				string	TempDir = Settings.Settings.TempDir;
+			if ( listView.Items.Count > 0 ) {
+				string TempDir = Settings.Settings.TempDir;
 				IList Items = null;
-				if( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
+				if ( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 					Items = listView.SelectedItems;
-				else if (BooksValidateType == BooksValidateModeEnum.CheckedBooks)
+				else if ( BooksValidateType == BooksValidateModeEnum.CheckedBooks )
 					Items = listView.CheckedItems;
 				else /* BooksValidateType == BooksValidateMode.AllBooks */
 					Items = listView.Items;
 				
-				if( Items.Count > 0 ) {
-					foreach( ListViewItem item in Items ) {
+				if ( Items.Count > 0 ) {
+					foreach ( ListViewItem item in Items ) {
 						string SourceFilePath = item.Text.Trim();
 						string FilePathIfFromZip = SourceFilePath;
-						if( File.Exists( SourceFilePath ) ) {
+						if ( File.Exists( SourceFilePath ) ) {
 							bool IsFromZip = false;
 							if ( FilesWorker.isFB2Archive( SourceFilePath ) ) {
 								IsFromZip = true;
 								FilePathIfFromZip = ZipFB2Worker.getFileFromZipFBZ( SourceFilePath, TempDir );
 							}
-							if( File.Exists( FilePathIfFromZip ) ) {
+							if ( File.Exists( FilePathIfFromZip ) ) {
 								FB2InfoList.Add(
 									new FB2ItemInfo( item, SourceFilePath, FilePathIfFromZip, IsFromZip )
 								);
@@ -341,8 +341,8 @@ namespace Core.Common
 		/// </summary>
 		public static string viewBookMetaDataLocal( ref string SrcFilePath, ref FB2BookDescription fb2Desc, ListViewItem lvi, ref FB2UnionGenres FB2Genres ) {
 			string RetValid = "?";
-			if( lvi != null ) {
-				if( fb2Desc != null ) {
+			if ( lvi != null ) {
+				if ( fb2Desc != null ) {
 					string valid = fb2Desc.IsValidFB2Union;
 					RetValid = valid;
 					if ( string.IsNullOrEmpty( valid ) ) {
@@ -364,7 +364,7 @@ namespace Core.Common
 					lvi.SubItems[(int)ResultViewCollumnEnum.Version].Text = fb2Desc.DIVersion;
 					lvi.SubItems[(int)ResultViewCollumnEnum.Encoding].Text = fb2Desc.Encoding;
 					lvi.SubItems[(int)ResultViewCollumnEnum.Validate].Text = valid;
-					lvi.SubItems[(int)ResultViewCollumnEnum.Format].Text = Path.GetExtension( SrcFilePath ).ToLower();;
+					lvi.SubItems[(int)ResultViewCollumnEnum.Format].Text = Path.GetExtension( SrcFilePath ).ToLower();
 					lvi.SubItems[(int)ResultViewCollumnEnum.FileLength].Text = fb2Desc.FileLength;
 					lvi.SubItems[(int)ResultViewCollumnEnum.CreationTime].Text = fb2Desc.FileCreationTime;
 					lvi.SubItems[(int)ResultViewCollumnEnum.LastWriteTime].Text = fb2Desc.FileLastWriteTime;
@@ -889,8 +889,11 @@ namespace Core.Common
 				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 				fB2Corrector.recoveryDescriptionNode();
 				fb2.saveToFB2File( FilePath, false );
-				if( FilesWorker.isFB2Archive( SrcFB2OrZipPath ) )
+				bool IsFromZip = FilesWorker.isFB2Archive( SrcFB2OrZipPath );
+				if ( IsFromZip )
 					zipMoveTempFB2FileTo( sharpZipLib, FilePath, SrcFB2OrZipPath);
+				if ( IsFromZip && File.Exists( FilePath ) )
+					File.Delete( FilePath );
 				return true;
 			}
 			return false;
@@ -903,7 +906,10 @@ namespace Core.Common
 		/// <param name="FilePath">Что: Путь к временному распакованному файлу</param>
 		/// <param name="ToZipPath">Куда: Исходный путь архива</param>
 		public static void zipMoveTempFB2FileTo( SharpZipLibWorker sharpZipLib, string FilePath, string ToZipPath ) {
-			// обработка исправленного файла-архива
+			if ( string.IsNullOrWhiteSpace( FilePath ) )
+				return;
+			if ( string.IsNullOrWhiteSpace( ToZipPath ) )
+				return;
 			string ArchFile = FilePath + ".zip";
 			sharpZipLib.ZipFile( FilePath, ArchFile, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
 			if( File.Exists( ToZipPath ) )
@@ -963,6 +969,8 @@ namespace Core.Common
 				// Сжатие файла FilePath и перемещение архива по пути SrcFilePath (если он был из архива)
 				if( IsFromZip )
 					zipMoveTempFB2FileTo( sharpZipLib, SrcFilePath, FilePath );
+				if ( IsFromZip && File.Exists( FilePath ) )
+					File.Delete( FilePath );
 			}
 		}
 	}

@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 using Core.FB2.FB2Parsers;
 
@@ -34,6 +34,8 @@ namespace Core.AutoCorrector
 		/// </summary>
 		/// <param name="FilePath">Путь к обрабатываемой книге</param>
 		public static void autoCorrector( string FilePath ) {
+			if ( string.IsNullOrWhiteSpace( FilePath ) )
+				return;
 			FileInfo fi = new FileInfo( FilePath );
 			if ( !fi.Exists )
 				return;

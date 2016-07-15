@@ -216,7 +216,7 @@ namespace Core.Common
 	/// </summary>
 	public class FB2ItemInfo {
 		#region Закрытые данные класса
-		private readonly bool m_IsFromArhive = false;
+		private readonly bool m_IsFromZip = false;
 		private readonly ListViewItem m_FB2ListViewItem = null;
 		private readonly string m_FilePathSource = null;
 		private readonly string m_FilePathIfFromZip = null;
@@ -224,12 +224,12 @@ namespace Core.Common
 		#endregion
 		
 		public FB2ItemInfo( ListViewItem FB2ListViewItem, string FilePathSource,
-		                   string FilePathIfFromZip, bool IsFromArhive ) {
+		                   string FilePathIfFromZip, bool IsFromZip ) {
 			m_FB2ListViewItem = FB2ListViewItem;
 			m_FilePathSource = FilePathSource.Replace( @"\\", @"\" );
 			m_FilePathIfFromZip = FilePathIfFromZip.Replace( @"\\", @"\" );
-			m_IsFromArhive = IsFromArhive;
-			m_fb2 = IsFromArhive ? new FictionBook( FilePathIfFromZip ) : new FictionBook( FilePathSource );
+			m_IsFromZip = IsFromZip;
+			m_fb2 = IsFromZip ? new FictionBook( FilePathIfFromZip ) : new FictionBook( FilePathSource );
 		}
 		
 		#region Открытые свойства
@@ -243,9 +243,9 @@ namespace Core.Common
 				return m_FilePathIfFromZip;
 			}
 		}
-		public virtual bool IsFromArhive {
+		public virtual bool IsFromZip {
 			get {
-				return m_IsFromArhive;
+				return m_IsFromZip;
 			}
 		}
 		public virtual ListViewItem FB2ListViewItem {

@@ -3226,6 +3226,7 @@ namespace SharpFBTools.Tools
 		}
 		// отобразить метаданные данные после автокорректировки
 		private string viewMetaData( string SrcFilePath, ListViewItem listViewItem, int BooksCount ) {
+//			FilesWorker.RemoveDir(m_TempDir);
 			string RetValid = string.Empty;
 			if ( File.Exists( SrcFilePath ) && !listViewItem.Font.Strikeout ) {
 				string FilePath = SrcFilePath;
@@ -3361,8 +3362,8 @@ namespace SharpFBTools.Tools
 						// считываем данные CustomInfo
 						lvCustomInfo.Items.Clear();
 						IList<CustomInfo> lcu = fb2Desc.CICustomInfo;
-						if( lcu != null ) {
-							foreach( CustomInfo ci in lcu ) {
+						if ( lcu != null ) {
+							foreach ( CustomInfo ci in lcu ) {
 								ListViewItem lvi = new ListViewItem( ci.InfoType );
 								lvi.SubItems.Add( ci.Value );
 								lvCustomInfo.Items.Add( lvi );
@@ -3477,6 +3478,8 @@ namespace SharpFBTools.Tools
 					fb2.saveToFB2File( FilePath, false );
 					if ( IsFromZip )
 						WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, FilePath, SourceFilePath );
+					if ( IsFromZip && File.Exists( FilePath ) )
+						File.Delete( FilePath );
 					// отображение нового id в строке списка
 					viewMetaData( SourceFilePath, SelectedItem, BooksCount );
 				}
@@ -3508,7 +3511,7 @@ namespace SharpFBTools.Tools
 			
 			EditGenreInfoForm editGenreInfoForm = new EditGenreInfoForm( ref GenreFB2InfoList );
 			editGenreInfoForm.ShowDialog();
-			
+
 			Cursor.Current = Cursors.WaitCursor;
 			if( editGenreInfoForm.isApplyData() )
 				viewMetaDataAfterDialogWorkManyBooks( GenreFB2InfoList,  BooksValidateType );
@@ -3949,6 +3952,8 @@ namespace SharpFBTools.Tools
 								fb2.saveToFB2File( FilePath, false );
 								if ( IsFromZip )
 									WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, FilePath, SourceFilePath );
+								if ( IsFromZip && File.Exists( FilePath ) )
+									File.Delete( FilePath );
 								// отображение нового названия книги в строке списка
 								viewMetaData( SourceFilePath, listViewFB2Files.SelectedItems[0], 1 );
 							}
@@ -3963,10 +3968,10 @@ namespace SharpFBTools.Tools
 		// комплексное редактирование метаданных в специальном диалоге
 		void TsmiEditDescriptionClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
-				if( listViewFB2Files.SelectedItems.Count == 1 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
+				if ( listViewFB2Files.SelectedItems.Count == 1 ) {
 					ListViewItem SelectedItem = listViewFB2Files.SelectedItems[0];
-					if( SelectedItem != null ) {
+					if ( SelectedItem != null ) {
 						string SourceFilePath = SelectedItem.Text;
 						string FilePath = SourceFilePath;
 						bool IsFromZip = false;
@@ -3974,7 +3979,7 @@ namespace SharpFBTools.Tools
 							IsFromZip = true;
 							FilePath = ZipFB2Worker.getFileFromZipFBZ( SourceFilePath, m_TempDir );
 						}
-						if( File.Exists( FilePath ) ) {
+						if ( File.Exists( FilePath ) ) {
 							FictionBook fb2 = null;
 							try {
 								fb2 = new FictionBook( FilePath );
@@ -3985,11 +3990,14 @@ namespace SharpFBTools.Tools
 							EditDescriptionForm editDescriptionForm = new EditDescriptionForm( fb2 );
 							editDescriptionForm.ShowDialog();
 							Cursor.Current = Cursors.WaitCursor;
-							if( editDescriptionForm.isApplyData() ) {
+							if ( editDescriptionForm.isApplyData() ) {
 								editDescriptionForm.getFB2().saveToFB2File( FilePath, false );
 								if ( IsFromZip )
 									WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, FilePath, SourceFilePath );
-								viewMetaData( FilePath, SelectedItem, 1 );
+								if ( IsFromZip && File.Exists( FilePath ) )
+									File.Delete( FilePath );
+								// отображение нового названия книги в строке списка
+								viewMetaData( SourceFilePath, SelectedItem, 1 );
 							}
 							editDescriptionForm.Dispose();
 							Cursor.Current = Cursors.Default;

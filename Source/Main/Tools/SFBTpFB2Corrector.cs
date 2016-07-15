@@ -282,12 +282,15 @@ namespace SharpFBTools.Tools
 		}
 		// отобразить метаданные
 		private string viewMetaData( string SrcFilePath, ListViewItem listViewItem, int BooksCount ) {
+//			FilesWorker.RemoveDir(m_TempDir);
 			string RetValid = string.Empty;
 			if ( File.Exists( SrcFilePath ) && !listViewItem.Font.Strikeout ) {
-				if( ((ListViewItemType)listViewItem.Tag).Type == "f" ) {
+				if ( ((ListViewItemType)listViewItem.Tag).Type == "f" ) {
 					string FilePath = SrcFilePath;
-					if( FilesWorker.isFB2Archive( SrcFilePath ) )
+					if ( FilesWorker.isFB2Archive( SrcFilePath ) )
 						FilePath = ZipFB2Worker.getFileFromZipFBZ( SrcFilePath, m_TempDir );
+					if ( ! File.Exists( FilePath ) )
+						return "Нет";
 					try {
 						if ( FilesWorker.isFB2File( FilePath ) ) {
 							FB2BookDescription fb2Desc = new FB2BookDescription( FilePath );
@@ -317,7 +320,6 @@ namespace SharpFBTools.Tools
 				WorksWithBooks.hideMetaDataLocal( listViewItem );
 				clearDataFields();
 			}
-			
 			return RetValid;
 		}
 		// занесение данных книги в контролы для просмотра
@@ -518,6 +520,8 @@ namespace SharpFBTools.Tools
 					fb2.saveToFB2File(FilePath);
 					if ( IsFromZip )
 						WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, FilePath, SourceFilePath );
+					if ( IsFromZip && File.Exists( FilePath ) )
+						File.Delete( FilePath );
 					// отображение новых метаданных в строке списка и в детализации
 					viewMetaData( SourceFilePath, Item, BooksCount );
 				}
@@ -995,10 +999,10 @@ namespace SharpFBTools.Tools
 		// комплексное редактирование метаданных в специальном диалоге
 		void TsmiEditDescriptionClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
-				if( listViewFB2Files.SelectedItems.Count == 1 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
+				if ( listViewFB2Files.SelectedItems.Count == 1 ) {
 					ListViewItem SelectedItem = listViewFB2Files.SelectedItems[0];
-					if( SelectedItem != null ) {
+					if ( SelectedItem != null ) {
 						string SourceFilePath = Path.Combine( textBoxAddress.Text.Trim(), SelectedItem.Text );
 						string FilePath = SourceFilePath;
 						bool IsFromZip = false;
@@ -1006,7 +1010,7 @@ namespace SharpFBTools.Tools
 							IsFromZip = true;
 							FilePath = ZipFB2Worker.getFileFromZipFBZ( SourceFilePath, m_TempDir );
 						}
-						if( File.Exists( FilePath ) ) {
+						if ( File.Exists( FilePath ) ) {
 							FictionBook fb2 = null;
 							try {
 								fb2 = new FictionBook( FilePath );
@@ -1018,12 +1022,14 @@ namespace SharpFBTools.Tools
 							EditDescriptionForm editDescriptionForm = new EditDescriptionForm( fb2 );
 							editDescriptionForm.ShowDialog();
 							Cursor.Current = Cursors.WaitCursor;
-							if( editDescriptionForm.isApplyData() ) {
+							if ( editDescriptionForm.isApplyData() ) {
 								editDescriptionForm.getFB2().saveToFB2File( FilePath, false );
 								if ( IsFromZip )
 									WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, FilePath, SourceFilePath );
+								if ( IsFromZip && File.Exists( FilePath ) )
+									File.Delete( FilePath );
 								// отображаем новые данные в строке списка
-								viewMetaData( FilePath, SelectedItem, 1 );
+								viewMetaData( SourceFilePath, SelectedItem, 1 );
 							}
 							editDescriptionForm.Dispose();
 							Cursor.Current = Cursors.Default;
@@ -1437,6 +1443,8 @@ namespace SharpFBTools.Tools
 								fb2.saveToFB2File( FilePath, false );
 								if ( IsFromZip )
 									WorksWithBooks.zipMoveTempFB2FileTo( m_sharpZipLib, FilePath, SourceFilePath );
+								if ( IsFromZip && File.Exists( FilePath ) )
+									File.Delete( FilePath );
 								// отображение нового названия книги в строке списка
 								viewMetaData( SourceFilePath, listViewFB2Files.SelectedItems[0], 1 );
 							}
@@ -1452,20 +1460,21 @@ namespace SharpFBTools.Tools
 		// автокорректировка всех выделенных книг
 		void ToolStripMenuItemAutoCorrectorForAllSelectedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
 				ListView.SelectedListViewItemCollection SelectedItems = listViewFB2Files.SelectedItems;
 				const string Message = "Вы действительно хотите запустить автокорректировку для всех выделенных книг?";
 				const string MessTitle = "SharpFBTools - Автокорректировка выделенных книг";
 				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
 				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
+				if ( Result == DialogResult.Yes ) {
 					Cursor.Current = Cursors.WaitCursor;
 					// создание списка ListViewItemInfo данных для выбранных книг
 					IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
 						listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateModeEnum.SelectedBooks, tsProgressBar
 					);
 					Cursor.Current = Cursors.Default;
-
+					
+					// Запуск прогресса автокорректировки
 					AutoCorrectorForm autoCorrectorForm = new AutoCorrectorForm(
 						null, textBoxAddress.Text.Trim(), ListViewItemInfoList, listViewFB2Files
 					);

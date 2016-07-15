@@ -71,7 +71,7 @@ namespace Core.Common
 
 			try {
 				m_oProc.Start();
-				m_oProc.PriorityClass = ppcPriorityClass;
+				Process.GetProcessById(m_oProc.Id).PriorityClass = ppcPriorityClass;
 				if ( RunSync )
 					m_oProc.WaitForExit();
 				m_oProc.Close();
