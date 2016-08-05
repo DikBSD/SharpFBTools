@@ -16,7 +16,7 @@ namespace Settings
 	/// <summary>
 	/// Класс по работе с общими настройками всех инструментов
 	/// </summary>
-	public class Settings
+	public static class Settings
 	{
 		#region Закрытые статические члены-данные класса
 		private readonly static XmlDocument m_xmlDoc = new XmlDocument();
@@ -32,12 +32,10 @@ namespace Settings
 		private readonly static string m_sFBEPath				= @"c:\Program Files\FictionBook Editor\FBE.exe";
 		private readonly static string m_sFBReaderPath			= @"c:\Program Files\AlReader 2\AlReader2.exe";
 		private 		 static string m_sDiffPath				= string.Empty;
-		#endregion
-		
-		#region Общие Сообщения
+		private readonly static bool m_ConfirmationForExit = true;
 		private static string m_sReady	= "Готово.";
 		#endregion
-		
+
 		#region Стили ToolButtons
 		// получение стиля ToolButton
 		private static ToolStripItemDisplayStyle GetToolButtonDisplayStyle( string DisplayStyle ) {
@@ -83,8 +81,76 @@ namespace Settings
 		}
 		
 		// возвращает временную папку
-		public static string TempDir {
-			get { return m_sTempDir; }
+		public static string TempDirPath {
+			get {
+				if ( File.Exists( m_settings ) ) {
+					m_xmlDoc.Load( m_settings );
+					XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/TempDirPath");
+					if ( node != null )
+						return node.InnerText;
+				}
+				return m_sTempDir;
+			}
+		}
+		
+		public static string TextEditorPath {
+			get {
+				if ( File.Exists( m_settings ) ) {
+					m_xmlDoc.Load( m_settings );
+					XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/TextFB2EPath");
+					if ( node != null )
+						return node.InnerText;
+				}
+				return m_sTFB2Path;
+			}
+		}
+
+		public static string FB2EditorPath {
+			get {
+				if ( File.Exists( m_settings ) ) {
+					m_xmlDoc.Load( m_settings );
+					XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/FBEPath");
+					if ( node != null )
+						return node.InnerText;
+				}
+				return m_sFBEPath;
+			}
+		}
+
+		public static string FBReaderPath {
+			get {
+				if ( File.Exists( m_settings ) ) {
+					m_xmlDoc.Load( m_settings );
+					XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/FBReaderPath");
+					if ( node != null )
+						return node.InnerText;
+				}
+				return m_sFBReaderPath;
+			}
+		}
+		
+		public static string DiffToolPath {
+			get {
+				if ( File.Exists( m_settings ) ) {
+					m_xmlDoc.Load( m_settings );
+					XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/DiffPath");
+					if ( node != null )
+						return node.InnerText;
+				}
+				return m_sDiffPath;
+			}
+		}
+		
+		public static bool ConfirmationForExit {
+			get {
+				if ( File.Exists( m_settings ) ) {
+					m_xmlDoc.Load( m_settings );
+					XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/ConfirmationForAppExit");
+					if ( node != null )
+						return Convert.ToBoolean( node.InnerText );
+				}
+				return m_ConfirmationForExit;
+			}
 		}
 		
 		// возвращает путь к объединенной схеме
@@ -96,22 +162,6 @@ namespace Settings
 			get { return m_settings; }
 		}
 		
-		public static string DefTFB2Path {
-			get { return m_sTFB2Path; }
-		}
-
-		public static string DefFBEPath {
-			get { return m_sFBEPath; }
-		}
-
-		public static string DefFBReaderPath {
-			get { return m_sFBReaderPath; }
-		}
-		
-		public static string DiffPath {
-			get { return m_sDiffPath; }
-		}
-		
 		public static string LicensePath {
 			get { return m_sLicensePath; }
 		}
@@ -120,58 +170,6 @@ namespace Settings
 			get { return m_sChangeFilePath; }
 		}
 		
-		// =============================================================================================
-		// 				Чтение из файла настроек данных по конкретному параметру
-		// =============================================================================================
-		public static string ReadFBEPath() {
-			if( File.Exists( m_settings ) ) {
-				m_xmlDoc.Load( m_settings );
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/FBEPath");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefFBEPath;
-		}
-		
-		public static string ReadTextFB2EPath() {
-			if( File.Exists( m_settings ) ) {
-				m_xmlDoc.Load( m_settings );
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/TextFB2EPath");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefTFB2Path;
-		}
-
-		public static string ReadFBReaderPath() {
-			if( File.Exists( m_settings ) ) {
-				m_xmlDoc.Load( m_settings );
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/FBReaderPath");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DefFBReaderPath;
-		}
-
-		public static string ReadDiffPath() {
-			if( File.Exists( m_settings ) ) {
-				m_xmlDoc.Load( m_settings );
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/DiffPath");
-				if(node != null)
-					return node.InnerText;
-			}
-			return DiffPath;
-		}
-
-		public static bool ReadConfirmationForExit() {
-			if( File.Exists( m_settings ) ) {
-				m_xmlDoc.Load( m_settings );
-				XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/ConfirmationForAppExit");
-				if(node != null)
-					return Convert.ToBoolean( node.InnerText );
-			}
-			return true;
-		}
 		#endregion
 		
 		#region Общие Сообщения
@@ -184,16 +182,16 @@ namespace Settings
 		// задание для кнопок ToolStrip стиля и положения текста и картинки
 		public static void SetToolButtonsSettings( string sNodeName, string sAttrDS, string sAttrTIR, ToolStrip ts ) {
 			// чтение настроек для ToolButtons из xml-файла
-			if( File.Exists( SettingsPath ) ) {
+			if ( File.Exists( SettingsPath ) ) {
 				m_xmlDoc.Load( SettingsPath );
 				XmlNode node = m_xmlDoc.SelectSingleNode(sNodeName);
-				if(node != null) {
+				if ( node != null ) {
 					string sDS = string.Empty, sTIR = string.Empty;
 					XmlAttributeCollection attrs = node.Attributes;
 					sDS = attrs.GetNamedItem(sAttrDS).InnerText;
 					sTIR = attrs.GetNamedItem(sAttrTIR).InnerText;
-					if( sDS.Length!=0 ) {
-						for( int i=0; i!=ts.Items.Count; ++i ) {
+					if ( sDS.Length != 0 ) {
+						for ( int i = 0; i != ts.Items.Count; ++i ) {
 							ts.Items[i].DisplayStyle		= (ToolStripItemDisplayStyle)GetToolButtonDisplayStyle( sDS );
 							ts.Items[i].TextImageRelation	= (TextImageRelation)GetToolButtonTextImageRelation( sTIR );
 						}

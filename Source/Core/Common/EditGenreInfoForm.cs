@@ -29,7 +29,7 @@ namespace Core.Common
 	/// </summary>
 	public partial class EditGenreInfoForm : Form
 	{
-		private readonly string	m_TempDir = Settings.Settings.TempDir;
+		private readonly string	m_TempDir = Settings.Settings.TempDirPath;
 		private const string m_sTitle = "Правка Жанров fb2 книг";
 		private readonly IList<FB2ItemInfo> m_GenreFB2InfoList = null;
 		private bool m_ApplyData = false;

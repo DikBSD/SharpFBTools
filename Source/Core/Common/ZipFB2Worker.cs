@@ -21,7 +21,7 @@ namespace Core.Common
 	public class ZipFB2Worker
 	{
 		#region Закрытые данные класса
-		private readonly static string				m_TempDir		= Settings.Settings.TempDir;
+		private readonly static string				m_TempDir		= Settings.Settings.TempDirPath;
 		private readonly static SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
 		#endregion
 		

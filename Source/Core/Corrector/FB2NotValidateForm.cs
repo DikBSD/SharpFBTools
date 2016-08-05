@@ -46,7 +46,7 @@ namespace Core.Corrector
 		
 		private readonly ListView	m_listViewFB2Files	= new ListView();
 		private readonly EndWorkMode m_EndMode			= new EndWorkMode();
-		private readonly string		m_TempDir			= Settings.Settings.TempDir;
+		private readonly string		m_TempDir			= Settings.Settings.TempDirPath;
 		private readonly string		m_SourceDir			= string.Empty;
 		private readonly bool		m_autoResizeColumns	= false;
 		private readonly string		m_fromXmlPath		= null;	// null - полный поиск; Если указан Путь - возобновление поиска из xml
@@ -57,7 +57,7 @@ namespace Core.Corrector
 		private List<string> m_FilesList	= new List<string>();
 		private BackgroundWorker m_bw		= new BackgroundWorker();
 		
-		private readonly DateTime m_dtStart = DateTime.Now;
+		private DateTime m_dtStart = DateTime.Now;
 		#endregion
 		
 		public FB2NotValidateForm( string fromXmlPath, ListView listView, string SourceDir, bool AutoResizeColumns )
@@ -72,7 +72,7 @@ namespace Core.Corrector
 			
 			m_fromXmlPath = fromXmlPath; // путь к xml файлу для возобновления поиска копий fb2 книг
 			// Запуск процесса DoWork от RunWorker
-			if( !m_bw.IsBusy )
+			if ( !m_bw.IsBusy )
 				m_bw.RunWorkerAsync(); // если не занят, то запустить процесс
 		}
 		
@@ -113,6 +113,7 @@ namespace Core.Corrector
 		
 		// поиск одинаковых fb2-файлов
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
+			m_dtStart = DateTime.Now;
 			BackgroundWorker worker = sender as BackgroundWorker;
 			ControlPanel.Enabled = false;
 			m_FilesList.Clear();
@@ -127,7 +128,7 @@ namespace Core.Corrector
 				m_AllFiles	= FilesWorker.makeFilesListFromDirs( ref worker, ref e, ref lDirList, ref m_FilesList, true );
 				
 				// проверка, есть ли хоть один файл в папке для сканирования
-				if( m_AllFiles == 0 ) {
+				if ( m_AllFiles == 0 ) {
 					MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.",
 					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
@@ -178,7 +179,7 @@ namespace Core.Corrector
 
 			ControlPanel.Enabled = true;
 			
-			if( ( worker.CancellationPending ) ) {
+			if ( ( worker.CancellationPending ) ) {
 				e.Cancel = true;
 				return;
 			}
@@ -198,7 +199,7 @@ namespace Core.Corrector
 		// Проверяем - это отмена, ошибка, или конец задачи и сообщить
 		private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
 			DateTime dtEnd = DateTime.Now;
-			FilesWorker.RemoveDir( Settings.Settings.TempDir );
+			FilesWorker.RemoveDir( Settings.Settings.TempDirPath );
 
 			string sTime = dtEnd.Subtract( m_dtStart ).ToString().Substring( 0, 8 ) + " (час.:мин.:сек.)";
 			if ( e.Cancelled ) {
@@ -212,7 +213,7 @@ namespace Core.Corrector
 					sfdList.FileName	= string.Empty;
 					sfdList.InitialDirectory = Settings.Settings.ProgDir;
 					DialogResult result = sfdList.ShowDialog();
-					if( result == DialogResult.OK ) {
+					if ( result == DialogResult.OK ) {
 						ControlPanel.Enabled = false;
 						StatusLabel.Text += "Сохранение данных анализа в файл:\r";
 						StatusLabel.Text += sfdList.FileName;
@@ -242,7 +243,7 @@ namespace Core.Corrector
 		private void StopCompare( bool StopForSaveToXml ) {
 			m_StopToSave = StopForSaveToXml;
 			if ( m_bw.IsBusy ) {
-				if( m_bw.WorkerSupportsCancellation )
+				if ( m_bw.WorkerSupportsCancellation )
 					m_bw.CancelAsync();
 			}
 		}
@@ -281,14 +282,14 @@ namespace Core.Corrector
 		/// </summary>
 		private void createNotValidateBookItem( string FilePath, FB2UnionGenres fb2g,
 		                                       FB2Validator fv2Validator, SharpZipLibWorker sharpZipLib ) {
-			if( File.Exists( FilePath ) ) {
-				string TempDir = Settings.Settings.TempDir;
+			if ( File.Exists( FilePath ) ) {
+				string TempDir = Settings.Settings.TempDirPath;
 				string FileExt = Path.GetExtension( FilePath );
 				ListViewItem.ListViewSubItem[] subItems;
-				if( FilesWorker.isFB2File( FilePath ) || FilesWorker.isFB2Archive( FilePath ) ) {
+				if ( FilesWorker.isFB2File( FilePath ) || FilesWorker.isFB2Archive( FilePath ) ) {
 					ListViewItem item = new ListViewItem( FilePath, FilesWorker.isFB2File( FilePath ) ? 1 : 2 );
 					try {
-						if( FilesWorker.isFB2File( FilePath ) ) {
+						if ( FilesWorker.isFB2File( FilePath ) ) {
 							item.ForeColor = Colors.FB2ForeColor;
 							subItems = createSubItemsWithMetaData( FilePath, FileExt, item, ref fb2g, ref fv2Validator );
 						} else {

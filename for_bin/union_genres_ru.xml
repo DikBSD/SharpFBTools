@@ -95,7 +95,7 @@
 		<genre name="Сценарии" code="scenarios" />
 		<genre name="Трагедия" code="tragedy" />
 	</group>
-	<group name="Искусство, Искусствоведение, Дизайн" >
+	<group name="Искусство, Дизайн" >
 		<genre name="Архитектура и скульптура" code="architecture_book" />
 		<genre name="Живопись, альбомы, иллюстрированные каталоги" code="painting" />
 		<genre name="Изобразительное искусство, фотография" code="visual_arts" />

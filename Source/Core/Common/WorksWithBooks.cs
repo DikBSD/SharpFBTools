@@ -47,7 +47,7 @@ namespace Core.Common
 		public static IList<FB2ItemInfo> makeFB2InfoListForDup( ListView listView, BooksValidateModeEnum BooksValidateType ) {
 			IList<FB2ItemInfo> FB2InfoList = new List<FB2ItemInfo>();
 			if ( listView.Items.Count > 0 ) {
-				string TempDir = Settings.Settings.TempDir;
+				string TempDir = Settings.Settings.TempDirPath;
 				IList Items = null;
 				if ( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 					Items = listView.SelectedItems;
@@ -85,7 +85,7 @@ namespace Core.Common
 		                                                                     ToolStripProgressBar ProgressBar ) {
 			IList<ListViewItemInfo> ListViewItemInfoList = new List<ListViewItemInfo>();
 			if( listView.Items.Count > 0 ) {
-				string	TempDir = Settings.Settings.TempDir;
+				string	TempDir = Settings.Settings.TempDirPath;
 				IList Items = null;
 				if( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 					Items = listView.SelectedItems;
@@ -116,7 +116,7 @@ namespace Core.Common
 		                                                 ToolStripProgressBar ProgressBar ) {
 			IList<FB2ItemInfo> FB2InfoList = new List<FB2ItemInfo>();
 			if( listView.Items.Count > 0 ) {
-				string	TempDir = Settings.Settings.TempDir;
+				string	TempDir = Settings.Settings.TempDirPath;
 				IList Items = null;
 				if( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 					Items = listView.SelectedItems;
@@ -162,7 +162,7 @@ namespace Core.Common
 		                                                               ToolStripProgressBar ProgressBar ) {
 			IList<ListViewItemInfo> ListViewItemInfoList = new List<ListViewItemInfo>();
 			if( listView.Items.Count > 0 ) {
-				string	TempDir = Settings.Settings.TempDir;
+				string	TempDir = Settings.Settings.TempDirPath;
 				IList Items = null;
 				if( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 					Items = listView.SelectedItems;
@@ -501,7 +501,7 @@ namespace Core.Common
 			Cursor.Current = Cursors.WaitCursor;
 			listView.BeginUpdate();
 			listView.Items.Clear();
-			string TempDir = Settings.Settings.TempDir;
+			string TempDir = Settings.Settings.TempDirPath;
 			try {
 				DirectoryInfo dirInfo = new DirectoryInfo( dirPath );
 				ListViewItem.ListViewSubItem[] subItems;
@@ -630,7 +630,7 @@ namespace Core.Common
 		                                               bool isTagsView,
 		                                               BackgroundWorker bw = null, DoWorkEventArgs e = null ) {
 			ListViewItemType it	= null;
-			string TempDir = Settings.Settings.TempDir;
+			string TempDir = Settings.Settings.TempDirPath;
 			listViewFB2Files.BeginUpdate();
 			for( int i = 0; i != listViewFB2Files.Items.Count; ++i ) {
 				if ( bw != null ) {
@@ -781,7 +781,7 @@ namespace Core.Common
 		public static void autoCorrect( ListViewItem Item, string SrcFilePath,
 		                               bool OneBook, SharpZipLibWorker sharpZipLib, FB2Validator fv2Validator ) {
 			string FilePath = SrcFilePath;
-			string TempDir = Settings.Settings.TempDir;
+			string TempDir = Settings.Settings.TempDirPath;
 			bool IsFromZip = false;
 			if ( FilesWorker.isFB2Archive( SrcFilePath ) ) {
 				IsFromZip = true;
@@ -824,7 +824,7 @@ namespace Core.Common
 		/// <param name="fv2Validator">Экземпляр класса FB2Validator - Валидатор</param>
 		public static void autoCorrect( string SrcFB2OrZipPath, SharpZipLibWorker sharpZipLib, FB2Validator fv2Validator ) {
 			string FilePath = SrcFB2OrZipPath;
-			string TempDir = Settings.Settings.TempDir;
+			string TempDir = Settings.Settings.TempDirPath;
 			bool IsFromZip = false;
 			if ( FilesWorker.isFB2Archive( SrcFB2OrZipPath ) ) {
 				IsFromZip = true;

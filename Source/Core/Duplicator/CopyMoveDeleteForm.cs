@@ -155,8 +155,7 @@ namespace Core.Duplicator
 		private BackgroundWorker m_bwcmd	= null;  // фоновый обработчик
 		#endregion
 		
-		public CopyMoveDeleteForm( bool Fast, BooksWorkModeEnum WorkMode, string Source, string TargetDir, int FileExistMode,
-		                          ListView lvFilesCount, ListView lvResult )
+		public CopyMoveDeleteForm( bool Fast, BooksWorkModeEnum WorkMode, string Source, string TargetDir, int FileExistMode, ListView lvFilesCount, ListView lvResult )
 		{
 			InitializeComponent();
 			
@@ -209,12 +208,12 @@ namespace Core.Duplicator
 		// Обработка файлов
 		private void bwcmd_DoWork( object sender, DoWorkEventArgs e ) {
 			m_bFilesWorked = false;
-			if( m_Fast )
+			if ( m_Fast )
 				m_lvResult.BeginUpdate();
 			
 			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
 			MiscListView.deleteAllItemForNonExistFile( m_lvResult );
-			switch( m_WorkMode ) {
+			switch ( m_WorkMode ) {
 				case BooksWorkModeEnum.CopyCheckedBooks:
 					this.Text = "Копирование помеченных копий книг в папку " + m_TargetDir;
 					this.Text += String.Format( ": {0}", m_lvResult.CheckedItems.Count );
@@ -237,7 +236,7 @@ namespace Core.Duplicator
 				default:
 					return;
 			}
-			if( m_Fast )
+			if ( m_Fast )
 				m_lvResult.EndUpdate();
 		}
 		
@@ -250,7 +249,7 @@ namespace Core.Duplicator
 		private void bwcmd_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
 			string sMessCanceled, sMessError, sMessDone;
 			sMessCanceled = sMessError = sMessDone = string.Empty;
-			switch( m_WorkMode ) {
+			switch ( m_WorkMode ) {
 				case BooksWorkModeEnum.CopyCheckedBooks:
 					sMessDone 		= "Копирование файлов в указанную папку завершено!";
 					sMessCanceled	= "Копирование файлов в указанную папку остановлено!";
@@ -265,7 +264,7 @@ namespace Core.Duplicator
 					break;
 			}
 			
-			if( !m_bFilesWorked ) {
+			if ( !m_bFilesWorked ) {
 				const string s = "На диске не найдено ни одного файла из помеченных!\n";
 				switch( m_WorkMode ) {
 					case BooksWorkModeEnum.CopyCheckedBooks:
@@ -284,7 +283,7 @@ namespace Core.Duplicator
 			if( ( e.Cancelled ) ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Cancelled;
 				m_EndMode.Message = sMessCanceled;
-			} else if( e.Error != null ) {
+			} else if ( e.Error != null ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Error;
 				m_EndMode.Message = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace;
 			} else {
@@ -307,32 +306,30 @@ namespace Core.Duplicator
 		                                     ListView lvResult, int nFileExistMode ) {
 			int i = 0;
 			ListView.CheckedListViewItemCollection checkedItems = lvResult.CheckedItems;
-			foreach( ListViewItem lvi in checkedItems ) {
+			foreach ( ListViewItem lvi in checkedItems ) {
 				// Проверить флаг на остановку процесса
-				if( ( bw.CancellationPending ) ) {
+				if ( ( bw.CancellationPending ) ) {
 					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
 					return;
 				} else {
 					string FilePath = lvi.Text;
-					// для отображения числа файлов на диске
-					string Ext = Path.GetExtension( FilePath ).ToLower();
 					// есть ли такая книга на диске? Если нет - то смотрим следующую
 					Regex rx = new Regex( @"\\+" );
 					FilePath = rx.Replace( FilePath, "\\" );
-					if( File.Exists( FilePath ) ) {
+					if ( File.Exists( FilePath ) ) {
 						string NewPath = Path.Combine( TargetDir, Path.GetFileName( FilePath ) );
 						FileInfo fi = new FileInfo( NewPath );
-						if( !fi.Directory.Exists )
+						if ( !fi.Directory.Exists )
 							Directory.CreateDirectory( fi.Directory.ToString() );
 
-						if( File.Exists( NewPath ) ) {
-							if( nFileExistMode == 0 )
+						if ( File.Exists( NewPath ) ) {
+							if ( nFileExistMode == 0 )
 								File.Delete( NewPath );
 							else
 								NewPath = filesWorker.createFilePathWithSufix( NewPath, nFileExistMode );
 						}
 						
-						if( IsCopy )
+						if ( IsCopy )
 							File.Copy( FilePath, NewPath );
 						else {
 							File.Move( FilePath, NewPath );
@@ -351,16 +348,14 @@ namespace Core.Duplicator
 		public void DeleteCheckedFiles( ref BackgroundWorker bw, ref DoWorkEventArgs e, ListView lvResult ) {
 			int i = 0;
 			ListView.CheckedListViewItemCollection checkedItems = lvResult.CheckedItems;
-			foreach( ListViewItem lvi in checkedItems ) {
+			foreach ( ListViewItem lvi in checkedItems ) {
 				// Проверить флаг на остановку процесса
-				if( ( bw.CancellationPending ) ) {
+				if ( ( bw.CancellationPending ) ) {
 					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
 					return;
 				} else {
 					string sFilePath = lvi.Text;
-					// для отображения числа файлов на диске
-					string Ext = Path.GetExtension( sFilePath ).ToLower();
-					if( File.Exists( sFilePath) ) {
+					if ( File.Exists( sFilePath) ) {
 						File.Delete( sFilePath );
 						--m_AllFiles;
 						MiscListView.deleteAllItemForNonExistFileWithCounter( lvResult, lvi, m_Fast, ref m_AllFiles );
@@ -384,13 +379,13 @@ namespace Core.Duplicator
 			int AllBooks = 0;
 			foreach (ListViewGroup lvGroup in lvResult.Groups ) {
 				int RealBookInGroup = 0;
-				if( lvGroup.Items.Count > 1 ) {
-					foreach( ListViewItem lvi in lvGroup.Items ) {
-						if( !lvi.Font.Strikeout )
+				if ( lvGroup.Items.Count > 1 ) {
+					foreach ( ListViewItem lvi in lvGroup.Items ) {
+						if ( !lvi.Font.Strikeout )
 							++RealBookInGroup;
 					}
 				}
-				if( RealBookInGroup > 1 ) {
+				if ( RealBookInGroup > 1 ) {
 					AllBooks += RealBookInGroup;
 					++AllGroups;
 				}
@@ -411,7 +406,7 @@ namespace Core.Duplicator
 		// нажатие кнопки прерывания работы
 		void BtnStopClick(object sender, EventArgs e)
 		{
-			if( m_bwcmd.WorkerSupportsCancellation )
+			if ( m_bwcmd.WorkerSupportsCancellation )
 				m_bwcmd.CancelAsync();
 		}
 		#endregion

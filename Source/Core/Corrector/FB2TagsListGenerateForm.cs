@@ -33,10 +33,10 @@ namespace Core.Corrector
 		private BackgroundWorker	m_bw				= null; // фоновый обработчик
 		private readonly ListView	m_listView			= new ListView();
 		private readonly EndWorkMode m_EndMode			= new EndWorkMode();
-		private readonly string		m_TempDir			= Settings.Settings.TempDir;
+		private readonly string		m_TempDir			= Settings.Settings.TempDirPath;
 		private readonly string		m_dirPath			= null;
 		private readonly bool		m_autoResizeColumns	= false;
-		private readonly DateTime	m_dtStart 			= DateTime.Now;
+		private DateTime m_dtStart  = DateTime.Now;
 		#endregion
 		
 		public FB2TagsListGenerateForm( ListView listView, string dirPath, bool AutoResizeColumns )
@@ -50,7 +50,7 @@ namespace Core.Corrector
 			m_dirPath			= dirPath;
 			ProgressBar.Value	= 0;
 			
-			if( !m_bw.IsBusy )
+			if ( !m_bw.IsBusy )
 				m_bw.RunWorkerAsync(); //если не занят, то запустить процесс
 		}
 		
@@ -78,7 +78,7 @@ namespace Core.Corrector
 		}
 		// генерация списка файлов - создание итемов listViewSource
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
-			// генерация списка файлов - создание итемов listViewSource
+			m_dtStart  = DateTime.Now;
 			FB2UnionGenres fb2Genres = new FB2UnionGenres();
 			if ( !WorksWithBooks.generateBooksListWithMetaData( m_listView, m_dirPath, ref fb2Genres,
 			                                                   true, false, false,
@@ -117,7 +117,7 @@ namespace Core.Corrector
 		#region Обработчики событий
 		void BtnStopClick(object sender, EventArgs e)
 		{
-			if( m_bw.WorkerSupportsCancellation )
+			if ( m_bw.WorkerSupportsCancellation )
 				m_bw.CancelAsync();
 		}
 		#endregion

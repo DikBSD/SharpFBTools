@@ -65,15 +65,15 @@ namespace Core.Common
 				ListViewItem listviewY = (ListViewItem)y;
 				ListViewItemType it1 = (ListViewItemType)listviewX.Tag;
 				ListViewItemType it2 = (ListViewItemType)listviewY.Tag;
-				if( it1.Type == "f" && it2.Type == "f" ) {
+				if ( it1.Type == "f" && it2.Type == "f" ) {
 					compareResult = ObjectCompare.Compare(
 						listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text
 					);
 					// Calculate correct return value based on object comparison
-					if( OrderOfSort == SortOrder.Ascending ) {
+					if ( OrderOfSort == SortOrder.Ascending ) {
 						// Ascending sort is selected, return normal result of compare operation
 						return compareResult;
-					} else if( OrderOfSort == SortOrder.Descending ) {
+					} else if ( OrderOfSort == SortOrder.Descending ) {
 						// Descending sort is selected, return negative result of compare operation
 						return (-compareResult);
 					}
@@ -154,10 +154,10 @@ namespace Core.Common
 					listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text
 				);
 				// Calculate correct return value based on object comparison
-				if( OrderOfSort == SortOrder.Ascending ) {
+				if ( OrderOfSort == SortOrder.Ascending ) {
 					// Ascending sort is selected, return normal result of compare operation
 					return compareResult;
-				} else if( OrderOfSort == SortOrder.Descending ) {
+				} else if ( OrderOfSort == SortOrder.Descending ) {
 					// Descending sort is selected, return negative result of compare operation
 					return (-compareResult);
 				}
@@ -227,11 +227,8 @@ namespace Core.Common
 		public static void ListViewStatus( ListView lv, int nItem, string sValue ) {
 			if ( lv.Items.Count > 0 ) {
 				if ( nItem > -1 ) {
-					if ( !string.IsNullOrWhiteSpace(sValue) ) {
-						lv.Items[nItem].SubItems[1].Text = sValue.Trim();
-					} else {
-						lv.Items[nItem].SubItems[1].Text = string.Empty;
-					}
+					lv.Items[nItem].SubItems[1].Text = string.IsNullOrWhiteSpace(sValue)
+						? string.Empty : sValue.Trim();
 				}
 			}
 		}
@@ -240,39 +237,39 @@ namespace Core.Common
 		#region Пометить / Снять отметки
 		// отметить все итемы (снять все отметки)
 		public static void CheckAllListViewItems( ListView lv, bool bCheck ) {
-			if( lv.Items.Count > 0  ) {
-				for( int i=0; i!=lv.Items.Count; ++i )
+			if ( lv.Items.Count > 0  ) {
+				for ( int i=0; i!=lv.Items.Count; ++i )
 					lv.Items[i].Checked = bCheck;
 			}
 		}
 		// снять отметки с помеченных итемов
 		public static void UnCheckAllListViewItems( ListView.CheckedListViewItemCollection checkedItems ) {
-			foreach( ListViewItem lvi in checkedItems )
+			foreach ( ListViewItem lvi in checkedItems )
 				lvi.Checked = false;
 		}
 		
 		// пометить/снять пометку все выделенные элементы
 		public static void ChekAllSelectedItems(ListView lv, bool bCheck) {
 			System.Windows.Forms.ListView.SelectedListViewItemCollection selectedItems = lv.SelectedItems;
-			foreach( ListViewItem lvi in selectedItems )
+			foreach ( ListViewItem lvi in selectedItems )
 				lvi.Checked = bCheck;
 		}
 		
 		// пометить/снять отметки с  итемов в выбранной группе
 		public static void CheckAllListViewItemsInGroup( ListViewGroup Group, bool bCheck ) {
-			foreach( ListViewItem lvi in Group.Items )
+			foreach ( ListViewItem lvi in Group.Items )
 				lvi.Checked = bCheck;
 		}
 		
 		// пометить все файлы определенного типа
 		public static void CheckTypeAllFiles(ListView lv, string sType, bool bCheck) {
-			if( lv.Items.Count > 0  ) {
+			if ( lv.Items.Count > 0  ) {
 				DirectoryInfo di = null;
-				for( int i = 0; i != lv.Items.Count; ++i ) {
+				for ( int i = 0; i != lv.Items.Count; ++i ) {
 					ListViewItemType it = (ListViewItemType)lv.Items[i].Tag;
-					if( it.Type == "f" ) {
+					if ( it.Type == "f" ) {
 						di = new DirectoryInfo(it.Value);
-						if( di.Extension.ToLower() == "." + sType.ToLower() )
+						if ( di.Extension.ToLower() == "." + sType.ToLower() )
 							lv.Items[i].Checked = bCheck;
 					}
 				}
@@ -282,11 +279,11 @@ namespace Core.Common
 		// снять пометку со всех файлов пределенного типа
 		public static void UnCheckTypeAllFiles(ListView lv, string sType) {
 			DirectoryInfo di = null;
-			foreach( ListViewItem lvi in lv.CheckedItems ) {
+			foreach ( ListViewItem lvi in lv.CheckedItems ) {
 				ListViewItemType it = (ListViewItemType)lvi.Tag;
-				if( it.Type == "f" ) {
+				if ( it.Type == "f" ) {
 					di = new DirectoryInfo(it.Value);
-					if( di.Extension.ToLower() == "." +sType.ToLower() )
+					if ( di.Extension.ToLower() == "." +sType.ToLower() )
 						lvi.Checked = false;
 				}
 			}
@@ -294,10 +291,10 @@ namespace Core.Common
 		
 		// пометить все файлы
 		public static void CheckAllFiles(ListView lv, bool bCheck) {
-			if( lv.Items.Count > 0  ) {
-				for( int i = 0; i != lv.Items.Count; ++i ) {
+			if ( lv.Items.Count > 0  ) {
+				for ( int i = 0; i != lv.Items.Count; ++i ) {
 					ListViewItemType it = (ListViewItemType)lv.Items[i].Tag;
-					if( it.Type == "f" )
+					if ( it.Type == "f" )
 						lv.Items[i].Checked = bCheck;
 				}
 			}
@@ -305,9 +302,9 @@ namespace Core.Common
 		
 		// снять пометку со всех файлов
 		public static void UnCheckAllFiles(ListView lv) {
-			foreach( ListViewItem lvi in lv.CheckedItems ) {
+			foreach ( ListViewItem lvi in lv.CheckedItems ) {
 				ListViewItemType it = (ListViewItemType)lvi.Tag;
-				if( it.Type == "f" )
+				if ( it.Type == "f" )
 					lvi.Checked = false;
 			}
 		}
@@ -325,10 +322,10 @@ namespace Core.Common
 		
 		// снять пометку со всех папок
 		public static void UnCheckAllDirs(ListView lv) {
-			if( lv.Items.Count > 0  ) {
-				foreach( ListViewItem lvi in lv.CheckedItems ) {
+			if ( lv.Items.Count > 0  ) {
+				foreach ( ListViewItem lvi in lv.CheckedItems ) {
 					ListViewItemType it = (ListViewItemType)lvi.Tag;
-					if( it.Type == "d" )
+					if ( it.Type == "d" )
 						lvi.Checked = false;
 				}
 			}
@@ -341,8 +338,8 @@ namespace Core.Common
 		public static bool isExistListViewItem( ListView lv, string CompareItemText ) {
 			if( lv.Items.Count > 0  ) {
 				ListView.ListViewItemCollection lvicol = lv.Items;
-				foreach( ListViewItem item in lvicol ) {
-					if( CompareItemText.Equals( item.Text ) )
+				foreach ( ListViewItem item in lvicol ) {
+					if ( CompareItemText.Equals( item.Text ) )
 						return true;
 				}
 			}
@@ -351,11 +348,11 @@ namespace Core.Common
 		
 		// удаление всех итемов
 		public static bool deleteAllItems( ListView lv, string MessageBoxTitle, string LestName ) {
-			if( lv.Items.Count > 0 ) {
+			if ( lv.Items.Count > 0 ) {
 				string sMess = "Вы действительно хотите удалить ВЕСЬ список " + LestName + "?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				DialogResult result = MessageBox.Show( sMess, MessageBoxTitle, buttons, MessageBoxIcon.Question );
-				if( result == DialogResult.Yes ) {
+				if ( result == DialogResult.Yes ) {
 					lv.Items.Clear();
 					return true;
 				}
@@ -365,13 +362,13 @@ namespace Core.Common
 		
 		// удаление выделенного итема
 		public static bool deleteSelectedItem( ListView lv, string MessageBoxTitle, string ItemName ) {
-			if( lv.SelectedItems.Count > 0 ) {
+			if ( lv.SelectedItems.Count > 0 ) {
 				string sMess = "Вы действительно хотите удалить выбранные элементы из списка " + ItemName + "?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				DialogResult result = MessageBox.Show( sMess, MessageBoxTitle, buttons, MessageBoxIcon.Question );
-				if( result == DialogResult.Yes ) {
+				if ( result == DialogResult.Yes ) {
 					int SelectedItemsCount = lv.SelectedItems.Count;
-					for( int i = 0; i != SelectedItemsCount; ++i )
+					for ( int i = 0; i != SelectedItemsCount; ++i )
 						lv.Items.Remove( lv.SelectedItems[0] );
 					return true;
 				}
@@ -382,7 +379,7 @@ namespace Core.Common
 		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Корректора
 		public static bool removeChechedItemsNotDeleteFiles( ListView listViewFB2Files ) {
 			bool Result = false;
-			if( listViewFB2Files.Items.Count > 0  ) {
+			if ( listViewFB2Files.Items.Count > 0  ) {
 				foreach ( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
 					listViewFB2Files.Items.Remove( lvi );
 					Result = true;
@@ -410,12 +407,12 @@ namespace Core.Common
 		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
 		public static void deleteAllItemForNonExistFileWithCounter( ListView listView, ListViewItem RemoveListViewItem,
 		                                                           bool RemoveFast, ref int AllFiles ) {
-			if( !RemoveFast ) {
-				if( listView.Items.Count > 0 ) {
+			if ( !RemoveFast ) {
+				if ( listView.Items.Count > 0 ) {
 					ListViewGroup lvg = RemoveListViewItem.Group;
 					listView.Items.Remove( RemoveListViewItem );
-					if( lvg != null && lvg.Items.Count <= 1 ) {
-						if( lvg.Items.Count == 1 ) {
+					if ( lvg != null && lvg.Items.Count <= 1 ) {
+						if ( lvg.Items.Count == 1 ) {
 							listView.Items[lvg.Items[0].Index].Remove();
 							--AllFiles;
 						}
@@ -431,13 +428,13 @@ namespace Core.Common
 		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
 		public static bool deleteAllItemForNonExistFile( ListView listViewFB2Files ) {
 			bool Result = false;
-			foreach( ListViewItem lvi in listViewFB2Files.Items ) {
+			foreach ( ListViewItem lvi in listViewFB2Files.Items ) {
 				if ( !File.Exists( lvi.Text ) ) {
 					ListViewGroup lvg = lvi.Group;
 					listViewFB2Files.Items.Remove( lvi );
 					// удаление Групп с 1 элементом (и сам элемент)
-					if( lvg != null && lvg.Items.Count <= 1 ) {
-						if( lvg.Items.Count == 1 )
+					if ( lvg != null && lvg.Items.Count <= 1 ) {
+						if ( lvg.Items.Count == 1 )
 							listViewFB2Files.Items[lvg.Items[0].Index].Remove();
 						listViewFB2Files.Groups.Remove( lvg );
 					}
@@ -453,13 +450,13 @@ namespace Core.Common
 			listViewFB2Files.BeginUpdate();
 			int RemoveGroupCount = 0;
 			int RemoveItemCount = 0;
-			foreach( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
+			foreach ( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
 				ListViewGroup lvg = lvi.Group;
 				listViewFB2Files.Items.Remove( lvi );
 				++RemoveItemCount;
 				// удаление Групп с 1 элементом (и сам элемент)
-				if( lvg != null && lvg.Items.Count <= 1 ) {
-					if( lvg.Items.Count == 1 ) {
+				if ( lvg != null && lvg.Items.Count <= 1 ) {
+					if ( lvg.Items.Count == 1 ) {
 						listViewFB2Files.Items[lvg.Items[0].Index].Remove();
 						++RemoveItemCount;
 					}
@@ -468,7 +465,7 @@ namespace Core.Common
 				}
 				Result = true;
 			}
-			// реальное число Групп и книг в них
+			// реальное число Групп и книг в этих Группах
 			lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text =
 				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text) - RemoveGroupCount).ToString();
 			lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text =
@@ -477,16 +474,14 @@ namespace Core.Common
 			listViewFB2Files.EndUpdate();
 			return Result;
 		}
-		
-		
 		#endregion
 		
 		#region Перемещение итемов в списке...
 		// перемещение выделенного итема вверх
 		public static bool moveUpSelectedItem( ListView listView ) {
-			if( listView.Items.Count > 0 && listView.SelectedItems.Count > 0 ) {
-				if( listView.SelectedItems.Count == 1 ) {
-					if( listView.SelectedItems[0].Index > 0 ) {
+			if ( listView.Items.Count > 0 && listView.SelectedItems.Count > 0 ) {
+				if ( listView.SelectedItems.Count == 1 ) {
+					if ( listView.SelectedItems[0].Index > 0 ) {
 						ListViewItem SelItem = listView.SelectedItems[0];
 						int SelItemIndex = SelItem.Index;
 						int UpItemIndex = SelItemIndex - 1;
@@ -508,9 +503,9 @@ namespace Core.Common
 		
 		// перемещение выделенного итема вниз
 		public static bool moveDownSelectedItem( ListView listView ) {
-			if( listView.Items.Count > 0 && listView.SelectedItems.Count > 0 ) {
-				if( listView.SelectedItems.Count == 1 ) {
-					if( listView.SelectedItems[0].Index < listView.Items.Count - 1 ) {
+			if ( listView.Items.Count > 0 && listView.SelectedItems.Count > 0 ) {
+				if ( listView.SelectedItems.Count == 1 ) {
+					if ( listView.SelectedItems[0].Index < listView.Items.Count - 1 ) {
 						ListViewItem SelItem = listView.SelectedItems[0];
 						int SelItemIndex = SelItem.Index;
 						int DownItemIndex = SelItemIndex + 1;
@@ -536,10 +531,8 @@ namespace Core.Common
 		public static void SortColumnClick( ListView listView, ListViewColumnSorter listViewColumnSorter, ColumnClickEventArgs e ) {
 			if ( e.Column == listViewColumnSorter.SortColumn ) {
 				// Изменить сортировку на обратную для выбранного столбца
-				if ( listViewColumnSorter.Order == SortOrder.Ascending )
-					listViewColumnSorter.Order = SortOrder.Descending;
-				else
-					listViewColumnSorter.Order = SortOrder.Ascending;
+				listViewColumnSorter.Order = listViewColumnSorter.Order == SortOrder.Ascending
+					? SortOrder.Descending : SortOrder.Ascending;
 			} else {
 				// Задать номер столбца для сортировки (по-умолчанию Ascending)
 				listViewColumnSorter.SortColumn = e.Column;
@@ -565,8 +558,8 @@ namespace Core.Common
 		// число помеченных итемов в группе
 		public static int countCheckedItemsInGroup( ListViewGroup Group ) {
 			int i = 0;
-			foreach( ListViewItem lvi in Group.Items ) {
-				if( lvi.Checked )
+			foreach ( ListViewItem lvi in Group.Items ) {
+				if ( lvi.Checked )
 					++i;
 			}
 			return i;
@@ -575,15 +568,15 @@ namespace Core.Common
 		public static IList<ListViewItem> checkedItemsInGroup( ListViewGroup Group ) {
 			IList<ListViewItem> ChekedItems = new List<ListViewItem>();
 			ListView.ListViewItemCollection glvic = Group.Items;
-			foreach( ListViewItem lvi in glvic ) {
-				if( lvi.Checked )
+			foreach ( ListViewItem lvi in glvic ) {
+				if ( lvi.Checked )
 					ChekedItems.Add( lvi );
 			}
 			return ChekedItems;
 		}
 		// снять выделение со всех итемов
 		public static void unSelectAllItems( ListView listView ) {
-			foreach( ListViewItem item in listView.Items )
+			foreach ( ListViewItem item in listView.Items )
 				item.Selected = false;
 		}
 		

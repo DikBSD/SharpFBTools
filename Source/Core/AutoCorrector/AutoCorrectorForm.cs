@@ -43,7 +43,7 @@ namespace Core.Corrector
 		private readonly IList<string> m_SourceDirs			= new List<string>();	// подпапки корневой папки для поиска книг
 		private readonly IList<string> m_SourceRootFiles	= new List<string>();	// выбранные книги в корневой папке
 		private readonly EndWorkMode m_EndMode		= new EndWorkMode();
-		private readonly string m_TempDir			= Settings.Settings.TempDir;
+		private readonly string m_TempDir			= Settings.Settings.TempDirPath;
 		private readonly string m_fromXmlPath		= null;	// null - полное сканирование; Путь - возобновление Автокорректировки их xml
 		private List<string> m_DirsList				= new List<string>(); // каталоги
 		private List<string> m_NotWorkingFilesList	= new List<string>(); // не обработанные файлы

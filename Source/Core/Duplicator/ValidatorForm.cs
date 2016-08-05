@@ -145,7 +145,7 @@ namespace Core.Duplicator
 		private readonly GroupAnalyzeModeEnum	m_GroupAnalyzeMode = GroupAnalyzeModeEnum.Group;
 		private readonly ListView			m_lvResult		= new ListView();
 		private readonly DateTime			m_dtStart		= DateTime.Now;
-		private readonly string				m_TempDir		= Settings.Settings.TempDir;
+		private readonly string				m_TempDir		= Settings.Settings.TempDirPath;
 		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
 		private readonly EndWorkMode		m_EndMode 		= new EndWorkMode();
 		

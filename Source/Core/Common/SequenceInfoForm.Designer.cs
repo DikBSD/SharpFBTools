@@ -51,14 +51,14 @@ namespace Core.Common
 			// 
 			// SequenceNumberTextBox
 			// 
-			this.SequenceNumberTextBox.Location = new System.Drawing.Point(331, 3);
+			this.SequenceNumberTextBox.Location = new System.Drawing.Point(77, 34);
 			this.SequenceNumberTextBox.Name = "SequenceNumberTextBox";
-			this.SequenceNumberTextBox.Size = new System.Drawing.Size(210, 22);
+			this.SequenceNumberTextBox.Size = new System.Drawing.Size(458, 22);
 			this.SequenceNumberTextBox.TabIndex = 1;
 			// 
 			// SequenceNumberLabel
 			// 
-			this.SequenceNumberLabel.Location = new System.Drawing.Point(269, 3);
+			this.SequenceNumberLabel.Location = new System.Drawing.Point(6, 34);
 			this.SequenceNumberLabel.Name = "SequenceNumberLabel";
 			this.SequenceNumberLabel.Size = new System.Drawing.Size(63, 23);
 			this.SequenceNumberLabel.TabIndex = 23;
@@ -67,14 +67,14 @@ namespace Core.Common
 			// 
 			// SequenceTextBox
 			// 
-			this.SequenceTextBox.Location = new System.Drawing.Point(57, 3);
+			this.SequenceTextBox.Location = new System.Drawing.Point(77, 6);
 			this.SequenceTextBox.Name = "SequenceTextBox";
-			this.SequenceTextBox.Size = new System.Drawing.Size(203, 22);
+			this.SequenceTextBox.Size = new System.Drawing.Size(458, 22);
 			this.SequenceTextBox.TabIndex = 0;
 			// 
 			// SequenceLabel
 			// 
-			this.SequenceLabel.Location = new System.Drawing.Point(1, 3);
+			this.SequenceLabel.Location = new System.Drawing.Point(12, 6);
 			this.SequenceLabel.Name = "SequenceLabel";
 			this.SequenceLabel.Size = new System.Drawing.Size(60, 23);
 			this.SequenceLabel.TabIndex = 22;
@@ -127,7 +127,7 @@ namespace Core.Common
 			this.SequenceAddPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.SequenceAddPanel.Location = new System.Drawing.Point(0, 0);
 			this.SequenceAddPanel.Name = "SequenceAddPanel";
-			this.SequenceAddPanel.Size = new System.Drawing.Size(554, 32);
+			this.SequenceAddPanel.Size = new System.Drawing.Size(554, 70);
 			this.SequenceAddPanel.TabIndex = 0;
 			// 
 			// SequenceInfoForm

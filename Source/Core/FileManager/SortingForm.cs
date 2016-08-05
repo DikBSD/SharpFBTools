@@ -204,7 +204,7 @@ namespace Core.FileManager
 		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
 		private readonly EndWorkMode 		m_EndMode		= new EndWorkMode();
 		
-		private readonly string m_TempDir	= Settings.Settings.TempDir;
+		private readonly string m_TempDir	= Settings.Settings.TempDirPath;
 		private static int _MaxBookTitleLenght = 50; // Максимальная длина имени книги
 		private static int _MaxSequenceLenght = 50; // Максимальная длина имени серии
 		private bool m_StopToSave			= false; // true, если остановка с сохранением необработанного списка книг в файл.

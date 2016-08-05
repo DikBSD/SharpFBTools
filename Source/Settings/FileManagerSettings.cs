@@ -27,7 +27,7 @@ namespace Settings
 		private static bool m_SelectedSortingFB2LibrusecGenres	= true;
 
 		// Настройки Полной сортировки
-		private readonly static string m_FullSortTemplate			= @"*GROUP*\*LBAL*[ *BAF*][ *BAM*]\*G*\[# *SN*]\[#*SII* - ]*BT*";
+		private readonly static string m_FullSortTemplate			= @"*GROUP*\*G*\*LBAL_OR_LBAN*[ *BAF*][ *BAM*]\[#*SN*]\[#*SII*-]*BT*";
 		private readonly static bool m_FullSortScanSubDirs			= true;
 		private readonly static bool m_FullSortToZip				= false;
 		private readonly static bool m_FullSortNotDelFB2Files		= true;
@@ -36,7 +36,7 @@ namespace Settings
 		private readonly static Int16 m_MaxFileForProgressIndex	= 11;
 		
 		// Настройки Избранной сортировки
-		private readonly static string m_SelSortTemplate 		= @"*GROUP*\*LBAL*[ *BAF*][ *BAM*]\*G*\[# *SN*]\[#*SII* - ]*BT*";
+		private readonly static string m_SelSortTemplate 		= @"*GROUP*\*G*\*LBAL_OR_LBAN*[ *BAF*][ *BAM*]\[#*SN*]\[#*SII*-]*BT*";
 		private readonly static bool m_SelSortScanSubDirs		= true;
 		private readonly static bool m_SelSortToZip				= false;
 		private readonly static bool m_SelSortNotDelFB2Files	= true;

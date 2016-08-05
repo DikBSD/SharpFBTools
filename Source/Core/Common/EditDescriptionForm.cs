@@ -73,17 +73,17 @@ namespace Core.Common
 			loadCustomInfo( ref m_fb2 );
 			// загрузка Истории развития fb2 файла
 			History his = m_fb2.DIHistory;
-			if( his != null )
+			if ( his != null )
 				DIHistoryRichTextEdit.Text =
 					StringProcessing.getDeleteAllTags( his.Value != null ? his.Value : string.Empty );
 			// загрузка Аннатации на книгу
 			Annotation ann = m_fb2.TIAnnotation;
-			if( ann != null )
+			if ( ann != null )
 				TIAnnotationRichTextEdit.Text =
 					StringProcessing.getDeleteAllTags( ann.Value != null ? ann.Value : string.Empty );
 			// загрузка Аннатации на Оригинал книги
 			Annotation annOrig = m_fb2.STIAnnotation;
-			if( annOrig != null )
+			if ( annOrig != null )
 				STIAnnotationRichTextEdit.Text =
 					StringProcessing.getDeleteAllTags( annOrig.Value != null ? annOrig.Value : string.Empty );
 			
@@ -124,8 +124,8 @@ namespace Core.Common
 		private void loadBookTitle( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
 			BookTitle bookTitle = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? fb2.TIBookTitle : fb2.STIBookTitle;
-			if( bookTitle != null ) {
-				if( TitleInfoType == Enums.TitleInfoEnum.TitleInfo )
+			if ( bookTitle != null ) {
+				if ( TitleInfoType == Enums.TitleInfoEnum.TitleInfo )
 					TIBookTitleTextBox.Text = bookTitle.Value;
 				else
 					STIBookTitleTextBox.Text = bookTitle.Value;
@@ -139,19 +139,19 @@ namespace Core.Common
 				? "(" + fb2.TILang + ")" : "(" + fb2.STILang + ")";
 			string SrcLang = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? "(" + fb2.TISrcLang + ")" : "(" + fb2.STISrcLang + ")";
-			if( !string.IsNullOrEmpty(Lang) ) {
-				for( int i = 0; i != cbLang.Items.Count; ++i ) {
+			if ( !string.IsNullOrEmpty(Lang) ) {
+				for ( int i = 0; i != cbLang.Items.Count; ++i ) {
 					string s = cbLang.Items[i].ToString().ToLower();
-					if( s.IndexOf( Lang.ToLower() ) > -1 ) {
+					if ( s.IndexOf( Lang.ToLower(), StringComparison.CurrentCulture ) > -1 ) {
 						cbLang.SelectedIndex = i;
 						break;
 					}
 				}
 			}
-			if( !string.IsNullOrEmpty(SrcLang) ) {
-				for( int i = 0; i != cbSrcLang.Items.Count; ++i ) {
+			if ( !string.IsNullOrEmpty(SrcLang) ) {
+				for ( int i = 0; i != cbSrcLang.Items.Count; ++i ) {
 					string s = cbSrcLang.Items[i].ToString().ToLower();
-					if( s.IndexOf( SrcLang.ToLower() ) > -1 ) {
+					if ( s.IndexOf( SrcLang.ToLower() ) > -1 ) {
 						cbSrcLang.SelectedIndex = i;
 						break;
 					}
@@ -168,8 +168,8 @@ namespace Core.Common
 			IList<Genre> Genres = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 				? fb2.TIGenres : fb2.STIGenres;
 			
-			if( Genres != null ) {
-				foreach( Genre g in Genres ) {
+			if ( Genres != null ) {
+				foreach ( Genre g in Genres ) {
 					if ( !WorksWithBooks.genreIsExist( lv, g, fb2g ) ) {
 						ListViewItem lvi = new ListViewItem(
 							!string.IsNullOrEmpty( g.Name )
@@ -186,7 +186,7 @@ namespace Core.Common
 		// загрузка Даты создания книги в зависимости от типа TitleInfo
 		private void loadDate( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
 			Date date = TitleInfoType == Enums.TitleInfoEnum.TitleInfo ? fb2.TIDate : fb2.STIDate;
-			if( date != null ) {
+			if ( date != null ) {
 				TextBox mtbDate = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 					? TIDateTextBox : STIDateTextBox;
 				MaskedTextBox mtbValue = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
@@ -200,11 +200,11 @@ namespace Core.Common
 		                         Enums.AuthorEnum AuthorType ) {
 			IList<Author> Authors = null;
 			ListView lv = null;
-			if( TitleInfoType == Enums.TitleInfoEnum.TitleInfo ) {
-				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
+			if ( TitleInfoType == Enums.TitleInfoEnum.TitleInfo ) {
+				if ( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = fb2.TIAuthors;
 					lv = TIAuthorsListView;
-				} else if( AuthorType == Enums.AuthorEnum.Translator ) {
+				} else if ( AuthorType == Enums.AuthorEnum.Translator ) {
 					Authors = fb2.TITranslators;
 					lv = TITranslatorListView;
 				} else {
@@ -214,10 +214,10 @@ namespace Core.Common
 				}
 			} else {
 				// TitleInfoType == Enums.TitleInfoEnum.SourceTitleInfo
-				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
+				if ( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = fb2.STIAuthors;
 					lv = STIAuthorsListView;
-				} else if( AuthorType == Enums.AuthorEnum.Translator ) {
+				} else if ( AuthorType == Enums.AuthorEnum.Translator ) {
 					Authors = fb2.STITranslators;
 					lv = STITranslatorListView;
 				} else {
@@ -227,12 +227,12 @@ namespace Core.Common
 				}
 			}
 			
-			if( Authors != null ) {
-				foreach( Author a in Authors ) {
-					if( a != null ) {
+			if ( Authors != null ) {
+				foreach ( Author a in Authors ) {
+					if ( a != null ) {
 						if ( !WorksWithBooks.authorIsExist( lv, a ) ) {
 							ListViewItem lvi = null;
-							if( a.LastName != null )
+							if ( a.LastName != null )
 								lvi = new ListViewItem( !string.IsNullOrEmpty( a.LastName.Value ) ? a.LastName.Value : string.Empty );
 							else
 								lvi = new ListViewItem( "" );
@@ -240,11 +240,11 @@ namespace Core.Common
 								lvi.SubItems.Add( !string.IsNullOrEmpty( a.FirstName.Value ) ? a.FirstName.Value : string.Empty );
 							else
 								lvi.SubItems.Add( string.Empty );
-							if( a.MiddleName != null )
+							if ( a.MiddleName != null )
 								lvi.SubItems.Add( !string.IsNullOrEmpty( a.MiddleName.Value ) ? a.MiddleName.Value : string.Empty );
 							else
 								lvi.SubItems.Add( string.Empty );
-							if( a.NickName != null )
+							if ( a.NickName != null )
 								lvi.SubItems.Add( !string.IsNullOrEmpty( a.NickName.Value ) ? a.NickName.Value : string.Empty );
 							else
 								lvi.SubItems.Add( string.Empty );
@@ -264,7 +264,7 @@ namespace Core.Common
 		                           Enums.SequenceEnum SequenceType ) {
 			IList<Sequence> Sequences = null;
 			ListView lv = null;
-			if( SequenceType == Enums.SequenceEnum.Ebook ) {
+			if ( SequenceType == Enums.SequenceEnum.Ebook ) {
 				Sequences = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
 					? fb2.TISequences : fb2.STISequences;
 				lv = TitleInfoType == Enums.TitleInfoEnum.TitleInfo
@@ -275,9 +275,9 @@ namespace Core.Common
 				lv = PISequenceListView;
 			}
 			
-			if( Sequences != null ) {
-				foreach( Sequence seq in Sequences ) {
-					if( seq != null ) {
+			if ( Sequences != null ) {
+				foreach ( Sequence seq in Sequences ) {
+					if ( seq != null ) {
 						ListViewItem lvi = null;
 						lvi = new ListViewItem( !string.IsNullOrEmpty( seq.Name ) ? seq.Name : string.Empty );
 						lvi.SubItems.Add( !string.IsNullOrEmpty( seq.Number ) ? seq.Number : string.Empty );
@@ -290,7 +290,7 @@ namespace Core.Common
 		private void loadKeyWords( ref FictionBook fb2, Enums.TitleInfoEnum TitleInfoType ) {
 			TextBox tbKey = TitleInfoType == Enums.TitleInfoEnum.TitleInfo ? TIKeyTextBox : STIKeyTextBox;
 			Keywords keys = TitleInfoType == Enums.TitleInfoEnum.TitleInfo ? fb2.TIKeywords : fb2.STIKeywords;
-			if( keys != null )
+			if ( keys != null )
 				tbKey.Text = keys.Value;
 		}
 		// загрузка метаданных TitleInfo книги
@@ -320,19 +320,19 @@ namespace Core.Common
 			DIProgramUsedTextBox.Text = fb2.DIProgramUsed != null ? fb2.DIProgramUsed.Value : string.Empty;
 			// SrcUrls
 			IList<string> lSrcUrls = fb2.DISrcUrls;
-			if( lSrcUrls != null ) {
-				if( lSrcUrls.Count > 0 ) {
+			if ( lSrcUrls != null ) {
+				if ( lSrcUrls.Count > 0 ) {
 					foreach( string s in lSrcUrls )
 						DIURLTextBox.Text += s + "; ";
 					DIURLTextBox.Text = DIURLTextBox.Text.Trim();
-					if( DIURLTextBox.Text[DIURLTextBox.TextLength-1] == ';' )
+					if ( DIURLTextBox.Text[DIURLTextBox.TextLength-1] == ';' )
 						DIURLTextBox.Text = DIURLTextBox.Text.Remove(DIURLTextBox.TextLength-1);
 				}
 			}
 
 			// Date
 			Date date = fb2.DIDate;
-			if( date != null ) {
+			if ( date != null ) {
 				DIDateTextBox.Text = date.Text;
 				DIDateValueMaskedTextBox.Text = date.Value;
 			}
@@ -343,11 +343,11 @@ namespace Core.Common
 		private void loadPublisherInfo( ref FictionBook fb2 ) {
 			// BookName
 			BookName bn = fb2.PIBookName;
-			if( bn != null )
+			if ( bn != null )
 				DIBookNameTextBox.Text = !string.IsNullOrEmpty( bn.Value ) ? bn.Value : string.Empty;
 			// Publisher
 			Publisher pub = fb2.PIPublisher;
-			if( pub != null )
+			if ( pub != null )
 				DIPublisherTextBox.Text = !string.IsNullOrEmpty( pub.Value ) ? pub.Value : string.Empty;
 			// City
 			City city = fb2.PICity;
@@ -357,7 +357,7 @@ namespace Core.Common
 			DIYearTextBox.Text = !string.IsNullOrEmpty( fb2.PIYear ) ? fb2.PIYear : string.Empty;
 			// ISBN
 			ISBN isbn = fb2.PIISBN;
-			if( isbn != null )
+			if ( isbn != null )
 				DIISBNTextBox.Text = !string.IsNullOrEmpty( isbn.Value ) ? isbn.Value : string.Empty;
 			// Sequence
 			loadSequences( ref fb2, Enums.TitleInfoEnum.TitleInfo, Enums.SequenceEnum.PaperBook );
@@ -365,10 +365,10 @@ namespace Core.Common
 		// загрузка метаданных CustomInfo
 		private void loadCustomInfo( ref FictionBook fb2 ) {
 			IList<CustomInfo> lCI = fb2.getCustomInfo();
-			if( lCI != null ) {
-				if( lCI.Count > 0 ) {
-					foreach( CustomInfo ci in lCI ) {
-						if( ci != null ) {
+			if ( lCI != null ) {
+				if ( lCI.Count > 0 ) {
+					foreach ( CustomInfo ci in lCI ) {
+						if ( ci != null ) {
 							ListViewItem lvi = null;
 							lvi = new ListViewItem( !string.IsNullOrEmpty( ci.InfoType ) ? ci.InfoType : string.Empty );
 							lvi.SubItems.Add( !string.IsNullOrEmpty( ci.Value ) ? ci.Value : string.Empty );
@@ -383,9 +383,9 @@ namespace Core.Common
 		#region Вспомогательные методы Удаления структур метаданных
 		private bool isImageExsistInBody( string Href ) {
 			XmlNodeList xmlBodys = m_fb2.getBodyNodes();
-			foreach( XmlNode xmlBody in xmlBodys ) {
+			foreach ( XmlNode xmlBody in xmlBodys ) {
 				string Body = xmlBody.InnerXml;
-				if( Body.IndexOf( Href ) > -1 )
+				if ( Body.IndexOf( Href, StringComparison.CurrentCulture ) > -1 )
 					return true;
 			}
 			return false;
@@ -393,32 +393,32 @@ namespace Core.Common
 		// удаление Image тэга Cover по Href
 		private void deleteCoverImageForHref( Enums.TitleInfoEnum TitleInfoType, string Href ) {
 			XmlNode xmlCover = m_fb2.getCoverNode( TitleInfoType );
-			if( xmlCover != null ) {
+			if ( xmlCover != null ) {
 				XmlNode xmlImageNode = m_fb2.getCoverImageNodeForHref( TitleInfoType, "#" + Href );
-				if( xmlImageNode != null )
+				if ( xmlImageNode != null )
 					xmlCover.RemoveChild( xmlImageNode );
 			}
 		}
 		// удаление binary Обложки по ID
 		private void deleteCoverBinaryForID( string ID ) {
 			XmlNode xmlFB = m_fb2.getFictionBookNode();
-			if( xmlFB != null ) {
+			if ( xmlFB != null ) {
 				XmlNode xmlCoverBinaryNode = m_fb2.getBinaryNodeForID( ID );
-				if( xmlCoverBinaryNode != null )
+				if ( xmlCoverBinaryNode != null )
 					xmlFB.RemoveChild( xmlCoverBinaryNode );
 			}
 		}
 		// удаление Обложк (cover и binary) по Href (ID)
 		private void deleteCoverForHref( Enums.TitleInfoEnum TitleInfoType, string Href ) {
 			deleteCoverImageForHref( TitleInfoType, Href );
-			if( ! isImageExsistInBody( Href ) )
+			if ( ! isImageExsistInBody( Href ) )
 				deleteCoverBinaryForID( Href );
 		}
 		
 		// удаление тэга cover - т.е. удаление всех Обложек
 		private void deleteCoverTag( Enums.TitleInfoEnum TitleInfoType ) {
 			XmlNode xmlCover = m_fb2.getCoverNode( TitleInfoType );
-			if( xmlCover != null )
+			if ( xmlCover != null )
 				m_fb2.getTitleInfoNode( TitleInfoType ).RemoveChild( xmlCover );
 		}
 		// удаление всех binary тэга cover - т.е. удаление всех Обложек
@@ -426,9 +426,9 @@ namespace Core.Common
 
 			XmlNode xmlFB = m_fb2.getFictionBookNode();
 			XmlNodeList xmlBinaryNodes = m_fb2.getBinaryNodes();
-			if( xmlBinaryNodes != null && xmlBinaryNodes.Count > 0 ) {
-				foreach( string ID in lIDList ) {
-					if( ! isImageExsistInBody( ID ) )
+			if ( xmlBinaryNodes != null && xmlBinaryNodes.Count > 0 ) {
+				foreach ( string ID in lIDList ) {
+					if ( ! isImageExsistInBody( ID ) )
 						deleteCoverBinaryForID( ID );
 				}
 			}
@@ -445,9 +445,9 @@ namespace Core.Common
 			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 			IList<XmlNode> Authors = null;
 			XmlNode xmlAuthor = null;
-			if( lv.Items.Count > 0 ) {
+			if ( lv.Items.Count > 0 ) {
 				Authors = new List<XmlNode>( lv.Items.Count );
-				foreach( ListViewItem item in lv.Items ) {
+				foreach ( ListViewItem item in lv.Items ) {
 					string HPs = StringProcessing.trimLastTemplateSymbol( item.SubItems[4].Text.Trim(), new Char [] { ',',';' } );
 					IList<string> lHPs = HPs.Split( new Char [] { ',',';' } );
 					string Emails = StringProcessing.trimLastTemplateSymbol( item.SubItems[5].Text.Trim(), new Char [] { ',',';' } );
@@ -460,7 +460,7 @@ namespace Core.Common
 					Authors.Add(xmlAuthor);
 				}
 			} else {
-				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
+				if ( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = new List<XmlNode>();
 					xmlAuthor = fB2Corrector.makeAuthorNode( AuthorType, null, null, null, null, null, null, null );
 					Authors.Add(xmlAuthor);
@@ -469,7 +469,7 @@ namespace Core.Common
 			return Authors;
 		}
 		private XmlNode makeTitleInfoNode( ref XmlDocument xmlDoc, Enums.TitleInfoEnum TitleInfoType ) {
-			if( TitleInfoType == Enums.TitleInfoEnum.SourceTitleInfo && !STIEnableCheckBox.Checked )
+			if ( TitleInfoType == Enums.TitleInfoEnum.SourceTitleInfo && !STIEnableCheckBox.Checked )
 				return null;
 			
 			string TitleInfoNode = string.Empty;
@@ -486,7 +486,7 @@ namespace Core.Common
 			ListView SequenceListView;
 			ListView CoverListView;
 			
-			if( TitleInfoType == Enums.TitleInfoEnum.TitleInfo ) {
+			if ( TitleInfoType == Enums.TitleInfoEnum.TitleInfo ) {
 				TitleInfoNode = "title-info";
 				GenresListView = TIGenresListView;
 				AuthorsListView = TIAuthorsListView;
@@ -519,8 +519,8 @@ namespace Core.Common
 			XmlNode xmlTI = xmlDoc.CreateElement( m_fb2.getPrefix(), TitleInfoNode, m_fb2.getNamespaceURI() );
 			// Жанры
 			XmlNode xmlGenre = null;
-			if( GenresListView.Items.Count > 0 ) {
-				foreach( ListViewItem item in GenresListView.Items ) {
+			if ( GenresListView.Items.Count > 0 ) {
+				foreach ( ListViewItem item in GenresListView.Items ) {
 					string code = item.Text.Substring( item.Text.IndexOf('(') + 1 );
 					xmlGenre = _fB2Corrector.makeGenreNode( code.Substring( 0, code.Length - 1), item.SubItems[1].Text );
 					xmlTI.AppendChild( xmlGenre );
@@ -532,7 +532,7 @@ namespace Core.Common
 			
 			// Авторы
 			IList<XmlNode> Authors = makeAuthorNode( Enums.AuthorEnum.AuthorOfBook, ref m_fb2, AuthorsListView );
-			foreach( XmlNode Author in Authors )
+			foreach ( XmlNode Author in Authors )
 				xmlTI.AppendChild( Author );
 			
 			// Book Title
@@ -540,23 +540,23 @@ namespace Core.Common
 			
 			// Аннотация
 			XmlElement Annot = _fB2Corrector.makeAnnotationNode( AnnotationRichTextEdit.Lines );
-			if( Annot != null )
-				if( !string.IsNullOrEmpty( Annot.InnerText.Trim() ) )
+			if ( Annot != null )
+				if ( !string.IsNullOrEmpty( Annot.InnerText.Trim() ) )
 					xmlTI.AppendChild( Annot );
 			
 			// keywords
-			if( !string.IsNullOrEmpty( KeyTextBox.Text.Trim() ) )
+			if ( !string.IsNullOrEmpty( KeyTextBox.Text.Trim() ) )
 				xmlTI.AppendChild( _fB2Corrector.makeKeywordsNode( KeyTextBox.Text.Trim() ) );
 			
 			// date
 			string DateValue = DateValueMaskedTextBox.Text.Trim();
-			if( !string.IsNullOrEmpty( DateTextBox.Text.Trim() ) ) {
-				if( !DateValue.Equals( "-  -" ) )
+			if ( !string.IsNullOrEmpty( DateTextBox.Text.Trim() ) ) {
+				if ( !DateValue.Equals( "-  -" ) )
 					xmlTI.AppendChild( _fB2Corrector.makeDateNode( DateTextBox.Text.Trim(), DateValue ) );
 				else
 					xmlTI.AppendChild( _fB2Corrector.makeDateNode( DateTextBox.Text.Trim(), null ) );
 			} else {
-				if( !DateValue.Equals( "-  -" ) )
+				if ( !DateValue.Equals( "-  -" ) )
 					xmlTI.AppendChild( _fB2Corrector.makeDateNode( null, DateValue ) );
 				else
 					xmlTI.AppendChild( _fB2Corrector.makeDateNode( null, null ) );
@@ -569,10 +569,10 @@ namespace Core.Common
 				lIDList.Add( item.Text );
 			deleteAllBinaryTagsOfCover( ref lIDList );
 			
-			if( CoverListView.Items.Count > 0 ) {
+			if ( CoverListView.Items.Count > 0 ) {
 				// coverpage
 				IList<string> list = new List<string>();
-				foreach( ListViewItem item in CoverListView.Items )
+				foreach ( ListViewItem item in CoverListView.Items )
 					list.Add( item.Text );
 				
 				xmlTI.AppendChild(
@@ -581,9 +581,9 @@ namespace Core.Common
 				
 				// binary
 				XmlNode xmlFB = m_fb2.getFictionBookNode();
-				foreach( ListViewItem item in CoverListView.Items ) {
+				foreach ( ListViewItem item in CoverListView.Items ) {
 					// добавление всех binary Обложек
-					if( m_fb2.getBinaryNodeForID( item.Text ) == null )
+					if ( m_fb2.getBinaryNodeForID( item.Text ) == null )
 						xmlFB.AppendChild(
 							_fB2Corrector.makeBinaryNode(
 								item.Text, item.SubItems[1].Text, item.Tag.ToString()
@@ -593,7 +593,7 @@ namespace Core.Common
 			}
 			
 			// lang
-			if( !string.IsNullOrEmpty( LangComboBox.Text ) )
+			if ( !string.IsNullOrEmpty( LangComboBox.Text ) )
 				xmlTI.AppendChild(
 					_fB2Corrector.makeLangNode( LangComboBox.Text.Substring( LangComboBox.Text.IndexOf('(')+1, 2 ) )
 				);
@@ -601,7 +601,7 @@ namespace Core.Common
 				xmlTI.AppendChild( _fB2Corrector.makeLangNode() );
 			
 			// src-lang
-			if( !string.IsNullOrEmpty( SrcLangComboBox.Text ) ) {
+			if ( !string.IsNullOrEmpty( SrcLangComboBox.Text ) ) {
 				xmlTI.AppendChild(
 					_fB2Corrector.makeSrcLangNode( SrcLangComboBox.Text.Substring( SrcLangComboBox.Text.IndexOf('(')+1, 2 ) )
 				);
@@ -609,13 +609,13 @@ namespace Core.Common
 			
 			// translator
 			IList<XmlNode> Translators = makeAuthorNode( Enums.AuthorEnum.Translator, ref m_fb2, TranslatorListView ) ;
-			if( Translators != null ) {
+			if ( Translators != null ) {
 				foreach( XmlNode Translator in Translators )
 					xmlTI.AppendChild( Translator );
 			}
 			
 			// sequence
-			if( SequenceListView.Items.Count > 0 ) {
+			if ( SequenceListView.Items.Count > 0 ) {
 				foreach( ListViewItem item in SequenceListView.Items )
 					xmlTI.AppendChild( _fB2Corrector.makeSequenceNode( item.Text, item.SubItems[1].Text ) );
 			}
@@ -625,8 +625,8 @@ namespace Core.Common
 			string ns = m_fb2.getNamespace();
 			XmlNode xmlTIOld = xmlDoc.SelectSingleNode( ns + "FictionBook" + ns + "description" + ns + "title-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
-			if( xmlDesc != null ) {
-				if( xmlTIOld != null ) {
+			if ( xmlDesc != null ) {
+				if ( xmlTIOld != null ) {
 					xmlDesc.ReplaceChild( xmlTINew, xmlTIOld );
 					return true;
 				}
@@ -637,20 +637,20 @@ namespace Core.Common
 			string ns = m_fb2.getNamespace();
 			XmlNode xmlSTIOld = xmlDoc.SelectSingleNode( ns + "FictionBook" + ns + "description" + ns + "src-title-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
-			if( xmlDesc != null ) {
-				if( STIEnableCheckBox.Checked ) {
-					if( xmlSTIOld != null ) {
+			if ( xmlDesc != null ) {
+				if ( STIEnableCheckBox.Checked ) {
+					if ( xmlSTIOld != null ) {
 						xmlDesc.ReplaceChild( xmlSTINew, xmlSTIOld );
 						return true;
 					} else {
 						XmlNode xmlTI = m_fb2.getTitleInfoNode( Enums.TitleInfoEnum.TitleInfo );
-						if( xmlTI != null ) {
+						if ( xmlTI != null ) {
 							xmlDesc.InsertAfter( xmlSTINew, xmlTI );
 							return true;
 						}
 					}
 				} else {
-					if( xmlSTIOld != null ) {
+					if ( xmlSTIOld != null ) {
 						xmlDesc.RemoveChild( xmlSTIOld );
 						return true;
 					}
@@ -663,33 +663,33 @@ namespace Core.Common
 			
 			// Авторы
 			IList<XmlNode> Authors = makeAuthorNode( Enums.AuthorEnum.AuthorOfFB2, ref m_fb2, DIFB2AuthorListView ) ;
-			foreach( XmlNode Author in Authors )
+			foreach ( XmlNode Author in Authors )
 				xmlDI.AppendChild( Author );
 			
 			// Program Used
 			XmlElement xmlProgramUsed = _fB2Corrector.makeProgramUsedNode( DIProgramUsedTextBox.Text.Trim() );
-			if( xmlProgramUsed != null )
+			if ( xmlProgramUsed != null )
 				xmlDI.AppendChild( xmlProgramUsed );
 			
 			// date
 			string DateValue = DIDateValueMaskedTextBox.Text.Trim();
-			if( !string.IsNullOrWhiteSpace( DIDateTextBox.Text ) ) {
-				if( !DateValue.Equals( "-  -" ) )
+			if ( !string.IsNullOrWhiteSpace( DIDateTextBox.Text ) ) {
+				if ( !DateValue.Equals( "-  -" ) )
 					xmlDI.AppendChild( _fB2Corrector.makeDateNode( DIDateTextBox.Text.Trim(), DateValue ) );
 				else
 					xmlDI.AppendChild( _fB2Corrector.makeDateNode( DIDateTextBox.Text.Trim(), null ) );
 			} else {
-				if( !DateValue.Equals( "-  -" ) )
+				if ( !DateValue.Equals( "-  -" ) )
 					xmlDI.AppendChild( _fB2Corrector.makeDateNode( null, DateValue ) );
 				else
 					xmlDI.AppendChild( _fB2Corrector.makeDateNode( null, null ) );
 			}
 			
 			// src-url
-			if( !string.IsNullOrWhiteSpace( DIURLTextBox.Text ) ) {
+			if ( !string.IsNullOrWhiteSpace( DIURLTextBox.Text ) ) {
 				string [] URLs = DIURLTextBox.Text.Split( new Char [] { ',',';' } );
 				IList<XmlNode> lSrcUrls = _fB2Corrector.makeSrcUrlNode( ref URLs );
-				if( lSrcUrls != null && lSrcUrls.Count > 0 ) {
+				if ( lSrcUrls != null && lSrcUrls.Count > 0 ) {
 					foreach( XmlNode URL in lSrcUrls )
 						xmlDI.AppendChild( URL );
 				}
@@ -697,7 +697,7 @@ namespace Core.Common
 			
 			// src-ocr
 			XmlElement xmlSrcOcr = _fB2Corrector.makeSrcOcrNode( DIOCRTextBox.Text.Trim() );
-			if( xmlSrcOcr != null )
+			if ( xmlSrcOcr != null )
 				xmlDI.AppendChild( xmlSrcOcr );
 			
 			// id
@@ -708,8 +708,8 @@ namespace Core.Common
 			
 			// history
 			XmlElement History = _fB2Corrector.makeHistoryNode( DIHistoryRichTextEdit.Lines );
-			if( History != null )
-				if( !string.IsNullOrWhiteSpace( History.InnerText ) )
+			if ( History != null )
+				if ( !string.IsNullOrWhiteSpace( History.InnerText ) )
 					xmlDI.AppendChild( History );
 			return xmlDI;
 		}
@@ -717,8 +717,8 @@ namespace Core.Common
 			string ns = m_fb2.getNamespace();
 			XmlNode xmlDIOld = xmlDoc.SelectSingleNode( ns + "FictionBook" + ns + "description" + ns + "document-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
-			if( xmlDesc != null ) {
-				if( xmlDIOld != null ) {
+			if ( xmlDesc != null ) {
+				if ( xmlDIOld != null ) {
 					xmlDesc.ReplaceChild( xmlDINew, xmlDIOld );
 					return true;
 				}
@@ -731,43 +731,43 @@ namespace Core.Common
 			
 			// Book Name
 			XmlNode bn = _fB2Corrector.makePaperBookNameNode( DIBookNameTextBox.Text.Trim() );
-			if( bn != null ) {
+			if ( bn != null ) {
 				xmlPI.AppendChild( bn );
 				PIExists = true;
 			}
 			
 			// publisher
 			XmlNode pub = _fB2Corrector.makePaperPublisherNode( DIPublisherTextBox.Text.Trim() );
-			if( pub != null ) {
+			if ( pub != null ) {
 				xmlPI.AppendChild( pub );
 				PIExists = true;
 			}
 			
 			// city
 			XmlNode city = _fB2Corrector.makePaperCityNode( DICityTextBox.Text.Trim() );
-			if( city != null ) {
+			if ( city != null ) {
 				xmlPI.AppendChild( city);
 				PIExists = true;
 			}
 			
 			// year
 			XmlNode year = _fB2Corrector.makePaperYearNode( DIYearTextBox.Text.Trim() );
-			if( year != null ) {
+			if ( year != null ) {
 				xmlPI.AppendChild( year );
 				PIExists = true;
 			}
 			
 			// isbn
 			XmlNode isbn = _fB2Corrector.makePaperISBNNode( DIISBNTextBox.Text.Trim() );
-			if( isbn != null ) {
+			if ( isbn != null ) {
 				xmlPI.AppendChild( isbn );
 				PIExists = true;
 			}
 			
 			// sequence
 			XmlNode xmlSequence = null;
-			if( PISequenceListView.Items.Count > 0 ) {
-				foreach( ListViewItem item in PISequenceListView.Items ) {
+			if ( PISequenceListView.Items.Count > 0 ) {
+				foreach ( ListViewItem item in PISequenceListView.Items ) {
 					xmlSequence = _fB2Corrector.makeSequenceNode( item.Text, item.SubItems[1].Text );
 					xmlPI.AppendChild( xmlSequence );
 				}
@@ -780,14 +780,14 @@ namespace Core.Common
 			string ns = m_fb2.getNamespace();
 			XmlNode xmlPIOld = xmlDoc.SelectSingleNode( ns + "FictionBook" + ns + "description" + ns + "publish-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
-			if( xmlDesc != null ) {
-				if( xmlPINew != null ) {
-					if( xmlPIOld != null ) {
+			if ( xmlDesc != null ) {
+				if ( xmlPINew != null ) {
+					if ( xmlPIOld != null ) {
 						xmlDesc.ReplaceChild( xmlPINew, xmlPIOld );
 						return true;
 					}
 				} else {
-					if( xmlPIOld != null ) {
+					if ( xmlPIOld != null ) {
 						xmlDesc.RemoveChild( xmlPIOld );
 						return true;
 					}
@@ -800,14 +800,14 @@ namespace Core.Common
 			XmlNodeList xmlCIOldList = xmlDoc.SelectNodes( ns + "FictionBook" + ns + "description" + ns + "custom-info", m_fb2.getNamespaceManager() );
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
 			
-			if( xmlDesc != null ) {
-				if( xmlCIOldList != null && xmlCIOldList.Count > 0 ) {
-					foreach( XmlNode node in xmlCIOldList )
+			if ( xmlDesc != null ) {
+				if ( xmlCIOldList != null && xmlCIOldList.Count > 0 ) {
+					foreach ( XmlNode node in xmlCIOldList )
 						xmlDesc.RemoveChild( node );
 				}
 				
-				if( CICustomInfoListView.Items.Count > 0 ) {
-					foreach( ListViewItem item in CICustomInfoListView.Items )
+				if ( CICustomInfoListView.Items.Count > 0 ) {
+					foreach ( ListViewItem item in CICustomInfoListView.Items )
 						xmlDesc.AppendChild(
 							_fB2Corrector.makeCustomInfoNode( item.Text, item.SubItems[1].Text )
 						);
@@ -837,7 +837,7 @@ namespace Core.Common
 		}
 		// редактирование Автора книги / Переводчика книги / Создателя fb2-файла
 		private void editSelectedAuthor( ListView lv, Enums.AuthorEnum AuthorType ) {
-			if( lv.SelectedItems.Count > 0 ) {
+			if ( lv.SelectedItems.Count > 0 ) {
 				ListViewItem lvi = lv.SelectedItems[0];
 				AuthorInfo ai = new AuthorInfo( AuthorType, false,
 				                               lvi.Text, lvi.SubItems[1].Text, lvi.SubItems[2].Text, lvi.SubItems[3].Text,
@@ -869,7 +869,7 @@ namespace Core.Common
 		}
 		// редактирование Серии для Электронной / Бумажной книги
 		private void editSelectedSequence( ListView lv, Enums.SequenceEnum SequenceType ) {
-			if( lv.SelectedItems.Count > 0 ) {
+			if ( lv.SelectedItems.Count > 0 ) {
 				ListViewItem lvi = lv.SelectedItems[0];
 				SequenceInfo si = new SequenceInfo( SequenceType, false, lvi.Text, lvi.SubItems[1].Text );
 				Core.Common.SequenceInfoForm sequenceInfoForm = new Core.Common.SequenceInfoForm( ref si );
@@ -884,13 +884,13 @@ namespace Core.Common
 		// поиск максимально номера обложки
 		private int getMaxCoverNumber( ListView lv ) {
 			int MaxNumber = -1;
-			foreach( ListViewItem item in lv.Items ) {
-				int ind = item.Text.IndexOf("cover");
-				if( ind != -1 ) {
+			foreach ( ListViewItem item in lv.Items ) {
+				int ind = item.Text.IndexOf("cover", StringComparison.CurrentCulture);
+				if ( ind != -1 ) {
 					string Number = item.Text.Substring(ind + 5).Split('.')[0];
-					if( StringProcessing.IsNumberInString( Number ) ) {
+					if ( StringProcessing.IsNumberInString( Number ) ) {
 						int Numb = Convert.ToInt16( Number );
-						if( MaxNumber < Numb )
+						if ( MaxNumber < Numb )
 							MaxNumber = Numb;
 					}
 				}
@@ -907,13 +907,13 @@ namespace Core.Common
 			CoverOpenFileDialog.Filter		= "Файлы изображений (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
 			CoverOpenFileDialog.FileName	= string.Empty;
 			DialogResult result				= CoverOpenFileDialog.ShowDialog();
-			if( result == DialogResult.OK ) {
+			if ( result == DialogResult.OK ) {
 				XmlNode xmlFB = m_fb2.getFictionBookNode();
-				for( int i = 0; i != CoverOpenFileDialog.FileNames.Length; ++i ) {
+				for ( int i = 0; i != CoverOpenFileDialog.FileNames.Length; ++i ) {
 					// занесение данных в список
 					string FilePath = CoverOpenFileDialog.FileNames[i];
 					string CoverName = "cover" + StringProcessing.makeIINumber( i+1 ) + Path.GetExtension( FilePath ).ToLower();
-					if( MiscListView.isExistListViewItem( CoverListView, CoverName ) ) {
+					if ( MiscListView.isExistListViewItem( CoverListView, CoverName ) ) {
 						// поиск максимально номера обложки
 						int MaxNumber = getMaxCoverNumber( CoverListView );
 						CoverName = "cover" + StringProcessing.makeIINumber( ++MaxNumber ) + Path.GetExtension( FilePath ).ToLower();
@@ -953,7 +953,7 @@ namespace Core.Common
 		// Жанры
 		void TIGenreAddButtonClick(object sender, EventArgs e)
 		{
-			if( !MiscListView.isExistListViewItem( TIGenresListView, TIGenresComboBox.Text ) ) {
+			if ( !MiscListView.isExistListViewItem( TIGenresListView, TIGenresComboBox.Text ) ) {
 				ListViewItem lvi = new ListViewItem( TIGenresComboBox.Text );
 				lvi.SubItems.Add( TIMatchMaskedTextBox.Text.Trim() );
 				TIGenresListView.Items.Add( lvi );
@@ -970,8 +970,8 @@ namespace Core.Common
 		}
 		void TIGenreUpButtonClick(object sender, EventArgs e)
 		{
-			if( TIGenresListView.Items.Count > 0 && TIGenresListView.SelectedItems.Count > 0 ) {
-				if( TIGenresListView.SelectedItems.Count == 1 ) {
+			if ( TIGenresListView.Items.Count > 0 && TIGenresListView.SelectedItems.Count > 0 ) {
+				if ( TIGenresListView.SelectedItems.Count == 1 ) {
 					MiscListView.moveUpSelectedItem( TIGenresListView );
 				} else {
 					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -981,8 +981,8 @@ namespace Core.Common
 		}
 		void TIGenreDownButtonClick(object sender, EventArgs e)
 		{
-			if( TIGenresListView.Items.Count > 0 && TIGenresListView.SelectedItems.Count > 0 ) {
-				if( TIGenresListView.SelectedItems.Count == 1 ) {
+			if ( TIGenresListView.Items.Count > 0 && TIGenresListView.SelectedItems.Count > 0 ) {
+				if ( TIGenresListView.SelectedItems.Count == 1 ) {
 					MiscListView.moveDownSelectedItem( TIGenresListView );
 				} else {
 					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1016,8 +1016,8 @@ namespace Core.Common
 		}
 		void TIAuthorUpButtonClick(object sender, EventArgs e)
 		{
-			if( TIAuthorsListView.Items.Count > 0 && TIAuthorsListView.SelectedItems.Count > 0 ) {
-				if( TIAuthorsListView.SelectedItems.Count == 1 )
+			if ( TIAuthorsListView.Items.Count > 0 && TIAuthorsListView.SelectedItems.Count > 0 ) {
+				if ( TIAuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( TIAuthorsListView );
 				else
 					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1026,8 +1026,8 @@ namespace Core.Common
 		}
 		void TIAuthorDownButtonClick(object sender, EventArgs e)
 		{
-			if( TIAuthorsListView.Items.Count > 0 && TIAuthorsListView.SelectedItems.Count > 0 ) {
-				if( TIAuthorsListView.SelectedItems.Count == 1 )
+			if ( TIAuthorsListView.Items.Count > 0 && TIAuthorsListView.SelectedItems.Count > 0 ) {
+				if ( TIAuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( TIAuthorsListView );
 				else
 					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1074,8 +1074,8 @@ namespace Core.Common
 		}
 		void TISequenceUpButtonClick(object sender, EventArgs e)
 		{
-			if( TISequenceListView.Items.Count > 0 && TISequenceListView.SelectedItems.Count > 0 ) {
-				if( TISequenceListView.SelectedItems.Count == 1 )
+			if ( TISequenceListView.Items.Count > 0 && TISequenceListView.SelectedItems.Count > 0 ) {
+				if ( TISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( TISequenceListView );
 				else
 					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1084,8 +1084,8 @@ namespace Core.Common
 		}
 		void TISequenceDownButtonClick(object sender, EventArgs e)
 		{
-			if( TISequenceListView.Items.Count > 0 && TISequenceListView.SelectedItems.Count > 0 ) {
-				if( TISequenceListView.SelectedItems.Count == 1 )
+			if ( TISequenceListView.Items.Count > 0 && TISequenceListView.SelectedItems.Count > 0 ) {
+				if ( TISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( TISequenceListView );
 				else
 					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1101,7 +1101,7 @@ namespace Core.Common
 		// Жанры
 		void STIGenreAddButtonClick(object sender, EventArgs e)
 		{
-			if( !MiscListView.isExistListViewItem( STIGenresListView, STIGenresComboBox.Text ) ) {
+			if ( !MiscListView.isExistListViewItem( STIGenresListView, STIGenresComboBox.Text ) ) {
 				ListViewItem lvi = new ListViewItem( STIGenresComboBox.Text );
 				lvi.SubItems.Add( STIMatchMaskedTextBox.Text.Trim() );
 				STIGenresListView.Items.Add( lvi );
@@ -1118,8 +1118,8 @@ namespace Core.Common
 		}
 		void STIGenreUpButtonClick(object sender, EventArgs e)
 		{
-			if( STIGenresListView.Items.Count > 0 && STIGenresListView.SelectedItems.Count > 0 ) {
-				if( STIGenresListView.SelectedItems.Count == 1 ) {
+			if ( STIGenresListView.Items.Count > 0 && STIGenresListView.SelectedItems.Count > 0 ) {
+				if ( STIGenresListView.SelectedItems.Count == 1 ) {
 					MiscListView.moveUpSelectedItem( STIGenresListView );
 				} else {
 					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1129,8 +1129,8 @@ namespace Core.Common
 		}
 		void STIGenreDownButtonClick(object sender, EventArgs e)
 		{
-			if( STIGenresListView.Items.Count > 0 && STIGenresListView.SelectedItems.Count > 0 ) {
-				if( STIGenresListView.SelectedItems.Count == 1 ) {
+			if ( STIGenresListView.Items.Count > 0 && STIGenresListView.SelectedItems.Count > 0 ) {
+				if ( STIGenresListView.SelectedItems.Count == 1 ) {
 					MiscListView.moveDownSelectedItem( STIGenresListView );
 				} else {
 					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1164,8 +1164,8 @@ namespace Core.Common
 		}
 		void STIAuthorUpButtonClick(object sender, EventArgs e)
 		{
-			if( STIAuthorsListView.Items.Count > 0 && STIAuthorsListView.SelectedItems.Count > 0 ) {
-				if( STIAuthorsListView.SelectedItems.Count == 1 )
+			if ( STIAuthorsListView.Items.Count > 0 && STIAuthorsListView.SelectedItems.Count > 0 ) {
+				if ( STIAuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( STIAuthorsListView );
 				else
 					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1174,8 +1174,8 @@ namespace Core.Common
 		}
 		void STIAuthorDownButtonClick(object sender, EventArgs e)
 		{
-			if( STIAuthorsListView.Items.Count > 0 && STIAuthorsListView.SelectedItems.Count > 0 ) {
-				if( STIAuthorsListView.SelectedItems.Count == 1 )
+			if ( STIAuthorsListView.Items.Count > 0 && STIAuthorsListView.SelectedItems.Count > 0 ) {
+				if ( STIAuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( STIAuthorsListView );
 				else
 					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1222,8 +1222,8 @@ namespace Core.Common
 		}
 		void STISequenceUpButtonClick(object sender, EventArgs e)
 		{
-			if( STISequenceListView.Items.Count > 0 && STISequenceListView.SelectedItems.Count > 0 ) {
-				if( STISequenceListView.SelectedItems.Count == 1 )
+			if ( STISequenceListView.Items.Count > 0 && STISequenceListView.SelectedItems.Count > 0 ) {
+				if ( STISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( STISequenceListView );
 				else
 					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1232,8 +1232,8 @@ namespace Core.Common
 		}
 		void STISequenceDownButtonClick(object sender, EventArgs e)
 		{
-			if( STISequenceListView.Items.Count > 0 && STISequenceListView.SelectedItems.Count > 0 ) {
-				if( STISequenceListView.SelectedItems.Count == 1 )
+			if ( STISequenceListView.Items.Count > 0 && STISequenceListView.SelectedItems.Count > 0 ) {
+				if ( STISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( STISequenceListView );
 				else
 					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1244,10 +1244,10 @@ namespace Core.Common
 		/* Document Info */
 		void DINewIDButtonClick(object sender, EventArgs e)
 		{
-			string sMess = "Создать новый id?";
+			const string sMess = "Создать новый id?";
 			const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result = MessageBox.Show( sMess, "Создание нового id", buttons, MessageBoxIcon.Question );
-			if( result == DialogResult.Yes )
+			if ( result == DialogResult.Yes )
 				DIIDTextBox.Text = Guid.NewGuid().ToString().ToUpper();
 		}
 		void DIFB2AuthorAddButtonClick(object sender, EventArgs e)
@@ -1270,8 +1270,8 @@ namespace Core.Common
 		}
 		void DIFB2AuthorUpButtonClick(object sender, EventArgs e)
 		{
-			if( DIFB2AuthorListView.Items.Count > 0 && DIFB2AuthorListView.SelectedItems.Count > 0 ) {
-				if( DIFB2AuthorListView.SelectedItems.Count == 1 )
+			if ( DIFB2AuthorListView.Items.Count > 0 && DIFB2AuthorListView.SelectedItems.Count > 0 ) {
+				if ( DIFB2AuthorListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( DIFB2AuthorListView );
 				else
 					MessageBox.Show( "Выберите только одного Автора fb2-файла для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1280,8 +1280,8 @@ namespace Core.Common
 		}
 		void DIFB2AuthorDownButtonClick(object sender, EventArgs e)
 		{
-			if( DIFB2AuthorListView.Items.Count > 0 && DIFB2AuthorListView.SelectedItems.Count > 0 ) {
-				if( DIFB2AuthorListView.SelectedItems.Count == 1 )
+			if ( DIFB2AuthorListView.Items.Count > 0 && DIFB2AuthorListView.SelectedItems.Count > 0 ) {
+				if ( DIFB2AuthorListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( DIFB2AuthorListView );
 				else
 					MessageBox.Show( "Выберите только одного Автора fb2-файла для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1310,8 +1310,8 @@ namespace Core.Common
 		}
 		void PISequenceUpButtonClick(object sender, EventArgs e)
 		{
-			if( PISequenceListView.Items.Count > 0 && PISequenceListView.SelectedItems.Count > 0 ) {
-				if( PISequenceListView.SelectedItems.Count == 1 )
+			if ( PISequenceListView.Items.Count > 0 && PISequenceListView.SelectedItems.Count > 0 ) {
+				if ( PISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( PISequenceListView );
 				else
 					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1320,8 +1320,8 @@ namespace Core.Common
 		}
 		void PISequenceDownButtonClick(object sender, EventArgs e)
 		{
-			if( PISequenceListView.Items.Count > 0 && PISequenceListView.SelectedItems.Count > 0 ) {
-				if( PISequenceListView.SelectedItems.Count == 1 )
+			if ( PISequenceListView.Items.Count > 0 && PISequenceListView.SelectedItems.Count > 0 ) {
+				if ( PISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( PISequenceListView );
 				else
 					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1345,7 +1345,7 @@ namespace Core.Common
 		void CICustomInfoEditButtonClick(object sender, EventArgs e)
 		{
 			// редактирование выбранной Дополнительной информации
-			if( CICustomInfoListView.SelectedItems.Count > 0 ) {
+			if ( CICustomInfoListView.SelectedItems.Count > 0 ) {
 				ListViewItem lvi = CICustomInfoListView.SelectedItems[0];
 				CustomInfoInfo ci = new CustomInfoInfo( false, lvi.Text, lvi.SubItems[1].Text );
 				Core.Common.CustomInfoForm customInfoForm = new Core.Common.CustomInfoForm( ref ci );
@@ -1367,8 +1367,8 @@ namespace Core.Common
 		}
 		void CICustomInfoUpButtonClick(object sender, EventArgs e)
 		{
-			if( CICustomInfoListView.Items.Count > 0 && CICustomInfoListView.SelectedItems.Count > 0 ) {
-				if( CICustomInfoListView.SelectedItems.Count == 1 )
+			if ( CICustomInfoListView.Items.Count > 0 && CICustomInfoListView.SelectedItems.Count > 0 ) {
+				if ( CICustomInfoListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( CICustomInfoListView );
 				else
 					MessageBox.Show( "Выберите только один элемент для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1377,8 +1377,8 @@ namespace Core.Common
 		}
 		void CICustomInfoDownButtonClick(object sender, EventArgs e)
 		{
-			if( CICustomInfoListView.Items.Count > 0 && CICustomInfoListView.SelectedItems.Count > 0 ) {
-				if( CICustomInfoListView.SelectedItems.Count == 1 )
+			if ( CICustomInfoListView.Items.Count > 0 && CICustomInfoListView.SelectedItems.Count > 0 ) {
+				if ( CICustomInfoListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( CICustomInfoListView );
 				else
 					MessageBox.Show( "Выберите только один элемент для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1389,7 +1389,7 @@ namespace Core.Common
 		/* Обложки */
 		void TICoverListViewClick(object sender, EventArgs e)
 		{
-			if( TICoverListView.SelectedItems.Count > 0 )
+			if ( TICoverListView.SelectedItems.Count > 0 )
 				TICoverPictureBox.Image = ImageWorker.base64ToImage( TICoverListView.SelectedItems[0].Tag.ToString() );
 		}
 		void TICoverListViewSelectedIndexChanged(object sender, EventArgs e)
@@ -1403,25 +1403,25 @@ namespace Core.Common
 		void TICoverDeleteButtonClick(object sender, EventArgs e)
 		{
 			// удаление выбранной обложки в тэге cover
-			if( TICoverListView.SelectedItems.Count > 0 ) {
+			if ( TICoverListView.SelectedItems.Count > 0 ) {
 				string Href = TICoverListView.SelectedItems[0].Text;
-				if( MiscListView.deleteSelectedItem( TICoverListView, m_sTitle, "Обложек" ) )
+				if ( MiscListView.deleteSelectedItem( TICoverListView, m_sTitle, "Обложек" ) )
 					deleteCoverForHref( Enums.TitleInfoEnum.TitleInfo, Href );
 			}
 		}
 		void TICoverDeleteAllButtonClick(object sender, EventArgs e)
 		{
 			IList<string> lIDList = new List<string>( TICoverListView.Items.Count );
-			foreach( ListViewItem item in TICoverListView.Items )
+			foreach ( ListViewItem item in TICoverListView.Items )
 				lIDList.Add( item.Text );
-			if( MiscListView.deleteAllItems( TICoverListView, m_sTitle, "Обложек" ) )
+			if ( MiscListView.deleteAllItems( TICoverListView, m_sTitle, "Обложек" ) )
 				// удаление тэга cover и всех binary Обложек
 				deleteAllCover( Enums.TitleInfoEnum.TitleInfo, ref lIDList );
 		}
 		void TICoverUpButtonClick(object sender, EventArgs e)
 		{
-			if( TICoverListView.Items.Count > 0 && TICoverListView.SelectedItems.Count > 0 ) {
-				if( TICoverListView.SelectedItems.Count == 1 )
+			if ( TICoverListView.Items.Count > 0 && TICoverListView.SelectedItems.Count > 0 ) {
+				if ( TICoverListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( TICoverListView );
 				else
 					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1430,8 +1430,8 @@ namespace Core.Common
 		}
 		void TICoverDownButtonClick(object sender, EventArgs e)
 		{
-			if( TICoverListView.Items.Count > 0 && TICoverListView.SelectedItems.Count > 0 ) {
-				if( TICoverListView.SelectedItems.Count == 1 )
+			if ( TICoverListView.Items.Count > 0 && TICoverListView.SelectedItems.Count > 0 ) {
+				if ( TICoverListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( TICoverListView );
 				else
 					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1446,7 +1446,7 @@ namespace Core.Common
 		
 		void STICoverListViewClick(object sender, EventArgs e)
 		{
-			if( STICoverListView.SelectedItems.Count > 0 )
+			if ( STICoverListView.SelectedItems.Count > 0 )
 				STICoverPictureBox.Image = ImageWorker.base64ToImage( STICoverListView.SelectedItems[0].Tag.ToString() );
 		}
 		void STICoverListViewSelectedIndexChanged(object sender, EventArgs e)
@@ -1460,25 +1460,25 @@ namespace Core.Common
 		void STICoverDeleteButtonClick(object sender, EventArgs e)
 		{
 			// удаление выбранной обложки в тэге cover Оригинала
-			if( STICoverListView.SelectedItems.Count > 0 ) {
+			if ( STICoverListView.SelectedItems.Count > 0 ) {
 				string Href = STICoverListView.SelectedItems[0].Text;
-				if( MiscListView.deleteSelectedItem( STICoverListView, m_sTitle, "Обложек" ) )
+				if ( MiscListView.deleteSelectedItem( STICoverListView, m_sTitle, "Обложек" ) )
 					deleteCoverForHref( Enums.TitleInfoEnum.SourceTitleInfo, Href );
 			}
 		}
 		void STICoverDeleteAllButtonClick(object sender, EventArgs e)
 		{
 			IList<string> lIDList = new List<string>( STICoverListView.Items.Count );
-			foreach( ListViewItem item in STICoverListView.Items )
+			foreach ( ListViewItem item in STICoverListView.Items )
 				lIDList.Add( item.Text );
-			if( MiscListView.deleteAllItems( STICoverListView, m_sTitle, "Обложек" ) )
+			if ( MiscListView.deleteAllItems( STICoverListView, m_sTitle, "Обложек" ) )
 				// удаление тэга cover и всех binary Обложек Оригинала
 				deleteAllCover( Enums.TitleInfoEnum.TitleInfo, ref lIDList );
 		}
 		void STICoverUpButtonClick(object sender, EventArgs e)
 		{
-			if( STICoverListView.Items.Count > 0 && STICoverListView.SelectedItems.Count > 0 ) {
-				if( STICoverListView.SelectedItems.Count == 1 )
+			if ( STICoverListView.Items.Count > 0 && STICoverListView.SelectedItems.Count > 0 ) {
+				if ( STICoverListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( STICoverListView );
 				else
 					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1487,8 +1487,8 @@ namespace Core.Common
 		}
 		void STICoverDownButtonClick(object sender, EventArgs e)
 		{
-			if( STICoverListView.Items.Count > 0 && STICoverListView.SelectedItems.Count > 0 ) {
-				if( STICoverListView.SelectedItems.Count == 1 )
+			if ( STICoverListView.Items.Count > 0 && STICoverListView.SelectedItems.Count > 0 ) {
+				if ( STICoverListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( STICoverListView );
 				else
 					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1507,7 +1507,7 @@ namespace Core.Common
 		}
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
-			if( string.IsNullOrWhiteSpace(TIBookTitleTextBox.Text) ) {
+			if ( string.IsNullOrWhiteSpace(TIBookTitleTextBox.Text) ) {
 				TITabControl.SelectedTab = tpTittleInfoGeneral;
 				tcViewFB2Desc.SelectedTab = tpTitleInfo;
 				MessageBox.Show( "Поле Названия книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1525,20 +1525,20 @@ namespace Core.Common
 				MessageBox.Show( "Задайте хотя бы один Жанр книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				TIGenresComboBox.Focus();
 				return;
-			} else if( string.IsNullOrWhiteSpace(DIIDTextBox.Text) ) {
+			} else if ( string.IsNullOrWhiteSpace(DIIDTextBox.Text) ) {
 				tcViewFB2Desc.SelectedTab = tpDocumentInfo;
 				MessageBox.Show( "Поле ID книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				DIIDTextBox.Focus();
 				return;
-			} else if( string.IsNullOrWhiteSpace(DIVersionTextBox.Text) ) {
+			} else if ( string.IsNullOrWhiteSpace(DIVersionTextBox.Text) ) {
 				tcViewFB2Desc.SelectedTab = tpDocumentInfo;
 				MessageBox.Show( "Поле Версии книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				DIVersionTextBox.Focus();
 				return;
 			}
 			
-			if( STIEnableCheckBox.Checked ) {
-				if( string.IsNullOrWhiteSpace(STIBookTitleTextBox.Text) ) {
+			if ( STIEnableCheckBox.Checked ) {
+				if ( string.IsNullOrWhiteSpace(STIBookTitleTextBox.Text) ) {
 					STITabControl.SelectedTab = tpSTittleInfoGeneral;
 					tcViewFB2Desc.SelectedTab = tpSourceTitleInfo;
 					MessageBox.Show( "Поле Названия книги для Оригинала должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -1559,7 +1559,7 @@ namespace Core.Common
 				}
 			}
 			
-			if( m_fb2.getFictionBookNode() != null ) {
+			if ( m_fb2.getFictionBookNode() != null ) {
 				XmlDocument xmlDoc = m_fb2.getXmlDoc();
 				// создаем ВСЕ разделя description, заполняем их и потом МЕНЯЕМ с существующими разделами,
 				// а если таких разделов нет - то ВСТАВЛЯЕМ созданные

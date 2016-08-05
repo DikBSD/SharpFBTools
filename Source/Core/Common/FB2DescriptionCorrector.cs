@@ -64,7 +64,7 @@ namespace Core.Common
 		// создание новой структуры по 1 заданному данному
 		private XmlElement createStructure( string ElementName, string ElementValue ) {
 			XmlElement xmlElement = null;
-			if( !string.IsNullOrEmpty(ElementValue) ) {
+			if ( !string.IsNullOrWhiteSpace(ElementValue) ) {
 				xmlElement = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), ElementName, _fb2.getNamespaceURI() );
 				xmlElement.InnerText = ElementValue;
 			}
@@ -73,10 +73,10 @@ namespace Core.Common
 		// создание новой структуры по 1 заданному массиву строк
 		private XmlElement createStructure( string ElementName, ref string [] ElementStringArray ) {
 			XmlElement xmlElement = null;
-			if( ElementStringArray != null && ElementStringArray.Length > 0) {
+			if ( ElementStringArray != null && ElementStringArray.Length > 0) {
 				xmlElement = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), ElementName, _fb2.getNamespaceURI() );
-				for( int i = 0; i != ElementStringArray.Length; ++i ) {
-					if( !string.IsNullOrEmpty( ElementStringArray[i] ) )
+				for ( int i = 0; i != ElementStringArray.Length; ++i ) {
+					if ( !string.IsNullOrWhiteSpace( ElementStringArray[i] ) )
 						xmlElement.AppendChild( createPStructure( ElementStringArray[i].Trim() ) );
 					else
 						xmlElement.AppendChild( createEmptyLineStructure() );
@@ -87,9 +87,9 @@ namespace Core.Common
 		// создание новой структуры по 2-м заданному значению тега и его аттрибуту
 		private XmlElement createStructure( string ElementName, string AttributeName, string ElementValue, string AttributeValue) {
 			XmlElement xmlCustomInfo = null;
-			if( !string.IsNullOrEmpty(ElementValue) || !string.IsNullOrEmpty(AttributeValue) ) {
+			if ( !string.IsNullOrWhiteSpace(ElementValue) || !string.IsNullOrWhiteSpace(AttributeValue) ) {
 				xmlCustomInfo = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), ElementName, _fb2.getNamespaceURI() );
-				xmlCustomInfo.SetAttribute( AttributeName, !string.IsNullOrEmpty(AttributeValue.Trim()) ? AttributeValue.Trim() : "" );
+				xmlCustomInfo.SetAttribute( AttributeName, !string.IsNullOrWhiteSpace(AttributeValue.Trim()) ? AttributeValue.Trim() : string.Empty );
 				xmlCustomInfo.InnerText = ElementValue.Trim();
 			}
 			return xmlCustomInfo;
@@ -623,7 +623,7 @@ namespace Core.Common
 				
 				// для замены в русских fb2 1-го латинского символа в ФИО на соответствующий русский
 				bool isRusLang = false;
-				if ( string.IsNullOrEmpty(_fb2.TILang) ) {
+				if ( string.IsNullOrWhiteSpace(_fb2.TILang) ) {
 					// если тэга <lang> вообще нет, то считаем такую книгу за русскую
 					isRusLang = true;
 				} else {
@@ -638,7 +638,7 @@ namespace Core.Common
 				if ( xmlFirstName != null && !string.IsNullOrWhiteSpace( xmlFirstName.InnerText ) ) {
 					if ( isNeedLatinToRus ) {
 						string FirstName = latinToRus.replaceFirstCharLatinToRus( xmlFirstName.InnerText );
-						if ( !string.IsNullOrEmpty( FirstName ) )
+						if ( !string.IsNullOrWhiteSpace( FirstName ) )
 							xmlFirstName.InnerText = FirstName;
 					}
 					xmlAuthorNew.AppendChild( xmlFirstName );
@@ -650,7 +650,7 @@ namespace Core.Common
 				if ( xmlMiddleName != null && !string.IsNullOrWhiteSpace( xmlMiddleName.InnerText ) ) {
 					if ( isNeedLatinToRus ) {
 						string MiddleName = latinToRus.replaceFirstCharLatinToRus( xmlMiddleName.InnerText );
-						if ( !string.IsNullOrEmpty( MiddleName ) )
+						if ( !string.IsNullOrWhiteSpace( MiddleName ) )
 							xmlMiddleName.InnerText = MiddleName;
 					}
 					xmlAuthorNew.AppendChild( xmlMiddleName );
@@ -662,7 +662,7 @@ namespace Core.Common
 				if ( xmlLastName != null && !string.IsNullOrWhiteSpace( xmlLastName.InnerText ) ) {
 					if ( isNeedLatinToRus ) {
 						string LastName = latinToRus.replaceFirstCharLatinToRus( xmlLastName.InnerText );
-						if ( !string.IsNullOrEmpty( LastName ) )
+						if ( !string.IsNullOrWhiteSpace( LastName ) )
 							xmlLastName.InnerText = LastName;
 					}
 					xmlAuthorNew.AppendChild( xmlLastName );
@@ -677,14 +677,14 @@ namespace Core.Common
 				
 				if ( xmlHomePageList != null && xmlHomePageList.Count > 0 ) {
 					foreach( XmlNode hp in xmlHomePageList ) {
-						if( !string.IsNullOrEmpty( hp.InnerText ) )
+						if( !string.IsNullOrWhiteSpace( hp.InnerText ) )
 							xmlAuthorNew.AppendChild(hp);
 					}
 				}
 				
 				if ( xmlEmailList != null && xmlEmailList.Count > 0 ) {
 					foreach( XmlNode email in xmlEmailList ) {
-						if( !string.IsNullOrEmpty( email.InnerText ) )
+						if( !string.IsNullOrWhiteSpace( email.InnerText ) )
 							xmlAuthorNew.AppendChild(email);
 					}
 				}
@@ -708,22 +708,22 @@ namespace Core.Common
 			);
 			XmlElement el = null;
 			el = _fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "first-name", _fb2.getNamespaceURI());
-			if( !string.IsNullOrEmpty(FirstName) )
+			if( !string.IsNullOrWhiteSpace(FirstName) )
 				el.InnerText = FirstName;
 			xmlNewAuthor.AppendChild(el);
 			
-			if( !string.IsNullOrEmpty(MiddleName) ) {
+			if( !string.IsNullOrWhiteSpace(MiddleName) ) {
 				el = _fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "middle-name", _fb2.getNamespaceURI());
 				el.InnerText = MiddleName;
 				xmlNewAuthor.AppendChild(el);
 			}
 			
 			el = _fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "last-name", _fb2.getNamespaceURI());
-			if( !string.IsNullOrEmpty(LastName) )
+			if( !string.IsNullOrWhiteSpace(LastName) )
 				el.InnerText = LastName;
 			xmlNewAuthor.AppendChild(el);
 
-			if( !string.IsNullOrEmpty(Nickname) ) {
+			if( !string.IsNullOrWhiteSpace(Nickname) ) {
 				el = _fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "nickname", _fb2.getNamespaceURI());
 				el.InnerText = Nickname;
 				xmlNewAuthor.AppendChild(el);
@@ -732,7 +732,7 @@ namespace Core.Common
 			if( HomePage != null ) {
 				if( HomePage.Count > 0 ) {
 					foreach( string hp in HomePage ) {
-						if( !string.IsNullOrEmpty( hp ) ) {
+						if( !string.IsNullOrWhiteSpace( hp ) ) {
 							el = _fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "home-page", _fb2.getNamespaceURI());
 							el.InnerText = hp.Trim();
 							xmlNewAuthor.AppendChild(el);
@@ -744,7 +744,7 @@ namespace Core.Common
 			if( Email != null ) {
 				if( Email.Count > 0 ) {
 					foreach( string email in Email ) {
-						if( !string.IsNullOrEmpty( email ) ) {
+						if( !string.IsNullOrWhiteSpace( email ) ) {
 							el = _fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "email", _fb2.getNamespaceURI());
 							el.InnerText = email.Trim();
 							xmlNewAuthor.AppendChild(el);
@@ -753,7 +753,7 @@ namespace Core.Common
 				}
 			}
 			
-			if( !string.IsNullOrEmpty(ID) ) {
+			if( !string.IsNullOrWhiteSpace(ID) ) {
 				el = _fb2.getXmlDoc().CreateElement(_fb2.getPrefix(), "id", _fb2.getNamespaceURI());
 				el.InnerText = ID;
 				xmlNewAuthor.AppendChild(el);
@@ -827,8 +827,8 @@ namespace Core.Common
 		// создание нового Жанра NewGenre  по заданным данным
 		public XmlElement makeGenreNode( string GenreName = "other", string GenreMatch = "100" ) {
 			XmlElement xmlNewGenre = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "genre", _fb2.getNamespaceURI() );
-			xmlNewGenre.InnerText = !string.IsNullOrEmpty(GenreName) ? GenreName : "other";
-			if( !string.IsNullOrEmpty(GenreMatch) )
+			xmlNewGenre.InnerText = !string.IsNullOrWhiteSpace(GenreName) ? GenreName : "other";
+			if( !string.IsNullOrWhiteSpace(GenreMatch) )
 				xmlNewGenre.SetAttribute("match", GenreMatch);
 			return xmlNewGenre;
 
@@ -837,8 +837,8 @@ namespace Core.Common
 		// создание новой Серии NewSequence по заданным данным
 		public XmlElement makeSequenceNode( string SequenceName, string Number ) {
 			XmlElement xmlNewSequence = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "sequence", _fb2.getNamespaceURI() );
-			xmlNewSequence.SetAttribute( "name", !string.IsNullOrEmpty(SequenceName) ? SequenceName : "" );
-			if( !string.IsNullOrEmpty(Number) )
+			xmlNewSequence.SetAttribute( "name", !string.IsNullOrWhiteSpace(SequenceName) ? SequenceName : string.Empty );
+			if( !string.IsNullOrWhiteSpace(Number) )
 				xmlNewSequence.SetAttribute("number", Number);
 			return xmlNewSequence;
 		}
@@ -862,10 +862,10 @@ namespace Core.Common
 		// Date = null - создаем пустую ноду даты
 		public XmlElement makeDateNode( string Date = "", string DateValue = "" ) {
 			XmlElement xmlDate = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "date", _fb2.getNamespaceURI() );
-			if( !string.IsNullOrEmpty(DateValue) )
+			if ( !string.IsNullOrWhiteSpace(DateValue) )
 				xmlDate.SetAttribute( "value", DateValue );
 			if ( Date != null ) {
-				if( !string.IsNullOrWhiteSpace(Date) )
+				if ( !string.IsNullOrWhiteSpace(Date) )
 					xmlDate.InnerText = Date;
 				else {
 					DateTime localDate = DateTime.Now;
@@ -880,14 +880,14 @@ namespace Core.Common
 		// создание новой структуры Языка книги ("ru" по-умолчанию) по заданным данным
 		public XmlElement makeLangNode( string lang = "ru" ) {
 			XmlElement xmlLang = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "lang", _fb2.getNamespaceURI() );
-			xmlLang.InnerText = !string.IsNullOrEmpty(lang) ? lang : "ru";
+			xmlLang.InnerText = !string.IsNullOrWhiteSpace(lang) ? lang : "ru";
 			return xmlLang;
 		}
 		
 		// создание новой структуры Языка Оригинала ("en" по-умолчанию) по заданным данным
 		public XmlElement makeSrcLangNode( string lang = "en" ) {
 			XmlElement xmlLang = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "src-lang", _fb2.getNamespaceURI() );
-			xmlLang.InnerText = !string.IsNullOrEmpty(lang) ? lang : "en";
+			xmlLang.InnerText = !string.IsNullOrWhiteSpace(lang) ? lang : "en";
 			return xmlLang;
 		}
 		
@@ -908,7 +908,7 @@ namespace Core.Common
 				XmlElement xmlElement = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "src-url", _fb2.getNamespaceURI() );
 				if( xmlElement != null ) {
 					string URL = SrcUrlArray[i].Trim();
-					if( !string.IsNullOrEmpty(URL) )
+					if( !string.IsNullOrWhiteSpace(URL) )
 						xmlElement.InnerText = URL;
 					lSrcUrls.Add( xmlElement );
 				}
@@ -918,7 +918,7 @@ namespace Core.Common
 		
 		// создание новой структуры id fb2 файла по заданным данным
 		public XmlElement makeIDNode( string ID = "" ) {
-			return createStructure( "id", !string.IsNullOrEmpty(ID) ? ID : Guid.NewGuid().ToString().ToUpper() );
+			return createStructure( "id", !string.IsNullOrWhiteSpace(ID) ? ID : Guid.NewGuid().ToString().ToUpper() );
 		}
 		
 		// создание новой структуры Версии fb2-файла по заданным данным
@@ -994,7 +994,7 @@ namespace Core.Common
 		
 		// создание новой структуры binary
 		public XmlElement makeBinaryNode( string Id, string ContentType, string Base64String ) {
-			if( !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(ContentType) && !string.IsNullOrEmpty(Base64String) ) {
+			if( !string.IsNullOrWhiteSpace(Id) && !string.IsNullOrWhiteSpace(ContentType) && !string.IsNullOrWhiteSpace(Base64String) ) {
 				XmlElement xmlBinary = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "binary", _fb2.getNamespaceURI() );
 				if( xmlBinary != null ) {
 					xmlBinary.InnerText = Base64String;

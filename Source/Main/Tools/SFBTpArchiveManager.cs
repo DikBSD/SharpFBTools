@@ -923,7 +923,7 @@ namespace SharpFBTools.Tools
 		private readonly string		m_FileSettingsPath	= Settings.Settings.ProgDir + @"\ArchiveManagerSettings.xml";
 		private bool				m_isSettingsLoaded	= false; // Только при true все изменения настроек сохраняются в файл.
 		private SharpZipLibWorker	m_sharpZipLib		= new SharpZipLibWorker();
-		private string				m_TempDir			= Settings.Settings.TempDir;
+		private string				m_TempDir			= Settings.Settings.TempDirPath;
 		// Общие
 		private DateTime	m_dtStart;
 		private string		m_sMessTitle = string.Empty;

@@ -29,7 +29,7 @@ namespace Core.FB2Parser
 		private const string m_aFB20Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
 		private const string m_aFB21Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.1";
 		private readonly static SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
-		private readonly static string				m_TempDir		= Settings.Settings.TempDir;
+		private readonly static string				m_TempDir		= Settings.Settings.TempDirPath;
 		#endregion
 		
 		public FB2Validator()

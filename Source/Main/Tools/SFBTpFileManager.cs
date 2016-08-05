@@ -3464,7 +3464,7 @@ namespace SharpFBTools.Tools
 		private readonly MiscListView		m_mscLV			= new MiscListView(); // класс по работе с ListView
 		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
 		private readonly FullNameTemplates	m_fnt			= new FullNameTemplates();
-		private readonly string				m_TempDir		= Settings.Settings.TempDir;
+		private readonly string				m_TempDir		= Settings.Settings.TempDirPath;
 		
 		private bool m_isSettingsLoaded			= false; // Только при true все изменения настроек сохраняются в файл.
 		private bool m_ViewMessageForLongTime	= true; // показывать предупреждение о том, что вкл. опции отображения метаданных потребует много времени...
@@ -3498,7 +3498,7 @@ namespace SharpFBTools.Tools
 			rtboxTemplatesList.Clear();
 
 			string sTDPath = Settings.FileManagerSettings.DefFMDescTemplatePath;
-			if( File.Exists( sTDPath ) )
+			if ( File.Exists( sTDPath ) )
 				rtboxTemplatesList.LoadFile( sTDPath );
 			else
 				rtboxTemplatesList.Text = "Не найден файл описания Шаблонов подстановки: \"" + sTDPath + "\"";
@@ -3978,80 +3978,80 @@ namespace SharpFBTools.Tools
 		// проверки на корректность шаблонных строк
 		private bool IsLineTemplateCorrect( string sLineTemplate ) {
 			// проверка "пустоту" строки с шаблонами
-			if( sLineTemplate.Length == 0 ) {
+			if ( sLineTemplate.Length == 0 ) {
 				MessageBox.Show( "Строка шаблонов не может быть пустой!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на наличие недопустимого условного шаблона [*GROUP*]
-			if( sLineTemplate.IndexOf("[*GROUP*]", StringComparison.CurrentCulture) != -1 ) {
+			if ( sLineTemplate.IndexOf("[*GROUP*]", StringComparison.CurrentCulture) != -1 ) {
 				MessageBox.Show( "Шаблон для Группы Жанров *GROUP* не миожет быть условным [*GROUP*]!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на наличие недопустимого условного шаблона [*FILENAME*]
-			if( sLineTemplate.IndexOf("[*FILENAME*]", StringComparison.CurrentCulture) != -1 ) {
+			if ( sLineTemplate.IndexOf("[*FILENAME*]", StringComparison.CurrentCulture) != -1 ) {
 				MessageBox.Show( "Шаблон для имени файла *FILENAME* не миожет быть условным [*FILENAME*]!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на наличие недопустимого условного шаблона [*COUNTER*]
-			if( sLineTemplate.IndexOf("[*COUNTER*]", StringComparison.CurrentCulture) != -1 ) {
+			if ( sLineTemplate.IndexOf("[*COUNTER*]", StringComparison.CurrentCulture) != -1 ) {
 				MessageBox.Show( "Шаблон для счетчика *COUNTER* не миожет быть условным [*COUNTER*]!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на корректность строки с шаблонами
-			if( !TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
+			if ( !TemplatesVerify.IsLineTemplatesCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Строка содержит или недопустимые шаблоны,\nили недопустимые символы */|?<>\"&\\t\\r\\n между шаблонами!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на четность * в строке с шаблонами
-			if( !TemplatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
+			if ( !TemplatesVerify.IsEvenElements( sLineTemplate, '*' ) ) {
 				MessageBox.Show( "Строка с шаблонами подстановки содержит нечетное число *!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка, не стоит ли ] перед [
-			if( sLineTemplate.IndexOf('[') != -1 && sLineTemplate.IndexOf(']') != -1 ) {
-				if( sLineTemplate.IndexOf('[') > sLineTemplate.IndexOf(']') ) {
+			if ( sLineTemplate.IndexOf('[') != -1 && sLineTemplate.IndexOf(']') != -1 ) {
+				if ( sLineTemplate.IndexOf('[') > sLineTemplate.IndexOf(']') ) {
 					MessageBox.Show( "В строке с шаблонами закрывающая скобка ] не может стоять перед открывающей [ !\nРабота прекращена.",
 					                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return false;
 				}
 			}
 			// проверка на соответствие [ ] в строке с шаблонами
-			if( !TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
+			if ( !TemplatesVerify.IsBracketsCorrect( sLineTemplate, '[', ']' ) ) {
 				MessageBox.Show( "В строке с шаблонами переименования нет соответствия между открывающим и закрывающими скобками [ ]!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на соответствие ( ) в строке с шаблонами
-			if( !TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
+			if ( !TemplatesVerify.IsBracketsCorrect( sLineTemplate, '(', ')' ) ) {
 				MessageBox.Show( "В строке с шаблонами нет соответствия между открывающим и закрывающими скобками ( )!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на \ в начале строки с шаблонами
-			if( sLineTemplate[0] == '\\' ) {
+			if ( sLineTemplate[0] == '\\' ) {
 				MessageBox.Show( "Строка с шаблонами не может начинаться с '\\'!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на \ в конце строки с шаблонами
-			if( sLineTemplate[sLineTemplate.Length-1] == '\\' ) {
+			if ( sLineTemplate[sLineTemplate.Length-1] == '\\' ) {
 				MessageBox.Show( "Строка с шаблонами не может заканчиваться на '\\' !\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка условных шаблонов на наличие в них вспом. символов без самих шаблонов
-			if( !TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
+			if ( !TemplatesVerify.IsConditionalPatternCorrect( sLineTemplate ) ) {
 				MessageBox.Show( "Условные шаблоны [] в строке с шаблонами не могут содержать вспомогательных символов БЕЗ самих шаблонов!\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
 			// проверка на множественность символа папки \ в строке с шаблонами
-			if( sLineTemplate.IndexOf( "\\\\", StringComparison.CurrentCulture ) != -1 ) {
+			if ( sLineTemplate.IndexOf( "\\\\", StringComparison.CurrentCulture ) != -1 ) {
 				MessageBox.Show( "Строка с шаблонами не может содержать несколько идущих подряд символов папки '\\' !\nРабота прекращена.",
 				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
@@ -4818,17 +4818,17 @@ namespace SharpFBTools.Tools
 		
 		void TsmiViewInReaderClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
 				// читаем путь к читалке из настроек
-				string sFBReaderPath = Settings.Settings.ReadFBReaderPath();
+				string sFBReaderPath = Settings.Settings.FBReaderPath;
 				const string sTitle = "SharpFBTools - Открытие папки для файла";
-				if( !File.Exists( sFBReaderPath ) ) {
+				if ( !File.Exists( sFBReaderPath ) ) {
 					MessageBox.Show( "Не могу найти Читалку \""+sFBReaderPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
 				string sFilePath = Path.Combine( textBoxAddress.Text.Trim(), si[0].SubItems[0].Text.Split('/')[0].Trim() );
-				if( !File.Exists( sFilePath ) ) {
+				if ( !File.Exists( sFilePath ) ) {
 					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}

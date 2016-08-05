@@ -45,6 +45,10 @@ namespace Options
 			this.tcOptions = new System.Windows.Forms.TabControl();
 			this.tpGeneral = new System.Windows.Forms.TabPage();
 			this.chBoxConfirmationForExit = new System.Windows.Forms.CheckBox();
+			this.gboxTemp = new System.Windows.Forms.GroupBox();
+			this.lblTempDirPath = new System.Windows.Forms.Label();
+			this.tboxTempDirPath = new System.Windows.Forms.TextBox();
+			this.btnTempDirPath = new System.Windows.Forms.Button();
 			this.gboxButtons = new System.Windows.Forms.GroupBox();
 			this.cboxTIRFB2Dup = new System.Windows.Forms.ComboBox();
 			this.cboxDSFB2Dup = new System.Windows.Forms.ComboBox();
@@ -71,6 +75,7 @@ namespace Options
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
+			this.gboxTemp.SuspendLayout();
 			this.gboxButtons.SuspendLayout();
 			this.gboxDiff.SuspendLayout();
 			this.gboxReader.SuspendLayout();
@@ -145,6 +150,7 @@ namespace Options
 			// tpGeneral
 			// 
 			this.tpGeneral.Controls.Add(this.chBoxConfirmationForExit);
+			this.tpGeneral.Controls.Add(this.gboxTemp);
 			this.tpGeneral.Controls.Add(this.gboxButtons);
 			this.tpGeneral.Controls.Add(this.gboxDiff);
 			this.tpGeneral.Controls.Add(this.gboxReader);
@@ -164,13 +170,66 @@ namespace Options
 			this.chBoxConfirmationForExit.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chBoxConfirmationForExit.Dock = System.Windows.Forms.DockStyle.Top;
 			this.chBoxConfirmationForExit.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(4, 298);
+			this.chBoxConfirmationForExit.Location = new System.Drawing.Point(4, 353);
 			this.chBoxConfirmationForExit.Margin = new System.Windows.Forms.Padding(4);
 			this.chBoxConfirmationForExit.Name = "chBoxConfirmationForExit";
 			this.chBoxConfirmationForExit.Size = new System.Drawing.Size(804, 30);
-			this.chBoxConfirmationForExit.TabIndex = 36;
+			this.chBoxConfirmationForExit.TabIndex = 38;
 			this.chBoxConfirmationForExit.Text = " Подтверждение для выхода из программы";
 			this.chBoxConfirmationForExit.UseVisualStyleBackColor = true;
+			// 
+			// gboxTemp
+			// 
+			this.gboxTemp.Controls.Add(this.lblTempDirPath);
+			this.gboxTemp.Controls.Add(this.tboxTempDirPath);
+			this.gboxTemp.Controls.Add(this.btnTempDirPath);
+			this.gboxTemp.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gboxTemp.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gboxTemp.ForeColor = System.Drawing.Color.Maroon;
+			this.gboxTemp.Location = new System.Drawing.Point(4, 298);
+			this.gboxTemp.Margin = new System.Windows.Forms.Padding(4);
+			this.gboxTemp.Name = "gboxTemp";
+			this.gboxTemp.Padding = new System.Windows.Forms.Padding(4);
+			this.gboxTemp.Size = new System.Drawing.Size(804, 55);
+			this.gboxTemp.TabIndex = 37;
+			this.gboxTemp.TabStop = false;
+			this.gboxTemp.Text = " Временная папка для работы с fb2 файлами ";
+			// 
+			// lblTempDirPath
+			// 
+			this.lblTempDirPath.AutoSize = true;
+			this.lblTempDirPath.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.lblTempDirPath.Location = new System.Drawing.Point(9, 23);
+			this.lblTempDirPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.lblTempDirPath.Name = "lblTempDirPath";
+			this.lblTempDirPath.Size = new System.Drawing.Size(190, 17);
+			this.lblTempDirPath.TabIndex = 16;
+			this.lblTempDirPath.Text = "Путь к временной папке:";
+			// 
+			// tboxTempDirPath
+			// 
+			this.tboxTempDirPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tboxTempDirPath.Location = new System.Drawing.Point(245, 20);
+			this.tboxTempDirPath.Margin = new System.Windows.Forms.Padding(4);
+			this.tboxTempDirPath.Name = "tboxTempDirPath";
+			this.tboxTempDirPath.ReadOnly = true;
+			this.tboxTempDirPath.Size = new System.Drawing.Size(490, 24);
+			this.tboxTempDirPath.TabIndex = 14;
+			// 
+			// btnTempDirPath
+			// 
+			this.btnTempDirPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnTempDirPath.Image = ((System.Drawing.Image)(resources.GetObject("btnTempDirPath.Image")));
+			this.btnTempDirPath.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnTempDirPath.Location = new System.Drawing.Point(744, 16);
+			this.btnTempDirPath.Margin = new System.Windows.Forms.Padding(4);
+			this.btnTempDirPath.Name = "btnTempDirPath";
+			this.btnTempDirPath.Size = new System.Drawing.Size(49, 30);
+			this.btnTempDirPath.TabIndex = 15;
+			this.btnTempDirPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnTempDirPath.UseVisualStyleBackColor = true;
+			this.btnTempDirPath.Click += new System.EventHandler(this.BtnTempDirPathClick);
 			// 
 			// gboxButtons
 			// 
@@ -494,6 +553,8 @@ namespace Options
 			this.pBtn.ResumeLayout(false);
 			this.tcOptions.ResumeLayout(false);
 			this.tpGeneral.ResumeLayout(false);
+			this.gboxTemp.ResumeLayout(false);
+			this.gboxTemp.PerformLayout();
 			this.gboxButtons.ResumeLayout(false);
 			this.gboxButtons.PerformLayout();
 			this.gboxDiff.ResumeLayout(false);
@@ -536,5 +597,9 @@ namespace Options
 		private System.Windows.Forms.OpenFileDialog ofDlg;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnOK;
+		private System.Windows.Forms.GroupBox gboxTemp;
+		private System.Windows.Forms.Label lblTempDirPath;
+		private System.Windows.Forms.TextBox tboxTempDirPath;
+		private System.Windows.Forms.Button btnTempDirPath;
 	}
 }

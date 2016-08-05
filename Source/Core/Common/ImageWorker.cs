@@ -69,7 +69,7 @@ namespace Core.Common
 		public static int makeListViewCoverNameItems( ListView lv, ref IList<BinaryBase64> Covers ) {
 			int ImageCount = 0;
 			if ( Covers != null && Covers.Count > 0 ) {
-				string Temp = Settings.Settings.TempDir;
+				string Temp = Settings.Settings.TempDirPath;
 				if ( !Directory.Exists( Temp ) )
 					Directory.CreateDirectory( Temp );
 

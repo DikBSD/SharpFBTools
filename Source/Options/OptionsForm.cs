@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.IO;
 
+using FilesWorker = Core.Common.FilesWorker;
+
 namespace Options
 {
 	/// <summary>
@@ -33,10 +35,11 @@ namespace Options
 		#region Закрытые Вспомогательные методы
 		private void DefGeneral() {
 			// общие настройки
-			tboxFBEPath.Text			= Settings.Settings.DefFBEPath;
-			tboxTextEPath.Text			= Settings.Settings.DefTFB2Path;
-			tboxReaderPath.Text 		= Settings.Settings.DefFBReaderPath;
-			tboxDiffPath.Text 			= Settings.Settings.DiffPath;
+			tboxFBEPath.Text			= Settings.Settings.FB2EditorPath;
+			tboxTextEPath.Text			= Settings.Settings.TextEditorPath;
+			tboxReaderPath.Text 		= Settings.Settings.FBReaderPath;
+			tboxDiffPath.Text 			= Settings.Settings.DiffToolPath;
+			tboxTempDirPath.Text		= Settings.Settings.TempDirPath;
 			cboxDSArchiveManager.Text	= Settings.ArchiveManagerSettings.GetDefAMcboxDSArchiveManagerText();
 			cboxTIRArchiveManager.Text	= Settings.ArchiveManagerSettings.GetDefAMcboxTIRArchiveManagerText();
 			cboxDSFB2Dup.Text			= Settings.FB2DublicatorSettings.GetDefDupcboxDSFB2DupText();
@@ -46,55 +49,55 @@ namespace Options
 		
 		// загрузка настроек из xml-файла
 		private void readSettingsFromXML() {
-			#region Код
-			if( File.Exists( Settings.Settings.SettingsPath ) ) {
+			if ( File.Exists( Settings.Settings.SettingsPath ) ) {
 				XElement xmlTree = XElement.Load( Settings.Settings.SettingsPath );
 				/* Основные настройки для всех инструментов */
-				if( xmlTree.Element("General") != null ) {
+				if ( xmlTree.Element("General") != null ) {
 					XElement xmlGeneral = xmlTree.Element("General");
 					// FBE Редактор
-					if( xmlGeneral.Element("FBEPath") != null )
+					if ( xmlGeneral.Element("FBEPath") != null )
 						tboxFBEPath.Text = xmlGeneral.Element("FBEPath").Value;
 					// Text Редактор
-					if( xmlGeneral.Element("TextFB2EPath") != null )
+					if ( xmlGeneral.Element("TextFB2EPath") != null )
 						tboxTextEPath.Text = xmlGeneral.Element("TextFB2EPath").Value;
 					// FB2 Reader
-					if( xmlGeneral.Element("FBReaderPath") != null )
+					if ( xmlGeneral.Element("FBReaderPath") != null )
 						tboxReaderPath.Text = xmlGeneral.Element("FBReaderPath").Value;
 					// Diff инструмент
-					if( xmlGeneral.Element("DiffPath") != null )
+					if ( xmlGeneral.Element("DiffPath") != null )
 						tboxDiffPath.Text = xmlGeneral.Element("DiffPath").Value;
+					// Путь к временной папке
+					if ( xmlGeneral.Element("TempDirPath") != null )
+						tboxTempDirPath.Text = xmlGeneral.Element("TempDirPath").Value;
 					// Подтверждение выхода из программы
-					if( xmlGeneral.Element("ConfirmationForAppExit") != null )
+					if ( xmlGeneral.Element("ConfirmationForAppExit") != null )
 						chBoxConfirmationForExit.Checked = Convert.ToBoolean( xmlGeneral.Element("ConfirmationForAppExit").Value );
 					// Стиль кнопок инструментов
-					if( xmlGeneral.Element("ToolButtons") != null ) {
+					if ( xmlGeneral.Element("ToolButtons") != null ) {
 						XElement xmlToolButtons = xmlGeneral.Element("ToolButtons");
 						// Менеджер Архивов
-						if( xmlToolButtons.Element("ArchiveManagerToolButtons") != null ) {
+						if ( xmlToolButtons.Element("ArchiveManagerToolButtons") != null ) {
 							XElement xmlArchiveManagerToolButtons = xmlToolButtons.Element("ArchiveManagerToolButtons");
-							if( xmlArchiveManagerToolButtons.Attribute("DSArchiveManagerText") != null )
+							if ( xmlArchiveManagerToolButtons.Attribute("DSArchiveManagerText") != null )
 								cboxDSArchiveManager.Text = xmlArchiveManagerToolButtons.Attribute("DSArchiveManagerText").Value;
-							if( xmlArchiveManagerToolButtons.Attribute("TIRArchiveManagerText") != null )
+							if ( xmlArchiveManagerToolButtons.Attribute("TIRArchiveManagerText") != null )
 								cboxTIRArchiveManager.Text = xmlArchiveManagerToolButtons.Attribute("TIRArchiveManagerText").Value;
 						}
 						// Дубликатор
-						if( xmlToolButtons.Element("DupToolButtons") != null ) {
+						if ( xmlToolButtons.Element("DupToolButtons") != null ) {
 							XElement xmlDupToolButtons = xmlToolButtons.Element("ArchiveManagerToolButtons");
-							if( xmlDupToolButtons.Attribute("DSFB2DupText") != null )
+							if ( xmlDupToolButtons.Attribute("DSFB2DupText") != null )
 								cboxDSFB2Dup.Text = xmlDupToolButtons.Attribute("DSFB2DupText").Value;
-							if( xmlDupToolButtons.Attribute("TIRFB2DupText") != null )
+							if ( xmlDupToolButtons.Attribute("TIRFB2DupText") != null )
 								cboxTIRFB2Dup.Text = xmlDupToolButtons.Attribute("TIRFB2DupText").Value;
 						}
 					}
 				}
 			}
-			#endregion
 		}
 		
 		// сохранение настроек в xml-файл
 		private void saveSettingsToXml() {
-			#region Код
 			// защита от "затирания" настроек в файле, когда в некоторые контролы данные еще не загрузились
 			XDocument doc = new XDocument(
 				new XDeclaration("1.0", "utf-8", "yes"),
@@ -109,6 +112,8 @@ namespace Options
 				                          new XElement("FBReaderPath", tboxReaderPath.Text),
 				                          new XComment("Diff инструмент"),
 				                          new XElement("DiffPath", tboxDiffPath.Text),
+				                          new XComment("Путь к временной папке"),
+				                          new XElement("TempDirPath", tboxTempDirPath.Text),
 				                          new XComment("Подтверждение выхода из программы"),
 				                          new XElement("ConfirmationForAppExit", chBoxConfirmationForExit.Checked),
 				                          new XComment("Стиль кнопок инструментов"),
@@ -126,7 +131,6 @@ namespace Options
 				            )
 			);
 			doc.Save( Settings.Settings.SettingsPath );
-			#endregion
 		}
 		#endregion
 		
@@ -146,7 +150,7 @@ namespace Options
 			ofDlg.FileName = "";
 			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
+			if ( result == DialogResult.OK ) {
 				tboxFBEPath.Text = ofDlg.FileName;
 			}
 		}
@@ -158,7 +162,7 @@ namespace Options
 			ofDlg.FileName = "";
 			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
+			if ( result == DialogResult.OK ) {
 				tboxTextEPath.Text = ofDlg.FileName;
 			}
 		}
@@ -170,7 +174,7 @@ namespace Options
 			ofDlg.FileName = "";
 			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
+			if ( result == DialogResult.OK ) {
 				tboxReaderPath.Text = ofDlg.FileName;
 			}
 		}
@@ -182,9 +186,17 @@ namespace Options
 			ofDlg.FileName = "";
 			ofDlg.Filter = "Программы (*.exe)|*.exe|Все файлы (*.*)|*.*";
 			DialogResult result = ofDlg.ShowDialog();
-			if (result == DialogResult.OK) {
+			if ( result == DialogResult.OK ) {
 				tboxDiffPath.Text = ofDlg.FileName;
 			}
+		}
+		
+		void BtnTempDirPathClick(object sender, EventArgs e)
+		{
+			// указание пути к временной папке
+			string TempDir = FilesWorker.OpenDirDlg( tboxTempDirPath.Text, fbdDir, "Укажите путь к временной папке:" );
+			if ( ! string.IsNullOrWhiteSpace( TempDir ) )
+				tboxTempDirPath.Text = TempDir;
 		}
 		
 		void CboxDSArchiveManagerSelectedIndexChanged(object sender, EventArgs e)

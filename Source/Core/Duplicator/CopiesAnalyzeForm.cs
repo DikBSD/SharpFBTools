@@ -36,7 +36,7 @@ namespace Core.Duplicator
 		private readonly StatusView			m_sv		= new StatusView();
 		private readonly EndWorkMode		m_EndMode	= new EndWorkMode();
 
-		private readonly DateTime	m_dtStart;
+		private DateTime	m_dtStart;
 		private BackgroundWorker	m_bw = null; // фоновый обработчик
 		
 		/// <summary>
@@ -92,9 +92,8 @@ namespace Core.Duplicator
 			m_lvResult			= lvResult;
 			
 			InitializeBackgroundWorker();
-			m_dtStart = DateTime.Now;
 			
-			if( !m_bw.IsBusy )
+			if ( !m_bw.IsBusy )
 				m_bw.RunWorkerAsync(); //если не занят, то запустить процесс
 		}
 		
@@ -123,12 +122,12 @@ namespace Core.Duplicator
 		
 		// Обработка файлов
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
-			#region Код
+			m_dtStart = DateTime.Now;
 			ProgressBar.Value = 0;
-			switch( m_GroupAnalyzeMode) {
+			switch ( m_GroupAnalyzeMode) {
 				case GroupAnalyzeModeEnum.AllGroup:
 					this.Text += ": Во всех Группах копий книг";
-					switch( m_AnalyzeMode) {
+					switch ( m_AnalyzeMode) {
 						case CompareModeEnum.VersionValidate:
 							// пометить в каждой группе все "старые" книги (по тэгу version), невалидные
 							this.Text += " (по версии, все невалидные книги)";
@@ -155,7 +154,7 @@ namespace Core.Duplicator
 					break;
 				case GroupAnalyzeModeEnum.Group:
 					this.Text += ": В выбранной Группе копий книг";
-					switch( m_AnalyzeMode) {
+					switch ( m_AnalyzeMode) {
 						case CompareModeEnum.VersionValidate:
 							// пометить в выбранной группе все "старые" книги (по тэгу version), невалидные
 							this.Text += " (по версии, все невалидные книги)";
@@ -184,12 +183,10 @@ namespace Core.Duplicator
 					return;
 			}
 
-			if( ( m_bw.CancellationPending ) ) {
+			if ( ( m_bw.CancellationPending ) ) {
 				e.Cancel = true;
 				return;
 			}
-			
-			#endregion
 		}
 		
 		// Отображение результата
@@ -241,8 +238,8 @@ namespace Core.Duplicator
 			ProgressBar.Maximum	= m_lvResult.Groups.Count;
 			MiscListView.UnCheckAllListViewItems( m_lvResult.CheckedItems );
 			// перебор всех групп
-			foreach( ListViewGroup lvg in m_lvResult.Groups ) {
-				if( ( bw.CancellationPending ) )  {
+			foreach ( ListViewGroup lvg in m_lvResult.Groups ) {
+				if ( ( bw.CancellationPending ) )  {
 					e.Cancel = true;
 					return;
 				}

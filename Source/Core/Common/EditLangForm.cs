@@ -25,7 +25,7 @@ namespace Core.Common
 	public partial class EditLangForm : Form
 	{
 		#region Закрытые данные класса
-		private readonly string	m_TempDir = Settings.Settings.TempDir;
+		private readonly string	m_TempDir = Settings.Settings.TempDirPath;
 		private bool m_ApplyData = false;
 		private readonly IList<FB2ItemInfo> m_LangFB2InfoList = null;
 		private readonly SharpZipLibWorker m_sharpZipLib = new SharpZipLibWorker();

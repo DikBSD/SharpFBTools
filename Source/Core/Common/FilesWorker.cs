@@ -93,7 +93,7 @@ namespace Core.Common
 		
 		public static string FormatFileLength( long lLength ) {
 			float f = lLength;
-			if( lLength < 1024 )
+			if ( lLength < 1024 )
 				return string.Format( "{0:N2} байт", lLength );
 			else if( lLength < 1048576 ) // >=1 Мб
 				return string.Format( "{0:N2} Кб", (f/1024) );
@@ -106,12 +106,11 @@ namespace Core.Common
 		/// возвращает: true, если путь к папке выбран; false - если была нажата кнопка отмены
 		/// </summary>
 		public static bool OpenDirDlg( TextBox tb, FolderBrowserDialog fbd, string sTitle ) {
-			if( tb.Text.Trim() != string.Empty )
-				fbd.SelectedPath = tb.Text.Trim();
-
 			fbd.Description = sTitle;
+			if ( ! string.IsNullOrEmpty( tb.Text.Trim() ) )
+				fbd.SelectedPath = tb.Text.Trim();
 			DialogResult result = fbd.ShowDialog();
-			if (result == DialogResult.OK) {
+			if ( result == DialogResult.OK ) {
 				string openFolderName = fbd.SelectedPath;
 				tb.Text = openFolderName;
 				return true;
@@ -124,14 +123,11 @@ namespace Core.Common
 		/// возвращает: путь к выбранной папке, если нажата кнопка OK; null - если была нажата кнопка отмены
 		/// </summary>
 		public static string OpenDirDlg( string InitDir, FolderBrowserDialog fbd, string sTitle ) {
-			if( !string.IsNullOrWhiteSpace( InitDir ) )
-				fbd.SelectedPath = InitDir.Trim();
-			
 			fbd.Description = sTitle;
+			if ( !string.IsNullOrWhiteSpace( InitDir ) )
+				fbd.SelectedPath = InitDir.Trim();
 			DialogResult result = fbd.ShowDialog();
-			if (result == DialogResult.OK)
-				return fbd.SelectedPath;
-			return null;
+			return result == DialogResult.OK ? fbd.SelectedPath : null;
 		}
 		
 		/// <summary>
@@ -143,14 +139,14 @@ namespace Core.Common
 		///	<param name="bFB2Only">true - список только fb2-файлов</param>
 		public static List<string> MakeFileListFromDir( string sFromDir, bool bSort, bool bFB2Only ) {
 			List<string> lFilesList = null;
-			if( Directory.Exists( sFromDir ) ) {
+			if ( Directory.Exists( sFromDir ) ) {
 				string [] files = Directory.GetFiles( sFromDir );
-				if( files.Length != 0 ) {
+				if ( files.Length != 0 ) {
 					lFilesList = new List<string>();
 					int nFB2 = 0;
-					foreach( string sFile in files ) {
-						if( bFB2Only ) {
-							if( FilesWorker.isFB2File( sFile ) ) {
+					foreach ( string sFile in files ) {
+						if ( bFB2Only ) {
+							if ( FilesWorker.isFB2File( sFile ) ) {
 								lFilesList.Add( sFile );
 								++nFB2;
 							}
@@ -158,9 +154,9 @@ namespace Core.Common
 							lFilesList.Add( sFile );
 						}
 					}
-					if( bFB2Only && nFB2 == 0 )
+					if ( bFB2Only && nFB2 == 0 )
 						return null;
-					if( bSort )
+					if ( bSort )
 						lFilesList.Sort();
 				}
 			}
@@ -312,10 +308,10 @@ namespace Core.Common
 		
 		// проверка на наличие указаной папки и ее создание, если ее нет
 		public static bool CreateDirIfNeed( string sDir, string sMessTitle ) {
-			if( !Directory.Exists(sDir) ) {
+			if ( !Directory.Exists(sDir) ) {
 				string sMess = "Папка-приемник не найдена: " + sDir + ".\nСоздать ее?";
 				DialogResult result = MessageBox.Show( sMess, sMessTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question );
-				if( result == DialogResult.No ) {
+				if ( result == DialogResult.No ) {
 					MessageBox.Show( "Работа прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return false;
 				}
@@ -331,14 +327,14 @@ namespace Core.Common
 		
 		// считывание кодировки файла, если она задана в строке sLine
 		public static string getFileEncoding( string sLine ) {
-			string sFileEncoding = "";
-			int nStart = sLine.IndexOf( "encoding" );
+			string sFileEncoding = string.Empty;
+			int nStart = sLine.IndexOf( "encoding", StringComparison.CurrentCulture );
 			if( nStart!=-1 ) {
 				sFileEncoding = sLine.Substring( nStart+8 );
-				nStart = sFileEncoding.IndexOf( "\"" );
+				nStart = sFileEncoding.IndexOf( "\"", StringComparison.CurrentCulture );
 				if( nStart!=-1 ) {
 					sFileEncoding = sFileEncoding.Substring( nStart+1 );
-					nStart = sFileEncoding.IndexOf( "\"" );
+					nStart = sFileEncoding.IndexOf( "\"", StringComparison.CurrentCulture );
 					if( nStart!=-1 ) {
 						sFileEncoding = sFileEncoding.Substring( 0, nStart );
 						return sFileEncoding;

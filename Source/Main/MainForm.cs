@@ -332,8 +332,8 @@ namespace Main
 		void TsbtnExitClick(object sender, EventArgs e)
 		{
 			// выход из программы
-			string TempDir = Settings.Settings.TempDir;
-			if( ! Settings.Settings.ReadConfirmationForExit() ) {
+			string TempDir = Settings.Settings.TempDirPath;
+			if( ! Settings.Settings.ConfirmationForExit ) {
 				// очистка временной папки
 				filesWorker.RemoveDir( TempDir );
 				this.Close();

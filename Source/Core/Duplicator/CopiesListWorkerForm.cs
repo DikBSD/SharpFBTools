@@ -48,7 +48,7 @@ namespace Core.Duplicator
 		private 		 int			m_LastSelectedItem	= -1;	// выделенный итем, на котором закончилась обработка списка...
 		private readonly int			m_GroupCountForList	= 500;	// ограничитель числа групп для кажого файла
 		
-		private readonly DateTime		m_dtStart;
+		private DateTime m_dtStart;
 		private BackgroundWorker		m_bw = null; // фоновый обработчик
 		#endregion
 
@@ -73,7 +73,6 @@ namespace Core.Duplicator
 			m_GroupCountForList = GroupCountForList;
 			
 			InitializeBackgroundWorker();
-			m_dtStart = DateTime.Now;
 			
 			if( !m_bw.IsBusy )
 				m_bw.RunWorkerAsync(); //если не занят, то запустить процесс
@@ -107,8 +106,9 @@ namespace Core.Duplicator
 		
 		// Обработка файлов
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
+			m_dtStart = DateTime.Now;
 			ProgressBar.Value = 0;
-			switch( m_WorkMode ) {
+			switch ( m_WorkMode ) {
 				case BooksWorkModeEnum.SaveFB2List:
 					// Сохранение списка копий книг
 					this.Text = "Сохранение списка копий fb2 книг";
@@ -130,7 +130,7 @@ namespace Core.Duplicator
 					return;
 			}
 
-			if( ( m_bw.CancellationPending ) ) {
+			if ( ( m_bw.CancellationPending ) ) {
 				e.Cancel = true;
 				return;
 			}

@@ -32,11 +32,11 @@ namespace Core.FileManager
 		private BackgroundWorker	m_bw				= null; // фоновый обработчик
 		private readonly ListView	m_listViewFB2Files	= new ListView();
 		private readonly EndWorkMode m_EndMode			= new EndWorkMode();
-		private readonly string		m_TempDir			= Settings.Settings.TempDir;
+		private readonly string		m_TempDir			= Settings.Settings.TempDirPath;
 		private readonly bool 		m_isCreateItems		= true;
 		private readonly bool 		m_isTagsView		= false;
 		private readonly string		m_dirPath			= null;
-		private readonly DateTime	m_dtStart 			= DateTime.Now;
+		private DateTime m_dtStart = DateTime.Now;
 		#endregion
 		
 		public FB2TagsViewForm( bool isCreateItems, bool isTagsView, ListView listViewFB2Files, string dirPath = null )
@@ -51,7 +51,7 @@ namespace Core.FileManager
 			m_dirPath			= dirPath;
 			ProgressBar.Value	= 0;
 			
-			if( !m_bw.IsBusy )
+			if ( !m_bw.IsBusy )
 				m_bw.RunWorkerAsync(); //если не занят, то запустить процесс
 		}
 		
@@ -80,10 +80,11 @@ namespace Core.FileManager
 		
 		// генерация списка файлов с описанием из метаданных
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
+			m_dtStart = DateTime.Now;
 			FB2UnionGenres fb2Genres = new FB2UnionGenres();
-			if( !m_isCreateItems ) {
+			if ( !m_isCreateItems ) {
 				// отображение/скрытие метаданных данных книг в Списке Сортировщика
-				if( m_listViewFB2Files.Items.Count > 0 ) {
+				if ( m_listViewFB2Files.Items.Count > 0 ) {
 					ProgressBar.Maximum	= m_listViewFB2Files.Items.Count;
 					if (
 						!WorksWithBooks.viewOrHideBookMetaDataLocal(
@@ -138,7 +139,7 @@ namespace Core.FileManager
 		#region Обработчики событий
 		void BtnStopClick(object sender, EventArgs e)
 		{
-			if( m_bw.WorkerSupportsCancellation )
+			if ( m_bw.WorkerSupportsCancellation )
 				m_bw.CancelAsync();
 		}
 		#endregion

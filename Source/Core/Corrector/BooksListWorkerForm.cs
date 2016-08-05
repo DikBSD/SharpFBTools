@@ -39,7 +39,7 @@ namespace Core.Corrector
 		
 		private 		 int			m_LastSelectedItem	= -1; // выделенный итем, на котором закончилась обработка списка...
 		
-		private readonly DateTime		m_dtStart;
+		private DateTime m_dtStart;
 		private BackgroundWorker		m_bw = null; // фоновый обработчик
 		#endregion
 		
@@ -55,9 +55,8 @@ namespace Core.Corrector
 			m_LastSelectedItem	= LastSelectedItem;
 
 			InitializeBackgroundWorker();
-			m_dtStart = DateTime.Now;
 			
-			if( !m_bw.IsBusy )
+			if ( !m_bw.IsBusy )
 				m_bw.RunWorkerAsync(); //если не занят, то запустить процесс
 		}
 		// =============================================================================================
@@ -88,9 +87,9 @@ namespace Core.Corrector
 		
 		// Обработка файлов
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
-			#region Код
+			m_dtStart = DateTime.Now;
 			ProgressBar.Value = 0;
-			switch( m_WorkMode ) {
+			switch ( m_WorkMode ) {
 				case BooksWorkModeEnum.SaveFB2List:
 					this.Text = "Сохранение списка fb2 книг";
 					saveListToXml( ref m_bw, ref e, m_FilePath );
@@ -103,13 +102,11 @@ namespace Core.Corrector
 					return;
 			}
 
-			if( ( m_bw.CancellationPending ) ) {
+			if ( ( m_bw.CancellationPending ) ) {
 				e.Cancel = true;
 				return;
 			}
-			
 //			m_listViewFB2Files.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-			#endregion
 		}
 		
 		// Отображение результата
@@ -119,7 +116,6 @@ namespace Core.Corrector
 		
 		// Проверяем - это отмена, ошибка, или конец задачи и сообщить
 		private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
-			#region Код
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
 			if ( e.Cancelled ) {
@@ -135,7 +131,6 @@ namespace Core.Corrector
 //					m_EndMode.Message += "\n\nНе найдено НИ ОДНОЙ копии книг!";
 			}
 			this.Close();
-			#endregion
 		}
 		#endregion
 		
@@ -237,8 +232,8 @@ namespace Core.Corrector
 							IsExist = File.Exists( BookPath) ? true : false;
 						if ( IsExist ) {
 							string FileName = book.Element("FileName").Value;
-							string ForeColor = book.Element("ForeColor").Value;
-							string BackColor = book.Element("BackColor").Value;
+							string sForeColor = book.Element("ForeColor").Value;
+							string sBackColor = book.Element("BackColor").Value;
 							if( type == "dir" ) {
 								if( FileName == ".." ) {
 									lvi = new ListViewItem( FileName, 3 ) ;
@@ -251,8 +246,8 @@ namespace Core.Corrector
 								lvi = new ListViewItem( FileName, FilesWorker.isFB2File( BookPath ) ? 1 : 2 );
 								lvi.Tag = new ListViewItemType( "f", BookPath );
 							}
-							lvi.ForeColor = Color.FromName( ForeColor );
-							lvi.BackColor = Color.FromName( BackColor );
+							lvi.ForeColor = Color.FromName( sForeColor );
+							lvi.BackColor = Color.FromName( sBackColor );
 							lvi.SubItems.Add( book.Element("BookTitle").Value );
 							lvi.SubItems.Add( book.Element("Authors").Value );
 							lvi.SubItems.Add( book.Element("Genres").Value );
@@ -287,7 +282,7 @@ namespace Core.Corrector
 		// нажатие кнопки прерывания работы
 		void BtnStopClick(object sender, EventArgs e)
 		{
-			if( m_bw.WorkerSupportsCancellation )
+			if ( m_bw.WorkerSupportsCancellation )
 				m_bw.CancelAsync();
 		}
 		#endregion

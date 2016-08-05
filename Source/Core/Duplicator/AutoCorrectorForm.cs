@@ -33,7 +33,7 @@ namespace Core.Duplicator
 		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
 		private readonly FB2Validator		m_fv2Validator	= new FB2Validator();
 		private readonly EndWorkMode m_EndMode		= new EndWorkMode();
-		private readonly string m_TempDir			= Settings.Settings.TempDir;
+		private readonly string m_TempDir			= Settings.Settings.TempDirPath;
 		private readonly BooksAutoCorrectModeEnum m_WorkMode;  // режим обработки книг
 		private readonly DateTime m_dtStart;
 		private BackgroundWorker m_bw	= null;  // фоновый обработчик

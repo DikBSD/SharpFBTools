@@ -24,10 +24,10 @@ namespace Core.Common
 		{
 			InitializeComponent();
 			m_ci = ci;
-			string sCI = "Дополнительной информации описания книги";
+			const string sCI = "Дополнительной информации описания книги";
 			this.Text = ci.IsCreate ? "Создание новой "+sCI : "Редактирование выбранной "+sCI;
 			
-			if( !ci.IsCreate ) {
+			if ( !ci.IsCreate ) {
 				TypeTextBox.Text = ci.Type;
 				ValueTextBox.Text = ci.Value;
 			}
@@ -44,12 +44,12 @@ namespace Core.Common
 		#region Обработчики событий
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
-			if( TypeTextBox.Text.Trim().Length == 0 && ValueTextBox.Text.Trim().Length == 0 ) {
+			if ( TypeTextBox.Text.Trim().Length == 0 && ValueTextBox.Text.Trim().Length == 0 ) {
 				MessageBox.Show( "Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				TypeTextBox.Focus();
 				return;
 			}
-			if( TypeTextBox.Text.Trim().Length == 0 ) {
+			if ( TypeTextBox.Text.Trim().Length == 0 ) {
 				MessageBox.Show( "Поле типа данных должно быть обязательно заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				TypeTextBox.Focus();
 				return;

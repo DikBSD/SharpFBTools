@@ -40,7 +40,7 @@ namespace SharpFBTools.Tools
 	{
 		#region Закрытые данные класса
 		private readonly FB2Validator m_fv2Validator = new FB2Validator();
-		private readonly string	m_TempDir	= Settings.Settings.TempDir;
+		private readonly string	m_TempDir	= Settings.Settings.TempDirPath;
 		private bool m_isSettingsLoaded		= false; 		// Только при true все изменения настроек сохраняются в файл.
 		private string	m_TargetDir			= string.Empty; // Папка для Copy / Move помеченных книг
 		private string	m_DirForSavedCover	= string.Empty;	// папка для сохранения обложек
@@ -947,7 +947,7 @@ namespace SharpFBTools.Tools
 		{
 			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
 				// читаем путь к читалке из настроек
-				string sFBReaderPath = Settings.Settings.ReadFBReaderPath();
+				string sFBReaderPath = Settings.Settings.FBReaderPath;
 				const string sTitle = "SharpFBTools - Открытие папки для файла";
 				if( !File.Exists( sFBReaderPath ) ) {
 					MessageBox.Show( "Не могу найти Читалку \""+sFBReaderPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -966,11 +966,11 @@ namespace SharpFBTools.Tools
 		// редактировать выделенный файл в fb2-редакторе
 		void TsmiEditInFB2EditorClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
 				// читаем путь к FBE из настроек
-				string FBEPath = Settings.Settings.ReadFBEPath();
+				string FBEPath = Settings.Settings.FB2EditorPath;
 				const string Title = "SharpFBTools - Открытие файла в fb2-редакторе";
-				if( !File.Exists( FBEPath ) ) {
+				if ( !File.Exists( FBEPath ) ) {
 					MessageBox.Show( "Не могу найти fb2 редактор \""+FBEPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", Title, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
@@ -982,11 +982,11 @@ namespace SharpFBTools.Tools
 		// редактировать выделенный файл в текстовом редакторе
 		void TsmiEditInTextEditorClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
 				// читаем путь к текстовому редактору из настроек
-				string TextEditorPath = Settings.Settings.ReadTextFB2EPath();
+				string TextEditorPath = Settings.Settings.TextEditorPath;
 				const string Title = "SharpFBTools - Открытие файла в текстовом редакторе";
-				if( !File.Exists( TextEditorPath ) ) {
+				if ( !File.Exists( TextEditorPath ) ) {
 					MessageBox.Show( "Не могу найти текстовый редактор \""+TextEditorPath+"\"!\nПроверьте, правильно ли задан путь в Настройках.", Title, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
@@ -1211,17 +1211,17 @@ namespace SharpFBTools.Tools
 		// diff - две помеченные fb2-книги
 		void TsmiDiffFB2Click(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				// проверка на наличие diff-программы
 				const string sDiffTitle = "SharpFBTools - diff";
-				string sDiffPath = Settings.Settings.ReadDiffPath();
+				string sDiffPath = Settings.Settings.DiffToolPath;
 				
-				if( sDiffPath.Trim().Length == 0 ) {
+				if ( sDiffPath.Trim().Length == 0 ) {
 					MessageBox.Show( "В Настройках не указан путь к установленной diff-программе визуального сравнения файлов!\nУкажите путь к ней в Настройках.\nРабота остановлена!",
 					                sDiffTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				} else {
-					if( !File.Exists( sDiffPath ) ) {
+					if ( !File.Exists( sDiffPath ) ) {
 						MessageBox.Show( "Не найден файл diff-программы визуального сравнения файлов \""+sDiffPath+"\"!\nУкажите путь к ней в Настройках.\nРабота остановлена!",
 						                sDiffTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 						return;
@@ -1229,7 +1229,7 @@ namespace SharpFBTools.Tools
 				}
 
 				ListView.CheckedListViewItemCollection ChekedItems = listViewFB2Files.CheckedItems;
-				if( ChekedItems.Count != 2) {
+				if ( ChekedItems.Count != 2) {
 					MessageBox.Show( "Сравнивать можно только 2 помеченных книгу в одной группе!",
 					                sDiffTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
@@ -1239,14 +1239,14 @@ namespace SharpFBTools.Tools
 				string sFilesNotExists = string.Empty;
 				string FilePath1 = Path.Combine( textBoxAddress.Text.Trim(), ChekedItems[0].Text );
 				string FilePath2 = Path.Combine( textBoxAddress.Text.Trim(), ChekedItems[1].Text );
-				if( !File.Exists( FilePath1 ) ) {
+				if ( !File.Exists( FilePath1 ) ) {
 					sFilesNotExists += FilePath1; sFilesNotExists += "\n";
 				}
-				if( !File.Exists( FilePath2 ) ) {
+				if ( !File.Exists( FilePath2 ) ) {
 					sFilesNotExists += FilePath2; sFilesNotExists += "\n";
 				}
 
-				if( sFilesNotExists != string.Empty )
+				if ( sFilesNotExists != string.Empty )
 					MessageBox.Show( "Не найден(ы) файл(ы) для сравнения:\n" + sFilesNotExists + "\nРабота остановлена!",
 					                sDiffTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				else {
@@ -1314,7 +1314,7 @@ namespace SharpFBTools.Tools
 					ConnectListsEventHandlers( false );
 					listViewFB2Files.BeginUpdate();
 					// очистка временной папки
-					FilesWorker.RemoveDir( Settings.Settings.TempDir );
+					FilesWorker.RemoveDir( Settings.Settings.TempDirPath );
 					listViewFB2Files.Items.Clear();
 					Environment.CurrentDirectory = Settings.Settings.ProgDir;
 					Core.Corrector.BooksListWorkerForm fileWorkerForm = new Core.Corrector.BooksListWorkerForm(
@@ -1416,8 +1416,8 @@ namespace SharpFBTools.Tools
 		// правка Названия книги для выделенной книги
 		void TsmiEditBookNameClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
-				if( listViewFB2Files.SelectedItems.Count == 1 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
+				if ( listViewFB2Files.SelectedItems.Count == 1 ) {
 					string SourceFilePath = Path.Combine( textBoxAddress.Text.Trim(), listViewFB2Files.SelectedItems[0].Text );
 					string FilePath = SourceFilePath;
 					bool IsFromZip = false;
@@ -1425,7 +1425,7 @@ namespace SharpFBTools.Tools
 						IsFromZip = true;
 						FilePath = ZipFB2Worker.getFileFromZipFBZ( SourceFilePath, m_TempDir );
 					}
-					if( File.Exists( FilePath ) ) {
+					if ( File.Exists( FilePath ) ) {
 						FictionBook fb2 = null;
 						try {
 							fb2 = new FictionBook( FilePath );
@@ -1433,7 +1433,7 @@ namespace SharpFBTools.Tools
 							MessageBox.Show( er.Message, "Правка Названия книги", MessageBoxButtons.OK, MessageBoxIcon.Error );
 							return;
 						}
-						if( fb2 != null ) {
+						if ( fb2 != null ) {
 							string BookTitleNew = fb2.TIBookTitle != null ? fb2.TIBookTitle.Value : "Новое название книги";
 							if ( WorksWithBooks.InputBox( "Правка названия книги", "Новое название книги:", ref BookTitleNew ) == DialogResult.OK) {
 								// восстанавление раздела description до структуры с необходимыми элементами для валидности

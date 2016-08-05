@@ -4,7 +4,7 @@
  * Дата: 01.07.2015
  * Время: 7:09
  * 
- * Для изменения этого шаблона используйте Сервис | Настройка | Кодирование | Правка стандартных заголовков.
+ * License: GPL 2.1
  */
 using System;
 using System.Drawing;
@@ -23,7 +23,6 @@ namespace Core.Common
 		
 		public SequenceInfoForm( ref SequenceInfo si )
 		{
-
 			InitializeComponent();
 			m_si = si;
 			string sSequence = string.Empty;

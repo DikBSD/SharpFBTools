@@ -30,7 +30,7 @@ namespace Core.Common
 	/// </summary>
 	public partial class EditAuthorInfoForm : Form
 	{
-		private readonly string	m_TempDir = Settings.Settings.TempDir;
+		private readonly string	m_TempDir = Settings.Settings.TempDirPath;
 		private const string m_sTitle = "Правка метаданных Авторов fb2 книг";
 		private readonly IList<FB2ItemInfo> m_AuthorFB2InfoList = null;
 		private bool m_ApplyData = false;
@@ -70,30 +70,30 @@ namespace Core.Common
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			Cursor.Current = Cursors.WaitCursor;
 			FB2DescriptionCorrector fB2Corrector = null;
-			foreach( FB2ItemInfo Info in m_AuthorFB2InfoList ) {
+			foreach ( FB2ItemInfo Info in m_AuthorFB2InfoList ) {
 				FictionBook fb2 = Info.FictionBook;
-				if( fb2 != null ) {
+				if ( fb2 != null ) {
 					// восстанавление раздела description до структуры с необходимыми элементами для валидности
 					fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 					fB2Corrector.recoveryDescriptionNode();
 					
 					IList<XmlNode> xmlNewAuthors = makeAuthorNode( Enums.AuthorEnum.AuthorOfBook, ref fb2, AuthorsListView );
-					if( xmlNewAuthors != null ) {
+					if ( xmlNewAuthors != null ) {
 						XmlNodeList xmlAuthorList = fb2.getAuthorNodes( TitleInfoEnum.TitleInfo );
-						if( xmlAuthorList != null ) {
+						if ( xmlAuthorList != null ) {
 							XmlNode xmlBookTitleNode = fb2.getBookTitleNode( TitleInfoEnum.TitleInfo );
-							if( xmlBookTitleNode != null ) {
+							if ( xmlBookTitleNode != null ) {
 								XmlNode xmlTINode = fb2.getTitleInfoNode( TitleInfoEnum.TitleInfo );
-								if( xmlTINode != null ) {
+								if ( xmlTINode != null ) {
 									// удаление старых данных Авторов
-									foreach( XmlNode Author in xmlAuthorList )
+									foreach ( XmlNode Author in xmlAuthorList )
 										xmlTINode.RemoveChild( Author );
 									// добавление новых данных Авторов
-									foreach( XmlNode Author in xmlNewAuthors )
+									foreach ( XmlNode Author in xmlNewAuthors )
 										xmlTINode.InsertBefore( Author, xmlBookTitleNode );
 									
 									// сохранение fb2 файла
-									if( !Directory.Exists( m_TempDir ) )
+									if ( !Directory.Exists( m_TempDir ) )
 										Directory.CreateDirectory( m_TempDir );
 									string NewPath = Info.IsFromZip ? Info.FilePathIfFromZip : Info.FilePathSource;
 									fb2.saveToFB2File( NewPath, false );
@@ -127,33 +127,33 @@ namespace Core.Common
 		#region Закрытые вспомогательные методы
 		// загрузка Авторов для правки
 		private void loadAuthorsFromFB2Files() {
-			foreach( FB2ItemInfo Info in m_AuthorFB2InfoList ) {
-				if( Info.FictionBook != null ) {
+			foreach ( FB2ItemInfo Info in m_AuthorFB2InfoList ) {
+				if ( Info.FictionBook != null ) {
 					IList<Author> AuthorsList = Info.FictionBook.TIAuthors;
 					if ( AuthorsList != null ) {
-						foreach( Author a in AuthorsList ) {
-							if( a != null ) {
+						foreach ( Author a in AuthorsList ) {
+							if ( a != null ) {
 								if ( !WorksWithBooks.authorIsExist( AuthorsListView, a ) ) {
 									ListViewItem lvi = new ListViewItem( "" );
-									if( a.LastName != null )
+									if ( a.LastName != null )
 										lvi.Text = !string.IsNullOrEmpty( a.LastName.Value ) ? a.LastName.Value : string.Empty;
-									if( a.FirstName != null )
+									if ( a.FirstName != null )
 										lvi.SubItems.Add( !string.IsNullOrEmpty( a.FirstName.Value ) ? a.FirstName.Value : string.Empty );
 									else
 										lvi.SubItems.Add( string.Empty );
-									if( a.MiddleName != null )
+									if ( a.MiddleName != null )
 										lvi.SubItems.Add( !string.IsNullOrEmpty( a.MiddleName.Value ) ? a.MiddleName.Value : string.Empty );
 									else
 										lvi.SubItems.Add( string.Empty );
-									if( a.NickName != null )
+									if ( a.NickName != null )
 										lvi.SubItems.Add( !string.IsNullOrEmpty( a.NickName.Value ) ? a.NickName.Value : string.Empty );
 									else
 										lvi.SubItems.Add( string.Empty );
-									if( a.HomePages != null )
+									if ( a.HomePages != null )
 										lvi.SubItems.Add( StringProcessing.makeStringFromListItems( a.HomePages ) );
 									else
 										lvi.SubItems.Add( string.Empty );
-									if( a.Emails != null )
+									if ( a.Emails != null )
 										lvi.SubItems.Add( StringProcessing.makeStringFromListItems( a.Emails ) );
 									else
 										lvi.SubItems.Add( string.Empty );
@@ -170,9 +170,9 @@ namespace Core.Common
 			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
 			IList<XmlNode> Authors = null;
 			XmlNode xmlAuthor = null;
-			if( lv.Items.Count > 0 ) {
+			if ( lv.Items.Count > 0 ) {
 				Authors = new List<XmlNode>( lv.Items.Count );
-				foreach( ListViewItem item in lv.Items ) {
+				foreach ( ListViewItem item in lv.Items ) {
 					string HPs = StringProcessing.trimLastTemplateSymbol( item.SubItems[4].Text.Trim(), new Char [] { ',',';' } );
 					IList<string> lHPs = HPs.Split( new Char [] { ',',';' } );
 					string Emails = StringProcessing.trimLastTemplateSymbol( item.SubItems[5].Text.Trim(), new Char [] { ',',';' } );
@@ -185,7 +185,7 @@ namespace Core.Common
 					Authors.Add(xmlAuthor);
 				}
 			} else {
-				if( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
+				if ( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
 					Authors = new List<XmlNode>();
 					xmlAuthor = fB2Corrector.makeAuthorNode( AuthorType, null, null, null, null, null, null, null );
 					Authors.Add(xmlAuthor);
@@ -209,7 +209,7 @@ namespace Core.Common
 		}
 		void NewIDButtonClick(object sender, EventArgs e)
 		{
-			string sMess = "Создать новый id Автора?";
+			const string sMess = "Создать новый id Автора?";
 			const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result = MessageBox.Show( sMess, "Создание нового id", buttons, MessageBoxIcon.Question );
 			if( result == DialogResult.Yes )
@@ -217,13 +217,13 @@ namespace Core.Common
 		}
 		void AuthorAddButtonClick(object sender, EventArgs e)
 		{
-			if( LastNameTextBox.Text.Trim().Length == 0 && FirstNameTextBox.Text.Trim().Length == 0 &&
+			if ( LastNameTextBox.Text.Trim().Length == 0 && FirstNameTextBox.Text.Trim().Length == 0 &&
 			   MiddleNameTextBox.Text.Trim().Length == 0 && NickNameTextBox.Text.Trim().Length == 0 &&
 			   IDTextBox.Text.Trim().Length == 0 && HomePageTextBox.Text.Trim().Length == 0 && EmailTextBox.Text.Trim().Length == 0 ) {
 				MessageBox.Show( "Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				LastNameTextBox.Focus();
 				return;
-			} else if( LastNameTextBox.Text.Trim().Length == 0 ) {
+			} else if ( LastNameTextBox.Text.Trim().Length == 0 ) {
 				MessageBox.Show( "Поле 'Фамилия' должно быть заполнено обязательно!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				LastNameTextBox.Focus();
 				return;
@@ -285,9 +285,9 @@ namespace Core.Common
 		}
 		void AuthorEditButtonClick(object sender, EventArgs e)
 		{
-			if( AuthorsListView.SelectedItems.Count > 1 ) {
+			if ( AuthorsListView.SelectedItems.Count > 1 ) {
 				MessageBox.Show( "Выберите только одного Автора для редактирования!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-			} else if( AuthorsListView.SelectedItems.Count != 1 ) {
+			} else if ( AuthorsListView.SelectedItems.Count != 1 ) {
 				MessageBox.Show( "Выберите одного Автора для редактирования.", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 			} else {
 				m_EditMode = true;
@@ -313,8 +313,8 @@ namespace Core.Common
 		}
 		void AuthorUpButtonClick(object sender, EventArgs e)
 		{
-			if( AuthorsListView.Items.Count > 0 && AuthorsListView.SelectedItems.Count > 0 ) {
-				if( AuthorsListView.SelectedItems.Count == 1 )
+			if ( AuthorsListView.Items.Count > 0 && AuthorsListView.SelectedItems.Count > 0 ) {
+				if ( AuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( AuthorsListView );
 				else
 					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -323,8 +323,8 @@ namespace Core.Common
 		}
 		void AuthorDownButtonClick(object sender, EventArgs e)
 		{
-			if( AuthorsListView.Items.Count > 0 && AuthorsListView.SelectedItems.Count > 0 ) {
-				if( AuthorsListView.SelectedItems.Count == 1 )
+			if ( AuthorsListView.Items.Count > 0 && AuthorsListView.SelectedItems.Count > 0 ) {
+				if ( AuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( AuthorsListView );
 				else
 					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
@@ -333,7 +333,7 @@ namespace Core.Common
 		}
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
-			if( AuthorsListView.Items.Count == 0 ) {
+			if ( AuthorsListView.Items.Count == 0 ) {
 				MessageBox.Show( "Заполните данные хотя бы для одного Автора!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return;
 			} else {
@@ -341,7 +341,7 @@ namespace Core.Common
 				ControlPanel.Enabled = false;
 				AuthorDataPanel.Enabled = false;
 				AuthorsWorkPanel.Enabled = false;
-				if( !m_bw.IsBusy )
+				if ( !m_bw.IsBusy )
 					m_bw.RunWorkerAsync();
 			}
 		}
