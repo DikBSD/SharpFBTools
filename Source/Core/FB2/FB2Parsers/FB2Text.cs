@@ -170,7 +170,7 @@ namespace Core.FB2.FB2Parsers
 				InputString = fbtc.StartTagCorrect( InputString );
 			}
 			
-			string DescCloseTag = "</description>";
+			const string DescCloseTag = "</description>";
 			int IndexDescriptionEnd = InputString.IndexOf( DescCloseTag ) + DescCloseTag.Length;
 			int IndexFirstBody = InputString.IndexOf( "<body" );
 			int IndexFirstBinary = InputString.IndexOf( "<binary " );
@@ -192,10 +192,9 @@ namespace Core.FB2.FB2Parsers
 				
 				try {
 					if ( IndexFirstBody != -1 ) {
-						if ( IndexFirstBinary != -1 )
-							_Bodies = InputString.Substring( IndexFirstBody, IndexFirstBinary - IndexFirstBody );
-						else
-							_Bodies = InputString.Substring( IndexFirstBody, IndexFictionBookEndTag - IndexFirstBody );
+						_Bodies = (IndexFirstBinary != -1)
+							? InputString.Substring( IndexFirstBody, IndexFirstBinary - IndexFirstBody )
+							: InputString.Substring( IndexFirstBody, IndexFictionBookEndTag - IndexFirstBody );
 					}
 					
 					if ( IndexFirstBinary != -1 ) {

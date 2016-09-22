@@ -1,8 +1,8 @@
 ﻿/*
- * Сделано в SharpDevelop.
- * Пользователь: Вадим Кузнецов (dikbsd)
- * Дата: 04.08.2015
- * Время: 15:23
+ * Создано в SharpDevelop.
+ * Пользователь: VadimK
+ * Дата: 13.09.2016
+ * Время: 8:22
  * 
  * License: GPL 2.1
  */
@@ -21,31 +21,28 @@ using TitleInfoEnum = Core.Common.Enums.TitleInfoEnum;
 namespace Core.Common
 {
 	/// <summary>
-	/// EditLangForm: Форма для правки языка fb2 книг
+	/// EditSequencesForm: Форма для правки Серий fb2 книги
 	/// </summary>
-	public partial class EditLangForm : Form
+	public partial class EditSequencesForm : Form
 	{
 		#region Закрытые данные класса
 		private readonly string	m_TempDir = Settings.Settings.TempDirPath;
 		private bool m_ApplyData = false;
-		private readonly IList<FB2ItemInfo> m_LangFB2InfoList = null;
+		private readonly IList<FB2ItemInfo> m_SequencesFB2InfoList = null;
 		private readonly SharpZipLibWorker m_sharpZipLib = new SharpZipLibWorker();
 		private BackgroundWorker m_bw = null;
 		#endregion
 		
-		public EditLangForm( ref IList<FB2ItemInfo> LangFB2InfoList )
+		public EditSequencesForm( ref IList<FB2ItemInfo> SequencesFB2InfoList )
 		{
 			InitializeComponent();
 			initializeBackgroundWorker();
 			
-			this.Text += " : " + LangFB2InfoList.Count.ToString() + " книг";
-			m_LangFB2InfoList = LangFB2InfoList;
-			// создание списков языков
-			LangComboBox.Items.AddRange( LangList.LangsList );
+			this.Text += " : " + SequencesFB2InfoList.Count.ToString() + " книг";
+			m_SequencesFB2InfoList = SequencesFB2InfoList;
 			ControlPanel.Enabled = true;
-			LangsPanel.Enabled = true;
-			LangComboBox.SelectedIndex = 0;
-			ProgressBar.Maximum = LangFB2InfoList.Count;
+			SequencesPanel.Enabled = true;
+			ProgressBar.Maximum = SequencesFB2InfoList.Count;
 		}
 		
 		#region BackgroundWorker
@@ -61,7 +58,7 @@ namespace Core.Common
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			Cursor.Current = Cursors.WaitCursor;
 			FB2DescriptionCorrector fB2Corrector = null;
-			foreach ( FB2ItemInfo Info in m_LangFB2InfoList ) {
+			foreach ( FB2ItemInfo Info in m_SequencesFB2InfoList ) {
 				FictionBook fb2 = Info.FictionBook;
 				if ( fb2 != null ) {
 					fB2Corrector = new FB2DescriptionCorrector( fb2 );
@@ -69,11 +66,17 @@ namespace Core.Common
 					
 					XmlNode xmlTI = fb2.getTitleInfoNode( TitleInfoEnum.TitleInfo );
 					if ( xmlTI != null ) {
-						xmlTI.ReplaceChild(
-							fB2Corrector.makeLangNode( LangComboBox.Text.Substring( LangComboBox.Text.IndexOf('(')+1, 2 ) ),
-							fb2.getLangNode( TitleInfoEnum.TitleInfo )
-						);
-						
+						if ( RemoveRadioButton.Checked || ReplaceRadioButton.Checked ) {
+							// удаление всех Серий
+							foreach ( XmlNode node in fb2.getSequencesNode( TitleInfoEnum.TitleInfo ) )
+								xmlTI.RemoveChild( node );
+						}
+						if ( AddRadioButton.Checked || ReplaceRadioButton.Checked ) {
+							// добавление новой Серии
+							xmlTI.AppendChild(
+								fB2Corrector.makeSequenceNode( SequencesTextBox.Text.Trim(), NumberTextBox.Text.Trim() )
+							);
+						}
 						// сохранение fb2 файла
 						if ( !Directory.Exists( m_TempDir ) )
 							Directory.CreateDirectory( m_TempDir );
@@ -104,23 +107,68 @@ namespace Core.Common
 		#endregion
 		
 		#region Обработчики событий
+		void SequencesTextBoxKeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ( e.KeyChar == (char)Keys.Return )
+				ApplyBtnClick( sender, e );
+		}
+		void NumberTextBoxKeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ( e.KeyChar == (char)Keys.Return )
+				ApplyBtnClick( sender, e );
+		}
+		void RemoveRadioButtonCheckedChanged(object sender, EventArgs e)
+		{
+			SequencesPanel.Enabled = NumberPanel.Enabled = !RemoveRadioButton.Checked;
+		}
+		void EditSequencesFormShown(object sender, EventArgs e)
+		{
+			SequencesTextBox.Focus();
+			if ( m_SequencesFB2InfoList.Count > 1 ) {
+				NumberPanel.Visible = false;
+				this.Height -= NumberPanel.Size.Height;
+			} else {
+				NumberPanel.Visible = true;
+			}
+		}
 		void CancelBtnClick(object sender, EventArgs e)
 		{
 			Close();
 		}
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
-			if ( LangComboBox.SelectedIndex == -1 ) {
-				MessageBox.Show( "Выберите язык из списка.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				LangComboBox.Focus();
-			} else {
+			if ( RemoveRadioButton.Checked ) {
 				m_ApplyData = true;
 				ControlPanel.Enabled = false;
-				LangsPanel.Enabled = false;
+				SequencesPanel.Enabled = false;
+				NumberPanel.Enabled = false;
+				ModePanel.Enabled = false;
 				if ( !m_bw.IsBusy )
 					m_bw.RunWorkerAsync();
+			} else {
+				if ( string.IsNullOrWhiteSpace( SequencesTextBox.Text ) ) {
+					MessageBox.Show( "Введите название Серии.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					SequencesTextBox.Focus();
+				} else {
+					if ( !string.IsNullOrWhiteSpace( NumberTextBox.Text ) ) {
+						int number = 0;
+						if ( !int.TryParse( NumberTextBox.Text, out number ) ) {
+							MessageBox.Show( "Номер Серии не может символы и/или пробелы! Введите число, или оставьте поле пустым, если у данной книги нет номера серии.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error );
+							NumberTextBox.Focus();
+							return;
+						}
+					}
+					m_ApplyData = true;
+					ControlPanel.Enabled = false;
+					SequencesPanel.Enabled = false;
+					NumberPanel.Enabled = false;
+					ModePanel.Enabled = false;
+					if ( !m_bw.IsBusy )
+						m_bw.RunWorkerAsync();
+				}
 			}
 		}
+		
 		#endregion
 	}
 }

@@ -115,22 +115,22 @@ namespace Core.Common
 		                                                 BooksValidateModeEnum BooksValidateType,
 		                                                 ToolStripProgressBar ProgressBar ) {
 			IList<FB2ItemInfo> FB2InfoList = new List<FB2ItemInfo>();
-			if( listView.Items.Count > 0 ) {
+			if ( listView.Items.Count > 0 ) {
 				string	TempDir = Settings.Settings.TempDirPath;
 				IList Items = null;
-				if( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
+				if ( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 					Items = listView.SelectedItems;
 				else if (BooksValidateType == BooksValidateModeEnum.CheckedBooks)
 					Items = listView.CheckedItems;
 				else /* BooksValidateType == BooksValidateMode.AllBooks */
 					Items = listView.Items;
 				
-				if( Items.Count > 0 ) {
+				if ( Items.Count > 0 ) {
 					ProgressBar.Maximum = Items.Count;
-					foreach( ListViewItem item in Items ) {
+					foreach ( ListViewItem item in Items ) {
 						string SourceFilePath = Path.Combine( FB2SourceDir.Trim(), item.Text.Trim() );
 						string FilePathIfFromZip = SourceFilePath;
-						if( File.Exists( SourceFilePath ) ) {
+						if ( File.Exists( SourceFilePath ) ) {
 							bool IsFromZip = false;
 							if ( FilesWorker.isFB2Archive( SourceFilePath ) ) {
 								IsFromZip = true;
@@ -886,7 +886,7 @@ namespace Core.Common
 		private static bool recoverDesc( ref FictionBook fb2, SharpZipLibWorker sharpZipLib,
 		                                string SrcFB2OrZipPath, string FilePath ) {
 			if( fb2 != null ) {
-				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
 				fB2Corrector.recoveryDescriptionNode();
 				fb2.saveToFB2File( FilePath, false );
 				bool IsFromZip = FilesWorker.isFB2Archive( SrcFB2OrZipPath );
@@ -963,7 +963,7 @@ namespace Core.Common
 				return;
 			}
 			if( fb2 != null ) {
-				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
 				WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SrcFilePath );
 				fb2.saveToFB2File( FilePath, false );
 				// Сжатие файла FilePath и перемещение архива по пути SrcFilePath (если он был из архива)

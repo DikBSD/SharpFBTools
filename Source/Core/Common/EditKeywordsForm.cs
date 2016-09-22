@@ -1,8 +1,8 @@
 ﻿/*
- * Сделано в SharpDevelop.
- * Пользователь: Вадим Кузнецов (dikbsd)
- * Дата: 04.08.2015
- * Время: 15:23
+ * Создано в SharpDevelop.
+ * Пользователь: VadimK
+ * Дата: 09.09.2016
+ * Время: 13:43
  * 
  * License: GPL 2.1
  */
@@ -21,31 +21,28 @@ using TitleInfoEnum = Core.Common.Enums.TitleInfoEnum;
 namespace Core.Common
 {
 	/// <summary>
-	/// EditLangForm: Форма для правки языка fb2 книг
+	/// EditKeywordsForm: Форма для правки Ключевых слов fb2 книг
 	/// </summary>
-	public partial class EditLangForm : Form
+	public partial class EditKeywordsForm : Form
 	{
 		#region Закрытые данные класса
 		private readonly string	m_TempDir = Settings.Settings.TempDirPath;
 		private bool m_ApplyData = false;
-		private readonly IList<FB2ItemInfo> m_LangFB2InfoList = null;
+		private readonly IList<FB2ItemInfo> m_KeywordsFB2InfoList = null;
 		private readonly SharpZipLibWorker m_sharpZipLib = new SharpZipLibWorker();
 		private BackgroundWorker m_bw = null;
 		#endregion
 		
-		public EditLangForm( ref IList<FB2ItemInfo> LangFB2InfoList )
+		public EditKeywordsForm( ref IList<FB2ItemInfo> KeywordsFB2InfoList )
 		{
 			InitializeComponent();
 			initializeBackgroundWorker();
 			
-			this.Text += " : " + LangFB2InfoList.Count.ToString() + " книг";
-			m_LangFB2InfoList = LangFB2InfoList;
-			// создание списков языков
-			LangComboBox.Items.AddRange( LangList.LangsList );
+			this.Text += " : " + KeywordsFB2InfoList.Count.ToString() + " книг";
+			m_KeywordsFB2InfoList = KeywordsFB2InfoList;
 			ControlPanel.Enabled = true;
-			LangsPanel.Enabled = true;
-			LangComboBox.SelectedIndex = 0;
-			ProgressBar.Maximum = LangFB2InfoList.Count;
+			KeywordsPanel.Enabled = true;
+			ProgressBar.Maximum = KeywordsFB2InfoList.Count;
 		}
 		
 		#region BackgroundWorker
@@ -61,7 +58,7 @@ namespace Core.Common
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			Cursor.Current = Cursors.WaitCursor;
 			FB2DescriptionCorrector fB2Corrector = null;
-			foreach ( FB2ItemInfo Info in m_LangFB2InfoList ) {
+			foreach ( FB2ItemInfo Info in m_KeywordsFB2InfoList ) {
 				FictionBook fb2 = Info.FictionBook;
 				if ( fb2 != null ) {
 					fB2Corrector = new FB2DescriptionCorrector( fb2 );
@@ -69,9 +66,20 @@ namespace Core.Common
 					
 					XmlNode xmlTI = fb2.getTitleInfoNode( TitleInfoEnum.TitleInfo );
 					if ( xmlTI != null ) {
+						string kw = string.Empty;
+						string kwOld = fb2.getKeywordsNode( TitleInfoEnum.TitleInfo ).InnerText;
+						if ( AddRadioButton.Checked ) {
+							// добавить новые ключевые слова к существующим
+							kw = !string.IsNullOrWhiteSpace( kwOld ) ?
+							( kwOld + "," + KeywordsTextBox.Text.Trim() )
+							: KeywordsTextBox.Text.Trim();
+						} else {
+							// заменить существующие ключевые слова на новые
+							kw = KeywordsTextBox.Text.Trim();
+						}
 						xmlTI.ReplaceChild(
-							fB2Corrector.makeLangNode( LangComboBox.Text.Substring( LangComboBox.Text.IndexOf('(')+1, 2 ) ),
-							fb2.getLangNode( TitleInfoEnum.TitleInfo )
+							fB2Corrector.makeKeywordsNode( kw ),
+							fb2.getKeywordsNode( TitleInfoEnum.TitleInfo )
 						);
 						
 						// сохранение fb2 файла
@@ -104,19 +112,23 @@ namespace Core.Common
 		#endregion
 		
 		#region Обработчики событий
+		void EditKeywordsFormShown(object sender, EventArgs e)
+		{
+			KeywordsTextBox.Focus();
+		}
 		void CancelBtnClick(object sender, EventArgs e)
 		{
 			Close();
 		}
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
-			if ( LangComboBox.SelectedIndex == -1 ) {
-				MessageBox.Show( "Выберите язык из списка.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				LangComboBox.Focus();
+			if ( string.IsNullOrWhiteSpace(KeywordsTextBox.Text) ) {
+				MessageBox.Show( "Введите ключевые слова через запятую или точку с запятой.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				KeywordsTextBox.Focus();
 			} else {
 				m_ApplyData = true;
 				ControlPanel.Enabled = false;
-				LangsPanel.Enabled = false;
+				KeywordsPanel.Enabled = false;
 				if ( !m_bw.IsBusy )
 					m_bw.RunWorkerAsync();
 			}

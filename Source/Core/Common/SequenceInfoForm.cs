@@ -26,13 +26,11 @@ namespace Core.Common
 			InitializeComponent();
 			m_si = si;
 			string sSequence = string.Empty;
-			if( si.SequenceType == Enums.SequenceEnum.Ebook )
-				sSequence = "Электронной книги";
-			else
-				sSequence = "Бумажной книги";
+			sSequence = si.SequenceType == Enums.SequenceEnum.Ebook
+				? "Электронной книги" : "Бумажной книги";
 			this.Text = si.IsCreate ? "Создание новой "+sSequence : "Редактирование выбранной "+sSequence;
 			
-			if( !si.IsCreate ) {
+			if ( !si.IsCreate ) {
 				SequenceTextBox.Text = si.Name;
 				SequenceNumberTextBox.Text = si.Number;
 			}
@@ -49,10 +47,18 @@ namespace Core.Common
 		#region Обработчики событий
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
-			if( SequenceTextBox.Text.Trim().Length == 0 && SequenceNumberTextBox.Text.Trim().Length == 0 ) {
+			if ( string.IsNullOrWhiteSpace( SequenceTextBox.Text ) && string.IsNullOrWhiteSpace( SequenceNumberTextBox.Text ) ) {
 				MessageBox.Show( "Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				SequenceTextBox.Focus();
 				return;
+			}
+			if ( !string.IsNullOrWhiteSpace( SequenceNumberTextBox.Text ) ) {
+				int number = 0;
+				if ( !int.TryParse( SequenceNumberTextBox.Text, out number ) ) {
+					MessageBox.Show( "Номер Серии не может символы и/или пробелы! Введите число, или оставьте поле пустым, если у данной книги нет номера серии.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error );
+					SequenceNumberTextBox.Focus();
+					return;
+				}
 			}
 			
 			m_si.Name = SequenceTextBox.Text.Trim();

@@ -74,7 +74,7 @@ namespace Core.Common
 				FictionBook fb2 = Info.FictionBook;
 				if ( fb2 != null ) {
 					// восстанавление раздела description до структуры с необходимыми элементами для валидности
-					fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+					fB2Corrector = new FB2DescriptionCorrector( fb2 );
 					fB2Corrector.recoveryDescriptionNode();
 					
 					IList<XmlNode> xmlNewGenres = makeGenreNode( ref fb2, GenresListView );
@@ -156,7 +156,7 @@ namespace Core.Common
 			XmlNode xmlGenre = null;
 			if ( lv.Items.Count > 0 ) {
 				Genres = new List<XmlNode>( lv.Items.Count );
-				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+				FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
 				if ( lv.Items.Count > 0 ) {
 					foreach ( ListViewItem item in lv.Items ) {
 						string code = item.Text.Substring( item.Text.IndexOf('(') + 1 );
@@ -223,7 +223,6 @@ namespace Core.Common
 		{
 			if ( GenresListView.Items.Count == 0 ) {
 				MessageBox.Show( "Заполните данные хотя бы для одного Жанра!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
 			} else {
 				m_ApplyData = true;
 				ControlPanel.Enabled = false;

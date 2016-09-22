@@ -50,7 +50,7 @@ namespace Core.Common
 			InitializeComponent();
 			m_fb2 = fb2;
 			// восстанавливаем структуру
-			_fB2Corrector = new FB2DescriptionCorrector( ref m_fb2 );
+			_fB2Corrector = new FB2DescriptionCorrector( m_fb2 );
 			_fB2Corrector.recoveryDescriptionNode();
 			// первоначальное заполнение контролов
 			init();
@@ -442,7 +442,7 @@ namespace Core.Common
 		
 		#region Вспомогательные методы СОЗДАНИЯ структур метаданных
 		private IList<XmlNode> makeAuthorNode( Enums.AuthorEnum AuthorType, ref FictionBook fb2, ListView lv ) {
-			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
 			IList<XmlNode> Authors = null;
 			XmlNode xmlAuthor = null;
 			if ( lv.Items.Count > 0 ) {
@@ -610,13 +610,13 @@ namespace Core.Common
 			// translator
 			IList<XmlNode> Translators = makeAuthorNode( Enums.AuthorEnum.Translator, ref m_fb2, TranslatorListView ) ;
 			if ( Translators != null ) {
-				foreach( XmlNode Translator in Translators )
+				foreach ( XmlNode Translator in Translators )
 					xmlTI.AppendChild( Translator );
 			}
 			
 			// sequence
 			if ( SequenceListView.Items.Count > 0 ) {
-				foreach( ListViewItem item in SequenceListView.Items )
+				foreach ( ListViewItem item in SequenceListView.Items )
 					xmlTI.AppendChild( _fB2Corrector.makeSequenceNode( item.Text, item.SubItems[1].Text ) );
 			}
 			return xmlTI;

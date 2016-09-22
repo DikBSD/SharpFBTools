@@ -514,7 +514,7 @@ namespace SharpFBTools.Tools
 				
 				if( fb2 != null ) {
 					// восстанавление раздела description до структуры с необходимыми элементами для валидности
-					FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+					FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
 					WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, Item, SourceFilePath );
 					fB2Corrector.setNewID ();
 					fb2.saveToFB2File(FilePath);
@@ -581,29 +581,70 @@ namespace SharpFBTools.Tools
 			editLangForm.ShowDialog();
 			
 			Cursor.Current = Cursors.WaitCursor;
-			if( editLangForm.isApplyData() )
+			if ( editLangForm.isApplyData() )
 				viewMetaDataAfterDialogWorkManyBooks( LangFB2InfoList,  BooksValidateType );
 			editLangForm.Dispose();
 			FilesWorker.RemoveDir( m_TempDir );
 //			MiscListView.AutoResizeColumns( listViewFB2Files );
 			Cursor.Current = Cursors.Default;
 		}
+		// правка Ключевых слов для выделенных/помеченных книг
+		private void editKeywords( BooksValidateModeEnum BooksValidateType ) {
+			Cursor.Current = Cursors.WaitCursor;
+			// создание списка FB2ItemInfo данных для выбранных книг
+			IList<FB2ItemInfo> KeywordsFB2InfoList = WorksWithBooks.makeFB2InfoList(
+				listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateType, tsProgressBar
+			);
+			Cursor.Current = Cursors.Default;
+			
+			EditKeywordsForm editKeywordsForm = new EditKeywordsForm( ref KeywordsFB2InfoList );
+			editKeywordsForm.ShowDialog();
+			
+			Cursor.Current = Cursors.WaitCursor;
+			if ( editKeywordsForm.isApplyData() )
+				viewMetaDataAfterDialogWorkManyBooks( KeywordsFB2InfoList,  BooksValidateType );
+			editKeywordsForm.Dispose();
+			FilesWorker.RemoveDir( m_TempDir );
+//			MiscListView.AutoResizeColumns( listViewFB2Files );
+			Cursor.Current = Cursors.Default;
+		}
+		// правка Серии для выделенных/помеченных книг
+		private void editSequences( BooksValidateModeEnum BooksValidateType ) {
+			Cursor.Current = Cursors.WaitCursor;
+			// создание списка FB2ItemInfo данных для выбранных книг
+			IList<FB2ItemInfo> SequencesFB2InfoList = WorksWithBooks.makeFB2InfoList(
+				listViewFB2Files, textBoxAddress.Text.Trim(), BooksValidateType, tsProgressBar
+			);
+			Cursor.Current = Cursors.Default;
+			
+			EditSequencesForm editSequencesForm = new EditSequencesForm( ref SequencesFB2InfoList );
+			editSequencesForm.ShowDialog();
+			
+			Cursor.Current = Cursors.WaitCursor;
+			if ( editSequencesForm.isApplyData() )
+				viewMetaDataAfterDialogWorkManyBooks( SequencesFB2InfoList,  BooksValidateType );
+			editSequencesForm.Dispose();
+			FilesWorker.RemoveDir( m_TempDir );
+//			MiscListView.AutoResizeColumns( listViewFB2Files );
+			Cursor.Current = Cursors.Default;
+		}
+		
 		#endregion
 		
 		#region Обработчики событий
 		void ButtonOpenSourceDirClick(object sender, EventArgs e)
 		{
-			if(FilesWorker.OpenDirDlg( textBoxAddress, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" ))
+			if (FilesWorker.OpenDirDlg( textBoxAddress, fbdScanDir, "Укажите папку для сканирования с fb2-файлами и архивами:" ))
 				ButtonGoClick(sender, e);
 		}
 		void ButtonGoClick(object sender, EventArgs e)
 		{
 			string s = textBoxAddress.Text.Trim();
-			if(s != string.Empty) {
-				if ( s.Substring(s.Length-1, 1) != "\\" )
+			if ( !string.IsNullOrWhiteSpace( s ) ) {
+				if ( s.Substring(s.Length - 1, 1) != "\\" )
 					s = textBoxAddress.Text = textBoxAddress.Text + "\\";
 				DirectoryInfo Info = new DirectoryInfo(s);
-				if( Info.Exists )
+				if ( Info.Exists )
 					generateFB2List( Info.FullName );
 				else
 					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error );
@@ -623,10 +664,8 @@ namespace SharpFBTools.Tools
 		{
 			if ( e.Column == m_lvwColumnSorter.SortColumn ) {
 				// Изменить сортировку на обратную для выбранного столбца
-				if( m_lvwColumnSorter.Order == SortOrder.Ascending )
-					m_lvwColumnSorter.Order = SortOrder.Descending;
-				else
-					m_lvwColumnSorter.Order = SortOrder.Ascending;
+				m_lvwColumnSorter.Order = m_lvwColumnSorter.Order == SortOrder.Ascending ?
+					SortOrder.Descending : SortOrder.Ascending;
 			} else {
 				// Задать номер столбца для сортировки (по-умолчанию Ascending)
 				m_lvwColumnSorter.SortColumn = e.Column;
@@ -639,14 +678,14 @@ namespace SharpFBTools.Tools
 		// обработка нажатия клавиш на списке папок и файлов
 		void ListViewFB2FilesKeyPress(object sender, KeyPressEventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
 				if ( e.KeyChar == (char)Keys.Return ) {
 					ListViewItemType it = (ListViewItemType)listViewFB2Files.SelectedItems[0].Tag;
-					if( it.Type == "d" || it.Type == "dUp" ) {
+					if ( it.Type == "d" || it.Type == "dUp" ) {
 						// переход в выбранную папку
 						ListViewFB2FilesDoubleClick(sender, e);
-					} else if( it.Type == "f" ) {
-						if( listViewFB2Files.SelectedItems.Count == 1 ) {
+					} else if ( it.Type == "f" ) {
+						if ( listViewFB2Files.SelectedItems.Count == 1 ) {
 							goHandlerWorker( cboxPressEnterForFB2, sender, e );
 							listViewFB2Files.SelectedItems[0].Selected = true;
 							listViewFB2Files.SelectedItems[0].Focused = true;
@@ -1057,8 +1096,8 @@ namespace SharpFBTools.Tools
 		// правка Жанров выделенных книг
 		void TsmiSetGenresForSelectedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
-				if( WorksWithBooks.checkedDirExsist( listViewFB2Files.SelectedItems ) ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+				if ( WorksWithBooks.checkedDirExsist( listViewFB2Files.SelectedItems ) ) {
 					MessageBox.Show( "Обработка Жанров возможно только для файлов (папки и вложенные в них файлы не обрабатываются).\nСнимите выделение с папок.",
 					                "Правка метаданных Жанров для выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
@@ -1070,8 +1109,8 @@ namespace SharpFBTools.Tools
 		// правка Авторов помеченных книг
 		void TsmiSetAuthorsClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
-				if( WorksWithBooks.checkedDirExsist( listViewFB2Files.CheckedItems ) ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
+				if ( WorksWithBooks.checkedDirExsist( listViewFB2Files.CheckedItems ) ) {
 					MessageBox.Show( "Обработка Авторов возможно только для файлов (папки и вложенные в них файлы не обрабатываются).\nСнимите пометки с папок.",
 					                "Правка метаданных Авторов для помеченных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
@@ -1082,8 +1121,8 @@ namespace SharpFBTools.Tools
 		// правка Авторов выделенных книг
 		void TsmiSetAuthorsForSelectedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
-				if( WorksWithBooks.checkedDirExsist( listViewFB2Files.SelectedItems ) ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+				if ( WorksWithBooks.checkedDirExsist( listViewFB2Files.SelectedItems ) ) {
 					MessageBox.Show( "Обработка Авторов возможно только для файлов (папки и вложенные в них файлы не обрабатываются).\nСнимите выделение с папок.",
 					                "Правка метаданных Авторов для выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
@@ -1095,13 +1134,13 @@ namespace SharpFBTools.Tools
 		// Повторная Проверка выбранного fb2-файла (Валидация)
 		void TsmiFileReValidateClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 &&
-			   WorksWithBooks.isFileItem( listViewFB2Files.SelectedItems[0] ) ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 &&
+			    WorksWithBooks.isFileItem( listViewFB2Files.SelectedItems[0] ) ) {
 				DateTime dtStart = DateTime.Now;
 				ListViewItem SelectedItem = listViewFB2Files.SelectedItems[0];
 				string SelectedItemText = SelectedItem.SubItems[(int)ResultViewCollumnEnum.Path].Text;
 				string FilePath = Path.Combine( textBoxAddress.Text.Trim(), SelectedItemText );
-				if( !File.Exists( FilePath ) ) {
+				if ( !File.Exists( FilePath ) ) {
 					MessageBox.Show( "Файл: \""+FilePath+"\" не найден!", "SharpFBTools", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
@@ -1143,7 +1182,7 @@ namespace SharpFBTools.Tools
 		// Проверить все помеченные книги на валидность
 		void TsmiAllCheckedFilesReValidateClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				Cursor.Current = Cursors.WaitCursor;
 				// создание списка ListViewItemInfo данных для выбранных книг
 				IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
@@ -1165,7 +1204,7 @@ namespace SharpFBTools.Tools
 		// Проверить все выделенные книги на валидность
 		void TsmiAllSelectedFilesReValidateClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				Cursor.Current = Cursors.WaitCursor;
 				// создание списка ListViewItemInfo данных для выбранных книг
 				IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
@@ -1187,7 +1226,7 @@ namespace SharpFBTools.Tools
 		// Проверить все книги на валидность
 		void TsmiAllFilesReValidateClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				Cursor.Current = Cursors.WaitCursor;
 				// создание списка ListViewItemInfo данных для выбранных книг
 				IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
@@ -1263,7 +1302,7 @@ namespace SharpFBTools.Tools
 		void SaveFB2FilesToListButtonClick(object sender, EventArgs e)
 		{
 			const string MessTitle = "SharpFBTools - Сохранение списка fb2 книг";
-			if( listViewFB2Files.Items.Count == 0 ) {
+			if ( listViewFB2Files.Items.Count == 0 ) {
 				MessageBox.Show( "Нет ни одной fb2 книги!", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				return;
 			}
@@ -1298,11 +1337,11 @@ namespace SharpFBTools.Tools
 			sfdLoadList.FileName	= string.Empty;
 			string FromXML = string.Empty;
 			DialogResult result = sfdLoadList.ShowDialog();
-			if( result == DialogResult.OK ) {
+			if ( result == DialogResult.OK ) {
 				const string MessTitle = "SharpFBTools - Загрузка редактируемых копий книг";
 				FromXML = sfdLoadList.FileName;
 				// установка режима поиска
-				if( !File.Exists( FromXML ) ) {
+				if ( !File.Exists( FromXML ) ) {
 					MessageBox.Show(
 						"Не найден файл списка редактируемых fb2 книг: \""+FromXML+"\"!",
 						MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
@@ -1344,18 +1383,18 @@ namespace SharpFBTools.Tools
 		// генерация нового id для всех выделенных книг
 		void TsmiSetNewIDForAllSelectedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
 				ListView.SelectedListViewItemCollection SelectedItems = listViewFB2Files.SelectedItems;
 				const string Message = "Вы действительно хотите измменить id всех выделенных книг на новые?";
 				const string MessTitle = "SharpFBTools - Генерация новых ID";
 				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
 				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
+				if ( Result == DialogResult.Yes ) {
 					Cursor.Current = Cursors.WaitCursor;
 					tsProgressBar.Maximum = SelectedItems.Count;
 					tsProgressBar.Value = 0;
-					foreach( ListViewItem SelectedItem in SelectedItems ) {
-						if( WorksWithBooks.isFileItem( SelectedItem ) )
+					foreach ( ListViewItem SelectedItem in SelectedItems ) {
+						if ( WorksWithBooks.isFileItem( SelectedItem ) )
 							setNewBookID( SelectedItem, SelectedItems.Count );
 						tsProgressBar.Value++;
 					}
@@ -1368,18 +1407,18 @@ namespace SharpFBTools.Tools
 		// генерация нового id для всех помеченных книг
 		void TsmiSetNewIDForAllCheckedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
 				ListView.CheckedListViewItemCollection CheckedItems = listViewFB2Files.CheckedItems;
 				const string Message = "Вы действительно хотите измменить id всех помеченных книг на новые?";
 				const string MessTitle = "SharpFBTools - Генерация новых ID";
 				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
 				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
+				if ( Result == DialogResult.Yes ) {
 					Cursor.Current = Cursors.WaitCursor;
 					tsProgressBar.Maximum = CheckedItems.Count;
 					tsProgressBar.Value = 0;
-					foreach( ListViewItem CheckedItem in CheckedItems ) {
-						if( WorksWithBooks.isFileItem( CheckedItem ) )
+					foreach ( ListViewItem CheckedItem in CheckedItems ) {
+						if ( WorksWithBooks.isFileItem( CheckedItem ) )
 							setNewBookID( CheckedItem, CheckedItems.Count );
 						tsProgressBar.Value++;
 					}
@@ -1392,10 +1431,10 @@ namespace SharpFBTools.Tools
 		// правка Языка для выделенных книг
 		void TsmiSetLangForSelectedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
-				if( WorksWithBooks.checkedDirExsist( listViewFB2Files.SelectedItems ) ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+				if ( WorksWithBooks.checkedDirExsist( listViewFB2Files.SelectedItems ) ) {
 					MessageBox.Show( "Обработка Языка возможно только для файлов (папки и вложенные в них файлы не обрабатываются).\nСнимите выделение с папок.",
-					                "Правка метаданных Авторов для выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					                "Правка метаданных Языка для выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				editLang( BooksValidateModeEnum.SelectedBooks );
@@ -1404,13 +1443,61 @@ namespace SharpFBTools.Tools
 		// правка Языка для помеченных книг
 		void TsmiSetLangForCheckedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
-				if( WorksWithBooks.checkedDirExsist( listViewFB2Files.CheckedItems ) ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
+				if ( WorksWithBooks.checkedDirExsist( listViewFB2Files.CheckedItems ) ) {
 					MessageBox.Show( "Обработка Языка возможно только для файлов (папки и вложенные в них файлы не обрабатываются).\nСнимите пометки с папок.",
-					                "Правка метаданных Авторов для помеченных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					                "Правка метаданных Языка для помеченных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					return;
 				}
 				editLang( BooksValidateModeEnum.CheckedBooks );
+			}
+		}
+		// правка Ключевых слов для выделенных книг
+		void TsmiSetKeywordsForSelectedBooksClick(object sender, EventArgs e)
+		{
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+				if ( WorksWithBooks.checkedDirExsist( listViewFB2Files.SelectedItems ) ) {
+					MessageBox.Show( "Обработка Ключевых слов возможно только для файлов (папки и вложенные в них файлы не обрабатываются).\nСнимите выделение с папок.",
+					                "Правка Ключевых слов для выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				editKeywords( BooksValidateModeEnum.SelectedBooks );
+			}
+		}
+		// правка Ключевых слов для помеченных книг
+		void TsmiSetKeywordsForCheckedBooksClick(object sender, EventArgs e)
+		{
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
+				if ( WorksWithBooks.checkedDirExsist( listViewFB2Files.CheckedItems ) ) {
+					MessageBox.Show( "Обработка Ключевых слов возможно только для файлов (папки и вложенные в них файлы не обрабатываются).\nСнимите пометки с папок.",
+					                "Правка Ключевых слов для помеченных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				editKeywords( BooksValidateModeEnum.CheckedBooks );
+			}
+		}
+		// правка Серии для выделенных книг
+		void TsmiSetSequenceForSelectedBooksClick(object sender, EventArgs e)
+		{
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+				if ( WorksWithBooks.checkedDirExsist( listViewFB2Files.SelectedItems ) ) {
+					MessageBox.Show( "Обработка Серии возможно только для файлов (папки и вложенные в них файлы не обрабатываются).\nСнимите выделение с папок.",
+					                "Правка Серии для выделенных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				editSequences( BooksValidateModeEnum.SelectedBooks );
+			}
+		}
+		// правка Серии для помеченных книг
+		void TsmiSetSequenceForCheckedBooksClick(object sender, EventArgs e)
+		{
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
+				if ( WorksWithBooks.checkedDirExsist( listViewFB2Files.CheckedItems ) ) {
+					MessageBox.Show( "Обработка Серии возможно только для файлов (папки и вложенные в них файлы не обрабатываются).\nСнимите пометки с папок.",
+					                "Правка Серии для помеченных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					return;
+				}
+				editSequences( BooksValidateModeEnum.CheckedBooks );
 			}
 		}
 		// правка Названия книги для выделенной книги
@@ -1437,7 +1524,7 @@ namespace SharpFBTools.Tools
 							string BookTitleNew = fb2.TIBookTitle != null ? fb2.TIBookTitle.Value : "Новое название книги";
 							if ( WorksWithBooks.InputBox( "Правка названия книги", "Новое название книги:", ref BookTitleNew ) == DialogResult.OK) {
 								// восстанавление раздела description до структуры с необходимыми элементами для валидности
-								FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+								FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
 								WorksWithBooks.recoveryFB2Structure( ref fB2Corrector, listViewFB2Files.SelectedItems[0], SourceFilePath );
 								fB2Corrector.setNewBookTitle( BookTitleNew );
 								fb2.saveToFB2File( FilePath, false );
@@ -1501,13 +1588,13 @@ namespace SharpFBTools.Tools
 		// автокорректировка всех помеченных книг
 		void ToolStripMenuItemAutoCorrectorForAllCheckedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
 				ListView.CheckedListViewItemCollection CheckedItems = listViewFB2Files.CheckedItems;
 				const string Message = "Вы действительно хотите запустить автокорректировку для всех помеченных книг?";
 				const string MessTitle = "SharpFBTools - Автокорректировка помеченных книг";
 				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
 				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
+				if ( Result == DialogResult.Yes ) {
 					Cursor.Current = Cursors.WaitCursor;
 					// создание списка ListViewItemInfo данных для выбранных книг
 					IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoList(
@@ -1548,12 +1635,12 @@ namespace SharpFBTools.Tools
 			sfdLoadList.FileName	= string.Empty;
 			DialogResult result		= sfdLoadList.ShowDialog();
 			XElement xmlTree = null;
-			if( result == DialogResult.OK )
+			if ( result == DialogResult.OK )
 				xmlTree = XElement.Load( sfdLoadList.FileName );
 			else
 				return;
 
-			if( xmlTree != null ) {
+			if ( xmlTree != null ) {
 				textBoxAddress.Text = xmlTree.Element("SourceRootDir").Value;
 			}
 			
@@ -1583,10 +1670,10 @@ namespace SharpFBTools.Tools
 		{
 			const string MessagTitle = "SharpFBTools - Поиск всех невалидных файлов";
 			string Address = textBoxAddress.Text.Trim();
-			if( Address != string.Empty ) {
+			if ( Address != string.Empty ) {
 				if ( Address.Substring( Address.Length - 1, 1 ) != "\\" )
 					Address = textBoxAddress.Text = textBoxAddress.Text + "\\";
-				if( Directory.Exists( Address ) ) {
+				if ( Directory.Exists( Address ) ) {
 					// запуск формы прогресса отображения метаданных книг
 					Cursor.Current = Cursors.WaitCursor;
 					ConnectListsEventHandlers( false );
@@ -1618,7 +1705,7 @@ namespace SharpFBTools.Tools
 			sfdLoadList.FileName	= string.Empty;
 			DialogResult result		= sfdLoadList.ShowDialog();
 			XElement xmlTree = null;
-			if( result == DialogResult.OK ) {
+			if ( result == DialogResult.OK ) {
 				Cursor.Current = Cursors.WaitCursor;
 				xmlTree = XElement.Load( sfdLoadList.FileName );
 			} else
@@ -1626,21 +1713,21 @@ namespace SharpFBTools.Tools
 			
 			int GroupCountForList = 0;
 			bool SaveGroupToXMLWithoutTree = true;
-			if( xmlTree != null ) {
+			if ( xmlTree != null ) {
 				XElement xmlSettings = xmlTree.Element("Settings");
 				if ( xmlSettings != null ) {
 					// устанавливаем данные настройки поиска-сравнения
 					textBoxAddress.Text = xmlTree.Element("SourceDir").Value;
 					// число Групп для сохранения в список
-					if( xmlSettings.Element("GroupCountForList") != null )
+					if ( xmlSettings.Element("GroupCountForList") != null )
 						GroupCountForList = Convert.ToInt16( xmlTree.Element("Settings").Element("GroupCountForList").Value );
-					if( xmlSettings.Element("SaveGroupToXMLWithoutTree") != null )
+					if ( xmlSettings.Element("SaveGroupToXMLWithoutTree") != null )
 						SaveGroupToXMLWithoutTree	= Convert.ToBoolean( xmlTree.Element("Settings").Element("SaveGroupToXMLWithoutTree").Value );
 				}
 			}
 			
 			string Address = textBoxAddress.Text.Trim();
-			if( Directory.Exists( Address ) ) {
+			if ( Directory.Exists( Address ) ) {
 				// запуск формы прогресса отображения метаданных книг
 				Cursor.Current = Cursors.WaitCursor;
 				ConnectListsEventHandlers( false );
@@ -1665,7 +1752,6 @@ namespace SharpFBTools.Tools
 			}
 			
 		}
-		
 		#endregion
 	}
 }

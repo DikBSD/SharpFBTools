@@ -4,6 +4,7 @@
  * Дата: 20.07.2015
  * Время: 8:26
  * 
+ * License: GPL 2.1
  */
 using System.Windows.Forms;
 

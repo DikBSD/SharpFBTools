@@ -12,7 +12,7 @@ using System.Xml;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 using Core.Common;
 using Core.FB2.Common;
@@ -47,16 +47,16 @@ namespace Core.FB2.FB2Parsers
 		private				XmlNamespaceManager	_NsManager	= null;
 		#endregion
 
-		public FictionBook( string FB2Path, bool onlyDescription = false )
+		public FictionBook( string FB2Path )
 		{
 			_fb2Path = FB2Path;
 			_xmlDoc = new XmlDocument();
 			try {
 				try {
-					if ( !onlyDescription )
+//					if ( !onlyDescription )
 						_xmlDoc.Load( FB2Path );
-					else
-						_fb2TextXml = new FB2Text( FB2Path, true );
+//					else
+//						_fb2TextXml = new FB2Text( FB2Path, true );
 					setNameSpace();
 				} catch {
 					_fb2TextXml = new FB2Text( FB2Path );
@@ -100,10 +100,7 @@ namespace Core.FB2.FB2Parsers
 		// находится ли экземпляр FictionBook в proxy режиме...
 		public virtual bool ProxyMode {
 			get {
-				if ( _fb2TextXml == null )
-					return false;
-				else
-					return _fb2TextXml.ProxyMode;
+				return _fb2TextXml == null ? false : _fb2TextXml.ProxyMode;
 			}
 		}
 		public FB2Text getFB2TextXmlIsExists() {
@@ -1030,23 +1027,23 @@ namespace Core.FB2.FB2Parsers
 		// извлечение информации по sequence
 		private Sequence getSequence( XmlNode node )
 		{
-			if( node == null )
+			if ( node == null )
 				return null;
 			
 			Sequence sequence = null;
-			if( node.Attributes["name"] != null )
+			if ( node.Attributes["name"] != null )
 				sequence = new Sequence( node.Attributes["name"].Value.Trim() );
 
-			if( node.Attributes["number"] != null ) {
-				if( sequence == null )
+			if ( node.Attributes["number"] != null ) {
+				if ( sequence == null )
 					sequence = new Sequence();
 				try {
 					sequence.Number = node.Attributes["number"].Value.Trim() ;
 				} catch( FormatException ) {
 				}
 			}
-			if( node.Attributes["lang"] != null ) {
-				if( sequence == null )
+			if ( node.Attributes["lang"] != null ) {
+				if ( sequence == null )
 					sequence = new Sequence();
 				sequence.Lang = node.Attributes["lang"].Value.Trim();
 			}
@@ -1055,13 +1052,13 @@ namespace Core.FB2.FB2Parsers
 		
 		// извлечение информации по вложенным sequence в sequence
 		private IList<Sequence> getSequences( XmlNode xn, IList<Sequence> sequences ) {
-			if( xn == null )
+			if ( xn == null )
 				return null;
 			
 			XmlNodeList xmlNodes = xn.SelectNodes("." + _ns + "sequence", _NsManager);
-			if(xmlNodes != null) {
-				if( xmlNodes.Count > 0 ) {
-					foreach( XmlNode node in xmlNodes ) {
+			if ( xmlNodes != null ) {
+				if ( xmlNodes.Count > 0 ) {
+					foreach ( XmlNode node in xmlNodes ) {
 						sequences.Add( getSequence( node ) );
 						getSequences( node, sequences );
 					}

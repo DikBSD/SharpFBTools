@@ -96,7 +96,7 @@ namespace Core.Common
 			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.ControlPanel.Enabled = false;
 			this.ControlPanel.Location = new System.Drawing.Point(753, 0);
-			this.ControlPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.ControlPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.ControlPanel.Name = "ControlPanel";
 			this.ControlPanel.Size = new System.Drawing.Size(96, 396);
 			this.ControlPanel.TabIndex = 23;
@@ -107,7 +107,7 @@ namespace Core.Common
 			this.CancelBtn.Image = ((System.Drawing.Image)(resources.GetObject("CancelBtn.Image")));
 			this.CancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.CancelBtn.Location = new System.Drawing.Point(0, 42);
-			this.CancelBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.CancelBtn.Margin = new System.Windows.Forms.Padding(2);
 			this.CancelBtn.Name = "CancelBtn";
 			this.CancelBtn.Size = new System.Drawing.Size(94, 40);
 			this.CancelBtn.TabIndex = 1;
@@ -121,7 +121,7 @@ namespace Core.Common
 			this.ApplyBtn.Image = ((System.Drawing.Image)(resources.GetObject("ApplyBtn.Image")));
 			this.ApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.ApplyBtn.Location = new System.Drawing.Point(0, 0);
-			this.ApplyBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.ApplyBtn.Margin = new System.Windows.Forms.Padding(2);
 			this.ApplyBtn.Name = "ApplyBtn";
 			this.ApplyBtn.Size = new System.Drawing.Size(94, 42);
 			this.ApplyBtn.TabIndex = 0;
@@ -136,7 +136,7 @@ namespace Core.Common
 			this.DataPanel.Controls.Add(this.AuthorDataPanel);
 			this.DataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.DataPanel.Location = new System.Drawing.Point(0, 0);
-			this.DataPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.DataPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.DataPanel.Name = "DataPanel";
 			this.DataPanel.Size = new System.Drawing.Size(753, 396);
 			this.DataPanel.TabIndex = 24;
@@ -146,7 +146,7 @@ namespace Core.Common
 			this.ProgressPanel.Controls.Add(this.ProgressBar);
 			this.ProgressPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.ProgressPanel.Location = new System.Drawing.Point(0, 360);
-			this.ProgressPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.ProgressPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.ProgressPanel.Name = "ProgressPanel";
 			this.ProgressPanel.Size = new System.Drawing.Size(753, 36);
 			this.ProgressPanel.TabIndex = 27;
@@ -154,7 +154,7 @@ namespace Core.Common
 			// ProgressBar
 			// 
 			this.ProgressBar.Location = new System.Drawing.Point(8, 8);
-			this.ProgressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.ProgressBar.Margin = new System.Windows.Forms.Padding(2);
 			this.ProgressBar.Name = "ProgressBar";
 			this.ProgressBar.Size = new System.Drawing.Size(737, 19);
 			this.ProgressBar.TabIndex = 8;
@@ -166,7 +166,7 @@ namespace Core.Common
 			this.AuthorsPanel.Controls.Add(this.AuthorsAddPanel);
 			this.AuthorsPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.AuthorsPanel.Location = new System.Drawing.Point(0, 108);
-			this.AuthorsPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorsPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorsPanel.Name = "AuthorsPanel";
 			this.AuthorsPanel.Size = new System.Drawing.Size(753, 247);
 			this.AuthorsPanel.TabIndex = 8;
@@ -186,7 +186,7 @@ namespace Core.Common
 			this.AuthorsListView.GridLines = true;
 			this.AuthorsListView.HideSelection = false;
 			this.AuthorsListView.Location = new System.Drawing.Point(0, 20);
-			this.AuthorsListView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorsListView.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorsListView.Name = "AuthorsListView";
 			this.AuthorsListView.Size = new System.Drawing.Size(697, 227);
 			this.AuthorsListView.TabIndex = 87;
@@ -238,7 +238,7 @@ namespace Core.Common
 			this.AuthorsWorkPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.AuthorsWorkPanel.Enabled = false;
 			this.AuthorsWorkPanel.Location = new System.Drawing.Point(697, 20);
-			this.AuthorsWorkPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorsWorkPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorsWorkPanel.Name = "AuthorsWorkPanel";
 			this.AuthorsWorkPanel.Size = new System.Drawing.Size(56, 227);
 			this.AuthorsWorkPanel.TabIndex = 86;
@@ -248,7 +248,7 @@ namespace Core.Common
 			this.AuthorUpButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.AuthorUpButton.Image = ((System.Drawing.Image)(resources.GetObject("AuthorUpButton.Image")));
 			this.AuthorUpButton.Location = new System.Drawing.Point(0, 170);
-			this.AuthorUpButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorUpButton.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorUpButton.Name = "AuthorUpButton";
 			this.AuthorUpButton.Size = new System.Drawing.Size(56, 29);
 			this.AuthorUpButton.TabIndex = 5;
@@ -260,7 +260,7 @@ namespace Core.Common
 			this.AuthorDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.AuthorDownButton.Image = ((System.Drawing.Image)(resources.GetObject("AuthorDownButton.Image")));
 			this.AuthorDownButton.Location = new System.Drawing.Point(0, 199);
-			this.AuthorDownButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorDownButton.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorDownButton.Name = "AuthorDownButton";
 			this.AuthorDownButton.Size = new System.Drawing.Size(56, 28);
 			this.AuthorDownButton.TabIndex = 4;
@@ -272,7 +272,7 @@ namespace Core.Common
 			this.AuthorDeleteAllButton.Dock = System.Windows.Forms.DockStyle.Top;
 			this.AuthorDeleteAllButton.Image = ((System.Drawing.Image)(resources.GetObject("AuthorDeleteAllButton.Image")));
 			this.AuthorDeleteAllButton.Location = new System.Drawing.Point(0, 66);
-			this.AuthorDeleteAllButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorDeleteAllButton.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorDeleteAllButton.Name = "AuthorDeleteAllButton";
 			this.AuthorDeleteAllButton.Size = new System.Drawing.Size(56, 29);
 			this.AuthorDeleteAllButton.TabIndex = 3;
@@ -284,7 +284,7 @@ namespace Core.Common
 			this.AuthorDeleteButton.Dock = System.Windows.Forms.DockStyle.Top;
 			this.AuthorDeleteButton.Image = ((System.Drawing.Image)(resources.GetObject("AuthorDeleteButton.Image")));
 			this.AuthorDeleteButton.Location = new System.Drawing.Point(0, 38);
-			this.AuthorDeleteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorDeleteButton.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorDeleteButton.Name = "AuthorDeleteButton";
 			this.AuthorDeleteButton.Size = new System.Drawing.Size(56, 28);
 			this.AuthorDeleteButton.TabIndex = 2;
@@ -296,7 +296,7 @@ namespace Core.Common
 			this.AuthorEditButton.Dock = System.Windows.Forms.DockStyle.Top;
 			this.AuthorEditButton.Image = ((System.Drawing.Image)(resources.GetObject("AuthorEditButton.Image")));
 			this.AuthorEditButton.Location = new System.Drawing.Point(0, 0);
-			this.AuthorEditButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorEditButton.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorEditButton.Name = "AuthorEditButton";
 			this.AuthorEditButton.Size = new System.Drawing.Size(56, 38);
 			this.AuthorEditButton.TabIndex = 0;
@@ -348,7 +348,7 @@ namespace Core.Common
 			this.AuthorDataPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.AuthorDataPanel.Enabled = false;
 			this.AuthorDataPanel.Location = new System.Drawing.Point(0, 0);
-			this.AuthorDataPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorDataPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorDataPanel.Name = "AuthorDataPanel";
 			this.AuthorDataPanel.Size = new System.Drawing.Size(753, 108);
 			this.AuthorDataPanel.TabIndex = 1;
@@ -356,7 +356,7 @@ namespace Core.Common
 			// AuthorBreakEditButton
 			// 
 			this.AuthorBreakEditButton.Location = new System.Drawing.Point(625, 48);
-			this.AuthorBreakEditButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorBreakEditButton.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorBreakEditButton.Name = "AuthorBreakEditButton";
 			this.AuthorBreakEditButton.Size = new System.Drawing.Size(122, 39);
 			this.AuthorBreakEditButton.TabIndex = 85;
@@ -369,7 +369,7 @@ namespace Core.Common
 			// 
 			this.AuthorAddButton.Image = ((System.Drawing.Image)(resources.GetObject("AuthorAddButton.Image")));
 			this.AuthorAddButton.Location = new System.Drawing.Point(625, 2);
-			this.AuthorAddButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.AuthorAddButton.Margin = new System.Windows.Forms.Padding(2);
 			this.AuthorAddButton.Name = "AuthorAddButton";
 			this.AuthorAddButton.Size = new System.Drawing.Size(122, 41);
 			this.AuthorAddButton.TabIndex = 84;
@@ -389,8 +389,8 @@ namespace Core.Common
 			// 
 			// NewIDButton
 			// 
-			this.NewIDButton.Location = new System.Drawing.Point(550, 24);
-			this.NewIDButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.NewIDButton.Location = new System.Drawing.Point(550, 26);
+			this.NewIDButton.Margin = new System.Windows.Forms.Padding(2);
 			this.NewIDButton.Name = "NewIDButton";
 			this.NewIDButton.Size = new System.Drawing.Size(65, 20);
 			this.NewIDButton.TabIndex = 29;
@@ -400,8 +400,8 @@ namespace Core.Common
 			// 
 			// IDTextBox
 			// 
-			this.IDTextBox.Location = new System.Drawing.Point(242, 24);
-			this.IDTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.IDTextBox.Location = new System.Drawing.Point(242, 26);
+			this.IDTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.IDTextBox.Name = "IDTextBox";
 			this.IDTextBox.Size = new System.Drawing.Size(305, 20);
 			this.IDTextBox.TabIndex = 28;
@@ -409,7 +409,7 @@ namespace Core.Common
 			// 
 			// IDLabel
 			// 
-			this.IDLabel.Location = new System.Drawing.Point(221, 24);
+			this.IDLabel.Location = new System.Drawing.Point(221, 27);
 			this.IDLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.IDLabel.Name = "IDLabel";
 			this.IDLabel.Size = new System.Drawing.Size(19, 19);
@@ -420,7 +420,7 @@ namespace Core.Common
 			// EmailTextBox
 			// 
 			this.EmailTextBox.Location = new System.Drawing.Point(61, 69);
-			this.EmailTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.EmailTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.EmailTextBox.Name = "EmailTextBox";
 			this.EmailTextBox.Size = new System.Drawing.Size(555, 20);
 			this.EmailTextBox.TabIndex = 32;
@@ -428,8 +428,8 @@ namespace Core.Common
 			// 
 			// NickNameTextBox
 			// 
-			this.NickNameTextBox.Location = new System.Drawing.Point(62, 24);
-			this.NickNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.NickNameTextBox.Location = new System.Drawing.Point(62, 26);
+			this.NickNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.NickNameTextBox.Name = "NickNameTextBox";
 			this.NickNameTextBox.Size = new System.Drawing.Size(153, 20);
 			this.NickNameTextBox.TabIndex = 27;
@@ -447,7 +447,7 @@ namespace Core.Common
 			// 
 			// NickNameLabel
 			// 
-			this.NickNameLabel.Location = new System.Drawing.Point(26, 24);
+			this.NickNameLabel.Location = new System.Drawing.Point(26, 27);
 			this.NickNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.NickNameLabel.Name = "NickNameLabel";
 			this.NickNameLabel.Size = new System.Drawing.Size(28, 19);
@@ -458,7 +458,7 @@ namespace Core.Common
 			// HomePageTextBox
 			// 
 			this.HomePageTextBox.Location = new System.Drawing.Point(61, 48);
-			this.HomePageTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.HomePageTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.HomePageTextBox.Name = "HomePageTextBox";
 			this.HomePageTextBox.Size = new System.Drawing.Size(555, 20);
 			this.HomePageTextBox.TabIndex = 31;
@@ -467,7 +467,7 @@ namespace Core.Common
 			// MiddleNameTextBox
 			// 
 			this.MiddleNameTextBox.Location = new System.Drawing.Point(458, 4);
-			this.MiddleNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.MiddleNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.MiddleNameTextBox.Name = "MiddleNameTextBox";
 			this.MiddleNameTextBox.Size = new System.Drawing.Size(158, 20);
 			this.MiddleNameTextBox.TabIndex = 26;
@@ -496,7 +496,7 @@ namespace Core.Common
 			// FirstNameTextBox
 			// 
 			this.FirstNameTextBox.Location = new System.Drawing.Point(242, 4);
-			this.FirstNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.FirstNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.FirstNameTextBox.Name = "FirstNameTextBox";
 			this.FirstNameTextBox.Size = new System.Drawing.Size(153, 20);
 			this.FirstNameTextBox.TabIndex = 25;
@@ -526,7 +526,7 @@ namespace Core.Common
 			// LastNameTextBox
 			// 
 			this.LastNameTextBox.Location = new System.Drawing.Point(62, 4);
-			this.LastNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.LastNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.LastNameTextBox.Name = "LastNameTextBox";
 			this.LastNameTextBox.Size = new System.Drawing.Size(153, 20);
 			this.LastNameTextBox.TabIndex = 24;
@@ -540,7 +540,7 @@ namespace Core.Common
 			this.ControlBox = false;
 			this.Controls.Add(this.DataPanel);
 			this.Controls.Add(this.ControlPanel);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "EditAuthorInfoForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Правка данных Авторов";

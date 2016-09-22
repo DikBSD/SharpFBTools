@@ -2857,7 +2857,7 @@ namespace Core.Common
 			// DIURLLabel
 			// 
 			this.DIURLLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.DIURLLabel.Location = new System.Drawing.Point(0, 0);
+			this.DIURLLabel.Location = new System.Drawing.Point(0, 2);
 			this.DIURLLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.DIURLLabel.Name = "DIURLLabel";
 			this.DIURLLabel.Size = new System.Drawing.Size(87, 19);
@@ -3084,19 +3084,19 @@ namespace Core.Common
 			// 
 			// DIProgramUsedTextBox
 			// 
-			this.DIProgramUsedTextBox.Location = new System.Drawing.Point(177, 0);
+			this.DIProgramUsedTextBox.Location = new System.Drawing.Point(152, 0);
 			this.DIProgramUsedTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.DIProgramUsedTextBox.Name = "DIProgramUsedTextBox";
-			this.DIProgramUsedTextBox.Size = new System.Drawing.Size(423, 20);
+			this.DIProgramUsedTextBox.Size = new System.Drawing.Size(448, 20);
 			this.DIProgramUsedTextBox.TabIndex = 6;
 			// 
 			// DIProgramUsedLabel
 			// 
 			this.DIProgramUsedLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.DIProgramUsedLabel.Location = new System.Drawing.Point(0, 0);
+			this.DIProgramUsedLabel.Location = new System.Drawing.Point(0, 2);
 			this.DIProgramUsedLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.DIProgramUsedLabel.Name = "DIProgramUsedLabel";
-			this.DIProgramUsedLabel.Size = new System.Drawing.Size(172, 19);
+			this.DIProgramUsedLabel.Size = new System.Drawing.Size(148, 19);
 			this.DIProgramUsedLabel.TabIndex = 0;
 			this.DIProgramUsedLabel.Text = "Программы создания fb2 файла:";
 			this.DIProgramUsedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3118,10 +3118,10 @@ namespace Core.Common
 			// 
 			// DIDateTextBox
 			// 
-			this.DIDateTextBox.Location = new System.Drawing.Point(87, 2);
+			this.DIDateTextBox.Location = new System.Drawing.Point(75, 2);
 			this.DIDateTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.DIDateTextBox.Name = "DIDateTextBox";
-			this.DIDateTextBox.Size = new System.Drawing.Size(100, 20);
+			this.DIDateTextBox.Size = new System.Drawing.Size(112, 20);
 			this.DIDateTextBox.TabIndex = 4;
 			// 
 			// DIDateValueFormatLabel
@@ -3173,7 +3173,7 @@ namespace Core.Common
 			this.DIDateLabel.Location = new System.Drawing.Point(2, 2);
 			this.DIDateLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.DIDateLabel.Name = "DIDateLabel";
-			this.DIDateLabel.Size = new System.Drawing.Size(85, 19);
+			this.DIDateLabel.Size = new System.Drawing.Size(69, 19);
 			this.DIDateLabel.TabIndex = 39;
 			this.DIDateLabel.Text = "Дата создания:";
 			this.DIDateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3554,7 +3554,7 @@ namespace Core.Common
 			// PIBookNameLabel
 			// 
 			this.PIBookNameLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.PIBookNameLabel.Location = new System.Drawing.Point(0, 0);
+			this.PIBookNameLabel.Location = new System.Drawing.Point(0, 2);
 			this.PIBookNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.PIBookNameLabel.Name = "PIBookNameLabel";
 			this.PIBookNameLabel.Size = new System.Drawing.Size(94, 19);

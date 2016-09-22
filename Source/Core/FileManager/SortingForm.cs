@@ -395,7 +395,7 @@ namespace Core.FileManager
 					sfdList.FileName	= string.Empty;
 					sfdList.InitialDirectory = Settings.Settings.ProgDir;
 					DialogResult result = sfdList.ShowDialog();
-					if( result == DialogResult.OK ) {
+					if ( result == DialogResult.OK ) {
 						ControlPanel.Enabled = false;
 						StatusLabel.Text += "Сохранение списка неотбработанных книг в файл:\r";
 						StatusLabel.Text += sfdList.FileName;
@@ -403,7 +403,7 @@ namespace Core.FileManager
 						m_EndMode.Message = "Сортировка fb2 файлов прервана!\nСписок оставшихся для обработки книг сохранены в xml-файл:\n\n" + sfdList.FileName + "\n\nЗатрачено времени: " + sTime;
 					}
 				}
-			} else if( e.Error != null ) {
+			} else if ( e.Error != null ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Error;
 				m_EndMode.Message = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: " + sTime;
 			} else {
@@ -1142,11 +1142,11 @@ namespace Core.FileManager
 		// создание нового файла или архива
 		private void createFileTo( bool FromZip, string FromFilePath, string ToFilePath, int FileExistMode, string FileLongPathDir ) {
 			try {
-				if( !m_sortOptions.ToZip )
+				if ( !m_sortOptions.ToZip )
 					copyFileToTargetDir( FromFilePath, ToFilePath, FileExistMode );
 				else {
 					// упаковка в архив: копируем файл в Temp папку с именем из тега назвыания книги
-					if( !Directory.Exists( m_TempDir ) )
+					if ( !Directory.Exists( m_TempDir ) )
 						Directory.CreateDirectory( m_TempDir );
 
 					// упаковка в zip по месту назначения
@@ -1166,7 +1166,7 @@ namespace Core.FileManager
 						Directory.Delete( temp_dir );
 					}
 				}
-				if( File.Exists( ToFilePath ) )
+				if ( File.Exists( ToFilePath + ".zip" ) )
 					++m_sv.CreateInTarget;
 
 			} catch ( System.IO.PathTooLongException ) {

@@ -99,9 +99,17 @@
     <Compile Include="Common\EditGenreInfoForm.Designer.cs">
       <DependentUpon>EditGenreInfoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Common\EditKeywordsForm.cs" />
+    <Compile Include="Common\EditKeywordsForm.Designer.cs">
+      <DependentUpon>EditKeywordsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Common\EditLangForm.cs" />
     <Compile Include="Common\EditLangForm.Designer.cs">
       <DependentUpon>EditLangForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EditSequencesForm.cs" />
+    <Compile Include="Common\EditSequencesForm.Designer.cs">
+      <DependentUpon>EditSequencesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\EndWorkMode.cs" />
     <Compile Include="Common\Enums.cs" />
@@ -186,8 +194,14 @@
     <EmbeddedResource Include="Common\EditGenreInfoForm.resx">
       <DependentUpon>EditGenreInfoForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditKeywordsForm.resx">
+      <DependentUpon>EditKeywordsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Common\EditLangForm.resx">
       <DependentUpon>EditLangForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditSequencesForm.resx">
+      <DependentUpon>EditSequencesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Common\SequenceInfoForm.resx">
       <DependentUpon>SequenceInfoForm.cs</DependentUpon>

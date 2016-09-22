@@ -74,7 +74,7 @@ namespace Core.Common
 				FictionBook fb2 = Info.FictionBook;
 				if ( fb2 != null ) {
 					// восстанавление раздела description до структуры с необходимыми элементами для валидности
-					fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+					fB2Corrector = new FB2DescriptionCorrector( fb2 );
 					fB2Corrector.recoveryDescriptionNode();
 					
 					IList<XmlNode> xmlNewAuthors = makeAuthorNode( Enums.AuthorEnum.AuthorOfBook, ref fb2, AuthorsListView );
@@ -167,7 +167,7 @@ namespace Core.Common
 			}
 		}
 		private IList<XmlNode> makeAuthorNode( Enums.AuthorEnum AuthorType, ref FictionBook fb2, ListView lv ) {
-			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( ref fb2 );
+			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
 			IList<XmlNode> Authors = null;
 			XmlNode xmlAuthor = null;
 			if ( lv.Items.Count > 0 ) {
@@ -217,13 +217,13 @@ namespace Core.Common
 		}
 		void AuthorAddButtonClick(object sender, EventArgs e)
 		{
-			if ( LastNameTextBox.Text.Trim().Length == 0 && FirstNameTextBox.Text.Trim().Length == 0 &&
-			   MiddleNameTextBox.Text.Trim().Length == 0 && NickNameTextBox.Text.Trim().Length == 0 &&
-			   IDTextBox.Text.Trim().Length == 0 && HomePageTextBox.Text.Trim().Length == 0 && EmailTextBox.Text.Trim().Length == 0 ) {
+			if ( string.IsNullOrWhiteSpace( LastNameTextBox.Text ) && string.IsNullOrWhiteSpace( FirstNameTextBox.Text ) &&
+			    string.IsNullOrWhiteSpace( MiddleNameTextBox.Text ) && string.IsNullOrWhiteSpace( NickNameTextBox.Text ) &&
+			    string.IsNullOrWhiteSpace( IDTextBox.Text ) && string.IsNullOrWhiteSpace( HomePageTextBox.Text ) && string.IsNullOrWhiteSpace( EmailTextBox.Text )) {
 				MessageBox.Show( "Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				LastNameTextBox.Focus();
 				return;
-			} else if ( LastNameTextBox.Text.Trim().Length == 0 ) {
+			} else if ( string.IsNullOrWhiteSpace( LastNameTextBox.Text ) ) {
 				MessageBox.Show( "Поле 'Фамилия' должно быть заполнено обязательно!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				LastNameTextBox.Focus();
 				return;
@@ -335,7 +335,6 @@ namespace Core.Common
 		{
 			if ( AuthorsListView.Items.Count == 0 ) {
 				MessageBox.Show( "Заполните данные хотя бы для одного Автора!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
-				return;
 			} else {
 				m_ApplyData = true;
 				ControlPanel.Enabled = false;

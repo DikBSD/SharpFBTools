@@ -103,7 +103,6 @@
 		<genre name="Искусствоведение" code="art_criticism" />
 		<genre name="Кино" code="cine" />
 		<genre name="Критика" code="nonf_criticism" />
-		<genre name="Культурология" code="sci_culture" />
 		<genre name="Музыка" code="music" />
 		<genre name="Партитуры" code="notes" />
 		<genre name="Театр" code="theatre" />

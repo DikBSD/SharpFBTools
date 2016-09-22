@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
 
+using System.Windows.Forms;
+
 namespace Core.Common
 {
 	/// <summary>
@@ -18,6 +20,7 @@ namespace Core.Common
 	/// </summary>
 	public class StringProcessing
 	{
+		private static string _StrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}~-—=–_.,!@#$%^&№`';«»";
 		
 		#region Закрытые вспомогательные методы класса
 		private static string[] MakeTranslitLettersArray() {
@@ -306,11 +309,10 @@ namespace Core.Common
 			if ( string.IsNullOrEmpty( sString ) )
 				return sString;
 
-			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 [](){}~-+=_.,!@#$%^&№`';«»";
 			string sStrict = string.Empty;
-			for( int i=0; i!=s.Length; ++i ) {
-				int nInd = sStrictLetters.IndexOf( s[i] );
-				if( nInd!=-1 )
+			for( int i = 0; i != s.Length; ++i ) {
+				int nInd = _StrictLetters.IndexOf( s[i] );
+				if( nInd != -1 )
 					sStrict += s[i];
 			}
 			return sStrict;
@@ -495,11 +497,10 @@ namespace Core.Common
 				RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			
-			const string sStrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}~-+=_.,!@#$%^&№`';«»";
 			string sStrict = string.Empty;
 			s = s.Replace( ' ', ' ' ); // неразрывный пробел зпменяем на простой
 			for( int i = 0; i != s.Length; ++i ) {
-				int nInd = sStrictLetters.IndexOf( s[i] );
+				int nInd = _StrictLetters.IndexOf( s[i] );
 				if( nInd != -1 ) {
 					sStrict += s[i];
 				}
@@ -510,19 +511,19 @@ namespace Core.Common
 		// только корректные символы для имен файлов
 		public static string OnlyCorrectSymbolsForString( string sString ) {
 			string s = sString;
-			if( sString == null || sString.Length == 0 )
+			if ( string.IsNullOrWhiteSpace( sString ) )
 				return sString;
 
 			const string sBad = "*/|?\\<>\"&:\t\r\n";
 			string sCorrect = string.Empty;
-			for( int i = 0; i != s.Length; ++i ) {
+			for ( int i = 0; i != s.Length; ++i ) {
 				int nInd = sBad.IndexOf( s[i] );
-				if( nInd == -1 ) {
+				if ( nInd == -1 ) {
 					sCorrect += s[i];
 				} else {
-					if( s[i]=='\t' ) {
+					if ( s[i]=='\t' ) {
 						sCorrect += " ";
-					} else if( s[i]=='\r' || s[i]=='\r' ) {
+					} else if ( s[i]=='\r' || s[i]=='\r' ) {
 						
 					} else {
 						sCorrect += "_";
@@ -535,19 +536,19 @@ namespace Core.Common
 		// только корректные символы для путей файлов
 		public static string OnlyCorrectSymbolsForPath( string sString ) {
 			string s = sString;
-			if( sString == null || sString.Length == 0 )
+			if ( string.IsNullOrWhiteSpace( sString ) )
 				return sString;
 
 			const string sBad = "*/|?<>\"&:\t\r\n";
 			string sCorrect = string.Empty;
-			for( int i = 0; i != s.Length; ++i ) {
+			for ( int i = 0; i != s.Length; ++i ) {
 				int nInd = sBad.IndexOf( s[i] );
 				if( nInd == -1 ) {
 					sCorrect += s[i];
 				} else {
-					if( s[i]=='\t' ) {
+					if ( s[i]=='\t' ) {
 						sCorrect += " ";
-					} else if( s[i]=='\r' || s[i]=='\r' ) {
+					} else if ( s[i]=='\r' || s[i]=='\r' ) {
 						
 					} else {
 						sCorrect += "_";
@@ -565,33 +566,25 @@ namespace Core.Common
 			// пробелы
 			s = SpaceString( s, SpaceProcessMode );
 			// "строгие" символы
-			if( StrictMode )
-				s = StrictString( s );
-			else
-				s = OnlyCorrectSymbolsForString( s );
+			s = StrictMode ? StrictString( s ) : OnlyCorrectSymbolsForString( s );
 			// транслитерация
-			if( TranslitMode )
+			if ( TranslitMode )
 				s = TransliterationString( s );
 			return s;
 		}
 		
-		public static string MakeGeneralWorkedPath( string sFB2FilePath, int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode )
-		{
+		public static string MakeGeneralWorkedPath( string sFB2FilePath, int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
 			string s = string.Empty;
 			// регистр
 			s = RegisterString( sFB2FilePath, RegisterMode );
 			// пробелы
 			s = SpaceString( s, SpaceProcessMode );
 			// транслитерация
-			if( TranslitMode ) {
+			if ( TranslitMode ) {
 				s = TransliterationString( s );
 			}
 			// "строгие" символы
-			if( StrictMode )
-				s = StrictPath( s );
-			else
-				s = OnlyCorrectSymbolsForPath( s );
-			return s;
+			return StrictMode ? StrictPath( s ) : OnlyCorrectSymbolsForPath( s );
 		}
 		
 		// если в строке sNumber - число (1, 01, 34 ...), то возвращается true, если нет (0x3, 2v ...) - false
@@ -614,15 +607,15 @@ namespace Core.Common
 		
 		// удаление последнего символа, если он соответствует Шаблону
 		public static string trimLastTemplateSymbol( string Text, char Template ) {
-			if( !string.IsNullOrEmpty( Text ) ) {
-				if( Text.Substring( Text.Length-1, 1 ) == Template.ToString() )
+			if ( !string.IsNullOrEmpty( Text ) ) {
+				if ( Text.Substring( Text.Length-1, 1 ) == Template.ToString() )
 					Text = Text.Substring( 0, Text.Length-1 );
 			}
 			return Text;
 		}
 		// удаление последнего символа, если он соответствует массиву Шаблонных символов
 		public static string trimLastTemplateSymbol( string Text, Char [] Template ) {
-			foreach( char symbol in Template )
+			foreach ( char symbol in Template )
 				Text = trimLastTemplateSymbol( Text, symbol );
 			return Text;
 		}
@@ -659,11 +652,11 @@ namespace Core.Common
 		// генерация строки из элементов списка
 		public static string makeStringFromListItems( IList<string> list ) {
 			string StringFromListItems = string.Empty;
-			if( list != null ) {
-				foreach( string s in list )
+			if ( list != null ) {
+				foreach ( string s in list )
 					StringFromListItems += s + "; ";
 				StringFromListItems = StringFromListItems.Trim();
-				if( StringFromListItems.Substring( StringFromListItems.Length-1, 1 ) == ";" )
+				if ( StringFromListItems.Substring( StringFromListItems.Length-1, 1 ) == ";" )
 					StringFromListItems = StringFromListItems.Substring( 0, StringFromListItems.Length-1 );
 			}
 			return StringFromListItems;
