@@ -894,7 +894,12 @@ namespace Core.FileManager.Templates {
 			// если перед \ есть пробелы - убираем их (иначе архиваторы не архивируют файл)
 			rx = new Regex( @" +\\" );
 			sFileName = rx.Replace( sFileName, "\\" );
-
+			// убираем многоточие в начале строки
+			rx = new Regex( @"^\.\.\." );
+			sFileName = rx.Replace( sFileName, string.Empty );
+			rx = new Regex( @"(\\)\.\.\." );
+			sFileName = rx.Replace( sFileName, "\\" );
+			
 			return StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode );
 		}
 		
