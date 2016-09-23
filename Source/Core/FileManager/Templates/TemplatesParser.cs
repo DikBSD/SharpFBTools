@@ -895,9 +895,9 @@ namespace Core.FileManager.Templates {
 			rx = new Regex( @" +\\" );
 			sFileName = rx.Replace( sFileName, "\\" );
 			// убираем многоточие в начале строки
-			rx = new Regex( @"^\.\.\." );
+			rx = new Regex( @"^\.\.\.\s*" );
 			sFileName = rx.Replace( sFileName, string.Empty );
-			rx = new Regex( @"(\\)\.\.\." );
+			rx = new Regex( @"(\\)\.\.\.\s*" );
 			sFileName = rx.Replace( sFileName, "\\" );
 			
 			return StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode );
