@@ -384,7 +384,7 @@ namespace Core.Duplicator
 			m_FilesList.Clear();
 			if ( !m_ScanSubDirs ) {
 				// сканировать только указанную папку
-				FilesWorker.makeFilesListFromDir( m_Source, ref m_FilesList, true );
+				m_sv.AllFiles = FilesWorker.makeFilesListFromDir( m_Source, ref m_FilesList, true );
 				m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text = "1";
 			} else {
 				// сканировать и все подпапки

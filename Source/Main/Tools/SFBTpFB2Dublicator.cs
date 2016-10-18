@@ -3460,7 +3460,7 @@ namespace SharpFBTools.Tools
 		// Поиск одинаковых fb2-файлов
 		void TsbtnSearchDublsClick(object sender, EventArgs e)
 		{
-			string sMessTitle = "SharpFBTools - Поиск одинаковых fb2 файлов";
+			const string sMessTitle = "SharpFBTools - Поиск одинаковых fb2 файлов";
 			// проверка на корректность данных папок источника и приемника файлов
 			if( !isScanFolderDataCorrect( tboxSourceDir, sMessTitle ) )
 				return;

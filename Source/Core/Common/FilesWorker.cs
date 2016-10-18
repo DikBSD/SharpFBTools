@@ -676,9 +676,9 @@ namespace Core.Common
 		// создание списка всех файлов в заданной папке
 		public static int  makeFilesListFromDir( string sFromDir, ref List<string> lFilesList, bool sort ) {
 			try	{
-				if( Directory.Exists( sFromDir ) ) {
+				if ( Directory.Exists( sFromDir ) ) {
 					string [] files = Directory.GetFiles( sFromDir );
-					if( files.Length != 0 ) {
+					if ( files.Length != 0 ) {
 						lFilesList = new List<string>();
 						lFilesList.AddRange( files );
 					}
@@ -686,7 +686,7 @@ namespace Core.Common
 			} catch /*(System.Exception excpt)*/ {
 				//Console.WriteLine(excpt.Message);
 			}
-			if (sort)
+			if ( sort )
 				lFilesList.Sort();
 			return lFilesList.Count;
 		}
