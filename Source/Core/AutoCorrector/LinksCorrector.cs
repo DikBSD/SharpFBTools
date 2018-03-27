@@ -9,6 +9,8 @@
 using System;
 using System.Text.RegularExpressions;
 
+using System.Windows.Forms;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -16,6 +18,8 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class LinksCorrector
 	{
+		private const string _MessageTitle = "Автокорректор";
+		
 		private string _xmlText = string.Empty;
 		
 		// некорректное id ссылки (начинается с цифры)
@@ -54,8 +58,24 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Корректировка ссылок
 		/// </summary>
-		/// <returns>Откорректированную строку типа string </returns>
+		/// <returns>Откорректированная строка типа string</returns>
 		public string correct() {
+			// Удаление "пустышек" типа <a id="calibre_link-0" />
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "(?:<a +?id=\"(?:(?:\\w+?\\W?\\w+?)+)+\" ?/>)",
+					"", RegexOptions.None
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("LinksCorrector:\r\nУдаление \"пустышек\" типа <a id=\"calibre_link-0\" />.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// некорректное id ссылки (начинается с цифры)
 			try {
 				_xmlText = Regex.Replace(
@@ -63,6 +83,15 @@ namespace Core.AutoCorrector
 					_UnCorrectID_Numb_Repl, RegexOptions.None
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("LinksCorrector:\r\nНекорректное id ссылки (начинается с цифры).\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// некорректное id ссылки (символ @)
 			try {
 				_xmlText = Regex.Replace(
@@ -70,6 +99,15 @@ namespace Core.AutoCorrector
 					_UnCorrectID_O_Repl, RegexOptions.None
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("LinksCorrector:\r\nНекорректное id ссылки (символ @).\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// некорректное id ссылки (символ ')
 			try {
 				_xmlText = Regex.Replace(
@@ -77,6 +115,14 @@ namespace Core.AutoCorrector
 					_UnCorrectID_Apost_Repl, RegexOptions.None
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("LinksCorrector:\r\nНекорректное id ссылки (символ ').\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// обработка Либрусековских id
 			try {
@@ -85,6 +131,15 @@ namespace Core.AutoCorrector
 					_UnCorrectLibrusecID_Numb_Repl, RegexOptions.None
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("LinksCorrector:\r\nОбработка Либрусековских id.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// обработка Либрусековских id (символ @)
 			try {
 				_xmlText = Regex.Replace(
@@ -92,6 +147,15 @@ namespace Core.AutoCorrector
 					_UnCorrectLibrusecID_O_Repl, RegexOptions.None
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("LinksCorrector:\r\nОбработка Либрусековских id (символ @).\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// обработка Либрусековских id (символ ')
 			try {
 				_xmlText = Regex.Replace(
@@ -99,7 +163,16 @@ namespace Core.AutoCorrector
 					_UnCorrectLibrusecID_Apost_Repl, RegexOptions.None
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-			// замена пробелов в ссылках на _
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("LinksCorrector:\r\nОбработка Либрусековских id (символ ').\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
+			// замена пробелов и тильды в ссылках на _
 			try {
 				Match m = Regex.Match(
 					_xmlText, "(?:=\"#?[^\"]*\\.\\w\\w\\w\")",
@@ -115,6 +188,14 @@ namespace Core.AutoCorrector
 					m = m.NextMatch();
 				}
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("LinksCorrector:\r\nЗамена пробелов и тильды в ссылках на _.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// обработка неверного атрибута тега <a>: <a href="#note01" type="note"> => <a l:href="#note01" type="note">
 			try {
@@ -123,6 +204,14 @@ namespace Core.AutoCorrector
 					"<a l:${hr}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("LinksCorrector:\r\nОбработка неверного атрибута тега <a>: <a href=\"#note01\" type=\"note\"> => <a l:href=\"#note01\" type=\"note\">.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			return _xmlText;
 		}

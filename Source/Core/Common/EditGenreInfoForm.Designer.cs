@@ -93,6 +93,7 @@ namespace Core.Common
 			this.GenresListView.TabIndex = 3;
 			this.GenresListView.UseCompatibleStateImageBehavior = false;
 			this.GenresListView.View = System.Windows.Forms.View.Details;
+			this.GenresListView.SelectedIndexChanged += new System.EventHandler(this.GenresListViewSelectedIndexChanged);
 			// 
 			// columnHeaderGenre
 			// 

@@ -8,6 +8,7 @@
  */
 using System;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Collections.Generic;
 
 namespace Core.AutoCorrector
@@ -17,6 +18,8 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class TitleCorrector
 	{
+		private const string _MessageTitle = "Автокорректор";
+		
 		private const string _startTag = "<title>";
 		private const string _endTag = "</title>";
 		private string _xmlText = string.Empty;
@@ -52,20 +55,48 @@ namespace Core.AutoCorrector
 			/***********************************
 			 * Предварительная обработка title *
 			 ***********************************/
-//			// Обработка </section> между </title> и <section> (Заголовок Книги игнорируется): </section><section><title><p><strong>Название</strong></p><p>главы</p></title></section><section>
+			// Удаление "пустышек": <title><empty-line /><empty-line /></title>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "(<title>)\\s*?(<empty-line />\\s*?){1,}\\s*?(</title>)",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("TitleCorrector:\r\nУдаление \"пустышек\": <title><empty-line /><empty-line /></title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
+			
+//			// Обработка </section> между </title> и <section> (Заголовок Книги игнорируется):
+//			// </section><section><title><p><strong>Название</strong></p><p>главы</p></title></section><section>
 //			try {
 //				_xmlText = Regex.Replace(
 //					_xmlText, @"(?'sect_before_text'</section>\s*?<section>\s*?<title>\s*?)(?'text_end_title'(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?</title>\s*?)(?'end_sect'</section>\s*?)(?=<section>)",
 //					"${sect_before_text}${text_end_title}<empty-line/>\n${end_sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 //				);
 //			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-			// удаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section> 
+			
+			// удаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section>
 			try {
 				_xmlText = Regex.Replace(
 					_xmlText, @"(?<=<body>)(?:\s*?<section>\s*?)(?'title'<title>\s*?)(?'texts'(?:(?:<empty-line ?/>\s*?)?(?:<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?\s*?(?:[^<]+)?(?:</\k'tag'>)?\s*?</p>\s*?)(?:<empty-line ?/>\s*?)?){1,})(?'_title'\s*?</title>\s*?)(?:</section>\s*?)(?=<section>)",
 					"${title}${texts}${_title}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("TitleCorrector:\r\nУдаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// Обработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>
 			try {
 				_xmlText = Regex.Replace(
@@ -73,6 +104,15 @@ namespace Core.AutoCorrector
 					"${base_struct}\n<empty-line/>${end_sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("TitleCorrector:\r\nОбработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// внесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>
 			try {
 				_xmlText = Regex.Replace(
@@ -80,6 +120,15 @@ namespace Core.AutoCorrector
 					"${text_title}<p>${text_subtitle}</p>${_title}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("TitleCorrector:\r\nВнесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// Обрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>
 			try {
 				_xmlText = Regex.Replace(
@@ -87,6 +136,15 @@ namespace Core.AutoCorrector
 					"<p>${text_title}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("TitleCorrector:\r\nОбрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// Удаление <empty-line/> между </title> и <section>: </title><empty-line /><section>
 			try {
 				_xmlText = Regex.Replace(
@@ -94,6 +152,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("TitleCorrector:\r\nУдаление <empty-line/> между </title> и <section>: </title><empty-line /><section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// Обрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>
 			try {
 				_xmlText = Regex.Replace(
@@ -101,6 +168,14 @@ namespace Core.AutoCorrector
 					"<section>${p}</section>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("TitleCorrector:\r\nОбрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// обработка найденных парных тэгов
 			IWorker worker = new TitleCorrectorWorker();
@@ -137,6 +212,14 @@ namespace Core.AutoCorrector
 							"${title_text_end_title}<empty-line/>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 						);
 					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+					catch ( Exception ex ) {
+						if ( Settings.Settings.ShowDebugMessage ) {
+							// Показывать сообщения об ошибках при падении работы алгоритмов
+							MessageBox.Show(
+								string.Format("TitleCorrector:\r\nВставка <empty-line/> между </title> и <section> (Заголовок Книги игнорируется): <section><title><p><strong>Название</strong></p><p>главы</p></title></section>>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+							);
+						}
+					}
 				} else if ( tagPair.PreviousTag.Equals("</cite>") && tagPair.NextTag.Equals("<p>") ) {
 					// вставка тегов </section><section>: </cite><title><p>Текст</p><p><strong>Текст</strong></p></title><p>Текст</p> => </cite></section><section><title><p>Текст</p><p><strong>Текст</strong></p></title><p>Текст</p>
 					NewTag = "</section><section>" + tagPair.PairTag;

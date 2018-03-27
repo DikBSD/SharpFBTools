@@ -66,7 +66,6 @@ namespace Core.Duplicator
 			m_WorkMode			= WorkMode;
 			m_LastSelectedItem	= LastSelectedItem;
 			
-			m_StatusView.AllFiles		= Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBooks].SubItems[1].Text );
 			m_StatusView.Group			= Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text );
 			m_StatusView.AllFB2InGroups = Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text );
 
@@ -202,8 +201,6 @@ namespace Core.Duplicator
 				                          new XElement("Name", CompareModeName)),
 				             new XComment("Данные о ходе сравнения fb2 книг"),
 				             new XElement("CompareData",
-				                          new XElement("AllDirs", m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text),
-				                          new XElement("AllFiles", m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBooks].SubItems[1].Text),
 				                          new XElement("Groups", "0"),
 				                          new XElement("AllFB2InGroups", "0")
 				                         ),
@@ -377,10 +374,8 @@ namespace Core.Duplicator
 			
 			//загрузка данных о ходе сравнения
 			XElement compareData = xmlTree.Element("CompareData");
-			m_StatusView.AllFiles = Convert.ToInt32( compareData.Element("AllFiles").Value );
 			m_StatusView.Group = Convert.ToInt32( compareData.Element("Groups").Value );
 			m_StatusView.AllFB2InGroups = Convert.ToInt32( compareData.Element("AllFB2InGroups").Value );
-			m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text = compareData.Element("AllDirs").Value;
 			
 			ViewDupProgressData();
 
@@ -428,7 +423,6 @@ namespace Core.Duplicator
 						lvi.Checked = Convert.ToBoolean( book.Element("IsChecked").Value );
 						m_listViewFB2Files.Items.Add( lvi );
 					} else {
-						--m_StatusView.AllFiles;
 						--m_StatusView.AllFB2InGroups;
 					}
 					bw.ReportProgress( ++i );
@@ -453,7 +447,6 @@ namespace Core.Duplicator
 		
 		// Отображение результата поиска сравнения
 		private void ViewDupProgressData() {
-			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBooks, m_StatusView.AllFiles );
 			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllGroups, m_StatusView.Group );
 			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups, m_StatusView.AllFB2InGroups );
 		}

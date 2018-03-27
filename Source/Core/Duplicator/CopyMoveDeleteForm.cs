@@ -144,8 +144,6 @@ namespace Core.Duplicator
 		private readonly ListView m_lvFilesCount	= new ListView();
 		private readonly ListView m_lvResult		= new ListView();
 		
-		
-		private int	m_AllFiles		= 0;
 		private readonly string	m_SourceDir			= string.Empty;
 		private readonly string	m_TargetDir			= string.Empty;
 		private readonly int	m_FileExistMode		= 1; // добавить к создаваемому fb2-файлу очередной номер
@@ -166,8 +164,6 @@ namespace Core.Duplicator
 			m_TargetDir		= TargetDir;
 			m_FileExistMode = FileExistMode;
 			m_WorkMode		= WorkMode;
-			
-			m_AllFiles = Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBooks].SubItems[1].Text );
 			
 			ProgressBar.Maximum = m_lvResult.CheckedItems.Count;
 			ProgressBar.Value	= 0;
@@ -333,8 +329,7 @@ namespace Core.Duplicator
 							File.Copy( FilePath, NewPath );
 						else {
 							File.Move( FilePath, NewPath );
-							--m_AllFiles;
-							MiscListView.deleteAllItemForNonExistFileWithCounter( lvResult, lvi, m_Fast, ref m_AllFiles );
+							MiscListView.deleteAllItemForNonExistFileWithCounter( lvResult, lvi, m_Fast );
 						}
 						
 						m_bFilesWorked |= true;
@@ -357,8 +352,7 @@ namespace Core.Duplicator
 					string sFilePath = lvi.Text;
 					if ( File.Exists( sFilePath) ) {
 						File.Delete( sFilePath );
-						--m_AllFiles;
-						MiscListView.deleteAllItemForNonExistFileWithCounter( lvResult, lvi, m_Fast, ref m_AllFiles );
+						MiscListView.deleteAllItemForNonExistFileWithCounter( lvResult, lvi, m_Fast );
 						m_bFilesWorked |= true;
 					}
 					bw.ReportProgress( ++i );
@@ -390,8 +384,6 @@ namespace Core.Duplicator
 					++AllGroups;
 				}
 			}
-			// реальное число всех файлов
-			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBooks, m_AllFiles.ToString() );
 			// реальное число групп копий
 			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllGroups, AllGroups.ToString() );
 			// реальное число копий книг во всех группах

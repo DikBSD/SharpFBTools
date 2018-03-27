@@ -86,6 +86,12 @@ namespace Core.AutoCorrector
 				">", RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			
+			// обработка атрибута в датах типа <date value="20.09.2017" /> => <date value="2017-09-20" />
+			_xmlText = Regex.Replace(
+				_xmlText, "(?'start'<date +?value=\")(?'d'\\d\\d)\\.(?'m'\\d\\d)\\.(?'y'\\d\\d\\d\\d)(?'end'\" ?/>)",
+				"${start}${y}-${m}-${d}${end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			
 			// постобработка (разбиение на теги (смежные теги) )
 			if ( _postProcess )
 				_xmlText = FB2CleanCode.postProcessing( _xmlText );

@@ -40,6 +40,7 @@ namespace Core.Corrector
 			this.StatusTextBox = new System.Windows.Forms.TextBox();
 			this.ProgressBar = new System.Windows.Forms.ProgressBar();
 			this.ControlPanel = new System.Windows.Forms.Panel();
+			this.checkBoxValidate = new System.Windows.Forms.CheckBox();
 			this.btnStop = new System.Windows.Forms.Button();
 			this.btnSaveToXml = new System.Windows.Forms.Button();
 			this.sfdList = new System.Windows.Forms.SaveFileDialog();
@@ -87,6 +88,7 @@ namespace Core.Corrector
 			// ControlPanel
 			// 
 			this.ControlPanel.BackColor = System.Drawing.Color.DarkGray;
+			this.ControlPanel.Controls.Add(this.checkBoxValidate);
 			this.ControlPanel.Controls.Add(this.btnStop);
 			this.ControlPanel.Controls.Add(this.btnSaveToXml);
 			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
@@ -96,6 +98,15 @@ namespace Core.Corrector
 			this.ControlPanel.Name = "ControlPanel";
 			this.ControlPanel.Size = new System.Drawing.Size(208, 207);
 			this.ControlPanel.TabIndex = 5;
+			// 
+			// checkBoxValidate
+			// 
+			this.checkBoxValidate.Location = new System.Drawing.Point(10, 171);
+			this.checkBoxValidate.Name = "checkBoxValidate";
+			this.checkBoxValidate.Size = new System.Drawing.Size(198, 24);
+			this.checkBoxValidate.TabIndex = 3;
+			this.checkBoxValidate.Text = "Повторная Валидация";
+			this.checkBoxValidate.UseVisualStyleBackColor = true;
 			// 
 			// btnStop
 			// 
@@ -163,5 +174,6 @@ namespace Core.Corrector
 		private System.Windows.Forms.Button btnStop;
 		private System.Windows.Forms.Panel ProgressPanel;
 		private System.Windows.Forms.ProgressBar ProgressBar;
+		private System.Windows.Forms.CheckBox checkBoxValidate;
 	}
 }

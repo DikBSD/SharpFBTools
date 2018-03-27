@@ -6,6 +6,7 @@
  * 
  * License: GPL 2.1
  */
+
 using System;
 using System.IO;
 using System.Text;
@@ -20,11 +21,14 @@ using Core.FB2.FB2Parsers;
 
 namespace Core.AutoCorrector
 {
+	
 	/// <summary>
 	/// Автокорректор fb2 файла в текстовом режиме с помощью регулярных выражений
 	/// </summary>
 	public class FB2AutoCorrector
 	{
+		private const string _MessageTitle = "Автокорректор";
+		
 		public FB2AutoCorrector()
 		{
 		}
@@ -39,9 +43,10 @@ namespace Core.AutoCorrector
 			FileInfo fi = new FileInfo( FilePath );
 			if ( !fi.Exists )
 				return;
-			else if ( fi.Length < 4 )
+			if ( fi.Length < 4 )
 				return;
 			
+			// Хэш таблица fb2 тегов
 			Hashtable htTags = FB2CleanCode.getTagsHashtable(); // обработка < > в тексте, кроме fb2 тегов
 			
 			// обработка головного тега FictionBook и пространства имен
@@ -56,13 +61,29 @@ namespace Core.AutoCorrector
 			}
 
 			// обработка неверного значения кодировки файла
-			Regex regex = new Regex( "(?<=encoding=\")(?:(?:wutf-8)|(?:utf8))(?=\")", RegexOptions.IgnoreCase );
-			fb2Text.Description = regex.Replace( fb2Text.Description, "utf-8" );
-			// автокорректировка раздела description
+			try {
+				Regex regex = new Regex( "(?<=encoding=\")(?:(?:wutf-8)|(?:utf8))(?=\")", RegexOptions.IgnoreCase );
+				fb2Text.Description = regex.Replace( fb2Text.Description, "utf-8" );
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("Обработка раздела <description>:\r\nОбработка неверного значения кодировки файла.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
+			
+			/******************************************
+			 * Автокорректировка раздела <description> *
+			 *******************************************/
 			fb2Text.Description = autoCorrectDescription( fb2Text.Bodies, fb2Text.Description, htTags );
-			// автокорректировка разделов body
+			
+			/* Автокорректировка разделов <body> */
 			fb2Text.Bodies = autoCorrect( fb2Text.Bodies, htTags );
-			// автокорректировка разделов binary
+			
+			/* автокорректировка разделов binary */
 			if ( fb2Text.BinariesExists ) {
 				// обработка ссылок-названий картинок в binary
 				BinaryCorrector binaryCorrector = new BinaryCorrector( fb2Text.Binaries );
@@ -84,36 +105,42 @@ namespace Core.AutoCorrector
 		/// <param name="XmlBody">xml текст body (для определения языка книги)</param>
 		/// <param name="XmlDescription">Строка description для корректировки</param>
 		/// <param name="htTags">Хэш таблица fb2 тегов</param>
+		/// <returns>Откорректированная строка типа string</returns>
 		private static string autoCorrectDescription( string XmlBody, string XmlDescription, Hashtable htTags ) {
 			if ( string.IsNullOrWhiteSpace( XmlDescription ) || XmlDescription.Length == 0 )
 				return XmlDescription;
 			
-			// обработка головного тега FictionBook и пространства имен
+			/* обработка головного тега FictionBook и пространства имен */
 			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
 			XmlDescription = fbtc.StartTagCorrect( XmlDescription );
-
+			
 			try {
-				/***********************************************
-				 * удаление атрибутов xmlns в теге description *
-				 ***********************************************/
-				// удаление пустого атрибута xmlns="" в теге description
+				/****************************************
+				 * удаление атрибута в теге description *
+				 ****************************************/
+				// удаление атрибута в теге description
 				try {
-					XmlDescription = Regex.Replace(
-						XmlDescription, "(?<=<)(?'tag'description)(?:\\s+?xmlns=\"\"\\s*?)(?=>)",
-						"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
+					Regex regex  = new Regex( "<description>", RegexOptions.IgnoreCase );
+					Match m = regex.Match( XmlDescription );
+					if ( !m.Success ) {
+						XmlDescription = Regex.Replace(
+							XmlDescription, "(?:<description [^<]+?(?:\"[^\"]*\"|'[^']*')?)(?'more'>)",
+							"<description>", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline
+						);
+					}
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				// удаление атрибута xmlns:xlink="www" в теге description
-				try {
-					XmlDescription = Regex.Replace(
-						XmlDescription, "(?<=<)(?'tag'description)(?:\\s+?xmlns:(xlink|rdf)=\"[^\"]+?\"\\s*?)(?=>)",
-						"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nУдаление атрибута в теге description.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				/*********************
 				 * Обработка графики *
-				 ********************/
+				 *********************/
 				// удаление "пустого" тега <coverpage></coverpage>
 				try {
 					XmlDescription = Regex.Replace(
@@ -121,6 +148,15 @@ namespace Core.AutoCorrector
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				// обработка картинок: <image l:href="#img_0.png"> </image> или <image l:href="#img_0.png">\n</image>
 				try {
 					XmlDescription = Regex.Replace(
@@ -128,20 +164,49 @@ namespace Core.AutoCorrector
 						"${img} /${more}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				/****************
 				 * Обработка id *
 				 ****************/
 				// обработка пустого id
-				XmlDescription = Regex.Replace(
-					XmlDescription, @"(?<=<id>)(?:\s*\s*)(?=</id>)",
-					Guid.NewGuid().ToString().ToUpper(), RegexOptions.IgnoreCase | RegexOptions.Multiline
-				);
+				try {
+					XmlDescription = Regex.Replace(
+						XmlDescription, @"(?<=<id>)(?:\s*\s*)(?=</id>)",
+						Guid.NewGuid().ToString().ToUpper(), RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nОбработка пустого id.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+
 				// обработка Либрусековских id
-				XmlDescription = Regex.Replace(
-					XmlDescription, @"(?<=<id>)\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{2}\s+(\d{2}\:){2}\d{2}\s+\d{4}\s*(?=</id>)",
-					Guid.NewGuid().ToString().ToUpper(), RegexOptions.Multiline
-				);
+				try{
+					XmlDescription = Regex.Replace(
+						XmlDescription, @"(?<=<id>)\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{2}\s+(\d{2}\:){2}\d{2}\s+\d{4}\s*(?=</id>)",
+						Guid.NewGuid().ToString().ToUpper(), RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nОбработка ибрусековских id.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				/************************
 				 * Обработка annotation *
@@ -153,10 +218,34 @@ namespace Core.AutoCorrector
 						"<p>${text_annotation}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
+				// обработка annotation: картинка без тегов <p>: <annotation><image l:href="#ficbook_logo.png" /> => <annotation><p><image l:href="#ficbook_logo.png" /></p>
+				try {
+					XmlDescription = Regex.Replace(
+						XmlDescription, "(?<=<annotation>)\\s*?(?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)",
+						"<p>${img}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				/******************
 				 * Обработка Жанра *
-				 ******************/
+				 ******************/				
 				if ( XmlDescription.IndexOf( "<genre", StringComparison.CurrentCulture ) != -1 ) {
 					GenreCorrector genreCorrector = new GenreCorrector( ref XmlDescription, false, false );
 					XmlDescription = genreCorrector.correct();
@@ -177,6 +266,15 @@ namespace Core.AutoCorrector
 						"ru", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nОбработка неверно заданного русского языка.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				// обработка неверно заданного английского языка
 				try {
 					XmlDescription = Regex.Replace(
@@ -184,13 +282,31 @@ namespace Core.AutoCorrector
 						"en", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nОбработка неверно заданного английского языка.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				/*****************
 				 * Обработка дат *
 				 *****************/
-				if ( XmlDescription.IndexOf( "<date", StringComparison.CurrentCulture ) != -1 ) {
-					DateCorrector dateCorrector = new DateCorrector( ref XmlDescription, false, false );
-					XmlDescription = dateCorrector.correct();
+				try {
+					if ( XmlDescription.IndexOf( "<date", StringComparison.CurrentCulture ) != -1 ) {
+						DateCorrector dateCorrector = new DateCorrector( ref XmlDescription, false, false );
+						XmlDescription = dateCorrector.correct();
+					}
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nОбработка дат (тег <date>).\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
 				}
 				
 				/************************
@@ -203,7 +319,15 @@ namespace Core.AutoCorrector
 						"<subtitle>${title}</subtitle>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+
 				/**********************************
 				 * Обработка history и annotation *
 				 **********************************/
@@ -214,6 +338,7 @@ namespace Core.AutoCorrector
 //						"${tag}<p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 //					);
 //				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				
 //				// вставка недостающего </p> : <history><p>Текст</history> => <history><p>Текст</p></history>
 //				try {
 //					XmlDescription = Regex.Replace(
@@ -222,17 +347,23 @@ namespace Core.AutoCorrector
 //					);
 //				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				
-			} catch (Exception /*ex*/) {
-//				MessageBox.Show(ex.Message);
+			} catch (Exception ex) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("Обработка раздела <description>:\r\nМетод autoCorrectDescription().\r\nОшибка уровня всего метода:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
 			}
 			return autoCorrect( XmlDescription, htTags );
 		}
 		
 		/// <summary>
-		/// Корректировка "тела" книги (body)
+		/// Автокорректировка текста строки InputString
 		/// </summary>
 		/// <param name="InputString">Строка для корректировки</param>
 		/// <param name="htTags">Хэш таблица fb2 тегов</param>
+		/// <returns>Откорректированную строку типа string</returns>
 		private static string autoCorrect( string InputString, Hashtable htTags ) {
 			/* предварительная обработка текста */
 			InputString = FB2CleanCode.preProcessing(
@@ -257,11 +388,60 @@ namespace Core.AutoCorrector
 		/// Автокорректировка текста строки InputString
 		/// </summary>
 		/// <param name="InputString">Строка для корректировки</param>
+		/// <returns>Откорректированную строку типа string</returns>
 		private static string _autoCorrect( string InputString ) {
 			if ( string.IsNullOrWhiteSpace( InputString ) || InputString.Length == 0 )
 				return InputString;
 			
 			try {
+				// Удаление пустышек типа <body name="notes"><title><p>Примечания</p></title></body>
+				try {
+					InputString = Regex.Replace(
+						InputString, "(?:<body +?name=\"notes\">\\s*<title>\\s*(?:(?:<p>(?:(?:\\w+?\\W?\\w+?)+)</p>){1,}\\s*){1,}</title>\\s*</body>)",
+						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Удаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
+				// Обработка блоков типа <p></section> => </section>
+				try {
+					InputString = Regex.Replace(
+						InputString, "(?:<p>\\s*?)(?'tag'</section>)",
+						"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка блоков типа <p></section> => </section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
+				// Обработка блоков типа <title></p> => <title>
+				try {
+					InputString = Regex.Replace(
+						InputString, "(?'tag'<title>\\s*?)(?:</p>)",
+						"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка блоков типа <title></p> => <title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				/********************
 				 * Обработка ссылок *
 				 *******************/
@@ -289,6 +469,15 @@ namespace Core.AutoCorrector
 						"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Удаление пустого атрибута xmlns=\"\" в тегах body и section.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				// удаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:xlink="http://www.w3.org/1999/xlink">
 				try {
 					InputString = Regex.Replace(
@@ -296,7 +485,54 @@ namespace Core.AutoCorrector
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Удаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\".\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
+				/***********************
+				 * Обработка <section> *
+				 ***********************/
+				// Удаление "пустышек": <section><empty-line /><empty-line /></section>
+				try {
+					InputString = Regex.Replace(
+						InputString, "(<section>)\\s*?(<empty-line />\\s*?){1,}\\s*?(</section>)",
+						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
+				/****************************
+				 * Обработка болоков сносок *
+				 ****************************/
+				// Обработка блоков сносок типа <section id="id20150519063123_1"><title><p>1</p></title></section> =>
+				// <section id="id20150519063123_1"><title><p>1</p></title><empty-line /></section>
+				try {
+					InputString = Regex.Replace(
+						InputString, "(?'start'<section id=\"(:?(:?\\w+?\\W?\\w+?)+?)+\">\\s*?<title>\\s*?<p>\\d{1,5}</p>\\s*?</title>\\s*?)(?'end'</section>)",
+						"${start}<empty-line />${end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+
 				/*********************
 				 * Обработка графики *
 				 ********************/
@@ -312,11 +548,22 @@ namespace Core.AutoCorrector
 					CiteCorrector citeCorrector = new CiteCorrector( ref InputString, false, false );
 					InputString = citeCorrector.correct();
 				}
+				
 				// Создание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>
-				InputString = Regex.Replace(
-					InputString, @"(?'left'(?:<empty-line ?/>|</p>|<section>|</title>))\s*?(?'text_a'(?:<text-author>\s*?(?:<(?'tag'strong|emphasis)\b>)?[^<]+?(?:</\k'tag'>)?\s*?</text-author>\s*?){1,})\s*?(?'right'(?:<p>|</section>|<empty-line ?/>))",
-					"${left}<cite>${text_a}</cite>${right}", RegexOptions.IgnoreCase | RegexOptions.Multiline
-				);
+				try {
+					InputString = Regex.Replace(
+						InputString, @"(?'left'(?:<empty-line ?/>|</p>|<section>|</title>))\s*?(?'text_a'(?:<text-author>\s*?(?:<(?'tag'strong|emphasis)\b>)?[^<]+?(?:</\k'tag'>)?\s*?</text-author>\s*?){1,})\s*?(?'right'(?:<p>|</section>|<empty-line ?/>))",
+						"${left}<cite>${text_a}</cite>${right}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Создание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				/**************************************
 				 * Обработка подзаголовков <subtitle> *
@@ -328,6 +575,15 @@ namespace Core.AutoCorrector
 						"${tag_start}${text}${tag_end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка подзаголовков <subtitle>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				// обработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>
 				try {
 					InputString = Regex.Replace(
@@ -335,10 +591,18 @@ namespace Core.AutoCorrector
 						"</section><section><title><p>${sub}</p></title><epigraph>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 
-				/**********************
-				 * Обработка epigraph *
-				 **********************/
+				/************************
+				 * Обработка <epigraph> *
+				 ************************/
 				if ( InputString.IndexOf( "<epigraph", StringComparison.CurrentCulture ) != -1 ) {
 					EpigraphCorrector epigraphCorrector = new EpigraphCorrector ( ref InputString, true, false );
 					InputString = epigraphCorrector.correct();
@@ -362,6 +626,15 @@ namespace Core.AutoCorrector
 						"<${tag}><p>${text}</p></${tag}>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				// Удаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>
 				try {
 					InputString = Regex.Replace(
@@ -369,6 +642,15 @@ namespace Core.AutoCorrector
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Удаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				// Вставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>
 				try {
 					InputString = Regex.Replace(
@@ -376,6 +658,14 @@ namespace Core.AutoCorrector
 						"${ann}<empty-line />${end_sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Вставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				/********************
 				 * Обработка Стихов *
@@ -383,7 +673,7 @@ namespace Core.AutoCorrector
 				if ( InputString.IndexOf( "<poem", StringComparison.CurrentCulture ) != -1 ) {
 					StanzaCorrector stanzaCorrector = new StanzaCorrector( ref InputString, false, false );
 					InputString = stanzaCorrector.correct();
-					
+
 					PoemCorrector poemCorrector = new PoemCorrector( ref InputString, false, false );
 					InputString = poemCorrector.correct();
 				}
@@ -391,13 +681,22 @@ namespace Core.AutoCorrector
 				/****************************
 				 * Обработка форматирования *
 				 ***************************/
-				// обработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>
+				// Обработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>
 				try {
 					InputString = Regex.Replace(
 						InputString, "(?:(?'format'<(?'tag'strong|emphasis)>)\\s*?){2}(?'p'(?:<p(?:(?:[^>\"']|\"[^\"]*\"|'[^']*')*)>))\\s*?(?'text'(?:[^<]+))?(?'_p'(?:</p>))\\s*?(?'_format'</\\k'tag'>)\\s*?\\k'_format'",
 						"${p}${format}${text}${_format}${_p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				// внесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>
 				try {
 					InputString = Regex.Replace(
@@ -405,6 +704,14 @@ namespace Core.AutoCorrector
 						"${p}${format}${text}${_format}${_p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Внесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				// замена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>
 				try {
@@ -413,6 +720,14 @@ namespace Core.AutoCorrector
 						"<cite>${text}</cite>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Замена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 
 				/********************
 				 * Обработка Таблиц *
@@ -421,15 +736,20 @@ namespace Core.AutoCorrector
 					TableCorrector tableCorrector = new TableCorrector ( ref InputString, false, false );
 					InputString = tableCorrector.correct();
 				}
-					
+				
 				/**********************
 				 * Обработка тега <p> *
 				 *********************/
 				ParaCorrector paraCorrector = new ParaCorrector( ref InputString, false, false );
 				InputString = paraCorrector.correct();
 
-			} catch (Exception /*ex*/) {
-//				MessageBox.Show(ex.Message);
+			} catch (Exception ex) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("Автокорректировка текста. Метод _autoCorrect( string InputString ).\r\nОшибка уровня всего метода:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
 			}
 			
 			return InputString;

@@ -45,7 +45,7 @@ namespace Core.Duplicator
 			m_listViewFB2Files	= listViewFB2Files;
 			m_WorkMode			= WorkMode;
 			
-			switch( m_WorkMode ) {
+			switch ( m_WorkMode ) {
 				case BooksAutoCorrectModeEnum.SelectedBooks:
 					ProgressBar.Maximum = m_listViewFB2Files.SelectedItems.Count;
 					break;
@@ -98,11 +98,11 @@ namespace Core.Duplicator
 			ProgressBar.Value = 0;
 			int i = 0;
 			FB2Validator fv2Validator = new FB2Validator();
-			switch( m_WorkMode ) {
+			switch ( m_WorkMode ) {
 				case BooksAutoCorrectModeEnum.SelectedBooks:
 					this.Text = string.Format( "Автокорректировка выделенных {0} книг", m_listViewFB2Files.SelectedItems.Count );
-					foreach( ListViewItem SelectedItem in m_listViewFB2Files.SelectedItems ) {
-						if( ( m_bw.CancellationPending ) ) {
+					foreach ( ListViewItem SelectedItem in m_listViewFB2Files.SelectedItems ) {
+						if ( ( m_bw.CancellationPending ) ) {
 							e.Cancel = true;
 							return;
 						}
@@ -117,8 +117,8 @@ namespace Core.Duplicator
 					break;
 				case BooksAutoCorrectModeEnum.CheckedBooks:
 					this.Text = string.Format( "Автокорректировка помеченных {0} книг", m_listViewFB2Files.CheckedItems.Count );
-					foreach( ListViewItem CheckedItem in m_listViewFB2Files.CheckedItems ) {
-						if( ( m_bw.CancellationPending ) ) {
+					foreach ( ListViewItem CheckedItem in m_listViewFB2Files.CheckedItems ) {
+						if ( ( m_bw.CancellationPending ) ) {
 							e.Cancel = true;
 							return;
 						}
@@ -133,8 +133,8 @@ namespace Core.Duplicator
 					break;
 				case BooksAutoCorrectModeEnum.BooksInGroup:
 					this.Text = string.Format( "Автокорректировка {0} книг в Группе", m_listViewFB2Files.SelectedItems[0].Group.Items.Count );
-					foreach( ListViewItem Item in m_listViewFB2Files.SelectedItems[0].Group.Items ) {
-						if( ( m_bw.CancellationPending ) ) {
+					foreach ( ListViewItem Item in m_listViewFB2Files.SelectedItems[0].Group.Items ) {
+						if ( ( m_bw.CancellationPending ) ) {
 							e.Cancel = true;
 							return;
 						}
@@ -145,8 +145,8 @@ namespace Core.Duplicator
 					break;
 				case BooksAutoCorrectModeEnum.BooksInAllGroup:
 					this.Text = string.Format( "Автокорректировка {0} книг во всех Группах", m_listViewFB2Files.Items.Count );
-					foreach( ListViewItem Item in m_listViewFB2Files.Items ) {
-						if( ( m_bw.CancellationPending ) ) {
+					foreach ( ListViewItem Item in m_listViewFB2Files.Items ) {
+						if ( ( m_bw.CancellationPending ) ) {
 							e.Cancel = true;
 							return;
 						}
@@ -159,7 +159,7 @@ namespace Core.Duplicator
 					return;
 			}
 
-			if( ( m_bw.CancellationPending ) ) {
+			if ( ( m_bw.CancellationPending ) ) {
 				e.Cancel = true;
 				return;
 			}
@@ -177,7 +177,7 @@ namespace Core.Duplicator
 			if ( e.Cancelled ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Cancelled;
 				m_EndMode.Message = "Работа прервана и не выполнена до конца!\nЗатрачено времени: "+sTime;
-			} else if( e.Error != null ) {
+			} else if ( e.Error != null ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Error;
 				m_EndMode.Message = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
 			} else {
@@ -195,7 +195,7 @@ namespace Core.Duplicator
 		// нажатие кнопки прерывания работы
 		void BtnStopClick(object sender, EventArgs e)
 		{
-			if( m_bw.WorkerSupportsCancellation )
+			if ( m_bw.WorkerSupportsCancellation )
 				m_bw.CancelAsync();
 		}
 		#endregion

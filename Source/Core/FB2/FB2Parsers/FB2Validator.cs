@@ -26,6 +26,8 @@ namespace Core.FB2Parser
 	public class FB2Validator
 	{
 		#region Закрытые данные класса
+		private const string _MessageTitle = "Валидатор";
+		
 		private const string m_aFB20Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
 		private const string m_aFB21Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.1";
 		private readonly static SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
@@ -39,6 +41,7 @@ namespace Core.FB2Parser
 		/// <summary>
 		/// Валидация fb2, fb2.zip ли fbz файлов по пути FilePath
 		/// </summary>
+		/// <returns>Пустая строка, файл валиден; Строка с сообщением, если файл невалиден</returns>
 		public string ValidatingFB2File( string FilePath ) {
 			bool IsZip = false;
 			string Result = validate( FilePath, Settings.Settings.SchemePath, ref IsZip );
@@ -93,63 +96,77 @@ namespace Core.FB2Parser
 						Match mDI = regDocumentInfo.Match( Desc );
 						if ( mDI.Success )
 							DI = mDI.Value;
-					} else
-						return "Файл: " + FilePath + "\r\nОтсутствует раздел описания книги <description>";
+					} else {
+						regDesc = new Regex( "(?:<description[^/]+?(?:\"[^\"]*\"|'[^']*')?>)", RegexOptions.Multiline | RegexOptions.Singleline );
+						mDesc = regDesc.Match( xmlDoc.InnerXml );
+						return mDesc.Success ?
+							string.Format( "Файл: {0}\r\nВ теге <description> присутствует(ет) аттрибут(ы), что недопустимо по стандарту FictionBook", FilePath )
+							:
+							string.Format( "Файл: {0}\r\nОтсутствует раздел описания книги <description>", FilePath );
+					}
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				if ( string.IsNullOrEmpty( TI ) ) {
-					return "Файл: " + FilePath + "\r\nОтсутствует раздел описания книги <title-info>";
-				} else {
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Ошибка алгоритмя Валидации:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
+				if ( !string.IsNullOrEmpty( TI ) ) {
 					// Проверка <genre>
 					if ( TI.IndexOf("<genre", StringComparison.CurrentCulture ) == -1 )
-						return "Файл: " + FilePath + "\r\nОтсутствует тег <genre> книги";
+						return string.Format( "Файл: {0}\r\nОтсутствует тег <genre> книги", FilePath );
 					else {
 						Regex regGenre = new Regex( @"(<genre ?/>)|(<genre></genre>)", RegexOptions.None );
 						Match mGenre = regGenre.Match( TI );
 						if ( mGenre.Success )
-							return "Файл: " + FilePath + "\r\nТег <genre> книги 'пустой'";
+							return string.Format( "Файл: {0}\r\nТег <genre> книги 'пустой'", FilePath );
 					}
 					
 					// Проверка <lang>
 					if ( TI.IndexOf("<lang", StringComparison.CurrentCulture ) == -1 )
-						return "Файл: " + FilePath + "\r\nОтсутствует тег <lang> книги";
+						return string.Format( "Файл: {0}\r\nОтсутствует тег <lang> книги", FilePath );
 					else {
 						Regex regLang = new Regex( @"(<lang ?/>)|(<lang></lang>)", RegexOptions.None );
 						Match mLang = regLang.Match( TI );
 						if ( mLang.Success )
-							return "Файл: " + FilePath + "\r\nТег <lang> книги 'пустой'";
+							return string.Format( "Файл: {0}\r\nТег <lang> книги 'пустой'", FilePath );
 						else {
 							regLang = new Regex( @"(?<=<lang>)[^<]+(?=</lang>)", RegexOptions.None );
 							mLang = regLang.Match( TI );
 							if ( mLang.Success ) {
 								if ( mLang.Value.Length > 2 )
-									return "Файл: " + FilePath + "\r\nТег Название языка книги (тег <lang>) не может быть более 2 символов.\r\nЗначение тега <lang>: '" + mLang.Value + "'";
+									return string.Format( "Файл: {0}\r\nТег Название языка книги (тег <lang>) не может быть более 2 символов.\r\nЗначение тега <lang>: '{1}'", FilePath, mLang.Value );
 							}
 						}
 					}
 					
 					// Проверка <author>
 					if ( TI.IndexOf("<author", StringComparison.CurrentCulture ) == -1 )
-						return "Файл: " + FilePath + "\r\nОтсутствует тег <author> Автора книги";
+						return string.Format( "Файл: {0}\r\nОтсутствует тег <author> Автора книги", FilePath );
 					else {
 						Regex regAuthor = new Regex( @"(<author ?/>)|(<author></author>)", RegexOptions.None );
 						Match mAuthor = regAuthor.Match( TI );
 						if ( mAuthor.Success )
-							return "Файл: " + FilePath + "\r\nТег <author> Автора книги 'пустой'";
+							return string.Format( "Файл: {0}\r\nТег <author> Автора книги 'пустой'", FilePath );
 					}
 					
 					// Проверка <book-title>
 					if ( TI.IndexOf("<book-title", StringComparison.CurrentCulture ) == -1 )
-						return "Файл: " + FilePath + "\r\nОтсутствует тег <book-title> Названия книги";
+						return string.Format( "Файл: {0}\r\nОтсутствует тег <book-title> Названия книги", FilePath );
 					else {
 						Regex regBT = new Regex( @"(<book-title ?/>)|(<book-title></book-title>)", RegexOptions.None );
 						Match mBT = regBT.Match( TI );
 						if ( mBT.Success )
-							return "Файл: " + FilePath + "\r\nТег <book-title> Названия книги 'пустой'";
+							return string.Format( "Файл: {0}\r\nТег <book-title> Названия книги 'пустой'", FilePath );
 					}
-				}
-				if ( string.IsNullOrEmpty( DI ) ) {
-					return "Файл: " + FilePath + "\r\nОтсутствует раздел описания книги <document-info>";
 				} else {
+					return string.Format( "Файл: {0}\r\nОтсутствует раздел описания книги <title-info>", FilePath );
+				}
+				
+				if ( !string.IsNullOrEmpty( DI ) ) {
 					// Проверка id книги
 					if ( DI.IndexOf("<id", StringComparison.CurrentCulture ) == -1 )
 						return "Файл: " + FilePath + "\r\nОтсутствует идентификатор книги тег <id>";
@@ -157,12 +174,14 @@ namespace Core.FB2Parser
 						Regex regID = new Regex( @"(<id ?/>)|(<id></id>)", RegexOptions.None );
 						Match mID = regID.Match( DI );
 						if ( mID.Success )
-							return "Файл: " + FilePath + "\r\nИдентификатор книги тег <id> 'пустой'";
+							return string.Format( "Файл: {0}\r\nИдентификатор книги тег <id> 'пустой'", FilePath );
 					}
+				} else {
+					return string.Format( "Файл: {0}\r\nОтсутствует раздел описания книги <document-info>", FilePath );
 				}
 				
 			} catch ( System.Exception e ) {
-				return  e.Message + "\r\n\r\nФайл: " + FilePath;
+				return string.Format( "{0}\r\n\r\nФайл: {1}", e.Message, FilePath );
 			}
 			
 			Cursor.Current = Cursors.WaitCursor;
@@ -175,7 +194,7 @@ namespace Core.FB2Parser
 					else
 						sc.Add( m_aFB20Namespace, XmlReader.Create( xmlSchemeFile ) );
 				} catch (System.Xml.Schema.XmlSchemaException e) {
-					return "Файл: " + FilePath + "\r\n" + e.Message + "\r\nСтрока: " + e.LineNumber + "; Позиция: " + e.LinePosition;
+					return string.Format( "Файл: {0}\r\n{1}\r\nСтрока: {2}; Позиция: {3}", FilePath, e.Message,  e.LineNumber, e.LinePosition );
 				}
 				
 				XmlReaderSettings settings = new XmlReaderSettings();
@@ -191,11 +210,11 @@ namespace Core.FB2Parser
 				} catch (System.Xml.Schema.XmlSchemaException e) {
 					reader.Close();
 					Cursor.Current = Cursors.Default;
-					return "Файл: " + FilePath + "\r\n" + e.Message + "\r\nСтрока: " + e.LineNumber + "; Позиция: " + e.LinePosition;
+					return string.Format( "Файл: {0}\r\n{1}\r\nСтрока: {2}; Позиция: {3}", FilePath, e.Message,  e.LineNumber, e.LinePosition );
 				} catch ( System.Exception e ) {
 					reader.Close();
 					Cursor.Current = Cursors.Default;
-					return "Файл: " + FilePath + "\r\n" + e.Message;
+					return string.Format( "Файл: {0}\r\n{1}", FilePath, e.Message );
 				}
 			}
 		}

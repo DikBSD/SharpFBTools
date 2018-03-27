@@ -232,6 +232,19 @@ namespace Core.Common
 					m_bw.RunWorkerAsync();
 			}
 		}
+		void GenresListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			// Select Группу жанра и сам Жанр в выпадающих списках по выделенному Жанру в списке
+			if ( GenresListView.Items.Count > 0 && GenresListView.SelectedItems.Count == 1 ) {
+				ListViewItem SelItem = GenresListView.SelectedItems[0];
+				FB2UnionGenres fb2g = new FB2UnionGenres();
+				string GenreCode = SelItem.Text.Substring( SelItem.Text.IndexOf('(') + 1 );
+				GenreCode = GenreCode.Substring( 0, GenreCode.Length - 1);
+				string GenreGroup = fb2g.GetFBGenreGroup( GenreCode );
+				GroupComboBox.Text = GenreGroup;
+				GenresComboBox.Text = SelItem.Text;
+			}
+		}
 		#endregion
 	}
 }

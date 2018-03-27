@@ -406,16 +406,14 @@ namespace Core.Common
 		
 		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
 		public static void deleteAllItemForNonExistFileWithCounter( ListView listView, ListViewItem RemoveListViewItem,
-		                                                           bool RemoveFast, ref int AllFiles ) {
+		                                                           bool RemoveFast ) {
 			if ( !RemoveFast ) {
 				if ( listView.Items.Count > 0 ) {
 					ListViewGroup lvg = RemoveListViewItem.Group;
 					listView.Items.Remove( RemoveListViewItem );
 					if ( lvg != null && lvg.Items.Count <= 1 ) {
-						if ( lvg.Items.Count == 1 ) {
+						if ( lvg.Items.Count == 1 )
 							listView.Items[lvg.Items[0].Index].Remove();
-							--AllFiles;
-						}
 						listView.Groups.Remove( lvg );
 					}
 				}

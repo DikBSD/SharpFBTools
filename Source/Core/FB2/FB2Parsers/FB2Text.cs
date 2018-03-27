@@ -9,6 +9,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using Core.AutoCorrector;
@@ -30,17 +31,24 @@ namespace Core.FB2.FB2Parsers
 		private const string _BodysProxy = "\r\n<body><section><empty-line/></section></body>\r\n";
 		private bool _ProxyMode = false;
 		
+		private const string _MessageTitle = "Автокорректор";
+		
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемой книге расширения .fb2</param>
+		/// <param name="onlyDescription">Загружать только description</param>
 		public FB2Text( string FilePath, bool onlyDescription = false )
 		{
 			_FilePath = FilePath;
 			_Encoding = getEncoding();
 			if ( !onlyDescription )
-				loadFromFile();
+				loadFromFile(); // загрузка всего fb2-файла
 			else
-				loadDescriptionOnlyFromFile();
+				loadDescriptionOnlyFromFile(); // загрузка только раздела description fb2-файла
 			
 			try {
-				_StartTags = _Description.Substring( 0, _Description.IndexOf("<description") );
+				_StartTags = _Description.Substring( 0, _Description.IndexOf("<description", StringComparison.CurrentCulture) );
 			} catch ( Exception ex ) {
 				throw new Exception( string.Format("Файл: {0}\r\nСтруктура раздела <description> сильно искажена.\r\n{1}\r\n", _FilePath, ex.Message)  );
 			}
@@ -49,19 +57,35 @@ namespace Core.FB2.FB2Parsers
 			preWork();
 		}
 		
+		/// <summary>
+		/// Proxy режим ("пустышка" вместо раздела &lt;body&gt;)
+		/// </summary>
+		/// <returns>true, если включен Proxy режим; false - если Proxy режим выключен</returns>
 		public virtual bool ProxyMode {
 			get { return _ProxyMode; }
 			set { _ProxyMode = value; }
 		}
 		
+		/// <summary>
+		/// Кодировка fb2-файла
+		/// </summary>
+		/// <returns>Строка типа string, содержащая кодировку fb2-файла, напр., utf-8</returns>
 		public virtual string FB2Encoding  {
 			get { return _Encoding; }
 		}
 		
+		/// <summary>
+		/// Путь к fb2-файлу
+		/// </summary>
+		/// <returns>Строка типа string, содержащая путь к fb2-файлу</returns>
 		public virtual string FB2FilePath  {
 			get { return _FilePath; }
 		}
 
+		/// <summary>
+		/// Есть ли раздел &lt;description&gt;
+		/// </summary>
+		/// <returns>true, если раздел &lt;description&gt; есть; false - если нет раздела &lt;description&gt;</returns>
 		public virtual bool DescriptionExists {
 			get { return string.IsNullOrWhiteSpace( _Description ); }
 		}
@@ -75,10 +99,19 @@ namespace Core.FB2.FB2Parsers
 			set { _Description = value; }
 		}
 		
+		/// <summary>
+		/// Есть ли хоть один раздел &lt;body&gt;
+		/// </summary>
+		/// <returns>true, если хоть один раздел &lt;body&gt; есть; false - если нет ни одного раздела &lt;body&gt;</returns>
 		public virtual bool BodiesExists {
 			get { return !string.IsNullOrWhiteSpace( _Bodies ); }
 		}
 		
+		/// <summary>
+		/// fb2-структура всех разделов &lt;body&gt; из данных экземплара класса FB2Text, в зависимости от того, включен ли Proxy режим.
+		/// Если Proxy режим включен (true), то вместо тела (body) книги подставляется body-"пустышка"
+		/// </summary>
+		/// <returns>Строка типа string  fb2-структурой раздела &lt;body&gt;</returns>
 		public virtual string Bodies {
 			get {
 				return  _ProxyMode ? _BodysProxy : _Bodies;
@@ -86,6 +119,10 @@ namespace Core.FB2.FB2Parsers
 			set { _Bodies = value; }
 		}
 
+		/// <summary>
+		/// Есть ли хоть один раздел &lt;binary&gt;
+		/// </summary>
+		/// <returns>true, если хоть один раздел &lt;binary&gt; есть; false - если нет ни одного раздела &lt;binary&gt;</returns>
 		public virtual bool BinariesExists {
 			get { return !string.IsNullOrWhiteSpace( _Binaries ); }
 		}
@@ -95,142 +132,62 @@ namespace Core.FB2.FB2Parsers
 			set { _Binaries = value; }
 		}
 		
+		/// <summary>
+		/// Нказвание завершающего родительского тега FictionBook
+		/// </summary>
+		/// <returns>Строка типа string со значением &lt;/FictionBook&gt;</returns>
 		public virtual string FictionBoocEndTag {
 			get { return "</FictionBook>"; }
 		}
 		
+		/// <summary>
+		/// Формирование fb2-структуры из данных экземплара класса FB2Text, в зависимости от того, включен ли Proxy режим.
+		/// Если Proxy режим включен (true), то вместо тела (body) книги подставляется body-"пустышка"
+		/// </summary>
+		/// <returns>Строка типа string со всей fb2-структурой)</returns>
 		public string toXML() {
 			return _Description + ( _ProxyMode ? _BodysProxy : _Bodies ) + _Binaries + FictionBoocEndTag;
 		}
 		
+		/// <summary>
+		/// Сохранение данных экземпляра класса FB2Text в xml структуру fb2 файла
+		/// Путь к fb2-файлу - по-умолчанию, прописанный в приватной переменной _FilePath класса FB2Text
+		/// </summary>
 		public void saveFile() {
 			saveFile( _FilePath );
 		}
+		/// <summary>
+		/// Сохранение данных экземпляра класса FB2Text в xml структуру fb2 файла
+		/// </summary>
+		/// <param name="FilePath">Путь к сохраняемому fb2-файлу</param>
 		public void saveToFile( string FilePath ) {
 			saveFile( FilePath );
 		}
 		
 		#region Закрытые вспомогательные методы и свойства
-		private void saveFile( string FilePath ) {
-			using (
-				StreamWriter writer = new StreamWriter(
-					FilePath, false, Encoding.GetEncoding( _Encoding ) )
-			) {
-				writer.Write( toXML() );
-			}
+		/// <summary>
+		/// Предварительная обязательная обработка (&, wutf-8, utf8)
+		/// </summary>
+		private void preWork() {
+			Regex regex = new Regex( FB2CleanCode.getRegAmpString() ); // пропускае юникод, символы в десятичной кодировке и меняем уголки
+			/* удаление недопустимых символов */
+			_Description = FB2CleanCode.deleteIllegalCharacters(
+				/* обработка & */
+				regex.Replace( _Description, "&amp;" )
+			);
+			_Bodies = FB2CleanCode.deleteIllegalCharacters(
+				/* обработка & */
+				regex.Replace( _Bodies, "&amp;" )
+			);
+			// обработка неверного значения кодировки файла
+			regex = new Regex( "(?<=encoding=\")(?:(?:wutf-8)|(?:utf8))(?=\")", RegexOptions.IgnoreCase );
+			_Description = regex.Replace( _Description, "utf-8" );
 		}
 		
-		private void loadFromFile() {
-			string InputString = string.Empty;
-			using (StreamReader reader = new StreamReader( File.OpenRead (_FilePath), Encoding.GetEncoding(_Encoding) ) ) {
-				InputString = reader.ReadToEnd();
-			}
-			makeFB2Part( ref InputString );
-		}
-		
-		private void loadDescriptionOnlyFromFile() {
-			StringBuilder sb = new StringBuilder();
-			using ( StreamReader sr = new StreamReader( File.OpenRead(_FilePath), Encoding.GetEncoding(_Encoding) ) ) {
-				string input = string.Empty;
-				string DescEndTag = "</description>";
-				while (sr.Peek() >= 0) {
-					input = sr.ReadLine();
-					int index = input.IndexOf( DescEndTag );
-					if ( index > -1 ) {
-						sb.Append( input.Substring( 0, index ) );
-						sb.Append( input.Substring( index, DescEndTag.Length ) );
-						break;
-					}
-					sb.Append( input );
-				}
-			}
-			_Description = sb.ToString();
-			string InputString = _Description;
-			makeFB2Part( ref InputString );
-			ProxyMode = true;
-		}
-		
-		private void makeFB2Part( ref string InputString ) {
-			// реконструкция кодировки, если ее нет
-			if ( InputString.IndexOf( "<?xml version=" ) == -1 )
-				InputString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + InputString;
-			
-			//  правка тега <FictionBook
-			int FictionBookTagIndex = InputString.IndexOf( "<FictionBook" );
-			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
-			if ( FictionBookTagIndex == -1 ) {
-				// нет тега <FictionBook
-				int index = InputString.LastIndexOf( '>' );
-				string left = InputString.Substring( 0, index );
-				string right = InputString.Substring( index );
-				InputString = left + " " + fbtc.NewFictionBookTag + right;
-			} else {
-				// тег <FictionBook есть
-				// обработка головного тега FictionBook и пространства имен
-				InputString = fbtc.StartTagCorrect( InputString );
-			}
-			
-			const string DescCloseTag = "</description>";
-			int IndexDescriptionEnd = InputString.IndexOf( DescCloseTag ) + DescCloseTag.Length;
-			int IndexFirstBody = InputString.IndexOf( "<body" );
-			int IndexFirstBinary = InputString.IndexOf( "<binary " );
-			int IndexFictionBookEndTag = InputString.IndexOf( "</FictionBook>" );
-			if ( IndexFictionBookEndTag == -1 )
-				IndexFictionBookEndTag = InputString.Length;
-			
-			if ( IndexDescriptionEnd != -1 ) {
-				_Description = InputString.Substring( 0, IndexDescriptionEnd );
-				if ( _Encoding.Equals( "windows-1251" ) && isUnicodeCharExists() ) {
-					_Encoding = "UTF-8";
-					try {
-						_Description = Regex.Replace(
-							_Description, "(?<=encoding=\").+?(?=\")",
-							"UTF-8", RegexOptions.IgnoreCase
-						);
-					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				}
-				
-				try {
-					if ( IndexFirstBody != -1 ) {
-						_Bodies = (IndexFirstBinary != -1)
-							? InputString.Substring( IndexFirstBody, IndexFirstBinary - IndexFirstBody )
-							: InputString.Substring( IndexFirstBody, IndexFictionBookEndTag - IndexFirstBody );
-					}
-					
-					if ( IndexFirstBinary != -1 ) {
-						_Binaries = InputString.Substring( IndexFirstBinary, IndexFictionBookEndTag - IndexFirstBinary );
-					}
-					Match mBody = Regex.Match( _Binaries, "<body +?name=\"notes\">", RegexOptions.IgnoreCase );
-					int indexBody = mBody.Index;
-					string BodyNotes = string.Empty;
-					if ( indexBody > 0 ) {
-						Match mEndBody = Regex.Match( _Binaries, "</body>", RegexOptions.IgnoreCase );
-						int indexEndBody = mEndBody.Index;
-						if ( indexEndBody > 0 ) {
-							BodyNotes = _Binaries.Substring( indexBody, indexEndBody - indexBody + 7 );
-							_Bodies += BodyNotes;
-							_Binaries = _Binaries.Remove( indexBody, indexEndBody - indexBody + 7 );
-						}
-					}
-
-					if ( indexBody == 0 ) {
-						if ( IndexFirstBody != -1 ) {
-							if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50 ) == -1 )
-								_Bodies += "</body>";
-						}
-						if ( IndexFirstBinary != -1 ) {
-							if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50 ) != -1 )
-								_Binaries = _Binaries.Replace( "</body>", string.Empty );
-						}
-					}
-				} catch {
-					throw new Exception( string.Format("Структура файла {0} сильно искажена.", _FilePath) );
-				}
-
-			}
-			InputString = string.Empty;
-		}
-		
+		/// <summary>
+		/// Определение кодировки fb2-файла по его заголовку)
+		/// </summary>
+		/// <returns>Строка типа string со значение кодитровки (напр., utf-8)</returns>
 		private string getEncoding() {
 			string encoding = "UTF-8";
 			string str = string.Empty;
@@ -249,30 +206,167 @@ namespace Core.FB2.FB2Parsers
 			return encoding;
 		}
 		
-		// есть ли в тексте Юникодные символы
+		/// <summary>
+		/// Определение, есть ли в тексте Юникодные символы
+		/// </summary>
+		/// <returns>true, если в тексте fb2 файла есть Юникодные символы; false - если их нет</returns>
 		private bool isUnicodeCharExists() {
-			string template = "(&#(x([0-9]|[A-F]){1,4})|([0-9]){1,3});";
+			const string template = "(&#(x([0-9]|[A-F]){1,4})|([0-9]){1,3});";
 			bool res = Regex.IsMatch( _Description, template );
 			if ( !_ProxyMode )
 				res |= Regex.IsMatch( _Bodies, template );
 			return res;
 		}
 		
-		// предварительная обязательная обработка
-		private void preWork() {
-			Regex regex = new Regex( FB2CleanCode.getRegAmpString() ); // пропускае юникод, символы в десятичной кодировке и меняем уголки
-			/* удаление недопустимых символов */
-			_Description = FB2CleanCode.deleteIllegalCharacters(
-				/* обработка & */
-				regex.Replace( _Description, "&amp;" )
-			);
-			_Bodies = FB2CleanCode.deleteIllegalCharacters(
-				/* обработка & */
-				regex.Replace( _Bodies, "&amp;" )
-			);
-			// обработка неверного значения кодировки файла
-			regex = new Regex( "(?<=encoding=\")(?:(?:wutf-8)|(?:utf8))(?=\")", RegexOptions.IgnoreCase );
-			_Description = regex.Replace( _Description, "utf-8" );
+		/// <summary>
+		/// Сохранение данных экземпляра класса FB2Text в xml структуру fb2 файла
+		/// </summary>
+		/// <param name="FilePath">Путь к сохраняемому fb2-файлу</param>
+		private void saveFile( string FilePath ) {
+			using (
+				StreamWriter writer = new StreamWriter(
+					FilePath, false, Encoding.GetEncoding( _Encoding ) )
+			) {
+				writer.Write( toXML() );
+			}
+		}
+		
+		/// <summary>
+		/// Загрузка всего текста fb2-файла
+		/// </summary>
+		private void loadFromFile() {
+			string fb2FileString = string.Empty;
+			using (StreamReader reader = new StreamReader( File.OpenRead (_FilePath), Encoding.GetEncoding(_Encoding) ) ) {
+				fb2FileString = reader.ReadToEnd();
+			}
+			// Создание текста разделов fb2-файла в переменных класса FB2Text
+			makeFB2Part( ref fb2FileString );
+		}
+		
+		/// <summary>
+		/// Загрузка текста только раздела description fb2-файла
+		/// </summary>
+		private void loadDescriptionOnlyFromFile() {
+			StringBuilder sb = new StringBuilder();
+			using ( StreamReader sr = new StreamReader( File.OpenRead(_FilePath), Encoding.GetEncoding(_Encoding) ) ) {
+				string input = string.Empty;
+				const string DescEndTag = "</description>";
+				while (sr.Peek() >= 0) {
+					input = sr.ReadLine();
+					int index = input.IndexOf( DescEndTag, StringComparison.CurrentCulture );
+					if ( index > -1 ) {
+						sb.Append( input.Substring( 0, index ) );
+						sb.Append( input.Substring( index, DescEndTag.Length ) );
+						break;
+					}
+					sb.Append( input );
+				}
+			}
+			_Description = sb.ToString();
+			string fb2DescriptionString = _Description;
+			// Создание текста разделов fb2-файла в переменных класса FB2Text
+			makeFB2Part( ref fb2DescriptionString );
+			ProxyMode = true;
+		}
+		
+		/// <summary>
+		/// Создание текста разделов fb2-файла в переменных класса FB2Text.
+		/// Генерируется Exception, если картинки расположены выше раздела body, или, если есть другое грубое нарушение fb2-структуры.
+		/// </summary>
+		/// <param name="fb2FileString">Строка текста fb2-файла</param>
+		private void makeFB2Part( ref string fb2FileString ) {
+			// реконструкция кодировки, если ее нет
+			if ( fb2FileString.IndexOf( "<?xml version=", StringComparison.CurrentCulture ) == -1 )
+				fb2FileString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + fb2FileString;
+			
+			//  правка тега <FictionBook
+			int FictionBookTagIndex = fb2FileString.IndexOf( "<FictionBook", StringComparison.CurrentCulture );
+			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
+			if ( FictionBookTagIndex == -1 ) {
+				// нет тега <FictionBook
+				int index = fb2FileString.LastIndexOf( '>' );
+				string left = fb2FileString.Substring( 0, index );
+				string right = fb2FileString.Substring( index );
+				fb2FileString = left + " " + fbtc.NewFictionBookTag + right;
+			} else {
+				// тег <FictionBook есть
+				// обработка головного тега FictionBook и пространства имен
+				fb2FileString = fbtc.StartTagCorrect( fb2FileString );
+			}
+			
+			const string DescCloseTag = "</description>";
+			int IndexDescriptionEnd = fb2FileString.IndexOf( DescCloseTag, StringComparison.CurrentCulture ) + DescCloseTag.Length;
+			int IndexFirstBodyStart = fb2FileString.IndexOf( "<body", StringComparison.CurrentCulture );
+			int IndexFirstBinaryStart = fb2FileString.IndexOf( "<binary ", StringComparison.CurrentCulture );
+			int IndexFictionBookEndTag = fb2FileString.IndexOf( "</FictionBook>", StringComparison.CurrentCulture );
+			
+			if ( IndexFictionBookEndTag == -1 )
+				IndexFictionBookEndTag = fb2FileString.Length;
+			
+			if ( IndexDescriptionEnd != -1 ) {
+				_Description = fb2FileString.Substring( 0, IndexDescriptionEnd );
+				if ( _Encoding.Equals( "windows-1251" ) && isUnicodeCharExists() ) {
+					_Encoding = "UTF-8";
+					try {
+						_Description = Regex.Replace(
+							_Description, "(?<=encoding=\").+?(?=\")",
+							_Encoding, RegexOptions.IgnoreCase
+						);
+					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+					catch ( Exception ex ) {
+						if ( Settings.Settings.ShowDebugMessage ) {
+							// Показывать сообщения об ошибках при падении работы алгоритмов
+							MessageBox.Show(
+								string.Format("Обработка раздела <description>:\r\nОбработка неверного значения кодировки файла.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+							);
+						}
+					}
+				}
+				
+				try {
+					if ( IndexFirstBodyStart != -1 ) {
+						// Вычленяем все разделы <body>
+						_Bodies = (IndexFirstBinaryStart != -1)
+							? fb2FileString.Substring( IndexFirstBodyStart, IndexFirstBinaryStart - IndexFirstBodyStart )
+							: fb2FileString.Substring( IndexFirstBodyStart, IndexFictionBookEndTag - IndexFirstBodyStart );
+					}
+
+					if ( IndexFirstBinaryStart != -1 ) {
+						// Вычленяем все разделы <binary>
+						_Binaries = fb2FileString.Substring( IndexFirstBinaryStart, IndexFictionBookEndTag - IndexFirstBinaryStart );
+					}
+					// Вычленяем все сноски - раздел <body name="notes">
+					Match mBody = Regex.Match( _Binaries, "<body +?name=\"notes\">", RegexOptions.IgnoreCase );
+					int indexBody = mBody.Index;
+					string BodyNotes = string.Empty;
+					if ( indexBody > 0 ) {
+						// есть раздел сносок
+						Match mEndBody = Regex.Match( _Binaries, "</body>", RegexOptions.IgnoreCase );
+						int indexEndBody = mEndBody.Index;
+						if ( indexEndBody > 0 ) {
+							BodyNotes = _Binaries.Substring( indexBody, indexEndBody - indexBody + 7 );
+							_Bodies += BodyNotes;
+							_Binaries = _Binaries.Remove( indexBody, indexEndBody - indexBody + 7 );
+						}
+					}
+
+					if ( indexBody == 0 ) {
+						// нет раздела сносок
+						if ( IndexFirstBodyStart != -1 ) {
+							if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50, StringComparison.CurrentCulture ) == -1 )
+								_Bodies += "</body>";
+						}
+						if ( IndexFirstBinaryStart != -1 ) {
+							if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50, StringComparison.CurrentCulture ) != -1 )
+								_Binaries = _Binaries.Replace( "</body>", string.Empty );
+						}
+					}
+				} catch {
+					throw new Exception( string.Format("Структура файла {0} сильно искажена.\r\nВозможно, раздел(ы) <binary> картинок расположен(ы) выше раздела тела книги <body>\r\n", _FilePath) );
+				}
+
+			}
+			fb2FileString = string.Empty;
 		}
 		#endregion
 	}

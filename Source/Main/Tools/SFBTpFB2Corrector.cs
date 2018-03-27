@@ -1640,14 +1640,17 @@ namespace SharpFBTools.Tools
 			else
 				return;
 
+			string SourceRootDir = string.Empty;
 			if ( xmlTree != null ) {
-				textBoxAddress.Text = xmlTree.Element("SourceRootDir").Value;
+				SourceRootDir = xmlTree.Element("SourceRootDir").Value;
+				SourceRootDir = SourceRootDir.Trim();
+				textBoxAddress.Text = SourceRootDir;
 			}
 			
 			ConnectListsEventHandlers( false );
 			listViewFB2Files.BeginUpdate();
 			AutoCorrectorForm autoCorrectorForm = new AutoCorrectorForm(
-				sfdLoadList.FileName, textBoxAddress.Text.Trim(), null, listViewFB2Files
+				sfdLoadList.FileName, SourceRootDir, null, listViewFB2Files
 			);
 			autoCorrectorForm.ShowDialog();
 			textBoxAddress.Text = autoCorrectorForm.getSourceDirFromRenew();
@@ -1664,9 +1667,9 @@ namespace SharpFBTools.Tools
 		{
 			MiscListView.AutoResizeColumns( listViewFB2Files );
 		}
-		
+
 		// найти все невалидные файлы в папке Адрес
-		void TtoolStripButtonFundNotValidateClick(object sender, EventArgs e)
+		void ToolStripMenuItemFundNotValidateClick(object sender, EventArgs e)
 		{
 			const string MessagTitle = "SharpFBTools - Поиск всех невалидных файлов";
 			string Address = textBoxAddress.Text.Trim();
@@ -1695,7 +1698,9 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Error );
 			}
 		}
-		void ToolStripButtonReFundNotValidateFromXMLClick(object sender, EventArgs e)
+		
+		// Возобновить поиск невалидных книг из xml...
+		void ToolStripMenuItemReFundNotValidateFromXMLClick(object sender, EventArgs e)
 		{
 			const string MessagTitle = "SharpFBTools - Поиск всех невалидных файлов";
 			// загрузка данных из xml
@@ -1710,24 +1715,15 @@ namespace SharpFBTools.Tools
 				xmlTree = XElement.Load( sfdLoadList.FileName );
 			} else
 				return;
-			
-			int GroupCountForList = 0;
-			bool SaveGroupToXMLWithoutTree = true;
+
+			string SourceRootDir =string.Empty;
 			if ( xmlTree != null ) {
-				XElement xmlSettings = xmlTree.Element("Settings");
-				if ( xmlSettings != null ) {
-					// устанавливаем данные настройки поиска-сравнения
-					textBoxAddress.Text = xmlTree.Element("SourceDir").Value;
-					// число Групп для сохранения в список
-					if ( xmlSettings.Element("GroupCountForList") != null )
-						GroupCountForList = Convert.ToInt16( xmlTree.Element("Settings").Element("GroupCountForList").Value );
-					if ( xmlSettings.Element("SaveGroupToXMLWithoutTree") != null )
-						SaveGroupToXMLWithoutTree	= Convert.ToBoolean( xmlTree.Element("Settings").Element("SaveGroupToXMLWithoutTree").Value );
-				}
+				// устанавливаем данные настройки поиска-сравнения
+				SourceRootDir = xmlTree.Element("SourceDir").Value;
 			}
 			
-			string Address = textBoxAddress.Text.Trim();
-			if ( Directory.Exists( Address ) ) {
+			textBoxAddress.Text = SourceRootDir.Trim();
+			if ( Directory.Exists( SourceRootDir ) ) {
 				// запуск формы прогресса отображения метаданных книг
 				Cursor.Current = Cursors.WaitCursor;
 				ConnectListsEventHandlers( false );
@@ -1735,12 +1731,11 @@ namespace SharpFBTools.Tools
 				listViewFB2Files.Items.Clear();
 				
 				FB2NotValidateForm fb2NotValidateForm = new FB2NotValidateForm(
-					sfdLoadList.FileName, listViewFB2Files, textBoxAddress.Text, false
+					sfdLoadList.FileName, listViewFB2Files, SourceRootDir, false
 				);
 
 				fb2NotValidateForm.ShowDialog();
 				EndWorkMode EndWorkMode = fb2NotValidateForm.EndMode;
-				textBoxAddress.Text = fb2NotValidateForm.getSourceDirFromRenew();
 				fb2NotValidateForm.Dispose();
 
 				listViewFB2Files.EndUpdate();
@@ -1748,10 +1743,14 @@ namespace SharpFBTools.Tools
 				Cursor.Current = Cursors.Default;
 				MessageBox.Show( EndWorkMode.Message, MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 			} else {
-				MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Error );
+				MessageBox.Show(
+					string.Format(
+						"Не удается найти указанную в xml-файле корневую папку с файлами {0}.\nПроверьте правильность пути.", SourceRootDir
+					), MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+				);
 			}
-			
 		}
+
 		#endregion
 	}
 }

@@ -8,6 +8,7 @@
  */
 using System;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Core.AutoCorrector
 {
@@ -16,6 +17,8 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class StanzaCorrector
 	{
+		private const string _MessageTitle = "Автокорректор";
+		
 		private const string _startTag = "<stanza>";
 		private const string _endTag = "</stanza>";
 		private string _xmlText = string.Empty;
@@ -51,13 +54,22 @@ namespace Core.AutoCorrector
 			/************************************
 			 * Предварительная обработка stanza *
 			 ************************************/
-			// вставка <v /> после </subtitle> внутри <stanza></stanza>: <stanza><subtitle>Текст</subtitle></stanza> => <stanza><subtitle>Текст</subtitle><v/></stanza>
+			// вставка <v /> после </subtitle> внутри <stanza></stanza>:
+			// <stanza><subtitle>Текст</subtitle></stanza> => <stanza><subtitle>Текст</subtitle><v/></stanza>
 			try {
 				_xmlText = Regex.Replace(
 					_xmlText, @"(?<=<stanza>)\s*?(?'subtitle'<subtitle>.+?</subtitle>)\s*?(?=</stanza>)",
 					"${subtitle}<v/>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("StanzaCorrector:\r\nВставка <v /> после </subtitle> внутри <stanza></stanza>:.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// обработка найденных парных тэгов
 			IWorker worker = new StanzaCorrectorWorker();
@@ -74,7 +86,7 @@ namespace Core.AutoCorrector
 		public class StanzaCorrectorWorker : IWorker
 		{
 			/// <summary>
-			/// Обработчик найденных парных тегов Стихов
+			/// Обработчик найденных парных тегов stanza
 			/// </summary>
 			/// <param name="tagPair">Экземпляр класса поиска парных тегов с вложенными тегами любой сложности вложения</param>
 			/// <param name="XmlText">Текст строки для корректировки в xml представлении</param>
@@ -86,6 +98,7 @@ namespace Core.AutoCorrector
 				string NewTag = tagPair.PairTag;
 				// замена тегов <p>, </p> на <v>, </v> в стихах
 				NewTag = NewTag.Replace("<p>", "<v>").Replace("</p>", "</v>");
+				
 				// преобразование тегов <v> в <title> обратно в <p>
 				try {
 					Match m = Regex.Match(
@@ -100,23 +113,48 @@ namespace Core.AutoCorrector
 							NewTag = NewTag.Replace( sSource, sResult );
 					}
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("StanzaCorrector:\r\nПреобразование тегов <v> в <title> обратно в <p>:.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
-				
-				// обработка <empty-line /> между строфами: <v>Строфа</v><v>Строфа</v><empty-line /><v>Строфа</v><v>Строфа</v> => <v>Строфа</v><v>Строфа</v></stanza><stanza><v>Строфа</v><v>Строфа</v>
+				// обработка <empty-line /> между строфами:
+				// <v>Строфа</v><v>Строфа</v><empty-line /><v>Строфа</v><v>Строфа</v> => <v>Строфа</v><v>Строфа</v></stanza><stanza><v>Строфа</v><v>Строфа</v>
 				try {
 					NewTag = Regex.Replace(
 						NewTag, @"(?'v'<v>.+?</v>)\s*?<empty-line ?/>\s*?(?'v1'<v>.+?</v>)",
 						"${v}</stanza><stanza>${v1}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("StanzaCorrector:\r\nОбработка <empty-line /> между строфами: <v>Строфа</v><v>Строфа</v><empty-line /><v>Строфа</v><v>Строфа</v> => <v>Строфа</v><v>Строфа</v></stanza><stanza><v>Строфа</v><v>Строфа</v>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
-				// обработка строф с эпиграфом: <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>
+				// обработка строф с эпиграфом:
+				// <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>
 				try {
 					NewTag = Regex.Replace(
 						NewTag, @"<epigraph>\s*?<v>\s*?(?'v'<v>[^<]+?</v>)\s*?</v>\s*?</epigraph>",
 						"${v}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("StanzaCorrector:\r\nОбработка строф с эпиграфом: <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				Index = XmlText.IndexOf( tagPair.PairTag, tagPair.StartTagPosition, StringComparison.CurrentCulture ) + NewTag.Length;
 				XmlText = XmlText.Substring( 0, tagPair.StartTagPosition ) /* ДО обрабатываемого текста */

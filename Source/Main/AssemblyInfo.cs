@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("Вадим Кузнецов (DikBSD) email: dik-bsd@mail.ru")]
 [assembly: AssemblyProduct ("SharpFBTools")]
-[assembly: AssemblyCopyright ("Copyright © 2009 - 2016")]
+[assembly: AssemblyCopyright ("Copyright © 2009 - 2018")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 // This sets the default COM visibility of types in the assembly to invisible.

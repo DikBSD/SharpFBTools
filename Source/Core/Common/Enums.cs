@@ -122,10 +122,8 @@ namespace Core.Common
 		/// Номера колонок контрола отображения информации по файлам и Группам Дубликатора
 		/// </summary>
 		public enum FilesCountViewDupCollumnEnum : byte {
-			AllDirs				= 0,	// всего каталогов
-			AllBooks			= 1,	// всего книг
-			AllGroups			= 2,	// всего Групп одинаковых книг
-			AllBoolsInAllGroups	= 3,	// всего всех книг во всех Группах 
+			AllGroups			= 0,	// всего Групп одинаковых книг
+			AllBoolsInAllGroups	= 1,	// всего всех книг во всех Группах 
 		}
 		
 		/// <summary>

@@ -382,17 +382,15 @@ namespace Core.Duplicator
 			StatusLabel.Text += "Создание списка файлов для поиска копий fb2 книг...\r";
 			List<string> lDirList = new List<string>();
 			m_FilesList.Clear();
-			if ( !m_ScanSubDirs ) {
+			if ( !m_ScanSubDirs )
 				// сканировать только указанную папку
 				m_sv.AllFiles = FilesWorker.makeFilesListFromDir( m_Source, ref m_FilesList, true );
-				m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text = "1";
-			} else {
+			else {
 				// сканировать и все подпапки
-				m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text =
-					FilesWorker.recursionDirsSearch( m_Source, ref lDirList, true ).ToString();
+				FilesWorker.recursionDirsSearch( m_Source, ref lDirList, true ).ToString();
 				m_sv.AllFiles = FilesWorker.makeFilesListFromDirs( ref m_bw, ref e, ref lDirList, ref m_FilesList, true );
-				m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBooks].SubItems[1].Text = m_sv.AllFiles.ToString();
 			}
+
 			m_bw.ReportProgress( 0 ); // отобразим данные в контролах
 
 			if ( ( m_bw.CancellationPending ) ) {
@@ -1097,7 +1095,6 @@ namespace Core.Duplicator
 			//загрузка данных о ходе сравнения
 			XElement xCompareData = xTree.Element("CompareData");
 			m_sv.AllFiles = Convert.ToInt32( xCompareData.Element("AllFiles").Value );
-			m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text = xCompareData.Element("AllDirs").Value;
 
 			ViewDupProgressData();
 			
@@ -1251,7 +1248,6 @@ namespace Core.Duplicator
 				             new XElement("CompareMode", new XAttribute("index", CompareMode)),
 				             new XComment("Данные о ходе сравнения"),
 				             new XElement("CompareData",
-				                          new XElement("AllDirs", m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text),
 				                          new XElement("AllFiles", m_sv.AllFiles),
 				                          new XElement("Groups", m_sv.Group),
 				                          new XElement("AllFB2InGroups", m_sv.AllFB2InGroups)
@@ -1563,7 +1559,6 @@ namespace Core.Duplicator
 		
 		// Отображение результата поиска сравнения
 		private void ViewDupProgressData() {
-			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBooks, m_sv.AllFiles );
 			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllGroups, m_sv.Group );
 			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups, m_sv.AllFB2InGroups );
 		}
@@ -1830,8 +1825,6 @@ namespace Core.Duplicator
 				                          new XElement("Name", CompareModeName)),
 				             new XComment("Данные о ходе сравнения fb2 книг"),
 				             new XElement("CompareData",
-				                          new XElement("AllDirs", m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllDirs].SubItems[1].Text),
-				                          new XElement("AllFiles", m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBooks].SubItems[1].Text),
 				                          new XElement("Groups", "0"),
 				                          new XElement("AllFB2InGroups", "0")
 				                         ),

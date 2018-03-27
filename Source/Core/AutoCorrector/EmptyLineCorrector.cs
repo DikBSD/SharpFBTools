@@ -8,6 +8,7 @@
  */
 using System;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Core.AutoCorrector
 {
@@ -16,6 +17,8 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class EmptyLineCorrector
 	{
+		private const string _MessageTitle = "Автокорректор";
+		
 		private string _xmlText = string.Empty;
 		
 		/// <summary>
@@ -39,6 +42,15 @@ namespace Core.AutoCorrector
 					"${empty}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление тегов <p> и </p> в структуре <p> <empty-line /> </p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// Удаление <empty-line/> между </section> и <section>
 			try {
 				_xmlText = Regex.Replace(
@@ -46,6 +58,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line/> между </section> и <section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// Удаление <empty-line/> между </section> и </section>
 			try {
 				_xmlText = Regex.Replace(
@@ -53,6 +74,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line/> между </section> и </section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// Удаление <empty-line/> между </epigraph> и </section>
 			try {
 				_xmlText = Regex.Replace(
@@ -60,6 +90,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line/> между </epigraph> и </section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// Удаление <empty-line/> между </section> и </body>
 			try {
 				_xmlText = Regex.Replace(
@@ -67,6 +106,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line/> между </section> и </body>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// Удаление <empty-line/> между </title> и <section>
 			try {
 				_xmlText = Regex.Replace(
@@ -74,6 +122,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line/> между </title> и <section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// удаление <empty-line /> из текста до тега </p>: <empty-line /></p>
 			try {
 				_xmlText = Regex.Replace(
@@ -81,6 +138,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line/> из текста до тега </p>: <empty-line /></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// удаление <empty-line /> из текста после тега <p>: <p><empty-line />
 			try {
 				_xmlText = Regex.Replace(
@@ -88,6 +154,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line /> из текста после тега <p>: <p><empty-line />.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// удаление <empty-line /> из текста внутри тегов <p> ... </p> (в перечисление не добавил <> - они работают неверно - удаляются <empty-line /> и между целыми тегами)
 			try {
 				_xmlText = Regex.Replace(
@@ -95,6 +170,14 @@ namespace Core.AutoCorrector
 					"${start} ${end}", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line /> из текста внутри тегов <p> ... </p> (в перечисление не добавил <> - они работают неверно - удаляются <empty-line /> и между целыми тегами).\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// удаление <empty-line /> из текста до тега </v>: <empty-line /></v>
 			try {
@@ -103,6 +186,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line /> из текста до тега </v>: <empty-line /></v>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// удаление <empty-line /> из текста после тега <v>: <v><empty-line />
 			try {
 				_xmlText = Regex.Replace(
@@ -110,6 +202,14 @@ namespace Core.AutoCorrector
 					"", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line /> из текста после тега <v>: <v><empty-line />.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// удаление <empty-line /> из текста до тега </stanza>: <empty-line /></stanza>
 			try {
@@ -118,6 +218,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line /> из текста до тега </stanza>: <empty-line /></stanza>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// удаление <empty-line /> из текста после тега <stanza>: <stanza><empty-line />
 			try {
 				_xmlText = Regex.Replace(
@@ -125,6 +234,14 @@ namespace Core.AutoCorrector
 					"", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("EmptyLineCorrector:\r\nУдаление <empty-line /> из текста после тега <stanza>: <stanza><empty-line />.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			return _xmlText;
 		}

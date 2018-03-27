@@ -116,8 +116,12 @@ namespace Core.FileManager
 									}
 								} else {
 									re = new Regex( sSequence, RegexOptions.IgnoreCase );
-									if ( re.IsMatch( sfb2.Name ) ) {
-										b = true; break;
+									try {
+										if ( re.IsMatch( sfb2.Name ) ) {
+											b = true; break;
+										}
+									} catch (Exception /*e*/) {
+//										MessageBox.Show("sfb2.Name  \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
 								}
 							} else
@@ -144,8 +148,12 @@ namespace Core.FileManager
 									}
 								} else {
 									re = new Regex( sFirstName, RegexOptions.IgnoreCase );
-									if ( re.IsMatch( afb2.FirstName.Value ) ) {
-										b = true; break;
+									try {
+										if ( re.IsMatch( afb2.FirstName.Value ) ) {
+											b = true; break;
+										}
+									} catch (Exception /*e*/) {
+//										MessageBox.Show("afb2.FirstName.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
 								}
 							} else
@@ -165,8 +173,12 @@ namespace Core.FileManager
 									}
 								} else {
 									re = new Regex( sMiddleName, RegexOptions.IgnoreCase );
-									if ( re.IsMatch( afb2.MiddleName.Value ) ) {
-										b = true; break;
+									try {
+										if ( re.IsMatch( afb2.MiddleName.Value ) ) {
+											b = true; break;
+										}
+									} catch (Exception /*e*/) {
+//										MessageBox.Show("afb2.MiddleName.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
 								}
 							} else
@@ -186,8 +198,12 @@ namespace Core.FileManager
 									}
 								} else {
 									re = new Regex( sLastName, RegexOptions.IgnoreCase );
-									if ( re.IsMatch( afb2.LastName.Value ) ) {
-										b = true; break;
+									try {
+										if ( re.IsMatch( afb2.LastName.Value ) ) {
+											b = true; break;
+										}
+									} catch (Exception /*e*/) {
+//										MessageBox.Show("afb2.LastName.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
 								}
 							} else
@@ -207,8 +223,12 @@ namespace Core.FileManager
 									}
 								} else {
 									re = new Regex( sNickName, RegexOptions.IgnoreCase );
-									if ( re.IsMatch( afb2.NickName.Value ) ) {
-										b = true; break;
+									try {
+										if ( re.IsMatch( afb2.NickName.Value ) ) {
+											b = true; break;
+										}
+									} catch (Exception /*e*/) {
+//										MessageBox.Show("afb2.NickName.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
 								}
 							} else
@@ -233,8 +253,12 @@ namespace Core.FileManager
 									continue;
 							} else {
 								re = new Regex( sBookTitle, RegexOptions.IgnoreCase );
-								if ( !re.IsMatch( FB2BookTitle.Value ) )
-									continue;
+								try {
+									if ( !re.IsMatch( FB2BookTitle.Value ) )
+										continue;
+								} catch (Exception /*e*/) {
+//									MessageBox.Show("FB2BookTitle.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
+								}
 							}
 						} else
 							continue; // пустой тэг <book-title>

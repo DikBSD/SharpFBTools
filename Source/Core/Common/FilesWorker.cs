@@ -690,7 +690,45 @@ namespace Core.Common
 				lFilesList.Sort();
 			return lFilesList.Count;
 		}
-
+		
+		/// <summary>
+		/// Запись в файл - добавление
+		/// </summary>
+		/// <param name="Text">Записываемый текст</param>
+		/// <param name="IsStartSave">true - Если впервые создаем Log; false - Добавление к уже существующему Log</param>
+		/// <param name="LogPath">Путь к log-файлу. Если LogPath = null или Empty, то сохранение происходит в папке исполняемой программы</param>
+		public static void appendTextInLog( string Text, bool IsStartSave = false, string LogPath = null ) {
+			DirectoryInfo di = new DirectoryInfo( Application.StartupPath );
+			string Log = string.IsNullOrEmpty( LogPath )
+				?  string.Format(
+					"{0}\\_Log.txt", di.FullName.Substring(0, di.FullName.Length - di.Extension.Length)
+				)
+				: LogPath;
+			if ( IsStartSave ) {
+				// создаем Log
+				if ( File.Exists(Log) ) {
+					File.Delete(Log);
+				}
+				using ( System.IO.StreamWriter file =
+				       new System.IO.StreamWriter( Log ) )
+				{
+					file.WriteLine("======= Log выполнения работы =======\r\n");
+				}
+				using ( System.IO.StreamWriter file =
+				       new System.IO.StreamWriter(Log, true) )
+				{
+					file.WriteLine( string.Format( "{0}", Text ) );
+				}
+			} else {
+				// добавляем в Log
+				using ( System.IO.StreamWriter file =
+				       new System.IO.StreamWriter(Log, true) )
+				{
+					file.WriteLine( string.Format( "{0}", Text ) );
+				}
+			}
+		}
+		
 	}
 
 }

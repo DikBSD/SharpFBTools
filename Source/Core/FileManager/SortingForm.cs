@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -716,7 +717,6 @@ namespace Core.FileManager
 						e.Cancel = true;
 						return;
 					}
-
 					// создаем отсортированный fb2 файл по новому пути
 					fileSelectedSorting(
 						m_FilesList[i], m_sortOptions.SourceDir, m_sortOptions.TargetDir, lSLexems,
@@ -733,9 +733,9 @@ namespace Core.FileManager
 			}
 		}
 		
-		//=================================================================================================================
+		//==============================================================================================================
 		//											Полная Сортировка
-		//=================================================================================================================
+		//==============================================================================================================
 		private void fileFullSorting( string FromFilePath, string SourceDir, string TargetDir, List<TemplatesLexemsSimple> lSLexems,
 		                             int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
 			if ( FilesWorker.isFB2File( FromFilePath ) ) {
@@ -798,9 +798,9 @@ namespace Core.FileManager
 			}
 		}
 		
-		//=================================================================================================================
+		//============================================================================================================
 		// 											Избранная Сортировка
-		//=================================================================================================================
+		//============================================================================================================
 		private void fileSelectedSorting( string FromFilePath, string SourceDir, string TargetDir,
 		                                 List<TemplatesLexemsSimple> lSLexems,
 		                                 int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
@@ -852,6 +852,7 @@ namespace Core.FileManager
 				foreach ( string FB2FromZipPath in FilesListFromZip ) {
 					// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
 					SortQueryCriteria criteria = FB2SelectedSorting.isConformity( FB2FromZipPath, m_lSSQCList, out IsNotRead );
+					
 					if ( criteria != null ) {
 						if ( FilesWorker.isFB2File( FB2FromZipPath ) ) {
 							// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
@@ -1020,7 +1021,7 @@ namespace Core.FileManager
 		}
 		// ===================================================================================================
 		// обработка уже существующих файлов в папке
-		private string fileExsistWorker( string FromFilePath, string ToFilePath, int FileExistMode, bool ToZip )
+		private string fileExistWorker( string FromFilePath, string ToFilePath, int FileExistMode, bool ToZip )
 		{
 			FileInfo fi = new FileInfo( ToFilePath );
 			if( !fi.Directory.Exists )
@@ -1043,7 +1044,7 @@ namespace Core.FileManager
 		// архивирование файла с сформированным именем (путь)
 		private void copyFileToArchive( string FromFilePath, string ToFilePath, int FileExistMode ) {
 			// обработка уже существующих файлов в папке
-			ToFilePath = fileExsistWorker( FromFilePath, ToFilePath, FileExistMode, true );
+			ToFilePath = fileExistWorker( FromFilePath, ToFilePath, FileExistMode, true );
 			m_sharpZipLib.ZipFile( FromFilePath, ToFilePath, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
 		}
 		
@@ -1051,7 +1052,7 @@ namespace Core.FileManager
 		private void copyFileToTargetDir( string FromFilePath, string ToFilePath, int FileExistMode )
 		{
 			// обработка уже существующих файлов в папке
-			ToFilePath = fileExsistWorker( FromFilePath, ToFilePath, FileExistMode, false );
+			ToFilePath = fileExistWorker( FromFilePath, ToFilePath, FileExistMode, false );
 			if( File.Exists( FromFilePath ) )
 				File.Copy( FromFilePath, ToFilePath );
 		}
@@ -1166,8 +1167,13 @@ namespace Core.FileManager
 						Directory.Delete( temp_dir );
 					}
 				}
-				if ( File.Exists( ToFilePath + ".zip" ) )
-					++m_sv.CreateInTarget;
+				if ( !m_sortOptions.ToZip ) {
+					if ( File.Exists( ToFilePath ) )
+						++m_sv.CreateInTarget;
+				} else {
+					if ( File.Exists( ToFilePath + ".zip" ) )
+						++m_sv.CreateInTarget;
+				}
 
 			} catch ( System.IO.PathTooLongException ) {
 				// файл с длинным путем (название книги слишком длинное...)

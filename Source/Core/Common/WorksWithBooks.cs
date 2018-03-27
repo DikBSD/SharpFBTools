@@ -817,7 +817,7 @@ namespace Core.Common
 		}
 		
 		/// <summary>
-		/// Автокорректировка всех выделеннеых/помеченных книг для Корректора
+		/// Автокорректировка книги для Корректора
 		/// </summary>
 		/// <param name="SrcFB2OrZipPath">Путь к обрабатываемой книге (fb2 или zip-архив)</param>
 		/// <param name="sharpZipLib">Экземпляр класса SharpZipLibWorker по работе с zip-архивами</param>
@@ -830,7 +830,8 @@ namespace Core.Common
 				IsFromZip = true;
 				FilePath = ZipFB2Worker.getFileFromZipFBZ( SrcFB2OrZipPath, TempDir );
 			}
-			if ( ! string.IsNullOrEmpty( fv2Validator.ValidatingFB2File( FilePath ) ) ) {
+			
+			if ( ! string.IsNullOrWhiteSpace( fv2Validator.ValidatingFB2File( FilePath ) ) ) {
 				// автокорректировка только невалидного файла
 				FB2AutoCorrector.autoCorrector( FilePath );
 				
@@ -917,7 +918,10 @@ namespace Core.Common
 			File.Move( ArchFile, ToZipPath );
 		}
 		
-		// Занесение данных о валидации в поле детализации
+		/// <summary>
+		/// Занесение данных о валидации в поле детализации
+		/// </summary>
+		/// <returns>Откорректированная строка типа string</returns>
 		public static string isValidate( string SrcFilePath, TextBox tbValidate ) {
 			string Result = m_fv2Validator.ValidatingFB2File( SrcFilePath );
 			if ( string.IsNullOrEmpty( Result ) ) {

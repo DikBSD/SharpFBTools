@@ -130,7 +130,7 @@ namespace Core.FB2.FB2Parsers
 			string DescXml = getDescriptionNode().InnerXml;
 			DescXml = DescXml.Replace( xmlns20, "" ).Replace( xmlns21, "" ).Replace( xmlns22, "" );
 			DescXml = Regex.Replace( DescXml, "><", ">\n<", RegexOptions.None );
-			return "<description>\n" + DescXml + "\n</description>";
+			return string.Format( "<description>\n{0}\n</description>", DescXml );
 		}
 //		// переключение на режим proxy-body / режим реального body
 //		public void setBodiesProxyMode( bool ProxyMode ) {

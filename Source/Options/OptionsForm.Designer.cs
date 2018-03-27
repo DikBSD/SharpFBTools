@@ -44,6 +44,8 @@ namespace Options
 			this.btnDefRestore = new System.Windows.Forms.Button();
 			this.tcOptions = new System.Windows.Forms.TabControl();
 			this.tpGeneral = new System.Windows.Forms.TabPage();
+			this.gboxDebug = new System.Windows.Forms.GroupBox();
+			this.chBoxShowDebugMessage = new System.Windows.Forms.CheckBox();
 			this.chBoxConfirmationForExit = new System.Windows.Forms.CheckBox();
 			this.gboxTemp = new System.Windows.Forms.GroupBox();
 			this.lblTempDirPath = new System.Windows.Forms.Label();
@@ -75,6 +77,7 @@ namespace Options
 			this.pBtn.SuspendLayout();
 			this.tcOptions.SuspendLayout();
 			this.tpGeneral.SuspendLayout();
+			this.gboxDebug.SuspendLayout();
 			this.gboxTemp.SuspendLayout();
 			this.gboxButtons.SuspendLayout();
 			this.gboxDiff.SuspendLayout();
@@ -149,6 +152,7 @@ namespace Options
 			// 
 			// tpGeneral
 			// 
+			this.tpGeneral.Controls.Add(this.gboxDebug);
 			this.tpGeneral.Controls.Add(this.chBoxConfirmationForExit);
 			this.tpGeneral.Controls.Add(this.gboxTemp);
 			this.tpGeneral.Controls.Add(this.gboxButtons);
@@ -163,6 +167,34 @@ namespace Options
 			this.tpGeneral.TabIndex = 0;
 			this.tpGeneral.Text = " Основные ";
 			this.tpGeneral.UseVisualStyleBackColor = true;
+			// 
+			// gboxDebug
+			// 
+			this.gboxDebug.Controls.Add(this.chBoxShowDebugMessage);
+			this.gboxDebug.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gboxDebug.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+			this.gboxDebug.ForeColor = System.Drawing.Color.Navy;
+			this.gboxDebug.Location = new System.Drawing.Point(4, 383);
+			this.gboxDebug.Margin = new System.Windows.Forms.Padding(4);
+			this.gboxDebug.Name = "gboxDebug";
+			this.gboxDebug.Padding = new System.Windows.Forms.Padding(4);
+			this.gboxDebug.Size = new System.Drawing.Size(804, 55);
+			this.gboxDebug.TabIndex = 39;
+			this.gboxDebug.TabStop = false;
+			this.gboxDebug.Text = "Режим отладки";
+			// 
+			// chBoxShowDebugMessage
+			// 
+			this.chBoxShowDebugMessage.Dock = System.Windows.Forms.DockStyle.Top;
+			this.chBoxShowDebugMessage.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.chBoxShowDebugMessage.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.chBoxShowDebugMessage.Location = new System.Drawing.Point(4, 21);
+			this.chBoxShowDebugMessage.Margin = new System.Windows.Forms.Padding(4);
+			this.chBoxShowDebugMessage.Name = "chBoxShowDebugMessage";
+			this.chBoxShowDebugMessage.Size = new System.Drawing.Size(796, 30);
+			this.chBoxShowDebugMessage.TabIndex = 39;
+			this.chBoxShowDebugMessage.Text = "Показывать сообщения об ошибках при падении работы алгоритмов";
+			this.chBoxShowDebugMessage.UseVisualStyleBackColor = true;
 			// 
 			// chBoxConfirmationForExit
 			// 
@@ -553,6 +585,7 @@ namespace Options
 			this.pBtn.ResumeLayout(false);
 			this.tcOptions.ResumeLayout(false);
 			this.tpGeneral.ResumeLayout(false);
+			this.gboxDebug.ResumeLayout(false);
 			this.gboxTemp.ResumeLayout(false);
 			this.gboxTemp.PerformLayout();
 			this.gboxButtons.ResumeLayout(false);
@@ -601,5 +634,7 @@ namespace Options
 		private System.Windows.Forms.Label lblTempDirPath;
 		private System.Windows.Forms.TextBox tboxTempDirPath;
 		private System.Windows.Forms.Button btnTempDirPath;
+		private System.Windows.Forms.GroupBox gboxDebug;
+		private System.Windows.Forms.CheckBox chBoxShowDebugMessage;
 	}
 }

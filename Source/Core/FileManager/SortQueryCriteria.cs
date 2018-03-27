@@ -25,15 +25,15 @@ namespace Core.FileManager
 		private string	m_NickName		= string.Empty;
 		private string	m_BookTitle		= string.Empty;
 		private string	m_Sequence		= string.Empty;
-		private bool	m_ExactFit			= true;
+		private bool	m_ExactFit		= true;
 		#endregion
 		
 		public SortQueryCriteria()
 		{
 		}
-		public SortQueryCriteria( string sLang, string sGenresGroup, string sGenre, 
-		                                 string sLastName, string sFirstName, string sMiddleName, string sNickName,
-		                                 string sSequence, string sBookTitle, bool bExactFit )
+		public SortQueryCriteria( string sLang, string sGenresGroup, string sGenre,
+		                         string sLastName, string sFirstName, string sMiddleName, string sNickName,
+		                         string sSequence, string sBookTitle, bool bExactFit )
 		{
 			m_Lang			= sLang;
 			m_GenresGroup	= sGenresGroup;
@@ -51,43 +51,43 @@ namespace Core.FileManager
 		public virtual string Lang {
 			get { return m_Lang; }
 			set { m_Lang = value; }
-        }
+		}
 		public virtual string GenresGroup {
 			get { return m_GenresGroup; }
 			set { m_GenresGroup = value; }
-        }
+		}
 		public virtual string Genre {
 			get { return m_Genre; }
 			set { m_Genre = value; }
-        }
+		}
 		public virtual string LastName {
 			get { return m_LastName; }
 			set { m_LastName = value; }
-        }
+		}
 		public virtual string FirstName {
 			get { return m_FirstName; }
 			set { m_FirstName = value; }
-        }
+		}
 		public virtual string MiddleName {
 			get { return m_MiddleName; }
 			set { m_MiddleName = value; }
-        }
+		}
 		public virtual string NickName {
 			get { return m_NickName; }
 			set { m_NickName = value; }
-        }
+		}
 		public virtual string Sequence {
 			get { return m_Sequence; }
 			set { m_Sequence = value; }
-        }
+		}
 		public virtual string BookTitle {
 			get { return m_BookTitle; }
 			set { m_BookTitle = value; }
-        }
+		}
 		public virtual bool ExactFit {
 			get { return m_ExactFit; }
 			set { m_ExactFit = value; }
-        }
+		}
 		#endregion
 	}
 }

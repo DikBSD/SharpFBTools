@@ -45,6 +45,7 @@ namespace Options
 			cboxDSFB2Dup.Text			= Settings.FB2DublicatorSettings.GetDefDupcboxDSFB2DupText();
 			cboxTIRFB2Dup.Text			= Settings.FB2DublicatorSettings.GetDefDupcboxTIRFB2DupText();
 			chBoxConfirmationForExit.Checked = true;
+			chBoxShowDebugMessage.Checked = false;
 		}
 		
 		// загрузка настроек из xml-файла
@@ -72,6 +73,9 @@ namespace Options
 					// Подтверждение выхода из программы
 					if ( xmlGeneral.Element("ConfirmationForAppExit") != null )
 						chBoxConfirmationForExit.Checked = Convert.ToBoolean( xmlGeneral.Element("ConfirmationForAppExit").Value );
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					if ( xmlGeneral.Element("ShowDebugMessage") != null )
+						chBoxShowDebugMessage.Checked = Convert.ToBoolean( xmlGeneral.Element("ShowDebugMessage").Value );
 					// Стиль кнопок инструментов
 					if ( xmlGeneral.Element("ToolButtons") != null ) {
 						XElement xmlToolButtons = xmlGeneral.Element("ToolButtons");
@@ -116,6 +120,8 @@ namespace Options
 				                          new XElement("TempDirPath", tboxTempDirPath.Text),
 				                          new XComment("Подтверждение выхода из программы"),
 				                          new XElement("ConfirmationForAppExit", chBoxConfirmationForExit.Checked),
+				                          new XComment("Показывать сообщения об ошибках при падении работы алгоритмов"),
+				                          new XElement("ShowDebugMessage", chBoxShowDebugMessage.Checked),
 				                          new XComment("Стиль кнопок инструментов"),
 				                          new XElement("ToolButtons",
 				                                       new XElement("ArchiveManagerToolButtons",

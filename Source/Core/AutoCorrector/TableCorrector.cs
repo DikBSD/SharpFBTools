@@ -8,6 +8,7 @@
  */
 using System;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Core.AutoCorrector
 {
@@ -16,6 +17,8 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class TableCorrector
 	{
+		private const string _MessageTitle = "Автокорректор";
+		
 		private const string _startTag = "<table>";
 		private const string _endTag = "</table>";
 		private string _xmlText = string.Empty;
@@ -86,6 +89,14 @@ namespace Core.AutoCorrector
 						"${table}<td>${img}</td>${_tr_table}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("TableCorrector:\r\nПреобразование таблиц: <table><tr><td /><image l:href=\"#image2.jpg\" /><empty-line /></tr><tr><td>Текст</emphasis></td></tr></table> => <table><tr><td><image l:href=\"#image2.jpg\" /></td></tr><tr><td>Текст</td></tr></table>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
 				
 				Index = XmlText.IndexOf( tagPair.PairTag, tagPair.StartTagPosition, StringComparison.CurrentCulture ) + NewTag.Length;
 				XmlText = XmlText.Substring( 0, tagPair.StartTagPosition ) /* ДО обрабатываемого текста */

@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Вадим Кузнецов (DikBSD)")]
 [assembly: AssemblyProduct("Options")]
-[assembly: AssemblyCopyright("Copyright © 2009 - 2016")]
+[assembly: AssemblyCopyright("Copyright © 2009 - 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

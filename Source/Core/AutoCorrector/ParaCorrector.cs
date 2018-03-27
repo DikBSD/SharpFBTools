@@ -8,6 +8,7 @@
  */
 using System;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Core.AutoCorrector
 {
@@ -16,6 +17,8 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class ParaCorrector
 	{
+		private const string _MessageTitle = "Автокорректор";
+		
 		private const string _startTag = "<p>";
 		private const string _endTag = "</p>";
 		private string _xmlText = string.Empty;
@@ -55,6 +58,14 @@ namespace Core.AutoCorrector
 					"<p>", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nПреобразование тега вида <p id=\"$890^^@@\"> в тег <p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// незавершенный тег <p>: <p текст => <p> текст
 			try {
@@ -63,6 +74,14 @@ namespace Core.AutoCorrector
 					"${p}>", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nНезавершенный тег <p>: <p текст => <p> текст.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// обработка тегов <p>: <p><strong></strong><p>
 			try {
@@ -71,6 +90,14 @@ namespace Core.AutoCorrector
 					"", RegexOptions.Multiline // регистр не игнорировать!!!
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nОбработка тегов <p>: <p><strong></strong><p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// восстановление пропущенных </p>: <p><image xlink:href="#cover.jpg"/><p>Текст</p> => <p><image xlink:href="#cover.jpg"/></p>\n<p>Текст</p>
 			try {
@@ -79,6 +106,15 @@ namespace Core.AutoCorrector
 					"${inline_img}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nВосстановление пропущенных </p>: <p><image xlink:href=\"#cover.jpg\"/><p>Текст</p> => <p><image xlink:href=\"#cover.jpg\"/></p>\n<p>Текст</p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// восстановление пропущенных <p>: </p><image xlink:href="#cover.jpg"/></p> => </p>\n<p><image xlink:href="#cover.jpg"/></p>
 			try {
 				_xmlText = Regex.Replace(
@@ -86,6 +122,14 @@ namespace Core.AutoCorrector
 					"${_p}<p>${img}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nВосстановление пропущенных <p>: </p><image xlink:href=\"#cover.jpg\"/></p> => </p>\n<p><image xlink:href=\"#cover.jpg\"/></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// восстановление пропущенных <p>: </p>Любой текст с тегами</p> => </p><p>Любой текст с тегами</p>
 			try {
@@ -94,6 +138,15 @@ namespace Core.AutoCorrector
 					"<p>${text}", RegexOptions.IgnoreCase | RegexOptions.Multiline  | RegexOptions.Singleline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nВосстановление пропущенных <p>: </p>Любой текст с тегами</p> => </p><p>Любой текст с тегами</p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// восстановление пропущенных </p>: <p>Любой текст с тегами<p> => <p>Любой текст с тегами</p><p>
 			try {
 				_xmlText = Regex.Replace(
@@ -101,6 +154,14 @@ namespace Core.AutoCorrector
 					"${text}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline  | RegexOptions.Singleline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nВосстановление пропущенных </p>: <p>Любой текст с тегами<p> => <p>Любой текст с тегами</p><p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 
 			// ********************************************************************************************************
 			// восстановление пропущенных <p>: </p> Текст => </p>\n<p> Текст
@@ -110,6 +171,15 @@ namespace Core.AutoCorrector
 					"${_p}\n<p>${text}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nВосстановление пропущенных <p>: </p> Текст => </p>\n<p> Текст.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// восстановление пропущенных <p>: </p><strong>Текст</strong> => </p><p><strong>Текст</strong>
 			try {
 				_xmlText = Regex.Replace(
@@ -117,6 +187,14 @@ namespace Core.AutoCorrector
 					"${_p}\n<p>${tag_s}${text}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nВосстановление пропущенных <p>: </p><strong>Текст</strong> => </p><p><strong>Текст</strong>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// восстановление пропущенных </p>: Текст <p> => Текст </p>\n<p>
 			try {
@@ -125,6 +203,14 @@ namespace Core.AutoCorrector
 					"${text}</p>\n${p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nВосстановление пропущенных </p>: Текст <p> => Текст </p>\n<p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 
 			// восстановление пропущенных </p>: <p><strong>Текст</strong><p> => <p><strong>Текст</strong></p><p>
 			try {
@@ -133,6 +219,14 @@ namespace Core.AutoCorrector
 					"${p}${tag_s}${text}${_tag}</p>\n", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nВосстановление пропущенных </p>: <p><strong>Текст</strong><p> => <p><strong>Текст</strong></p><p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			// ********************************************************************************************************
 			
 			// удаление лишнего открывающего тега <p> в случаях: <p><p id="AutBody_0fb_0">Текст</p>
@@ -142,6 +236,14 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p id=\"AutBody_0fb_0\">Текст</p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
 			
 			// удаление лишнего открывающего тега <p> в случаях: <p><p>
 			try {
@@ -150,6 +252,15 @@ namespace Core.AutoCorrector
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			//TODO
 			// удаление "одиночных" тегов <strong> (</strong>) и т.д. из абзаца <p> ... </p>
 

@@ -33,6 +33,7 @@ namespace Settings
 		private readonly static string m_sFBReaderPath			= @"c:\Program Files\AlReader 2\AlReader2.exe";
 		private 		 static string m_sDiffPath				= string.Empty;
 		private readonly static bool m_ConfirmationForExit = true;
+		private readonly static bool m_ShowDebugMessage = true;
 		private static string m_sReady	= "Готово.";
 		#endregion
 
@@ -150,6 +151,18 @@ namespace Settings
 						return Convert.ToBoolean( node.InnerText );
 				}
 				return m_ConfirmationForExit;
+			}
+		}
+		
+		public static bool ShowDebugMessage {
+			get {
+				if ( File.Exists( m_settings ) ) {
+					m_xmlDoc.Load( m_settings );
+					XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/ShowDebugMessage");
+					if ( node != null )
+						return Convert.ToBoolean( node.InnerText );
+				}
+				return m_ShowDebugMessage;
 			}
 		}
 		
