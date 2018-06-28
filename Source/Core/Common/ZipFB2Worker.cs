@@ -34,7 +34,7 @@ namespace Core.Common
 		/// </summary>
 		/// <param name="SourceZipFBZPath">Путь к исходному zip или fbz-файлу</param>
 		/// <param name="TempDir">Временный каталог для распаковки архива</param>
-		/// <returns>Путь к распакованному fb2 файлу из архива, null, если файл не является zip или fbz архивом</returns>
+		/// <returns>Путь к распакованному fb2 файлу из архива; null, если файл не является zip или fbz архивом, или не читается</returns>
 		public static string getFileFromZipFBZ( string SourceZipFBZPath, string TempDir ) {
 			if ( File.Exists( SourceZipFBZPath ) ) {
 				if ( ! Directory.Exists( TempDir ) )

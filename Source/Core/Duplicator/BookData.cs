@@ -34,7 +34,7 @@ namespace Core.Duplicator
 		private string 			m_Encoding	= null; // кодировка книги
 		private string			m_Path		= null;	// путь к fb2-файлу Книги
 		
-		private string			m_NoAuthor	= "<Автор книги отсутствует>"; // Когда либо нет тега <authors>, либо все его подтеги - пустые
+		private const string	m_NoAuthor	= "<Автор книги отсутствует>"; // Когда либо нет тега <authors>, либо все его подтеги - пустые
 		#endregion
 		
 		public BookData( BookTitle BookTitle, IList<Author> Authors, IList<Genre> Genres, string Lang, string Id, string Version, string Path, string Encoding )

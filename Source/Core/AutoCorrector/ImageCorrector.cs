@@ -220,6 +220,38 @@ namespace Core.AutoCorrector
 				}
 			}
 			
+			// обработка картинок: <text-author><p><image l:href="#i_008.png" /></p></text-author> => <text-author><image l:href="#i_008.png" /></text-author>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "(?:<text-author>\\s*?<p>\\s*?)(?'img'(?:<image[^/]+?(?:\"[^\"]*\"|'[^']*')?/>))(?:\\s*?</p>\\s*?</text-author>)",
+					"<text-author>${img}</text-author>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ImageCorrector:\r\nОбработка картинок: <text-author><p><image l:href=\"#i_008.png\" /></p></text-author> => <text-author><image l:href=\"#i_008.png\" /></text-author>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
+			// обработка картинок: </section><empty-line /><image l:href="#freud.jpg" /><section> => </section><section><empty-line /><image l:href="#freud.jpg" /><empty-line /></section><section>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'_sect'</section>)\\s*?(?:<empty-line ?/>\\s*?){1,}\\s*?(?'img'(?:<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>\\s*?){1,})\\s*?(?'sect'<section>)",
+					"${_sect}<section><empty-line />${img}<empty-line /></section>${sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ImageCorrector:\r\nОбработка картинок: </section><empty-line /><image l:href=\"#freud.jpg\" /><section> => </section><section><empty-line /><image l:href=\"#freud.jpg\" /><empty-line /></section><section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			// постобработка (разбиение на теги (смежные теги) )
 			if ( _postProcess )
 				_xmlText = FB2CleanCode.postProcessing( _xmlText );

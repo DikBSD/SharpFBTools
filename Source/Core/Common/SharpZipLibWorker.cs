@@ -12,6 +12,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+using System.Windows.Forms;
+
 using FilesWorker = Core.Common.FilesWorker;
 
 using ICSharpCode.SharpZipLib.Zip;
@@ -280,30 +282,36 @@ namespace Core.Common
 				return false;
 			}
 			
-			if( !Directory.Exists( DestinationDir ) )
+			if ( !Directory.Exists( DestinationDir ) )
 				Directory.CreateDirectory( DestinationDir );
 			
 			ZipEntry zipEntry = zipInStream.GetNextEntry();
 			string path = Path.Combine(DestinationDir, zipEntry.Name.Replace('/', '\\'));
 			string dir = Path.GetDirectoryName(path);
-			if( !Directory.Exists( dir ) )
+			if ( !Directory.Exists( dir ) )
 				Directory.CreateDirectory( dir );
-			if( File.Exists( path ) )
+			if ( File.Exists( path ) )
 				path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 			
-			using ( FileStream fileStreamOut = new FileStream(path, FileMode.Create, FileAccess.Write) ) {
-				CopyStream(zipInStream, fileStreamOut, BufferSize);
-				zipInStream.Close();
-				fileStreamOut.Close();
-				fileStreamIn.Close();
-			}
-			if( File.Exists(path) ) {
-				ZipFile zipFile = new ZipFile(SourceZipFile);
-				if (zipFile[0].IsFile) {
-					File.SetCreationTime(path, File.GetCreationTime( SourceZipFile ));
-					File.SetLastAccessTime(path, File.GetLastAccessTime( SourceZipFile ));
-					File.SetLastWriteTime(path, File.GetLastWriteTime( SourceZipFile ));
+			try {
+				// на случай, если в имени файла есть нечитаемые символы
+				using ( FileStream fileStreamOut = new FileStream(path, FileMode.Create, FileAccess.Write) ) {
+					CopyStream(zipInStream, fileStreamOut, BufferSize);
+					zipInStream.Close();
+					fileStreamOut.Close();
+					fileStreamIn.Close();
 				}
+				if ( File.Exists(path) ) {
+					ZipFile zipFile = new ZipFile(SourceZipFile);
+					if (zipFile[0].IsFile) {
+						File.SetCreationTime(path, File.GetCreationTime( SourceZipFile ));
+						File.SetLastAccessTime(path, File.GetLastAccessTime( SourceZipFile ));
+						File.SetLastWriteTime(path, File.GetLastWriteTime( SourceZipFile ));
+					}
+				}
+			} catch {
+				fileStreamIn.Close();
+				return false;
 			}
 			return true;
 		}
@@ -341,29 +349,38 @@ namespace Core.Common
 					if (zipFile[i] != null) {
 						if (zipFile[i].IsFile) {
 							string zipFileName = zipFile[i].Name.Replace('<', '«').Replace('>', '»').Replace(':', '_');
-							if ( FB2Only && Path.GetExtension(zipFileName.ToLower()) != ".fb2" )
+							try {
+								if ( FB2Only && Path.GetExtension(zipFileName.ToLower()) != ".fb2" )
+									continue;
+							} catch ( ArgumentException ) {
 								continue;
+							}
 							
 							Stream inputStream = zipFile.GetInputStream(zipFile[i]);
 							string path = Path.Combine(DestinationDir, zipFileName.Replace('/', '\\'));
 							string dir = Path.GetDirectoryName(path);
-							if( !Directory.Exists( dir ) )
+							if ( !Directory.Exists( dir ) )
 								Directory.CreateDirectory( dir );
-							if( File.Exists( path ) )
+							if ( File.Exists( path ) )
 								path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
-							using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
-								CopyStream(inputStream, fileStream, BufferSize);
-								fileStream.Close();
+							try {
+								// на случай, если в имени файла есть нечитаемые символы
+								using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
+									CopyStream(inputStream, fileStream, BufferSize);
+									fileStream.Close();
+									inputStream.Close();
+								}
+								if( File.Exists(path) ) {
+									DateTime dtFile = zipFile[i].DateTime;
+									File.SetCreationTime(path, dtFile);
+									File.SetLastAccessTime(path, dtFile);
+									File.SetLastWriteTime(path, dtFile);
+								}
+								++count;
+							} catch {
 								inputStream.Close();
 							}
-							if( File.Exists(path) ) {
-								DateTime dtFile = zipFile[i].DateTime;
-								File.SetCreationTime(path, dtFile);
-								File.SetLastAccessTime(path, dtFile);
-								File.SetLastWriteTime(path, dtFile);
-							}
-							++count;
 						}
 					}
 				}
@@ -377,13 +394,21 @@ namespace Core.Common
 		/// Не воспринимает символы « и » в имени архива - вылетает
 		/// </summary>
 		/// <param name="SourceZipPath">Путь к исходному zip-файлу</param>
-		/// <param name="DestinationDir">папка для распаковываемых фвйлов</param>
+		/// <param name="DestinationDir">Папка для распаковываемых фвйлов</param>
 		/// <param name="IsFileExistsMode">Режим для суффикса: 0 - замена; 1 - новый номер; 2 - дата</param>
 		/// <returns>Число распакованных файлов, или -1, если архив 'битый' (не смог открыть)</returns>
 		public long UnZipFB2Files(string SourceZipPath, string DestinationDir, int IsFileExistsMode = 1)
 		{
 			long count = 0;
-			if ( File.Exists(SourceZipPath) ) {
+			bool fileExists = false;
+			try {
+				// на случай, если в имени файла есть нечитаемые символы
+				fileExists = File.Exists(SourceZipPath);
+			} catch {
+				return -1;
+			}
+			
+			if ( fileExists ) {
 				ZipFile zipFile = null;
 				try {
 					zipFile = new ZipFile(SourceZipPath);
@@ -398,29 +423,40 @@ namespace Core.Common
 					if ( zipFile[i] != null ) {
 						if ( zipFile[i].IsFile ) {
 							string zipFileName = zipFile[i].Name.Replace('<', '«').Replace('>', '»').Replace(':', '_');
-							if ( Path.GetExtension(zipFileName.ToLower()) != ".fb2" )
+							try {
+								if ( Path.GetExtension(zipFileName.ToLower()) != ".fb2" )
+									continue;
+							} catch ( ArgumentException ) {
 								continue;
+							}
 							
+
 							Stream inputStream = zipFile.GetInputStream(zipFile[i]);
 							string path = Path.Combine(DestinationDir, zipFileName.Replace('/', '\\'));
 							string dir = Path.GetDirectoryName(path);
-							if( !Directory.Exists( dir ) )
+							if ( !Directory.Exists( dir ) )
 								Directory.CreateDirectory( dir );
-							if( File.Exists( path ) )
+							if ( File.Exists( path ) )
 								path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
-							using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
-								CopyStream(inputStream, fileStream, 4096);
-								fileStream.Close();
+							try {
+								// на случай, если в имени файла есть нечитаемые символы
+								using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
+									CopyStream(inputStream, fileStream, 4096);
+									fileStream.Close();
+									inputStream.Close();
+								}
+								
+								if ( File.Exists(path) ) {
+									DateTime dtFile = zipFile[i].DateTime;
+									File.SetCreationTime(path, dtFile);
+									File.SetLastAccessTime(path, dtFile);
+									File.SetLastWriteTime(path, dtFile);
+								}
+								++count;
+							} catch {
 								inputStream.Close();
 							}
-							if( File.Exists(path) ) {
-								DateTime dtFile = zipFile[i].DateTime;
-								File.SetCreationTime(path, dtFile);
-								File.SetLastAccessTime(path, dtFile);
-								File.SetLastWriteTime(path, dtFile);
-							}
-							++count;
 						}
 					}
 				}
@@ -442,7 +478,15 @@ namespace Core.Common
 		public bool UnZipSelectedFile(string SourceZipFile, string FileFromZip, string DestinationDir,
 		                              int IsFileExistsMode, string Password, int BufferSize)
 		{
-			if (File.Exists(SourceZipFile)) {
+			bool b_fileExists = false;
+			try {
+				// на случай, если в имени файла есть нечитаемые символы
+				b_fileExists = File.Exists(SourceZipFile);
+			} catch {
+				return false;
+			}
+			
+			if ( b_fileExists ) {
 				ZipFile zipFile = null;
 				try {
 					zipFile = new ZipFile(SourceZipFile);
@@ -457,26 +501,31 @@ namespace Core.Common
 				int fileExists = zipFile.FindEntry(FileFromZip, false);
 				if ( fileExists != -1) {
 					if (zipFile[fileExists].IsFile) {
-						if( !Directory.Exists( DestinationDir ) )
+						if ( !Directory.Exists( DestinationDir ) )
 							Directory.CreateDirectory( DestinationDir );
 						Stream inputStream = zipFile.GetInputStream(zipFile[fileExists]);
 						path = Path.Combine(DestinationDir, FileFromZip.Replace('/', '\\'));
 						string dir = Path.GetDirectoryName(path);
-						if( !Directory.Exists( dir ) )
+						if ( !Directory.Exists( dir ) )
 							Directory.CreateDirectory( dir );
-						if( File.Exists( path ) )
+						if ( File.Exists( path ) )
 							path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
-						using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
-							CopyStream(inputStream, fileStream, BufferSize);
-							fileStream.Close();
+						try {
+							// на случай, если в имени файла есть нечитаемые символы
+							using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
+								CopyStream(inputStream, fileStream, BufferSize);
+								fileStream.Close();
+								inputStream.Close();
+							}
+							if ( File.Exists(path) ) {
+								DateTime dtFile = zipFile[fileExists].DateTime;
+								File.SetCreationTime(path, dtFile);
+								File.SetLastAccessTime(path, dtFile);
+								File.SetLastWriteTime(path, dtFile);
+							}
+						} catch {
 							inputStream.Close();
-						}
-						if( File.Exists(path) ) {
-							DateTime dtFile = zipFile[fileExists].DateTime;
-							File.SetCreationTime(path, dtFile);
-							File.SetLastAccessTime(path, dtFile);
-							File.SetLastWriteTime(path, dtFile);
 						}
 					}
 				}
@@ -501,7 +550,15 @@ namespace Core.Common
 		                               int IsFileExistsMode, bool FB2Only, string Password, int BufferSize)
 		{
 			long count = 0;
-			if (File.Exists(SourceZipFile)) {
+			bool b_fileExists = false;
+			try {
+				// на случай, если в имени файла есть нечитаемые символы
+				b_fileExists = File.Exists(SourceZipFile);
+			} catch {
+				return -1;
+			}
+			
+			if ( b_fileExists ) {
 				ZipFile zipFile = null;
 				try {
 					zipFile = new ZipFile(SourceZipFile);
@@ -521,29 +578,38 @@ namespace Core.Common
 					int fileExists = zipFile.FindEntry(file, false);
 					if ( fileExists != -1) {
 						if (zipFile[fileExists].IsFile) {
-							if ( FB2Only && Path.GetExtension(zipFile[fileExists].Name.ToLower())!=".fb2" )
+							try {
+								if ( FB2Only && Path.GetExtension(zipFile[fileExists].Name.ToLower())!=".fb2" )
+									continue;
+							} catch ( ArgumentException ) {
 								continue;
+							}
 							
 							Stream inputStream = zipFile.GetInputStream(zipFile[fileExists]);
 							path = Path.Combine(DestinationDir, file.Replace('/', '\\'));
 							dir = Path.GetDirectoryName(path);
-							if( !Directory.Exists( dir ) )
+							if ( !Directory.Exists( dir ) )
 								Directory.CreateDirectory( dir );
-							if( File.Exists( path ) )
+							if ( File.Exists( path ) )
 								path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
-							using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
-								CopyStream(inputStream, fileStream, BufferSize);
-								fileStream.Close();
+							try {
+								// на случай, если в имени файла есть нечитаемые символы
+								using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
+									CopyStream(inputStream, fileStream, BufferSize);
+									fileStream.Close();
+									inputStream.Close();
+								}
+								if ( File.Exists(path) ) {
+									DateTime dtFile = zipFile[fileExists].DateTime;
+									File.SetCreationTime(path, dtFile);
+									File.SetLastAccessTime(path, dtFile);
+									File.SetLastWriteTime(path, dtFile);
+								}
+								++count;
+							} catch {
 								inputStream.Close();
 							}
-							if( File.Exists(path) ) {
-								DateTime dtFile = zipFile[fileExists].DateTime;
-								File.SetCreationTime(path, dtFile);
-								File.SetLastAccessTime(path, dtFile);
-								File.SetLastWriteTime(path, dtFile);
-							}
-							++count;
 						}
 					}
 				}
@@ -665,9 +731,9 @@ namespace Core.Common
 				}
 				zipFile.Close();
 				
-				if( FB2Only && nFB2 == 0 )
+				if ( FB2Only && nFB2 == 0 )
 					return null;
-				if( ToSort ) {
+				if ( ToSort ) {
 					FilesFromZipList.Sort();
 				}
 			}

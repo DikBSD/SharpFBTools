@@ -269,6 +269,86 @@ namespace Core.FB2.FB2Parsers
 			ProxyMode = true;
 		}
 		
+		
+		//=======================================================================
+		private void _makeFB2Part( ref string fb2FileString ) {
+			// реконструкция кодировки, если ее нет
+			if ( fb2FileString.IndexOf( "<?xml version=", StringComparison.CurrentCulture ) == -1 )
+				fb2FileString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + fb2FileString;
+			
+			//  правка тега <FictionBook
+			int IndexFictionBookEndTag = fb2FileString.IndexOf( "</FictionBook>", StringComparison.CurrentCulture );
+			int FictionBookTagIndex = fb2FileString.IndexOf( "<FictionBook", StringComparison.CurrentCulture );
+			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
+			if ( FictionBookTagIndex == -1 ) {
+				// нет тега <FictionBook
+				int index = fb2FileString.LastIndexOf( '>' );
+				string left = fb2FileString.Substring( 0, index );
+				string right = fb2FileString.Substring( index );
+				fb2FileString = left + " " + fbtc.NewFictionBookTag + right;
+			} else {
+				// тег <FictionBook есть
+				// обработка головного тега FictionBook и пространства имен
+				fb2FileString = fbtc.StartTagCorrect( fb2FileString );
+			}
+			
+			const string DescCloseTag = "</description>";
+			int IndexDescriptionEnd = fb2FileString.IndexOf( DescCloseTag, StringComparison.CurrentCulture ) + DescCloseTag.Length;
+			int IndexFirstBodyStart = fb2FileString.IndexOf( "<body", StringComparison.CurrentCulture );
+			int IndexFirstBinaryStart = fb2FileString.IndexOf( "<binary ", StringComparison.CurrentCulture );
+			
+			List<string> BodiesList		= new List<string>(); // список всех <body>
+			List<string> BinariesList	= new List<string>(); // список всех <binary>
+			
+			if ( IndexDescriptionEnd != -1 ) {
+				_Description = fb2FileString.Substring( 0, IndexDescriptionEnd );
+				if ( _Encoding.Equals( "windows-1251" ) && isUnicodeCharExists() ) {
+					_Encoding = "UTF-8";
+					try {
+						_Description = Regex.Replace(
+							_Description, "(?<=encoding=\").+?(?=\")",
+							_Encoding, RegexOptions.IgnoreCase
+						);
+					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+					catch ( Exception ex ) {
+						if ( Settings.Settings.ShowDebugMessage ) {
+							// Показывать сообщения об ошибках при падении работы алгоритмов
+							MessageBox.Show(
+								string.Format("Обработка раздела <description>:\r\nОбработка неверного значения кодировки файла.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+							);
+						}
+					}
+				}
+				
+				//			Regex regex  = new Regex( "<description>", RegexOptions.IgnoreCase );
+//			Match m = regex.Match( XmlDescription );
+//			if ( !m.Success ) {
+//
+//			}
+				
+				// binary и body могут чередоваться из-за неверно созданной структуры. Поэтому, надо вычленять все binary по порядку, и создавать из них строку. И все body по порядку, и создавать из них строку.
+				//1. Берем 1-й тег. Проверка на конец fb2 текста по index тега </FictionBook>
+				// теги могут быть открытыми!!! Учитывать это!!!
+				//if ( Tag == “<binary ” ) {
+				// ищем </binary> и add <binary> текст </binary> в BinariesList.
+				// add “\r\n” к BinariesList.
+				//} else if ( Tag == “<body ” ) {
+				// ищем </body> и add <body> текст </body> в BodiesList.
+				// add “\r\n” к BodiesList.
+				//} else {
+				// что-то иное
+				// помещаем это в строку Other и add “\r\n
+				//}
+				
+			}
+			
+			fb2FileString = string.Empty;
+		}
+		
+		//======================================================================
+		
+		
+		
 		/// <summary>
 		/// Создание текста разделов fb2-файла в переменных класса FB2Text.
 		/// Генерируется Exception, если картинки расположены выше раздела body, или, если есть другое грубое нарушение fb2-структуры.
@@ -367,7 +447,206 @@ namespace Core.FB2.FB2Parsers
 
 			}
 			fb2FileString = string.Empty;
+			
+			//TODO Разделы body и notes - отдельно. Новый алгоритмя вычленения разделов
+			
+			/*// реконструкция кодировки, если ее нет
+			if ( fb2FileString.IndexOf( "<?xml version=", StringComparison.CurrentCulture ) == -1 )
+				fb2FileString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + fb2FileString;
+			
+			//  правка тега <FictionBook
+			int FictionBookTagIndex = fb2FileString.IndexOf( "<FictionBook", StringComparison.CurrentCulture );
+			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
+			if ( FictionBookTagIndex == -1 ) {
+				// нет тега <FictionBook
+				int index = fb2FileString.LastIndexOf( '>' );
+				string left = fb2FileString.Substring( 0, index );
+				string right = fb2FileString.Substring( index );
+				fb2FileString = left + " " + fbtc.NewFictionBookTag + right;
+			} else {
+				// тег <FictionBook есть
+				// обработка головного тега FictionBook и пространства имен
+				fb2FileString = fbtc.StartTagCorrect( fb2FileString );
+			}
+			
+			const string DescCloseTag = "</description>";
+			int IndexDescriptionEnd = fb2FileString.IndexOf( DescCloseTag, StringComparison.CurrentCulture ) + DescCloseTag.Length;
+			int IndexFirstBodyStart = fb2FileString.IndexOf( "<body", StringComparison.CurrentCulture );
+			int IndexFirstBinaryStart = fb2FileString.IndexOf( "<binary ", StringComparison.CurrentCulture );
+			int IndexFictionBookEndTag = fb2FileString.IndexOf( "</FictionBook>", StringComparison.CurrentCulture );
+			
+			if ( IndexFictionBookEndTag == -1 )
+				IndexFictionBookEndTag = fb2FileString.Length;
+			
+			if ( IndexDescriptionEnd != -1 ) {
+				// Вычленяем раздел <description>
+				_Description = fb2FileString.Substring( 0, IndexDescriptionEnd );
+				if ( _Encoding.Equals( "windows-1251" ) && isUnicodeCharExists() ) {
+					_Encoding = "UTF-8";
+					try {
+						_Description = Regex.Replace(
+							_Description, "(?<=encoding=\").+?(?=\")",
+							"UTF-8", RegexOptions.IgnoreCase
+						);
+					} catch ( RegexMatchTimeoutException /*ex*/ /*) {}
+				}
+			}
+
+					          */
+					         /*		if ( IndexFirstBinaryStart == -1 ) {
+				// Нет ни одного тега <binary>
+				// Вычленение разделов ================================================
+				try {
+					if ( IndexFirstBodyStart != -1 ) {
+						// Вычленяем все разделы <body>
+						_Bodies = (IndexFirstBinaryStart != -1)
+							? fb2FileString.Substring( IndexFirstBodyStart, IndexFirstBinaryStart - IndexFirstBodyStart )
+							: fb2FileString.Substring( IndexFirstBodyStart, IndexFictionBookEndTag - IndexFirstBodyStart );
+					}
+
+					if ( IndexFirstBinaryStart != -1 ) {
+						// Вычленяем все разделы <binary>
+						_Binaries = fb2FileString.Substring( IndexFirstBinaryStart, IndexFictionBookEndTag - IndexFirstBinaryStart );
+					}
+
+					// Вычленяем все сноски - раздел <body name="notes">
+					Match mBody = Regex.Match( _Binaries, "<body +?name=\"notes\">", RegexOptions.IgnoreCase );
+					int indexBody = mBody.Index;
+					string BodyNotes = string.Empty;
+					if ( indexBody > 0 ) {
+						// есть раздел сносок
+						Match mEndBody = Regex.Match( _Binaries, "</body>", RegexOptions.IgnoreCase );
+						int indexEndBody = mEndBody.Index;
+						if ( indexEndBody > 0 ) {
+							BodyNotes = _Binaries.Substring( indexBody, indexEndBody - indexBody + 7 );
+							_Bodies += BodyNotes;
+							_Binaries = _Binaries.Remove( indexBody, indexEndBody - indexBody + 7 );
+						}
+					}
+					if ( indexBody == 0 ) {
+//						MessageBox.Show(_Bodies);
+						// нет раздела сносок
+						if ( IndexFirstBodyStart != -1 ) {
+							if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50, StringComparison.CurrentCulture ) == -1 )
+								_Bodies += "</body>";
+						}
+						if ( IndexFirstBinaryStart != -1 ) {
+							if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50, StringComparison.CurrentCulture ) != -1 )
+								_Binaries = _Binaries.Replace( "</body>", string.Empty );
+						}
+					}
+				} catch {
+					throw new Exception( string.Format("Структура файла {0} сильно искажена.\r\n", _FilePath) );
+				}
+				// =========================================
+			} else {
+				// Тег <binary> есть ( IndexFirstBinaryStart > -1 )
+				MessageBox.Show("Тег <binary> есть ( IndexFirstBinaryStart > -1 )");
+				if ( IndexFirstBodyStart  > IndexFirstBinaryStart ) {
+					// Тело книги находится выше 1-й картинки
+					// Вычленение разделов ================================================
+					try {
+						if ( IndexFirstBodyStart != -1 ) {
+							// Вычленяем все разделы <body>
+							_Bodies = (IndexFirstBinaryStart != -1)
+								? fb2FileString.Substring( IndexFirstBodyStart, IndexFirstBinaryStart - IndexFirstBodyStart )
+								: fb2FileString.Substring( IndexFirstBodyStart, IndexFictionBookEndTag - IndexFirstBodyStart );
+						}
+
+						if ( IndexFirstBinaryStart != -1 ) {
+							// Вычленяем все разделы <binary>
+							_Binaries = fb2FileString.Substring( IndexFirstBinaryStart, IndexFictionBookEndTag - IndexFirstBinaryStart );
+						}
+
+						// Вычленяем все сноски - раздел <body name="notes">
+						Match mBody = Regex.Match( _Binaries, "<body +?name=\"notes\">", RegexOptions.IgnoreCase );
+						int indexBody = mBody.Index;
+						string BodyNotes = string.Empty;
+						if ( indexBody > 0 ) {
+							// есть раздел сносок
+							Match mEndBody = Regex.Match( _Binaries, "</body>", RegexOptions.IgnoreCase );
+							int indexEndBody = mEndBody.Index;
+							if ( indexEndBody > 0 ) {
+								BodyNotes = _Binaries.Substring( indexBody, indexEndBody - indexBody + 7 );
+								_Bodies += BodyNotes;
+								_Binaries = _Binaries.Remove( indexBody, indexEndBody - indexBody + 7 );
+							}
+						}
+						if ( indexBody == 0 ) {
+//							MessageBox.Show(_Bodies);
+							// нет раздела сносок
+							if ( IndexFirstBodyStart != -1 ) {
+								if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50, StringComparison.CurrentCulture ) == -1 )
+									_Bodies += "</body>";
+							}
+							if ( IndexFirstBinaryStart != -1 ) {
+								if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50, StringComparison.CurrentCulture ) != -1 )
+									_Binaries = _Binaries.Replace( "</body>", string.Empty );
+							}
+						}
+					} catch {
+						throw new Exception( string.Format("Структура файла {0} сильно искажена.\r\n", _FilePath) );
+					}
+					// ============================================
+				} else {
+					MessageBox.Show("IndexFirstBinaryStart="+IndexFirstBinaryStart+"\r\nIndexFirstBody="+IndexFirstBodyStart);
+					// IndexFirstBodyStart  < IndexFirstBinaryStart: 1-я Картинка находится выше тела книги (нарушение структуры)
+					throw new Exception( string.Format("Грубое нарушение структуры fb2 книги:\r\nКартинки (<binary>) расположены выше раздела тела текста книги <body>\r\nФайл: {0}\r\n", _FilePath) );
+					// TODO разделы <body> переставить выше первого <binary>
+				}
+			}*/
+					         
+					         /*			if ( IndexFirstBinaryStart == -1 || IndexFirstBodyStart  < IndexFirstBinaryStart ) {
+				// Раздел <body> расположен выше Картинкок (<binary>)
+				try {
+					if ( IndexFirstBodyStart != -1 ) {
+						// Вычленяем все разделы <body>
+						_Bodies = (IndexFirstBinaryStart != -1)
+							? fb2FileString.Substring( IndexFirstBodyStart, IndexFirstBinaryStart - IndexFirstBodyStart )
+							: fb2FileString.Substring( IndexFirstBodyStart, IndexFictionBookEndTag - IndexFirstBodyStart );
+					}
+
+					if ( IndexFirstBinaryStart != -1 ) {
+						// Вычленяем все разделы <binary>
+						_Binaries = fb2FileString.Substring( IndexFirstBinaryStart, IndexFictionBookEndTag - IndexFirstBinaryStart );
+					}
+
+					// Вычленяем все сноски - раздел <body name="notes">
+					Match mBody = Regex.Match( _Binaries, "<body +?name=\"notes\">", RegexOptions.IgnoreCase );
+					int indexBody = mBody.Index;
+					string BodyNotes = string.Empty;
+					if ( indexBody > 0 ) {
+						// есть раздел сносок
+						Match mEndBody = Regex.Match( _Binaries, "</body>", RegexOptions.IgnoreCase );
+						int indexEndBody = mEndBody.Index;
+						if ( indexEndBody > 0 ) {
+							BodyNotes = _Binaries.Substring( indexBody, indexEndBody - indexBody + 7 );
+							_Bodies += BodyNotes;
+							_Binaries = _Binaries.Remove( indexBody, indexEndBody - indexBody + 7 );
+						}
+					}
+					if ( indexBody == 0 ) {
+						MessageBox.Show(_Bodies);
+						// нет раздела сносок
+						if ( IndexFirstBodyStart != -1 ) {
+							if ( _Bodies.IndexOf( "</body>", _Bodies.Length - 50, StringComparison.CurrentCulture ) == -1 )
+								_Bodies += "</body>";
+						}
+						if ( IndexFirstBinaryStart != -1 ) {
+							if ( _Binaries.IndexOf( "</body>", _Binaries.Length - 50, StringComparison.CurrentCulture ) != -1 )
+								_Binaries = _Binaries.Replace( "</body>", string.Empty );
+						}
+					}
+				} catch {
+					throw new Exception( string.Format("Структура файла {0} сильно искажена.\r\n", _FilePath) );
+				}
+			} else {
+				// IndexFirstBodyStart  > IndexFirstBinaryStart : Картинки (<binary>) расположены выше раздела <body>
+				throw new Exception( string.Format("Грубое нарушение структуры fb2 книги:\r\nКартинки (<binary>) расположены выше раздела тела текста книги <body>\r\nФайл: {0}\r\n", _FilePath) );
+				// TODO разделы <body> переставить выше первого <binary>
+			}*/
+//			fb2FileString = string.Empty;
+					}
+				#endregion
+			}
 		}
-		#endregion
-	}
-}

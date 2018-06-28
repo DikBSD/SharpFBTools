@@ -781,7 +781,7 @@ namespace Core.FileManager
 					
 					// очистка временной папки
 					foreach ( string FB2FromArchPath in FilesListFromZip ) {
-						if( File.Exists( FB2FromArchPath ) )
+						if ( File.Exists( FB2FromArchPath ) )
 							File.Delete( FB2FromArchPath );
 					}
 				}

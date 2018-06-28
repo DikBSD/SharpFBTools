@@ -119,7 +119,7 @@ namespace Core.AutoCorrector
 		/// <returns>true - найдено; false - не найдено </returns>
 		public bool getPairTagText( string xmlText, string startTag, string endTag ) {
 			// АЛГОРИТМ
-//				2. Ищем <epigraph> или </epigraph> - что будет найдено вперед {
+//				2. Ищем, например, <epigraph> или </epigraph> - что будет найдено вперед {
 //					Если найдено </epigraph> то {
 //						++endEpigraph.
 //							Если startEpigraph == endEpigraph то {
@@ -181,7 +181,7 @@ namespace Core.AutoCorrector
 					}
 				}
 			} catch (Exception exp) {
-				MessageBox.Show("getPairTagText:\n" + exp);
+				MessageBox.Show("AutoCorrector::TagPair.getPairTagText:\n" + exp);
 			}
 			
 			return false;
@@ -209,7 +209,7 @@ namespace Core.AutoCorrector
 				}
 				_nextTag = xmlText.Substring( start, end-start+1 );
 			} catch (Exception exp) {
-				MessageBox.Show("findNextTag:\n" + exp);
+				MessageBox.Show("AutoCorrector::TagPair.findNextTag:\n" + exp);
 			}
 			
 			return ! string.IsNullOrEmpty( _nextTag );
@@ -255,7 +255,7 @@ namespace Core.AutoCorrector
 				}
 				_previousTag = xmlText.Substring( start, end-start+1 );
 			} catch (Exception exp) {
-				MessageBox.Show("_findPreviousTag:\n" + exp);
+				MessageBox.Show("AutoCorrector::TagPair._findPreviousTag:\n" + exp);
 			}
 			
 			return ! string.IsNullOrEmpty( _previousTag );

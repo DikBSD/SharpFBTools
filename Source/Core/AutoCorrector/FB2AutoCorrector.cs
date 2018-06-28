@@ -245,7 +245,7 @@ namespace Core.AutoCorrector
 				
 				/******************
 				 * Обработка Жанра *
-				 ******************/				
+				 ******************/
 				if ( XmlDescription.IndexOf( "<genre", StringComparison.CurrentCulture ) != -1 ) {
 					GenreCorrector genreCorrector = new GenreCorrector( ref XmlDescription, false, false );
 					XmlDescription = genreCorrector.correct();
@@ -324,6 +324,22 @@ namespace Core.AutoCorrector
 						// Показывать сообщения об ошибках при падении работы алгоритмов
 						MessageBox.Show(
 							string.Format("Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
+				// преобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>
+				try {
+					XmlDescription = Regex.Replace(
+						XmlDescription, @"(?:<annotation>\s*?<annotation>\s*?)(?'texts'(<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?[^<]+?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?)(?:</annotation>\s*?</annotation>)",
+						"<annotation>${texts}</annotation>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
 						);
 					}
 				}
@@ -410,6 +426,22 @@ namespace Core.AutoCorrector
 					}
 				}
 				
+				// Удаление пустышек типа <body name="notes" />
+				try {
+					InputString = Regex.Replace(
+						InputString, "<body name=\"notes\" ?/>",
+						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Удаление пустышек типа <body name=\"notes\" />.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				// Обработка блоков типа <p></section> => </section>
 				try {
 					InputString = Regex.Replace(
@@ -438,6 +470,22 @@ namespace Core.AutoCorrector
 						// Показывать сообщения об ошибках при падении работы алгоритмов
 						MessageBox.Show(
 							string.Format("Обработка блоков типа <title></p> => <title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
+				// Обработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>
+				try {
+					InputString = Regex.Replace(
+						InputString, "(?'title'</title>)(?:\\s*?<empty-line />\\s*?</section>\\s*?)(?'_p'(?:<p>)|(?:<subtitle>))",
+						"${title}${_p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("Обработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
 						);
 					}
 				}

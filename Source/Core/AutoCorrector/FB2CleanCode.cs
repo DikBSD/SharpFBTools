@@ -322,6 +322,27 @@ namespace Core.AutoCorrector
 					);
 				}
 			}
+			
+			// удаление тегов <style> вида <style name="MsoFootnoteReference"> и </style>
+			try {
+				InputString = Regex.Replace(
+					InputString, "<style name=\"[\\w|\\d]+\">",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+				InputString = Regex.Replace(
+					InputString, "</style>",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <style> вида <style name=\"MsoFootnoteReference\"> и </style>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			
 			return InputString;
 		}
 		

@@ -28,10 +28,10 @@ namespace Core.FB2Parser
 		#region Закрытые данные класса
 		private const string _MessageTitle = "Валидатор";
 		
-		private const string m_aFB20Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
-		private const string m_aFB21Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.1";
-		private readonly static SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
-		private readonly static string				m_TempDir		= Settings.Settings.TempDirPath;
+		private const string _aFB20Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
+		private const string _aFB21Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.1";
+		private readonly static SharpZipLibWorker	_sharpZipLib	= new SharpZipLibWorker();
+		private readonly static string				_TempDir		= Settings.Settings.TempDirPath;
 		#endregion
 		
 		public FB2Validator()
@@ -46,7 +46,7 @@ namespace Core.FB2Parser
 			bool IsZip = false;
 			string Result = validate( FilePath, Settings.Settings.SchemePath, ref IsZip );
 			if ( IsZip ) //  удаляем временные файлы только, если проверяли архив
-				FilesWorker.RemoveDir( m_TempDir );
+				FilesWorker.RemoveDir( _TempDir );
 			return Result;
 		}
 		
@@ -58,8 +58,8 @@ namespace Core.FB2Parser
 			string [] files = null;
 			if ( FilesWorker.isFB2Archive( FilePath ) ) {
 				IsZip = true;
-				m_sharpZipLib.UnZipFB2Files(FilePath, m_TempDir);
-				files = Directory.GetFiles( m_TempDir );
+				_sharpZipLib.UnZipFB2Files(FilePath, _TempDir);
+				files = Directory.GetFiles( _TempDir );
 			}
 			string FB2Path = ( files != null && files.Length > 0 ) ? files[0] : FilePath;
 			XmlDocument xmlDoc = new XmlDocument();
@@ -189,10 +189,10 @@ namespace Core.FB2Parser
 			using (Stream xmlSchemeFile = new FileStream( SchemePath, FileMode.Open ) ) {
 				XmlSchemaSet sc = new XmlSchemaSet();
 				try {
-					if( fb2FileNamespaceURI.Equals( m_aFB21Namespace ) )
-						sc.Add( m_aFB21Namespace, XmlReader.Create( xmlSchemeFile ) );
+					if( fb2FileNamespaceURI.Equals( _aFB21Namespace ) )
+						sc.Add( _aFB21Namespace, XmlReader.Create( xmlSchemeFile ) );
 					else
-						sc.Add( m_aFB20Namespace, XmlReader.Create( xmlSchemeFile ) );
+						sc.Add( _aFB20Namespace, XmlReader.Create( xmlSchemeFile ) );
 				} catch (System.Xml.Schema.XmlSchemaException e) {
 					return string.Format( "Файл: {0}\r\n{1}\r\nСтрока: {2}; Позиция: {3}", FilePath, e.Message,  e.LineNumber, e.LinePosition );
 				}

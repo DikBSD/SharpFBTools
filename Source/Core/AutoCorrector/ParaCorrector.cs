@@ -99,6 +99,7 @@ namespace Core.AutoCorrector
 				}
 			}
 			
+			// TODO ? (?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)
 			// восстановление пропущенных </p>: <p><image xlink:href="#cover.jpg"/><p>Текст</p> => <p><image xlink:href="#cover.jpg"/></p>\n<p>Текст</p>
 			try {
 				_xmlText = Regex.Replace(
@@ -115,6 +116,7 @@ namespace Core.AutoCorrector
 				}
 			}
 			
+			// TODO ? (?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)
 			// восстановление пропущенных <p>: </p><image xlink:href="#cover.jpg"/></p> => </p>\n<p><image xlink:href="#cover.jpg"/></p>
 			try {
 				_xmlText = Regex.Replace(
@@ -147,6 +149,22 @@ namespace Core.AutoCorrector
 				}
 			}
 			
+			// удаление неверного id из тега <p>: <p id="__"> => <p>
+			try {
+				_xmlText = Regex.Replace(
+					_xmlText, "(?:<p\\s+?id=\"_+\">)",
+					"<p>", RegexOptions.IgnoreCase | RegexOptions.Multiline  | RegexOptions.Singleline
+				);
+			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+			catch ( Exception ex ) {
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						string.Format("ParaCorrector:\r\nУдаление неверного id из тега <p>: <p id=\"__\"> => <p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+			}
+			// TODO Продумать, нужно ли переделать ниже алгоритм: может это на конце слов не <p>, а должен быть </p>
 			// восстановление пропущенных </p>: <p>Любой текст с тегами<p> => <p>Любой текст с тегами</p><p>
 			try {
 				_xmlText = Regex.Replace(

@@ -81,7 +81,57 @@ namespace Core.AutoCorrector
 					return;
 				
 				string NewTag = tagPair.PairTag;
+				
+				// преобразование таблиц: <tr><image l:href="#image3.png" /><empty-line /></tr> и <tr><image l:href="#image3.png" /></tr> => <tr><td><image l:href="#image3.png" /></td></tr>
+				try {
+					NewTag = Regex.Replace(
+						NewTag, "(?:<tr>\\s*?)(?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)\\s*?(?:<empty-line ?/>)?(?:\\s*?</tr>)",
+						"<tr><td>${img}</td></tr>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("TableCorrector:\r\nПреобразование таблиц: <tr><image l:href=\"#image3.png\" /><empty-line /></tr> и <tr><image l:href=\"#image3.png\" /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 
+				// преобразование таблиц: <tr><td /><image l:href="#image3.png" /><empty-line /></tr> => <tr><td><image l:href="#image3.png" /></td></tr>
+				try {
+					NewTag = Regex.Replace(
+						NewTag, "(?:<tr>\\s*?<td ?/>\\s*?)(?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)\\s*?(?:<empty-line ?/>)?(?:\\s*?</tr>)",
+						"<tr><td/><td>${img}</td></tr>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("TableCorrector:\r\nПреобразование таблиц: <tr><td /><image l:href=\"#image3.png\" /><empty-line /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
+				
+				// преобразование таблиц: <table><image l:href="#image37.png" /><empty-line /><tr> => <table><tr><td><image l:href="#image37.png" /></td></tr><tr>
+				try {
+					NewTag = Regex.Replace(
+						NewTag, "(?'table'<table>)\\s*?(?'img'(?:<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>\\s*?){1,})\\s*?<empty-line ?/>\\s*?(?'tr'<tr>)",
+						"${table}<tr><td>${img}</td></tr>${tr}", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				catch ( Exception ex ) {
+					if ( Settings.Settings.ShowDebugMessage ) {
+						// Показывать сообщения об ошибках при падении работы алгоритмов
+						MessageBox.Show(
+							string.Format("TableCorrector:\r\nПреобразование таблиц: <table><image l:href=\"#image37.png\" /><empty-line /><tr> => <table><tr><td><image l:href=\"#image37.png\" /></td></tr><tr>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
+					}
+				}
+				
 				// преобразование таблиц: <table><tr><td /><image l:href="#image2.jpg" /><empty-line /></tr><tr><td>Текст</emphasis></td></tr></table> => <table><tr><td><image l:href="#image2.jpg" /></td></tr><tr><td>Текст</td></tr></table>
 				try {
 					NewTag = Regex.Replace(

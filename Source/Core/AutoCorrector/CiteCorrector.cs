@@ -130,7 +130,7 @@ namespace Core.AutoCorrector
 				// Обрамление картинки тегами <p> ... </p>
 				try {
 					NewTag = Regex.Replace(
-						NewTag, "(?<!<p>)(?'img'<image[^/]+?(?:\"[^\"]*\"|'[^']*')?/>)(?!</p>)",
+						NewTag, "(?<!<text-author>)(?'img'<image[^/]+?(?:\"[^\"]*\"|'[^']*')?/>)(?!</text-author>)",
 						"<p>${img}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}

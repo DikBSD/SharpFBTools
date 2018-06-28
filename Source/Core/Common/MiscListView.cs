@@ -464,11 +464,15 @@ namespace Core.Common
 				Result = true;
 			}
 			// реальное число Групп и книг в этих Группах
-			lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text =
-				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text) - RemoveGroupCount).ToString();
-			lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text =
-				(Convert.ToInt16(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
-			
+			try {
+				lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text =
+					(Convert.ToInt32(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text) - RemoveGroupCount).ToString();
+				lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text =
+					(Convert.ToInt32(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
+			} catch ( Exception ex ) {
+				MessageBox.Show(ex.Message);
+			}
+					
 			listViewFB2Files.EndUpdate();
 			return Result;
 		}

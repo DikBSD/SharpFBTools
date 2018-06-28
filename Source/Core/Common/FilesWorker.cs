@@ -29,37 +29,65 @@ namespace Core.Common
 		}
 		
 		#region Открытые статические методы класса
-		
-		// сброс для списка файлов аттрибута только для чтения
+		/// <summary>
+		/// Сброс для списка файлов аттрибута только для чтения
+		/// </summary>
 		public static void DumpReadOnlyAttrForFiles( string sDir ) {
-			if( Directory.Exists( sDir ) ) {
+			if ( Directory.Exists( sDir ) ) {
 				DirectoryInfo diFolder = new DirectoryInfo( sDir );
 				foreach ( FileInfo fiNextFile in diFolder.GetFiles() ) {
 					string s = Path.Combine( diFolder.FullName, fiNextFile.ToString() );
-					if ( ( File.GetAttributes( s ) & FileAttributes.ReadOnly ) == FileAttributes.ReadOnly )
-						File.SetAttributes( s, FileAttributes.Normal ) ;
+					FileAttributes attr = (new FileInfo(s)).Attributes;
+					if ( ( attr & FileAttributes.ReadOnly ) > 0 )
+						File.SetAttributes( s, FileAttributes.Normal );
 				}
 			}
 		}
 		
-		// удалить содержимое папки sDir и все ее подпапки и файлы
-		public static void _RemoveDir( string sDir ) {
-			if( Directory.Exists( sDir ) ) {
+		/// <summary>
+		/// Удалить содержимое папки sDir и все ее подпапки и файлы
+		/// </summary>
+		public static void RemoveReadOnlyAttrForFiles( string sDir ) {
+			if ( Directory.Exists( sDir ) ) {
 				DirectoryInfo diFolder = new DirectoryInfo( sDir );
 				foreach ( FileInfo fiNextFile in diFolder.GetFiles() ) {
 					string s = Path.Combine( diFolder.FullName, fiNextFile.ToString() );
-					if ( ( File.GetAttributes( s ) & FileAttributes.ReadOnly ) == FileAttributes.ReadOnly )
-						File.SetAttributes( s, FileAttributes.Normal ) ;
+					FileAttributes attr = (new FileInfo(s)).Attributes;
+					if ( ( attr & FileAttributes.ReadOnly ) > 0 )
+						File.SetAttributes( s, FileAttributes.Normal );
 					File.Delete( s );
 				}
 			}
 		}
 		
-		// удалить папку sDir и все ее подпапки и файлы
+		/// <summary>
+		/// Удалить файлы в папке
+		/// </summary>
+		public static void RemoveAllFilesInDir( string sDir ) {
+			DirectoryInfo diFolder = new DirectoryInfo( sDir );
+			foreach ( FileInfo fiNextFile in diFolder.GetFiles() ) {
+				string s = Path.Combine( diFolder.FullName, fiNextFile.ToString() );
+				File.Delete( s );
+			}
+		}
+		
+		/// <summary>
+		/// Удалить папку sDir и все ее подпапки и файлы
+		/// </summary>
 		public static void RemoveDir( string sDir ) {
-			if( Directory.Exists( sDir ) ) {
-				DumpReadOnlyAttrForFiles( sDir );
-				Directory.Delete( sDir, true );
+			if ( Directory.Exists( sDir ) ) {
+				try {
+					Directory.Delete( sDir, true );
+				} catch ( IOException ) {
+					//RemoveAllFilesInDir( sDir );
+					RemoveReadOnlyAttrForFiles( sDir );
+				} catch ( UnauthorizedAccessException ) {
+					RemoveReadOnlyAttrForFiles( sDir );
+				} finally {
+					if ( Directory.Exists( sDir ) ) {
+						Directory.Delete( sDir, true );
+					}
+				}
 			}
 		}
 		
@@ -515,9 +543,9 @@ namespace Core.Common
 		public static bool isFB2Archive( string FilePath ) {
 			if ( File.Exists( FilePath ) ) {
 				string Extention = Path.GetExtension( FilePath ).ToLower();
-				return ( Extention == ".zip" || Extention == ".fbz" ) ? true : false;
-			} else
-				return false;
+				return ( Extention == ".zip" || Extention == ".fbz" );
+			}
+			return false;
 		}
 		
 		/// <summary>
@@ -527,9 +555,9 @@ namespace Core.Common
 		/// <returns>true - если файл - fb2 файлом; false - если не fb2 файл</returns>
 		public static bool isFB2File( string FilePath ) {
 			if ( File.Exists( FilePath ) ) {
-				return Path.GetExtension( FilePath ).ToLower() == ".fb2" ? true : false;
-			} else
-				return false;
+				return Path.GetExtension( FilePath ).ToLower() == ".fb2";
+			}
+			return false;
 		}
 		
 		public static List<string> TraverseTree(string root) {
