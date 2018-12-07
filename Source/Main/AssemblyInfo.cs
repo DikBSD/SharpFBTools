@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle ("SharpFBTools")]
 [assembly: AssemblyDescription ("Open Source набор инструментов по работе с fb2-файлами в пакетном режиме")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("Вадим Кузнецов (DikBSD) email: dik-bsd@mail.ru")]
+[assembly: AssemblyCompany ("Вадим Кузнецов (DikBSD) email: dikbsd@mail.ru")]
 [assembly: AssemblyProduct ("SharpFBTools")]
 [assembly: AssemblyCopyright ("Copyright © 2009 - 2018")]
 [assembly: AssemblyTrademark ("")]
