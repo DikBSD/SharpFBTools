@@ -26,7 +26,7 @@ namespace Core.FB2.Genres
 		private readonly MultiDictionary<KeyValuePair<string, string>> _mdFB2GenresWithGroups = new MultiDictionary<KeyValuePair<string, string>>();
 		
 		public FB2UnionGenres() {
-			string xml = "union_genres_ru.xml";
+			const string xml = "union_genres_ru.xml";
 			if ( !File.Exists( xml ) ) {
 				string Message = string.Format( "Не найден файл Жанров '{0}'.", xml );
 				MessageBox.Show( Message );

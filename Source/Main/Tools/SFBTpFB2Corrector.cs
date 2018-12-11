@@ -188,7 +188,6 @@ namespace SharpFBTools.Tools
 			Cursor.Current = Cursors.WaitCursor;
 			listViewFB2Files.BeginUpdate();
 			ConnectListsEventHandlers( false );
-			
 			FB2TagsListGenerateForm fb2TagsListGenerateForm = new FB2TagsListGenerateForm(
 				listViewFB2Files, dirPath, false
 			);
