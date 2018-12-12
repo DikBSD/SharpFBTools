@@ -130,6 +130,23 @@ namespace Core.Common
 		}
 		
 		/// <summary>
+		/// Преобразование строки размера файла из ListView в строку с размером в байтах 
+		/// </summary>
+		/// <param name="str">Строка с размером файла из ListView</param>
+		/// <returns>Строка, содержащая размер файла в байтах</returns>
+		public static string StringFileLengthToBiteString( string str ) {
+			string result = string.Empty;
+			string [] s = str.Split(' ');
+			switch( s[1]) {
+				case "Кб" :
+					return Convert.ToString( Convert.ToUInt64(s[0])*1024 );
+				case "Мб" :
+					return Convert.ToString( Convert.ToUInt64(s[0])*1024*1024 );
+			}
+			return s[0];
+		}
+		
+		/// <summary>
 		/// задание папки через диалог открытия папки
 		/// возвращает: true, если путь к папке выбран; false - если была нажата кнопка отмены
 		/// </summary>

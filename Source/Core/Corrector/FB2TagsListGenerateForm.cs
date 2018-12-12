@@ -79,6 +79,8 @@ namespace Core.Corrector
 		// генерация списка файлов - создание итемов listViewSource
 		private void bw_DoWork( object sender, DoWorkEventArgs e ) {
 			m_dtStart  = DateTime.Now;
+			m_bw.ReportProgress( 1 );
+			ProgressBar.Update();
 			FB2UnionGenres fb2Genres = new FB2UnionGenres();
 			if ( !WorksWithBooks.generateBooksListWithMetaData( m_listView, m_dirPath, ref fb2Genres,
 			                                                   true, false, false,

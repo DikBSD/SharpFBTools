@@ -95,6 +95,7 @@ namespace Core.Duplicator
 					new XElement("Path", new XAttribute("number", i++), lvi.Text)
 				);
 				m_bw.ReportProgress( i );
+				ProgressBar.Update();
 			}
 			
 			doc.Save(m_XMLPath);

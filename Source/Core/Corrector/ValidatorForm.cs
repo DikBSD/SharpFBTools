@@ -107,6 +107,7 @@ namespace Core.Corrector
 						}
 						validateFile( lvi, ref fv2Validator );
 						m_bw.ReportProgress( ++i );
+						ProgressBar.Update();
 					}
 				}
 			} else if ( m_booksValidateMode == BooksValidateModeEnum.SelectedBooks ) {
@@ -126,6 +127,7 @@ namespace Core.Corrector
 						}
 						validateFile( lvi, ref fv2Validator );
 						m_bw.ReportProgress( ++i );
+						ProgressBar.Update();
 					}
 				}
 			} else {
@@ -145,6 +147,7 @@ namespace Core.Corrector
 						}
 						validateFile( lvi, ref fv2Validator );
 						m_bw.ReportProgress( ++i );
+						ProgressBar.Update();
 					}
 				}
 			}

@@ -209,6 +209,7 @@ namespace Core.Duplicator
 					}
 					validateFile( lvi, ref fv2Validator );
 					m_bw.ReportProgress( ++i );
+					ProgressBar.Update();
 				}
 			} else {
 				// все книги выбранной Группы
@@ -227,6 +228,7 @@ namespace Core.Duplicator
 						}
 						validateFile( lvi, ref fv2Validator );
 						m_bw.ReportProgress( ++i );
+						ProgressBar.Update();
 					}
 				}
 			}

@@ -250,6 +250,7 @@ namespace Core.Corrector
 			foreach (XElement element in dirs) {
 				m_DirsList.Add(element.Value);
 				m_bw.ReportProgress( ++d );
+				ProgressBar.Update();
 			}
 
 			// заполнение списка обработанных файлов
@@ -361,6 +362,7 @@ namespace Core.Corrector
 				// обработанные файлы
 				m_WorkingFilesList.Add( NotWorkingFilesList[i] );
 				m_bw.ReportProgress( ++i );
+				ProgressBar.Update();
 			}
 			// удаление из списка всех файлов обработанные книги (файлы)
 			removeFinishedFilesInFilesList( ref NotWorkingFilesList, ref WorkingFilesList);

@@ -62,10 +62,10 @@ namespace Core.Common
 			// ProgressBar
 			// 
 			this.ProgressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.ProgressBar.Location = new System.Drawing.Point(0, 91);
-			this.ProgressBar.Margin = new System.Windows.Forms.Padding(2);
+			this.ProgressBar.Location = new System.Drawing.Point(0, 112);
+			this.ProgressBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.ProgressBar.Name = "ProgressBar";
-			this.ProgressBar.Size = new System.Drawing.Size(386, 19);
+			this.ProgressBar.Size = new System.Drawing.Size(514, 23);
 			this.ProgressBar.TabIndex = 9;
 			// 
 			// ControlPanel
@@ -75,10 +75,10 @@ namespace Core.Common
 			this.ControlPanel.Controls.Add(this.ApplyBtn);
 			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.ControlPanel.Enabled = false;
-			this.ControlPanel.Location = new System.Drawing.Point(386, 0);
-			this.ControlPanel.Margin = new System.Windows.Forms.Padding(2);
+			this.ControlPanel.Location = new System.Drawing.Point(514, 0);
+			this.ControlPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.ControlPanel.Name = "ControlPanel";
-			this.ControlPanel.Size = new System.Drawing.Size(95, 110);
+			this.ControlPanel.Size = new System.Drawing.Size(127, 135);
 			this.ControlPanel.TabIndex = 8;
 			// 
 			// CancelBtn
@@ -86,10 +86,10 @@ namespace Core.Common
 			this.CancelBtn.Dock = System.Windows.Forms.DockStyle.Top;
 			this.CancelBtn.Image = ((System.Drawing.Image)(resources.GetObject("CancelBtn.Image")));
 			this.CancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.CancelBtn.Location = new System.Drawing.Point(0, 41);
-			this.CancelBtn.Margin = new System.Windows.Forms.Padding(2);
+			this.CancelBtn.Location = new System.Drawing.Point(0, 50);
+			this.CancelBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.CancelBtn.Name = "CancelBtn";
-			this.CancelBtn.Size = new System.Drawing.Size(95, 39);
+			this.CancelBtn.Size = new System.Drawing.Size(127, 48);
 			this.CancelBtn.TabIndex = 1;
 			this.CancelBtn.Text = "Отмена";
 			this.CancelBtn.UseVisualStyleBackColor = true;
@@ -101,9 +101,9 @@ namespace Core.Common
 			this.ApplyBtn.Image = ((System.Drawing.Image)(resources.GetObject("ApplyBtn.Image")));
 			this.ApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.ApplyBtn.Location = new System.Drawing.Point(0, 0);
-			this.ApplyBtn.Margin = new System.Windows.Forms.Padding(2);
+			this.ApplyBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.ApplyBtn.Name = "ApplyBtn";
-			this.ApplyBtn.Size = new System.Drawing.Size(95, 41);
+			this.ApplyBtn.Size = new System.Drawing.Size(127, 50);
 			this.ApplyBtn.TabIndex = 0;
 			this.ApplyBtn.Text = "Принять";
 			this.ApplyBtn.UseVisualStyleBackColor = true;
@@ -115,37 +115,38 @@ namespace Core.Common
 			this.KeywordsPanel.Controls.Add(this.TIKeywordsLabel);
 			this.KeywordsPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.KeywordsPanel.Location = new System.Drawing.Point(0, 0);
-			this.KeywordsPanel.Margin = new System.Windows.Forms.Padding(2);
+			this.KeywordsPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.KeywordsPanel.Name = "KeywordsPanel";
-			this.KeywordsPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.KeywordsPanel.Size = new System.Drawing.Size(386, 55);
+			this.KeywordsPanel.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.KeywordsPanel.Size = new System.Drawing.Size(514, 68);
 			this.KeywordsPanel.TabIndex = 10;
 			// 
 			// KeywordsTextBox
 			// 
 			this.KeywordsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.KeywordsTextBox.Location = new System.Drawing.Point(3, 22);
+			this.KeywordsTextBox.Location = new System.Drawing.Point(4, 27);
+			this.KeywordsTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.KeywordsTextBox.Name = "KeywordsTextBox";
-			this.KeywordsTextBox.Size = new System.Drawing.Size(380, 20);
+			this.KeywordsTextBox.Size = new System.Drawing.Size(506, 22);
 			this.KeywordsTextBox.TabIndex = 1;
 			// 
 			// TIKeywordsLabel
 			// 
 			this.TIKeywordsLabel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.TIKeywordsLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.TIKeywordsLabel.Location = new System.Drawing.Point(3, 3);
-			this.TIKeywordsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.TIKeywordsLabel.Location = new System.Drawing.Point(4, 4);
 			this.TIKeywordsLabel.Name = "TIKeywordsLabel";
-			this.TIKeywordsLabel.Size = new System.Drawing.Size(380, 19);
+			this.TIKeywordsLabel.Size = new System.Drawing.Size(506, 23);
 			this.TIKeywordsLabel.TabIndex = 0;
 			this.TIKeywordsLabel.Text = "Ключевые слова:";
 			// 
 			// AddRadioButton
 			// 
 			this.AddRadioButton.Checked = true;
-			this.AddRadioButton.Location = new System.Drawing.Point(3, 60);
+			this.AddRadioButton.Location = new System.Drawing.Point(4, 74);
+			this.AddRadioButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.AddRadioButton.Name = "AddRadioButton";
-			this.AddRadioButton.Size = new System.Drawing.Size(176, 24);
+			this.AddRadioButton.Size = new System.Drawing.Size(235, 30);
 			this.AddRadioButton.TabIndex = 11;
 			this.AddRadioButton.TabStop = true;
 			this.AddRadioButton.Text = "Добавить к существующим";
@@ -153,24 +154,26 @@ namespace Core.Common
 			// 
 			// ReplaceRadioButton
 			// 
-			this.ReplaceRadioButton.Location = new System.Drawing.Point(219, 60);
+			this.ReplaceRadioButton.Location = new System.Drawing.Point(292, 74);
+			this.ReplaceRadioButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.ReplaceRadioButton.Name = "ReplaceRadioButton";
-			this.ReplaceRadioButton.Size = new System.Drawing.Size(147, 24);
+			this.ReplaceRadioButton.Size = new System.Drawing.Size(196, 30);
 			this.ReplaceRadioButton.TabIndex = 12;
 			this.ReplaceRadioButton.Text = "Заменить на новые";
 			this.ReplaceRadioButton.UseVisualStyleBackColor = true;
 			// 
 			// EditKeywordsForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(481, 110);
+			this.ClientSize = new System.Drawing.Size(641, 135);
 			this.ControlBox = false;
 			this.Controls.Add(this.ReplaceRadioButton);
 			this.Controls.Add(this.AddRadioButton);
 			this.Controls.Add(this.KeywordsPanel);
 			this.Controls.Add(this.ProgressBar);
 			this.Controls.Add(this.ControlPanel);
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "EditKeywordsForm";

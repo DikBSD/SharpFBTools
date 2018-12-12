@@ -86,6 +86,7 @@ namespace Core.Common
 					}
 				}
 				m_bw.ReportProgress( 1 );
+				ProgressBar.Update();
 			}
 			Cursor.Current = Cursors.Default;
 		}

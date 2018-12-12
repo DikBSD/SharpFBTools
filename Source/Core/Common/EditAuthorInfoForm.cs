@@ -38,7 +38,8 @@ namespace Core.Common
 		private BackgroundWorker m_bw = null;
 		
 		private bool m_EditMode = false; // В режиме правки Автора m_EditMode = true; В режиме добавления Нового Автора m_EditMode = false;
-		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter = new MiscListView.ListViewColumnSorter();
+		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter =
+			new MiscListView.ListViewColumnSorter(-1);
 		
 		public EditAuthorInfoForm( ref IList<FB2ItemInfo> AuthorFB2InfoList )
 		{
@@ -107,6 +108,7 @@ namespace Core.Common
 					}
 				}
 				m_bw.ReportProgress( 1 );
+				ProgressBar.Update();
 			}
 			Cursor.Current = Cursors.Default;
 		}

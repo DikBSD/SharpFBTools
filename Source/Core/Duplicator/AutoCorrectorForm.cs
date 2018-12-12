@@ -113,6 +113,7 @@ namespace Core.Duplicator
 							m_sharpZipLib, m_fv2Validator
 						);
 						m_bw.ReportProgress( ++i );
+						ProgressBar.Update();
 					}
 					break;
 				case BooksAutoCorrectModeEnum.CheckedBooks:
@@ -141,6 +142,7 @@ namespace Core.Duplicator
 						// обработка файла
 						WorksWithBooks.autoCorrect( Item, Item.Text, false, m_sharpZipLib, m_fv2Validator );
 						m_bw.ReportProgress( ++i );
+						ProgressBar.Update();
 					}
 					break;
 				case BooksAutoCorrectModeEnum.BooksInAllGroup:
@@ -153,6 +155,7 @@ namespace Core.Duplicator
 						// обработка файла
 						WorksWithBooks.autoCorrect( Item, Item.Text, false, m_sharpZipLib, m_fv2Validator );
 						m_bw.ReportProgress( ++i );
+						ProgressBar.Update();
 					}
 					break;
 				default:
