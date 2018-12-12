@@ -38,10 +38,10 @@ namespace Core.Common
 		private string m_DirForSavedCover = string.Empty;
 		private const string m_sTitle = "Правка метаданных описания fb2 книги";
 		private readonly FB2DescriptionCorrector _fB2Corrector = null;
-		private readonly MiscListView.ListViewColumnSorter m_TIAuthorsListViewColumnSorter = new MiscListView.ListViewColumnSorter();
-		private readonly MiscListView.ListViewColumnSorter m_TITranslatorListViewColumnSorter = new MiscListView.ListViewColumnSorter();
-		private readonly MiscListView.ListViewColumnSorter m_STIAuthorsListViewColumnSorter = new MiscListView.ListViewColumnSorter();
-		private readonly MiscListView.ListViewColumnSorter m_STITranslatorListViewColumnSorter = new MiscListView.ListViewColumnSorter();
+		private readonly MiscListView.ListViewColumnSorter m_TIAuthorsListViewColumnSorter = new MiscListView.ListViewColumnSorter(-1);
+		private readonly MiscListView.ListViewColumnSorter m_TITranslatorListViewColumnSorter = new MiscListView.ListViewColumnSorter(-1);
+		private readonly MiscListView.ListViewColumnSorter m_STIAuthorsListViewColumnSorter = new MiscListView.ListViewColumnSorter(-1);
+		private readonly MiscListView.ListViewColumnSorter m_STITranslatorListViewColumnSorter = new MiscListView.ListViewColumnSorter(-1);
 		#endregion
 		
 		public EditDescriptionForm( FictionBook fb2 )

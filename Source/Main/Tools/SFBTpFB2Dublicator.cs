@@ -2844,7 +2844,8 @@ namespace SharpFBTools.Tools
 		private string	m_sMessTitle		= string.Empty;
 		private string	m_DirForSavedCover	= string.Empty;	// папка для сохранения обложек
 		private int		m_CurrentResultItem	= -1;
-		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter = new MiscListView.ListViewColumnSorter();
+		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter =
+			new MiscListView.ListViewColumnSorter(9);
 		#endregion
 		
 		public SFBTpFB2Dublicator()
@@ -3741,10 +3742,8 @@ namespace SharpFBTools.Tools
 		{
 			if ( e.Column == m_lvwColumnSorter.SortColumn ) {
 				// Изменить сортировку на обратную для выбранного столбца
-				if( m_lvwColumnSorter.Order == SortOrder.Ascending )
-					m_lvwColumnSorter.Order = SortOrder.Descending;
-				else
-					m_lvwColumnSorter.Order = SortOrder.Ascending;
+				m_lvwColumnSorter.Order = ( m_lvwColumnSorter.Order == SortOrder.Ascending )
+					? SortOrder.Descending : SortOrder.Ascending;
 			} else {
 				// Задать номер столбца для сортировки (по-умолчанию Ascending)
 				m_lvwColumnSorter.SortColumn = e.Column;

@@ -8,6 +8,7 @@
  */
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections;
@@ -23,157 +24,79 @@ namespace Core.Common
 	public class MiscListView
 	{
 		#region Класс для сравнения данных колонок ListView
-		public class FilemanagerColumnSorter : IComparer
-		{
-			/// <summary>
-			/// Specifies the column to be sorted
-			/// </summary>
-			private int ColumnToSort;
-			/// <summary>
-			/// Specifies the order in which to sort (i.e. 'Ascending').
-			/// </summary>
-			private SortOrder OrderOfSort;
-			/// <summary>
-			/// Case insensitive comparer object
-			/// </summary>
-			private CaseInsensitiveComparer ObjectCompare;
-
-			/// <summary>
-			/// Class constructor.  Initializes various elements
-			/// </summary>
-			public FilemanagerColumnSorter()
-			{
-				// Initialize the column to '0'
-				ColumnToSort = 0;
-
-				// Initialize the sort order to 'none'
-				OrderOfSort = SortOrder.None;
-
-				// Initialize the CaseInsensitiveComparer object
-				ObjectCompare = new CaseInsensitiveComparer();
-			}
-
-			/// <summary>
-			/// This method is inherited from the IComparer interface.  It compares the two objects passed using a case insensitive comparison.
-			/// </summary>
-			/// <param name="x">First object to be compared</param>
-			/// <param name="y">Second object to be compared</param>
-			/// <returns>The result of the comparison. "0" if equal, negative if 'x' is less than 'y' and positive if 'x' is greater than 'y'</returns>
-			public int Compare(object x, object y) {
-				int compareResult;
-				ListViewItem listviewX = (ListViewItem)x;
-				ListViewItem listviewY = (ListViewItem)y;
-				ListViewItemType it1 = (ListViewItemType)listviewX.Tag;
-				ListViewItemType it2 = (ListViewItemType)listviewY.Tag;
-				if ( it1.Type == "f" && it2.Type == "f" ) {
-					compareResult = ObjectCompare.Compare(
-						listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text
-					);
-					// Calculate correct return value based on object comparison
-					if ( OrderOfSort == SortOrder.Ascending ) {
-						// Ascending sort is selected, return normal result of compare operation
-						return compareResult;
-					} else if ( OrderOfSort == SortOrder.Descending ) {
-						// Descending sort is selected, return negative result of compare operation
-						return (-compareResult);
-					}
-					else
-						return 0; // Return '0' to indicate they are equal
-				}
-				return 0; // Return '0' to indicate they are equal
-			}
-			
-			/// <summary>
-			/// Номер столбца для выполнения сортировки (По-умолчанию '0').
-			/// </summary>
-			public int SortColumn {
-				set {
-					ColumnToSort = value;
-				}
-				get {
-					return ColumnToSort;
-				}
-			}
-
-			/// <summary>
-			/// Порядок сортировки ('Ascending' или 'Descending')
-			/// </summary>
-			public SortOrder Order {
-				set {
-					OrderOfSort = value;
-				}
-				get {
-					return OrderOfSort;
-				}
-			}
-		}
-		#endregion
-		
-		#region Класс для сравнения данных колонок ListView
+		/// <summary>
+		/// Класс для сравнения данных колонок ListView
+		/// </summary>
 		public class ListViewColumnSorter : IComparer
 		{
 			/// <summary>
-			/// Specifies the column to be sorted
+			/// Столбец для сортировки
 			/// </summary>
-			private int ColumnToSort;
+			private int _ColumnToSort;
 			/// <summary>
-			/// Specifies the order in which to sort (i.e. 'Ascending').
+			/// Порядок сортировки (наприм. «По возрастанию» ('Ascending'))
 			/// </summary>
-			private SortOrder OrderOfSort;
+			private SortOrder _OrderOfSort;
 			/// <summary>
-			/// Case insensitive comparer object
+			/// Объект сравнения без учета регистра
 			/// </summary>
-			private CaseInsensitiveComparer ObjectCompare;
+			private CaseInsensitiveComparer _ObjectCompare;
+			/// <summary>
+			/// Номер столбца для размеров файлов
+			/// </summary>
+			private readonly int _FileSizeColumnNumber;
 
 			/// <summary>
-			/// Class constructor.  Initializes various elements
+			/// Конструктор класса. Инициализация элементов
 			/// </summary>
-			public ListViewColumnSorter()
+			/// <param name="FileSizeColumnNumber">Номер столбца для размеров файлов</param>
+			public ListViewColumnSorter(int FileSizeColumnNumber)
 			{
-				// Initialize the column to '0'
-				ColumnToSort = 0;
-
-				// Initialize the sort order to 'none'
-				OrderOfSort = SortOrder.None;
-
-				// Initialize the CaseInsensitiveComparer object
-				ObjectCompare = new CaseInsensitiveComparer();
-			}
-
-			/// <summary>
-			/// This method is inherited from the IComparer interface.  It compares the two objects passed using a case insensitive comparison.
-			/// </summary>
-			/// <param name="x">First object to be compared</param>
-			/// <param name="y">Second object to be compared</param>
-			/// <returns>The result of the comparison. "0" if equal, negative if 'x' is less than 'y' and positive if 'x' is greater than 'y'</returns>
-			public int Compare(object x, object y) {
-				int compareResult;
-				ListViewItem listviewX = (ListViewItem)x;
-				ListViewItem listviewY = (ListViewItem)y;
-				compareResult = ObjectCompare.Compare(
-					listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text
-				);
-				// Calculate correct return value based on object comparison
-				if ( OrderOfSort == SortOrder.Ascending ) {
-					// Ascending sort is selected, return normal result of compare operation
-					return compareResult;
-				} else if ( OrderOfSort == SortOrder.Descending ) {
-					// Descending sort is selected, return negative result of compare operation
-					return (-compareResult);
-				}
-				else
-					return 0; // Return '0' to indicate they are equal
+				_FileSizeColumnNumber = FileSizeColumnNumber;
+				_ColumnToSort = 0;
+				_OrderOfSort = SortOrder.None;
+				_ObjectCompare = new CaseInsensitiveComparer();
 			}
 			
 			/// <summary>
-			/// Номер столбца для выполнения сортировки (По-умолчанию '0').
+			/// Сравнение двух объектов. Этот метод унаследован от интерфейса IComparer. Он сравнивает два переданных объекта, используя сравнение без учета регистра.
+			/// </summary>
+			/// <param name="x">Первый объект для сравнения</param>
+			/// <param name="y">Второй объект для сравнения</param>
+			/// <returns>Результат сравнения. «0», если «x» равен «y», отрицательный, если «x» меньше, чем «y», и положительный, если «x» больше, чем «y»</returns>
+			public int Compare(object x, object y) {
+				int compareResult = 0;
+				ListViewItem listviewX = (ListViewItem)x;
+				ListViewItem listviewY = (ListViewItem)y;
+				ListViewItemType itX = (ListViewItemType)listviewX.Tag;
+				ListViewItemType itY = (ListViewItemType)listviewY.Tag;
+				if ( itX != null && itY != null ) {
+					// Для ListView в качестве файлового менеджера
+					if ( itX.Type == "f" && itY.Type == "f" ) {
+						// Пропускаем переход на уровень выше
+						compareResult = Compare(listviewX, listviewY, ref compareResult);
+					}
+				} else {
+					// Для ListView, которые не являются файловым менеджером
+					compareResult = Compare(listviewX, listviewY, ref compareResult);
+				}
+				
+				// Определяем, является ли порядок сортировки по возрастанию
+				if (_OrderOfSort == SortOrder.Ascending)
+					compareResult *= -1; // Инвертируем значение, возвращаемое String.Compare
+				
+				return compareResult;
+			}
+			
+			/// <summary>
+			/// Номер столбца для выполнения сортировки (по-умолчанию '0').
 			/// </summary>
 			public int SortColumn {
 				set {
-					ColumnToSort = value;
+					_ColumnToSort = value;
 				}
 				get {
-					return ColumnToSort;
+					return _ColumnToSort;
 				}
 			}
 
@@ -182,11 +105,76 @@ namespace Core.Common
 			/// </summary>
 			public SortOrder Order {
 				set {
-					OrderOfSort = value;
+					_OrderOfSort = value;
 				}
 				get {
-					return OrderOfSort;
+					return _OrderOfSort;
 				}
+			}
+			
+			/// <summary>
+			/// Алгоритм сравнения
+			/// </summary>
+			private int Compare(ListViewItem listviewX, ListViewItem listviewY, ref int compareResult) {
+				// Определяем, является ли сравниваемый тип типом даты
+				try {
+					// Рассматриваем два объекта, переданных в качестве параметра, как DateTime
+					DateTime firstDate =
+						DateTime.Parse(listviewX.SubItems[_ColumnToSort].Text);
+					DateTime secondDate =
+						DateTime.Parse(listviewY.SubItems[_ColumnToSort].Text);
+					// Сравниваем две даты.
+					compareResult = DateTime.Compare(firstDate, secondDate);
+				} catch {
+					// Если ни один из сравниваемых объектов не имеет допустимого формата даты
+					if ( _ColumnToSort == _FileSizeColumnNumber) {
+						// Рассматриваем оба объекта, как размеры файлов (_ColumnToSort = 9)
+						double X = 0, Y = 0;
+						// Отделяем размер файла от символьного значения Кб, Мб
+						string [] sX = listviewX.SubItems[_ColumnToSort].Text.Split(' ');
+						string [] sY = listviewY.SubItems[_ColumnToSort].Text.Split(' ');
+						
+						// Перевод размера первого файла в биты
+						switch (sX[1]) {
+							case "Кб":
+								X = Convert.ToDouble(sX[0]);
+								X *= 1024;
+								break;
+							case "Мб":
+								X = Convert.ToDouble(sX[0]);
+								X *= (1024*1024);
+								break;
+						}
+						
+						// Перевод размера первого файла в биты
+						switch (sY[1]) {
+							case "Кб":
+								Y = Convert.ToDouble(sY[0]);
+								Y *= 1024;
+								break;
+							case "Мб":
+								Y = Convert.ToDouble(sY[0]);
+								Y *= (1024*1024);
+								break;
+						}
+						
+						// Сравнение двух размеров файлов
+						if ( X > Y )
+							compareResult = 1;
+						else if ( X < Y )
+							compareResult = -1;
+						else
+							compareResult = 0;
+					} else {
+						// Сравниваем два объекта, как строки
+						compareResult = String.Compare(
+							listviewX.SubItems[_ColumnToSort].Text,
+							listviewY.SubItems[_ColumnToSort].Text,
+							CultureInfo.CurrentCulture, System.Globalization.CompareOptions.StringSort
+						);
+					}
+				}
+				return compareResult;
 			}
 		}
 		#endregion

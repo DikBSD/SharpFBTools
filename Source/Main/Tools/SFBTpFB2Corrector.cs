@@ -46,7 +46,8 @@ namespace SharpFBTools.Tools
 		private string	m_DirForSavedCover	= string.Empty;	// папка для сохранения обложек
 		private int	  m_CurrentResultItem	= -1;
 		private readonly SharpZipLibWorker	m_sharpZipLib = new SharpZipLibWorker();
-		private readonly MiscListView.FilemanagerColumnSorter m_lvwColumnSorter = new MiscListView.FilemanagerColumnSorter();
+		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter =
+			new MiscListView.ListViewColumnSorter(11);
 		#endregion
 		
 		public SFBTpFB2Corrector()

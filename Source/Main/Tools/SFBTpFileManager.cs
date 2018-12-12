@@ -3469,7 +3469,8 @@ namespace SharpFBTools.Tools
 		private bool m_isSettingsLoaded			= false; // Только при true все изменения настроек сохраняются в файл.
 		private bool m_ViewMessageForLongTime	= true; // показывать предупреждение о том, что вкл. опции отображения метаданных потребует много времени...
 		private SortingOptions m_sortOptions	= null; // индивидуальные настройки обоих Сортировщиков, взависимости от режима (непрерывная сортировка или возобновление сортировки)
-		private readonly MiscListView.FilemanagerColumnSorter m_lvwColumnSorter = new MiscListView.FilemanagerColumnSorter();
+		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter =
+			new MiscListView.ListViewColumnSorter(11);
 		private System.Windows.Forms.TextBox textBoxOut;
 		#endregion
 		
