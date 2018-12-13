@@ -130,7 +130,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.lblAsIs1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.lblAsIs1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lblAsIs1.Location = new System.Drawing.Point(4, 528);
+			this.lblAsIs1.Location = new System.Drawing.Point(4, 580);
 			this.lblAsIs1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblAsIs1.Name = "lblAsIs1";
 			this.lblAsIs1.Size = new System.Drawing.Size(932, 50);
@@ -143,7 +143,7 @@ namespace SharpFBTools.Tools
 			// 
 			this.lblAsIs.Dock = System.Windows.Forms.DockStyle.Top;
 			this.lblAsIs.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lblAsIs.Location = new System.Drawing.Point(4, 500);
+			this.lblAsIs.Location = new System.Drawing.Point(4, 552);
 			this.lblAsIs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblAsIs.Name = "lblAsIs";
 			this.lblAsIs.Size = new System.Drawing.Size(932, 28);
@@ -154,14 +154,15 @@ namespace SharpFBTools.Tools
 			// lblWeb
 			// 
 			this.lblWeb.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblWeb.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+			this.lblWeb.Font = new System.Drawing.Font("Tahoma", 12F);
 			this.lblWeb.ForeColor = System.Drawing.Color.DarkMagenta;
 			this.lblWeb.Location = new System.Drawing.Point(4, 472);
 			this.lblWeb.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblWeb.Name = "lblWeb";
-			this.lblWeb.Size = new System.Drawing.Size(932, 28);
+			this.lblWeb.Size = new System.Drawing.Size(932, 80);
 			this.lblWeb.TabIndex = 13;
-			this.lblWeb.Text = "Сайт программы: https://sourceforge.net/projects/sharpfbtools";
+			this.lblWeb.Text = "Сайт программы:\r\nhttps://sourceforge.net/projects/sharpfbtools\r\nhttps://github.co" +
+	"m/DikBSD/SharpFBTools";
 			this.lblWeb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label1
