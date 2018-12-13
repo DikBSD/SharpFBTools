@@ -24,7 +24,8 @@ using WorksWithBooks	= Core.Common.WorksWithBooks;
 using MiscListView		= Core.Common.MiscListView;
 
 // enums
-using EndWorkModeEnum	= Core.Common.Enums.EndWorkModeEnum;
+using EndWorkModeEnum						= Core.Common.Enums.EndWorkModeEnum;
+using BooksAutoCorrectProcessingModeEnum	= Core.Common.Enums.BooksAutoCorrectProcessingModeEnum;
 
 namespace Core.Corrector
 {
@@ -164,7 +165,12 @@ namespace Core.Corrector
 			
 			// Автокорреетировка книг
 			StatusTextBox.Text += "Запуск автокорректировки fb2-файлов...\r\n";
-			autoCorrect( ref m_bw, ref e, ref m_NotWorkingFilesList, ref m_WorkingFilesList, false );
+			// при пакетной обработке (не прерывать обработку на вылете корректировки, а переходим к обработке следующей книги)
+			BooksAutoCorrectProcessingModeEnum AutoCorrectProcessingMode = ( m_NotWorkingFilesList.Count == 1 )
+				? BooksAutoCorrectProcessingModeEnum.OneBookProcessing
+				: BooksAutoCorrectProcessingModeEnum.BatchProcessing;
+			bool IsOneBook = ( m_NotWorkingFilesList.Count == 1 ) ? true : false;
+			autoCorrect( AutoCorrectProcessingMode, ref m_bw, ref e, ref m_NotWorkingFilesList, ref m_WorkingFilesList, false );
 
 			if( ( m_bw.CancellationPending ) ) {
 				e.Cancel = true;
@@ -262,7 +268,8 @@ namespace Core.Corrector
 			
 			// Автокорректировка файлов
 			StatusTextBox.Text += "Возобновление Автокорректировки книг...\r\n";
-			autoCorrect( ref m_bwRenew, ref e, ref m_NotWorkingFilesList, ref m_WorkingFilesList, true );
+			// при пакетной обработке (не прерывать обработку на вылете корректировки, а переходим к обработке следующей книги)
+			autoCorrect( BooksAutoCorrectProcessingModeEnum.BatchProcessing, ref m_bwRenew, ref e, ref m_NotWorkingFilesList, ref m_WorkingFilesList, true );
 
 			// оздание итемов списка всех файлов и каталогов
 			StatusTextBox.Text += "Отображение списка файлов с метаданными...\r\n";
@@ -317,13 +324,16 @@ namespace Core.Corrector
 		/// <summary>
 		/// Автокорректировка списка файлов
 		/// </summary>
+		/// <param name="AutoCorrectProcessingMode">Режим обработки книг: обработка одной книги или пакетный режим</param>
 		/// <param name="bw">Экземпляр класса BackgroundWorker по ссылке</param>
 		/// <param name="e">Экземпляр класса DoWorkEventArgs по ссылке</param>
 		/// <param name="NotWorkingFilesList">Список необработанных книг</param>
 		/// <param name="WorkingFilesList">Список обработанных книг</param>
 		/// <param name="IsReNew">Признак возобновления из файла корректировки</param>
-		private void autoCorrect( ref BackgroundWorker bw, ref DoWorkEventArgs e,
-		                         ref List<string> NotWorkingFilesList, ref List<string> WorkingFilesList, bool IsReNew = false ) {
+		private void autoCorrect( BooksAutoCorrectProcessingModeEnum AutoCorrectProcessingMode,
+		                         ref BackgroundWorker bw, ref DoWorkEventArgs e,
+		                         ref List<string> NotWorkingFilesList, ref List<string> WorkingFilesList,
+		                         bool IsReNew = false ) {
 			this.Text = string.Format( "Автокорректировка {0} книг в {1} каталогах", m_AllFiles, m_AllDirs );
 			if ( IsReNew )
 				this.Text += string.Format( " / Для обработки {0} файлов", m_NotWorkingFilesList.Count );
@@ -344,7 +354,7 @@ namespace Core.Corrector
 				this.Text = string.Format( "{0} : {1} / {2}", Title, i+1, NotWorkingFilesList.Count );
 				DateTime dtStart = DateTime.Now;
 				StatusTextBox.Text += string.Format(@"{0}  =>  ( {1} )  =>", file, getFileLength( file ) );
-				WorksWithBooks.autoCorrect( file, m_sharpZipLib, m_fv2Validator );
+				WorksWithBooks.autoCorrect( AutoCorrectProcessingMode, file, m_sharpZipLib, m_fv2Validator );
 				// повторная проверка откорректированной книги на валидность
 				if ( checkBoxValidate.Checked ) {
 					bool IsValid = string.IsNullOrWhiteSpace( m_fv2Validator.ValidatingFB2File( file ) );

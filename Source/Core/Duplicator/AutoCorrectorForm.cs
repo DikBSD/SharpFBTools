@@ -20,6 +20,7 @@ using MiscListView		= Core.Common.MiscListView;
 // enums
 using EndWorkModeEnum			= Core.Common.Enums.EndWorkModeEnum;
 using BooksAutoCorrectModeEnum	= Core.Common.Enums.BooksAutoCorrectModeEnum;
+using BooksAutoCorrectProcessingModeEnum	= Core.Common.Enums.BooksAutoCorrectProcessingModeEnum;
 
 namespace Core.Duplicator
 {
@@ -100,7 +101,15 @@ namespace Core.Duplicator
 			FB2Validator fv2Validator = new FB2Validator();
 			switch ( m_WorkMode ) {
 				case BooksAutoCorrectModeEnum.SelectedBooks:
-					this.Text = string.Format( "Автокорректировка выделенных {0} книг", m_listViewFB2Files.SelectedItems.Count );
+					this.Text = string.Format(
+						"Автокорректировка выделенных {0} книг", m_listViewFB2Files.SelectedItems.Count
+					);
+					
+					// при пакетной обработке (не прерывать обработку на вылете корректировки, а переходим к обработке следующей книги)
+					BooksAutoCorrectProcessingModeEnum AutoCorrectProcessingMode = 
+						( m_listViewFB2Files.SelectedItems.Count == 1 )
+						? BooksAutoCorrectProcessingModeEnum.OneBookProcessing
+						: BooksAutoCorrectProcessingModeEnum.BatchProcessing;
 					foreach ( ListViewItem SelectedItem in m_listViewFB2Files.SelectedItems ) {
 						if ( ( m_bw.CancellationPending ) ) {
 							e.Cancel = true;
@@ -108,9 +117,7 @@ namespace Core.Duplicator
 						}
 						// обработка файла
 						WorksWithBooks.autoCorrect(
-							SelectedItem, SelectedItem.Text,
-							m_listViewFB2Files.SelectedItems.Count == 1 ? true : false,
-							m_sharpZipLib, m_fv2Validator
+							AutoCorrectProcessingMode, SelectedItem, SelectedItem.Text, m_sharpZipLib, m_fv2Validator
 						);
 						m_bw.ReportProgress( ++i );
 						ProgressBar.Update();
@@ -118,6 +125,11 @@ namespace Core.Duplicator
 					break;
 				case BooksAutoCorrectModeEnum.CheckedBooks:
 					this.Text = string.Format( "Автокорректировка помеченных {0} книг", m_listViewFB2Files.CheckedItems.Count );
+					// при пакетной обработке (не прерывать обработку на вылете корректировки, а переходим к обработке следующей книги)
+					AutoCorrectProcessingMode = ( m_listViewFB2Files.CheckedItems.Count == 1 )
+						? BooksAutoCorrectProcessingModeEnum.OneBookProcessing
+						: BooksAutoCorrectProcessingModeEnum.BatchProcessing;
+					
 					foreach ( ListViewItem CheckedItem in m_listViewFB2Files.CheckedItems ) {
 						if ( ( m_bw.CancellationPending ) ) {
 							e.Cancel = true;
@@ -125,9 +137,7 @@ namespace Core.Duplicator
 						}
 						// обработка файла
 						WorksWithBooks.autoCorrect(
-							CheckedItem, CheckedItem.Text,
-							m_listViewFB2Files.CheckedItems.Count == 1 ? true : false,
-							m_sharpZipLib, m_fv2Validator
+							AutoCorrectProcessingMode, CheckedItem, CheckedItem.Text, m_sharpZipLib, m_fv2Validator
 						);
 						m_bw.ReportProgress( ++i );
 					}
@@ -140,7 +150,9 @@ namespace Core.Duplicator
 							return;
 						}
 						// обработка файла
-						WorksWithBooks.autoCorrect( Item, Item.Text, false, m_sharpZipLib, m_fv2Validator );
+						WorksWithBooks.autoCorrect(
+							BooksAutoCorrectProcessingModeEnum.BatchProcessing, Item, Item.Text, m_sharpZipLib, m_fv2Validator
+						);
 						m_bw.ReportProgress( ++i );
 						ProgressBar.Update();
 					}
@@ -153,7 +165,9 @@ namespace Core.Duplicator
 							return;
 						}
 						// обработка файла
-						WorksWithBooks.autoCorrect( Item, Item.Text, false, m_sharpZipLib, m_fv2Validator );
+						WorksWithBooks.autoCorrect(
+							BooksAutoCorrectProcessingModeEnum.BatchProcessing, Item, Item.Text, m_sharpZipLib, m_fv2Validator
+						);
 						m_bw.ReportProgress( ++i );
 						ProgressBar.Update();
 					}

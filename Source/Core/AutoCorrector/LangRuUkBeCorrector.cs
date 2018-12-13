@@ -22,8 +22,8 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Конструктор класса LangRuUkBeCorrector
 		/// </summary>
-		/// <param name="XmlBody">xml текст body</param>
 		/// <param name="XmlDescription">xml строка description для корректировки</param>
+		/// <param name="XmlBody">xml текст body</param>
 		public LangRuUkBeCorrector( ref string XmlDescription, string XmlBody)
 		{
 			_XmlDescription = XmlDescription;

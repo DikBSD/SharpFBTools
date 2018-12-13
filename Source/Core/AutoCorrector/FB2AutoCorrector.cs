@@ -50,7 +50,14 @@ namespace Core.AutoCorrector
 			Hashtable htTags = FB2CleanCode.getTagsHashtable(); // обработка < > в тексте, кроме fb2 тегов
 			
 			// обработка головного тега FictionBook и пространства имен
-			FB2Text fb2Text = new FB2Text( FilePath );
+			FB2Text fb2Text = null;
+			try {
+				fb2Text = new FB2Text( FilePath );
+			} catch ( Exception exp ) {
+				// Если структура fb2 файла сильно "битая", или же основные разделы располагаются не по стандарту
+				throw exp;
+			}
+			
 			if ( fb2Text.Description.IndexOf( "<FictionBook", StringComparison.CurrentCulture ) == -1 ) {
 				// тег FictionBook отсутствует в книге
 				FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
