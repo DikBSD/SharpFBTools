@@ -10,6 +10,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -49,12 +51,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description> FictionBookTagCorrector:\r\nЗамена тега FictionBook универсальным и корректным тегом.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description> FictionBookTagCorrector:\r\nЗамена тега FictionBook универсальным и корректным тегом."
+					);
 				}
 			}
 			return XmlDescription;

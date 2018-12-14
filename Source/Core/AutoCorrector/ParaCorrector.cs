@@ -10,6 +10,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -59,12 +61,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nПреобразование тега вида <p id=\"$890^^@@\"> в тег <p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nПреобразование тега вида <p id=\"$890^^@@\"> в тег <p>."
+				);
 			}
 			
 			// незавершенный тег <p>: <p текст => <p> текст
@@ -75,12 +74,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nНезавершенный тег <p>: <p текст => <p> текст.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nНезавершенный тег <p>: <p текст => <p> текст."
+				);
 			}
 			
 			// обработка тегов <p>: <p><strong></strong><p>
@@ -91,12 +87,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nОбработка тегов <p>: <p><strong></strong><p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nОбработка тегов <p>: <p><strong></strong><p>."
+				);
 			}
 			
 			// TODO ? (?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)
@@ -108,29 +101,23 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nВосстановление пропущенных </p>: <p><image xlink:href=\"#cover.jpg\"/><p>Текст</p> => <p><image xlink:href=\"#cover.jpg\"/></p>\n<p>Текст</p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: <p><image xlink:href=\"#cover.jpg\"/><p>Текст</p> => <p><image xlink:href=\"#cover.jpg\"/></p>\n<p>Текст</p>"
+				);
 			}
 			
 			// TODO ? (?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)
 			// восстановление пропущенных <p>: </p><image xlink:href="#cover.jpg"/></p> => </p>\n<p><image xlink:href="#cover.jpg"/></p>
 			try {
 				_xmlText = Regex.Replace(
-					_xmlText, @"(?'_p'</p>)(?:\s*?)(?'img'<image [^<]+?/>)(?=\s*?</p>)",
+					_xmlText, @"(?'_p'</p>)(?:\s*?)(?'img'<image [^<]+?/>)(?=\s*?</p>).",
 					"${_p}<p>${img}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nВосстановление пропущенных <p>: </p><image xlink:href=\"#cover.jpg\"/></p> => </p>\n<p><image xlink:href=\"#cover.jpg\"/></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p><image xlink:href=\"#cover.jpg\"/></p> => </p>\n<p><image xlink:href=\"#cover.jpg\"/></p>."
+				);
 			}
 			
 			// восстановление пропущенных <p>: </p>Любой текст с тегами</p> => </p><p>Любой текст с тегами</p>
@@ -141,12 +128,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nВосстановление пропущенных <p>: </p>Любой текст с тегами</p> => </p><p>Любой текст с тегами</p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p>Любой текст с тегами</p> => </p><p>Любой текст с тегами</p>."
+				);
 			}
 			
 			// удаление неверного id из тега <p>: <p id="__"> => <p>
@@ -157,12 +141,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nУдаление неверного id из тега <p>: <p id=\"__\"> => <p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nУдаление неверного id из тега <p>: <p id=\"__\"> => <p>."
+				);
 			}
 			// TODO Продумать, нужно ли переделать ниже алгоритм: может это на конце слов не <p>, а должен быть </p>
 			// восстановление пропущенных </p>: <p>Любой текст с тегами<p> => <p>Любой текст с тегами</p><p>
@@ -173,12 +154,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nВосстановление пропущенных </p>: <p>Любой текст с тегами<p> => <p>Любой текст с тегами</p><p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: <p>Любой текст с тегами<p> => <p>Любой текст с тегами</p><p>."
+				);
 			}
 
 			// ********************************************************************************************************
@@ -190,12 +168,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nВосстановление пропущенных <p>: </p> Текст => </p>\n<p> Текст.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p> Текст => </p>\n<p> Текст."
+				);
 			}
 			
 			// восстановление пропущенных <p>: </p><strong>Текст</strong> => </p><p><strong>Текст</strong>
@@ -206,12 +181,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nВосстановление пропущенных <p>: </p><strong>Текст</strong> => </p><p><strong>Текст</strong>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p><strong>Текст</strong> => </p><p><strong>Текст</strong>."
+				);
 			}
 			
 			// восстановление пропущенных </p>: Текст <p> => Текст </p>\n<p>
@@ -222,12 +194,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nВосстановление пропущенных </p>: Текст <p> => Текст </p>\n<p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: Текст <p> => Текст </p>\n<p>."
+				);
 			}
 
 			// восстановление пропущенных </p>: <p><strong>Текст</strong><p> => <p><strong>Текст</strong></p><p>
@@ -238,12 +207,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nВосстановление пропущенных </p>: <p><strong>Текст</strong><p> => <p><strong>Текст</strong></p><p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: <p><strong>Текст</strong><p> => <p><strong>Текст</strong></p><p>."
+				);
 			}
 			// ********************************************************************************************************
 			
@@ -255,12 +221,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p id=\"AutBody_0fb_0\">Текст</p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p id=\"AutBody_0fb_0\">Текст</p>."
+				);
 			}
 			
 			// удаление лишнего открывающего тега <p> в случаях: <p><p>
@@ -271,12 +234,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p>."
+				);
 			}
 			
 			//TODO

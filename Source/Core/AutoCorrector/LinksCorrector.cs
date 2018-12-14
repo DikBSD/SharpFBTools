@@ -8,8 +8,9 @@
  */
 using System;
 using System.Text.RegularExpressions;
-
 using System.Windows.Forms;
+
+using Core.Common;
 
 namespace Core.AutoCorrector
 {
@@ -68,12 +69,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("LinksCorrector:\r\nУдаление \"пустышек\" типа <a id=\"calibre_link-0\" />.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "LinksCorrector:\r\nУдаление \"пустышек\" типа <a id=\"calibre_link-0\" />."
+				);
 			}
 			
 			// некорректное id ссылки (начинается с цифры)
@@ -84,12 +82,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("LinksCorrector:\r\nНекорректное id ссылки (начинается с цифры).\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "LinksCorrector:\r\nНекорректное id ссылки (начинается с цифры)."
+				);
 			}
 			
 			// некорректное id ссылки (символ @)
@@ -100,12 +95,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("LinksCorrector:\r\nНекорректное id ссылки (символ @).\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "LinksCorrector:\r\nНекорректное id ссылки (символ @)."
+				);
 			}
 			
 			// некорректное id ссылки (символ ')
@@ -116,12 +108,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("LinksCorrector:\r\nНекорректное id ссылки (символ ').\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "LinksCorrector:\r\nНекорректное id ссылки (символ ')."
+				);
 			}
 			
 			// обработка Либрусековских id
@@ -132,12 +121,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("LinksCorrector:\r\nОбработка Либрусековских id.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "LinksCorrector:\r\nОбработка Либрусековских id."
+				);
 			}
 			
 			// обработка Либрусековских id (символ @)
@@ -148,12 +134,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("LinksCorrector:\r\nОбработка Либрусековских id (символ @).\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "LinksCorrector:\r\nОбработка Либрусековских id (символ @)."
+				);
 			}
 			
 			// обработка Либрусековских id (символ ')
@@ -164,12 +147,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("LinksCorrector:\r\nОбработка Либрусековских id (символ ').\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "LinksCorrector:\r\nОбработка Либрусековских id (символ ')."
+				);
 			}
 			
 			// замена пробелов и тильды в ссылках на _
@@ -189,12 +169,9 @@ namespace Core.AutoCorrector
 				}
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("LinksCorrector:\r\nЗамена пробелов и тильды в ссылках на _.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "LinksCorrector:\r\nЗамена пробелов и тильды в ссылках на _."
+				);
 			}
 			
 			// обработка неверного атрибута тега <a>: <a href="#note01" type="note"> => <a l:href="#note01" type="note">
@@ -205,12 +182,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("LinksCorrector:\r\nОбработка неверного атрибута тега <a>: <a href=\"#note01\" type=\"note\"> => <a l:href=\"#note01\" type=\"note\">.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "LinksCorrector:\r\nОбработка неверного атрибута тега <a>: <a href=\"#note01\" type=\"note\"> => <a l:href=\"#note01\" type=\"note\">."
+				);
 			}
 			
 			return _xmlText;

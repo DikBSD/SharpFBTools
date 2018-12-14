@@ -10,6 +10,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -63,12 +65,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("StanzaCorrector:\r\nВставка <v /> после </subtitle> внутри <stanza></stanza>:.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "StanzaCorrector:\r\nВставка <v /> после </subtitle> внутри <stanza></stanza>:."
+				);
 			}
 			
 			// обработка найденных парных тэгов
@@ -114,12 +113,9 @@ namespace Core.AutoCorrector
 					}
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("StanzaCorrector:\r\nПреобразование тегов <v> в <title> обратно в <p>:.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "StanzaCorrector:\r\nПреобразование тегов <v> в <title> обратно в <p>:."
+					);
 				}
 				
 				// обработка <empty-line /> между строфами:
@@ -131,12 +127,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("StanzaCorrector:\r\nОбработка <empty-line /> между строфами: <v>Строфа</v><v>Строфа</v><empty-line /><v>Строфа</v><v>Строфа</v> => <v>Строфа</v><v>Строфа</v></stanza><stanza><v>Строфа</v><v>Строфа</v>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "StanzaCorrector:\r\nОбработка <empty-line /> между строфами: <v>Строфа</v><v>Строфа</v><empty-line /><v>Строфа</v><v>Строфа</v> => <v>Строфа</v><v>Строфа</v></stanza><stanza><v>Строфа</v><v>Строфа</v>."
+					);
 				}
 				
 				// обработка строф с эпиграфом:
@@ -148,12 +141,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("StanzaCorrector:\r\nОбработка строф с эпиграфом: <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "StanzaCorrector:\r\nОбработка строф с эпиграфом: <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>."
+					);
 				}
 				
 				Index = XmlText.IndexOf( tagPair.PairTag, tagPair.StartTagPosition, StringComparison.CurrentCulture ) + NewTag.Length;

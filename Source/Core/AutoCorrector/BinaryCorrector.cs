@@ -15,6 +15,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -123,12 +125,9 @@ namespace Core.AutoCorrector
 				}
 			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("BinaryCorrector:\r\nОбработка <binary>, в которых отсутствует аттрибут content-type.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "BinaryCorrector:\r\nОбработка <binary>, в которых отсутствует аттрибут content-type."
+				);
 			}
 			
 			// обработка ссылок в данных тега binary
@@ -148,12 +147,9 @@ namespace Core.AutoCorrector
 				}
 			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("BinaryCorrector:\r\nОбработка ссылок в данных тега <binary>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "BinaryCorrector:\r\nОбработка ссылок в данных тега <binary>."
+				);
 			}
 			
 			return _xmlBinaries;
@@ -205,12 +201,9 @@ namespace Core.AutoCorrector
 							}
 						} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 						catch ( Exception ex ) {
-							if ( Settings.Settings.ShowDebugMessage ) {
-								// Показывать сообщения об ошибках при падении работы алгоритмов
-								MessageBox.Show(
-									string.Format("BinaryCorrector:\r\nПоиск одноименных обложек и их переименовывание.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-								);
-							}
+							Debug.DebugMessage(
+								ex, "BinaryCorrector:\r\nПоиск одноименных обложек и их переименовывание."
+							);
 						}
 					}
 				} // foreach
@@ -254,12 +247,9 @@ namespace Core.AutoCorrector
 				}
 			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("BinaryCorrector:\r\nФормирование списка картинок из раздела всех <binary>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "BinaryCorrector:\r\nФормирование списка картинок из раздела всех <binary>."
+				);
 			}
 			return BinaryList;
 		}

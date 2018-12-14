@@ -11,8 +11,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
-
 using System.Windows.Forms;
+
+using Core.Common;
 
 namespace Core.AutoCorrector
 {
@@ -93,7 +94,7 @@ namespace Core.AutoCorrector
 			
 			"<!--", "-->"
 		};
-		private static string _RegAmp = @"(?!&(?:amp|lt|gt|(#x[\d\w]{4})|(?:#\d{1,6}));)(&)";//пропускае юникод, символы в десятичной кодировке и меняем уголки
+		private static readonly string _RegAmp = @"(?!&(?:amp|lt|gt|(#x[\d\w]{4})|(?:#\d{1,6}));)(&)";//пропускае юникод, символы в десятичной кодировке и меняем уголки
 		
 		#endregion
 		
@@ -116,7 +117,9 @@ namespace Core.AutoCorrector
 			return htTags;
 		}
 		
-		// предварительная обработка текста
+		/// <summary>
+		/// Предварительная обработка текста
+		/// </summary>
 		public static string preProcessing( string InputString ) {
 			// удаление стартовых пробелов ДО тегов
 			InputString = Regex.Replace(
@@ -152,12 +155,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nОбработка форматирования: теги полужирного.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nОбработка форматирования: теги полужирного."
+				);
 			}
 			
 			// обработка тегов курсива
@@ -168,12 +168,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nОбработка форматирования: теги курсива.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nОбработка форматирования: теги курсива."
+				);
 			}
 
 			/*****************
@@ -187,12 +184,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <DIV ...></DIV>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <DIV ...></DIV>."
+				);
 			}
 			
 			// удаление тегов <cite />, <cite id="nnnnnn" />
@@ -203,12 +197,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite />, <cite id=\"nnnnnn\" />.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite />, <cite id=\"nnnnnn\" />."
+				);
 			}
 			
 			// удаление тегов <cite id="nnnnnn"></cite>, <cite></cite>
@@ -219,12 +210,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite id=\"nnnnnn\"></cite>, <cite></cite>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite id=\"nnnnnn\"></cite>, <cite></cite>."
+				);
 			}
 			
 			// удаление тегов <cite id="bdn__4"></cite>
@@ -235,12 +223,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite id=\"bdn__4\"></cite>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite id=\"bdn__4\"></cite>."
+				);
 			}
 			
 			// удаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>
@@ -251,12 +236,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>."
+				);
 			}
 			
 			// удаление пустых тегов <p><emphasis></emphasis></p>
@@ -267,12 +249,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление пустых тегов <p><emphasis></emphasis></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление пустых тегов <p><emphasis></emphasis></p>."
+				);
 			}
 			
 			// удаление пустых тегов <emphasis></emphasis>
@@ -283,12 +262,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление пустых тегов <emphasis></emphasis>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление пустых тегов <emphasis></emphasis>."
+				);
 			}
 			
 			// удаление <stanza/>, <stanza />
@@ -299,12 +275,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление <stanza/>, <stanza />.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление <stanza/>, <stanza />."
+				);
 			}
 			
 			// удаление <h1> ... <h6> с их содержимым
@@ -315,12 +288,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление <h1> ... <h6> с их содержимым.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление <h1> ... <h6> с их содержимым."
+				);
 			}
 			
 			// удаление тегов <style> вида <style name="MsoFootnoteReference"> и </style>
@@ -335,18 +305,17 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <style> вида <style name=\"MsoFootnoteReference\"> и </style>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <style> вида <style name=\"MsoFootnoteReference\"> и </style>."
+				);
 			}
 			
 			return InputString;
 		}
 		
-		// удаление недопустимых символов
+		/// <summary>
+		/// Удаление недопустимых символов
+		/// </summary>
 		public static string deleteIllegalCharacters( string InputString ) {
 			try {
 				InputString = Regex.Replace(
@@ -355,17 +324,16 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("FB2CleanCode:deleteIllegalCharacters():\r\nУдаление недопустимых символов.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2CleanCode:deleteIllegalCharacters():\r\nУдаление недопустимых символов."
+				);
 			}
 			return InputString;
 		}
 		
-		// обработка < и > и &
+		/// <summary>
+		/// Обработка < и > и &
+		/// </summary>
 		public static string processingCharactersMoreAndLessAndAmp( string InputString, Hashtable htTags ) {
 			Regex regex = new Regex(_RegAmp); // пропускае юникод, символы в десятичной кодировке и меняем уголки
 			List<string> list = splitString( InputString );
@@ -394,7 +362,9 @@ namespace Core.AutoCorrector
 			return sbNewString.ToString();
 		}
 		
-		// проверка, содержит ли тестируемый текст вначале fb2 тего
+		/// <summary>
+		/// Проверка, содержит ли тестируемый текст вначале fb2 тего
+		/// </summary>
 		private static bool isFB2Tag( string Text, Hashtable htTags ) {
 			if ( string.IsNullOrWhiteSpace( Text ) )
 				return false;
@@ -412,7 +382,10 @@ namespace Core.AutoCorrector
 			}
 			return htTags.ContainsValue(Text.Substring(start, end+1 - start));
 		}
-		// разбивка текста по токенам с границами <>
+
+		/// <summary>
+		/// Разбивка текста по токенам с границами <>
+		/// </summary>
 		private static List<string> splitString( string InputString ) {
 			List<string> list = new List<string>();
 			if ( !string.IsNullOrWhiteSpace( InputString ) ) {
@@ -441,7 +414,9 @@ namespace Core.AutoCorrector
 			}
 			return list;
 		}
-		// разбивка текста по токенам с границами <>
+		/// <summary>
+		/// Разбивка текста по токенам с границами <>
+		/// </summary>
 		private static void _splitString( string InputString, ref List<string> list ) {
 			if ( InputString.Equals( "\n" ) ) {
 				list.Add( InputString );

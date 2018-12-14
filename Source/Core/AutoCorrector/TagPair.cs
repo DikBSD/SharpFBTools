@@ -10,6 +10,8 @@ using System;
 
 using System.Windows.Forms;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -111,7 +113,7 @@ namespace Core.AutoCorrector
 		}
 		
 		/// <summary>
-		/// Поиск текст для заданного парного тега 
+		/// Поиск текст для заданного парного тега
 		/// </summary>
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="startTag">Открывающий тэг</param>
@@ -180,8 +182,10 @@ namespace Core.AutoCorrector
 						}
 					}
 				}
-			} catch (Exception exp) {
-				MessageBox.Show("AutoCorrector::TagPair.getPairTagText:\n" + exp);
+			} catch (Exception ex) {
+				Debug.DebugMessage(
+					ex, "AutoCorrector::TagPair.getPairTagText:\n"
+				);
 			}
 			
 			return false;
@@ -208,8 +212,10 @@ namespace Core.AutoCorrector
 					}
 				}
 				_nextTag = xmlText.Substring( start, end-start+1 );
-			} catch (Exception exp) {
-				MessageBox.Show("AutoCorrector::TagPair.findNextTag:\n" + exp);
+			} catch (Exception ex) {
+				Debug.DebugMessage(
+					ex, "AutoCorrector::TagPair.getPairTagText:\n"
+				);
 			}
 			
 			return ! string.IsNullOrEmpty( _nextTag );
@@ -254,8 +260,10 @@ namespace Core.AutoCorrector
 					}
 				}
 				_previousTag = xmlText.Substring( start, end-start+1 );
-			} catch (Exception exp) {
-				MessageBox.Show("AutoCorrector::TagPair._findPreviousTag:\n" + exp);
+			} catch (Exception ex) {
+				Debug.DebugMessage(
+					ex, "AutoCorrector::TagPair._findPreviousTag:\n"
+				);
 			}
 			
 			return ! string.IsNullOrEmpty( _previousTag );

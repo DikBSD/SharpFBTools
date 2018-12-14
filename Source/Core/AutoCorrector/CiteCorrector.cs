@@ -10,6 +10,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -62,12 +64,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("CiteCorrector:\r\nПреобразование вложенных друг в друга тегов cite в Автора: <cite><cite><p>Иванов</p></cite></cite> => <cite><text-author><p>Иванов</p></text-author></cite>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "CiteCorrector:\r\nПреобразование вложенных друг в друга тегов cite в Автора: <cite><cite><p>Иванов</p></cite></cite> => <cite><text-author><p>Иванов</p></text-author></cite>."
+				);
 			}
 			
 			// перестановка местами Текста Цитаты и ее автора: <cite><text-author>Автор</text-author><p>Цитата</p></cite> => <cite><p>Цитата</p><text-author>Автор</text-author></cite>
@@ -78,12 +77,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("CiteCorrector:\r\nПерестановка местами Текста Цитаты и ее автора: <cite><text-author>Автор</text-author><p>Цитата</p></cite> => <cite><p>Цитата</p><text-author>Автор</text-author></cite>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "CiteCorrector:\r\nПерестановка местами Текста Цитаты и ее автора: <cite><text-author>Автор</text-author><p>Цитата</p></cite> => <cite><p>Цитата</p><text-author>Автор</text-author></cite>."
+				);
 			}
 			
 			// Удаление <empty-line /> между </text-author> и </cite>: </text-author><empty-line /></cite> => </text-author></cite>
@@ -94,12 +90,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("CiteCorrector:\r\nУдаление <empty-line /> между </text-author> и </cite>: </text-author><empty-line /></cite> => </text-author></cite>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "CiteCorrector:\r\nУдаление <empty-line /> между </text-author> и </cite>: </text-author><empty-line /></cite> => </text-author></cite>."
+				);
 			}
 			
 			// обработка найденных парных тэгов
@@ -135,12 +128,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("CiteCorrector:\r\nОбрамление картинки тегами <p> ... </p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "CiteCorrector:\r\nОбрамление картинки тегами <p> ... </p>."
+					);
 				}
 				
 				if ( tagPair.StartTagCount == 2 ) {
@@ -152,12 +142,9 @@ namespace Core.AutoCorrector
 						);
 					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 					catch ( Exception ex ) {
-						if ( Settings.Settings.ShowDebugMessage ) {
-							// Показывать сообщения об ошибках при падении работы алгоритмов
-							MessageBox.Show(
-								string.Format("CiteCorrector:\r\nУдаление <cite> вокруг <text-author> в Цитате: <cite><p>Текст</p><p>Текст</p><cite><text-author>Автор Цитаты</text-author></cite></cite> => <cite><p>Текст</p><p>Текст</p><text-author>Автор Цитаты</text-author></cite>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-							);
-						}
+						Debug.DebugMessage(
+							ex, "CiteCorrector:\r\nУдаление <cite> вокруг <text-author> в Цитате: <cite><p>Текст</p><p>Текст</p><cite><text-author>Автор Цитаты</text-author></cite></cite> => <cite><p>Текст</p><p>Текст</p><text-author>Автор Цитаты</text-author></cite>."
+						);
 					}
 				}
 				

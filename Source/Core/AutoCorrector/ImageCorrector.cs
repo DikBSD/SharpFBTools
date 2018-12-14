@@ -10,6 +10,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -60,12 +62,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nОбработка картинок: <image l:href=\"#img_0.png\"> </image> или <image l:href=\"#img_0.png\">\n</image>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nОбработка картинок: <image l:href=\"#img_0.png\"> </image> или <image l:href=\"#img_0.png\">\n</image>."
+				);
 			}
 			
 			// обработка картинки между <section> и <title>
@@ -76,12 +75,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nОбработка картинки между <section> и <title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nОбработка картинки между <section> и <title>."
+				);
 			}
 			
 			// вставка <empty-line /> до картинки, идущей после тега <section>: <section><image l:href="#index.jpg" /> => <section><empty-line /><image l:href="#index.jpg" />
@@ -92,12 +88,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nВставка <empty-line /> до картинки, идущей после тега <section>: <section><image l:href=\"#index.jpg\" /> => <section><empty-line /><image l:href=\"#index.jpg\".\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nВставка <empty-line /> до картинки, идущей после тега <section>: <section><image l:href=\"#index.jpg\" /> => <section><empty-line /><image l:href=\"#index.jpg\"."
+				);
 			}
 			
 			// вставка <empty-line /> после картинки, заключенной в тегах <section> ... </section>: <section><image l:href="#index.jpg" /></section> => <section><image l:href="#index.jpg" /><empty-line /></section>
@@ -108,12 +101,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nВставка <empty-line /> после картинки, заключенной в тегах <section> ... </section>: <section><image l:href=\"#index.jpg\" /></section> => <section><image l:href=\"#index.jpg\" /><empty-line /></section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nВставка <empty-line /> после картинки, заключенной в тегах <section> ... </section>: <section><image l:href=\"#index.jpg\" /></section> => <section><image l:href=\"#index.jpg\" /><empty-line /></section>."
+				);
 			}
 			
 			// Обработка картинки между тегами </title> и <section> : </title><image l:href="#index.jpg" /><section> => </title><section><image l:href="#index.jpg" /><empty-line /></section><section>
@@ -124,12 +114,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nОбработка картинки между тегами </title> и <section> : </title><image l:href=\"#index.jpg\" /><section> => </title><section><image l:href=\"#index.jpg\" /><empty-line /></section><section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nОбработка картинки между тегами </title> и <section> : </title><image l:href=\"#index.jpg\" /><section> => </title><section><image l:href=\"#index.jpg\" /><empty-line /></section><section>."
+				);
 			}
 			
 			// Обработка картинки между тегами </title> и <section> : </title><empty-line /><image l:href="#index.jpg" /><empty-line /><section> => </title><section><empty-line /><image l:href="#index.jpg" /><empty-line /></section><section>
@@ -140,12 +127,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nОбработка картинки между тегами </title> и <section> : </title><empty-line /><image l:href=\"#index.jpg\" /><empty-line /><section> => </title><section><empty-line /><image l:href=\"#index.jpg\" /><empty-line /></section><section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nОбработка картинки между тегами </title> и <section> : </title><empty-line /><image l:href=\"#index.jpg\" /><empty-line /><section> => </title><section><empty-line /><image l:href=\"#index.jpg\" /><empty-line /></section><section>."
+				);
 			}
 			
 			// Обработка картинки между тегами </title> и <epigraph> : </title><image l:href="#index.jpg" /><epigraph> => <p><image l:href="#index.jpg" /></p></title><epigraph>
@@ -156,12 +140,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nОбработка картинки между тегами </title> и <epigraph> : </title><image l:href=\"#index.jpg\" /><epigraph> => <p><image l:href=\"#index.jpg\" /></p></title><epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nОбработка картинки между тегами </title> и <epigraph> : </title><image l:href=\"#index.jpg\" /><epigraph> => <p><image l:href=\"#index.jpg\" /></p></title><epigraph>."
+				);
 			}
 			
 			// Вставка между <image ... /> (<image ... ></image>) и </section> недостающего тега <empty-line/>
@@ -172,12 +153,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nВставка между <image ... /> (<image ... ></image>) и </section> недостающего тега <empty-line/>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nВставка между <image ... /> (<image ... ></image>) и </section> недостающего тега <empty-line/>."
+				);
 			}
 			
 			// Обработка <subtitle><image l:href="#_3.jpg" /></subtitle> => <p><image l:href="#_3.jpg" /></p>
@@ -188,12 +166,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nОбработка <subtitle><image l:href=\"#_3.jpg\" /></subtitle> => <p><image l:href=\"#_3.jpg\" /></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nОбработка <subtitle><image l:href=\"#_3.jpg\" /></subtitle> => <p><image l:href=\"#_3.jpg\" /></p>."
+				);
 			}
 			
 			// замена пробелов и тильды в ссылках на _
@@ -212,12 +187,9 @@ namespace Core.AutoCorrector
 				}
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nЗамена пробелов и тильды в ссылках на _.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nЗамена пробелов и тильды в ссылках на _."
+				);
 			}
 			
 			// обработка картинок: <text-author><p><image l:href="#i_008.png" /></p></text-author> => <text-author><image l:href="#i_008.png" /></text-author>
@@ -228,12 +200,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nОбработка картинок: <text-author><p><image l:href=\"#i_008.png\" /></p></text-author> => <text-author><image l:href=\"#i_008.png\" /></text-author>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nОбработка картинок: <text-author><p><image l:href=\"#i_008.png\" /></p></text-author> => <text-author><image l:href=\"#i_008.png\" /></text-author>."
+				);
 			}
 			
 			// обработка картинок: </section><empty-line /><image l:href="#freud.jpg" /><section> => </section><section><empty-line /><image l:href="#freud.jpg" /><empty-line /></section><section>
@@ -244,12 +213,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("ImageCorrector:\r\nОбработка картинок: </section><empty-line /><image l:href=\"#freud.jpg\" /><section> => </section><section><empty-line /><image l:href=\"#freud.jpg\" /><empty-line /></section><section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "ImageCorrector:\r\nОбработка картинок: </section><empty-line /><image l:href=\"#freud.jpg\" /><section> => </section><section><empty-line /><image l:href=\"#freud.jpg\" /><empty-line /></section><section>."
+				);
 			}
 			
 			// постобработка (разбиение на теги (смежные теги) )

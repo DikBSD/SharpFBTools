@@ -10,6 +10,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -62,12 +64,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("EpigraphCorrector:\r\nВставка между </epigraph> и </section> недостающего тега <empty-line/>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "EpigraphCorrector:\r\nВставка между </epigraph> и </section> недостающего тега <empty-line/>."
+				);
 			}
 			
 			// удаление <empty-line /> между </title> и <epigraph> </title><empty-line/><epigraph><p>Эпиграф</p></epigraph> => </title><epigraph><p>Эпиграф</p></epigraph>
@@ -78,12 +77,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("EpigraphCorrector:\r\nУдаление <empty-line /> между </title> и <epigraph> </title><empty-line/><epigraph><p>Эпиграф</p></epigraph> => </title><epigraph><p>Эпиграф</p></epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "EpigraphCorrector:\r\nУдаление <empty-line /> между </title> и <epigraph> </title><empty-line/><epigraph><p>Эпиграф</p></epigraph> => </title><epigraph><p>Эпиграф</p></epigraph>."
+				);
 			}
 			
 			// удаление <empty-line /> между </epigraph> и <epigraph>: </epigraph><empty-line /><epigraph> => </epigraph>\n<epigraph>
@@ -94,12 +90,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("EpigraphCorrector:\r\nУдаление <empty-line /> между </epigraph> и <epigraph>: </epigraph><empty-line /><epigraph> => </epigraph><epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "EpigraphCorrector:\r\nУдаление <empty-line /> между </epigraph> и <epigraph>: </epigraph><empty-line /><epigraph> => </epigraph><epigraph>."
+				);
 			}
 			
 			// удаление <empty-line /> между </epigraph> и <section>: </epigraph><empty-line /><section> => </epigraph>\n<section>
@@ -110,12 +103,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("EpigraphCorrector:\r\nУдаление <empty-line /> между </epigraph> и <section>: </epigraph><empty-line /><section> => </epigraph><section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "EpigraphCorrector:\r\nУдаление <empty-line /> между </epigraph> и <section>: </epigraph><empty-line /><section> => </epigraph><section>."
+				);
 			}
 			
 			// Перестановка местами </epigraph> и тег <text-author> с его данными
@@ -126,12 +116,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("EpigraphCorrector:\r\nПерестановка местами </epigraph> и тег <text-author> с его данными.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "EpigraphCorrector:\r\nПерестановка местами </epigraph> и тег <text-author> с его данными."
+				);
 			}
 			
 			// обработка найденных парных тэгов
@@ -169,12 +156,9 @@ namespace Core.AutoCorrector
 							);
 						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 						catch ( Exception ex ) {
-							if ( Settings.Settings.ShowDebugMessage ) {
-								// Показывать сообщения об ошибках при падении работы алгоритмов
-								MessageBox.Show(
-									string.Format("EpigraphCorrector:\r\nПреобразование вложенных друг в друга тегов epigraph в Автора: <epigraph><epigraph><p>Иванов</p></epigraph></epigraph> => <cite><text-author><p>Иванов</p></text-author></cite>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-								);
-							}
+							Debug.DebugMessage(
+								ex, "EpigraphCorrector:\r\nПреобразование вложенных друг в друга тегов epigraph в Автора: <epigraph><epigraph><p>Иванов</p></epigraph></epigraph> => <cite><text-author><p>Иванов</p></text-author></cite>."
+							);
 						}
 					}
 					// замена epigraph на cite: <p>Text</p><epigraph><p><strong>Text</strong></p></epigraph> => <p>Text</p><cite><p><strong>Text</strong></p></cite>
@@ -190,12 +174,9 @@ namespace Core.AutoCorrector
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
-								if ( Settings.Settings.ShowDebugMessage ) {
-									// Показывать сообщения об ошибках при падении работы алгоритмов
-									MessageBox.Show(
-										string.Format("EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <subtitle>...</subtitle><epigraph><emphasis><p><emphasis>Текст</emphasis></p><emphasis><p>Достоевский</p></emphasis></emphasis></epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-									);
-								}
+								Debug.DebugMessage(
+									ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <subtitle>...</subtitle><epigraph><emphasis><p><emphasis>Текст</emphasis></p><emphasis><p>Достоевский</p></emphasis></emphasis></epigraph>."
+								);
 							}
 							
 							// Преобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><p>Текст</p></epigraph>
@@ -208,12 +189,9 @@ namespace Core.AutoCorrector
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
-								if ( Settings.Settings.ShowDebugMessage ) {
-									// Показывать сообщения об ошибках при падении работы алгоритмов
-									MessageBox.Show(
-										string.Format("EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><p>Текст</p></epigraph>\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><epigraph><p>Текст</p></epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-									);
-								}
+								Debug.DebugMessage(
+									ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><p>Текст</p></epigraph>\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><epigraph><p>Текст</p></epigraph>."
+								);
 							}
 							
 							// Преобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><emphasis><p>Текст</p></emphasis></epigraph>
@@ -226,12 +204,9 @@ namespace Core.AutoCorrector
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
-								if ( Settings.Settings.ShowDebugMessage ) {
-									// Показывать сообщения об ошибках при падении работы алгоритмов
-									MessageBox.Show(
-										string.Format("EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><emphasis><p>Текст</p></emphasis></epigraph>\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><epigraph><emphasis><p>Текст</p></emphasis></epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-									);
-								}
+								Debug.DebugMessage(
+									ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><emphasis><p>Текст</p></emphasis></epigraph>\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><epigraph><emphasis><p>Текст</p></emphasis></epigraph>."
+								);
 							}
 							
 							// Преобразование Эпиграфа в Цитату в случае </subtitle><epigraph><p>Текст</p><text-author>Автор</text-author></epigraph>
@@ -242,12 +217,9 @@ namespace Core.AutoCorrector
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
-								if ( Settings.Settings.ShowDebugMessage ) {
-									// Показывать сообщения об ошибках при падении работы алгоритмов
-									MessageBox.Show(
-										string.Format("EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае </subtitle><epigraph><p>Текст</p><text-author>Автор</text-author></epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-									);
-								}
+								Debug.DebugMessage(
+									ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае </subtitle><epigraph><p>Текст</p><text-author>Автор</text-author></epigraph>."
+								);
 							}
 						} else if ( tagPair.PreviousTag.Equals("</section>") && tagPair.NextTag.Equals("<section>") ) {
 							// обрамление Эпиграфа тегами <section> ... <empty-line /></section> в случае если до Эпиграфа стоит тег </section>, а после Эпиграфа - тег <section> : </section><epigraph><p>Текст</p><p>Текст</p></epigraph><section> => </section><section><epigraph><p>Текст</p><p>Текст</p></epigraph><empty-line/></section><section>
@@ -261,12 +233,9 @@ namespace Core.AutoCorrector
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
-								if ( Settings.Settings.ShowDebugMessage ) {
-									// Показывать сообщения об ошибках при падении работы алгоритмов
-									MessageBox.Show(
-										string.Format("EpigraphCorrector:\r\nОбработка Эпиграфа с Аннотацией в случае: </title><epigraph><annotation><p>Текст.</p><p>Текст.</p><empty-line /><p>Текст</p><p><emphasis>Текст</emphasis></p><p>Текст</p></annotation></epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-									);
-								}
+								Debug.DebugMessage(
+									ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с Аннотацией в случае: </title><epigraph><annotation><p>Текст.</p><p>Текст.</p><empty-line /><p>Текст</p><p><emphasis>Текст</emphasis></p><p>Текст</p></annotation></epigraph>."
+								);
 							}
 						} else if ( tagPair.PreviousTag.IndexOf("<empty-line />", StringComparison.CurrentCulture) != -1 || tagPair.PreviousTag.IndexOf("<empty-line/>", StringComparison.CurrentCulture) != -1) {
 							// замена epigraph на cite в случае, если перед простым Эпиграфом находится </p><empty-line />
@@ -288,12 +257,9 @@ namespace Core.AutoCorrector
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
-								if ( Settings.Settings.ShowDebugMessage ) {
-									// Показывать сообщения об ошибках при падении работы алгоритмов
-									MessageBox.Show(
-										string.Format("EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>...</subtitle><epigraph><emphasis><p><emphasis>Этот стих звучит так:</emphasis></p><epigraph><p><emphasis>И счастья баловень безродный</emphasis></p><p><emphasis>Полудержавный властелин.</emphasis></p></epigraph></emphasis></epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-									);
-								}
+								Debug.DebugMessage(
+									ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>...</subtitle><epigraph><emphasis><p><emphasis>Этот стих звучит так:</emphasis></p><epigraph><p><emphasis>И счастья баловень безродный</emphasis></p><p><emphasis>Полудержавный властелин.</emphasis></p></epigraph></emphasis></epigraph>."
+								);
 							}
 						} else if ( tagPair.PreviousTag.Equals("</title>") || tagPair.PreviousTag.Equals("<section>") || tagPair.PreviousTag.Equals("</epigraph>")  ) {
 							// обработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><p>Достоевский</p></emphasis></epigraph></epigraph><epigraph>
@@ -304,12 +270,9 @@ namespace Core.AutoCorrector
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
-								if ( Settings.Settings.ShowDebugMessage ) {
-									// Показывать сообщения об ошибках при падении работы алгоритмов
-									MessageBox.Show(
-										string.Format("EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><p>Достоевский</p></emphasis></epigraph></epigraph><epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-									);
-								}
+								Debug.DebugMessage(
+									ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><p>Достоевский</p></emphasis></epigraph></epigraph><epigraph>."
+								);
 							}
 							
 							// обработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><emphasis>Достоевский</emphasis></emphasis></epigraph></epigraph><epigraph>
@@ -320,12 +283,9 @@ namespace Core.AutoCorrector
 								);
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
-								if ( Settings.Settings.ShowDebugMessage ) {
-									// Показывать сообщения об ошибках при падении работы алгоритмов
-									MessageBox.Show(
-										string.Format("EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><emphasis>Достоевский</emphasis></emphasis></epigraph></epigraph><epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-									);
-								}
+								Debug.DebugMessage(
+									ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><emphasis>Достоевский</emphasis></emphasis></epigraph></epigraph><epigraph>."
+								);
 							}
 							
 							// обработка Эпиграфа с текстом и Эпиграфом вместо Автора эпиграфа: <epigraph><p><emphasis>Текст</emphasis></p><p>Текст</p><epigraph><p><emphasis>Достоевский</emphasis></p></epigraph></epigraph><epigraph>
@@ -336,12 +296,9 @@ namespace Core.AutoCorrector
 								); //
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
-								if ( Settings.Settings.ShowDebugMessage ) {
-									// Показывать сообщения об ошибках при падении работы алгоритмов
-									MessageBox.Show(
-										string.Format("EpigraphCorrector:\r\nОбработка Эпиграфа с текстом и Эпиграфом вместо Автора эпиграфа: <epigraph><p><emphasis>Текст</emphasis></p><p>Текст</p><epigraph><p><emphasis>Достоевский</emphasis></p></epigraph></epigraph><epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-									);
-								}
+								Debug.DebugMessage(
+									ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с текстом и Эпиграфом вместо Автора эпиграфа: <epigraph><p><emphasis>Текст</emphasis></p><p>Текст</p><epigraph><p><emphasis>Достоевский</emphasis></p></epigraph></epigraph><epigraph>."
+								);
 							}
 						}
 						
@@ -353,12 +310,9 @@ namespace Core.AutoCorrector
 							);
 						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 						catch ( Exception ex ) {
-							if ( Settings.Settings.ShowDebugMessage ) {
-								// Показывать сообщения об ошибках при падении работы алгоритмов
-								MessageBox.Show(
-									string.Format("EpigraphCorrector:\r\nОбработка Эпиграфа вида: <epigraph><empty-line/><p>Текст</p><p>Текст.</p><epigraph><empty-line/><p><emphasis>Автор</emphasis> </p></epigraph></epigraph> => <epigraph><empty-line/><p>Текст</p><p>Текст.</p><text-author><emphasis>Автор</emphasis></text-author></epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-								);
-							}
+							Debug.DebugMessage(
+								ex, "EpigraphCorrector:\r\nОбработка Эпиграфа вида: <epigraph><empty-line/><p>Текст</p><p>Текст.</p><epigraph><empty-line/><p><emphasis>Автор</emphasis> </p></epigraph></epigraph> => <epigraph><empty-line/><p>Текст</p><p>Текст.</p><text-author><emphasis>Автор</emphasis></text-author></epigraph>."
+							);
 						}
 						
 					} else if ( tagPair.StartTagCount == 3 ) {
@@ -370,12 +324,9 @@ namespace Core.AutoCorrector
 							);
 						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 						catch ( Exception ex ) {
-							if ( Settings.Settings.ShowDebugMessage ) {
-								// Показывать сообщения об ошибках при падении работы алгоритмов
-								MessageBox.Show(
-									string.Format("EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом и Эпиграфом вместо Автора эпиграфа: <epigraph><epigraph><p><strong>Текст</strong></p><p>Текст</p></epigraph><epigraph><emphasis><p>Автор</p></emphasis></epigraph></epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-								);
-							}
+							Debug.DebugMessage(
+								ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом и Эпиграфом вместо Автора эпиграфа: <epigraph><epigraph><p><strong>Текст</strong></p><p>Текст</p></epigraph><epigraph><emphasis><p>Автор</p></emphasis></epigraph></epigraph>."
+							);
 						}
 					}
 				}

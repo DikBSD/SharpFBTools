@@ -18,6 +18,7 @@ using System.Xml;
 using System.Windows.Forms;
 
 using Core.FB2.FB2Parsers;
+using Core.Common;
 
 namespace Core.AutoCorrector
 {
@@ -53,9 +54,9 @@ namespace Core.AutoCorrector
 			FB2Text fb2Text = null;
 			try {
 				fb2Text = new FB2Text( FilePath );
-			} catch ( Exception exp ) {
+			} catch ( Exception ex ) {
 				// Если структура fb2 файла сильно "битая", или же основные разделы располагаются не по стандарту
-				throw exp;
+				throw ex;
 			}
 			
 			if ( fb2Text.Description.IndexOf( "<FictionBook", StringComparison.CurrentCulture ) == -1 ) {
@@ -73,12 +74,9 @@ namespace Core.AutoCorrector
 				fb2Text.Description = regex.Replace( fb2Text.Description, "utf-8" );
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("Обработка раздела <description>:\r\nОбработка неверного значения кодировки файла.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "FB2AutoCorrector::autoCorrector()\r\nОбработка раздела <description>:\r\nОбработка неверного значения кодировки файла."
+				);
 			}
 			
 			
@@ -137,12 +135,9 @@ namespace Core.AutoCorrector
 					}
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nУдаление атрибута в теге description.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nУдаление атрибута в теге description."
+					);
 				}
 				
 				/*********************
@@ -156,12 +151,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>."
+					);
 				}
 				
 				// обработка картинок: <image l:href="#img_0.png"> </image> или <image l:href="#img_0.png">\n</image>
@@ -172,12 +164,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>."
+					);
 				}
 				
 				/****************
@@ -191,12 +180,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nОбработка пустого id.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nОбработка пустого id."
+					);
 				}
 
 				// обработка Либрусековских id
@@ -207,12 +193,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nОбработка ибрусековских id.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nОбработка Либрусековских id."
+					);
 				}
 				
 				/************************
@@ -226,12 +209,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>."
+					);
 				}
 				
 				// обработка annotation: картинка без тегов <p>: <annotation><image l:href="#ficbook_logo.png" /> => <annotation><p><image l:href="#ficbook_logo.png" /></p>
@@ -242,12 +222,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>."
+					);
 				}
 				
 				/******************
@@ -274,12 +251,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nОбработка неверно заданного русского языка.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nОбработка неверно заданного русского языка."
+					);
 				}
 				
 				// обработка неверно заданного английского языка
@@ -290,12 +264,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nОбработка неверно заданного английского языка.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nОбработка неверно заданного английского языка."
+					);
 				}
 				
 				/*****************
@@ -308,12 +279,9 @@ namespace Core.AutoCorrector
 					}
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nОбработка дат (тег <date>).\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nОбработка дат (тег <date>)."
+					);
 				}
 				
 				/************************
@@ -327,12 +295,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п."
+					);
 				}
 				
 				// преобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>
@@ -343,12 +308,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>."
+					);
 				}
 
 				/**********************************
@@ -371,12 +333,9 @@ namespace Core.AutoCorrector
 //				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				
 			} catch (Exception ex) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("Обработка раздела <description>:\r\nМетод autoCorrectDescription().\r\nОшибка уровня всего метода:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "Обработка раздела <description>:\r\nМетод autoCorrectDescription().\r\nОшибка уровня всего метода:"
+				);
 			}
 			return autoCorrect( XmlDescription, htTags );
 		}
@@ -425,12 +384,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Удаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Удаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>."
+					);
 				}
 				
 				// Удаление пустышек типа <body name="notes" />
@@ -441,12 +397,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Удаление пустышек типа <body name=\"notes\" />.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Удаление пустышек типа <body name=\"notes\" />."
+					);
 				}
 				
 				// Обработка блоков типа <p></section> => </section>
@@ -457,12 +410,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка блоков типа <p></section> => </section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка блоков типа <p></section> => </section>."
+					);
 				}
 				
 				// Обработка блоков типа <title></p> => <title>
@@ -473,12 +423,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка блоков типа <title></p> => <title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка блоков типа <title></p> => <title>."
+					);
 				}
 				
 				// Обработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>
@@ -489,12 +436,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>."
+					);
 				}
 				
 				/********************
@@ -525,12 +469,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Удаление пустого атрибута xmlns=\"\" в тегах body и section.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Удаление пустого атрибута xmlns=\"\" в тегах body и section."
+					);
 				}
 				
 				// удаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -541,12 +482,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Удаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\".\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Удаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"."
+					);
 				}
 				
 				/***********************
@@ -560,12 +498,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>."
+					);
 				}
 				
 				/****************************
@@ -580,12 +515,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>."
+					);
 				}
 
 				/*********************
@@ -612,12 +544,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Создание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Создание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>."
+					);
 				}
 				
 				/**************************************
@@ -631,12 +560,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка подзаголовков <subtitle>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка подзаголовков <subtitle>."
+					);
 				}
 				
 				// обработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>
@@ -647,12 +573,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>."
+					);
 				}
 
 				/************************
@@ -682,12 +605,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>."
+					);
 				}
 				
 				// Удаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>
@@ -698,12 +618,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Удаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Удаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>."
+					);
 				}
 				
 				// Вставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>
@@ -714,12 +631,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Вставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Вставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>."
+					);
 				}
 				
 				/********************
@@ -744,12 +658,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Обработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Обработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>."
+					);
 				}
 				
 				// внесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>
@@ -760,12 +671,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Внесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Внесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>."
+					);
 				}
 				
 				// замена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>
@@ -776,12 +684,9 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Замена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "Замена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>."
+					);
 				}
 
 				/********************
@@ -799,12 +704,9 @@ namespace Core.AutoCorrector
 				InputString = paraCorrector.correct();
 
 			} catch (Exception ex) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("Автокорректировка текста. Метод _autoCorrect( string InputString ).\r\nОшибка уровня всего метода:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "Автокорректировка текста. Метод _autoCorrect( string InputString )."
+				);
 			}
 			
 			return InputString;

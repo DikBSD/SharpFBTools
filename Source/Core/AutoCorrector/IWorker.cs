@@ -18,6 +18,12 @@ namespace Core.AutoCorrector
 	/// <param name="Index">Индекс начала поиска открывающего тэга</param>
 	public interface IWorker
 	{
+		/// <summary>
+		/// Обработчик найденных парных тегов poem
+		/// </summary>
+		/// <param name="tagPair">Экземпляр класса поиска парных тегов с вложенными тегами любой сложности вложения</param>
+		/// <param name="XmlText">Текст строки для корректировки в xml представлении</param>
+		/// <param name="Index">Индекс начала поиска открывающего тэга</param>
 		void DoWork( ref TagPair tagPair, ref string XmlText, ref int Index );
 	}
 }

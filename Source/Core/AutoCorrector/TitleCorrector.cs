@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -63,12 +65,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("TitleCorrector:\r\nУдаление \"пустышек\": <title><empty-line /><empty-line /></title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "TitleCorrector:\r\nУдаление \"пустышек\": <title><empty-line /><empty-line /></title>."
+				);
 			}
 			
 			
@@ -89,12 +88,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("TitleCorrector:\r\nУдаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "TitleCorrector:\r\nУдаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section>."
+				);
 			}
 			
 			// Обработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>
@@ -105,12 +101,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("TitleCorrector:\r\nОбработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "TitleCorrector:\r\nОбработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>."
+				);
 			}
 			
 			// внесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>
@@ -121,12 +114,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("TitleCorrector:\r\nВнесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "TitleCorrector:\r\nВнесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>."
+				);
 			}
 			
 			// Обрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>
@@ -137,12 +127,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("TitleCorrector:\r\nОбрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "TitleCorrector:\r\nОбрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>."
+				);
 			}
 			
 			// Удаление <empty-line/> между </title> и <section>: </title><empty-line /><section>
@@ -153,12 +140,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("TitleCorrector:\r\nУдаление <empty-line/> между </title> и <section>: </title><empty-line /><section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "TitleCorrector:\r\nУдаление <empty-line/> между </title> и <section>: </title><empty-line /><section>."
+				);
 			}
 			
 			// Обрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>
@@ -169,12 +153,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("TitleCorrector:\r\nОбрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "TitleCorrector:\r\nОбрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>."
+				);
 			}
 			
 			// обработка найденных парных тэгов
@@ -213,12 +194,9 @@ namespace Core.AutoCorrector
 						);
 					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 					catch ( Exception ex ) {
-						if ( Settings.Settings.ShowDebugMessage ) {
-							// Показывать сообщения об ошибках при падении работы алгоритмов
-							MessageBox.Show(
-								string.Format("TitleCorrector:\r\nВставка <empty-line/> между </title> и <section> (Заголовок Книги игнорируется): <section><title><p><strong>Название</strong></p><p>главы</p></title></section>>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-							);
-						}
+						Debug.DebugMessage(
+							ex, "TitleCorrector:\r\nВставка <empty-line/> между </title> и <section> (Заголовок Книги игнорируется): <section><title><p><strong>Название</strong></p><p>главы</p></title></section>>."
+						);
 					}
 				} else if ( tagPair.PreviousTag.Equals("</cite>") && tagPair.NextTag.Equals("<p>") ) {
 					// вставка тегов </section><section>: </cite><title><p>Текст</p><p><strong>Текст</strong></p></title><p>Текст</p> => </cite></section><section><title><p>Текст</p><p><strong>Текст</strong></p></title><p>Текст</p>

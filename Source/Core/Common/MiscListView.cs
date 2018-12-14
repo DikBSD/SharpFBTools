@@ -458,7 +458,12 @@ namespace Core.Common
 				lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text =
 					(Convert.ToInt32(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
 			} catch ( Exception ex ) {
-				MessageBox.Show(ex.Message);
+				if ( Settings.Settings.ShowDebugMessage ) {
+					// Показывать сообщения об ошибках при падении работы алгоритмов
+					MessageBox.Show(
+						"MiskListView::deleteChechedItemsNotDeleteFiles:\n" + ex.Message + "\r\nФайл: MiskListView.cs", "Работа с ListView", MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
 			}
 					
 			listViewFB2Files.EndUpdate();

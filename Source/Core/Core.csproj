@@ -107,6 +107,7 @@
     <Compile Include="Common\CustomInfoForm.Designer.cs">
       <DependentUpon>CustomInfoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Common\Debug.cs" />
     <Compile Include="Common\EditAuthorInfoForm.cs" />
     <Compile Include="Common\EditAuthorInfoForm.Designer.cs">
       <DependentUpon>EditAuthorInfoForm.cs</DependentUpon>

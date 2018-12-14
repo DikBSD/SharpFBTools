@@ -10,6 +10,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
+using Core.Common;
+
 namespace Core.AutoCorrector
 {
 	/// <summary>
@@ -62,12 +64,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("PoemCorrector:\r\nУдаление структур <poem><stanza /></poem>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "PoemCorrector:\r\nУдаление структур <poem><stanza /></poem>."
+				);
 			}
 			
 			// Удаление структур <poem><stanza><empty-line /></stanza></poem>
@@ -78,12 +77,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("PoemCorrector:\r\nУдаление структур <poem><stanza><empty-line /></stanza></poem>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "PoemCorrector:\r\nУдаление структур <poem><stanza><empty-line /></stanza></poem>."
+				);
 			}
 
 			// вставка <text-author> внутрь <poem> </poem>
@@ -94,12 +90,9 @@ namespace Core.AutoCorrector
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
-				if ( Settings.Settings.ShowDebugMessage ) {
-					// Показывать сообщения об ошибках при падении работы алгоритмов
-					MessageBox.Show(
-						string.Format("PoemCorrector:\r\nВставка <text-author> внутрь <poem> </poem>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
+				Debug.DebugMessage(
+					ex, "PoemCorrector:\r\nВставка <text-author> внутрь <poem> </poem>."
+				);
 			}
 			
 			// обработка найденных парных тэгов
@@ -144,12 +137,9 @@ namespace Core.AutoCorrector
 					}
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("PoemCorrector:\r\nПреобразование <poem><p>...</p><p>...</p></poem> в <poem><stanza><v>...</v><v>...</v></stanza></poem>.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+					Debug.DebugMessage(
+						ex, "PoemCorrector:\r\nПреобразование <poem><p>...</p><p>...</p></poem> в <poem><stanza><v>...</v><v>...</v></stanza></poem>."
+					);
 				}
 				
 				Index = XmlText.IndexOf( tagPair.PairTag, tagPair.StartTagPosition, StringComparison.CurrentCulture ) + NewTag.Length;
