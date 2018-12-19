@@ -86,8 +86,8 @@ namespace Core.Duplicator
 			);
 			
 			int i = 0;
-			foreach( ListViewItem lvi in checkedItems ) {
-				if( ( m_bw.CancellationPending ) ) {
+			foreach ( ListViewItem lvi in checkedItems ) {
+				if ( ( m_bw.CancellationPending ) ) {
 					e.Cancel = true;
 					return;
 				}
@@ -115,7 +115,7 @@ namespace Core.Duplicator
 			if ( e.Cancelled ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Cancelled;
 				m_EndMode.Message = "Сохранение путей помеченных книг в файл прервано!\nЗатрачено времени: " + sTime;
-			} else if( e.Error != null ) {
+			} else if ( e.Error != null ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Error;
 				m_EndMode.Message = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: " + sTime;
 			} else {

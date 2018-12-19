@@ -18,6 +18,8 @@ namespace Core.AutoCorrector
 	/// Поиск парных тегов с вложенными тегами любой сложности вложения
 	/// </summary>
 	public class TagPair {
+		private string _FilePath = string.Empty; // Путь к обрабатываемому файлу
+		
 		private int _startTagCount = 0;
 		private int _endTagCount = 0;
 		private int _startTagPosition = 0;
@@ -27,8 +29,23 @@ namespace Core.AutoCorrector
 		
 		private string _tagPair = string.Empty;
 		
-		public TagPair ()
+		private string _startTag = string.Empty;
+		private string _endTag = string.Empty;
+		
+		/// <summary>
+		/// Конструктор класса TagPair
+		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
+		public TagPair ( string FilePath )
 		{
+			_FilePath = FilePath;
+		}
+		
+		/// <summary>
+		/// Путь к обрабатываемому файлу
+		/// </summary>
+		public virtual string FilePath {
+			get { return _FilePath; }
 		}
 		
 		/// <summary>
@@ -77,7 +94,7 @@ namespace Core.AutoCorrector
 		}
 		
 		/// <summary>
-		///текст найденного парного тега со всеми вложениями
+		///Текст найденного парного тега со всеми вложениями
 		/// </summary>
 		public virtual string PairTag {
 			get { return _tagPair; }
@@ -88,6 +105,7 @@ namespace Core.AutoCorrector
 		/// Сбор всех полей - очистка
 		/// </summary>
 		public void clear() {
+			_FilePath = string.Empty;
 			_startTagCount = 0;
 			_endTagCount = 0;
 			_startTagPosition = 0;
@@ -95,6 +113,8 @@ namespace Core.AutoCorrector
 			_previousTag = string.Empty;
 			_nextTag = string.Empty;
 			_tagPair = string.Empty;
+			_startTag = string.Empty;
+			_endTag = string.Empty;
 		}
 		
 		/// <summary>
@@ -105,21 +125,22 @@ namespace Core.AutoCorrector
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="startTag">Открывающий тэг</param>
 		/// <param name="endTag">Закрывающий тэг</param>
-		/// <returns>true - найдено; false - не найдено </returns>
 		public void getPairTextAndTags( string xmlText, string startTag, string endTag ) {
+			_startTag = startTag;
+			_endTag = endTag;
 			findPreviousTag( xmlText, _startTagPosition );
 			getPairTagText( xmlText, startTag, endTag );
 			findNextTag( xmlText, _endTagPosition );
 		}
 		
 		/// <summary>
-		/// Поиск текст для заданного парного тега
+		/// Поиск текста для заданного парного тега
 		/// </summary>
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="startTag">Открывающий тэг</param>
 		/// <param name="endTag">Закрывающий тэг</param>
 		/// <returns>true - найдено; false - не найдено </returns>
-		public bool getPairTagText( string xmlText, string startTag, string endTag ) {
+		private bool getPairTagText( string xmlText, string startTag, string endTag ) {
 			// АЛГОРИТМ
 //				2. Ищем, например, <epigraph> или </epigraph> - что будет найдено вперед {
 //					Если найдено </epigraph> то {
@@ -184,7 +205,8 @@ namespace Core.AutoCorrector
 				}
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					ex, "AutoCorrector::TagPair.getPairTagText:\n"
+					Debug.InLogFile, _FilePath, ex,
+					null, string.Format("Искомый тэг: Открывающий тэг: {0}, Закрывающий тэг: {1}\r\n", startTag, endTag )
 				);
 			}
 			
@@ -197,7 +219,7 @@ namespace Core.AutoCorrector
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="StartPosition">Позиция начала поиска</param>
 		/// <returns>true - найдено; false - не найдено </returns>
-		public bool findNextTag( string xmlText, int StartPosition ) {
+		private bool findNextTag( string xmlText, int StartPosition ) {
 			int start = StartPosition;
 			int end = -1;
 			try {
@@ -214,7 +236,8 @@ namespace Core.AutoCorrector
 				_nextTag = xmlText.Substring( start, end-start+1 );
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					ex, "AutoCorrector::TagPair.getPairTagText:\n"
+					Debug.InLogFile, _FilePath, ex,
+					null, string.Format("Открывающий тэг: {0}, Закрывающий тэг: {1}\r\n", _startTag, _endTag )
 				);
 			}
 			
@@ -227,7 +250,7 @@ namespace Core.AutoCorrector
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="StartPosition">Позиция начала поиска</param>
 		/// <returns>true - найдено; false - не найдено </returns>
-		public bool findPreviousTag( string xmlText, int StartPosition ) {
+		private bool findPreviousTag( string xmlText, int StartPosition ) {
 			if ( _findPreviousTag(  xmlText, StartPosition ) ) {
 				string prevTag = _previousTag;
 				if ( _previousTag.Equals( "<empty-line/>" ) || _previousTag.Equals( "<empty-line />" )/* || _previousTag.Equals( "<section>" )*/ ) {
@@ -246,6 +269,9 @@ namespace Core.AutoCorrector
 		/// <param name="StartPosition">Позиция начала поиска</param>
 		/// <returns>true - найдено; false - не найдено </returns>
 		private bool _findPreviousTag( string xmlText, int StartPosition ) {
+			if ( StartPosition < 0 )
+				return false;
+			
 			int start = 0;
 			int end = StartPosition;
 			try {
@@ -262,7 +288,8 @@ namespace Core.AutoCorrector
 				_previousTag = xmlText.Substring( start, end-start+1 );
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					ex, "AutoCorrector::TagPair._findPreviousTag:\n"
+					Debug.InLogFile, _FilePath, ex,
+					null, string.Format("Открывающий тэг: {0}, Закрывающий тэг: {1}\r\n", _startTag, _endTag )
 				);
 			}
 			

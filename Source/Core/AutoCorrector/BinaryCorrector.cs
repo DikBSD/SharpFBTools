@@ -66,13 +66,16 @@ namespace Core.AutoCorrector
 		private string _xmlBinaries = string.Empty;
 		private const string _regStringForBinaryTag = "<binary +?(?:(?:content-type=\"image/\\w{3,4}\" id=\"(?:(?:\\w+?\\W?\\w+?)+)+\")|(?:id=\"(?:(\\w+?\\W?\\w+?)+)+\" content-type=\"image/\\w{3,4}\")) ?>";
 		//"<binary (?:(?:content-type=\"image/\\w{3,4}\" id=\"\\w+\\.\\w{3,4}\")|(?:id=\"\\w+\\.\\w{3,4}\" content-type=\"image/\\w{3,4}\")) ?>"
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
 		
 		/// <summary>
 		/// Конструктор класса BinaryCorrector
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="xmlBinaries">Строка всех рвзделов Binary в Fb2 формате для корректировки</param>
-		public BinaryCorrector( string xmlBinaries )
+		public BinaryCorrector( string FilePath, string xmlBinaries )
 		{
+			_FilePath = FilePath;
 			_xmlBinaries = xmlBinaries;
 		}
 		
@@ -126,7 +129,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "BinaryCorrector:\r\nОбработка <binary>, в которых отсутствует аттрибут content-type."
+					Debug.InLogFile, _FilePath, ex, "BinaryCorrector:\r\nОбработка <binary>, в которых отсутствует аттрибут content-type."
 				);
 			}
 			
@@ -139,7 +142,7 @@ namespace Core.AutoCorrector
 				while ( m.Success ) {
 					string sourceRinaryTag = m.Value;
 					// обработка ссылок
-					LinksCorrector linksCorrector = new LinksCorrector( sourceRinaryTag );
+					LinksCorrector linksCorrector = new LinksCorrector( _FilePath, sourceRinaryTag );
 					string resultBinaryTag = linksCorrector.correct();
 					if ( resultBinaryTag != sourceRinaryTag )
 						_xmlBinaries = _xmlBinaries.Replace( sourceRinaryTag, resultBinaryTag );
@@ -148,7 +151,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "BinaryCorrector:\r\nОбработка ссылок в данных тега <binary>."
+					Debug.InLogFile, _FilePath, ex, "BinaryCorrector:\r\nОбработка ссылок в данных тега <binary>."
 				);
 			}
 			
@@ -202,7 +205,7 @@ namespace Core.AutoCorrector
 						} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 						catch ( Exception ex ) {
 							Debug.DebugMessage(
-								ex, "BinaryCorrector:\r\nПоиск одноименных обложек и их переименовывание."
+								Debug.InLogFile, _FilePath, ex, "BinaryCorrector:\r\nПоиск одноименных обложек и их переименовывание."
 							);
 						}
 					}
@@ -248,7 +251,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "BinaryCorrector:\r\nФормирование списка картинок из раздела всех <binary>."
+					Debug.InLogFile, _FilePath, ex, "BinaryCorrector:\r\nФормирование списка картинок из раздела всех <binary>."
 				);
 			}
 			return BinaryList;

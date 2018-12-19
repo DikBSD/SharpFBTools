@@ -32,8 +32,13 @@ namespace Core.Common
 					ret += ( string.IsNullOrEmpty( Name ) ? "?" : Name ) + "; ";
 					ret.Trim();
 				}
-				string ReturnValue = ret.Substring( 0, ret.LastIndexOf( ";" ) ).Trim();
-				return ReturnValue.IndexOf( ";" ) != 0 ? ReturnValue : GenreCodes;
+				string ReturnValue = ret.Substring(
+					0, ret.LastIndexOf( ";", StringComparison.CurrentCultureIgnoreCase )
+				).Trim();
+				
+				return ReturnValue.IndexOf(
+					";", StringComparison.CurrentCultureIgnoreCase
+				) != 0 ? ReturnValue : GenreCodes;
 			}
 			string RetValue = fb2g.GetFBGenreName( GenreCodes );
 			return !string.IsNullOrEmpty( RetValue ) ? RetValue : GenreCodes;
@@ -49,7 +54,9 @@ namespace Core.Common
 					ret += ( string.IsNullOrEmpty( Name ) ? "?" : Name ) + " (" + code.Trim() + ")" + "; ";
 					ret.Trim();
 				}
-				return ret.Substring( 0, ret.LastIndexOf( ";" ) ).Trim();
+				return ret.Substring(
+					0, ret.LastIndexOf( ";", StringComparison.CurrentCultureIgnoreCase )
+				).Trim();
 			}
 			return fb2g.GetFBGenreName( GenreCodes ) + " (" + GenreCodes + ")";
 		}

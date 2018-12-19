@@ -21,6 +21,7 @@ namespace Core.AutoCorrector
 	public class TitleCorrector
 	{
 		private const string _MessageTitle = "Автокорректор";
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
 		
 		private const string _startTag = "<title>";
 		private const string _endTag = "</title>";
@@ -32,11 +33,13 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Конструктор класса TitleCorrector
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="preProcess">Удаление стартовых пробелов и перевода строки => всю книгу - в одну строку</param>
 		/// <param name="postProcess">Вставка разрыва абзаца между смежными тегами</param>
-		public TitleCorrector( ref string xmlText, bool preProcess, bool postProcess )
+		public TitleCorrector( string FilePath, ref string xmlText, bool preProcess, bool postProcess )
 		{
+			_FilePath = FilePath;
 			_xmlText = xmlText;
 			_preProcess = preProcess;
 			_postProcess = postProcess;
@@ -66,7 +69,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "TitleCorrector:\r\nУдаление \"пустышек\": <title><empty-line /><empty-line /></title>."
+					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nУдаление \"пустышек\": <title><empty-line /><empty-line /></title>."
 				);
 			}
 			
@@ -89,7 +92,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "TitleCorrector:\r\nУдаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section>."
+					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nУдаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section>."
 				);
 			}
 			
@@ -102,7 +105,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "TitleCorrector:\r\nОбработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>."
+					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nОбработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>."
 				);
 			}
 			
@@ -115,7 +118,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "TitleCorrector:\r\nВнесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>."
+					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nВнесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>."
 				);
 			}
 			
@@ -128,7 +131,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "TitleCorrector:\r\nОбрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>."
+					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nОбрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>."
 				);
 			}
 			
@@ -141,7 +144,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "TitleCorrector:\r\nУдаление <empty-line/> между </title> и <section>: </title><empty-line /><section>."
+					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nУдаление <empty-line/> между </title> и <section>: </title><empty-line /><section>."
 				);
 			}
 			
@@ -154,13 +157,13 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "TitleCorrector:\r\nОбрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>."
+					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nОбрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>."
 				);
 			}
 			
 			// обработка найденных парных тэгов
 			IWorker worker = new TitleCorrectorWorker();
-			TagWorker tagWorker = new TagWorker( ref _xmlText, _startTag, _endTag, ref worker );
+			TagWorker tagWorker = new TagWorker( _FilePath, ref _xmlText, _startTag, _endTag, ref worker );
 			_xmlText = tagWorker.Work();
 			
 			// постобработка (разбиение на теги (смежные теги) )
@@ -195,7 +198,7 @@ namespace Core.AutoCorrector
 					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 					catch ( Exception ex ) {
 						Debug.DebugMessage(
-							ex, "TitleCorrector:\r\nВставка <empty-line/> между </title> и <section> (Заголовок Книги игнорируется): <section><title><p><strong>Название</strong></p><p>главы</p></title></section>>."
+							Debug.InLogFile, tagPair.FilePath, ex, "TitleCorrector:\r\nВставка <empty-line/> между </title> и <section> (Заголовок Книги игнорируется): <section><title><p><strong>Название</strong></p><p>главы</p></title></section>>."
 						);
 					}
 				} else if ( tagPair.PreviousTag.Equals("</cite>") && tagPair.NextTag.Equals("<p>") ) {

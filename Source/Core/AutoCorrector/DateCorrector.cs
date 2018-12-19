@@ -20,15 +20,18 @@ namespace Core.AutoCorrector
 		
 		private bool _preProcess = false;
 		private bool _postProcess = false;
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
 		
 		/// <summary>
 		/// Конструктор класса DateCorrector
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="preProcess">Удаление стартовых пробелов и перевода строки => всю книгу - в одну строку</param>
 		/// <param name="postProcess">Вставка разрыва абзаца между смежными тегами</param>
-		public DateCorrector( ref string xmlText, bool preProcess, bool postProcess )
+		public DateCorrector( string FilePath, ref string xmlText, bool preProcess, bool postProcess )
 		{
+			_FilePath = FilePath;
 			_xmlText = xmlText;
 			_preProcess = preProcess;
 			_postProcess = postProcess;

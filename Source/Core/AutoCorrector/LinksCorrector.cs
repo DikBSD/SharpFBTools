@@ -21,6 +21,8 @@ namespace Core.AutoCorrector
 	{
 		private const string _MessageTitle = "Автокорректор";
 		
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
+		
 		private string _xmlText = string.Empty;
 		
 		// некорректное id ссылки (начинается с цифры)
@@ -50,9 +52,11 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Конструктор класса LinksCorrector
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="xmlText">Строка для корректировки</param>
-		public LinksCorrector( string xmlText )
+		public LinksCorrector( string FilePath, string xmlText )
 		{
+			_FilePath = FilePath;
 			_xmlText = xmlText;
 		}
 		
@@ -70,7 +74,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "LinksCorrector:\r\nУдаление \"пустышек\" типа <a id=\"calibre_link-0\" />."
+					Debug.InLogFile, _FilePath, ex, "LinksCorrector:\r\nУдаление \"пустышек\" типа <a id=\"calibre_link-0\" />."
 				);
 			}
 			
@@ -83,7 +87,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "LinksCorrector:\r\nНекорректное id ссылки (начинается с цифры)."
+					Debug.InLogFile, _FilePath, ex, "LinksCorrector:\r\nНекорректное id ссылки (начинается с цифры)."
 				);
 			}
 			
@@ -96,7 +100,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "LinksCorrector:\r\nНекорректное id ссылки (символ @)."
+					Debug.InLogFile, _FilePath, ex, "LinksCorrector:\r\nНекорректное id ссылки (символ @)."
 				);
 			}
 			
@@ -109,7 +113,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "LinksCorrector:\r\nНекорректное id ссылки (символ ')."
+					Debug.InLogFile, _FilePath, ex, "LinksCorrector:\r\nНекорректное id ссылки (символ ')."
 				);
 			}
 			
@@ -122,7 +126,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "LinksCorrector:\r\nОбработка Либрусековских id."
+					Debug.InLogFile, _FilePath, ex, "LinksCorrector:\r\nОбработка Либрусековских id."
 				);
 			}
 			
@@ -135,7 +139,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "LinksCorrector:\r\nОбработка Либрусековских id (символ @)."
+					Debug.InLogFile, _FilePath, ex, "LinksCorrector:\r\nОбработка Либрусековских id (символ @)."
 				);
 			}
 			
@@ -148,7 +152,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "LinksCorrector:\r\nОбработка Либрусековских id (символ ')."
+					Debug.InLogFile, _FilePath, ex, "LinksCorrector:\r\nОбработка Либрусековских id (символ ')."
 				);
 			}
 			
@@ -170,7 +174,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "LinksCorrector:\r\nЗамена пробелов и тильды в ссылках на _."
+					Debug.InLogFile, _FilePath, ex, "LinksCorrector:\r\nЗамена пробелов и тильды в ссылках на _."
 				);
 			}
 			
@@ -183,7 +187,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "LinksCorrector:\r\nОбработка неверного атрибута тега <a>: <a href=\"#note01\" type=\"note\"> => <a l:href=\"#note01\" type=\"note\">."
+					Debug.InLogFile, _FilePath, ex, "LinksCorrector:\r\nОбработка неверного атрибута тега <a>: <a href=\"#note01\" type=\"note\"> => <a l:href=\"#note01\" type=\"note\">."
 				);
 			}
 			

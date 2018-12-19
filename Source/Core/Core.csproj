@@ -189,12 +189,12 @@
       <DependentUpon>CopiesAnalyzeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FB2\FB2Parsers\FB2Text.cs" />
-    <Compile Include="FileManager\FB2TagsViewForm.cs" />
-    <Compile Include="FileManager\FB2TagsViewForm.Designer.cs">
+    <Compile Include="Sorter\FB2TagsViewForm.cs" />
+    <Compile Include="Sorter\FB2TagsViewForm.Designer.cs">
       <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileManager\SortResultForm.cs" />
-    <Compile Include="FileManager\SortResultForm.Designer.cs">
+    <Compile Include="Sorter\SortResultForm.cs" />
+    <Compile Include="Sorter\SortResultForm.Designer.cs">
       <DependentUpon>SortResultForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AutoCorrector\AutoCorrectorForm.resx">
@@ -254,19 +254,19 @@
     <EmbeddedResource Include="Duplicator\CopiesListWorkerForm.resx">
       <DependentUpon>CopiesListWorkerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FileManager\BasiclTemplates.resx">
+    <EmbeddedResource Include="Sorter\BasiclTemplates.resx">
       <DependentUpon>BasiclTemplates.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FileManager\FB2TagsViewForm.resx">
+    <EmbeddedResource Include="Sorter\FB2TagsViewForm.resx">
       <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FileManager\SelectedSortDataForm.resx">
+    <EmbeddedResource Include="Sorter\SelectedSortDataForm.resx">
       <DependentUpon>SelectedSortDataForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FileManager\SortingForm.resx">
+    <EmbeddedResource Include="Sorter\SortingForm.resx">
       <DependentUpon>SortingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FileManager\SortResultForm.resx">
+    <EmbeddedResource Include="Sorter\SortResultForm.resx">
       <DependentUpon>SortResultForm.cs</DependentUpon>
     </EmbeddedResource>
     <Folder Include="AutoCorrector" />
@@ -282,8 +282,8 @@
     <Folder Include="FB2\Description\PublishInfo" />
     <Folder Include="FB2\FB2Parsers" />
     <Folder Include="FB2\Genres" />
-    <Folder Include="FileManager\Templates" />
-    <Folder Include="FileManager" />
+    <Folder Include="Sorter\Templates" />
+    <Folder Include="Sorter" />
     <Folder Include="Test" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Duplicator\BookData.cs" />
@@ -329,18 +329,18 @@
     <Compile Include="FB2\FB2Parsers\FB2Validator.cs" />
     <Compile Include="FB2\FB2Parsers\FictionBook.cs" />
     <Compile Include="FB2\Genres\FB2UnionGenres.cs" />
-    <Compile Include="FileManager\BasiclTemplates.cs" />
-    <Compile Include="FileManager\FB2SelectedSorting.cs" />
-    <Compile Include="FileManager\ISortOptions.cs" />
-    <Compile Include="FileManager\SelectedSortDataForm.cs" />
-    <Compile Include="FileManager\SortingForm.cs" />
-    <Compile Include="FileManager\SortingOptions.cs" />
-    <Compile Include="FileManager\SortQueryCriteria.cs" />
-    <Compile Include="FileManager\StatusView.cs" />
-    <Compile Include="FileManager\Templates\FullNameTemplates.cs" />
-    <Compile Include="FileManager\Templates\LexemType.cs" />
-    <Compile Include="FileManager\Templates\TemplatesParser.cs" />
-    <Compile Include="FileManager\Templates\TemplatesVerify.cs" />
+    <Compile Include="Sorter\BasiclTemplates.cs" />
+    <Compile Include="Sorter\FB2SelectedSorting.cs" />
+    <Compile Include="Sorter\ISortOptions.cs" />
+    <Compile Include="Sorter\SelectedSortDataForm.cs" />
+    <Compile Include="Sorter\SortingForm.cs" />
+    <Compile Include="Sorter\SortingOptions.cs" />
+    <Compile Include="Sorter\SortQueryCriteria.cs" />
+    <Compile Include="Sorter\StatusView.cs" />
+    <Compile Include="Sorter\Templates\FullNameTemplates.cs" />
+    <Compile Include="Sorter\Templates\LexemType.cs" />
+    <Compile Include="Sorter\Templates\TemplatesParser.cs" />
+    <Compile Include="Sorter\Templates\TemplatesVerify.cs" />
     <Compile Include="Test\Test.cs" />
     <Folder Include="Common" />
     <Folder Include="Corrector" />

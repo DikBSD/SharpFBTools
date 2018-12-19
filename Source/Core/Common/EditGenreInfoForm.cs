@@ -206,7 +206,9 @@ namespace Core.Common
 				if ( GenresListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( GenresListView );
 				else
-					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			GenresListView.Select();
 		}
@@ -216,14 +218,18 @@ namespace Core.Common
 				if ( GenresListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( GenresListView );
 				else
-					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			GenresListView.Select();
 		}
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
 			if ( GenresListView.Items.Count == 0 ) {
-				MessageBox.Show( "Заполните данные хотя бы для одного Жанра!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Заполните данные хотя бы для одного Жанра!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 			} else {
 				m_ApplyData = true;
 				ControlPanel.Enabled = false;

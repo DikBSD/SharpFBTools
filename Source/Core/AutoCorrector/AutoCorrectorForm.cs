@@ -365,7 +365,11 @@ namespace Core.Corrector
 				string sTime = dtEnd.Subtract( dtStart ).ToString();
 				try {
 					sTime = sTime.Substring( 0, 11 );
-				} catch { }
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, file, ex, "Автокорректировка списка файлов: AutoCorrector.AutoCorrectorForm.autoCorrect(): Получение времени конца обработки файла."
+					);
+				}
 				sTime = sTime + " (ч:м:с.мс)";
 				StatusTextBox.Text += string.Format("  {0}", sTime ) + "\r\n";
 				

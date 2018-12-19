@@ -121,7 +121,7 @@ namespace Core.Corrector
 			if ( e.Cancelled ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Cancelled;
 				m_EndMode.Message = "Работа прервана и не выполнена до конца!\nЗатрачено времени: "+sTime;
-			} else if( e.Error != null ) {
+			} else if ( e.Error != null ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Error;
 				m_EndMode.Message = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
 			} else {
@@ -165,7 +165,7 @@ namespace Core.Corrector
 					ListViewItemType it = (ListViewItemType)lvi.Tag;
 					// в список - только существующие на диске книги и каталоги
 					bool IsExist = false;
-					if( it.Type == "f" )
+					if ( it.Type == "f" )
 						IsExist = File.Exists( it.Value ) ? true : false;
 					else
 						IsExist = Directory.Exists( it.Value) ? true : false;
@@ -207,9 +207,9 @@ namespace Core.Corrector
 		// загрузка из xml-файла в хэш таблицу данных о копиях книг
 		private void loadListFromXML( ref BackgroundWorker bw, ref DoWorkEventArgs e, string FromXML ) {
 			XElement xmlTree = XElement.Load( FromXML );
-			if( xmlTree != null ) {
+			if ( xmlTree != null ) {
 				XElement xmlBooks = xmlTree.Element("Books");
-				if( xmlBooks != null ) {
+				if ( xmlBooks != null ) {
 					ProgressBar.Maximum	= Convert.ToInt32( xmlBooks.Attribute("count").Value );
 					// устанавливаем данные настройки поиска-сравнения
 					m_textBoxAddress.Text = xmlTree.Element("SourceDir").Value;
@@ -217,8 +217,8 @@ namespace Core.Corrector
 					int i = 0;
 					ListViewItem lvi = null;
 					IEnumerable<XElement> Books = xmlBooks.Elements("Book");
-					foreach( XElement book in Books ) {
-						if( ( bw.CancellationPending ) )  {
+					foreach ( XElement book in Books ) {
+						if ( ( bw.CancellationPending ) )  {
 							e.Cancel = true;
 							return;
 						}
@@ -226,7 +226,7 @@ namespace Core.Corrector
 						string type = book.Attribute("type").Value;
 						// в список - только существующие на диске книги и каталоги
 						bool IsExist = false;
-						if( type == "dir" )
+						if ( type == "dir" )
 							IsExist = Directory.Exists( BookPath ) ? true : false;
 						else
 							IsExist = File.Exists( BookPath) ? true : false;
@@ -234,8 +234,8 @@ namespace Core.Corrector
 							string FileName = book.Element("FileName").Value;
 							string sForeColor = book.Element("ForeColor").Value;
 							string sBackColor = book.Element("BackColor").Value;
-							if( type == "dir" ) {
-								if( FileName == ".." ) {
+							if ( type == "dir" ) {
+								if ( FileName == ".." ) {
 									lvi = new ListViewItem( FileName, 3 ) ;
 									lvi.Tag = new ListViewItemType( "dUp", BookPath );
 								} else {

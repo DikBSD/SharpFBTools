@@ -520,7 +520,7 @@ namespace SharpFBTools.Tools
 		void CboxInstrumentSelectedIndexChanged(object sender, EventArgs e)
 		{
 			rtboxHelp.Clear();
-			string sFileManagerHelpPath		= Settings.FileManagerSettings.FileManagerHelpPath;
+			string sFileManagerHelpPath		= Settings.SorterSettings.SorterHelpPath;
 			string sArchiveManagerHelpPath	= Settings.ArchiveManagerSettings.GetArchiveManagerHelpPath();
 			string sDuplicatorHelpPath		= Settings.FB2DublicatorSettings.GetDuplicatorHelpPath();
 			switch( cboxInstrument.SelectedIndex ) {

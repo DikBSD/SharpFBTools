@@ -97,21 +97,21 @@ namespace Core.Common
 		                                                                     BooksValidateModeEnum BooksValidateType,
 		                                                                     ToolStripProgressBar ProgressBar ) {
 			IList<ListViewItemInfo> ListViewItemInfoList = new List<ListViewItemInfo>();
-			if( listView.Items.Count > 0 ) {
+			if ( listView.Items.Count > 0 ) {
 				string	TempDir = Settings.Settings.TempDirPath;
 				IList Items = null;
-				if( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
+				if ( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 					Items = listView.SelectedItems;
 				else if (BooksValidateType == BooksValidateModeEnum.CheckedBooks)
 					Items = listView.CheckedItems;
 				else /* BooksValidateType == BooksValidateMode.AllBooks */
 					Items = listView.Items;
 				
-				if( Items.Count > 0 ) {
+				if ( Items.Count > 0 ) {
 					ProgressBar.Value = 0;
 					ProgressBar.Maximum = Items.Count;
-					foreach( ListViewItem item in Items ) {
-						if( File.Exists( item.Text.Trim() ) )
+					foreach ( ListViewItem item in Items ) {
+						if ( File.Exists( item.Text.Trim() ) )
 							ListViewItemInfoList.Add(
 								new ListViewItemInfo( item, item.Text.Trim() )
 							);
@@ -156,13 +156,16 @@ namespace Core.Common
 								IsFromZip = true;
 								FilePathIfFromZip = ZipFB2Worker.getFileFromZipFBZ( SourceFilePath, TempDir );
 							}
-							if( File.Exists( FilePathIfFromZip ) ) {
+							if ( File.Exists( FilePathIfFromZip ) ) {
 								try {
 									FB2InfoList.Add(
 										new FB2ItemInfo( item, SourceFilePath, FilePathIfFromZip, IsFromZip )
 									);
-								} catch {
+								} catch ( Exception ex ) {
 									// пропускаем нечитаемые файлы
+									Debug.DebugMessage(
+										Debug.InLogFile, FilePathIfFromZip, ex, "WorksWithBooks.makeFB2InfoList(): Создание списка FB2ItemInfo данных для помеченных / выделенных книг Корректора."
+									);
 								} finally {
 									FilesWorker.RemoveDir( TempDir );
 								}
@@ -188,29 +191,29 @@ namespace Core.Common
 		                                                               BooksValidateModeEnum BooksValidateType,
 		                                                               ToolStripProgressBar ProgressBar ) {
 			IList<ListViewItemInfo> ListViewItemInfoList = new List<ListViewItemInfo>();
-			if( listView.Items.Count > 0 ) {
+			if ( listView.Items.Count > 0 ) {
 				string	TempDir = Settings.Settings.TempDirPath;
 				IList Items = null;
-				if( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
+				if ( BooksValidateType == BooksValidateModeEnum.SelectedBooks )
 					Items = listView.SelectedItems;
 				else if (BooksValidateType == BooksValidateModeEnum.CheckedBooks)
 					Items = listView.CheckedItems;
 				else /* BooksValidateType == BooksValidateMode.AllBooks */
 					Items = listView.Items;
 				
-				if( Items.Count > 0 ) {
+				if ( Items.Count > 0 ) {
 					ProgressBar.Value = 0;
 					ProgressBar.Maximum = Items.Count;
-					foreach( ListViewItem item in Items ) {
+					foreach ( ListViewItem item in Items ) {
 						string PathSource = Path.Combine( FB2SourceRootDir.Trim(), item.Text );
 						string ItemType = ((ListViewItemType)item.Tag).Type;
-						if( ItemType == "d" ) {
+						if ( ItemType == "d" ) {
 							if ( Directory.Exists( PathSource ) )
 								ListViewItemInfoList.Add(
 									new ListViewItemInfo( item, PathSource )
 								);
-						} else if( ItemType == "f" ) {
-							if( File.Exists( PathSource ) ) {
+						} else if ( ItemType == "f" ) {
+							if ( File.Exists( PathSource ) ) {
 								ListViewItemInfoList.Add(
 									new ListViewItemInfo( item, PathSource )
 								);
@@ -230,9 +233,9 @@ namespace Core.Common
 		/// <param name="Items">IList список типа ListViewItem</param>
 		/// <returns>true, если найдена(ы) папка(и)</returns>
 		public static bool checkedDirExsist( IList Items ) {
-			if( Items != null ) {
-				foreach( ListViewItem item in Items ) {
-					if( ((ListViewItemType)item.Tag).Type != "f" )
+			if ( Items != null ) {
+				foreach ( ListViewItem item in Items ) {
+					if ( ((ListViewItemType)item.Tag).Type != "f" )
 						return true;
 				}
 			}
@@ -272,17 +275,17 @@ namespace Core.Common
 			string HomePages = string.Empty;
 			string Emails = string.Empty;
 			string ID = string.Empty;
-			if( a.LastName != null )
+			if ( a.LastName != null )
 				LastName = !string.IsNullOrEmpty( a.LastName.Value ) ? a.LastName.Value : string.Empty;
-			if( a.FirstName != null )
+			if ( a.FirstName != null )
 				FirstName = !string.IsNullOrEmpty( a.FirstName.Value ) ? a.FirstName.Value : string.Empty;
-			if( a.MiddleName != null )
+			if ( a.MiddleName != null )
 				MiddleName = !string.IsNullOrEmpty( a.MiddleName.Value ) ? a.MiddleName.Value : string.Empty;
-			if( a.NickName != null )
+			if ( a.NickName != null )
 				NickName = !string.IsNullOrEmpty( a.NickName.Value ) ? a.NickName.Value : string.Empty;
-			if( a.HomePages != null )
+			if ( a.HomePages != null )
 				HomePages = StringProcessing.makeStringFromListItems( a.HomePages );
-			if( a.Emails != null )
+			if ( a.Emails != null )
 				Emails = StringProcessing.makeStringFromListItems( a.Emails );
 			ID = !string.IsNullOrEmpty( a.ID ) ? a.ID : string.Empty;
 
@@ -347,7 +350,10 @@ namespace Core.Common
 			FB2BookDescription bd = null;
 			try {
 				bd = new FB2BookDescription( FilePath );
-			} catch ( System.Exception ) {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, FilePath, ex, "WorksWithBooks.createSubItemsWithMetaData(): Создание заполненных subitems для Сортировщика и Корректора. bd = new FB2BookDescription( FilePath )"
+				);
 			}
 			
 			string valid = "?";
@@ -422,11 +428,11 @@ namespace Core.Common
 		/// Скрыть метаданные итема в Списке для Корректора
 		/// </summary>
 		public static void hideMetaDataLocal( ListViewItem Item ) {
-			for( int i = 1; i != Item.SubItems.Count; ++i )
+			for ( int i = 1; i != Item.SubItems.Count; ++i )
 				Item.SubItems[i].Text = string.Empty;
 			
 			string ItemType = ((ListViewItemType)Item.Tag).Type;
-			if( ItemType == "f" ) {
+			if ( ItemType == "f" ) {
 				Item.ForeColor = Colors.FB2NotValidForeColor;
 				Item.SubItems[(int)ResultViewCollumnEnum.Validate].Text = "Нет";
 				Item.SubItems[(int)ResultViewCollumnEnum.Format].Text = Item.Text.Substring(Item.Text.LastIndexOf('.'));
@@ -436,7 +442,7 @@ namespace Core.Common
 		/// Скрыть метаданные итема в Списке для Дубликатора
 		/// </summary>
 		public static void hideMetaDataLocalForDup( ListViewItem Item ) {
-			for( int i = 1; i != Item.SubItems.Count; ++i )
+			for ( int i = 1; i != Item.SubItems.Count; ++i )
 				Item.SubItems[i].Text = string.Empty;
 			Item.ForeColor = Colors.FB2NotValidForeColor;
 			Item.SubItems[(int)ResultViewDupCollumnEnum.Validate].Text = "Нет";
@@ -451,7 +457,7 @@ namespace Core.Common
 			string valid = "?";
 			FB2BookDescription bd = null;
 			try {
-				if( FilesWorker.isFB2File( FilePath ) ) {
+				if ( FilesWorker.isFB2File( FilePath ) ) {
 					// показать данные fb2 файлов
 					bd = new FB2BookDescription( FilePath );
 
@@ -481,7 +487,7 @@ namespace Core.Common
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.FileLength].Text = bd.FileLength;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.CreationTime].Text = bd.FileCreationTime;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.LastWriteTime].Text = bd.FileLastWriteTime;
-				} else if( FilesWorker.isFB2Archive( FilePath ) ) {
+				} else if ( FilesWorker.isFB2Archive( FilePath ) ) {
 					// показать данные архивов
 					FilesWorker.RemoveDir( TempDir );
 					SharpZipLibWorker sharpZipLib = new SharpZipLibWorker();
@@ -516,7 +522,10 @@ namespace Core.Common
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.CreationTime].Text = bd.FileCreationTime;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.LastWriteTime].Text = bd.FileLastWriteTime;
 				}
-			} catch( System.Exception ) {
+			} catch( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, FilePath, ex, "WorksWithBooks.viewBookMetaDataLocal(): Показать данные книги для Сортировщика."
+				);
 				listViewSource.Items[ItemNumber].ForeColor = Colors.BadZipForeColor;
 			} finally {
 				FilesWorker.RemoveDir( TempDir );
@@ -632,7 +641,10 @@ namespace Core.Common
 										subItems = createEmptySubItemsForItem( item );
 								}
 								item.SubItems.AddRange(subItems);
-							} catch(System.Exception /*e*/) {
+							} catch ( Exception ex ) {
+								Debug.DebugMessage(
+									Debug.InLogFile, file.FullName, ex, "WorksWithBooks.generateBooksListWithMetaData(): Генерация списка файлов - создание итемов listViewSource: Блок создания итемов."
+								);
 								subItems = createEmptySubItemsForItem( item );
 								item.SubItems.AddRange(subItems);
 								item.ForeColor = Colors.BadZipForeColor;
@@ -654,7 +666,10 @@ namespace Core.Common
 						MiscListView.AutoResizeColumns( listView );
 					}
 				}
-			} catch (System.Exception) {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, null, ex, "WorksWithBooks.generateBooksListWithMetaData(): Генерация списка файлов - создание итемов listViewSource: Общий catch()."
+				);
 			} finally {
 				listView.EndUpdate();
 				FilesWorker.RemoveDir( TempDir );
@@ -760,7 +775,8 @@ namespace Core.Common
 		/// <summary>
 		/// Восстановление структуры description fb2 файла
 		/// </summary>
-		public static bool recoveryFB2Structure( ref FB2DescriptionCorrector fB2Corrector, ListViewItem lvi, string FilePath ) {
+		public static bool recoveryFB2Structure( ref FB2DescriptionCorrector fB2Corrector,
+		                                        ListViewItem lvi, string FilePath ) {
 			if ( fB2Corrector.recoveryDescriptionNode() ) {
 				lvi.ForeColor = FilesWorker.isFB2File( FilePath )
 					? Colors.FB2ForeColor : Colors.ZipFB2ForeColor;
@@ -826,9 +842,12 @@ namespace Core.Common
 					CoverDPILabel.Text = CoversListView.SelectedItems[0].SubItems[2].Text;
 					CoverPixelsLabel.Text = CoversListView.SelectedItems[0].SubItems[3].Text;
 					CoverLenghtLabel.Text = CoversListView.SelectedItems[0].SubItems[4].Text;
-				} catch ( System.Exception error ) {
+				} catch ( System.Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, null, ex, "WorksWithBooks.viewCover(): Ошибка отображения обложки."
+					);
 					MessageBox.Show(
-						error.Message, "Ошибка отображения картинки", MessageBoxButtons.OK, MessageBoxIcon.Error
+						ex.Message, "Ошибка отображения обложки", MessageBoxButtons.OK, MessageBoxIcon.Error
 					);
 				}
 			}
@@ -857,12 +876,22 @@ namespace Core.Common
 				// автокорректировка только невалидного файла
 				if ( AutoCorrectProcessingMode == BooksAutoCorrectProcessingModeEnum.OneBookProcessing ) {
 					// Обработка только одной книги - при генерации исключения ничего не делаем
-					FB2AutoCorrector.autoCorrector( FilePath );
+					try {
+						FB2AutoCorrector.autoCorrector( FilePath );
+					} catch ( Exception ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка всех выделеннеых/помеченных книг для Дубликатора: Обработка только одной книги."
+						);
+						throw ex;
+					}
 				} else {
 					// пакетная обработка.
 					try {
 						FB2AutoCorrector.autoCorrector( FilePath );
-					} catch {
+					} catch ( Exception ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка всех выделеннеых/помеченных книг для Дубликатора: Gакетная обработка."
+						);
 						// При сильно битой структуре книги переходим к обработке следующей книги
 						FilesWorker.RemoveDir( TempDir );
 						return;
@@ -886,7 +915,10 @@ namespace Core.Common
 						XmlDocument xmlDoc = new XmlDocument();
 						xmlDoc.LoadXml( fb2Text.toXML() );
 						xmlDoc.Save( FilePath );
-					} catch {
+					} catch ( Exception ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка всех выделеннеых/помеченных книг для Дубликатора: Пересохранение файла."
+						);
 						fb2Text.saveFile();
 					}
 					// Постобработка для Дубликатора после Автокорректировки файла
@@ -920,12 +952,22 @@ namespace Core.Common
 				// автокорректировка только невалидного файла
 				if ( AutoCorrectProcessingMode == BooksAutoCorrectProcessingModeEnum.OneBookProcessing ) {
 					// Обработка только одной книги - при генерации исключения ничего не делаем
-					FB2AutoCorrector.autoCorrector( FilePath );
-				} else {
-					// пакетная обработка.
 					try {
 						FB2AutoCorrector.autoCorrector( FilePath );
-					} catch {
+					} catch ( Exception ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Обработка только одной книги."
+						);
+						throw ex;
+					}
+				} else {
+					// Пакетная обработка
+					try {
+						FB2AutoCorrector.autoCorrector( FilePath );
+					} catch ( Exception ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Пакетная обработка."
+						);
 						// При сильно битой структуре книги переходим к обработке следующей книги
 						FilesWorker.RemoveDir( TempDir );
 						return;
@@ -940,7 +982,11 @@ namespace Core.Common
 				try {
 					fb2 = new FictionBook( FilePath );
 					recoverDesc( ref fb2, sharpZipLib, SrcFB2OrZipPath, FilePath );
-				} catch { }
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Восстанавление раздела description до структуры с необходимыми элементами для валидности."
+					);
+				}
 			} else {
 				// замена <lang> для русских книг на ru, украинских на uk, беларуский на be для fb2 без <src-title-info>
 				FB2Text fb2Text = new FB2Text( FilePath );
@@ -954,7 +1000,10 @@ namespace Core.Common
 						XmlDocument xmlDoc = new XmlDocument();
 						xmlDoc.LoadXml( fb2Text.toXML() );
 						xmlDoc.Save( FilePath );
-					} catch {
+					} catch ( Exception ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Пересохранение файла."
+						);
 						fb2Text.saveFile();
 					}
 					
@@ -966,7 +1015,11 @@ namespace Core.Common
 					try {
 						fb2 = new FictionBook( FilePath );
 						recoverDesc( ref fb2, sharpZipLib, SrcFB2OrZipPath, FilePath );
-					} catch { }
+					} catch ( Exception ex ){
+						Debug.DebugMessage(
+							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Восстанавление раздела description до структуры с необходимыми элементами для валидности."
+						);
+					}
 				}
 			}
 
@@ -1068,9 +1121,12 @@ namespace Core.Common
 			try {
 				fb2 = new FictionBook( FilePath );
 				recoverDesc( ref fb2, sharpZipLib, SrcFB2OrZipPath, FilePath );
-			} catch ( FileLoadException e ) {
+			} catch ( FileLoadException ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, FilePath, ex, "WorksWithBooks.postWorkForDuplicator(): Постобработка для Дубликатора после Автокорректировки файла: Восстанавление раздела description до структуры с необходимыми элементами для валидности."
+				);
 				if ( AutoCorrectProcessingMode == BooksAutoCorrectProcessingModeEnum.OneBookProcessing )
-					MessageBox.Show( e.Message, "Автокорректировка", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show( ex.Message, "Автокорректировка", MessageBoxButtons.OK, MessageBoxIcon.Error );
 				return;
 			}
 			if( fb2 != null ) {

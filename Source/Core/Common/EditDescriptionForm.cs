@@ -151,7 +151,7 @@ namespace Core.Common
 			if ( !string.IsNullOrEmpty(SrcLang) ) {
 				for ( int i = 0; i != cbSrcLang.Items.Count; ++i ) {
 					string s = cbSrcLang.Items[i].ToString().ToLower();
-					if ( s.IndexOf( SrcLang.ToLower() ) > -1 ) {
+					if ( s.IndexOf( SrcLang.ToLower(), StringComparison.CurrentCulture ) > -1 ) {
 						cbSrcLang.SelectedIndex = i;
 						break;
 					}
@@ -974,7 +974,9 @@ namespace Core.Common
 				if ( TIGenresListView.SelectedItems.Count == 1 ) {
 					MiscListView.moveUpSelectedItem( TIGenresListView );
 				} else {
-					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 				}
 			}
 			TIGenresListView.Select();
@@ -985,7 +987,9 @@ namespace Core.Common
 				if ( TIGenresListView.SelectedItems.Count == 1 ) {
 					MiscListView.moveDownSelectedItem( TIGenresListView );
 				} else {
-					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 				}
 			}
 			TIGenresListView.Select();
@@ -1020,7 +1024,9 @@ namespace Core.Common
 				if ( TIAuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( TIAuthorsListView );
 				else
-					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			TIAuthorsListView.Select();
 		}
@@ -1030,7 +1036,9 @@ namespace Core.Common
 				if ( TIAuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( TIAuthorsListView );
 				else
-					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			TIAuthorsListView.Select();
 		}
@@ -1078,7 +1086,9 @@ namespace Core.Common
 				if ( TISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( TISequenceListView );
 				else
-					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			TISequenceListView.Select();
 		}
@@ -1088,7 +1098,9 @@ namespace Core.Common
 				if ( TISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( TISequenceListView );
 				else
-					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			TISequenceListView.Select();
 		}
@@ -1122,7 +1134,9 @@ namespace Core.Common
 				if ( STIGenresListView.SelectedItems.Count == 1 ) {
 					MiscListView.moveUpSelectedItem( STIGenresListView );
 				} else {
-					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 				}
 			}
 			STIGenresListView.Select();
@@ -1133,7 +1147,9 @@ namespace Core.Common
 				if ( STIGenresListView.SelectedItems.Count == 1 ) {
 					MiscListView.moveDownSelectedItem( STIGenresListView );
 				} else {
-					MessageBox.Show( "Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только один Жанр для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 				}
 			}
 			STIGenresListView.Select();
@@ -1168,7 +1184,9 @@ namespace Core.Common
 				if ( STIAuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( STIAuthorsListView );
 				else
-					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			STIAuthorsListView.Select();
 		}
@@ -1178,7 +1196,9 @@ namespace Core.Common
 				if ( STIAuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( STIAuthorsListView );
 				else
-					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			STIAuthorsListView.Select();
 		}
@@ -1226,7 +1246,9 @@ namespace Core.Common
 				if ( STISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( STISequenceListView );
 				else
-					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			STISequenceListView.Select();
 		}
@@ -1236,7 +1258,9 @@ namespace Core.Common
 				if ( STISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( STISequenceListView );
 				else
-					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			STISequenceListView.Select();
 		}
@@ -1274,7 +1298,9 @@ namespace Core.Common
 				if ( DIFB2AuthorListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( DIFB2AuthorListView );
 				else
-					MessageBox.Show( "Выберите только одного Автора fb2-файла для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одного Автора fb2-файла для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			DIFB2AuthorListView.Select();
 		}
@@ -1284,7 +1310,9 @@ namespace Core.Common
 				if ( DIFB2AuthorListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( DIFB2AuthorListView );
 				else
-					MessageBox.Show( "Выберите только одного Автора fb2-файла для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одного Автора fb2-файла для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			DIFB2AuthorListView.Select();
 		}
@@ -1314,7 +1342,9 @@ namespace Core.Common
 				if ( PISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( PISequenceListView );
 				else
-					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			PISequenceListView.Select();
 		}
@@ -1324,7 +1354,9 @@ namespace Core.Common
 				if ( PISequenceListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( PISequenceListView );
 				else
-					MessageBox.Show( "Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Серию для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			PISequenceListView.Select();
 		}
@@ -1371,7 +1403,9 @@ namespace Core.Common
 				if ( CICustomInfoListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( CICustomInfoListView );
 				else
-					MessageBox.Show( "Выберите только один элемент для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только один элемент для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			CICustomInfoListView.Select();
 		}
@@ -1381,7 +1415,9 @@ namespace Core.Common
 				if ( CICustomInfoListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( CICustomInfoListView );
 				else
-					MessageBox.Show( "Выберите только один элемент для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только один элемент для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			CICustomInfoListView.Select();
 		}
@@ -1390,7 +1426,9 @@ namespace Core.Common
 		void TICoverListViewClick(object sender, EventArgs e)
 		{
 			if ( TICoverListView.SelectedItems.Count > 0 )
-				TICoverPictureBox.Image = ImageWorker.base64ToImage( TICoverListView.SelectedItems[0].Tag.ToString() );
+				TICoverPictureBox.Image = ImageWorker.base64ToImage(
+					TICoverListView.SelectedItems[0].Tag.ToString()
+				);
 		}
 		void TICoverListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -1424,7 +1462,9 @@ namespace Core.Common
 				if ( TICoverListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( TICoverListView );
 				else
-					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			TICoverListView.Select();
 		}
@@ -1434,7 +1474,9 @@ namespace Core.Common
 				if ( TICoverListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( TICoverListView );
 				else
-					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			TICoverListView.Select();
 		}
@@ -1447,7 +1489,9 @@ namespace Core.Common
 		void STICoverListViewClick(object sender, EventArgs e)
 		{
 			if ( STICoverListView.SelectedItems.Count > 0 )
-				STICoverPictureBox.Image = ImageWorker.base64ToImage( STICoverListView.SelectedItems[0].Tag.ToString() );
+				STICoverPictureBox.Image = ImageWorker.base64ToImage(
+					STICoverListView.SelectedItems[0].Tag.ToString()
+				);
 		}
 		void STICoverListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -1481,7 +1525,9 @@ namespace Core.Common
 				if ( STICoverListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( STICoverListView );
 				else
-					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			STICoverListView.Select();
 		}
@@ -1491,7 +1537,9 @@ namespace Core.Common
 				if ( STICoverListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( STICoverListView );
 				else
-					MessageBox.Show( "Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одну Обложку для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			STICoverListView.Select();
 		}
@@ -1510,29 +1558,39 @@ namespace Core.Common
 			if ( string.IsNullOrWhiteSpace(TIBookTitleTextBox.Text) ) {
 				TITabControl.SelectedTab = tpTittleInfoGeneral;
 				tcViewFB2Desc.SelectedTab = tpTitleInfo;
-				MessageBox.Show( "Поле Названия книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Поле Названия книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				TIBookTitleTextBox.Focus();
 				return;
 			} else if ( TILangComboBox.SelectedIndex == -1 ) {
 				TITabControl.SelectedTab = tpTittleInfoGeneral;
 				tcViewFB2Desc.SelectedTab = tpTitleInfo;
-				MessageBox.Show( "Поле Языка книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Поле Языка книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				TILangComboBox.Focus();
 				return;
 			} else if ( TIGenresListView.Items.Count == 0 ) {
 				TITabControl.SelectedTab = tpTittleInfoGeneral;
 				tcViewFB2Desc.SelectedTab = tpTitleInfo;
-				MessageBox.Show( "Задайте хотя бы один Жанр книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Задайте хотя бы один Жанр книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				TIGenresComboBox.Focus();
 				return;
 			} else if ( string.IsNullOrWhiteSpace(DIIDTextBox.Text) ) {
 				tcViewFB2Desc.SelectedTab = tpDocumentInfo;
-				MessageBox.Show( "Поле ID книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Поле ID книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				DIIDTextBox.Focus();
 				return;
 			} else if ( string.IsNullOrWhiteSpace(DIVersionTextBox.Text) ) {
 				tcViewFB2Desc.SelectedTab = tpDocumentInfo;
-				MessageBox.Show( "Поле Версии книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Поле Версии книги должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				DIVersionTextBox.Focus();
 				return;
 			}
@@ -1541,19 +1599,25 @@ namespace Core.Common
 				if ( string.IsNullOrWhiteSpace(STIBookTitleTextBox.Text) ) {
 					STITabControl.SelectedTab = tpSTittleInfoGeneral;
 					tcViewFB2Desc.SelectedTab = tpSourceTitleInfo;
-					MessageBox.Show( "Поле Названия книги для Оригинала должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Поле Названия книги для Оригинала должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 					STIBookTitleTextBox.Focus();
 					return;
 				} else if ( STILangComboBox.SelectedIndex == -1 ) {
 					STITabControl.SelectedTab = tpSTittleInfoGeneral;
 					tcViewFB2Desc.SelectedTab = tpSourceTitleInfo;
-					MessageBox.Show( "Поле Языка книги для Оригинала должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Поле Языка книги для Оригинала должно быть обязательно заполнено!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 					STILangComboBox.Focus();
 					return;
 				} else if ( STIGenresListView.Items.Count == 0 ) {
 					STITabControl.SelectedTab = tpSTittleInfoGeneral;
 					tcViewFB2Desc.SelectedTab = tpSourceTitleInfo;
-					MessageBox.Show( "Задайте хотя бы один Жанр для Оригинала книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Задайте хотя бы один Жанр для Оригинала книги!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 					STIGenresComboBox.Focus();
 					return;
 				}

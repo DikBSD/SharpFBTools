@@ -12,7 +12,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 using FilesWorker = Core.Common.FilesWorker;
 
@@ -79,7 +79,7 @@ namespace Core.Common
 				ZipOutputStream zipOutStream = new ZipOutputStream(outputFileStream);
 				zipOutStream.SetLevel(CompressLevel);
 				bool IsCrypted = false;
-				if ( Password != null && Password.Length > 0) {
+				if ( ! string.IsNullOrEmpty( Password ) ) {
 					zipOutStream.Password = Password;
 					IsCrypted = true;
 				}
@@ -278,7 +278,10 @@ namespace Core.Common
 			ZipInputStream zipInStream = null;
 			try {
 				zipInStream = new ZipInputStream(fileStreamIn);
-			} catch {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipFile()."
+				);
 				return false;
 			}
 			
@@ -309,7 +312,10 @@ namespace Core.Common
 						File.SetLastWriteTime(path, File.GetLastWriteTime( SourceZipFile ));
 					}
 				}
-			} catch {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipFile()."
+				);
 				fileStreamIn.Close();
 				return false;
 			}
@@ -352,7 +358,10 @@ namespace Core.Common
 							try {
 								if ( FB2Only && Path.GetExtension(zipFileName.ToLower()) != ".fb2" )
 									continue;
-							} catch ( ArgumentException ) {
+							} catch ( ArgumentException ex ) {
+								Debug.DebugMessage(
+									Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipFiles(). Исключенгие ArgumentException."
+								);
 								continue;
 							}
 							
@@ -378,7 +387,10 @@ namespace Core.Common
 									File.SetLastWriteTime(path, dtFile);
 								}
 								++count;
-							} catch {
+							} catch ( Exception ex ) {
+								Debug.DebugMessage(
+									Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipFiles(). Исключенгие Exception."
+								);
 								inputStream.Close();
 							}
 						}
@@ -404,7 +416,10 @@ namespace Core.Common
 			try {
 				// на случай, если в имени файла есть нечитаемые символы
 				fileExists = File.Exists(SourceZipPath);
-			} catch {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Не возможно открыть архив (в имени файла есть нечитаемые символы)."
+				);
 				return -1;
 			}
 			
@@ -412,7 +427,10 @@ namespace Core.Common
 				ZipFile zipFile = null;
 				try {
 					zipFile = new ZipFile(SourceZipPath);
-				} catch {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Не возможно открыть архив."
+					);
 					return -1;
 				}
 
@@ -426,7 +444,10 @@ namespace Core.Common
 							try {
 								if ( Path.GetExtension(zipFileName.ToLower()) != ".fb2" )
 									continue;
-							} catch ( ArgumentException ) {
+							} catch ( ArgumentException ex ) {
+								Debug.DebugMessage(
+									Debug.InLogFile, SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Исключенгие ArgumentException."
+								);
 								continue;
 							}
 							
@@ -454,7 +475,10 @@ namespace Core.Common
 									File.SetLastWriteTime(path, dtFile);
 								}
 								++count;
-							} catch {
+							} catch ( Exception ex) {
+								Debug.DebugMessage(
+									Debug.InLogFile, SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Исключенгие Exception."
+								);
 								inputStream.Close();
 							}
 						}
@@ -482,7 +506,10 @@ namespace Core.Common
 			try {
 				// на случай, если в имени файла есть нечитаемые символы
 				b_fileExists = File.Exists(SourceZipFile);
-			} catch {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFile(). Не возможно открыть архив (в имени файла есть нечитаемые символы)."
+				);
 				return false;
 			}
 			
@@ -490,7 +517,10 @@ namespace Core.Common
 				ZipFile zipFile = null;
 				try {
 					zipFile = new ZipFile(SourceZipFile);
-				} catch {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFile(). Не возможно открыть архив."
+					);
 					return false;
 				}
 				
@@ -524,7 +554,10 @@ namespace Core.Common
 								File.SetLastAccessTime(path, dtFile);
 								File.SetLastWriteTime(path, dtFile);
 							}
-						} catch {
+						} catch ( Exception ex ) {
+							Debug.DebugMessage(
+								Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFile(). Не возможно открыть архив (скорее всего в имени файла есть нечитаемые символы)."
+							);
 							inputStream.Close();
 						}
 					}
@@ -554,7 +587,10 @@ namespace Core.Common
 			try {
 				// на случай, если в имени файла есть нечитаемые символы
 				b_fileExists = File.Exists(SourceZipFile);
-			} catch {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles(). Не возможно открыть архив (в имени файла есть нечитаемые символы)."
+				);
 				return -1;
 			}
 			
@@ -562,7 +598,10 @@ namespace Core.Common
 				ZipFile zipFile = null;
 				try {
 					zipFile = new ZipFile(SourceZipFile);
-				} catch {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles(). Не возможно открыть архив."
+					);
 					return -1;
 				}
 				
@@ -579,9 +618,12 @@ namespace Core.Common
 					if ( fileExists != -1) {
 						if (zipFile[fileExists].IsFile) {
 							try {
-								if ( FB2Only && Path.GetExtension(zipFile[fileExists].Name.ToLower())!=".fb2" )
+								if ( FB2Only && Path.GetExtension(zipFile[fileExists].Name.ToLower()) != ".fb2" )
 									continue;
-							} catch ( ArgumentException ) {
+							} catch ( ArgumentException ex ) {
+								Debug.DebugMessage(
+									Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles().  Исключение ArgumentException."
+								);
 								continue;
 							}
 							
@@ -607,7 +649,10 @@ namespace Core.Common
 									File.SetLastWriteTime(path, dtFile);
 								}
 								++count;
-							} catch {
+							} catch ( Exception ex ) {
+								Debug.DebugMessage(
+									Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles(). Не возможно открыть архив (скорее всего в имени файла есть нечитаемые символы). Исключение Exception."
+								);
 								inputStream.Close();
 							}
 						}
@@ -639,7 +684,10 @@ namespace Core.Common
 				ZipFile zipFile = null;
 				try {
 					zipFile = new ZipFile(SourceZipFile);
-				} catch {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.DeleteSelectedFile(). Не возможно открыть архив."
+					);
 					return false;
 				}
 				if (Password != null)
@@ -673,7 +721,10 @@ namespace Core.Common
 				ZipFile zipFile = null;
 				try {
 					zipFile = new ZipFile(SourceZipFile);
-				} catch {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.DeleteSelectedFiles(). Не возможно открыть архив."
+					);
 					return false;
 				}
 				if (Password != null)
@@ -713,7 +764,10 @@ namespace Core.Common
 				ZipFile zipFile = null;
 				try {
 					zipFile = new ZipFile(SourceZipFile);
-				} catch {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.FilesListFromZip(). Не возможно открыть архив."
+					);
 					return null;
 				}
 				FilesFromZipList = new List<string>();

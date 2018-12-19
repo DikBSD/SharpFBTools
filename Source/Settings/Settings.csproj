@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="FileManagerSettings.cs" />
+    <Compile Include="SorterSettings.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ArchiveManagerSettings.cs" />
     <Compile Include="FB2DublicatorSettings.cs" />

@@ -148,13 +148,17 @@ namespace Core.Common
 					m_bw.RunWorkerAsync();
 			} else {
 				if ( string.IsNullOrWhiteSpace( SequencesTextBox.Text ) ) {
-					MessageBox.Show( "Введите название Серии.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Введите название Серии.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 					SequencesTextBox.Focus();
 				} else {
 					if ( !string.IsNullOrWhiteSpace( NumberTextBox.Text ) ) {
 						int number = 0;
 						if ( !int.TryParse( NumberTextBox.Text, out number ) ) {
-							MessageBox.Show( "Номер Серии не может символы и/или пробелы! Введите число, или оставьте поле пустым, если у данной книги нет номера серии.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error );
+							MessageBox.Show(
+								"Номер Серии не может символы и/или пробелы! Введите число, или оставьте поле пустым, если у данной книги нет номера серии.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error
+							);
 							NumberTextBox.Focus();
 							return;
 						}

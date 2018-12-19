@@ -15,6 +15,8 @@ using System.Text.RegularExpressions;
 
 using System.Windows.Forms;
 
+using Core.Common;
+
 using SharpZipLibWorker = Core.Common.SharpZipLibWorker;
 using FilesWorker		= Core.Common.FilesWorker;
 
@@ -26,8 +28,6 @@ namespace Core.FB2Parser
 	public class FB2Validator
 	{
 		#region Закрытые данные класса
-		private const string _MessageTitle = "Валидатор";
-		
 		private const string _aFB20Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
 		private const string _aFB21Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.1";
 		private readonly static SharpZipLibWorker	_sharpZipLib	= new SharpZipLibWorker();
@@ -53,6 +53,9 @@ namespace Core.FB2Parser
 		/// <summary>
 		/// Валидация fb2, fb2.zip ли fbz файлов по пути FilePath, согласно схеме SchemePath
 		/// </summary>
+		/// <param name="FilePath">Путь к проверяемому файлу</param>
+		/// <param name="SchemePath">Путь к схеме fb2у</param>
+		/// <param name="IsZip">Ссылка, проверяемый файл - архив (true)?</param>
 		/// <returns>Пустая строка, файл валиден; Строка с сообщением, если файл невалиден</returns>
 		private string validate( string FilePath, string SchemePath, ref bool IsZip ) {
 			string [] files = null;
@@ -104,14 +107,16 @@ namespace Core.FB2Parser
 							:
 							string.Format( "Файл: {0}\r\nОтсутствует раздел описания книги <description>", FilePath );
 					}
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-				catch ( Exception ex ) {
-					if ( Settings.Settings.ShowDebugMessage ) {
-						// Показывать сообщения об ошибках при падении работы алгоритмов
-						MessageBox.Show(
-							string.Format("Ошибка алгоритмя Валидации:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-						);
-					}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex,
+						"FB2Validator.validate(): Проверка обязательных разделов fb2 структуры. Исключение RegexMatchTimeoutException."
+					);
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex,
+						"FB2Validator.validate(): Проверка обязательных разделов fb2 структуры. Исключение Exception."
+					);
 				}
 				
 				if ( !string.IsNullOrEmpty( TI ) ) {
@@ -180,8 +185,8 @@ namespace Core.FB2Parser
 					return string.Format( "Файл: {0}\r\nОтсутствует раздел описания книги <document-info>", FilePath );
 				}
 				
-			} catch ( System.Exception e ) {
-				return string.Format( "{0}\r\n\r\nФайл: {1}", e.Message, FilePath );
+			} catch ( Exception ex ) {
+				return string.Format( "{0}\r\n\r\nФайл: {1}", ex.Message, FilePath );
 			}
 			
 			Cursor.Current = Cursors.WaitCursor;
@@ -193,8 +198,10 @@ namespace Core.FB2Parser
 						sc.Add( _aFB21Namespace, XmlReader.Create( xmlSchemeFile ) );
 					else
 						sc.Add( _aFB20Namespace, XmlReader.Create( xmlSchemeFile ) );
-				} catch (System.Xml.Schema.XmlSchemaException e) {
-					return string.Format( "Файл: {0}\r\n{1}\r\nСтрока: {2}; Позиция: {3}", FilePath, e.Message,  e.LineNumber, e.LinePosition );
+				} catch ( System.Xml.Schema.XmlSchemaException ex ) {
+					return string.Format(
+						"Файл: {0}\r\n{1}\r\nСтрока: {2}; Позиция: {3}", FilePath, ex.Message,  ex.LineNumber, ex.LinePosition
+					);
 				}
 				
 				XmlReaderSettings settings = new XmlReaderSettings();
@@ -207,14 +214,16 @@ namespace Core.FB2Parser
 					reader.Close();
 					Cursor.Current = Cursors.Default;
 					return string.Empty;
-				} catch (System.Xml.Schema.XmlSchemaException e) {
+				} catch ( System.Xml.Schema.XmlSchemaException ex ) {
 					reader.Close();
 					Cursor.Current = Cursors.Default;
-					return string.Format( "Файл: {0}\r\n{1}\r\nСтрока: {2}; Позиция: {3}", FilePath, e.Message,  e.LineNumber, e.LinePosition );
-				} catch ( System.Exception e ) {
+					return string.Format(
+						"Файл: {0}\r\n{1}\r\nСтрока: {2}; Позиция: {3}", FilePath, ex.Message,  ex.LineNumber, ex.LinePosition
+					);
+				} catch ( Exception ex ) {
 					reader.Close();
 					Cursor.Current = Cursors.Default;
-					return string.Format( "Файл: {0}\r\n{1}", FilePath, e.Message );
+					return string.Format( "Файл: {0}\r\n{1}", FilePath, ex.Message );
 				}
 			}
 		}

@@ -20,6 +20,7 @@ namespace Core.AutoCorrector
 	public class GenreCorrector
 	{
 		private const string _MessageTitle = "Автокорректор";
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
 		
 		private string _xmlText = string.Empty;
 		
@@ -29,11 +30,13 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Конструктор класса GenreCorrector
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="preProcess">Удаление стартовых пробелов и перевода строки => всю книгу - в одну строку</param>
 		/// <param name="postProcess">Вставка разрыва абзаца между смежными тегами</param>
-		public GenreCorrector( ref string xmlText, bool preProcess, bool postProcess )
+		public GenreCorrector( string FilePath, ref string xmlText, bool preProcess, bool postProcess )
 		{
+			_FilePath = FilePath;
 			_xmlText = xmlText;
 			_preProcess = preProcess;
 			_postProcess = postProcess;
@@ -61,7 +64,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра romance_fantasy, romance_sf, magician_book, foreign_fantasy, dragon_fantasy, fantasy."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра romance_fantasy, romance_sf, magician_book, foreign_fantasy, dragon_fantasy, fantasy."
 				);
 			}
 			
@@ -74,7 +77,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра horror, vampire_book, horror_usa."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра horror, vampire_book, horror_usa."
 				);
 			}
 			
@@ -87,7 +90,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра horror_fantasy, horror_vampires, horror_occult."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра horror_fantasy, horror_vampires, horror_occult."
 				);
 			}
 			
@@ -100,7 +103,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра sf_history_avant, fantasy_alt_hist."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра sf_history_avant, fantasy_alt_hist."
 				);
 			}
 			
@@ -113,7 +116,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Альтернативная история'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Альтернативная история'."
 				);
 			}
 			
@@ -126,7 +129,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра sf_cyber_punk."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра sf_cyber_punk."
 				);
 			}
 			
@@ -139,7 +142,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра city_fantasy."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра city_fantasy."
 				);
 			}
 			
@@ -152,7 +155,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра fantasy_fight, Боевая фантастика."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра fantasy_fight, Боевая фантастика."
 				);
 			}
 			
@@ -165,7 +168,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_sf, Фантастика."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_sf, Фантастика."
 				);
 			}
 			
@@ -178,7 +181,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра love_fantasy."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра love_fantasy."
 				);
 			}
 			
@@ -191,7 +194,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра litrpg, sf_litRPG, LitRPG, ЛитРПГ."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра litrpg, sf_litRPG, LitRPG, ЛитРПГ."
 				);
 			}
 			
@@ -204,7 +207,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра SF, Научная Фантастика."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра SF, Научная Фантастика."
 				);
 			}
 			
@@ -217,7 +220,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра Юмористическая фантастика."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра Юмористическая фантастика."
 				);
 			}
 			
@@ -230,7 +233,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра Фэнтези Юмор."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра Фэнтези Юмор."
 				);
 			}
 			
@@ -243,7 +246,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра Боевое фэнтези."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра Боевое фэнтези."
 				);
 			}
 			
@@ -257,7 +260,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра entert_humor, foreign_humor."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра entert_humor, foreign_humor."
 				);
 			}
 			
@@ -271,7 +274,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Юмористическая проза'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Юмористическая проза'."
 				);
 			}
 			
@@ -284,7 +287,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра Комедия."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра Комедия."
 				);
 			}
 
@@ -298,7 +301,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра thriller_police."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра thriller_police."
 				);
 			}
 			
@@ -311,7 +314,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра thriller_mystery."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра thriller_mystery."
 				);
 			}
 			
@@ -324,7 +327,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_detective."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_detective."
 				);
 			}
 			
@@ -337,7 +340,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_action."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_action."
 				);
 			}
 			
@@ -350,7 +353,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Шпионский Детектив'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Шпионский Детектив'."
 				);
 			}
 			
@@ -363,7 +366,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Исторический детектив'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Исторический детектив'."
 				);
 			}
 			
@@ -376,7 +379,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Иронический детектив'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Иронический детектив'."
 				);
 			}
 			
@@ -390,7 +393,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_western."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_western."
 				);
 			}
 			
@@ -403,7 +406,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра romance_historical, adv_history_avant."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра romance_historical, adv_history_avant."
 				);
 			}
 			
@@ -416,7 +419,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_sea."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_sea."
 				);
 			}
 			
@@ -429,7 +432,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_adv."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_adv."
 				);
 			}
 			
@@ -442,7 +445,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_adventure."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_adventure."
 				);
 			}
 			
@@ -455,7 +458,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Приключения'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Приключения'."
 				);
 			}
 			
@@ -469,7 +472,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра child_4, literature_fairy, Сказка, Сказки."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра child_4, literature_fairy, Сказка, Сказки."
 				);
 			}
 			
@@ -482,7 +485,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра child_9, child_characters, Детская литература."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра child_9, child_characters, Детская литература."
 				);
 			}
 			
@@ -495,7 +498,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра child_animals, outdoors_fauna, outdoors_hunt_fish, child_nature."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра child_animals, outdoors_fauna, outdoors_hunt_fish, child_nature."
 				);
 			}
 			
@@ -508,7 +511,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра teens_history, teens_literature, prose_teen."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра teens_history, teens_literature, prose_teen."
 				);
 			}
 			
@@ -521,7 +524,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра teens_sf."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра teens_sf."
 				);
 			}
 			
@@ -534,7 +537,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра child_history."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра child_history."
 				);
 			}
 			
@@ -547,7 +550,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Детская Проза'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Детская Проза'."
 				);
 			}
 			
@@ -561,7 +564,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра prose_su_classic."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра prose_su_classic."
 				);
 			}
 			
@@ -574,7 +577,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра prose_rus_classics."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра prose_rus_classics."
 				);
 			}
 			
@@ -587,7 +590,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра proce, literature, prose_root, literature_books, Проза, literature_antology."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра proce, literature, prose_root, literature_books, Проза, literature_antology."
 				);
 			}
 			
@@ -600,7 +603,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_classics, Классическая Проза."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_classics, Классическая Проза."
 				);
 			}
 			
@@ -613,7 +616,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature19."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature19."
 				);
 			}
 			
@@ -626,7 +629,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_su_classics."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_su_classics."
 				);
 			}
 			
@@ -639,7 +642,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_rus_classsic."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_rus_classsic."
 				);
 			}
 			
@@ -652,7 +655,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Контркультура'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Контркультура'."
 				);
 			}
 			
@@ -665,7 +668,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра romance_contemporary, russian_contemporary, Современная Проза."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра romance_contemporary, russian_contemporary, Современная Проза."
 				);
 			}
 			
@@ -678,7 +681,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Историческая проза'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Историческая проза'."
 				);
 			}
 			
@@ -691,7 +694,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_drama, foreign_dramaturgy."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_drama, foreign_dramaturgy."
 				);
 			}
 			
@@ -704,7 +707,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_short."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_short."
 				);
 			}
 			
@@ -717,7 +720,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра narrative."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра narrative."
 				);
 			}
 			
@@ -730,7 +733,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_novel."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_novel."
 				);
 			}
 			
@@ -743,7 +746,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра romance."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра romance."
 				);
 			}
 			
@@ -756,7 +759,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_world, foreign_contemporary."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_world, foreign_contemporary."
 				);
 			}
 			
@@ -769,7 +772,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра sketch."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра sketch."
 				);
 			}
 
@@ -782,7 +785,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра aphorism_quote."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра aphorism_quote."
 				);
 			}
 			
@@ -795,7 +798,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра essays."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра essays."
 				);
 			}
 			
@@ -809,7 +812,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_essay, beginning_authors."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_essay, beginning_authors."
 				);
 			}
 			
@@ -822,7 +825,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра romance_multicultural."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра romance_multicultural."
 				);
 			}
 			
@@ -835,7 +838,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра Журналы, newspapers, Газеты и журналы."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра Журналы, newspapers, Газеты и журналы."
 				);
 			}
 			
@@ -848,7 +851,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра Фанфик."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра Фанфик."
 				);
 			}
 			
@@ -861,7 +864,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра samizdat."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра samizdat."
 				);
 			}
 			
@@ -875,7 +878,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра science_medicine, medicine."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра science_medicine, medicine."
 				);
 			}
 			
@@ -888,7 +891,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра history_russia, history_asia, history_middle_east, history_usa, history_europe, literature_history, history_ancient, history_world, history_australia, history_africa, История."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра history_russia, history_asia, history_middle_east, history_usa, history_europe, literature_history, history_ancient, history_world, history_australia, history_africa, История."
 				);
 			}
 			
@@ -901,7 +904,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра science_biolog."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра science_biolog."
 				);
 			}
 			
@@ -914,7 +917,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра science_history_philosophy."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра science_history_philosophy."
 				);
 			}
 			
@@ -927,7 +930,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра science_earth, geography_book."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра science_earth, geography_book."
 				);
 			}
 			
@@ -940,7 +943,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_edu."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_edu."
 				);
 			}
 			
@@ -953,7 +956,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра psy_social, sociology_book, nonfiction_sociology, nonfiction_social_sci."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра psy_social, sociology_book, nonfiction_sociology, nonfiction_social_sci."
 				);
 			}
 			
@@ -966,7 +969,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра pedagogy_book."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра pedagogy_book."
 				);
 			}
 			
@@ -979,7 +982,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра health_psy, science_psy, upbringing_book, foreign_psychology, psy_generic, psy_alassic."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра health_psy, science_psy, upbringing_book, foreign_psychology, psy_generic, psy_alassic."
 				);
 			}
 			
@@ -992,7 +995,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Языкознание'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Языкознание'."
 				);
 			}
 			
@@ -1005,7 +1008,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра Религиоведение, religion_earth."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра Религиоведение, religion_earth."
 				);
 			}
 			
@@ -1018,7 +1021,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Математика'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Математика'."
 				);
 			}
 			
@@ -1031,7 +1034,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра unrecognised."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра unrecognised."
 				);
 			}
 			
@@ -1044,7 +1047,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра health_alt_medicine, Альтернативная медицина."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра health_alt_medicine, Альтернативная медицина."
 				);
 			}
 			
@@ -1058,7 +1061,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра science_measurement."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра science_measurement."
 				);
 			}
 			
@@ -1072,7 +1075,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_poetry, Поэзия, поэзия."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_poetry, Поэзия, поэзия."
 				);
 			}
 			
@@ -1085,7 +1088,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_poetry."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_poetry."
 				);
 			}
 			
@@ -1098,7 +1101,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Existential poetry'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Existential poetry'."
 				);
 			}
 			
@@ -1112,7 +1115,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра nonfiction_folklor."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра nonfiction_folklor."
 				);
 			}
 			
@@ -1126,7 +1129,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра religion_buddhism, rel_boddizm."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра religion_buddhism, rel_boddizm."
 				);
 			}
 			
@@ -1139,7 +1142,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра chris_pravoslavie, chris_orthodoxy, Православие."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра chris_pravoslavie, chris_orthodoxy, Православие."
 				);
 			}
 			
@@ -1152,7 +1155,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_religion, foreign_religion, Религия."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_religion, foreign_religion, Религия."
 				);
 			}
 			
@@ -1165,7 +1168,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра religion_spirituality, Religion, religion_bibles."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра religion_spirituality, Religion, religion_bibles."
 				);
 			}
 			
@@ -1178,7 +1181,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра nonfiction_philosophy."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра nonfiction_philosophy."
 				);
 			}
 			
@@ -1191,7 +1194,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра chris_fiction, Христианство."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра chris_fiction, Христианство."
 				);
 			}
 			
@@ -1204,7 +1207,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Эзотерика'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Эзотерика'."
 				);
 			}
 			
@@ -1217,7 +1220,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Самосовершенствование'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Самосовершенствование'."
 				);
 			}
 			
@@ -1231,7 +1234,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_war."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_war."
 				);
 			}
 			
@@ -1244,7 +1247,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра histor_military, history_military_science."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра histor_military, history_military_science."
 				);
 			}
 			
@@ -1258,7 +1261,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра travel_guidebook_series."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра travel_guidebook_series."
 				);
 			}
 			
@@ -1271,7 +1274,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра outdoors_nature_writing, outdoors_conservation, outdoors_travel."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра outdoors_nature_writing, outdoors_conservation, outdoors_travel."
 				);
 			}
 			
@@ -1284,7 +1287,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра travel, travel_asia, travel_europe, travel_africa, travel_lat_am, travel_spec, travel_polar."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра travel, travel_asia, travel_europe, travel_africa, travel_lat_am, travel_spec, travel_polar."
 				);
 			}
 			
@@ -1298,7 +1301,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра biogr_historical, biogr_arts, biography, biogr_leaders, biogr_professionals, biogr_sports, biz_beogr, biogr_travel, Биографии и мемуары."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра biogr_historical, biogr_arts, biography, biogr_leaders, biogr_professionals, biogr_sports, biz_beogr, biogr_travel, Биографии и мемуары."
 				);
 			}
 			
@@ -1311,7 +1314,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_publicism, Публицистика."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_publicism, Публицистика."
 				);
 			}
 			
@@ -1324,7 +1327,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_desc, nonfiction_spec_group, people, nonfiction_crime, nonfiction_edu."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_desc, nonfiction_spec_group, people, nonfiction_crime, nonfiction_edu."
 				);
 			}
 			
@@ -1337,7 +1340,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_critic."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_critic."
 				);
 			}
 			
@@ -1351,7 +1354,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра nonfiction_politics, literature_political."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра nonfiction_politics, literature_political."
 				);
 			}
 			
@@ -1364,7 +1367,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра biz_economics."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра biz_economics."
 				);
 			}
 			
@@ -1377,7 +1380,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра nonfiction_law, professional_law."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра nonfiction_law, professional_law."
 				);
 			}
 			
@@ -1390,7 +1393,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_business."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_business."
 				);
 			}
 			
@@ -1403,7 +1406,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра psy_personal, biz_management."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра psy_personal, biz_management."
 				);
 			}
 			
@@ -1416,7 +1419,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра business."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра business."
 				);
 			}
 			
@@ -1429,7 +1432,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Недвижимость'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Недвижимость'."
 				);
 			}
 			
@@ -1443,7 +1446,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра sport."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра sport."
 				);
 			}
 			
@@ -1456,7 +1459,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра health, health_men, health_women, teens_health, health_self_help, health_rel."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра health, health_men, health_women, teens_health, health_self_help, health_rel."
 				);
 			}
 			
@@ -1469,7 +1472,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра health_sex."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра health_sex."
 				);
 			}
 			
@@ -1482,7 +1485,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра family_relations, family_parenting, foreign_home."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра family_relations, family_parenting, foreign_home."
 				);
 			}
 			
@@ -1495,7 +1498,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра family_pregnancy, family_health."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра family_pregnancy, family_health."
 				);
 			}
 			
@@ -1508,7 +1511,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра health_nutrition, cooking, Кулинария."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра health_nutrition, cooking, Кулинария."
 				);
 			}
 			
@@ -1521,7 +1524,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра entertainment."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра entertainment."
 				);
 			}
 			
@@ -1535,7 +1538,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра literature_erotica, Эротика."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_erotica, Эротика."
 				);
 			}
 			
@@ -1548,7 +1551,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра women_single, literature_women, foreign_love."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра women_single, literature_women, foreign_love."
 				);
 			}
 			
@@ -1561,7 +1564,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра slash."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра slash."
 				);
 			}
 			
@@ -1574,7 +1577,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Современные Любовные Романы'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Современные Любовные Романы'."
 				);
 			}
 			
@@ -1587,7 +1590,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Исторические любовные романы'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Исторические любовные романы'."
 				);
 			}
 			
@@ -1601,7 +1604,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра music_dancing."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра music_dancing."
 				);
 			}
 			
@@ -1614,7 +1617,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра cinema_theatre."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра cinema_theatre."
 				);
 			}
 			
@@ -1628,7 +1631,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра foreign_comp."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_comp."
 				);
 			}
 			
@@ -1641,7 +1644,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра 'Интернет'."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Интернет'."
 				);
 			}
 			
@@ -1655,7 +1658,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра ref_books."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра ref_books."
 				);
 			}
 			
@@ -1668,7 +1671,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра hand-book."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра hand-book."
 				);
 			}
 			
@@ -1681,7 +1684,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра ref_encyclopedia."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра ref_encyclopedia."
 				);
 			}
 			
@@ -1694,7 +1697,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "GenreCorrector:\r\nОбработка жанра  geo_guide, Путеводители."
+					Debug.InLogFile, _FilePath, ex, "GenreCorrector:\r\nОбработка жанра  geo_guide, Путеводители."
 				);
 			}
 			

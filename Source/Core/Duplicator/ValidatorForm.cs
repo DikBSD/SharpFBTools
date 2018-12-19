@@ -202,8 +202,8 @@ namespace Core.Duplicator
 				ProgressBar.Maximum = m_lvResult.Items.Count;
 				ProgressBar.Value	= 0;
 				int i = 0;
-				foreach( ListViewItem lvi in m_lvResult.Items ) {
-					if( ( m_bw.CancellationPending ) ) {
+				foreach ( ListViewItem lvi in m_lvResult.Items ) {
+					if ( ( m_bw.CancellationPending ) ) {
 						e.Cancel = true;
 						return;
 					}
@@ -221,7 +221,7 @@ namespace Core.Duplicator
 					ProgressBar.Maximum = lvg.Items.Count;
 					ProgressBar.Value	= 0;
 					int i = 0;
-					foreach( ListViewItem lvi in lvg.Items ) {
+					foreach ( ListViewItem lvi in lvg.Items ) {
 						if( ( m_bw.CancellationPending ) ) {
 							e.Cancel = true;
 							return;
@@ -245,11 +245,11 @@ namespace Core.Duplicator
 			// Сбор данных о причине завершения работы
 			DateTime dtEnd = DateTime.Now;
 			string sTime = dtEnd.Subtract( m_dtStart ).ToString() + " (час.:мин.:сек.)";
-			if( ( e.Cancelled ) ) {
+			if ( ( e.Cancelled ) ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Cancelled;
 				m_EndMode.Message = "Валидация файлов остановлена!\nЗатрачено времени: " + sTime;
 			}
-			else if( e.Error != null ) {
+			else if ( e.Error != null ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Error;
 				m_EndMode.Message = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace;
 			} else {
@@ -267,7 +267,7 @@ namespace Core.Duplicator
 		#region BackgroundWorker: Вспомогательные методы
 		private void validateFile( ListViewItem lvi, ref FB2Validator fv2Validator ) {
 			string FilePath = lvi.SubItems[0].Text;
-			if( File.Exists( FilePath ) ) {
+			if ( File.Exists( FilePath ) ) {
 				string Msg = fv2Validator.ValidatingFB2File( FilePath );
 				lvi.SubItems[(int)ResultViewDupCollumnEnum.Validate].Text = Msg == string.Empty ? "Да" : "Нет";
 				if ( !string.IsNullOrEmpty( Msg ) )
@@ -287,7 +287,7 @@ namespace Core.Duplicator
 		#region Обработчики для контекстного меню
 		void BtnStopClick(object sender, EventArgs e)
 		{
-			if( m_bw.WorkerSupportsCancellation )
+			if ( m_bw.WorkerSupportsCancellation )
 				m_bw.CancelAsync();
 		}
 		#endregion

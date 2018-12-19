@@ -21,6 +21,8 @@ namespace Core.AutoCorrector
 	{
 		private const string _MessageTitle = "Автокорректор";
 		
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
+		
 		private string _xmlText = string.Empty;
 		
 		private bool _preProcess = false;
@@ -29,11 +31,13 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Конструктор класса StanzaCorrector
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="preProcess">Удаление стартовых пробелов и перевода строки => всю книгу - в одну строку</param>
 		/// <param name="postProcess">Вставка разрыва абзаца между смежными тегами</param>
-		public ImageCorrector( ref string xmlText, bool preProcess, bool postProcess )
+		public ImageCorrector( string FilePath, ref string xmlText, bool preProcess, bool postProcess )
 		{
+			_FilePath = FilePath;
 			_xmlText = xmlText;
 			_preProcess = preProcess;
 			_postProcess = postProcess;
@@ -63,7 +67,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nОбработка картинок: <image l:href=\"#img_0.png\"> </image> или <image l:href=\"#img_0.png\">\n</image>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nОбработка картинок: <image l:href=\"#img_0.png\"> </image> или <image l:href=\"#img_0.png\">\n</image>."
 				);
 			}
 			
@@ -76,7 +80,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nОбработка картинки между <section> и <title>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nОбработка картинки между <section> и <title>."
 				);
 			}
 			
@@ -89,7 +93,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nВставка <empty-line /> до картинки, идущей после тега <section>: <section><image l:href=\"#index.jpg\" /> => <section><empty-line /><image l:href=\"#index.jpg\"."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nВставка <empty-line /> до картинки, идущей после тега <section>: <section><image l:href=\"#index.jpg\" /> => <section><empty-line /><image l:href=\"#index.jpg\"."
 				);
 			}
 			
@@ -102,7 +106,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nВставка <empty-line /> после картинки, заключенной в тегах <section> ... </section>: <section><image l:href=\"#index.jpg\" /></section> => <section><image l:href=\"#index.jpg\" /><empty-line /></section>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nВставка <empty-line /> после картинки, заключенной в тегах <section> ... </section>: <section><image l:href=\"#index.jpg\" /></section> => <section><image l:href=\"#index.jpg\" /><empty-line /></section>."
 				);
 			}
 			
@@ -115,7 +119,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nОбработка картинки между тегами </title> и <section> : </title><image l:href=\"#index.jpg\" /><section> => </title><section><image l:href=\"#index.jpg\" /><empty-line /></section><section>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nОбработка картинки между тегами </title> и <section> : </title><image l:href=\"#index.jpg\" /><section> => </title><section><image l:href=\"#index.jpg\" /><empty-line /></section><section>."
 				);
 			}
 			
@@ -128,7 +132,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nОбработка картинки между тегами </title> и <section> : </title><empty-line /><image l:href=\"#index.jpg\" /><empty-line /><section> => </title><section><empty-line /><image l:href=\"#index.jpg\" /><empty-line /></section><section>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nОбработка картинки между тегами </title> и <section> : </title><empty-line /><image l:href=\"#index.jpg\" /><empty-line /><section> => </title><section><empty-line /><image l:href=\"#index.jpg\" /><empty-line /></section><section>."
 				);
 			}
 			
@@ -141,7 +145,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nОбработка картинки между тегами </title> и <epigraph> : </title><image l:href=\"#index.jpg\" /><epigraph> => <p><image l:href=\"#index.jpg\" /></p></title><epigraph>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nОбработка картинки между тегами </title> и <epigraph> : </title><image l:href=\"#index.jpg\" /><epigraph> => <p><image l:href=\"#index.jpg\" /></p></title><epigraph>."
 				);
 			}
 			
@@ -154,7 +158,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nВставка между <image ... /> (<image ... ></image>) и </section> недостающего тега <empty-line/>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nВставка между <image ... /> (<image ... ></image>) и </section> недостающего тега <empty-line/>."
 				);
 			}
 			
@@ -167,7 +171,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nОбработка <subtitle><image l:href=\"#_3.jpg\" /></subtitle> => <p><image l:href=\"#_3.jpg\" /></p>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nОбработка <subtitle><image l:href=\"#_3.jpg\" /></subtitle> => <p><image l:href=\"#_3.jpg\" /></p>."
 				);
 			}
 			
@@ -188,7 +192,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nЗамена пробелов и тильды в ссылках на _."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nЗамена пробелов и тильды в ссылках на _."
 				);
 			}
 			
@@ -201,7 +205,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nОбработка картинок: <text-author><p><image l:href=\"#i_008.png\" /></p></text-author> => <text-author><image l:href=\"#i_008.png\" /></text-author>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nОбработка картинок: <text-author><p><image l:href=\"#i_008.png\" /></p></text-author> => <text-author><image l:href=\"#i_008.png\" /></text-author>."
 				);
 			}
 			
@@ -214,7 +218,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "ImageCorrector:\r\nОбработка картинок: </section><empty-line /><image l:href=\"#freud.jpg\" /><section> => </section><section><empty-line /><image l:href=\"#freud.jpg\" /><empty-line /></section><section>."
+					Debug.InLogFile, _FilePath, ex, "ImageCorrector:\r\nОбработка картинок: </section><empty-line /><image l:href=\"#freud.jpg\" /><section> => </section><section><empty-line /><image l:href=\"#freud.jpg\" /><empty-line /></section><section>."
 				);
 			}
 			

@@ -363,7 +363,9 @@ namespace Core.Common
 				try {
 					Directory.CreateDirectory( sDir );
 				} catch {
-					MessageBox.Show( "Не могу создать папку "+sDir+"!\nРабота прекращена.", sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						string.Format("Не могу создать папку {0}!\nРабота прекращена.", sDir), sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 					return false;
 				}
 			}
@@ -424,10 +426,14 @@ namespace Core.Common
 
 			string sFilePathNotExtLower = "";
 			
-			if( sFilePathLower.IndexOf( ".fb2" )!=-1 ) {
-				sFilePathNotExtLower = sFilePathLower.Substring( 0, sFilePathLower.IndexOf( ".fb2" ) );
+			if ( sFilePathLower.IndexOf( ".fb2", StringComparison.CurrentCultureIgnoreCase ) != -1 ) {
+				sFilePathNotExtLower = sFilePathLower.Substring( 0, sFilePathLower.IndexOf( ".fb2", StringComparison.CurrentCultureIgnoreCase ) );
 			} else {
-				sFilePathNotExtLower = sFilePathLower.Substring( 0, sFilePathLower.IndexOf( Path.GetExtension( sFilePathLower ) ) );
+				sFilePathNotExtLower = sFilePathLower.Substring(
+					0, sFilePathLower.IndexOf(
+						Path.GetExtension( sFilePathLower ), StringComparison.CurrentCultureIgnoreCase
+					)
+				);
 			}
 			string s = sFilePathLower.Substring( 0, sFilePathNotExtLower.Length );
 			s = s.Replace( '.', '_' );
@@ -435,7 +441,7 @@ namespace Core.Common
 			long lCount = 0;
 			foreach( string sFile in files ) {
 				string sIter = sFile.ToLower().Replace( '.', '_' );
-				if( sIter.IndexOf( s )!=-1) {
+				if( sIter.IndexOf( s, StringComparison.CurrentCulture )!=-1) {
 					++lCount;
 				}
 			}
@@ -468,8 +474,10 @@ namespace Core.Common
 			string Sufix = createSufix( FilePath, Mode );
 			// извлекаем название файла с расширением (для файла .fb2.zip)
 			string FB2File = FilePath.ToLower();
-			if( FB2File.IndexOf( ".fb2" ) != 1 )
-				FB2File = FB2File.Substring( 0, FB2File.IndexOf( ".fb2" ) + 4 );
+			if( FB2File.IndexOf( ".fb2", StringComparison.CurrentCultureIgnoreCase ) != 1 )
+				FB2File = FB2File.Substring(
+					0, FB2File.IndexOf( ".fb2", StringComparison.CurrentCultureIgnoreCase ) + 4
+				);
 
 			string Ext = FilePath.Remove( 0, FB2File.Length );
 			Ext = Ext.Length == 0
@@ -647,8 +655,8 @@ namespace Core.Common
 					lFilesList.AddRange(Directory.GetFiles(d));
 					_recursionFilesSearch(d, ref lFilesList);
 				}
-			} catch /*(System.Exception excpt)*/ {
-				//Console.WriteLine(excpt.Message);
+			} catch /*( Exception ex )*/ {
+				//Console.WriteLine(ex.Message);
 			}
 		}
 		
@@ -670,8 +678,8 @@ namespace Core.Common
 				lDirsList.AddRange(dirs);
 				foreach (string d in dirs)
 					_recursionDirsSearch(d, ref lDirsList);
-			} catch /*(System.Exception excpt)*/ {
-				//Console.WriteLine(excpt.Message);
+			} catch /*( Exception ex )*/ {
+				//Console.WriteLine(ex.Message);
 			}
 		}
 		
@@ -686,8 +694,8 @@ namespace Core.Common
 							lFilesList.AddRange(Directory.GetFiles(dir));
 					}
 				}
-			} catch /*(System.Exception excpt)*/ {
-				//Console.WriteLine(excpt.Message);
+			} catch /*( Exception ex )*/ {
+				//Console.WriteLine(ex.Message);
 			}
 			if (sort)
 				lFilesList.Sort();
@@ -710,8 +718,8 @@ namespace Core.Common
 							lFilesList.AddRange(Directory.GetFiles(dir));
 					}
 				}
-			} catch /*(System.Exception excpt)*/ {
-				//Console.WriteLine(excpt.Message);
+			} catch /*( Exception ex )*/ {
+				//Console.WriteLine(ex.Message);
 			}
 			if (sort)
 				lFilesList.Sort();
@@ -728,50 +736,12 @@ namespace Core.Common
 						lFilesList.AddRange( files );
 					}
 				}
-			} catch /*(System.Exception excpt)*/ {
-				//Console.WriteLine(excpt.Message);
+			} catch /*( Exception ex )*/ {
+				//Console.WriteLine(ex.Message);
 			}
 			if ( sort )
 				lFilesList.Sort();
 			return lFilesList.Count;
-		}
-		
-		/// <summary>
-		/// Запись в файл - добавление
-		/// </summary>
-		/// <param name="Text">Записываемый текст</param>
-		/// <param name="IsStartSave">true - Если впервые создаем Log; false - Добавление к уже существующему Log</param>
-		/// <param name="LogPath">Путь к log-файлу. Если LogPath = null или Empty, то сохранение происходит в папке исполняемой программы</param>
-		public static void appendTextInLog( string Text, bool IsStartSave = false, string LogPath = null ) {
-			DirectoryInfo di = new DirectoryInfo( Application.StartupPath );
-			string Log = string.IsNullOrEmpty( LogPath )
-				?  string.Format(
-					"{0}\\_Log.txt", di.FullName.Substring(0, di.FullName.Length - di.Extension.Length)
-				)
-				: LogPath;
-			if ( IsStartSave ) {
-				// создаем Log
-				if ( File.Exists(Log) ) {
-					File.Delete(Log);
-				}
-				using ( System.IO.StreamWriter file =
-				       new System.IO.StreamWriter( Log ) )
-				{
-					file.WriteLine("======= Log выполнения работы =======\r\n");
-				}
-				using ( System.IO.StreamWriter file =
-				       new System.IO.StreamWriter(Log, true) )
-				{
-					file.WriteLine( string.Format( "{0}", Text ) );
-				}
-			} else {
-				// добавляем в Log
-				using ( System.IO.StreamWriter file =
-				       new System.IO.StreamWriter(Log, true) )
-				{
-					file.WriteLine( string.Format( "{0}", Text ) );
-				}
-			}
 		}
 		
 	}

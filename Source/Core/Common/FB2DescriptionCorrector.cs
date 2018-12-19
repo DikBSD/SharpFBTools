@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 using Core.Common;
 using Core.FB2.FB2Parsers;
@@ -25,9 +25,8 @@ using AuthorEnum	= Core.Common.Enums.AuthorEnum;
 namespace Core.Common
 {
 	/// <summary>
-	/// Корректура структуры description fb2 книги. Сохранение fb2 - средствами самого fb2
+	/// Корректура раздела description fb2 книги. Сохранение fb2 файла - средствами самого fb2
 	/// </summary>
-	
 	public class FB2DescriptionCorrector
 	{
 		#region Закрытые данные класса
@@ -35,6 +34,9 @@ namespace Core.Common
 		private readonly FB2Text _fb2TextXml = null;
 		#endregion
 		
+		/// <summary>
+		/// Конструктор класса FB2DescriptionCorrector
+		/// </summary>
 		/// <param name="fb2">ссылка на корректируемый экземпляр FictionBook</param>
 		public FB2DescriptionCorrector( FictionBook fb2 )
 		{
@@ -43,6 +45,11 @@ namespace Core.Common
 		}
 		
 		#region Открытые методы
+		/// <summary>
+		/// Считывание кодировки из fb2 файла
+		/// </summary>
+		/// <param name="FilePath">Путь к корректируемому файлу</param>
+		/// <returns>Строка с кодировкой fb2 файла</returns>трока </returns>
 		public static string getEncoding( string FilePath ) {
 			string encoding = "UTF-8";
 			string str = string.Empty;
@@ -779,7 +786,9 @@ namespace Core.Common
 			XmlNode		mn = FromAuthor.SelectSingleNode("." + _fb2.getNamespace() + "middle-name", _fb2.getNamespaceManager());
 			XmlNode		ln = FromAuthor.SelectSingleNode("." + _fb2.getNamespace() + "last-name", _fb2.getNamespaceManager());
 			XmlNode		nn = FromAuthor.SelectSingleNode("." + _fb2.getNamespace() + "nickname", _fb2.getNamespaceManager());
-			XmlNodeList	hp = FromAuthor.SelectNodes("." + _fb2.getNamespace() + "home-page", _fb2.getNamespaceManager());
+			XmlNodeList	hp = FromAuthor.SelectNodes(
+				"." + _fb2.getNamespace() + "home-page", _fb2.getNamespaceManager()
+			);
 			XmlNodeList	em = FromAuthor.SelectNodes("." + _fb2.getNamespace() + "email", _fb2.getNamespaceManager());
 			XmlNode		id = FromAuthor.SelectSingleNode("." + _fb2.getNamespace() + "id", _fb2.getNamespaceManager());
 
@@ -831,7 +840,9 @@ namespace Core.Common
 		
 		// создание нового Жанра NewGenre  по заданным данным
 		public XmlElement makeGenreNode( string GenreName = "other", string GenreMatch = "100" ) {
-			XmlElement xmlNewGenre = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "genre", _fb2.getNamespaceURI() );
+			XmlElement xmlNewGenre = _fb2.getXmlDoc().CreateElement(
+				_fb2.getPrefix(), "genre", _fb2.getNamespaceURI()
+			);
 			xmlNewGenre.InnerText = !string.IsNullOrWhiteSpace(GenreName) ? GenreName : "other";
 			if ( !string.IsNullOrWhiteSpace(GenreMatch) )
 				xmlNewGenre.SetAttribute("match", GenreMatch);

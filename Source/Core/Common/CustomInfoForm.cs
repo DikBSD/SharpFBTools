@@ -45,12 +45,16 @@ namespace Core.Common
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
 			if ( TypeTextBox.Text.Trim().Length == 0 && ValueTextBox.Text.Trim().Length == 0 ) {
-				MessageBox.Show( "Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				TypeTextBox.Focus();
 				return;
 			}
 			if ( TypeTextBox.Text.Trim().Length == 0 ) {
-				MessageBox.Show( "Поле типа данных должно быть обязательно заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Поле типа данных должно быть обязательно заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				TypeTextBox.Focus();
 				return;
 			}

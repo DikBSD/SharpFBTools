@@ -20,7 +20,7 @@ namespace Core.Common
 	/// </summary>
 	public class StringProcessing
 	{
-		private static string _StrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}~-—=–_.,!@#$%^&№`';«»";
+		private readonly static string _StrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}~-—=–_.,!@#$%^&№`';«»";
 		
 		#region Закрытые вспомогательные методы класса
 		private static string[] MakeTranslitLettersArray() {
@@ -195,13 +195,13 @@ namespace Core.Common
 		#region Открытые методы класса
 		// обработка пробелов в строке
 		public static string SpaceString( string sString, int nMode ) {
-			if( sString == null || sString.Length == 0 )
+			if ( string.IsNullOrEmpty( sString ) )
 				return sString;
 
 			string s = string.Empty;
-			for( int i=0; i!=sString.Length; ++i ) {
-				if( sString[i]==' ' ) {
-					switch( nMode ) {
+			for ( int i=0; i!=sString.Length; ++i ) {
+				if ( sString[i]==' ' ) {
+					switch ( nMode ) {
 						case 0: // оставить пробел
 							s += sString[i];
 							break;
@@ -258,10 +258,10 @@ namespace Core.Common
 		
 		// задание регистра строке
 		public static string RegisterString( string sString, int nMode ) {
-			if( sString==null || sString.Length==0 )
-				return string.Empty;
+			if ( string.IsNullOrEmpty( sString ) )
+				return sString;
 
-			switch( nMode ) {
+			switch ( nMode ) {
 				case 0: // Как есть
 					return sString;
 				case 1: // строчные
@@ -287,18 +287,15 @@ namespace Core.Common
 		// транслитерация строки
 		public static string TransliterationString( string sString ) {
 			string sStr = sString;
-			if( sString==null || sString.Length==0 )
+			if ( string.IsNullOrEmpty( sString ) )
 				return sString;
 
 			const string sTemplate = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 `~'!@#№$%^[](){}-+=_;.,\\";
 			string[] saTranslitLetters = MakeTranslitLettersArray();
 			string sTranslit = string.Empty;
-			for( int i=0; i!=sStr.Length; ++i ) {
+			for ( int i=0; i!=sStr.Length; ++i ) {
 				int nInd = sTemplate.IndexOf( sStr[i] );
-				if( nInd!=-1 )
-					sTranslit += saTranslitLetters[nInd];
-				else
-					sTranslit += "_";
+				sTranslit += ( nInd!=-1 ) ? saTranslitLetters[nInd] : "_";
 			}
 			return sTranslit;
 		}
@@ -310,9 +307,9 @@ namespace Core.Common
 				return sString;
 
 			string sStrict = string.Empty;
-			for( int i = 0; i != s.Length; ++i ) {
+			for ( int i = 0; i != s.Length; ++i ) {
 				int nInd = _StrictLetters.IndexOf( s[i] );
-				if( nInd != -1 )
+				if ( nInd != -1 )
 					sStrict += s[i];
 			}
 			return sStrict;

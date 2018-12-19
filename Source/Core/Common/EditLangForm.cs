@@ -112,7 +112,9 @@ namespace Core.Common
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
 			if ( LangComboBox.SelectedIndex == -1 ) {
-				MessageBox.Show( "Выберите язык из списка.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Выберите язык из списка.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				LangComboBox.Focus();
 			} else {
 				m_ApplyData = true;

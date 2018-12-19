@@ -20,7 +20,8 @@ namespace Core.AutoCorrector
 	public class TableCorrector
 	{
 		private const string _MessageTitle = "Автокорректор";
-		
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
+				
 		private const string _startTag = "<table>";
 		private const string _endTag = "</table>";
 		private string _xmlText = string.Empty;
@@ -31,11 +32,13 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Конструктор класса TableCorrector
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="preProcess">Удаление стартовых пробелов и перевода строки => всю книгу - в одну строку</param>
 		/// <param name="postProcess">Вставка разрыва абзаца между смежными тегами</param>
-		public TableCorrector( ref string xmlText, bool preProcess, bool postProcess )
+		public TableCorrector( string FilePath, ref string xmlText, bool preProcess, bool postProcess )
 		{
+			_FilePath = FilePath;
 			_xmlText = xmlText;
 			_preProcess = preProcess;
 			_postProcess = postProcess;
@@ -60,7 +63,7 @@ namespace Core.AutoCorrector
 			
 			// обработка найденных парных тэгов
 			IWorker worker = new TableCorrectorWorker();
-			TagWorker tagWorker = new TagWorker( ref _xmlText, _startTag, _endTag, ref worker );
+			TagWorker tagWorker = new TagWorker( _FilePath, ref _xmlText, _startTag, _endTag, ref worker );
 			_xmlText = tagWorker.Work();
 			
 			// постобработка (разбиение на теги (смежные теги) )
@@ -93,7 +96,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "TableCorrector:\r\nПреобразование таблиц: <tr><image l:href=\"#image3.png\" /><empty-line /></tr> и <tr><image l:href=\"#image3.png\" /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>."
+						Debug.InLogFile, tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <tr><image l:href=\"#image3.png\" /><empty-line /></tr> и <tr><image l:href=\"#image3.png\" /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>."
 					);
 				}
 				
@@ -107,7 +110,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "TableCorrector:\r\nПреобразование таблиц: <tr><td /><image l:href=\"#image3.png\" /><empty-line /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>."
+						Debug.InLogFile, tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <tr><td /><image l:href=\"#image3.png\" /><empty-line /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>."
 					);
 				}
 				
@@ -121,7 +124,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "TableCorrector:\r\nПреобразование таблиц: <table><image l:href=\"#image37.png\" /><empty-line /><tr> => <table><tr><td><image l:href=\"#image37.png\" /></td></tr><tr>."
+						Debug.InLogFile, tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <table><image l:href=\"#image37.png\" /><empty-line /><tr> => <table><tr><td><image l:href=\"#image37.png\" /></td></tr><tr>."
 					);
 				}
 				
@@ -134,7 +137,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "TableCorrector:\r\nПреобразование таблиц: <table><tr><td /><image l:href=\"#image2.jpg\" /><empty-line /></tr><tr><td>Текст</emphasis></td></tr></table> => <table><tr><td><image l:href=\"#image2.jpg\" /></td></tr><tr><td>Текст</td></tr></table>."
+						Debug.InLogFile, tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <table><tr><td /><image l:href=\"#image2.jpg\" /><empty-line /></tr><tr><td>Текст</emphasis></td></tr></table> => <table><tr><td><image l:href=\"#image2.jpg\" /></td></tr><tr><td>Текст</td></tr></table>."
 					);
 				}
 				

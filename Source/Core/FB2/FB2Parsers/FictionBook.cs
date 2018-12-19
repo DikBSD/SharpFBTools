@@ -54,19 +54,25 @@ namespace Core.FB2.FB2Parsers
 			try {
 				try {
 //					if ( !onlyDescription )
-						_xmlDoc.Load( FB2Path );
+					_xmlDoc.Load( FB2Path );
 //					else
 //						_fb2TextXml = new FB2Text( FB2Path, true );
 					setNameSpace();
-				} catch {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FB2Path, ex, "FictionBook(Конструктор): Невозможно загрузить структуру fb2 в XmlDocument напрямую из fb2 файла. Будет произведена загрузка структуры книги с помощью класса FB2Text в прокси режиме."
+					);
 					_fb2TextXml = new FB2Text( FB2Path );
 					_fb2TextXml.ProxyMode = true;
 					_xmlDoc.LoadXml( _fb2TextXml.toXML() );
 					setNameSpace();
 				}
 			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, FB2Path, ex, "FictionBook(Конструктор): Невозможно открыть для извлечения fb2 метаданных. По-видимому, попытка загрузить структуру книги с помощью класса FB2Text в прокси режиме не удалась. Внешний блок catch()."
+				);
 				throw new System.IO.FileLoadException(
-					string.Format( "Файл {0}:\nНевозможно открыть для извлечения fb2 метаданных.\n\n{1}", FB2Path, ex.Message )
+					string.Format( "Файл {0}:\nНевозможно открыть для извлечения fb2 метаданных. По-видимому, попытка загрузить структуру книги с помощью класса FB2Text в прокси режиме не удалась.\n\n{1}", FB2Path, ex.Message )
 				);
 			}
 		}
@@ -107,8 +113,9 @@ namespace Core.FB2.FB2Parsers
 			return _fb2TextXml;
 		}
 		/// <summary>
-		/// Сохранение книги: если экземпляр FictionBook был создан с помощью FB2Text _fb2TextXml,
-		/// и задействован Proxy режим, то сохраняем методами FB2Text. Если Proxy режим не задействован, то - через _xmlDoc
+		/// Сохранение книги: если экземпляр FictionBook был создан с помощью
+		/// FB2Text _fb2TextXml, и задействован Proxy режим,
+		/// то сохраняем методами FB2Text. Если Proxy режим не задействован, то - через _xmlDoc
 		/// </summary>
 		/// <param name="FilePath">Путь к исходному fb2-файлу</param>
 		/// <param name="PreserveWhitespace">Задает значение, определяющее, будут ли сохранены пробелы в содержимом элемента (false) или нет - все теги склеиваются в одну строку (true)</param>
@@ -1039,7 +1046,10 @@ namespace Core.FB2.FB2Parsers
 					sequence = new Sequence();
 				try {
 					sequence.Number = node.Attributes["number"].Value.Trim() ;
-				} catch( FormatException ) {
+				} catch ( FormatException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, _fb2Path, ex, "FictionBook.getSequence(XmlNode node): Извлечение информации по sequence. Исключение FormatException."
+					);
 				}
 			}
 			if ( node.Attributes["lang"] != null ) {

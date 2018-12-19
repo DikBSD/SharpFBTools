@@ -58,7 +58,7 @@ namespace Core.Common
 			const string sMess = "Создать новый id?";
 			const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 			DialogResult result = MessageBox.Show( sMess, "Создание нового id", buttons, MessageBoxIcon.Question );
-			if( result == DialogResult.Yes )
+			if ( result == DialogResult.Yes )
 				IDTextBox.Text = Guid.NewGuid().ToString().ToUpper();
 		}
 		void CancelBtnClick(object sender, EventArgs e)
@@ -70,11 +70,15 @@ namespace Core.Common
 			if ( LastNameTextBox.Text.Trim().Length == 0 && FirstNameTextBox.Text.Trim().Length == 0 &&
 			   MiddleNameTextBox.Text.Trim().Length == 0 && NickNameTextBox.Text.Trim().Length == 0 &&
 			   IDTextBox.Text.Trim().Length == 0 && HomePageTextBox.Text.Trim().Length == 0 && EmailTextBox.Text.Trim().Length == 0 ) {
-				MessageBox.Show( "Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				LastNameTextBox.Focus();
 				return;
 			} else if ( LastNameTextBox.Text.Trim().Length == 0 ) {
-				MessageBox.Show( "Поле 'Фамилия' должно быть заполнено обязательно!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Поле 'Фамилия' должно быть заполнено обязательно!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				LastNameTextBox.Focus();
 				return;
 			}

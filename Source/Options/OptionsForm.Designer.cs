@@ -193,7 +193,7 @@ namespace Options
 			this.chBoxShowDebugMessage.Name = "chBoxShowDebugMessage";
 			this.chBoxShowDebugMessage.Size = new System.Drawing.Size(796, 30);
 			this.chBoxShowDebugMessage.TabIndex = 39;
-			this.chBoxShowDebugMessage.Text = "Показывать сообщения об ошибках при падении работы алгоритмов";
+			this.chBoxShowDebugMessage.Text = "Записывать в log-файл сообщения об ошибках при падении работы алгоритмов";
 			this.chBoxShowDebugMessage.UseVisualStyleBackColor = true;
 			// 
 			// chBoxConfirmationForExit

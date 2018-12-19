@@ -68,7 +68,7 @@ namespace Core.Duplicator
 			InitializeBackgroundWorker();
 			m_dtStart = DateTime.Now;
 			
-			if( !m_bw.IsBusy )
+			if ( !m_bw.IsBusy )
 				m_bw.RunWorkerAsync(); //если не занят, то запустить процесс
 		}
 		

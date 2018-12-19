@@ -256,7 +256,9 @@ namespace Core.Common
 					);
 					List<string> list3 = list1.Intersect(list2, new FB2EqualityComparer()).ToList();
 					if ( list3.Count >= 1 ) {
-						MessageBox.Show( "В списке Авторов уже есть Автор с точно такими же данными!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+						MessageBox.Show(
+							"В списке Авторов уже есть Автор с точно такими же данными!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+						);
 						LastNameTextBox.Focus();
 						return;
 					}
@@ -288,9 +290,13 @@ namespace Core.Common
 		void AuthorEditButtonClick(object sender, EventArgs e)
 		{
 			if ( AuthorsListView.SelectedItems.Count > 1 ) {
-				MessageBox.Show( "Выберите только одного Автора для редактирования!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Выберите только одного Автора для редактирования!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 			} else if ( AuthorsListView.SelectedItems.Count != 1 ) {
-				MessageBox.Show( "Выберите одного Автора для редактирования.", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Выберите одного Автора для редактирования.", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 			} else {
 				m_EditMode = true;
 				AuthorBreakEditButton.Visible = true;
@@ -319,7 +325,9 @@ namespace Core.Common
 				if ( AuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveUpSelectedItem( AuthorsListView );
 				else
-					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			AuthorsListView.Select();
 		}
@@ -329,14 +337,18 @@ namespace Core.Common
 				if ( AuthorsListView.SelectedItems.Count == 1 )
 					MiscListView.moveDownSelectedItem( AuthorsListView );
 				else
-					MessageBox.Show( "Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Выберите только одного Автора для перемещения!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 			}
 			AuthorsListView.Select();
 		}
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
 			if ( AuthorsListView.Items.Count == 0 ) {
-				MessageBox.Show( "Заполните данные хотя бы для одного Автора!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Заполните данные хотя бы для одного Автора!", m_sTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 			} else {
 				m_ApplyData = true;
 				ControlPanel.Enabled = false;

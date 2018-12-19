@@ -20,12 +20,19 @@ namespace Core.AutoCorrector
 	public class FictionBookTagCorrector
 	{
 		private const string _FictionBookTag = "<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:l=\"http://www.w3.org/1999/xlink\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">";
+		
 		private const string _MessageTitle = "Автокорректор";
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
 		
-		public FictionBookTagCorrector()
+		
+		/// <summary>
+		/// Конструктор класса FictionBookTagCorrector
+		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
+		public FictionBookTagCorrector( string FilePath )
 		{
+			_FilePath = FilePath;
 		}
-		
 		/// <summary>
 		/// Универсальный и корректный тег FictionBook
 		/// </summary>
@@ -52,7 +59,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description> FictionBookTagCorrector:\r\nЗамена тега FictionBook универсальным и корректным тегом."
+						Debug.InLogFile, _FilePath, ex, "Обработка раздела <description> FictionBookTagCorrector:\r\nЗамена тега FictionBook универсальным и корректным тегом."
 					);
 				}
 			}

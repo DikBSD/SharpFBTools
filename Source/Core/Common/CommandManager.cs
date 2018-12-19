@@ -77,12 +77,15 @@ namespace Core.Common
 				m_oProc.Close();
 				m_oProc.Dispose();
 				return string.Empty;
-			} catch( System.Exception e ) {
+			} catch ( System.Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, null, ex, "CommandManager.Run(): Запуск процесса в синхронном режиме - т.е. управление возвращается к программе только после завершения процесса."
+				);
 				if( !m_oProc.HasExited ) {
 					m_oProc.Kill();
 					m_oProc.Close();
 					m_oProc.Dispose();
-					return "Error: Hung process terminated ...\r\n"+e.Message+"\r\n";;
+					return "Error: Hung process terminated ...\r\n"+ex.Message+"\r\n";;
 				}
 			}
 			return string.Empty;

@@ -16,6 +16,8 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class TagWorker
 	{
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
+		
 		private string _xmlText = string.Empty;
 		private readonly string _startTag = string.Empty;
 		private readonly string _endTag = string.Empty;
@@ -24,12 +26,14 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Конструктор класса TagWorker
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="XmlText">Текст строки для корректировки в xml представлении</param>
 		/// <param name="StartTag">Открывающий тэг</param>
 		/// <param name="EndTag">Закрывающий тэг</param>
 		/// <param name="Worker">Экземпляр обработчика для парных тегов конкретного обработчика конкретных парных тэгов</param>
-		public TagWorker( ref string XmlText, string StartTag, string EndTag, ref IWorker Worker )
+		public TagWorker( string FilePath, ref string XmlText, string StartTag, string EndTag, ref IWorker Worker )
 		{
+			_FilePath = FilePath;
 			_xmlText = XmlText;
 			_startTag = StartTag;
 			_endTag = EndTag;
@@ -41,7 +45,7 @@ namespace Core.AutoCorrector
 		/// </summary>
 		/// <returns>Откорректированную строку типа string </returns>
 		public string Work() {
-			TagPair tagPair = new TagPair();
+			TagPair tagPair = new TagPair( _FilePath );
 			List<int> PairTagIndexes = new List<int>();
 			int indexOfTag = _xmlText.IndexOf( _startTag, StringComparison.CurrentCulture );
 			do {

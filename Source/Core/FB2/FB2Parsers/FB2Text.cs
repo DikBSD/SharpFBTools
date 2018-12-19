@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 using Core.AutoCorrector;
+using Core.Common;
 
 namespace Core.FB2.FB2Parsers
 {
@@ -48,9 +49,16 @@ namespace Core.FB2.FB2Parsers
 				loadDescriptionOnlyFromFile(); // загрузка только раздела description fb2-файла
 			
 			try {
-				_StartTags = _Description.Substring( 0, _Description.IndexOf("<description", StringComparison.CurrentCulture) );
+				_StartTags = _Description.Substring(
+					0, _Description.IndexOf("<description", StringComparison.CurrentCulture)
+				);
 			} catch ( Exception ex ) {
-				throw new Exception( string.Format("Файл: {0}\r\nСтруктура раздела <description> сильно искажена.\r\n{1}\r\n", _FilePath, ex.Message)  );
+				Debug.DebugMessage(
+					Debug.InLogFile, null, ex, "FB2Text (Конструктор):\r\nfb2 Файл в виде реальных текстовых частей.\r\nОпределение начала тега <description>"
+				);
+				throw new Exception(
+					string.Format("Файл: {0}\r\nСтруктура раздела <description> сильно искажена.\r\n{1}\r\n", _FilePath, ex.Message)
+				);
 			}
 			
 			// предварительная обязательная обработка
@@ -279,7 +287,7 @@ namespace Core.FB2.FB2Parsers
 			//  правка тега <FictionBook
 			int IndexFictionBookEndTag = fb2FileString.IndexOf( "</FictionBook>", StringComparison.CurrentCulture );
 			int FictionBookTagIndex = fb2FileString.IndexOf( "<FictionBook", StringComparison.CurrentCulture );
-			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
+			FictionBookTagCorrector fbtc = new FictionBookTagCorrector( _FilePath );
 			if ( FictionBookTagIndex == -1 ) {
 				// нет тега <FictionBook
 				int index = fb2FileString.LastIndexOf( '>' );
@@ -309,14 +317,14 @@ namespace Core.FB2.FB2Parsers
 							_Description, "(?<=encoding=\").+?(?=\")",
 							_Encoding, RegexOptions.IgnoreCase
 						);
-					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-					catch ( Exception ex ) {
-						if ( Settings.Settings.ShowDebugMessage ) {
-							// Показывать сообщения об ошибках при падении работы алгоритмов
-							MessageBox.Show(
-								string.Format("Обработка раздела <description>:\r\nОбработка неверного значения кодировки файла.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-							);
-						}
+					} catch ( RegexMatchTimeoutException ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, _FilePath, ex, "Fb2Text:_makeFB2Part()\r\nОбработка раздела <description>:\r\nОбработка неверного значения кодировки файла. Исключение RegexMatchTimeoutException."
+						);
+					} catch ( Exception ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, _FilePath, ex, "Fb2Text:_makeFB2Part()\r\nОбработка раздела <description>:\r\nОбработка неверного значения кодировки файла. Исключение Exception."
+						);
 					}
 				}
 				
@@ -361,7 +369,7 @@ namespace Core.FB2.FB2Parsers
 			
 			//  правка тега <FictionBook
 			int FictionBookTagIndex = fb2FileString.IndexOf( "<FictionBook", StringComparison.CurrentCulture );
-			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
+			FictionBookTagCorrector fbtc = new FictionBookTagCorrector( _FilePath );
 			if ( FictionBookTagIndex == -1 ) {
 				// нет тега <FictionBook
 				int index = fb2FileString.LastIndexOf( '>' );
@@ -392,14 +400,14 @@ namespace Core.FB2.FB2Parsers
 							_Description, "(?<=encoding=\").+?(?=\")",
 							_Encoding, RegexOptions.IgnoreCase
 						);
-					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-					catch ( Exception ex ) {
-						if ( Settings.Settings.ShowDebugMessage ) {
-							// Показывать сообщения об ошибках при падении работы алгоритмов
-							MessageBox.Show(
-								string.Format("Обработка раздела <description>:\r\nОбработка неверного значения кодировки файла.\r\nОшибка:\r\n{0}", ex.Message), _MessageTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-							);
-						}
+					} catch ( RegexMatchTimeoutException ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, _FilePath, ex, "Fb2Text:makeFB2Part()\r\nСоздание текста разделов fb2-файла в переменных класса FB2Text. Исключение RegexMatchTimeoutException."
+						);
+					} catch ( Exception ex ) {
+						Debug.DebugMessage(
+							Debug.InLogFile, _FilePath, ex, "Fb2Text:makeFB2Part()\r\nСоздание текста разделов fb2-файла в переменных класса FB2Text. Исключение Exception."
+						);
 					}
 				}
 				
@@ -441,7 +449,10 @@ namespace Core.FB2.FB2Parsers
 								_Binaries = _Binaries.Replace( "</body>", string.Empty );
 						}
 					}
-				} catch {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, _FilePath, ex, "Fb2Text:makeFB2Part()\r\nВычленение основных разделов fb2 структуры. Исключение Exception."
+					);
 					throw new Exception( string.Format("Структура файла {0} сильно искажена.\r\nВозможно, раздел(ы) <binary> картинок расположен(ы) выше раздела тела книги <body>\r\n", _FilePath) );
 				}
 

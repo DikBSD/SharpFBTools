@@ -433,8 +433,10 @@ namespace Core.Duplicator
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
 			if ( _sv.AllFiles == 0 ) {
-				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\nРабота прекращена.",
-				                _sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+				MessageBox.Show(
+					"В папке сканирования не найдено ни одного файла!\nРабота прекращена.",
+					_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information
+				);
 				return;
 			}
 			
@@ -745,7 +747,10 @@ namespace Core.Duplicator
 									}
 								}
 							}
-						} catch {
+						} catch ( Exception ex) {
+							Debug.DebugMessage(
+								Debug.InLogFile, FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForMd5Parser(): Хеширование файлов в контексте Md5 книг."
+							);
 							// обработанные файлы
 							FinishedFilesList.Add(FilesList[i]);
 						}
@@ -772,7 +777,10 @@ namespace Core.Duplicator
 			FictionBook fb2 = null;
 			try {
 				fb2 = new FictionBook( SrcPath );
-			} catch  {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, SrcPath, ex, "Дубликатор.CompareForm.MakeFB2Md5HashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте их md5."
+				);
 				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
 			}
@@ -842,12 +850,9 @@ namespace Core.Duplicator
 								}
 							}
 						} catch ( Exception ex ) {
-							if ( Settings.Settings.ShowDebugMessage ) {
-								// Показывать сообщения об ошибках при падении работы алгоритмов
-								MessageBox.Show(
-									string.Format( "Дубликатор.FilesHashForIDParser: Хеширование файлов в контексте Id книг\r\n{0}", ex.Message ),  _sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-								);
-							}
+							Debug.DebugMessage(
+								Debug.InLogFile, FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForIDParser(): Хеширование файлов в контексте Id книг."
+							);
 						}
 						FilesWorker.RemoveDir( _TempDir );
 					}
@@ -870,7 +875,10 @@ namespace Core.Duplicator
 			FictionBook fb2 = null;
 			try {
 				fb2 = new FictionBook( SrcPath );
-			} catch  {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, SrcPath, ex, "Дубликатор.CompareForm.MakeFB2IDHashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте их ID."
+				);
 				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
 			}
@@ -938,12 +946,9 @@ namespace Core.Duplicator
 								}
 							}
 						} catch ( Exception ex ) {
-							if ( Settings.Settings.ShowDebugMessage ) {
-								// Показывать сообщения об ошибках при падении работы алгоритмов
-								MessageBox.Show(
-									string.Format( "Дубликатор.FilesHashForBTParser: Хеширование файлов в контексте Авторов и Названия книг\r\n{0}", ex.Message ),  _sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-								);
-							}
+							Debug.DebugMessage(
+								Debug.InLogFile, FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForBTParser(): Хеширование файлов в контексте Авторов и Названия книг."
+							);
 						}
 						FilesWorker.RemoveDir( _TempDir );
 					}
@@ -966,7 +971,10 @@ namespace Core.Duplicator
 			FictionBook fb2 = null;
 			try {
 				fb2 = new FictionBook( SrcPath );
-			} catch  {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, SrcPath, ex, "Дубликатор.CompareForm.MakeFB2BTHashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте их Названия."
+				);
 				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
 			}
@@ -1036,12 +1044,9 @@ namespace Core.Duplicator
 								}
 							}
 						} catch ( Exception ex ) {
-							if ( Settings.Settings.ShowDebugMessage ) {
-								// Показывать сообщения об ошибках при падении работы алгоритмов
-								MessageBox.Show(
-									string.Format( "Дубликатор.FilesHashForAuthorFIOParser: Хеширование файлов в контексте Авторов с одинаковой Фамилией и инициалами\r\n{0}", ex.Message ),  _sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Error
-								);
-							}
+							Debug.DebugMessage(
+								Debug.InLogFile, FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForAuthorFIOParser(): Хеширование файлов в контексте Авторов с одинаковой Фамилией и инициалами."
+							);
 						}
 						FilesWorker.RemoveDir( _TempDir );
 					}
@@ -1064,7 +1069,10 @@ namespace Core.Duplicator
 			FictionBook fb2 = null;
 			try {
 				fb2 = new FictionBook( SrcPath );
-			} catch  {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, SrcPath, ex, "Дубликатор.CompareForm.MakeFB2AuthorFIOHashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте Авторов с одинаковой Фамилией и инициалами."
+				);
 				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
 			}

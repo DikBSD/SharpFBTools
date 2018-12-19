@@ -8,10 +8,10 @@
  */
 using System;
 
-namespace Core.FileManager
+namespace Core.Common
 {
 	/// <summary>
-	/// интерфейс названий каталогов/имен файлов, для случая, когда нет соответствующих тэгов книг
+	/// Интерфейс названий каталогов/имен файлов, для случая, когда нет соответствующих тэгов книг
 	/// </summary>
 	public interface IFB2TagsNotExsist
 	{

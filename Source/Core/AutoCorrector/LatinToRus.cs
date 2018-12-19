@@ -22,8 +22,12 @@ namespace Core.AutoCorrector
 	{
 		private readonly Dictionary<string, string> _dic = new Dictionary<string, string>();
 		
+		/// <summary>
+		/// Конструктор класса LatinToRus
+		/// </summary>
 		public LatinToRus()
 		{
+			
 			_dic.Add("A", "А");
 			_dic.Add("B", "В");
 			_dic.Add("C", "С");

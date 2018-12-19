@@ -124,7 +124,9 @@ namespace Core.Common
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
 			if ( string.IsNullOrWhiteSpace(KeywordsTextBox.Text) ) {
-				MessageBox.Show( "Введите ключевые слова через запятую или точку с запятой.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Введите ключевые слова через запятую или точку с запятой.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				KeywordsTextBox.Focus();
 			} else {
 				m_ApplyData = true;

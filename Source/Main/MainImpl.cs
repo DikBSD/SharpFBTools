@@ -17,7 +17,7 @@ using SharpFBTools.Tools;
 namespace Main
 {
 	/// <summary>
-	/// Description of MainImpl.
+	/// MainImpl
 	/// </summary>
 	public class MainImpl
 	{
@@ -77,17 +77,17 @@ namespace Main
 		public static void ToggleMode( List<ToolStripButton> tsbl, List<UserControl> ucl,
 		                              ToolStripButton Btn, UserControl Uc, ToolStripContainer tscMain ) {
 			// переключение состояния кнопки btn
-			if( !Btn.Checked ) {
+			if ( !Btn.Checked ) {
 				Btn.Checked = true;
 				// отключаем все кнопки, кроме btn
-				foreach( ToolStripButton btn in tsbl ) {
-					if( btn != Btn ) {
+				foreach ( ToolStripButton btn in tsbl ) {
+					if ( btn != Btn ) {
 						btn.Checked = false;
 					}
 				}
 				// отключаем видимость всех имплантированных панелей, кроме uc
-				foreach( UserControl uc in ucl ) {
-					if( uc != Uc )
+				foreach ( UserControl uc in ucl ) {
+					if ( uc != Uc )
 						uc.Visible = false;
 				}
 				// панель Uc делаем видимой

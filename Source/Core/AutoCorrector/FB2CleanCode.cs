@@ -25,6 +25,8 @@ namespace Core.AutoCorrector
 		#region Закрытые данные класса
 		private const string _MessageTitle = "Автокорректор";
 		
+		private static string _FilePath = string.Empty; // Путь к обрабатываемому файлу
+		
 		private static string[] _Tags = {
 			"<p>", "<p ", "</p>", "<p/>", "<p />",
 			"<empty-line/>", "<empty-line />", "<empty-line ", "<empty-line>", "</empty-line>",
@@ -98,8 +100,13 @@ namespace Core.AutoCorrector
 		
 		#endregion
 		
-		public FB2CleanCode()
+		/// <summary>
+		/// Конструктор класса FB2CleanCode
+		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
+		public FB2CleanCode( string FilePath )
 		{
+			_FilePath = FilePath;
 		}
 		
 		public static string getRegAmpString() {
@@ -156,7 +163,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nОбработка форматирования: теги полужирного."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nОбработка форматирования: теги полужирного."
 				);
 			}
 			
@@ -169,7 +176,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nОбработка форматирования: теги курсива."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nОбработка форматирования: теги курсива."
 				);
 			}
 
@@ -185,7 +192,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <DIV ...></DIV>."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <DIV ...></DIV>."
 				);
 			}
 			
@@ -198,7 +205,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite />, <cite id=\"nnnnnn\" />."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite />, <cite id=\"nnnnnn\" />."
 				);
 			}
 			
@@ -211,7 +218,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite id=\"nnnnnn\"></cite>, <cite></cite>."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite id=\"nnnnnn\"></cite>, <cite></cite>."
 				);
 			}
 			
@@ -224,7 +231,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite id=\"bdn__4\"></cite>."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <cite id=\"bdn__4\"></cite>."
 				);
 			}
 			
@@ -237,7 +244,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <br> <BR> <br/> <BR/> <br /> <BR /> <R>."
 				);
 			}
 			
@@ -250,7 +257,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление пустых тегов <p><emphasis></emphasis></p>."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление пустых тегов <p><emphasis></emphasis></p>."
 				);
 			}
 			
@@ -263,7 +270,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление пустых тегов <emphasis></emphasis>."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление пустых тегов <emphasis></emphasis>."
 				);
 			}
 			
@@ -276,7 +283,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление <stanza/>, <stanza />."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление <stanza/>, <stanza />."
 				);
 			}
 			
@@ -289,7 +296,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление <h1> ... <h6> с их содержимым."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление <h1> ... <h6> с их содержимым."
 				);
 			}
 			
@@ -306,7 +313,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <style> вида <style name=\"MsoFootnoteReference\"> и </style>."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <style> вида <style name=\"MsoFootnoteReference\"> и </style>."
 				);
 			}
 			
@@ -325,7 +332,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2CleanCode:deleteIllegalCharacters():\r\nУдаление недопустимых символов."
+					Debug.InLogFile, _FilePath, ex, "FB2CleanCode:deleteIllegalCharacters():\r\nУдаление недопустимых символов."
 				);
 			}
 			return InputString;

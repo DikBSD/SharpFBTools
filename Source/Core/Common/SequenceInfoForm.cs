@@ -48,14 +48,18 @@ namespace Core.Common
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
 			if ( string.IsNullOrWhiteSpace( SequenceTextBox.Text ) && string.IsNullOrWhiteSpace( SequenceNumberTextBox.Text ) ) {
-				MessageBox.Show( "Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				SequenceTextBox.Focus();
 				return;
 			}
 			if ( !string.IsNullOrWhiteSpace( SequenceNumberTextBox.Text ) ) {
 				int number = 0;
 				if ( !int.TryParse( SequenceNumberTextBox.Text, out number ) ) {
-					MessageBox.Show( "Номер Серии не может символы и/или пробелы! Введите число, или оставьте поле пустым, если у данной книги нет номера серии.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show(
+						"Номер Серии не может символы и/или пробелы! Введите число, или оставьте поле пустым, если у данной книги нет номера серии.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
 					SequenceNumberTextBox.Focus();
 					return;
 				}

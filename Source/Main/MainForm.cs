@@ -333,14 +333,16 @@ namespace Main
 		{
 			// выход из программы
 			string TempDir = Settings.Settings.TempDirPath;
-			if( ! Settings.Settings.ConfirmationForExit ) {
+			if ( ! Settings.Settings.ConfirmationForExit ) {
 				// очистка временной папки
 				filesWorker.RemoveDir( TempDir );
 				this.Close();
 			} else {
-				DialogResult result = MessageBox.Show( "Вы действительно хотите выйти из программы?", "SharpFBTools",
-				                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question );
-				if( result == DialogResult.Yes ) {
+				DialogResult result = MessageBox.Show(
+					"Вы действительно хотите выйти из программы?", "SharpFBTools",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question
+				);
+				if ( result == DialogResult.Yes ) {
 					// очистка временной папки
 					filesWorker.RemoveDir( TempDir );
 					this.Close();

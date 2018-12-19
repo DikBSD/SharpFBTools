@@ -45,8 +45,8 @@ namespace Core.Duplicator
 		/// </summary>
 		/// <param name="BookPath">Путь к проверяемой книге</param>
 		public bool isBookExists( string BookPath ) {
-			foreach( BookData bd in this ) {
-				if( bd.Path.Trim() == BookPath.Trim() )
+			foreach ( BookData bd in this ) {
+				if ( bd.Path.Trim() == BookPath.Trim() )
 					return true;
 			}
 			return false;
@@ -56,9 +56,9 @@ namespace Core.Duplicator
 		public string makeAuthorsString(bool WithMiddleName) {
 			if (this.Count > 0) {
 				List<string> list = new List<string>();
-				foreach( BookData bd in this ) {
+				foreach ( BookData bd in this ) {
 					List<string> fioList = bd.makeListFOIAuthors(bd.Authors, WithMiddleName);
-					foreach( string fio in fioList ) {
+					foreach ( string fio in fioList ) {
 						if (!list.Contains(fio)) {
 							list.Add(fio);
 							list.Add("; ");
@@ -67,7 +67,7 @@ namespace Core.Duplicator
 				}
 				
 				StringBuilder sb = new StringBuilder( list.Count );
-				foreach( string s in list )
+				foreach ( string s in list )
 					sb.Append(s);
 				
 				string sA = sb.ToString().Trim();

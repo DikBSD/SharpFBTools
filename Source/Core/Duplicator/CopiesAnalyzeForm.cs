@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 using Core.Common;
 
-using MiscListView			= Core.Common.MiscListView;
+using MiscListView	= Core.Common.MiscListView;
 
 // enums
 using CompareModeEnum			= Core.Common.Enums.CompareModeEnum;
@@ -203,7 +203,7 @@ namespace Core.Duplicator
 			if ( e.Cancelled ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Cancelled;
 				m_EndMode.Message = "Анализ книг прерван и не выполнен до конца!\nЗатрачено времени: "+sTime;
-			} else if( e.Error != null ) {
+			} else if ( e.Error != null ) {
 				m_EndMode.EndMode = EndWorkModeEnum.Error;
 				m_EndMode.Message = "Ошибка:\n" + e.Error.Message + "\n" + e.Error.StackTrace + "\nЗатрачено времени: "+sTime;
 			} else {

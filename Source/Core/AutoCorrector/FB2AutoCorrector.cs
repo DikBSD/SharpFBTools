@@ -30,8 +30,12 @@ namespace Core.AutoCorrector
 	{
 		private const string _MessageTitle = "Автокорректор";
 		
+		
 		public FB2AutoCorrector()
 		{
+			// Удаляем Log файл для новой отладки, если она включена в Настройках
+			if ( File.Exists( Debug.LogFilePath ) )
+				File.Delete( Debug.LogFilePath );
 		}
 		
 		/// <summary>
@@ -55,13 +59,16 @@ namespace Core.AutoCorrector
 			try {
 				fb2Text = new FB2Text( FilePath );
 			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, FilePath, ex, "AutoCorrector.FB2AutoCorrector.autoCorrector():\r\nАвтокорректировка теста файла."
+				);
 				// Если структура fb2 файла сильно "битая", или же основные разделы располагаются не по стандарту
 				throw ex;
 			}
 			
 			if ( fb2Text.Description.IndexOf( "<FictionBook", StringComparison.CurrentCulture ) == -1 ) {
 				// тег FictionBook отсутствует в книге
-				FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
+				FictionBookTagCorrector fbtc = new FictionBookTagCorrector( FilePath );
 				fb2Text.Description = fb2Text.Description.Insert(
 					fb2Text.Description.IndexOf( "<description>", StringComparison.CurrentCulture ),
 					fbtc.NewFictionBookTag
@@ -75,7 +82,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "FB2AutoCorrector::autoCorrector()\r\nОбработка раздела <description>:\r\nОбработка неверного значения кодировки файла."
+					Debug.InLogFile, FilePath, ex, "AutoCorrector.FB2AutoCorrector::autoCorrector():\r\nОбработка неверного значения кодировки файла."
 				);
 			}
 			
@@ -83,15 +90,15 @@ namespace Core.AutoCorrector
 			/******************************************
 			 * Автокорректировка раздела <description> *
 			 *******************************************/
-			fb2Text.Description = autoCorrectDescription( fb2Text.Bodies, fb2Text.Description, htTags );
+			fb2Text.Description = autoCorrectDescription( FilePath, fb2Text.Bodies, fb2Text.Description, htTags );
 			
 			/* Автокорректировка разделов <body> */
-			fb2Text.Bodies = autoCorrect( fb2Text.Bodies, htTags );
+			fb2Text.Bodies = autoCorrect( FilePath, fb2Text.Bodies, htTags );
 			
 			/* автокорректировка разделов binary */
 			if ( fb2Text.BinariesExists ) {
 				// обработка ссылок-названий картинок в binary
-				BinaryCorrector binaryCorrector = new BinaryCorrector( fb2Text.Binaries );
+				BinaryCorrector binaryCorrector = new BinaryCorrector( FilePath, fb2Text.Binaries );
 				fb2Text.Binaries = binaryCorrector.correct();
 			}
 			
@@ -99,7 +106,10 @@ namespace Core.AutoCorrector
 				XmlDocument xmlDoc = new XmlDocument();
 				xmlDoc.LoadXml( fb2Text.toXML() );
 				xmlDoc.Save( FilePath );
-			} catch {
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					Debug.InLogFile, FilePath, ex, "AutoCorrector.FB2AutoCorrector::autoCorrector():\r\nпересохранение файла."
+				);
 				fb2Text.saveFile();
 			}
 		}
@@ -111,12 +121,12 @@ namespace Core.AutoCorrector
 		/// <param name="XmlDescription">Строка description для корректировки</param>
 		/// <param name="htTags">Хэш таблица fb2 тегов</param>
 		/// <returns>Откорректированная строка типа string</returns>
-		private static string autoCorrectDescription( string XmlBody, string XmlDescription, Hashtable htTags ) {
+		private static string autoCorrectDescription( string FilePath, string XmlBody, string XmlDescription, Hashtable htTags ) {
 			if ( string.IsNullOrWhiteSpace( XmlDescription ) || XmlDescription.Length == 0 )
 				return XmlDescription;
 			
 			/* обработка головного тега FictionBook и пространства имен */
-			FictionBookTagCorrector fbtc = new FictionBookTagCorrector();
+			FictionBookTagCorrector fbtc = new FictionBookTagCorrector( FilePath );
 			XmlDescription = fbtc.StartTagCorrect( XmlDescription );
 			
 			try {
@@ -133,10 +143,14 @@ namespace Core.AutoCorrector
 							"<description>", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline
 						);
 					}
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nУдаление атрибута в теге description. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nУдаление атрибута в теге description."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nУдаление атрибута в теге description. Исключение Exception."
 					);
 				}
 				
@@ -149,10 +163,14 @@ namespace Core.AutoCorrector
 						XmlDescription, @"(?:<coverpage>\s*?</coverpage>)",
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>. Исключение Exception."
 					);
 				}
 				
@@ -162,10 +180,14 @@ namespace Core.AutoCorrector
 						XmlDescription, "(?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?)(?'more'>)(?:\\s*?</image>)",
 						"${img} /${more}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>. Исключение м."
 					);
 				}
 				
@@ -178,10 +200,14 @@ namespace Core.AutoCorrector
 						XmlDescription, @"(?<=<id>)(?:\s*\s*)(?=</id>)",
 						Guid.NewGuid().ToString().ToUpper(), RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка пустого id. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nОбработка пустого id."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка пустого id. Исключение Exception."
 					);
 				}
 
@@ -191,10 +217,14 @@ namespace Core.AutoCorrector
 						XmlDescription, @"(?<=<id>)\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{2}\s+(\d{2}\:){2}\d{2}\s+\d{4}\s*(?=</id>)",
 						Guid.NewGuid().ToString().ToUpper(), RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка Либрусековских id. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nОбработка Либрусековских id."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка Либрусековских id. Исключение Exception."
 					);
 				}
 				
@@ -207,10 +237,14 @@ namespace Core.AutoCorrector
 						XmlDescription, @"(?<=<annotation>)\s*?(?'text_annotation'(?:<(?'tag_s'strong|emphasis)>)?\s*?(?:[^<]+)?(?:</\k'tag_s'>)?\s*?)\s*?(?=</annotation>)",
 						"<p>${text_annotation}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение Exception."
 					);
 				}
 				
@@ -220,10 +254,14 @@ namespace Core.AutoCorrector
 						XmlDescription, "(?<=<annotation>)\\s*?(?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)",
 						"<p>${img}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>."
+						Debug.InLogFile, FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение Exception."
 					);
 				}
 				
@@ -231,7 +269,7 @@ namespace Core.AutoCorrector
 				 * Обработка Жанра *
 				 ******************/
 				if ( XmlDescription.IndexOf( "<genre", StringComparison.CurrentCulture ) != -1 ) {
-					GenreCorrector genreCorrector = new GenreCorrector( ref XmlDescription, false, false );
+					GenreCorrector genreCorrector = new GenreCorrector( FilePath, ref XmlDescription, false, false );
 					XmlDescription = genreCorrector.correct();
 				}
 				
@@ -249,10 +287,14 @@ namespace Core.AutoCorrector
 						XmlDescription, @"(?<=<lang>)(?:\s*)(?:RU-ru|Rus)(?:\s*)(?=</lang>)",
 						"ru", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного русского языка. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nОбработка неверно заданного русского языка."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного русского языка. Исключение Exception."
 					);
 				}
 				
@@ -262,10 +304,14 @@ namespace Core.AutoCorrector
 						XmlDescription, @"(?<=<lang>)(?:\s*)(?:EN-en|Eng)(?:\s*)(?=</lang>)",
 						"en", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного английского языка. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nОбработка неверно заданного английского языка."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного английского языка. Исключение Exception."
 					);
 				}
 				
@@ -274,13 +320,17 @@ namespace Core.AutoCorrector
 				 *****************/
 				try {
 					if ( XmlDescription.IndexOf( "<date", StringComparison.CurrentCulture ) != -1 ) {
-						DateCorrector dateCorrector = new DateCorrector( ref XmlDescription, false, false );
+						DateCorrector dateCorrector = new DateCorrector( FilePath, ref XmlDescription, false, false );
 						XmlDescription = dateCorrector.correct();
 					}
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка дат (тег <date>). Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nОбработка дат (тег <date>)."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка дат (тег <date>). Исключение Exception."
 					);
 				}
 				
@@ -293,10 +343,14 @@ namespace Core.AutoCorrector
 						XmlDescription, @"(?<=<annotation>)\s*?(?:<title>\s*?)(?:<p>\s*?)(?'title'[^<]+?)(?:\s*?</p>\s*?</title>)",
 						"<subtitle>${title}</subtitle>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п. Исключение Exception."
 					);
 				}
 				
@@ -306,10 +360,14 @@ namespace Core.AutoCorrector
 						XmlDescription, @"(?:<annotation>\s*?<annotation>\s*?)(?'texts'(<p>\s*?(?:<(?'tag'strong|emphasis)\b>)?[^<]+?(?:</\k'tag'>)?\s*?</p>\s*?){1,}\s*?)(?:</annotation>\s*?</annotation>)",
 						"<annotation>${texts}</annotation>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>."
+						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>. Исключение Exception."
 					);
 				}
 
@@ -332,21 +390,22 @@ namespace Core.AutoCorrector
 //					);
 //				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				
-			} catch (Exception ex) {
+			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "Обработка раздела <description>:\r\nМетод autoCorrectDescription().\r\nОшибка уровня всего метода:"
+					Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nМетод autoCorrectDescription().\r\nОшибка уровня всего метода (главный catch ( Exception ex )):"
 				);
 			}
-			return autoCorrect( XmlDescription, htTags );
+			return autoCorrect( FilePath, XmlDescription, htTags );
 		}
 		
 		/// <summary>
 		/// Автокорректировка текста строки InputString
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="InputString">Строка для корректировки</param>
 		/// <param name="htTags">Хэш таблица fb2 тегов</param>
 		/// <returns>Откорректированную строку типа string</returns>
-		private static string autoCorrect( string InputString, Hashtable htTags ) {
+		private static string autoCorrect( string FilePath, string InputString, Hashtable htTags ) {
 			/* предварительная обработка текста */
 			InputString = FB2CleanCode.preProcessing(
 				/* чистка кода */
@@ -361,7 +420,7 @@ namespace Core.AutoCorrector
 				/* автокорректировка файла */
 				_autoCorrect(
 					/* обработка < и > */
-					FB2CleanCode.processingCharactersMoreAndLessAndAmp( InputString, htTags )
+					FilePath, FB2CleanCode.processingCharactersMoreAndLessAndAmp( InputString, htTags )
 				)
 			);
 		}
@@ -369,9 +428,10 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Автокорректировка текста строки InputString
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="InputString">Строка для корректировки</param>
 		/// <returns>Откорректированную строку типа string</returns>
-		private static string _autoCorrect( string InputString ) {
+		private static string _autoCorrect( string FilePath, string InputString ) {
 			if ( string.IsNullOrWhiteSpace( InputString ) || InputString.Length == 0 )
 				return InputString;
 			
@@ -382,10 +442,14 @@ namespace Core.AutoCorrector
 						InputString, "(?:<body +?name=\"notes\">\\s*<title>\\s*(?:(?:<p>(?:(?:\\w+?\\W?\\w+?)+)</p>){1,}\\s*){1,}</title>\\s*</body>)",
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Удаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				
@@ -395,10 +459,14 @@ namespace Core.AutoCorrector
 						InputString, "<body name=\"notes\" ?/>",
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\" />. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Удаление пустышек типа <body name=\"notes\" />."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\" />. Исключение Exception."
 					);
 				}
 				
@@ -408,10 +476,14 @@ namespace Core.AutoCorrector
 						InputString, "(?:<p>\\s*?)(?'tag'</section>)",
 						"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <p></section> => </section>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка блоков типа <p></section> => </section>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <p></section> => </section>. Исключение Exception."
 					);
 				}
 				
@@ -421,10 +493,14 @@ namespace Core.AutoCorrector
 						InputString, "(?'tag'<title>\\s*?)(?:</p>)",
 						"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <title></p> => <title>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка блоков типа <title></p> => <title>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <title></p> => <title>. Исключение Exception."
 					);
 				}
 				
@@ -434,10 +510,14 @@ namespace Core.AutoCorrector
 						InputString, "(?'title'</title>)(?:\\s*?<empty-line />\\s*?</section>\\s*?)(?'_p'(?:<p>)|(?:<subtitle>))",
 						"${title}${_p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>. Исключение Exception."
 					);
 				}
 				
@@ -446,7 +526,7 @@ namespace Core.AutoCorrector
 				 *******************/
 				// обработка ссылок
 				if ( InputString.IndexOf( "<a ", StringComparison.CurrentCulture ) != -1 ) {
-					LinksCorrector linksCorrector = new LinksCorrector( InputString );
+					LinksCorrector linksCorrector = new LinksCorrector( FilePath, InputString );
 					InputString = linksCorrector.correct();
 				}
 				
@@ -454,7 +534,7 @@ namespace Core.AutoCorrector
 				 * Обработка <empty-line /> *
 				 ***************************/
 				if ( InputString.IndexOf( "<empty-line/>", StringComparison.CurrentCulture ) != -1 || InputString.IndexOf( "<empty-line />", StringComparison.CurrentCulture ) != -1) {
-					EmptyLineCorrector emCorrector = new EmptyLineCorrector( InputString );
+					EmptyLineCorrector emCorrector = new EmptyLineCorrector( FilePath, InputString );
 					InputString = emCorrector.correct();
 				}
 				
@@ -467,10 +547,14 @@ namespace Core.AutoCorrector
 						InputString, "(?<=<)(?'tag'body|section|title)(?:\\s+?xmlns=\"\"\\s*?)(?=>)",
 						"${tag}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустого атрибута xmlns=\"\" в тегах body и section. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Удаление пустого атрибута xmlns=\"\" в тегах body и section."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустого атрибута xmlns=\"\" в тегах body и section. Исключение Exception."
 					);
 				}
 				
@@ -480,10 +564,14 @@ namespace Core.AutoCorrector
 						InputString, "(?<=<body) \\b(xmlns|l)\\b:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" \\b(xmlns|l)\\b:xlink=\"http://www.w3.org/1999/xlink\"(?=>)",
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\". Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Удаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\". Исключение Exception."
 					);
 				}
 				
@@ -496,10 +584,14 @@ namespace Core.AutoCorrector
 						InputString, "(<section>)\\s*?(<empty-line />\\s*?){1,}\\s*?(</section>)",
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>. Исключение Exception."
 					);
 				}
 				
@@ -513,10 +605,14 @@ namespace Core.AutoCorrector
 						InputString, "(?'start'<section id=\"(:?(:?\\w+?\\W?\\w+?)+?)+\">\\s*?<title>\\s*?<p>\\d{1,5}</p>\\s*?</title>\\s*?)(?'end'</section>)",
 						"${start}<empty-line />${end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>. Исключение Exception."
 					);
 				}
 
@@ -524,7 +620,7 @@ namespace Core.AutoCorrector
 				 * Обработка графики *
 				 ********************/
 				if ( InputString.IndexOf( "<image", StringComparison.CurrentCulture ) != -1 ) {
-					ImageCorrector imageCorrector = new ImageCorrector( ref InputString, false, false );
+					ImageCorrector imageCorrector = new ImageCorrector( FilePath, ref InputString, false, false );
 					InputString = imageCorrector.correct();
 				}
 				
@@ -532,7 +628,7 @@ namespace Core.AutoCorrector
 				 * Обработка цитат <cite> *
 				 **************************/
 				if ( InputString.IndexOf( "<cite", StringComparison.CurrentCulture ) != -1 ) {
-					CiteCorrector citeCorrector = new CiteCorrector( ref InputString, false, false );
+					CiteCorrector citeCorrector = new CiteCorrector( FilePath, ref InputString, false, false );
 					InputString = citeCorrector.correct();
 				}
 				
@@ -542,10 +638,14 @@ namespace Core.AutoCorrector
 						InputString, @"(?'left'(?:<empty-line ?/>|</p>|<section>|</title>))\s*?(?'text_a'(?:<text-author>\s*?(?:<(?'tag'strong|emphasis)\b>)?[^<]+?(?:</\k'tag'>)?\s*?</text-author>\s*?){1,})\s*?(?'right'(?:<p>|</section>|<empty-line ?/>))",
 						"${left}<cite>${text_a}</cite>${right}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nСоздание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Создание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nСоздание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>. Исключение Exception."
 					);
 				}
 				
@@ -558,10 +658,14 @@ namespace Core.AutoCorrector
 						InputString, @"(?'tag_start'<subtitle>)\s*<p>\s*(?'text'.+?)\s*</p>\s*(?'tag_end'</subtitle>)",
 						"${tag_start}${text}${tag_end}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка подзаголовков <subtitle>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle>. Исключение Exception."
 					);
 				}
 				
@@ -571,10 +675,14 @@ namespace Core.AutoCorrector
 						InputString, @"</section>\s*?<section>\s*?<subtitle>\s*?(?'sub'[^<]+?)\s*?</subtitle>\s*?<epigraph>",
 						"</section><section><title><p>${sub}</p></title><epigraph>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>. Исключение Exception."
 					);
 				}
 
@@ -582,7 +690,7 @@ namespace Core.AutoCorrector
 				 * Обработка <epigraph> *
 				 ************************/
 				if ( InputString.IndexOf( "<epigraph", StringComparison.CurrentCulture ) != -1 ) {
-					EpigraphCorrector epigraphCorrector = new EpigraphCorrector ( ref InputString, true, false );
+					EpigraphCorrector epigraphCorrector = new EpigraphCorrector ( FilePath, ref InputString, true, false );
 					InputString = epigraphCorrector.correct();
 				}
 
@@ -590,7 +698,7 @@ namespace Core.AutoCorrector
 				 * Обработка <title> *
 				 ********************/
 				if ( InputString.IndexOf( "<title", StringComparison.CurrentCulture ) != -1 ) {
-					TitleCorrector titleCorrector = new TitleCorrector ( ref InputString, true, false );
+					TitleCorrector titleCorrector = new TitleCorrector ( FilePath, ref InputString, true, false );
 					InputString = titleCorrector.correct();
 				}
 				
@@ -603,10 +711,14 @@ namespace Core.AutoCorrector
 						InputString, @"<(?'tag'annotation|cite)\b>\s*?<(?'format'i|b|emphasis|strong)\b>\s*?(?'text'[^<]+?\s*)</\k'format'>\s*?</\k'tag'>",
 						"<${tag}><p>${text}</p></${tag}>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>. Исключение Exception."
 					);
 				}
 				
@@ -616,10 +728,14 @@ namespace Core.AutoCorrector
 						InputString, @"(?<=<section>)\s*(?:<empty-line */>\s*){1,}\s*(?=<annotation>)",
 						"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Удаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>. Исключение Exception."
 					);
 				}
 				
@@ -629,10 +745,14 @@ namespace Core.AutoCorrector
 						InputString, @"(?'ann'</annotation>)(\s*)(?'end_sect'</section>)",
 						"${ann}<empty-line />${end_sect}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>.  Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Вставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>.  Исключение Exception."
 					);
 				}
 				
@@ -640,10 +760,10 @@ namespace Core.AutoCorrector
 				 * Обработка Стихов *
 				 ********************/
 				if ( InputString.IndexOf( "<poem", StringComparison.CurrentCulture ) != -1 ) {
-					StanzaCorrector stanzaCorrector = new StanzaCorrector( ref InputString, false, false );
+					StanzaCorrector stanzaCorrector = new StanzaCorrector( FilePath, ref InputString, false, false );
 					InputString = stanzaCorrector.correct();
 
-					PoemCorrector poemCorrector = new PoemCorrector( ref InputString, false, false );
+					PoemCorrector poemCorrector = new PoemCorrector( FilePath, ref InputString, false, false );
 					InputString = poemCorrector.correct();
 				}
 				
@@ -656,10 +776,14 @@ namespace Core.AutoCorrector
 						InputString, "(?:(?'format'<(?'tag'strong|emphasis)>)\\s*?){2}(?'p'(?:<p(?:(?:[^>\"']|\"[^\"]*\"|'[^']*')*)>))\\s*?(?'text'(?:[^<]+))?(?'_p'(?:</p>))\\s*?(?'_format'</\\k'tag'>)\\s*?\\k'_format'",
 						"${p}${format}${text}${_format}${_p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Обработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>. Исключение Exception."
 					);
 				}
 				
@@ -669,10 +793,14 @@ namespace Core.AutoCorrector
 						InputString, "(?'format'<(?'tag'strong|emphasis)>)\\s*?(?'p'(?:<p(?:(?:[^>\"']|\"[^\"]*\"|'[^']*')*)>))\\s*?(?'text'(?:[^<]+))?(?'_p'(?:</p>))\\s*?(?'_format'</\\k'tag'>)\\s*?",
 						"${p}${format}${text}${_format}${_p}", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВнесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Внесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВнесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>. Исключение Exception."
 					);
 				}
 				
@@ -682,10 +810,14 @@ namespace Core.AutoCorrector
 						InputString, "(?:<(?'tag'strong|emphasis)>)\\s*?(?'text'(?:(?:<p(?:(?:[^>\"']|\"[^\"]*\"|'[^']*')*)>)\\s*?(?:[^<]+)?(?:</p>)\\s*?){2,})(?:</\\k'tag'>)",
 						"<cite>${text}</cite>", RegexOptions.IgnoreCase | RegexOptions.Multiline
 					);
-				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
+				} catch ( RegexMatchTimeoutException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nЗамена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>. Исключение RegexMatchTimeoutException."
+					);
+				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "Замена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>."
+						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nЗамена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>. Исключение Exception."
 					);
 				}
 
@@ -693,19 +825,19 @@ namespace Core.AutoCorrector
 				 * Обработка Таблиц *
 				 *******************/
 				if ( InputString.IndexOf( "<table", StringComparison.CurrentCulture ) != -1 ) {
-					TableCorrector tableCorrector = new TableCorrector ( ref InputString, false, false );
+					TableCorrector tableCorrector = new TableCorrector ( FilePath, ref InputString, false, false );
 					InputString = tableCorrector.correct();
 				}
 				
 				/**********************
 				 * Обработка тега <p> *
 				 *********************/
-				ParaCorrector paraCorrector = new ParaCorrector( ref InputString, false, false );
+				ParaCorrector paraCorrector = new ParaCorrector( FilePath, ref InputString, false, false );
 				InputString = paraCorrector.correct();
 
-			} catch (Exception ex) {
+			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "Автокорректировка текста. Метод _autoCorrect( string InputString )."
+					Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nАвтокорректировка текста. Метод _autoCorrect( string InputString ). Ошибка уровня всего метода (главный catch (Exception ex))."
 				);
 			}
 			

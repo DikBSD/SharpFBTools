@@ -3191,7 +3191,10 @@ namespace SharpFBTools.Tools
 						clearDataFields();
 						FilesWorker.RemoveDir( m_TempDir );
 					}
-				} catch ( System.Exception /*e*/) {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, SrcFilePath, ex, "Дубликатор.viewMetaData(): Отобразить метаданные данные после автокорректировки."
+					);
 					RetValid = "Нет";
 					WorksWithBooks.hideMetaDataLocalForDup( listViewItem );
 					clearDataFields();
@@ -3246,7 +3249,7 @@ namespace SharpFBTools.Tools
 						// загрузка обложек книги
 						IList<BinaryBase64> Covers = fb2Desc.TICoversBase64;
 						ImageWorker.makeListViewCoverNameItems( TICoversListView, ref Covers );
-						if( TICoversListView.Items.Count > 0 ) {
+						if ( TICoversListView.Items.Count > 0 ) {
 							TICoversListView.Items[0].Selected = true;
 							TICoverListViewButtonPanel.Enabled = true;
 						} else {
@@ -3257,7 +3260,7 @@ namespace SharpFBTools.Tools
 						// загруxзка обложек оригинала книги
 						Covers = fb2Desc.STICoversBase64;
 						ImageWorker.makeListViewCoverNameItems( STICoversListView, ref Covers );
-						if( STICoversListView.Items.Count > 0 ) {
+						if ( STICoversListView.Items.Count > 0 ) {
 							STICoversListView.Items[0].Selected = true;
 							STICoverListViewButtonPanel.Enabled = true;
 						} else {
@@ -3336,8 +3339,13 @@ namespace SharpFBTools.Tools
 						FilesWorker.RemoveDir( m_TempDir );
 //						MiscListView.AutoResizeColumns(listViewFB2Files);
 					}
-				} catch ( System.Exception e ) {
-					MessageBox.Show( "Ошибка при отображении метаданных книги " + fb2Desc.FilePath + "\n" + e.Message, "Отображение метаданных книги", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, fb2Desc.FilePath, ex, "Дубликатор.viewBookMetaDataFull(): Занесение данных книги в контролы для просмотра."
+					);
+					MessageBox.Show(
+						"Ошибка при отображении метаданных книги " + fb2Desc.FilePath + "\n" + ex.Message, "Отображение метаданных книги", MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
 				}
 			} else
 				clearDataFields();
@@ -3413,9 +3421,14 @@ namespace SharpFBTools.Tools
 				FictionBook fb2 = null;
 				try {
 					fb2 = new FictionBook( FilePath );
-				} catch ( FileLoadException er ) {
+				} catch ( FileLoadException ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, SourceFilePath, ex, "Дубликатор.setNewBookID(): Генерация нового id для выделенной книги. Ошибка открытия файла."
+					);
 					if ( BooksCount == 1 )
-						MessageBox.Show( er.Message, "Генерация нового id", MessageBoxButtons.OK, MessageBoxIcon.Error );
+						MessageBox.Show(
+							ex.Message, "Генерация нового id", MessageBoxButtons.OK, MessageBoxIcon.Error
+						);
 					return;
 				}
 				if( fb2 != null ) {
@@ -3590,7 +3603,10 @@ namespace SharpFBTools.Tools
 									WorksWithBooks.hideMetaDataLocalForDup( SelectedItem );
 									clearDataFields();
 								}
-							} catch ( System.Exception /*e*/) {
+							} catch ( Exception ex ) {
+								Debug.DebugMessage(
+									Debug.InLogFile, SrcFilePath, ex, "Дубликатор.LvResultSelectedIndexChanged(): Занесение данных книги в контролы для просмотра."
+								);
 								WorksWithBooks.hideMetaDataLocalForDup( SelectedItem );
 								clearDataFields();
 								// Занесение данных о валидации в поле детализации
@@ -3686,7 +3702,9 @@ namespace SharpFBTools.Tools
 				init();
 				// установка режима поиска
 				if( !File.Exists( FromXML ) ) {
-					MessageBox.Show( "Не найден файл списка копий fb2 книг: \""+FromXML+"\"!", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+					MessageBox.Show(
+						"Не найден файл списка копий fb2 книг: \""+FromXML+"\"!", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
 					return;
 				}
 				try {
@@ -3711,7 +3729,10 @@ namespace SharpFBTools.Tools
 					MessageBox.Show( EndWorkMode.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 					tsbtnDupCurrentSaveList.Enabled = true; // кнопка сохранения текущего списка без подтверждения
 					listViewFB2Files.Focus();
-				} catch (System.Exception ex) {
+				} catch ( Exception ex ) {
+					Debug.DebugMessage(
+						Debug.InLogFile, null, ex, "Дубликатор.TsbtnDupOpenListClick(): Загрузка списка копий."
+					);
 					listViewFB2Files.EndUpdate();
 					ConnectListViewResultEventHandlers( true );
 					MessageBox.Show( "Возможно, поврежден файл списка копий fb2 книг: \""+FromXML+"\"!\n"+ex.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Error );
@@ -3829,8 +3850,13 @@ namespace SharpFBTools.Tools
 						FictionBook fb2 = null;
 						try {
 							fb2 = new FictionBook( FilePath );
-						} catch ( FileLoadException er ) {
-							MessageBox.Show( er.Message, "Правка Названия книги", MessageBoxButtons.OK, MessageBoxIcon.Error );
+						} catch ( FileLoadException ex ) {
+							Debug.DebugMessage(
+								Debug.InLogFile, null, ex, "Дубликатор.TsmiEditBookNameClick(): Правка Названия Книги. Ошибка открытия книги."
+							);
+							MessageBox.Show(
+								ex.Message, "Правка Названия книги", MessageBoxButtons.OK, MessageBoxIcon.Error
+							);
 							return;
 						}
 						if( fb2 != null ) {
@@ -3874,8 +3900,13 @@ namespace SharpFBTools.Tools
 							FictionBook fb2 = null;
 							try {
 								fb2 = new FictionBook( FilePath );
-							} catch ( FileLoadException er ) {
-								MessageBox.Show( er.Message, "Комплексная правка метаданных", MessageBoxButtons.OK, MessageBoxIcon.Error );
+							} catch ( FileLoadException ex ) {
+								Debug.DebugMessage(
+									Debug.InLogFile, SourceFilePath, ex, "Дубликатор.TsmiEditDescriptionClick(): Комплексное редактирование метаданных в специальном диалоге. Ошибка открытия книги."
+								);
+								MessageBox.Show(
+									ex.Message, "Комплексная правка метаданных", MessageBoxButtons.OK, MessageBoxIcon.Error
+								);
 								return;
 							}
 							EditDescriptionForm editDescriptionForm = new EditDescriptionForm( fb2 );

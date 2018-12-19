@@ -20,6 +20,7 @@ namespace Core.AutoCorrector
 	public class StanzaCorrector
 	{
 		private const string _MessageTitle = "Автокорректор";
+		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
 		
 		private const string _startTag = "<stanza>";
 		private const string _endTag = "</stanza>";
@@ -31,11 +32,13 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Конструктор класса StanzaCorrector
 		/// </summary>
+		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="xmlText">Строка для корректировки</param>
 		/// <param name="preProcess">Удаление стартовых пробелов и перевода строки => всю книгу - в одну строку</param>
 		/// <param name="postProcess">Вставка разрыва абзаца между смежными тегами</param>
-		public StanzaCorrector( ref string xmlText, bool preProcess, bool postProcess )
+		public StanzaCorrector( string FilePath, ref string xmlText, bool preProcess, bool postProcess )
 		{
+			_FilePath = FilePath;
 			_xmlText = xmlText;
 			_preProcess = preProcess;
 			_postProcess = postProcess;
@@ -66,13 +69,13 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					ex, "StanzaCorrector:\r\nВставка <v /> после </subtitle> внутри <stanza></stanza>:."
+					Debug.InLogFile, _FilePath, ex, "StanzaCorrector:\r\nВставка <v /> после </subtitle> внутри <stanza></stanza>:."
 				);
 			}
 			
 			// обработка найденных парных тэгов
 			IWorker worker = new StanzaCorrectorWorker();
-			TagWorker tagWorker = new TagWorker( ref _xmlText, _startTag, _endTag, ref worker );
+			TagWorker tagWorker = new TagWorker( _FilePath, ref _xmlText, _startTag, _endTag, ref worker );
 			_xmlText = tagWorker.Work();
 			
 			// постобработка (разбиение на теги (смежные теги) )
@@ -114,7 +117,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "StanzaCorrector:\r\nПреобразование тегов <v> в <title> обратно в <p>:."
+						Debug.InLogFile, tagPair.FilePath, ex, "StanzaCorrector:\r\nПреобразование тегов <v> в <title> обратно в <p>:."
 					);
 				}
 				
@@ -128,7 +131,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "StanzaCorrector:\r\nОбработка <empty-line /> между строфами: <v>Строфа</v><v>Строфа</v><empty-line /><v>Строфа</v><v>Строфа</v> => <v>Строфа</v><v>Строфа</v></stanza><stanza><v>Строфа</v><v>Строфа</v>."
+						Debug.InLogFile, tagPair.FilePath, ex, "StanzaCorrector:\r\nОбработка <empty-line /> между строфами: <v>Строфа</v><v>Строфа</v><empty-line /><v>Строфа</v><v>Строфа</v> => <v>Строфа</v><v>Строфа</v></stanza><stanza><v>Строфа</v><v>Строфа</v>."
 					);
 				}
 				
@@ -142,7 +145,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						ex, "StanzaCorrector:\r\nОбработка строф с эпиграфом: <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>."
+						Debug.InLogFile, tagPair.FilePath, ex, "StanzaCorrector:\r\nОбработка строф с эпиграфом: <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>."
 					);
 				}
 				
