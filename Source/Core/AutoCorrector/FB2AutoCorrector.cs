@@ -60,7 +60,7 @@ namespace Core.AutoCorrector
 				fb2Text = new FB2Text( FilePath );
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FilePath, ex, "AutoCorrector.FB2AutoCorrector.autoCorrector():\r\nАвтокорректировка теста файла."
+					FilePath, ex, "AutoCorrector.FB2AutoCorrector.autoCorrector():\r\nАвтокорректировка теста файла."
 				);
 				// Если структура fb2 файла сильно "битая", или же основные разделы располагаются не по стандарту
 				throw ex;
@@ -82,7 +82,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FilePath, ex, "AutoCorrector.FB2AutoCorrector::autoCorrector():\r\nОбработка неверного значения кодировки файла."
+					FilePath, ex, "AutoCorrector.FB2AutoCorrector::autoCorrector():\r\nОбработка неверного значения кодировки файла."
 				);
 			}
 			
@@ -108,7 +108,7 @@ namespace Core.AutoCorrector
 				xmlDoc.Save( FilePath );
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FilePath, ex, "AutoCorrector.FB2AutoCorrector::autoCorrector():\r\nпересохранение файла."
+					FilePath, ex, "AutoCorrector.FB2AutoCorrector::autoCorrector():\r\nпересохранение файла."
 				);
 				fb2Text.saveFile();
 			}
@@ -145,12 +145,12 @@ namespace Core.AutoCorrector
 					}
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nУдаление атрибута в теге description. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nУдаление атрибута в теге description. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nУдаление атрибута в теге description. Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nУдаление атрибута в теге description. Исключение Exception."
 					);
 				}
 				
@@ -165,12 +165,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>. Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nУдаление \"пустого\" тега <coverpage></coverpage>. Исключение Exception."
 					);
 				}
 				
@@ -182,12 +182,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>. Исключение м."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка картинок: <image l:href=\"img_0.png\"> </image> или <image l:href=\"img_0.png\"></image>. Исключение м."
 					);
 				}
 				
@@ -202,12 +202,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка пустого id. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка пустого id. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка пустого id. Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка пустого id. Исключение Exception."
 					);
 				}
 
@@ -219,12 +219,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка Либрусековских id. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка Либрусековских id. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка Либрусековских id. Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка Либрусековских id. Исключение Exception."
 					);
 				}
 				
@@ -239,12 +239,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение Exception."
 					);
 				}
 				
@@ -256,12 +256,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение Exception."
+						FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение Exception."
 					);
 				}
 				
@@ -289,12 +289,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного русского языка. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного русского языка. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного русского языка. Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного русского языка. Исключение Exception."
 					);
 				}
 				
@@ -306,12 +306,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного английского языка. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного английского языка. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного английского языка. Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка неверно заданного английского языка. Исключение Exception."
 					);
 				}
 				
@@ -325,12 +325,12 @@ namespace Core.AutoCorrector
 					}
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка дат (тег <date>). Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка дат (тег <date>). Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nОбработка дат (тег <date>). Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка дат (тег <date>). Исключение Exception."
 					);
 				}
 				
@@ -345,12 +345,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п. Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п. Исключение Exception."
 					);
 				}
 				
@@ -362,12 +362,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>. Исключение Exception."
+						FilePath, ex, "Обработка раздела <description>:\r\nПреобразование <annotation><annotation><p>Текст.</p><p>Еще текст.</p></annotation></annotation> => <annotation><p>Текст.</p><p>Еще текст.</p></annotation>. Исключение Exception."
 					);
 				}
 
@@ -392,7 +392,7 @@ namespace Core.AutoCorrector
 				
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FilePath, ex, "Обработка раздела <description>:\r\nМетод autoCorrectDescription().\r\nОшибка уровня всего метода (главный catch ( Exception ex )):"
+					FilePath, ex, "Обработка раздела <description>:\r\nМетод autoCorrectDescription().\r\nОшибка уровня всего метода (главный catch ( Exception ex )):"
 				);
 			}
 			return autoCorrect( FilePath, XmlDescription, htTags );
@@ -444,12 +444,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\"><title><p>Примечания</p></title></body>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				
@@ -461,12 +461,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\" />. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\" />. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\" />. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустышек типа <body name=\"notes\" />. Исключение Exception."
 					);
 				}
 				
@@ -478,12 +478,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <p></section> => </section>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <p></section> => </section>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <p></section> => </section>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <p></section> => </section>. Исключение Exception."
 					);
 				}
 				
@@ -495,12 +495,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <title></p> => <title>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <title></p> => <title>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <title></p> => <title>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа <title></p> => <title>. Исключение Exception."
 					);
 				}
 				
@@ -512,12 +512,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков типа </title><empty-line /></section><p> => </title><p> или </title><empty-line /></section><subtitle> => </title><subtitle>. Исключение Exception."
 					);
 				}
 				
@@ -549,12 +549,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустого атрибута xmlns=\"\" в тегах body и section. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустого атрибута xmlns=\"\" в тегах body и section. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустого атрибута xmlns=\"\" в тегах body и section. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление пустого атрибута xmlns=\"\" в тегах body и section. Исключение Exception."
 					);
 				}
 				
@@ -566,12 +566,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\". Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\". Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\". Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление ненужных атрибутов в теге <body> в ситуации: xmlns:fb=\"http://www.gribuser.ru/xml/fictionbook/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\". Исключение Exception."
 					);
 				}
 				
@@ -586,12 +586,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <section>.\r\nУдаление \"пустышек\": <section><empty-line /><empty-line /></section>. Исключение Exception."
 					);
 				}
 				
@@ -607,12 +607,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка блоков сносок типа <section id=\"id20150519063123_1'\"><title><p>1</p></title></section> => <section id=\"id20150519063123_1\"><title><p>1</p></title><empty-line /></section>. Исключение Exception."
 					);
 				}
 
@@ -640,12 +640,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nСоздание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nСоздание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nСоздание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nСоздание цитаты для текста автора, идущего после тега </p> или <empty-line />: </p><text-author>Автор</text-author><p>Текст</p> => </p><cite><text-author>Автор</text-author></cite><p>Текст</p>. Исключение Exception."
 					);
 				}
 				
@@ -660,12 +660,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle>. Исключение Exception."
 					);
 				}
 				
@@ -677,12 +677,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка подзаголовков <subtitle> </section><section><subtitle>Текст</subtitle><epigraph> => </section><section><title><p>Текст</p></title><epigraph>. Исключение Exception."
 					);
 				}
 
@@ -713,12 +713,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка <annotation><i>text</i></annotation> => <annotation><p>text</p></annotation>. Исключение Exception."
 					);
 				}
 				
@@ -730,12 +730,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nУдаление <empty-line /> между <section> и <annotation>: <section><empty-line /><annotation> => <section><annotation>. Исключение Exception."
 					);
 				}
 				
@@ -747,12 +747,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>.  Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>.  Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>.  Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВставка <empty-line /> между </annotation> и </section>: </annotation></section> => </annotation><empty-line /></section>.  Исключение Exception."
 					);
 				}
 				
@@ -778,12 +778,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nОбработка вложенных друг в друга тегов strong или emphasis: <emphasis><emphasis><p>text</p></emphasis></emphasis> => <p><emphasis>text</emphasis></p>. Исключение Exception."
 					);
 				}
 				
@@ -795,12 +795,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВнесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВнесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВнесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nВнесение тегов strong или emphasis в теги <p> </p>: <emphasis><p>text</p></emphasis> => <p><emphasis>text</emphasis></p>. Исключение Exception."
 					);
 				}
 				
@@ -812,12 +812,12 @@ namespace Core.AutoCorrector
 					);
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nЗамена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>. Исключение RegexMatchTimeoutException."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nЗамена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>. Исключение RegexMatchTimeoutException."
 					);
 				}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nЗамена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>. Исключение Exception."
+						FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nЗамена тегов <strong> или <emphasis>, обрамляющих множественный текст на Цитату: <emphasis><p>Текст</p><p>Текст</p></emphasis> => <cite><p>Текст</p><p>Текст</p></cite>. Исключение Exception."
 					);
 				}
 
@@ -837,7 +837,7 @@ namespace Core.AutoCorrector
 
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nАвтокорректировка текста. Метод _autoCorrect( string InputString ). Ошибка уровня всего метода (главный catch (Exception ex))."
+					FilePath, ex, "FB2AutoCorrector._autoCorrect()\r\nАвтокорректировка текста. Метод _autoCorrect( string InputString ). Ошибка уровня всего метода (главный catch (Exception ex))."
 				);
 			}
 			

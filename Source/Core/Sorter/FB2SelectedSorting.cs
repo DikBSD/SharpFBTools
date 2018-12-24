@@ -49,7 +49,7 @@ namespace Core.Sorter
 					return null;
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки."
+					sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки."
 				);
 				IsNotRead = true;
 				return null;
@@ -125,7 +125,7 @@ namespace Core.Sorter
 										}
 									} catch ( Exception ex ) {
 										Debug.DebugMessage(
-											Debug.InLogFile, sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка серии книги."
+											sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка серии книги."
 										);
 //										MessageBox.Show("sfb2.Name  \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
@@ -160,7 +160,7 @@ namespace Core.Sorter
 										}
 									} catch ( Exception ex ) {
 										Debug.DebugMessage(
-											Debug.InLogFile, sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка автора книги (FirstName)."
+											sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка автора книги (FirstName)."
 										);
 //										MessageBox.Show("afb2.FirstName.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
@@ -188,7 +188,7 @@ namespace Core.Sorter
 										}
 									} catch ( Exception ex ) {
 										Debug.DebugMessage(
-											Debug.InLogFile, sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка автора книги (MiddleName)."
+											sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка автора книги (MiddleName)."
 										);
 //										MessageBox.Show("afb2.MiddleName.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
@@ -216,7 +216,7 @@ namespace Core.Sorter
 										}
 									} catch ( Exception ex ) {
 										Debug.DebugMessage(
-											Debug.InLogFile, sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка автора книги (LastName)."
+											sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка автора книги (LastName)."
 										);
 //										MessageBox.Show("afb2.LastName.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
@@ -244,7 +244,7 @@ namespace Core.Sorter
 										}
 									} catch ( Exception ex ) {
 										Debug.DebugMessage(
-											Debug.InLogFile, sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка автора книги (NickName)."
+											sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка автора книги (NickName)."
 										);
 //										MessageBox.Show("afb2.NickName.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 									}
@@ -276,7 +276,7 @@ namespace Core.Sorter
 										continue;
 								} catch ( Exception ex ) {
 									Debug.DebugMessage(
-										Debug.InLogFile, sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка названия книги."
+										sFromFilePath, ex, "Сортировщик.SortQueryCriteria: Проверка названия книги."
 									);
 //									MessageBox.Show("FB2BookTitle.Value \r\n"+e.Message+"\r\n\r\n"+sFromFilePath);
 								}

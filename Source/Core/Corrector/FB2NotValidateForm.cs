@@ -309,7 +309,7 @@ namespace Core.Corrector
 							item.SubItems.AddRange(subItems);
 					} catch ( Exception ex) {
 						Debug.DebugMessage(
-							Debug.InLogFile, null, ex, "FB2NotValidateForm.createNotValidateBookItem(): Создание итема в списке для невалидной книги."
+							null, ex, "FB2NotValidateForm.createNotValidateBookItem(): Создание итема в списке для невалидной книги."
 						);
 						subItems = WorksWithBooks.createEmptySubItemsForItem( item );
 						if ( subItems != null ) {
@@ -341,7 +341,7 @@ namespace Core.Corrector
 				bd = new FB2BookDescription( FilePath );
 			} catch ( System.Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, null, ex, "FB2NotValidateForm.createSubItemsWithMetaData(): Создание заполненных subitems для невалидных книг для Корректора."
+					null, ex, "FB2NotValidateForm.createSubItemsWithMetaData(): Создание заполненных subitems для невалидных книг для Корректора."
 				);
 			}
 			

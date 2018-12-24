@@ -69,7 +69,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nУдаление \"пустышек\": <title><empty-line /><empty-line /></title>."
+					_FilePath, ex, "TitleCorrector:\r\nУдаление \"пустышек\": <title><empty-line /><empty-line /></title>."
 				);
 			}
 			
@@ -92,7 +92,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nУдаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section>."
+					_FilePath, ex, "TitleCorrector:\r\nУдаление обрамления <section> ... </section> у Названия книги: <body><section><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title></section><section> => <body><title><p>Автор книги</p><empty-line /><p>Название</p><empty-line /><p>(рассказы)</p></title><section>."
 				);
 			}
 			
@@ -105,7 +105,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nОбработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>."
+					_FilePath, ex, "TitleCorrector:\r\nОбработка Заголовка и ее </section> в конце книги перед </body>: <section><title><p><strong>Конец</strong></p><p>романа</p></title></section></body>."
 				);
 			}
 			
@@ -118,7 +118,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nВнесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>."
+					_FilePath, ex, "TitleCorrector:\r\nВнесение текста Подзаголовка в Заголовок в начале книги: <body><title><p>Заголовок</p></title><subtitle>Подзаголовок</subtitle> => <body><title><p>Заголовок</p><p>Подзаголовок</p></title>."
 				);
 			}
 			
@@ -131,7 +131,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nОбрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>."
+					_FilePath, ex, "TitleCorrector:\r\nОбрамление текста Заголовка тегами <p> ... </p>: <title>Текст</title> => <title><p>Текст</p></title>."
 				);
 			}
 			
@@ -144,7 +144,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nУдаление <empty-line/> между </title> и <section>: </title><empty-line /><section>."
+					_FilePath, ex, "TitleCorrector:\r\nУдаление <empty-line/> между </title> и <section>: </title><empty-line /><section>."
 				);
 			}
 			
@@ -157,7 +157,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "TitleCorrector:\r\nОбрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>."
+					_FilePath, ex, "TitleCorrector:\r\nОбрамление тегами <section> ... </section> текста в тегах <p>, находящегося между </title> и <section>."
 				);
 			}
 			
@@ -198,7 +198,7 @@ namespace Core.AutoCorrector
 					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 					catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, tagPair.FilePath, ex, "TitleCorrector:\r\nВставка <empty-line/> между </title> и <section> (Заголовок Книги игнорируется): <section><title><p><strong>Название</strong></p><p>главы</p></title></section>>."
+							tagPair.FilePath, ex, "TitleCorrector:\r\nВставка <empty-line/> между </title> и <section> (Заголовок Книги игнорируется): <section><title><p><strong>Название</strong></p><p>главы</p></title></section>>."
 						);
 					}
 				} else if ( tagPair.PreviousTag.Equals("</cite>") && tagPair.NextTag.Equals("<p>") ) {

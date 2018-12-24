@@ -109,12 +109,12 @@ namespace Core.FB2Parser
 					}
 				} catch ( RegexMatchTimeoutException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex,
+						FilePath, ex,
 						"FB2Validator.validate(): Проверка обязательных разделов fb2 структуры. Исключение RegexMatchTimeoutException."
 					);
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex,
+						FilePath, ex,
 						"FB2Validator.validate(): Проверка обязательных разделов fb2 структуры. Исключение Exception."
 					);
 				}

@@ -43,7 +43,7 @@ namespace Main
 		private static void MakeImplPanelsList(
 			List<UserControl> l,
 			SFBTpFB2Corrector sfbTpFB2Corrector, SFBTpFB2Dublicator sfbTpFB2Dublicator,
-			SFBTpFileManager sfbTpFileManager, SFBTpArchiveManager sfbTpArchiveManager,
+			SFBTpFB2Sorter sfbTpFileManager, SFBTpArchiveManager sfbTpArchiveManager,
 			SFBTpAbout sfbTpAbout
 		) {
 			// список список имплантируемых панелей-режимов работы
@@ -63,15 +63,16 @@ namespace Main
 			ToolStripButton tsbtnAbout,
 			List<UserControl> ucl,
 			SFBTpFB2Corrector sfbTpFB2Corrector, SFBTpFB2Dublicator sfbTpFB2Dublicator,
-			SFBTpFileManager sfbTpFileManager, SFBTpArchiveManager sfbTpArchiveManager,
+			SFBTpFB2Sorter sfbTpFileManager, SFBTpArchiveManager sfbTpArchiveManager,
 			SFBTpAbout sfbTpAbout
 		) {
-			// список кнопок-переключателей панели инструментов и список список имплантируемых панелей-режимов работы
+			// список кнопок-переключателей панели инструментов
 			MakeGroupToggleButtonsList( tsbl, tsbtnDescEditor,  tsbtnFB2Dublicator,
 			                           tsbtnFileManager, tsbtnArchiveManager,
 			                           tsbtnAbout );
-			// список кнопок-переключателей панели инструментов
-			MakeImplPanelsList( ucl, sfbTpFB2Corrector, sfbTpFB2Dublicator, sfbTpFileManager, sfbTpArchiveManager, sfbTpAbout ) ;
+			// список имплантируемых панелей-режимов работы
+			MakeImplPanelsList( ucl, sfbTpFB2Corrector, sfbTpFB2Dublicator, sfbTpFileManager,
+			                   sfbTpArchiveManager, sfbTpAbout );
 		}
 		
 		public static void ToggleMode( List<ToolStripButton> tsbl, List<UserControl> ucl,
@@ -79,6 +80,11 @@ namespace Main
 			// переключение состояния кнопки btn
 			if ( !Btn.Checked ) {
 				Btn.Checked = true;
+				
+				MainForm.getSFBTpFB2Corrector().ConnectListsEventHandlers( false );
+				MainForm.getSFBTpFB2Dublicator().ConnectListsEventHandlers( false );
+				MainForm.getSFBTpFileManager().ConnectListsEventHandlers( false );
+				
 				// отключаем все кнопки, кроме btn
 				foreach ( ToolStripButton btn in tsbl ) {
 					if ( btn != Btn ) {
@@ -90,10 +96,15 @@ namespace Main
 					if ( uc != Uc )
 						uc.Visible = false;
 				}
+				
 				// панель Uc делаем видимой
 				tscMain.ContentPanel.Controls.Add( Uc );
 				Uc.Dock = DockStyle.Fill;
 				Uc.Visible = true;
+				
+				MainForm.getSFBTpFB2Corrector().ConnectListsEventHandlers( true );
+				MainForm.getSFBTpFB2Dublicator().ConnectListsEventHandlers( true );
+				MainForm.getSFBTpFileManager().ConnectListsEventHandlers( true );
 			}
 		}
 		#endregion

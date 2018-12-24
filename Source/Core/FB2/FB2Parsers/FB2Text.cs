@@ -54,7 +54,7 @@ namespace Core.FB2.FB2Parsers
 				);
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, null, ex, "FB2Text (Конструктор):\r\nfb2 Файл в виде реальных текстовых частей.\r\nОпределение начала тега <description>"
+					null, ex, "FB2Text (Конструктор):\r\nfb2 Файл в виде реальных текстовых частей.\r\nОпределение начала тега <description>"
 				);
 				throw new Exception(
 					string.Format("Файл: {0}\r\nСтруктура раздела <description> сильно искажена.\r\n{1}\r\n", _FilePath, ex.Message)
@@ -319,11 +319,11 @@ namespace Core.FB2.FB2Parsers
 						);
 					} catch ( RegexMatchTimeoutException ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, _FilePath, ex, "Fb2Text:_makeFB2Part()\r\nОбработка раздела <description>:\r\nОбработка неверного значения кодировки файла. Исключение RegexMatchTimeoutException."
+							_FilePath, ex, "Fb2Text:_makeFB2Part()\r\nОбработка раздела <description>:\r\nОбработка неверного значения кодировки файла. Исключение RegexMatchTimeoutException."
 						);
 					} catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, _FilePath, ex, "Fb2Text:_makeFB2Part()\r\nОбработка раздела <description>:\r\nОбработка неверного значения кодировки файла. Исключение Exception."
+							_FilePath, ex, "Fb2Text:_makeFB2Part()\r\nОбработка раздела <description>:\r\nОбработка неверного значения кодировки файла. Исключение Exception."
 						);
 					}
 				}
@@ -402,11 +402,11 @@ namespace Core.FB2.FB2Parsers
 						);
 					} catch ( RegexMatchTimeoutException ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, _FilePath, ex, "Fb2Text:makeFB2Part()\r\nСоздание текста разделов fb2-файла в переменных класса FB2Text. Исключение RegexMatchTimeoutException."
+							_FilePath, ex, "Fb2Text:makeFB2Part()\r\nСоздание текста разделов fb2-файла в переменных класса FB2Text. Исключение RegexMatchTimeoutException."
 						);
 					} catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, _FilePath, ex, "Fb2Text:makeFB2Part()\r\nСоздание текста разделов fb2-файла в переменных класса FB2Text. Исключение Exception."
+							_FilePath, ex, "Fb2Text:makeFB2Part()\r\nСоздание текста разделов fb2-файла в переменных класса FB2Text. Исключение Exception."
 						);
 					}
 				}
@@ -451,7 +451,7 @@ namespace Core.FB2.FB2Parsers
 					}
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, _FilePath, ex, "Fb2Text:makeFB2Part()\r\nВычленение основных разделов fb2 структуры. Исключение Exception."
+						_FilePath, ex, "Fb2Text:makeFB2Part()\r\nВычленение основных разделов fb2 структуры. Исключение Exception."
 					);
 					throw new Exception( string.Format("Структура файла {0} сильно искажена.\r\nВозможно, раздел(ы) <binary> картинок расположен(ы) выше раздела тела книги <body>\r\n", _FilePath) );
 				}

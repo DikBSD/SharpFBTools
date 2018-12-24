@@ -95,7 +95,7 @@
       <DependentUpon>SFBTpFB2Dublicator.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Tools\SFBTpSorterManager.cs" />
+    <Compile Include="Tools\SFBTpSorter.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -113,8 +113,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SFBTpFB2Dublicator.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\SFBTpSorterManager.resx">
-      <DependentUpon>SFBTpSorterManager.cs</DependentUpon>
+    <EmbeddedResource Include="Tools\SFBTpSorter.resx">
+      <DependentUpon>SFBTpSorter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

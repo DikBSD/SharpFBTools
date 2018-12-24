@@ -68,7 +68,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "PoemCorrector:\r\nУдаление структур <poem><stanza /></poem>."
+					_FilePath, ex, "PoemCorrector:\r\nУдаление структур <poem><stanza /></poem>."
 				);
 			}
 			
@@ -81,7 +81,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "PoemCorrector:\r\nУдаление структур <poem><stanza><empty-line /></stanza></poem>."
+					_FilePath, ex, "PoemCorrector:\r\nУдаление структур <poem><stanza><empty-line /></stanza></poem>."
 				);
 			}
 
@@ -94,7 +94,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "PoemCorrector:\r\nВставка <text-author> внутрь <poem> </poem>."
+					_FilePath, ex, "PoemCorrector:\r\nВставка <text-author> внутрь <poem> </poem>."
 				);
 			}
 			
@@ -141,7 +141,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, tagPair.FilePath, ex, "PoemCorrector:\r\nПреобразование <poem><p>...</p><p>...</p></poem> в <poem><stanza><v>...</v><v>...</v></stanza></poem>."
+						tagPair.FilePath, ex, "PoemCorrector:\r\nПреобразование <poem><p>...</p><p>...</p></poem> в <poem><stanza><v>...</v><v>...</v></stanza></poem>."
 					);
 				}
 				

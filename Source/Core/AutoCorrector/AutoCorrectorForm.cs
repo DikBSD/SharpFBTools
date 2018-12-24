@@ -367,7 +367,7 @@ namespace Core.Corrector
 					sTime = sTime.Substring( 0, 11 );
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, file, ex, "Автокорректировка списка файлов: AutoCorrector.AutoCorrectorForm.autoCorrect(): Получение времени конца обработки файла."
+						file, ex, "Автокорректировка списка файлов: AutoCorrector.AutoCorrectorForm.autoCorrect(): Получение времени конца обработки файла."
 					);
 				}
 				sTime = sTime + " (ч:м:с.мс)";

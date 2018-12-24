@@ -129,7 +129,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "BinaryCorrector:\r\nОбработка <binary>, в которых отсутствует аттрибут content-type."
+					_FilePath, ex, "BinaryCorrector:\r\nОбработка <binary>, в которых отсутствует аттрибут content-type."
 				);
 			}
 			
@@ -151,7 +151,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "BinaryCorrector:\r\nОбработка ссылок в данных тега <binary>."
+					_FilePath, ex, "BinaryCorrector:\r\nОбработка ссылок в данных тега <binary>."
 				);
 			}
 			
@@ -205,7 +205,7 @@ namespace Core.AutoCorrector
 						} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 						catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, _FilePath, ex, "BinaryCorrector:\r\nПоиск одноименных обложек и их переименовывание."
+								_FilePath, ex, "BinaryCorrector:\r\nПоиск одноименных обложек и их переименовывание."
 							);
 						}
 					}
@@ -251,7 +251,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*exp*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "BinaryCorrector:\r\nФормирование списка картинок из раздела всех <binary>."
+					_FilePath, ex, "BinaryCorrector:\r\nФормирование списка картинок из раздела всех <binary>."
 				);
 			}
 			return BinaryList;
@@ -268,8 +268,10 @@ namespace Core.AutoCorrector
 			else if ( BinaryList.Count == 0 )
 				return null;
 			
-			List<string> ImageNameList = BinaryList.GroupBy(x => x).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
-			List<int> CountList = BinaryList.GroupBy(x => x).Where(g => g.Count() > 1).Select(g => g.Count()).ToList();
+			List<string> ImageNameList =
+				BinaryList.GroupBy(x => x).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
+			List<int> CountList =
+				BinaryList.GroupBy(x => x).Where(g => g.Count() > 1).Select(g => g.Count()).ToList();
 			List<ImageData> CopiesList = new List<ImageData>();
 			for( int i = 0; i != ImageNameList.Count; ++i ) {
 				ImageData id = new ImageData( ImageNameList[i], CountList[i] );

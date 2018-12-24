@@ -49,7 +49,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление тегов <p> и </p> в структуре <p> <empty-line /> </p>."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление тегов <p> и </p> в структуре <p> <empty-line /> </p>."
 				);
 			}
 			
@@ -62,7 +62,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </section> и <section>."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </section> и <section>."
 				);
 			}
 			
@@ -75,7 +75,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </section> и </section>."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </section> и </section>."
 				);
 			}
 			
@@ -88,7 +88,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </epigraph> и </section>."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </epigraph> и </section>."
 				);
 			}
 			
@@ -101,7 +101,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </section> и </body>."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </section> и </body>."
 				);
 			}
 			
@@ -114,7 +114,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </title> и <section>."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> между </title> и <section>."
 				);
 			}
 			
@@ -127,7 +127,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> из текста до тега </p>: <empty-line /></p>."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line/> из текста до тега </p>: <empty-line /></p>."
 				);
 			}
 			
@@ -140,7 +140,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста после тега <p>: <p><empty-line />."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста после тега <p>: <p><empty-line />."
 				);
 			}
 			
@@ -153,7 +153,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста внутри тегов <p> ... </p> (в перечисление не добавил <> - они работают неверно - удаляются <empty-line /> и между целыми тегами)."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста внутри тегов <p> ... </p> (в перечисление не добавил <> - они работают неверно - удаляются <empty-line /> и между целыми тегами)."
 				);
 			}
 			
@@ -166,7 +166,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста до тега </v>: <empty-line /></v>."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста до тега </v>: <empty-line /></v>."
 				);
 			}
 			
@@ -179,7 +179,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста после тега <v>: <v><empty-line />."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста после тега <v>: <v><empty-line />."
 				);
 			}
 			
@@ -192,7 +192,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста до тега </stanza>: <empty-line /></stanza>."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста до тега </stanza>: <empty-line /></stanza>."
 				);
 			}
 			
@@ -205,7 +205,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста после тега <stanza>: <stanza><empty-line />."
+					_FilePath, ex, "EmptyLineCorrector:\r\nУдаление <empty-line /> из текста после тега <stanza>: <stanza><empty-line />."
 				);
 			}
 			

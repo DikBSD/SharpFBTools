@@ -143,7 +143,7 @@ namespace Core.Sorter
 								loadCriteriasForSelReNewSort();
 						} catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, null, ex, "SortingOptions.(Конструктор): Идивидуальные настройки обоих Сортировщиков, в зависимости от режима (непрерывная сортировка или возобновление сортировки)."
+								null, ex, "SortingOptions.(Конструктор): Идивидуальные настройки обоих Сортировщиков, в зависимости от режима (непрерывная сортировка или возобновление сортировки)."
 							);
 							return;
 						}

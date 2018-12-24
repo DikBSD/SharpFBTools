@@ -69,7 +69,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "CiteCorrector:\r\nПреобразование вложенных друг в друга тегов cite в Автора: <cite><cite><p>Иванов</p></cite></cite> => <cite><text-author><p>Иванов</p></text-author></cite>."
+					_FilePath, ex, "CiteCorrector:\r\nПреобразование вложенных друг в друга тегов cite в Автора: <cite><cite><p>Иванов</p></cite></cite> => <cite><text-author><p>Иванов</p></text-author></cite>."
 				);
 			}
 			
@@ -82,7 +82,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "CiteCorrector:\r\nПерестановка местами Текста Цитаты и ее автора: <cite><text-author>Автор</text-author><p>Цитата</p></cite> => <cite><p>Цитата</p><text-author>Автор</text-author></cite>."
+					_FilePath, ex, "CiteCorrector:\r\nПерестановка местами Текста Цитаты и ее автора: <cite><text-author>Автор</text-author><p>Цитата</p></cite> => <cite><p>Цитата</p><text-author>Автор</text-author></cite>."
 				);
 			}
 			
@@ -95,7 +95,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "CiteCorrector:\r\nУдаление <empty-line /> между </text-author> и </cite>: </text-author><empty-line /></cite> => </text-author></cite>."
+					_FilePath, ex, "CiteCorrector:\r\nУдаление <empty-line /> между </text-author> и </cite>: </text-author><empty-line /></cite> => </text-author></cite>."
 				);
 			}
 			
@@ -133,7 +133,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, tagPair.FilePath, ex, "CiteCorrector:\r\nОбрамление картинки тегами <p> ... </p>."
+						tagPair.FilePath, ex, "CiteCorrector:\r\nОбрамление картинки тегами <p> ... </p>."
 					);
 				}
 				
@@ -147,7 +147,7 @@ namespace Core.AutoCorrector
 					} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 					catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, tagPair.FilePath, ex, "CiteCorrector:\r\nУдаление <cite> вокруг <text-author> в Цитате: <cite><p>Текст</p><p>Текст</p><cite><text-author>Автор Цитаты</text-author></cite></cite> => <cite><p>Текст</p><p>Текст</p><text-author>Автор Цитаты</text-author></cite>."
+							tagPair.FilePath, ex, "CiteCorrector:\r\nУдаление <cite> вокруг <text-author> в Цитате: <cite><p>Текст</p><p>Текст</p><cite><text-author>Автор Цитаты</text-author></cite></cite> => <cite><p>Текст</p><p>Текст</p><text-author>Автор Цитаты</text-author></cite>."
 						);
 					}
 				}

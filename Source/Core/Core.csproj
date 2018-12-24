@@ -163,7 +163,6 @@
     <Compile Include="Corrector\CopyMoveDeleteForm.Designer.cs">
       <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Corrector\CorrectorrSettings.cs" />
     <Compile Include="Corrector\FB2NotValidateForm.cs" />
     <Compile Include="Corrector\FB2NotValidateForm.Designer.cs">
       <DependentUpon>FB2NotValidateForm.cs</DependentUpon>

@@ -205,7 +205,7 @@ namespace Core.AutoCorrector
 				}
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex,
+					_FilePath, ex,
 					null, string.Format("Искомый тэг: Открывающий тэг: {0}, Закрывающий тэг: {1}\r\n", startTag, endTag )
 				);
 			}
@@ -236,7 +236,7 @@ namespace Core.AutoCorrector
 				_nextTag = xmlText.Substring( start, end-start+1 );
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex,
+					_FilePath, ex,
 					null, string.Format("Открывающий тэг: {0}, Закрывающий тэг: {1}\r\n", _startTag, _endTag )
 				);
 			}
@@ -288,7 +288,7 @@ namespace Core.AutoCorrector
 				_previousTag = xmlText.Substring( start, end-start+1 );
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex,
+					_FilePath, ex,
 					null, string.Format("Открывающий тэг: {0}, Закрывающий тэг: {1}\r\n", _startTag, _endTag )
 				);
 			}

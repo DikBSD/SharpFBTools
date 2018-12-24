@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="CorrectorrSettings.cs" />
     <Compile Include="SorterSettings.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ArchiveManagerSettings.cs" />
