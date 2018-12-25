@@ -40,7 +40,7 @@ namespace Core.Common
 		/// <param name="postMessage">Сообщение, которое нужно показать после отладочного</param>
 		public static void DebugMessage( string FilePath, Exception ex,
 		                                string prevMessage = null, string postMessage = null ) {
-			if ( Settings.Settings.ShowDebugMessage ) {
+			if ( Settings.Settings.SaveDebugMessage ) {
 				string Message = gebugMessageString( FilePath, ex, prevMessage, postMessage );
 				// Записывать сообщения об ошибках при падении работы алгоритмов в Log файл
 				debugLog( Message, true );
@@ -78,9 +78,11 @@ namespace Core.Common
 				? string.Empty
 				: string.Format( "Файл, где произошло падение алгоритма:\r\n\t{0}\r\n", FilePath );
 			
-			s += "Ошибка:\r\n\t" + ex.Message +
+			if ( ex != null ) {
+				s += "Ошибка:\r\n\t" + ex.Message +
 				"\r\n\r\nStackTrace:\r\n" + ex.StackTrace +
 				"\r\n\r\nМетод, создавший исключение:\r\n\t" + ex.TargetSite.Name;
+			}
 			
 			if ( !string.IsNullOrEmpty(postMessage) )
 				s += "\r\n\r\n" + postMessage;

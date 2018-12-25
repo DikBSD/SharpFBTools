@@ -222,14 +222,22 @@ namespace SharpFBTools.Tools
 			Cursor.Current = Cursors.WaitCursor;
 			listViewFB2Files.BeginUpdate();
 			ConnectListsEventHandlers( false );
+			
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			FB2TagsListGenerateForm fb2TagsListGenerateForm = new FB2TagsListGenerateForm(
 				listViewFB2Files, dirPath, false
 			);
 			fb2TagsListGenerateForm.ShowDialog();
 			EndWorkMode EndWorkMode = fb2TagsListGenerateForm.EndMode;
 			fb2TagsListGenerateForm.Dispose();
-			if( EndWorkMode.EndMode != EndWorkModeEnum.Done )
-				MessageBox.Show( EndWorkMode.Message, "Отображение метаданных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			if ( EndWorkMode.EndMode != EndWorkModeEnum.Done )
+				MessageBox.Show(
+					EndWorkMode.Message, "Отображение метаданных книг", MessageBoxButtons.OK, MessageBoxIcon.Information
+				);
 			ConnectListsEventHandlers( true );
 			listViewFB2Files.EndUpdate();
 			Cursor.Current = Cursors.Default;
@@ -691,7 +699,9 @@ namespace SharpFBTools.Tools
 				if ( Info.Exists )
 					generateFB2List( Info.FullName );
 				else
-					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show(
+						"Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
 			}
 		}
 		void TextBoxAddressKeyPress(object sender, KeyPressEventArgs e)
@@ -1587,7 +1597,9 @@ namespace SharpFBTools.Tools
 							return;
 						}
 						if ( fb2 != null ) {
-							string BookTitleNew = fb2.TIBookTitle != null ? fb2.TIBookTitle.Value : "Новое название книги";
+							string BookTitleNew = fb2.TIBookTitle != null
+								? fb2.TIBookTitle.Value
+								: "Новое название книги";
 							if ( WorksWithBooks.InputBox( "Правка названия книги", "Новое название книги:", ref BookTitleNew ) == DialogResult.OK) {
 								// восстанавление раздела description до структуры с необходимыми элементами для валидности
 								FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
@@ -1639,7 +1651,11 @@ namespace SharpFBTools.Tools
 					Cursor.Current = Cursors.WaitCursor;
 					string valid = viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateModeEnum.SelectedBooks );
 					string mess = (SelectedItems.Count == 1)
-						? ( !string.IsNullOrWhiteSpace( valid ) ? ("\n\nФайл невалидный:\r\n" + valid) : "\n\nФайл валидный!" )
+						? (
+							! string.IsNullOrWhiteSpace( valid )
+							? ("\n\nФайл невалидный:\r\n" + valid)
+							: "\n\nФайл валидный!"
+						)
 						: string.Empty;
 //					MiscListView.AutoResizeColumns( listViewFB2Files );
 					Cursor.Current = Cursors.Default;

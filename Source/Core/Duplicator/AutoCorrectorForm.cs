@@ -6,6 +6,7 @@
  * 
  */
 using System;
+using System.IO;
 using System.Windows.Forms;
 using System.ComponentModel;
 
@@ -43,6 +44,12 @@ namespace Core.Duplicator
 		public AutoCorrectorForm( BooksAutoCorrectModeEnum WorkMode, ListView listViewFB2Files )
 		{
 			InitializeComponent();
+			
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			m_listViewFB2Files	= listViewFB2Files;
 			m_WorkMode			= WorkMode;
 			

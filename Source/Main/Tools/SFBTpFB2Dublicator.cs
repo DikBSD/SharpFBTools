@@ -3525,7 +3525,8 @@ namespace SharpFBTools.Tools
 			IList<FB2ItemInfo> GenreFB2InfoList = WorksWithBooks.makeFB2InfoListForDup( listViewFB2Files, BooksValidateType );
 			Cursor.Current = Cursors.Default;
 			
-			EditGenreInfoForm editGenreInfoForm = new EditGenreInfoForm( ref GenreFB2InfoList );
+			EditGenreInfoForm editGenreInfoForm =
+				new EditGenreInfoForm( ref GenreFB2InfoList );
 			editGenreInfoForm.ShowDialog();
 
 			Cursor.Current = Cursors.WaitCursor;
@@ -3559,6 +3560,12 @@ namespace SharpFBTools.Tools
 			
 			// инициализация контролов
 			init();
+			
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			ConnectListsEventHandlers( false );
 			listViewFB2Files.BeginUpdate();
 			tsslblProgress.Text = "=> Поиск копий: ";
@@ -3594,6 +3601,12 @@ namespace SharpFBTools.Tools
 			// инициализация контролов
 			init();
 			ConnectListsEventHandlers( false );
+			
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			listViewFB2Files.BeginUpdate();
 			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
 				sfdLoadList.FileName,
@@ -3687,7 +3700,7 @@ namespace SharpFBTools.Tools
 		void TsbtnDupSaveListClick(object sender, EventArgs e)
 		{
 			const string MessTitle = "SharpFBTools - Сохранение списка копий fb2 книг";
-			if( listViewFB2Files.Items.Count == 0 ) {
+			if ( listViewFB2Files.Items.Count == 0 ) {
 				MessageBox.Show( "Нет ни одной копии fb2 книг!", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				return;
 			}
@@ -3762,6 +3775,12 @@ namespace SharpFBTools.Tools
 					// отключаем обработчики событий для listViewFB2Files (убираем "тормоза")
 					ConnectListsEventHandlers( false );
 					listViewFB2Files.BeginUpdate();
+					
+					// удаляем log файл, если режим добавления в log
+					if ( ! Settings.Settings.AppendToLog )
+						if ( File.Exists( Debug.LogFilePath ) )
+							File.Delete( Debug.LogFilePath );
+					
 					Environment.CurrentDirectory = Settings.Settings.ProgDir;
 					tsslblProgress.Text = "=> Файл копий книг: " + FromXML;
 					Core.Duplicator.CopiesListWorkerForm fileWorkerForm = new Core.Duplicator.CopiesListWorkerForm(
@@ -4364,7 +4383,7 @@ namespace SharpFBTools.Tools
 		// правка Авторов помеченных книг
 		void TsmiSetAuthorsClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
 				editAuthors( BooksValidateModeEnum.CheckedBooks );
 //				MiscListView.AutoResizeColumns( listViewFB2Files );
 			}
@@ -4372,7 +4391,7 @@ namespace SharpFBTools.Tools
 		// правка Авторов выделенных книг
 		void TsmiSetAuthorsForSelectedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
 				editAuthors( BooksValidateModeEnum.SelectedBooks );
 //				MiscListView.AutoResizeColumns( listViewFB2Files );
 			}
@@ -4381,7 +4400,7 @@ namespace SharpFBTools.Tools
 		// правка Жанров помеченных книг
 		void TsmiSetGenresClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
 				editGenres( BooksValidateModeEnum.CheckedBooks );
 //				MiscListView.AutoResizeColumns( listViewFB2Files );
 			}
@@ -4389,7 +4408,7 @@ namespace SharpFBTools.Tools
 		// правка Жанров выделенных книг
 		void TsmiSetGenresForSelectedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
 				editGenres( BooksValidateModeEnum.SelectedBooks );
 //				MiscListView.AutoResizeColumns( listViewFB2Files );
 			}
@@ -4398,7 +4417,7 @@ namespace SharpFBTools.Tools
 		// автокорректировка для выделенных книг
 		void TsmiAutoCorrectorForAllSelectedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
 				ListView.SelectedListViewItemCollection SelectedItems = listViewFB2Files.SelectedItems;
 				const string Message = "Вы действительно хотите запустить автокорректировку всех выделенных книг?";
 				const string MessTitle = "SharpFBTools - Автокорректировка для выделенных книг";
@@ -4438,7 +4457,7 @@ namespace SharpFBTools.Tools
 		// автокорректировка для помеченных книг
 		void ToolStripMenuItemAutoCorrectorForAllCheckedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
 				ListView.CheckedListViewItemCollection CheckedItems = listViewFB2Files.CheckedItems;
 				const string Message = "Вы действительно хотите запустить автокорректировку всех помеченных книг?";
 				const string MessTitle = "SharpFBTools - Автокорректировка для помеченных книг";
@@ -4478,14 +4497,14 @@ namespace SharpFBTools.Tools
 		// автокорректировка для всех книг выбранной Группы
 		void TsmiAutoCorrectorForAllBooksFromGroupClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Автокорректировка всех книг Группы";
-				if( listViewFB2Files.SelectedItems.Count == 1) {
+				if ( listViewFB2Files.SelectedItems.Count == 1) {
 					ListView.CheckedListViewItemCollection CheckedItems = listViewFB2Files.CheckedItems;
 					const string Message = "Вы действительно хотите запустить автокорректировку всех книг выделенной Группы?";
 					MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
 					DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-					if( Result == DialogResult.Yes ) {
+					if ( Result == DialogResult.Yes ) {
 						Cursor.Current = Cursors.WaitCursor;
 						// создание списка ListViewItemInfo данных для выбранных книг
 						IList<ListViewItemInfo> ListViewItemInfoList = WorksWithBooks.makeListViewItemInfoListForDup(
@@ -4517,7 +4536,7 @@ namespace SharpFBTools.Tools
 		// автокорректировка для всех книг всех Групп
 		void TsmiAutoCorrectorForAllBooksAllGroupClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				ListView.CheckedListViewItemCollection CheckedItems = listViewFB2Files.CheckedItems;
 				const string Message = "Вы действительно хотите запустить автокорректировку всех книг во всех Группах";
 				const string MessTitle = "SharpFBTools - Автокорректировка всех книг";
@@ -4553,7 +4572,7 @@ namespace SharpFBTools.Tools
 		// генерация новых id для выделенных книг
 		void TsmiSetNewIDForAllSelectedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
 				ListView.SelectedListViewItemCollection SelectedItems = listViewFB2Files.SelectedItems;
 				const string Message = "Вы действительно хотите измменить id всех выделенных книг на новые?";
 				const string MessTitle = "SharpFBTools - Генерация новых ID";
@@ -4576,13 +4595,13 @@ namespace SharpFBTools.Tools
 		// генерация новых id для помеченных книг
 		void TsmiSetNewIDForAllCheckedBooksClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count > 0 ) {
 				ListView.CheckedListViewItemCollection CheckedItems = listViewFB2Files.CheckedItems;
 				const string Message = "Вы действительно хотите измменить id всех помеченных книг на новые?";
 				const string MessTitle = "SharpFBTools - Генерация новых ID";
 				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
 				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
+				if ( Result == DialogResult.Yes ) {
 					Cursor.Current = Cursors.WaitCursor;
 					tsProgressBar.Maximum = CheckedItems.Count;
 					tsProgressBar.Value = 0;
@@ -4599,13 +4618,13 @@ namespace SharpFBTools.Tools
 		// генерация новых id для всех книг выделенной Группы
 		void TsmiSetNewIDForAllBooksFromGroupClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Генерация новых ID для всех книг Группы";
-				if( listViewFB2Files.SelectedItems.Count == 1) {
+				if ( listViewFB2Files.SelectedItems.Count == 1) {
 					const string Message = "Вы действительно хотите измменить id всех книг выделенной Группы на новые?";
 					MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
 					DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-					if( Result == DialogResult.Yes ) {
+					if ( Result == DialogResult.Yes ) {
 						ConnectListsEventHandlers( false );
 						MiscListView.UnCheckAllListViewItems( listViewFB2Files.CheckedItems );
 						ConnectListsEventHandlers( true );
@@ -4633,13 +4652,13 @@ namespace SharpFBTools.Tools
 		// генерация новых id для всех книг всех Групп
 		void TsmiSetNewIDForAllBooksAllGroupClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				ListView.CheckedListViewItemCollection CheckedItems = listViewFB2Files.CheckedItems;
 				const string Message = "Вы действительно хотите измменить id всех книг во всех Группах на новые?";
 				const string MessTitle = "SharpFBTools - Генерация новых ID";
 				MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
 				DialogResult Result = MessageBox.Show( Message, MessTitle, Buttons);
-				if( Result == DialogResult.Yes ) {
+				if ( Result == DialogResult.Yes ) {
 					ConnectListsEventHandlers( false );
 					MiscListView.UnCheckAllListViewItems( listViewFB2Files.CheckedItems );
 					ConnectListsEventHandlers( true );

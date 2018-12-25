@@ -17,8 +17,8 @@ using System.Xml.Linq;
 
 using Core.FB2.Genres;
 using Core.Sorter;
-using Core.Common;
 using Core.Sorter.Templates.Lexems;
+using Core.Common;
 
 using TemplatesVerify			= Core.Sorter.Templates.TemplatesVerify;
 using SharpZipLibWorker 		= Core.Common.SharpZipLibWorker;
@@ -4718,6 +4718,11 @@ namespace SharpFBTools.Tools
 			// инициализация контролов
 			Init();
 
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			SortingForm sortingForm = new SortingForm(
 				ref m_sortOptions, listViewFB2Files,
 				Convert.ToInt16( comboBoxMaxBTLenght.Text ),
@@ -4742,8 +4747,8 @@ namespace SharpFBTools.Tools
 		{
 			// загрузка данных из xml
 			sfdLoadList.InitialDirectory = Settings.Settings.ProgDir;
-			sfdLoadList.Title		= "Укажите файл для возобновления Полной Сортировки книг:";
-			sfdLoadList.Filter		= "SharpFBTools Файлы хода работы Сортировщика (*.fullsort_break)|*.fullsort_break";
+			sfdLoadList.Title	= "Укажите файл для возобновления Полной Сортировки книг:";
+			sfdLoadList.Filter	= "SharpFBTools Файлы хода работы Сортировщика (*.fullsort_break)|*.fullsort_break";
 			sfdLoadList.FileName	= string.Empty;
 			DialogResult result		= sfdLoadList.ShowDialog();
 
@@ -4752,6 +4757,12 @@ namespace SharpFBTools.Tools
 			
 			// инициализация контролов
 			Init();
+			
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			m_sortOptions = new SortingOptions( SortingTypeEnum.FullSort, sfdLoadList.FileName );
 			
 			// устанавливаем данные настройки поиска-сравнения
@@ -4965,16 +4976,18 @@ namespace SharpFBTools.Tools
 				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
 				string sFilePath = Path.Combine( textBoxAddress.Text.Trim(), si[0].SubItems[0].Text.Split('/')[0].Trim() );
 				if ( !File.Exists( sFilePath ) ) {
-					MessageBox.Show( "Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+					MessageBox.Show(
+						"Файл: \""+sFilePath+"\" не найден!", sTitle, MessageBoxButtons.OK, MessageBoxIcon.Information
+					);
 					return;
 				}
 				filesWorker.StartFile( true, sFBReaderPath, sFilePath );
 			}
 		}
 		
-		// =====================================================================================================================
+		// ========================================================================================================
 		// 													Избранная Сортировка
-		// =====================================================================================================================
+		// ========================================================================================================
 		void ButtonSSortFilesToClick(object sender, EventArgs e)
 		{
 			m_sMessTitle = "SharpFBTools - Избранная Сортировка";
@@ -5000,11 +5013,17 @@ namespace SharpFBTools.Tools
 			// приведение к одному виду шаблонов
 			m_sortOptions.Template = TemplatesVerify.ToOneTemplateType( @m_sortOptions.Template );
 			// проверки на корректность шаблонных строк
-			if( !IsLineTemplateCorrect( m_sortOptions.Template ) )
+			if ( !IsLineTemplateCorrect( m_sortOptions.Template ) )
 				return;
 			
 			// инициализация контролов
 			Init();
+			
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			SortingForm sortingForm = new SortingForm(
 				ref m_sortOptions,
 				Convert.ToInt16( comboBoxMaxBTLenght.Text ),
@@ -5036,6 +5055,12 @@ namespace SharpFBTools.Tools
 			
 			// инициализация контролов
 			Init();
+			
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			m_sortOptions = new SortingOptions( SortingTypeEnum.SelectedSort, sfdLoadList.FileName );
 			
 			// устанавливаем данные настройки поиска-сравнения

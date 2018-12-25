@@ -35,8 +35,8 @@ namespace Core.Corrector
 	public partial class AutoCorrectorForm : Form
 	{
 		#region Закрытые данные класса
-		private const string m_sMessTitle			= "SharpFBTools - Автокорректировка fb2 файлов";
-		private readonly ListView	m_listViewFB2Files = new ListView();
+		private const string m_sMessTitle					= "SharpFBTools - Автокорректировка fb2 файлов";
+		private readonly ListView m_listViewFB2Files		= new ListView();
 		private readonly SharpZipLibWorker	m_sharpZipLib	= new SharpZipLibWorker();
 		private readonly FB2Validator		m_fv2Validator	= new FB2Validator();
 		private readonly string	m_SourceRootDir				= string.Empty; // корневой каталог для поиска помеченных папок и файлов
@@ -61,6 +61,12 @@ namespace Core.Corrector
 		public AutoCorrectorForm( string fromXmlPath, string SourceRootDir, IList<ListViewItemInfo> ListViewItemInfoList, 		                         ListView listViewFB2Files )
 		{
 			InitializeComponent();
+			
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			m_SourceRootDir 		= SourceRootDir;
 			m_ListViewItemInfoList	= ListViewItemInfoList;
 			
@@ -69,14 +75,14 @@ namespace Core.Corrector
 			
 			InitializeBackgroundWorker();
 			InitializeRenewBackgroundWorker();
-			
+
 			// Запуск процесса DoWork от RunWorker
-			if( fromXmlPath == null ) {
-				if( !m_bw.IsBusy )
+			if ( fromXmlPath == null ) {
+				if ( !m_bw.IsBusy )
 					m_bw.RunWorkerAsync();
 			} else {
 				m_fromXmlPath = fromXmlPath; // путь к xml файлу для возобновления Автокорректировки
-				if( !m_bwRenew.IsBusy )
+				if ( !m_bwRenew.IsBusy )
 					m_bwRenew.RunWorkerAsync();
 			}
 		}
@@ -149,15 +155,17 @@ namespace Core.Corrector
 			}
 
 			ControlPanel.Enabled = true;
-			if( ( m_bw.CancellationPending ) ) {
+			if ( ( m_bw.CancellationPending ) ) {
 				e.Cancel = true;
 				return;
 			}
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
-			if( m_AllFiles == 0 ) {
-				MessageBox.Show( "В папке сканирования не найдено ни одного файла!\r\nРабота прекращена.",
-				                m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			if ( m_AllFiles == 0 ) {
+				MessageBox.Show(
+					"В папке сканирования не найдено ни одного файла!\r\nРабота прекращена.",
+					m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information
+				);
 				return;
 			}
 			
@@ -170,9 +178,11 @@ namespace Core.Corrector
 				? BooksAutoCorrectProcessingModeEnum.OneBookProcessing
 				: BooksAutoCorrectProcessingModeEnum.BatchProcessing;
 			bool IsOneBook = ( m_NotWorkingFilesList.Count == 1 ) ? true : false;
-			autoCorrect( AutoCorrectProcessingMode, ref m_bw, ref e, ref m_NotWorkingFilesList, ref m_WorkingFilesList, false );
+			autoCorrect(
+				AutoCorrectProcessingMode, ref m_bw, ref e, ref m_NotWorkingFilesList, ref m_WorkingFilesList, false
+			);
 
-			if( ( m_bw.CancellationPending ) ) {
+			if ( ( m_bw.CancellationPending ) ) {
 				e.Cancel = true;
 				return;
 			}
@@ -199,11 +209,13 @@ namespace Core.Corrector
 					sfdList.FileName	= string.Empty;
 					sfdList.InitialDirectory = Settings.Settings.ProgDir;
 					DialogResult result = sfdList.ShowDialog();
-					if( result == DialogResult.OK ) {
+					if ( result == DialogResult.OK ) {
 						ControlPanel.Enabled = false;
 						StatusTextBox.Text += "Сохранение списка обработанных и необработанных книг в файл:\r\n";
 						StatusTextBox.Text += sfdList.FileName;
-						saveSearchDataToXmlFile( sfdList.FileName, ref m_DirsList, ref m_WorkingFilesList, ref m_NotWorkingFilesList );
+						saveSearchDataToXmlFile(
+							sfdList.FileName, ref m_DirsList, ref m_WorkingFilesList, ref m_NotWorkingFilesList
+						);
 						m_EndMode.Message = "Автокорректировка fb2-файлов прервана!\r\nСписок оставшихся для обработки книг сохранены в xml-файл:\r\n\r\n"+sfdList.FileName+"\r\n\r\nЗатрачено времени: "+sTime;
 					}
 				}
@@ -260,24 +272,29 @@ namespace Core.Corrector
 			}
 
 			// заполнение списка обработанных файлов
-			loadFileList( ref m_bwRenew, "Загрузка списка обработанных книг из xml файла...\r\n", ref xmlTree, "WorkingFiles", ref m_WorkingFilesList );
+			loadFileList(
+				ref m_bwRenew, "Загрузка списка обработанных книг из xml файла...\r\n", ref xmlTree, "WorkingFiles", ref m_WorkingFilesList
+			);
 			// заполнение списка необработанных файлов
-			loadFileList( ref m_bwRenew, "Загрузка списка необработанных книг из xml файла...\r\n", ref xmlTree, "NotWorkingFiles", ref m_NotWorkingFilesList );
+			loadFileList(
+				ref m_bwRenew, "Загрузка списка необработанных книг из xml файла...\r\n", ref xmlTree, "NotWorkingFiles", ref m_NotWorkingFilesList
+			);
 
 			ControlPanel.Enabled = true;
 			
 			// Автокорректировка файлов
 			StatusTextBox.Text += "Возобновление Автокорректировки книг...\r\n";
 			// при пакетной обработке (не прерывать обработку на вылете корректировки, а переходим к обработке следующей книги)
-			autoCorrect( BooksAutoCorrectProcessingModeEnum.BatchProcessing, ref m_bwRenew, ref e, ref m_NotWorkingFilesList, ref m_WorkingFilesList, true );
+			autoCorrect(
+				BooksAutoCorrectProcessingModeEnum.BatchProcessing, ref m_bwRenew, ref e, ref m_NotWorkingFilesList, ref m_WorkingFilesList, true
+			);
 
 			// оздание итемов списка всех файлов и каталогов
 			StatusTextBox.Text += "Отображение списка файлов с метаданными...\r\n";
 			FB2UnionGenres fb2Genres = new FB2UnionGenres();
 			// генерация списка файлов - создание итемов listViewSource
 			if ( ! WorksWithBooks.generateBooksListWithMetaData(
-				m_listViewFB2Files, m_SourceRootDir, ref fb2Genres, true, false, false, this, ProgressBar, m_bwRenew, e)
-			   )
+				m_listViewFB2Files, m_SourceRootDir, ref fb2Genres, true, false, false, this, ProgressBar, m_bwRenew, e) )
 				e.Cancel = true;
 		}
 		#endregion
@@ -419,7 +436,8 @@ namespace Core.Corrector
 				fileNumber = 0;
 				for (int i = 0; i != m_DirsList.Count; ++i) {
 					doc.Root.Element("Dirs").Add(
-						new XElement("Dir", new XAttribute("number", fileNumber++),
+						new XElement("Dir",
+						             new XAttribute("number", fileNumber++),
 						             new XElement("Path", DirsList[i])
 						            )
 					);
@@ -428,10 +446,14 @@ namespace Core.Corrector
 			}
 			
 			// обработанные книги
-			saveFilesList( string.Format( "Сохранение списка обработанных {0} книг в файл:\r\n", WorkingFilesList.Count ), ref doc, "WorkingFiles", ref WorkingFilesList );
+			saveFilesList(
+				string.Format( "Сохранение списка обработанных {0} книг в файл:\r\n", WorkingFilesList.Count ), ref doc, "WorkingFiles", ref WorkingFilesList
+			);
 
 			// необработанные книги
-			saveFilesList( string.Format( "Сохранение списка необработанных {0} книг в файл:\r\n", NotWorkingFilesList.Count ), ref doc, "NotWorkingFiles", ref NotWorkingFilesList );
+			saveFilesList(
+				string.Format( "Сохранение списка необработанных {0} книг в файл:\r\n", NotWorkingFilesList.Count ), ref doc, "NotWorkingFiles", ref NotWorkingFilesList
+			);
 			
 			doc.Save(ToFileName);
 		}
@@ -451,7 +473,8 @@ namespace Core.Corrector
 				int fileNumber = 0;
 				for (int i = 0; i != FilesList.Count; ++i) {
 					doc.Root.Element(ElementName).Add(
-						new XElement("File", new XAttribute("number", fileNumber++),
+						new XElement("File",
+						             new XAttribute("number", fileNumber++),
 						             new XElement("Path", FilesList[i])
 						            )
 					);

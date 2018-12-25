@@ -35,6 +35,7 @@ namespace Settings
 		private readonly static string m_sReady				= "Готово.";
 		private readonly static bool m_ConfirmationForExit	= true;
 		private readonly static bool m_ShowDebugMessage		= true;
+		private readonly static bool m_AppendToLog	= true;
 		#endregion
 
 		#region Стили ToolButtons
@@ -154,7 +155,7 @@ namespace Settings
 			}
 		}
 		
-		public static bool ShowDebugMessage {
+		public static bool SaveDebugMessage {
 			get {
 				if ( File.Exists( m_settings ) ) {
 					m_xmlDoc.Load( m_settings );
@@ -163,6 +164,22 @@ namespace Settings
 						return Convert.ToBoolean( node.InnerText );
 				}
 				return m_ShowDebugMessage;
+			}
+		}
+		
+		/// <summary>
+		/// Дописывать отладочные данные в log файл
+		/// </summary>
+		/// <returns>true, если дописывать; false - если создавать новый log</returns>
+		public static bool AppendToLog {
+			get {
+				if ( File.Exists( m_settings ) ) {
+					m_xmlDoc.Load( m_settings );
+					XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/AppendToLog");
+					if ( node != null )
+						return Convert.ToBoolean( node.InnerText );
+				}
+				return m_AppendToLog;
 			}
 		}
 		

@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
+using Core.Common;
+
 using SharpZipLibWorker	= Core.Common.SharpZipLibWorker;
 using FilesWorker 		= Core.Common.FilesWorker;
 
@@ -1143,7 +1145,9 @@ namespace SharpFBTools.Tools
 			
 			// проверка, есть ли хоть один файл в папке для сканирования
 			if( nAllFiles == 0 ) {
-				MessageBox.Show( "Не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				MessageBox.Show(
+					"Не найдено ни одного файла!\nРабота прекращена.", m_sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning
+				);
 				InitA();
 				return;
 			}
@@ -1368,6 +1372,11 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text = "Создание списка папок:";
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if ( m_bwa.IsBusy != true ) {
+				// удаляем log файл, если режим добавления в log
+				if ( ! Settings.Settings.AppendToLog )
+					if ( File.Exists( Debug.LogFilePath ) )
+						File.Delete( Debug.LogFilePath );
+				
 				//если не занят то запустить процесс
 				m_bwa.RunWorkerAsync();
 			}
@@ -1642,6 +1651,11 @@ namespace SharpFBTools.Tools
 
 			// Запуск процесса DoWork от Бекграунд Воркера
 			if ( m_bwu.IsBusy != true ) {
+				// удаляем log файл, если режим добавления в log
+				if ( ! Settings.Settings.AppendToLog )
+					if ( File.Exists( Debug.LogFilePath ) )
+						File.Delete( Debug.LogFilePath );
+				
 				//если не занят то запустить процесс
 				m_bwu.RunWorkerAsync();
 			}
