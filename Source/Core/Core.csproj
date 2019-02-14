@@ -13,7 +13,7 @@
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <IntermediateOutputPath>d:\CSharpDevelopBuild\SharpFBTools\obj\$(Configuration)\</IntermediateOutputPath>
+    <IntermediateOutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <NoWin32Manifest>False</NoWin32Manifest>
     <SignAssembly>False</SignAssembly>
@@ -22,23 +22,23 @@
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>d:\CSharpDevelopBuild\SharpFBTools\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <BaseIntermediateOutputPath>d:\CSharpDevelopBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>d:\CSharpDevelopBuild\SharpFBTools\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Release\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
-    <BaseIntermediateOutputPath>d:\CSharpDevelopBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <BaseAddress>4194304</BaseAddress>
@@ -46,6 +46,12 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Debug\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -72,7 +78,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoCorrector\AutoCorrectorForm.cs" />
+    <Compile Include="AutoCorrector\AutoCorrectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AutoCorrector\AutoCorrectorForm.Designer.cs">
       <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
     </Compile>
@@ -97,38 +105,54 @@
     <Compile Include="AutoCorrector\TagPair.cs" />
     <Compile Include="AutoCorrector\TagWorker.cs" />
     <Compile Include="AutoCorrector\TitleCorrector.cs" />
-    <Compile Include="Common\AuthorInfoForm.cs" />
+    <Compile Include="Common\AuthorInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\AuthorInfoForm.Designer.cs">
       <DependentUpon>AuthorInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\Colors.cs" />
     <Compile Include="Common\CommandManager.cs" />
-    <Compile Include="Common\CustomInfoForm.cs" />
+    <Compile Include="Common\CustomInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\CustomInfoForm.Designer.cs">
       <DependentUpon>CustomInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\Debug.cs" />
-    <Compile Include="Common\EditAuthorInfoForm.cs" />
+    <Compile Include="Common\EditAuthorInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\EditAuthorInfoForm.Designer.cs">
       <DependentUpon>EditAuthorInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\EditDescriptionForm.cs" />
+    <Compile Include="Common\EditDescriptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\EditDescriptionForm.Designer.cs">
       <DependentUpon>EditDescriptionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\EditGenreInfoForm.cs" />
+    <Compile Include="Common\EditGenreInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\EditGenreInfoForm.Designer.cs">
       <DependentUpon>EditGenreInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\EditKeywordsForm.cs" />
+    <Compile Include="Common\EditKeywordsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\EditKeywordsForm.Designer.cs">
       <DependentUpon>EditKeywordsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\EditLangForm.cs" />
+    <Compile Include="Common\EditLangForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\EditLangForm.Designer.cs">
       <DependentUpon>EditLangForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\EditSequencesForm.cs" />
+    <Compile Include="Common\EditSequencesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\EditSequencesForm.Designer.cs">
       <DependentUpon>EditSequencesForm.cs</DependentUpon>
     </Compile>
@@ -147,7 +171,9 @@
     <Compile Include="Common\MetaEditClasses.cs" />
     <Compile Include="Common\MiscListView.cs" />
     <Compile Include="Common\MultiDictionary.cs" />
-    <Compile Include="Common\SequenceInfoForm.cs" />
+    <Compile Include="Common\SequenceInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\SequenceInfoForm.Designer.cs">
       <DependentUpon>SequenceInfoForm.cs</DependentUpon>
     </Compile>
@@ -155,44 +181,64 @@
     <Compile Include="Common\StringProcessing.cs" />
     <Compile Include="Common\WorksWithBooks.cs" />
     <Compile Include="Common\ZipFB2Worker.cs" />
-    <Compile Include="Corrector\BooksListWorkerForm.cs" />
+    <Compile Include="Corrector\BooksListWorkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Corrector\BooksListWorkerForm.Designer.cs">
       <DependentUpon>BooksListWorkerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Corrector\CopyMoveDeleteForm.cs" />
+    <Compile Include="Corrector\CopyMoveDeleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Corrector\CopyMoveDeleteForm.Designer.cs">
       <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Corrector\FB2NotValidateForm.cs" />
+    <Compile Include="Corrector\FB2NotValidateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Corrector\FB2NotValidateForm.Designer.cs">
       <DependentUpon>FB2NotValidateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Corrector\FB2TagsListGenerateForm.cs" />
+    <Compile Include="Corrector\FB2TagsListGenerateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Corrector\FB2TagsListGenerateForm.Designer.cs">
       <DependentUpon>FB2TagsListGenerateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Corrector\ValidatorForm.cs" />
+    <Compile Include="Corrector\ValidatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Corrector\ValidatorForm.Designer.cs">
       <DependentUpon>ValidatorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Duplicator\AutoCorrectorForm.cs" />
+    <Compile Include="Duplicator\AutoCorrectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Duplicator\AutoCorrectorForm.Designer.cs">
       <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Duplicator\CheckedBooksPathToXMLForm.cs" />
+    <Compile Include="Duplicator\CheckedBooksPathToXMLForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Duplicator\CheckedBooksPathToXMLForm.Designer.cs">
       <DependentUpon>CheckedBooksPathToXMLForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Duplicator\CopiesAnalyzeForm.cs" />
+    <Compile Include="Duplicator\CopiesAnalyzeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Duplicator\CopiesAnalyzeForm.Designer.cs">
       <DependentUpon>CopiesAnalyzeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FB2\FB2Parsers\FB2Text.cs" />
-    <Compile Include="Sorter\FB2TagsViewForm.cs" />
+    <Compile Include="Sorter\FB2TagsViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sorter\FB2TagsViewForm.Designer.cs">
       <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sorter\SortResultForm.cs" />
+    <Compile Include="Sorter\SortResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sorter\SortResultForm.Designer.cs">
       <DependentUpon>SortResultForm.cs</DependentUpon>
     </Compile>
@@ -268,33 +314,25 @@
     <EmbeddedResource Include="Sorter\SortResultForm.resx">
       <DependentUpon>SortResultForm.cs</DependentUpon>
     </EmbeddedResource>
-    <Folder Include="AutoCorrector" />
-    <Folder Include="Duplicator" />
-    <Folder Include="FB2" />
-    <Folder Include="FB2\binary" />
-    <Folder Include="FB2\Common" />
-    <Folder Include="FB2\Description" />
-    <Folder Include="FB2\Description\Common" />
-    <Folder Include="FB2\Description\CustomInfo" />
-    <Folder Include="FB2\Description\DocumentInfo" />
-    <Folder Include="FB2\Description\TitleInfo" />
-    <Folder Include="FB2\Description\PublishInfo" />
-    <Folder Include="FB2\FB2Parsers" />
-    <Folder Include="FB2\Genres" />
-    <Folder Include="Sorter\Templates" />
-    <Folder Include="Sorter" />
-    <Folder Include="Test" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Duplicator\BookData.cs" />
-    <Compile Include="Duplicator\CompareForm.cs" />
-    <Compile Include="Duplicator\CopiesListWorkerForm.cs" />
+    <Compile Include="Duplicator\CompareForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Duplicator\CopiesListWorkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Duplicator\CopiesListWorkerForm.Designer.cs">
       <DependentUpon>CopiesListWorkerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Duplicator\CopyMoveDeleteForm.cs" />
+    <Compile Include="Duplicator\CopyMoveDeleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Duplicator\FB2FilesDataInGroupList.cs" />
     <Compile Include="Duplicator\StatusView.cs" />
-    <Compile Include="Duplicator\ValidatorForm.cs" />
+    <Compile Include="Duplicator\ValidatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FB2\binary\Binary.cs" />
     <Compile Include="FB2\Common\IInlineImageType.cs" />
     <Compile Include="FB2\Common\InlineImage.cs" />
@@ -328,11 +366,17 @@
     <Compile Include="FB2\FB2Parsers\FB2Validator.cs" />
     <Compile Include="FB2\FB2Parsers\FictionBook.cs" />
     <Compile Include="FB2\Genres\FB2UnionGenres.cs" />
-    <Compile Include="Sorter\BasiclTemplates.cs" />
+    <Compile Include="Sorter\BasiclTemplates.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sorter\FB2SelectedSorting.cs" />
     <Compile Include="Sorter\ISortOptions.cs" />
-    <Compile Include="Sorter\SelectedSortDataForm.cs" />
-    <Compile Include="Sorter\SortingForm.cs" />
+    <Compile Include="Sorter\SelectedSortDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sorter\SortingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sorter\SortingOptions.cs" />
     <Compile Include="Sorter\SortQueryCriteria.cs" />
     <Compile Include="Sorter\StatusView.cs" />
@@ -341,8 +385,6 @@
     <Compile Include="Sorter\Templates\TemplatesParser.cs" />
     <Compile Include="Sorter\Templates\TemplatesVerify.cs" />
     <Compile Include="Test\Test.cs" />
-    <Folder Include="Common" />
-    <Folder Include="Corrector" />
     <ProjectReference Include="..\Settings\Settings.csproj">
       <Project>{6B89BF4B-6D6C-4948-AA21-53A61D22052F}</Project>
       <Name>Settings</Name>
