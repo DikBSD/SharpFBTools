@@ -79,7 +79,7 @@ namespace Core.Common
 				return string.Empty;
 			} catch ( System.Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, null, ex, "CommandManager.Run(): Запуск процесса в синхронном режиме - т.е. управление возвращается к программе только после завершения процесса."
+					null, ex, "CommandManager.Run(): Запуск процесса в синхронном режиме - т.е. управление возвращается к программе только после завершения процесса."
 				);
 				if( !m_oProc.HasExited ) {
 					m_oProc.Kill();

@@ -18,10 +18,9 @@ namespace Settings
 	public class SorterSettings
 	{
 		#region Закрытые статические данные класса ПО-УМОЛЧАНИЮ
-		// пути к файлам-справкам
-		private readonly static string m_SorterHelpPath	= Settings.ProgDir + "\\Help\\FileManagerHelp.rtf";
-		private readonly static string m_DescTemplatePath		= Settings.ProgDir + "\\Help\\TemplatesDescription.rtf";
-		private readonly static string m_SorterSettingsPath		= Settings.ProgDir + @"\FileManagerSettings.xml";
+		private readonly static string m_SorterSettingsPath	= Settings.ProgDir + @"\FileManagerSettings.xml";
+		private readonly static string m_SorterHelpPath		= Settings.ProgDir + "\\Help\\FileManagerHelp.rtf";
+		private readonly static string m_DescTemplatePath	= Settings.ProgDir + "\\Help\\TemplatesDescription.rtf";
 		private readonly static XmlDocument m_xmlDoc			= new XmlDocument();
 		private static bool m_FullSortingFB2LibrusecGenres		= true;
 		private static bool m_SelectedSortingFB2LibrusecGenres	= true;

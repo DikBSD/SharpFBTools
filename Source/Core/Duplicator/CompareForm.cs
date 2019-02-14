@@ -749,7 +749,7 @@ namespace Core.Duplicator
 							}
 						} catch ( Exception ex) {
 							Debug.DebugMessage(
-								Debug.InLogFile, FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForMd5Parser(): Хеширование файлов в контексте Md5 книг."
+								FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForMd5Parser(): Хеширование файлов в контексте Md5 книг."
 							);
 							// обработанные файлы
 							FinishedFilesList.Add(FilesList[i]);
@@ -779,7 +779,7 @@ namespace Core.Duplicator
 				fb2 = new FictionBook( SrcPath );
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, SrcPath, ex, "Дубликатор.CompareForm.MakeFB2Md5HashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте их md5."
+					SrcPath, ex, "Дубликатор.CompareForm.MakeFB2Md5HashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте их md5."
 				);
 				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
@@ -851,7 +851,7 @@ namespace Core.Duplicator
 							}
 						} catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForIDParser(): Хеширование файлов в контексте Id книг."
+								FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForIDParser(): Хеширование файлов в контексте Id книг."
 							);
 						}
 						FilesWorker.RemoveDir( _TempDir );
@@ -877,7 +877,7 @@ namespace Core.Duplicator
 				fb2 = new FictionBook( SrcPath );
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, SrcPath, ex, "Дубликатор.CompareForm.MakeFB2IDHashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте их ID."
+					SrcPath, ex, "Дубликатор.CompareForm.MakeFB2IDHashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте их ID."
 				);
 				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
@@ -947,7 +947,7 @@ namespace Core.Duplicator
 							}
 						} catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForBTParser(): Хеширование файлов в контексте Авторов и Названия книг."
+								FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForBTParser(): Хеширование файлов в контексте Авторов и Названия книг."
 							);
 						}
 						FilesWorker.RemoveDir( _TempDir );
@@ -973,7 +973,7 @@ namespace Core.Duplicator
 				fb2 = new FictionBook( SrcPath );
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, SrcPath, ex, "Дубликатор.CompareForm.MakeFB2BTHashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте их Названия."
+					SrcPath, ex, "Дубликатор.CompareForm.MakeFB2BTHashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте их Названия."
 				);
 				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;
@@ -1045,7 +1045,7 @@ namespace Core.Duplicator
 							}
 						} catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForAuthorFIOParser(): Хеширование файлов в контексте Авторов с одинаковой Фамилией и инициалами."
+								FilesList[i], ex, "Дубликатор.CompareForm.FilesHashForAuthorFIOParser(): Хеширование файлов в контексте Авторов с одинаковой Фамилией и инициалами."
 							);
 						}
 						FilesWorker.RemoveDir( _TempDir );
@@ -1071,7 +1071,7 @@ namespace Core.Duplicator
 				fb2 = new FictionBook( SrcPath );
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, SrcPath, ex, "Дубликатор.CompareForm.MakeFB2AuthorFIOHashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте Авторов с одинаковой Фамилией и инициалами."
+					SrcPath, ex, "Дубликатор.CompareForm.MakeFB2AuthorFIOHashTable(): Заполнение хеш таблицы данными о fb2-книгах в контексте Авторов с одинаковой Фамилией и инициалами."
 				);
 				collectBadFB2( !string.IsNullOrEmpty(ZipPath) ? ZipPath : SrcPath );
 				return;

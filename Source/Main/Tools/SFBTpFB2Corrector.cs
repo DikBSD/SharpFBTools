@@ -41,37 +41,45 @@ namespace SharpFBTools.Tools
 		#region Закрытые данные класса
 		private readonly FB2Validator m_fv2Validator = new FB2Validator();
 		private readonly string	m_TempDir	= Settings.Settings.TempDirPath;
-		private bool m_isSettingsLoaded		= false; 		// Только при true все изменения настроек сохраняются в файл.
+		private bool m_isSettingsLoaded		= false; 	// Только при true все изменения настроек сохраняются в файл.
 		private string	m_TargetDir			= string.Empty; // Папка для Copy / Move помеченных книг
 		private string	m_DirForSavedCover	= string.Empty;	// папка для сохранения обложек
 		private int	  m_CurrentResultItem	= -1;
 		private readonly SharpZipLibWorker	m_sharpZipLib = new SharpZipLibWorker();
 		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter =
-			new MiscListView.ListViewColumnSorter(11);
+							new MiscListView.ListViewColumnSorter(11);
 		#endregion
 		
 		public SFBTpFB2Corrector()
 		{
 			InitializeComponent();
 			
+			ConnectListsEventHandlers( false );
+			
 			cboxExistFile.SelectedIndex			= 1;
 			cboxDblClickForFB2.SelectedIndex	= 1;
 			cboxPressEnterForFB2.SelectedIndex	= 0;
 			
+			// задание Tag для Listview
+			foreach ( ColumnHeader ch in listViewFB2Files.Columns )
+				ch.Tag = ch.Text;
+			
 			/* читаем сохраненные пути к папкам и шаблон Менеджера Файлов, если они есть */
 			readSettingsFromXML();
+			
+			ConnectListsEventHandlers( true );
 			m_isSettingsLoaded = true;
 //			MiscListView.AutoResizeColumns( listViewFB2Files );
 		}
 		
-		#region Закрытые вспомогательные методы класса
 		// сохранение настроек в xml-файл
-		private void saveSettingsToXml() {
+		public void saveSettingsToXml() {
 			// защита от "затирания" настроек в файле, когда в некоторые контролы данные еще не загрузились
 			if ( m_isSettingsLoaded ) {
 				XDocument doc = new XDocument(
 					new XDeclaration("1.0", "utf-8", "yes"),
-					new XElement("Settings", new XAttribute("type", "editor_settings"),
+					new XElement("Settings",
+					             new XAttribute("type", "editor_settings"),
 					             new XComment("xml файл настроек Редактора метаданных"),
 					             new XComment("Проводник"),
 					             new XElement("Explorer",
@@ -79,7 +87,6 @@ namespace SharpFBTools.Tools
 					                          new XElement("SourceDir", textBoxAddress.Text.Trim()),
 					                          new XComment("Папка для копирования/перемещения копий fb2 книг"),
 					                          new XElement("TargetDir", m_TargetDir),
-					                          
 					                          new XComment("Настройки для Копирования / Перемещения файлов - Одинаковые файлы в папке-приемнике"),
 					                          new XElement("ExistFile", cboxExistFile.SelectedIndex),
 					                          new XComment("Действие по двойному щелчку мышки на Списке"),
@@ -87,79 +94,105 @@ namespace SharpFBTools.Tools
 					                          new XComment("Действие по нажатию клавиши Enter на Списке"),
 					                          new XElement("PressEnterForFB2", cboxPressEnterForFB2.SelectedIndex),
 					                          new XComment("Ширина колонок списка копий"),
-					                          new XElement("Columns", new XAttribute("count", listViewFB2Files.Columns.Count))
+					                          new XElement("Columns",
+					                                       new XAttribute("count", listViewFB2Files.Columns.Count))
 					                         )
 					            )
 				);
 				
-				// сохранение ширины колонок
-				for (int i = 0; i != listViewFB2Files.Columns.Count; ++i) {
-					doc.Root.Element("Explorer").Element("Columns").Add(
-						new XElement( "Column", new XAttribute("index", i), new XAttribute("width", listViewFB2Files.Columns[i].Width) )
-					);
-				}
+				// сохранение расположения и ширины колонок
+				XElement xColumns = doc.Root.Element("Explorer").Element("Columns");
+				MiscListView.addColumnsToXDocument( ref xColumns, ref listViewFB2Files );
 				
 				doc.Save( Settings.CorrectorSettings.CorrectorPath );
 			}
 		}
+		
+		#region Закрытые вспомогательные методы класса
 		// загрузка настроек из xml-файла
 		private void readSettingsFromXML() {
-			if( File.Exists( Settings.CorrectorSettings.CorrectorPath ) ) {
+			if ( File.Exists( Settings.CorrectorSettings.CorrectorPath ) ) {
 				XElement xmlTree = XElement.Load( Settings.CorrectorSettings.CorrectorPath );
 				/* Explorer */
-				if( xmlTree.Element("Explorer") != null ) {
+				if ( xmlTree.Element("Explorer") != null ) {
 					XElement xmlExplorer = xmlTree.Element("Explorer");
 					// Папка исходных fb2-файлов
-					if( xmlExplorer.Element("SourceDir") != null )
+					if ( xmlExplorer.Element("SourceDir") != null )
 						textBoxAddress.Text = xmlExplorer.Element("SourceDir").Value;
 					// Папка для копирования/перемещения копий fb2 книг
-					if( xmlTree.Element("TargetDir") != null )
+					if ( xmlTree.Element("TargetDir") != null )
 						m_TargetDir = xmlTree.Element("TargetDir").Value;
 					
 					// Настройки для Копирования / Перемещения файлов - Одинаковые файлы в папке-приемнике
-					if( xmlExplorer.Element("ExistFile") != null )
+					if ( xmlExplorer.Element("ExistFile") != null )
 						cboxExistFile.SelectedIndex = Convert.ToInt16( xmlExplorer.Element("ExistFile").Value );
 					// Действие по двойному щелчку мышки на Списке
-					if( xmlExplorer.Element("DblClickForFB2") != null )
+					if ( xmlExplorer.Element("DblClickForFB2") != null )
 						cboxDblClickForFB2.SelectedIndex = Convert.ToInt16( xmlExplorer.Element("DblClickForFB2").Value );
 					// Действие по нажатию клавиши Enter на Списке
-					if( xmlExplorer.Element("PressEnterForFB2") != null )
+					if ( xmlExplorer.Element("PressEnterForFB2") != null )
 						cboxPressEnterForFB2.SelectedIndex = Convert.ToInt16( xmlExplorer.Element("PressEnterForFB2").Value );
 					
-					// ширина колонок
-					XElement xColumns = xmlExplorer.Element("Columns");
-					if( xColumns != null ) {
-						for (int i = 0; i != listViewFB2Files.Columns.Count; ++i) {
-							IEnumerable<XElement> Columns = xColumns.Elements("Column");
-							foreach (XElement element in Columns) {
-								List<XAttribute> attrs = element.Attributes().ToList<XAttribute>();
-								int index = Convert.ToInt16( attrs[0].Value );
-								int width = Convert.ToInt16( attrs[1].Value);
-								listViewFB2Files.Columns[ index ].Width = width;
-							}
-						}
+					// ширина и расположение колонок
+					if ( xmlExplorer.Element("Columns") != null ) {
+						XElement xColumns = xmlExplorer.Element("Columns");
+						MiscListView.setColumnHeradersDataToListView( ref xColumns, ref listViewFB2Files );
 					}
 				}
 			}
 		}
 		// отключение/включение обработчиков событий для listViewFB2Files (убираем "тормоза")
-		private void ConnectListsEventHandlers( bool bConnect ) {
-			if( !bConnect ) {
+		public void ConnectListsEventHandlers( bool bConnect ) {
+			if( bConnect ) {
 				// отключаем обработчики событий для Списка (убираем "тормоза")
-				this.listViewFB2Files.DoubleClick -= new System.EventHandler(this.ListViewFB2FilesDoubleClick);
-				this.listViewFB2Files.ItemChecked -= new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFB2FilesItemChecked);
-				this.listViewFB2Files.ItemCheck -= new System.Windows.Forms.ItemCheckEventHandler(this.ListViewFB2FilesItemCheck);
-				this.listViewFB2Files.KeyPress -= new System.Windows.Forms.KeyPressEventHandler(this.ListViewFB2FilesKeyPress);
-				this.listViewFB2Files.ColumnClick -= new System.Windows.Forms.ColumnClickEventHandler(this.ListViewFB2FilesColumnClick);
-				this.listViewFB2Files.SelectedIndexChanged -= new System.EventHandler(this.ListViewFB2FilesSelectedIndexChanged);
+				this.listViewFB2Files.DoubleClick += new System.EventHandler(this.ListViewFB2FilesDoubleClick);
+				this.listViewFB2Files.ItemChecked +=
+					new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFB2FilesItemChecked);
+				this.listViewFB2Files.ItemCheck +=
+					new System.Windows.Forms.ItemCheckEventHandler(this.ListViewFB2FilesItemCheck);
+				this.listViewFB2Files.KeyPress +=
+					new System.Windows.Forms.KeyPressEventHandler(this.ListViewFB2FilesKeyPress);
+				this.listViewFB2Files.ColumnClick +=
+					new System.Windows.Forms.ColumnClickEventHandler(this.ListViewFB2FilesColumnClick);
+				this.listViewFB2Files.SelectedIndexChanged +=
+					new System.EventHandler(this.ListViewFB2FilesSelectedIndexChanged);
+				this.listViewFB2Files.ColumnWidthChanged +=
+					new System.Windows.Forms.ColumnWidthChangedEventHandler(this.ListViewFB2FilesColumnWidthChanged);
+				this.cboxExistFile.SelectedIndexChanged +=
+					new System.EventHandler(this.CboxExistFileSelectedIndexChanged);
+				this.cboxDblClickForFB2.SelectedIndexChanged +=
+					new System.EventHandler(this.CboxDblClickForFB2SelectedIndexChanged);
+				this.cboxPressEnterForFB2.SelectedIndexChanged +=
+					new System.EventHandler(this.CboxPressEnterForFB2SelectedIndexChanged);
+				this.textBoxAddress.TextChanged += new System.EventHandler(this.TextBoxAddressTextChanged);
+				this.tsmiCopyCheckedFb2To.Click += new System.EventHandler(this.TsmiCopyCheckedFb2ToClick);
+				this.toolStripButtonCopyCheckedFb2To.Click +=
+					new System.EventHandler(this.TsmiCopyCheckedFb2ToClick);
 			} else {
 				// подключаем обработчики событий для Списка
-				this.listViewFB2Files.DoubleClick += new System.EventHandler(this.ListViewFB2FilesDoubleClick);
-				this.listViewFB2Files.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFB2FilesItemChecked);
-				this.listViewFB2Files.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ListViewFB2FilesItemCheck);
-				this.listViewFB2Files.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ListViewFB2FilesKeyPress);
-				this.listViewFB2Files.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewFB2FilesColumnClick);
-				this.listViewFB2Files.SelectedIndexChanged += new System.EventHandler(this.ListViewFB2FilesSelectedIndexChanged);
+				this.listViewFB2Files.DoubleClick -= new System.EventHandler(this.ListViewFB2FilesDoubleClick);
+				this.listViewFB2Files.ItemChecked -=
+					new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFB2FilesItemChecked);
+				this.listViewFB2Files.ItemCheck -=
+					new System.Windows.Forms.ItemCheckEventHandler(this.ListViewFB2FilesItemCheck);
+				this.listViewFB2Files.KeyPress -=
+					new System.Windows.Forms.KeyPressEventHandler(this.ListViewFB2FilesKeyPress);
+				this.listViewFB2Files.ColumnClick -=
+					new System.Windows.Forms.ColumnClickEventHandler(this.ListViewFB2FilesColumnClick);
+				this.listViewFB2Files.SelectedIndexChanged -=
+					new System.EventHandler(this.ListViewFB2FilesSelectedIndexChanged);
+				this.listViewFB2Files.ColumnWidthChanged -=
+					new System.Windows.Forms.ColumnWidthChangedEventHandler(this.ListViewFB2FilesColumnWidthChanged);
+				this.cboxExistFile.SelectedIndexChanged -=
+					new System.EventHandler(this.CboxExistFileSelectedIndexChanged);
+				this.cboxDblClickForFB2.SelectedIndexChanged -=
+					new System.EventHandler(this.CboxDblClickForFB2SelectedIndexChanged);
+				this.cboxPressEnterForFB2.SelectedIndexChanged -=
+					new System.EventHandler(this.CboxPressEnterForFB2SelectedIndexChanged);
+				this.textBoxAddress.TextChanged -= new System.EventHandler(this.TextBoxAddressTextChanged);
+				this.tsmiCopyCheckedFb2To.Click -= new System.EventHandler(this.TsmiCopyCheckedFb2ToClick);
+				this.toolStripButtonCopyCheckedFb2To.Click -=
+					new System.EventHandler(this.TsmiCopyCheckedFb2ToClick);
 			}
 		}
 		
@@ -189,14 +222,22 @@ namespace SharpFBTools.Tools
 			Cursor.Current = Cursors.WaitCursor;
 			listViewFB2Files.BeginUpdate();
 			ConnectListsEventHandlers( false );
+			
+			// удаляем log файл, если режим добавления в log
+			if ( ! Settings.Settings.AppendToLog )
+				if ( File.Exists( Debug.LogFilePath ) )
+					File.Delete( Debug.LogFilePath );
+			
 			FB2TagsListGenerateForm fb2TagsListGenerateForm = new FB2TagsListGenerateForm(
 				listViewFB2Files, dirPath, false
 			);
 			fb2TagsListGenerateForm.ShowDialog();
 			EndWorkMode EndWorkMode = fb2TagsListGenerateForm.EndMode;
 			fb2TagsListGenerateForm.Dispose();
-			if( EndWorkMode.EndMode != EndWorkModeEnum.Done )
-				MessageBox.Show( EndWorkMode.Message, "Отображение метаданных книг", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			if ( EndWorkMode.EndMode != EndWorkModeEnum.Done )
+				MessageBox.Show(
+					EndWorkMode.Message, "Отображение метаданных книг", MessageBoxButtons.OK, MessageBoxIcon.Information
+				);
 			ConnectListsEventHandlers( true );
 			listViewFB2Files.EndUpdate();
 			Cursor.Current = Cursors.Default;
@@ -307,7 +348,7 @@ namespace SharpFBTools.Tools
 						}
 					} catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, SrcFilePath, ex, "Корректор.viewMetaData(): Отображение метаданных для указанного файла в списке книг ListView."
+							SrcFilePath, ex, "Корректор.viewMetaData(): Отображение метаданных для указанного файла в списке книг ListView."
 						);
 						RetValid = "Нет";
 						WorksWithBooks.hideMetaDataLocal( listViewItem );
@@ -433,7 +474,7 @@ namespace SharpFBTools.Tools
 					}
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, fb2Desc.FilePath, ex, "Корректор.viewBookMetaDataFull(): Занесение данных книги в контролы для просмотра: Ошибка при отображении метаданных книги."
+						fb2Desc.FilePath, ex, "Корректор.viewBookMetaDataFull(): Занесение данных книги в контролы для просмотра: Ошибка при отображении метаданных книги."
 					);
 					MessageBox.Show( "Ошибка при отображении метаданных книги " + fb2Desc.FilePath + "\nОтладочная информация - в Log файле." + ex.Message, "Отображение метаданных книги", MessageBoxButtons.OK, MessageBoxIcon.Error );
 				}
@@ -514,7 +555,7 @@ namespace SharpFBTools.Tools
 					fb2 = new FictionBook( FilePath );
 				} catch ( FileLoadException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, SourceFilePath, ex, "Корректор.setNewBookID(): Генерация нового id для выделенной/помеченной книги: Ошибка при загрузке файла."
+						SourceFilePath, ex, "Корректор.setNewBookID(): Генерация нового id для выделенной/помеченной книги: Ошибка при загрузке файла."
 					);
 					if ( BooksCount == 1 )
 						MessageBox.Show(
@@ -658,7 +699,9 @@ namespace SharpFBTools.Tools
 				if ( Info.Exists )
 					generateFB2List( Info.FullName );
 				else
-					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show(
+						"Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
 			}
 		}
 		void TextBoxAddressKeyPress(object sender, KeyPressEventArgs e)
@@ -811,7 +854,7 @@ namespace SharpFBTools.Tools
 									}
 								} catch ( Exception ex ) {
 									Debug.DebugMessage(
-										Debug.InLogFile, SrcFilePath, ex, "Корректор.ListViewFB2FilesSelectedIndexChanged()."
+										SrcFilePath, ex, "Корректор.ListViewFB2FilesSelectedIndexChanged()."
 									);
 									WorksWithBooks.hideMetaDataLocal( SelectedItem );
 									clearDataFields();
@@ -1069,7 +1112,7 @@ namespace SharpFBTools.Tools
 								fb2 = new FictionBook( FilePath );
 							} catch ( FileLoadException ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, SourceFilePath, ex, "Корректор.TsmiEditDescriptionClick(): Комплексная правка метаданных. Ошибка при загрузке файла."
+									SourceFilePath, ex, "Корректор.TsmiEditDescriptionClick(): Комплексная правка метаданных. Ошибка при загрузке файла."
 								);
 								MessageBox.Show(
 									ex.Message, "Комплексная правка метаданных", MessageBoxButtons.OK, MessageBoxIcon.Error
@@ -1397,7 +1440,7 @@ namespace SharpFBTools.Tools
 					listViewFB2Files.Focus();
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, null, ex, "Корректор.OpenFB2FilesListButtonClick(): Загрузка списка обрабатываемых книг."
+						null, ex, "Корректор.OpenFB2FilesListButtonClick(): Загрузка списка обрабатываемых книг."
 					);
 					listViewFB2Files.EndUpdate();
 					ConnectListsEventHandlers( true );
@@ -1546,7 +1589,7 @@ namespace SharpFBTools.Tools
 							fb2 = new FictionBook( FilePath );
 						} catch ( FileLoadException ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, SourceFilePath, ex, "Корректор.TsmiEditBookNameClick(): Правка Названия книги для выделенной книги. Ошибка при загрузке файла."
+								SourceFilePath, ex, "Корректор.TsmiEditBookNameClick(): Правка Названия книги для выделенной книги. Ошибка при загрузке файла."
 							);
 							MessageBox.Show(
 								ex.Message, "Правка Названия книги", MessageBoxButtons.OK, MessageBoxIcon.Error
@@ -1554,7 +1597,9 @@ namespace SharpFBTools.Tools
 							return;
 						}
 						if ( fb2 != null ) {
-							string BookTitleNew = fb2.TIBookTitle != null ? fb2.TIBookTitle.Value : "Новое название книги";
+							string BookTitleNew = fb2.TIBookTitle != null
+								? fb2.TIBookTitle.Value
+								: "Новое название книги";
 							if ( WorksWithBooks.InputBox( "Правка названия книги", "Новое название книги:", ref BookTitleNew ) == DialogResult.OK) {
 								// восстанавление раздела description до структуры с необходимыми элементами для валидности
 								FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
@@ -1606,7 +1651,11 @@ namespace SharpFBTools.Tools
 					Cursor.Current = Cursors.WaitCursor;
 					string valid = viewMetaDataAfterWorkManyBooks( ListViewItemInfoList, BooksValidateModeEnum.SelectedBooks );
 					string mess = (SelectedItems.Count == 1)
-						? ( !string.IsNullOrWhiteSpace( valid ) ? ("\n\nФайл невалидный:\r\n" + valid) : "\n\nФайл валидный!" )
+						? (
+							! string.IsNullOrWhiteSpace( valid )
+							? ("\n\nФайл невалидный:\r\n" + valid)
+							: "\n\nФайл валидный!"
+						)
 						: string.Empty;
 //					MiscListView.AutoResizeColumns( listViewFB2Files );
 					Cursor.Current = Cursors.Default;

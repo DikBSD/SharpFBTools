@@ -280,7 +280,7 @@ namespace Core.Common
 				zipInStream = new ZipInputStream(fileStreamIn);
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipFile()."
+					SourceZipFile, ex, "SharpZipLibWorker.UnZipFile()."
 				);
 				return false;
 			}
@@ -314,7 +314,7 @@ namespace Core.Common
 				}
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipFile()."
+					SourceZipFile, ex, "SharpZipLibWorker.UnZipFile()."
 				);
 				fileStreamIn.Close();
 				return false;
@@ -360,7 +360,7 @@ namespace Core.Common
 									continue;
 							} catch ( ArgumentException ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipFiles(). Исключенгие ArgumentException."
+									SourceZipFile, ex, "SharpZipLibWorker.UnZipFiles(). Исключение ArgumentException."
 								);
 								continue;
 							}
@@ -389,7 +389,7 @@ namespace Core.Common
 								++count;
 							} catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipFiles(). Исключенгие Exception."
+									SourceZipFile, ex, "SharpZipLibWorker.UnZipFiles(). Исключение Exception."
 								);
 								inputStream.Close();
 							}
@@ -418,7 +418,7 @@ namespace Core.Common
 				fileExists = File.Exists(SourceZipPath);
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Не возможно открыть архив (в имени файла есть нечитаемые символы)."
+					SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Не возможно открыть архив (в имени файла есть нечитаемые символы)."
 				);
 				return -1;
 			}
@@ -429,7 +429,7 @@ namespace Core.Common
 					zipFile = new ZipFile(SourceZipPath);
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Не возможно открыть архив."
+						SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Не возможно открыть архив."
 					);
 					return -1;
 				}
@@ -446,7 +446,7 @@ namespace Core.Common
 									continue;
 							} catch ( ArgumentException ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Исключенгие ArgumentException."
+									SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Исключение ArgumentException."
 								);
 								continue;
 							}
@@ -477,7 +477,7 @@ namespace Core.Common
 								++count;
 							} catch ( Exception ex) {
 								Debug.DebugMessage(
-									Debug.InLogFile, SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Исключенгие Exception."
+									SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Исключение Exception."
 								);
 								inputStream.Close();
 							}
@@ -508,7 +508,7 @@ namespace Core.Common
 				b_fileExists = File.Exists(SourceZipFile);
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFile(). Не возможно открыть архив (в имени файла есть нечитаемые символы)."
+					SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFile(). Не возможно открыть архив (в имени файла есть нечитаемые символы)."
 				);
 				return false;
 			}
@@ -519,7 +519,7 @@ namespace Core.Common
 					zipFile = new ZipFile(SourceZipFile);
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFile(). Не возможно открыть архив."
+						SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFile(). Не возможно открыть архив."
 					);
 					return false;
 				}
@@ -556,7 +556,7 @@ namespace Core.Common
 							}
 						} catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFile(). Не возможно открыть архив (скорее всего в имени файла есть нечитаемые символы)."
+								SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFile(). Не возможно открыть архив (скорее всего в имени файла есть нечитаемые символы)."
 							);
 							inputStream.Close();
 						}
@@ -589,7 +589,7 @@ namespace Core.Common
 				b_fileExists = File.Exists(SourceZipFile);
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles(). Не возможно открыть архив (в имени файла есть нечитаемые символы)."
+					SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles(). Не возможно открыть архив (в имени файла есть нечитаемые символы)."
 				);
 				return -1;
 			}
@@ -600,7 +600,7 @@ namespace Core.Common
 					zipFile = new ZipFile(SourceZipFile);
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles(). Не возможно открыть архив."
+						SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles(). Не возможно открыть архив."
 					);
 					return -1;
 				}
@@ -622,7 +622,7 @@ namespace Core.Common
 									continue;
 							} catch ( ArgumentException ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles().  Исключение ArgumentException."
+									SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles().  Исключение ArgumentException."
 								);
 								continue;
 							}
@@ -651,7 +651,7 @@ namespace Core.Common
 								++count;
 							} catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles(). Не возможно открыть архив (скорее всего в имени файла есть нечитаемые символы). Исключение Exception."
+									SourceZipFile, ex, "SharpZipLibWorker.UnZipSelectedFiles(). Не возможно открыть архив (скорее всего в имени файла есть нечитаемые символы). Исключение Exception."
 								);
 								inputStream.Close();
 							}
@@ -686,7 +686,7 @@ namespace Core.Common
 					zipFile = new ZipFile(SourceZipFile);
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.DeleteSelectedFile(). Не возможно открыть архив."
+						SourceZipFile, ex, "SharpZipLibWorker.DeleteSelectedFile(). Не возможно открыть архив."
 					);
 					return false;
 				}
@@ -723,7 +723,7 @@ namespace Core.Common
 					zipFile = new ZipFile(SourceZipFile);
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.DeleteSelectedFiles(). Не возможно открыть архив."
+						SourceZipFile, ex, "SharpZipLibWorker.DeleteSelectedFiles(). Не возможно открыть архив."
 					);
 					return false;
 				}
@@ -766,7 +766,7 @@ namespace Core.Common
 					zipFile = new ZipFile(SourceZipFile);
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, SourceZipFile, ex, "SharpZipLibWorker.FilesListFromZip(). Не возможно открыть архив."
+						SourceZipFile, ex, "SharpZipLibWorker.FilesListFromZip(). Не возможно открыть архив."
 					);
 					return null;
 				}

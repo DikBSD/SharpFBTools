@@ -778,7 +778,9 @@ namespace Core.Common
 		}
 		private bool processPublishInfoNode( ref XmlDocument xmlDoc, XmlNode xmlPINew ) {
 			string ns = m_fb2.getNamespace();
-			XmlNode xmlPIOld = xmlDoc.SelectSingleNode( ns + "FictionBook" + ns + "description" + ns + "publish-info", m_fb2.getNamespaceManager() );
+			XmlNode xmlPIOld = xmlDoc.SelectSingleNode(
+				ns + "FictionBook" + ns + "description" + ns + "publish-info", m_fb2.getNamespaceManager()
+			);
 			XmlNode xmlDesc = m_fb2.getDescriptionNode();
 			if ( xmlDesc != null ) {
 				if ( xmlPINew != null ) {
@@ -1380,7 +1382,8 @@ namespace Core.Common
 			if ( CICustomInfoListView.SelectedItems.Count > 0 ) {
 				ListViewItem lvi = CICustomInfoListView.SelectedItems[0];
 				CustomInfoInfo ci = new CustomInfoInfo( false, lvi.Text, lvi.SubItems[1].Text );
-				Core.Common.CustomInfoForm customInfoForm = new Core.Common.CustomInfoForm( ref ci );
+				Core.Common.CustomInfoForm customInfoForm =
+					new Core.Common.CustomInfoForm( ref ci );
 				customInfoForm.ShowDialog();
 				CustomInfoInfo NewCustomInfoInfo = customInfoForm.CustomInfoInfo;
 				lvi.Text = NewCustomInfoInfo.Type;

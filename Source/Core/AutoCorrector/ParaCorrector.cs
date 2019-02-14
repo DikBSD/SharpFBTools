@@ -65,7 +65,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nПреобразование тега вида <p id=\"$890^^@@\"> в тег <p>."
+					_FilePath, ex, "ParaCorrector:\r\nПреобразование тега вида <p id=\"$890^^@@\"> в тег <p>."
 				);
 			}
 			
@@ -78,7 +78,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nНезавершенный тег <p>: <p текст => <p> текст."
+					_FilePath, ex, "ParaCorrector:\r\nНезавершенный тег <p>: <p текст => <p> текст."
 				);
 			}
 			
@@ -91,7 +91,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nОбработка тегов <p>: <p><strong></strong><p>."
+					_FilePath, ex, "ParaCorrector:\r\nОбработка тегов <p>: <p><strong></strong><p>."
 				);
 			}
 			
@@ -105,7 +105,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: <p><image xlink:href=\"#cover.jpg\"/><p>Текст</p> => <p><image xlink:href=\"#cover.jpg\"/></p>\n<p>Текст</p>"
+					_FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: <p><image xlink:href=\"#cover.jpg\"/><p>Текст</p> => <p><image xlink:href=\"#cover.jpg\"/></p>\n<p>Текст</p>"
 				);
 			}
 			
@@ -119,7 +119,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p><image xlink:href=\"#cover.jpg\"/></p> => </p>\n<p><image xlink:href=\"#cover.jpg\"/></p>."
+					_FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p><image xlink:href=\"#cover.jpg\"/></p> => </p>\n<p><image xlink:href=\"#cover.jpg\"/></p>."
 				);
 			}
 			
@@ -132,7 +132,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p>Любой текст с тегами</p> => </p><p>Любой текст с тегами</p>."
+					_FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p>Любой текст с тегами</p> => </p><p>Любой текст с тегами</p>."
 				);
 			}
 			
@@ -145,7 +145,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nУдаление неверного id из тега <p>: <p id=\"__\"> => <p>."
+					_FilePath, ex, "ParaCorrector:\r\nУдаление неверного id из тега <p>: <p id=\"__\"> => <p>."
 				);
 			}
 			// TODO Продумать, нужно ли переделать ниже алгоритм: может это на конце слов не <p>, а должен быть </p>
@@ -158,7 +158,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: <p>Любой текст с тегами<p> => <p>Любой текст с тегами</p><p>."
+					_FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: <p>Любой текст с тегами<p> => <p>Любой текст с тегами</p><p>."
 				);
 			}
 
@@ -172,7 +172,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p> Текст => </p>\n<p> Текст."
+					_FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p> Текст => </p>\n<p> Текст."
 				);
 			}
 			
@@ -185,7 +185,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p><strong>Текст</strong> => </p><p><strong>Текст</strong>."
+					_FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных <p>: </p><strong>Текст</strong> => </p><p><strong>Текст</strong>."
 				);
 			}
 			
@@ -198,7 +198,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: Текст <p> => Текст </p>\n<p>."
+					_FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: Текст <p> => Текст </p>\n<p>."
 				);
 			}
 
@@ -211,7 +211,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: <p><strong>Текст</strong><p> => <p><strong>Текст</strong></p><p>."
+					_FilePath, ex, "ParaCorrector:\r\nВосстановление пропущенных </p>: <p><strong>Текст</strong><p> => <p><strong>Текст</strong></p><p>."
 				);
 			}
 			// ********************************************************************************************************
@@ -225,7 +225,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p id=\"AutBody_0fb_0\">Текст</p>."
+					_FilePath, ex, "ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p id=\"AutBody_0fb_0\">Текст</p>."
 				);
 			}
 			
@@ -238,7 +238,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p>."
+					_FilePath, ex, "ParaCorrector:\r\nУдаление лишнего открывающего тега <p> в случаях: <p><p>."
 				);
 			}
 			

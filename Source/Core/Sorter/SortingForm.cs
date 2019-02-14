@@ -943,7 +943,7 @@ namespace Core.Sorter
 				);
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FromFilePath, ex, "WorksWithBooks.makeFileFor1Genre1AuthorWorker():"
+					FromFilePath, ex, "WorksWithBooks.makeFileFor1Genre1AuthorWorker():"
 				);
 				if ( FilesWorker.isFB2File( FromFilePath ) )
 					copyBadFileToDir(
@@ -969,7 +969,7 @@ namespace Core.Sorter
 					);
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FromFilePath, ex, "WorksWithBooks.makeFileForAllGenre1AuthorWorker():"
+					FromFilePath, ex, "WorksWithBooks.makeFileForAllGenre1AuthorWorker():"
 				);
 				if ( FilesWorker.isFB2File( FromFilePath ) )
 					copyBadFileToDir(
@@ -995,7 +995,7 @@ namespace Core.Sorter
 					);
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FromFilePath, ex, "WorksWithBooks.makeFileFor1GenreAllAuthorWorker():"
+					FromFilePath, ex, "WorksWithBooks.makeFileFor1GenreAllAuthorWorker():"
 				);
 				if ( FilesWorker.isFB2File( FromFilePath ) )
 					copyBadFileToDir(
@@ -1023,7 +1023,7 @@ namespace Core.Sorter
 				}
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FromFilePath, ex, "WorksWithBooks.makeFileForAllGenreAllAuthorWorker():"
+					FromFilePath, ex, "WorksWithBooks.makeFileForAllGenreAllAuthorWorker():"
 				);
 				if ( FilesWorker.isFB2File( FromFilePath ) )
 					copyBadFileToDir(
@@ -1147,7 +1147,7 @@ namespace Core.Sorter
 					);
 				} catch ( System.IO.FileLoadException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FromFilePath, ex, "WorksWithBooks.makeFB2File(): Создание файла по новому пути."
+						FromFilePath, ex, "WorksWithBooks.makeFB2File(): Создание файла по новому пути."
 					);
 					// нечитаемый fb2-файл - копируем его в папку Bad
 					copyBadFileToDir(
@@ -1196,7 +1196,7 @@ namespace Core.Sorter
 
 			} catch ( System.IO.PathTooLongException ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FromFilePath, ex, "WorksWithBooks.createFileTo(): Создание нового файла или архива."
+					FromFilePath, ex, "WorksWithBooks.createFileTo(): Создание нового файла или архива."
 				);
 				// файл с длинным путем (название книги слишком длинное...)
 				Directory.CreateDirectory( FileLongPathDir );

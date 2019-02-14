@@ -80,11 +80,11 @@ namespace Main
 			// 
 			// tscMain.ContentPanel
 			// 
-			this.tscMain.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tscMain.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
 			this.tscMain.ContentPanel.Size = new System.Drawing.Size(1104, 691);
 			this.tscMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tscMain.Location = new System.Drawing.Point(0, 0);
-			this.tscMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tscMain.Margin = new System.Windows.Forms.Padding(4);
 			this.tscMain.Name = "tscMain";
 			this.tscMain.Size = new System.Drawing.Size(1104, 750);
 			this.tscMain.TabIndex = 0;
@@ -100,23 +100,23 @@ namespace Main
 			this.tsMain.Dock = System.Windows.Forms.DockStyle.None;
 			this.tsMain.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.tsbtnFB2Corrector,
-			this.tsSep1,
-			this.tsbtnFB2Dublicator,
-			this.tsSep2,
-			this.tsbtnFileManager,
-			this.tsSep3,
-			this.tsbtnArchiveManager,
-			this.tsSep4,
-			this.tsbtnAbout,
-			this.tsSep5,
-			this.tsSep6,
-			this.tsbtnOptions,
-			this.tsSep7,
-			this.tsbtnExit});
+			                           	this.tsbtnFB2Corrector,
+			                           	this.tsSep1,
+			                           	this.tsbtnFB2Dublicator,
+			                           	this.tsSep2,
+			                           	this.tsbtnFileManager,
+			                           	this.tsSep3,
+			                           	this.tsbtnArchiveManager,
+			                           	this.tsSep4,
+			                           	this.tsbtnAbout,
+			                           	this.tsSep5,
+			                           	this.tsSep6,
+			                           	this.tsbtnOptions,
+			                           	this.tsSep7,
+			                           	this.tsbtnExit});
 			this.tsMain.Location = new System.Drawing.Point(3, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(716, 59);
+			this.tsMain.Size = new System.Drawing.Size(677, 59);
 			this.tsMain.TabIndex = 0;
 			// 
 			// tsbtnFB2Corrector
@@ -256,11 +256,12 @@ namespace Main
 			this.ClientSize = new System.Drawing.Size(1104, 750);
 			this.Controls.Add(this.tscMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SharpFBTools";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFormFormClosed);
 			this.tscMain.TopToolStripPanel.ResumeLayout(false);
 			this.tscMain.TopToolStripPanel.PerformLayout();
 			this.tscMain.ResumeLayout(false);
@@ -292,11 +293,11 @@ namespace Main
 		private List<ToolStripButton>	m_listToggleBtns = new List<ToolStripButton>();	// список кнопок-переключателей панели инструментов
 		private List<UserControl>		m_listImplPanels = new List<UserControl>();		// список имплантируемых панелей-режимов работы
 
-		private readonly SFBTpFB2Corrector		sfbTpFB2Corrector	= new SFBTpFB2Corrector();	// панель Корректора структуры книги
-		private readonly SFBTpFileManager		sfbTpFileManager	= new SFBTpFileManager();	// панель Менеджера файлов
-		private readonly SFBTpArchiveManager	sfbTpArchiveManager	= new SFBTpArchiveManager();// панель Менеджера архивов
-		private readonly SFBTpFB2Dublicator		sfbTpFB2Dublicator	= new SFBTpFB2Dublicator();	// панель Дубликатора файлов
-		private readonly SFBTpAbout				sfbTpAbout			= new SFBTpAbout();			// панель О программе
+		private readonly static SFBTpFB2Corrector	sfbTpFB2Corrector	= new SFBTpFB2Corrector();	// панель Корректора структуры книги
+		private readonly static SFBTpFB2Sorter		sfbTpFB2Sorter		= new SFBTpFB2Sorter();		// панель Сортировщика
+		private readonly static SFBTpArchiveManager	sfbTpArchiveManager	= new SFBTpArchiveManager();// панель Менеджера архивов
+		private readonly static SFBTpFB2Dublicator	sfbTpFB2Dublicator	= new SFBTpFB2Dublicator();	// панель Дубликатора файлов
+		private readonly static SFBTpAbout			sfbTpAbout			= new SFBTpAbout();			// панель О программе
 		#endregion
 		
 		public MainForm()
@@ -318,14 +319,26 @@ namespace Main
 				tsbtnFB2Corrector, tsbtnFB2Dublicator, tsbtnFileManager, tsbtnArchiveManager, tsbtnAbout,
 				m_listImplPanels,
 				sfbTpFB2Corrector, sfbTpFB2Dublicator,
-				sfbTpFileManager, sfbTpArchiveManager, sfbTpAbout
+				sfbTpFB2Sorter, sfbTpArchiveManager, sfbTpAbout
 			);
 			// первоначальное задание режима работы - панель Валидатора
 			tsbtnFB2Corrector.Checked = true;
 			this.tscMain.ContentPanel.Controls.Add( sfbTpFB2Corrector );
-			this.sfbTpFB2Corrector.Dock = System.Windows.Forms.DockStyle.Fill;
+			sfbTpFB2Corrector.Dock = System.Windows.Forms.DockStyle.Fill;
 			
 			AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(10000));
+		}
+		
+		public static SFBTpFB2Corrector getSFBTpFB2Corrector() {
+			return sfbTpFB2Corrector;
+		}
+		
+		public static SFBTpFB2Dublicator getSFBTpFB2Dublicator() {
+			return sfbTpFB2Dublicator;
+		}
+		
+		public static SFBTpFB2Sorter getSFBTpFileManager() {
+			return sfbTpFB2Sorter;
 		}
 		
 		#region Обработчики событий
@@ -355,7 +368,7 @@ namespace Main
 		{
 			// переключение состояния кнопки Менеджера файлов
 			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
-			                    tsbtnFileManager, this.sfbTpFileManager,
+			                    tsbtnFileManager, sfbTpFB2Sorter,
 			                    tscMain );
 		}
 		
@@ -363,7 +376,7 @@ namespace Main
 		{
 			// переключение состояния кнопки Менеджера архивов
 			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
-			                    tsbtnArchiveManager, this.sfbTpArchiveManager,
+			                    tsbtnArchiveManager, sfbTpArchiveManager,
 			                    tscMain );
 		}
 		
@@ -371,7 +384,7 @@ namespace Main
 		{
 			// переключение состояния кнопки Дубликатора файлов
 			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
-			                    tsbtnFB2Dublicator, this.sfbTpFB2Dublicator,
+			                    tsbtnFB2Dublicator, sfbTpFB2Dublicator,
 			                    tscMain );
 		}
 		
@@ -379,7 +392,7 @@ namespace Main
 		{
 			// переключение состояния кнопки Редактора описания книги файлов
 			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
-			                    tsbtnFB2Corrector, this.sfbTpFB2Corrector,
+			                    tsbtnFB2Corrector, sfbTpFB2Corrector,
 			                    tscMain );
 		}
 		
@@ -387,7 +400,7 @@ namespace Main
 		{
 			// переключение состояния кнопки О программе
 			MainImpl.ToggleMode( m_listToggleBtns, m_listImplPanels,
-			                    tsbtnAbout, this.sfbTpAbout,
+			                    tsbtnAbout, sfbTpAbout,
 			                    tscMain );
 		}
 		
@@ -400,6 +413,13 @@ namespace Main
 			sfbTpArchiveManager.SetToolButtonsSettings();
 			sfbTpFB2Dublicator.SetToolButtonsSettings();
 			ofrm.Dispose();
+		}
+		// сохранение настроек инструментов
+		void MainFormFormClosed(object sender, FormClosedEventArgs e)
+		{
+			sfbTpFB2Corrector.saveSettingsToXml();
+			sfbTpFB2Dublicator.saveSettingsToXml();
+			sfbTpFB2Sorter.saveSettingsToXml();
 		}
 		#endregion
 	}

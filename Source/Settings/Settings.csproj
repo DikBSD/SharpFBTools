@@ -14,26 +14,26 @@
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <IntermediateOutputPath>d:\CSharpDevelopBuild\SharpFBTools\obj\$(Configuration)\</IntermediateOutputPath>
+    <IntermediateOutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>d:\CSharpDevelopBuild\SharpFBTools\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <BaseIntermediateOutputPath>d:\CSharpDevelopBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>d:\CSharpDevelopBuild\SharpFBTools\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Release\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
-    <BaseIntermediateOutputPath>d:\CSharpDevelopBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <BaseAddress>4194304</BaseAddress>
@@ -41,6 +41,12 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Debug\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -59,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="CorrectorrSettings.cs" />
     <Compile Include="SorterSettings.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ArchiveManagerSettings.cs" />

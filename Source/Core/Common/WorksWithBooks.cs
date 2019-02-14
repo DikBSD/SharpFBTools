@@ -164,7 +164,7 @@ namespace Core.Common
 								} catch ( Exception ex ) {
 									// пропускаем нечитаемые файлы
 									Debug.DebugMessage(
-										Debug.InLogFile, FilePathIfFromZip, ex, "WorksWithBooks.makeFB2InfoList(): Создание списка FB2ItemInfo данных для помеченных / выделенных книг Корректора."
+										FilePathIfFromZip, ex, "WorksWithBooks.makeFB2InfoList(): Создание списка FB2ItemInfo данных для помеченных / выделенных книг Корректора."
 									);
 								} finally {
 									FilesWorker.RemoveDir( TempDir );
@@ -352,7 +352,7 @@ namespace Core.Common
 				bd = new FB2BookDescription( FilePath );
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FilePath, ex, "WorksWithBooks.createSubItemsWithMetaData(): Создание заполненных subitems для Сортировщика и Корректора. bd = new FB2BookDescription( FilePath )"
+					FilePath, ex, "WorksWithBooks.createSubItemsWithMetaData(): Создание заполненных subitems для Сортировщика и Корректора. bd = new FB2BookDescription( FilePath )"
 				);
 			}
 			
@@ -474,9 +474,7 @@ namespace Core.Common
 
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.BookTitle].Text = bd.TIBookTitle;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Authors].Text = bd.TIAuthors;
-					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Genres].Text = GenresWorker.cyrillicGenreName(
-						bd.TIGenres, ref FB2FullSortGenres
-					);
+					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Genres].Text = GenresWorker.cyrillicGenreName( bd.TIGenres, ref FB2FullSortGenres );
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Sequences].Text = bd.TISequences;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Lang].Text = bd.TILang;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.BookID].Text = bd.DIID;
@@ -508,9 +506,7 @@ namespace Core.Common
 
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.BookTitle].Text = bd.TIBookTitle;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Authors].Text = bd.TIAuthors;
-					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Genres].Text = GenresWorker.cyrillicGenreName(
-						bd.TIGenres, ref FB2FullSortGenres
-					);
+					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Genres].Text = GenresWorker.cyrillicGenreName( bd.TIGenres, ref FB2FullSortGenres );
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Sequences].Text = bd.TISequences;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.Lang].Text = bd.TILang;
 					listViewSource.Items[ItemNumber].SubItems[(int)ResultViewCollumnEnum.BookID].Text = bd.DIID;
@@ -524,7 +520,7 @@ namespace Core.Common
 				}
 			} catch( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FilePath, ex, "WorksWithBooks.viewBookMetaDataLocal(): Показать данные книги для Сортировщика."
+					FilePath, ex, "WorksWithBooks.viewBookMetaDataLocal(): Показать данные книги для Сортировщика."
 				);
 				listViewSource.Items[ItemNumber].ForeColor = Colors.BadZipForeColor;
 			} finally {
@@ -643,7 +639,7 @@ namespace Core.Common
 								item.SubItems.AddRange(subItems);
 							} catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, file.FullName, ex, "WorksWithBooks.generateBooksListWithMetaData(): Генерация списка файлов - создание итемов listViewSource: Блок создания итемов."
+									file.FullName, ex, "WorksWithBooks.generateBooksListWithMetaData(): Генерация списка файлов - создание итемов listViewSource: Блок создания итемов."
 								);
 								subItems = createEmptySubItemsForItem( item );
 								item.SubItems.AddRange(subItems);
@@ -668,7 +664,7 @@ namespace Core.Common
 				}
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, null, ex, "WorksWithBooks.generateBooksListWithMetaData(): Генерация списка файлов - создание итемов listViewSource: Общий catch()."
+					null, ex, "WorksWithBooks.generateBooksListWithMetaData(): Генерация списка файлов - создание итемов listViewSource: Общий catch()."
 				);
 			} finally {
 				listView.EndUpdate();
@@ -844,7 +840,7 @@ namespace Core.Common
 					CoverLenghtLabel.Text = CoversListView.SelectedItems[0].SubItems[4].Text;
 				} catch ( System.Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, null, ex, "WorksWithBooks.viewCover(): Ошибка отображения обложки."
+						null, ex, "WorksWithBooks.viewCover(): Ошибка отображения обложки."
 					);
 					MessageBox.Show(
 						ex.Message, "Ошибка отображения обложки", MessageBoxButtons.OK, MessageBoxIcon.Error
@@ -880,7 +876,7 @@ namespace Core.Common
 						FB2AutoCorrector.autoCorrector( FilePath );
 					} catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка всех выделеннеых/помеченных книг для Дубликатора: Обработка только одной книги."
+							FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка всех выделеннеых/помеченных книг для Дубликатора: Обработка только одной книги."
 						);
 						throw ex;
 					}
@@ -890,7 +886,7 @@ namespace Core.Common
 						FB2AutoCorrector.autoCorrector( FilePath );
 					} catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка всех выделеннеых/помеченных книг для Дубликатора: Gакетная обработка."
+							FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка всех выделеннеых/помеченных книг для Дубликатора: Gакетная обработка."
 						);
 						// При сильно битой структуре книги переходим к обработке следующей книги
 						FilesWorker.RemoveDir( TempDir );
@@ -917,7 +913,7 @@ namespace Core.Common
 						xmlDoc.Save( FilePath );
 					} catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка всех выделеннеых/помеченных книг для Дубликатора: Пересохранение файла."
+							FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка всех выделеннеых/помеченных книг для Дубликатора: Пересохранение файла."
 						);
 						fb2Text.saveFile();
 					}
@@ -956,7 +952,7 @@ namespace Core.Common
 						FB2AutoCorrector.autoCorrector( FilePath );
 					} catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Обработка только одной книги."
+							FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Обработка только одной книги."
 						);
 						throw ex;
 					}
@@ -966,7 +962,7 @@ namespace Core.Common
 						FB2AutoCorrector.autoCorrector( FilePath );
 					} catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Пакетная обработка."
+							FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Пакетная обработка."
 						);
 						// При сильно битой структуре книги переходим к обработке следующей книги
 						FilesWorker.RemoveDir( TempDir );
@@ -984,7 +980,7 @@ namespace Core.Common
 					recoverDesc( ref fb2, sharpZipLib, SrcFB2OrZipPath, FilePath );
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Восстанавление раздела description до структуры с необходимыми элементами для валидности."
+						FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Восстанавление раздела description до структуры с необходимыми элементами для валидности."
 					);
 				}
 			} else {
@@ -1002,7 +998,7 @@ namespace Core.Common
 						xmlDoc.Save( FilePath );
 					} catch ( Exception ex ) {
 						Debug.DebugMessage(
-							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Пересохранение файла."
+							FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Пересохранение файла."
 						);
 						fb2Text.saveFile();
 					}
@@ -1017,7 +1013,7 @@ namespace Core.Common
 						recoverDesc( ref fb2, sharpZipLib, SrcFB2OrZipPath, FilePath );
 					} catch ( Exception ex ){
 						Debug.DebugMessage(
-							Debug.InLogFile, FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Восстанавление раздела description до структуры с необходимыми элементами для валидности."
+							FilePath, ex, "WorksWithBooks.autoCorrect(): Автокорректировка книги для Корректора: Восстанавление раздела description до структуры с необходимыми элементами для валидности."
 						);
 					}
 				}
@@ -1123,7 +1119,7 @@ namespace Core.Common
 				recoverDesc( ref fb2, sharpZipLib, SrcFB2OrZipPath, FilePath );
 			} catch ( FileLoadException ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FilePath, ex, "WorksWithBooks.postWorkForDuplicator(): Постобработка для Дубликатора после Автокорректировки файла: Восстанавление раздела description до структуры с необходимыми элементами для валидности."
+					FilePath, ex, "WorksWithBooks.postWorkForDuplicator(): Постобработка для Дубликатора после Автокорректировки файла: Восстанавление раздела description до структуры с необходимыми элементами для валидности."
 				);
 				if ( AutoCorrectProcessingMode == BooksAutoCorrectProcessingModeEnum.OneBookProcessing )
 					MessageBox.Show( ex.Message, "Автокорректировка", MessageBoxButtons.OK, MessageBoxIcon.Error );

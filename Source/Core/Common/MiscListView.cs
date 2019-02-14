@@ -8,11 +8,14 @@
  */
 using System;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
 
 using FilesCountViewDupCollumnEnum	= Core.Common.Enums.FilesCountViewDupCollumnEnum;
 
@@ -459,7 +462,7 @@ namespace Core.Common
 					(Convert.ToInt32(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, null, ex, "MiskListView::deleteChechedItemsNotDeleteFiles:\r\nУдаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Дубликатора."
+					null, ex, "MiskListView::deleteChechedItemsNotDeleteFiles:\r\nУдаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Дубликатора."
 				);
 			}
 					
@@ -519,8 +522,9 @@ namespace Core.Common
 		#endregion
 		
 		#region Разное
-		// сортировка списка по нажаьтю на колонку
-		public static void SortColumnClick( ListView listView, ListViewColumnSorter listViewColumnSorter, ColumnClickEventArgs e ) {
+		// сортировка списка по нажатию на колонку
+		public static void SortColumnClick( ListView listView, ListViewColumnSorter listViewColumnSorter, 
+		                                   ColumnClickEventArgs e ) {
 			if ( e.Column == listViewColumnSorter.SortColumn ) {
 				// Изменить сортировку на обратную для выбранного столбца
 				listViewColumnSorter.Order = listViewColumnSorter.Order == SortOrder.Ascending
@@ -533,12 +537,14 @@ namespace Core.Common
 			listView.ListViewItemSorter = listViewColumnSorter; // перед listView.Sort(); иначе - "тормоза"
 			listView.Sort();
 		}
+		
 		// авторазмер колонок Списка ListView
 		public static void AutoResizeColumns( ListView listView ) {
 			listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 //			for(int i=0; i!=listView.Columns.Count; ++i)
 //				listView.Columns[i].Width = listView.Columns[i].Width + 2;
 		}
+		
 		// переход на указанный итем
 		public static void SelectedItemEnsureVisible( ListView listView, int Index ) {
 			if ( listView.Items.Count > 0 ) {
@@ -547,6 +553,7 @@ namespace Core.Common
 				listView.EnsureVisible(Index);
 			}
 		}
+		
 		// число помеченных итемов в группе
 		public static int countCheckedItemsInGroup( ListViewGroup Group ) {
 			int i = 0;
@@ -556,6 +563,7 @@ namespace Core.Common
 			}
 			return i;
 		}
+		
 		// помеченные итемы в группе
 		public static IList<ListViewItem> checkedItemsInGroup( ListViewGroup Group ) {
 			IList<ListViewItem> ChekedItems = new List<ListViewItem>();
@@ -566,6 +574,7 @@ namespace Core.Common
 			}
 			return ChekedItems;
 		}
+		
 		// снять выделение со всех итемов
 		public static void unSelectAllItems( ListView listView ) {
 			foreach ( ListViewItem item in listView.Items )
@@ -583,6 +592,73 @@ namespace Core.Common
 				lvi.SubItems.Add( string.Empty );
 			return lvi;
 		}
+		
+		/// <summary>
+		/// Добавление в дерево XDocument настроек данных о колонказ ListView
+		/// </summary>
+		/// <param name="xColumns">Ссылка на тег "Columns" в дереве настроек</param>
+		/// <param name="listView">Ссылка на ListView</param>
+		/// <returns>true, если данные добавлены; false - если doc и/или listView не существуют (данные не добавлены)</returns>
+		public static bool addColumnsToXDocument( ref XElement xColumns, ref ListView listView ) {
+			if ( xColumns != null && listView != null ) {
+				// сбор данных по заголовкам колонок для сортировки по DisplayIndex
+				for ( int i = 0; i != listView.Columns.Count; ++i ) {
+					// упорядочивание сохранения заголовков по DisplayIndex
+					for ( int j = 0; j != listView.Columns.Count; ++j ) {
+						if ( listView.Columns[j].DisplayIndex == i ) {
+							xColumns.Add(
+								new XElement(
+									"Column",
+									new XAttribute("displayIndex", listView.Columns[j].DisplayIndex),	/* 0 */
+									new XAttribute("columnName", listView.Columns[j].Tag),				/* 1 */
+									new XAttribute("width", listView.Columns[j].Width)					/* 2 */
+								)
+							);
+							break;
+						}
+					}
+				}
+
+				// вариант без упорядочивания сохранения заголовков по DisplayIndex
+//				foreach ( ColumnHeader ch in listView.Columns ) {
+//					xColumns.Add(
+//						new XElement(
+//							"Column",
+//							new XAttribute("displayIndex", ch.DisplayIndex),	/* 0 */
+//							new XAttribute("columnName", ch.Tag),				/* 1 */
+//							new XAttribute("width", ch.Width)					/* 2 */
+//						)
+//					);
+//				}
+				return true;
+			}
+			return false;
+		}
+		
+		/// <summary>
+		/// Добавление в дерево XDocument настроек данных о колонказ ListView
+		/// </summary>
+		/// <param name="xColumns">Ссылка на тег "Columns" в дереве настроек</param>
+		/// <param name="listView">Ссылка на ListView</param>
+		/// <returns>true, если данные добавлены; false - если xmlTree и/или listView не существуют (данные не добавлены)</returns>
+		public static bool setColumnHeradersDataToListView( ref XElement xColumns, ref ListView listView ) {
+			if ( xColumns != null && listView != null ) {
+				for ( int i = 0; i != listView.Columns.Count; ++i ) {
+					IEnumerable<XElement> Columns = xColumns.Elements("Column");
+					foreach ( XElement element in Columns ) {
+						List<XAttribute> attrs = element.Attributes().ToList<XAttribute>();
+						if ( listView.Columns[i].Tag.ToString().Contains(attrs[1].Value) ) {
+							listView.Columns[i].DisplayIndex = Convert.ToInt16( attrs[0].Value );
+							listView.Columns[i].Width = Convert.ToInt16( attrs[2].Value );
+						}
+					}
+				}
+				return true;
+			}
+			return false;
+		}
+		
+		
 		#endregion
 	}
 }

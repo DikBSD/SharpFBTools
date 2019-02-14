@@ -45,7 +45,9 @@ namespace Options
 			cboxDSFB2Dup.Text			= Settings.FB2DublicatorSettings.GetDefDupcboxDSFB2DupText();
 			cboxTIRFB2Dup.Text			= Settings.FB2DublicatorSettings.GetDefDupcboxTIRFB2DupText();
 			chBoxConfirmationForExit.Checked = true;
-			chBoxShowDebugMessage.Checked = false;
+			chBoxSaveDebugMessage.Checked = false;
+			rbDebugMessageNewLog.Checked = false;
+			rbDebugMessageLogAppend.Checked = true;
 		}
 		
 		// загрузка настроек из xml-файла
@@ -75,7 +77,13 @@ namespace Options
 						chBoxConfirmationForExit.Checked = Convert.ToBoolean( xmlGeneral.Element("ConfirmationForAppExit").Value );
 					// Показывать сообщения об ошибках при падении работы алгоритмов
 					if ( xmlGeneral.Element("ShowDebugMessage") != null )
-						chBoxShowDebugMessage.Checked = Convert.ToBoolean( xmlGeneral.Element("ShowDebugMessage").Value );
+						chBoxSaveDebugMessage.Checked = Convert.ToBoolean( xmlGeneral.Element("ShowDebugMessage").Value );
+					if ( xmlGeneral.Element("NewLog") != null )
+						rbDebugMessageNewLog.Checked = Convert.ToBoolean( xmlGeneral.Element("NewLog").Value );
+					if ( xmlGeneral.Element("AppendToLog") != null )
+						rbDebugMessageLogAppend.Checked =
+							Convert.ToBoolean( xmlGeneral.Element("AppendToLog").Value );
+					
 					// Стиль кнопок инструментов
 					if ( xmlGeneral.Element("ToolButtons") != null ) {
 						XElement xmlToolButtons = xmlGeneral.Element("ToolButtons");
@@ -121,7 +129,9 @@ namespace Options
 				                          new XComment("Подтверждение выхода из программы"),
 				                          new XElement("ConfirmationForAppExit", chBoxConfirmationForExit.Checked),
 				                          new XComment("Показывать сообщения об ошибках при падении работы алгоритмов"),
-				                          new XElement("ShowDebugMessage", chBoxShowDebugMessage.Checked),
+				                          new XElement("ShowDebugMessage", chBoxSaveDebugMessage.Checked),
+				                          new XElement("NewLog", rbDebugMessageNewLog.Checked),
+				                          new XElement("AppendToLog", rbDebugMessageLogAppend.Checked),
 				                          new XComment("Стиль кнопок инструментов"),
 				                          new XElement("ToolButtons",
 				                                       new XElement("ArchiveManagerToolButtons",
@@ -148,7 +158,6 @@ namespace Options
 			this.Close();
 		}
 		
-		#region Общее
 		void BtnFBEPathClick(object sender, EventArgs e)
 		{
 			// указание пути к fb2-редактору
@@ -214,6 +223,12 @@ namespace Options
 		{
 			cboxTIRFB2Dup.Enabled = cboxDSFB2Dup.SelectedIndex == 2;
 		}
+		
+		void ChBoxSaveDebugMessageCheckedChanged(object sender, EventArgs e)
+		{
+			rbDebugMessageNewLog.Enabled = chBoxSaveDebugMessage.Checked;
+			rbDebugMessageLogAppend.Enabled = chBoxSaveDebugMessage.Checked;
+		}
 		#endregion
 		
 		#region Восстановление по-умолчанию
@@ -222,6 +237,5 @@ namespace Options
 		}
 		#endregion
 		
-		#endregion
 	}
 }

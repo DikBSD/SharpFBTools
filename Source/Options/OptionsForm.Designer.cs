@@ -45,7 +45,9 @@ namespace Options
 			this.tcOptions = new System.Windows.Forms.TabControl();
 			this.tpGeneral = new System.Windows.Forms.TabPage();
 			this.gboxDebug = new System.Windows.Forms.GroupBox();
-			this.chBoxShowDebugMessage = new System.Windows.Forms.CheckBox();
+			this.rbDebugMessageLogAppend = new System.Windows.Forms.RadioButton();
+			this.rbDebugMessageNewLog = new System.Windows.Forms.RadioButton();
+			this.chBoxSaveDebugMessage = new System.Windows.Forms.CheckBox();
 			this.chBoxConfirmationForExit = new System.Windows.Forms.CheckBox();
 			this.gboxTemp = new System.Windows.Forms.GroupBox();
 			this.lblTempDirPath = new System.Windows.Forms.Label();
@@ -170,7 +172,9 @@ namespace Options
 			// 
 			// gboxDebug
 			// 
-			this.gboxDebug.Controls.Add(this.chBoxShowDebugMessage);
+			this.gboxDebug.Controls.Add(this.rbDebugMessageLogAppend);
+			this.gboxDebug.Controls.Add(this.rbDebugMessageNewLog);
+			this.gboxDebug.Controls.Add(this.chBoxSaveDebugMessage);
 			this.gboxDebug.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gboxDebug.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.gboxDebug.ForeColor = System.Drawing.Color.Navy;
@@ -178,23 +182,50 @@ namespace Options
 			this.gboxDebug.Margin = new System.Windows.Forms.Padding(4);
 			this.gboxDebug.Name = "gboxDebug";
 			this.gboxDebug.Padding = new System.Windows.Forms.Padding(4);
-			this.gboxDebug.Size = new System.Drawing.Size(804, 55);
+			this.gboxDebug.Size = new System.Drawing.Size(804, 113);
 			this.gboxDebug.TabIndex = 39;
 			this.gboxDebug.TabStop = false;
 			this.gboxDebug.Text = "Режим отладки";
 			// 
-			// chBoxShowDebugMessage
+			// rbDebugMessageLogAppend
 			// 
-			this.chBoxShowDebugMessage.Dock = System.Windows.Forms.DockStyle.Top;
-			this.chBoxShowDebugMessage.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.chBoxShowDebugMessage.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chBoxShowDebugMessage.Location = new System.Drawing.Point(4, 21);
-			this.chBoxShowDebugMessage.Margin = new System.Windows.Forms.Padding(4);
-			this.chBoxShowDebugMessage.Name = "chBoxShowDebugMessage";
-			this.chBoxShowDebugMessage.Size = new System.Drawing.Size(796, 30);
-			this.chBoxShowDebugMessage.TabIndex = 39;
-			this.chBoxShowDebugMessage.Text = "Записывать в log-файл сообщения об ошибках при падении работы алгоритмов";
-			this.chBoxShowDebugMessage.UseVisualStyleBackColor = true;
+			this.rbDebugMessageLogAppend.Checked = true;
+			this.rbDebugMessageLogAppend.Enabled = false;
+			this.rbDebugMessageLogAppend.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.rbDebugMessageLogAppend.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbDebugMessageLogAppend.Location = new System.Drawing.Point(24, 72);
+			this.rbDebugMessageLogAppend.Name = "rbDebugMessageLogAppend";
+			this.rbDebugMessageLogAppend.Size = new System.Drawing.Size(776, 24);
+			this.rbDebugMessageLogAppend.TabIndex = 41;
+			this.rbDebugMessageLogAppend.TabStop = true;
+			this.rbDebugMessageLogAppend.Text = "Добавление отладочных данных в существующий log файл";
+			this.rbDebugMessageLogAppend.UseVisualStyleBackColor = true;
+			// 
+			// rbDebugMessageNewLog
+			// 
+			this.rbDebugMessageNewLog.Enabled = false;
+			this.rbDebugMessageNewLog.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.rbDebugMessageNewLog.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.rbDebugMessageNewLog.Location = new System.Drawing.Point(24, 48);
+			this.rbDebugMessageNewLog.Name = "rbDebugMessageNewLog";
+			this.rbDebugMessageNewLog.Size = new System.Drawing.Size(768, 24);
+			this.rbDebugMessageNewLog.TabIndex = 40;
+			this.rbDebugMessageNewLog.Text = "Создание нового log файла  при запуске основных инструментов";
+			this.rbDebugMessageNewLog.UseVisualStyleBackColor = true;
+			// 
+			// chBoxSaveDebugMessage
+			// 
+			this.chBoxSaveDebugMessage.Dock = System.Windows.Forms.DockStyle.Top;
+			this.chBoxSaveDebugMessage.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.chBoxSaveDebugMessage.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.chBoxSaveDebugMessage.Location = new System.Drawing.Point(4, 21);
+			this.chBoxSaveDebugMessage.Margin = new System.Windows.Forms.Padding(4);
+			this.chBoxSaveDebugMessage.Name = "chBoxSaveDebugMessage";
+			this.chBoxSaveDebugMessage.Size = new System.Drawing.Size(796, 30);
+			this.chBoxSaveDebugMessage.TabIndex = 39;
+			this.chBoxSaveDebugMessage.Text = "Записывать в log-файл сообщения об ошибках при падении работы алгоритмов";
+			this.chBoxSaveDebugMessage.UseVisualStyleBackColor = true;
+			this.chBoxSaveDebugMessage.CheckedChanged += new System.EventHandler(this.ChBoxSaveDebugMessageCheckedChanged);
 			// 
 			// chBoxConfirmationForExit
 			// 
@@ -635,6 +666,8 @@ namespace Options
 		private System.Windows.Forms.TextBox tboxTempDirPath;
 		private System.Windows.Forms.Button btnTempDirPath;
 		private System.Windows.Forms.GroupBox gboxDebug;
-		private System.Windows.Forms.CheckBox chBoxShowDebugMessage;
+		private System.Windows.Forms.CheckBox chBoxSaveDebugMessage;
+		private System.Windows.Forms.RadioButton rbDebugMessageNewLog;
+		private System.Windows.Forms.RadioButton rbDebugMessageLogAppend;
 	}
 }

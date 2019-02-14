@@ -96,7 +96,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <tr><image l:href=\"#image3.png\" /><empty-line /></tr> и <tr><image l:href=\"#image3.png\" /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>."
+						tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <tr><image l:href=\"#image3.png\" /><empty-line /></tr> и <tr><image l:href=\"#image3.png\" /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>."
 					);
 				}
 				
@@ -110,7 +110,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <tr><td /><image l:href=\"#image3.png\" /><empty-line /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>."
+						tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <tr><td /><image l:href=\"#image3.png\" /><empty-line /></tr> => <tr><td><image l:href=\"#image3.png\" /></td></tr>."
 					);
 				}
 				
@@ -124,7 +124,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <table><image l:href=\"#image37.png\" /><empty-line /><tr> => <table><tr><td><image l:href=\"#image37.png\" /></td></tr><tr>."
+						tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <table><image l:href=\"#image37.png\" /><empty-line /><tr> => <table><tr><td><image l:href=\"#image37.png\" /></td></tr><tr>."
 					);
 				}
 				
@@ -137,7 +137,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <table><tr><td /><image l:href=\"#image2.jpg\" /><empty-line /></tr><tr><td>Текст</emphasis></td></tr></table> => <table><tr><td><image l:href=\"#image2.jpg\" /></td></tr><tr><td>Текст</td></tr></table>."
+						tagPair.FilePath, ex, "TableCorrector:\r\nПреобразование таблиц: <table><tr><td /><image l:href=\"#image2.jpg\" /><empty-line /></tr><tr><td>Текст</emphasis></td></tr></table> => <table><tr><td><image l:href=\"#image2.jpg\" /></td></tr><tr><td>Текст</td></tr></table>."
 					);
 				}
 				

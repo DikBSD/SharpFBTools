@@ -128,22 +128,24 @@ namespace Core.Sorter
 			m_FromXmlFile	 = FromXmlFile;
 			_sortingTypeEnum = sortingTypeEnum;
 			
-			if( m_FromXmlFile == null ) {
+			if ( m_FromXmlFile == null ) {
 				// Непрерывная Сортировка
 				loadSettingsForNotBreakSort( _sortingTypeEnum );
 			} else {
 				// Возобновление Сортировки
-				if( File.Exists( m_FromXmlFile ) ) {
+				if ( File.Exists( m_FromXmlFile ) ) {
 					m_xmlTree = XElement.Load( m_FromXmlFile );
-					if( m_xmlTree != null ) {
+					if ( m_xmlTree != null ) {
 						try {
 							// загрузка данных из xml-файла восстановления сортировки
 							loadSettingsForReNewSort();
-							if( _sortingTypeEnum == SortingTypeEnum.SelectedSort ) // загрузка критериев Избранной Сортировки при возобновлении сортировки
+							if ( _sortingTypeEnum == SortingTypeEnum.SelectedSort )  {
+								// загрузка критериев Избранной Сортировки при возобновлении сортировки
 								loadCriteriasForSelReNewSort();
+							}
 						} catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, null, ex, "SortingOptions.(Конструктор): Идивидуальные настройки обоих Сортировщиков, в зависимости от режима (непрерывная сортировка или возобновление сортировки)."
+								null, ex, "SortingOptions.(Конструктор): Идивидуальные настройки обоих Сортировщиков, в зависимости от режима (непрерывная сортировка или возобновление сортировки)."
 							);
 							return;
 						}

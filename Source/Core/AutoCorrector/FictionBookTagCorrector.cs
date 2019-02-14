@@ -59,7 +59,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, _FilePath, ex, "Обработка раздела <description> FictionBookTagCorrector:\r\nЗамена тега FictionBook универсальным и корректным тегом."
+						_FilePath, ex, "Обработка раздела <description> FictionBookTagCorrector:\r\nЗамена тега FictionBook универсальным и корректным тегом."
 					);
 				}
 			}

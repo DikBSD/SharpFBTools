@@ -69,7 +69,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EpigraphCorrector:\r\nВставка между </epigraph> и </section> недостающего тега <empty-line/>."
+					_FilePath, ex, "EpigraphCorrector:\r\nВставка между </epigraph> и </section> недостающего тега <empty-line/>."
 				);
 			}
 			
@@ -82,7 +82,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EpigraphCorrector:\r\nУдаление <empty-line /> между </title> и <epigraph> </title><empty-line/><epigraph><p>Эпиграф</p></epigraph> => </title><epigraph><p>Эпиграф</p></epigraph>."
+					_FilePath, ex, "EpigraphCorrector:\r\nУдаление <empty-line /> между </title> и <epigraph> </title><empty-line/><epigraph><p>Эпиграф</p></epigraph> => </title><epigraph><p>Эпиграф</p></epigraph>."
 				);
 			}
 			
@@ -95,7 +95,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EpigraphCorrector:\r\nУдаление <empty-line /> между </epigraph> и <epigraph>: </epigraph><empty-line /><epigraph> => </epigraph><epigraph>."
+					_FilePath, ex, "EpigraphCorrector:\r\nУдаление <empty-line /> между </epigraph> и <epigraph>: </epigraph><empty-line /><epigraph> => </epigraph><epigraph>."
 				);
 			}
 			
@@ -108,7 +108,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EpigraphCorrector:\r\nУдаление <empty-line /> между </epigraph> и <section>: </epigraph><empty-line /><section> => </epigraph><section>."
+					_FilePath, ex, "EpigraphCorrector:\r\nУдаление <empty-line /> между </epigraph> и <section>: </epigraph><empty-line /><section> => </epigraph><section>."
 				);
 			}
 			
@@ -121,7 +121,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "EpigraphCorrector:\r\nПерестановка местами </epigraph> и тег <text-author> с его данными."
+					_FilePath, ex, "EpigraphCorrector:\r\nПерестановка местами </epigraph> и тег <text-author> с его данными."
 				);
 			}
 			
@@ -161,7 +161,7 @@ namespace Core.AutoCorrector
 						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 						catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование вложенных друг в друга тегов epigraph в Автора: <epigraph><epigraph><p>Иванов</p></epigraph></epigraph> => <cite><text-author><p>Иванов</p></text-author></cite>."
+								tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование вложенных друг в друга тегов epigraph в Автора: <epigraph><epigraph><p>Иванов</p></epigraph></epigraph> => <cite><text-author><p>Иванов</p></text-author></cite>."
 							);
 						}
 					}
@@ -179,7 +179,7 @@ namespace Core.AutoCorrector
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <subtitle>...</subtitle><epigraph><emphasis><p><emphasis>Текст</emphasis></p><emphasis><p>Достоевский</p></emphasis></emphasis></epigraph>."
+									tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <subtitle>...</subtitle><epigraph><emphasis><p><emphasis>Текст</emphasis></p><emphasis><p>Достоевский</p></emphasis></emphasis></epigraph>."
 								);
 							}
 							
@@ -194,7 +194,7 @@ namespace Core.AutoCorrector
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><p>Текст</p></epigraph>\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><epigraph><p>Текст</p></epigraph>."
+									tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><p>Текст</p></epigraph>\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><epigraph><p>Текст</p></epigraph>."
 								);
 							}
 							
@@ -209,7 +209,7 @@ namespace Core.AutoCorrector
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><emphasis><p>Текст</p></emphasis></epigraph>\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><epigraph><emphasis><p>Текст</p></emphasis></epigraph>."
+									tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><empty-line/><epigraph><emphasis><p>Текст</p></emphasis></epigraph>\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>Текст</subtitle><epigraph><emphasis><p>Текст</p></emphasis></epigraph>."
 								);
 							}
 							
@@ -222,7 +222,7 @@ namespace Core.AutoCorrector
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае </subtitle><epigraph><p>Текст</p><text-author>Автор</text-author></epigraph>."
+									tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае </subtitle><epigraph><p>Текст</p><text-author>Автор</text-author></epigraph>."
 								);
 							}
 						} else if ( tagPair.PreviousTag.Equals("</section>") && tagPair.NextTag.Equals("<section>") ) {
@@ -238,7 +238,7 @@ namespace Core.AutoCorrector
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с Аннотацией в случае: </title><epigraph><annotation><p>Текст.</p><p>Текст.</p><empty-line /><p>Текст</p><p><emphasis>Текст</emphasis></p><p>Текст</p></annotation></epigraph>."
+									tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с Аннотацией в случае: </title><epigraph><annotation><p>Текст.</p><p>Текст.</p><empty-line /><p>Текст</p><p><emphasis>Текст</emphasis></p><p>Текст</p></annotation></epigraph>."
 								);
 							}
 						} else if ( tagPair.PreviousTag.IndexOf("<empty-line />", StringComparison.CurrentCulture) != -1 || tagPair.PreviousTag.IndexOf("<empty-line/>", StringComparison.CurrentCulture) != -1) {
@@ -262,7 +262,7 @@ namespace Core.AutoCorrector
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>...</subtitle><epigraph><emphasis><p><emphasis>Этот стих звучит так:</emphasis></p><epigraph><p><emphasis>И счастья баловень безродный</emphasis></p><p><emphasis>Полудержавный властелин.</emphasis></p></epigraph></emphasis></epigraph>."
+									tagPair.FilePath, ex, "EpigraphCorrector:\r\nПреобразование Эпиграфа в Цитату в случае <subtitle>...</subtitle><epigraph><emphasis><p><emphasis>Этот стих звучит так:</emphasis></p><epigraph><p><emphasis>И счастья баловень безродный</emphasis></p><p><emphasis>Полудержавный властелин.</emphasis></p></epigraph></emphasis></epigraph>."
 								);
 							}
 						} else if ( tagPair.PreviousTag.Equals("</title>") || tagPair.PreviousTag.Equals("<section>") || tagPair.PreviousTag.Equals("</epigraph>")  ) {
@@ -275,7 +275,7 @@ namespace Core.AutoCorrector
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><p>Достоевский</p></emphasis></epigraph></epigraph><epigraph>."
+									tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><p>Достоевский</p></emphasis></epigraph></epigraph><epigraph>."
 								);
 							}
 							
@@ -288,7 +288,7 @@ namespace Core.AutoCorrector
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><emphasis>Достоевский</emphasis></emphasis></epigraph></epigraph><epigraph>."
+									tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом вместо Автора эпиграфа: <epigraph><p>Текст</p><p>Текст</p><epigraph><emphasis><emphasis>Достоевский</emphasis></emphasis></epigraph></epigraph><epigraph>."
 								);
 							}
 							
@@ -301,7 +301,7 @@ namespace Core.AutoCorrector
 							} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 							catch ( Exception ex ) {
 								Debug.DebugMessage(
-									Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с текстом и Эпиграфом вместо Автора эпиграфа: <epigraph><p><emphasis>Текст</emphasis></p><p>Текст</p><epigraph><p><emphasis>Достоевский</emphasis></p></epigraph></epigraph><epigraph>."
+									tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с текстом и Эпиграфом вместо Автора эпиграфа: <epigraph><p><emphasis>Текст</emphasis></p><p>Текст</p><epigraph><p><emphasis>Достоевский</emphasis></p></epigraph></epigraph><epigraph>."
 								);
 							}
 						}
@@ -315,7 +315,7 @@ namespace Core.AutoCorrector
 						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 						catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа вида: <epigraph><empty-line/><p>Текст</p><p>Текст.</p><epigraph><empty-line/><p><emphasis>Автор</emphasis> </p></epigraph></epigraph> => <epigraph><empty-line/><p>Текст</p><p>Текст.</p><text-author><emphasis>Автор</emphasis></text-author></epigraph>."
+								tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа вида: <epigraph><empty-line/><p>Текст</p><p>Текст.</p><epigraph><empty-line/><p><emphasis>Автор</emphasis> </p></epigraph></epigraph> => <epigraph><empty-line/><p>Текст</p><p>Текст.</p><text-author><emphasis>Автор</emphasis></text-author></epigraph>."
 							);
 						}
 						
@@ -329,7 +329,7 @@ namespace Core.AutoCorrector
 						} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 						catch ( Exception ex ) {
 							Debug.DebugMessage(
-								Debug.InLogFile, tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом и Эпиграфом вместо Автора эпиграфа: <epigraph><epigraph><p><strong>Текст</strong></p><p>Текст</p></epigraph><epigraph><emphasis><p>Автор</p></emphasis></epigraph></epigraph>."
+								tagPair.FilePath, ex, "EpigraphCorrector:\r\nОбработка Эпиграфа с вложенным Эпиграфом и Эпиграфом вместо Автора эпиграфа: <epigraph><epigraph><p><strong>Текст</strong></p><p>Текст</p></epigraph><epigraph><emphasis><p>Автор</p></emphasis></epigraph></epigraph>."
 							);
 						}
 					}

@@ -24,7 +24,7 @@ namespace Core.Common
 		
 		// название жанра по его коду
 		public static string cyrillicGenreName( string GenreCodes, ref FB2UnionGenres fb2g ) {
-			if( GenreCodes.IndexOf(';') != -1 ) {
+			if ( GenreCodes.IndexOf(';') != -1 ) {
 				string ret = string.Empty;
 				string[] Codes = GenreCodes.Split(';');
 				foreach( string code in Codes ) {
@@ -46,10 +46,10 @@ namespace Core.Common
 		
 		// название жанра (код)
 		public static string cyrillicGenreNameAndCode( string GenreCodes, ref FB2UnionGenres fb2g ) {
-			if( GenreCodes.IndexOf(';') != -1 ) {
+			if ( GenreCodes.IndexOf(';') != -1 ) {
 				string ret = string.Empty;
 				string[] Codes = GenreCodes.Split(';');
-				foreach( string code in Codes ) {
+				foreach ( string code in Codes ) {
 					string  Name = fb2g.GetFBGenreName( code.Trim() );
 					ret += ( string.IsNullOrEmpty( Name ) ? "?" : Name ) + " (" + code.Trim() + ")" + "; ";
 					ret.Trim();

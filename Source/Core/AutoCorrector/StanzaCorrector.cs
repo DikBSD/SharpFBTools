@@ -69,7 +69,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, _FilePath, ex, "StanzaCorrector:\r\nВставка <v /> после </subtitle> внутри <stanza></stanza>:."
+					_FilePath, ex, "StanzaCorrector:\r\nВставка <v /> после </subtitle> внутри <stanza></stanza>:."
 				);
 			}
 			
@@ -117,7 +117,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, tagPair.FilePath, ex, "StanzaCorrector:\r\nПреобразование тегов <v> в <title> обратно в <p>:."
+						tagPair.FilePath, ex, "StanzaCorrector:\r\nПреобразование тегов <v> в <title> обратно в <p>:."
 					);
 				}
 				
@@ -131,7 +131,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, tagPair.FilePath, ex, "StanzaCorrector:\r\nОбработка <empty-line /> между строфами: <v>Строфа</v><v>Строфа</v><empty-line /><v>Строфа</v><v>Строфа</v> => <v>Строфа</v><v>Строфа</v></stanza><stanza><v>Строфа</v><v>Строфа</v>."
+						tagPair.FilePath, ex, "StanzaCorrector:\r\nОбработка <empty-line /> между строфами: <v>Строфа</v><v>Строфа</v><empty-line /><v>Строфа</v><v>Строфа</v> => <v>Строфа</v><v>Строфа</v></stanza><stanza><v>Строфа</v><v>Строфа</v>."
 					);
 				}
 				
@@ -145,7 +145,7 @@ namespace Core.AutoCorrector
 				} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 				catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, tagPair.FilePath, ex, "StanzaCorrector:\r\nОбработка строф с эпиграфом: <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>."
+						tagPair.FilePath, ex, "StanzaCorrector:\r\nОбработка строф с эпиграфом: <poem><stanza><epigraph><v><v>Строфа</v></v></epigraph></stanza></poem> => <poem><stanza><v>Строфа</v></stanza></poem>."
 					);
 				}
 				

@@ -22,19 +22,20 @@ namespace Settings
 		private readonly static XmlDocument m_xmlDoc = new XmlDocument();
 		
 		#region Общее Настройки
-		private 		 static string m_sProgDir 				= Environment.CurrentDirectory;
-		private readonly static string m_sTempDir 				= Path.Combine(Path.GetTempPath(),"Temp"); // Путь к временной папке текущего пользователя
-		private readonly static string m_settings 				= Path.Combine(ProgDir, "settings.xml");
-		private readonly static string m_sLicensePath			= Path.Combine(ProgDir, "License GPL 2.1.rtf");
-		private readonly static string m_sChangeFilePath		= Path.Combine(ProgDir, "Change.rtf");
-		private readonly static string m_SchemePath				= Path.Combine(ProgDir, "FictionBook.xsd");
-		private readonly static string m_sTFB2Path				= @"c:\Windows\Notepad.exe";
-		private readonly static string m_sFBEPath				= @"c:\Program Files\FictionBook Editor\FBE.exe";
-		private readonly static string m_sFBReaderPath			= @"c:\Program Files\AlReader 2\AlReader2.exe";
-		private 		 static string m_sDiffPath				= string.Empty;
-		private readonly static bool m_ConfirmationForExit = true;
-		private readonly static bool m_ShowDebugMessage = true;
-		private static string m_sReady	= "Готово.";
+		private 		 static string m_sProgDir 	= Environment.CurrentDirectory;
+		private readonly static string m_sTempDir 	= Path.Combine(Path.GetTempPath(),"Temp"); // Путь к временной папке текущего пользователя
+		private readonly static string m_settings 			= Path.Combine(ProgDir, "settings.xml");
+		private readonly static string m_sLicensePath		= Path.Combine(ProgDir, "License GPL 2.1.rtf");
+		private readonly static string m_sChangeFilePath	= Path.Combine(ProgDir, "Change.rtf");
+		private readonly static string m_SchemePath			= Path.Combine(ProgDir, "FictionBook.xsd");
+		private readonly static string m_sTFB2Path			= @"c:\Windows\Notepad.exe";
+		private readonly static string m_sFBEPath			= @"c:\Program Files\FictionBook Editor\FBE.exe";
+		private readonly static string m_sFBReaderPath		= @"c:\Program Files\AlReader 2\AlReader2.exe";
+		private 		 static string m_sDiffPath			= string.Empty;
+		private readonly static string m_sReady				= "Готово.";
+		private readonly static bool m_ConfirmationForExit	= true;
+		private readonly static bool m_ShowDebugMessage		= true;
+		private readonly static bool m_AppendToLog	= true;
 		#endregion
 
 		#region Стили ToolButtons
@@ -154,7 +155,7 @@ namespace Settings
 			}
 		}
 		
-		public static bool ShowDebugMessage {
+		public static bool SaveDebugMessage {
 			get {
 				if ( File.Exists( m_settings ) ) {
 					m_xmlDoc.Load( m_settings );
@@ -163,6 +164,22 @@ namespace Settings
 						return Convert.ToBoolean( node.InnerText );
 				}
 				return m_ShowDebugMessage;
+			}
+		}
+		
+		/// <summary>
+		/// Дописывать отладочные данные в log файл
+		/// </summary>
+		/// <returns>true, если дописывать; false - если создавать новый log</returns>
+		public static bool AppendToLog {
+			get {
+				if ( File.Exists( m_settings ) ) {
+					m_xmlDoc.Load( m_settings );
+					XmlNode node = m_xmlDoc.SelectSingleNode("Settings/General/AppendToLog");
+					if ( node != null )
+						return Convert.ToBoolean( node.InnerText );
+				}
+				return m_AppendToLog;
 			}
 		}
 		

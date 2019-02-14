@@ -60,7 +60,7 @@ namespace Core.FB2.FB2Parsers
 					setNameSpace();
 				} catch ( Exception ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, FB2Path, ex, "FictionBook(Конструктор): Невозможно загрузить структуру fb2 в XmlDocument напрямую из fb2 файла. Будет произведена загрузка структуры книги с помощью класса FB2Text в прокси режиме."
+						FB2Path, ex, "FictionBook(Конструктор): Невозможно загрузить структуру fb2 в XmlDocument напрямую из fb2 файла. Будет произведена загрузка структуры книги с помощью класса FB2Text в прокси режиме."
 					);
 					_fb2TextXml = new FB2Text( FB2Path );
 					_fb2TextXml.ProxyMode = true;
@@ -69,7 +69,7 @@ namespace Core.FB2.FB2Parsers
 				}
 			} catch ( Exception ex ) {
 				Debug.DebugMessage(
-					Debug.InLogFile, FB2Path, ex, "FictionBook(Конструктор): Невозможно открыть для извлечения fb2 метаданных. По-видимому, попытка загрузить структуру книги с помощью класса FB2Text в прокси режиме не удалась. Внешний блок catch()."
+					FB2Path, ex, "FictionBook(Конструктор): Невозможно открыть для извлечения fb2 метаданных. По-видимому, попытка загрузить структуру книги с помощью класса FB2Text в прокси режиме не удалась. Внешний блок catch()."
 				);
 				throw new System.IO.FileLoadException(
 					string.Format( "Файл {0}:\nНевозможно открыть для извлечения fb2 метаданных. По-видимому, попытка загрузить структуру книги с помощью класса FB2Text в прокси режиме не удалась.\n\n{1}", FB2Path, ex.Message )
@@ -1048,7 +1048,7 @@ namespace Core.FB2.FB2Parsers
 					sequence.Number = node.Attributes["number"].Value.Trim() ;
 				} catch ( FormatException ex ) {
 					Debug.DebugMessage(
-						Debug.InLogFile, _fb2Path, ex, "FictionBook.getSequence(XmlNode node): Извлечение информации по sequence. Исключение FormatException."
+						_fb2Path, ex, "FictionBook.getSequence(XmlNode node): Извлечение информации по sequence. Исключение FormatException."
 					);
 				}
 			}

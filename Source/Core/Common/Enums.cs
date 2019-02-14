@@ -15,6 +15,10 @@ namespace Core.Common
 	/// </summary>
 	public class Enums
 	{
+		public Enums()
+		{
+		}
+		
 		/// <summary>
 		/// Вид TitleInfo: TitleInfo или SourceTitleInfo  
 		/// </summary>
@@ -209,9 +213,6 @@ namespace Core.Common
 //			_AllGenre1Author,		// по всем Жанрам и первому Автору Книги
 //			_AllGenreAllAuthor, 	// по всем Жанрам и всем Авторам Книги
 //		}
-		public Enums()
-		{
-		}
 		
 	}
 }
