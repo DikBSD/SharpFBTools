@@ -137,6 +137,7 @@
     <Compile Include="Tools\SFBTpFB2Dublicator.Designer.cs">
       <DependentUpon>SFBTpFB2Dublicator.resx</DependentUpon>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Tools\SFBTpSorter.cs">
       <SubType>UserControl</SubType>
