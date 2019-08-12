@@ -627,6 +627,23 @@ namespace Core.Duplicator
                                             _CompareMode, _CompareModeName, ref _htWorkingBook);
                     }
                     break;
+                case SearchCompareModeEnum.BookTitleAndBookID:
+                    // 6. Название Книги и Id Книги (Авторы книги могут быть разными)
+                    // Хэширование fb2-файлов по Названию книги
+                    FilesHashForBTParser(ref bw, ref e, ref FilesList, ref _htWorkingBook);
+                    // Хэширование fb2-файлов по ID книги в пределах одинакового Названия книги
+                    Hashtable htBookID = FilesHashForBTBookIDParser(ref bw, ref e, ref _htWorkingBook);
+                    // формирование дерева списка копий
+                    if (!checkBoxSaveGroupsToXml.Checked) {
+                        // Создание списка копий
+                        makeTreeOfBookCopies(ref bw, ref e, ref htBookID);
+                    }
+                    else {
+                        // Сохранение Групп сразу в файлы без построения дерева
+                        saveCopiesListToXml(ref bw, ref e, Convert.ToInt32(cbGroupCountForList.Text),
+                                            _CompareMode, _CompareModeName, ref htBookID);
+                    }
+                    break;
             }
 		}
 		
@@ -1168,8 +1185,7 @@ namespace Core.Duplicator
             // группировка книг по одинаковым Id Книги в пределах сгенерированных Групп книг одинаковых Авторов и по одинаковым Названиям
             int i = 0;
             foreach (string key in keyList) {
-                Hashtable ht = new Hashtable(new FB2CultureComparer());
-                // разбивка на группы для одинакового Названия по Авторам
+                // разбивка на группы для одинакового Id книги по Названию и по Авторам
                 Hashtable AuthorsTitleBookID = FindDupForAuthorsTitleBookID(
                     ref bw, ref e, (FB2FilesDataInGroup)htBookTitleAuthors[key], false
                 );
@@ -1190,7 +1206,78 @@ namespace Core.Duplicator
                 bw.ReportProgress(++i);
             }
         }
+
+        // разбивка на группы для одинакового Id книги по Названию и по Авторам
         private Hashtable FindDupForAuthorsTitleBookID(ref BackgroundWorker bw, ref DoWorkEventArgs e, FB2FilesDataInGroup fb2Group, bool WithMiddleName)
+        {
+            // в fb2Group.Group - название группы (название книги у всех книг одинаковое, а пути - разные )
+            // внутри fb2Group в BookData - данные на каждую книгу группы
+            Hashtable ht = new Hashtable(new FB2CultureComparer());
+            // 2 итератора для перебора всех книг группы. 1-й - только на текущий элемент группы, 2-й - скользящий на все последующие. т.е. iter2 = iter1+1
+            for (int iter1 = 0; iter1 != fb2Group.Count; ++iter1) {
+                if (bw.CancellationPending) {
+                    e.Cancel = true;
+                    return null;
+                }
+                BookData bd1 = fb2Group[iter1]; // текущая книга
+                FB2FilesDataInGroup fb2NewGroup = new FB2FilesDataInGroup();
+                // перебор всех книг в группе, за исключением текущей
+                for (int iter2 = iter1 + 1; iter2 != fb2Group.Count; ++iter2) {
+                    // сравнение текущей книги со всеми последующими
+                    BookData bd2 = fb2Group[iter2];
+                    if (bd1.Id == bd2.Id) {
+                        if (!fb2NewGroup.isBookExists(bd2.Path))
+                            fb2NewGroup.Add(bd2);
+                    }
+                }
+                if (fb2NewGroup.Count >= 1) {
+                    // только для копий, а не для единичных книг
+                    fb2NewGroup.Group = fb2Group.Group + " { " + bd1.Id.ToString() + " }";
+                    fb2NewGroup.Insert(0, bd1);
+                    if (!ht.ContainsKey(fb2NewGroup.Group))
+                        ht.Add(fb2NewGroup.Group, fb2NewGroup);
+                }
+            }
+            return ht;
+        }
+
+        // Хэширование fb2-файлов по ID книги в пределах одинакового Названия книги
+        private Hashtable FilesHashForBTBookIDParser(ref BackgroundWorker bw, ref DoWorkEventArgs e, ref Hashtable htWorkingBook)
+        {
+            StatusLabel.Text += "Хэширование fb2-файлов...\r";
+            ProgressBar.Maximum = htWorkingBook.Count;
+            ProgressBar.Value = 0;
+            Hashtable ht = new Hashtable(new FB2CultureComparer());
+            // генерация списка ключей хеш-таблицы (для удаления обработанного элемента таблицы)
+            List<string> keyList = makeSortedKeysForGroups(ref htWorkingBook);
+            // группировка книг по одинаковым Id Книги в пределах сгенерированных Групп книг по одинаковым Названиям
+            int i = 0;
+            foreach (string key in keyList) {
+                // разбивка на группы для одинакового Id книги по Названию
+                Hashtable BookTitleBookID = FindDupForBookTitleBookID(
+                    ref bw, ref e, (FB2FilesDataInGroup)htWorkingBook[key], false
+                );
+                if (bw.CancellationPending) {
+                    e.Cancel = true;
+                    return null;
+                }
+                foreach (FB2FilesDataInGroup fb2List in BookTitleBookID.Values) {
+                    if (!htWorkingBook.ContainsKey(fb2List.Group))
+                        ht.Add(fb2List.Group, fb2List);
+                    else {
+                        FB2FilesDataInGroup fb2ListInGroup = (FB2FilesDataInGroup)htWorkingBook[fb2List.Group];
+                        fb2ListInGroup.AddRange(fb2List);
+                    }
+                }
+                // удаление обработанной группы книг, сгруппированных по одинаковому названию
+                htWorkingBook.Remove(key);
+                bw.ReportProgress(++i);
+            }
+            return ht;
+        }
+
+        // разбивка на группы для одинакового Id книги по Названию Книги
+        private Hashtable FindDupForBookTitleBookID(ref BackgroundWorker bw, ref DoWorkEventArgs e, FB2FilesDataInGroup fb2Group, bool WithMiddleName)
         {
             // в fb2Group.Group - название группы (название книги у всех книг одинаковое, а пути - разные )
             // внутри fb2Group в BookData - данные на каждую книгу группы
