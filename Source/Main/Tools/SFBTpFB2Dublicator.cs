@@ -393,6 +393,7 @@ namespace SharpFBTools.Tools
             this.gboxCopyMoveOptions = new System.Windows.Forms.GroupBox();
             this.cboxExistFile = new System.Windows.Forms.ComboBox();
             this.lblExistFile = new System.Windows.Forms.Label();
+            this.chBoxWithMiddleName = new System.Windows.Forms.CheckBox();
             this.ssProgress.SuspendLayout();
             this.cmsFB2.SuspendLayout();
             this.tcDuplicator.SuspendLayout();
@@ -2272,6 +2273,7 @@ namespace SharpFBTools.Tools
             // pSearchFBDup2Dirs
             // 
             this.pSearchFBDup2Dirs.AutoSize = true;
+            this.pSearchFBDup2Dirs.Controls.Add(this.chBoxWithMiddleName);
             this.pSearchFBDup2Dirs.Controls.Add(this.btnOpenDir);
             this.pSearchFBDup2Dirs.Controls.Add(this.chBoxScanSubDir);
             this.pSearchFBDup2Dirs.Controls.Add(this.tboxSourceDir);
@@ -2304,7 +2306,7 @@ namespace SharpFBTools.Tools
             this.chBoxScanSubDir.Location = new System.Drawing.Point(1099, 5);
             this.chBoxScanSubDir.Margin = new System.Windows.Forms.Padding(4);
             this.chBoxScanSubDir.Name = "chBoxScanSubDir";
-            this.chBoxScanSubDir.Size = new System.Drawing.Size(381, 30);
+            this.chBoxScanSubDir.Size = new System.Drawing.Size(184, 30);
             this.chBoxScanSubDir.TabIndex = 2;
             this.chBoxScanSubDir.Text = "Сканировать подпапки";
             this.chBoxScanSubDir.UseVisualStyleBackColor = true;
@@ -2572,6 +2574,20 @@ namespace SharpFBTools.Tools
             this.lblExistFile.Size = new System.Drawing.Size(267, 17);
             this.lblExistFile.TabIndex = 17;
             this.lblExistFile.Text = "Одинаковые файлы в папке-приемнике:";
+            // 
+            // chBoxWithMiddleName
+            // 
+            this.chBoxWithMiddleName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chBoxWithMiddleName.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.chBoxWithMiddleName.ForeColor = System.Drawing.Color.Navy;
+            this.chBoxWithMiddleName.Location = new System.Drawing.Point(1295, 5);
+            this.chBoxWithMiddleName.Margin = new System.Windows.Forms.Padding(4);
+            this.chBoxWithMiddleName.Name = "chBoxWithMiddleName";
+            this.chBoxWithMiddleName.Size = new System.Drawing.Size(184, 30);
+            this.chBoxWithMiddleName.TabIndex = 22;
+            this.chBoxWithMiddleName.Text = "Учитывать Отчество";
+            this.chBoxWithMiddleName.UseVisualStyleBackColor = true;
+            this.chBoxWithMiddleName.CheckStateChanged += new System.EventHandler(this.ChBoxWithMiddleName_CheckStateChanged);
             // 
             // SFBTpFB2Dublicator
             // 
@@ -2857,7 +2873,8 @@ namespace SharpFBTools.Tools
 		private string	m_sMessTitle		= string.Empty;
 		private string	m_DirForSavedCover	= string.Empty;	// папка для сохранения обложек
 		private int		m_CurrentResultItem	= -1;
-		private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter =
+        private CheckBox chBoxWithMiddleName;
+        private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter =
 			new MiscListView.ListViewColumnSorter(9);
 		#endregion
 		
@@ -2915,7 +2932,10 @@ namespace SharpFBTools.Tools
 					                                       new XAttribute("index", cboxMode.SelectedIndex),
 					                                       new XAttribute("name", cboxMode.Text)
 					                                      ),
-					                          new XElement("ScanSubDirs", chBoxScanSubDir.Checked),
+                                              new XComment("При сравнении книг учитывать ли Отчество Авторов"),
+                                              new XElement("WithMiddleName", chBoxWithMiddleName.Checked),
+                                              new XComment("Сканировать подпапки"),
+                                              new XElement("ScanSubDirs", chBoxScanSubDir.Checked),
 					                          new XComment("Операции с одинаковыми fb2-файлами при копировании/перемещении"),
 					                          new XElement("FB2ExsistMode",
 					                                       new XAttribute("index", cboxExistFile.SelectedIndex),
@@ -2980,10 +3000,14 @@ namespace SharpFBTools.Tools
 						if ( xmlOptions.Element("CompareMode").Attribute("index") != null )
 							cboxMode.SelectedIndex = Convert.ToInt16( xmlOptions.Element("CompareMode").Attribute("index").Value );
 					}
-					if ( xmlOptions.Element("ScanSubDirs") != null )
+                    // Сканирование подпапок
+                    if ( xmlOptions.Element("ScanSubDirs") != null )
 						chBoxScanSubDir.Checked	= Convert.ToBoolean( xmlOptions.Element("ScanSubDirs").Value );
-					// Операции с одинаковыми fb2-файлами при копировании/перемещении
-					if ( xmlOptions.Element("FB2ExsistMode") != null ) {
+                    // Учитывать ли Отчество Авторов при сравнении книг
+                    if (xmlOptions.Element("WithMiddleName") != null)
+                        chBoxWithMiddleName.Checked = Convert.ToBoolean(xmlOptions.Element("WithMiddleName").Value);
+                    // Операции с одинаковыми fb2-файлами при копировании/перемещении
+                    if ( xmlOptions.Element("FB2ExsistMode") != null ) {
 						if ( xmlOptions.Element("FB2ExsistMode").Attribute("index") != null )
 							cboxExistFile.SelectedIndex = Convert.ToInt16( xmlOptions.Element("FB2ExsistMode").Attribute("index").Value );
 					}
@@ -3574,7 +3598,7 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text = "=> Поиск копий: ";
 			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
 				null,
-				ref tboxSourceDir, ref chBoxScanSubDir, ref cboxMode,
+				ref tboxSourceDir, ref chBoxScanSubDir, ref chBoxWithMiddleName, ref cboxMode,
 				ref checkBoxSaveGroupsToXml, ref tscbGroupCountForList,
 				ref lvFilesCount, ref listViewFB2Files, false
 			);
@@ -3613,7 +3637,7 @@ namespace SharpFBTools.Tools
 			listViewFB2Files.BeginUpdate();
 			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
 				sfdLoadList.FileName,
-				ref tboxSourceDir, ref chBoxScanSubDir, ref cboxMode,
+				ref tboxSourceDir, ref chBoxScanSubDir, ref chBoxWithMiddleName, ref cboxMode,
 				ref checkBoxSaveGroupsToXml, ref tscbGroupCountForList,
 				ref lvFilesCount, ref listViewFB2Files, false
 			);
@@ -3832,7 +3856,11 @@ namespace SharpFBTools.Tools
 		{
 			saveSettingsToXml();
 		}
-		void LvResultColumnClick(object sender, ColumnClickEventArgs e)
+        private void ChBoxWithMiddleName_CheckStateChanged(object sender, EventArgs e)
+        {
+            saveSettingsToXml();
+        }
+        void LvResultColumnClick(object sender, ColumnClickEventArgs e)
 		{
 			if ( e.Column == m_lvwColumnSorter.SortColumn ) {
 				// Изменить сортировку на обратную для выбранного столбца
@@ -4703,7 +4731,7 @@ namespace SharpFBTools.Tools
 		{
 			saveSettingsToXml();
 		}
-		#endregion
-		
-	}
+        #endregion
+
+    }
 }

@@ -15,7 +15,7 @@ using System.Windows.Forms;
 namespace Core.Duplicator
 {
 	/// <summary>
-	/// класс для хранения информации по одинаковым книгам в одной группе
+	/// Класс для хранения информации по одинаковым книгам в одной группе
 	/// </summary>
 	public class FB2FilesDataInGroup : List<BookData> {
 		
