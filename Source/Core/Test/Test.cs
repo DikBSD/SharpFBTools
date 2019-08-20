@@ -93,7 +93,8 @@ namespace Test
 		}
 		
 		public static void gebugTestIsSameBookData(bool CompareAndMiddleName) {
-			TextFieldType FirstName1 = new TextFieldType("Иван");
+            // Данные на 1-го Автора книги
+            TextFieldType FirstName1 = new TextFieldType("Иван");
 			TextFieldType MiddleName1 = new TextFieldType("Петрович");
 			TextFieldType LastName1 = new TextFieldType("Кузнецов");
 			TextFieldType NickName1 = new TextFieldType("NNNnnNNN");
@@ -104,8 +105,9 @@ namespace Test
 			IList<string>	lsEmails1	 = new List<string>();
 			lsEmails1.Add("111");
 			lsEmails1.Add("222");
-			
-			TextFieldType FirstName2 = new TextFieldType("Иван");
+
+            // Данные на 2-го Автора книги
+            TextFieldType FirstName2 = new TextFieldType("Иван");
 			TextFieldType MiddleName2 = new TextFieldType("Петрович");
 			TextFieldType LastName2 = new TextFieldType("Кузнецов");
 			TextFieldType NickName2 = new TextFieldType("NNNnnNNN");
@@ -116,6 +118,8 @@ namespace Test
 			IList<string>	lsEmails2	 = new List<string>();
 			lsEmails2.Add("111");
 			lsEmails2.Add("222");
+
+            // "Сборка" данных Авторов
 			Author author1 = new Author(FirstName1, MiddleName1, LastName1, NickName1, lsHomePages1, lsEmails1, m_sID1);
 			Author author2 = new Author(FirstName2, MiddleName2, LastName2);
 			IList<Author> authors1 = new List<Author>();
@@ -125,6 +129,7 @@ namespace Test
 			//authors2.Add(author1);
 			authors2.Add(author2);
 			
+            // Данные на Жанры книг
 			Genre g1 = new Genre("1", 90);
 			Genre g2 = new Genre("2", 90);
 			IList<Genre> genres1 = new List<Genre>();
@@ -134,13 +139,50 @@ namespace Test
 			genres2.Add(g1);
 			genres2.Add(g2);
 			
+            // Названия книг
 			BookTitle bt1 = new BookTitle("1");
 			BookTitle bt2 = new BookTitle("1");
+
+            // Данные на 1-го Автора fb2 файла
+            TextFieldType FB2FirstName1 = new TextFieldType("Петр");
+            TextFieldType FB2MiddleName1 = new TextFieldType("Иванович");
+            TextFieldType FB2LastName1 = new TextFieldType("Пелюгин");
+            TextFieldType FB2NickName1 = new TextFieldType("JKotNM");
+            string m_sFB2ID1 = "H7KF75TDWJGJHKJ";
+            IList<string> lsFB2HomePages1 = new List<string>();
+            lsFB2HomePages1.Add("111");
+            lsFB2HomePages1.Add("222");
+            IList<string> lsFB2Emails1 = new List<string>();
+            lsFB2Emails1.Add("111");
+            lsFB2Emails1.Add("222");
+
+            // Данные на 2-го Автора fb2 файла
+            TextFieldType FB2FirstName2 = new TextFieldType("Петр");
+            TextFieldType FB2MiddleName2 = new TextFieldType("Иванович");
+            TextFieldType FB2LastName2 = new TextFieldType("Пелюгин");
+            TextFieldType FB2NickName2 = new TextFieldType("JKotNM");
+            //string m_sFB2ID2 = "H7KF75TDWJGJHKJ";
+            IList<string> lsFB2HomePages2 = new List<string>();
+            lsFB2HomePages2.Add("111");
+            lsFB2HomePages2.Add("222");
+            IList<string> lsFB2Emails2 = new List<string>();
+            lsFB2Emails2.Add("111");
+            lsFB2Emails2.Add("222");
+
+            // "Сборка" данных Авторов fb2 файлов
+            Author fb2Author1 = new Author(FB2FirstName1, FB2MiddleName1, FB2LastName1, FB2NickName1, lsFB2HomePages1, lsFB2Emails1, m_sFB2ID1);
+            Author fb2Author2 = new Author(FB2FirstName2, FB2MiddleName2, FB2LastName2);
+            IList<Author> fb2Authors1 = new List<Author>();
+            fb2Authors1.Add(fb2Author1);
+            //fb2Authors1.Add(fb2Author2);
+            IList<Author> fb2Authors2 = new List<Author>();
+            //fb2Authors2.Add(fb2Author1);
+            fb2Authors2.Add(fb2Author2);
+
+            BookData bd1 = new BookData( bt1, authors1, genres1, "ru", "efewtgerger", "1.0", fb2Authors1, "Path", "UTF-8");
+			BookData bd2 = new BookData( bt2, authors2, genres2, "ru", "efewtgerger", "1.0", fb2Authors2, "Path", "UTF-8");
 			
-			BookData bd1 = new BookData( bt1, authors1, genres1, "ru", "efewtgerger", "1.0", "Path", "UTF-8");
-			BookData bd2 = new BookData( bt2, authors2, genres2, "ru", "efewtgerger", "1.0", "Path", "UTF-8");
-			
-			if (bd1.isSameBook(bd2, CompareAndMiddleName))
+			if (bd1.isSameBook(bd2, CompareAndMiddleName, false))
 				MessageBox.Show( "Одинаковые:\n"+"bd1: "+bd1.BookTitle.Value+"\n"+"bd2: "+bd2.BookTitle.Value,
 				                "Test - BookData", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			else
@@ -154,14 +196,14 @@ namespace Test
 			
 			BookData bd1 = new BookData(
 				fb2_1.TIBookTitle, fb2_1.TIAuthors, fb2_1.TIGenres, fb2_1.TILang, fb2_1.DIID, fb2_1.DIVersion,
-				fb2_1.getFilePath(), fb2_1.getEncoding()
+                fb2_1.DIAuthors, fb2_1.getFilePath(), fb2_1.getEncoding()
 			);
 			BookData bd2 = new BookData(
 				fb2_2.TIBookTitle, fb2_2.TIAuthors, fb2_2.TIGenres, fb2_2.TILang, fb2_2.DIID, fb2_2.DIVersion,
-				fb2_2.getFilePath(), fb2_2.getEncoding()
+                fb2_2.DIAuthors, fb2_2.getFilePath(), fb2_2.getEncoding()
 			);
 			
-			if (bd1.isSameBook(bd2, CompareAndMiddleName))
+			if (bd1.isSameBook(bd2, CompareAndMiddleName, false))
 				MessageBox.Show( "Одинаковые:\n"+"bd1: "+bd1.BookTitle.Value+"\n"+"bd2: "+bd2.BookTitle.Value,
 				                "Test - BookData", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			else
@@ -176,7 +218,7 @@ namespace Test
 				for( int j = i+1; j != BookDataList.Count; ++j ) {
 					// сравнение текущей книги со всеми последующими
 					BookData bd2 = BookDataList[j];
-					if (bd1.isSameBook(bd2, CompareAndMiddleName))
+					if (bd1.isSameBook(bd2, CompareAndMiddleName, false))
 						MessageBox.Show( "Одинаковые:\n"+"bd1: "+bd1.Path+"\n"+"bd2: "+bd2.Path,
 						                "Test - BookData", MessageBoxButtons.OK, MessageBoxIcon.Information );
 					else
@@ -230,7 +272,7 @@ namespace Test
 					+ (a2.MiddleName!=null ? a2.MiddleName.Value : "") + "\t"
 					+ (a2.LastName!=null ? a2.LastName.Value : "") + "\n";
 			}
-			if (bd1.isSameBook(bd2, CompareAndMiddleName))
+			if (bd1.isSameBook(bd2, CompareAndMiddleName, false))
 				return "Одинаковые:\n\n"+"bd1: "+bd1.BookTitle.Value+"\nfio1: "+fio1
 					+"\n\nbd2: "+bd2.BookTitle.Value+"\nfio2: "+fio2;
 			else

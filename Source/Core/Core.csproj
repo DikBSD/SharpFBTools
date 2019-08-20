@@ -223,6 +223,14 @@
     <Compile Include="Duplicator\CheckedBooksPathToXMLForm.Designer.cs">
       <DependentUpon>CheckedBooksPathToXMLForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Duplicator\CompareAuthorBookTitle.cs" />
+    <Compile Include="Duplicator\CompareAuthorBookTitleBookID.cs" />
+    <Compile Include="Duplicator\CompareAuthorFIO.cs" />
+    <Compile Include="Duplicator\CompareBookID.cs" />
+    <Compile Include="Duplicator\CompareBookTitle.cs" />
+    <Compile Include="Duplicator\CompareBookTitleBookID.cs" />
+    <Compile Include="Duplicator\CompareCommon.cs" />
+    <Compile Include="Duplicator\CompareMd5.cs" />
     <Compile Include="Duplicator\CopiesAnalyzeForm.cs">
       <SubType>Form</SubType>
     </Compile>

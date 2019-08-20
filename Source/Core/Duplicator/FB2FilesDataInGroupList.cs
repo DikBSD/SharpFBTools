@@ -46,18 +46,20 @@ namespace Core.Duplicator
 		/// <param name="BookPath">Путь к проверяемой книге</param>
 		public bool isBookExists( string BookPath ) {
 			foreach ( BookData bd in this ) {
-				if ( bd.Path.Trim() == BookPath.Trim() )
+                if ( bd.Path.Trim() == BookPath.Trim() )
 					return true;
 			}
 			return false;
 		}
 		
-		// формирование списка строк из ФИО всех Авторов книги
-		public string makeAuthorsString(bool WithMiddleName) {
+		// формирование списка строк из ФИО всех Авторов книги или Авторов fb2 файла
+		public string makeAuthorsString(bool WithMiddleName, bool IsFB2Author) {
 			if (this.Count > 0) {
 				List<string> list = new List<string>();
 				foreach ( BookData bd in this ) {
-					List<string> fioList = bd.makeListFOIAuthors(bd.Authors, WithMiddleName);
+                    List<string> fioList = null;
+                    fioList = !IsFB2Author ? bd.makeListFOIAuthors(bd.Authors, WithMiddleName, false)
+                                           : bd.makeListFOIAuthors(bd.FB2Authors, WithMiddleName, true);
 					foreach ( string fio in fioList ) {
 						if (!list.Contains(fio)) {
 							list.Add(fio);
@@ -71,13 +73,13 @@ namespace Core.Duplicator
 					sb.Append(s);
 				
 				string sA = sb.ToString().Trim();
-				return sA.Substring( 0, sA.LastIndexOf( ';' ) ).Trim();
+                return sA.Substring( 0, sA.LastIndexOf( ';' ) ).Trim();
 			}
 			return string.Empty;
 		}
-		
-		// сравнение только по названию группы (если они не одинаковые, то и содержимое групп - разное)
-		public bool isSameGroup( FB2FilesDataInGroup RightValue ) {
+
+        // сравнение только по названию группы (если они не одинаковые, то и содержимое групп - разное)
+        public bool isSameGroup( FB2FilesDataInGroup RightValue ) {
 			if ( RightValue == null )
 				return false;
 			

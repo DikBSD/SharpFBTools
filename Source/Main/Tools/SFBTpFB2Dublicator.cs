@@ -177,7 +177,7 @@ namespace SharpFBTools.Tools
             "Всего групп одинаковых книг",
             "0"}, 0);
             System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Книг во всех группах одинаковых книг",
+            "Книг во всех группах",
             "0"}, 0);
             this.ssProgress = new System.Windows.Forms.StatusStrip();
             this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
@@ -371,7 +371,6 @@ namespace SharpFBTools.Tools
             this.cboxMode = new System.Windows.Forms.ComboBox();
             this.lblMode = new System.Windows.Forms.Label();
             this.pSearchFBDup2Dirs = new System.Windows.Forms.Panel();
-            this.chBoxWithMiddleName = new System.Windows.Forms.CheckBox();
             this.btnOpenDir = new System.Windows.Forms.Button();
             this.chBoxScanSubDir = new System.Windows.Forms.CheckBox();
             this.tboxSourceDir = new System.Windows.Forms.TextBox();
@@ -1857,7 +1856,7 @@ namespace SharpFBTools.Tools
             // 
             this.BadZipLabel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.BadZipLabel1.ForeColor = System.Drawing.Color.Purple;
-            this.BadZipLabel1.Location = new System.Drawing.Point(0, 199);
+            this.BadZipLabel1.Location = new System.Drawing.Point(0, 228);
             this.BadZipLabel1.Name = "BadZipLabel1";
             this.BadZipLabel1.Size = new System.Drawing.Size(379, 33);
             this.BadZipLabel1.TabIndex = 47;
@@ -1867,7 +1866,7 @@ namespace SharpFBTools.Tools
             // 
             this.ZipLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.ZipLabel.ForeColor = System.Drawing.Color.Green;
-            this.ZipLabel.Location = new System.Drawing.Point(0, 176);
+            this.ZipLabel.Location = new System.Drawing.Point(0, 205);
             this.ZipLabel.Name = "ZipLabel";
             this.ZipLabel.Size = new System.Drawing.Size(379, 23);
             this.ZipLabel.TabIndex = 46;
@@ -1877,7 +1876,7 @@ namespace SharpFBTools.Tools
             // 
             this.NotValidLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.NotValidLabel.ForeColor = System.Drawing.Color.Blue;
-            this.NotValidLabel.Location = new System.Drawing.Point(0, 153);
+            this.NotValidLabel.Location = new System.Drawing.Point(0, 182);
             this.NotValidLabel.Name = "NotValidLabel";
             this.NotValidLabel.Size = new System.Drawing.Size(379, 23);
             this.NotValidLabel.TabIndex = 45;
@@ -1886,7 +1885,7 @@ namespace SharpFBTools.Tools
             // RazdelitLabel1
             // 
             this.RazdelitLabel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.RazdelitLabel1.Location = new System.Drawing.Point(0, 143);
+            this.RazdelitLabel1.Location = new System.Drawing.Point(0, 172);
             this.RazdelitLabel1.Name = "RazdelitLabel1";
             this.RazdelitLabel1.Size = new System.Drawing.Size(379, 10);
             this.RazdelitLabel1.TabIndex = 44;
@@ -1899,7 +1898,7 @@ namespace SharpFBTools.Tools
             this.LegengCaptionLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.LegengCaptionLabel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.LegengCaptionLabel.ForeColor = System.Drawing.Color.Red;
-            this.LegengCaptionLabel.Location = new System.Drawing.Point(0, 120);
+            this.LegengCaptionLabel.Location = new System.Drawing.Point(0, 149);
             this.LegengCaptionLabel.Name = "LegengCaptionLabel";
             this.LegengCaptionLabel.Size = new System.Drawing.Size(379, 23);
             this.LegengCaptionLabel.TabIndex = 43;
@@ -1920,15 +1919,15 @@ namespace SharpFBTools.Tools
             this.lvFilesCount.Location = new System.Drawing.Point(0, 27);
             this.lvFilesCount.Margin = new System.Windows.Forms.Padding(4);
             this.lvFilesCount.Name = "lvFilesCount";
-            this.lvFilesCount.Size = new System.Drawing.Size(379, 93);
+            this.lvFilesCount.Size = new System.Drawing.Size(379, 122);
             this.lvFilesCount.TabIndex = 42;
             this.lvFilesCount.UseCompatibleStateImageBehavior = false;
             this.lvFilesCount.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader6
             // 
-            this.columnHeader6.Text = "Папки и файлы";
-            this.columnHeader6.Width = 265;
+            this.columnHeader6.Text = "Группы и книги";
+            this.columnHeader6.Width = 200;
             // 
             // columnHeader7
             // 
@@ -2273,7 +2272,6 @@ namespace SharpFBTools.Tools
             // pSearchFBDup2Dirs
             // 
             this.pSearchFBDup2Dirs.AutoSize = true;
-            this.pSearchFBDup2Dirs.Controls.Add(this.chBoxWithMiddleName);
             this.pSearchFBDup2Dirs.Controls.Add(this.btnOpenDir);
             this.pSearchFBDup2Dirs.Controls.Add(this.chBoxScanSubDir);
             this.pSearchFBDup2Dirs.Controls.Add(this.tboxSourceDir);
@@ -2284,20 +2282,6 @@ namespace SharpFBTools.Tools
             this.pSearchFBDup2Dirs.Name = "pSearchFBDup2Dirs";
             this.pSearchFBDup2Dirs.Size = new System.Drawing.Size(1483, 41);
             this.pSearchFBDup2Dirs.TabIndex = 47;
-            // 
-            // chBoxWithMiddleName
-            // 
-            this.chBoxWithMiddleName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chBoxWithMiddleName.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.chBoxWithMiddleName.ForeColor = System.Drawing.Color.Navy;
-            this.chBoxWithMiddleName.Location = new System.Drawing.Point(1295, 5);
-            this.chBoxWithMiddleName.Margin = new System.Windows.Forms.Padding(4);
-            this.chBoxWithMiddleName.Name = "chBoxWithMiddleName";
-            this.chBoxWithMiddleName.Size = new System.Drawing.Size(184, 30);
-            this.chBoxWithMiddleName.TabIndex = 22;
-            this.chBoxWithMiddleName.Text = "Учитывать Отчество";
-            this.chBoxWithMiddleName.UseVisualStyleBackColor = true;
-            this.chBoxWithMiddleName.CheckStateChanged += new System.EventHandler(this.ChBoxWithMiddleName_CheckStateChanged);
             // 
             // btnOpenDir
             // 
@@ -2320,7 +2304,7 @@ namespace SharpFBTools.Tools
             this.chBoxScanSubDir.Location = new System.Drawing.Point(1071, 5);
             this.chBoxScanSubDir.Margin = new System.Windows.Forms.Padding(4);
             this.chBoxScanSubDir.Name = "chBoxScanSubDir";
-            this.chBoxScanSubDir.Size = new System.Drawing.Size(204, 30);
+            this.chBoxScanSubDir.Size = new System.Drawing.Size(393, 30);
             this.chBoxScanSubDir.TabIndex = 2;
             this.chBoxScanSubDir.Text = "Сканировать подпапки";
             this.chBoxScanSubDir.UseVisualStyleBackColor = true;
@@ -2873,7 +2857,6 @@ namespace SharpFBTools.Tools
 		private string	m_sMessTitle		= string.Empty;
 		private string	m_DirForSavedCover	= string.Empty;	// папка для сохранения обложек
 		private int		m_CurrentResultItem	= -1;
-        private CheckBox chBoxWithMiddleName;
         private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter =
 			new MiscListView.ListViewColumnSorter(9);
 		#endregion
@@ -2901,7 +2884,7 @@ namespace SharpFBTools.Tools
 			// загрузка настроек из xml
 			readSettingsFromXML();
 
-			ConnectListsEventHandlers( true );
+            ConnectListsEventHandlers( true );
 			m_isSettingsLoaded = true;
 		}
 		// =============================================================================================
@@ -2932,8 +2915,6 @@ namespace SharpFBTools.Tools
 					                                       new XAttribute("index", cboxMode.SelectedIndex),
 					                                       new XAttribute("name", cboxMode.Text)
 					                                      ),
-                                              new XComment("При сравнении книг учитывать ли Отчество Авторов"),
-                                              new XElement("WithMiddleName", chBoxWithMiddleName.Checked),
                                               new XComment("Сканировать подпапки"),
                                               new XElement("ScanSubDirs", chBoxScanSubDir.Checked),
 					                          new XComment("Операции с одинаковыми fb2-файлами при копировании/перемещении"),
@@ -3003,9 +2984,6 @@ namespace SharpFBTools.Tools
                     // Сканирование подпапок
                     if ( xmlOptions.Element("ScanSubDirs") != null )
 						chBoxScanSubDir.Checked	= Convert.ToBoolean( xmlOptions.Element("ScanSubDirs").Value );
-                    // Учитывать ли Отчество Авторов при сравнении книг
-                    if (xmlOptions.Element("WithMiddleName") != null)
-                        chBoxWithMiddleName.Checked = Convert.ToBoolean(xmlOptions.Element("WithMiddleName").Value);
                     // Операции с одинаковыми fb2-файлами при копировании/перемещении
                     if ( xmlOptions.Element("FB2ExsistMode") != null ) {
 						if ( xmlOptions.Element("FB2ExsistMode").Attribute("index") != null )
@@ -3598,7 +3576,7 @@ namespace SharpFBTools.Tools
 			tsslblProgress.Text = "=> Поиск копий: ";
 			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
 				null,
-				ref tboxSourceDir, ref chBoxScanSubDir, ref chBoxWithMiddleName, ref cboxMode,
+				ref tboxSourceDir, ref chBoxScanSubDir, ref cboxMode,
 				ref checkBoxSaveGroupsToXml, ref tscbGroupCountForList,
 				ref lvFilesCount, ref listViewFB2Files, false
 			);
@@ -3637,7 +3615,7 @@ namespace SharpFBTools.Tools
 			listViewFB2Files.BeginUpdate();
 			Core.Duplicator.CompareForm comrareForm = new Core.Duplicator.CompareForm(
 				sfdLoadList.FileName,
-				ref tboxSourceDir, ref chBoxScanSubDir, ref chBoxWithMiddleName, ref cboxMode,
+				ref tboxSourceDir, ref chBoxScanSubDir, ref cboxMode,
 				ref checkBoxSaveGroupsToXml, ref tscbGroupCountForList,
 				ref lvFilesCount, ref listViewFB2Files, false
 			);
@@ -3856,10 +3834,6 @@ namespace SharpFBTools.Tools
 		{
 			saveSettingsToXml();
 		}
-        private void ChBoxWithMiddleName_CheckStateChanged(object sender, EventArgs e)
-        {
-            saveSettingsToXml();
-        }
         void LvResultColumnClick(object sender, ColumnClickEventArgs e)
 		{
 			if ( e.Column == m_lvwColumnSorter.SortColumn ) {
