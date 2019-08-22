@@ -27,7 +27,6 @@ namespace Core.Duplicator
     class CompareMd5
     {
         private readonly SharpZipLibWorker _sharpZipLib = new SharpZipLibWorker();
-
         private List<string> _nonOpenedFileList = new List<string>();
         private CompareCommon _compComm = new CompareCommon();
         

@@ -125,12 +125,14 @@ namespace Core.Common
             AuthorBookTitleBookID   = 5, // 5. Автор(ы), Название и Одинаковый Id Книги
                                          //    (разделять по разным группам разные издания книг)
             BookTitleBookID         = 6, // 6. Название Книги и Id Книги (Авторы книги могут быть разными)
+            AuthorBookTitleFB2Author = 7, // 7. Автор(ы), Название Книги и Автор fb2 файла (одна и та же книга, сделанная разными людьми)
+            AuthorBookTitleBookIDFB2Author = 8, // 8. Автор(ы), Название, Id Книги и Автор fb2 файла
         }
-		
-		/// <summary>
-		/// Номера колонок контрола отображения информации по файлам и Группам Дубликатора
-		/// </summary>
-		public enum FilesCountViewDupCollumnEnum : byte {
+
+        /// <summary>
+        /// Номера колонок контрола отображения информации по файлам и Группам Дубликатора
+        /// </summary>
+        public enum FilesCountViewDupCollumnEnum : byte {
 			AllGroups			= 0,	// всего Групп одинаковых книг
 			AllBoolsInAllGroups	= 1,	// всего всех книг во всех Группах 
 		}

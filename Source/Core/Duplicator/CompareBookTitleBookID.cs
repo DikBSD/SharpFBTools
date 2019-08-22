@@ -13,8 +13,6 @@ using System.Collections;
 
 using Core.Common;
 
-using SharpZipLibWorker = Core.Common.SharpZipLibWorker;
-
 namespace Core.Duplicator
 {
     /// <summary>
@@ -22,8 +20,6 @@ namespace Core.Duplicator
     /// </summary>
     class CompareBookTitleBookID
     {
-        private readonly SharpZipLibWorker _sharpZipLib = new SharpZipLibWorker();
-        private List<string> _nonOpenedFileList = new List<string>();
         private CompareCommon _compComm = new CompareCommon();
 
         /// <summary>
@@ -109,18 +105,6 @@ namespace Core.Duplicator
             }
             return ht;
         }
-
-
-        #region Свойства класса
-        /// <summary>
-        /// Список неоткрываемых файлов
-        /// </summary>
-        public virtual List<string> NonOpenedFileList
-        {
-            get { return _nonOpenedFileList; }
-            set { _nonOpenedFileList = value; }
-        }
-        #endregion
 
     }
 }

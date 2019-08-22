@@ -225,6 +225,7 @@
     </Compile>
     <Compile Include="Duplicator\CompareAuthorBookTitle.cs" />
     <Compile Include="Duplicator\CompareAuthorBookTitleBookID.cs" />
+    <Compile Include="Duplicator\CompareFB2Author.cs" />
     <Compile Include="Duplicator\CompareAuthorFIO.cs" />
     <Compile Include="Duplicator\CompareBookID.cs" />
     <Compile Include="Duplicator\CompareBookTitle.cs" />
