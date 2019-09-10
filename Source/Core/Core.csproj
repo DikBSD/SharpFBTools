@@ -223,8 +223,10 @@
     <Compile Include="Duplicator\CheckedBooksPathToXMLForm.Designer.cs">
       <DependentUpon>CheckedBooksPathToXMLForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Duplicator\CompareAuthorBookID.cs" />
     <Compile Include="Duplicator\CompareAuthorBookTitle.cs" />
     <Compile Include="Duplicator\CompareAuthorBookTitleBookID.cs" />
+    <Compile Include="Duplicator\CompareAuthorFromFB2.cs" />
     <Compile Include="Duplicator\CompareFB2Author.cs" />
     <Compile Include="Duplicator\CompareAuthorFIO.cs" />
     <Compile Include="Duplicator\CompareBookID.cs" />
