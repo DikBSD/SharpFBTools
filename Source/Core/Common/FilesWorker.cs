@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 namespace Core.Common
 {
@@ -27,12 +28,31 @@ namespace Core.Common
 		public FilesWorker()
 		{
 		}
-		
-		#region Открытые статические методы класса
-		/// <summary>
-		/// Сброс для списка файлов аттрибута только для чтения
-		/// </summary>
-		public static void DumpReadOnlyAttrForFiles( string sDir ) {
+
+        #region Открытые статические методы класса
+        /// <summary>
+        /// Сохранение списка строк в файл
+        /// </summary>
+        public static bool SaveListStringToFile(List<string> list, string FilePath)
+        {
+            if (list.Count == 0 || string.IsNullOrEmpty(FilePath))
+            {
+                return false;
+            } else {
+                foreach (string s in list)
+                {
+                    using (StreamWriter sw = new StreamWriter(FilePath, true, System.Text.Encoding.UTF8))
+                    {
+                        sw.WriteLine(s);
+                    }
+                }
+                return true;
+            }
+        }
+        /// <summary>
+        /// Сброс для списка файлов аттрибута только для чтения
+        /// </summary>
+        public static void DumpReadOnlyAttrForFiles( string sDir ) {
 			if ( Directory.Exists( sDir ) ) {
 				DirectoryInfo diFolder = new DirectoryInfo( sDir );
 				foreach ( FileInfo fiNextFile in diFolder.GetFiles() ) {

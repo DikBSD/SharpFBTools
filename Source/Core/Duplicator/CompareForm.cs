@@ -785,7 +785,7 @@ namespace Core.Duplicator
                     // Хэширование по одинаковым Авторам fb2 файлов
                     // в пределах сгенерированных групп книг по одинаковым Названиям и Авторам книг
                     _compareFB2Author.FilesHashForFB2AuthorsParser(
-                        ref bw, ref e, StatusLabel, ProgressBar, _TempDir,
+                        ref bw, ref e, StatusLabel, ProgressBar,
                         ref _htBookTitleAuthors, ref _htWorkingBook, _WithMiddleName
                     );
                     // формирование дерева списка копий
@@ -828,7 +828,7 @@ namespace Core.Duplicator
                     // Хэширование по одинаковым Авторам fb2 файлов
                     // в пределах сгенерированных групп книг по одинаковым Названиям, Авторам книг и ID книг
                     _compareFB2Author.FilesHashForFB2AuthorsParser(
-                        ref bw, ref e, StatusLabel, ProgressBar, _TempDir,
+                        ref bw, ref e, StatusLabel, ProgressBar,
                         ref _htBookTitleAuthorsBookID, ref _htWorkingBook, _WithMiddleName
                     );
                     // формирование дерева списка копий
@@ -864,7 +864,7 @@ namespace Core.Duplicator
                     // Хэширование по одинаковым Авторам fb2 файлов
                     // в пределах сгенерированных групп книг по одинаковым Названиям и ID книг
                     _compareFB2Author.FilesHashForFB2AuthorsParser(
-                        ref bw, ref e, StatusLabel, ProgressBar, _TempDir,
+                        ref bw, ref e, StatusLabel, ProgressBar,
                         ref _htBookTitleBookID, ref _htWorkingBook, _WithMiddleName
                     );
                     // формирование дерева списка копий
@@ -903,7 +903,7 @@ namespace Core.Duplicator
                     // Хэширование по одинаковым Авторам fb2 файлов
                     // в пределах сгенерированных групп книг по одинаковым Авторам книг и ID книг
                     _compareFB2Author.FilesHashForFB2AuthorsParser(
-                        ref bw, ref e, StatusLabel, ProgressBar, _TempDir,
+                        ref bw, ref e, StatusLabel, ProgressBar,
                         ref _htAuthorsBookID, ref _htWorkingBook, _WithMiddleName
                     );
 
