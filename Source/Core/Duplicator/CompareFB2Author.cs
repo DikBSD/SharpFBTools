@@ -32,7 +32,7 @@ namespace Core.Duplicator
         /// <param name="bw">Экземплар фонового обработчика класса BackgroundWorker</param>
         /// <param name="e">Экземпляр класса DoWorkEventArgs</param>
         public void FilesHashForFB2AuthorsParser(ref BackgroundWorker bw, ref DoWorkEventArgs e,
-                                                 Label StatusLabel, ProgressBar ProgressBar, string TempDir,
+                                                 Label StatusLabel, ProgressBar ProgressBar,
                                                  ref Hashtable htBookTitleAuthors, ref Hashtable htWorkingBook,
                                                  bool WithMiddleName)
         {
