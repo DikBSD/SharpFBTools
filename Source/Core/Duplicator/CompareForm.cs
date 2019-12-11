@@ -301,7 +301,9 @@ namespace Core.Duplicator
 		private readonly StatusView			_sv 			= new StatusView();
 		private readonly EndWorkMode		_EndMode		= new EndWorkMode();
 		private readonly SharpZipLibWorker	_sharpZipLib	= new SharpZipLibWorker();
-		
+
+		// Список всех хеш таблиц
+		List<Hashtable> _HashtableList = new List<Hashtable>();
 		// таблица для обработанных файлов - копий
 		private Hashtable _htWorkingBook		= new Hashtable( new FB2CultureComparer() );
 		// таблица для обработанных данных копий (режим группировки по Авторам и по Названиям Книг)
@@ -355,7 +357,14 @@ namespace Core.Duplicator
 		)
 		{
 			InitializeComponent();
-			
+
+			_HashtableList.Add(_htWorkingBook);
+			_HashtableList.Add(_htBookTitleAuthors);
+			_HashtableList.Add(_htBookTitleBookID);
+			_HashtableList.Add(_htBookTitleAuthorsBookID);
+			_HashtableList.Add(_htAuthors);
+			_HashtableList.Add(_htAuthorsBookID);
+
 			_tboxSourceDir				= tbSourceDir;
 			_chBoxScanSubDir			= cbScanSubDir;
             _cboxMode					= cboxMode;
@@ -1472,11 +1481,9 @@ namespace Core.Duplicator
         /// </summary>
         private void ClearAllHashtables()
         {
-            _htWorkingBook.Clear();
-            _htBookTitleAuthors.Clear();
-            _htBookTitleBookID.Clear();
-            _htBookTitleAuthorsBookID.Clear();
-        }
+            foreach (Hashtable ht in _HashtableList)
+				ht.Clear();
+		}
 
 //		// создание "пустого" BookData
 //		private BookData makeEmptyBookData() {
