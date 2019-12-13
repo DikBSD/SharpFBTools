@@ -3629,7 +3629,8 @@ namespace SharpFBTools.Tools
 			if ( listViewFB2Files.SelectedItems.Count > 0 ) {
 				ListViewItem SelectedItem = listViewFB2Files.SelectedItems[0];
 				if ( SelectedItem != null ) {
-					TICoverDPILabel.Text = STICoverDPILabel.Text = "DPI";
+                    tsslblProgress.Text = SelectedItem.Text; // Отображение в статус баре пути к выделенному файлу
+                    TICoverDPILabel.Text = STICoverDPILabel.Text = "DPI";
 					TICoverPixelsLabel.Text = STICoverPixelsLabel.Text = "В пикселах";
 					TICoverLenghtLabel.Text = STICoverLenghtLabel.Text = "Размер";
 					
