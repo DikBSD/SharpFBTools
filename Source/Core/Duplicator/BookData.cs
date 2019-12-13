@@ -35,8 +35,8 @@ namespace Core.Duplicator
         private string 			m_Encoding	= null; // кодировка книги
 		private string			m_Path		= null;	// путь к fb2-файлу Книги
 		
-		private const string	m_NoAuthor      = "<Автор книги отсутствует>"; // Когда либо нет тега <authors>, либо все его подтеги - пустые
-        private const string    m_NoFB2Author   = "<Автор fb2 файла отсутствует>"; // Когда либо нет тега <authors>, либо все его подтеги - пустые
+		private const string	m_AuthorNotExist      = "<Автор книги отсутствует>"; // Когда либо нет тега <authors>, либо все его подтеги - пустые
+        private const string    m_FB2AuthorNotExist   = "<Автор fb2 файла отсутствует>"; // Когда либо нет тега <authors>, либо все его подтеги - пустые
         #endregion
 
         public BookData( BookTitle BookTitle, IList<Author> Authors, IList<Genre> Genres, string Lang, string Id, string Version, IList<Author> FB2Authors, string Path, string Encoding )
@@ -86,8 +86,8 @@ namespace Core.Duplicator
         /// <param name="WithMiddleName">учитывать Отчество Автора (true)</param>
         /// <param name="IsFB2Author">Автор книги (false) или Автора fb2 файла (true)</param>
         public bool isSameAuthors(IList<Author> authors1, IList<Author> authors2, bool WithMiddleName, bool IsFB2Author) {
-			if ( authors1 != null && authors2 != null )
-				if ( authors1.Count != authors2.Count )
+			if (authors1 != null && authors2 != null)
+				if (authors1.Count != authors2.Count)
 					return false;
 			// если авторы одинаковые (но могут идти в разном порядке), то возвращается true
 			return makeListFOIAuthors(authors1, WithMiddleName,  IsFB2Author).Except(
@@ -103,21 +103,21 @@ namespace Core.Duplicator
         /// <param name="IsFB2Author">Автор книги (false) или Автора fb2 файла (true)</param>
         public List<string> makeListFOIAuthors(IList<Author> authors, bool WithMiddleName, bool IsFB2Author) {
 			List<string> list = new List<string>();
-			if (authors == null ) {
-                list.Add(!IsFB2Author ? m_NoFB2Author : m_NoAuthor);
+			if (authors == null) {
+                list.Add(IsFB2Author ? m_FB2AuthorNotExist : m_AuthorNotExist);
 				return list;
 			}
-            for ( int i = 0; i != authors.Count; ++i ) {
+            for (int i = 0; i != authors.Count; ++i) {
                 bool AuthorExist = true;
 				StringBuilder fio = new StringBuilder();
-				if (authors[i].LastName != null && !string.IsNullOrWhiteSpace(authors[i].LastName.Value ) )
+				if (authors[i].LastName != null && !string.IsNullOrWhiteSpace(authors[i].LastName.Value))
 					fio.Append(authors[i].LastName.Value.Trim());
-				if (authors[i].FirstName != null && !string.IsNullOrWhiteSpace(authors[i].FirstName.Value ) ) {
+				if (authors[i].FirstName != null && !string.IsNullOrWhiteSpace(authors[i].FirstName.Value)) {
 					fio.Append(" ");
 					fio.Append(authors[i].FirstName.Value.Trim());
 				}
-				if ( WithMiddleName ) {
-					if (authors[i].MiddleName != null && !string.IsNullOrWhiteSpace(authors[i].MiddleName.Value ) ) {
+				if (WithMiddleName) {
+					if (authors[i].MiddleName != null && !string.IsNullOrWhiteSpace(authors[i].MiddleName.Value)) {
 						fio.Append(" ");
 						fio.Append(authors[i].MiddleName.Value.Trim());
 					}
@@ -128,36 +128,49 @@ namespace Core.Duplicator
                 }
 
                 bool MiddleNameExist = false;
-				if ( WithMiddleName ) {
-					if (authors[i].MiddleName != null && !string.IsNullOrWhiteSpace(authors[i].MiddleName.Value ) )
+				if (WithMiddleName) {
+					if (authors[i].MiddleName != null && !string.IsNullOrWhiteSpace(authors[i].MiddleName.Value))
 						MiddleNameExist = true;
 				}
 				bool LastNameExist = false;
-				if (authors[i].LastName != null && !string.IsNullOrWhiteSpace(authors[i].LastName.Value ) )
+				if (authors[i].LastName != null && !string.IsNullOrWhiteSpace(authors[i].LastName.Value))
 					LastNameExist = true;
 				bool FirstNameExist = false;
-				if (authors[i].FirstName != null && !string.IsNullOrWhiteSpace(authors[i].FirstName.Value ) )
+				if (authors[i].FirstName != null && !string.IsNullOrWhiteSpace(authors[i].FirstName.Value))
 					FirstNameExist = true;
                 bool NickNameExist = false;
                 if (authors[i].NickName != null && !string.IsNullOrWhiteSpace(authors[i].NickName.Value))
                     NickNameExist = true;
 
-                if ( WithMiddleName ) {
-					if ( !LastNameExist && !FirstNameExist && !MiddleNameExist && !NickNameExist)
+                if (WithMiddleName) {
+					if (!LastNameExist && !FirstNameExist && !MiddleNameExist && !NickNameExist)
 						AuthorExist = false;
 				} else {
-					if ( !LastNameExist && !FirstNameExist && !NickNameExist)
+					if (!LastNameExist && !FirstNameExist && !NickNameExist)
 						AuthorExist = false;
 				}
 
 				string s = fio.ToString();
-				if ( !AuthorExist )
-					s = m_NoAuthor;
-				if ( s != m_NoAuthor ) {
-					if ( !list.Contains(s) )
-						list.Add(s);
-				} else
-					list.Add(s + ( i > 0 ? i.ToString() : string.Empty ) );
+				if (!AuthorExist) {
+					if (IsFB2Author)
+						s = m_FB2AuthorNotExist;
+					else
+						s = m_AuthorNotExist;
+				}
+
+				if (!IsFB2Author) {
+					if (s != m_AuthorNotExist) {
+						if (!list.Contains(s))
+							list.Add(s);
+					} else
+						list.Add(s + (i > 0 ? i.ToString() : string.Empty));
+				} else {
+					if (s != m_FB2AuthorNotExist) {
+						if (!list.Contains(s))
+							list.Add(s);
+					} else
+						list.Add(s + (i > 0 ? i.ToString() : string.Empty));
+				}
 			}
 			list.Sort(); // чтобы учесть одинаковые книги, где Авторы переставлены местами
 			return list;

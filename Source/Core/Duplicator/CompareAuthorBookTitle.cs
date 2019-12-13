@@ -16,7 +16,7 @@ using Core.Common;
 namespace Core.Duplicator
 {
     /// <summary>
-    /// Одинаковые Автор(ы) и Название Книги (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
+    /// Одинаковые Название Книги и Автор(ы) (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
     /// </summary>
     class CompareAuthorBookTitle
     {
@@ -30,26 +30,22 @@ namespace Core.Duplicator
         /// <param name="htFB2ForBT">Заполненная хеш-таблица списками книг по критерию одинакового Названия книг</param>
         /// <param name="htBookTitleAuthors">Заполняемая хеш-таблица списками книг по критерию ( Название книги (Авторы) )</param>
         /// <param name="WithMiddleName">Учитывать ли отчество Авторов (true) или нет (false) при поиске</param>
-        public void FilesHashForAuthorsParser(ref BackgroundWorker bw, ref DoWorkEventArgs e,
+        /// <returns>Признак непрерывности обработки файлов</returns>
+        public bool FilesHashForAuthorsParser(BackgroundWorker bw, DoWorkEventArgs e,
                                               Label StatusLabel, ProgressBar ProgressBar,
-                                              ref Hashtable htFB2ForBT, ref Hashtable htBookTitleAuthors, bool WithMiddleName)
+                                              HashtableClass htFB2ForBT, HashtableClass htBookTitleAuthors,
+                                              bool WithMiddleName)
         {
             StatusLabel.Text += "Хеширование по Авторам книг...\r";
             ProgressBar.Maximum = htFB2ForBT.Values.Count;
             ProgressBar.Value = 0;
             // генерация списка ключей хеш-таблицы (для удаления обработанного элемента таблицы)
-            List<string> keyList = _compComm.makeSortedKeysForGroups(ref htFB2ForBT);
+            List<string> keyList = _compComm.makeSortedKeysForGroups(htFB2ForBT);
             // группировка книг по одинаковым Авторам в пределах сгенерированных Групп книг по одинаковым Названиям
             int i = 0;
             foreach (string key in keyList) {
                 // разбивка на группы для одинакового Названия по Авторам
-                Hashtable htGroupAuthors = FindDupForAuthors(
-                    ref bw, ref e, (FB2FilesDataInGroup)htFB2ForBT[key], WithMiddleName
-                );
-                if (bw.CancellationPending) {
-                    e.Cancel = true;
-                    return;
-                }
+                Hashtable htGroupAuthors = FindDupForAuthors((FB2FilesDataInGroup)htFB2ForBT[key], WithMiddleName);
                 foreach (FB2FilesDataInGroup fb2List in htGroupAuthors.Values) {
                     if (!htBookTitleAuthors.ContainsKey(fb2List.Group))
                         htBookTitleAuthors.Add(fb2List.Group, fb2List);
@@ -62,29 +58,27 @@ namespace Core.Duplicator
                 // удаление обработанной группы книг, сгруппированных по одинаковому названию
                 htFB2ForBT.Remove(key);
                 bw.ReportProgress(++i);
+
+                if (bw.CancellationPending) {
+                    e.Cancel = true;
+                    return false;
+                }
             }
+            return true;
         }
 
         /// <summary>
         /// Cоздание групп копий по Авторам, относительно найденного Названия Книги
         /// </summary
-        /// <param name="bw">Экземплар фонового обработчика класса BackgroundWorker</param>
-        /// <param name="e">Экземпляр класса DoWorkEventArgs</param>
         /// <param name="fb2Group">Экземпляр класса для хранения информации по одинаковым книгам в одной группе</param>
         /// <param name="WithMiddleName">Учитывать ли отчество Авторов (true) или нет (false) при поиске</param>
-        /// <param name="IsFB2Author">Автор книги (false) или Автора fb2 файла (true)</param>
-        private Hashtable FindDupForAuthors(ref BackgroundWorker bw, ref DoWorkEventArgs e,
-                                            FB2FilesDataInGroup fb2Group, bool WithMiddleName)
+        private Hashtable FindDupForAuthors(FB2FilesDataInGroup fb2Group, bool WithMiddleName)
         {
             // в fb2Group.Group - название группы (название книги у всех книг одинаковое, а пути - разные )
             // внутри fb2Group в BookData - данные на каждую книгу группы
             Hashtable ht = new Hashtable(new FB2CultureComparer());
             // 2 итератора для перебора всех книг группы. 1-й - только на текущий элемент группы, 2-й - скользящий на все последующие. т.е. iter2 = iter1+1
             for (int iter1 = 0; iter1 != fb2Group.Count; ++iter1) {
-                if (bw.CancellationPending) {
-                    e.Cancel = true;
-                    return null;
-                }
                 BookData bd1 = fb2Group[iter1]; // текущая книга
                 FB2FilesDataInGroup fb2NewGroup = new FB2FilesDataInGroup();
                 // перебор всех книг в группе, за исключением текущей

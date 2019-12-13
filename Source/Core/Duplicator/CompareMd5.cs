@@ -29,29 +29,24 @@ namespace Core.Duplicator
         private readonly SharpZipLibWorker _sharpZipLib = new SharpZipLibWorker();
         private List<string> _nonOpenedFileList = new List<string>();
         private CompareCommon _compComm = new CompareCommon();
-        
+
         /// <summary>
         /// Хеширование файлов в контексте значений Md5 книг:
         /// Абсолютно одинаковые книги (Md5)
         /// </summary>
         /// <param name="FilesList">Список файлов для сканирования</param>
         /// <param name="htFB2ForMd5">Хеш Таблица с книгами с одинаковыми значениями Md5</param>
-        public void FilesHashForMd5Parser(ref BackgroundWorker bw, ref DoWorkEventArgs e,
+        /// <returns>Признак непрерывности обработки файлов</returns>
+        public bool FilesHashForMd5Parser(BackgroundWorker bw, DoWorkEventArgs e,
                                           Label StatusLabel, ProgressBar ProgressBar, string TempDir,
-                                          ref List<string> FilesList, ref Hashtable htFB2ForMd5)
+                                          List<string> FilesList, HashtableClass htFB2ForMd5)
         {
-            StatusLabel.Text += "Хэширование fb2-файлов...\r";
+            StatusLabel.Text += "Хэширование по Md5 ...\r";
             ProgressBar.Maximum = FilesList.Count;
             ProgressBar.Value = 0;
 
             List<string> FinishedFilesList = new List<string>();
             for (int i = 0; i != FilesList.Count; ++i) {
-                if (bw.CancellationPending) {
-                    // удаление из списка всех файлов обработанные книги (файлы)
-                    WorksWithBooks.removeFinishedFilesInFilesList(ref FilesList, ref FinishedFilesList);
-                    e.Cancel = true;
-                    return;
-                }
                 if (FilesWorker.isFB2File(FilesList[i])) {
                     // заполнение хеш таблицы данными о fb2-книгах в контексте их md5
                     MakeFB2Md5HashTable(null, FilesList[i], ref htFB2ForMd5);
@@ -82,11 +77,20 @@ namespace Core.Duplicator
                     }
                 }
                 bw.ReportProgress(i); // отобразим данные в контролах
+
+                if (bw.CancellationPending) {
+                    // удаление из списка всех файлов обработанные книги (файлы)
+                    WorksWithBooks.removeFinishedFilesInFilesList(ref FilesList, ref FinishedFilesList);
+                    e.Cancel = true;
+                    return false;
+                }
             }
             // удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
-            _compComm.removeNotCopiesEntryInHashTable(ref htFB2ForMd5);
+            _compComm.removeNotCopiesEntryInHashTable(htFB2ForMd5);
             // удаление из списка всех файлов обработанные книги (файлы)
             WorksWithBooks.removeFinishedFilesInFilesList(ref FilesList, ref FinishedFilesList);
+
+            return true;
         }
 
         /// <summary>
@@ -95,7 +99,7 @@ namespace Core.Duplicator
 		/// <param name="ZipPath">путь к zip-архиву. Если книга - не запакована в zip, то ZipPath = null</param>
 		/// <param name="SrcPath">путь к fb2-файлу;</param>
 		/// <param name="htFB2ForMd5">Хеш Таблица с книгами с одинаковыми значениями Md5</param>
-		private void MakeFB2Md5HashTable(string ZipPath, string SrcPath, ref Hashtable htFB2ForMd5)
+		private void MakeFB2Md5HashTable(string ZipPath, string SrcPath, ref HashtableClass htFB2ForMd5)
         {
             string md5 = ComputeMD5Checksum(SrcPath);
 

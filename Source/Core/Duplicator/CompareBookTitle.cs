@@ -38,25 +38,20 @@ namespace Core.Duplicator
         /// </summary>
         /// <param name="FilesList">Список файлов для сканирования</param>
         /// <param name="htFB2ForBT">Хеш Таблица с книгами с одинаковыми Названиями</param>
-        public void FilesHashForBTParser(ref BackgroundWorker bw, ref DoWorkEventArgs e,
+        /// <returns>Признак непрерывности обработки файлов</returns>
+        public bool FilesHashForBTParser(BackgroundWorker bw, DoWorkEventArgs e,
                                          Label StatusLabel, ProgressBar ProgressBar, string TempDir,
-                                         ref List<string> FilesList, ref Hashtable htFB2ForBT)
+                                         List<string> FilesList, HashtableClass htFB2ForBT)
         {
-            StatusLabel.Text += "Хэширование fb2-файлов в контексте Авторов и Названия книг...\r";
+            StatusLabel.Text += "Хэширование по Названиям книг...\r";
             ProgressBar.Maximum = FilesList.Count;
             ProgressBar.Value = 0;
 
             List<string> FinishedFilesList = new List<string>();
             for (int i = 0; i != FilesList.Count; ++i) {
-                if (bw.CancellationPending) {
-                    // удаление из списка всех файлов обработанные книги (файлы)
-                    WorksWithBooks.removeFinishedFilesInFilesList(ref FilesList, ref FinishedFilesList);
-                    e.Cancel = true;
-                    return;
-                }
                 if (FilesWorker.isFB2File(FilesList[i])) {
                     // заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
-                    MakeFB2BTHashTable(null, FilesList[i], ref htFB2ForBT);
+                    MakeFB2BTHashTable(null, FilesList[i], htFB2ForBT);
                     // обработанные файлы
                     FinishedFilesList.Add(FilesList[i]);
                 } else {
@@ -67,7 +62,7 @@ namespace Core.Duplicator
                                 if (files.Length > 0) {
                                     if (FilesWorker.isFB2File(files[0])) {
                                         // заполнение хеш таблицы данными о fb2-книгах в контексте их Авторов и Названия
-                                        MakeFB2BTHashTable(FilesList[i], files[0], ref htFB2ForBT);
+                                        MakeFB2BTHashTable(FilesList[i], files[0], htFB2ForBT);
                                         // обработанные файлы
                                         FinishedFilesList.Add(FilesList[i]);
                                     }
@@ -83,11 +78,19 @@ namespace Core.Duplicator
                     }
                 }
                 bw.ReportProgress(i); // отобразим данные в контролах
+
+                if (bw.CancellationPending) {
+                    // удаление из списка всех файлов обработанные книги (файлы)
+                    WorksWithBooks.removeFinishedFilesInFilesList(ref FilesList, ref FinishedFilesList);
+                    e.Cancel = true;
+                    return false;
+                }
             }
             // удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
-            _compComm.removeNotCopiesEntryInHashTable(ref htFB2ForBT);
+            _compComm.removeNotCopiesEntryInHashTable(htFB2ForBT);
             // удаление из списка всех файлов обработанные книги (файлы)
             WorksWithBooks.removeFinishedFilesInFilesList(ref FilesList, ref FinishedFilesList);
+            return true;
         }
 
         /// <summary>
@@ -96,7 +99,7 @@ namespace Core.Duplicator
 		/// <param name="ZipPath">путь к zip-архиву. Если книга - не запакована в zip, то ZipPath = null</param>
 		/// <param name="SrcPath">путь к fb2-файлу;</param>
 		/// <param name="htFB2ForBT">Хеш Таблица с книгами с одинаковыми Названиями</param>
-		private void MakeFB2BTHashTable(string ZipPath, string SrcPath, ref Hashtable htFB2ForBT)
+		private void MakeFB2BTHashTable(string ZipPath, string SrcPath, HashtableClass htFB2ForBT)
         {
             FictionBook fb2 = null;
             try {

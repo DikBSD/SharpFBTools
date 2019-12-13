@@ -5,36 +5,23 @@
  * 
  * License: GPL 2.1
  */
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections;
-using System.Security.Cryptography;
 using System.IO;
 using System.Xml.Linq;
 
 using Core.Common;
-using Core.FB2.FB2Parsers;
 using Core.FB2.Description.Common;
 using Core.FB2.Description.TitleInfo;
 
 using FB2Validator = Core.FB2Parser.FB2Validator;
 using FilesWorker = Core.Common.FilesWorker;
-using SharpZipLibWorker = Core.Common.SharpZipLibWorker;
-using MiscListView = Core.Common.MiscListView;
 using Colors = Core.Common.Colors;
-using EndWorkMode = Core.Common.EndWorkMode;
 
 // enums
-using SearchCompareModeEnum = Core.Common.Enums.SearchCompareModeEnum;
-using EndWorkModeEnum = Core.Common.Enums.EndWorkModeEnum;
-using FilesCountViewDupCollumnEnum = Core.Common.Enums.FilesCountViewDupCollumnEnum;
-using ResultViewDupCollumnEnum = Core.Common.Enums.ResultViewDupCollumnEnum;
 
 namespace Core.Duplicator
 {
@@ -50,10 +37,27 @@ namespace Core.Duplicator
         /// Удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
         /// </summary>
         /// <param name="ht">Хеш Таблица, в которой производится удаление элементов по заданному алгоритму</param>
-        public void removeNotCopiesEntryInHashTable(ref Hashtable ht)
+        public void removeNotCopiesEntryInHashTable(Hashtable ht)
         {
             List<DictionaryEntry> notCopies = new List<DictionaryEntry>();
             foreach (DictionaryEntry entry in ht) {
+                FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)entry.Value;
+                if (fb2f.Count == 1)
+                    notCopies.Add(entry);
+            }
+            foreach (var ent in notCopies)
+                ht.Remove(ent.Key);
+        }
+
+        /// <summary>
+        /// Удаление элементов таблицы, value (списки) которых состоят из 1-го элемента (это не копии)
+        /// </summary>
+        /// <param name="ht">Хеш Таблица, в которой производится удаление элементов по заданному алгоритму</param>
+        public void removeNotCopiesEntryInHashTable(HashtableClass ht)
+        {
+            List<DictionaryEntry> notCopies = new List<DictionaryEntry>();
+            foreach (DictionaryEntry entry in ht)
+            {
                 FB2FilesDataInGroup fb2f = (FB2FilesDataInGroup)entry.Value;
                 if (fb2f.Count == 1)
                     notCopies.Add(entry);
@@ -87,33 +91,29 @@ namespace Core.Duplicator
         /// <param name="bw">Экземплар фонового обработчика класса BackgroundWorker</param>
         /// <param name="e">Экземпляр класса DoWorkEventArgs</param>
         /// <param name="ht">Заполненная хеш-таблица списками книг</param>
-        public void makeTreeOfBookCopies(ref BackgroundWorker bw, ref DoWorkEventArgs e,
-                                          Label StatusLabel, ProgressBar ProgressBar,
-                                          CheckBox checkBoxSaveGroupsToXml, Label lblGroupCountForList,
-                                          ComboBox cbGroupCountForList, ListView listViewFB2Files,
-                                          StatusView sv, ref Hashtable ht)
+        /// <returns>Признак непрерывности обработки файлов</returns>
+        public bool makeTreeOfBookCopies(BackgroundWorker bw, DoWorkEventArgs e,
+                                          Label StatusLabel, ProgressBar ProgressBar, ListView listViewFB2Files,
+                                          ref StatusView sv, HashtableClass ht)
         {
-            // блокировка возможности сразу сохранять результат в xml файлы, минуя построения дерева.
-            checkBoxSaveGroupsToXml.Enabled = false;
-            lblGroupCountForList.Enabled = false;
-            cbGroupCountForList.Enabled = false;
-
             StatusLabel.Text += "Создание списка (псевдодерево) одинаковых fb2-файлов...\r";
             ProgressBar.Maximum = ht.Values.Count;
             ProgressBar.Value = 0;
             // сортировка ключей (групп)
-            List<string> keyList = makeSortedKeysForGroups(ref ht);
+            List<string> keyList = makeSortedKeysForGroups(ht);
             int i = 0;
             foreach (string key in keyList) {
-                if (bw.CancellationPending) {
-                    e.Cancel = true;
-                    return;
-                }
                 ++sv.Group; // число групп одинаковых книг
                              // формирование представления Групп с их книгами
                 makeBookCopiesView((FB2FilesDataInGroup)ht[key], listViewFB2Files, ref sv);
                 bw.ReportProgress(++i);
+
+                if (bw.CancellationPending) {
+                    e.Cancel = true;
+                    return false;
+                }
             }
+            return true;
         }
 
         /// <summary>
@@ -121,7 +121,21 @@ namespace Core.Duplicator
 		/// </summary>
 		/// <param name="htBookGroups">Хэш-таблица Групп</param>
 		/// <returns>Список List объектов типа string значений отсортированных ключей хэш-таблицы</returns>
-		public List<string> makeSortedKeysForGroups(ref Hashtable htBookGroups)
+		public List<string> makeSortedKeysForGroups(Hashtable htBookGroups)
+        {
+            List<string> keyList = new List<string>();
+            foreach (string key in htBookGroups.Keys)
+                keyList.Add(key);
+            keyList.Sort();
+            return keyList;
+        }
+
+        /// <summary>
+		/// Сортировка ключей (групп)
+		/// </summary>
+		/// <param name="htBookGroups">Хэш-таблица Групп</param>
+		/// <returns>Список List объектов типа string значений отсортированных ключей хэш-таблицы</returns>
+		public List<string> makeSortedKeysForGroups(HashtableClass htBookGroups)
         {
             List<string> keyList = new List<string>();
             foreach (string key in htBookGroups.Keys)
@@ -133,7 +147,7 @@ namespace Core.Duplicator
         /// <summary>
 		/// Создание хеш-таблицы для групп одинаковых книг
 		/// </summary>
-		private bool AddBookGroupInHashTable(ref Hashtable groups, ref ListViewGroup lvg)
+		private bool AddBookGroupInHashTable(Hashtable groups, ListViewGroup lvg)
         {
             if (groups != null) {
                 if (!groups.Contains(lvg.Header)) {
@@ -180,7 +194,7 @@ namespace Core.Duplicator
                 lvi.SubItems.Add(GetFileCreationTime(bd.Path));
                 lvi.SubItems.Add(FileLastWriteTime(bd.Path));
                 // заносим группу в хеш, если она там отсутствует
-                AddBookGroupInHashTable(ref htBookGroups, ref lvGroup);
+                AddBookGroupInHashTable(htBookGroups, lvGroup);
                 // присваиваем группу книге
                 listViewFB2Files.Groups.Add((ListViewGroup)htBookGroups[fb2BookList.Group]);
                 lvi.Group = (ListViewGroup)htBookGroups[fb2BookList.Group];
@@ -289,7 +303,7 @@ namespace Core.Duplicator
         // =============================================================================================
         #region Сохранение результата поиска копий в xml-файлы
         /// <summary>
-        /// сохранение результата сразу в xml-файлы без построения визуального списка
+        /// Сохранение результата сразу в xml-файлы без построения визуального списка
         /// </summary>
         /// <param name="bw">Ссылка на объект класса BackgroundWorker</param>
         /// <param name="e">Ссылка на объект класса DoWorkEventArgs</param>
@@ -297,10 +311,11 @@ namespace Core.Duplicator
         /// <param name="CompareMode">Вид сравнения при поиске копий</param>
         /// <param name="CompareModeName">Название вида сравнения при поиске копий</param>
         /// <param name="ht">Хэш-таблица данных на Группы (копии fb2 книг по Группам)</param>
-        public void saveCopiesListToXml(ref BackgroundWorker bw, ref DoWorkEventArgs e, int GroupCountForList,
+        /// <returns>Признак непрерывности обработки файлов</returns>
+        public bool saveCopiesListToXml(BackgroundWorker bw, DoWorkEventArgs e, int GroupCountForList,
                                          int CompareMode, string CompareModeName, Label StatusLabel, ProgressBar ProgressBar,
-                                         StatusView sv, string Source, bool ScanSubDirs, ComboBox cbGroupCountForList,
-                                         CheckBox checkBoxSaveGroupsToXml, ref Hashtable ht)
+                                         ref StatusView sv, string SourceDir, bool ScanSubDirs,
+                                         int GroupCountForListIndex, bool IsSaveGroupToXMLWithoutTree, HashtableClass ht)
 
         {
             // блокировка отмены сохранения результата в файлы
@@ -321,25 +336,19 @@ namespace Core.Duplicator
 
             // копии fb2 книг по группам
             if (ht.Values.Count > 0) {
-                XDocument doc = createXMLStructure(CompareMode, CompareModeName, Source, ScanSubDirs,
-                                                   cbGroupCountForList, checkBoxSaveGroupsToXml);
+                XDocument doc = createXMLStructure(CompareMode, CompareModeName, SourceDir, ScanSubDirs,
+                                                   GroupCountForListIndex, IsSaveGroupToXMLWithoutTree);
 
                 int BookInGroups = 0;       // число книг (books) в Группах (Groups)
                 int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
                 int i = 0;                  // прогресс
                 bool one = false;
                 // сортировка ключей (групп)
-                List<string> keyList = makeSortedKeysForGroups(ref ht);
+                List<string> keyList = makeSortedKeysForGroups(ht);
                 foreach (string key in keyList) {
-                    if (bw.CancellationPending) {
-                        e.Cancel = true;
-                        return;
-                    }
-
                     ++sv.Group; // число групп одинаковых книг
-                                 // формирование представления Групп с их книгами
-                    addAllBookInGroup(ref bw, ref e, ref doc, (FB2FilesDataInGroup)ht[key],
-                                        ref BookInGroups, ref GroupCountInGroups, ref sv);
+                    // формирование представления Групп с их книгами
+                    addAllBookInGroup(bw, e, doc, (FB2FilesDataInGroup)ht[key], ref BookInGroups, ref GroupCountInGroups, ref sv);
 
                     ++GroupCounterForXML;
                     ++ThroughGroupCounterForXML;
@@ -347,7 +356,7 @@ namespace Core.Duplicator
                     if (GroupCountForList <= ht.Values.Count) {
                         if (GroupCounterForXML >= GroupCountForList) {
                             string FileNumber = StringProcessing.makeNNNStringOfNumber(++XmlFileNumber) + ".dup_lbc";
-                            setDataForNode(ref doc, GroupCountInGroups, BookInGroups);
+                            setDataForNode(doc, GroupCountInGroups, BookInGroups);
                             doc.Save(Path.Combine(ToDirName, FileNumber));
                             StatusLabel.Text += "Файл: '_Copies\\" + FileNumber + "' создан...\r";
                             doc.Root.Element("Groups").Elements().Remove();
@@ -358,22 +367,28 @@ namespace Core.Duplicator
                             // последний диаппазон Групп
                             if (ThroughGroupCounterForXML == ht.Values.Count) {
                                 string FileNumber = StringProcessing.makeNNNStringOfNumber(++XmlFileNumber) + ".dup_lbc";
-                                setDataForNode(ref doc, GroupCountInGroups, BookInGroups);
+                                setDataForNode(doc, GroupCountInGroups, BookInGroups);
                                 doc.Save(Path.Combine(ToDirName, FileNumber));
                                 StatusLabel.Text += "Файл: '_Copies\\" + FileNumber + "' создан...\r";
                             }
                         }
                     } else {
-                        setDataForNode(ref doc, GroupCountInGroups, BookInGroups);
+                        setDataForNode(doc, GroupCountInGroups, BookInGroups);
                         one = true;
                     }
                     bw.ReportProgress(i++);
+
+                    if (bw.CancellationPending) {
+                        e.Cancel = true;
+                        return false;
+                    }
                 } // по всем Группам
                 if (one) {
                     StatusLabel.Text += @"Файл: '_Copies\001.dup_lbc' ...\r";
                     doc.Save(Path.Combine(ToDirName, "001.dup_lbc"));
                 }
             }
+            return true;
         }
         /// <summary>
         /// Добавление Группы в Список Групп
@@ -384,8 +399,8 @@ namespace Core.Duplicator
         /// <param name="fb2BookList">Список данных fb2 книг для конкретной Группы</param>
         /// <param name="BookInGroups">Число книг в Группе</param>
         /// <param name="GroupCountInGroups">Счетчик числа Групп</param>
-        private void addAllBookInGroup(ref BackgroundWorker bw, ref DoWorkEventArgs e,
-                                       ref XDocument doc, FB2FilesDataInGroup fb2BookList,
+        private void addAllBookInGroup( BackgroundWorker bw,  DoWorkEventArgs e,
+                                        XDocument doc, FB2FilesDataInGroup fb2BookList,
                                        ref int BookInGroups, ref int GroupCountInGroups,
                                        ref StatusView sv)
         {
@@ -458,7 +473,7 @@ namespace Core.Duplicator
         /// <param name="doc">xml документ - объект класса XDocument, в который заносятся данные на книги Групп</param>
         /// <param name="GroupCountInGroups">Счетчик числа Групп</param>
         /// <param name="BookInGroups">Число книг в Группе</param>
-        private void setDataForNode(ref XDocument doc, int GroupCountInGroups, int BookInGroups)
+        private void setDataForNode(XDocument doc, int GroupCountInGroups, int BookInGroups)
         {
             XElement xCompareData = doc.Root.Element("CompareData");
             if (xCompareData != null) {
@@ -482,20 +497,20 @@ namespace Core.Duplicator
         /// <param name="CompareMode">Вид сравнения при поиске копий</param>
         /// <param name="CompareModeName">Название вида сравнения при поиске копий</param>
         /// <returns>Объект класса XDocument </returns>
-        private XDocument createXMLStructure(int CompareMode, string CompareModeName, string Source, bool ScanSubDirs,
-                                            ComboBox cbGroupCountForList, CheckBox checkBoxSaveGroupsToXml)
+        private XDocument createXMLStructure(int CompareMode, string CompareModeName, string SourceDir, bool ScanSubDirs,
+                                            int GroupCountForListIndex, bool IsSaveGroupToXMLWithoutTree)
         {
             return new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"),
                 new XComment("Файл копий fb2 книг, сохраненный после полного окончания работы Дубликатора"),
                 new XElement("Files", new XAttribute("type", "dup_endwork"),
                              new XComment("Папка для поиска копий fb2 книг"),
-                             new XElement("SourceDir", Source),
+                             new XElement("SourceDir", SourceDir),
                              new XComment("Настройки поиска-сравнения fb2 книг"),
                              new XElement("Settings",
                                           new XElement("ScanSubDirs", ScanSubDirs),
-                                          new XElement("GroupCountForList", cbGroupCountForList.SelectedIndex),
-                                          new XElement("SaveGroupToXMLWithoutTree", checkBoxSaveGroupsToXml.Checked)),
+                                          new XElement("GroupCountForList", GroupCountForListIndex),
+                                          new XElement("SaveGroupToXMLWithoutTree", IsSaveGroupToXMLWithoutTree)),
                              new XComment("Режим поиска-сравнения fb2 книг"),
                              new XElement("CompareMode",
                                           new XAttribute("index", CompareMode),
@@ -527,7 +542,6 @@ namespace Core.Duplicator
             set { _noOrEmptyBookIDString = value; }
         }
         #endregion
-        
 
     }
 }

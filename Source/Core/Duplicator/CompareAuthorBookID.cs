@@ -33,26 +33,21 @@ namespace Core.Duplicator
         /// <param name="e">Экземпляр класса DoWorkEventArgs</param>
         /// <param name="htAuthors">Хэш Таблица с книгами по критерию одинаковости их Авторов</param>
         /// <param name="htWorkingBook">Хэш Таблица с книгами по критерию одинаковости их ID</param>
-        public void FilesHashForAuthorsBookIDParser(ref BackgroundWorker bw, ref DoWorkEventArgs e,
+        /// <returns>Признак непрерывности обработки файлов</returns>
+        public bool FilesHashForAuthorsBookIDParser(ref BackgroundWorker bw, ref DoWorkEventArgs e,
                                                     Label StatusLabel, ProgressBar ProgressBar,
-                                                    ref Hashtable htBookTitleAuthors, ref Hashtable htWorkingBook)
+                                                    ref HashtableClass htBookTitleAuthors, ref HashtableClass htWorkingBook)
         {
-            StatusLabel.Text += "Хэширование fb2-файлов по ID книги в пределах одинаковых Авторов...\r";
+            StatusLabel.Text += "Хэширование по ID книги в пределах одинаковых Авторов...\r";
             ProgressBar.Maximum = htBookTitleAuthors.Count;
             ProgressBar.Value = 0;
             // генерация списка ключей хеш-таблицы (для удаления обработанного элемента таблицы)
-            List<string> keyList = _compComm.makeSortedKeysForGroups(ref htBookTitleAuthors);
+            List<string> keyList = _compComm.makeSortedKeysForGroups(htBookTitleAuthors);
             // группировка книг по одинаковым Id Книги в пределах сгенерированных Групп книг одинаковых Авторов
             int i = 0;
             foreach (string key in keyList) {
                 // разбивка на группы для одинакового Id книги по Названию и по Авторам
-                Hashtable AuthorsTitleBookID = FindDupForAuthorsID(
-                    ref bw, ref e, (FB2FilesDataInGroup)htBookTitleAuthors[key]
-                );
-                if (bw.CancellationPending) {
-                    e.Cancel = true;
-                    return;
-                }
+                Hashtable AuthorsTitleBookID = FindDupForAuthorsID((FB2FilesDataInGroup)htBookTitleAuthors[key]);
                 foreach (FB2FilesDataInGroup fb2List in AuthorsTitleBookID.Values) {
                     if (!htBookTitleAuthors.ContainsKey(fb2List.Group))
                         htWorkingBook.Add(fb2List.Group, fb2List);
@@ -64,7 +59,13 @@ namespace Core.Duplicator
                 // удаление обработанной группы книг, сгруппированных по одинаковому Автору
                 htBookTitleAuthors.Remove(key);
                 bw.ReportProgress(++i);
+
+                if (bw.CancellationPending) {
+                    e.Cancel = true;
+                    return false;
+                }
             }
+            return true;
         }
 
         /// <summary>
@@ -73,18 +74,13 @@ namespace Core.Duplicator
         /// <param name="bw">Экземпляр фонового обработчика класса BackgroundWorker</param>
         /// <param name="e">Экземпляр класса DoWorkEventArgs</param>
         /// <param name="fb2Group">Экземпляр класса для хранения информации по одинаковым книгам в одной группе</param>
-        private Hashtable FindDupForAuthorsID(ref BackgroundWorker bw, ref DoWorkEventArgs e,
-                                              FB2FilesDataInGroup fb2Group)
+        private Hashtable FindDupForAuthorsID(FB2FilesDataInGroup fb2Group)
         {
             // в fb2Group.Group - название группы (название книги у всех книг одинаковое, а пути - разные )
             // внутри fb2Group в BookData - данные на каждую книгу группы
             Hashtable ht = new Hashtable(new FB2CultureComparer());
             // 2 итератора для перебора всех книг группы. 1-й - только на текущий элемент группы, 2-й - скользящий на все последующие. т.е. iter2 = iter1+1
             for (int iter1 = 0; iter1 != fb2Group.Count; ++iter1) {
-                if (bw.CancellationPending) {
-                    e.Cancel = true;
-                    return ht;
-                }
                 BookData bd1 = fb2Group[iter1]; // текущая книга
                 FB2FilesDataInGroup fb2NewGroup = new FB2FilesDataInGroup();
                 // перебор всех книг в группе, за исключением текущей

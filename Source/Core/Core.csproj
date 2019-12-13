@@ -163,6 +163,7 @@
     <Compile Include="Common\FB2DescriptionCorrector.cs" />
     <Compile Include="Common\FilesWorker.cs" />
     <Compile Include="Common\GenresWorker.cs" />
+    <Compile Include="Common\HashtableClass.cs" />
     <Compile Include="Common\IFB2TagsNotExsist.cs" />
     <Compile Include="Common\ImageWorker.cs" />
     <Compile Include="Common\IProblemDirs.cs" />

@@ -38,22 +38,17 @@ namespace Core.Duplicator
         /// <param name="FilesList">Список файлов для сканирования</param>
         /// <param name="htFB2ForAuthorFIO">Хеш Таблица для сбора одинаковых Авторов книг</param>
         /// <param name="WithMiddleName">Учитывать ли отчество Авторов (true) или нет (false) при поиске</param>
-        public void FilesHashForAuthorParser(ref BackgroundWorker bw, ref DoWorkEventArgs e,
+        /// <returns>Признак непрерывности обработки файлов</returns>
+        public bool FilesHashForAuthorParser(ref BackgroundWorker bw, ref DoWorkEventArgs e,
                                                 Label StatusLabel, ProgressBar ProgressBar, string TempDir,
-                                                ref List<string> FilesList, ref Hashtable htFB2ForAuthorFIO, bool WithMiddleName)
+                                                ref List<string> FilesList, ref HashtableClass htFB2ForAuthorFIO, bool WithMiddleName)
         {
-            StatusLabel.Text += "Хэширование fb2-файлов в контексте Авторов с одинаковой Фамилией...\r";
+            StatusLabel.Text += "Хэширование в контексте Авторов с одинаковой Фамилией...\r";
             ProgressBar.Maximum = FilesList.Count;
             ProgressBar.Value = 0;
 
             List<string> FinishedFilesList = new List<string>();
             for (int i = 0; i != FilesList.Count; ++i) {
-                if (bw.CancellationPending) {
-                    // удаление из списка всех файлов обработанные книги (файлы)
-                    WorksWithBooks.removeFinishedFilesInFilesList(ref FilesList, ref FinishedFilesList);
-                    e.Cancel = true;
-                    return;
-                }
                 if (FilesWorker.isFB2File(FilesList[i])) {
                     // заполнение хеш таблицы данными о fb2-книгах в контексте Авторов с одинаковой Фамилией и инициалами
                     MakeFB2AuthorHashTable(null, FilesList[i], ref htFB2ForAuthorFIO, WithMiddleName);
@@ -82,11 +77,20 @@ namespace Core.Duplicator
                     }
                 }
                 bw.ReportProgress(i); // отобразим данные в контролах
+
+                if (bw.CancellationPending) {
+                    // удаление из списка всех файлов обработанные книги (файлы)
+                    WorksWithBooks.removeFinishedFilesInFilesList(ref FilesList, ref FinishedFilesList);
+                    e.Cancel = true;
+                    return false;
+                }
             }
             // удаление элементов таблицы, value (списки) которых состоят из 1-го элемента
-            _compComm.removeNotCopiesEntryInHashTable(ref htFB2ForAuthorFIO);
+            _compComm.removeNotCopiesEntryInHashTable(htFB2ForAuthorFIO);
             // удаление из списка всех файлов обработанные книги (файлы)
             WorksWithBooks.removeFinishedFilesInFilesList(ref FilesList, ref FinishedFilesList);
+
+            return true;
         }
 
         /// <summary>
@@ -96,7 +100,7 @@ namespace Core.Duplicator
         /// <param name="SrcPath">путь к fb2-файлу</param>
         /// <param name="htFB2ForAuthorFIO">Хеш Таблица с книгами одинаковых Авторов</param>
         /// <param name="WithMiddleName">Учитывать ли отчество Авторов (true) или нет (false) при поиске</param>
-        private void MakeFB2AuthorHashTable(string ZipPath, string SrcPath, ref Hashtable htFB2ForAuthorFIO, bool WithMiddleName)
+        private void MakeFB2AuthorHashTable(string ZipPath, string SrcPath, ref HashtableClass htFB2ForAuthorFIO, bool WithMiddleName)
         {
             FictionBook fb2 = null;
             try {
@@ -147,7 +151,7 @@ namespace Core.Duplicator
 		/// <param name="sAuthor">Фамилия и 1-я буква Имени текущего автора</param>
 		/// <param name="htFB2ForAuthor">Хеш Таблица с книгами одинаковых Авторов</param>
 		private void FB2AuthorSetHashTable(FictionBook fb2, string ZipPath, string SrcPath, string Encoding,
-                                              string sAuthor, ref Hashtable htFB2ForAuthor)
+                                           string sAuthor, ref HashtableClass htFB2ForAuthor)
         {
             // данные о книге
             BookData fb2BookData = new BookData(
