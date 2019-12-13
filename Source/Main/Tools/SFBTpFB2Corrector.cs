@@ -828,6 +828,7 @@ namespace SharpFBTools.Tools
 			if( listViewFB2Files.SelectedItems.Count == 1 ) {
 				ListViewItem SelectedItem = listViewFB2Files.SelectedItems[0];
 				if( SelectedItem != null ) {
+					tsslblProgress.Text = SelectedItem.Text; // Отображение в статус баре пути к выделенному файлу
 					TICoverDPILabel.Text = STICoverDPILabel.Text = "DPI";
 					TICoverPixelsLabel.Text = STICoverPixelsLabel.Text = "В пикселах";
 					TICoverLenghtLabel.Text = STICoverLenghtLabel.Text = "Размер";
@@ -1833,6 +1834,14 @@ namespace SharpFBTools.Tools
 			}
 		}
 
+		private void tsslblProgress_MouseDown(object sender, MouseEventArgs e)
+		{
+			Clipboard.Clear();
+			Clipboard.SetText(tsslblProgress.Text);
+			if (tsslblProgress.Text != "=>")
+				MessageBox.Show("Путь к выделенной книге был скопирован в буфер обмена.", "SharpFBTools - Корректор");
+		}
 		#endregion
+
 	}
 }
