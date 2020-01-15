@@ -393,6 +393,7 @@ namespace SharpFBTools.Tools
             this.gboxCopyMoveOptions = new System.Windows.Forms.GroupBox();
             this.cboxExistFile = new System.Windows.Forms.ComboBox();
             this.lblExistFile = new System.Windows.Forms.Label();
+            this.tsslblProgressCopiesFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.ssProgress.SuspendLayout();
             this.cmsFB2.SuspendLayout();
             this.tcDuplicator.SuspendLayout();
@@ -436,7 +437,8 @@ namespace SharpFBTools.Tools
             this.ssProgress.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ssProgress.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsslblProgress,
-            this.tsProgressBar});
+            this.tsProgressBar,
+            this.tsslblProgressCopiesFile});
             this.ssProgress.Location = new System.Drawing.Point(0, 536);
             this.ssProgress.Name = "ssProgress";
             this.ssProgress.Size = new System.Drawing.Size(1123, 24);
@@ -2549,6 +2551,12 @@ namespace SharpFBTools.Tools
             this.lblExistFile.TabIndex = 17;
             this.lblExistFile.Text = "Одинаковые файлы в папке-приемнике:";
             // 
+            // tsslblProgressCopiesFile
+            // 
+            this.tsslblProgressCopiesFile.Name = "tsslblProgressCopiesFile";
+            this.tsslblProgressCopiesFile.Size = new System.Drawing.Size(96, 19);
+            this.tsslblProgressCopiesFile.Text = "=> Файл Копий:";
+            // 
             // SFBTpFB2Dublicator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2832,6 +2840,7 @@ namespace SharpFBTools.Tools
 		private string	m_sMessTitle		= string.Empty;
 		private string	m_DirForSavedCover	= string.Empty;	// папка для сохранения обложек
 		private int		m_CurrentResultItem	= -1;
+        private ToolStripStatusLabel tsslblProgressCopiesFile;
         private readonly MiscListView.ListViewColumnSorter m_lvwColumnSorter =
 			new MiscListView.ListViewColumnSorter(9);
 		#endregion
@@ -3562,8 +3571,9 @@ namespace SharpFBTools.Tools
 			ConnectListsEventHandlers( true );
 			MessageBox.Show( EndWorkMode.Message, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsbtnDupCurrentSaveList.Enabled = false; // кнопка сохранения текущего списка без подтверждения
-		}
-		// ВОЗОБНОВТЬ сравнение и поиск копий по данным из XML-файла, созданного после прерывания обработки
+            tsslblProgress.Text = "=>";
+        }
+		// ВОЗОБНОВИТЬ сравнение и поиск копий по данным из XML-файла, созданного после прерывания обработки
 		void TsbtnSearchFb2DupRenewClick(object sender, EventArgs e)
 		{
 			// загрузка данных из xml
@@ -3574,8 +3584,9 @@ namespace SharpFBTools.Tools
 			DialogResult result		= sfdLoadList.ShowDialog();
 			if ( result == DialogResult.OK ) {
 				Cursor.Current = Cursors.WaitCursor;
-				tsslblProgress.Text = string.Format("=> {0} : ", sfdLoadList.FileName);
-			} else
+				tsslblProgress.Text = "=>";
+                tsslblProgressCopiesFile.Text = string.Format("=> {0} : ", sfdLoadList.FileName);
+            } else
 				return;
 			
 			// инициализация контролов
@@ -3602,7 +3613,8 @@ namespace SharpFBTools.Tools
 			listViewFB2Files.EndUpdate();
 			ConnectListsEventHandlers( true );
 			tsslblProgress.Text = "=>";
-			MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Поиск одинаковых fb2 файлов", MessageBoxButtons.OK, MessageBoxIcon.Information );
+            tsslblProgressCopiesFile.Text = "=>";
+            MessageBox.Show( EndWorkMode.Message, "SharpFBTools - Поиск одинаковых fb2 файлов", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			tsbtnDupCurrentSaveList.Enabled = false; // кнопка сохранения текущего списка без подтверждения
 		}
 		void LvResultKeyPress(object sender, KeyPressEventArgs e)
@@ -3711,7 +3723,7 @@ namespace SharpFBTools.Tools
 		// сохранение текущего обрабатываемого списка без запроса на подтверждение и пути сохранения
 		void TsbtnDupCurrentSaveListClick(object sender, EventArgs e)
 		{
-			string FilePath = tsslblProgress.Text.Substring( tsslblProgress.Text.IndexOf(':') + 1 );
+			string FilePath = tsslblProgressCopiesFile.Text.Substring(tsslblProgressCopiesFile.Text.IndexOf(':') + 1 );
 			listViewFB2Files.BeginUpdate();
 			ConnectListsEventHandlers( false );
 			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске (защита от сохранения пустых Групп)
@@ -3763,7 +3775,7 @@ namespace SharpFBTools.Tools
 							File.Delete( Debug.LogFilePath );
 					
 					Environment.CurrentDirectory = Settings.Settings.ProgDir;
-					tsslblProgress.Text = "=> Файл копий книг: " + FromXML;
+                    tsslblProgressCopiesFile.Text = "=> Файл копий книг: " + FromXML;
 					Core.Duplicator.CopiesListWorkerForm fileWorkerForm = new Core.Duplicator.CopiesListWorkerForm(
 						BooksWorkModeEnum.LoadFB2List, FromXML, cboxMode, listViewFB2Files, lvFilesCount,
 						tboxSourceDir, chBoxScanSubDir, -1, 0

@@ -122,14 +122,14 @@ namespace Core.Duplicator
 				case BooksWorkModeEnum.SaveWorkingFB2List:
 					// Сохранение текущего обрабатываемого списка копий книг без запроса пути
 					this.Text = "Сохранение списка копий fb2 книг";
-					saveWorkingListToXml( ref m_bw, ref e, m_GroupCountForList, m_DirOrFileName,
+					saveWorkingListToXml( ref m_bw, ref e, m_DirOrFileName,
 					                     m_cboxMode.SelectedIndex, m_cboxMode.Text.Trim() );
 					break;
 				default:
 					return;
 			}
 
-			if ( ( m_bw.CancellationPending ) ) {
+			if (m_bw.CancellationPending) {
 				e.Cancel = true;
 				return;
 			}
@@ -292,7 +292,7 @@ namespace Core.Duplicator
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
 				bool one = false;
 				foreach ( ListViewGroup lvGroup in m_listViewFB2Files.Groups ) {
-					if ( ( bw.CancellationPending ) )  {
+					if ( bw.CancellationPending )  {
 						e.Cancel = true;
 						return;
 					}
@@ -335,7 +335,7 @@ namespace Core.Duplicator
 			}
 		}
 		// сохранение текущего обрабатываемого списка без запроса на подтверждение и пути сохранения
-		private void saveWorkingListToXml( ref BackgroundWorker bw, ref DoWorkEventArgs e, int GroupCountForList,
+		private void saveWorkingListToXml( ref BackgroundWorker bw, ref DoWorkEventArgs e,
 		                                  string ToFileName, int CompareMode, string CompareModeName ) {
 			// копии fb2 книг по группам
 			if ( m_listViewFB2Files.Groups.Count > 0 ) {
@@ -345,7 +345,7 @@ namespace Core.Duplicator
 				int BookInGroups = 0; 		// число книг (books) в Группах (Groups)
 				int GroupCountInGroups = 0; // число Групп (Group count) в Группах (Groups)
 				foreach ( ListViewGroup lvGroup in m_listViewFB2Files.Groups ) {
-					if ( ( bw.CancellationPending ) )  {
+					if ( bw.CancellationPending )  {
 						e.Cancel = true;
 						return;
 					}
