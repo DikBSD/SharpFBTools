@@ -696,10 +696,17 @@ namespace Core.Common
 			try	{
 				string[] dirs = Directory.GetDirectories(sDir);
 				lDirsList.AddRange(dirs);
-				foreach (string d in dirs)
+				foreach (string d in dirs) {
+					string s = d.Trim();
+					if (s.Substring(s.Length - 2) == @"\.") {
+						continue;
+					}
 					_recursionDirsSearch(d, ref lDirsList);
-			} catch /*( Exception ex )*/ {
-				//Console.WriteLine(ex.Message);
+				}
+			} catch ( Exception ex ) {
+				Debug.DebugMessage(
+					sDir, ex, "_recursionDirsSearch:\r\nРекурсивный сбор путей к книгам по всем вложенным каталогам для последующей их обработки."
+				);
 			}
 		}
 		
