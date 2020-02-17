@@ -155,7 +155,7 @@ namespace Core.Corrector
 			}
 
 			ControlPanel.Enabled = true;
-			if ( ( m_bw.CancellationPending ) ) {
+			if ( m_bw.CancellationPending ) {
 				e.Cancel = true;
 				return;
 			}
@@ -177,12 +177,11 @@ namespace Core.Corrector
 			BooksAutoCorrectProcessingModeEnum AutoCorrectProcessingMode = ( m_NotWorkingFilesList.Count == 1 )
 				? BooksAutoCorrectProcessingModeEnum.OneBookProcessing
 				: BooksAutoCorrectProcessingModeEnum.BatchProcessing;
-			bool IsOneBook = ( m_NotWorkingFilesList.Count == 1 ) ? true : false;
 			autoCorrect(
 				AutoCorrectProcessingMode, ref m_bw, ref e, ref m_NotWorkingFilesList, ref m_WorkingFilesList, false
 			);
 
-			if ( ( m_bw.CancellationPending ) ) {
+			if ( m_bw.CancellationPending ) {
 				e.Cancel = true;
 				return;
 			}
@@ -361,7 +360,7 @@ namespace Core.Corrector
 			
 			int i = 0;
 			foreach ( string file in NotWorkingFilesList ) {
-				if ( ( bw.CancellationPending ) ) {
+				if ( bw.CancellationPending ) {
 					// удаление обработанные книги (файлы) из списка всех файлов
 					removeFinishedFilesInFilesList( ref NotWorkingFilesList, ref m_WorkingFilesList);
 					e.Cancel = true;

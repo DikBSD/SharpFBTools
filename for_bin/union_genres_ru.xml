@@ -25,7 +25,6 @@
 		<genre name="Дамский детективный роман" code="det_cozy" />
 		<genre name="Детективная фантастика" code="sf_detective" />
 		<genre name="Детективы" code="detective" />
-		<genre name="Детские остросюжетные" code="child_det" />
 		<genre name="Иронический детектив" code="det_irony" />
 		<genre name="Исторический детектив" code="det_history" />
 		<genre name="Классический детектив" code="det_classic" />
@@ -64,10 +63,7 @@
 		<genre name="География, путевые заметки" code="travel_notes" />
 		<genre name="Документальная литература" code="nonfiction" />
 		<genre name="Критика" code="nonf_criticism" />
-		<genre name="Научно-популярная литература" code="sci_popular" />
-		<genre name="Природа и животные" code="adv_animal" />
 		<genre name="Публицистика" code="nonf_publicism" />
-		<genre name="Путешествия и география" code="adv_geo" />
 	</group>
 	<group name="Домоводство (Дом и семья)" >
 		<genre name="Детская психология" code="psy_childs" />
@@ -102,7 +98,6 @@
 		<genre name="Искусство и Дизайн" code="design" />
 		<genre name="Искусствоведение" code="art_criticism" />
 		<genre name="Кино" code="cine" />
-		<genre name="Критика" code="nonf_criticism" />
 		<genre name="Музыка" code="music" />
 		<genre name="Партитуры" code="notes" />
 		<genre name="Театр" code="theatre" />
@@ -150,7 +145,6 @@
 		<genre name="Политика" code="sci_politics" />
 		<genre name="Психология" code="sci_psychology" />
 		<genre name="Психотерапия и консультирование" code="psy_theraphy" />
-		<genre name="Религиоведение" code="sci_religion" />
 		<genre name="Рефераты" code="sci_abstract" />
 		<genre name="Секс и семейная психология" code="psy_sex_and_family" />
 		<genre name="Технические науки" code="sci_tech" />
@@ -188,7 +182,6 @@
 	<group name="Приключения" >
 		<genre name="Авантюрный роман" code="adv_story" />
 		<genre name="Вестерн" code="adv_western" />
-		<genre name="Детские и подростковые приключения" code="child_adv" />
 		<genre name="Исторические приключения" code="adv_history" />
 		<genre name="Морские приключения" code="adv_maritime" />
 		<genre name="Приключения про индейцев" code="adv_indian" />
@@ -297,7 +290,6 @@
 		<genre name="Киберпанк" code="sf_cyberpunk" />
 		<genre name="Космическая фантастика" code="sf_space" />
 		<genre name="Космоопера" code="sf_space_opera" />
-		<genre name="ЛитРПГ" code="sf_litrpg" />
 		<genre name="Любовная фантастика" code="love_sf" />
 		<genre name="Мистика" code="sf_mystic" />
 		<genre name="Мифологическая фантастика" code="fairy_fantasy" />
@@ -356,7 +348,6 @@
 		<genre name="Военная история" code="military_history" />
 		<genre name="Военная техника и вооружение" code="military_weapon" />
 		<genre name="Военное дело" code="military" />
-		<genre name="О войне" code="prose_military" />
 		<genre name="Спецслужбы" code="military_special" />
 	</group>
 	<group name="Прочее" >
@@ -367,5 +358,9 @@
 		<genre name="Неотсортированное" code="other" />
 		<genre name="Самиздат, сетевая литература" code="network_literature" />
 		<genre name="Фанфик" code="fanfiction" />
+	</group>
+	<group name="ЛитРПГ" >
+		<genre name="ЛитРПГ" code="litrpg" />
+		<genre name="ЛитРПГ. Фантастика" code="sf_litrpg" />
 	</group>
 </genres>

@@ -19,7 +19,6 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class GenreCorrector
 	{
-		private const string _MessageTitle = "Автокорректор";
 		private readonly string _FilePath = string.Empty; // Путь к обрабатываемому файлу
 		
 		private string _xmlText = string.Empty;
@@ -53,6 +52,40 @@ namespace Core.AutoCorrector
 			// преобработка (удаление стартовых пробелов ДО тегов и удаление завершающих пробелов ПОСЛЕ тегов и символов переноса строк)
 			if ( _preProcess )
 				_xmlText = FB2CleanCode.preProcessing( _xmlText );
+
+			/* ЛитРПГ */
+			// обработка жанра sf_litRPG
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(sf_litRPG)\\s*?(?=</genre>)",
+					"${genre}sf_litrpg", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра sf_litRPG."
+				);
+			}
+
+			// обработка жанра litrpg, LitRPG, ЛитРПГ
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(litrpg|LitRPG|ЛитРПГ)\\s*?(?=</genre>)",
+					"${genre}sf_litrpg", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра litrpg, LitRPG, ЛитРПГ."
+				);
+			}
+
 
 			/* Фантастика */
 			// обработка жанра romance_fantasy, romance_sf, magician_book, foreign_fantasy, dragon_fantasy, fantasy
@@ -182,19 +215,6 @@ namespace Core.AutoCorrector
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра love_fantasy."
-				);
-			}
-			
-			// обработка жанра litrpg, sf_litRPG, LitRPG, ЛитРПГ
-			try {
-				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(litrpg|sf_litRPG|LitRPG|ЛитРПГ)\\s*?(?=</genre>)",
-					"${genre}sf_litrpg", RegexOptions.IgnoreCase | RegexOptions.Multiline
-				);
-			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
-			catch ( Exception ex ) {
-				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра litrpg, sf_litRPG, LitRPG, ЛитРПГ."
 				);
 			}
 			
