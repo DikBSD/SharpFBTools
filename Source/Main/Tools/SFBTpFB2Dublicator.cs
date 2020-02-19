@@ -182,6 +182,7 @@ namespace SharpFBTools.Tools
             this.ssProgress = new System.Windows.Forms.StatusStrip();
             this.tsslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.tsslblProgressCopiesFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.cmsFB2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiAnalyzeForSelectedGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAnalyzeVersionValidateInGroup = new System.Windows.Forms.ToolStripMenuItem();
@@ -393,7 +394,6 @@ namespace SharpFBTools.Tools
             this.gboxCopyMoveOptions = new System.Windows.Forms.GroupBox();
             this.cboxExistFile = new System.Windows.Forms.ComboBox();
             this.lblExistFile = new System.Windows.Forms.Label();
-            this.tsslblProgressCopiesFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.ssProgress.SuspendLayout();
             this.cmsFB2.SuspendLayout();
             this.tcDuplicator.SuspendLayout();
@@ -456,6 +456,12 @@ namespace SharpFBTools.Tools
             // 
             this.tsProgressBar.Name = "tsProgressBar";
             this.tsProgressBar.Size = new System.Drawing.Size(300, 18);
+            // 
+            // tsslblProgressCopiesFile
+            // 
+            this.tsslblProgressCopiesFile.Name = "tsslblProgressCopiesFile";
+            this.tsslblProgressCopiesFile.Size = new System.Drawing.Size(96, 19);
+            this.tsslblProgressCopiesFile.Text = "=> Файл Копий:";
             // 
             // cmsFB2
             // 
@@ -1903,6 +1909,7 @@ namespace SharpFBTools.Tools
             this.lvFilesCount.Dock = System.Windows.Forms.DockStyle.Top;
             this.lvFilesCount.FullRowSelect = true;
             this.lvFilesCount.GridLines = true;
+            this.lvFilesCount.HideSelection = false;
             this.lvFilesCount.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem33,
             listViewItem34});
@@ -2231,20 +2238,20 @@ namespace SharpFBTools.Tools
             this.cboxMode.FormattingEnabled = true;
             this.cboxMode.Items.AddRange(new object[] {
             "0. Абсолютно одинаковые книги (md5)",
-            "1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)",
-            "2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинако" +
-                "вым Названием)",
-            "3. Название Книги и Автор(ы)  (одна и та же книга, сделанная разными людьми - раз" +
-                "ные Id, но Автор и Название - одинаковые)",
-            "4. Авторы с одинаковой Фамилией и инициалами",
-            "5. Название Книги, Автор(ы) и Одинаковый Id Книги (разделять по разным группам ра" +
-                "зные издания книг)",
-            "6. Название Книги и Id Книги (Авторы книги могут быть разными)",
-            "7. Название Книги, Автор(ы) и Автор fb2 файла (одна и та же книга, сделанная разн" +
+            "1. Название Книги, Автор(ы), Id Книги и Автор fb2 файла",
+            "2. Автор(ы), Id Книги и Автор fb2 файла",
+            "3. Название Книги, Id Книги и Автор fb2 файла",
+            "4. Название Книги, Автор(ы) и Автор fb2 файла (одна и та же книга, сделанная разн" +
                 "ыми людьми)",
-            "8. Название Книги, Автор(ы), Id Книги и Автор fb2 файла",
-            "9. Название Книги, Id Книги и Автор fb2 файла",
-            "10. Автор(ы), Id Книги и Автор fb2 файла"});
+            "5. Название Книги, Автор(ы) и Id Книги (разделять по разным группам разные издани" +
+                "я книг)",
+            "6. Название Книги и Автор(ы)  (одна и та же книга, сделанная разными людьми - раз" +
+                "ные Id, но Автор и Название - одинаковые)",
+            "7. Название Книги и Id Книги (Авторы книги могут быть разными)",
+            "8. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинако" +
+                "вым Названием)",
+            "9. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)",
+            "10. Авторы с одинаковой Фамилией и инициалами"});
             this.cboxMode.Location = new System.Drawing.Point(158, 1);
             this.cboxMode.Name = "cboxMode";
             this.cboxMode.Size = new System.Drawing.Size(639, 21);
@@ -2550,12 +2557,6 @@ namespace SharpFBTools.Tools
             this.lblExistFile.Size = new System.Drawing.Size(213, 13);
             this.lblExistFile.TabIndex = 17;
             this.lblExistFile.Text = "Одинаковые файлы в папке-приемнике:";
-            // 
-            // tsslblProgressCopiesFile
-            // 
-            this.tsslblProgressCopiesFile.Name = "tsslblProgressCopiesFile";
-            this.tsslblProgressCopiesFile.Size = new System.Drawing.Size(96, 19);
-            this.tsslblProgressCopiesFile.Text = "=> Файл Копий:";
             // 
             // SFBTpFB2Dublicator
             // 

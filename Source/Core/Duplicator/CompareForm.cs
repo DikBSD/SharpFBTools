@@ -293,8 +293,7 @@ namespace Core.Duplicator
 		private readonly string _fromXmlPath		= null;	// null - полное сканирование; Путь - возобновление сравнения их xml
 		
 		private StatusView _sv = new StatusView();
-		private readonly EndWorkMode		_EndMode		= new EndWorkMode();
-		private readonly SharpZipLibWorker	_sharpZipLib	= new SharpZipLibWorker();
+		private readonly EndWorkMode _EndMode = new EndWorkMode();
 
 		// Список всех хеш таблиц
 		List<HashtableClass> _HashtableList = new List<HashtableClass>();
@@ -600,7 +599,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.BookID:
-                    // 1. Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)
+                    // Одинаковый Id Книги (копии и/или разные версии правки одной и той же книги)
                     // Хэширование fb2-файлов по ID книги
                     if (_compareBookID.FilesHashForIDParser(bw, e, StatusLabel, ProgressBar, _TempDir, FilesList, _htBookID)) {
 						_nonOpenedFile = _compareBookID.NonOpenedFileList;
@@ -609,7 +608,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.BookTitle:
-                    // 2. Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)
+                    // Название Книги (могут быть найдены и разные книги разных Авторов, но с одинаковым Названием)
                     // Хэширование fb2-файлов по Названию книги
                     if (_сompareBookTitle.FilesHashForBTParser(bw, e, StatusLabel, ProgressBar, _TempDir, FilesList, _htBookTitle)) {
 						_nonOpenedFile = _сompareBookTitle.NonOpenedFileList;
@@ -618,7 +617,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.AuthorBookTitle:
-					// 3. Название Книги и Автор(ы) (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
+					// Название Книги и Автор(ы) (одна и та же книга, сделанная разными людьми - разные Id, но Автор и Название - одинаковые)
 					// Хэширование fb2-файлов по Названию книги
 					if (_сompareBookTitle.FilesHashForBTParser(bw, e, StatusLabel, ProgressBar, _TempDir, FilesList, _htBookTitle)) {
 						_nonOpenedFile = _сompareBookTitle.NonOpenedFileList;
@@ -631,7 +630,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.AuthorFIO:
-                    // 4. Авторы с одинаковыми Фамилиями и инициалами  (могут быть найдены и разные книги разных Авторов, но с одинаковыми Фамилиями и инициалами)
+                    // Авторы с одинаковыми Фамилиями и инициалами  (могут быть найдены и разные книги разных Авторов, но с одинаковыми Фамилиями и инициалами)
                     // Хэширование fb2-файлов по FIO Авторов
                     if (_compareAuthorFIO.FilesHashForAuthorFIOParser(bw, e, StatusLabel, ProgressBar, 
                         _TempDir, FilesList, _htAuthorFIO, _WithMiddleName)) {
@@ -641,7 +640,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.AuthorBookTitleBookID:
-					// 5. Название Книги, Автор(ы) и Одинаковый Id Книги (разделять по разным группам разные издания книг)
+					// Название Книги, Автор(ы) и Одинаковый Id Книги (разделять по разным группам разные издания книг)
 					// Хэширование fb2-файлов по Названию книги
 					if (_сompareBookTitle.FilesHashForBTParser(bw, e, StatusLabel, ProgressBar, _TempDir, FilesList, _htBookTitle)) {
 						_nonOpenedFile = _сompareBookTitle.NonOpenedFileList;
@@ -658,7 +657,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.BookTitleBookID:
-                    // 6. Название Книги и Id Книги (Авторы книги могут быть разными)
+                    // Название Книги и Id Книги (Авторы книги могут быть разными)
                     // Хэширование fb2-файлов по Названию книги
                     if (_сompareBookTitle.FilesHashForBTParser(bw, e, StatusLabel, ProgressBar, _TempDir, FilesList, _htBookTitle)) {
 						_nonOpenedFile = _сompareBookTitle.NonOpenedFileList;
@@ -671,7 +670,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.AuthorBookTitleFB2Author:
-					// 7. Название Книги, Автор(ы) и Автор fb2 файла (одна и та же книга, сделанная разными людьми)
+					// Название Книги, Автор(ы) и Автор fb2 файла (одна и та же книга, сделанная разными людьми)
 					if (_сompareBookTitle.FilesHashForBTParser(bw, e, StatusLabel, ProgressBar, _TempDir, FilesList, _htBookTitle)){
 						_nonOpenedFile = _сompareBookTitle.NonOpenedFileList;
 						// Хэширование по одинаковым Авторам в пределах сгенерированных групп книг по одинаковым Названиям
@@ -687,7 +686,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.AuthorBookTitleBookIDFB2Author:
-					// 8. Название Книги, Автор(ы), Id Книги и Автор fb2 файла
+					// Название Книги, Автор(ы), Id Книги и Автор fb2 файла
 					// Хэширование fb2-файлов по Названию книги
 					if (_сompareBookTitle.FilesHashForBTParser(bw, e, StatusLabel, ProgressBar, _TempDir, FilesList, _htBookTitle)) {
 						_nonOpenedFile = _сompareBookTitle.NonOpenedFileList;
@@ -708,7 +707,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.BookTitleBookIDFB2Author:
-                    // 9. Название Книги, Id Книги и Автор fb2 файла
+                    // Название Книги, Id Книги и Автор fb2 файла
                     // Хэширование fb2-файлов по Названию книги
                     if (_сompareBookTitle.FilesHashForBTParser(bw, e, StatusLabel, ProgressBar, _TempDir, FilesList, _htBookTitle)) {
 						_nonOpenedFile = _сompareBookTitle.NonOpenedFileList;
@@ -726,7 +725,7 @@ namespace Core.Duplicator
 					}
                     break;
                 case SearchCompareModeEnum.AuthorBookIDFB2Author:
-					// 10. Автор(ы), Id Книги и Автор fb2 файла
+					// Автор(ы), Id Книги и Автор fb2 файла
 					/*// Хэширование fb2-файлов по ID книги
 					_compareBookID.FilesHashForIDParser(
 						ref bw, ref e, StatusLabel, ProgressBar,
