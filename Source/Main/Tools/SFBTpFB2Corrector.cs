@@ -691,13 +691,28 @@ namespace SharpFBTools.Tools
 		}
 		void ButtonGoClick(object sender, EventArgs e)
 		{
-			string s = textBoxAddress.Text.Trim();
-			if ( !string.IsNullOrWhiteSpace( s ) ) {
-				if ( s.Substring(s.Length - 1, 1) != "\\" )
-					s = textBoxAddress.Text += "\\";
-				DirectoryInfo Info = new DirectoryInfo(s);
-				if ( Info.Exists ) {
+			string DirPath = textBoxAddress.Text.Trim();
+			if (!string.IsNullOrWhiteSpace(DirPath)) {
+				if (DirPath.Substring(DirPath.Length - 1, 1) != "\\")
+					DirPath = textBoxAddress.Text += '\\';
+				DirectoryInfo Info = new DirectoryInfo(DirPath);
+				if (Info.Exists) {
+					// заполнение списка данными указанной папки
 					generateFB2List(Info.FullName);
+					// Переход в указанную папку
+					listViewFB2Files.Focus();
+					if (listViewFB2Files.Items.Count > 1) {
+						// Есть итемы
+						ListViewItemType item = (ListViewItemType)listViewFB2Files.Items[1].Tag;
+						if (item.Type == "d") {
+							listViewFB2Files.Items[1].Selected = true;
+							listViewFB2Files.Items[1].Focused = true;
+						}
+					} else {
+						// Нет ничего - только выход вверх
+						listViewFB2Files.Items[0].Selected = true;
+						listViewFB2Files.Items[0].Focused = true;
+					}
 				} else {
 					MessageBox.Show(
 						"Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error
@@ -755,6 +770,7 @@ namespace SharpFBTools.Tools
 					// переход на каталог выше
 					ListViewItemType it = (ListViewItemType)listViewFB2Files.Items[0].Tag;
 					textBoxAddress.Text = it.Value;
+					// заполнение списка данными указанной папки
 					generateFB2List( it.Value );
 					if ( !string.IsNullOrEmpty( oldAddress ) ) {
 						ListViewItem Item = listViewFB2Files.FindItemWithText(oldAddress);
@@ -767,8 +783,8 @@ namespace SharpFBTools.Tools
 			}
 			e.Handled = true;
 		}
-		
-		// переход в выбранную папку
+
+		// Переход в выбранную папку
 		void ListViewFB2FilesDoubleClick(object sender, EventArgs e)
 		{
 			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
@@ -791,6 +807,7 @@ namespace SharpFBTools.Tools
 					textBoxAddress.Text = it.Value;
 					generateFB2List(it.Value);
 					if (listViewFB2Files.Items.Count > 1) {
+						// Есть итемы
 						ListViewItemType item = (ListViewItemType)listViewFB2Files.Items[1].Tag;
 						if (item.Type == "d") {
 							listViewFB2Files.Items[1].Selected = true;
@@ -800,6 +817,7 @@ namespace SharpFBTools.Tools
 							listViewFB2Files.Items[0].Focused = true;
 						}
 					} else {
+						// Нет ничего - только выход вверх
 						listViewFB2Files.Items[0].Selected = true;
 						listViewFB2Files.Items[0].Focused = true;
 					}
