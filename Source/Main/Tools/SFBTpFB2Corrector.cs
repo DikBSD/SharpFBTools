@@ -703,10 +703,13 @@ namespace SharpFBTools.Tools
 					listViewFB2Files.Focus();
 					if (listViewFB2Files.Items.Count > 1) {
 						// Есть итемы
-						ListViewItemType item = (ListViewItemType)listViewFB2Files.Items[1].Tag;
-						if (item.Type == "d") {
+						ListViewItemType itemType = (ListViewItemType)listViewFB2Files.Items[1].Tag;
+						if (itemType.Type == "d") {
 							listViewFB2Files.Items[1].Selected = true;
 							listViewFB2Files.Items[1].Focused = true;
+						} else if (itemType.Type == "f") {
+							listViewFB2Files.Items[0].Selected = true;
+							listViewFB2Files.Items[0].Focused = true;
 						}
 					} else {
 						// Нет ничего - только выход вверх
