@@ -805,6 +805,7 @@ namespace SharpFBTools.Tools
 					}
 				} else if ( it.Type == "f" ) {
 					if ( listViewFB2Files.SelectedItems.Count == 1 ) {
+						// запуск выбранного действия над файлом
 						goHandlerWorker( cboxDblClickForFB2, sender, e );
 						listViewFB2Files.SelectedItems[0].Selected = true;
 						listViewFB2Files.SelectedItems[0].Focused = true;
