@@ -771,10 +771,10 @@ namespace SharpFBTools.Tools
 		// переход в выбранную папку
 		void ListViewFB2FilesDoubleClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
 				ListViewItemType it = (ListViewItemType)si[0].Tag;
-				if( it.Type == "dUp" ) {
+				if ( it.Type == "dUp" ) {
 					string address = textBoxAddress.Text.Trim();
 					int index = address.LastIndexOf('\\');
 					string oldAddress = index < address.Length ? address.Substring(index + 1) : string.Empty;
@@ -804,7 +804,7 @@ namespace SharpFBTools.Tools
 						listViewFB2Files.Items[0].Focused = true;
 					}
 				} else if ( it.Type == "f" ) {
-					if( listViewFB2Files.SelectedItems.Count == 1 ) {
+					if ( listViewFB2Files.SelectedItems.Count == 1 ) {
 						goHandlerWorker( cboxDblClickForFB2, sender, e );
 						listViewFB2Files.SelectedItems[0].Selected = true;
 						listViewFB2Files.SelectedItems[0].Focused = true;
