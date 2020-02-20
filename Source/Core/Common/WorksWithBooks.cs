@@ -557,84 +557,84 @@ namespace Core.Common
 				DirectoryInfo dirInfo = new DirectoryInfo( dirPath );
 				ListViewItem.ListViewSubItem[] subItems;
 				ListViewItem item = null;
-				if ( dirInfo.Exists ) {
-					if ( dirInfo.Parent != null ) {
-						item = new ListViewItem( "..", 3) ;
-						item.Tag = new ListViewItemType( "dUp", dirInfo.Parent.FullName );
-						subItems = createEmptySubItemsForItem( item );
-						item.SubItems.AddRange( subItems );
-						listView.Items.Add( item );
+				if (dirInfo.Exists) {
+					if (dirInfo.Parent != null) {
+						item = new ListViewItem("..", 3) ;
+						item.Tag = new ListViewItemType("dUp", dirInfo.Parent.FullName);
+						subItems = createEmptySubItemsForItem(item);
+						item.SubItems.AddRange(subItems);
+						listView.Items.Add(item);
 					}
 					int nItemCount = 0;
 					
-					if ( form != null ) {
+					if (form != null) {
 						form.Text += String.Format(
 							": всего {0} каталогов, {1} файлов", dirInfo.GetDirectories().Length+1, dirInfo.GetFiles().Length
 						);
 						ProgressBar.Maximum	= ( dirInfo.GetDirectories().Length + dirInfo.GetFiles().Length ) + 1;
 					}
 					
-					foreach ( DirectoryInfo dir in dirInfo.GetDirectories() ) {
-						if ( bw != null ) {
-							if ( ( bw.CancellationPending ) ) {
+					foreach (DirectoryInfo dir in dirInfo.GetDirectories()) {
+						if (bw != null) {
+							if (bw.CancellationPending) {
 								e.Cancel = true;
 								listView.EndUpdate();
 								Cursor.Current = Cursors.Default;
 								return false;
 							}
 						}
-						item = new ListViewItem( dir.Name, 0);
+						item = new ListViewItem(dir.Name, 0);
 						item.Checked = itemChecked;
 						item.Tag = new ListViewItemType("d", dir.FullName);
 						item.BackColor = Colors.DirBackColor;
 						
-						subItems = createEmptySubItemsForItem( item );
-						item.SubItems.AddRange( subItems );
-						listView.Items.Add( item );
-						if ( bw != null ) {
+						subItems = createEmptySubItemsForItem(item);
+						item.SubItems.AddRange(subItems);
+						listView.Items.Add(item);
+						if (bw != null) {
 							bw.ReportProgress( nItemCount );
 							++nItemCount;
 						}
 					}
 					
 					SharpZipLibWorker sharpZipLib = new SharpZipLibWorker();
-					foreach ( FileInfo file in dirInfo.GetFiles() ) {
-						if ( bw != null ) {
-							if ( ( bw.CancellationPending ) ) {
+					foreach (FileInfo file in dirInfo.GetFiles()) {
+						if (bw != null) {
+							if (bw.CancellationPending) {
 								e.Cancel = true;
 								listView.EndUpdate();
 								Cursor.Current = Cursors.Default;
 								return false;
 							}
 						}
-						if ( FilesWorker.isFB2File( file.FullName ) || FilesWorker.isFB2Archive( file.FullName ) ) {
-							item = new ListViewItem( file.Name, FilesWorker.isFB2File( file.FullName ) ? 1 : 2 );
+						if ( FilesWorker.isFB2File(file.FullName) || FilesWorker.isFB2Archive(file.FullName)) {
+							item = new ListViewItem(file.Name, FilesWorker.isFB2File(file.FullName) ? 1 : 2);
 							try {
-								if ( FilesWorker.isFB2File( file.FullName ) ) {
-									if ( isTagsView ) {
+								if (FilesWorker.isFB2File(file.FullName)) {
+									if (isTagsView) {
 										item.ForeColor = Colors.FB2ForeColor;
 										subItems = createSubItemsWithMetaData(
 											file.FullName, file.FullName, item, ref fb2g
 										);
 									} else
-										subItems = createEmptySubItemsForItem( item );
+										subItems = createEmptySubItemsForItem(item);
 								} else {
 									// для zip-архивов
-									if( isTagsView ) {
+									if (isTagsView) {
 										FilesWorker.RemoveDir( TempDir );
-										sharpZipLib.UnZipFB2Files( file.FullName, TempDir );
-										string [] files = Directory.GetFiles( TempDir );
-										if ( FilesWorker.isFB2File( files[0] ) ) {
+										sharpZipLib.UnZipFB2Files(file.FullName, TempDir);
+										string [] files = Directory.GetFiles(TempDir);
+										if (FilesWorker.isFB2File(files[0])) {
 											item.ForeColor = Colors.ZipFB2ForeColor;
 											subItems = createSubItemsWithMetaData(
 												files[0], file.FullName, item, ref fb2g
 											);
 										} else {
 											item.ForeColor = Colors.BadZipForeColor;
-											subItems = createEmptySubItemsForItem( item );
+											subItems = createEmptySubItemsForItem(item);
 										}
 									} else
-										subItems = createEmptySubItemsForItem( item );
+										subItems = createEmptySubItemsForItem(item);
 								}
 								item.SubItems.AddRange(subItems);
 							} catch ( Exception ex ) {
@@ -651,24 +651,24 @@ namespace Core.Common
 							item.BackColor = Colors.FileBackColor;
 
 							listView.Items.Add(item);
-							if ( bw != null ) {
-								bw.ReportProgress( nItemCount );
+							if (bw != null) {
+								bw.ReportProgress(nItemCount);
 								++nItemCount;
 							}
 						}
 					}
-					if ( AutoResizeColumns ) {
+					if (AutoResizeColumns) {
 						// авторазмер колонок Списка Проводника
-						MiscListView.AutoResizeColumns( listView );
+						MiscListView.AutoResizeColumns(listView);
 					}
 				}
-			} catch ( Exception ex ) {
+			} catch (Exception ex) {
 				Debug.DebugMessage(
 					null, ex, "WorksWithBooks.generateBooksListWithMetaData(): Генерация списка файлов - создание итемов listViewSource: Общий catch()."
 				);
 			} finally {
 				listView.EndUpdate();
-				FilesWorker.RemoveDir( TempDir );
+				FilesWorker.RemoveDir(TempDir);
 				Cursor.Current = Cursors.Default;
 			}
 			return true;
