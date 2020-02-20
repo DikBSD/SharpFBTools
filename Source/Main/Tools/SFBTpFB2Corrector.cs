@@ -694,14 +694,15 @@ namespace SharpFBTools.Tools
 			string s = textBoxAddress.Text.Trim();
 			if ( !string.IsNullOrWhiteSpace( s ) ) {
 				if ( s.Substring(s.Length - 1, 1) != "\\" )
-					s = textBoxAddress.Text = textBoxAddress.Text + "\\";
+					s = textBoxAddress.Text += "\\";
 				DirectoryInfo Info = new DirectoryInfo(s);
-				if ( Info.Exists )
-					generateFB2List( Info.FullName );
-				else
+				if ( Info.Exists ) {
+					generateFB2List(Info.FullName);
+				} else {
 					MessageBox.Show(
 						"Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", "Переход по выбранному адресу", MessageBoxButtons.OK, MessageBoxIcon.Error
 					);
+				}
 			}
 		}
 		void TextBoxAddressKeyPress(object sender, KeyPressEventArgs e)
