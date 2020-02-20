@@ -774,12 +774,10 @@ namespace SharpFBTools.Tools
 			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
 				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
 				ListViewItemType it = (ListViewItemType)si[0].Tag;
-				if( it.Type == "d" || it.Type == "dUp" ) {
+				if( it.Type == "dUp" ) {
 					string address = textBoxAddress.Text.Trim();
 					int index = address.LastIndexOf('\\');
-					string oldAddress = string.Empty;
-					if ( index < address.Length )
-						oldAddress = address.Substring(index+1);
+					string oldAddress = index < address.Length ? address.Substring(index + 1) : string.Empty;
 					textBoxAddress.Text = it.Value;
 					generateFB2List( it.Value );
 					if ( !string.IsNullOrEmpty( oldAddress ) ) {
@@ -789,7 +787,23 @@ namespace SharpFBTools.Tools
 							Item.Focused = true;
 						}
 					}
-				} else if( it.Type == "f" ){
+				} else if (it.Type == "d") {
+					textBoxAddress.Text = it.Value;
+					generateFB2List(it.Value);
+					if (listViewFB2Files.Items.Count > 1) {
+						ListViewItemType item = (ListViewItemType)listViewFB2Files.Items[1].Tag;
+						if (item.Type == "d") {
+							listViewFB2Files.Items[1].Selected = true;
+							listViewFB2Files.Items[1].Focused = true;
+						} else {
+							listViewFB2Files.Items[0].Selected = true;
+							listViewFB2Files.Items[0].Focused = true;
+						}
+					} else {
+						listViewFB2Files.Items[0].Selected = true;
+						listViewFB2Files.Items[0].Focused = true;
+					}
+				} else if ( it.Type == "f" ) {
 					if( listViewFB2Files.SelectedItems.Count == 1 ) {
 						goHandlerWorker( cboxDblClickForFB2, sender, e );
 						listViewFB2Files.SelectedItems[0].Selected = true;
@@ -812,7 +826,7 @@ namespace SharpFBTools.Tools
 		void ListViewFB2FilesItemChecked(object sender, ItemCheckedEventArgs e)
 		{
 			if( listViewFB2Files.Items.Count > 0 ) {
-				if( ((ListViewItemType)e.Item.Tag).Type == "dUp" ) {
+				if( /*e.Item.Index == 0 &&*/ ((ListViewItemType)e.Item.Tag).Type == "dUp" ) {
 					ConnectListsEventHandlers( false );
 					if( e.Item.Checked )
 						MiscListView.CheckAllListViewItems( listViewFB2Files, true );
