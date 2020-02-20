@@ -740,6 +740,7 @@ namespace SharpFBTools.Tools
 						ListViewFB2FilesDoubleClick(sender, e);
 					} else if ( it.Type == "f" ) {
 						if ( listViewFB2Files.SelectedItems.Count == 1 ) {
+							// запуск выбранного действия над файлом
 							goHandlerWorker( cboxPressEnterForFB2, sender, e );
 							listViewFB2Files.SelectedItems[0].Selected = true;
 							listViewFB2Files.SelectedItems[0].Focused = true;
@@ -749,9 +750,7 @@ namespace SharpFBTools.Tools
 				} else if ( e.KeyChar == (char)Keys.Back ) {
 					string address = textBoxAddress.Text.Trim();
 					int index = address.LastIndexOf('\\');
-					string oldAddress = string.Empty;
-					if ( index < address.Length )
-						oldAddress = address.Substring(index+1);
+					string oldAddress = index < address.Length ? address.Substring(index + 1) : string.Empty;
 					// переход на каталог выше
 					ListViewItemType it = (ListViewItemType)listViewFB2Files.Items[0].Tag;
 					textBoxAddress.Text = it.Value;
