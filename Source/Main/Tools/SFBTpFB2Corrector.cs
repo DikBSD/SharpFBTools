@@ -790,24 +790,26 @@ namespace SharpFBTools.Tools
 		// Переход в выбранную папку
 		void ListViewFB2FilesDoubleClick(object sender, EventArgs e)
 		{
-			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
+			if (listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0) {
 				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
 				ListViewItemType it = (ListViewItemType)si[0].Tag;
-				if ( it.Type == "dUp" ) {
+				if (it.Type == "dUp") {
 					string address = textBoxAddress.Text.Trim();
 					int index = address.LastIndexOf('\\');
 					string oldAddress = index < address.Length ? address.Substring(index + 1) : string.Empty;
 					textBoxAddress.Text = it.Value;
-					generateFB2List( it.Value );
-					if ( !string.IsNullOrEmpty( oldAddress ) ) {
+					// заполнение списка данными указанной папки
+					generateFB2List(it.Value);
+					if (!string.IsNullOrEmpty(oldAddress)) {
 						ListViewItem Item = listViewFB2Files.FindItemWithText(oldAddress);
-						if ( Item != null ) {
+						if (Item != null) {
 							Item.Selected = true;
 							Item.Focused = true;
 						}
 					}
 				} else if (it.Type == "d") {
 					textBoxAddress.Text = it.Value;
+					// заполнение списка данными указанной папки
 					generateFB2List(it.Value);
 					if (listViewFB2Files.Items.Count > 1) {
 						// Есть итемы
@@ -824,8 +826,8 @@ namespace SharpFBTools.Tools
 						listViewFB2Files.Items[0].Selected = true;
 						listViewFB2Files.Items[0].Focused = true;
 					}
-				} else if ( it.Type == "f" ) {
-					if ( listViewFB2Files.SelectedItems.Count == 1 ) {
+				} else if (it.Type == "f") {
+					if (listViewFB2Files.SelectedItems.Count == 1) {
 						// запуск выбранного действия над файлом
 						goHandlerWorker( cboxDblClickForFB2, sender, e );
 						listViewFB2Files.SelectedItems[0].Selected = true;
