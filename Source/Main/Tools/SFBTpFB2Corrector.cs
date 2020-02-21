@@ -738,13 +738,32 @@ namespace SharpFBTools.Tools
 		void TextBoxAddressKeyPress(object sender, KeyPressEventArgs e)
 		{
 			if ( e.KeyChar == (char)Keys.Return ) {
-				// отображение папок и/или фалов в заданной папке
-				ButtonGoClick( sender, e );
+				if (textBoxAddress.Text.Length >= 3) {
+					// отображение папок и/или фалов в заданной папке
+					ButtonGoClick(sender, e);
+				}
 			} else if ( e.KeyChar == '/' || e.KeyChar == '*' || e.KeyChar == '<' || e.KeyChar == '>' || e.KeyChar == '?' || e.KeyChar == '"') {
 				e.Handled = true;
 			}
 		}
-
+		void TextBoxAddressTextChanged(object sender, EventArgs e)
+		{
+			if (!string.IsNullOrEmpty(textBoxAddress.Text)) {
+				if (textBoxAddress.Text.Length >= 3) {
+					if (textBoxAddress.Text.Substring(textBoxAddress.Text.Length - 2, 2) == "\\\\") {
+						textBoxAddress.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length - 1, 1);
+						textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
+					} else if (textBoxAddress.Text.Substring(textBoxAddress.Text.Length - 2, 2) == "\\.") {
+						textBoxAddress.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length - 1, 1);
+						textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
+					} else if (textBoxAddress.Text.Substring(textBoxAddress.Text.Length - 3, 3) == "\\..") {
+						textBoxAddress.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length - 1, 1);
+						textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
+					}
+				}
+			}
+			saveSettingsToXml();
+		}
 		void ListViewFB2FilesColumnClick(object sender, ColumnClickEventArgs e)
 		{
 			if ( e.Column == m_lvwColumnSorter.SortColumn ) {
@@ -946,23 +965,7 @@ namespace SharpFBTools.Tools
 		{
 			saveSettingsToXml();
 		}
-		void TextBoxAddressTextChanged(object sender, EventArgs e)
-		{
-			if ( !string.IsNullOrEmpty( textBoxAddress.Text ) ) {
-				if( textBoxAddress.Text.Substring(textBoxAddress.Text.Length - 2, 2) == "\\\\" ) {
-					textBoxAddress.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length - 1, 1);
-					textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
-				} else if( textBoxAddress.Text.Substring(textBoxAddress.Text.Length - 2, 2) == "\\." ) {
-					textBoxAddress.Text = textBoxAddress.Text.Remove(textBoxAddress.Text.Length-1, 1);
-					textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
-				} else if( textBoxAddress.Text.Substring( textBoxAddress.Text.Length - 3, 3) == "\\.." ) {
-					textBoxAddress.Text = textBoxAddress.Text.Remove( textBoxAddress.Text.Length - 1, 1 );
-					textBoxAddress.SelectionStart = textBoxAddress.Text.Length;
-				}
-			}
-			saveSettingsToXml();
-		}
-		
+
 		void TICoversListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
 			WorksWithBooks.viewCover( TICoversListView, picBoxTICover, TICoverDPILabel, TICoverPixelsLabel, TICoverLenghtLabel );
