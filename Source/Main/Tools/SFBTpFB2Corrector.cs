@@ -148,8 +148,6 @@ namespace SharpFBTools.Tools
 				this.listViewFB2Files.DoubleClick += new System.EventHandler(this.ListViewFB2FilesDoubleClick);
 				this.listViewFB2Files.ItemChecked +=
 					new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFB2FilesItemChecked);
-				this.listViewFB2Files.ItemCheck +=
-					new System.Windows.Forms.ItemCheckEventHandler(this.ListViewFB2FilesItemCheck);
 				this.listViewFB2Files.KeyPress +=
 					new System.Windows.Forms.KeyPressEventHandler(this.ListViewFB2FilesKeyPress);
 				this.listViewFB2Files.ColumnClick +=
@@ -173,8 +171,6 @@ namespace SharpFBTools.Tools
 				this.listViewFB2Files.DoubleClick -= new System.EventHandler(this.ListViewFB2FilesDoubleClick);
 				this.listViewFB2Files.ItemChecked -=
 					new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFB2FilesItemChecked);
-				this.listViewFB2Files.ItemCheck -=
-					new System.Windows.Forms.ItemCheckEventHandler(this.ListViewFB2FilesItemCheck);
 				this.listViewFB2Files.KeyPress -=
 					new System.Windows.Forms.KeyPressEventHandler(this.ListViewFB2FilesKeyPress);
 				this.listViewFB2Files.ColumnClick -=
@@ -872,27 +868,20 @@ namespace SharpFBTools.Tools
 				}
 			}
 		}
-		void ListViewFB2FilesItemCheck(object sender, ItemCheckEventArgs e)
-		{
-			if( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
-				// при двойном клике на папке ".." пометку не ставим
-				ConnectListsEventHandlers( false );
-				if( e.Index == 0 ) // ".."
-					e.NewValue = CheckState.Unchecked;
-				ConnectListsEventHandlers( true );
-			}
-		}
-		// пометка/снятие пометки по check на 0-й item - папка ".."
+
+		/// <summary>
+		/// Пометка/снятие пометки по check на 0-й item - папка ".."
+		/// </summary>
 		void ListViewFB2FilesItemChecked(object sender, ItemCheckedEventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
-				if( /*e.Item.Index == 0 &&*/ ((ListViewItemType)e.Item.Tag).Type == "dUp" ) {
-					ConnectListsEventHandlers( false );
-					if( e.Item.Checked )
-						MiscListView.CheckAllListViewItems( listViewFB2Files, true );
+			if (listViewFB2Files.Items.Count > 0) {
+				if (((ListViewItemType)e.Item.Tag).Type == "dUp") {
+					ConnectListsEventHandlers(false);
+					if (e.Item.Checked)
+						MiscListView.CheckAllListViewItems(listViewFB2Files, true);
 					else
-						MiscListView.UnCheckAllListViewItems( listViewFB2Files.CheckedItems );;
-					ConnectListsEventHandlers( true );
+						MiscListView.UnCheckAllListViewItems(listViewFB2Files.CheckedItems);
+					ConnectListsEventHandlers(true);
 				}
 			}
 		}
