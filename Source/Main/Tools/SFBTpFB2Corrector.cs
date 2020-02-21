@@ -765,20 +765,23 @@ namespace SharpFBTools.Tools
 					}
 					
 				} else if (e.KeyChar == (char)Keys.Back) {
-					string address = textBoxAddress.Text.Trim();
-					int index = address.LastIndexOf('\\');
-					// Родительская Папка, которую надо выделить после перехода вверх
-					string DirUpName = index < address.Length ? address.Substring(index + 1) : string.Empty;
-					// переход на каталог выше
-					ListViewItemType it = (ListViewItemType)listViewFB2Files.Items[0].Tag;
-					textBoxAddress.Text = it.Value;
-					// заполнение списка данными указанной папки
-					generateFB2List(it.Value);
-					if (!string.IsNullOrEmpty(DirUpName)) {
-						ListViewItem Item = listViewFB2Files.FindItemWithText(DirUpName);
-						if (Item != null) {
-							Item.Selected = true;
-							Item.Focused = true;
+					string CurrentDirPatch = textBoxAddress.Text.Trim();
+					// Проверка, не корень ли это?
+					if (!string.IsNullOrEmpty(Path.GetDirectoryName(CurrentDirPatch))) {
+						int index = CurrentDirPatch.LastIndexOf('\\');
+						// Родительская Папка, которую надо выделить после перехода вверх
+						string DirUpName = index < CurrentDirPatch.Length ? CurrentDirPatch.Substring(index + 1) : string.Empty;
+						// переход на каталог выше
+						ListViewItemType it = (ListViewItemType)listViewFB2Files.Items[0].Tag;
+						textBoxAddress.Text = it.Value;
+						// заполнение списка данными указанной папки
+						generateFB2List(it.Value);
+						if (!string.IsNullOrEmpty(DirUpName)) {
+							ListViewItem Item = listViewFB2Files.FindItemWithText(DirUpName);
+							if (Item != null) {
+								Item.Selected = true;
+								Item.Focused = true;
+							}
 						}
 					}
 				}
@@ -793,10 +796,10 @@ namespace SharpFBTools.Tools
 				ListView.SelectedListViewItemCollection si = listViewFB2Files.SelectedItems;
 				ListViewItemType it = (ListViewItemType)si[0].Tag;
 				if (it.Type == "dUp") {
-					string address = textBoxAddress.Text.Trim();
-					int index = address.LastIndexOf('\\');
+					string CurrentDirPatch = textBoxAddress.Text.Trim();
+					int index = CurrentDirPatch.LastIndexOf('\\');
 					// Родительская Папка, которую надо выделить после перехода вверх
-					string DirUpName = index < address.Length ? address.Substring(index + 1) : string.Empty;
+					string DirUpName = index < CurrentDirPatch.Length ? CurrentDirPatch.Substring(index + 1) : string.Empty;
 					textBoxAddress.Text = it.Value;
 					// заполнение списка данными указанной папки
 					generateFB2List(it.Value);
