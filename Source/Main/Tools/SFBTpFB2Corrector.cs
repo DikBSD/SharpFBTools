@@ -693,8 +693,6 @@ namespace SharpFBTools.Tools
 		{
 			string DirPath = textBoxAddress.Text.Trim();
 			if (!string.IsNullOrWhiteSpace(DirPath)) {
-				if (DirPath.Substring(DirPath.Length - 1, 1) != "\\")
-					DirPath = textBoxAddress.Text += '\\';
 				DirectoryInfo Info = new DirectoryInfo(DirPath);
 				if (Info.Exists) {
 					// заполнение списка данными указанной папки
@@ -751,14 +749,14 @@ namespace SharpFBTools.Tools
 		// обработка нажатия клавиш на списке папок и файлов
 		void ListViewFB2FilesKeyPress(object sender, KeyPressEventArgs e)
 		{
-			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0 ) {
-				if ( e.KeyChar == (char)Keys.Return ) {
+			if (listViewFB2Files.Items.Count > 0 && listViewFB2Files.SelectedItems.Count != 0) {
+				if (e.KeyChar == (char)Keys.Return) {
 					ListViewItemType it = (ListViewItemType)listViewFB2Files.SelectedItems[0].Tag;
-					if ( it.Type == "d" || it.Type == "dUp" ) {
+					if (it.Type == "d" || it.Type == "dUp") {
 						// переход в выбранную папку
 						ListViewFB2FilesDoubleClick(sender, e);
-					} else if ( it.Type == "f" ) {
-						if ( listViewFB2Files.SelectedItems.Count == 1 ) {
+					} else if (it.Type == "f") {
+						if (listViewFB2Files.SelectedItems.Count == 1) {
 							// запуск выбранного действия над файлом
 							goHandlerWorker( cboxPressEnterForFB2, sender, e );
 							listViewFB2Files.SelectedItems[0].Selected = true;
@@ -766,18 +764,19 @@ namespace SharpFBTools.Tools
 						}
 					}
 					
-				} else if ( e.KeyChar == (char)Keys.Back ) {
+				} else if (e.KeyChar == (char)Keys.Back) {
 					string address = textBoxAddress.Text.Trim();
 					int index = address.LastIndexOf('\\');
-					string oldAddress = index < address.Length ? address.Substring(index + 1) : string.Empty;
+					// Родительская Папка, которую надо выделить после перехода вверх
+					string DirUpName = index < address.Length ? address.Substring(index + 1) : string.Empty;
 					// переход на каталог выше
 					ListViewItemType it = (ListViewItemType)listViewFB2Files.Items[0].Tag;
 					textBoxAddress.Text = it.Value;
 					// заполнение списка данными указанной папки
-					generateFB2List( it.Value );
-					if ( !string.IsNullOrEmpty( oldAddress ) ) {
-						ListViewItem Item = listViewFB2Files.FindItemWithText(oldAddress);
-						if ( Item != null ) {
+					generateFB2List(it.Value);
+					if (!string.IsNullOrEmpty(DirUpName)) {
+						ListViewItem Item = listViewFB2Files.FindItemWithText(DirUpName);
+						if (Item != null) {
 							Item.Selected = true;
 							Item.Focused = true;
 						}
@@ -796,12 +795,13 @@ namespace SharpFBTools.Tools
 				if (it.Type == "dUp") {
 					string address = textBoxAddress.Text.Trim();
 					int index = address.LastIndexOf('\\');
-					string oldAddress = index < address.Length ? address.Substring(index + 1) : string.Empty;
+					// Родительская Папка, которую надо выделить после перехода вверх
+					string DirUpName = index < address.Length ? address.Substring(index + 1) : string.Empty;
 					textBoxAddress.Text = it.Value;
 					// заполнение списка данными указанной папки
 					generateFB2List(it.Value);
-					if (!string.IsNullOrEmpty(oldAddress)) {
-						ListViewItem Item = listViewFB2Files.FindItemWithText(oldAddress);
+					if (!string.IsNullOrEmpty(DirUpName)) {
+						ListViewItem Item = listViewFB2Files.FindItemWithText(DirUpName);
 						if (Item != null) {
 							Item.Selected = true;
 							Item.Focused = true;
