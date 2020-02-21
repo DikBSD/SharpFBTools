@@ -699,20 +699,34 @@ namespace SharpFBTools.Tools
 					generateFB2List(Info.FullName);
 					// Переход в указанную папку
 					listViewFB2Files.Focus();
-					if (listViewFB2Files.Items.Count > 1) {
-						// Есть итемы
-						ListViewItemType itemType = (ListViewItemType)listViewFB2Files.Items[1].Tag;
-						if (itemType.Type == "d") {
-							listViewFB2Files.Items[1].Selected = true;
-							listViewFB2Files.Items[1].Focused = true;
-						} else if (itemType.Type == "f") {
+					string CurrentDirPatch = textBoxAddress.Text.Trim();
+					// Проверка, является ли текуший адрес папки корнем диска
+					if (string.IsNullOrEmpty(Path.GetDirectoryName(CurrentDirPatch))) {
+						// Корень диска
+						if (listViewFB2Files.Items.Count > 0) {
+							ListViewItemType itemType = (ListViewItemType)listViewFB2Files.Items[0].Tag;
+							if (itemType.Type == "d") {
+								listViewFB2Files.Items[0].Selected = true;
+								listViewFB2Files.Items[0].Focused = true;
+							}
+						}
+					} else {
+						// Не корень диска
+						if (listViewFB2Files.Items.Count > 1) {
+							// Есть итемы
+							ListViewItemType itemType = (ListViewItemType)listViewFB2Files.Items[1].Tag;
+							if (itemType.Type == "d") {
+								listViewFB2Files.Items[1].Selected = true;
+								listViewFB2Files.Items[1].Focused = true;
+							} else if (itemType.Type == "f") {
+								listViewFB2Files.Items[0].Selected = true;
+								listViewFB2Files.Items[0].Focused = true;
+							}
+						} else {
+							// Нет ничего - только выход вверх
 							listViewFB2Files.Items[0].Selected = true;
 							listViewFB2Files.Items[0].Focused = true;
 						}
-					} else {
-						// Нет ничего - только выход вверх
-						listViewFB2Files.Items[0].Selected = true;
-						listViewFB2Files.Items[0].Focused = true;
 					}
 				} else {
 					MessageBox.Show(
@@ -763,11 +777,11 @@ namespace SharpFBTools.Tools
 							listViewFB2Files.SelectedItems[0].Focused = true;
 						}
 					}
-					
 				} else if (e.KeyChar == (char)Keys.Back) {
 					string CurrentDirPatch = textBoxAddress.Text.Trim();
-					// Проверка, не корень ли это?
+					// Проверка, является ли текуший адрес папки корнем диска
 					if (!string.IsNullOrEmpty(Path.GetDirectoryName(CurrentDirPatch))) {
+						// Не корень диска
 						int index = CurrentDirPatch.LastIndexOf('\\');
 						// Родительская Папка, которую надо выделить после перехода вверх
 						string DirUpName = index < CurrentDirPatch.Length ? CurrentDirPatch.Substring(index + 1) : string.Empty;
