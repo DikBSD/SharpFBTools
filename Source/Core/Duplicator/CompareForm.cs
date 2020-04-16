@@ -63,195 +63,202 @@ namespace Core.Duplicator
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CompareForm));
-			this.sfdList = new System.Windows.Forms.SaveFileDialog();
-			this.ProgressBar = new System.Windows.Forms.ProgressBar();
-			this.ProgressPanel = new System.Windows.Forms.Panel();
-			this.StatusLabel = new System.Windows.Forms.Label();
-			this.ControlPanel = new System.Windows.Forms.Panel();
-			this.btnSaveToXml = new System.Windows.Forms.Button();
-			this.btnStop = new System.Windows.Forms.Button();
-			this.cbGroupCountForList = new System.Windows.Forms.ComboBox();
-			this.lblGroupCountForList = new System.Windows.Forms.Label();
-			this.checkBoxSaveGroupsToXml = new System.Windows.Forms.CheckBox();
-			this.ProgressPanel.SuspendLayout();
-			this.ControlPanel.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// sfdList
-			// 
-			this.sfdList.RestoreDirectory = true;
-			this.sfdList.Title = "Укажите название файла копий";
-			// 
-			// ProgressBar
-			// 
-			this.ProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			                                                                | System.Windows.Forms.AnchorStyles.Right)));
-			this.ProgressBar.Location = new System.Drawing.Point(16, 16);
-			this.ProgressBar.Margin = new System.Windows.Forms.Padding(4);
-			this.ProgressBar.Name = "ProgressBar";
-			this.ProgressBar.Size = new System.Drawing.Size(653, 28);
-			this.ProgressBar.TabIndex = 0;
-			// 
-			// ProgressPanel
-			// 
-			this.ProgressPanel.Controls.Add(this.StatusLabel);
-			this.ProgressPanel.Controls.Add(this.ProgressBar);
-			this.ProgressPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ProgressPanel.Location = new System.Drawing.Point(0, 0);
-			this.ProgressPanel.Margin = new System.Windows.Forms.Padding(4);
-			this.ProgressPanel.Name = "ProgressPanel";
-			this.ProgressPanel.Size = new System.Drawing.Size(892, 282);
-			this.ProgressPanel.TabIndex = 0;
-			// 
-			// StatusLabel
-			// 
-			this.StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			                                                                 | System.Windows.Forms.AnchorStyles.Left)
-			                                                                | System.Windows.Forms.AnchorStyles.Right)));
-			this.StatusLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.StatusLabel.Location = new System.Drawing.Point(15, 52);
-			this.StatusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.StatusLabel.Name = "StatusLabel";
-			this.StatusLabel.Size = new System.Drawing.Size(655, 215);
-			this.StatusLabel.TabIndex = 1;
-			// 
-			// ControlPanel
-			// 
-			this.ControlPanel.BackColor = System.Drawing.Color.DarkGray;
-			this.ControlPanel.Controls.Add(this.btnSaveToXml);
-			this.ControlPanel.Controls.Add(this.btnStop);
-			this.ControlPanel.Controls.Add(this.cbGroupCountForList);
-			this.ControlPanel.Controls.Add(this.lblGroupCountForList);
-			this.ControlPanel.Controls.Add(this.checkBoxSaveGroupsToXml);
-			this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.ControlPanel.Location = new System.Drawing.Point(684, 0);
-			this.ControlPanel.Margin = new System.Windows.Forms.Padding(4);
-			this.ControlPanel.Name = "ControlPanel";
-			this.ControlPanel.Size = new System.Drawing.Size(208, 282);
-			this.ControlPanel.TabIndex = 1;
-			// 
-			// btnSaveToXml
-			// 
-			this.btnSaveToXml.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.btnSaveToXml.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.btnSaveToXml.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveToXml.Image")));
-			this.btnSaveToXml.Location = new System.Drawing.Point(0, 140);
-			this.btnSaveToXml.Margin = new System.Windows.Forms.Padding(4);
-			this.btnSaveToXml.Name = "btnSaveToXml";
-			this.btnSaveToXml.Size = new System.Drawing.Size(208, 71);
-			this.btnSaveToXml.TabIndex = 8;
-			this.btnSaveToXml.Text = "Прервать в файл...";
-			this.btnSaveToXml.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnSaveToXml.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.btnSaveToXml.UseVisualStyleBackColor = true;
-			this.btnSaveToXml.Click += new System.EventHandler(this.BtnSaveToXmlClick);
-			// 
-			// btnStop
-			// 
-			this.btnStop.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-			this.btnStop.Location = new System.Drawing.Point(0, 211);
-			this.btnStop.Margin = new System.Windows.Forms.Padding(4);
-			this.btnStop.Name = "btnStop";
-			this.btnStop.Size = new System.Drawing.Size(208, 71);
-			this.btnStop.TabIndex = 7;
-			this.btnStop.Text = "Прервать";
-			this.btnStop.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.btnStop.UseVisualStyleBackColor = true;
-			this.btnStop.Click += new System.EventHandler(this.BtnStopClick);
-			// 
-			// cbGroupCountForList
-			// 
-			this.cbGroupCountForList.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbGroupCountForList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbGroupCountForList.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.cbGroupCountForList.FormattingEnabled = true;
-			this.cbGroupCountForList.Items.AddRange(new object[] {
-			                                        	"5",
-			                                        	"10",
-			                                        	"50",
-			                                        	"100",
-			                                        	"150",
-			                                        	"200",
-			                                        	"250",
-			                                        	"300",
-			                                        	"350",
-			                                        	"400",
-			                                        	"450",
-			                                        	"500",
-			                                        	"550",
-			                                        	"600",
-			                                        	"650",
-			                                        	"700",
-			                                        	"750",
-			                                        	"800",
-			                                        	"850",
-			                                        	"900",
-			                                        	"950",
-			                                        	"1000",
-			                                        	"1500",
-			                                        	"2000",
-			                                        	"2500",
-			                                        	"3000",
-			                                        	"3500",
-			                                        	"4000",
-			                                        	"4500",
-			                                        	"5000",
-			                                        	"7500",
-			                                        	"10000"});
-			this.cbGroupCountForList.Location = new System.Drawing.Point(0, 85);
-			this.cbGroupCountForList.Name = "cbGroupCountForList";
-			this.cbGroupCountForList.Size = new System.Drawing.Size(208, 24);
-			this.cbGroupCountForList.TabIndex = 5;
-			// 
-			// lblGroupCountForList
-			// 
-			this.lblGroupCountForList.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblGroupCountForList.ForeColor = System.Drawing.Color.Navy;
-			this.lblGroupCountForList.Location = new System.Drawing.Point(0, 62);
-			this.lblGroupCountForList.Name = "lblGroupCountForList";
-			this.lblGroupCountForList.Size = new System.Drawing.Size(208, 23);
-			this.lblGroupCountForList.TabIndex = 4;
-			this.lblGroupCountForList.Text = "Число Групп копий в файле:";
-			// 
-			// checkBoxSaveGroupsToXml
-			// 
-			this.checkBoxSaveGroupsToXml.Checked = true;
-			this.checkBoxSaveGroupsToXml.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSaveGroupsToXml.Dock = System.Windows.Forms.DockStyle.Top;
-			this.checkBoxSaveGroupsToXml.ForeColor = System.Drawing.Color.Blue;
-			this.checkBoxSaveGroupsToXml.Location = new System.Drawing.Point(0, 0);
-			this.checkBoxSaveGroupsToXml.Name = "checkBoxSaveGroupsToXml";
-			this.checkBoxSaveGroupsToXml.Size = new System.Drawing.Size(208, 62);
-			this.checkBoxSaveGroupsToXml.TabIndex = 3;
-			this.checkBoxSaveGroupsToXml.Text = "Сохранять результат (Группы) сразу в файлы без построения дерева";
-			this.checkBoxSaveGroupsToXml.UseVisualStyleBackColor = true;
-			this.checkBoxSaveGroupsToXml.CheckedChanged += new System.EventHandler(this.CheckBoxSaveGroupsToXmlCheckedChanged);
-			// 
-			// CompareForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(892, 282);
-			this.ControlBox = false;
-			this.Controls.Add(this.ControlPanel);
-			this.Controls.Add(this.ProgressPanel);
-			this.Margin = new System.Windows.Forms.Padding(4);
-			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(1200, 600);
-			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(910, 300);
-			this.Name = "CompareForm";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Поиск копий fb2 книг";
-			this.ProgressPanel.ResumeLayout(false);
-			this.ControlPanel.ResumeLayout(false);
-			this.ResumeLayout(false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CompareForm));
+            this.sfdList = new System.Windows.Forms.SaveFileDialog();
+            this.ProgressBar = new System.Windows.Forms.ProgressBar();
+            this.ProgressPanel = new System.Windows.Forms.Panel();
+            this.StatusLabel = new System.Windows.Forms.Label();
+            this.ControlPanel = new System.Windows.Forms.Panel();
+            this.btnSaveToXml = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.cbGroupCountForList = new System.Windows.Forms.ComboBox();
+            this.lblGroupCountForList = new System.Windows.Forms.Label();
+            this.checkBoxSaveGroupsToXml = new System.Windows.Forms.CheckBox();
+            this.ModeLabel = new System.Windows.Forms.Label();
+            this.ProgressPanel.SuspendLayout();
+            this.ControlPanel.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // sfdList
+            // 
+            this.sfdList.RestoreDirectory = true;
+            this.sfdList.Title = "Укажите название файла копий";
+            // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProgressBar.Location = new System.Drawing.Point(12, 46);
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(491, 23);
+            this.ProgressBar.TabIndex = 0;
+            // 
+            // ProgressPanel
+            // 
+            this.ProgressPanel.Controls.Add(this.ModeLabel);
+            this.ProgressPanel.Controls.Add(this.StatusLabel);
+            this.ProgressPanel.Controls.Add(this.ProgressBar);
+            this.ProgressPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ProgressPanel.Location = new System.Drawing.Point(0, 0);
+            this.ProgressPanel.Name = "ProgressPanel";
+            this.ProgressPanel.Size = new System.Drawing.Size(670, 264);
+            this.ProgressPanel.TabIndex = 0;
+            // 
+            // StatusLabel
+            // 
+            this.StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.StatusLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.StatusLabel.Location = new System.Drawing.Point(11, 83);
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(492, 169);
+            this.StatusLabel.TabIndex = 1;
+            // 
+            // ControlPanel
+            // 
+            this.ControlPanel.BackColor = System.Drawing.Color.DarkGray;
+            this.ControlPanel.Controls.Add(this.btnSaveToXml);
+            this.ControlPanel.Controls.Add(this.btnStop);
+            this.ControlPanel.Controls.Add(this.cbGroupCountForList);
+            this.ControlPanel.Controls.Add(this.lblGroupCountForList);
+            this.ControlPanel.Controls.Add(this.checkBoxSaveGroupsToXml);
+            this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ControlPanel.Location = new System.Drawing.Point(514, 0);
+            this.ControlPanel.Name = "ControlPanel";
+            this.ControlPanel.Size = new System.Drawing.Size(156, 264);
+            this.ControlPanel.TabIndex = 1;
+            // 
+            // btnSaveToXml
+            // 
+            this.btnSaveToXml.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnSaveToXml.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSaveToXml.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveToXml.Image")));
+            this.btnSaveToXml.Location = new System.Drawing.Point(0, 148);
+            this.btnSaveToXml.Name = "btnSaveToXml";
+            this.btnSaveToXml.Size = new System.Drawing.Size(156, 58);
+            this.btnSaveToXml.TabIndex = 8;
+            this.btnSaveToXml.Text = "Прервать в файл...";
+            this.btnSaveToXml.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSaveToXml.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSaveToXml.UseVisualStyleBackColor = true;
+            this.btnSaveToXml.Click += new System.EventHandler(this.BtnSaveToXmlClick);
+            // 
+            // btnStop
+            // 
+            this.btnStop.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
+            this.btnStop.Location = new System.Drawing.Point(0, 206);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(156, 58);
+            this.btnStop.TabIndex = 7;
+            this.btnStop.Text = "Прервать";
+            this.btnStop.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.BtnStopClick);
+            // 
+            // cbGroupCountForList
+            // 
+            this.cbGroupCountForList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbGroupCountForList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGroupCountForList.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cbGroupCountForList.FormattingEnabled = true;
+            this.cbGroupCountForList.Items.AddRange(new object[] {
+            "5",
+            "10",
+            "50",
+            "100",
+            "150",
+            "200",
+            "250",
+            "300",
+            "350",
+            "400",
+            "450",
+            "500",
+            "550",
+            "600",
+            "650",
+            "700",
+            "750",
+            "800",
+            "850",
+            "900",
+            "950",
+            "1000",
+            "1500",
+            "2000",
+            "2500",
+            "3000",
+            "3500",
+            "4000",
+            "4500",
+            "5000",
+            "7500",
+            "10000"});
+            this.cbGroupCountForList.Location = new System.Drawing.Point(0, 69);
+            this.cbGroupCountForList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbGroupCountForList.Name = "cbGroupCountForList";
+            this.cbGroupCountForList.Size = new System.Drawing.Size(156, 21);
+            this.cbGroupCountForList.TabIndex = 5;
+            // 
+            // lblGroupCountForList
+            // 
+            this.lblGroupCountForList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblGroupCountForList.ForeColor = System.Drawing.Color.Navy;
+            this.lblGroupCountForList.Location = new System.Drawing.Point(0, 50);
+            this.lblGroupCountForList.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblGroupCountForList.Name = "lblGroupCountForList";
+            this.lblGroupCountForList.Size = new System.Drawing.Size(156, 19);
+            this.lblGroupCountForList.TabIndex = 4;
+            this.lblGroupCountForList.Text = "Число Групп копий в файле:";
+            // 
+            // checkBoxSaveGroupsToXml
+            // 
+            this.checkBoxSaveGroupsToXml.Checked = true;
+            this.checkBoxSaveGroupsToXml.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSaveGroupsToXml.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxSaveGroupsToXml.ForeColor = System.Drawing.Color.Blue;
+            this.checkBoxSaveGroupsToXml.Location = new System.Drawing.Point(0, 0);
+            this.checkBoxSaveGroupsToXml.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBoxSaveGroupsToXml.Name = "checkBoxSaveGroupsToXml";
+            this.checkBoxSaveGroupsToXml.Size = new System.Drawing.Size(156, 50);
+            this.checkBoxSaveGroupsToXml.TabIndex = 3;
+            this.checkBoxSaveGroupsToXml.Text = "Сохранять результат (Группы) сразу в файлы без построения дерева";
+            this.checkBoxSaveGroupsToXml.UseVisualStyleBackColor = true;
+            this.checkBoxSaveGroupsToXml.CheckedChanged += new System.EventHandler(this.CheckBoxSaveGroupsToXmlCheckedChanged);
+            // 
+            // ModeLabel
+            // 
+            this.ModeLabel.ForeColor = System.Drawing.Color.Purple;
+            this.ModeLabel.Location = new System.Drawing.Point(12, 9);
+            this.ModeLabel.Name = "ModeLabel";
+            this.ModeLabel.Size = new System.Drawing.Size(491, 30);
+            this.ModeLabel.TabIndex = 2;
+            this.ModeLabel.Text = "Режим сравнения: ";
+            // 
+            // CompareForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(670, 264);
+            this.ControlBox = false;
+            this.Controls.Add(this.ControlPanel);
+            this.Controls.Add(this.ProgressPanel);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(904, 495);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(686, 251);
+            this.Name = "CompareForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Поиск копий fb2 книг";
+            this.ProgressPanel.ResumeLayout(false);
+            this.ControlPanel.ResumeLayout(false);
+            this.ResumeLayout(false);
 
 		}
 		private System.Windows.Forms.ComboBox cbGroupCountForList;
@@ -341,6 +348,7 @@ namespace Core.Duplicator
 
         // true, если остановка с сохранением необработанного списка книг в файл.
         private bool _StopToSave = false;
+		private Label ModeLabel;
 		private DateTime _dtStart = DateTime.Now;
 		#endregion
 		
@@ -388,11 +396,12 @@ namespace Core.Duplicator
 			_lvFilesCount				= listViewFilesCount;
 			_listViewFB2Files			= listViewFB2Files;
 			
-			_SourceDir				= _tboxSourceDir.Text.Trim();
+			_SourceDir			= _tboxSourceDir.Text.Trim();
 			_ScanSubDirs		= _chBoxScanSubDir.Checked;
 			_CompareMode		= _cboxMode.SelectedIndex;
 			_CompareModeName	= _cboxMode.Text;
-			
+			ModeLabel.Text += _CompareModeName;
+
 			_autoResizeColumns	= AutoResizeColumns;
 			
 			InitializeBackgroundWorker();
@@ -573,20 +582,20 @@ namespace Core.Duplicator
 
             this.Close();
 		}
-        #endregion
+		#endregion
 
-        // =====================================================================================================
-        //	Общие методы для Полного и Прерванного сканирования Алгоритмы создания списков копий книг по Группам
-        // =====================================================================================================
-        #region Общие для Полного и Прерванного сканирования Алгоритмы создания списков копий книг по Группам
-        /// <summary>
-        /// Создание списка копий fb2-книг по Группам
-        /// </summary
-        /// <param name="bw">Экземплар фонового обработчика класса BackgroundWorker</param>
-        /// <param name="e">Экземпляр класса DoWorkEventArgs</param>
-        /// <param name="CompareMode">Режим сравнения книг</param>
-        /// <param name="FilesList">Список файлов для сканирования</param>
-        private void makeBookCopiesGroups(BackgroundWorker bw, DoWorkEventArgs e,
+		// =====================================================================================================
+		//	Общие методы для Полного и Прерванного сканирования Алгоритмы создания списков копий книг по Группам
+		// =====================================================================================================
+		#region Общие для Полного и Прерванного сканирования Алгоритмы создания списков копий книг по Группам
+		/// <summary>
+		/// Создание списка копий fb2-книг по Группам
+		/// </summary
+		/// <param name="bw">Экземплар фонового обработчика класса BackgroundWorker</param>
+		/// <param name="e">Экземпляр класса DoWorkEventArgs</param>
+		/// <param name="CompareMode">Режим сравнения книг</param>
+		/// <param name="FilesList">Список файлов для сканирования</param>
+		private void makeBookCopiesGroups(BackgroundWorker bw, DoWorkEventArgs e,
 		                                  SearchCompareModeEnum CompareMode, List<string> FilesList) {
 			switch (CompareMode) {
                 case SearchCompareModeEnum.Md5:

@@ -40,7 +40,7 @@ namespace Core.Duplicator
         public bool FilesHashForMd5Parser(BackgroundWorker bw, DoWorkEventArgs e,
                                           Label StatusLabel, ProgressBar ProgressBar, string TempDir,
                                           List<string> FilesList, HashtableClass htFB2ForMd5)
-        {
+        { 
             StatusLabel.Text += "Хэширование по Md5 ...\r";
             ProgressBar.Maximum = FilesList.Count;
             ProgressBar.Value = 0;
