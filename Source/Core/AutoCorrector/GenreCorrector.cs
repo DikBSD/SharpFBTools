@@ -88,16 +88,18 @@ namespace Core.AutoCorrector
 
 
 			/* Фантастика */
-			// обработка жанра romance_fantasy, romance_sf, magician_book, foreign_fantasy, dragon_fantasy, fantasy
-			try {
+			// обработка жанра romance_fantasy, romance_sf, magician_book, foreign_fantasy,
+			// dragon_fantasy, fantasy, fantasy-action, dark-fantasy 
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(romance_fantasy|romance_sf|magician_book|foreign_fantasy|dragon_fantasy|fantasy)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(romance_fantasy|romance_sf|magician_book|foreign_fantasy|dragon_fantasy|fantasy|dark-fantasy|fantasy-action)\\s*?(?=</genre>)",
 					"${genre}sf_fantasy", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра romance_fantasy, romance_sf, magician_book, foreign_fantasy, dragon_fantasy, fantasy."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра romance_fantasy, romance_sf, magician_book, foreign_fantasy, dragon_fantasy, fantasy, dark-fantasy, fantasy-action."
 				);
 			}
 			
@@ -113,56 +115,76 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра horror, vampire_book, horror_usa."
 				);
 			}
-			
-			// обработка жанра horror_fantasy, horror_vampires, horror_occult
-			try {
+
+			// обработка жанра horror_fantasy, horror_vampires, horror_occult, paranormal
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(horror_fantasy|horror_vampires|horror_occult)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(paranormal|horror_fantasy|horror_vampires|horror_occult)\\s*?(?=</genre>)",
 					"${genre}sf_mystic", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра horror_fantasy, horror_vampires, horror_occult."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра paranormal, horror_fantasy, horror_vampires, horror_occult."
 				);
 			}
-			
-			// обработка жанра sf_history_avant, fantasy_alt_hist
-			try {
+
+			// обработка жанра sf_history_avant, fantasy_alt_hist, historical-fantasy
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(sf_history_avant|fantasy_alt_hist)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(sf_history_avant|fantasy_alt_hist|historical-fantasy)\\s*?(?=</genre>)",
 					"${genre}historical_fantasy", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра sf_history_avant, fantasy_alt_hist."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра sf_history_avant, fantasy_alt_hist, historical-fantasy."
 				);
 			}
-			
-			// обработка жанра Альтернативная история
-			try {
+
+			// обработка жанра Альтернативная история, sf-history
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?альтернативная история\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(sf-history|Альтернативная история)\\s*?(?=</genre>)",
 					"${genre}sf_history", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Альтернативная история'."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанров Альтернативная история, sf-history."
 				);
 			}
-			
-			// обработка жанра sf_cyber_punk
-			try {
+
+			// обработка жанра heroic-fantasy, sf-heroic
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?sf_cyber_punk\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(heroic-fantasy|sf-heroic)\\s*?(?=</genre>)",
+					"${genre}sf_heroic", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанров heroic-fantasy, sf-heroic."
+				);
+			}
+
+			// обработка жанра sf_cyber_punk, cyberpunk
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(sf_cyber_punk|cyberpunk)\\s*?(?=</genre>)",
 					"${genre}sf_cyberpunk", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра sf_cyber_punk."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанроов sf_cyber_punk, cyberpunk."
 				);
 			}
 			
@@ -178,17 +200,34 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра city_fantasy."
 				);
 			}
-			
-			// обработка жанра fantasy_fight, Боевая фантастика
-			try {
+
+			// обработка жанра epic-fantasy
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(fantasy_fight|Боевая фантастика)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?epic-fantasy\\s*?(?=</genre>)",
+					"${genre}sf_epic", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра epic-fantasy."
+				);
+			}
+
+			// обработка жанра fantasy_fight, Боевая фантастика, sf-action
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(fantasy_fight|sf-action|Боевая фантастика)\\s*?(?=</genre>)",
 					"${genre}sf_action", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра fantasy_fight, Боевая фантастика."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра fantasy_fight, sf-action, Боевая фантастика."
 				);
 			}
 			
@@ -217,17 +256,18 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра love_fantasy."
 				);
 			}
-			
-			// обработка жанра SF, Научная Фантастика
-			try {
+
+			// обработка жанра SF, Научная Фантастика, science-fiction, sci-fi
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(SF|Научная Фантастика)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(SF|science-fiction|sci-fi|Научная Фантастика)\\s*?(?=</genre>)",
 					"${genre}sf", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра SF, Научная Фантастика."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра SF, Научная Фантастика, science-fiction, sci-fi."
 				);
 			}
 			
@@ -243,44 +283,159 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра Юмористическая фантастика."
 				);
 			}
-			
-			// обработка жанра Фэнтези Юмор
-			try {
+
+			// обработка жанра ironical-fantasy, Фэнтези Юмор
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(Фэнтези Юмор)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(ironical-fantasy|Фэнтези Юмор)\\s*?(?=</genre>)",
 					"${genre}humor_fantasy", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра Фэнтези Юмор."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра ironical-fantasy, Фэнтези Юмор."
 				);
 			}
-			
-			// обработка жанра Боевое фэнтези
-			try {
+
+			// обработка жанра Космическая фантастика, sf-space
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(Боевое фэнтези)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(sf-space|Космическая фантастика)\\s*?(?=</genre>)",
+					"${genre}sf_space", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанров Космическая фантастика, sf-space."
+				);
+			}
+
+			// обработка жанра sf-social
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(sf-social)\\s*?(?=</genre>)",
+					"${genre}sf_social", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра sf-social."
+				);
+			}
+
+			// обработка жанра fantasy-erotika
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(fantasy-erotika)\\s*?(?=</genre>)",
+					"<genre>sf_fantasy</genre>${genre}love_sf", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра fantasy-erotika."
+				);
+			}
+
+			// обработка жанра Боевое фэнтези, fantasy-action
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(Боевое фэнтези|fantasy-action)\\s*?(?=</genre>)",
 					"<genre>sf_fantasy</genre>${genre}sf_action", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра Боевое фэнтези."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанров Боевое фэнтези, fantasy-action."
 				);
 			}
-			
-			/* Юмор */
-			// обработка жанра entert_humor, foreign_humor
-			try {
+
+			// обработка жанра popadantsy-v-magicheskie-miry
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(entert_humor|foreign_humor)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(popadantsy-v-magicheskie-miry)\\s*?(?=</genre>)",
+					"<genre>popadanec</genre>${genre}sf_fantasy", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра popadantsy-v-magicheskie-miry."
+				);
+			}
+
+			// обработка жанра popadantsy-v-kosmos
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(popadantsy-v-kosmos)\\s*?(?=</genre>)",
+					"<genre>popadanec</genre>${genre}sf_space", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра popadantsy-v-kosmos."
+				);
+			}
+
+			// обработка жанра postapocalyptic
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?postapocalyptic\\s*?(?=</genre>)",
+					"${genre}sf_postapocalyptic", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра postapocalyptic."
+				);
+			}
+
+			// обработка жанра popadantsy, popadantsy-vo-vremeni
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(popadantsy|popadantsy-vo-vremeni)\\s*?(?=</genre>)",
+					"${genre}popadanec", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра popadantsy, popadantsy-vo-vremeni."
+				);
+			}
+
+			/* Юмор */
+			// обработка жанра entert_humor, foreign_humor, humor_all
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(entert_humor|foreign_humor|humor_all)\\s*?(?=</genre>)",
 					"${genre}humor", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра entert_humor, foreign_humor."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра entert_humor, foreign_humor, humor_all."
 				);
 			}
 			
@@ -324,12 +479,28 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра thriller_police."
 				);
 			}
-			
+
+			// обработка жанра kriminal_detective
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?kriminal_detective\\s*?(?=</genre>)",
+					"${genre}det_crime", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра kriminal_detective."
+				);
+			}
+
 			// обработка жанра thriller_mystery
 			try {
 				_xmlText = Regex.Replace(
 					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?thriller_mystery\\s*?(?=</genre>)",
-					"${genre}thriller</genre><genre>detective", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					"${genre}thriller</genre><genre>sf_mystic", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
@@ -337,30 +508,48 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра thriller_mystery."
 				);
 			}
-			
-			// обработка жанра foreign_detective
-			try {
+
+			// обработка жанра thriller_psychology
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?foreign_detective\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?thriller_psychology\\s*?(?=</genre>)",
+					"${genre}thriller</genre><genre>detective", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра thriller_psychology."
+				);
+			}
+
+			// обработка жанра foreign_detective, detektive
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(detektive|foreign_detective)\\s*?(?=</genre>)",
 					"${genre}detective", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_detective."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанров foreign_detective, detektive."
 				);
 			}
-			
-			// обработка жанра foreign_action
-			try {
+
+			// обработка жанра foreign_action, action
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?foreign_action\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(foreign_action|action)\\s*?(?=</genre>)",
 					"${genre}det_action", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_action."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанров foreign_action, action."
 				);
 			}
 			
@@ -495,17 +684,18 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра child_4, literature_fairy, Сказка, Сказки."
 				);
 			}
-			
-			// обработка жанра child_9, child_characters, Детская литература
-			try {
+
+			// обработка жанра child_9, child_characters, Детская литература, detskaya-literatura
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(child_9|child_characters|Детская литература)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(child_9|child_characters|detskaya-literatura|Детская литература)\\s*?(?=</genre>)",
 					"${genre}children", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра child_9, child_characters, Детская литература."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра child_9, child_characters, Детская литература, detskaya-literatura."
 				);
 			}
 			
@@ -678,17 +868,18 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Контркультура'."
 				);
 			}
-			
-			// обработка жанра romance_contemporary, russian_contemporary, Современная Проза
-			try {
+
+			// обработка жанра romance_contemporary, russian_contemporary, Современная Проза, modern-prose
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(romance_contemporary|russian_contemporary|Современная Проза)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(romance_contemporary|modern-prose|russian_contemporary|Современная Проза)\\s*?(?=</genre>)",
 					"${genre}prose_contemporary", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра romance_contemporary, russian_contemporary, Современная Проза."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра modern-prose, romance_contemporary, russian_contemporary, Современная Проза."
 				);
 			}
 			
@@ -901,7 +1092,23 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра science_medicine, medicine."
 				);
 			}
-			
+
+			// обработка жанра culture_all
+			try
+			{
+				_xmlText = Regex.Replace(
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(culture_all)\\s*?(?=</genre>)",
+					"${genre}sci_culture", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра culture_all."
+				);
+			}
+
 			// обработка жанра history_russia, history_asia, history_middle_east, history_usa, history_europe, literature_history, history_ancient, history_world, history_australia, history_africa, История
 			try {
 				_xmlText = Regex.Replace(
@@ -1018,17 +1225,18 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Языкознание'."
 				);
 			}
-			
-			// обработка жанра Религиоведение, religion_earth
-			try {
+
+			// обработка жанра Религиоведение, religion_earth, religion_all
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(Религиоведение|religion_earth)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(Религиоведение|religion_earth|religion_all)\\s*?(?=</genre>)",
 					"${genre}sci_religion", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра Религиоведение, religion_earth."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра Религиоведение, religion_earth, religion_all."
 				);
 			}
 			
@@ -1084,18 +1292,19 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра science_measurement."
 				);
 			}
-			
+
 			/* Поэзия */
-			// обработка жанра literature_poetry, Поэзия, поэзия
-			try {
+			// обработка жанра literature_poetry, Поэзия, поэзия, poetry_all
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(literature_poetry|Поэзия)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(literature_poetry|poetry_all|Поэзия)\\s*?(?=</genre>)",
 					"${genre}poetry", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_poetry, Поэзия, поэзия."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанров literature_poetry, poetry_all, Поэзия, поэзия."
 				);
 			}
 			
@@ -1324,17 +1533,18 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра biogr_historical, biogr_arts, biography, biogr_leaders, biogr_professionals, biogr_sports, biz_beogr, biogr_travel, Биографии и мемуары."
 				);
 			}
-			
-			// обработка жанра foreign_publicism, Публицистика
-			try {
+
+			// обработка жанра foreign_publicism, Публицистика, publicism
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(foreign_publicism|Публицистика)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(foreign_publicism|Публицистика|publicism)\\s*?(?=</genre>)",
 					"${genre}nonf_publicism", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_publicism, Публицистика."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра foreign_publicism, Публицистика, publicism."
 				);
 			}
 			
@@ -1377,17 +1587,18 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра nonfiction_politics, literature_political."
 				);
 			}
-			
-			// обработка жанра biz_economics
-			try {
+
+			// обработка жанра biz_economics, sci_economics
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?biz_economics\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(biz_economics|sci_economics)\\s*?(?=</genre>)",
 					"${genre}sci_economy", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра biz_economics."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанров biz_economics, sci_economics."
 				);
 			}
 			
@@ -1561,17 +1772,18 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра literature_erotica, Эротика."
 				);
 			}
-			
-			// обработка жанра women_single, literature_women, foreign_love
-			try {
+
+			// обработка жанра women_single, literature_women, foreign_love, love_all
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(women_single|literature_women|foreign_love)\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(women_single|literature_women|foreign_love|love_all)\\s*?(?=</genre>)",
 					"${genre}love", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра women_single, literature_women, foreign_love."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра women_single, literature_women, foreign_love, love_all."
 				);
 			}
 			
@@ -1587,17 +1799,18 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра slash."
 				);
 			}
-			
-			// обработка жанра Современные Любовные Романы
-			try {
+
+			// обработка жанра Современные Любовные Романы, love-contemporary, love_conremporary, love_contrmporary
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?Современные Любовные Романы\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(love_conremporary|love_contrmporary|love-contemporary|Современные Любовные Романы)\\s*?(?=</genre>)",
 					"${genre}love_contemporary", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра 'Современные Любовные Романы'."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанров love_conremporary, love_contrmporary, love-contemporary, Современные Любовные Романы."
 				);
 			}
 			
@@ -1694,17 +1907,18 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра hand-book."
 				);
 			}
-			
-			// обработка жанра ref_encyclopedia
-			try {
+
+			// обработка жанра ref_encyclopedia, ref_all
+			try
+			{
 				_xmlText = Regex.Replace(
-					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?ref_encyclopedia\\s*?(?=</genre>)",
+					_xmlText, "(?'genre'<genre(?:\\s*?match=\"\\d{1,3}\")?\\s*?>)\\s*?(ref_encyclopedia|ref_all)\\s*?(?=</genre>)",
 					"${genre}ref_encyc", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра ref_encyclopedia."
+					_FilePath, ex, "GenreCorrector:\r\nОбработка жанра ref_encyclopedia, ref_all."
 				);
 			}
 			
