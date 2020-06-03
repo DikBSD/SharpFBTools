@@ -175,6 +175,7 @@ namespace Core.Corrector
 					createNotValidateBookItem( element.Value, m_fb2Genres, m_fv2Validator, m_sharpZipLib );
 					worker.ReportProgress( i++ );
 				}
+				StatusLabel.Text += "Продолжение поиска невалидных книг и создание их визуального списка...\r";
 			}
 
 			ControlPanel.Enabled = true;
@@ -185,7 +186,6 @@ namespace Core.Corrector
 			}
 
 			// Создание списка невалидных fb2-книг
-			StatusLabel.Text += "Продолжение поиска невалидных книг и создание их визуального списка...\r";
 			searchNotValidateFiles( sender, e, m_FilesList );
 			
 			if ( m_autoResizeColumns )
