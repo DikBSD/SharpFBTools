@@ -134,8 +134,8 @@ namespace Core.Corrector
 					return;
 				}
 				
-				this.Text += String.Format( ": Всего {0} каталогов; {1} файлов", m_AllDirs, m_AllFiles );
-				StatusLabel.Text += String.Format( "Осталось проверить {0} книг...\r", m_AllFiles );
+				this.Text += string.Format( ": Всего {0} каталогов; {1} файлов", m_AllDirs, m_AllFiles );
+				StatusLabel.Text += string.Format( "Осталось проверить {0} книг...\r", m_AllFiles );
 				lDirList.Clear();
 			} else {
 				/* возобновление поиска */
@@ -149,12 +149,12 @@ namespace Core.Corrector
 				XElement xCompareData = xTree.Element("SearchData");
 				m_AllDirs = Convert.ToInt32( xCompareData.Element("AllDirs").Value );
 				m_AllFiles = Convert.ToInt32( xCompareData.Element("AllFiles").Value );
-				this.Text += String.Format( ": Всего {0} каталогов; {1} файлов", m_AllDirs, m_AllFiles );
+				this.Text += string.Format( ": Всего {0} каталогов; {1} файлов", m_AllDirs, m_AllFiles );
 
 				// заполнение списка необработанных файлов
 				IEnumerable<XElement> files = xTree.Element("NotWorkingFiles").Elements("File");
 				int NotWorkingFiles = files.ToList().Count;
-				StatusLabel.Text += String.Format( "Осталось проверить {0} книг...\r", NotWorkingFiles.ToString() );
+				StatusLabel.Text += string.Format( "Осталось проверить {0} книг...\r", NotWorkingFiles.ToString() );
 				ProgressBar.Maximum = NotWorkingFiles;
 				int i = 0;
 				foreach ( XElement element in files ) {
@@ -163,7 +163,8 @@ namespace Core.Corrector
 				}
 
 				// загрузка из xml-файла в хэш-лист данных о невалидных книгах
-				StatusLabel.Text += "Загрузка из xml файла в визуальный список данных об найденных невалидных книгах...\r";
+				int FB2NotValidate = Convert.ToInt32(xTree.Element("FB2NotValidate").Attribute("count").Value);
+				StatusLabel.Text += string.Format( "Загрузка из xml файла в визуальный список данных об {0} ранее найденных невалидных книгах...\r", FB2NotValidate);
 				files = xTree.Element("FB2NotValidate").Elements("File");
 				ProgressBar.Maximum	= files.ToList().Count;
 				i = 0;
