@@ -163,7 +163,7 @@ namespace Core.Corrector
 				}
 
 				// загрузка из xml-файла в хэш-лист данных о невалидных книгах
-				StatusLabel.Text += "Загрузка из xml файла данных в хэш-лист об найденных невалидных книгах...\r";
+				StatusLabel.Text += "Загрузка из xml файла в визуальный список данных об найденных невалидных книгах...\r";
 				files = xTree.Element("FB2NotValidate").Elements("File");
 				ProgressBar.Maximum	= files.ToList().Count;
 				i = 0;
@@ -185,7 +185,7 @@ namespace Core.Corrector
 			}
 
 			// Создание списка невалидных fb2-книг
-			StatusLabel.Text += "Создание визуального списка невалидных книг из xml файла...\r";
+			StatusLabel.Text += "Продолжение поиска невалидных книг и создание их визуального списка...\r";
 			searchNotValidateFiles( sender, e, m_FilesList );
 			
 			if ( m_autoResizeColumns )
