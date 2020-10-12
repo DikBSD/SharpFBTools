@@ -330,8 +330,10 @@ namespace Core.Duplicator
         private HashtableClass _htAuthors = new HashtableClass("_htAuthors", new FB2CultureComparer());
         // таблица для обработанных данных копий (режим группировки по Авторам, ID Книги)
         private HashtableClass _htAuthorsBookID = new HashtableClass("_htAuthorsBookID", new FB2CultureComparer());
+		// таблица для обработанных данных копий (Автор(ы) и Автор fb2 файла)
+		private HashtableClass _htAuthorsFB2Authors = new HashtableClass("_htAuthorsFB2Authors", new FB2CultureComparer());
 
-        private List<string> _FilesList				= new List<string>();
+		private List<string> _FilesList				= new List<string>();
 		private List<string> _nonOpenedFile			= new List<string>();
 		private const string _nonOpenedFB2FilePath	= "_DuplicatorNonOpenedFile.xml";
 		
@@ -387,6 +389,7 @@ namespace Core.Duplicator
 			_HashtableList.Add(_htBookTitleBookID);
 			_HashtableList.Add(_htAuthors);
 			_HashtableList.Add(_htAuthorsBookID);
+			_HashtableList.Add(_htAuthorsFB2Authors);
 
 			_tboxSourceDir				= tbSourceDir;
 			_chBoxScanSubDir			= cbScanSubDir;
@@ -770,8 +773,23 @@ namespace Core.Duplicator
 						}
 					}
                     break;
-            }
-        }
+				case SearchCompareModeEnum.AuthorFB2Author:
+					// Автор(ы) и Автор fb2 файла
+					// Хэширование fb2-файлов по Авторам книги
+					if (_compareAuthorFromFB2.FilesHashForAuthorParser(ref bw, ref e, StatusLabel, ProgressBar,
+						_TempDir, ref FilesList, ref _htAuthors, _WithMiddleName)) {
+						_nonOpenedFile = _compareAuthorFIO.NonOpenedFileList;
+						// Хэширование по одинаковым Авторам fb2 файлов
+						// в пределах сгенерированных групп книг по одинаковым Авторам книг
+						if (_compareFB2Author.FilesHashForFB2AuthorsParser(bw, e, StatusLabel, ProgressBar,
+							_htAuthors, _htAuthorsFB2Authors, _WithMiddleName)) {
+							// Формирование дерева списка копий
+							makeTreeCopies(bw, e, _htAuthorsFB2Authors);
+						}
+					}
+					break;
+			}
+		}
         #endregion
 
         // =============================================================================================
