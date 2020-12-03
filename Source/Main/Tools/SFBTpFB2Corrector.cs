@@ -1888,6 +1888,27 @@ namespace SharpFBTools.Tools
 			if (tsslblProgress.Text != "=>")
 				MessageBox.Show("Путь к выделенной книге был скопирован в буфер обмена.", "SharpFBTools - Корректор");
 		}
+		private void tsmiShow_Click(object sender, EventArgs e)
+		{
+			if (tsmiShow.Checked)
+				return;
+
+			tsmiShow.Checked = !tsmiShow.Checked;
+			tsmiHide.Checked = !tsmiHide.Checked;
+
+			FB2InfoPanel.Dock = DockStyle.Bottom;
+		}
+
+		private void tsmiHide_Click(object sender, EventArgs e)
+		{
+			if (tsmiHide.Checked)
+				return;
+
+			tsmiHide.Checked = !tsmiHide.Checked;
+			tsmiShow.Checked = !tsmiShow.Checked;
+
+			FB2InfoPanel.Dock = DockStyle.None;
+		}
 		#endregion
 
 	}
