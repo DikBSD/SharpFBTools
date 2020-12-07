@@ -299,11 +299,28 @@ namespace Core.AutoCorrector
 					_FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление <h1> ... <h6> с их содержимым."
 				);
 			}
-			
-			// удаление тегов <style> вида <style name="MsoFootnoteReference"> и </style>
-			try {
+
+			// удаление тегов <style> вида <style>
+			try
+			{
 				InputString = Regex.Replace(
-					InputString, "<style name=\"[\\w|\\d]+\">",
+					InputString, "<style>",
+					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
+				);
+			}
+			catch (RegexMatchTimeoutException /*ex*/ ) { }
+			catch (Exception ex)
+			{
+				Debug.DebugMessage(
+					_FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <style> вида <style>."
+				);
+			}
+
+			// удаление тегов <style> вида <style name="MsoFootnoteReference">, <style name="Italic Style"> и </style>
+			try
+			{
+				InputString = Regex.Replace(
+					InputString, "<style name=\"([\\w\\s?|\\d\\s?])+\">",
 					"", RegexOptions.IgnoreCase | RegexOptions.Multiline
 				);
 				InputString = Regex.Replace(
@@ -313,7 +330,7 @@ namespace Core.AutoCorrector
 			} catch ( RegexMatchTimeoutException /*ex*/ ) {}
 			catch ( Exception ex ) {
 				Debug.DebugMessage(
-					_FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <style> вида <style name=\"MsoFootnoteReference\"> и </style>."
+					_FilePath, ex, "FB2CleanCode:cleanFb2Code():\r\nУдаление тегов <style> вида <style name=\"MsoFootnoteReference\">, <style name=\"Italic Style\"> и </style>."
 				);
 			}
 			
