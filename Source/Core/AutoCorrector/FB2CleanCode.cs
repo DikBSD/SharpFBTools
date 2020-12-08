@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 using Core.Common;
 
@@ -96,7 +96,7 @@ namespace Core.AutoCorrector
 			
 			"<!--", "-->"
 		};
-		private static readonly string _RegAmp = @"(?!&(?:amp|lt|gt|(#x[\d\w]{4})|(?:#\d{1,6}));)(&)";//пропускае юникод, символы в десятичной кодировке и меняем уголки
+		private static readonly string _RegAmp = @"(?!&(?:amp|lt|gt|(#x[\d\w]{4})|(?:#\d{1,6}));)(&)";//пропускаем юникод, символы в десятичной кодировке и меняем уголки
 		
 		#endregion
 		
