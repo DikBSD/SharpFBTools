@@ -12,7 +12,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 using FilesWorker = Core.Common.FilesWorker;
 
@@ -239,7 +239,7 @@ namespace Core.Common
 		/// </summary>
 		/// <param name="ZipPath">Путь к исходному zip-файлу</param>
 		public string UnZipFB2FileToString( string ZipPath ) {
-			if( FilesWorker.isFB2Archive( ZipPath )  ) {
+			if ( FilesWorker.isFB2Archive( ZipPath )  ) {
 				MemoryStream ms = new MemoryStream();
 				ICSharpCode.SharpZipLib.Zip.ZipInputStream zis = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(
 					new FileStream(ZipPath, FileMode.Open)
@@ -440,7 +440,10 @@ namespace Core.Common
 				for ( int i = 0; i != zipFile.Count; ++i ) {
 					if ( zipFile[i] != null ) {
 						if ( zipFile[i].IsFile ) {
-							string zipFileName = zipFile[i].Name.Replace('<', '«').Replace('>', '»').Replace(':', '_');
+							// только корректные символы для имен файлов
+							string zipFileName = StringProcessing.OnlyCorrectSymbolsForString(
+								zipFile[i].Name.Replace('<', '«').Replace('>', '»').Replace(':', '_')
+								);
 							try {
 								if ( Path.GetExtension(zipFileName.ToLower()) != ".fb2" )
 									continue;
@@ -451,7 +454,6 @@ namespace Core.Common
 								continue;
 							}
 							
-
 							Stream inputStream = zipFile.GetInputStream(zipFile[i]);
 							string path = Path.Combine(DestinationDir, zipFileName.Replace('/', '\\'));
 							string dir = Path.GetDirectoryName(path);
@@ -461,20 +463,30 @@ namespace Core.Common
 								path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
 							try {
-								// на случай, если в имени файла есть нечитаемые символы
-								using ( FileStream fileStream = new FileStream(path, FileMode.Create) ) {
-									CopyStream(inputStream, fileStream, 4096);
-									fileStream.Close();
-									inputStream.Close();
-								}
-								
-								if ( File.Exists(path) ) {
-									DateTime dtFile = zipFile[i].DateTime;
-									File.SetCreationTime(path, dtFile);
-									File.SetLastAccessTime(path, dtFile);
-									File.SetLastWriteTime(path, dtFile);
-								}
-								++count;
+								//using (FileStream fileStream = new FileStream(path, FileMode.Create)) {
+								//    inputStream.CopyTo(fileStream);
+								//    inputStream.Close();
+								//    fileStream.Close();
+								//}
+								//if (File.Exists(path)) {
+								//    DateTime dtFile = zipFile[i].DateTime;
+								//    File.SetCreationTime(path, dtFile);
+								//    File.SetLastAccessTime(path, dtFile);
+								//    File.SetLastWriteTime(path, dtFile);
+								//}
+                                // на случай, если в имени файла есть нечитаемые символы
+                                using (FileStream fileStream = new FileStream(path, FileMode.Create)) {
+                                    CopyStream(inputStream, fileStream, 4096);
+                                    fileStream.Close();
+                                    inputStream.Close();
+                                }
+                                if (File.Exists(path)) {
+                                    DateTime dtFile = zipFile[i].DateTime;
+                                    File.SetCreationTime(path, dtFile);
+                                    File.SetLastAccessTime(path, dtFile);
+                                    File.SetLastWriteTime(path, dtFile);
+                                }
+                                ++count;
 							} catch ( Exception ex) {
 								Debug.DebugMessage(
 									SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Исключение Exception."
@@ -802,7 +814,7 @@ namespace Core.Common
 		{
 			byte[] buffer = new byte[BufferSize];
 			int countBytesRead;
-			while ( ( countBytesRead = source.Read( buffer, 0, buffer.Length ) ) > 0 )
+			while ( (countBytesRead = source.Read(buffer, 0, buffer.Length) ) > 0 )
 				destination.Write(buffer, 0, countBytesRead);
 		}
 		

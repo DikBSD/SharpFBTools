@@ -610,6 +610,7 @@ namespace Core.Common
 			}
 			return Text;
 		}
+		
 		// удаление последнего символа, если он соответствует массиву Шаблонных символов
 		public static string trimLastTemplateSymbol( string Text, Char [] Template ) {
 			foreach ( char symbol in Template )

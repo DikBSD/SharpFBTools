@@ -49,7 +49,8 @@ namespace Core.Common
                 return true;
             }
         }
-        /// <summary>
+        
+		/// <summary>
         /// Сброс для списка файлов аттрибута только для чтения
         /// </summary>
         public static void DumpReadOnlyAttrForFiles( string sDir ) {
@@ -520,66 +521,6 @@ namespace Core.Common
 			return Path.Combine(RootTargetDir, SourceFileDir.Remove(0, RootSourceDir.Length));
 		}
 
-		#endregion
-		
-		#region Закрытые вспомогательные методы
-		// создание списка подпапок и файлов в заданной папке
-		// параметры:	sStartDir - папка для сканирования;
-		//				lDirList - заполняемый список папок в текущей папке
-		//				lFileList - заполняемый список файлов в текущей папке
-		// возвращает: число папок в текущем каталоге
-		private static int DirFilesListMaker( string sStartDir, ref List<string> lDirList, ref List<string> lFileList ) {
-			int nDirCount = 0;
-			// папки в текущей папке
-			try {
-				string[] dirs = Directory.GetDirectories( sStartDir );
-				foreach( string dir in dirs ) {
-					try {
-						lDirList.Add( dir );
-						lFileList.AddRange( Directory.GetFiles( dir ) );
-						nDirCount += lDirList.Count;
-					} catch { continue; }
-				}
-			} catch { lDirList.Remove( sStartDir ); }
-			return nDirCount;
-		}
-		
-		// создание списка подпапок в заданной папке
-		// параметры:	sStartDir - папка для сканирования;
-		//				lDirList - заполняемый список папок в текущей папке
-		// возвращает: число файлов в текущем каталоге
-		private static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
-			int nFilesCount = 0;
-			// папки в текущей папке
-			try {
-				string[] dirs = Directory.GetDirectories( sStartDir );
-				foreach( string dir in dirs ) {
-					try {
-						nFilesCount += Directory.GetFiles( dir ).Length;
-						lDirList.Add( dir );
-					} catch { continue; }
-				}
-			} catch { lDirList.Remove( sStartDir ); }
-			return nFilesCount;
-		}
-		/*
-		private static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
-			int nFilesCount = 0;
-			// папки в текущей папке
-			try {
-				DirectoryInfo diFolder = new DirectoryInfo( sStartDir );
-				foreach( DirectoryInfo diNextFolder in diFolder.GetDirectories() ) {
-					try {
-						DirectoryInfo di = new DirectoryInfo( sStartDir + "\\" + diNextFolder.Name );
-						nFilesCount += di.GetFiles().Length;
-						lDirList.Add( sStartDir + "\\" + diNextFolder.Name );
-					} catch { continue; }
-				}
-			} catch { lDirList.Remove( sStartDir ); }
-			return nFilesCount;
-		}*/
-		#endregion
-
 		/// <summary>
 		/// Прповерка является ли файл .fb2.zip или .fbz архивом
 		/// </summary>
@@ -770,7 +711,78 @@ namespace Core.Common
 				lFilesList.Sort();
 			return lFilesList.Count;
 		}
-		
+		#endregion
+
+		#region Закрытые вспомогательные методы
+		// создание списка подпапок и файлов в заданной папке
+		// параметры:	sStartDir - папка для сканирования;
+		//				lDirList - заполняемый список папок в текущей папке
+		//				lFileList - заполняемый список файлов в текущей папке
+		// возвращает: число папок в текущем каталоге
+		private static int DirFilesListMaker(string sStartDir, ref List<string> lDirList, ref List<string> lFileList)
+		{
+			int nDirCount = 0;
+			// папки в текущей папке
+			try
+			{
+				string[] dirs = Directory.GetDirectories(sStartDir);
+				foreach (string dir in dirs)
+				{
+					try
+					{
+						lDirList.Add(dir);
+						lFileList.AddRange(Directory.GetFiles(dir));
+						nDirCount += lDirList.Count;
+					}
+					catch { continue; }
+				}
+			}
+			catch { lDirList.Remove(sStartDir); }
+			return nDirCount;
+		}
+
+		// создание списка подпапок в заданной папке
+		// параметры:	sStartDir - папка для сканирования;
+		//				lDirList - заполняемый список папок в текущей папке
+		// возвращает: число файлов в текущем каталоге
+		private static int DirListMaker(string sStartDir, ref List<string> lDirList)
+		{
+			int nFilesCount = 0;
+			// папки в текущей папке
+			try
+			{
+				string[] dirs = Directory.GetDirectories(sStartDir);
+				foreach (string dir in dirs)
+				{
+					try
+					{
+						nFilesCount += Directory.GetFiles(dir).Length;
+						lDirList.Add(dir);
+					}
+					catch { continue; }
+				}
+			}
+			catch { lDirList.Remove(sStartDir); }
+			return nFilesCount;
+		}
+		/*
+		private static int DirListMaker( string sStartDir, ref List<string> lDirList ) {
+			int nFilesCount = 0;
+			// папки в текущей папке
+			try {
+				DirectoryInfo diFolder = new DirectoryInfo( sStartDir );
+				foreach( DirectoryInfo diNextFolder in diFolder.GetDirectories() ) {
+					try {
+						DirectoryInfo di = new DirectoryInfo( sStartDir + "\\" + diNextFolder.Name );
+						nFilesCount += di.GetFiles().Length;
+						lDirList.Add( sStartDir + "\\" + diNextFolder.Name );
+					} catch { continue; }
+				}
+			} catch { lDirList.Remove( sStartDir ); }
+			return nFilesCount;
+		}*/
+		#endregion
+
 	}
 
 }
