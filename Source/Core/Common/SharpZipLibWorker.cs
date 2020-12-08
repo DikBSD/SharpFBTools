@@ -453,16 +453,17 @@ namespace Core.Common
 								);
 								continue;
 							}
-							
-							Stream inputStream = zipFile.GetInputStream(zipFile[i]);
-							string path = Path.Combine(DestinationDir, zipFileName.Replace('/', '\\'));
-							string dir = Path.GetDirectoryName(path);
-							if ( !Directory.Exists( dir ) )
-								Directory.CreateDirectory( dir );
-							if ( File.Exists( path ) )
-								path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
 							try {
+								Stream inputStream = zipFile.GetInputStream(zipFile[i]);
+								string path = Path.Combine(DestinationDir, zipFileName.Replace('/', '\\'));
+								string dir = Path.GetDirectoryName(path);
+								if (!Directory.Exists(dir))
+									Directory.CreateDirectory(dir);
+								if (File.Exists(path))
+									path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
+
+
 								//using (FileStream fileStream = new FileStream(path, FileMode.Create)) {
 								//    inputStream.CopyTo(fileStream);
 								//    inputStream.Close();
@@ -474,24 +475,25 @@ namespace Core.Common
 								//    File.SetLastAccessTime(path, dtFile);
 								//    File.SetLastWriteTime(path, dtFile);
 								//}
-                                // на случай, если в имени файла есть нечитаемые символы
-                                using (FileStream fileStream = new FileStream(path, FileMode.Create)) {
-                                    CopyStream(inputStream, fileStream, 4096);
-                                    fileStream.Close();
-                                    inputStream.Close();
-                                }
-                                if (File.Exists(path)) {
-                                    DateTime dtFile = zipFile[i].DateTime;
-                                    File.SetCreationTime(path, dtFile);
-                                    File.SetLastAccessTime(path, dtFile);
-                                    File.SetLastWriteTime(path, dtFile);
-                                }
-                                ++count;
-							} catch ( Exception ex) {
+								// на случай, если в имени файла есть нечитаемые символы
+								using (FileStream fileStream = new FileStream(path, FileMode.Create)) {
+									CopyStream(inputStream, fileStream, 4096);
+									fileStream.Close();
+									inputStream.Close();
+								}
+								if (File.Exists(path)) {
+									DateTime dtFile = zipFile[i].DateTime;
+									File.SetCreationTime(path, dtFile);
+									File.SetLastAccessTime(path, dtFile);
+									File.SetLastWriteTime(path, dtFile);
+								}
+								++count;
+							}
+							catch (Exception ex) {
 								Debug.DebugMessage(
 									SourceZipPath, ex, "SharpZipLibWorker.UnZipFiles(). Исключение Exception."
 								);
-								inputStream.Close();
+								//inputStream.Close();
 							}
 						}
 					}
