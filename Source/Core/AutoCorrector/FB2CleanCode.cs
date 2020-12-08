@@ -23,8 +23,6 @@ namespace Core.AutoCorrector
 	public class FB2CleanCode
 	{
 		#region Закрытые данные класса
-		private const string _MessageTitle = "Автокорректор";
-		
 		private static string _FilePath = string.Empty; // Путь к обрабатываемому файлу
 		
 		private static string[] _Tags = {
@@ -108,20 +106,194 @@ namespace Core.AutoCorrector
 		{
 			_FilePath = FilePath;
 		}
-		
+
+		#region Закрытые вспомогательные методы
+
+		/// <summary>
+		/// Генерация Hashtable из массива fb2 тэгов
+		/// </summary>
+		/// <return>Hashtable fb2 тегов типа string</return>
+		private static Hashtable getTagsHashtable()
+		{
+			Hashtable htTags = new Hashtable(_Tags.Length);
+			for (int i = 0; i != _Tags.Length; ++i)
+				htTags.Add(i, _Tags[i]);
+			return htTags;
+		}
+
+		/// <summary>
+		/// Проверка, содержит ли тестируемый текст вначале fb2 тего
+		/// </summary>
+		private static bool isFB2Tag(string Text, Hashtable htTags)
+		{
+			if (string.IsNullOrWhiteSpace(Text))
+				return false;
+
+			int start = Text.IndexOf('<');
+			int end = -1;
+			if (start == -1)
+				return false;
+			else
+			{
+				end = Text.IndexOf(' ');
+				if (end == -1)
+					end = Text.IndexOf('>');
+				if (end == -1)
+					return false;
+			}
+			return htTags.ContainsValue(Text.Substring(start, end + 1 - start));
+		}
+
+		/// <summary>
+		/// Разбивка текста по токенам с границами <>
+		/// </summary>
+		private static List<string> splitString(string InputString)
+		{
+			List<string> list = new List<string>();
+			if (!string.IsNullOrWhiteSpace(InputString)) {
+				int start = 0;
+				while (true) {
+					// ищем открывающий символ <
+					int indexLeft = InputString.IndexOf('<', start);
+					if (indexLeft != -1) {
+						_splitString(InputString.Substring(start + 1, indexLeft - start - (indexLeft > start ? 1 : 0)), ref list);
+						// ищем закрывающий символ >
+						int indexRight = InputString.IndexOf('>', indexLeft);
+						if (indexRight != -1) {
+							_splitString(InputString.Substring(indexLeft, indexRight - indexLeft + 1), ref list);
+						} else {
+							_splitString(InputString.Substring(indexLeft), ref list);
+							break;
+						}
+						start = indexRight;
+					} else {
+						string s = InputString.Substring(start + 1);
+						if (!string.IsNullOrEmpty(s))
+							list.Add(s);
+						break;
+					}
+				}
+			}
+			return list;
+		}
+		/// <summary>
+		/// Разбивка текста по токенам с границами <>
+		/// </summary>
+		private static void _splitString(string InputString, ref List<string> list)
+		{
+			if (InputString.Equals("\n")) {
+				list.Add(InputString);
+				return;
+			}
+
+			int LastIndexLess = InputString.LastIndexOf('<');
+			if (LastIndexLess > 0) {
+				string s = InputString.Substring(0, LastIndexLess);
+				if (!string.IsNullOrEmpty(s))
+					list.Add(s);
+				InputString = InputString.Substring(LastIndexLess);
+			}
+
+			int start = 0;
+			while (true) {
+				// ищем открывающий символ <
+				int indexLeft = InputString.IndexOf('<', start);
+				if (indexLeft != -1) {
+					string s = InputString.Substring(start + 1, indexLeft - start - (indexLeft > start ? 1 : 0));
+					if (!string.IsNullOrEmpty(s))
+						list.Add(s);
+					// ищем закрывающий символ >
+					int indexRight = InputString.IndexOf('>', indexLeft);
+					if (indexRight != -1) {
+						string s1 = InputString.Substring(indexLeft, indexRight - indexLeft + 1);
+						if (!string.IsNullOrEmpty(s))
+							list.Add(s1);
+					} else {
+						string s2 = InputString.Substring(indexLeft);
+						if (!string.IsNullOrEmpty(s))
+							list.Add(s2);
+						break;
+					}
+					start = indexRight;
+				} else 	{
+					if (!string.IsNullOrEmpty(InputString))
+						list.Add(InputString);
+					break;
+				}
+			}
+		}
+		//
+		//		// склейка тегов абзацев
+		//		private static string mergeTagWithText( string InputString ) {
+		//			// вставка маркеров пробелов (для предотвращения удаления стартовых пробелов)
+		//			InputString = Regex.Replace(
+		//				InputString, @"^( +)(\w|\d)",
+		//				"%$1%$2", RegexOptions.Multiline
+		//			);
+		//
+		//			//
+		//			InputString = Regex.Replace(
+		//				InputString, @"(>)\s+([^<]+?)\s+(<)",
+		//				"$1$2$3", RegexOptions.None
+		//			);
+		//			//
+		//			InputString = Regex.Replace(
+		//				InputString, @"(<p>)\s+(<)",
+		//				"$1$2", RegexOptions.None
+		//			);
+		//			//
+		//			InputString = Regex.Replace(
+		//				InputString, @"(>)\s+(</p>)",
+		//				"$1$2", RegexOptions.None
+		//			);
+		//
+		//			//
+		//			InputString = Regex.Replace(
+		//				InputString, @"(<strong>)\s+(<emphasis>)",
+		//				"$1$2", RegexOptions.None
+		//			);
+		//			//
+		//			InputString = Regex.Replace(
+		//				InputString, @"(<emphasis>)\s+(<strong>)",
+		//				"$1$2", RegexOptions.None
+		//			);
+		//			//
+		//			InputString = Regex.Replace(
+		//				InputString, @"(</strong>)\s+(</emphasis>)",
+		//				"$1$2", RegexOptions.None
+		//			);
+		//			//
+		//			InputString = Regex.Replace(
+		//				InputString, @"(</emphasis>)\s+(</strong>)",
+		//				"$1$2", RegexOptions.None
+		//			);
+		//			//
+		//			InputString = Regex.Replace(
+		//				InputString, @"(</strong>)\s+(<emphasis>)",
+		//				"$1$2", RegexOptions.None
+		//			);
+		//			//
+		//			InputString = Regex.Replace(
+		//				InputString, @"(</emphasis>)\s+(<strong>)",
+		//				"$1$2", RegexOptions.None
+		//			);
+		//
+		//			// удаление маркеров пробелов
+		//			InputString = Regex.Replace(
+		//				InputString, @"(>)%( +)%(\w|\d)",
+		//				"$1$2$3", RegexOptions.None
+		//			);
+		//			return InputString;
+		//		}
+		#endregion
+
+		#region Открытые методы
 		public static string getRegAmpString() {
 			return _RegAmp;
 		}
 		
 		public static string[] getTagsArray() {
 			return _Tags;
-		}
-		
-		public static Hashtable getTagsHashtable() {
-			Hashtable htTags = new Hashtable(_Tags.Length);
-			for ( int i = 0; i != _Tags.Length; ++i )
-				htTags.Add(i, _Tags[i]);
-			return htTags;
 		}
 		
 		/// <summary>
@@ -358,14 +530,14 @@ namespace Core.AutoCorrector
 		/// <summary>
 		/// Обработка < и > и &
 		/// </summary>
-		public static string processingCharactersMoreAndLessAndAmp( string InputString, Hashtable htTags ) {
+		public static string processingCharactersMoreAndLessAndAmp( string InputString ) {
 			Regex regex = new Regex(_RegAmp); // пропускае юникод, символы в десятичной кодировке и меняем уголки
 			List<string> list = splitString( InputString );
 			StringBuilder sbNewString = new StringBuilder( list.Count );
 			string token = string.Empty;
 			foreach ( string item in list ) {
 				token = item.Replace("\r\n", "");
-				if ( isFB2Tag( token, htTags ) ) {
+				if ( isFB2Tag( token, getTagsHashtable()) ) {
 					sbNewString.Append( token );
 				} else {
 					if ( token.IndexOf("\r\n", 0, StringComparison.CurrentCulture) == 0 || token.IndexOf("\n", 0, StringComparison.CurrentCulture) == 0
@@ -385,167 +557,7 @@ namespace Core.AutoCorrector
 			}
 			return sbNewString.ToString();
 		}
-		
-		/// <summary>
-		/// Проверка, содержит ли тестируемый текст вначале fb2 тего
-		/// </summary>
-		private static bool isFB2Tag( string Text, Hashtable htTags ) {
-			if ( string.IsNullOrWhiteSpace( Text ) )
-				return false;
+		#endregion
 
-			int start = Text.IndexOf('<');
-			int end = -1;
-			if ( start == -1 )
-				return false;
-			else {
-				end = Text.IndexOf(' ');
-				if ( end == -1 )
-					end = Text.IndexOf('>');
-				if ( end == -1 )
-					return false;
-			}
-			return htTags.ContainsValue(Text.Substring(start, end+1 - start));
-		}
-
-		/// <summary>
-		/// Разбивка текста по токенам с границами <>
-		/// </summary>
-		private static List<string> splitString( string InputString ) {
-			List<string> list = new List<string>();
-			if ( !string.IsNullOrWhiteSpace( InputString ) ) {
-				int start = 0;
-				while (true) {
-					// ищем открывающий символ <
-					int indexLeft = InputString.IndexOf( '<', start );
-					if ( indexLeft != -1 ) {
-						_splitString( InputString.Substring( start + 1, indexLeft - start - ( indexLeft > start ? 1 : 0 ) ), ref list );
-						// ищем закрывающий символ >
-						int indexRight = InputString.IndexOf( '>', indexLeft );
-						if ( indexRight != -1 ) {
-							_splitString( InputString.Substring( indexLeft, indexRight - indexLeft + 1 ), ref list );
-						} else {
-							_splitString( InputString.Substring( indexLeft ), ref list );
-							break;
-						}
-						start = indexRight;
-					} else {
-						string s = InputString.Substring(start+1);
-						if ( !string.IsNullOrEmpty( s ) )
-							list.Add( s );
-						break;
-					}
-				}
-			}
-			return list;
-		}
-		/// <summary>
-		/// Разбивка текста по токенам с границами <>
-		/// </summary>
-		private static void _splitString( string InputString, ref List<string> list ) {
-			if ( InputString.Equals( "\n" ) ) {
-				list.Add( InputString );
-				return;
-			}
-			
-			int LastIndexLess = InputString.LastIndexOf( '<' );
-			if ( LastIndexLess > 0 ) {
-				string s = InputString.Substring( 0, LastIndexLess );
-				if ( !string.IsNullOrEmpty( s ) )
-					list.Add( s );
-				InputString = InputString.Substring( LastIndexLess );
-			}
-			
-			int start = 0;
-			while (true) {
-				// ищем открывающий символ <
-				int indexLeft = InputString.IndexOf( '<', start );
-				if ( indexLeft != -1 ) {
-					string s = InputString.Substring( start + 1, indexLeft - start - ( indexLeft > start ? 1 : 0 ) );
-					if ( !string.IsNullOrEmpty( s ) )
-						list.Add( s );
-					// ищем закрывающий символ >
-					int indexRight = InputString.IndexOf( '>', indexLeft );
-					if ( indexRight != -1 ) {
-						string s1 = InputString.Substring( indexLeft, indexRight - indexLeft + 1 );
-						if ( !string.IsNullOrEmpty( s ) )
-							list.Add( s1 );
-					} else {
-						string s2 = InputString.Substring( indexLeft );
-						if ( !string.IsNullOrEmpty( s ) )
-							list.Add( s2 );
-						break;
-					}
-					start = indexRight;
-				} else {
-					if ( !string.IsNullOrEmpty( InputString ) )
-						list.Add( InputString );
-					break;
-				}
-			}
-		}
-//
-//		// склейка тегов абзацев
-//		private static string mergeTagWithText( string InputString ) {
-//			// вставка маркеров пробелов (для предотвращения удаления стартовых пробелов)
-//			InputString = Regex.Replace(
-//				InputString, @"^( +)(\w|\d)",
-//				"%$1%$2", RegexOptions.Multiline
-//			);
-//
-//			//
-//			InputString = Regex.Replace(
-//				InputString, @"(>)\s+([^<]+?)\s+(<)",
-//				"$1$2$3", RegexOptions.None
-//			);
-//			//
-//			InputString = Regex.Replace(
-//				InputString, @"(<p>)\s+(<)",
-//				"$1$2", RegexOptions.None
-//			);
-//			//
-//			InputString = Regex.Replace(
-//				InputString, @"(>)\s+(</p>)",
-//				"$1$2", RegexOptions.None
-//			);
-//
-//			//
-//			InputString = Regex.Replace(
-//				InputString, @"(<strong>)\s+(<emphasis>)",
-//				"$1$2", RegexOptions.None
-//			);
-//			//
-//			InputString = Regex.Replace(
-//				InputString, @"(<emphasis>)\s+(<strong>)",
-//				"$1$2", RegexOptions.None
-//			);
-//			//
-//			InputString = Regex.Replace(
-//				InputString, @"(</strong>)\s+(</emphasis>)",
-//				"$1$2", RegexOptions.None
-//			);
-//			//
-//			InputString = Regex.Replace(
-//				InputString, @"(</emphasis>)\s+(</strong>)",
-//				"$1$2", RegexOptions.None
-//			);
-//			//
-//			InputString = Regex.Replace(
-//				InputString, @"(</strong>)\s+(<emphasis>)",
-//				"$1$2", RegexOptions.None
-//			);
-//			//
-//			InputString = Regex.Replace(
-//				InputString, @"(</emphasis>)\s+(<strong>)",
-//				"$1$2", RegexOptions.None
-//			);
-//
-//			// удаление маркеров пробелов
-//			InputString = Regex.Replace(
-//				InputString, @"(>)%( +)%(\w|\d)",
-//				"$1$2$3", RegexOptions.None
-//			);
-//			return InputString;
-//		}
-		
 	}
 }

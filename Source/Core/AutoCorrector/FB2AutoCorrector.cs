@@ -28,9 +28,6 @@ namespace Core.AutoCorrector
 	/// </summary>
 	public class FB2AutoCorrector
 	{
-		private const string _MessageTitle = "Автокорректор";
-		
-		
 		public FB2AutoCorrector()
 		{
 			// Удаляем Log файл для новой отладки, если она включена в Настройках
@@ -50,9 +47,6 @@ namespace Core.AutoCorrector
 				return;
 			if ( fi.Length < 4 )
 				return;
-			
-			// Хэш таблица fb2 тегов
-			Hashtable htTags = FB2CleanCode.getTagsHashtable(); // обработка < > в тексте, кроме fb2 тегов
 			
 			// обработка головного тега FictionBook и пространства имен
 			FB2Text fb2Text = null;
@@ -90,10 +84,10 @@ namespace Core.AutoCorrector
 			/******************************************
 			 * Автокорректировка раздела <description> *
 			 *******************************************/
-			fb2Text.Description = autoCorrectDescription( FilePath, fb2Text.Bodies, fb2Text.Description, htTags );
+			fb2Text.Description = autoCorrectDescription( FilePath, fb2Text.Bodies, fb2Text.Description );
 			
 			/* Автокорректировка разделов <body> */
-			fb2Text.Bodies = autoCorrect( FilePath, fb2Text.Bodies, htTags );
+			fb2Text.Bodies = autoCorrect( FilePath, fb2Text.Bodies );
 			
 			/* автокорректировка разделов binary */
 			if ( fb2Text.BinariesExists ) {
@@ -119,9 +113,8 @@ namespace Core.AutoCorrector
 		/// </summary>
 		/// <param name="XmlBody">xml текст body (для определения языка книги)</param>
 		/// <param name="XmlDescription">Строка description для корректировки</param>
-		/// <param name="htTags">Хэш таблица fb2 тегов</param>
 		/// <returns>Откорректированная строка типа string</returns>
-		private static string autoCorrectDescription( string FilePath, string XmlBody, string XmlDescription, Hashtable htTags ) {
+		private static string autoCorrectDescription( string FilePath, string XmlBody, string XmlDescription ) {
 			if ( string.IsNullOrWhiteSpace( XmlDescription ) || XmlDescription.Length == 0 )
 				return XmlDescription;
 			
@@ -395,7 +388,7 @@ namespace Core.AutoCorrector
 					FilePath, ex, "Обработка раздела <description>:\r\nМетод autoCorrectDescription().\r\nОшибка уровня всего метода (главный catch ( Exception ex )):"
 				);
 			}
-			return autoCorrect( FilePath, XmlDescription, htTags );
+			return autoCorrect( FilePath, XmlDescription );
 		}
 		
 		/// <summary>
@@ -403,9 +396,8 @@ namespace Core.AutoCorrector
 		/// </summary>
 		/// <param name="FilePath">Путь к обрабатываемому файлу</param>
 		/// <param name="InputString">Строка для корректировки</param>
-		/// <param name="htTags">Хэш таблица fb2 тегов</param>
 		/// <returns>Откорректированную строку типа string</returns>
-		private static string autoCorrect( string FilePath, string InputString, Hashtable htTags ) {
+		private static string autoCorrect( string FilePath, string InputString ) {
 			/* предварительная обработка текста */
 			InputString = FB2CleanCode.preProcessing(
 				/* чистка кода */
@@ -420,7 +412,7 @@ namespace Core.AutoCorrector
 				/* автокорректировка файла */
 				_autoCorrect(
 					/* обработка < и > */
-					FilePath, FB2CleanCode.processingCharactersMoreAndLessAndAmp( InputString, htTags )
+					FilePath, FB2CleanCode.processingCharactersMoreAndLessAndAmp( InputString )
 				)
 			);
 		}
