@@ -645,6 +645,7 @@ namespace Core.Common
 				bool isNeedLatinToRus = false;
 				if ( isRusLang && AuthorType == Enums.AuthorEnum.AuthorOfBook )
 					isNeedLatinToRus = true;
+				
 				LatinToRus latinToRus = new LatinToRus();
 				
 				if ( xmlFirstName != null && !string.IsNullOrWhiteSpace( xmlFirstName.InnerText ) ) {

@@ -11,16 +11,15 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using System.Windows.Forms;
-
 using Core.Common;
 using Core.FB2.Description.TitleInfo;
-using Core.FB2.Description.DocumentInfo;
 using Core.FB2.Description.PublishInfo;
 using Core.FB2.Description.Common;
 using Core.FB2.Genres;
-using Core.Sorter;
 using Core.FB2.FB2Parsers;
+using Core.AutoCorrector;
+
+using System.Windows.Forms;
 
 namespace Core.Sorter.Templates {
 	/// <summary>
@@ -85,11 +84,13 @@ namespace Core.Sorter.Templates {
 		                              int SpaceProcessMode, bool StrictMode, bool TranslitMode,
 		                              ref SortingOptions sortOptions, ref long lCounter,
 		                              int MaxBookTitleLenght, int MaxSequenceLenght, string GenreGroupFromSelectedSort ) {
+			LatinToRus latinToRus = new LatinToRus();
 			string sFileName			= string.Empty;
 			FictionBook fb2				= new FictionBook( sFB2FilePath );
 			string sLang				= fb2.TILang;
 			IList<Genre> lGenres		= fb2.TIGenres;
-			IList<Author> lAuthors		= fb2.TIAuthors;
+			// Замена 1-го латинского символа в ФИО Авторов на соответствующий кирилический
+			IList<Author> lAuthors		= latinToRus.replaceFirstCharLatinToRusForAuthors(fb2.TIAuthors);
 			BookTitle btBookTitle		= fb2.TIBookTitle;
 			IList<Sequence> lSequences	= fb2.TISequences;
 			Date dBookDate				= fb2.TIDate;
@@ -902,9 +903,9 @@ namespace Core.Sorter.Templates {
 			
 			return StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode );
 		}
-		
+
 		#endregion
-		
+
 		#region Закрытые Вспомогательные методы
 		private string makeFilenameForIF_LBAL_OR_LBAN( IList<Author> lAuthors, int nAuthorIndex ) {
 			string sFileName = string.Empty;

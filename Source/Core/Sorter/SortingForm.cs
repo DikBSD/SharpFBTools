@@ -348,7 +348,7 @@ namespace Core.Sorter
 			ControlPanel.Enabled = true;
 			
 			// Проверить флаг на остановку процесса
-			if ( ( m_bw.CancellationPending == true ) ) {
+			if ( m_bw.CancellationPending == true ) {
 				e.Cancel = true;
 				return;
 			}
@@ -686,7 +686,7 @@ namespace Core.Sorter
 				// ========================================================================
 				for ( int i = 0; i != m_FilesList.Count; ++i ) {
 					// Проверить флаг на остановку процесса
-					if ( ( bw.CancellationPending == true ) ) {
+					if ( bw.CancellationPending == true ) {
 						// удаление из списка всех файлов обработанные книги (файлы)
 						removeFinishedFilesInFilesList( ref m_FilesList, ref FinishedFilesList);
 						e.Cancel = true;
@@ -711,7 +711,7 @@ namespace Core.Sorter
 				// ========================================================================
 				for ( int i = 0; i != m_FilesList.Count; ++i ) {
 					// Проверить флаг на остановку процесса
-					if ( ( bw.CancellationPending == true ) ) {
+					if ( bw.CancellationPending == true ) {
 						// удаление из списка всех файлов обработанные книги (файлы)
 						removeFinishedFilesInFilesList( ref m_FilesList, ref FinishedFilesList);
 						e.Cancel = true;

@@ -10,13 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-//using System.Windows.Forms;
-
 using Core.FB2.Description.TitleInfo;
 using Core.FB2.Description.Common;
 using Core.FB2.FB2Parsers;
-using Core.FB2.Genres;
 using Core.Common;
+using Core.AutoCorrector;
+
+//using System.Windows.Forms;
 
 namespace Core.Sorter
 {
@@ -54,11 +54,14 @@ namespace Core.Sorter
 				IsNotRead = true;
 				return null;
 			}
-			
+
+			LatinToRus latinToRus = new LatinToRus();
+
 			string			sFB2Lang		= ti.Lang;
 			BookTitle		FB2BookTitle	= ti.BookTitle;
 			IList<Genre>	lFB2Genres		= ti.Genres;
-			IList<Author>	lFB2Authors		= ti.Authors;
+			// Замена 1-го латинского символа в ФИО Авторов на соответствующий кирилический
+			IList<Author>	lFB2Authors		= latinToRus.replaceFirstCharLatinToRusForAuthors(ti.Authors);
 			IList<Sequence>	lFB2Sequences	= ti.Sequences;
 			string sLang, sFirstName, sGenre, sMiddleName, sLastName, sNickName, sSequence, sBookTitle;
 			bool bExactFit;

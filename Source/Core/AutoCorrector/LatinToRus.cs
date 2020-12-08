@@ -11,6 +11,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+using Core.FB2.Description.Common;
+
 using System.Windows.Forms;
 
 namespace Core.AutoCorrector
@@ -82,5 +84,32 @@ namespace Core.AutoCorrector
 			}
 			return null;
 		}
+
+		/// <summary>
+		/// Замена 1-го латинского символа в ФИО Авторов на соответствующий кирилический
+		/// </summary>
+		/// <param name="Authors">Список fb2 Авторов для обработки</param>
+		/// <returns>Откорректированный список fb2 Авторов</returns>
+		public IList<Author> replaceFirstCharLatinToRusForAuthors(IList<Author> Authors)
+		{
+			IList<Author> correctAuthors = new List<Author>();
+			foreach (Author author in Authors) {
+				string name = replaceFirstCharLatinToRus(author.FirstName.Value);
+				if (name != null)
+					author.FirstName.Value = name;
+
+				name = replaceFirstCharLatinToRus(author.MiddleName.Value);
+				if (name != null)
+					author.MiddleName.Value = name;
+
+				name = replaceFirstCharLatinToRus(author.LastName.Value);
+				if (name != null)
+					author.LastName.Value = name;
+
+				correctAuthors.Add(author);
+			}
+			return correctAuthors;
+		}
+
 	}
 }
