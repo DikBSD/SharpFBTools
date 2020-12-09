@@ -1010,12 +1010,12 @@ namespace SharpFBTools.Tools
 				}
 			}
 		}
-		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются)
+		// удаление всех помеченных элементов Списка БЕЗ удаления книг с жесткого диска (их файлы на жестком диске не удаляются)
 		void TsmiDeleteChechedItemsNotDeleteFilesClick(object sender, EventArgs e)
 		{
 			if( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление помеченных элементов Списка";
-				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка (их файлы на жестком диске НЕ удаляются)?";
+				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка БЕЗ удаления книг с жесткого диска?\r\n(Их файлы на жестком диске НЕ удаляются)?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				if( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
 					listViewFB2Files.BeginUpdate();
