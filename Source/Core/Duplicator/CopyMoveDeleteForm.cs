@@ -209,6 +209,7 @@ namespace Core.Duplicator
 			
 			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
 			MiscListView.deleteAllItemForNonExistFile( m_lvResult );
+			
 			switch ( m_WorkMode ) {
 				case BooksWorkModeEnum.CopyCheckedBooks:
 					this.Text = "Копирование помеченных копий книг в папку " + m_TargetDir;
@@ -232,6 +233,10 @@ namespace Core.Duplicator
 				default:
 					return;
 			}
+
+			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
+			MiscListView.deleteAllItemForNonExistFile(m_lvResult);
+
 			if ( m_Fast )
 				m_lvResult.EndUpdate();
 		}
@@ -304,7 +309,7 @@ namespace Core.Duplicator
 			ListView.CheckedListViewItemCollection checkedItems = lvResult.CheckedItems;
 			foreach ( ListViewItem lvi in checkedItems ) {
 				// Проверить флаг на остановку процесса
-				if ( ( bw.CancellationPending ) ) {
+				if ( bw.CancellationPending ) {
 					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
 					return;
 				} else {
@@ -345,7 +350,7 @@ namespace Core.Duplicator
 			ListView.CheckedListViewItemCollection checkedItems = lvResult.CheckedItems;
 			foreach ( ListViewItem lvi in checkedItems ) {
 				// Проверить флаг на остановку процесса
-				if ( ( bw.CancellationPending ) ) {
+				if ( bw.CancellationPending ) {
 					e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwcmd_RunWorkerCompleted
 					return;
 				} else {
