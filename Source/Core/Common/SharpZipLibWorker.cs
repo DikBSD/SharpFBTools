@@ -436,7 +436,9 @@ namespace Core.Common
 
 				if ( !Directory.Exists( DestinationDir ) )
 					Directory.CreateDirectory( DestinationDir );
-				
+
+				ZipConstants.DefaultCodePage = 866; // Для кирилических наваний файлов
+
 				for ( int i = 0; i != zipFile.Count; ++i ) {
 					if ( zipFile[i] != null ) {
 						if ( zipFile[i].IsFile ) {
