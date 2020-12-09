@@ -1131,6 +1131,7 @@ namespace SharpFBTools.Tools
 				// сканировать только указанную папку
 				lDirList.Add( SourceDir );
 				lvGeneralCount.Items[0].SubItems[1].Text = "1";
+				nAllFiles = Directory.GetFiles(SourceDir).Length;
 			} else {
 				// сканировать и все подпапки
 				nAllFiles = FilesWorker.DirsParser( m_bwa, e, SourceDir, ref lvGeneralCount, ref lDirList, false );
@@ -1140,7 +1141,7 @@ namespace SharpFBTools.Tools
 			lvGeneralCount.Items[1].SubItems[1].Text = nAllFiles.ToString();
 
 			// проверка остановки процесса
-			if ( ( m_bwa.CancellationPending == true ) )  {
+			if ( m_bwa.CancellationPending == true )  {
 				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwa_RunWorkerCompleted
 				return;
 			}
@@ -1445,6 +1446,7 @@ namespace SharpFBTools.Tools
 				// сканировать только указанную папку
 				lDirList.Add( SourceDir );
 				lvUAGeneralCount.Items[0].SubItems[1].Text = "1";
+				nAllFiles = Directory.GetFiles(SourceDir).Length;
 			} else {
 				// сканировать и все подпапки
 				nAllFiles = FilesWorker.DirsParser( m_bwu, e, SourceDir, ref lvUAGeneralCount, ref lDirList, false );
@@ -1454,7 +1456,7 @@ namespace SharpFBTools.Tools
 			lvUAGeneralCount.Items[1].SubItems[1].Text = nAllFiles.ToString();
 
 			// проверка остановки процесса
-			if( ( m_bwu.CancellationPending == true ) )  {
+			if( m_bwu.CancellationPending == true )  {
 				e.Cancel = true; // Выставить окончание - по отмене, сработает событие bwu_RunWorkerCompleted
 				return;
 			}
