@@ -396,81 +396,84 @@ namespace Core.Common
 		}
 		
 		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
-		public static void deleteAllItemForNonExistFileWithCounter( ListView listView, ListViewItem RemoveListViewItem,
-		                                                           bool RemoveFast ) {
-			if ( !RemoveFast ) {
-				if ( listView.Items.Count > 0 ) {
-					ListViewGroup lvg = RemoveListViewItem.Group;
-					listView.Items.Remove( RemoveListViewItem );
-					if ( lvg != null && lvg.Items.Count <= 1 ) {
-						if ( lvg.Items.Count == 1 )
-							listView.Items[lvg.Items[0].Index].Remove();
-						listView.Groups.Remove( lvg );
-					}
-				}
-			} else {
-				// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
-				WorksWithBooks.markRemoverFileInCopyesList( RemoveListViewItem );
-			}
-		}
-		
-		// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
-		public static bool deleteAllItemForNonExistFile( ListView listViewFB2Files ) {
-			bool Result = false;
+		public static void deleteAllItemForNonExistFile( ListView listViewFB2Files ) {
 			foreach ( ListViewItem lvi in listViewFB2Files.Items ) {
 				if ( !File.Exists( lvi.Text ) ) {
 					ListViewGroup lvg = lvi.Group;
 					listViewFB2Files.Items.Remove( lvi );
-					// удаление Групп с 1 элементом (и сам элемент)
-					if ( lvg != null && lvg.Items.Count <= 1 ) {
-						if ( lvg.Items.Count == 1 )
-							listViewFB2Files.Items[lvg.Items[0].Index].Remove();
-						listViewFB2Files.Groups.Remove( lvg );
-					}
+				}
+			}
+		}
+
+		// удаление всех Групп, у которых не больше 1 итема
+		public static bool deleteAllGroupsWithOneItem(ListView listViewFB2Files) {
+			bool Result = false;
+			foreach (ListViewItem lvi in listViewFB2Files.Items) {
+				ListViewGroup lvg = lvi.Group;
+				if (lvg != null && lvg.Items.Count <= 1) {
+					if (lvg.Items.Count == 1)
+						listViewFB2Files.Items[lvg.Items[0].Index].Remove();
+					listViewFB2Files.Groups.Remove(lvg);
 					Result = true;
 				}
 			}
 			return Result;
 		}
-		
+
+		// Чистка списка Групп копий книг Дубликатора от пустых итемов
+		public static void cleanGroupList(ListView listViewFB2Files) {
+			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
+			deleteAllItemForNonExistFile(listViewFB2Files);
+			// удаление всех Групп, у которых не больше 1 итема
+			deleteAllGroupsWithOneItem(listViewFB2Files);
+		}
+
 		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Дубликатора
 		public static bool deleteChechedItemsNotDeleteFiles( ListView listViewFB2Files, ListView lvFilesCount ) {
 			bool Result = false;
 			listViewFB2Files.BeginUpdate();
-			int RemoveGroupCount = 0;
-			int RemoveItemCount = 0;
 			foreach ( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
 				ListViewGroup lvg = lvi.Group;
 				listViewFB2Files.Items.Remove( lvi );
-				++RemoveItemCount;
 				// удаление Групп с 1 элементом (и сам элемент)
 				if ( lvg != null && lvg.Items.Count <= 1 ) {
 					if ( lvg.Items.Count == 1 ) {
 						listViewFB2Files.Items[lvg.Items[0].Index].Remove();
-						++RemoveItemCount;
 					}
 					listViewFB2Files.Groups.Remove( lvg );
-					++RemoveGroupCount;
+					Result = true;
 				}
-				Result = true;
 			}
-			// реальное число Групп и книг в этих Группах
-			try {
-				lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text =
-					(Convert.ToInt32(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text) - RemoveGroupCount).ToString();
-				lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text =
-					(Convert.ToInt32(lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text) - RemoveItemCount).ToString();
-			} catch ( Exception ex ) {
-				Debug.DebugMessage(
-					null, ex, "MiskListView::deleteChechedItemsNotDeleteFiles:\r\nУдаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Дубликатора."
-				);
-			}
-					
-			listViewFB2Files.EndUpdate();
+
+            listViewFB2Files.EndUpdate();
 			return Result;
 		}
+
+		// реальное значение всех Групп и всех копий книг в этих Группах
+		public static void RealGroupsAndBooks(ListView lvResult, ListView lvFilesCount)
+        {
+			int AllGroups = 0;
+			int AllBooks = 0;
+			foreach (ListViewGroup lvGroup in lvResult.Groups) {
+				int RealBookInGroup = 0;
+				if (lvGroup.Items.Count > 1) {
+					foreach (ListViewItem lvi in lvGroup.Items) {
+						if (!lvi.Font.Strikeout)
+							++RealBookInGroup;
+					}
+				}
+				if (RealBookInGroup > 1) {
+					AllBooks += RealBookInGroup;
+					++AllGroups;
+				}
+			}
+			// реальное число групп копий
+			ListViewStatus(lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllGroups, AllGroups.ToString());
+			// реальное число копий книг во всех группах
+			ListViewStatus(lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBooksInAllGroups, AllBooks.ToString());
+		}
 		#endregion
-		
+
 		#region Перемещение итемов в списке...
 		// перемещение выделенного итема вверх
 		public static bool moveUpSelectedItem( ListView listView ) {

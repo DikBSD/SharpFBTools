@@ -1241,7 +1241,7 @@ namespace Core.Duplicator
 		// Отображение результата поиска сравнения
 		private void ViewDupProgressData() {
 			MiscListView.ListViewStatus(_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllGroups, _sv.Group);
-			MiscListView.ListViewStatus(_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups, _sv.AllFB2InGroups);
+			MiscListView.ListViewStatus(_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBooksInAllGroups, _sv.AllFB2InGroups);
 		}
 		
 		// остановка поиска / возобновления поиска из xml

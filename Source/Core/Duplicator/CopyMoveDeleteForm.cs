@@ -207,9 +207,6 @@ namespace Core.Duplicator
 			if ( m_Fast )
 				m_lvResult.BeginUpdate();
 			
-			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
-			MiscListView.deleteAllItemForNonExistFile( m_lvResult );
-			
 			switch ( m_WorkMode ) {
 				case BooksWorkModeEnum.CopyCheckedBooks:
 					this.Text = "Копирование помеченных копий книг в папку " + m_TargetDir;
@@ -234,8 +231,10 @@ namespace Core.Duplicator
 					return;
 			}
 
-			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
-			MiscListView.deleteAllItemForNonExistFile(m_lvResult);
+			if (!m_Fast) {
+				// Чистка списка Групп копий книг Дубликатора от пустых итемов
+				MiscListView.cleanGroupList(m_lvResult);
+			}
 
 			if ( m_Fast )
 				m_lvResult.EndUpdate();
@@ -248,8 +247,7 @@ namespace Core.Duplicator
 		
 		// Завершение работы Обработчика Файлов
 		private void bwcmd_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
-			string sMessCanceled, sMessError, sMessDone;
-			sMessCanceled = sMessError = sMessDone = string.Empty;
+			string sMessCanceled = string.Empty, sMessDone = string.Empty;
 			switch ( m_WorkMode ) {
 				case BooksWorkModeEnum.CopyCheckedBooks:
 					sMessDone 		= "Копирование файлов в указанную папку завершено!";
@@ -291,8 +289,7 @@ namespace Core.Duplicator
 				m_EndMode.EndMode = EndWorkModeEnum.Done;
 				m_EndMode.Message = sMessDone;
 			}
-			// реальное значение всех Групп и всех копий книг в этих Группах
-			RealGroupsAndBooks( m_lvResult, m_lvFilesCount );
+
 			this.Close();
 		}
 		#endregion
@@ -334,7 +331,10 @@ namespace Core.Duplicator
 							File.Copy( FilePath, NewPath );
 						else {
 							File.Move( FilePath, NewPath );
-							MiscListView.deleteAllItemForNonExistFileWithCounter( lvResult, lvi, m_Fast );
+							if (m_Fast) {
+								// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
+								WorksWithBooks.markRemoverFileInCopyesList(lvi);
+							}
 						}
 						
 						m_bFilesWorked |= true;
@@ -357,7 +357,10 @@ namespace Core.Duplicator
 					string sFilePath = lvi.Text;
 					if ( File.Exists( sFilePath) ) {
 						File.Delete( sFilePath );
-						MiscListView.deleteAllItemForNonExistFileWithCounter( lvResult, lvi, m_Fast );
+						if (m_Fast) {
+							// пометка цветом и зачеркиванием удаленных книг с диска, но не из списка (быстрый режим удаления)
+							WorksWithBooks.markRemoverFileInCopyesList(lvi);
+						}
 						m_bFilesWorked |= true;
 					}
 					bw.ReportProgress( ++i );
@@ -366,34 +369,6 @@ namespace Core.Duplicator
 		}
 		#endregion
 		
-		#endregion
-
-		// =============================================================================================
-		// 							ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ И АЛГОРИТМЫ КЛАССА
-		// =============================================================================================
-		#region Вспомогательные методы и алгоритмы класса
-		// реальное значение всех Групп и всех копий книг в этих Группах
-		private void RealGroupsAndBooks( ListView lvResult, ListView lvFilesCount ) {
-			int AllGroups = 0;
-			int AllBooks = 0;
-			foreach (ListViewGroup lvGroup in lvResult.Groups ) {
-				int RealBookInGroup = 0;
-				if ( lvGroup.Items.Count > 1 ) {
-					foreach ( ListViewItem lvi in lvGroup.Items ) {
-						if ( !lvi.Font.Strikeout )
-							++RealBookInGroup;
-					}
-				}
-				if ( RealBookInGroup > 1 ) {
-					AllBooks += RealBookInGroup;
-					++AllGroups;
-				}
-			}
-			// реальное число групп копий
-			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllGroups, AllGroups.ToString() );
-			// реальное число копий книг во всех группах
-			MiscListView.ListViewStatus( lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups, AllBooks.ToString() );
-		}
 		#endregion
 		
 		// =============================================================================================

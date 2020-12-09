@@ -137,7 +137,7 @@ namespace Core.Common
         /// </summary>
         public enum FilesCountViewDupCollumnEnum : byte {
 			AllGroups			= 0,	// всего Групп одинаковых книг
-			AllBoolsInAllGroups	= 1,	// всего всех книг во всех Группах 
+			AllBooksInAllGroups	= 1,	// всего всех книг во всех Группах 
 		}
 		
 		/// <summary>

@@ -67,7 +67,7 @@ namespace Core.Duplicator
 			m_LastSelectedItem	= LastSelectedItem;
 			
 			m_StatusView.Group			= Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllGroups].SubItems[1].Text );
-			m_StatusView.AllFB2InGroups = Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups].SubItems[1].Text );
+			m_StatusView.AllFB2InGroups = Convert.ToInt32( m_lvFilesCount.Items[(int)FilesCountViewDupCollumnEnum.AllBooksInAllGroups].SubItems[1].Text );
 
 			m_GroupCountForList = GroupCountForList;
 			
@@ -448,7 +448,7 @@ namespace Core.Duplicator
 		// Отображение результата поиска сравнения
 		private void ViewDupProgressData() {
 			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllGroups, m_StatusView.Group );
-			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBoolsInAllGroups, m_StatusView.AllFB2InGroups );
+			MiscListView.ListViewStatus( m_lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBooksInAllGroups, m_StatusView.AllFB2InGroups );
 		}
 		#endregion
 		

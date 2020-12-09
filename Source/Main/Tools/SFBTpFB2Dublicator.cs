@@ -3208,7 +3208,11 @@ namespace SharpFBTools.Tools
 				copyMoveDeleteForm.Dispose();
 				ConnectListsEventHandlers( true );
 				listViewFB2Files.EndUpdate();
-				MessageBox.Show( EndWorkMode.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+                // реальное значение всех Групп и всех копий книг в этих Группах
+                MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
+
+                MessageBox.Show( EndWorkMode.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
 		// удалить помеченные файлы (с удалением элементов списка копий - медленно)
@@ -3219,7 +3223,8 @@ namespace SharpFBTools.Tools
 				int nCount = listViewFB2Files.CheckedItems.Count;
 				string sMess = "Вы действительно хотите удалить " + nCount.ToString() + " помеченных копии книг?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-				if ( MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
+				
+                if ( MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
 					listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
 					Core.Duplicator.CopyMoveDeleteForm copyMoveDeleteForm = new Core.Duplicator.CopyMoveDeleteForm(
@@ -3231,7 +3236,11 @@ namespace SharpFBTools.Tools
 					copyMoveDeleteForm.Dispose();
 					ConnectListsEventHandlers( true );
 					listViewFB2Files.EndUpdate();
-					MessageBox.Show( EndWorkMode.Message, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+                    // реальное значение всех Групп и всех копий книг в этих Группах
+                    MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
+
+                    MessageBox.Show( EndWorkMode.Message, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
 			}
 		}
@@ -3239,9 +3248,10 @@ namespace SharpFBTools.Tools
 		private void deleteGroupNotRemoveFiles() {
 			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление отмеченных Групп из списка";
-				const string sMess = "Вы действительно хотите удалить все отмеченные Группы из списка копий (файлы с жесткого диска НЕ удаляются)?";
+				const string sMess = "Вы действительно хотите удалить все отмеченные Группы из списка копий БЕЗ удаления книг с жесткого диска?\r\n(Файлы с жесткого диска НЕ удаляются)";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-				if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
+				
+                if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
 					listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
 					
@@ -3251,11 +3261,16 @@ namespace SharpFBTools.Tools
 					foreach ( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
 						MiscListView.deleteChechedItemsNotDeleteFiles( listViewFB2Files, lvFilesCount );
 					}
-					MiscListView.UnCheckAllListViewItems( listViewFB2Files.CheckedItems );
+
+                    MiscListView.UnCheckAllListViewItems( listViewFB2Files.CheckedItems );
 					
 					ConnectListsEventHandlers( true );
 					listViewFB2Files.EndUpdate();
-					MessageBox.Show( "Удаление Групп из списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+                    // реальное значение всех Групп и всех копий книг в этих Группах
+                    MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
+
+                    MessageBox.Show( "Удаление Групп из списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
 			}
 		}
@@ -4449,30 +4464,40 @@ namespace SharpFBTools.Tools
 				const string MessTitle = "SharpFBTools - Удаление элементов Списка \"без файлов\"";
 				const string sMess = "Вы действительно хотите удалить все элементы Списка, для которых отсутствуют файлы на жестком диске?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-				if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
+				
+                if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
 					listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
 					MiscListView.deleteAllItemForNonExistFile( listViewFB2Files );
 					ConnectListsEventHandlers( true );
 					listViewFB2Files.EndUpdate();
-					MessageBox.Show( "Удаление элементов Списка \"без файловэ\" завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+                    // реальное значение всех Групп и всех копий книг в этих Группах
+                    MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
+
+                    MessageBox.Show( "Удаление элементов Списка \"без файловэ\" завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
 			}
 		}
-		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются)
-		void TsmiDeleteChechedItemsNotDeleteFilesClick(object sender, EventArgs e)
+        // удаление всех помеченных элементов Списка БЕЗ удаления книг с жесткого диска (их файлы на жестком диске не удаляются)
+        void TsmiDeleteChechedItemsNotDeleteFilesClick(object sender, EventArgs e)
 		{
 			if ( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление помеченных элементов Списка";
-				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка (их файлы на жестком диске НЕ удаляются)?";
+				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка БЕЗ удаления книг с жесткого диска?\r\n(Их файлы на жестком диске НЕ удаляются)?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-				if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
+				
+                if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
 					listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
 					MiscListView.deleteChechedItemsNotDeleteFiles( listViewFB2Files, lvFilesCount );
 					ConnectListsEventHandlers( true );
 					listViewFB2Files.EndUpdate();
-					MessageBox.Show( "Удаление помеченных элементов Списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+                    // реальное значение всех Групп и всех копий книг в этих Группах
+                    MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
+
+                    MessageBox.Show( "Удаление помеченных элементов Списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
 			}
 		}
