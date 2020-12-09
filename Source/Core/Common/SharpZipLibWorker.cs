@@ -46,6 +46,8 @@ namespace Core.Common
 		public void ZipFile(string SourceFile, string DestinationZipFile, int CompressLevel,
 		                    ICSharpCode.SharpZipLib.Zip.CompressionMethod CompressionMethod, int BufferSize)
 		{
+			ZipConstants.DefaultCodePage = 866; // Для кирилических наваний файлов
+
 			FileStream fileStreamIn = new FileStream(SourceFile, FileMode.Open, FileAccess.Read);
 			FileStream fileStreamOut = new FileStream(DestinationZipFile, FileMode.Create, FileAccess.Write);
 			ZipOutputStream zipOutStream = new ZipOutputStream(fileStreamOut);
