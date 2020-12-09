@@ -463,7 +463,6 @@ namespace Core.Common
 								if (File.Exists(path))
 									path = FilesWorker.createFilePathWithSufix(path, IsFileExistsMode);
 
-
 								//using (FileStream fileStream = new FileStream(path, FileMode.Create)) {
 								//    inputStream.CopyTo(fileStream);
 								//    inputStream.Close();

@@ -93,19 +93,23 @@ namespace Core.AutoCorrector
 		public IList<Author> replaceFirstCharLatinToRusForAuthors(IList<Author> Authors)
 		{
 			IList<Author> correctAuthors = new List<Author>();
+			string name = string.Empty;
 			foreach (Author author in Authors) {
-				string name = replaceFirstCharLatinToRus(author.FirstName.Value);
-				if (name != null)
-					author.FirstName.Value = name;
-
-				name = replaceFirstCharLatinToRus(author.MiddleName.Value);
-				if (name != null)
-					author.MiddleName.Value = name;
-
-				name = replaceFirstCharLatinToRus(author.LastName.Value);
-				if (name != null)
-					author.LastName.Value = name;
-
+				if (author.FirstName != null && author.FirstName.Value != null) {
+					name = replaceFirstCharLatinToRus(author.FirstName.Value);
+					if (name != null)
+						author.FirstName.Value = name;
+				}
+				if (author.MiddleName != null && author.MiddleName.Value != null) {
+					name = replaceFirstCharLatinToRus(author.MiddleName.Value);
+					if (name != null)
+						author.MiddleName.Value = name;
+				}
+				if (author.LastName != null && author.LastName.Value != null) {
+					name = replaceFirstCharLatinToRus(author.LastName.Value);
+					if (name != null)
+						author.LastName.Value = name;
+				}
 				correctAuthors.Add(author);
 			}
 			return correctAuthors;
