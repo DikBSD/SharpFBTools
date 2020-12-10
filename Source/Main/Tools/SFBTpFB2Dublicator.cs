@@ -3196,8 +3196,11 @@ namespace SharpFBTools.Tools
 					                MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 					return;
 				}
-				
-				listViewFB2Files.BeginUpdate();
+
+                // запоминаем первый помеченный итем в списке для дальнейшего выделения итема под ним после переноса помеченных итемов
+                int checkedItem = listViewFB2Files.CheckedIndices[0]; //listViewFB2Files.CheckedItems[0].Index
+
+                listViewFB2Files.BeginUpdate();
 				ConnectListsEventHandlers( false );
 				Core.Duplicator.CopyMoveDeleteForm copyMoveDeleteForm = new Core.Duplicator.CopyMoveDeleteForm(
 					Fast, BooksWorkModeEnum.MoveCheckedBooks, tboxSourceDir.Text.Trim(), sTarget,
@@ -3211,6 +3214,12 @@ namespace SharpFBTools.Tools
 
                 // реальное значение всех Групп и всех копий книг в этих Группах
                 MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
+
+                // выделяем итем "под" удаленными итемами
+                if (listViewFB2Files.Items.Count > 0) {
+                    listViewFB2Files.Items[checkedItem].Selected = true;
+                    listViewFB2Files.Items[checkedItem].EnsureVisible();
+                }
 
                 MessageBox.Show( EndWorkMode.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
