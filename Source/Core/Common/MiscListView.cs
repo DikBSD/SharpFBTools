@@ -452,7 +452,7 @@ namespace Core.Common
 
 		#endregion
 
-		#region Добавление, удаление итемов
+		#region Разное
 		// реальное значение всех Групп и всех копий книг в этих Группах
 		public static void RealGroupsAndBooks(ListView lvResult, ListView lvFilesCount)
 		{
