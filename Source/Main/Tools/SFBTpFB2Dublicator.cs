@@ -4510,7 +4510,8 @@ namespace SharpFBTools.Tools
 
                     listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
-					MiscListView.deleteAllItemForNonExistFile( listViewFB2Files );
+                    // Чистка списка Групп копий книг Дубликатора от пустых итемов
+                    MiscListView.cleanGroupList( listViewFB2Files );
 					ConnectListsEventHandlers( true );
 					listViewFB2Files.EndUpdate();
 
