@@ -262,10 +262,14 @@ namespace SharpFBTools.Tools
 					EndWorkMode EndWorkMode = copyMoveDeleteForm.EndMode;
 					copyMoveDeleteForm.Dispose();
 					ConnectListsEventHandlers( true );
-//					listViewFB2Files.EndUpdate();
+					//					listViewFB2Files.EndUpdate();
 
 					// выделяем итем "под" удаленными итемами
 					if (listViewFB2Files.Items.Count > 0) {
+						if (listViewFB2Files.Items.Count == 1)
+							checkedItem = 0;
+						else if (checkedItem >= listViewFB2Files.Items.Count)
+							checkedItem = listViewFB2Files.Items.Count - 1;
 						listViewFB2Files.Items[checkedItem].Selected = true;
 						listViewFB2Files.Items[checkedItem].EnsureVisible();
 					}
@@ -304,10 +308,14 @@ namespace SharpFBTools.Tools
 				EndWorkMode EndWorkMode = copyMoveDeleteForm.EndMode;
 				copyMoveDeleteForm.Dispose();
 				ConnectListsEventHandlers( true );
-//				listViewFB2Files.EndUpdate();
+				//				listViewFB2Files.EndUpdate();
 
 				// выделяем итем "под" удаленными итемами
 				if (listViewFB2Files.Items.Count > 0) {
+					if (listViewFB2Files.Items.Count == 1)
+						checkedItem = 0;
+					else if (checkedItem >= listViewFB2Files.Items.Count)
+						checkedItem = listViewFB2Files.Items.Count - 1;
 					listViewFB2Files.Items[checkedItem].Selected = true;
 					listViewFB2Files.Items[checkedItem].EnsureVisible();
 				}
@@ -1036,6 +1044,10 @@ namespace SharpFBTools.Tools
 					if (listViewFB2Files.Items.Count > 0) {
 						if (selectedItem < 0)
 							selectedItem = 0;
+						if (listViewFB2Files.Items.Count == 1)
+							selectedItem = 0;
+						else if (selectedItem >= listViewFB2Files.Items.Count)
+							selectedItem = listViewFB2Files.Items.Count - 1;
 						listViewFB2Files.Items[selectedItem].Selected = true;
 						listViewFB2Files.Items[selectedItem].EnsureVisible();
 					}
@@ -1065,6 +1077,10 @@ namespace SharpFBTools.Tools
 
 					// выделяем итем "под" удаленными итемами
 					if (listViewFB2Files.Items.Count > 0) {
+						if (listViewFB2Files.Items.Count == 1)
+							checkedItem = 0;
+						else if (checkedItem >= listViewFB2Files.Items.Count)
+							checkedItem = listViewFB2Files.Items.Count - 1;
 						listViewFB2Files.Items[checkedItem].Selected = true;
 						listViewFB2Files.Items[checkedItem].EnsureVisible();
 					}
