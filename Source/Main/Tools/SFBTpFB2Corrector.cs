@@ -1035,11 +1035,14 @@ namespace SharpFBTools.Tools
 		// удаление всех помеченных элементов Списка БЕЗ удаления книг с жесткого диска (их файлы на жестком диске не удаляются)
 		void TsmiDeleteChechedItemsNotDeleteFilesClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление помеченных элементов Списка";
 				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка БЕЗ УДАЛЕНИЯ книг с жесткого диска?\r\n\r\n(Файлы на жестком диске НЕ удаляются)?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				if( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
+					// запоминаем первый помеченный итем в списке для дальнейшего выделения итема под ним после удаления помеченных итемов
+					int checkedItem = listViewFB2Files.CheckedIndices[0]; //listViewFB2Files.CheckedItems[0].Index
+
 					listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
 					MiscListView.removeChechedItemsNotDeleteFiles( listViewFB2Files );
@@ -1047,6 +1050,13 @@ namespace SharpFBTools.Tools
 					MiscListView.removeAllItemForNonExistFile( textBoxAddress.Text.Trim(), listViewFB2Files );
 					ConnectListsEventHandlers( true );
 					listViewFB2Files.EndUpdate();
+
+					// выделяем итем "под" удаленными итемами
+					if (listViewFB2Files.Items.Count > 0) {
+						listViewFB2Files.Items[checkedItem].Selected = true;
+						listViewFB2Files.Items[checkedItem].EnsureVisible();
+					}
+
 					MessageBox.Show( "Удаление помеченных элементов Списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
 			}
