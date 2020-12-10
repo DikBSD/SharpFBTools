@@ -3270,7 +3270,10 @@ namespace SharpFBTools.Tools
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				
                 if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
-					listViewFB2Files.BeginUpdate();
+                    // запоминаем первый помеченный итем в списке для дальнейшего выделения итема под ним после удаления помеченных итемов
+                    int checkedItem = listViewFB2Files.CheckedIndices[0]; //listViewFB2Files.CheckedItems[0].Index
+
+                    listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
 					
 					foreach ( ListViewItem lvi in listViewFB2Files.CheckedItems ) {
@@ -3287,6 +3290,12 @@ namespace SharpFBTools.Tools
 
                     // реальное значение всех Групп и всех копий книг в этих Группах
                     MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
+
+                    // выделяем итем "под" удаленными итемами
+                    if (listViewFB2Files.Items.Count > 0) {
+                        listViewFB2Files.Items[checkedItem].Selected = true;
+                        listViewFB2Files.Items[checkedItem].EnsureVisible();
+                    }
 
                     MessageBox.Show( "Удаление Групп из списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
@@ -4484,7 +4493,10 @@ namespace SharpFBTools.Tools
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				
                 if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
-					listViewFB2Files.BeginUpdate();
+                    // запоминаем первый выделенный итем в списке
+                    int selectedItem = listViewFB2Files.SelectedIndices[0]; //listViewFB2Files.SelectedItems[0].Index
+
+                    listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
 					MiscListView.deleteAllItemForNonExistFile( listViewFB2Files );
 					ConnectListsEventHandlers( true );
@@ -4492,6 +4504,14 @@ namespace SharpFBTools.Tools
 
                     // реальное значение всех Групп и всех копий книг в этих Группах
                     MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
+
+                    // выделяем итем "под" удаленными итемами
+                    if (listViewFB2Files.Items.Count > 0) {
+                        if (selectedItem < 0)
+                            selectedItem = 0;
+                        listViewFB2Files.Items[selectedItem].Selected = true;
+                        listViewFB2Files.Items[selectedItem].EnsureVisible();
+                    }
 
                     MessageBox.Show( "Удаление элементов Списка \"без файловэ\" завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
@@ -4506,7 +4526,10 @@ namespace SharpFBTools.Tools
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				
                 if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
-					listViewFB2Files.BeginUpdate();
+                    // запоминаем первый помеченный итем в списке для дальнейшего выделения итема под ним после удаления помеченных итемов
+                    int checkedItem = listViewFB2Files.CheckedIndices[0]; //listViewFB2Files.CheckedItems[0].Index
+
+                    listViewFB2Files.BeginUpdate();
 					ConnectListsEventHandlers( false );
 					MiscListView.deleteChechedItemsNotDeleteFiles( listViewFB2Files, lvFilesCount );
 					ConnectListsEventHandlers( true );
@@ -4514,6 +4537,12 @@ namespace SharpFBTools.Tools
 
                     // реальное значение всех Групп и всех копий книг в этих Группах
                     MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
+
+                    // выделяем итем "под" удаленными итемами
+                    if (listViewFB2Files.Items.Count > 0) {
+                        listViewFB2Files.Items[checkedItem].Selected = true;
+                        listViewFB2Files.Items[checkedItem].EnsureVisible();
+                    }
 
                     MessageBox.Show( "Удаление помеченных элементов Списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
