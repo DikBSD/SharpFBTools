@@ -1020,15 +1020,27 @@ namespace SharpFBTools.Tools
 		// Удаление элементов Списка, файлы которых были удалены с жесткого диска
 		void TsmiDeleteAllItemForNonExistFileClick(object sender, EventArgs e)
 		{
-			if( listViewFB2Files.Items.Count > 0 ) {
+			if ( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление элементов Списка \"без файлов\"";
 				const string sMess = "Вы действительно хотите удалить все элементы Списка, для которых отсутствуют файлы на жестком диске?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				if( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
+					// запоминаем первый выделенный итем в списке
+					int selectedItem = listViewFB2Files.SelectedIndices[0]; //listViewFB2Files.SelectedItems[0].Index
+
 					ConnectListsEventHandlers( false );
 					MiscListView.removeAllItemForNonExistFile( textBoxAddress.Text.Trim(), listViewFB2Files );
 					ConnectListsEventHandlers( true );
-					MessageBox.Show( "Удаление элементов Списка \"без файловэ\" завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+					// выделяем итем "под" удаленными итемами
+					if (listViewFB2Files.Items.Count > 0) {
+						if (selectedItem < 0)
+							selectedItem = 0;
+						listViewFB2Files.Items[selectedItem].Selected = true;
+						listViewFB2Files.Items[selectedItem].EnsureVisible();
+					}
+
+					MessageBox.Show( "Удаление элементов Списка \"без файлов\" завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
 			}
 		}
