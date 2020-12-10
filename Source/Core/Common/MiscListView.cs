@@ -476,6 +476,36 @@ namespace Core.Common
 			// реальное число копий книг во всех группах
 			ListViewStatus(lvFilesCount, (int)FilesCountViewDupCollumnEnum.AllBooksInAllGroups, AllBooks.ToString());
 		}
+
+		// Выделение элемента Списка после удаленных элементов Списка и переход на него
+		public static void SelectItemAndGoToIt(ListView lvResult, int checkedItem)
+        {
+			// выделяем итем "под" удаленными итемами
+			if (lvResult.Items.Count > 0) {
+				if (lvResult.Items.Count == 1)
+					checkedItem = 0;
+				else if (checkedItem >= lvResult.Items.Count)
+					checkedItem = lvResult.Items.Count - 1;
+				lvResult.Items[checkedItem].Selected = true;
+				lvResult.Items[checkedItem].EnsureVisible();
+			}
+		}
+
+		// Выделение элемента Списка, файлы которых были удалены с жесткого диска, после удаленных элементов Списка и переход на него
+		public static void SelectItemAndGoToItForRemoveItemForNonExistFile(ListView lvResult, int selectedItem)
+		{
+			// выделяем итем "под" удаленными итемами
+			if (lvResult.Items.Count > 0) {
+				if (selectedItem < 0)
+					selectedItem = 0;
+				if (lvResult.Items.Count == 1)
+					selectedItem = 0;
+				else if (selectedItem >= lvResult.Items.Count)
+					selectedItem = lvResult.Items.Count - 1;
+				lvResult.Items[selectedItem].Selected = true;
+				lvResult.Items[selectedItem].EnsureVisible();
+			}
+		}
 		#endregion
 
 		#region Перемещение итемов в списке...

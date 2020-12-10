@@ -3215,15 +3215,8 @@ namespace SharpFBTools.Tools
                 // реальное значение всех Групп и всех копий книг в этих Группах
                 MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
 
-                // выделяем итем "под" удаленными итемами
-                if (listViewFB2Files.Items.Count > 0) {
-                    if (listViewFB2Files.Items.Count == 1)
-                        checkedItem = 0;
-                    else if (checkedItem >= listViewFB2Files.Items.Count)
-                        checkedItem = listViewFB2Files.Items.Count - 1;
-                    listViewFB2Files.Items[checkedItem].Selected = true;
-                    listViewFB2Files.Items[checkedItem].EnsureVisible();
-                }
+                // Выделение элемента Списка после удаленных элементов Списка и переход на него
+                MiscListView.SelectItemAndGoToIt(listViewFB2Files, checkedItem);
 
                 MessageBox.Show( EndWorkMode.Message, MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
@@ -3256,15 +3249,8 @@ namespace SharpFBTools.Tools
                     // реальное значение всех Групп и всех копий книг в этих Группах
                     MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
 
-                    // выделяем итем "под" удаленными итемами
-                    if (listViewFB2Files.Items.Count > 0) {
-                        if (listViewFB2Files.Items.Count == 1)
-                            checkedItem = 0;
-                        else if (checkedItem >= listViewFB2Files.Items.Count)
-                            checkedItem = listViewFB2Files.Items.Count-1;
-                        listViewFB2Files.Items[checkedItem].Selected = true;
-                        listViewFB2Files.Items[checkedItem].EnsureVisible();
-                    }
+                    // Выделение элемента Списка после удаленных элементов Списка и переход на него
+                    MiscListView.SelectItemAndGoToIt(listViewFB2Files, checkedItem);
 
                     MessageBox.Show( EndWorkMode.Message, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
@@ -3299,15 +3285,8 @@ namespace SharpFBTools.Tools
                     // реальное значение всех Групп и всех копий книг в этих Группах
                     MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
 
-                    // выделяем итем "под" удаленными итемами
-                    if (listViewFB2Files.Items.Count > 0) {
-                        if (listViewFB2Files.Items.Count == 1)
-                            checkedItem = 0;
-                        else if (checkedItem >= listViewFB2Files.Items.Count)
-                            checkedItem = listViewFB2Files.Items.Count - 1;
-                        listViewFB2Files.Items[checkedItem].Selected = true;
-                        listViewFB2Files.Items[checkedItem].EnsureVisible();
-                    }
+                    // Выделение элемента Списка после удаленных элементов Списка и переход на него
+                    MiscListView.SelectItemAndGoToIt(listViewFB2Files, checkedItem);
 
                     MessageBox.Show( "Удаление Групп из списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
@@ -4518,17 +4497,8 @@ namespace SharpFBTools.Tools
                     // реальное значение всех Групп и всех копий книг в этих Группах
                     MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
 
-                    // выделяем итем "под" удаленными итемами
-                    if (listViewFB2Files.Items.Count > 0) {
-                        if (selectedItem < 0)
-                            selectedItem = 0;
-                        if (listViewFB2Files.Items.Count == 1)
-                            selectedItem = 0;
-                        else if (selectedItem >= listViewFB2Files.Items.Count)
-                            selectedItem = listViewFB2Files.Items.Count - 1;
-                        listViewFB2Files.Items[selectedItem].Selected = true;
-                        listViewFB2Files.Items[selectedItem].EnsureVisible();
-                    }
+                    // Выделение элемента Списка, файлы которых были удалены с жесткого диска, после удаленных элементов Списка и переход на него
+                    MiscListView.SelectItemAndGoToItForRemoveItemForNonExistFile(listViewFB2Files, selectedItem);
 
                     MessageBox.Show( "Удаление элементов Списка \"без файлов\" завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
@@ -4555,15 +4525,8 @@ namespace SharpFBTools.Tools
                     // реальное значение всех Групп и всех копий книг в этих Группах
                     MiscListView.RealGroupsAndBooks(listViewFB2Files, lvFilesCount);
 
-                    // выделяем итем "под" удаленными итемами
-                    if (listViewFB2Files.Items.Count > 0) {
-                        if (listViewFB2Files.Items.Count == 1)
-                            checkedItem = 0;
-                        else if (checkedItem >= listViewFB2Files.Items.Count)
-                            checkedItem = listViewFB2Files.Items.Count - 1;
-                        listViewFB2Files.Items[checkedItem].Selected = true;
-                        listViewFB2Files.Items[checkedItem].EnsureVisible();
-                    }
+                    // Выделение элемента Списка после удаленных элементов Списка и переход на него
+                    MiscListView.SelectItemAndGoToIt(listViewFB2Files, checkedItem);
 
                     MessageBox.Show( "Удаление помеченных элементов Списка завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}

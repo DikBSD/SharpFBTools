@@ -1040,17 +1040,8 @@ namespace SharpFBTools.Tools
 					MiscListView.removeAllItemForNonExistFile( textBoxAddress.Text.Trim(), listViewFB2Files );
 					ConnectListsEventHandlers( true );
 
-					// выделяем итем "под" удаленными итемами
-					if (listViewFB2Files.Items.Count > 0) {
-						if (selectedItem < 0)
-							selectedItem = 0;
-						if (listViewFB2Files.Items.Count == 1)
-							selectedItem = 0;
-						else if (selectedItem >= listViewFB2Files.Items.Count)
-							selectedItem = listViewFB2Files.Items.Count - 1;
-						listViewFB2Files.Items[selectedItem].Selected = true;
-						listViewFB2Files.Items[selectedItem].EnsureVisible();
-					}
+					// Выделение элемента Списка, файлы которых были удалены с жесткого диска, после удаленных элементов Списка и переход на него
+					MiscListView.SelectItemAndGoToItForRemoveItemForNonExistFile(listViewFB2Files, selectedItem);
 
 					MessageBox.Show( "Удаление элементов Списка \"без файлов\" завершено.", MessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
