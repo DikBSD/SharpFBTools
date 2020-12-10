@@ -71,7 +71,7 @@ namespace Main.Tools {
         }
         
         /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Point, аналогичного {X=250,Y=9}.
+        ///   Поиск локализованного ресурса типа System.Drawing.Point, аналогичного {X=252,Y=13}.
         /// </summary>
         internal static System.Drawing.Point cmsFB2_TrayLocation {
             get {
