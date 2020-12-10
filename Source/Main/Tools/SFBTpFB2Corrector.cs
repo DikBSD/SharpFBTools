@@ -248,7 +248,11 @@ namespace SharpFBTools.Tools
 				string sMess = "Вы действительно хотите удалить " + nCount.ToString() + " помеченных книг?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				if( MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
+					// запоминаем первый помеченный итем в списке для дальнейшего выделения итема под ним после удаления помеченных итемов
+					int checkedItem = listViewFB2Files.CheckedIndices[0]; //listViewFB2Files.CheckedItems[0].Index
+
 //					listViewFB2Files.BeginUpdate();
+
 					ConnectListsEventHandlers( false );
 					CopyMoveDeleteForm copyMoveDeleteForm = new CopyMoveDeleteForm(
 						Fast, BooksWorkModeEnum.DeleteCheckedBooks, textBoxAddress.Text.Trim(), null,
@@ -259,6 +263,13 @@ namespace SharpFBTools.Tools
 					copyMoveDeleteForm.Dispose();
 					ConnectListsEventHandlers( true );
 //					listViewFB2Files.EndUpdate();
+
+					// выделяем итем "под" удаленными итемами
+					if (listViewFB2Files.Items.Count > 0) {
+						listViewFB2Files.Items[checkedItem].Selected = true;
+						listViewFB2Files.Items[checkedItem].EnsureVisible();
+					}
+
 					MessageBox.Show( EndWorkMode.Message, sMessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
 				}
 			}
