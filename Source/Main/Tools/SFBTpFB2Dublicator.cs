@@ -3221,7 +3221,7 @@ namespace SharpFBTools.Tools
 			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
 				const string sMessTitle = "SharpFBTools - Удаление копий книг";
 				int nCount = listViewFB2Files.CheckedItems.Count;
-				string sMess = "Вы действительно хотите удалить " + nCount.ToString() + " помеченных копии книг?";
+				string sMess = "Вы действительно хотите удалить " + nCount.ToString() + " помеченных копий книг?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				
                 if ( MessageBox.Show( sMess, sMessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
