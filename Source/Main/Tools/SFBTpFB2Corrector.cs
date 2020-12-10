@@ -1061,7 +1061,7 @@ namespace SharpFBTools.Tools
 		{
 			if ( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление помеченных элементов Списка";
-				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка БЕЗ УДАЛЕНИЯ книг с жесткого диска?\r\n\r\n(Файлы на жестком диске НЕ удаляются)?";
+				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка БЕЗ УДАЛЕНИЯ книг с жесткого диска?\r\n\r\n(Файлы на жестком диске НЕ удаляются)";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				if( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
 					// запоминаем первый помеченный итем в списке для дальнейшего выделения итема под ним после удаления помеченных итемов
