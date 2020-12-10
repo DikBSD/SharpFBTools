@@ -3248,7 +3248,7 @@ namespace SharpFBTools.Tools
 		private void deleteGroupNotRemoveFiles() {
 			if ( listViewFB2Files.Items.Count > 0 && listViewFB2Files.CheckedItems.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление отмеченных Групп из списка";
-				const string sMess = "Вы действительно хотите удалить все отмеченные Группы из списка копий БЕЗ удаления книг с жесткого диска?\r\n(Файлы с жесткого диска НЕ удаляются)";
+				const string sMess = "Вы действительно хотите удалить все отмеченные Группы из списка копий БЕЗ УДАЛЕНИЯ книг с жесткого диска?\r\n\r\n(Файлы с жесткого диска НЕ удаляются)";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				
                 if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
@@ -4484,7 +4484,7 @@ namespace SharpFBTools.Tools
 		{
 			if ( listViewFB2Files.Items.Count > 0 ) {
 				const string MessTitle = "SharpFBTools - Удаление помеченных элементов Списка";
-				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка БЕЗ удаления книг с жесткого диска?\r\n(Их файлы на жестком диске НЕ удаляются)?";
+				const string sMess = "Вы действительно хотите удалить все помеченные элементы Списка БЕЗ УДАЛЕНИЯ книг с жесткого диска?\r\n\r\n(Файлы на жестком диске НЕ удаляются)?";
 				const MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 				
                 if ( MessageBox.Show( sMess, MessTitle, buttons, MessageBoxIcon.Question ) != DialogResult.No ) {
