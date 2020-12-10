@@ -420,14 +420,6 @@ namespace Core.Common
 			return Result;
 		}
 
-		// Чистка списка Групп копий книг Дубликатора от пустых итемов
-		public static void cleanGroupList(ListView listViewFB2Files) {
-			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
-			deleteAllItemForNonExistFile(listViewFB2Files);
-			// удаление всех Групп, у которых не больше 1 итема
-			deleteAllGroupsWithOneItem(listViewFB2Files);
-		}
-
 		// удаление всех помеченных элементов Списка (их файлы на жестком диске не удаляются) для Дубликатора
 		public static bool deleteChechedItemsNotDeleteFiles( ListView listViewFB2Files, ListView lvFilesCount ) {
 			bool Result = false;
@@ -449,9 +441,21 @@ namespace Core.Common
 			return Result;
 		}
 
+		// Чистка списка Групп копий книг Дубликатора от пустых итемов
+		public static void cleanGroupList(ListView listViewFB2Files)
+		{
+			// удаление всех элементов Списка, для которых отсутствуют файлы на жестком диске для Дубликатора
+			deleteAllItemForNonExistFile(listViewFB2Files);
+			// удаление всех Групп, у которых не больше 1 итема
+			deleteAllGroupsWithOneItem(listViewFB2Files);
+		}
+
+		#endregion
+
+		#region Добавление, удаление итемов
 		// реальное значение всех Групп и всех копий книг в этих Группах
 		public static void RealGroupsAndBooks(ListView lvResult, ListView lvFilesCount)
-        {
+		{
 			int AllGroups = 0;
 			int AllBooks = 0;
 			foreach (ListViewGroup lvGroup in lvResult.Groups) {
