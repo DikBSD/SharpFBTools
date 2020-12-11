@@ -901,7 +901,7 @@ namespace Core.Sorter.Templates {
 			rx = new Regex( @"(\\)\.\.\.\s*" );
 			sFileName = rx.Replace( sFileName, "\\" );
 			
-			return StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode );
+			return StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode) + ".fb2";
 		}
 
 		#endregion

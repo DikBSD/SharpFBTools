@@ -1141,7 +1141,7 @@ namespace Core.Sorter
 							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode,
 							ref m_sortOptions, ref _lCounter,
 							_MaxBookTitleLenght, _MaxSequenceLenght, GenreGroup
-						) + ".fb2";
+						);
 					createFileTo(
 						FromZip, FromFilePath, ToFilePath, m_sortOptions.FileExistMode, m_sortOptions.FileLongPathDir
 					);

@@ -35,9 +35,9 @@ namespace Core.FB2.FB2Parsers
 	{
 		#region Закрытые данные класса
 		private readonly string			_fb2Path	= string.Empty;
-		private List<XmlNode> _BodyNodesXmlNodeList = new List<XmlNode>(); // Реальные структуры body книги
-		private FB2Text _fb2TextXml					= null; // fb2 книга в текстовой xml форме
-		
+		private FB2Text _fb2TextXml = null; // fb2 книга в текстовой xml форме
+		//private List<XmlNode> _BodyNodesXmlNodeList = new List<XmlNode>(); // Реальные структуры body книги
+
 		private readonly	XmlDocument _xmlDoc		= null;
 		private const		string _aFB20Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.0";
 		private const		string _aFB21Namespace	= "http://www.gribuser.ru/xml/fictionbook/2.1";
