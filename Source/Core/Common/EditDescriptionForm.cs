@@ -785,16 +785,26 @@ namespace Core.Common
 			if ( xmlDesc != null ) {
 				if ( xmlPINew != null ) {
 					if ( xmlPIOld != null ) {
+						// в книге уже есть раздел publish-info
 						xmlDesc.ReplaceChild( xmlPINew, xmlPIOld );
 						return true;
+					} else {
+						// в книге нет раздела publish-info
+						XmlNode xmlDI = m_fb2.getDocumentInfoNode();
+						if (xmlDI != null) {
+							xmlDesc.InsertAfter(xmlPINew, xmlDI);
+							return true;
+						}
 					}
 				} else {
+					// удаляем ноду publish-info, т.к. данных для Издательства нет
 					if ( xmlPIOld != null ) {
 						xmlDesc.RemoveChild( xmlPIOld );
 						return true;
 					}
 				}
 			}
+
 			return false;
 		}
 		private bool processCustomInfoNode( ref XmlDocument xmlDoc ) {
