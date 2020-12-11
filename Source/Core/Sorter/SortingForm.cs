@@ -1033,7 +1033,7 @@ namespace Core.Sorter
 		}
 		// ===================================================================================================
 		// обработка уже существующих файлов в папке
-		private string fileExistWorker( string FromFilePath, string ToFilePath, int FileExistMode, bool ToZip )
+		private string fileExistWorker( string ToFilePath, int FileExistMode, bool ToZip )
 		{
 			FileInfo fi = new FileInfo( ToFilePath );
 			if ( !fi.Directory.Exists )
@@ -1056,7 +1056,7 @@ namespace Core.Sorter
 		// архивирование файла с сформированным именем (путь)
 		private void copyFileToArchive( string FromFilePath, string ToFilePath, int FileExistMode ) {
 			// обработка уже существующих файлов в папке
-			ToFilePath = fileExistWorker( FromFilePath, ToFilePath, FileExistMode, true );
+			ToFilePath = fileExistWorker( ToFilePath, FileExistMode, true );
 			m_sharpZipLib.ZipFile( FromFilePath, ToFilePath, 9, ICSharpCode.SharpZipLib.Zip.CompressionMethod.Deflated, 4096 );
 		}
 		
@@ -1064,7 +1064,7 @@ namespace Core.Sorter
 		private void copyFileToTargetDir( string FromFilePath, string ToFilePath, int FileExistMode )
 		{
 			// обработка уже существующих файлов в папке
-			ToFilePath = fileExistWorker( FromFilePath, ToFilePath, FileExistMode, false );
+			ToFilePath = fileExistWorker( ToFilePath, FileExistMode, false );
 			if( File.Exists( FromFilePath ) )
 				File.Copy( FromFilePath, ToFilePath );
 		}
