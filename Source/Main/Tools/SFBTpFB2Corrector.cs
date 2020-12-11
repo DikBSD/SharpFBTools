@@ -1856,25 +1856,27 @@ namespace SharpFBTools.Tools
 			string Address = textBoxAddress.Text.Trim();
 			if ( Address != string.Empty ) {
 				if ( Address.Substring( Address.Length - 1, 1 ) != "\\" )
-					Address = textBoxAddress.Text = textBoxAddress.Text + "\\";
+					Address = textBoxAddress.Text += "\\";
 				if ( Directory.Exists( Address ) ) {
-					// запуск формы прогресса отображения метаданных книг
-					Cursor.Current = Cursors.WaitCursor;
-					ConnectListsEventHandlers( false );
-					listViewFB2Files.BeginUpdate();
-					listViewFB2Files.Items.Clear();
-					
-					FB2NotValidateForm fb2NotValidateForm = new FB2NotValidateForm(
-						null, listViewFB2Files, Address, false
-					);
-					fb2NotValidateForm.ShowDialog();
-					EndWorkMode EndWorkMode = fb2NotValidateForm.EndMode;
-					fb2NotValidateForm.Dispose();
+					if (listViewFB2Files.Items.Count > 0) {
+						// запуск формы прогресса отображения метаданных книг
+						Cursor.Current = Cursors.WaitCursor;
+						ConnectListsEventHandlers(false);
+						listViewFB2Files.BeginUpdate();
+						listViewFB2Files.Items.Clear();
 
-					listViewFB2Files.EndUpdate();
-					ConnectListsEventHandlers( true );
-					Cursor.Current = Cursors.Default;
-					MessageBox.Show( EndWorkMode.Message, MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Information );
+						FB2NotValidateForm fb2NotValidateForm = new FB2NotValidateForm(
+							null, listViewFB2Files, Address, false
+						);
+						fb2NotValidateForm.ShowDialog();
+						EndWorkMode EndWorkMode = fb2NotValidateForm.EndMode;
+						fb2NotValidateForm.Dispose();
+
+						listViewFB2Files.EndUpdate();
+						ConnectListsEventHandlers(true);
+						Cursor.Current = Cursors.Default;
+						MessageBox.Show(EndWorkMode.Message, MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+					}
 				} else
 					MessageBox.Show( "Не удается найти папку " + textBoxAddress.Text + ".\nПроверьте правильность пути.", MessagTitle, MessageBoxButtons.OK, MessageBoxIcon.Error );
 			}
