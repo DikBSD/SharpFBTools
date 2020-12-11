@@ -307,7 +307,8 @@ namespace Core.AutoCorrector
 					Debug.DebugMessage(
 						FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение RegexMatchTimeoutException."
 					);
-				} catch (Exception ex) {
+				}
+				catch (Exception ex) {
 					Debug.DebugMessage(
 						FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение Exception."
 					);
@@ -323,7 +324,8 @@ namespace Core.AutoCorrector
 					Debug.DebugMessage(
 						FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение RegexMatchTimeoutException."
 					);
-				} catch (Exception ex) {
+				}
+				catch (Exception ex) {
 					Debug.DebugMessage(
 						FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение Exception."
 					);
