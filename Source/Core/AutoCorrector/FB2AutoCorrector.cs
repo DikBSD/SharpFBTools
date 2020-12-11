@@ -81,15 +81,19 @@ namespace Core.AutoCorrector
 			}
 			
 			
-			/******************************************
+			/*******************************************
 			 * Автокорректировка раздела <description> *
 			 *******************************************/
 			fb2Text.Description = autoCorrectDescription( FilePath, fb2Text.Bodies, fb2Text.Description );
-			
-			/* Автокорректировка разделов <body> */
+
+			/*************************************
+			 * Автокорректировка разделов <body> *
+			 *************************************/ 
 			fb2Text.Bodies = autoCorrect( FilePath, fb2Text.Bodies );
-			
-			/* автокорректировка разделов binary */
+
+			/*************************************
+			 * Автокорректировка разделов binary *
+			 *************************************/
 			if ( fb2Text.BinariesExists ) {
 				// обработка ссылок-названий картинок в binary
 				BinaryCorrector binaryCorrector = new BinaryCorrector( FilePath, fb2Text.Binaries );
