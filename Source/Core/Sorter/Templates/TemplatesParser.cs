@@ -942,7 +942,6 @@ namespace Core.Sorter.Templates {
 			return sLexem;
 		}
 		
-		
 		private string makeFilenameForIF_LL_OR_LN( IList<Author> lAuthors, int nAuthorIndex ) {
 			string sFileName = string.Empty;
 			if ( lAuthors[nAuthorIndex].NickName != null ) {
@@ -991,9 +990,9 @@ namespace Core.Sorter.Templates {
 			}
 			return value[0];
 		}
-		
+
+		// вставка разделителя слева от открывающей * и справа от закрывающей *
 		private string InsertSeparatorToAsterik( string sLine ) {
-			// вставка разделителя слева от открывающей * и справа от закрывающей *
 			if ( string.IsNullOrEmpty( sLine ) )
 				return sLine;
 			if ( sLine.IndexOf( '*' ) == -1 )
@@ -1017,9 +1016,9 @@ namespace Core.Sorter.Templates {
 			}
 			return sTemp;
 		}
-		
+
+		// вставка разделителя слева от [ и справа от ]
 		private string InsertSeparatorToSquareBracket( string sLine ) {
-			// вставка разделителя слева от [ и справа от ]
 			if ( string.IsNullOrEmpty( sLine ) )
 				return sLine;
 			string sTemp = string.Empty;
@@ -1035,9 +1034,9 @@ namespace Core.Sorter.Templates {
 			}
 			return sTemp;
 		}
-		
+
+		// подсчет числа элементов cChar в строке sLine
 		private int CountElement( string sLine, char cChar ) {
-			// подсчет числа элементов cChar в строке sLine
 			int nCount = 0;
 			for ( int i = 0; i != sLine.Length; ++i ) {
 				if ( sLine[i] == cChar )
@@ -1045,27 +1044,27 @@ namespace Core.Sorter.Templates {
 			}
 			return  nCount;
 		}
-		
+
+		// проверка, есть ли шаблоны в строке
 		private bool IsTemplateExsist( string sLine ) {
-			// проверка, есть ли шаблоны в строке
 			foreach ( string t in m_sAllTemplates ) {
 				if ( sLine.IndexOf( t, StringComparison.CurrentCulture ) != -1 )
 					return true;
 			}
 			return false;
 		}
-		
+
+		// возвращает 1-й шаблон в строке, если он есть, или ""
 		private string GetTemplate( string sLine ) {
-			// возвращает 1-й шаблон в строке, если он есть, или ""
 			foreach ( string t in m_sAllTemplates ) {
 				if ( sLine.IndexOf( t, StringComparison.CurrentCulture ) != -1 )
 					return t;
 			}
 			return string.Empty;
 		}
-		
+
+		/* получение лексем из сложной группы */
 		private List<Core.Sorter.Templates.Lexems.TPComplex> GemComplexLexems( string sLine ) {
-			/* получение лексем из сложной группы */
 			// разбиваем строку относительно *
 			string str = sLine.Remove( 0, 1 );
 			str = str.Remove( (str.Length - 1), 1 );
@@ -1080,9 +1079,9 @@ namespace Core.Sorter.Templates {
 			}
 			return lexems;
 		}
-		
+
+		// формирование номера Серии Книги по Шаблону 0X
 		private string MakeSII( string sSequence ) {
-			// формирование номера Серии Книги по Шаблону 0X
 			// проверка, число ли это
 			if ( !StringProcessing.IsNumberInString( sSequence ) )
 				return sSequence; // не число
@@ -1094,9 +1093,9 @@ namespace Core.Sorter.Templates {
 					return sSequence; // число символов >= 2
 			}
 		}
-		
+
+		// формирование номера Серии Книги по Шаблону 00X
 		private string MakeSIII( string sSequence ) {
-			// формирование номера Серии Книги по Шаблону 00X
 			// проверка, число ли это
 			if ( !StringProcessing.IsNumberInString( sSequence ) )
 				return sSequence; // не число
