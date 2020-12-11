@@ -225,43 +225,6 @@ namespace Core.AutoCorrector
 					);
 				}
 				
-				/************************
-				 * Обработка annotation *
-				 ************************/
-				// обработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>
-				try {
-					XmlDescription = Regex.Replace(
-						XmlDescription, @"(?<=<annotation>)\s*?(?'text_annotation'(?:<(?'tag_s'strong|emphasis)>)?\s*?(?:[^<]+)?(?:</\k'tag_s'>)?\s*?)\s*?(?=</annotation>)",
-						"<p>${text_annotation}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
-				} catch ( RegexMatchTimeoutException ex ) {
-					Debug.DebugMessage(
-						FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение RegexMatchTimeoutException."
-					);
-				}
-				catch ( Exception ex ) {
-					Debug.DebugMessage(
-						FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение Exception."
-					);
-				}
-				
-				// обработка annotation: картинка без тегов <p>: <annotation><image l:href="#ficbook_logo.png" /> => <annotation><p><image l:href="#ficbook_logo.png" /></p>
-				try {
-					XmlDescription = Regex.Replace(
-						XmlDescription, "(?<=<annotation>)\\s*?(?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)",
-						"<p>${img}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
-					);
-				} catch ( RegexMatchTimeoutException ex ) {
-					Debug.DebugMessage(
-						FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение RegexMatchTimeoutException."
-					);
-				}
-				catch ( Exception ex ) {
-					Debug.DebugMessage(
-						FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение Exception."
-					);
-				}
-				
 				/******************
 				 * Обработка Жанра *
 				 ******************/
@@ -330,10 +293,42 @@ namespace Core.AutoCorrector
 						FilePath, ex, "Обработка раздела <description>:\r\nОбработка дат (тег <date>). Исключение Exception."
 					);
 				}
-				
+
 				/************************
 				 * Обработка annotation *
 				 ************************/
+				// обработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>
+				try {
+					XmlDescription = Regex.Replace(
+						XmlDescription, @"(?<=<annotation>)\s*?(?'text_annotation'(?:<(?'tag_s'strong|emphasis)>)?\s*?(?:[^<]+)?(?:</\k'tag_s'>)?\s*?)\s*?(?=</annotation>)",
+						"<p>${text_annotation}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch (RegexMatchTimeoutException ex) {
+					Debug.DebugMessage(
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение RegexMatchTimeoutException."
+					);
+				} catch (Exception ex) {
+					Debug.DebugMessage(
+						FilePath, ex, "Обработка раздела <description>:\r\nОбработка annotation без тегов <p>: текст annotation обрамляется тегами <p> ... </p>. Исключение Exception."
+					);
+				}
+
+				// обработка annotation: картинка без тегов <p>: <annotation><image l:href="#ficbook_logo.png" /> => <annotation><p><image l:href="#ficbook_logo.png" /></p>
+				try {
+					XmlDescription = Regex.Replace(
+						XmlDescription, "(?<=<annotation>)\\s*?(?'img'<image [^<]+?(?:\"[^\"]*\"|'[^']*')?>)",
+						"<p>${img}</p>", RegexOptions.IgnoreCase | RegexOptions.Multiline
+					);
+				} catch (RegexMatchTimeoutException ex) {
+					Debug.DebugMessage(
+						FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение RegexMatchTimeoutException."
+					);
+				} catch (Exception ex) {
+					Debug.DebugMessage(
+						FilePath, ex, "Обработка annotation: картинка без тегов <p>: <annotation><image l:href=\"#ficbook_logo.png\" /> => <annotation><p><image l:href=\"#ficbook_logo.png\" /></p>. Исключение Exception."
+					);
+				}
+
 				// преобразование <title> в аннотации на <subtitle> (Заголовок - без тегов <strong>) и т.п.
 				try {
 					XmlDescription = Regex.Replace(
