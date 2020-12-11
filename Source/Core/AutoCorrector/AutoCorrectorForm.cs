@@ -386,7 +386,7 @@ namespace Core.Corrector
 						file, ex, "Автокорректировка списка файлов: AutoCorrector.AutoCorrectorForm.autoCorrect(): Получение времени конца обработки файла."
 					);
 				}
-				sTime = sTime + " (ч:м:с.мс)";
+				sTime += " (ч:м:с.мс)";
 				StatusTextBox.Text += string.Format("  {0}", sTime ) + "\r\n";
 				
 				// обработанные файлы
