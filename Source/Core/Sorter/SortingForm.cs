@@ -889,131 +889,118 @@ namespace Core.Sorter
 			bool FB2IsFromZip, string FromFilePath, List<TemplatesLexemsSimple> lSLexems,
 			SortingOptions sortOptions, string GenreGroup
 		) {
-			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
-			if ( sortOptions.GenresToDirsGenreOne && sortOptions.AuthorsToDirsAuthorOne ) {
+			if (sortOptions.GenresToDirsGenreOne && sortOptions.AuthorsToDirsAuthorOne) {
 				// по первому Жанру и первому Автору Книги
-				makeFileFor1Genre1AuthorWorker(
-					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
-					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
-				);
-			} else if ( sortOptions.GenresToDirsGenreOne && sortOptions.AuthorsToDirsAuthorAll ) {
+				makeFileFor1Genre1AuthorWorker(FB2IsFromZip, FromFilePath, lSLexems, sortOptions, GenreGroup);
+			} else if (sortOptions.GenresToDirsGenreOne && sortOptions.AuthorsToDirsAuthorAll) {
 				// по первому Жанру и всем Авторам Книги
-				makeFileFor1GenreAllAuthorWorker(
-					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
-					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
-				);
-			} else if ( sortOptions.GenresToDirsGenreAll && sortOptions.AuthorsToDirsAuthorOne ) {
+				makeFileFor1GenreAllAuthorWorker(FB2IsFromZip, FromFilePath, lSLexems, sortOptions, GenreGroup);
+			} else if (sortOptions.GenresToDirsGenreAll && sortOptions.AuthorsToDirsAuthorOne) {
 				// по всем Жанрам и первому Автору Книги
-				makeFileForAllGenre1AuthorWorker(
-					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
-					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
-				);
+				makeFileForAllGenre1AuthorWorker(FB2IsFromZip, FromFilePath, lSLexems, sortOptions, GenreGroup);
 			} else {
 				// по всем Жанрам и всем Авторам Книги
-				makeFileForAllGenreAllAuthorWorker(
-					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
-					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
-				);
+				makeFileForAllGenreAllAuthorWorker(FB2IsFromZip, FromFilePath, lSLexems, sortOptions, GenreGroup);
 			}
 		}
 		
 		private void makeFileFor1Genre1AuthorWorker(
-			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
-			List<TemplatesLexemsSimple> lSLexems,
-			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+			bool FB2IsFromZip, string FromFilePath, List<TemplatesLexemsSimple> lSLexems,
+			SortingOptions sortOptions, string GenreGroup
 		) {
+			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			try {
 				makeFB2File(
-					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems, 0, 0,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
+					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems, 0, 0,
+					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
 				);
-			} catch ( Exception ex ) {
+			} catch (Exception ex) {
 				Debug.DebugMessage(
 					FromFilePath, ex, "WorksWithBooks.makeFileFor1Genre1AuthorWorker():"
 				);
-				if ( FilesWorker.isFB2File( FromFilePath ) )
+				if (FilesWorker.isFB2File(FromFilePath))
 					copyBadFileToDir(
-						FromFilePath, SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
+						FromFilePath, SourceDir, sortOptions.NotReadFB2Dir, sortOptions.FileExistMode
 					);
 			}
 		}
 
 		private void makeFileForAllGenre1AuthorWorker(
-			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
-			List<TemplatesLexemsSimple> lSLexems,
-			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+			bool FB2IsFromZip, string FromFilePath, List<TemplatesLexemsSimple> lSLexems,
+			SortingOptions sortOptions, string GenreGroup
 		) {
+			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			try {
 				FictionBook fb2 = new FictionBook( FromFilePath );
 				TitleInfo ti = fb2.getTitleInfo();
 				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
-				for ( int i = 0; i != lGenres.Count; ++i )
+				for (int i = 0; i != lGenres.Count; ++i)
 					makeFB2File(
-						FromZip, FromFilePath, SourceDir, TargetDir, lSLexems, i, 0,
-						RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
+						FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems, i, 0,
+						sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
 					);
-			} catch ( Exception ex ) {
+			} catch (Exception ex) {
 				Debug.DebugMessage(
 					FromFilePath, ex, "WorksWithBooks.makeFileForAllGenre1AuthorWorker():"
 				);
-				if ( FilesWorker.isFB2File( FromFilePath ) )
+				if (FilesWorker.isFB2File(FromFilePath))
 					copyBadFileToDir(
-						FromFilePath, SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
+						FromFilePath, SourceDir, sortOptions.NotReadFB2Dir, sortOptions.FileExistMode
 					);
 			}
 		}
 
 		private void makeFileFor1GenreAllAuthorWorker(
-			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
-			List<TemplatesLexemsSimple> lSLexems,
-			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+			bool FB2IsFromZip, string FromFilePath, List<TemplatesLexemsSimple> lSLexems,
+			SortingOptions sortOptions, string GenreGroup
 		) {
+			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			try {
 				FictionBook fb2 = new FictionBook( FromFilePath );
 				TitleInfo ti = fb2.getTitleInfo();
 				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
-				for( int i = 0; i != lAuthors.Count; ++i )
+				for(int i = 0; i != lAuthors.Count; ++i)
 					makeFB2File(
-						FromZip, FromFilePath, SourceDir, TargetDir, lSLexems, 0, i,
-						RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
+						FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems, 0, i,
+						sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
 					);
-			} catch ( Exception ex ) {
+			} catch (Exception ex) {
 				Debug.DebugMessage(
 					FromFilePath, ex, "WorksWithBooks.makeFileFor1GenreAllAuthorWorker():"
 				);
-				if ( FilesWorker.isFB2File( FromFilePath ) )
+				if (FilesWorker.isFB2File(FromFilePath))
 					copyBadFileToDir(
-						FromFilePath, SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
+						FromFilePath, SourceDir, sortOptions.NotReadFB2Dir, sortOptions.FileExistMode
 					);
 			}
 		}
 
 		private void makeFileForAllGenreAllAuthorWorker(
-			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
-			List<TemplatesLexemsSimple> lSLexems,
-			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+			bool FB2IsFromZip, string FromFilePath, List<TemplatesLexemsSimple> lSLexems,
+			SortingOptions sortOptions, string GenreGroup
 		) {
+			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			try {
 				FictionBook fb2 = new FictionBook( FromFilePath );
 				TitleInfo ti = fb2.getTitleInfo();
 				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
-				for( int i = 0; i != lGenres.Count; ++i ) {
-					for( int j = 0; j != lAuthors.Count; ++j )
+				for(int i = 0; i != lGenres.Count; ++i) {
+					for(int j = 0; j != lAuthors.Count; ++j)
 						makeFB2File(
-							FromZip, FromFilePath, SourceDir, TargetDir, lSLexems, i, j,
-							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
+							FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems, i, j,
+							sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
 						);
 				}
-			} catch ( Exception ex ) {
+			} catch (Exception ex) {
 				Debug.DebugMessage(
 					FromFilePath, ex, "WorksWithBooks.makeFileForAllGenreAllAuthorWorker():"
 				);
-				if ( FilesWorker.isFB2File( FromFilePath ) )
+				if (FilesWorker.isFB2File(FromFilePath))
 					copyBadFileToDir(
-						FromFilePath, SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
+						FromFilePath, SourceDir, sortOptions.NotReadFB2Dir, sortOptions.FileExistMode
 					);
 			}
 		}
