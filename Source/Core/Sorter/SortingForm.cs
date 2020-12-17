@@ -886,32 +886,32 @@ namespace Core.Sorter
 		// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 		// GenreGroup = null для Полной Сортировки. Для избранной - передаем значение Группы из критерия поиска
 		private void makeFileForGenreAndAuthorFromFB2(
-			bool FromZip, string FromFilePath, List<TemplatesLexemsSimple> lSLexems,
+			bool FB2IsFromZip, string FromFilePath, List<TemplatesLexemsSimple> lSLexems,
 			SortingOptions sortOptions, string GenreGroup
 		) {
-			string SourceDir = FromZip ? m_TempDir : sortOptions.SourceDir;
+			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			if ( sortOptions.GenresToDirsGenreOne && sortOptions.AuthorsToDirsAuthorOne ) {
 				// по первому Жанру и первому Автору Книги
 				makeFileFor1Genre1AuthorWorker(
-					FromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
+					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
 					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
 				);
 			} else if ( sortOptions.GenresToDirsGenreOne && sortOptions.AuthorsToDirsAuthorAll ) {
 				// по первому Жанру и всем Авторам Книги
 				makeFileFor1GenreAllAuthorWorker(
-					FromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
+					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
 					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
 				);
 			} else if ( sortOptions.GenresToDirsGenreAll && sortOptions.AuthorsToDirsAuthorOne ) {
 				// по всем Жанрам и первому Автору Книги
 				makeFileForAllGenre1AuthorWorker(
-					FromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
+					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
 					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
 				);
 			} else {
 				// по всем Жанрам и всем Авторам Книги
 				makeFileForAllGenreAllAuthorWorker(
-					FromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
+					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems,
 					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
 				);
 			}
