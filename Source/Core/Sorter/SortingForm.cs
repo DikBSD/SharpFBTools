@@ -733,8 +733,7 @@ namespace Core.Sorter
 			if ( FilesWorker.isFB2File( FromFilePath ) ) {
 				// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 				makeFileForGenreAndAuthorFromFB2(
-					false, FromFilePath, m_sortOptions.SourceDir, m_sortOptions.TargetDir, lSLexems,
-					m_sortOptions.getRegisterMode(), m_sortOptions.Space, m_sortOptions.Strict, m_sortOptions.Translit,
+					false, FromFilePath, lSLexems, m_sortOptions,
 					null /* Группа будет определяться исходя из Жанра из fb2 */
 				);
 				++m_sv.SourceFB2;
@@ -764,8 +763,7 @@ namespace Core.Sorter
 					foreach ( string FB2FromArchPath in FilesListFromZip ) {
 						// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 						makeFileForGenreAndAuthorFromFB2(
-							true, FB2FromArchPath, m_TempDir, m_sortOptions.TargetDir, lSLexems,
-							m_sortOptions.getRegisterMode(), m_sortOptions.Space, m_sortOptions.Strict, m_sortOptions.Translit,
+							true, FB2FromArchPath, lSLexems, m_sortOptions,
 							null /* Группа будет определяться исходя из Жанра из fb2 */
 						);
 						++m_sv.FB2FromZips;
@@ -801,9 +799,8 @@ namespace Core.Sorter
 				if ( criteria != null ) {
 					// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 					makeFileForGenreAndAuthorFromFB2(
-						false, FromFilePath, m_sortOptions.SourceDir, m_sortOptions.TargetDir, lSLexems,
-						m_sortOptions.getRegisterMode(), m_sortOptions.Space, m_sortOptions.Strict, m_sortOptions.Translit, criteria.GenresGroup
-					);
+						false, FromFilePath, lSLexems, m_sortOptions, criteria.GenresGroup
+						);
 					++m_sv.SourceFB2;
 				} else {
 					++m_sv.NotSort;
@@ -847,9 +844,8 @@ namespace Core.Sorter
 						if ( FilesWorker.isFB2File( FB2FromZipPath ) ) {
 							// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 							makeFileForGenreAndAuthorFromFB2(
-								true, FB2FromZipPath, m_TempDir, m_sortOptions.TargetDir, lSLexems,
-								m_sortOptions.getRegisterMode(), m_sortOptions.Space, m_sortOptions.Strict, m_sortOptions.Translit, criteria.GenresGroup
-							);
+								true, FB2FromZipPath, lSLexems, m_sortOptions, criteria.GenresGroup
+								);
 							++m_sv.SourceFB2;
 							
 							// удаляем исходный fb2-файл, если включена эта опция
@@ -890,33 +886,33 @@ namespace Core.Sorter
 		// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 		// GenreGroup = null для Полной Сортировки. Для избранной - передаем значение Группы из критерия поиска
 		private void makeFileForGenreAndAuthorFromFB2(
-			bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
-			List<TemplatesLexemsSimple> lSLexems,
-			int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup
+			bool FromZip, string FromFilePath, List<TemplatesLexemsSimple> lSLexems,
+			SortingOptions m_sortOptions, string GenreGroup
 		) {
+			string SourceDir = FromZip ? m_TempDir : m_sortOptions.SourceDir;
 			if ( m_sortOptions.GenresToDirsGenreOne && m_sortOptions.AuthorsToDirsAuthorOne ) {
 				// по первому Жанру и первому Автору Книги
 				makeFileFor1Genre1AuthorWorker(
-					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
+					FromZip, FromFilePath, SourceDir, m_sortOptions.TargetDir, lSLexems,
+					m_sortOptions.getRegisterMode(), m_sortOptions.Space, m_sortOptions.Strict, m_sortOptions.Translit, GenreGroup
 				);
 			} else if ( m_sortOptions.GenresToDirsGenreOne && m_sortOptions.AuthorsToDirsAuthorAll ) {
 				// по первому Жанру и всем Авторам Книги
 				makeFileFor1GenreAllAuthorWorker(
-					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
+					FromZip, FromFilePath, SourceDir, m_sortOptions.TargetDir, lSLexems,
+					m_sortOptions.getRegisterMode(), m_sortOptions.Space, m_sortOptions.Strict, m_sortOptions.Translit, GenreGroup
 				);
 			} else if ( m_sortOptions.GenresToDirsGenreAll && m_sortOptions.AuthorsToDirsAuthorOne ) {
 				// по всем Жанрам и первому Автору Книги
 				makeFileForAllGenre1AuthorWorker(
-					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
+					FromZip, FromFilePath, SourceDir, m_sortOptions.TargetDir, lSLexems,
+					m_sortOptions.getRegisterMode(), m_sortOptions.Space, m_sortOptions.Strict, m_sortOptions.Translit, GenreGroup
 				);
 			} else {
 				// по всем Жанрам и всем Авторам Книги
 				makeFileForAllGenreAllAuthorWorker(
-					FromZip, FromFilePath, SourceDir, TargetDir, lSLexems,
-					RegisterMode, SpaceProcessMode, StrictMode, TranslitMode, GenreGroup
+					FromZip, FromFilePath, SourceDir, m_sortOptions.TargetDir, lSLexems,
+					m_sortOptions.getRegisterMode(), m_sortOptions.Space, m_sortOptions.Strict, m_sortOptions.Translit, GenreGroup
 				);
 			}
 		}
