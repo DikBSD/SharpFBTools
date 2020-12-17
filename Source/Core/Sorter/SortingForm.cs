@@ -928,10 +928,9 @@ namespace Core.Sorter
 		) {
 			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			try {
-				FictionBook fb2 = new FictionBook( FromFilePath );
+				FictionBook fb2 = new FictionBook(FromFilePath);
 				TitleInfo ti = fb2.getTitleInfo();
 				IList<Genre> lGenres = ti.Genres;
-				IList<Author> lAuthors = ti.Authors;
 				for (int i = 0; i != lGenres.Count; ++i)
 					makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, i, 0, GenreGroup);
 			} catch (Exception ex) {
@@ -951,9 +950,8 @@ namespace Core.Sorter
 		) {
 			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			try {
-				FictionBook fb2 = new FictionBook( FromFilePath );
+				FictionBook fb2 = new FictionBook(FromFilePath);
 				TitleInfo ti = fb2.getTitleInfo();
-				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
 				for(int i = 0; i != lAuthors.Count; ++i)
 					makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, 0, i, GenreGroup);
@@ -974,7 +972,7 @@ namespace Core.Sorter
 		) {
 			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			try {
-				FictionBook fb2 = new FictionBook( FromFilePath );
+				FictionBook fb2 = new FictionBook(FromFilePath);
 				TitleInfo ti = fb2.getTitleInfo();
 				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
