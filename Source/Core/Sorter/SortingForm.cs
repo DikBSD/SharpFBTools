@@ -910,10 +910,7 @@ namespace Core.Sorter
 		) {
 			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			try {
-				makeFB2File(
-					FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems, 0, 0,
-					sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
-				);
+				makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, 0, 0, GenreGroup);
 			} catch (Exception ex) {
 				Debug.DebugMessage(
 					FromFilePath, ex, "WorksWithBooks.makeFileFor1Genre1AuthorWorker():"
@@ -936,10 +933,7 @@ namespace Core.Sorter
 				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
 				for (int i = 0; i != lGenres.Count; ++i)
-					makeFB2File(
-						FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems, i, 0,
-						sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
-					);
+					makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, i, 0, GenreGroup);
 			} catch (Exception ex) {
 				Debug.DebugMessage(
 					FromFilePath, ex, "WorksWithBooks.makeFileForAllGenre1AuthorWorker():"
@@ -962,10 +956,7 @@ namespace Core.Sorter
 				IList<Genre> lGenres = ti.Genres;
 				IList<Author> lAuthors = ti.Authors;
 				for(int i = 0; i != lAuthors.Count; ++i)
-					makeFB2File(
-						FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems, 0, i,
-						sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
-					);
+					makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, 0, i, GenreGroup);
 			} catch (Exception ex) {
 				Debug.DebugMessage(
 					FromFilePath, ex, "WorksWithBooks.makeFileFor1GenreAllAuthorWorker():"
@@ -989,10 +980,7 @@ namespace Core.Sorter
 				IList<Author> lAuthors = ti.Authors;
 				for(int i = 0; i != lGenres.Count; ++i) {
 					for(int j = 0; j != lAuthors.Count; ++j)
-						makeFB2File(
-							FB2IsFromZip, FromFilePath, SourceDir, sortOptions.TargetDir, lSLexems, i, j,
-							sortOptions.getRegisterMode(), sortOptions.Space, sortOptions.Strict, sortOptions.Translit, GenreGroup
-						);
+						makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, i, j, GenreGroup);
 				}
 			} catch (Exception ex) {
 				Debug.DebugMessage(
@@ -1009,28 +997,29 @@ namespace Core.Sorter
 		/// <summary>
 		/// Создание файла по новому пути
 		/// </summary>
-		private void makeFB2File(bool FromZip, string FromFilePath, string SourceDir, string TargetDir,
-								 List<TemplatesLexemsSimple> lSLexems, int nGenreIndex, int AuthorIndex,
-								 int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode, string GenreGroup)
+		private void makeFB2File(bool FromZip, string FromFilePath, string SourceDir,
+								 List<TemplatesLexemsSimple> lSLexems, SortingOptions sortOptions,
+								 int nGenreIndex, int AuthorIndex, string GenreGroup)
 		{
 			// смотрим, что это за файл
 			if (FilesWorker.isFB2File(FromFilePath)) {
-				if (m_sortOptions.SortTypeOnlyValidFB2) {
+				if (sortOptions.SortTypeOnlyValidFB2) {
 					// тип сортировки: только валидные
-					if (!isValid(FromFilePath, SourceDir, nGenreIndex, AuthorIndex))
+					if (!isValid(FromFilePath, SourceDir, nGenreIndex, AuthorIndex, sortOptions))
 						return;
 				}
 
 				try {
-					string ToFilePath = TargetDir + "\\" +
+					string ToFilePath = sortOptions.TargetDir + "\\" +
 						_templatesParser.generateNewPath(
 							FromFilePath, lSLexems, nGenreIndex, AuthorIndex,
-							RegisterMode, SpaceProcessMode, StrictMode, TranslitMode,
-							ref m_sortOptions, ref _lCounter,
+							sortOptions.getRegisterMode(), sortOptions.Space,
+							sortOptions.Strict, sortOptions.Translit,
+							ref sortOptions, ref _lCounter,
 							_MaxBookTitleLenght, _MaxSequenceLenght, GenreGroup
 						) + ".fb2";
 					createFileTo(
-						FromZip, FromFilePath, ToFilePath, m_sortOptions.FileExistMode, m_sortOptions.FileLongPathDir
+						FromZip, FromFilePath, ToFilePath, sortOptions.FileExistMode, sortOptions.FileLongPathDir
 					);
 				} catch (System.IO.FileLoadException ex) {
 					Debug.DebugMessage(
@@ -1038,7 +1027,7 @@ namespace Core.Sorter
 					);
 					// нечитаемый fb2-файл - копируем его в папку Bad
 					copyBadFileToDir(
-						FromFilePath, SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
+						FromFilePath, SourceDir, sortOptions.NotReadFB2Dir, sortOptions.FileExistMode
 					);
 				}
 			}
@@ -1113,32 +1102,32 @@ namespace Core.Sorter
 		}
 
 		// обработка уже существующих файлов в папке
-		private string fileExistWorker( string ToFilePath, int FileExistMode, bool ToZip )
+		private string fileExistWorker(string ToFilePath, int FileExistMode, bool ToZip)
 		{
-			FileInfo fi = new FileInfo( ToFilePath );
-			if ( !fi.Directory.Exists )
+			FileInfo fi = new FileInfo(ToFilePath);
+			if (!fi.Directory.Exists)
 				Directory.CreateDirectory( fi.Directory.ToString() );
 
-			if ( File.Exists( ToFilePath ) ) {
-				if ( FileExistMode == 0 )
+			if (File.Exists(ToFilePath)) {
+				if (FileExistMode == 0)
 					File.Delete( ToFilePath );
 				else {
-					string Sufix = FilesWorker.createSufix( ToFilePath, FileExistMode );
-					if ( ToZip )
-						ToFilePath = ToFilePath.Remove( ToFilePath.Length - 8 ) + Sufix + ".fb2.zip";
+					string Sufix = FilesWorker.createSufix(ToFilePath, FileExistMode);
+					if (ToZip)
+						ToFilePath = ToFilePath.Remove(ToFilePath.Length - 8) + Sufix + ".fb2.zip";
 					else
-						ToFilePath = ToFilePath.Remove( ToFilePath.Length - 4 ) + Sufix + ".fb2";
+						ToFilePath = ToFilePath.Remove(ToFilePath.Length - 4) + Sufix + ".fb2";
 				}
 			}
 			return ToFilePath;
 		}
 		
 		// нечитаемый fb2-файл или архив - копируем его в папку Bad
-		private void copyBadFileToDir( string FromFilePath, string SourceDir, string BadDir, int FileExistMode ) {
-			Directory.CreateDirectory( BadDir );
-			string FileName = FromFilePath.Remove( 0, SourceDir.Length );
+		private void copyBadFileToDir(string FromFilePath, string SourceDir, string BadDir, int FileExistMode) {
+			Directory.CreateDirectory(BadDir);
+			string FileName = FromFilePath.Remove(0, SourceDir.Length);
 			string ToFilePath = BadDir + (FileName.Substring(0,1)=="\\" ? string.Empty : "\\") + FileName;
-			copyFileToTargetDir( FromFilePath, ToFilePath, FileExistMode );
+			copyFileToTargetDir(FromFilePath, ToFilePath, FileExistMode);
 			++m_sv.NotRead;
 		}
 		
@@ -1147,34 +1136,36 @@ namespace Core.Sorter
 		{
 			string ToFilePath = TargetDir+"\\"+FromFilePath.Remove( 0, SourceDir.Length );
 			FileInfo fi = new FileInfo( ToFilePath );
-			if ( !fi.Directory.Exists )
+			if (!fi.Directory.Exists)
 				Directory.CreateDirectory( fi.Directory.ToString() );
 
 			// обработка уже существующих файлов в папке
-			if ( File.Exists( ToFilePath ) ) {
-				if ( FileExistMode == 0 )
-					File.Delete( ToFilePath );
+			if (File.Exists(ToFilePath)) {
+				if (FileExistMode == 0)
+					File.Delete(ToFilePath);
 				else {
-					ToFilePath = ToFilePath.Remove( ToFilePath.Length-4 )
-						+ FilesWorker.createSufix( ToFilePath, FileExistMode ) //Sufix
-						+ Path.GetExtension( ToFilePath );
+					ToFilePath = ToFilePath.Remove(ToFilePath.Length - 4)
+						+ FilesWorker.createSufix(ToFilePath, FileExistMode) //Sufix
+						+ Path.GetExtension(ToFilePath);
 				}
 			}
-			if ( File.Exists( FromFilePath ) ) {
-				File.Copy( FromFilePath, ToFilePath );
+			if (File.Exists(FromFilePath)) {
+				File.Copy(FromFilePath, ToFilePath);
 			}
 		}
 		
 		// если режим сортировки "только валидные" - то проверка и копирование невалидных в папку
-		private bool isValid( string FromFilePath, string SourceDir, int GenreIndex, int AuthorIndex ) {
-			string Result = string.Empty;
-			Result = m_fv2V.ValidatingFB2File( FromFilePath );
-			if ( Result.Length != 0 ) {
+		private bool isValid(
+			string FromFilePath, string SourceDir, int GenreIndex, int AuthorIndex, SortingOptions sortOptions
+			) {
+			string ValidateResult = string.Empty;
+			ValidateResult = m_fv2V.ValidatingFB2File(FromFilePath);
+			if (ValidateResult.Length != 0) {
 				// защита от многократного копирования невалимдного файла в папку для невалидных
-				if ( GenreIndex == 0 && AuthorIndex == 0 ) {
+				if (GenreIndex == 0 && AuthorIndex == 0) {
 					// помещаем его в папку для невалидных файлов
 					copyBadFileToDir(
-						FromFilePath, SourceDir, m_sortOptions.NotValidFB2Dir, m_sortOptions.FileExistMode
+						FromFilePath, SourceDir, sortOptions.NotValidFB2Dir, sortOptions.FileExistMode
 					);
 					++m_sv.NotValidFB2;
 					return false; // файл невалидный - пропускаем его, сортируем дальше
