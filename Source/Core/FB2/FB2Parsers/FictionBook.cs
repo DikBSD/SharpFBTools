@@ -746,7 +746,7 @@ namespace Core.FB2.FB2Parsers
 				? fb2TINode.SelectNodes( "." + _ns + "sequence", _NsManager )
 				: null;
 		}
-		public XmlNode getCoverImageNodeForHref( TitleInfoEnum TitleInfoType, string Href ) {
+		public XmlNode getCoverImageNodeForHrefNode( TitleInfoEnum TitleInfoType, string Href ) {
 			XmlNodeList xmlCoverImageNodeList = getCoverAllImageNodes( TitleInfoType );
 			if( xmlCoverImageNodeList != null && xmlCoverImageNodeList.Count > 0 ) {
 				foreach( XmlNode ImageNode in xmlCoverImageNodeList ) {
@@ -813,25 +813,25 @@ namespace Core.FB2.FB2Parsers
 				? fb2DINode.SelectSingleNode( "." + _ns + "program-used", _NsManager )
 				: null;
 		}
-		public XmlNode getFB2CreateDate() {
+		public XmlNode getFB2CreateDateNode() {
 			XmlNode fb2DINode = getDocumentInfoNode();
 			return fb2DINode != null
 				? fb2DINode.SelectSingleNode( "." + _ns + "date", _NsManager )
 				: null;
 		}
-		public XmlNodeList getFB2SrcUrls() {
+		public XmlNodeList getFB2SrcUrlsNode() {
 			XmlNode fb2DINode = getDocumentInfoNode();
 			return fb2DINode != null
 				? fb2DINode.SelectNodes( "." + _ns + "src-url", _NsManager )
 				: null;
 		}
-		public XmlNode getFB2SrcOcr() {
+		public XmlNode getFB2SrcOcrNode() {
 			XmlNode fb2DINode = getDocumentInfoNode();
 			return fb2DINode != null
 				? fb2DINode.SelectSingleNode( "." + _ns + "src-ocr", _NsManager )
 				: null;
 		}
-		public XmlNode getFB2History() {
+		public XmlNode getFB2HistoryNode() {
 			XmlNode fb2DINode = getDocumentInfoNode();
 			return fb2DINode != null
 				? fb2DINode.SelectSingleNode( "." + _ns + "history", _NsManager )
@@ -849,19 +849,19 @@ namespace Core.FB2.FB2Parsers
 			}
 			return xn;
 		}
-		public XmlNode getPIBookName() {
+		public XmlNode getPIBookNameNode() {
 			XmlNode fb2PINode = getPublishInfoNode();
 			return fb2PINode != null
 				? fb2PINode.SelectSingleNode( "." + _ns + "book-name", _NsManager )
 				: null;
 		}
-		public XmlNode getPIPublisher() {
+		public XmlNode getPIPublisherNode() {
 			XmlNode fb2PINode = getPublishInfoNode();
 			return fb2PINode != null
 				? fb2PINode.SelectSingleNode( "." + _ns + "publisher", _NsManager )
 				: null;
 		}
-		public XmlNode getPICity() {
+		public XmlNode getPICityNode() {
 			XmlNode fb2PINode = getPublishInfoNode();
 			return fb2PINode != null
 				? fb2PINode.SelectSingleNode( "." + _ns + "city", _NsManager )
@@ -873,7 +873,7 @@ namespace Core.FB2.FB2Parsers
 				? fb2PINode.SelectSingleNode( "." + _ns + "year", _NsManager )
 				: null;
 		}
-		public XmlNode getPIISBN() {
+		public XmlNode getPIISBNNode() {
 			XmlNode fb2PINode = getPublishInfoNode();
 			return fb2PINode != null
 				? fb2PINode.SelectSingleNode( "." + _ns + "isbn", _NsManager )

@@ -394,7 +394,7 @@ namespace Core.Common
 		private void deleteCoverImageForHref( Enums.TitleInfoEnum TitleInfoType, string Href ) {
 			XmlNode xmlCover = m_fb2.getCoverNode( TitleInfoType );
 			if ( xmlCover != null ) {
-				XmlNode xmlImageNode = m_fb2.getCoverImageNodeForHref( TitleInfoType, "#" + Href );
+				XmlNode xmlImageNode = m_fb2.getCoverImageNodeForHrefNode( TitleInfoType, "#" + Href );
 				if ( xmlImageNode != null )
 					xmlCover.RemoveChild( xmlImageNode );
 			}

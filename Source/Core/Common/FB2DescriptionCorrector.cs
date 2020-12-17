@@ -501,7 +501,7 @@ namespace Core.Common
 				} else
 					xmlDINew.AppendChild( makeProgramUsedNode() );
 				// date
-				XmlNode xmlDIDate = _fb2.getFB2CreateDate();
+				XmlNode xmlDIDate = _fb2.getFB2CreateDateNode();
 				if ( xmlDIDate != null ) {
 					if ( xmlDIDate.Attributes["value"] != null ) {
 						if ( string.IsNullOrWhiteSpace( xmlDIDate.Attributes["value"].Value ) )
@@ -511,7 +511,7 @@ namespace Core.Common
 				} else
 					xmlDINew.AppendChild( makeDateNode() );
 				// src-url
-				XmlNodeList xmlFB2SrcUrls = _fb2.getFB2SrcUrls();
+				XmlNodeList xmlFB2SrcUrls = _fb2.getFB2SrcUrlsNode();
 				if ( xmlFB2SrcUrls != null ) {
 					foreach ( XmlNode URL in xmlFB2SrcUrls ) {
 						if ( !string.IsNullOrWhiteSpace( URL.InnerText ) )
@@ -519,7 +519,7 @@ namespace Core.Common
 					}
 				}
 				// src-ocr
-				XmlNode xmlSrcOcr = _fb2.getFB2SrcOcr();
+				XmlNode xmlSrcOcr = _fb2.getFB2SrcOcrNode();
 				if ( xmlSrcOcr != null ) {
 					if ( !string.IsNullOrWhiteSpace( xmlSrcOcr.InnerText ) )
 						xmlDINew.AppendChild( xmlSrcOcr );
@@ -541,7 +541,7 @@ namespace Core.Common
 				} else
 					xmlDINew.AppendChild( makeVersionNode() );
 				// history
-				XmlNode xmlFB2History = _fb2.getFB2History();
+				XmlNode xmlFB2History = _fb2.getFB2HistoryNode();
 				if ( xmlFB2History != null ) {
 					if ( !string.IsNullOrWhiteSpace( xmlFB2History.InnerText ) ) {
 						if ( xmlFB2History.InnerText.IndexOf( "SharpFBTools" ) == -1 )
@@ -562,19 +562,19 @@ namespace Core.Common
 			if ( xmlPIOld != null ) {
 				XmlNode xmlPINew = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "publish-info", _fb2.getNamespaceURI() );
 				// book-name
-				XmlNode xmlBookName = _fb2.getPIBookName();
+				XmlNode xmlBookName = _fb2.getPIBookNameNode();
 				if ( xmlBookName != null ) {
 					if ( !string.IsNullOrWhiteSpace( xmlBookName.InnerText ) )
 						xmlPINew.AppendChild( xmlBookName );
 				}
 				// publisher
-				XmlNode xmlPublisher = _fb2.getPIPublisher();
+				XmlNode xmlPublisher = _fb2.getPIPublisherNode();
 				if ( xmlPublisher != null ) {
 					if ( !string.IsNullOrWhiteSpace( xmlPublisher.InnerText ) )
 						xmlPINew.AppendChild( xmlPublisher );
 				}
 				// city
-				XmlNode xmlCity = _fb2.getPICity();
+				XmlNode xmlCity = _fb2.getPICityNode();
 				if ( xmlCity != null ) {
 					if ( !string.IsNullOrWhiteSpace( xmlCity.InnerText ) )
 						xmlPINew.AppendChild( xmlCity );
@@ -586,7 +586,7 @@ namespace Core.Common
 						xmlPINew.AppendChild( xmlYear );
 				}
 				// isbn
-				XmlNode xmlISBN = _fb2.getPIISBN();
+				XmlNode xmlISBN = _fb2.getPIISBNNode();
 				if ( xmlISBN != null ) {
 					if ( !string.IsNullOrWhiteSpace( xmlISBN.InnerText ) )
 						xmlPINew.AppendChild( xmlISBN );
