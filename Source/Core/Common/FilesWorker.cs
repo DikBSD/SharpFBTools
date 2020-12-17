@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Collections;
+using Core.FB2.FB2Parsers;
 
 namespace Core.Common
 {
@@ -474,7 +475,7 @@ namespace Core.Common
 		/// </summary>
 		/// <param name="FilePath">Путь к заданному файлу</param>
 		/// <param name="Mode">Режим для суффикса: 0 - замена; 1 - новый номер; 2 - дата</param>
-		public static string createSufix( string FilePath, int Mode ) {
+		public static string createSufix(string FilePath, int Mode ) {
 			string Sufix = string.Empty;
 			if( Mode == 1 ) {
 				// Добавить к создаваемому файлу очередной номер

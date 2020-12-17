@@ -19,7 +19,7 @@ using Core.FB2.Genres;
 using Core.FB2.FB2Parsers;
 using Core.AutoCorrector;
 
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 namespace Core.Sorter.Templates {
 	/// <summary>
@@ -79,14 +79,14 @@ namespace Core.Sorter.Templates {
 		
 		// формирование имени файла на основе данных Description и шаблонов подстановки
 		// GenreGroupFromSelectedSort = null или Empty для Полной Сортировки (Группа берется исходя из fb2 жанра). Для Избранной - Группа Жанров = GenreGroupFromSelectedSort
-		public string generateNewPath( string sFB2FilePath, List<Core.Sorter.Templates.Lexems.TPSimple> lSLexems,
+		public string generateNewPath(string sFB2FilePath, List<Lexems.TPSimple> lSLexems,
 		                              int nGenreIndex, int nAuthorIndex, int RegisterMode,
 		                              int SpaceProcessMode, bool StrictMode, bool TranslitMode,
 		                              ref SortingOptions sortOptions, ref long lCounter,
 		                              int MaxBookTitleLenght, int MaxSequenceLenght, string GenreGroupFromSelectedSort ) {
 			LatinToRus latinToRus = new LatinToRus();
 			string sFileName			= string.Empty;
-			FictionBook fb2				= new FictionBook( sFB2FilePath );
+			FictionBook fb2				= new FictionBook(sFB2FilePath);
 			string sLang				= fb2.TILang;
 			IList<Genre> lGenres		= fb2.TIGenres;
 			// Замена 1-го латинского символа в ФИО Авторов на соответствующий кирилический
