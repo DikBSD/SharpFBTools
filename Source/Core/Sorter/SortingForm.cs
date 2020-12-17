@@ -668,7 +668,7 @@ namespace Core.Sorter
 		
 		#region Закрытые вспомогательные методы класса
 		// сортировка книг, в зависимости от критериев поиска и типа Сортировщика
-		private void sortBooks( ref BackgroundWorker bw, ref DoWorkEventArgs e ) {
+		private void sortBooks(ref BackgroundWorker bw, ref DoWorkEventArgs e) {
 			// формируем лексемы шаблонной строки
 			List<TemplatesLexemsSimple> lSLexems = _templatesParser.GemSimpleLexems( m_sortOptions.Template );
 			// папки для проблемных файлов
@@ -680,24 +680,24 @@ namespace Core.Sorter
 			
 			List<string> FinishedFilesList = new List<string>();
 			
-			if ( m_sortOptions.IsFullSort ) {
+			if (m_sortOptions.IsFullSort) {
 				// ========================================================================
 				//                              Полная Сортировка
 				// ========================================================================
-				for ( int i = 0; i != m_FilesList.Count; ++i ) {
+				for (int i = 0; i != m_FilesList.Count; ++i) {
 					// Проверить флаг на остановку процесса
-					if ( bw.CancellationPending == true ) {
+					if (bw.CancellationPending == true) {
 						// удаление из списка всех файлов обработанные книги (файлы)
 						removeFinishedFilesInFilesList( ref m_FilesList, ref FinishedFilesList);
 						e.Cancel = true;
 						return;
 					}
 					// создание отсортированного fb2 по Жанру(ам) и Автору(ам)
-					fileFullSorting( m_FilesList[i], lSLexems, m_sortOptions );
+					fileFullSorting(m_FilesList[i], lSLexems, m_sortOptions);
 					
-					FinishedFilesList.Add( m_FilesList[i] ); // обработанные файлы
-					FilesWorker.RemoveDir( m_TempDir );
-					bw.ReportProgress( i ); // отобразим данные в контролах
+					FinishedFilesList.Add(m_FilesList[i]); // обработанные файлы
+					FilesWorker.RemoveDir(m_TempDir);
+					bw.ReportProgress(i); // отобразим данные в контролах
 				}
 				
 				// удаление из списка всех файлов обработанные книги (файлы)
@@ -706,23 +706,23 @@ namespace Core.Sorter
 				// ========================================================================
 				//                            Избранная Сортировка
 				// ========================================================================
-				for ( int i = 0; i != m_FilesList.Count; ++i ) {
+				for (int i = 0; i != m_FilesList.Count; ++i) {
 					// Проверить флаг на остановку процесса
-					if ( bw.CancellationPending == true ) {
+					if (bw.CancellationPending == true) {
 						// удаление из списка всех файлов обработанные книги (файлы)
-						removeFinishedFilesInFilesList( ref m_FilesList, ref FinishedFilesList);
+						removeFinishedFilesInFilesList(ref m_FilesList, ref FinishedFilesList);
 						e.Cancel = true;
 						return;
 					}
 					// создаем отсортированный fb2 файл по новому пути
-					fileSelectedSorting( m_FilesList[i], lSLexems, m_sortOptions );
+					fileSelectedSorting(m_FilesList[i], lSLexems, m_sortOptions);
 					
-					FinishedFilesList.Add( m_FilesList[i] ); // обработанные файлы
-					FilesWorker.RemoveDir( m_TempDir );
-					bw.ReportProgress( i ); // отобразим данные в контролах
+					FinishedFilesList.Add(m_FilesList[i]); // обработанные файлы
+					FilesWorker.RemoveDir(m_TempDir);
+					bw.ReportProgress(i); // отобразим данные в контролах
 				}
 				// удаление из списка всех файлов обработанные книги (файлы)
-				removeFinishedFilesInFilesList( ref m_FilesList, ref FinishedFilesList);
+				removeFinishedFilesInFilesList(ref m_FilesList, ref FinishedFilesList);
 			}
 		}
 		
@@ -730,7 +730,7 @@ namespace Core.Sorter
 		//											Полная Сортировка
 		//==============================================================================================================
 		private void fileFullSorting(string FromFilePath, List<TemplatesLexemsSimple> lSLexems, SortingOptions m_sortOptions) {
-			if ( FilesWorker.isFB2File( FromFilePath ) ) {
+			if (FilesWorker.isFB2File(FromFilePath)) {
 				// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 				makeFileForGenreAndAuthorFromFB2(
 					false, FromFilePath, lSLexems, m_sortOptions,
@@ -739,28 +739,28 @@ namespace Core.Sorter
 				++m_sv.SourceFB2;
 				
 				// удаляем исходный fb2-файл, если включена эта опция
-				if ( !m_sortOptions.NotDelOriginalFiles ) {
-					if ( File.Exists( FromFilePath ) )
-						File.Delete( FromFilePath );
+				if (!m_sortOptions.NotDelOriginalFiles) {
+					if ( File.Exists(FromFilePath))
+						File.Delete(FromFilePath);
 				}
-			} else if ( FilesWorker.isFB2Archive( FromFilePath ) ) {
-				long UnZipCount = m_sharpZipLib.UnZipFB2Files( FromFilePath, m_TempDir );
-				List<string> FilesListFromZip = FilesWorker.MakeFileListFromDir( m_TempDir, false, true );
+			} else if (FilesWorker.isFB2Archive(FromFilePath)) {
+				long UnZipCount = m_sharpZipLib.UnZipFB2Files(FromFilePath, m_TempDir);
+				List<string> FilesListFromZip = FilesWorker.MakeFileListFromDir(m_TempDir, false, true);
+				++m_sv.Zip;
 
-				if ( UnZipCount == -1 ) {
+				if (UnZipCount == -1) {
 					// не получилось открыть архив - "битый"
-					copyBadZipToBadDir( FromFilePath, m_sortOptions.SourceDir, m_sortOptions.NotOpenArchDir, m_sortOptions.FileExistMode );
+					copyBadZipToBadDir(FromFilePath, m_sortOptions.SourceDir, m_sortOptions.NotOpenArchDir, m_sortOptions.FileExistMode);
 					++m_sv.BadZip;
 					return;
 				} else {
-					++m_sv.Zip;
-					if ( FilesListFromZip == null ) {
+					if (FilesListFromZip == null) {
 						// в архиве нет fb2-файлов
-						copyBadZipToBadDir( FromFilePath, m_sortOptions.SourceDir, m_sortOptions.NotOpenArchDir, m_sortOptions.FileExistMode );
+						copyBadZipToBadDir(FromFilePath, m_sortOptions.SourceDir, m_sortOptions.NotOpenArchDir, m_sortOptions.FileExistMode);
 						++m_sv.BadZip;
 						return;
 					}
-					foreach ( string FB2FromArchPath in FilesListFromZip ) {
+					foreach (string FB2FromArchPath in FilesListFromZip) {
 						// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 						makeFileForGenreAndAuthorFromFB2(
 							true, FB2FromArchPath, lSLexems, m_sortOptions,
@@ -770,16 +770,16 @@ namespace Core.Sorter
 					}
 					
 					// очистка временной папки
-					foreach ( string FB2FromArchPath in FilesListFromZip ) {
-						if ( File.Exists( FB2FromArchPath ) )
-							File.Delete( FB2FromArchPath );
+					foreach (string FB2FromArchPath in FilesListFromZip) {
+						if (File.Exists(FB2FromArchPath))
+							File.Delete(FB2FromArchPath);
 					}
 				}
 				
 				// удаляем исходный zip-файл, если включена эта опция
-				if ( !m_sortOptions.NotDelOriginalFiles ) {
-					if ( File.Exists( FromFilePath ) )
-						File.Delete( FromFilePath );
+				if (!m_sortOptions.NotDelOriginalFiles) {
+					if (File.Exists(FromFilePath))
+						File.Delete(FromFilePath);
 				}
 
 			} else {
@@ -818,6 +818,7 @@ namespace Core.Sorter
 				long UnZipCount = m_sharpZipLib.UnZipFB2Files(FromFilePath, m_TempDir);
 				List<string> FilesListFromZip = FilesWorker.MakeFileListFromDir(m_TempDir, false, false);
 				++m_sv.Zip;
+
 				if (UnZipCount == -1) {
 					// не получилось открыть архив - "битый"
 					copyBadZipToBadDir(
