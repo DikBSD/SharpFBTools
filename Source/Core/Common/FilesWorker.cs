@@ -413,15 +413,6 @@ namespace Core.Common
 			return null;
 		}
 		
-		public static string GetDateTimeExt()
-		{
-			++m_ulDateCount;
-			DateTime dt = DateTime.Now;
-			return	dt.Year.ToString()+"-"+dt.Month.ToString()+"-"+dt.Day.ToString()+"-"+
-				dt.Hour.ToString()+"-"+dt.Minute.ToString()+"-"+dt.Second.ToString()+"-"+
-				Convert.ToString( m_ulDateCount );
-		}
-		
 		// обработка последней "." перед \
 		public static string RemoveComaBeforeSlash( string sFilePath ){
 			string [] sSlash = sFilePath.Split('\\');
@@ -446,7 +437,7 @@ namespace Core.Common
 			// обработка последней "." перед \
 			sFilePathLower = RemoveComaBeforeSlash( sFilePathLower );
 
-			string sFilePathNotExtLower = "";
+			string sFilePathNotExtLower = string.Empty;
 			
 			if ( sFilePathLower.IndexOf( ".fb2", StringComparison.CurrentCultureIgnoreCase ) != -1 ) {
 				sFilePathNotExtLower = sFilePathLower.Substring( 0, sFilePathLower.IndexOf( ".fb2", StringComparison.CurrentCultureIgnoreCase ) );
@@ -469,20 +460,39 @@ namespace Core.Common
 			}
 			return lCount;
 		}
-		
+
+		// добавить к создаваемому файлу дату и время
+		public static string GetDateTimeExt()
+		{
+			++m_ulDateCount;
+			DateTime dt = DateTime.Now;
+			return dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + "-" +
+				dt.Hour.ToString() + "-" + dt.Minute.ToString() + "-" + dt.Second.ToString() + "-" +
+				Convert.ToString(m_ulDateCount);
+		}
+
+		// Добавить к создаваемому файлу суффикс из [Переводчик][-Издательство][-FB2 Автор][-Номер по порядку]
+		public static string GetTranslatorPublisherFB2AuthorExt(string FilePath) {
+
+			return "";
+        }
+
 		/// <summary>
 		/// Создание суффикса для файла, для которого есть копии
 		/// </summary>
 		/// <param name="FilePath">Путь к заданному файлу</param>
 		/// <param name="Mode">Режим для суффикса: 0 - замена; 1 - новый номер; 2 - дата</param>
-		public static string createSufix(string FilePath, int Mode ) {
+		public static string createSufix(string FilePath, int Mode) {
 			string Sufix = string.Empty;
-			if( Mode == 1 ) {
+			if(Mode == 1) {
 				// Добавить к создаваемому файлу очередной номер
-				Sufix = "_" + GetFileNewNumber( FilePath ).ToString();
-			} else if( Mode == 2 ) {
+				Sufix = "_" + GetFileNewNumber(FilePath).ToString();
+			} else if(Mode == 2) {
 				// Добавить к создаваемому файлу дату и время
 				Sufix = "_" + GetDateTimeExt();
+			} else if (Mode == 3) {
+				// Добавить к создаваемому файлу суффикс из [Переводчик][-Издательство][-FB2 Автор][-Номер по порядку]
+				Sufix = "_" + GetTranslatorPublisherFB2AuthorExt(FilePath);
 			}
 			return Sufix;
 		}
@@ -492,20 +502,20 @@ namespace Core.Common
 		/// </summary>
 		/// <param name="FilePath">Путь к заданному файлу</param>
 		/// <param name="Mode">Режим для суффикса: 0 - замена; 1 - новый номер; 2 - дата</param>
-		public static string createFilePathWithSufix( string FilePath, int Mode ) {
-			string Sufix = createSufix( FilePath, Mode );
+		public static string createFilePathWithSufix(string FilePath, int Mode) {
+			string Sufix = createSufix(FilePath, Mode);
 			// извлекаем название файла с расширением (для файла .fb2.zip)
 			string FB2File = FilePath.ToLower();
-			if( FB2File.IndexOf( ".fb2", StringComparison.CurrentCultureIgnoreCase ) != 1 )
+			if(FB2File.IndexOf(".fb2", StringComparison.CurrentCultureIgnoreCase) != 1)
 				FB2File = FB2File.Substring(
-					0, FB2File.IndexOf( ".fb2", StringComparison.CurrentCultureIgnoreCase ) + 4
+					0, FB2File.IndexOf(".fb2", StringComparison.CurrentCultureIgnoreCase) + 4
 				);
 
-			string Ext = FilePath.Remove( 0, FB2File.Length );
+			string Ext = FilePath.Remove(0, FB2File.Length);
 			Ext = Ext.Length == 0
-				? Path.GetExtension( FilePath )
-				: Path.GetExtension( FB2File ) + Path.GetExtension( FilePath );
-			return FilePath.Remove( FilePath.Length - Ext.Length ) + Sufix + Ext;
+				? Path.GetExtension(FilePath)
+				: Path.GetExtension(FB2File) + Path.GetExtension(FilePath);
+			return FilePath.Remove(FilePath.Length - Ext.Length) + Sufix + Ext;
 		}
 		
 		/// <summary>
@@ -597,7 +607,6 @@ namespace Core.Common
 			}
 			return lFilesList;
 		}
-		
 		
 		// создание списка всех файлов в заданной папке и ее подпапках
 		public static int recursionFilesSearch( string sDir, ref List<string> lFilesList, bool sort )
