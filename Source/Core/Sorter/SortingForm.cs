@@ -793,10 +793,10 @@ namespace Core.Sorter
 		//============================================================================================================
 		private void fileSelectedSorting(string FromFilePath, List<TemplatesLexemsSimple> lSLexems, SortingOptions m_sortOptions) {
 			bool IsNotRead = false;
-			if ( FilesWorker.isFB2File( FromFilePath ) ) {
+			if (FilesWorker.isFB2File(FromFilePath)) {
 				// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
-				SortQueryCriteria criteria = FB2SelectedSorting.isConformity( FromFilePath, m_lSSQCList, out IsNotRead );
-				if ( criteria != null ) {
+				SortQueryCriteria criteria = FB2SelectedSorting.isConformity(FromFilePath, m_lSSQCList, out IsNotRead);
+				if (criteria != null) {
 					// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 					makeFileForGenreAndAuthorFromFB2(
 						false, FromFilePath, lSLexems, m_sortOptions, criteria.GenresGroup
@@ -804,20 +804,21 @@ namespace Core.Sorter
 					++m_sv.SourceFB2;
 				} else {
 					++m_sv.NotSort;
-					if ( IsNotRead ) // к тому же еще и не читается
+					if (IsNotRead) // к тому же еще и не читается
 						copyBadFileToDir(
 							FromFilePath, m_sortOptions.SourceDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
 						);
 				}
 				// удаляем исходный fb2-файл, если включена эта опция
-				if ( ! m_sortOptions.NotDelOriginalFiles ) {
-					if ( File.Exists( FromFilePath ) )
-						File.Delete( FromFilePath );
+				if (!m_sortOptions.NotDelOriginalFiles) {
+					if (File.Exists(FromFilePath))
+						File.Delete(FromFilePath);
 				}
-			} else if ( FilesWorker.isFB2Archive( FromFilePath ) ) {
-				long UnZipCount = m_sharpZipLib.UnZipFB2Files( FromFilePath, m_TempDir );
-				List<string> FilesListFromZip = FilesWorker.MakeFileListFromDir( m_TempDir, false, false );
-				if ( UnZipCount == -1 ) {
+			} else if (FilesWorker.isFB2Archive(FromFilePath)) {
+				long UnZipCount = m_sharpZipLib.UnZipFB2Files(FromFilePath, m_TempDir);
+				List<string> FilesListFromZip = FilesWorker.MakeFileListFromDir(m_TempDir, false, false);
+				++m_sv.Zip;
+				if (UnZipCount == -1) {
 					// не получилось открыть архив - "битый"
 					copyBadZipToBadDir(
 						FromFilePath, m_sortOptions.SourceDir, m_sortOptions.NotOpenArchDir, m_sortOptions.FileExistMode
@@ -825,8 +826,7 @@ namespace Core.Sorter
 					++m_sv.BadZip;
 					return;
 				} else {
-					++m_sv.Zip;
-					if ( FilesListFromZip == null ) {
+					if (FilesListFromZip == null) {
 						// в архиве нет fb2-файлов
 						copyBadZipToBadDir(
 							FromFilePath, m_sortOptions.SourceDir, m_sortOptions.NotOpenArchDir, m_sortOptions.FileExistMode
@@ -836,12 +836,12 @@ namespace Core.Sorter
 					}
 				}
 				m_sv.FB2FromZips += FilesListFromZip.Count;
-				foreach ( string FB2FromZipPath in FilesListFromZip ) {
+				foreach (string FB2FromZipPath in FilesListFromZip) {
 					// проверка, соответствует ли текущий файл критерия поиска для Избранной Сортировки
-					SortQueryCriteria criteria = FB2SelectedSorting.isConformity( FB2FromZipPath, m_lSSQCList, out IsNotRead );
+					SortQueryCriteria criteria = FB2SelectedSorting.isConformity(FB2FromZipPath, m_lSSQCList, out IsNotRead);
 					
-					if ( criteria != null ) {
-						if ( FilesWorker.isFB2File( FB2FromZipPath ) ) {
+					if (criteria != null) {
+						if (FilesWorker.isFB2File(FB2FromZipPath)) {
 							// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 							makeFileForGenreAndAuthorFromFB2(
 								true, FB2FromZipPath, lSLexems, m_sortOptions, criteria.GenresGroup
@@ -849,9 +849,9 @@ namespace Core.Sorter
 							++m_sv.SourceFB2;
 							
 							// удаляем исходный fb2-файл, если включена эта опция
-							if ( !m_sortOptions.NotDelOriginalFiles ) {
-								if ( File.Exists( FromFilePath ) )
-									File.Delete( FromFilePath );
+							if (!m_sortOptions.NotDelOriginalFiles) {
+								if ( File.Exists(FromFilePath) )
+									File.Delete(FromFilePath);
 							}
 						} else {
 							// пропускаем не fb2-файлы и не zip-архивы
@@ -860,22 +860,22 @@ namespace Core.Sorter
 					} else {
 						// fb2-файл не соответствует критериям сортировки
 						++m_sv.NotSort;
-						if ( IsNotRead ) // к тому же еще и не читается
+						if (IsNotRead) // к тому же еще и не читается
 							copyBadFileToDir(
 								FB2FromZipPath, m_TempDir, m_sortOptions.NotReadFB2Dir, m_sortOptions.FileExistMode
 							);
 					}
 				}
 				// очистка временной папки
-				foreach ( string FB2FromArchPath in FilesListFromZip ) {
-					if ( File.Exists( FB2FromArchPath ) )
-						File.Delete( FB2FromArchPath );
+				foreach (string FB2FromArchPath in FilesListFromZip) {
+					if (File.Exists(FB2FromArchPath))
+						File.Delete(FB2FromArchPath);
 				}
 				
 				// удаляем исходный zip-файл, если включена эта опция
-				if ( ! m_sortOptions.NotDelOriginalFiles ) {
-					if ( File.Exists( FromFilePath ) )
-						File.Delete( FromFilePath );
+				if (!m_sortOptions.NotDelOriginalFiles) {
+					if (File.Exists(FromFilePath))
+						File.Delete(FromFilePath);
 				}
 			} else {
 				// пропускаем не fb2-файлы и не zip-архивы
@@ -1130,12 +1130,12 @@ namespace Core.Sorter
 		}
 		
 		// копирование "битого" архива с сформированным именем (путь)
-		private void copyBadZipToBadDir( string FromFilePath, string SourceDir, string TargetDir, int FileExistMode )
+		private void copyBadZipToBadDir(string FromFilePath, string SourceDir, string TargetDir, int FileExistMode)
 		{
-			string ToFilePath = TargetDir+"\\"+FromFilePath.Remove( 0, SourceDir.Length );
-			FileInfo fi = new FileInfo( ToFilePath );
+			string ToFilePath = TargetDir + "\\" + FromFilePath.Remove(0, SourceDir.Length);
+			FileInfo fi = new FileInfo(ToFilePath);
 			if (!fi.Directory.Exists)
-				Directory.CreateDirectory( fi.Directory.ToString() );
+				Directory.CreateDirectory(fi.Directory.ToString());
 
 			// обработка уже существующих файлов в папке
 			if (File.Exists(ToFilePath)) {
