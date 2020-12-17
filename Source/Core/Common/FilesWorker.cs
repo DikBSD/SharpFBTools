@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Collections;
 using Core.FB2.FB2Parsers;
+using Core.FB2.Description.Common;
+using Core.FB2.Description.PublishInfo;
 
 namespace Core.Common
 {
@@ -471,10 +473,63 @@ namespace Core.Common
 				Convert.ToString(m_ulDateCount);
 		}
 
-		// Добавить к создаваемому файлу суффикс из [Переводчик][-Издательство][-FB2 Автор][-Номер по порядку]
+		// Добавить к создаваемому файлу суффикс из [Переводчик][-Издательство][-FB2 Автор]
 		public static string GetTranslatorPublisherFB2AuthorExt(string FilePath) {
+			string Suffix = string.Empty;
+			FictionBook fb2 = null;
+			try {
+				fb2 = new FictionBook(FilePath);
+				string TranslatorLastName = null;
+				string BookPublisher = null;
+				string FB2Autor = null;
 
-			return "";
+				IList<Author> TranslatorList = fb2.TITranslators;
+                Publisher PIBookPublisher = fb2.PIPublisher;
+				IList<Author> FB2AutorList = fb2.DIAuthors;
+
+				if (TranslatorList != null && TranslatorList.Count > 0) {
+                    Author Translator = TranslatorList[0];
+					if (Translator != null) {
+						if (Translator.LastName != null) {
+							if (Translator.LastName.Value != null) {
+								TranslatorLastName = Translator.LastName.Value;
+							}
+						}
+					}
+				}
+
+				if (PIBookPublisher != null )
+					BookPublisher = PIBookPublisher.Value;
+
+				if (FB2AutorList != null && FB2AutorList.Count > 0) {
+					Author DIFB2Autor = FB2AutorList[0];
+					if (DIFB2Autor != null) {
+						if (DIFB2Autor.LastName != null)
+							FB2Autor = DIFB2Autor.LastName.Value;
+						if (string.IsNullOrEmpty(FB2Autor)) {
+							// если фамилия fb2 автора нет, то используем его nickname
+							if (DIFB2Autor.NickName != null)
+								FB2Autor = DIFB2Autor.NickName.Value;
+						}
+					}
+				}
+
+				// генерация суффикса
+				if (!string.IsNullOrEmpty(TranslatorLastName)) {
+					Suffix = TranslatorLastName;
+					if (!string.IsNullOrEmpty(BookPublisher)) {
+						Suffix += " [" + BookPublisher + "]";
+						if (!string.IsNullOrEmpty(FB2Autor))
+							Suffix += " [" + FB2Autor + "]";
+					}
+				}
+			} catch (System.IO.FileLoadException ex) {
+				Debug.DebugMessage(
+					FilePath, ex, "WorksWithBooks.makeFB2File(): Генерация к создаваемому файлу суффикс из [Переводчик][-Издательство][-FB2 Автор][-Номер по порядку]."
+				);
+			}
+
+			return Suffix;
         }
 
 		/// <summary>
