@@ -901,7 +901,11 @@ namespace Core.Sorter.Templates {
 			rx = new Regex( @"(\\)\.\.\.\s*" );
 			sFileName = rx.Replace( sFileName, "\\" );
 			
-			return StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode);
+			string Ret = StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode);
+			// Добавить к создаваемому файлу суффикс из {Переводчик}[Издательство](FB2 Автор)
+			string Sufix = FilesWorker.GetTranslatorPublisherFB2AuthorExt(fb2);
+			
+			return !string.IsNullOrEmpty(Sufix) ? (Ret + Sufix) : Ret;
 		}
 
 		#endregion
