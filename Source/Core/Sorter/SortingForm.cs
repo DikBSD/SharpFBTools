@@ -910,7 +910,7 @@ namespace Core.Sorter
 				makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, 0, 0, GenreGroup);
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					FromFilePath, ex, "WorksWithBooks.makeFileFor1Genre1AuthorWorker():"
+					FromFilePath, ex, "SortingForm.makeFileFor1Genre1AuthorWorker():"
 				);
 				if (FilesWorker.isFB2File(FromFilePath))
 					copyBadFileToDir(FromFilePath, SourceDir, sortOptions);
@@ -930,7 +930,7 @@ namespace Core.Sorter
 					makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, i, 0, GenreGroup);
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					FromFilePath, ex, "WorksWithBooks.makeFileForAllGenre1AuthorWorker():"
+					FromFilePath, ex, "SortingForm.makeFileForAllGenre1AuthorWorker():"
 				);
 				if (FilesWorker.isFB2File(FromFilePath))
 					copyBadFileToDir(FromFilePath, SourceDir, sortOptions);
@@ -950,7 +950,7 @@ namespace Core.Sorter
 					makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, 0, i, GenreGroup);
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					FromFilePath, ex, "WorksWithBooks.makeFileFor1GenreAllAuthorWorker():"
+					FromFilePath, ex, "SortingForm.makeFileFor1GenreAllAuthorWorker():"
 				);
 				if (FilesWorker.isFB2File(FromFilePath))
 					copyBadFileToDir(FromFilePath, SourceDir, sortOptions);
@@ -973,7 +973,7 @@ namespace Core.Sorter
 				}
 			} catch (Exception ex) {
 				Debug.DebugMessage(
-					FromFilePath, ex, "WorksWithBooks.makeFileForAllGenreAllAuthorWorker():"
+					FromFilePath, ex, "SortingForm.makeFileForAllGenreAllAuthorWorker():"
 				);
 				if (FilesWorker.isFB2File(FromFilePath))
 					copyBadFileToDir(FromFilePath, SourceDir, sortOptions);
@@ -1008,7 +1008,7 @@ namespace Core.Sorter
 					createFileTo(FromZip, FromFilePath, ToFilePath, sortOptions);
 				} catch (System.IO.FileLoadException ex) {
 					Debug.DebugMessage(
-						FromFilePath, ex, "WorksWithBooks.makeFB2File(): Создание файла по новому пути."
+						FromFilePath, ex, "SortingForm.makeFB2File(): Создание файла по новому пути."
 					);
 					// нечитаемый fb2-файл - копируем его в папку Bad
 					copyBadFileToDir(FromFilePath, SourceDir, sortOptions);
@@ -1059,7 +1059,7 @@ namespace Core.Sorter
 
 			} catch (System.IO.PathTooLongException ex) {
 				Debug.DebugMessage(
-					FromFilePath, ex, "WorksWithBooks.createFileTo(): Создание нового файла или архива."
+					FromFilePath, ex, "SortingForm.createFileTo(): Создание нового файла или архива."
 				);
 				// файл с длинным путем (название книги слишком длинное...)
 				Directory.CreateDirectory(sortOptions.FileLongPathDir);
