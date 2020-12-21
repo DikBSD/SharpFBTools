@@ -907,6 +907,7 @@ namespace Core.Sorter
 		) {
 			string SourceDir = FB2IsFromZip ? m_TempDir : sortOptions.SourceDir;
 			try {
+				MessageBox.Show("!!!");
 				makeFB2File(FB2IsFromZip, FromFilePath, SourceDir, lSLexems, sortOptions, 0, 0, GenreGroup);
 			} catch (Exception ex) {
 				Debug.DebugMessage(
