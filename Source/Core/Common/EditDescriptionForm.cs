@@ -1643,8 +1643,8 @@ namespace Core.Common
 			
 			if ( m_fb2.getFictionBookNode() != null ) {
 				XmlDocument xmlDoc = m_fb2.getXmlDoc();
-				// создаем ВСЕ разделя description, заполняем их и потом МЕНЯЕМ с существующими разделами,
-				// а если таких разделов нет - то ВСТАВЛЯЕМ созданные
+				// создаем ВСЕ разделы description, заполняем их и потом МЕНЯЕМ с существующими разделами,
+				// а если существующих разделов нет - то ВСТАВЛЯЕМ созданные
 				/* Title Info */
 				processTitleInfoNode( ref xmlDoc, makeTitleInfoNode( ref xmlDoc, Enums.TitleInfoEnum.TitleInfo ) );
 				/* Source Title Info */
