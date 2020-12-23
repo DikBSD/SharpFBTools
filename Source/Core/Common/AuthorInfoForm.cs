@@ -67,20 +67,23 @@ namespace Core.Common
 		}
 		void ApplyBtnClick(object sender, EventArgs e)
 		{
-			if ( LastNameTextBox.Text.Trim().Length == 0 && FirstNameTextBox.Text.Trim().Length == 0 &&
+			if (LastNameTextBox.Text.Trim().Length == 0 && FirstNameTextBox.Text.Trim().Length == 0 &&
 			   MiddleNameTextBox.Text.Trim().Length == 0 && NickNameTextBox.Text.Trim().Length == 0 &&
-			   IDTextBox.Text.Trim().Length == 0 && HomePageTextBox.Text.Trim().Length == 0 && EmailTextBox.Text.Trim().Length == 0 ) {
+			   IDTextBox.Text.Trim().Length == 0 && HomePageTextBox.Text.Trim().Length == 0 && EmailTextBox.Text.Trim().Length == 0) {
 				MessageBox.Show(
 					"Ни одно поле не заполнено!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
 				);
 				LastNameTextBox.Focus();
 				return;
-			} else if ( LastNameTextBox.Text.Trim().Length == 0 ) {
-				MessageBox.Show(
-					"Поле 'Фамилия' должно быть заполнено обязательно!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
-				);
-				LastNameTextBox.Focus();
-				return;
+			} else if (LastNameTextBox.Text.Trim().Length == 0) {
+				if (m_ai.AuthorType == Enums.AuthorEnum.AuthorOfBook) {
+					// Только для Авторов Книги Фамилия нужно вводить обязательно!
+					MessageBox.Show(
+						"Поле 'Фамилия' должно быть заполнено обязательно!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning
+					);
+					LastNameTextBox.Focus();
+					return;
+				}
 			}
 			
 			m_ai.LastName = LastNameTextBox.Text.Trim();
