@@ -80,12 +80,12 @@ namespace Core.Common
 			Annotation ann = m_fb2.TIAnnotation;
 			if ( ann != null )
 				TIAnnotationRichTextEdit.Text =
-					StringProcessing.getDeleteAllTags( ann.Value != null ? ann.Value : string.Empty );
+					StringProcessing.getDeleteAllTags( ann.Value != null ? ann.Value : string.Empty ).Trim();
 			// загрузка Аннатации на Оригинал книги
 			Annotation annOrig = m_fb2.STIAnnotation;
 			if ( annOrig != null )
 				STIAnnotationRichTextEdit.Text =
-					StringProcessing.getDeleteAllTags( annOrig.Value != null ? annOrig.Value : string.Empty );
+					StringProcessing.getDeleteAllTags( annOrig.Value != null ? annOrig.Value : string.Empty ).Trim();
 			
 			// загрузка обложек книги
 			IList<BinaryBase64> Covers = m_fb2.getCoversBase64( Enums.TitleInfoEnum.TitleInfo );
