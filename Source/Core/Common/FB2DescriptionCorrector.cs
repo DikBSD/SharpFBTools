@@ -109,20 +109,31 @@ namespace Core.Common
 		// удаление последних пустых строк Аннотации		
 		private string[] removeLastEmptyArrayElement(string[] StringArray)
 		{
-			List<string> list = null;
-			if (StringArray.Length > 0) {
-				// индекс последней не пустой строки
-				int index = StringArray.Length;
+			// StringArray.Length = 
+			//						0, если в RichText вообще ничего нет,
+			//						1, если в RichText есть хоть один любой символ,
+			//						2, если в RichText строка и перевод строки, или строка и 
+			// пустой текст и / или только одну строку пропускаем
+			if (StringArray.Length > 1) {
+				// для 2-х и более строк с текстом
+				int index = StringArray.Length-1; // индекс последней непустой строки
 				for (int i = StringArray.Length - 1; i != 0; --i) {
 					if (string.IsNullOrEmpty(StringArray[i]) || string.IsNullOrWhiteSpace(StringArray[i]))
 						--index;
 				}
-				list = new List<string>();
-				for (int i = 0; i != index + 1; ++i)
-					list.Add(StringArray[i]);
+
+				List<string> list = new List<string>();
+				if (index == 0) {
+					list.Add(StringArray[0]);
+					return list.ToArray();
+				} else {
+					for (int i = 0; i != index+1; ++i)
+						list.Add(StringArray[i]);
+					return list.ToArray();
+				}
 			}
 
-			return list != null ? list.ToArray() : StringArray;
+			return StringArray;
 		}
 		#endregion
 
@@ -970,7 +981,7 @@ namespace Core.Common
 		
 		// создание новой Истории развития fb2 файла по заданным данным
 		public XmlElement makeHistoryNode( string [] HistoryArray ) {
-			return createStructure( "history", removeLastEmptyArrayElement(HistoryArray) );
+			return createStructure("history", removeLastEmptyArrayElement(HistoryArray));
 		}
 		
 		// создание нового Названия Бумажной книги по заданным данным
