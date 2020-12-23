@@ -105,8 +105,27 @@ namespace Core.Common
 			}
 			return xmlCustomInfo;
 		}
+
+		// удаление последних пустых строк Аннотации		
+		private string[] removeLastEmptyArrayElement(string[] StringArray)
+		{
+			List<string> list = null;
+			if (StringArray.Length > 0) {
+				// индекс последней не пустой строки
+				int index = StringArray.Length;
+				for (int i = StringArray.Length - 1; i != 0; --i) {
+					if (string.IsNullOrEmpty(StringArray[i]) || string.IsNullOrWhiteSpace(StringArray[i]))
+						--index;
+				}
+				list = new List<string>();
+				for (int i = 0; i != index + 1; ++i)
+					list.Add(StringArray[i]);
+			}
+
+			return list != null ? list.ToArray() : StringArray;
+		}
 		#endregion
-		
+
 		#region Открытые методы СОЗДАНИЯ элементов структуры раздела description
 		// создание нового раздела description с минимальными необходимыми данными
 		public XmlElement makeDescriptionNodeWithMinimalElements() {
@@ -866,24 +885,10 @@ namespace Core.Common
 		}
 		
 		// создание Аннотации на книгу по заданным данным
-		public XmlElement makeAnnotationNode( string [] AnnotationArray ) {
-			// удаление последних пустых строк Аннотации
-			if (AnnotationArray.Length > 0) {
-				// индекс последней не пустой строки
-				int index = AnnotationArray.Length;
-				for (int i = AnnotationArray.Length-1; i != 0; --i) {
-					if (string.IsNullOrEmpty(AnnotationArray[i]) || string.IsNullOrWhiteSpace(AnnotationArray[i]))
-						--index;
-				}
-				List<string> list = new List<string>();
-				for (int i = 0; i != index+1; ++i)
-					list.Add(AnnotationArray[i]);
-				return createStructure("annotation", list.ToArray());
-			}
-
-			return createStructure("annotation", AnnotationArray);
+		public XmlElement makeAnnotationNode(string[] AnnotationArray) {
+			return createStructure("annotation", removeLastEmptyArrayElement(AnnotationArray));
 		}
-		
+
 		// создание Ключевых слов по заданным данным
 		public XmlElement makeKeywordsNode( string Keywords ) {
 			XmlElement xmlElement = null;
