@@ -75,7 +75,7 @@ namespace Core.Common
 			History his = m_fb2.DIHistory;
 			if ( his != null )
 				DIHistoryRichTextEdit.Text =
-					StringProcessing.getDeleteAllTags( his.Value != null ? his.Value : string.Empty );
+					StringProcessing.getDeleteAllTags( his.Value != null ? his.Value : string.Empty ).Trim();
 			// загрузка Аннатации на книгу
 			Annotation ann = m_fb2.TIAnnotation;
 			if ( ann != null )
