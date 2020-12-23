@@ -477,28 +477,41 @@ namespace Core.Common
 			return s;
 		}
 		
-		// "строгое" значение строки
-		public static string StrictPath( string sPath ) {
-			if ( string.IsNullOrEmpty( sPath ) )
+		// "строгое" значение строки пути к файлу
+		public static string StrictPath(string sPath) {
+			if (string.IsNullOrEmpty(sPath))
 				return sPath;
 			
 			// "строгое" значение Юникодной строки - псевдо-транслитерация
-			string s = TranslateUnicodeString( sPath );
-			// замена кавычек " на елочки вокруг слов
-			s = Regex.Replace(
-				s, "(?'space'\\s+)\"(?'letter'[^<])", "${space}«${letter}",
-				RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
-			s = Regex.Replace(
-				s, "(?'letter'[^<])\"", "${letter}»",
-				RegexOptions.IgnoreCase | RegexOptions.Multiline
-			);
+			string s = TranslateUnicodeString(sPath);
 			
+			// замена двойных кавычек " на елочки вокруг русских слов
+			s = Regex.Replace(
+				s, "(?'letter'[а-яА-ЯёЁ]\\b)\"", "${letter}»",
+				RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			s = Regex.Replace(
+				s, "\"(?'letter'\\b[а-яА-ЯёЁ])", "«${letter}",
+				RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+
+			// замена двойных кавычек " на две одинарные кавычки ' вокруг латинских слов
+			s = Regex.Replace(
+				s, "(?'letter'[a-zA-Z]\\b)\"", "${letter}''",
+				RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+			s = Regex.Replace(
+				s, "\"(?'letter'\\b[a-zA-Z])", "''${letter}",
+				RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+
+			// неразрывный пробел зпменяем на простой
+			s = s.Replace(' ', ' ');
+
 			string sStrict = string.Empty;
-			s = s.Replace( ' ', ' ' ); // неразрывный пробел зпменяем на простой
-			for( int i = 0; i != s.Length; ++i ) {
-				int nInd = _StrictLetters.IndexOf( s[i] );
-				if( nInd != -1 ) {
+			for (int i = 0; i != s.Length; ++i) {
+				int nInd = _StrictLetters.IndexOf(s[i]);
+				if (nInd != -1) {
 					sStrict += s[i];
 				}
 			}
