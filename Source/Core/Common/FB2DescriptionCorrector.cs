@@ -970,7 +970,7 @@ namespace Core.Common
 		
 		// создание новой Истории развития fb2 файла по заданным данным
 		public XmlElement makeHistoryNode( string [] HistoryArray ) {
-			return createStructure( "history", HistoryArray );
+			return createStructure( "history", removeLastEmptyArrayElement(HistoryArray) );
 		}
 		
 		// создание нового Названия Бумажной книги по заданным данным
