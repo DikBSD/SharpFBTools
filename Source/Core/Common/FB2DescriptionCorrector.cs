@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 using Core.Common;
 using Core.FB2.FB2Parsers;
@@ -1034,7 +1034,7 @@ namespace Core.Common
 			return createStructure( "p", TextPara );
 		}
 		
-		// создание новой структуры "пустой строки" - <e4mpty-line />
+		// создание новой структуры "пустой строки" - <empty-line />
 		public XmlElement createEmptyLineStructure() {
 			return _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), "empty-line", _fb2.getNamespaceURI() );
 		}
