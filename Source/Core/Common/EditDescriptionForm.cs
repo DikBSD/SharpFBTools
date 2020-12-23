@@ -1675,7 +1675,34 @@ namespace Core.Common
 		{
 			MiscListView.SortColumnClick( STITranslatorListView, m_STITranslatorListViewColumnSorter, e );
 		}
-		
+
+        private void TIGenresListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+			// Переход на Группу жанра и сам Жанр в выпадающих списках по выделенному Жанру в списке Жанров Книги блока title-info
+			if (TIGenresListView.Items.Count > 0 && TIGenresListView.SelectedItems.Count == 1) {
+				ListViewItem SelItem = TIGenresListView.SelectedItems[0];
+				FB2UnionGenres fb2g = new FB2UnionGenres();
+				string GenreCode = SelItem.Text.Substring(SelItem.Text.IndexOf('(') + 1);
+				GenreCode = GenreCode.Substring(0, GenreCode.Length - 1);
+				string GenreGroup = fb2g.GetFBGenreGroup(GenreCode);
+				TIGroupComboBox.Text = GenreGroup;
+				TIGenresComboBox.Text = SelItem.Text;
+			}
+		}
+
+        private void STIGenresListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+			// Переход на Группу жанра и сам Жанр в выпадающих списках по выделенному Жанру в списке Жанров Книги блока src-title-info
+			if (STIGenresListView.Items.Count > 0 && STIGenresListView.SelectedItems.Count == 1) {
+				ListViewItem SelItem = STIGenresListView.SelectedItems[0];
+				FB2UnionGenres fb2g = new FB2UnionGenres();
+				string GenreCode = SelItem.Text.Substring(SelItem.Text.IndexOf('(') + 1);
+				GenreCode = GenreCode.Substring(0, GenreCode.Length - 1);
+				string GenreGroup = fb2g.GetFBGenreGroup(GenreCode);
+				STIGroupComboBox.Text = GenreGroup;
+				STIGenresComboBox.Text = SelItem.Text;
+			}
+		}
 		#endregion
 	}
 }

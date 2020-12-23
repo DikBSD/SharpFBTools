@@ -13,14 +13,14 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-using System.Windows.Forms;
-
 using Core.Common;
 using Core.FB2.FB2Parsers;
 using Core.AutoCorrector;
 
 using TitleInfoEnum	= Core.Common.Enums.TitleInfoEnum;
 using AuthorEnum	= Core.Common.Enums.AuthorEnum;
+
+//using System.Windows.Forms;
 
 namespace Core.Common
 {
