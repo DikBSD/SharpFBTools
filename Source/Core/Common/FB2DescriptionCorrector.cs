@@ -82,7 +82,7 @@ namespace Core.Common
 			return xmlElement;
 		}
 		// создание новой структуры по 1 заданному массиву строк
-		private XmlElement createStructure( string ElementName, ref string [] ElementStringArray ) {
+		private XmlElement createStructure( string ElementName, string [] ElementStringArray ) {
 			XmlElement xmlElement = null;
 			if ( ElementStringArray != null && ElementStringArray.Length > 0) {
 				xmlElement = _fb2.getXmlDoc().CreateElement( _fb2.getPrefix(), ElementName, _fb2.getNamespaceURI() );
@@ -867,7 +867,21 @@ namespace Core.Common
 		
 		// создание Аннотации на книгу по заданным данным
 		public XmlElement makeAnnotationNode( string [] AnnotationArray ) {
-			return createStructure( "annotation", ref AnnotationArray );
+			// удаление последних пустых строк Аннотации
+			if (AnnotationArray.Length > 0) {
+				// индекс последней не пустой строки
+				int index = AnnotationArray.Length;
+				for (int i = AnnotationArray.Length-1; i != 0; --i) {
+					if (string.IsNullOrEmpty(AnnotationArray[i]) || string.IsNullOrWhiteSpace(AnnotationArray[i]))
+						--index;
+				}
+				List<string> list = new List<string>();
+				for (int i = 0; i != index+1; ++i)
+					list.Add(AnnotationArray[i]);
+				return createStructure("annotation", list.ToArray());
+			}
+
+			return createStructure("annotation", AnnotationArray);
 		}
 		
 		// создание Ключевых слов по заданным данным
@@ -951,7 +965,7 @@ namespace Core.Common
 		
 		// создание новой Истории развития fb2 файла по заданным данным
 		public XmlElement makeHistoryNode( string [] HistoryArray ) {
-			return createStructure( "history", ref HistoryArray );
+			return createStructure( "history", HistoryArray );
 		}
 		
 		// создание нового Названия Бумажной книги по заданным данным
