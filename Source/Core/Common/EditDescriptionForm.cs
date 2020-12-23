@@ -441,17 +441,17 @@ namespace Core.Common
 		#endregion
 		
 		#region Вспомогательные методы СОЗДАНИЯ структур метаданных
-		private IList<XmlNode> makeAuthorNode( Enums.AuthorEnum AuthorType, ref FictionBook fb2, ListView lv ) {
-			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector( fb2 );
+		private IList<XmlNode> makeAuthorNode(Enums.AuthorEnum AuthorType, ref FictionBook fb2, ListView lv) {
+			FB2DescriptionCorrector fB2Corrector = new FB2DescriptionCorrector(fb2);
 			IList<XmlNode> Authors = null;
 			XmlNode xmlAuthor = null;
-			if ( lv.Items.Count > 0 ) {
+			if (lv.Items.Count > 0) {
 				Authors = new List<XmlNode>( lv.Items.Count );
-				foreach ( ListViewItem item in lv.Items ) {
-					string HPs = StringProcessing.trimLastTemplateSymbol( item.SubItems[4].Text.Trim(), new Char [] { ',',';' } );
-					IList<string> lHPs = HPs.Split( new Char [] { ',',';' } );
-					string Emails = StringProcessing.trimLastTemplateSymbol( item.SubItems[5].Text.Trim(), new Char [] { ',',';' } );
-					IList<string> lEmails = Emails.Split( new Char [] { ',',';' } );
+				foreach (ListViewItem item in lv.Items) {
+					string HPs = StringProcessing.trimLastTemplateSymbol(item.SubItems[4].Text.Trim(), new Char [] { ',',';' });
+					IList<string> lHPs = HPs.Split(new Char [] { ',',';' });
+					string Emails = StringProcessing.trimLastTemplateSymbol(item.SubItems[5].Text.Trim(), new Char [] {',',';'});
+					IList<string> lEmails = Emails.Split(new Char [] {',',';'});
 					xmlAuthor = fB2Corrector.makeAuthorNode(
 						AuthorType,
 						item.SubItems[1].Text, item.SubItems[2].Text, item.Text, item.SubItems[3].Text,
@@ -460,9 +460,14 @@ namespace Core.Common
 					Authors.Add(xmlAuthor);
 				}
 			} else {
-				if ( AuthorType == Enums.AuthorEnum.AuthorOfBook ) {
+				// Список пуст
+				if (AuthorType == Enums.AuthorEnum.AuthorOfBook) {
 					Authors = new List<XmlNode>();
-					xmlAuthor = fB2Corrector.makeAuthorNode( AuthorType, null, null, null, null, null, null, null );
+					xmlAuthor = fB2Corrector.makeAuthorNode(AuthorType, null, null, null, null, null, null, null);
+					Authors.Add(xmlAuthor);
+				} else if (AuthorType == Enums.AuthorEnum.AuthorOfFB2) {
+					Authors = new List<XmlNode>();
+					xmlAuthor = fB2Corrector.makeAuthorNode(AuthorType, null, null, null, null, null, null, null);
 					Authors.Add(xmlAuthor);
 				}
 			}
@@ -661,7 +666,7 @@ namespace Core.Common
 		private XmlNode makeDocumentInfoNode( ref XmlDocument xmlDoc ) {
 			XmlNode xmlDI = xmlDoc.CreateElement( m_fb2.getPrefix(), "document-info", m_fb2.getNamespaceURI() );
 			
-			// Авторы
+			// Авторы fb2
 			IList<XmlNode> Authors = makeAuthorNode( Enums.AuthorEnum.AuthorOfFB2, ref m_fb2, DIFB2AuthorListView ) ;
 			foreach ( XmlNode Author in Authors )
 				xmlDI.AppendChild( Author );
