@@ -841,10 +841,10 @@ namespace SharpFBTools.Tools
             this.buttonFullSortRenew.Font = new System.Drawing.Font("Tahoma", 11F);
             this.buttonFullSortRenew.Image = ((System.Drawing.Image)(resources.GetObject("buttonFullSortRenew.Image")));
             this.buttonFullSortRenew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonFullSortRenew.Location = new System.Drawing.Point(191, 6);
+            this.buttonFullSortRenew.Location = new System.Drawing.Point(410, 11);
             this.buttonFullSortRenew.Margin = new System.Windows.Forms.Padding(4);
             this.buttonFullSortRenew.Name = "buttonFullSortRenew";
-            this.buttonFullSortRenew.Size = new System.Drawing.Size(275, 54);
+            this.buttonFullSortRenew.Size = new System.Drawing.Size(302, 54);
             this.buttonFullSortRenew.TabIndex = 3;
             this.buttonFullSortRenew.Text = "Возобновить из файла...";
             this.buttonFullSortRenew.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -911,7 +911,7 @@ namespace SharpFBTools.Tools
             // lblMaxFileForProgress
             // 
             this.lblMaxFileForProgress.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.lblMaxFileForProgress.Location = new System.Drawing.Point(4, 143);
+            this.lblMaxFileForProgress.Location = new System.Drawing.Point(4, 145);
             this.lblMaxFileForProgress.Name = "lblMaxFileForProgress";
             this.lblMaxFileForProgress.Size = new System.Drawing.Size(251, 23);
             this.lblMaxFileForProgress.TabIndex = 10;
@@ -1175,7 +1175,7 @@ namespace SharpFBTools.Tools
             this.buttonFullSortFilesTo.Location = new System.Drawing.Point(4, 6);
             this.buttonFullSortFilesTo.Margin = new System.Windows.Forms.Padding(4);
             this.buttonFullSortFilesTo.Name = "buttonFullSortFilesTo";
-            this.buttonFullSortFilesTo.Size = new System.Drawing.Size(177, 54);
+            this.buttonFullSortFilesTo.Size = new System.Drawing.Size(210, 54);
             this.buttonFullSortFilesTo.TabIndex = 2;
             this.buttonFullSortFilesTo.Text = "Сортировать  ";
             this.buttonFullSortFilesTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1440,10 +1440,10 @@ namespace SharpFBTools.Tools
             this.buttonSSortRenew.Font = new System.Drawing.Font("Tahoma", 11F);
             this.buttonSSortRenew.Image = ((System.Drawing.Image)(resources.GetObject("buttonSSortRenew.Image")));
             this.buttonSSortRenew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonSSortRenew.Location = new System.Drawing.Point(191, 6);
+            this.buttonSSortRenew.Location = new System.Drawing.Point(410, 11);
             this.buttonSSortRenew.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSSortRenew.Name = "buttonSSortRenew";
-            this.buttonSSortRenew.Size = new System.Drawing.Size(275, 54);
+            this.buttonSSortRenew.Size = new System.Drawing.Size(302, 54);
             this.buttonSSortRenew.TabIndex = 65;
             this.buttonSSortRenew.Text = "Возобновить из файла...";
             this.buttonSSortRenew.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1458,7 +1458,7 @@ namespace SharpFBTools.Tools
             this.buttonSSortFilesTo.Location = new System.Drawing.Point(4, 6);
             this.buttonSSortFilesTo.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSSortFilesTo.Name = "buttonSSortFilesTo";
-            this.buttonSSortFilesTo.Size = new System.Drawing.Size(177, 54);
+            this.buttonSSortFilesTo.Size = new System.Drawing.Size(210, 54);
             this.buttonSSortFilesTo.TabIndex = 2;
             this.buttonSSortFilesTo.Text = "Сортировать  ";
             this.buttonSSortFilesTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
