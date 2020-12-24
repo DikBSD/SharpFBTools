@@ -904,9 +904,10 @@ namespace Core.Sorter.Templates {
 			sFileName = rx.Replace( sFileName, "\\" );
 			
 			string Ret = StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode);
+			
 			// Добавить к создаваемому файлу суффикс из {Переводчик}[Издательство](FB2 Автор)
 			string Sufix = FilesWorker.GetTranslatorPublisherFB2AuthorExt(fb2, MaxPublisherLenght);
-			Sufix = StrictMode ? StringProcessing.StrictPath(Sufix) : StringProcessing.OnlyCorrectSymbolsForPath(Sufix);
+			Sufix = StringProcessing.MakeGeneralWorkedPath(sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode);
 			
 			return !string.IsNullOrEmpty(Sufix) ? (Ret + Sufix) : Ret;
 		}
