@@ -583,6 +583,7 @@ namespace Core.Common
 			return s;
 		}
 		
+		// обработка строки-пути по заданным критериям
 		public static string MakeGeneralWorkedPath( string sFB2FilePath, int RegisterMode, int SpaceProcessMode, bool StrictMode, bool TranslitMode ) {
 			string s = string.Empty;
 			// регистр

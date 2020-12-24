@@ -19,7 +19,7 @@ using Core.FB2.Genres;
 using Core.FB2.FB2Parsers;
 using Core.AutoCorrector;
 
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace Core.Sorter.Templates {
 	/// <summary>
@@ -907,6 +907,7 @@ namespace Core.Sorter.Templates {
 			// Добавить к создаваемому файлу суффикс из {Переводчик}[Издательство](FB2 Автор)
 			string Sufix = FilesWorker.GetTranslatorPublisherFB2AuthorExt(fb2, MaxPublisherLenght);
 			Sufix = StrictMode ? StringProcessing.StrictPath(Sufix) : StringProcessing.OnlyCorrectSymbolsForPath(Sufix);
+			
 			return !string.IsNullOrEmpty(Sufix) ? (Ret + Sufix) : Ret;
 		}
 
