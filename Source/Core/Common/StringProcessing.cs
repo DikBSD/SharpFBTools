@@ -20,7 +20,7 @@ namespace Core.Common
 	/// </summary>
 	public class StringProcessing
 	{
-		private readonly static string _StrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}~-—=–_.,!@#$%^&№`';«»ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩωÄäÖöÜüßÉéÂâÊêÎîÔôÛûÀàÈèÙùËëÏïÜüŸÿÇçÆæŒœҐґЄєЎў";
+		private readonly static string _StrictLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\[](){}~-—=–_.,!@#$%^&№`';«»ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩωΆάΆάᾺὰἉἁΈέΉήΌόΏώΎύΊίΪϊΐϘϙϞϟϠϡÄäÖöÜüßÉéÂâÊêÎîÔôÛûÀàÈèÙùËëÏïÜüŸÿÇçÆæŒœҐґЄєЎў";
 		
 		#region Закрытые вспомогательные методы класса
 		private static string[] MakeTranslitLettersArray() {
