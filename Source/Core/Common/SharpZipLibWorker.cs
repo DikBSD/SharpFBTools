@@ -54,6 +54,7 @@ namespace Core.Common
 			zipOutStream.SetLevel(CompressLevel);
 
 			ZipEntry zipEntry = new ZipEntry(Path.GetFileName(SourceFile));
+			zipEntry.IsUnicodeText = true;
 			zipEntry.CompressionMethod = CompressionMethod;
 			zipOutStream.PutNextEntry(zipEntry);
 			
