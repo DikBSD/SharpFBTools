@@ -630,9 +630,14 @@ namespace Core.Common
 				Text = trimLastTemplateSymbol( Text, symbol );
 			return Text;
 		}
-		
+
+		// ограничение размера строки Source до размера Len (для предотвращения длинных имен)
+		public static string makeString(string Source, int Len)
+		{
+			return Source.Length <= Len ? Source : Source.Substring(0, Len - 1);
+		}
 		#endregion
-		
+
 		#region Поиск одинаковых строк в списке List
 		private static string m_sForFind = string.Empty; // для предиката поска в списке
 		private static bool IsFileNameExsist( String s ) {

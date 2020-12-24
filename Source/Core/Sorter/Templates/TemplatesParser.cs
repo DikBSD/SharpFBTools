@@ -83,7 +83,8 @@ namespace Core.Sorter.Templates {
 		                              int nGenreIndex, int nAuthorIndex, int RegisterMode,
 		                              int SpaceProcessMode, bool StrictMode, bool TranslitMode,
 		                              ref SortingOptions sortOptions, ref long lCounter,
-		                              int MaxBookTitleLenght, int MaxSequenceLenght, string GenreGroupFromSelectedSort ) {
+		                              int MaxBookTitleLenght, int MaxSequenceLenght, int MaxPublisherLenght,
+									  string GenreGroupFromSelectedSort ) {
 			LatinToRus latinToRus = new LatinToRus();
 			string sFileName			= string.Empty;
 			FictionBook fb2				= new FictionBook(sFB2FilePath);
@@ -412,7 +413,7 @@ namespace Core.Sorter.Templates {
 								} else {
 									sFileName += string.IsNullOrWhiteSpace(btBookTitle.Value)
 										? sortOptions.BookInfoNoBookTitle
-										: makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
+										: StringProcessing.makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
 								}
 								break;
 							case "*SN*": // Серия Книги
@@ -424,7 +425,7 @@ namespace Core.Sorter.Templates {
 									else
 										sFileName += string.IsNullOrWhiteSpace(lSequences[0].Name)
 											? sortOptions.BookInfoNoSequence
-											: makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
+											: StringProcessing.makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
 								}
 								break;
 							case "*SI*": // Номер Серии Книги
@@ -490,7 +491,7 @@ namespace Core.Sorter.Templates {
 								else
 									sFileName += string.IsNullOrWhiteSpace(pubPub.Value)
 										? sortOptions.PublishInfoNoPublisher
-										: pubPub.Value.Trim();
+										: StringProcessing.makeString(pubPub.Value.Trim(), MaxPublisherLenght);
 								break;
 							case "*CITY*": // Город Издательства
 								if ( cCity == null )
@@ -763,14 +764,14 @@ namespace Core.Sorter.Templates {
 							case "[*BT*]": // Название Книги
 								if ( btBookTitle != null ) {
 									if ( !string.IsNullOrWhiteSpace(btBookTitle.Value) )
-										sFileName += makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
+										sFileName += StringProcessing.makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
 								}
 								break;
 							case "[*SN*]": // Серия Книги
 								if ( lSequences != null ) {
 									if ( lSequences[0] != null ) {
 										if ( !string.IsNullOrWhiteSpace(lSequences[0].Name) )
-											sFileName += makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
+											sFileName += StringProcessing.makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
 									}
 								}
 								break;
@@ -817,7 +818,7 @@ namespace Core.Sorter.Templates {
 							case "[*PUB*]": // Издательство
 								if ( pubPub != null ) {
 									if ( !string.IsNullOrWhiteSpace(pubPub.Value) )
-										sFileName += pubPub.Value.Trim();
+										sFileName += StringProcessing.makeString(pubPub.Value.Trim(), MaxPublisherLenght);
 								}
 								break;
 							case "[*CITY*]": // Город Издательства
@@ -877,7 +878,8 @@ namespace Core.Sorter.Templates {
 						                                 lSequences, dBookDate, sYear, pubPub, cCity,
 						                                 lfb2Authors,
 						                                 ref sortOptions, nGenreIndex, nAuthorIndex,
-						                                 MaxBookTitleLenght, MaxSequenceLenght, GenreGroupFromSelectedSort );
+						                                 MaxBookTitleLenght, MaxSequenceLenght, MaxPublisherLenght,
+														 GenreGroupFromSelectedSort);
 						break;
 						default :
 							// постоянные символы
@@ -903,7 +905,7 @@ namespace Core.Sorter.Templates {
 			
 			string Ret = StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode);
 			// Добавить к создаваемому файлу суффикс из {Переводчик}[Издательство](FB2 Автор)
-			string Sufix = FilesWorker.GetTranslatorPublisherFB2AuthorExt(fb2);
+			string Sufix = FilesWorker.GetTranslatorPublisherFB2AuthorExt(fb2, MaxPublisherLenght);
 			Sufix = StrictMode ? StringProcessing.StrictPath(Sufix) : StringProcessing.OnlyCorrectSymbolsForPath(Sufix);
 			return !string.IsNullOrEmpty(Sufix) ? (Ret + Sufix) : Ret;
 		}
@@ -1114,11 +1116,6 @@ namespace Core.Sorter.Templates {
 			}
 		}
 		
-		// ограничение размера строки Source до размера Len (для предотвращения длинных имен)
-		private string makeString( string Source, int Len ) {
-			return Source.Length <= Len ? Source : Source.Substring( 0, Len - 1 );
-		}
-		
 		// парсинг сложных условных групп
 		// GenreGroupFromSelectedSort = null или Empty для Полной Сортировки (Группа берется исходя из fb2 жанра). Для Избранной - Группа Жанров = GenreGroupFromSelectedSort
 		private string AnalyzeComplexGroup( string sLine, string sLang, IList<Genre> lGenres, IList<Author> lAuthors,
@@ -1126,7 +1123,8 @@ namespace Core.Sorter.Templates {
 		                                   string sYear, Publisher pubPub, City cCity,
 		                                   IList<Author> lfb2Authors,
 		                                   ref SortingOptions sortOptions, int nGenreIndex, int nAuthorIndex,
-		                                   int MaxBookTitleLenght, int MaxSequenceLenght, string GenreGroupFromSelectedSort ) {
+		                                   int MaxBookTitleLenght, int MaxSequenceLenght, int MaxPublisherLenght,
+										   string GenreGroupFromSelectedSort ) {
 			string sFileName = string.Empty;
 			List<Lexems.TPComplex> lCLexems = GemComplexLexems( sLine );
 			foreach ( Lexems.TPComplex lexem in lCLexems ) {
@@ -1409,7 +1407,7 @@ namespace Core.Sorter.Templates {
 									lexem.Lexem = string.Empty;
 								} else {
 									lexem.Lexem = string.IsNullOrWhiteSpace(btBookTitle.Value)
-										? string.Empty : makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
+										? string.Empty : StringProcessing.makeString( btBookTitle.Value.Trim(), MaxBookTitleLenght );
 								}
 								break;
 							case "*SN*": // Серия Книги
@@ -1420,7 +1418,7 @@ namespace Core.Sorter.Templates {
 										lexem.Lexem = string.Empty;
 									else
 										lexem.Lexem = string.IsNullOrWhiteSpace(lSequences[0].Name)
-											? string.Empty : makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
+											? string.Empty : StringProcessing.makeString( lSequences[0].Name.Trim(), MaxSequenceLenght );
 								}
 								break;
 							case "*SI*": // Номер Серии Книги X
@@ -1484,7 +1482,7 @@ namespace Core.Sorter.Templates {
 									lexem.Lexem = string.Empty;
 								} else {
 									lexem.Lexem = string.IsNullOrWhiteSpace(pubPub.Value)
-										? string.Empty : pubPub.Value.Trim();
+										? string.Empty : StringProcessing.makeString(pubPub.Value.Trim(), MaxPublisherLenght);
 								}
 								break;
 							case "*CITY*": // Город Издательства

@@ -474,7 +474,7 @@ namespace Core.Common
 		}
 
 		// Добавить к создаваемому файлу суффикс из {Переводчик}[Издательство](FB2 Автор)
-		public static string GetTranslatorPublisherFB2AuthorExt(FictionBook fb2) {
+		public static string GetTranslatorPublisherFB2AuthorExt(FictionBook fb2, int MaxPublisherLenght) {
 			string Suffix = string.Empty;
 
 			string TranslatorLastName = null;
@@ -515,7 +515,7 @@ namespace Core.Common
 			if (!string.IsNullOrEmpty(TranslatorLastName)) {
 				Suffix = "{" + TranslatorLastName + "}";
 				if (!string.IsNullOrEmpty(BookPublisher)) {
-					Suffix += "[" + BookPublisher + "]";
+					Suffix += "[" + StringProcessing.makeString(BookPublisher.Trim(), MaxPublisherLenght) + "]";
 					if (!string.IsNullOrEmpty(FB2Autor))
 						Suffix += "(" + FB2Autor + ")";
 				}
