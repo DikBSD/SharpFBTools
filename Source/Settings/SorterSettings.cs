@@ -75,19 +75,19 @@ namespace Settings
 		private readonly static string m_NoLang				= "Без Языка Книги";
 		private readonly static string m_NoFirstName		= "Без Имени";
 		private readonly static string m_NoMiddleName		= "Без Отчества";
-		private readonly static string m_NoLastName			= "Автор Неизвестен";
+		private readonly static string m_NoLastName			= "Без Фамилия";
 		private readonly static string m_NoNickName			= "Без Ника";
 		private readonly static string m_NoBookTitle		= "Без Названия Книги";
 		private readonly static string m_NoSequence			= "Без Серии";
 		private readonly static string m_NoNSequence		= "Без Номера Серии";
-		private readonly static string m_NoDateText			= "Без Даты (Текст)";
-		private readonly static string m_NoDateValue		= "Без Даты (Значение)";
+		private readonly static string m_NoDateText			= "Без Даты (Text)";
+		private readonly static string m_NoDateValue		= "Без Даты (Value)";
 		private readonly static string m_NoYear				= "Без Года издания";
 		private readonly static string m_NoPublisher		= "Без Издательства";
 		private readonly static string m_NoCity				= "Без Города Издания";
 		private readonly static string m_NoFB2FirstName		= "Без Имени fb2-создателя";
 		private readonly static string m_NoFB2MiddleName	= "Без Отчества fb2-создателя";
-		private readonly static string m_NoFB2LastName		= "fb2-создатель неизвестен";
+		private readonly static string m_NoFB2LastName		= "Без Фамилия fb2-создателя";
 		private readonly static string m_NoFB2NickName		= "Без Ника fb2-создателя";
 		#endregion
 		
