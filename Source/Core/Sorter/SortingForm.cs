@@ -1008,7 +1008,7 @@ namespace Core.Sorter
 							_MaxBookTitleLenght, _MaxSequenceLenght, _MaxPublisherLenght, GenreGroup
 						) + ".fb2";
 					createFileTo(FromZip, FromFilePath, ToFilePath, sortOptions);
-				} catch (System.IO.FileLoadException ex) {
+				} catch (Exception ex) {
 					Debug.DebugMessage(
 						FromFilePath, ex, "SortingForm.makeFB2File(): Создание файла по новому пути."
 					);
@@ -1059,7 +1059,7 @@ namespace Core.Sorter
 						++m_sv.CreateInTarget;
 				}
 
-			} catch (System.IO.PathTooLongException ex) {
+			} catch (Exception ex) {
 				Debug.DebugMessage(
 					FromFilePath, ex, "SortingForm.createFileTo(): Создание нового файла или архива."
 				);
