@@ -1091,9 +1091,8 @@ namespace Core.Sorter
 		// обработка уже существующих файлов в папке
 		private string fileExistWorker(string ToFilePath, SortingOptions sortOptions, bool ToZip)
 		{
-			FileInfo fi = new FileInfo(ToFilePath);
-			if (!fi.Directory.Exists)
-				Directory.CreateDirectory( fi.Directory.ToString() );
+			if (!Directory.Exists(ToFilePath))
+				Directory.CreateDirectory(Directory.GetParent(ToFilePath).ToString() );
 
 			if (File.Exists(ToFilePath)) {
 				if (sortOptions.FileExistMode == 0)
