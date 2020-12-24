@@ -584,7 +584,7 @@ namespace Core.Common
 					}
 				}
 			}
-			MessageBox.Show(sCorrect, sString);
+
 			return sCorrect;
 		}
 		
