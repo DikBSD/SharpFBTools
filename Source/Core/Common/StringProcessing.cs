@@ -476,15 +476,12 @@ namespace Core.Common
 			
 			return s;
 		}
-		
-		// "строгое" значение строки пути к файлу
-		public static string StrictPath(string sPath) {
-			if (string.IsNullOrEmpty(sPath))
-				return sPath;
-			
-			// "строгое" значение Юникодной строки - псевдо-транслитерация
-			string s = TranslateUnicodeString(sPath);
-			
+
+		// замена двойных кавычек
+		public static string ReplaceKav(string sPath)
+        {
+			string s = sPath;
+
 			// замена двойных кавычек " на елочки вокруг русских слов
 			s = Regex.Replace(
 				s, "(?'letter'[а-яА-ЯёЁ]\\b)\"", "${letter}»",
@@ -505,7 +502,27 @@ namespace Core.Common
 				RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 
-			// неразрывный пробел зпменяем на простой
+			// замена двойных кавычек " на две одинарные кавычки ' вокруг слов других языков
+			s = Regex.Replace(
+				s, "\"", "''",
+				RegexOptions.IgnoreCase | RegexOptions.Multiline
+			);
+
+			return s;
+		}
+		
+		// "строгое" значение строки пути к файлу
+		public static string StrictPath(string sPath) {
+			if (string.IsNullOrEmpty(sPath))
+				return sPath;
+			
+			// "строгое" значение Юникодной строки - псевдо-транслитерация
+			string s = TranslateUnicodeString(sPath);
+
+			// замена двойных кавычек
+			s = ReplaceKav(s);
+
+			// неразрывный пробел зменяем на простой
 			s = s.Replace(' ', ' ');
 
 			string sStrict = string.Empty;
@@ -545,9 +562,11 @@ namespace Core.Common
 		
 		// только корректные символы для путей файлов
 		public static string OnlyCorrectSymbolsForPath( string sString ) {
-			string s = sString;
 			if ( string.IsNullOrWhiteSpace( sString ) )
 				return sString;
+
+			// замена двойных кавычек
+			string s = ReplaceKav(sString);
 
 			const string sBad = "*/|?<>\"&:\t\r\n";
 			string sCorrect = string.Empty;
@@ -565,6 +584,7 @@ namespace Core.Common
 					}
 				}
 			}
+			MessageBox.Show(sCorrect, sString);
 			return sCorrect;
 		}
 		
@@ -594,6 +614,7 @@ namespace Core.Common
 			if ( TranslitMode ) {
 				s = TransliterationString( s );
 			}
+			
 			// "строгие" символы
 			return StrictMode ? StrictPath( s ) : OnlyCorrectSymbolsForPath( s );
 		}
