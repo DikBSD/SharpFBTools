@@ -3684,13 +3684,6 @@ namespace SharpFBTools.Tools
 					                                       new XComment("Показывать сообщение о том, что требуется много времени на генерацию метаданных"),
 					                                       new XElement("ViewMessageForLongTime", m_ViewMessageForLongTime),
 					                                       new XElement("MaxFileForProgressIndex", comboBoxMaxFileForProgress.SelectedIndex),
-					                                       new XComment("Максимальная длина имени книги и/или серии"),
-					                                       new XElement("MaxBTLenght", comboBoxMaxBTLenght.SelectedIndex),
-					                                       new XElement("MaxSequenceLenght", comboBoxMaxSequenceLenght.SelectedIndex),
-                                                           new XElement("MaxPublisherLenght", comboBoxMaxPublisherLenght.SelectedIndex),
-                                                           new XElement("SuffixTranslator", checkBoxSuffixTranslator.Checked),
-                                                           new XElement("SuffixPublisher", checkBoxSuffixPublisher.Checked),
-                                                           new XElement("SuffixFB2Author", checkBoxSuffixFB2Author.Checked),
                                                            new XElement("Columns",
 					                                                    new XAttribute("count", listViewFB2Files.Columns.Count))
 					                                      )
@@ -3762,8 +3755,20 @@ namespace SharpFBTools.Tools
 					                                                                 new XAttribute("GenreSchema", rbtnGenreSchema.Checked),
 					                                                                 new XAttribute("GenreText", rbtnGenreText.Checked)
 					                                                                )
-					                                                   )
-					                                      ),
+					                                                   ),
+                                                           new XComment("Максимальная длина названия книги, серии, издателя..."),
+                                                           new XElement("NameMaxLenght",
+                                                                        new XElement("MaxBTLenght", comboBoxMaxBTLenght.SelectedIndex),
+                                                                        new XElement("MaxSequenceLenght", comboBoxMaxSequenceLenght.SelectedIndex),
+                                                                        new XElement("MaxPublisherLenght", comboBoxMaxPublisherLenght.SelectedIndex)
+                                                                       ),
+                                                           new XComment("Суффикс пути к fb2 из данных переводчика издателя, создателя fb2 файла"),
+                                                           new XElement("Suffix",
+                                                                        new XElement("SuffixTranslator", checkBoxSuffixTranslator.Checked),
+                                                                        new XElement("SuffixPublisher", checkBoxSuffixPublisher.Checked),
+                                                                        new XElement("SuffixFB2Author", checkBoxSuffixFB2Author.Checked)
+                                                                       )
+                                                          ),
 					                          new XComment("Папки шаблонного тэга без данных"),
 					                          new XElement("NoTags",
 					                                       new XComment("Описание Книги"),
@@ -4082,22 +4087,6 @@ namespace SharpFBTools.Tools
 						if( xmlOptions.Element("MaxFileForProgressIndex") != null )
 							comboBoxMaxFileForProgress.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxFileForProgressIndex").Value );
 
-                        // Максимальная длина имени книги, серии, издательства
-                        if (xmlOptions.Element("MaxBTLenght") != null)
-							comboBoxMaxBTLenght.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxBTLenght").Value );
-						if (xmlOptions.Element("MaxSequenceLenght") != null )
-							comboBoxMaxSequenceLenght.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxSequenceLenght").Value );
-                        if (xmlOptions.Element("MaxPublisherLenght") != null)
-                            comboBoxMaxPublisherLenght.SelectedIndex = Convert.ToInt16(xmlOptions.Element("MaxPublisherLenght").Value);
-
-                        // Суффикс к генерируемому пути fb2 файла
-                        if (xmlOptions.Element("SuffixTranslator") != null)
-                            checkBoxSuffixTranslator.Checked = Convert.ToBoolean(xmlOptions.Element("SuffixTranslator").Value);
-                        if (xmlOptions.Element("SuffixPublisher") != null)
-                            checkBoxSuffixPublisher.Checked = Convert.ToBoolean(xmlOptions.Element("SuffixPublisher").Value);
-                        if (xmlOptions.Element("SuffixFB2Author") != null)
-                            checkBoxSuffixFB2Author.Checked = Convert.ToBoolean(xmlOptions.Element("SuffixFB2Author").Value);
-
                         // ширина и расположение колонок для Полной Сортировки
                         if (xmlOptions.Element("Columns") != null) {
 							XElement xColumns = xmlOptions.Element("Columns");
@@ -4169,31 +4158,31 @@ namespace SharpFBTools.Tools
 								cboxSpace.SelectedIndex = Convert.ToInt16( xmlGeneral.Element("Space").Attribute("index").Value );
 						}
 						// Одинаковые файлы
-						if( xmlGeneral.Element("FileExistMode") != null ) {
-							if( xmlGeneral.Element("FileExistMode").Attribute("index") != null )
+						if ( xmlGeneral.Element("FileExistMode") != null ) {
+							if ( xmlGeneral.Element("FileExistMode").Attribute("index") != null )
 								cboxFileExist.SelectedIndex = Convert.ToInt16( xmlGeneral.Element("FileExistMode").Attribute("index").Value );
 						}
 						// Сортировка файлов
-						if( xmlGeneral.Element("SortType") != null ) {
+						if ( xmlGeneral.Element("SortType") != null ) {
 							XElement xmlSortType = xmlGeneral.Element("SortType");
-							if( xmlSortType.Attribute("AllFB2") != null )
+							if ( xmlSortType.Attribute("AllFB2") != null )
 								rbtnFMAllFB2.Checked = Convert.ToBoolean( xmlSortType.Attribute("AllFB2").Value );
-							if( xmlSortType.Attribute("OnlyValidFB2") != null )
+							if ( xmlSortType.Attribute("OnlyValidFB2") != null )
 								rbtnFMOnlyValidFB2.Checked = Convert.ToBoolean( xmlSortType.Attribute("OnlyValidFB2").Value );
 						}
 						// Раскладка файлов по папкам
-						if( xmlGeneral.Element("FilesToDirs") != null ) {
+						if ( xmlGeneral.Element("FilesToDirs") != null ) {
 							XElement xmlFilesToDirs = xmlGeneral.Element("FilesToDirs");
 							// По Авторам
-							if( xmlFilesToDirs.Element("AuthorsToDirs") != null ) {
+							if ( xmlFilesToDirs.Element("AuthorsToDirs") != null ) {
 								XElement xmlAuthorsToDirs = xmlFilesToDirs.Element("AuthorsToDirs");
-								if( xmlAuthorsToDirs.Attribute("AuthorOne") != null )
+								if ( xmlAuthorsToDirs.Attribute("AuthorOne") != null )
 									rbtnAuthorOne.Checked = Convert.ToBoolean( xmlAuthorsToDirs.Attribute("AuthorOne").Value );
-								if( xmlAuthorsToDirs.Attribute("AuthorAll") != null )
+								if ( xmlAuthorsToDirs.Attribute("AuthorAll") != null )
 									rbtnAuthorAll.Checked = Convert.ToBoolean( xmlAuthorsToDirs.Attribute("AuthorAll").Value );
 							}
 							// По Жанрам
-							if( xmlFilesToDirs.Element("GenresToDirs") != null ) {
+							if ( xmlFilesToDirs.Element("GenresToDirs") != null ) {
 								XElement xmlGenresToDirs = xmlFilesToDirs.Element("GenresToDirs");
 								if( xmlGenresToDirs.Attribute("GenreOne") != null )
 									rbtnGenreOne.Checked = Convert.ToBoolean( xmlGenresToDirs.Attribute("GenreOne").Value );
@@ -4201,15 +4190,37 @@ namespace SharpFBTools.Tools
 									rbtnGenreAll.Checked = Convert.ToBoolean( xmlGenresToDirs.Attribute("GenreAll").Value );
 							}
 							// Вид папки-Жанра
-							if( xmlFilesToDirs.Element("GenresType") != null ) {
+							if ( xmlFilesToDirs.Element("GenresType") != null ) {
 								XElement xmlGenresType = xmlFilesToDirs.Element("GenresType");
 								if( xmlGenresType.Attribute("GenreSchema") != null )
 									rbtnGenreSchema.Checked = Convert.ToBoolean( xmlGenresType.Attribute("GenreSchema").Value );
 								if( xmlGenresType.Attribute("GenreText") != null )
 									rbtnGenreText.Checked = Convert.ToBoolean( xmlGenresType.Attribute("GenreText").Value );
 							}
-						}
-					}
+
+                            // Максимальная длина имени книги, серии, издательства
+                            if (xmlGeneral.Element("NameMaxLenght") != null) {
+                                XElement xmlMaxLenght = xmlGeneral.Element("NameMaxLenght");
+                                if (xmlMaxLenght.Element("MaxBTLenght") != null)
+                                    comboBoxMaxBTLenght.SelectedIndex = Convert.ToInt16(xmlMaxLenght.Element("MaxBTLenght").Value);
+                                if (xmlMaxLenght.Element("MaxSequenceLenght") != null)
+                                    comboBoxMaxSequenceLenght.SelectedIndex = Convert.ToInt16(xmlMaxLenght.Element("MaxSequenceLenght").Value);
+                                if (xmlMaxLenght.Element("MaxPublisherLenght") != null)
+                                    comboBoxMaxPublisherLenght.SelectedIndex = Convert.ToInt16(xmlMaxLenght.Element("MaxPublisherLenght").Value);
+                            }
+
+                            // Суффикс к генерируемому пути fb2 файла
+                            if (xmlGeneral.Element("Suffix") != null ) {
+                                XElement xmlSuffix = xmlGeneral.Element("Suffix");
+                                if (xmlSuffix.Element("SuffixTranslator") != null)
+                                    checkBoxSuffixTranslator.Checked = Convert.ToBoolean(xmlSuffix.Element("SuffixTranslator").Value);
+                                if (xmlSuffix.Element("SuffixPublisher") != null)
+                                    checkBoxSuffixPublisher.Checked = Convert.ToBoolean(xmlSuffix.Element("SuffixPublisher").Value);
+                                if (xmlSuffix.Element("SuffixFB2Author") != null)
+                                    checkBoxSuffixFB2Author.Checked = Convert.ToBoolean(xmlSuffix.Element("SuffixFB2Author").Value);
+                            }
+                        }
+                    }
 					/* Папки шаблонного тэга без данных */
 					if( xmlCommonOptions.Element("NoTags") != null ) {
 						XElement xmlNoTags = xmlCommonOptions.Element("NoTags");
