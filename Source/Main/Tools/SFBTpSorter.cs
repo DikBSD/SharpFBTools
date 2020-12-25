@@ -3619,9 +3619,9 @@ namespace SharpFBTools.Tools
 			ConnectListsEventHandlers( false );
 			
 			comboBoxMaxFileForProgress.SelectedIndex = 10;
-			comboBoxMaxBTLenght.SelectedIndex = 6;
-			comboBoxMaxSequenceLenght.SelectedIndex = 6;
-            comboBoxMaxPublisherLenght.SelectedIndex = 6;
+			comboBoxMaxBTLenght.SelectedIndex = 6; // 40
+			comboBoxMaxSequenceLenght.SelectedIndex = 6; // 40
+            comboBoxMaxPublisherLenght.SelectedIndex = 6; // 40
 
             /* Настройки Менеджера Файлов по-умолчанию*/
             // основные настройки
@@ -3758,9 +3758,9 @@ namespace SharpFBTools.Tools
 					                                                   ),
                                                            new XComment("Максимальная длина названия книги, серии, издателя..."),
                                                            new XElement("NameMaxLenght",
-                                                                        new XElement("MaxBookTitleLenght", comboBoxMaxBTLenght.SelectedIndex),
-                                                                        new XElement("MaxSequenceLenght", comboBoxMaxSequenceLenght.SelectedIndex),
-                                                                        new XElement("MaxPublisherLenght", comboBoxMaxPublisherLenght.SelectedIndex)
+                                                                        new XElement("MaxBookTitleLenght", comboBoxMaxBTLenght.Text),
+                                                                        new XElement("MaxSequenceLenght", comboBoxMaxSequenceLenght.Text),
+                                                                        new XElement("MaxPublisherLenght", comboBoxMaxPublisherLenght.Text)
                                                                        ),
                                                            new XComment("Суффикс пути к fb2 из данных переводчика издателя, создателя fb2 файла"),
                                                            new XElement("Suffix",
@@ -4202,11 +4202,11 @@ namespace SharpFBTools.Tools
                             if (xmlGeneral.Element("NameMaxLenght") != null) {
                                 XElement xmlMaxLenght = xmlGeneral.Element("NameMaxLenght");
                                 if (xmlMaxLenght.Element("MaxBookTitleLenght") != null)
-                                    comboBoxMaxBTLenght.SelectedIndex = Convert.ToInt16(xmlMaxLenght.Element("MaxBookTitleLenght").Value);
+                                    comboBoxMaxBTLenght.Text = xmlMaxLenght.Element("MaxBookTitleLenght").Value;
                                 if (xmlMaxLenght.Element("MaxSequenceLenght") != null)
-                                    comboBoxMaxSequenceLenght.SelectedIndex = Convert.ToInt16(xmlMaxLenght.Element("MaxSequenceLenght").Value);
+                                    comboBoxMaxSequenceLenght.Text = xmlMaxLenght.Element("MaxSequenceLenght").Value;
                                 if (xmlMaxLenght.Element("MaxPublisherLenght") != null)
-                                    comboBoxMaxPublisherLenght.SelectedIndex = Convert.ToInt16(xmlMaxLenght.Element("MaxPublisherLenght").Value);
+                                    comboBoxMaxPublisherLenght.Text = xmlMaxLenght.Element("MaxPublisherLenght").Value;
                             }
 
                             // Суффикс к генерируемому пути fb2 файла

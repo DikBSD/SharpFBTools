@@ -477,7 +477,7 @@ namespace Core.Common
 		// Добавить к создаваемому файлу суффикс из {Переводчик}[Издательство](FB2 Автор)
 		public static string GetTranslatorPublisherFB2AuthorExt(FictionBook fb2, SortingOptions sortOptions) {
 			string Suffix = string.Empty;
-			string TranslatorLastName = null;
+			string TranslatorName = null;
 			string BookPublisher = null;
 			string FB2Autor = null;
 
@@ -488,7 +488,14 @@ namespace Core.Common
 					if (Translator != null) {
 						if (Translator.LastName != null) {
 							if (Translator.LastName.Value != null)
-								TranslatorLastName = Translator.LastName.Value;
+								TranslatorName = Translator.LastName.Value.Trim();
+						}
+						// если фамилия автора нет, то используем его nickname
+						if (string.IsNullOrEmpty(TranslatorName)) {
+							if (Translator.NickName != null) {
+								if (Translator.NickName.Value != null)
+									TranslatorName = Translator.NickName.Value.Trim();
+							}
 						}
 					}
 				}
@@ -497,7 +504,8 @@ namespace Core.Common
 			if (sortOptions.IsNeedSuffixPublisher) {
 				Publisher PIBookPublisher = fb2.PIPublisher;
 				if (PIBookPublisher != null)
-					BookPublisher = PIBookPublisher.Value;
+					if (PIBookPublisher.Value != null)
+						BookPublisher = PIBookPublisher.Value.Trim();
 			}
 
 			if (sortOptions.IsNeedSuffixFB2Author) {
@@ -505,26 +513,30 @@ namespace Core.Common
 				if (FB2AutorList != null && FB2AutorList.Count > 0) {
 					Author DIFB2Autor = FB2AutorList[0];
 					if (DIFB2Autor != null) {
-						if (DIFB2Autor.LastName != null)
-							FB2Autor = DIFB2Autor.LastName.Value;
+						if (DIFB2Autor.LastName != null) {
+							if (DIFB2Autor.LastName.Value != null)
+								FB2Autor = DIFB2Autor.LastName.Value.Trim();
+						}
+						// если фамилия fb2 автора нет, то используем его nickname
 						if (string.IsNullOrEmpty(FB2Autor)) {
-							// если фамилия fb2 автора нет, то используем его nickname
-							if (DIFB2Autor.NickName != null)
-								FB2Autor = DIFB2Autor.NickName.Value;
+							if (DIFB2Autor.NickName != null) {
+								if (DIFB2Autor.NickName.Value != null)
+									FB2Autor = DIFB2Autor.NickName.Value.Trim();
+                            }
 						}
 					}
 				}
 			}
 
 			// генерация суффикса
-			if (!string.IsNullOrEmpty(TranslatorLastName)) {
-				Suffix = "{" + TranslatorLastName + "}";
-				if (!string.IsNullOrEmpty(BookPublisher)) {
-					Suffix += "[" + StringProcessing.makeString(BookPublisher.Trim(), sortOptions.MaxPublisherLenght) + "]";
-					if (!string.IsNullOrEmpty(FB2Autor))
-						Suffix += "(" + FB2Autor + ")";
-				}
-			}
+			if (!string.IsNullOrEmpty(TranslatorName))
+				Suffix = "{" + TranslatorName + "}";
+
+			if (!string.IsNullOrEmpty(BookPublisher))
+				Suffix += "[" + StringProcessing.makeString(BookPublisher.Trim(), Convert.ToInt16(sortOptions.MaxPublisherLenght)) + "]";
+
+			if (!string.IsNullOrEmpty(FB2Autor))
+				Suffix += "(" + FB2Autor + ")";
 
 			return Suffix;
         }

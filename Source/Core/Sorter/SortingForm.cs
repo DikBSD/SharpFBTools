@@ -206,9 +206,6 @@ namespace Core.Sorter
 		private readonly EndWorkMode 		m_EndMode		= new EndWorkMode();
 		
 		private readonly string m_TempDir	= Settings.Settings.TempDirPath;
-		//private static int _MaxBookTitleLenght = 40; // Максимальная длина названия книги
-		//private static int _MaxSequenceLenght = 40;	 // Максимальная длина названия серии
-		//private static int _MaxPublisherLenght = 40; // Максимальная длина названия издательства
 		private bool m_StopToSave			= false; // true, если остановка с сохранением необработанного списка книг в файл.
 		private readonly DateTime m_dtStart = DateTime.Now;
 		#endregion
@@ -220,10 +217,6 @@ namespace Core.Sorter
 
 			m_sortOptions	= sortOptions;
 			m_lSSQCList		= m_sortOptions.getCriterias();
-
-			//_MaxBookTitleLenght = m_sortOptions.MaxBookTitleLenght;
-			//_MaxSequenceLenght = m_sortOptions.MaxSequenceLenght;
-			//_MaxPublisherLenght = m_sortOptions.MaxPublisherLenght;
 
 			m_sMessTitle = m_sortOptions.IsFullSort ? "SharpFBTools - Полная Сортировка" : "SharpFBTools - Избранная Сортировка";
 			

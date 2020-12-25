@@ -83,10 +83,10 @@ namespace Core.Sorter
 		private bool m_GenresTypeGenreText		= true;
 		#endregion
 
-		#region Максимальная длина названия книги, серии, издателя...
-		private Int16 m_MaxBookTitleLenght = 6;
-		private Int16 m_MaxSequenceLenght = 6;
-		private Int16 m_MaxPublisherLenght = 6;
+		#region Максимальная длина названия книги, серии, издателя
+		private Int16 m_MaxBookTitleLenght = 40;
+		private Int16 m_MaxSequenceLenght = 40;
+		private Int16 m_MaxPublisherLenght = 40;
 		#endregion
 
 		#region Суффикс пути к fb2 из данных переводчика, издателя, создателя fb2 файла

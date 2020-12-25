@@ -411,7 +411,7 @@ namespace Core.Sorter.Templates {
 								} else {
 									sFileName += string.IsNullOrWhiteSpace(btBookTitle.Value)
 										? sortOptions.BookInfoNoBookTitle
-										: StringProcessing.makeString( btBookTitle.Value.Trim(), sortOptions.MaxBookTitleLenght);
+										: StringProcessing.makeString( btBookTitle.Value.Trim(), Convert.ToInt16(sortOptions.MaxBookTitleLenght));
 								}
 								break;
 							case "*SN*": // Серия Книги
@@ -423,7 +423,7 @@ namespace Core.Sorter.Templates {
 									else
 										sFileName += string.IsNullOrWhiteSpace(lSequences[0].Name)
 											? sortOptions.BookInfoNoSequence
-											: StringProcessing.makeString( lSequences[0].Name.Trim(), sortOptions.MaxSequenceLenght );
+											: StringProcessing.makeString(lSequences[0].Name.Trim(), Convert.ToInt16(sortOptions.MaxSequenceLenght));
 								}
 								break;
 							case "*SI*": // Номер Серии Книги
@@ -489,7 +489,7 @@ namespace Core.Sorter.Templates {
 								else
 									sFileName += string.IsNullOrWhiteSpace(pubPub.Value)
 										? sortOptions.PublishInfoNoPublisher
-										: StringProcessing.makeString(pubPub.Value.Trim(), sortOptions.MaxPublisherLenght);
+										: StringProcessing.makeString(pubPub.Value.Trim(), Convert.ToInt16(sortOptions.MaxPublisherLenght));
 								break;
 							case "*CITY*": // Город Издательства
 								if ( cCity == null )
@@ -762,14 +762,14 @@ namespace Core.Sorter.Templates {
 							case "[*BT*]": // Название Книги
 								if ( btBookTitle != null ) {
 									if ( !string.IsNullOrWhiteSpace(btBookTitle.Value) )
-										sFileName += StringProcessing.makeString( btBookTitle.Value.Trim(), sortOptions.MaxBookTitleLenght );
+										sFileName += StringProcessing.makeString(btBookTitle.Value.Trim(), Convert.ToInt16(sortOptions.MaxBookTitleLenght));
 								}
 								break;
 							case "[*SN*]": // Серия Книги
 								if ( lSequences != null ) {
 									if ( lSequences[0] != null ) {
 										if ( !string.IsNullOrWhiteSpace(lSequences[0].Name) )
-											sFileName += StringProcessing.makeString( lSequences[0].Name.Trim(), sortOptions.MaxSequenceLenght );
+											sFileName += StringProcessing.makeString(lSequences[0].Name.Trim(), Convert.ToInt16(sortOptions.MaxSequenceLenght));
 									}
 								}
 								break;
@@ -816,7 +816,7 @@ namespace Core.Sorter.Templates {
 							case "[*PUB*]": // Издательство
 								if ( pubPub != null ) {
 									if ( !string.IsNullOrWhiteSpace(pubPub.Value) )
-										sFileName += StringProcessing.makeString(pubPub.Value.Trim(), sortOptions.MaxPublisherLenght);
+										sFileName += StringProcessing.makeString(pubPub.Value.Trim(), Convert.ToInt16(sortOptions.MaxPublisherLenght));
 								}
 								break;
 							case "[*CITY*]": // Город Издательства
@@ -1403,7 +1403,7 @@ namespace Core.Sorter.Templates {
 									lexem.Lexem = string.Empty;
 								} else {
 									lexem.Lexem = string.IsNullOrWhiteSpace(btBookTitle.Value)
-										? string.Empty : StringProcessing.makeString( btBookTitle.Value.Trim(), sortOptions.MaxBookTitleLenght );
+										? string.Empty : StringProcessing.makeString(btBookTitle.Value.Trim(), Convert.ToInt16(sortOptions.MaxBookTitleLenght));
 								}
 								break;
 							case "*SN*": // Серия Книги
@@ -1414,7 +1414,7 @@ namespace Core.Sorter.Templates {
 										lexem.Lexem = string.Empty;
 									else
 										lexem.Lexem = string.IsNullOrWhiteSpace(lSequences[0].Name)
-											? string.Empty : StringProcessing.makeString( lSequences[0].Name.Trim(), sortOptions.MaxSequenceLenght );
+											? string.Empty : StringProcessing.makeString(lSequences[0].Name.Trim(), Convert.ToInt16(sortOptions.MaxSequenceLenght));
 								}
 								break;
 							case "*SI*": // Номер Серии Книги X
@@ -1478,7 +1478,7 @@ namespace Core.Sorter.Templates {
 									lexem.Lexem = string.Empty;
 								} else {
 									lexem.Lexem = string.IsNullOrWhiteSpace(pubPub.Value)
-										? string.Empty : StringProcessing.makeString(pubPub.Value.Trim(), sortOptions.MaxPublisherLenght);
+										? string.Empty : StringProcessing.makeString(pubPub.Value.Trim(), Convert.ToInt16(sortOptions.MaxPublisherLenght));
 								}
 								break;
 							case "*CITY*": // Город Издательства

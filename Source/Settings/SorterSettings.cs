@@ -64,9 +64,9 @@ namespace Settings
 		private readonly static bool m_OnlyValidFB2	= false;
 
 		// Максимальная длина названия книги, серии, издателя
-		private readonly static Int16 m_MaxBookTitleLenght = 6;
-		private readonly static Int16 m_MaxSequenceLenght = 6;
-		private readonly static Int16 m_MaxPublisherLenght = 6;
+		private readonly static Int16 m_MaxBookTitleLenght = 40;
+		private readonly static Int16 m_MaxSequenceLenght = 40;
+		private readonly static Int16 m_MaxPublisherLenght = 40;
 
 		// Суффикс пути к fb2 из данных переводчика, издателя, создателя fb2 файла
 		private readonly static bool m_IsNeedSuffixTranslator = true;
