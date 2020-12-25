@@ -312,7 +312,7 @@ namespace Core.Sorter
 			get { return m_MaxSequenceLenght; }
 			set { m_MaxSequenceLenght = value; }
 		}
-		public virtual Int16 axPublisherLenght {
+		public virtual Int16 MaxPublisherLenght {
 			get { return m_MaxPublisherLenght; }
 			set { m_MaxPublisherLenght = value; }
 		}

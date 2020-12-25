@@ -206,25 +206,25 @@ namespace Core.Sorter
 		private readonly EndWorkMode 		m_EndMode		= new EndWorkMode();
 		
 		private readonly string m_TempDir	= Settings.Settings.TempDirPath;
-		private static int _MaxBookTitleLenght = 40; // Максимальная длина названия книги
-		private static int _MaxSequenceLenght = 40;	 // Максимальная длина названия серии
-		private static int _MaxPublisherLenght = 40; // Максимальная длина названия издательства
+		//private static int _MaxBookTitleLenght = 40; // Максимальная длина названия книги
+		//private static int _MaxSequenceLenght = 40;	 // Максимальная длина названия серии
+		//private static int _MaxPublisherLenght = 40; // Максимальная длина названия издательства
 		private bool m_StopToSave			= false; // true, если остановка с сохранением необработанного списка книг в файл.
 		private readonly DateTime m_dtStart = DateTime.Now;
 		#endregion
 		
-		private void init(SortingOptions sortOptions, int MaxBTLenght, int MaxSequenceLenght, int MaxPublisherLenght) {
+		private void init(SortingOptions sortOptions) {
 			InitializeComponent();
 			initializeBackgroundWorker();
 			initializeRenewBackgroundWorker();
-			
-			_MaxBookTitleLenght = MaxBTLenght;
-			_MaxSequenceLenght = MaxSequenceLenght;
-			_MaxPublisherLenght = MaxPublisherLenght;
 
 			m_sortOptions	= sortOptions;
 			m_lSSQCList		= m_sortOptions.getCriterias();
-			
+
+			//_MaxBookTitleLenght = m_sortOptions.MaxBookTitleLenght;
+			//_MaxSequenceLenght = m_sortOptions.MaxSequenceLenght;
+			//_MaxPublisherLenght = m_sortOptions.MaxPublisherLenght;
+
 			m_sMessTitle = m_sortOptions.IsFullSort ? "SharpFBTools - Полная Сортировка" : "SharpFBTools - Избранная Сортировка";
 			
 			// Запуск процесса DoWork от RunWorker
@@ -239,22 +239,16 @@ namespace Core.Sorter
 		}
 		
 		// Полная сортировка: Беспрерывная и Возобновление
-		public SortingForm(
-			SortingOptions sortOptions, ListView listViewFB2Files,
-			int MaxBTLenght, int MaxSequenceLenght, int MaxPublisherLenght
-		)
+		public SortingForm(SortingOptions sortOptions, ListView listViewFB2Files)
 		{
 			m_listViewFB2Files = listViewFB2Files;
-			init(sortOptions, MaxBTLenght, MaxSequenceLenght, MaxPublisherLenght);
+			init(sortOptions);
 		}
 		
 		// Избранная сортировка: Беспрерывная и Возобновление
-		public SortingForm(
-			SortingOptions sortOptions,
-			int MaxBTLenght, int MaxSequenceLenght, int MaxPublisherLenght
-		)
+		public SortingForm(SortingOptions sortOptions)
 		{
-			init(sortOptions, MaxBTLenght, MaxSequenceLenght, MaxPublisherLenght);
+			init(sortOptions);
 		}
 		
 		// =============================================================================================
@@ -1004,8 +998,7 @@ namespace Core.Sorter
 							FromFilePath, lSLexems, nGenreIndex, AuthorIndex,
 							sortOptions.getRegisterMode(), sortOptions.Space,
 							sortOptions.Strict, sortOptions.Translit,
-							ref sortOptions, ref _lCounter,
-							_MaxBookTitleLenght, _MaxSequenceLenght, _MaxPublisherLenght, GenreGroup
+							ref sortOptions, ref _lCounter, GenreGroup
 						) + ".fb2";
 					createFileTo(FromZip, FromFilePath, ToFilePath, sortOptions);
 				} catch (Exception ex) {

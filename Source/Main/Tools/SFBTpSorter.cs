@@ -4903,12 +4903,7 @@ namespace SharpFBTools.Tools
 				if ( File.Exists( Debug.LogFilePath ) )
 					File.Delete( Debug.LogFilePath );
 
-            SortingForm sortingForm = new SortingForm(
-                m_sortOptions, listViewFB2Files,
-                Convert.ToInt16(comboBoxMaxBTLenght.Text),
-                Convert.ToInt16(comboBoxMaxSequenceLenght.Text),
-                Convert.ToInt16(comboBoxMaxPublisherLenght.Text)
-            );
+            SortingForm sortingForm = new SortingForm(m_sortOptions, listViewFB2Files);
 			sortingForm.ShowDialog();
 			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			StatusView Status = sortingForm.Status;
@@ -4952,12 +4947,7 @@ namespace SharpFBTools.Tools
 			chBoxScanSubDir.Checked = m_sortOptions.ScanSubDirs;
 			chBoxFSToZip.Checked = m_sortOptions.ToZip;
 			chBoxFSNotDelFB2Files.Checked = m_sortOptions.NotDelOriginalFiles;
-			SortingForm sortingForm = new SortingForm(
-				m_sortOptions, listViewFB2Files,
-				Convert.ToInt16(comboBoxMaxBTLenght.Text),
-                Convert.ToInt16(comboBoxMaxSequenceLenght.Text),
-                Convert.ToInt16(comboBoxMaxPublisherLenght.Text)
-            );
+			SortingForm sortingForm = new SortingForm(m_sortOptions, listViewFB2Files);
 			sortingForm.ShowDialog();
 			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			StatusView Status = sortingForm.Status;
@@ -5207,12 +5197,7 @@ namespace SharpFBTools.Tools
 				if ( File.Exists( Debug.LogFilePath ) )
 					File.Delete( Debug.LogFilePath );
 			
-			SortingForm sortingForm = new SortingForm(
-				m_sortOptions,
-				Convert.ToInt16(comboBoxMaxBTLenght.Text),
-				Convert.ToInt16(comboBoxMaxSequenceLenght.Text),
-                Convert.ToInt16(comboBoxMaxPublisherLenght.Text)
-            );
+			SortingForm sortingForm = new SortingForm(m_sortOptions);
 			sortingForm.ShowDialog();
 			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			StatusView Status = sortingForm.Status;
@@ -5276,12 +5261,7 @@ namespace SharpFBTools.Tools
 				lvSSData.Items.Add( lvi );
 			}
 
-			SortingForm sortingForm = new SortingForm(
-				m_sortOptions,
-				Convert.ToInt16(comboBoxMaxBTLenght.Text),
-                Convert.ToInt16(comboBoxMaxSequenceLenght.Text),
-                Convert.ToInt16(comboBoxMaxPublisherLenght.Text)
-            );
+			SortingForm sortingForm = new SortingForm(m_sortOptions);
 			sortingForm.ShowDialog();
 			EndWorkMode EndWorkMode = sortingForm.EndMode;
 			StatusView Status = sortingForm.Status;
