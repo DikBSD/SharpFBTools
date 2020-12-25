@@ -203,6 +203,11 @@ namespace SharpFBTools.Tools
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tcFM = new System.Windows.Forms.TabControl();
             this.tpFMGeneral = new System.Windows.Forms.TabPage();
+            this.panelOptions = new System.Windows.Forms.Panel();
+            this.groupBoxSuffix = new System.Windows.Forms.GroupBox();
+            this.checkBoxSuffixFB2Author = new System.Windows.Forms.CheckBox();
+            this.checkBoxSuffixPublisher = new System.Windows.Forms.CheckBox();
+            this.checkBoxSuffixTranslator = new System.Windows.Forms.CheckBox();
             this.gBoxOptions = new System.Windows.Forms.GroupBox();
             this.comboBoxMaxPublisherLenght = new System.Windows.Forms.ComboBox();
             this.lblMaxPublisherLenght = new System.Windows.Forms.Label();
@@ -309,11 +314,6 @@ namespace SharpFBTools.Tools
             this.sfdSaveXMLFile = new System.Windows.Forms.SaveFileDialog();
             this.sfdOpenXMLFile = new System.Windows.Forms.OpenFileDialog();
             this.sfdLoadList = new System.Windows.Forms.OpenFileDialog();
-            this.panelOptions = new System.Windows.Forms.Panel();
-            this.groupBoxSuffix = new System.Windows.Forms.GroupBox();
-            this.checkBoxSuffixTranslator = new System.Windows.Forms.CheckBox();
-            this.checkBoxSuffixPublisher = new System.Windows.Forms.CheckBox();
-            this.checkBoxSuffixFB2Author = new System.Windows.Forms.CheckBox();
             this.tcSort.SuspendLayout();
             this.tpFullSort.SuspendLayout();
             this.cmsItems.SuspendLayout();
@@ -333,6 +333,8 @@ namespace SharpFBTools.Tools
             this.tpSettings.SuspendLayout();
             this.tcFM.SuspendLayout();
             this.tpFMGeneral.SuspendLayout();
+            this.panelOptions.SuspendLayout();
+            this.groupBoxSuffix.SuspendLayout();
             this.gBoxOptions.SuspendLayout();
             this.gboxApportionment.SuspendLayout();
             this.gBoxGenres.SuspendLayout();
@@ -372,8 +374,6 @@ namespace SharpFBTools.Tools
             this.panel36.SuspendLayout();
             this.panel37.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panelOptions.SuspendLayout();
-            this.groupBoxSuffix.SuspendLayout();
             this.SuspendLayout();
             // 
             // ssProgress
@@ -1823,6 +1823,81 @@ namespace SharpFBTools.Tools
             this.tpFMGeneral.Text = " Основные ";
             this.tpFMGeneral.UseVisualStyleBackColor = true;
             // 
+            // panelOptions
+            // 
+            this.panelOptions.Controls.Add(this.groupBoxSuffix);
+            this.panelOptions.Controls.Add(this.gBoxOptions);
+            this.panelOptions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelOptions.Location = new System.Drawing.Point(4, 409);
+            this.panelOptions.Name = "panelOptions";
+            this.panelOptions.Padding = new System.Windows.Forms.Padding(3);
+            this.panelOptions.Size = new System.Drawing.Size(1643, 140);
+            this.panelOptions.TabIndex = 33;
+            // 
+            // groupBoxSuffix
+            // 
+            this.groupBoxSuffix.Controls.Add(this.checkBoxSuffixFB2Author);
+            this.groupBoxSuffix.Controls.Add(this.checkBoxSuffixPublisher);
+            this.groupBoxSuffix.Controls.Add(this.checkBoxSuffixTranslator);
+            this.groupBoxSuffix.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBoxSuffix.ForeColor = System.Drawing.Color.Maroon;
+            this.groupBoxSuffix.Location = new System.Drawing.Point(657, 3);
+            this.groupBoxSuffix.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBoxSuffix.Name = "groupBoxSuffix";
+            this.groupBoxSuffix.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBoxSuffix.Size = new System.Drawing.Size(982, 134);
+            this.groupBoxSuffix.TabIndex = 32;
+            this.groupBoxSuffix.TabStop = false;
+            this.groupBoxSuffix.Text = " Суффикс к названию пути fb2 файла ";
+            // 
+            // checkBoxSuffixFB2Author
+            // 
+            this.checkBoxSuffixFB2Author.Checked = true;
+            this.checkBoxSuffixFB2Author.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSuffixFB2Author.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxSuffixFB2Author.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.checkBoxSuffixFB2Author.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxSuffixFB2Author.Location = new System.Drawing.Point(3, 63);
+            this.checkBoxSuffixFB2Author.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxSuffixFB2Author.Name = "checkBoxSuffixFB2Author";
+            this.checkBoxSuffixFB2Author.Size = new System.Drawing.Size(976, 22);
+            this.checkBoxSuffixFB2Author.TabIndex = 15;
+            this.checkBoxSuffixFB2Author.Text = "Создатель fb2 файла";
+            this.checkBoxSuffixFB2Author.UseVisualStyleBackColor = true;
+            this.checkBoxSuffixFB2Author.Click += new System.EventHandler(this.checkBoxSuffixFB2Author_Click);
+            // 
+            // checkBoxSuffixPublisher
+            // 
+            this.checkBoxSuffixPublisher.Checked = true;
+            this.checkBoxSuffixPublisher.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSuffixPublisher.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxSuffixPublisher.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.checkBoxSuffixPublisher.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxSuffixPublisher.Location = new System.Drawing.Point(3, 41);
+            this.checkBoxSuffixPublisher.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxSuffixPublisher.Name = "checkBoxSuffixPublisher";
+            this.checkBoxSuffixPublisher.Size = new System.Drawing.Size(976, 22);
+            this.checkBoxSuffixPublisher.TabIndex = 14;
+            this.checkBoxSuffixPublisher.Text = "Издательство";
+            this.checkBoxSuffixPublisher.UseVisualStyleBackColor = true;
+            this.checkBoxSuffixPublisher.Click += new System.EventHandler(this.checkBoxSuffixPublisher_Click);
+            // 
+            // checkBoxSuffixTranslator
+            // 
+            this.checkBoxSuffixTranslator.Checked = true;
+            this.checkBoxSuffixTranslator.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSuffixTranslator.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxSuffixTranslator.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.checkBoxSuffixTranslator.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxSuffixTranslator.Location = new System.Drawing.Point(3, 19);
+            this.checkBoxSuffixTranslator.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxSuffixTranslator.Name = "checkBoxSuffixTranslator";
+            this.checkBoxSuffixTranslator.Size = new System.Drawing.Size(976, 22);
+            this.checkBoxSuffixTranslator.TabIndex = 13;
+            this.checkBoxSuffixTranslator.Text = "Переводчик";
+            this.checkBoxSuffixTranslator.UseVisualStyleBackColor = true;
+            this.checkBoxSuffixTranslator.Click += new System.EventHandler(this.checkBoxSuffixTranslator_Click);
+            // 
             // gBoxOptions
             // 
             this.gBoxOptions.Controls.Add(this.comboBoxMaxPublisherLenght);
@@ -1840,7 +1915,7 @@ namespace SharpFBTools.Tools
             this.gBoxOptions.Size = new System.Drawing.Size(654, 134);
             this.gBoxOptions.TabIndex = 31;
             this.gBoxOptions.TabStop = false;
-            this.gBoxOptions.Text = " Опции ";
+            this.gBoxOptions.Text = " Максимальная длина названий ";
             // 
             // comboBoxMaxPublisherLenght
             // 
@@ -3180,81 +3255,6 @@ namespace SharpFBTools.Tools
             this.sfdLoadList.RestoreDirectory = true;
             this.sfdLoadList.Title = "Загрузка Списка Сортировщика книг";
             // 
-            // panelOptions
-            // 
-            this.panelOptions.Controls.Add(this.groupBoxSuffix);
-            this.panelOptions.Controls.Add(this.gBoxOptions);
-            this.panelOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelOptions.Location = new System.Drawing.Point(4, 409);
-            this.panelOptions.Name = "panelOptions";
-            this.panelOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.panelOptions.Size = new System.Drawing.Size(1643, 140);
-            this.panelOptions.TabIndex = 33;
-            // 
-            // groupBoxSuffix
-            // 
-            this.groupBoxSuffix.Controls.Add(this.checkBoxSuffixFB2Author);
-            this.groupBoxSuffix.Controls.Add(this.checkBoxSuffixPublisher);
-            this.groupBoxSuffix.Controls.Add(this.checkBoxSuffixTranslator);
-            this.groupBoxSuffix.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBoxSuffix.ForeColor = System.Drawing.Color.Maroon;
-            this.groupBoxSuffix.Location = new System.Drawing.Point(657, 3);
-            this.groupBoxSuffix.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBoxSuffix.Name = "groupBoxSuffix";
-            this.groupBoxSuffix.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBoxSuffix.Size = new System.Drawing.Size(982, 134);
-            this.groupBoxSuffix.TabIndex = 32;
-            this.groupBoxSuffix.TabStop = false;
-            this.groupBoxSuffix.Text = " Суффикс к названию пути fb2 файла ";
-            // 
-            // checkBoxSuffixTranslator
-            // 
-            this.checkBoxSuffixTranslator.Checked = true;
-            this.checkBoxSuffixTranslator.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSuffixTranslator.Dock = System.Windows.Forms.DockStyle.Top;
-            this.checkBoxSuffixTranslator.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.checkBoxSuffixTranslator.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSuffixTranslator.Location = new System.Drawing.Point(3, 19);
-            this.checkBoxSuffixTranslator.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxSuffixTranslator.Name = "checkBoxSuffixTranslator";
-            this.checkBoxSuffixTranslator.Size = new System.Drawing.Size(976, 22);
-            this.checkBoxSuffixTranslator.TabIndex = 13;
-            this.checkBoxSuffixTranslator.Text = "Переводчик";
-            this.checkBoxSuffixTranslator.UseVisualStyleBackColor = true;
-            this.checkBoxSuffixTranslator.Click += new System.EventHandler(this.checkBoxSuffixTranslator_Click);
-            // 
-            // checkBoxSuffixPublisher
-            // 
-            this.checkBoxSuffixPublisher.Checked = true;
-            this.checkBoxSuffixPublisher.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSuffixPublisher.Dock = System.Windows.Forms.DockStyle.Top;
-            this.checkBoxSuffixPublisher.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.checkBoxSuffixPublisher.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSuffixPublisher.Location = new System.Drawing.Point(3, 41);
-            this.checkBoxSuffixPublisher.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxSuffixPublisher.Name = "checkBoxSuffixPublisher";
-            this.checkBoxSuffixPublisher.Size = new System.Drawing.Size(976, 22);
-            this.checkBoxSuffixPublisher.TabIndex = 14;
-            this.checkBoxSuffixPublisher.Text = "Издательство";
-            this.checkBoxSuffixPublisher.UseVisualStyleBackColor = true;
-            this.checkBoxSuffixPublisher.Click += new System.EventHandler(this.checkBoxSuffixPublisher_Click);
-            // 
-            // checkBoxSuffixFB2Author
-            // 
-            this.checkBoxSuffixFB2Author.Checked = true;
-            this.checkBoxSuffixFB2Author.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSuffixFB2Author.Dock = System.Windows.Forms.DockStyle.Top;
-            this.checkBoxSuffixFB2Author.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.checkBoxSuffixFB2Author.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSuffixFB2Author.Location = new System.Drawing.Point(3, 63);
-            this.checkBoxSuffixFB2Author.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxSuffixFB2Author.Name = "checkBoxSuffixFB2Author";
-            this.checkBoxSuffixFB2Author.Size = new System.Drawing.Size(976, 22);
-            this.checkBoxSuffixFB2Author.TabIndex = 15;
-            this.checkBoxSuffixFB2Author.Text = "Создатель fb2 файла";
-            this.checkBoxSuffixFB2Author.UseVisualStyleBackColor = true;
-            this.checkBoxSuffixFB2Author.Click += new System.EventHandler(this.checkBoxSuffixFB2Author_Click);
-            // 
             // SFBTpFB2Sorter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3287,6 +3287,8 @@ namespace SharpFBTools.Tools
             this.tpSettings.ResumeLayout(false);
             this.tcFM.ResumeLayout(false);
             this.tpFMGeneral.ResumeLayout(false);
+            this.panelOptions.ResumeLayout(false);
+            this.groupBoxSuffix.ResumeLayout(false);
             this.gBoxOptions.ResumeLayout(false);
             this.gboxApportionment.ResumeLayout(false);
             this.gBoxGenres.ResumeLayout(false);
@@ -3347,8 +3349,6 @@ namespace SharpFBTools.Tools
             this.panel37.ResumeLayout(false);
             this.panel37.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panelOptions.ResumeLayout(false);
-            this.groupBoxSuffix.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

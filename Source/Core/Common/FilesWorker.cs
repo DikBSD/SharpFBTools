@@ -476,6 +476,9 @@ namespace Core.Common
 
 		// Добавить к создаваемому файлу суффикс из {Переводчик}[Издательство](FB2 Автор)
 		public static string GetTranslatorPublisherFB2AuthorExt(FictionBook fb2, SortingOptions sortOptions) {
+			if (!sortOptions.IsNeedSuffixTranslator && !sortOptions.IsNeedSuffixPublisher && !sortOptions.IsNeedSuffixFB2Author)
+				return string.Empty;
+
 			string Suffix = string.Empty;
 			string TranslatorName = null;
 			string BookPublisher = null;
