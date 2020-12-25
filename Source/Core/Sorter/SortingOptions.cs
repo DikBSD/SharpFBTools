@@ -82,7 +82,19 @@ namespace Core.Sorter
 		private bool m_GenresTypeGenreSchema	= false;
 		private bool m_GenresTypeGenreText		= true;
 		#endregion
-		
+
+		#region Максимальная длина названия книги, серии, издателя...
+		private Int16 m_MaxBookTitleLenght = 6;
+		private Int16 m_MaxSequenceLenght = 6;
+		private Int16 m_MaxPublisherLenght = 6;
+		#endregion
+
+		#region Суффикс пути к fb2 из данных переводчика, издателя, создателя fb2 файла
+		private bool m_IsNeedSuffixTranslator = true;
+		private bool m_IsNeedSuffixPublisher = true;
+		private bool m_IsNeedSuffixFB2Author = true;
+		#endregion
+
 		#region Названия папок для шаблонных тэгов, которые не имеют данных
 		#region Описание Книги
 		// названия папки для тэга, у которого нет данных
@@ -290,8 +302,39 @@ namespace Core.Sorter
 			set { m_GenresTypeGenreText = value; }
 		}
 		#endregion
+
+		#region Максимальная длина названия книги, серии, издателя...
+		public virtual Int16 MaxBookTitleLenght {
+			get { return m_MaxBookTitleLenght; }
+			set { m_MaxBookTitleLenght = value; }
+		}
+		public virtual Int16 MaxSequenceLenght {
+			get { return m_MaxSequenceLenght; }
+			set { m_MaxSequenceLenght = value; }
+		}
+		public virtual Int16 axPublisherLenght {
+			get { return m_MaxPublisherLenght; }
+			set { m_MaxPublisherLenght = value; }
+		}
 		#endregion
-		
+
+		#region Суффикс пути к fb2 из данных переводчика, издателя, создателя fb2 файла
+		public virtual bool IsNeedSuffixTranslator {
+			get { return m_IsNeedSuffixTranslator; }
+			set { m_IsNeedSuffixTranslator = value; }
+		}
+		public virtual bool IsNeedSuffixPublisher {
+			get { return m_IsNeedSuffixPublisher; }
+			set { m_IsNeedSuffixPublisher = value; }
+		}
+		public virtual bool IsNeedSuffixFB2Author {
+			get { return m_IsNeedSuffixFB2Author; }
+			set { m_IsNeedSuffixFB2Author = value; }
+		}
+		#endregion
+
+		#endregion
+
 		// =====================================================================================================
 		//										Папки шаблонного тэга без данны
 		// =====================================================================================================
@@ -515,9 +558,21 @@ namespace Core.Sorter
 			m_GenresTypeGenreText		= SorterSettings.ReadGenreText();
 			#endregion
 
+			#region Максимальная длина названия книги, серии, издателя
+			m_MaxBookTitleLenght = SorterSettings.ReadMaxBookTitleLenght();
+			m_MaxSequenceLenght = SorterSettings.ReadMaxSequenceLenght();
+			m_MaxPublisherLenght = SorterSettings.ReadMaxPublisherLenght();
+			#endregion
+
+			#region Суффикс пути к fb2 из данных переводчика, издателя, создателя fb2 файла
+			m_IsNeedSuffixTranslator = SorterSettings.ReadIsNeedSuffixTranslator();
+			m_IsNeedSuffixPublisher = SorterSettings.ReadIsNeedSuffixPublisher();
+			m_IsNeedSuffixFB2Author = SorterSettings.ReadIsNeedSuffixFB2Author();
+			#endregion
+
 			#region Названия папок для шаблонных тэгов, которые не имеют данных
 			// названия папки для тэга, у которого нет данных
-			m_BookInfoNoGenreGroup	= SorterSettings.ReadFMNoGenreGroup();
+			m_BookInfoNoGenreGroup = SorterSettings.ReadFMNoGenreGroup();
 			m_BookInfoNoGenre		= SorterSettings.ReadFMNoGenre();
 			m_BookInfoNoLang		= SorterSettings.ReadFMNoLang();
 			m_BookInfoNoFirstName	= SorterSettings.ReadFMNoFirstName();
@@ -657,6 +712,26 @@ namespace Core.Sorter
 							if ( xmlGenresType.Attribute("GenreText") != null )
 								m_GenresTypeGenreText = Convert.ToBoolean( xmlGenresType.Attribute("GenreText").Value );
 						}
+					}
+					// Максимальная длина названия книги, серии, издателя
+					if (xmlGeneral.Element("NameMaxLenght") != null) {
+						XElement xmlNameMaxLenght = xmlGeneral.Element("NameMaxLenght");
+						if (xmlNameMaxLenght.Element("MaxBookTitleLenght") != null)
+							m_MaxBookTitleLenght = Convert.ToInt16(xmlNameMaxLenght.Element("MaxBookTitleLenght").Value);
+						if (xmlNameMaxLenght.Element("MaxSequenceLenght") != null)
+							m_MaxSequenceLenght = Convert.ToInt16(xmlNameMaxLenght.Element("MaxSequenceLenght").Value);
+						if (xmlNameMaxLenght.Element("MaxPublisherLenght") != null)
+							m_MaxPublisherLenght = Convert.ToInt16(xmlNameMaxLenght.Element("MaxPublisherLenght").Value);
+					}
+					// Суффикс пути к fb2 из данных переводчика, издателя, создателя fb2 файла
+					if (xmlGeneral.Element("Suffix") != null) {
+						XElement xmlSuffix = xmlGeneral.Element("Suffix");
+						if (xmlSuffix.Element("SuffixTranslator") != null)
+							m_IsNeedSuffixTranslator = Convert.ToBoolean(xmlSuffix.Element("SuffixTranslator").Value);
+						if (xmlSuffix.Element("SuffixPublisher") != null)
+							m_IsNeedSuffixPublisher = Convert.ToBoolean(xmlSuffix.Element("SuffixPublisher").Value);
+						if (xmlSuffix.Element("SuffixFB2Author") != null)
+							m_IsNeedSuffixFB2Author = Convert.ToBoolean(xmlSuffix.Element("SuffixFB2Author").Value);
 					}
 				}
 			}

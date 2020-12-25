@@ -3758,7 +3758,7 @@ namespace SharpFBTools.Tools
 					                                                   ),
                                                            new XComment("Максимальная длина названия книги, серии, издателя..."),
                                                            new XElement("NameMaxLenght",
-                                                                        new XElement("MaxBTLenght", comboBoxMaxBTLenght.SelectedIndex),
+                                                                        new XElement("MaxBookTitleLenght", comboBoxMaxBTLenght.SelectedIndex),
                                                                         new XElement("MaxSequenceLenght", comboBoxMaxSequenceLenght.SelectedIndex),
                                                                         new XElement("MaxPublisherLenght", comboBoxMaxPublisherLenght.SelectedIndex)
                                                                        ),
@@ -4201,8 +4201,8 @@ namespace SharpFBTools.Tools
                             // Максимальная длина имени книги, серии, издательства
                             if (xmlGeneral.Element("NameMaxLenght") != null) {
                                 XElement xmlMaxLenght = xmlGeneral.Element("NameMaxLenght");
-                                if (xmlMaxLenght.Element("MaxBTLenght") != null)
-                                    comboBoxMaxBTLenght.SelectedIndex = Convert.ToInt16(xmlMaxLenght.Element("MaxBTLenght").Value);
+                                if (xmlMaxLenght.Element("MaxBookTitleLenght") != null)
+                                    comboBoxMaxBTLenght.SelectedIndex = Convert.ToInt16(xmlMaxLenght.Element("MaxBookTitleLenght").Value);
                                 if (xmlMaxLenght.Element("MaxSequenceLenght") != null)
                                     comboBoxMaxSequenceLenght.SelectedIndex = Convert.ToInt16(xmlMaxLenght.Element("MaxSequenceLenght").Value);
                                 if (xmlMaxLenght.Element("MaxPublisherLenght") != null)
