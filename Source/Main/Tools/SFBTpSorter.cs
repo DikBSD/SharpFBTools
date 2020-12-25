@@ -309,6 +309,11 @@ namespace SharpFBTools.Tools
             this.sfdSaveXMLFile = new System.Windows.Forms.SaveFileDialog();
             this.sfdOpenXMLFile = new System.Windows.Forms.OpenFileDialog();
             this.sfdLoadList = new System.Windows.Forms.OpenFileDialog();
+            this.panelOptions = new System.Windows.Forms.Panel();
+            this.groupBoxSuffix = new System.Windows.Forms.GroupBox();
+            this.checkBoxSuffixTranslator = new System.Windows.Forms.CheckBox();
+            this.checkBoxSuffixPublisher = new System.Windows.Forms.CheckBox();
+            this.checkBoxSuffixFB2Author = new System.Windows.Forms.CheckBox();
             this.tcSort.SuspendLayout();
             this.tpFullSort.SuspendLayout();
             this.cmsItems.SuspendLayout();
@@ -367,6 +372,8 @@ namespace SharpFBTools.Tools
             this.panel36.SuspendLayout();
             this.panel37.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panelOptions.SuspendLayout();
+            this.groupBoxSuffix.SuspendLayout();
             this.SuspendLayout();
             // 
             // ssProgress
@@ -1804,7 +1811,7 @@ namespace SharpFBTools.Tools
             // 
             // tpFMGeneral
             // 
-            this.tpFMGeneral.Controls.Add(this.gBoxOptions);
+            this.tpFMGeneral.Controls.Add(this.panelOptions);
             this.tpFMGeneral.Controls.Add(this.gboxApportionment);
             this.tpFMGeneral.Controls.Add(this.gboxFMGeneral);
             this.tpFMGeneral.Location = new System.Drawing.Point(4, 25);
@@ -1824,13 +1831,13 @@ namespace SharpFBTools.Tools
             this.gBoxOptions.Controls.Add(this.lblMaxSequenceLenght);
             this.gBoxOptions.Controls.Add(this.comboBoxMaxBTLenght);
             this.gBoxOptions.Controls.Add(this.lblMaxBTLenght);
-            this.gBoxOptions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gBoxOptions.Dock = System.Windows.Forms.DockStyle.Left;
             this.gBoxOptions.ForeColor = System.Drawing.Color.Maroon;
-            this.gBoxOptions.Location = new System.Drawing.Point(4, 409);
+            this.gBoxOptions.Location = new System.Drawing.Point(3, 3);
             this.gBoxOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gBoxOptions.Name = "gBoxOptions";
             this.gBoxOptions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gBoxOptions.Size = new System.Drawing.Size(1643, 148);
+            this.gBoxOptions.Size = new System.Drawing.Size(654, 134);
             this.gBoxOptions.TabIndex = 31;
             this.gBoxOptions.TabStop = false;
             this.gBoxOptions.Text = " Опции ";
@@ -3173,6 +3180,81 @@ namespace SharpFBTools.Tools
             this.sfdLoadList.RestoreDirectory = true;
             this.sfdLoadList.Title = "Загрузка Списка Сортировщика книг";
             // 
+            // panelOptions
+            // 
+            this.panelOptions.Controls.Add(this.groupBoxSuffix);
+            this.panelOptions.Controls.Add(this.gBoxOptions);
+            this.panelOptions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelOptions.Location = new System.Drawing.Point(4, 409);
+            this.panelOptions.Name = "panelOptions";
+            this.panelOptions.Padding = new System.Windows.Forms.Padding(3);
+            this.panelOptions.Size = new System.Drawing.Size(1643, 140);
+            this.panelOptions.TabIndex = 33;
+            // 
+            // groupBoxSuffix
+            // 
+            this.groupBoxSuffix.Controls.Add(this.checkBoxSuffixFB2Author);
+            this.groupBoxSuffix.Controls.Add(this.checkBoxSuffixPublisher);
+            this.groupBoxSuffix.Controls.Add(this.checkBoxSuffixTranslator);
+            this.groupBoxSuffix.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBoxSuffix.ForeColor = System.Drawing.Color.Maroon;
+            this.groupBoxSuffix.Location = new System.Drawing.Point(657, 3);
+            this.groupBoxSuffix.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBoxSuffix.Name = "groupBoxSuffix";
+            this.groupBoxSuffix.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBoxSuffix.Size = new System.Drawing.Size(982, 134);
+            this.groupBoxSuffix.TabIndex = 32;
+            this.groupBoxSuffix.TabStop = false;
+            this.groupBoxSuffix.Text = " Суффикс к названию пути fb2 файла ";
+            // 
+            // checkBoxSuffixTranslator
+            // 
+            this.checkBoxSuffixTranslator.Checked = true;
+            this.checkBoxSuffixTranslator.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSuffixTranslator.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxSuffixTranslator.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.checkBoxSuffixTranslator.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxSuffixTranslator.Location = new System.Drawing.Point(3, 19);
+            this.checkBoxSuffixTranslator.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxSuffixTranslator.Name = "checkBoxSuffixTranslator";
+            this.checkBoxSuffixTranslator.Size = new System.Drawing.Size(976, 22);
+            this.checkBoxSuffixTranslator.TabIndex = 13;
+            this.checkBoxSuffixTranslator.Text = "Переводчик";
+            this.checkBoxSuffixTranslator.UseVisualStyleBackColor = true;
+            this.checkBoxSuffixTranslator.Click += new System.EventHandler(this.checkBoxSuffixTranslator_Click);
+            // 
+            // checkBoxSuffixPublisher
+            // 
+            this.checkBoxSuffixPublisher.Checked = true;
+            this.checkBoxSuffixPublisher.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSuffixPublisher.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxSuffixPublisher.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.checkBoxSuffixPublisher.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxSuffixPublisher.Location = new System.Drawing.Point(3, 41);
+            this.checkBoxSuffixPublisher.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxSuffixPublisher.Name = "checkBoxSuffixPublisher";
+            this.checkBoxSuffixPublisher.Size = new System.Drawing.Size(976, 22);
+            this.checkBoxSuffixPublisher.TabIndex = 14;
+            this.checkBoxSuffixPublisher.Text = "Издательство";
+            this.checkBoxSuffixPublisher.UseVisualStyleBackColor = true;
+            this.checkBoxSuffixPublisher.Click += new System.EventHandler(this.checkBoxSuffixPublisher_Click);
+            // 
+            // checkBoxSuffixFB2Author
+            // 
+            this.checkBoxSuffixFB2Author.Checked = true;
+            this.checkBoxSuffixFB2Author.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSuffixFB2Author.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxSuffixFB2Author.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.checkBoxSuffixFB2Author.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxSuffixFB2Author.Location = new System.Drawing.Point(3, 63);
+            this.checkBoxSuffixFB2Author.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxSuffixFB2Author.Name = "checkBoxSuffixFB2Author";
+            this.checkBoxSuffixFB2Author.Size = new System.Drawing.Size(976, 22);
+            this.checkBoxSuffixFB2Author.TabIndex = 15;
+            this.checkBoxSuffixFB2Author.Text = "Создатель fb2 файла";
+            this.checkBoxSuffixFB2Author.UseVisualStyleBackColor = true;
+            this.checkBoxSuffixFB2Author.Click += new System.EventHandler(this.checkBoxSuffixFB2Author_Click);
+            // 
             // SFBTpFB2Sorter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3265,6 +3347,8 @@ namespace SharpFBTools.Tools
             this.panel37.ResumeLayout(false);
             this.panel37.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panelOptions.ResumeLayout(false);
+            this.groupBoxSuffix.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3519,6 +3603,11 @@ namespace SharpFBTools.Tools
 			new MiscListView.ListViewColumnSorter(11);
         private ComboBox comboBoxMaxPublisherLenght;
         private Label lblMaxPublisherLenght;
+        private Panel panelOptions;
+        private GroupBox groupBoxSuffix;
+        private CheckBox checkBoxSuffixFB2Author;
+        private CheckBox checkBoxSuffixPublisher;
+        private CheckBox checkBoxSuffixTranslator;
         private System.Windows.Forms.TextBox textBoxOut;
 		#endregion
 		
@@ -3599,6 +3688,9 @@ namespace SharpFBTools.Tools
 					                                       new XElement("MaxBTLenght", comboBoxMaxBTLenght.SelectedIndex),
 					                                       new XElement("MaxSequenceLenght", comboBoxMaxSequenceLenght.SelectedIndex),
                                                            new XElement("MaxPublisherLenght", comboBoxMaxPublisherLenght.SelectedIndex),
+                                                           new XElement("SuffixTranslator", checkBoxSuffixTranslator.Checked),
+                                                           new XElement("SuffixPublisher", checkBoxSuffixPublisher.Checked),
+                                                           new XElement("SuffixFB2Author", checkBoxSuffixFB2Author.Checked),
                                                            new XElement("Columns",
 					                                                    new XAttribute("count", listViewFB2Files.Columns.Count))
 					                                      )
@@ -3812,6 +3904,12 @@ namespace SharpFBTools.Tools
 					System.EventHandler(this.ComboBoxMaxSequenceLenghtSelectedIndexChanged);
                 this.comboBoxMaxPublisherLenght.SelectedIndexChanged += new
                     System.EventHandler(this.comboBoxMaxPublisherLenght_SelectedIndexChanged);
+                this.checkBoxSuffixTranslator.Click += new
+                    System.EventHandler(this.checkBoxSuffixTranslator_Click);
+                this.checkBoxSuffixPublisher.Click += new
+                    System.EventHandler(this.checkBoxSuffixPublisher_Click);
+                this.checkBoxSuffixFB2Author.Click += new
+                    System.EventHandler(this.checkBoxSuffixFB2Author_Click);
                 this.textBoxAddress.TextChanged += new System.EventHandler(this.TextBoxAddressTextChanged);
 				this.txtBoxTemplatesFromLine.TextChanged +=
 					new System.EventHandler(this.TxtBoxTemplatesFromLineTextChanged);
@@ -3866,6 +3964,12 @@ namespace SharpFBTools.Tools
 					System.EventHandler(this.ComboBoxMaxSequenceLenghtSelectedIndexChanged);
                 this.comboBoxMaxPublisherLenght.SelectedIndexChanged -= new
                     System.EventHandler(this.comboBoxMaxPublisherLenght_SelectedIndexChanged);
+                this.checkBoxSuffixTranslator.Click -= new
+                    System.EventHandler(this.checkBoxSuffixTranslator_Click);
+                this.checkBoxSuffixPublisher.Click -= new
+                    System.EventHandler(this.checkBoxSuffixPublisher_Click);
+                this.checkBoxSuffixFB2Author.Click -= new
+                    System.EventHandler(this.checkBoxSuffixFB2Author_Click);
                 this.textBoxAddress.TextChanged -= new System.EventHandler(this.TextBoxAddressTextChanged);
 				this.txtBoxTemplatesFromLine.TextChanged -=
 					new System.EventHandler(this.TxtBoxTemplatesFromLineTextChanged);
@@ -3971,25 +4075,33 @@ namespace SharpFBTools.Tools
 							this.checkBoxTagsView.Click += new System.EventHandler(this.CheckBoxTagsViewClick);
 						}
 						// Показывать сообщение о том, что требуется много времени на генерацию метаданных"
-						if( xmlOptions.Element("ViewMessageForLongTime") != null )
+						if (xmlOptions.Element("ViewMessageForLongTime") != null)
 							m_ViewMessageForLongTime = Convert.ToBoolean( xmlOptions.Element("ViewMessageForLongTime").Value );
 						
 						// Если число файлов в сканируемом каталоге превышает заданное, то появляется панель прогресса
 						if( xmlOptions.Element("MaxFileForProgressIndex") != null )
 							comboBoxMaxFileForProgress.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxFileForProgressIndex").Value );
-						
-						// Максимальная длина имени книги, серии, издательства
-						if( xmlOptions.Element("MaxBTLenght") != null )
+
+                        // Максимальная длина имени книги, серии, издательства
+                        if (xmlOptions.Element("MaxBTLenght") != null)
 							comboBoxMaxBTLenght.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxBTLenght").Value );
-						if( xmlOptions.Element("MaxSequenceLenght") != null )
+						if (xmlOptions.Element("MaxSequenceLenght") != null )
 							comboBoxMaxSequenceLenght.SelectedIndex = Convert.ToInt16( xmlOptions.Element("MaxSequenceLenght").Value );
                         if (xmlOptions.Element("MaxPublisherLenght") != null)
                             comboBoxMaxPublisherLenght.SelectedIndex = Convert.ToInt16(xmlOptions.Element("MaxPublisherLenght").Value);
 
+                        // Суффикс к генерируемому пути fb2 файла
+                        if (xmlOptions.Element("SuffixTranslator") != null)
+                            checkBoxSuffixTranslator.Checked = Convert.ToBoolean(xmlOptions.Element("SuffixTranslator").Value);
+                        if (xmlOptions.Element("SuffixPublisher") != null)
+                            checkBoxSuffixPublisher.Checked = Convert.ToBoolean(xmlOptions.Element("SuffixPublisher").Value);
+                        if (xmlOptions.Element("SuffixFB2Author") != null)
+                            checkBoxSuffixFB2Author.Checked = Convert.ToBoolean(xmlOptions.Element("SuffixFB2Author").Value);
+
                         // ширина и расположение колонок для Полной Сортировки
-                        if ( xmlOptions.Element("Columns") != null ) {
+                        if (xmlOptions.Element("Columns") != null) {
 							XElement xColumns = xmlOptions.Element("Columns");
-							MiscListView.setColumnHeradersDataToListView( ref xColumns, ref listViewFB2Files );
+							MiscListView.setColumnHeradersDataToListView(ref xColumns, ref listViewFB2Files);
 						}
 					}
 				}
@@ -5155,8 +5267,8 @@ namespace SharpFBTools.Tools
 
 			SortingForm sortingForm = new SortingForm(
 				m_sortOptions,
-				Convert.ToInt16( comboBoxMaxBTLenght.Text ),
-                Convert.ToInt16( comboBoxMaxSequenceLenght.Text ),
+				Convert.ToInt16(comboBoxMaxBTLenght.Text),
+                Convert.ToInt16(comboBoxMaxSequenceLenght.Text),
                 Convert.ToInt16(comboBoxMaxPublisherLenght.Text)
             );
 			sortingForm.ShowDialog();
@@ -5303,6 +5415,20 @@ namespace SharpFBTools.Tools
 			saveSettingsToXml();
 		}
         private void comboBoxMaxPublisherLenght_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            saveSettingsToXml();
+        }
+        private void checkBoxSuffixTranslator_Click(object sender, EventArgs e)
+        {
+            saveSettingsToXml();
+        }
+
+        private void checkBoxSuffixPublisher_Click(object sender, EventArgs e)
+        {
+            saveSettingsToXml();
+        }
+
+        private void checkBoxSuffixFB2Author_Click(object sender, EventArgs e)
         {
             saveSettingsToXml();
         }
