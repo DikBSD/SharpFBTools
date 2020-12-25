@@ -19,7 +19,7 @@ using Core.FB2.Genres;
 using Core.FB2.FB2Parsers;
 using Core.AutoCorrector;
 
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 namespace Core.Sorter.Templates {
 	/// <summary>
@@ -82,7 +82,7 @@ namespace Core.Sorter.Templates {
 		public string generateNewPath(string sFB2FilePath, List<Lexems.TPSimple> lSLexems,
 		                              int nGenreIndex, int nAuthorIndex, int RegisterMode,
 		                              int SpaceProcessMode, bool StrictMode, bool TranslitMode,
-		                              ref SortingOptions sortOptions, ref long lCounter, string GenreGroupFromSelectedSort ) {
+		                              SortingOptions sortOptions, ref long lCounter, string GenreGroupFromSelectedSort ) {
 			LatinToRus latinToRus = new LatinToRus();
 			string sFileName			= string.Empty;
 			FictionBook fb2				= new FictionBook(sFB2FilePath);
@@ -902,7 +902,7 @@ namespace Core.Sorter.Templates {
 			string Ret = StringProcessing.MakeGeneralWorkedPath( sFileName, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode);
 			
 			// Добавить к создаваемому файлу суффикс из {Переводчик}[Издательство](FB2 Автор)
-			string Sufix = FilesWorker.GetTranslatorPublisherFB2AuthorExt(fb2, sortOptions.MaxPublisherLenght);
+			string Sufix = FilesWorker.GetTranslatorPublisherFB2AuthorExt(fb2, sortOptions);
 			Sufix = StringProcessing.MakeGeneralWorkedPath(Sufix, RegisterMode, SpaceProcessMode, StrictMode, TranslitMode);
 			
 			return !string.IsNullOrEmpty(Sufix) ? (Ret + Sufix) : Ret;

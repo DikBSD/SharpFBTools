@@ -998,7 +998,7 @@ namespace Core.Sorter
 							FromFilePath, lSLexems, nGenreIndex, AuthorIndex,
 							sortOptions.getRegisterMode(), sortOptions.Space,
 							sortOptions.Strict, sortOptions.Translit,
-							ref sortOptions, ref _lCounter, GenreGroup
+							sortOptions, ref _lCounter, GenreGroup
 						) + ".fb2";
 					createFileTo(FromZip, FromFilePath, ToFilePath, sortOptions);
 				} catch (Exception ex) {

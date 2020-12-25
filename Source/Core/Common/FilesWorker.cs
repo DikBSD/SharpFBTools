@@ -14,10 +14,11 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Collections;
+
 using Core.FB2.FB2Parsers;
 using Core.FB2.Description.Common;
 using Core.FB2.Description.PublishInfo;
+using Core.Sorter;
 
 namespace Core.Common
 {
@@ -474,7 +475,7 @@ namespace Core.Common
 		}
 
 		// Добавить к создаваемому файлу суффикс из {Переводчик}[Издательство](FB2 Автор)
-		public static string GetTranslatorPublisherFB2AuthorExt(FictionBook fb2, int MaxPublisherLenght) {
+		public static string GetTranslatorPublisherFB2AuthorExt(FictionBook fb2, SortingOptions sortOptions) {
 			string Suffix = string.Empty;
 
 			string TranslatorLastName = null;
@@ -515,7 +516,7 @@ namespace Core.Common
 			if (!string.IsNullOrEmpty(TranslatorLastName)) {
 				Suffix = "{" + TranslatorLastName + "}";
 				if (!string.IsNullOrEmpty(BookPublisher)) {
-					Suffix += "[" + StringProcessing.makeString(BookPublisher.Trim(), MaxPublisherLenght) + "]";
+					Suffix += "[" + StringProcessing.makeString(BookPublisher.Trim(), sortOptions.MaxPublisherLenght) + "]";
 					if (!string.IsNullOrEmpty(FB2Autor))
 						Suffix += "(" + FB2Autor + ")";
 				}
