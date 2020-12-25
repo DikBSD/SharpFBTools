@@ -492,19 +492,19 @@ namespace Core.Common
 				RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 
-			// замена двойных кавычек " на две одинарные кавычки ' вокруг латинских слов
+			// замена двойных кавычек " на одинарную кавычку ' вокруг латинских слов
 			s = Regex.Replace(
-				s, "(?'letter'[a-zA-Z]\\b)\"", "${letter}''",
+				s, "(?'letter'[a-zA-Z]\\b)\"", "${letter}'",
 				RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 			s = Regex.Replace(
-				s, "\"(?'letter'\\b[a-zA-Z])", "''${letter}",
+				s, "\"(?'letter'\\b[a-zA-Z])", "'${letter}",
 				RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 
-			// замена двойных кавычек " на две одинарные кавычки ' вокруг слов других языков
+			// замена двойных кавычек " на одинарную кавычку ' вокруг слов других языков
 			s = Regex.Replace(
-				s, "\"", "''",
+				s, "\"", "'",
 				RegexOptions.IgnoreCase | RegexOptions.Multiline
 			);
 
