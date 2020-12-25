@@ -3834,7 +3834,13 @@ namespace SharpFBTools.Tools
 			rbtnGenreText.Checked = Settings.SorterSettings.DefGenreText;
 			rbtnFMAllFB2.Checked		= Settings.SorterSettings.DefAllFB2;
 			rbtnFMOnlyValidFB2.Checked	= Settings.SorterSettings.DefOnlyValidFB2;
-		}
+            comboBoxMaxBTLenght.Text = Settings.SorterSettings.DefMaxBookTitleLenght.ToString();
+            comboBoxMaxSequenceLenght.Text = Settings.SorterSettings.DefMaxSequenceLenght.ToString();
+            comboBoxMaxPublisherLenght.Text = Settings.SorterSettings.DefMaxPublisherLenght.ToString();
+            checkBoxSuffixTranslator.Checked = Settings.SorterSettings.DefIsNeedSuffixTranslator;
+            checkBoxSuffixPublisher.Checked = Settings.SorterSettings.DefIsNeedSuffixPublisher;
+            checkBoxSuffixFB2Author.Checked = Settings.SorterSettings.DefIsNeedSuffixFB2Author;
+        }
 		private void DefFMDirNameForTagNotData() {
 			// название папки шаблонного тэга без данных
 			txtBoxFMNoGenreGroup.Text	= Settings.SorterSettings.DefNoGenreGroup;
