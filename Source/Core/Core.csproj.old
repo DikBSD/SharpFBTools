@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{FA3B42AA-118C-4B64-84BC-A548048614B8}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\VadimK\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <TargetFrameworkProfile />
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IntermediateOutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\obj\$(Configuration)\</IntermediateOutputPath>
+    <WarningLevel>4</WarningLevel>
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>..\..\..\..\MSVisualStudioBuild\SharpFBTools\bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoCorrector\AutoCorrectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoCorrector\AutoCorrectorForm.Designer.cs">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoCorrector\BinaryCorrector.cs" />
+    <Compile Include="AutoCorrector\CiteCorrector.cs" />
+    <Compile Include="AutoCorrector\DateCorrector.cs" />
+    <Compile Include="AutoCorrector\EmptyLineCorrector.cs" />
+    <Compile Include="AutoCorrector\EpigraphCorrector.cs" />
+    <Compile Include="AutoCorrector\FB2AutoCorrector.cs" />
+    <Compile Include="AutoCorrector\FB2CleanCode.cs" />
+    <Compile Include="AutoCorrector\FictionBookTagCorrector.cs" />
+    <Compile Include="AutoCorrector\GenreCorrector.cs" />
+    <Compile Include="AutoCorrector\ImageCorrector.cs" />
+    <Compile Include="AutoCorrector\IWorker.cs" />
+    <Compile Include="AutoCorrector\LangRuUkBeCorrector.cs" />
+    <Compile Include="AutoCorrector\LatinToRus.cs" />
+    <Compile Include="AutoCorrector\LinksCorrector.cs" />
+    <Compile Include="AutoCorrector\ParaCorrector.cs" />
+    <Compile Include="AutoCorrector\PoemCorrector.cs" />
+    <Compile Include="AutoCorrector\StanzaCorrector.cs" />
+    <Compile Include="AutoCorrector\TableCorrector.cs" />
+    <Compile Include="AutoCorrector\TagPair.cs" />
+    <Compile Include="AutoCorrector\TagWorker.cs" />
+    <Compile Include="AutoCorrector\TitleCorrector.cs" />
+    <Compile Include="Common\AuthorInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\AuthorInfoForm.Designer.cs">
+      <DependentUpon>AuthorInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Colors.cs" />
+    <Compile Include="Common\CommandManager.cs" />
+    <Compile Include="Common\CustomInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\CustomInfoForm.Designer.cs">
+      <DependentUpon>CustomInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Debug.cs" />
+    <Compile Include="Common\EditAuthorInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\EditAuthorInfoForm.Designer.cs">
+      <DependentUpon>EditAuthorInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EditDescriptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\EditDescriptionForm.Designer.cs">
+      <DependentUpon>EditDescriptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EditGenreInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\EditGenreInfoForm.Designer.cs">
+      <DependentUpon>EditGenreInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EditKeywordsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\EditKeywordsForm.Designer.cs">
+      <DependentUpon>EditKeywordsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EditLangForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\EditLangForm.Designer.cs">
+      <DependentUpon>EditLangForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EditSequencesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\EditSequencesForm.Designer.cs">
+      <DependentUpon>EditSequencesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EndWorkMode.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\FB2BookDescription.cs" />
+    <Compile Include="Common\FB2Comparer.cs" />
+    <Compile Include="Common\FB2DescriptionCorrector.cs" />
+    <Compile Include="Common\FilesWorker.cs" />
+    <Compile Include="Common\GenresWorker.cs" />
+    <Compile Include="Common\HashtableClass.cs" />
+    <Compile Include="Common\IFB2TagsNotExsist.cs" />
+    <Compile Include="Common\ImageWorker.cs" />
+    <Compile Include="Common\IProblemDirs.cs" />
+    <Compile Include="Common\LangList.cs" />
+    <Compile Include="Common\ListViewItemType.cs" />
+    <Compile Include="Common\MetaEditClasses.cs" />
+    <Compile Include="Common\MiscListView.cs" />
+    <Compile Include="Common\MultiDictionary.cs" />
+    <Compile Include="Common\SequenceInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\SequenceInfoForm.Designer.cs">
+      <DependentUpon>SequenceInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\SharpZipLibWorker.cs" />
+    <Compile Include="Common\StringProcessing.cs" />
+    <Compile Include="Common\WorksWithBooks.cs" />
+    <Compile Include="Common\ZipFB2Worker.cs" />
+    <Compile Include="Corrector\BooksListWorkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Corrector\BooksListWorkerForm.Designer.cs">
+      <DependentUpon>BooksListWorkerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Corrector\CopyMoveDeleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Corrector\CopyMoveDeleteForm.Designer.cs">
+      <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Corrector\FB2NotValidateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Corrector\FB2NotValidateForm.Designer.cs">
+      <DependentUpon>FB2NotValidateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Corrector\FB2TagsListGenerateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Corrector\FB2TagsListGenerateForm.Designer.cs">
+      <DependentUpon>FB2TagsListGenerateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Corrector\ValidatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Corrector\ValidatorForm.Designer.cs">
+      <DependentUpon>ValidatorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Duplicator\AutoCorrectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Duplicator\AutoCorrectorForm.Designer.cs">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Duplicator\CheckedBooksPathToXMLForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Duplicator\CheckedBooksPathToXMLForm.Designer.cs">
+      <DependentUpon>CheckedBooksPathToXMLForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Duplicator\CompareAuthorBookID.cs" />
+    <Compile Include="Duplicator\CompareAuthorBookTitle.cs" />
+    <Compile Include="Duplicator\CompareAuthorBookTitleBookID.cs" />
+    <Compile Include="Duplicator\CompareAuthorFromFB2.cs" />
+    <Compile Include="Duplicator\CompareFB2Author.cs" />
+    <Compile Include="Duplicator\CompareAuthorFIO.cs" />
+    <Compile Include="Duplicator\CompareBookID.cs" />
+    <Compile Include="Duplicator\CompareBookTitle.cs" />
+    <Compile Include="Duplicator\CompareBookTitleBookID.cs" />
+    <Compile Include="Duplicator\CompareCommon.cs" />
+    <Compile Include="Duplicator\CompareMd5.cs" />
+    <Compile Include="Duplicator\CopiesAnalyzeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Duplicator\CopiesAnalyzeForm.Designer.cs">
+      <DependentUpon>CopiesAnalyzeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FB2\FB2Parsers\FB2Text.cs" />
+    <Compile Include="Sorter\FB2TagsViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sorter\FB2TagsViewForm.Designer.cs">
+      <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sorter\SortResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sorter\SortResultForm.Designer.cs">
+      <DependentUpon>SortResultForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AutoCorrector\AutoCorrectorForm.resx">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\AuthorInfoForm.resx">
+      <DependentUpon>AuthorInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\CustomInfoForm.resx">
+      <DependentUpon>CustomInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditAuthorInfoForm.resx">
+      <DependentUpon>EditAuthorInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditDescriptionForm.resx">
+      <DependentUpon>EditDescriptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditGenreInfoForm.resx">
+      <DependentUpon>EditGenreInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditKeywordsForm.resx">
+      <DependentUpon>EditKeywordsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditLangForm.resx">
+      <DependentUpon>EditLangForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\EditSequencesForm.resx">
+      <DependentUpon>EditSequencesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\SequenceInfoForm.resx">
+      <DependentUpon>SequenceInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\BooksListWorkerForm.resx">
+      <DependentUpon>BooksListWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\CopyMoveDeleteForm.resx">
+      <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\FB2NotValidateForm.resx">
+      <DependentUpon>FB2NotValidateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\FB2TagsListGenerateForm.resx">
+      <DependentUpon>FB2TagsListGenerateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Corrector\ValidatorForm.resx">
+      <DependentUpon>ValidatorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\AutoCorrectorForm.resx">
+      <DependentUpon>AutoCorrectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\CheckedBooksPathToXMLForm.resx">
+      <DependentUpon>CheckedBooksPathToXMLForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\CopiesAnalyzeForm.resx">
+      <DependentUpon>CopiesAnalyzeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\CopiesListWorkerForm.resx">
+      <DependentUpon>CopiesListWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sorter\BasiclTemplates.resx">
+      <DependentUpon>BasiclTemplates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sorter\FB2TagsViewForm.resx">
+      <DependentUpon>FB2TagsViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sorter\SelectedSortDataForm.resx">
+      <DependentUpon>SelectedSortDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sorter\SortingForm.resx">
+      <DependentUpon>SortingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sorter\SortResultForm.resx">
+      <DependentUpon>SortResultForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Duplicator\BookData.cs" />
+    <Compile Include="Duplicator\CompareForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Duplicator\CopiesListWorkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Duplicator\CopiesListWorkerForm.Designer.cs">
+      <DependentUpon>CopiesListWorkerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Duplicator\CopyMoveDeleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Duplicator\FB2FilesDataInGroupList.cs" />
+    <Compile Include="Duplicator\StatusView.cs" />
+    <Compile Include="Duplicator\ValidatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FB2\binary\Binary.cs" />
+    <Compile Include="FB2\Common\IInlineImageType.cs" />
+    <Compile Include="FB2\Common\InlineImage.cs" />
+    <Compile Include="FB2\Description\Common\Author.cs" />
+    <Compile Include="FB2\Description\Common\Date.cs" />
+    <Compile Include="FB2\Description\Common\IAnnotationType.cs" />
+    <Compile Include="FB2\Description\Common\IAuthorType.cs" />
+    <Compile Include="FB2\Description\Common\IDateType.cs" />
+    <Compile Include="FB2\Description\Common\ISequenceType.cs" />
+    <Compile Include="FB2\Description\Common\ITextFieldType.cs" />
+    <Compile Include="FB2\Description\Common\Sequence.cs" />
+    <Compile Include="FB2\Description\Common\TextFieldType.cs" />
+    <Compile Include="FB2\Description\CustomInfo\CustomInfo.cs" />
+    <Compile Include="FB2\Description\Description.cs" />
+    <Compile Include="FB2\Description\DocumentInfo\DocumentInfo.cs" />
+    <Compile Include="FB2\Description\DocumentInfo\History.cs" />
+    <Compile Include="FB2\Description\DocumentInfo\ProgramUsed.cs" />
+    <Compile Include="FB2\Description\DocumentInfo\SrcOCR.cs" />
+    <Compile Include="FB2\Description\PublishInfo\BookName.cs" />
+    <Compile Include="FB2\Description\PublishInfo\City.cs" />
+    <Compile Include="FB2\Description\PublishInfo\ISBN.cs" />
+    <Compile Include="FB2\Description\PublishInfo\Publisher.cs" />
+    <Compile Include="FB2\Description\PublishInfo\PublishInfo.cs" />
+    <Compile Include="FB2\Description\TitleInfo\Annotation.cs" />
+    <Compile Include="FB2\Description\TitleInfo\BookTitle.cs" />
+    <Compile Include="FB2\Description\TitleInfo\Coverpage.cs" />
+    <Compile Include="FB2\Description\TitleInfo\Genre.cs" />
+    <Compile Include="FB2\Description\TitleInfo\ITitleInfoType.cs" />
+    <Compile Include="FB2\Description\TitleInfo\Keywords.cs" />
+    <Compile Include="FB2\Description\TitleInfo\TitleInfo.cs" />
+    <Compile Include="FB2\FB2Parsers\FB2Validator.cs" />
+    <Compile Include="FB2\FB2Parsers\FictionBook.cs" />
+    <Compile Include="FB2\Genres\FB2UnionGenres.cs" />
+    <Compile Include="Sorter\BasiclTemplates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sorter\FB2SelectedSorting.cs" />
+    <Compile Include="Sorter\ISortOptions.cs" />
+    <Compile Include="Sorter\SelectedSortDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sorter\SortingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sorter\SortingOptions.cs" />
+    <Compile Include="Sorter\SortQueryCriteria.cs" />
+    <Compile Include="Sorter\StatusView.cs" />
+    <Compile Include="Sorter\Templates\FullNameTemplates.cs" />
+    <Compile Include="Sorter\Templates\LexemType.cs" />
+    <Compile Include="Sorter\Templates\TemplatesParser.cs" />
+    <Compile Include="Sorter\Templates\TemplatesVerify.cs" />
+    <Compile Include="Test\Test.cs" />
+    <ProjectReference Include="..\Settings\Settings.csproj">
+      <Project>{6B89BF4B-6D6C-4948-AA21-53A61D22052F}</Project>
+      <Name>Settings</Name>
+    </ProjectReference>
+    <EmbeddedResource Include="Duplicator\CompareForm.resx">
+      <DependentUpon>CompareForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\CopyMoveDeleteForm.resx">
+      <DependentUpon>CopyMoveDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicator\ValidatorForm.resx">
+      <DependentUpon>ValidatorForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
