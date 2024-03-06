@@ -12,9 +12,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Settings")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Вадим Кузнецов (DikBSD)")]
+[assembly: AssemblyCompany("Вадим Кузнецов (dikbsd)")]
 [assembly: AssemblyProduct("Settings")]
-[assembly: AssemblyCopyright("Copyright © 2009 - 2023")]
+[assembly: AssemblyCopyright("Copyright © 2009 - 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -28,4 +28,4 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("4.66.*")]
+[assembly: AssemblyVersion("4.67.*")]

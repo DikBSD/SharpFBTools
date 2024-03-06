@@ -12,9 +12,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle ("SharpFBTools")]
 [assembly: AssemblyDescription ("Open Source набор инструментов по работе с fb2-файлами в пакетном режиме")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("Вадим Кузнецов (DikBSD) email: dikbsd@mail.ru")]
+[assembly: AssemblyCompany ("Вадим Кузнецов (dikbsd) email: kvesda@mail.ru")]
 [assembly: AssemblyProduct ("SharpFBTools")]
-[assembly: AssemblyCopyright ("Copyright © 2009 - 2023")]
+[assembly: AssemblyCopyright ("Copyright © 2009 - 2024")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 // This sets the default COM visibility of types in the assembly to invisible.
@@ -26,4 +26,4 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion ("4.66.*")]
+[assembly: AssemblyVersion ("4.67.*")]
