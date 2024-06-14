@@ -185,8 +185,10 @@ namespace Core.Sorter
 		private System.Windows.Forms.Button btnSaveToXml;
 		private System.Windows.Forms.Panel ControlPanel;
 		#endregion
-		
+
 		#region Закрытые данные класса
+		private const string otherFilesDirPath = "_Другие файлы";
+
 		private List<string> m_FilesList	= new List<string>();
 		private BackgroundWorker m_bw		= null; // фоновый обработчик для Непрерывной сортировки
 		private BackgroundWorker m_bwRenew	= null; // фоновый обработчик для Прерывания сортировки
@@ -774,6 +776,15 @@ namespace Core.Sorter
 			} else {
 				// пропускаем не fb2-файлы и не zip-архивы
 				++m_sv.Other;
+				string newOtherDir = m_sortOptions.TargetDir + otherFilesDirPath;
+				if (!Directory.Exists(newOtherDir))
+					Directory.CreateDirectory(newOtherDir);
+				// копирование других файлов в папку "_Другие файлы"
+				string newTargetFilePath = m_sortOptions.TargetDir + "\\" +
+					otherFilesDirPath + "\\" + FromFilePath.Substring(m_sortOptions.SourceDir.Length);
+				if (!Directory.Exists(Path.GetDirectoryName(newTargetFilePath)))
+					Directory.CreateDirectory(Path.GetDirectoryName(newTargetFilePath));
+				File.Copy(FromFilePath, newTargetFilePath);
 			}
 		}
 		
@@ -833,7 +844,7 @@ namespace Core.Sorter
 							// создание файла по новому пути для Жанра(ов) и Автора(ов) Книги из исходного fb2
 							makeFileForGenreAndAuthorFromFB2(
 								true, FB2FromZipPath, lSLexems, m_sortOptions, criteria.GenresGroup
-								);
+							);
 							++m_sv.SourceFB2;
 							
 							// удаляем исходный fb2-файл, если включена эта опция
@@ -844,6 +855,15 @@ namespace Core.Sorter
 						} else {
 							// пропускаем не fb2-файлы и не zip-архивы
 							++m_sv.Other;
+							string newOtherDir = m_sortOptions.TargetDir + otherFilesDirPath;
+							if (!Directory.Exists(newOtherDir))
+								Directory.CreateDirectory(newOtherDir);
+							// копирование других файлов в папку "_Другие файлы"
+							string newTargetFilePath = m_sortOptions.TargetDir + "\\" +
+								otherFilesDirPath + "\\" + FromFilePath.Substring(m_sortOptions.SourceDir.Length);
+							if (!Directory.Exists(Path.GetDirectoryName(newTargetFilePath)))
+								Directory.CreateDirectory(Path.GetDirectoryName(newTargetFilePath));
+							File.Copy(FromFilePath, newTargetFilePath);
 						}
 					} else {
 						// fb2-файл не соответствует критериям сортировки
@@ -866,6 +886,15 @@ namespace Core.Sorter
 			} else {
 				// пропускаем не fb2-файлы и не zip-архивы
 				++m_sv.Other;
+				string newOtherDir = m_sortOptions.TargetDir + otherFilesDirPath;
+				if (!Directory.Exists(newOtherDir))
+					Directory.CreateDirectory(newOtherDir);
+				// копирование других файлов в папку "_Другие файлы"
+				string newTargetFilePath = m_sortOptions.TargetDir + "\\" +
+					otherFilesDirPath + "\\" + FromFilePath.Substring(m_sortOptions.SourceDir.Length);
+				if (!Directory.Exists(Path.GetDirectoryName(newTargetFilePath)))
+					Directory.CreateDirectory(Path.GetDirectoryName(newTargetFilePath));
+				File.Copy(FromFilePath, newTargetFilePath);
 			}
 		}
 		
