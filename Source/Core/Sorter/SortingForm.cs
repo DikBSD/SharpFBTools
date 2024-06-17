@@ -188,7 +188,7 @@ namespace Core.Sorter
 
 		#region Закрытые данные класса
 		private const string _otherFilesDirPath = "_Другие файлы";
-		private const string _otherFilesTxtPath = "NotFB2ZipFiles.txt";
+		private const string _otherFilesTxtPath = "_NotFB2ZipFiles.txt";
 
 		private List<string> m_FilesList	= new List<string>();
 		private BackgroundWorker m_bw		= null; // фоновый обработчик для Непрерывной сортировки
