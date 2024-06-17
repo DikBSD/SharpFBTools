@@ -918,6 +918,7 @@ namespace SharpFBTools.Tools
             // lblMaxFileForProgress
             // 
             this.lblMaxFileForProgress.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.lblMaxFileForProgress.ForeColor = System.Drawing.Color.Navy;
             this.lblMaxFileForProgress.Location = new System.Drawing.Point(4, 145);
             this.lblMaxFileForProgress.Name = "lblMaxFileForProgress";
             this.lblMaxFileForProgress.Size = new System.Drawing.Size(251, 23);
@@ -928,7 +929,7 @@ namespace SharpFBTools.Tools
             // 
             this.checkBoxTagsView.Font = new System.Drawing.Font("Tahoma", 8F);
             this.checkBoxTagsView.ForeColor = System.Drawing.Color.Navy;
-            this.checkBoxTagsView.Location = new System.Drawing.Point(8, 93);
+            this.checkBoxTagsView.Location = new System.Drawing.Point(8, 111);
             this.checkBoxTagsView.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxTagsView.Name = "checkBoxTagsView";
             this.checkBoxTagsView.Size = new System.Drawing.Size(357, 30);
